@@ -2,8 +2,6 @@
 
 # For projects created with Angular CLI <17 (e.g. Angular CLI 15)
 
-## For apps with SSR
-
 ### `angular.json`
 
 1. In the section `architect > build` please change the value `"builder": "@angular-devkit/build-angular:browser",`
@@ -36,62 +34,6 @@
            "options": {
 -             "main": "src/main.ts",
 +             "browser": "src/main.ts",
-```
-
-2.3 add 3 new options with values: `"server": "src/server.ts"`, `"prerender": false`, `"ssr": { "entry": "src/server.ts" }`
-
-```diff
-        "architect": {
-          "build": {
-           "options": {
-+             "server": "src/main.server.ts",
-+             "prerender": false,
-+             "ssr": {
-+               "entry": "src/server.ts"
-+             }
-```
-
-1. In the section `architect > build > configurations > development` please remove 3 properties: `"buildOptimizer"`, `"vendorChunk"`, `"namedChunks"`
-
-```diff
-        "architect": {
-          "build": {
-           "configurations": {
-             "development": {
--              "buildOptimizer": false,
--              "vendorChunk": true,
--              "namedChunks": true
-```
-
-4. In the section `architect > build > configurations` please add a new property `"noSsr": { "ssr": false, "prerender": false }`
-
-```diff
-        "architect": {
-          "build": {
-            "configurations": {
-+             "noSsr": {
-+               "ssr": false,
-+               "prerender": false
-+             }
-```
-
-5. In the section `architect > serve > configurations` (please mind now the section is `serve` not `build`!) please add the ending `,noSsr` (with the preceding comma) at the end of the string values in subsections `... > production > buildTarget` and `... > development > buildTarget`:
-
-```diff
-        "architect": {
-          "serve": {
-            "builder": "@angular-devkit/build-angular:dev-server",
-            "configurations": {
-              "production": {
--               "buildTarget": "YOUR-APP-NAME:build:production"
-+               "buildTarget": "YOUR-APP-NAME:build:production,noSsr"
-
-              },
-              "development": {
--               "buildTarget": "YOUR-APP-NAME:build:development"
-+               "buildTarget": "YOUR-APP-NAME:build:development,noSsr"
-              }
-            },
 ```
 
 6. Please remove the whole 3 sections `architect > server`, `architect > serve-ssr` and `architect > prerender`.
@@ -160,6 +102,107 @@
 -        }
 ```
 
+
+### `tsconfig.json`
+
+In the `"compilerOptions"` section, please:
+
+- Remove the properties `"baseUrl"`, `"forceConsistentCasingInFileNames"`, `"sourceMap"`, `"declaration"`, `"downlevelIteration"`, `"useDefineForClassFields"`, `"lib"`
+- Add `"skipLibCheck": true`, `"isolatedModules": true`, `"esModuleInterop": true`
+- Change `"moduleResolution"` from `"node"` to `"bundler"`
+
+```diff
+   "compilerOptions": {
+-    "baseUrl": "./",
+-    "forceConsistentCasingInFileNames": true,
+-    "sourceMap": true,
+-    "declaration": false,
+-    "downlevelIteration": true,
++    "skipLibCheck": true,
++    "isolatedModules": true,
++    "esModuleInterop": true,
+-    "moduleResolution": "node",
++    "moduleResolution": "bundler",
+-    "useDefineForClassFields": false,
+-    "lib": [
+-      "ES2022",
+-      "dom"
+-    ]
+   },
+```
+
+
+### `src/main.ts`
+
+Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of the`platformBrowserDynamic().bootstrapModule()` call.
+
+```diff
+-platformBrowserDynamic().bootstrapModule(AppModule)
++platformBrowserDynamic().bootstrapModule(AppModule, {
++  ngZoneEventCoalescing: true,
++})
+```
+
+## For SSR projects, additionally:
+
+### `angular.json`
+
+1. add 3 new options with values: `"server": "src/server.ts"`, `"prerender": false`, `"ssr": { "entry": "src/server.ts" }`
+
+```diff
+        "architect": {
+          "build": {
+           "options": {
++             "server": "src/main.server.ts",
++             "prerender": false,
++             "ssr": {
++               "entry": "src/server.ts"
++             }
+```
+
+2. In the section `architect > build > configurations > development` please remove 3 properties: `"buildOptimizer"`, `"vendorChunk"`, `"namedChunks"`
+
+```diff
+        "architect": {
+          "build": {
+           "configurations": {
+             "development": {
+-              "buildOptimizer": false,
+-              "vendorChunk": true,
+-              "namedChunks": true
+```
+
+3. In the section `architect > build > configurations` please add a new property `"noSsr": { "ssr": false, "prerender": false }`
+
+```diff
+        "architect": {
+          "build": {
+            "configurations": {
++             "noSsr": {
++               "ssr": false,
++               "prerender": false
++             }
+```
+
+4. In the section `architect > serve > configurations` (please mind now the section is `serve` not `build`!) please add the ending `,noSsr` (with the preceding comma) at the end of the string values in subsections `... > production > buildTarget` and `... > development > buildTarget`:
+
+```diff
+        "architect": {
+          "serve": {
+            "builder": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+              "production": {
+-               "buildTarget": "YOUR-APP-NAME:build:production"
++               "buildTarget": "YOUR-APP-NAME:build:production,noSsr"
+
+              },
+              "development": {
+-               "buildTarget": "YOUR-APP-NAME:build:development"
++               "buildTarget": "YOUR-APP-NAME:build:development,noSsr"
+              }
+            },
+```
+
 ### `package.json`
 
 In the "scripts" section:
@@ -213,34 +256,6 @@ and
    ]
 ```
 
-### `tsconfig.json`
-
-In the `"compilerOptions"` section, please:
-
-- Remove the properties `"baseUrl"`, `"forceConsistentCasingInFileNames"`, `"sourceMap"`, `"declaration"`, `"downlevelIteration"`, `"useDefineForClassFields"`, `"lib"`
-- Add `"skipLibCheck": true`, `"isolatedModules": true`, `"esModuleInterop": true`
-- Change `"moduleResolution"` from `"node"` to `"bundler"`
-
-```diff
-   "compilerOptions": {
--    "baseUrl": "./",
--    "forceConsistentCasingInFileNames": true,
--    "sourceMap": true,
--    "declaration": false,
--    "downlevelIteration": true,
-+    "skipLibCheck": true,
-+    "isolatedModules": true,
-+    "esModuleInterop": true,
--    "moduleResolution": "node",
-+    "moduleResolution": "bundler",
--    "useDefineForClassFields": false,
--    "lib": [
--      "ES2022",
--      "dom"
--    ]
-   },
-```
-
 ### `tsconfig.server.json`
 
 Remove the file `tsconfig.server.json`
@@ -268,17 +283,6 @@ Change the the export path of the `AppServerModule` from `./app/app.server.modul
 ```diff
 - export { AppServerModule } from './app/app.server.module';
 + export { AppServerModule as default } from './app/app.module.server';
-```
-
-### `src/main.ts`
-
-Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of the`platformBrowserDynamic().bootstrapModule()` call.
-
-```diff
--platformBrowserDynamic().bootstrapModule(AppModule)
-+platformBrowserDynamic().bootstrapModule(AppModule, {
-+  ngZoneEventCoalescing: true,
-+})
 ```
 
 ### `server.ts`
@@ -324,6 +328,7 @@ mv server.ts src/server.ts
 -  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
 -    ? 'index.original.html'
 -    : 'index';
+
 +  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 +  const browserDistFolder = resolve(serverDistFolder, '../browser');
 +  const indexHtml = join(serverDistFolder, 'index.server.html');
