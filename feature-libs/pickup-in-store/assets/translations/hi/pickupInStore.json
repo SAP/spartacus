@@ -52,9 +52,6 @@
     "heading": "पिकअप किए जाने वाले आइटम",
     "storeItemHeading": "पिकअप स्टोर का पता"
   },
-  "cartItems": {
-    "item": "आइटम"
-  },
   "cardActions": {
     "getDirections": "निर्देश प्राप्त करें, यह लिंक नई विंडो में खुलती है"
   },

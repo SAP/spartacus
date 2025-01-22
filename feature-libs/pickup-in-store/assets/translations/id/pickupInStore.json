@@ -52,9 +52,6 @@
     "heading": "Item yang Akan Diambil",
     "storeItemHeading": "Alamat Toko Pengambilan"
   },
-  "cartItems": {
-    "item": "Item"
-  },
   "cardActions": {
     "getDirections": "Dapatkan Petunjuk Arah, tautan ini akan terbuka di jendela baru."
   },
