@@ -3,7 +3,8 @@
 Before upgrading Spartacus to the new version with Angular 18, you need to first:
 
 - upgrade Spartacus to version 2211.32.1
-- install Node 22 version and upgrade `@types/node` to version 22
+- install Node 22 version
+- upgrade `@types/node` to version 22
   ```bash
   npm i @types/node@22
   ```
@@ -15,7 +16,7 @@ Before upgrading Spartacus to the new version with Angular 18, you need to first
 
 > **Warning**
 >
-> Do not select `use-application-builder` migration when migrating to Angular 18. Applications created before SPA 2211.19 doesn't support this builder. Applications ?created starting from 2211.19 already supports it.
+> Do not select `use-application-builder` migration when migrating to Angular 18. Applications created before SPA 2211.19 doesn't support this builder. Applications created starting from 2211.19 already support it.
 
 Follow the [Angular guidelines for upgrading from v17 to v18](https://angular.dev/update-guide?v=17.0-18.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem  to versions compatible with Angular 18 (e.g. `@ng-select/ng-select@13`, `@ngrx/store@18`, `ngx-infinite-scroll@18`):
 
@@ -30,7 +31,7 @@ git commit -m "update angular 18 and 3rd party deps angular 18 compatible"
 
 > **Warning**
 >
-> Hit SPACE to unselect `use-application-builder` migration when migrating to Angular 19. Applications created before SPA 2211.19 doesn't support this builder. Applications created starting from 2211.19 already supports it.
+> Hit SPACE to unselect `use-application-builder` migration when migrating to Angular 19. Applications created before SPA 2211.19 doesn't support this builder. Applications created starting from 2211.19 already support it.
 
 Follow the [Angular guidelines for upgrading from v18 to v19](https://angular.dev/update-guide?v=18.0-19.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem  to versions compatible with Angular 19 (e.g. `@ng-select/ng-select@14`, `@ngrx/store@19`, `ngx-infinite-scroll@19`):
 
