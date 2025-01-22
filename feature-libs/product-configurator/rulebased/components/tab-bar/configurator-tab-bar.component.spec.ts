@@ -191,20 +191,6 @@ describe('ConfigTabBarComponent', () => {
     expect(htmlElem.querySelectorAll('a').length).toEqual(0);
   });
 
-  it('should tell from semantic route that we are on OV page', () => {
-    mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-    component.isOverviewPage$
-      .subscribe((isOv) => expect(isOv).toBe(true))
-      .unsubscribe();
-  });
-
-  it('should tell from semantic route that we are on config page', () => {
-    mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-    component.isOverviewPage$
-      .subscribe((isOv) => expect(isOv).toBe(false))
-      .unsubscribe();
-  });
-
   it('should return proper page type from route', () => {
     mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
     component.pageType$
@@ -379,18 +365,6 @@ describe('ConfigTabBarComponent', () => {
     });
   });
 
-  describe('getTabIndexOverviewTab', () => {
-    it('should return tabindex 0 if on overview page', () => {
-      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-      expect(component.getTabIndexOverviewTab()).toBe(0);
-    });
-
-    it('should return tabindex -1 if on configuration page', () => {
-      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      expect(component.getTabIndexOverviewTab()).toBe(-1);
-    });
-  });
-
   describe('getTabIndexForOverviewTab', () => {
     it('should return tabindex 0 if on overview page', () => {
       expect(
@@ -406,18 +380,6 @@ describe('ConfigTabBarComponent', () => {
           ConfiguratorRouter.PageType.CONFIGURATION
         )
       ).toBe(-1);
-    });
-  });
-
-  describe('getTabIndexConfigTab', () => {
-    it('should return tabindex -1 if on overview page', () => {
-      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-      expect(component.getTabIndexConfigTab()).toBe(-1);
-    });
-
-    it('should return tabindex 0 if on configuration page', () => {
-      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      expect(component.getTabIndexConfigTab()).toBe(0);
     });
   });
 

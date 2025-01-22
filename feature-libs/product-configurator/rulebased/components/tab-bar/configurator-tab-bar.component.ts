@@ -56,16 +56,6 @@ export class ConfiguratorTabBarComponent {
     );
 
   /**
-   * @deprecated Use getPageType$ and isOverviewPage(ConfiguratorRouter.PageType)
-   * instead
-   */
-  isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
-    map(
-      (routerData) =>
-        routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW
-    )
-  );
-  /**
    * Retrieves current page type.
    *
    * @returns - page type
@@ -178,24 +168,6 @@ export class ConfiguratorTabBarComponent {
   }
 
   /**
-   * @deprecated Use getTabIndexForConfigTab instead.
-   *
-   * Returns the tabindex for the configuration tab.
-   *
-   * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
-   * @returns tabindex of the configuration tab
-   */
-  getTabIndexConfigTab(): number {
-    let tabIndex = 0;
-    this.isOverviewPage$.pipe(take(1)).subscribe((isOvPage) => {
-      if (isOvPage) {
-        tabIndex = -1;
-      }
-    });
-    return tabIndex;
-  }
-
-  /**
    * Returns the tabindex for the configuration tab.
    *
    * The configuration tab is excluded from the tab chain if currently the overview page is displayed.
@@ -206,23 +178,6 @@ export class ConfiguratorTabBarComponent {
     return this.isOverviewPage(pageType) ? -1 : 0;
   }
 
-  /**
-   * @deprecated Use getTabIndexForOverviewTab instead.
-   *
-   *
-   * Returns the tabindex for the overview tab.
-   * The overview tab is excluded from the tab chain if currently the configuration page is displayed.
-   * @returns tabindex of the overview tab
-   */
-  getTabIndexOverviewTab(): number {
-    let tabIndex = 0;
-    this.isOverviewPage$.pipe(take(1)).subscribe((isOvPage) => {
-      if (!isOvPage) {
-        tabIndex = -1;
-      }
-    });
-    return tabIndex;
-  }
   /**
    * Returns the tabindex for the overview tab.
    * The overview tab is excluded from the tab chain if currently the configuration page is displayed.

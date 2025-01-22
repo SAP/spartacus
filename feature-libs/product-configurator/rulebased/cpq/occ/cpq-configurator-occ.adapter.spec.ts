@@ -170,10 +170,6 @@ describe('CpqConfiguratorOccAdapter', () => {
     );
   });
 
-  it('should state that this adapter supports CPQ API calls over OCC', () => {
-    expect(adapterUnderTest.supportsCpqOverOcc()).toBe(true);
-  });
-
   it('should delegate create configuration to OCC service and map owner', () => {
     adapterUnderTest.createConfiguration(owner).subscribe((config) => {
       expect(config.owner).toEqual(owner);
