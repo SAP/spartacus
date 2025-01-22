@@ -1,8 +1,21 @@
-# Modernize your app to look like a new Angular 19 app
+# Modernize apps upgraded from Spartacus 6.8 to 2211.19
 
-# For projects created with Angular CLI <17 (e.g. Angular CLI 15)
+Angular v17 introduced a new Angular CLI configuration format, which was not recommended yet by the Spartacus team, due to various issues.
+Now it's time Spartacus team recommends to use the new configuration and provides the detailed migration guide for the apps upgraded from Spartacus 6.8 to 2211.19.
 
-### `angular.json`
+Please note that this migration is also a prerequisite, before starting the upgrade to Spartacus 2211.33 and Angular 19.
+
+The benefit of using the new Angular configuration format are:
+- faster builds: application builds are quicker, making life easier and saving time for developers
+- being future-proof: any new Angular features might assume you're using the new configuration format as a prerequisite
+
+The side-effect consequences of using the new configuration format are:
+- SSR (server-side rendering) and prerendering will be run differently (for more, see the last section of this page)
+
+# Modernize the Angular application to use the new configuration format
+
+
+### `angular.json` - Angular project configuration file
 
 1. In the section `architect > build` please change the value `"builder": "@angular-devkit/build-angular:browser",`
    to `"builder": "@angular-devkit/build-angular:application",`
@@ -14,9 +27,11 @@
 +           "builder": "@angular-devkit/build-angular:application",
 ```
 
-2. In the section `architect > build > options` please apply the following modifications (to adapt to the new builder):
+Why: it's the new `application` builder for Angular v17 and later.
 
-2.1 in `"outputPath"` remove the ending `"/browser"` from the string value.
+2. In the section `architect > build > options` please apply the all the following modifications, to adapt to the new configuration format of the new `application` builder
+
+2.1 In the property `"outputPath"` please remove the ending `"/browser"` from the string value.
 
 ```diff
         "architect": {
@@ -49,7 +64,7 @@
 -              "namedChunks": true
 ```
 
-2.4 Please remove the whole 3 sections `architect > server`, `architect > serve-ssr` and `architect > prerender`.
+2.4. Please remove the whole 3 sections `architect > server`, `architect > serve-ssr` and `architect > prerender` (because their responsibilities are now handled by the new `application` builder)
 
 ```diff
        "architect": {
@@ -115,34 +130,34 @@
 -        }
 ```
 
+TODO: mention extra steps for SSR projects
 
 ### `tsconfig.json`
 
 In the `"compilerOptions"` section, please:
 
-- Remove the properties `"baseUrl"`, `"forceConsistentCasingInFileNames"`, `"sourceMap"`, `"declaration"`, `"downlevelIteration"`, `"useDefineForClassFields"`, `"lib"`
-- Add `"skipLibCheck": true`, `"isolatedModules": true`, `"esModuleInterop": true`
-- Change `"moduleResolution"` from `"node"` to `"bundler"`
+- Remove the properties `"baseUrl"`, `"forceConsistentCasingInFileNames"`, `"downlevelIteration"`, 
+- Add `"skipLibCheck": true`, `"esModuleInterop": true`
 
 ```diff
    "compilerOptions": {
 -    "baseUrl": "./",
 -    "forceConsistentCasingInFileNames": true,
--    "sourceMap": true,
--    "declaration": false,
 -    "downlevelIteration": true,
 +    "skipLibCheck": true,
-+    "isolatedModules": true,
 +    "esModuleInterop": true,
--    "moduleResolution": "node",
-+    "moduleResolution": "bundler",
--    "useDefineForClassFields": false,
--    "lib": [
--      "ES2022",
--      "dom"
--    ]
-   },
+},
 ```
+
+TODO: add extra steps for SSR projects:
+- ✅ change angular.json
+- ✅ remove tsconfig.server.json
+- ✅ tsconfig.app.json
+  - add `"node"` to the array in the property `"types"`
+  - add `"src/main.server.ts"` and `"src/server.ts"` to the array in the property `"files"`
+- ✅ `src/main.server.ts`
+  - change the the export path of the `AppServerModule` from `./app/app.server.module'` to `./app/app.module.server'`. And export this item as a `default`.
+- ✅ rename file `src/app.server.module.ts` to `src/app.module.server.ts` (swapped words `server` and `module`).
 
 
 ### `src/main.ts`
@@ -160,7 +175,7 @@ Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of
 
 ### `angular.json`
 
-1. add 3 new options with values: `"server": "src/server.ts"`, `"prerender": false`, `"ssr": { "entry": "src/server.ts" }`
+1. add 3 new options with values: `"server": "src/main.server.ts"`, `"prerender": false`, `"ssr": { "entry": "server.ts" }`
 
 ```diff
         "architect": {
@@ -169,12 +184,23 @@ Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of
 +             "server": "src/main.server.ts",
 +             "prerender": false,
 +             "ssr": {
-+               "entry": "src/server.ts"
++               "entry": "server.ts"
 +             }
 ```
 
+2. In the section `architect > build > configurations > development` please remove 3 properties: `"buildOptimizer"`, `"vendorChunk"`, `"namedChunks"`
 
-2. In the section `architect > build > configurations` please add a new property `"noSsr": { "ssr": false, "prerender": false }`
+```diff
+        "architect": {
+          "build": {
+            "configurations": {
+              "development": {
+-               "buildOptimizer": false,
+-               "vendorChunk": true,
+-               "namedChunks": true
+```
+
+3. In the section `architect > build > configurations` please add a new property `"noSsr": { "ssr": false, "prerender": false }`
 
 ```diff
         "architect": {
@@ -186,28 +212,26 @@ Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of
 +             }
 ```
 
-3. In the section `architect > serve > configurations` (please mind now the section is `serve` not `build`!) please add the ending `,noSsr` (with the preceding comma) at the end of the string values in subsections `... > production > buildTarget` and `... > development > buildTarget`:
+4. In the section `architect > serve > configurations` (please mind now the section is `serve` not `build`!) please add the ending `,noSsr` (with the preceding comma) at the end of the string values in subsections `... > production > buildTarget` and `... > development > buildTarget`:
 
 ```diff
         "architect": {
           "serve": {
             "builder": "@angular-devkit/build-angular:dev-server",
-            "configurations": {
-              "production": {
--               "buildTarget": "YOUR-APP-NAME:build:production"
-+               "buildTarget": "YOUR-APP-NAME:build:production,noSsr"
-
-              },
-              "development": {
--               "buildTarget": "YOUR-APP-NAME:build:development"
-+               "buildTarget": "YOUR-APP-NAME:build:development,noSsr"
-              }
-            },
+              "configurations": {
+                "production": {
+-                 "buildTarget": "YOUR-APP-NAME:build:production"
++                 "buildTarget": "YOUR-APP-NAME:build:production,noSsr"
+                },
+                "development": {
+-                 "buildTarget": "YOUR-APP-NAME:build:development"
++                 "buildTarget": "YOUR-APP-NAME:build:development,noSsr"
+                }
 ```
 
 ### `package.json`
 
-In the "scripts" section:
+Please change the following "scripts" properties (because the new `application` builder handles the SSR and prerendering in a different way).
 
 1. Please remove properties `"dev:ssr"` and `"prerender"`
 
@@ -217,7 +241,7 @@ In the "scripts" section:
 -    "prerender": "ng run YOUR-APP-NAME:prerender"
 ```
 
-2. Please change value of the property `"build:ssr"` to `"ng build"`
+1. Please change value of the property `"build:ssr"` to `"ng build"`
 
 ```diff
    "scripts": {
@@ -232,11 +256,6 @@ In the "scripts" section:
 -    "serve:ssr": "node dist/YOUR-APP-NAME/server/main.js",
 +    "serve:ssr": "node dist/YOUR-APP-NAME/server/server.mjs",
 ```
-
-TODO: explain here that since now you need to run 2 different terminals to run SSR app in dev mode with reloads on file save.
-`npm run watch`
-and
-`npm run
 
 ### `tsconfig.app.json`
 
@@ -270,7 +289,7 @@ rm tsconfig.server.json
 
 ### `src/app.server.module.ts`
 
-Rename file from `app.server.module.ts` to `app.module.server.ts` (swapped words `server` and `module`).
+Rename file from `app.server.module.ts` to `app.module.server.ts` (i.e. swap the words `server` and `module`).
 
 Example command on Mac/Linux:
 
@@ -289,17 +308,7 @@ Change the the export path of the `AppServerModule` from `./app/app.server.modul
 
 ### `server.ts`
 
-1. Please move the file to the project root folder to `/src`
-
-Example command on Mac/Linux:
-
-```bash
-mv server.ts src/server.ts
-```
-
-2. Please adjust the contents of the file `src/server.ts`
-
-2.1 Change the imports in the top of the file according to the following diff:
+1 .Change the imports in the top of the file according to the following diff:
 
 ```diff
 - import 'zone.js/node';
@@ -323,27 +332,27 @@ mv server.ts src/server.ts
 + import AppServerModule from './main.server';
 ```
 
-2.2 Replace the constants 2 `distFolder` and `indexHtml` with new 4 constants: `serverDistFolder`, `browserDistFolder`, `indexHtml` and `indexHtmlContent`, as in the diff below:
+2. Replace the constants 2 `distFolder` and `indexHtml` with new 4 constants: `serverDistFolder`, `browserDistFolder`, `indexHtml` and `indexHtmlContent`, as in the diff below:
 
 ```diff
--  const distFolder = join(process.cwd(), 'dist/test-ng15-spa68-ssr/browser');
--  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
--    ? 'index.original.html'
--    : 'index';
+- const distFolder = join(process.cwd(), 'dist/YOUR-APP-NAME/browser');
+- const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+-   ? 'index.original.html'
+-   : 'index';
 
 +  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 +  const browserDistFolder = resolve(serverDistFolder, '../browser');
-+  const indexHtml = join(serverDistFolder, 'index.server.html');
++  const indexHtml = join(browserDistFolder, 'index.html');
 ```
 
-2.3 Use the constant `browserDistFolder` instead of `distFolder` in the call `server.set('views', ...);`
+3. Use the constant `browserDistFolder` instead of `distFolder` in the call `server.set('views', ...);`
 
 ```diff
 -  server.set('views', distFolder);
 +  server.set('views', browserDistFolder);
 ```
 
-2.4 Use the constant `browserDistFolder` instead of `distFolder` in the call `express.static(...);`
+4. Use the constant `browserDistFolder` instead of `distFolder` in the call `express.static(...);`
 
 ```diff
    server.get(
@@ -352,7 +361,7 @@ mv server.ts src/server.ts
 +    express.static(browserDistFolder, {
 ```
 
-2.4 Remove the block of code in the bottom of the file related to Webpack `require` and leave instead just the call of the function `run()`
+2.5 Remove the block of code in the bottom of the file related to Webpack `require` handling, but leave only the call of the function `run()`
 
 ```diff
 - // Webpack will replace 'require' with - '__webpack_require__'
@@ -368,77 +377,44 @@ mv server.ts src/server.ts
 + run();
 ```
 
-2.5 In the very bottom of the file, remove the re-export of the path `./src/main.server`
+5. In the very bottom of the file, remove the re-export of the path `./src/main.server`
 
 ```diff
 - export * from './src/main.server';
 ```
 
-## TODOS:
+# Modernize the `app.module.ts` to use new, non-deprecated Angular APIs
 
-recommended changes in the server.ts file (only after upgraded to ng19):
+### `src/app/app.module.ts`
 
-- in server.ts we recommend adding a feature toggle:
-
-```
-ssrFeatureToggles: {
-  avoidCachingErrors: true,
-},
-```
-
-- use Spartacus default error handlers:
-  - after the line `const indexHtml = join(serverDistFolder, 'index.server.html');` add the line `const indexHtmlContent = readFileSync(indexHtml, 'utf-8');`
-  - after the block of code `server.get('*', (req, res) => {...}`, add the line `server.use(defaultExpressErrorHandlers(indexHtmlContent));`
-
-mention moving stuff to /public folder
-
-- src/favicon.ico -> public/favicon.ico
-- src/assets folder -> public
-
-in angular.json
-TODO: mention the changes in assets config? in both architect "build" and "test"
-TODO: mention the changes in silence deprecations
-
-```
-
-```
-
-### Let's postpone those steps and check them later:
-
-1. Moving assets and favicon to /public folder. And changing assets config in `angular.json`:
+1. Remove the `HttpClientModule` from the `imports` array. 
 
 ```diff
--              "src/favicon.ico",
--              "src/assets",
-+              {
-+                "glob": "**/*",
-+                "input": "public"
-+              },
+  imports: [
+-    HttpClientModule,
 ```
 
-because in n17 the error happens:
-
-```
-Error: Schema validation failed with the following errors:
-  Data path "/assets/0" must have required property 'output'.
-  Data path "/assets/0" must be string.
-  Data path "/assets/0" must match exactly one schema in oneOf.
-```
-
-2. Suppressing Sass deprecations
+2. Add `provideHttpClient(withFetch(), withInterceptorsFromDi()),` to the `providers` array.
 
 ```diff
- "stylePreprocessorOptions": {
-   "includePaths": ["node_modules/"],
-+  "sass": {
-+    "silenceDeprecations": ["import"]
-+  }
-}
+  providers: [
++   provideHttpClient(withFetch(), withInterceptorsFromDi()),
+  ],
 ```
 
-Because in n17 the error happens:
+## For SSR projects, additionally:
 
+### `src/app/app.module.ts`
+
+Replace the item in the `imports` array `BrowserModule.withServerTransition({ appId: 'serverApp' }),` with just `BrowserModule`
+
+```diff
+  imports: [
+-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
++    BrowserModule,
+  ],
 ```
-Error: Schema validation failed with the following errors:
-  Data path "/stylePreprocessorOptions" must NOT have additional properties(sass).
-```
+
+
+TODO: add information needed for SSR projects:
+that now you'll run the SSR and prerendering differently - links to existing docs (KBAs)
