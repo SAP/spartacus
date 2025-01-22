@@ -110,4 +110,8 @@
       }
     }
   }
+
+  @include cx-highContrastTheme {
+    border-color: var(--cx-color-dark);
+  }
 }
