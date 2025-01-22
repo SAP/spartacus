@@ -165,7 +165,12 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -230,7 +235,12 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

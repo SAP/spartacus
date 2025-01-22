@@ -76,7 +76,12 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -145,7 +150,12 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
