@@ -60,6 +60,9 @@ For applications with SSR support that use the Angular's `application` builder (
 + const indexHtml = join(serverDistFolder, 'index.server.html');
 ```
 
+## Modernize your app to look like a new Angular 19 app
+
+See [Modernize your app to look like a new Angular 19 app](./modernize-ng17-app-to-look-like-ng19.md)
 
 
 

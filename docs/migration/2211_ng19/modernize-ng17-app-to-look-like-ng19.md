@@ -1,6 +1,6 @@
 # Modernize your app to look like a new Angular 19 app
 
-# For projects created with Angular CLI 17
+## For projects created with Angular CLI 17
 
 ### `angular.json`
 
@@ -20,7 +20,7 @@
 
 ### `tsconfig.json`
 
-In the `compilerOptions` section, please:
+In the `"compilerOptions"` section, please:
 
 - Add a new option: `"isolatedModules": true`
 - Remove `"sourceMap": true`
@@ -52,9 +52,21 @@ In the `compilerOptions` section, please:
 1. Please rename the folder to `/public`
 2. Please move this folder up to the project's root folder.
 
+Example command on Mac/Linux:
+
+```bash
+mv src/assets public
+```
+
 ### `src/favicon.ico`
 
 Please move the file to the folder `/public`.
+
+Example command on Mac/Linux:
+
+```bash
+mv src/favicon.ico public
+```
 
 ### `src/main.ts`
 
@@ -75,6 +87,12 @@ Moreover, if your app is using SSR, please do the following:
 
 1. Please move the file from the root folder to the folder `/src`
    `server.ts` -> `src/server.ts`
+
+Example command on Mac/Linux:
+
+```bash
+mv server.ts src/server.ts
+```
 
 2. In the contents of the file, please replace the import path of `AppServerModule` from `./src/main.server` to `./main.server`
 
