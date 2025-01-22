@@ -149,17 +149,6 @@ In the `"compilerOptions"` section, please:
 },
 ```
 
-TODO: add extra steps for SSR projects:
-- ✅ change angular.json
-- ✅ remove tsconfig.server.json
-- ✅ tsconfig.app.json
-  - add `"node"` to the array in the property `"types"`
-  - add `"src/main.server.ts"` and `"src/server.ts"` to the array in the property `"files"`
-- ✅ `src/main.server.ts`
-  - change the the export path of the `AppServerModule` from `./app/app.server.module'` to `./app/app.module.server'`. And export this item as a `default`.
-- ✅ rename file `src/app.server.module.ts` to `src/app.module.server.ts` (swapped words `server` and `module`).
-
-
 ### `src/main.ts`
 
 Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of the`platformBrowserDynamic().bootstrapModule()` call.

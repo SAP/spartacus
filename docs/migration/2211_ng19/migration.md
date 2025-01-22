@@ -2,6 +2,7 @@
 
 Before upgrading Spartacus to the new version with Angular 18, you need to first:
 
+- If you've upgraded in the past from Spartacus 6.8 to 2211.19, now please complete the guide on [modernizing apps upgraded from 6.8 to 2211.19](./FINAL_modernize-apps-upgraded-from-6.8-to-2211.19.md)
 - upgrade Spartacus to version 2211.32.1
 - install Node 22 version and upgrade `@types/node` to version 22
   ```bash
@@ -15,7 +16,9 @@ Before upgrading Spartacus to the new version with Angular 18, you need to first
 
 > **Warning**
 >
-> Do not select `use-application-builder` migration when migrating to Angular 18. Applications created before SPA 2211.19 doesn't support this builder. Applications ?created starting from 2211.19 already supports it.
+> Do not select `use-application-builder` migration when migrating to Angular 18, because it's not compatible with Spartacus.
+> In other words, please make sure the circle checkbox is empty `◯ [use-application-builder]`, when being prompted by the Angular CLI migration:
+> `❯◯ [use-application-builder] Migrate application projects to the new build system.`
 
 Follow the [Angular guidelines for upgrading from v17 to v18](https://angular.dev/update-guide?v=17.0-18.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem  to versions compatible with Angular 18 (e.g. `@ng-select/ng-select@13`, `@ngrx/store@18`, `ngx-infinite-scroll@18`):
 
@@ -28,9 +31,7 @@ git commit -m "update angular 18 and 3rd party deps angular 18 compatible"
 
 ### Update Angular to 19 and 3rd party deps to be compatible with Angular 19
 
-> **Warning**
->
-> Hit SPACE to unselect `use-application-builder` migration when migrating to Angular 19. Applications created before SPA 2211.19 doesn't support this builder. Applications created starting from 2211.19 already supports it.
+
 
 Follow the [Angular guidelines for upgrading from v18 to v19](https://angular.dev/update-guide?v=18.0-19.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem  to versions compatible with Angular 19 (e.g. `@ng-select/ng-select@14`, `@ngrx/store@19`, `ngx-infinite-scroll@19`):
 
