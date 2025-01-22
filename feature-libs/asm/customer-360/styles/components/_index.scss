@@ -1,11 +1,11 @@
 @import '@spartacus/styles/scss/core';
 
-@import './_asm-customer-360.component.scss';
-@import './_asm-customer-360-profile.scss';
+@import './_asm-customer-360.component';
+@import './_asm-customer-360-profile';
 @import './_asm-customer-360-product-listing.component';
-@import './_asm-customer-360-table.component.scss';
-@import './_asm-customer-360-map.component.scss';
-@import './_asm-customer-360-promotion-listing.component.scss';
+@import './_asm-customer-360-table.component';
+@import './_asm-customer-360-map.component';
+@import './_asm-customer-360-promotion-listing.component';
 
 $customer-360-components-allowlist: cx-asm-customer-360,
   cx-asm-customer-360-profile, cx-asm-customer-360-product-listing,

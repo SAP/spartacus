@@ -5,7 +5,6 @@
  */
 
 import requestedDeliveryDate from './requestedDeliveryDate.json';
-
 export const en = {
   requestedDeliveryDate,
 };

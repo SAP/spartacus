@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -150,7 +149,6 @@ describe('CheckoutReviewSubmitComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        RouterTestingModule,
         IconTestingModule,
         OutletModule,
       ],

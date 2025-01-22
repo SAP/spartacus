@@ -2,10 +2,9 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { LoginRegisterComponent } from './login-register.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { LoginRegisterComponent } from './login-register.component';
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
@@ -31,7 +30,7 @@ describe('LoginRegisterComponent', () => {
   }
 
   const testBedDefaults = {
-    imports: [RouterTestingModule, I18nTestingModule],
+    imports: [I18nTestingModule],
     declarations: [LoginRegisterComponent, MockUrlPipe, MockFeatureDirective],
     providers: [
       { provide: ActivatedRoute, useClass: MockActivatedRoute },

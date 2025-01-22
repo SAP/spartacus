@@ -7,7 +7,7 @@
 @import './set-preferred-store';
 @import './my-preferred-store';
 @import './pick-up-in-store-items-details';
-@import './pickup-in-store-order-consignment.scss';
+@import './pickup-in-store-order-consignment';
 
 $pickup-in-store-components-allowlist: cx-store, cx-store-search,
   cx-store-schedule, cx-set-preferred-store, cx-pickup-options,

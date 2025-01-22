@@ -66,7 +66,7 @@ declare module '@schematics/angular/utility/workspace-models' {
     /**
      * Since ng17 it's no more "browserTarget" but "buildTarget" property
      */
-    buildTarget: string;
+    buildTarget?: string;
   }
 }
 

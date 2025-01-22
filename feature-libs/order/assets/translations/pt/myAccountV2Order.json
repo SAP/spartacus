@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Todos os pedidos ({{param}})",
+    "item": "{{param}} item",
+    "items": "{{param}} itens",
+    "totalPrice": "Preço total: {{param}}",
+    "consignmentCode": "Consignação {{param}}",
+    "statusDate": "Última atualização: {{param}}",
+    "returnProcessed": "Devolução processada: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "A ser retirado - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "A ser enviado - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "A ser retirado - "
+    },
+    "orderListResults": "Lista de pedidos",
+    "orderListPagination": "Paginação de lista de pedidos",
+    "totalPriceLabel": "Preço total",
+    "orderPlaced": "Pedido feito em",
+    "orderCodeLabel": "Código do pedido",
+    "consignmentDetailLabel": "Informação da consignação",
+    "consignmentNumberLabel": "Número da consignação",
+    "consignmentStatusLabel": "Status da consignação",
+    "consignmentStatusDateLabel": "Última atualização em",
+    "estimateDeliveryLabel": "Data estimada de entrega"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Devolver itens",
+    "cancelItems": "Cancelar itens",
+    "downloadInvoices": "Baixar faturas",
+    "viewAllOrders": "Visualizar todos os pedidos",
+    "noInvoices": "As faturas ainda não foram geradas. Volte mais tarde."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} item",
+    "items": "{{value}} itens",
+    "heading": "Pedidos e devoluções",
+    "orderNumber": "Número do pedido ({{value}})",
+    "purchasedOn": "Comprado em: {{value}}",
+    "orderedItems": "Itens pedidos: {{value}}",
+    "totalPrice": "Preço total: {{value}}",
+    "orderDetails": "Detalhes do pedido",
+    "orderDetailsLabel": "Mostrar detalhes do pedido para número do pedido {{value}}",
+    "orderStatusLabel": "Status do pedido",
+    "returnOrder": "Pedido de devolução",
+    "showMore": "Mostrar mais",
+    "showMoreLabel": "Navegar para histórico do pedido"
+  }
+}

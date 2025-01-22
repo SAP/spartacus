@@ -7,7 +7,10 @@
 import { NgModule } from '@angular/core';
 import {
   quickOrderTranslationChunksConfig,
-  quickOrderTranslations,
+  quickOrderTranslationsEn,
+  quickOrderTranslationsJa,
+  quickOrderTranslationsDe,
+  quickOrderTranslationsZh,
 } from '@spartacus/cart/quick-order/assets';
 import {
   CART_QUICK_ORDER_FEATURE,
@@ -28,7 +31,12 @@ import { provideConfig } from '@spartacus/core';
         },
       },
       i18n: {
-        resources: quickOrderTranslations,
+        resources: {
+          en: quickOrderTranslationsEn,
+          ja: quickOrderTranslationsJa,
+          de: quickOrderTranslationsDe,
+          zh: quickOrderTranslationsZh,
+        },
         chunks: quickOrderTranslationChunksConfig,
         fallbackLang: 'en',
       },

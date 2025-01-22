@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -30,18 +29,18 @@ import {
   QueryState,
   UserCostCenterService,
 } from '@spartacus/core';
+import {
+  CheckoutServiceDetailsFacade,
+  CheckoutServiceSchedulePickerService,
+  S4ServiceDeliveryModeConfig,
+  ServiceDateTime,
+} from '@spartacus/s4-service/root';
 import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
 
 import createSpy = jasmine.createSpy;
-import {
-  CheckoutServiceDetailsFacade,
-  CheckoutServiceSchedulePickerService,
-  ServiceDateTime,
-  S4ServiceDeliveryModeConfig,
-} from '@spartacus/s4-service/root';
 const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
   s4ServiceDeliveryMode: {
     code: 'fast-service',
@@ -255,7 +254,6 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        RouterTestingModule,
         IconTestingModule,
         OutletModule,
       ],

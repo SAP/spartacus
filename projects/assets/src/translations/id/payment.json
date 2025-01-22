@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Pembayaran",
+    "choosePaymentMethod": "Pilih metode pembayaran",
+    "paymentType": "Tipe Pembayaran",
+    "accountHolderName": {
+      "label": "Nama Pemegang Akun",
+      "placeholder": "Nama Pemegang Akun"
+    },
+    "cardNumber": "Nomor Kartu",
+    "expirationDate": "Tanggal Berakhir",
+    "securityCode": "Kode keamanan (CVV)",
+    "securityCodeTitle": "Nilai Verifikasi Kartu",
+    "saveAsDefault": "Simpan sebagai default",
+    "setAsDefault": "Tetapkan sebagai metode pembayaran default",
+    "billingAddress": "Alamat penagihan",
+    "sameAsDeliveryAddress": "Sama seperti alamat pengiriman",
+    "billingAddressSameAsShipping": "Alamat penagihan sama seperti alamat pengiriman",
+    "selectOne": "Pilih Satu...",
+    "monthMask": "BB",
+    "yearMask": "TTTT",
+    "expirationYear": "Tahun kedaluwarsa {{ selected }}",
+    "expirationMonth": "Bulan kedaluwarsa {{ selected }}",
+    "useThisPayment": "Gunakan pembayaran ini",
+    "addNewPayment": "Tambahkan Pembayaran Baru",
+    "paymentAddedSuccessfully": "Pembayaran baru berhasil ditambahkan",
+    "changePayment": "Ubah Pembayaran"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Metode pembayaran",
+    "paymentMethodSelected": "Metode pembayaran dipilih",
+    "newPaymentMethodsAreAddedDuringCheckout": "Metode pembayaran baru ditambahkan saat proses pembayaran.",
+    "invalidField": "Bidang Tidak Valid: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Apakah Anda yakin ingin menghapus metode pembayaran ini?",
+    "setAsDefault": "Tetapkan sebagai default",
+    "expires": "Berakhir: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ DEFAULT",
+    "defaultPaymentLabel": "Metode pembayaran default",
+    "additionalPaymentLabel": "Metode pembayaran tambahan {{ number }}",
+    "selected": "Dipilih",
+    "selectedPayment": "Pembayaran yang Dipilih",
+    "deletePaymentSuccess": "Metode pembayaran berhasil dihapus",
+    "visa": "Kartu Visa",
+    "master": "Kartu Mastercard",
+    "masterEuro": "Kartu Mastercard Eurocard",
+    "dinersClub": "Kartu Diners Club",
+    "switch": "Kartu Switch",
+    "maestro": "Kartu Maestro",
+    "amex": "Kartu American Express",
+    "credit": "Kartu Kredit"
+  },
+  "paymentTypes": {
+    "title": "Metode pembayaran",
+    "paymentType_CARD": "Kartu Kredit",
+    "paymentType_ACCOUNT": "Akun"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Pembayaran baru berhasil ditetapkan sebagai pilihan utama"
+  }
+}

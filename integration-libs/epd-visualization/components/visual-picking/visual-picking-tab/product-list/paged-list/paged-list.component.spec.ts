@@ -1,7 +1,6 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
@@ -47,7 +46,6 @@ describe('PagedList Component', () => {
   let headerTemplate: any;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         PagedListComponent,
         MockCxIconComponent,

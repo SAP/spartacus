@@ -1,5 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import {
@@ -48,7 +52,7 @@ describe('Cart Voucher effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: CartVoucherAdapter, useValue: {} },
         fromEffects.CartVoucherEffects,
@@ -56,6 +60,8 @@ describe('Cart Voucher effect', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LoggerService, useClass: MockLoggerService },
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

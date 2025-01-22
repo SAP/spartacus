@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Envío",
+      "deliveryMethod": "Método de entrega",
+      "paymentAndReview": "Pago y revisión"
+    },
+    "paymentAndReviewTitle": "Pago y revisión",
+    "billingAddress": "Dirección de facturación",
+    "paymentOption": "Opción de pago",
+    "termsAndConditions": "Términos y condiciones",
+    "itemsToBeShipped": "Artículos para enviar",
+    "proceedPayment": "Realizar pedido",
+    "retryPayment": "Reintentar para continuar",
+    "checkTermsAndConditionsExplicit": "Debe aceptar los Términos y Condiciones para ver las opciones de pago disponibles.",
+    "checkTermsAndConditionsImplicit": "Al enviar el pedido, acepta nuestros Términos y Condiciones.",
+    "errors": {
+      "loadActiveConfigurations": "No podemos cargar las opciones de pago en este momento. Inténtelo de nuevo más tarde.",
+      "noActiveConfigurations": "No hay opciones de pago disponibles en este momento. Vuelva a intentarlo más tarde o póngase en contacto con soporte técnico.",
+      "updateBillingAddress": "No se ha podido actualizar la dirección. Verifique que la información de la dirección es correcta y que su dispositivo está conectado a Internet. Si el problema persiste, es posible que tenga que vaciar el carrito y volver a iniciar el proceso de pago."
+    }
+  }
+}

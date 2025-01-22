@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "ग्राहक सेवा",
+    "showMore": "अधिक दिखाएं",
+    "showMoreLabel": "ग्राहक सेवा अनुरोध इतिहास पर नेविगेट करें",
+    "changedOn": "परिवर्तन दिनांक: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "विषय",
+    "idLabel": "ग्राहक सेवा Id"
+  }
+}

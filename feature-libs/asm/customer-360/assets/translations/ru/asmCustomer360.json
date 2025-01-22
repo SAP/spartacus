@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Невозможно загрузить информацию. Повторите попытку позже или обратитесь к системному администратору.",
+    "errorMessageHeader": "Ой, что-то пошло не так",
+    "applyActionAlter": "Не удалось выполнить это действие. Повторите попытку позже.",
+    "header": {
+      "title": "Профиль клиента",
+      "newTitle": "Клиент 360°",
+      "subTitle": "Ракурс 360° для клиента {{name}}",
+      "newSubTitle": "Ракурс 360° {{name}}",
+      "activeCartLabel": "{{cartSize}}: позиция добавлена в корзину",
+      "recentOrderLabel": "Последний заказ {{price}}",
+      "recentTicketLabel": "Последний сервисный запрос",
+      "signedUpAt": "Учетная запись создана {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Всего позиций: {{count}}",
+      "totalPrice": "Общая цена: {{price}}",
+      "showMore": "Показать больше",
+      "showLess": "Показать меньше"
+    },
+    "productItem": {
+      "outOfStock": "Нет в наличии",
+      "quantity": "Кол.: {{count}}",
+      "itemPrice": "Цена позиции: {{price}}"
+    },
+    "activeCart": {
+      "header": "Активная корзина",
+      "emptyDescription": "Сейчас нет позиций активной корзины",
+      "aria": {
+        "linkLabel": "Активная корзина {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Последняя сохраненная корзина",
+      "emptyDescription": "Сейчас нет позиций сохраненной корзины",
+      "aria": {
+        "linkLabel": "Последняя сохраненная корзина {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Интересы",
+      "emptyDescription": "Сейчас нет позиций интересов"
+    },
+    "profile": {
+      "address": "Адрес",
+      "billingAddress": "Адрес выставления счета",
+      "deliveryAddress": "Адрес доставки",
+      "phone1": "Телефон 1",
+      "phone2": "Телефон 2",
+      "paymentMethodHeader": "Сохраненные методы оплаты"
+    },
+    "activity": {
+      "type": "Тип",
+      "id": "Ид.",
+      "description": "Описание",
+      "status": "Статус",
+      "created": "Создано",
+      "updated": "Обновлено",
+      "numberOfCartItems": "Корзина с {{count}} поз.",
+      "cart": "Корзина",
+      "order": "Заказ",
+      "savedCart": "Сохраненная корзина",
+      "emptyStateText": "Сейчас нет записанных действий клиента",
+      "headerText": "Общее"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Позиция",
+        "dateAndStatus": "Дата/статус",
+        "rating": "Рейтинг",
+        "review": "Отзыв"
+      },
+      "header": "Отзывы о продуктах",
+      "emptyDescription": "Сейчас нет позиций отзывов о продуктах",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "Ид.",
+        "headline": "Заголовок",
+        "category": "Категория"
+      },
+      "header": "Запросы в службу поддержки",
+      "emptyDescription": "Сейчас нет запросов в службу поддержки"
+    },
+    "coupons": {
+      "headerText": "Купоны",
+      "emptyDescription": "Сейчас нет купонов",
+      "applyButtonText": "Применить к корзине",
+      "applied": "Купон применен",
+      "removeButtonText": "Удалить"
+    },
+    "promotions": {
+      "headerText": "Рекламные акции",
+      "emptyDescription": "Сейчас нет рекламных акций",
+      "applied": "Рекламная акция применена",
+      "headerName": "Имя",
+      "headerAction": "Операция"
+    },
+    "customerCoupons": {
+      "headerText": "Купоны клиента",
+      "emptyDescription": "Сейчас нет купонов клиента",
+      "applyButtonText": "Присвоить клиенту",
+      "removeButtonText": "Удалить",
+      "availableTab": "Доступно",
+      "sentTab": "Отправлено",
+      "searchBox": "Купон"
+    },
+    "maps": {
+      "storeClosed": "Закрыть",
+      "storesFound": "{{ initial }} - {{ end }} из {{ total }} магазинов найдено"
+    },
+    "overviewTab": "Обзор",
+    "profileTab": "Профиль",
+    "activityTab": "Действие",
+    "feedbackTab": "Отзыв",
+    "promotionsTab": "Рекламные акции",
+    "mapsTab": "Карты",
+    "storeLocationsTab": "Местоположения магазинов",
+    "aria": {
+      "activeCartCode": "Активная корзина {{code}}",
+      "recentOrderCode": "Последний заказ {{code}}"
+    },
+    "pagination": "Разбивка на страницы",
+    "page": "Страница {{number}}",
+    "emptyCellValue": "---"
+  }
+}

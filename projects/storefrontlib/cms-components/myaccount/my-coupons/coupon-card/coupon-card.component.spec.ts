@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CustomerCoupon,
   FeaturesConfig,
@@ -91,7 +90,7 @@ describe('CouponCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

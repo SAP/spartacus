@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "Přidejte si SAP storefron na hlavní obrazovku svého zařízení, abyste se mohli rychleji vrátit.",
+    "noInstallationNeeded": "Není třeba nic instalovat",
+    "fastAccessToApplication": "Rychlý přístup do aplikace",
+    "addToHomeScreen": "Přidat na domovskou obrazovku",
+    "addedToHomeScreen": "SAP Storefront byl přidán na vaši domovskou obrazovku"
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "Отменить",
+    "delete": "Удалить",
+    "remove": "Удалить",
+    "edit": "Редактировать",
+    "restore": "Восстановить",
+    "back": "Назад",
+    "submit": "Отправить",
+    "continue": "Продолжить",
+    "save": "Сохранить",
+    "done": "Готово",
+    "home": "Домашняя страница",
+    "noData": "Нет данных.",
+    "confirm": "Подтвердить",
+    "more": "больше",
+    "close": "Закрыть",
+    "loading": "Загрузка",
+    "menu": "Меню",
+    "reset": "Сбросить",
+    "search": "Поиск",
+    "add": "Добавить",
+    "breadcrumbs": "история навигации",
+    "selectFile": "Выбрать файл",
+    "clear": "Очистить",
+    "loaded": "Загружено",
+    "results": "Результаты",
+    "of": "из",
+    "required": "обязательно",
+    "zoomIn": "Увеличить",
+    "zoomOut": "Уменьшить",
+    "selected": "Выбрано",
+    "expand": "Развернуть",
+    "collapse": "Свернуть"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{count}} результат для {{query}}",
+      "title_other": "Число результатов для {{query}}: {{count}}"
+    },
+    "checkout": {
+      "title": "Оформить заказ"
+    },
+    "search": {
+      "title": "{{count}} результат для \"{{query}}\"",
+      "title_other": "Число результатов для \"{{query}}\": {{count}}",
+      "findProductTitle": "{{count}} результат для купона \"{{coupon}}\"",
+      "findProductTitle_other": "Число результатов для купона \"{{coupon}}\": {{count}}",
+      "default_title": "Все продукты"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "Загрузка..."
+  },
+  "navigation": {
+    "categoryNavLabel": "Меню категории",
+    "footerNavLabel": "Ссылки нижнего колонтитула",
+    "goTo": "Перейти к {{location}}",
+    "navigateTo": "Перейти к {{nav}}",
+    "scrollToTop": "Прокрутка назад к началу страницы",
+    "linkItemInList": "{{title}}. {{position}} из {{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "Введите продукт или SKU",
+    "productSearch": "Найти продукт",
+    "ariaLabelInput": "Искать здесь...",
+    "ariaLabelSuggestions": "предложения по вводу текста",
+    "ariaLabelProducts": "результаты для продукта",
+    "initialDescription": "Если результаты автоматического заполнения доступны, используйте стрелки вверх и вниз для просмотра и Enter для выбора. Пользователи сенсорных устройств могут использовать жесты касания или смахивания.",
+    "suggestions": "Предлагаемые ключевые слова",
+    "suggestionsResult": "{{ count }} предложение и ",
+    "suggestionsResult_other": "{{ count }} предложений и ",
+    "products": "Рекомендуемые продукты",
+    "productsResult": "{{ count }} продукт доступен.",
+    "productsResult_other": "Доступно продуктов: {{ count }}.",
+    "resetLabel": "Сбросить поиск",
+    "help": {
+      "insufficientChars": "Введите больше символов",
+      "noMatch": "Результаты не найдены",
+      "exactMatch": "{{ term }}",
+      "empty": "Спросите нас о чем-нибудь"
+    },
+    "closeSearchPanel": "Закрыть"
+  },
+  "sorting": {
+    "date": "Дата",
+    "orderNumber": "Номер заказа",
+    "rma": "Номер возврата",
+    "replenishmentNumber": "Номер пополнения",
+    "nextOrderDate": "Дата следующего заказа",
+    "pageViewUpdated": "На страницу добавлены выбранные опции."
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}. Выполните вход еще раз.",
+      "user_is_disabled": "{{ errorMessage }}. Обратитесь к администрации."
+    },
+    "badGateway": "Произошла ошибка сервера. Повторите попытку позже.",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}. Выполните вход еще раз.",
+    "badRequestOldPasswordIncorrect": "Неверный старый пароль.",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }}: электронная почта уже существует. Оформите заказ, указав другой адрес электронной почты, чтобы зарегистрироваться, используя гостевую учетную запись.",
+    "conflict": "Уже существует.",
+    "forbidden": "У вас нет полномочий на выполнение этого действия. Обратитесь к администратору, если вы считаете, что это ошибка.",
+    "gatewayTimeout": "Нет ответа от сервера, повторите попытку позже.",
+    "internalServerError": "Произошла внутренняя ошибка сервера. Повторите попытку позже.",
+    "sessionExpired": "Срок действия сеанса истек. Повторите вход в систему.",
+    "unknownError": "Произошла неизвестная ошибка",
+    "unauthorized": {
+      "common": "Произошла неизвестная ошибка авторизации",
+      "invalid_client": "Ошибочные учетные данные клиента"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "Выбранная кредитная карта не поддерживается. Выберите другую.",
+        "card_accountNumber": "Введенный номер кредитной карты недействителен.",
+        "card_cvNumber": "Введенный код безопасности недействителен.",
+        "card_expirationMonth": "Введенный срок действия кредитной карты недействителен.",
+        "card_expirationYear": "Введенный срок действия кредитной карты недействителен.",
+        "billTo_firstName": "Введенное имя недействительно. ",
+        "billTo_lastName": "Введенная фамилия недействительна.",
+        "billTo_street1": "Введенный адрес недействителен. ",
+        "billTo_street2": "Введенный адрес недействителен. ",
+        "billTo_city": "Введенный город недействителен для этой кредитной карты.",
+        "billTo_state": "Введенный регион/область недействителен для этой кредитной карты.",
+        "billTo_country": "Введенная страна/регион недействительна для этой кредитной карты.",
+        "billTo_postalCode": "Введенный почтовый индекс недействителен для этой кредитной карты.",
+        "country": {
+          "isocode": "Отсутствует страна/регион"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "Введенный срок действия кредитной карты недействителен.",
+        "firstName": "Введенное имя недействительно. ",
+        "lastName": "Введенная фамилия недействительна.",
+        "password": "Введенный пароль недействителен.",
+        "uid": "UID недействителен.",
+        "code": "Код недействителен.",
+        "email": "Адрес электронной почты недействителен.",
+        "loginId": "Адрес электронной почты недействителен."
+      }
+    },
+    "cartNotFound": "Корзина не найдена.",
+    "invalidCodeProvided": "Указан недействительный код.",
+    "voucherExceeded": "Этот купон уже использован максимальное число раз",
+    "unknownIdentifier": "Позиция не найдена.",
+    "otherCartErrors": "Произошли ошибки корзины."
+  },
+  "miniCart": {
+    "item": "{{count}} позиция сейчас в вашей корзине",
+    "item_other": "{{count}} поз. сейчас в вашей корзине",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "Перейти к",
+    "labels": {
+      "header": "Заголовок",
+      "main": "Основной контент",
+      "footer": "Нижний колонтитул",
+      "productFacets": "Фасеты продукта",
+      "productList": "Список продуктов"
+    }
+  },
+  "carousel": {
+    "previousSlide": "Предыдущий слайд",
+    "nextSlide": "Следующий слайд",
+    "slideNumber": "Слайд {{currentSlideNumber}} содержит {{numberOfSlides}} поз.",
+    "carouselForProduct": "Карусель, изображения для {{product}}"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "Поле {{label}} является обязательным",
+      "cxInvalidEmail": "Поле {{label}} имеет недействительный формат электронной почты. Он должен соответствовать шаблону: example@yourdomain.com",
+      "cxInvalidPassword": "Поле {{label}} имеет недействительный формат пароля ",
+      "cxMinOneUpperCaseCharacter": "Пароль должен содержать хотя бы один символ в верхнем регистре",
+      "cxMinOneDigit": "Пароль должен содержать хотя бы одну цифру",
+      "cxMinOneSpecialCharacter": "Пароль должен содержать хотя бы один спецсимвол",
+      "cxMinSixCharactersLength": "Пароль должен содержать минимум 6 символов",
+      "cxMinEightCharactersLength": "Пароль должен содержать минимум 8 символов",
+      "cxMaxCharactersLength": "Пароль не может содержать более 128 символов",
+      "cxContainsSpecialCharacters": "Пароль не может содержать спецсимволы",
+      "cxNoConsecutiveCharacters": "Пароль не может содержать стоящие рядом одинаковые символы",
+      "date": {
+        "required": "Поле {{label}} является обязательным",
+        "min": "Поле {{label}} не может быть до {{min}}",
+        "max": "Поле {{label}} не может быть после {{max}}",
+        "pattern": "Используйте формат даты гггг-мм-дд в поле {{label}}",
+        "invalid": "Используйте действительную дату в поле {{label}}"
+      }
+    },
+    "globalMessage": "Форма, которую вы пытаетесь отправить, содержит ошибки.",
+    "required": "Это обязательное поле",
+    "cxInvalidEmail": "Это недействительный формат электронной почты",
+    "cxInvalidPassword": "Это недействительный формат пароля",
+    "cxPasswordsMustMatch": "Поля паролей должны совпадать",
+    "cxPasswordsCannotMatch": "Поля паролей не должны совпадать",
+    "cxEmailsMustMatch": "Поля электронной почты должны совпадать",
+    "cxStarRatingEmpty": "Рейтинг - обязательное поле",
+    "cxNoSelectedItemToCancel": "Выберите хотя бы одну позицию",
+    "cxNegativeAmount": "Сумма должна быть больше или равна нулю",
+    "cxContainsSpecialCharacters": "Поле не может содержать спецсимволы",
+    "date": {
+      "required": "Это обязательное поле",
+      "min": "Дата не может быть до {{min}}",
+      "max": "Дата не может быть после {{max}}",
+      "pattern": "Используйте формат даты гггг-мм-дд",
+      "invalid": "Используйте действительную дату"
+    },
+    "file": {
+      "required": "Требуется файл",
+      "empty": "Файл не может быть пустым",
+      "invalidExtension": "Недействительное расширение файла",
+      "tooLarge": "Размер файла не должен превышать {{ maxSize }} МБ",
+      "tooManyEntries": "Число позиций больше {{ maxEntries }}",
+      "notParsable": "Синтаксический анализ файла невозможен",
+      "fileNotAllowed": "Неразрешенный тип файла"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "Не удалось загрузить скрипт.",
+    "refreshThePage": "Обновите страницу."
+  },
+  "assistiveMessage": {
+    "actionCancelled": "Операция отменена, ничего не изменено"
+  },
+  "passwordVisibility": {
+    "showPassword": "Показать пароль",
+    "hidePassword": "Скрыть пароль"
+  },
+  "generalErrors": {
+    "pageFailure": "Не удалось загрузить страницу. Попробуйте еще раз позже."
+  },
+  "formLegend": {
+    "required": "Поля, помеченные звездочкой (*), являются обязательными."
+  },
+  "chatMessaging": {
+    "charactersLeft": "осталось символов: {{count}}",
+    "addNewMessage": "Добавить новое сообщение",
+    "send": "Отправить",
+    "uploadFile": "Загрузить файл",
+    "informationLabel": "{{author}}. {{text}} в {{date}}",
+    "messages": "Сообщения",
+    "addMessagePlaceHolder": "Начните ввод...",
+    "characterLimitAlert": "Достигнут лимит символов.",
+    "a11y": {
+      "itemListBoxLabel": "Выберите позицию, к которой должно быть применено сообщение."
+    }
+  }
+}

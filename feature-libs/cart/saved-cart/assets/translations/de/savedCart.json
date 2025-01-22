@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Name",
+    "cartDescription": "Beschreibung",
+    "cartId": "ID",
+    "dateSaved": "Speicherdatum",
+    "items": "Positionen",
+    "quantity": "Menge",
+    "total": "Gesamtsumme",
+    "editSavedCart": "Gespeicherten Warenkorb bearbeiten",
+    "deleteSavedCart": "Gespeicherten Warenkorb löschen",
+    "addSelectedItems": "Ausgewählte Positionen hinzufügen",
+    "emptyCartItems": "Warenkorbpositionen leeren"
+  },
+  "savedCartList": {
+    "savedCarts": "Gespeicherte Warenkörbe ({{count}})",
+    "cartName": "Name",
+    "cartId": "ID",
+    "dateSaved": "Speicherdatum",
+    "cartDescription": "Beschreibung",
+    "quantity": "Menge",
+    "quantityFull": "Menge",
+    "total": "Gesamtsumme",
+    "actions": "Aktionen",
+    "makeCartActive": "Warenkorb auf \"Aktiv\" setzen",
+    "notFound": "Keine gespeicherten Warenkörbe gefunden",
+    "swapCartNoActiveCart": "Vorhandener Warenkorb wurde durch {{cartName}} erfolgreich aktiviert.",
+    "swapCartWithActiveCart": "Vorhandener Warenkorb wurde durch {{cartName}} erfolgreich aktiviert. Ihre vorherigen Positionen wurden im Warenkorb {{previousCartName}} gespeichert."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Ihre Warenkorbpositionen wurden erfolgreich für später im Warenkorb \"{{cartName}}\" gespeichert"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Für später speichern",
+    "itemsSavedForLater": "Alle Positionen in Ihrem Warenkorb werden für später gespeichert",
+    "savedCartName": "Name des gespeicherten Warenkorbs",
+    "savedCartDescription": "Beschreibung des gespeicherten Warenkorbs",
+    "optional": "optional",
+    "charactersLeft": "Zeichen übrig: {{count}}",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "restore": "Wiederherstellen",
+    "followingCartDelete": "Der folgende gespeicherte Warenkorb wird gelöscht",
+    "followingCartRestore": "Der folgende gespeicherte Warenkorb wird als aktiver Warenkorb wiederhergestellt",
+    "delete": "Löschen",
+    "deleteCartSuccess": "Warenkorb erfolgreich gelöscht",
+    "editCartSuccess": "Warenkorb erfolgreich bearbeitet",
+    "editSavedCart": "Gespeicherten Warenkorb bearbeiten",
+    "deleteSavedCart": "Gespeicherten Warenkorb löschen",
+    "restoreSavedCart": "Gespeicherten Warenkorb wiederherstellen",
+    "name": "Name",
+    "id": "ID",
+    "description": "Beschreibung",
+    "quantity": "MENGE",
+    "quantityFull": "Menge",
+    "total": "Gesamtsumme",
+    "keepCopySavedCart": "Kopie des Warenkorbs in der Liste der gespeicherten Warenkörbe beibehalten",
+    "defaultCloneCartName": "Kopie von {{name}}",
+    "nameOfCloneCart": "Name des kopierten Warenkorbs"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Gespeicherte Warenkörbe",
+    "saveCartForLater": "Warenkorb für später speichern"
+  }
+}

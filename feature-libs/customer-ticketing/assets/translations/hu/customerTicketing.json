@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Ügyféljegyek kezelése",
+    "ticketId": "Azonosító",
+    "createdOn": "Létrehozás dátuma",
+    "changedOn": "Módosítás dátuma",
+    "status": "Státus",
+    "message": "Üzenet",
+    "cancel": "Mégse",
+    "submit": "Elküldés",
+    "uploadFile": "Fájl feltöltése",
+    "fileSizeLimit": "Maximális fájlméret: {{count}} MB",
+    "maximumAttachment": "Legfeljebb egy csatolmány üzenetenként",
+    "errorMessage": "Hiba történt.",
+    "charactersLeft": "hátralévő karakterek: {{count}}",
+    "customerService": "Ügyfélszolgálat"
+  },
+  "customerTicketingList": {
+    "subject": "Tárgy",
+    "ticketCategory": "Kategória",
+    "sortSubtitle": "Rendezés alapja",
+    "sortOrders": "Rendezési sorrend",
+    "noTickets": "Nincsenek kérései",
+    "requestTitle": "Összes kérés",
+    "mobile": {
+      "ticketIdFull": "Jegyazonosító"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "Hozzáadás",
+    "addNewRequest": "Új kérés hozzáadása",
+    "addRequest": "Kérés hozzáadása",
+    "subject": "Tárgy",
+    "category": "Kategória",
+    "associateTo": "Társítás:",
+    "ticketCreated": "Kérés létrehozva.",
+    "optionallySelectAssociatedObject": "Beállítás kiválasztása",
+    "selectCategory": "Kategória kiválasztása"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "Kérés újranyitva.",
+    "requestClosed": "Kérés lezárva; szükség esetén újranyithatja.",
+    "reopenRequest": "Kérés újranyitása",
+    "closeRequest": "Kérés lezárása",
+    "ticketNotFound": "Jegy nem található."
+  }
+}

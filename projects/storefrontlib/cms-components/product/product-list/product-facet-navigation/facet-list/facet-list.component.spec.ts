@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { KeyboardFocusService } from '@spartacus/storefront';
+import { TabModule } from 'projects/storefrontlib/cms-components/content/tab/tab.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
@@ -19,9 +21,6 @@ import {
 } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetListComponent } from './facet-list.component';
-import { KeyboardFocusService } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { TabModule } from 'projects/storefrontlib/cms-components/content/tab/tab.module';
 
 @Component({
   selector: 'cx-icon',
@@ -71,7 +70,7 @@ describe('FacetListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, TabModule],
+      imports: [I18nTestingModule, TabModule],
       declarations: [
         FacetListComponent,
         MockIconComponent,

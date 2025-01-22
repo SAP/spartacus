@@ -1,0 +1,6 @@
+{
+  "multiDimensionalSelector": {
+    "variantThumbnailTitle": "{{value}} {{category}} kiválasztása",
+    "selectedVariant": "Kiválasztva"
+  }
+}

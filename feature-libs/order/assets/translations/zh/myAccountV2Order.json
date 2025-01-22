@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "所有订单 ({{param}})",
+    "item": "{{param}} 个项目",
+    "items": "{{param}} 个项目",
+    "totalPrice": "总价：{{param}}",
+    "consignmentCode": "寄售 {{param}}",
+    "statusDate": "上次更新：{{param}}",
+    "returnProcessed": "已处理退货：{{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "待提货 - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "待发货 - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "待提货 - "
+    },
+    "orderListResults": "订单列表",
+    "orderListPagination": "订单列表分页",
+    "totalPriceLabel": "总价",
+    "orderPlaced": "订单下达日期",
+    "orderCodeLabel": "订单代码",
+    "consignmentDetailLabel": "寄售信息",
+    "consignmentNumberLabel": "寄售编号",
+    "consignmentStatusLabel": "寄售状态",
+    "consignmentStatusDateLabel": "上次更新日期",
+    "estimateDeliveryLabel": "预计交付日期"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "退货项目",
+    "cancelItems": "取消项目",
+    "downloadInvoices": "下载发票",
+    "viewAllOrders": "查看所有订单",
+    "noInvoices": "尚未生成发票。请稍后返回。"
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} 个项目",
+    "items": "{{value}} 个项目",
+    "heading": "订单和退货",
+    "orderNumber": "订单编号 ({{value}})",
+    "purchasedOn": "购买日期：{{value}}",
+    "orderedItems": "订购项目：{{value}}",
+    "totalPrice": "总价：{{value}}",
+    "orderDetails": "订单详细信息",
+    "orderDetailsLabel": "显示订单编号 {{value}} 的订单详细信息",
+    "orderStatusLabel": "订单状态",
+    "returnOrder": "退货订单",
+    "showMore": "显示更多",
+    "showMoreLabel": "导航到订单历史记录"
+  }
+}

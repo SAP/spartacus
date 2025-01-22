@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Expédition",
+      "deliveryMethod": "Mode de livraison",
+      "paymentAndReview": "Paiement et vérification"
+    },
+    "paymentAndReviewTitle": "Paiement et vérification",
+    "billingAddress": "Adresse de facturation",
+    "paymentOption": "Option de paiement",
+    "termsAndConditions": "Conditions générales",
+    "itemsToBeShipped": "Articles à expédier",
+    "proceedPayment": "Passer la commande",
+    "retryPayment": "Réessayer pour continuer",
+    "checkTermsAndConditionsExplicit": "Vous devez accepter les conditions générales pour voir les options de paiement disponibles.",
+    "checkTermsAndConditionsImplicit": "En soumettant la commande, vous acceptez nos conditions générales.",
+    "errors": {
+      "loadActiveConfigurations": "Nous ne sommes pas en mesure de charger les options de paiement pour le moment. Veuillez réessayer ultérieurement.",
+      "noActiveConfigurations": "Il n'y a pas d'options de paiement disponibles pour le moment. Veuillez réessayer ultérieurement ou contacter l'assistance.",
+      "updateBillingAddress": "L'adresse n'a pas pu être mise à jour. Veuillez vérifier que les informations relatives à l'adresse sont correctes et que votre appareil est connecté à Internet. Si le problème persiste, il se peut que vous deviez vider votre panier et recommencer la validation de la commande."
+    }
+  }
+}

@@ -1,7 +1,12 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService, WindowRef } from '@spartacus/core';
@@ -49,7 +54,7 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: PersonalizationConfig, useValue: mockPersonalizationConfig },
         { provide: WindowRef, useValue: MockWindowRef },
@@ -59,6 +64,8 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
           useClass: OccPersonalizationIdInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -119,7 +126,7 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: PersonalizationConfig,
@@ -136,6 +143,8 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
           useClass: OccPersonalizationIdInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

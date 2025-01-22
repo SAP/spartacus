@@ -919,6 +919,12 @@ export interface FeatureTogglesInterface {
   a11yHamburgerMenuTrapFocus?: boolean;
 
   /**
+   * Associates content regions with their headers improving readout while navigating between sections.
+   * Affects: CardComponent, AccountSummaryDocumentComponent, ListComponent
+   */
+  a11yRegionAssociatedHeaders?: boolean;
+
+  /**
    * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
    *
    * Important: After activation default HTML element in MediaComponent will be `<img>`
@@ -1113,6 +1119,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHideConsentButtonWhenBannerVisible: false,
   a11yRepeatingButtonsUniqueLabels: false,
   a11yHighContrastBorders: false,
+  a11yRegionAssociatedHeaders: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,

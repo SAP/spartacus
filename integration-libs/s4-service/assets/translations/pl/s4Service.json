@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Szczegóły usługi",
+    "serviceScheduleHeading": "Harmonogram usługi - data i czas",
+    "address": "Taki sam, jak adres dostawy",
+    "serviceLocationHeading": "Miejsce świadczenia usług",
+    "datePickerLabel": "Data usługi zgodnie z harmonogramem",
+    "timePickerLabel": "Czas usługi zgodnie z harmonogramem",
+    "unknownError": "Wystąpił nieznany błąd. Prosimy o kontakt z działem pomocy.",
+    "productDeliveryOptions": "Opcje dostawy produktów",
+    "serviceDeliveryOption": "Opcje dostawy usług",
+    "productDeliveryMethods": "Formy dostawy produktów",
+    "serviceDeliveryMethod": "Formy dostawy usług"
+  },
+  "cancelService": {
+    "heading": "Poniższe elementy zostaną uwzględnione we wniosku o anulowanie",
+    "cancelReason": "Przyczyna anulowania usługi",
+    "optional": "(opcjonalnie)",
+    "action": "Anuluj usługę",
+    "back": "Wstecz",
+    "Submit": "Prześlij zapytanie",
+    "cancelServiceSuccess": "Usługa została anulowana",
+    "unknownError": "Wystąpił nieznany błąd. Prosimy o kontakt z działem pomocy.",
+    "ServiceTime": "Czas świadczenia usługi",
+    "ServiceLocation": "Miejsce świadczenia usług",
+    "ServiceDate": "Data świadczenia usługi",
+    "SubmitRequest": "Prześlij zapytanie",
+    "serviceNotRcancelable": "Usługi nie można anulować",
+    "charactersLeft": "pozostało znaków: {{count}}",
+    "Services": "Usługi"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Zmień harmonogram usługi",
+    "headerLabel": "Usługi",
+    "contentLabel": "Zmiana harmonogramu usługi - wybierz nową datę i czas",
+    "datePickerLabel": "Data świadczenia usługi",
+    "timePickerLabel": "Czas świadczenia usługi",
+    "backButtonLabel": "Wstecz",
+    "submitButtonLabel": "Prześlij zapytanie",
+    "note": "Pamiętaj, że może minąć kilka chwil, zanim twoje zamówienie zostanie uwzględnione w zgłoszeniu.",
+    "unknownError": "Wystąpił nieznany błąd. Prosimy o kontakt z działem pomocy.",
+    "serviceNotReschedulable": "Nie można zmienić harmonogramu usługi.",
+    "serviceNotAmendable": "Usługi nie można anulować ani zmienić jej harmonogramu na mniej niż 24 godziny przed zaplanowaną datą.",
+    "rescheduleSuccess": "Data i godzina usługi zostały pomyślnie zmienione."
+  }
+}

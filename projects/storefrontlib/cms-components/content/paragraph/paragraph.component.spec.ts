@@ -2,7 +2,6 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By, DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
@@ -46,7 +45,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [MockAnchorPipe, ParagraphComponent],
       providers: [
         {

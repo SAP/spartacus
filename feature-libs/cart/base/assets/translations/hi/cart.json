@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "चेक आउट करने के लिए आगे बढ़ें",
+    "cartName": "कार्ट #{{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "वर्णन",
+    "item": "आइटम",
+    "itemPrice": "आइटम मूल्य",
+    "quantity": "मात्रा",
+    "quantityFull": "मात्रा",
+    "quantityTitle": "मात्रा आपकी कार्ट में इस आइटम की कुल संख्या का प्रतिनिधित्व करती है.",
+    "total": "कुल",
+    "actions": "क्रियाएं",
+    "cartTotal": "कार्ट का कुल योग  ({{count}} आइटम)",
+    "cartTotal_other": "कार्ट का कुल योग  ({{count}} आइटम)",
+    "itemRemoved": "चयित आइटम निकाले गए हैं. कार्ट का कुल योग अपडेट किया गया.",
+    "caption": "शॉपिंग कार्ट की सामग्री."
+  },
+  "orderCost": {
+    "orderSummary": "ऑर्डर सारांश",
+    "subtotal": "छूट के बाद उप-योगः",
+    "shipping": "भेजा जा रहा हैः",
+    "estimatedShipping": "अनुमानित शिपिंगः",
+    "discount": "आपने सहेजाः",
+    "salesTax": "विक्रय करः",
+    "grossTax": "ऑर्डर के कुल योग में इसका कर शामिल नहीं है",
+    "grossIncludeTax": "ऑर्डर के कुल योग में इसका कर शामिल है",
+    "total": "कुल:",
+    "toBeDetermined": "TBD"
+  },
+  "voucher": {
+    "coupon": "कोई कूपन है?",
+    "coupon_other": "कूपन कोड",
+    "couponLabel": "यहां प्रोमो कोड दर्ज करें",
+    "addCoupon": "कूपन जोड़ें",
+    "apply": "लागू करें",
+    "placeholder": "प्रोमो कोड",
+    "applyVoucherSuccess": "{{voucherCode}} लागू किया गया.",
+    "removeVoucherSuccess": "{{voucherCode}} निकाला गया",
+    "anchorLabel": "अपना कूपन कोड दर्ज करें या निकालें",
+    "vouchersApplied": "लागू कूपन",
+    "availableCoupons": "उपलब्ध कूपन",
+    "availableCouponsLabel": "आप इस ऑर्डर पर ये कूप जोड़ सकते हैं."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "बाद के लिए सहेजा गया ({{count}} आइटम)",
+    "itemTotal_other": "बाद के लिए सहेजा गया ({{count}} आइटम)",
+    "cartTitle": "कार्ट",
+    "saveForLater": "बाद के लिए सहेजें",
+    "moveToCart": "कार्ट में ले जाएं",
+    "stock": "स्टॉक",
+    "forceInStock": "स्टॉक में है"
+  },
+  "clearCart": {
+    "clearCart": "कार्ट साफ करें",
+    "clearingCart": "कार्ट साफ कर रहे हैं...",
+    "cartClearedSuccessfully": "सक्रिय कार्ट सफलतापूर्वक साफ किया गया.",
+    "areYouSureToClearCart": "क्या आप वाकई में यह कार्ट साफ करना चाहते हैं?",
+    "allItemsWillBeRemoved": "आपकी सक्रिय कार्ट के सभी आइटम निकाले जाएंगे."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "चेकआउट के दौरान आपकी प्रविष्टियों में हमें समस्याएं मिलीं. कृपया अपनी कार्ट की समीक्षा करें.",
+    "cartEntryRemoved": "स्टॉक में न होने के कारण आपकी कार्ट से {{name}} निकाला गया.",
+    "productOutOfStock": "अपर्याप्त स्टॉक के कारण {{name}} को कार्ट से निकाला गया.",
+    "lowStock": "अपर्याप्त स्टॉक के कारण मात्रा {{quantity}} तक कम हुई है.",
+    "reviewConfiguration": "पहले कार्ट प्रविष्टि के लिए कॉन्फ़िगरेशन में समस्याओं का समाधान करें.",
+    "configurationError": "पहले कार्ट प्रविष्टियों के लिए कॉन्फ़िगरेशन में समस्याओं का समाधान करें.",
+    "pricingError": "कॉन्फ़िगरेटर मूल्य-निर्धारण वर्तमान में उपलब्ध नहीं है. चेकआउट/उद्धरण सबमिशन संभव नहीं है. कृपया फिर से प्रयास करें.",
+    "unresolvableIssues": "उत्पाद कॉन्फ़िगरेशन को बैक एंड में अतिरिक्त प्रविष्टियों की आवश्यकता है. परिणाम स्वरूप, आप आगे नहीं बढ़ सकते. कृपया सहायता के लिए संपर्क करें.",
+    "inProgress": "प्रक्रिया हो रही है"
+  }
+}

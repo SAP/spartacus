@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "Historie objednávek na úrovni jednotky",
+    "orderId": "Číslo objednávky",
+    "emptyPurchaseOrderId": "Nic",
+    "date": "Datum",
+    "status": "Status",
+    "buyer": "Nákupčí",
+    "unit": "Jednotka",
+    "total": "Celkem",
+    "noOrders": "Pro vaši jednotku nemáme žádné odpovídající záznamy objednávek.",
+    "startShopping": "Začít nakupovat",
+    "sortBy": "Řadit podle",
+    "sortOrders": "Seřadit objednávky",
+    "purchaseOrderNumber": "Č. objednávky",
+    "startOn": "Zahájit dne",
+    "frequency": "Četnost",
+    "nextOrderDate": "Datum další objednávky",
+    "notFound": "Nebyly nalezeny žádné objednávky",
+    "applyFilter": "Použít",
+    "filterBy": "Filtrovat podle",
+    "filterByBuyer": " Filtrovat podle nákupčího",
+    "filterByBuyerLabel": "Jméno nákupčího",
+    "filterByBuyerPlaceholder": "Zadejte jméno nákupčího",
+    "filterByBuyerAriaLabel": " Filtrovat seznam podle nákupčího",
+    "filterByUnit": "Filtrovat podle jednotky",
+    "filterByUnitLabel": "Název jednotky",
+    "filterByUnitPlaceholder": "Zadejte název jednotky",
+    "filterByUnitAriaLabel": "Filtrovat seznam podle jednotky",
+    "search": "Hledat",
+    "clearAll": "Vymazat vše",
+    "removeAppliedFilters": "Odebrat filtry",
+    "yourFilters": "Vaše filtry:",
+    "and": " a "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "Datum",
+    "orderNumber": "Číslo objednávky",
+    "buyer": "Nákupčí (vzestupně)",
+    "buyerDesc": "Nákupčí (sestupně)",
+    "orgUnit": "Jednotka (vzestupně)",
+    "orgUnitDesc": "Jednotka (sestupně)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "Nákupčí"
+  }
+}

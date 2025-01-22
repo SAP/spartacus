@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "Retirada na loja",
+    "pickupBy": "Retirar até",
+    "pickupFrom": "Retirar de"
+  },
+  "pickupOptionDialog": {
+    "close": "Fechar",
+    "modalHeader": "Retirar na loja"
+  },
+  "pickupOptions": {
+    "legend": "Método de entrega",
+    "changeStore": "Modificar loja",
+    "delivery": "Envio (devolução gratuita)",
+    "pickup": "Retirada gratuita na loja",
+    "shipIt": "Envio",
+    "selectStore": "Selecionar loja",
+    "freeReturn": "Devolução gratuita",
+    "storeIsNotSelected": "Loja para retirada não selecionada."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Tornar esta minha loja",
+    "myStore": "Minha loja"
+  },
+  "store": {
+    "pickupFromHere": "Retirada aqui",
+    "stockLevel_inStock": "{{ count }} em estoque",
+    "stockLevel_outOfStock": "Sem estoque",
+    "viewHours": "Visualizar horário"
+  },
+  "storeList": {
+    "noStoresMessage": "Nenhuma loja encontrada no banco de dados..."
+  },
+  "storeSchedule": {
+    "closed": "Fechado",
+    "storeHours": "Horário da loja"
+  },
+  "storeSearch": {
+    "findAStore": "Encontrar uma loja",
+    "findStores": "Encontrar lojas",
+    "hideOutOfStockOptions": "Ocultar opções sem estoque",
+    "searchPlaceholder": "Inserir código postal ou cidade ou endereço",
+    "useMyLocation": "Utilizar a minha localização"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Loja de retirada"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "Minha loja"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Itens a serem retirados",
+    "storeItemHeading": "Endereço de loja de retirada"
+  },
+  "cartItems": {
+    "item": "Item"
+  },
+  "cardActions": {
+    "getDirections": "Obter indicações, este link se abre em uma nova janela"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Itens a serem retirados",
+    "pickUpInStoreAddress": "Endereço de loja de retirada",
+    "itemsToBeShipped": "Itens a serem enviados",
+    "shippingAddress": "Endereço de entrega",
+    "deliveryMethod": "Método de entrega",
+    "deliveryOptions": "Opções de entrega",
+    "statusDisplay_cancelled": "Cancelado",
+    "statusDisplay_cancelling": "Cancelamento pendente",
+    "statusDisplay_completed": "Concluído",
+    "statusDisplay_created": "Criado",
+    "statusDisplay_error": "Pendente",
+    "statusDisplay_Error": "Pendente",
+    "statusDisplay_processing": "Pendente",
+    "statusDisplay_open": "Aberto",
+    "statusDisplay_pending": {
+      "approval": "Aprovação pendente",
+      "merchant": {
+        "approval": "Aprovação do comerciante pendente"
+      }
+    },
+    "statusDisplay_approved": "Aprovado",
+    "statusDisplay_rejected": "Rejeitado",
+    "statusDisplay_merchant": {
+      "approved": "Comerciante aprovado",
+      "rejected": "Comerciante rejeitado"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Atribuído ao administrador"
+    }
+  }
+}

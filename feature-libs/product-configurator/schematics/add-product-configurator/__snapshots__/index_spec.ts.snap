@@ -3,7 +3,7 @@
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased";
 import { RulebasedCpqConfiguratorModule } from "@spartacus/product-configurator/rulebased/cpq";
 import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";
@@ -22,7 +22,7 @@ import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })]
@@ -33,7 +33,7 @@ export class ProductConfiguratorFeatureModule { }
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -52,7 +52,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
@@ -69,7 +69,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should add the feature using the lazy loading syntax, including VC as well 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";
 import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";
 
@@ -90,7 +90,7 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   }),
@@ -166,8 +166,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -185,13 +187,13 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -217,10 +219,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -232,8 +231,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -256,7 +257,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased";
 import { RulebasedCpqConfiguratorModule } from "@spartacus/product-configurator/rulebased/cpq";
 import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";
@@ -271,7 +272,7 @@ import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from "@spa
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })]
@@ -282,7 +283,7 @@ export class ProductConfiguratorFeatureModule { }
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -301,7 +302,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
@@ -318,7 +319,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should add the feature using the lazy loading syntax, and include VC as well 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";
 
 @NgModule({
@@ -337,7 +338,7 @@ import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, Rule
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })
@@ -405,8 +406,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -424,13 +427,13 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -456,10 +459,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -471,8 +471,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -495,7 +497,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { TextfieldConfiguratorModule } from "@spartacus/product-configurator/textfield";
 import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";
 
@@ -507,7 +509,7 @@ import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })]
@@ -518,7 +520,7 @@ export class ProductConfiguratorFeatureModule { }
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup b2b features configuration should not be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
@@ -536,7 +538,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
@@ -553,7 +555,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";
 
 @NgModule({
@@ -571,7 +573,7 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })
@@ -623,8 +625,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -642,13 +646,13 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -674,10 +678,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -689,8 +690,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -713,7 +716,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 exports[`Spartacus product configurator schematics: ng-add Product config feature VC eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased";
 import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";
 
@@ -725,7 +728,7 @@ import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })]
@@ -737,7 +740,7 @@ export class ProductConfiguratorFeatureModule { }
 exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";
+import { configuratorTranslationChunksConfig, configuratorTranslationsEn } from "@spartacus/product-configurator/common/assets";
 import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";
 
 @NgModule({
@@ -755,7 +758,7 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: configuratorTranslations,
+      resources: { en: configuratorTranslationsEn },
       chunks: configuratorTranslationChunksConfig,
     },
   })
@@ -807,8 +810,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -826,13 +831,13 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -858,10 +863,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -873,8 +875,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

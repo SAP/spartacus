@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -112,11 +111,7 @@ describe('ExportOrderEntriesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        I18nTestingModule,
-        RouterTestingModule,
-      ],
+      imports: [StoreModule.forRoot({}), I18nTestingModule],
       providers: [
         {
           provide: ExportOrderEntriesToCsvService,

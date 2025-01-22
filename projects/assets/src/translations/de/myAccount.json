@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Kontoauflösung bestätigen",
+    "confirmAccountClosureMessage": "Möchten Sie Ihr Konto wirklich auflösen?",
+    "closeMyAccount": "MEIN KONTO AUFLÖSEN",
+    "accountClosedSuccessfully": "Konto wurde erfolgreich aufgelöst",
+    "accountClosedFailure": "Auflösen des Kontos fehlgeschlagen"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Altes Kennwort",
+      "placeholder": "Altes Kennwort"
+    },
+    "oldPasswordIsRequired": "Altes Kennwort ist erforderlich.",
+    "newPassword": {
+      "label": "Neues Kennwort",
+      "placeholder": "Neues Kennwort"
+    },
+    "passwordMinRequirements": "Hier eine schnelle Anleitung für ein sicheres Kennwort: Verwenden Sie mindestens 8 Zeichen mit einer Mischung aus Groß- und Kleinbuchstaben, Ziffern und Sonderzeichen.",
+    "passwordStrengthRequirements": "Hier eine schnelle Anleitung für ein sicheres Kennwort: Verwenden Sie mindestens 8 Zeichen mit einer Mischung aus Groß- und Kleinbuchstaben, Ziffern und Sonderzeichen. Stellen Sie sicher, dass Sie ein Zeichen nicht mehrmals hintereinander verwenden.",
+    "confirmPassword": {
+      "label": "Neues Kennwort bestätigen",
+      "placeholder": "Kennwort bestätigen"
+    },
+    "bothPasswordMustMatch": "Beide Kennwörter müssen übereinstimmen",
+    "passwordUpdateSuccess": "Kennwort wurde erfolgreich aktualisiert",
+    "accessDeniedError": "Zugriff verweigert"
+  },
+  "updateProfileForm": {
+    "title": "Anrede",
+    "none": "",
+    "firstName": {
+      "label": "Vorname",
+      "placeholder": "Vorname"
+    },
+    "firstNameIsRequired": "Vorname ist erforderlich.",
+    "lastName": {
+      "label": "Nachname",
+      "placeholder": "Nachname"
+    },
+    "lastNameIsRequired": "Nachname ist erforderlich.",
+    "profileUpdateSuccess": "Persönliche Details wurden erfolgreich aktualisiert",
+    "customerId": "Kundennummer"
+  },
+  "consentManagementForm": {
+    "clearAll": "Auswahl für alle aufheben",
+    "selectAll": "Alle auswählen",
+    "message": {
+      "success": {
+        "given": "Einwilligung wurde erfolgreich erteilt.",
+        "withdrawn": "Einwilligung wurde erfolgreich widerrufen."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "Sie haben keine verfügbaren Coupons.",
+    "effectiveTitle": "Gültig:",
+    "Effective": "GÜLTIG",
+    "PreSession": "BALD GÜLTIG",
+    "ExpireSoon": "LÄUFT BALD AB",
+    "readMore": "Mehr lesen",
+    "notification": "Benachrichtigung",
+    "findProducts": "Produkte suchen",
+    "status": "Status:",
+    "dialogTitle": "Coupon",
+    "claimCustomerCoupon": "Sie haben diesen Coupon erfolgreich eingelöst.",
+    "myCoupons": "Meine Coupons",
+    "startDateAsc": "Startdatum (aufsteigend)",
+    "startDateDesc": "Startdatum (absteigend)",
+    "endDateAsc": "Enddatum (aufsteigend)",
+    "endDateDesc": "Enddatum (absteigend)",
+    "sortBy": "Sortieren nach",
+    "sortCoupons": "Coupons sortieren",
+    "notesPreffix": "Sie können Ihre bevorzugten Kanäle für den Erhalt von Couponbenachrichtigungen auf der folgenden Seite festlegen: ",
+    "notesLink": "Benachrichtigungskanäle",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Wählen Sie Ihre bevorzugten Benachrichtigungskanäle",
+    "note": "Hinweis: ",
+    "noteMessage": "Wenn Sie alle Kanäle deaktivieren, können Sie keine weiteren Benachrichtigungen mehr empfangen.",
+    "EMAIL": "E-Mail:",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "Site-Nachricht"
+  },
+  "myInterests": {
+    "header": "Meine Interessen",
+    "item": "POSITION",
+    "price": "PREIS",
+    "notifications": "BENACHRICHTIGUNGEN",
+    "noInterests": "Sie haben noch keine Interessen erfasst.",
+    "inStock": "Vorrätig",
+    "lowStock": "Niederbestand",
+    "outOfStock": "Nicht vorrätig",
+    "BACK_IN_STOCK": "Wieder auf Lager",
+    "sortBy": "Sortieren nach",
+    "sortInterests": "Interessen sortieren",
+    "expirationDate": " - bis {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "Entfernen",
+    "sorting": {
+      "byNameAsc": "Name (aufsteigend)",
+      "byNameDesc": "Name (absteigend)"
+    },
+    "actions": "AKTIONEN",
+    "caption": "Meine Interessen - Inhalte.",
+    "itemRemoved": "Ausgewählte Position wurde entfernt."
+  }
+}

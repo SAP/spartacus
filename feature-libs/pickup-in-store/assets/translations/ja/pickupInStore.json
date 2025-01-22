@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "店頭受け取り",
+    "pickupBy": "受け取り者",
+    "pickupFrom": "受け取り場所"
+  },
+  "pickupOptionDialog": {
+    "close": "閉じる",
+    "modalHeader": "店頭受け取り"
+  },
+  "pickupOptions": {
+    "legend": "配送方法",
+    "changeStore": "店舗を変更",
+    "delivery": "配送する (返品無料)",
+    "pickup": "無料店頭受け取り",
+    "shipIt": "配送する",
+    "selectStore": "店舗の選択",
+    "freeReturn": "無料返品",
+    "storeIsNotSelected": "受け取る店舗が選択されていません。"
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "この店舗をマイストアにする",
+    "myStore": "マイストア"
+  },
+  "store": {
+    "pickupFromHere": "ここで受け取り",
+    "stockLevel_inStock": "{{ count }} は在庫あり",
+    "stockLevel_outOfStock": "在庫なし",
+    "viewHours": "営業時間を表示"
+  },
+  "storeList": {
+    "noStoresMessage": "データベースに店舗がありません..."
+  },
+  "storeSchedule": {
+    "closed": "定休日",
+    "storeHours": "店舗の営業時間"
+  },
+  "storeSearch": {
+    "findAStore": "店舗検索",
+    "findStores": "店舗を探す",
+    "hideOutOfStockOptions": "在庫オプションを非表示にする",
+    "searchPlaceholder": "郵便番号、市区町村名、または住所を入力します",
+    "useMyLocation": "自分の位置を使用"
+  },
+  "addressBookPickupInStore": {
+    "heading": "受け取り店舗"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "マイストア"
+  },
+  "checkoutPickupInStore": {
+    "heading": "受け取るアイテム",
+    "storeItemHeading": "受け取り店舗の住所"
+  },
+  "cartItems": {
+    "item": "アイテム"
+  },
+  "cardActions": {
+    "getDirections": "ルート案内取得 (このリンクをクリックすると新しいウィンドウが開きます)"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "受け取るアイテム",
+    "pickUpInStoreAddress": "受け取り店舗の住所",
+    "itemsToBeShipped": "配送対象のアイテム",
+    "shippingAddress": "配送先住所",
+    "deliveryMethod": "配送方法",
+    "deliveryOptions": "配送オプション",
+    "statusDisplay_cancelled": "キャンセル済み",
+    "statusDisplay_cancelling": "保留をキャンセル",
+    "statusDisplay_completed": "完了",
+    "statusDisplay_created": "作成済み",
+    "statusDisplay_error": "保留中",
+    "statusDisplay_Error": "保留中",
+    "statusDisplay_processing": "保留中",
+    "statusDisplay_open": "未処理",
+    "statusDisplay_pending": {
+      "approval": "承認を保留",
+      "merchant": {
+        "approval": "業者承認を保留"
+      }
+    },
+    "statusDisplay_approved": "承認済み",
+    "statusDisplay_rejected": "却下済み",
+    "statusDisplay_merchant": {
+      "approved": "業者が承認しました",
+      "rejected": "業者が拒否しました"
+    },
+    "statusDisplay_assigned": {
+      "admin": "管理者に割り当て済み"
+    }
+  }
+}

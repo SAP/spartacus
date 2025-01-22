@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "自動補充注文",
+    "orderType_PLACE_ORDER": "なし (ワンタイム注文のみ)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "補充注文",
+    "every": "次の期間ごと",
+    "recurrencePeriodType_DAILY": "日",
+    "recurrencePeriodType_WEEKLY": "週",
+    "recurrencePeriodType_MONTHLY": "月",
+    "dayOfMonth": "特定の日にち",
+    "startOn": "開始日",
+    "repeatOnDays": "以下の曜日に繰り返し"
+  }
+}

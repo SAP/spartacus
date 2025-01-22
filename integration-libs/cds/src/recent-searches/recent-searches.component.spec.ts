@@ -5,20 +5,19 @@
  *
  */
 
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  RecentSearchesComponent,
-  SearchBoxOutlet,
-} from './recent-searches.component';
-import { RecentSearchesService } from './recent-searches.service';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { I18nTestingModule } from '@spartacus/core';
-import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import {
+  RecentSearchesComponent,
+  SearchBoxOutlet,
+} from './recent-searches.component';
+import { RecentSearchesService } from './recent-searches.service';
 
 @Pipe({
   name: 'cxHighlight',
@@ -58,7 +57,7 @@ describe('RecentSearchesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
       providers: [
         {
@@ -144,6 +143,6 @@ describe('RecentSearchesComponent', () => {
 
     expect(() => {
       component.shareEvent(ev);
-    }).toThrowError();
+    }).toThrow();
   });
 });

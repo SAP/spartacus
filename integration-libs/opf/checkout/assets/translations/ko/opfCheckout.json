@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "배송",
+      "deliveryMethod": "배송 방법",
+      "paymentAndReview": "지불 및 검토"
+    },
+    "paymentAndReviewTitle": "지불 및 검토",
+    "billingAddress": "청구 주소",
+    "paymentOption": "지불 옵션",
+    "termsAndConditions": "사용 약관",
+    "itemsToBeShipped": "배송할 품목",
+    "proceedPayment": "주문",
+    "retryPayment": "계속하기 위해 재시도",
+    "checkTermsAndConditionsExplicit": "사용할 수 있는 지불 옵션을 보려면 사용 약관에 동의해야 합니다.",
+    "checkTermsAndConditionsImplicit": "주문서를 제출하면 사용 약관에 동의하는 것입니다.",
+    "errors": {
+      "loadActiveConfigurations": "현재 지불 옵션을 로드할 수 없습니다. 나중에 다시 시도하십시오.",
+      "noActiveConfigurations": "현재 사용할 수 있는 지불 옵션이 없습니다. 나중에 다시 시도하거나 지원팀에 문의하십시오.",
+      "updateBillingAddress": "주소를 업데이트할 수 없습니다. 주소 정보가 올바르고 장치가 인터넷에 연결되어 있는지 확인하십시오. 문제가 계속되면 장바구니를 지우고 다시 체크아웃을 시작해야 할 수 있습니다."
+    }
+  }
+}

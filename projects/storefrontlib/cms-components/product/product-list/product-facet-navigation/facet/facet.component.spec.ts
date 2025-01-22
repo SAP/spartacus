@@ -7,7 +7,6 @@ import {
   QueryList,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Facet,
   FeatureConfigService,
@@ -68,7 +67,7 @@ describe('FacetComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         FacetComponent,
         MockCxIconComponent,

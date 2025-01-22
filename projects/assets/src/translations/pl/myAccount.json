@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Potwierdź zamknięcie konta",
+    "confirmAccountClosureMessage": "Czy na pewno chcesz zamknąć swoje konto?",
+    "closeMyAccount": "ZAMKNIJ MOJE KONTO",
+    "accountClosedSuccessfully": "Konto zamknięte",
+    "accountClosedFailure": "Zamknięcie konta zakończone niepowodzeniem"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Stare hasło",
+      "placeholder": "Stare hasło"
+    },
+    "oldPasswordIsRequired": "Podanie starego hasła jest wymagane.",
+    "newPassword": {
+      "label": "Nowe hasło",
+      "placeholder": "Nowe hasło"
+    },
+    "passwordMinRequirements": "Oto krótki przewodnik po bezpiecznym haśle: Wpisz co najmniej 8 znaków, używając wielkich i małych liter, cyfr i symboli.",
+    "passwordStrengthRequirements": "Oto krótki przewodnik po bezpiecznym haśle: Wpisz co najmniej 8 znaków, używając wielkich i małych liter, cyfr i symboli. Nie używaj tych samych znaków jeden po drugim.",
+    "confirmPassword": {
+      "label": "Potwierdź nowe hasło",
+      "placeholder": "Potwierdź hasło"
+    },
+    "bothPasswordMustMatch": "Oba hasła muszą być zgodne",
+    "passwordUpdateSuccess": "Hasło pomyślnie zaktualizowane",
+    "accessDeniedError": "Odmowa dostępu"
+  },
+  "updateProfileForm": {
+    "title": "Tytuł",
+    "none": "",
+    "firstName": {
+      "label": "Imię",
+      "placeholder": "Imię"
+    },
+    "firstNameIsRequired": "Imię jest wymagane.",
+    "lastName": {
+      "label": "Nazwisko",
+      "placeholder": "Nazwisko"
+    },
+    "lastNameIsRequired": "Nazwisko jest wymagane.",
+    "profileUpdateSuccess": "Dane osobowe pomyślnie zaktualizowane",
+    "customerId": "Klient #"
+  },
+  "consentManagementForm": {
+    "clearAll": "Usuń wszystko",
+    "selectAll": "Zaznacz wszystko",
+    "message": {
+      "success": {
+        "given": "Zgoda została udzielona.",
+        "withdrawn": "Zgoda została cofnięta."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "Nie masz dostępnych kuponów.",
+    "effectiveTitle": "Ważne:",
+    "Effective": "WAŻNE",
+    "PreSession": "WKRÓTCE WAŻNE",
+    "ExpireSoon": "WKRÓTCE WYGASA",
+    "readMore": "Więcej",
+    "notification": "Powiadomienie",
+    "findProducts": "Znajdź produkty",
+    "status": "Status:",
+    "dialogTitle": "Kupon",
+    "claimCustomerCoupon": "Pomyślnie zrealizowałeś ten kupon.",
+    "myCoupons": "Moje kupony",
+    "startDateAsc": "Data rozpoczęcia (rosnąco)",
+    "startDateDesc": "Data rozpoczęcia (malejąco)",
+    "endDateAsc": "Data zakończenia (rosnąco)",
+    "endDateDesc": "Data zakończenia (malejąco)",
+    "sortBy": "Sortuj według",
+    "sortCoupons": "Sortuj kupony",
+    "notesPreffix": "Możesz ustawić swoje kanały powiadomień o kuponach na stronie ",
+    "notesLink": "Kanały powiadomień",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Wybierz swoje kanały powiadomień",
+    "note": "Uwaga: ",
+    "noteMessage": "Jeżeli wyłączysz wszystkie kanały, nie otrzymasz kolejnych powiadomień.",
+    "EMAIL": "E-mail:",
+    "SMS": "SMS",
+    "SITE_MESSAGE": "SiteMessage"
+  },
+  "myInterests": {
+    "header": "Moje zainteresowania",
+    "item": "POZYCJA",
+    "price": "CENA",
+    "notifications": "POWIADOMIENIA",
+    "noInterests": "Nie masz zapisanych zainteresowań.",
+    "inStock": "W magazynie",
+    "lowStock": "Niski poziom zapasów",
+    "outOfStock": "Zapas wyczerpany",
+    "BACK_IN_STOCK": "Ponownie dostępny",
+    "sortBy": "Sortuj według",
+    "sortInterests": "Sortuj zainteresowania",
+    "expirationDate": " - Do {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "Usuń",
+    "sorting": {
+      "byNameAsc": "Nazwa (rosnąco)",
+      "byNameDesc": "Nazwa (malejąco)"
+    },
+    "actions": "DZIAŁANIA",
+    "caption": "Moje zainteresowania.",
+    "itemRemoved": "Wybrana pozycja została usunięta."
+  }
+}

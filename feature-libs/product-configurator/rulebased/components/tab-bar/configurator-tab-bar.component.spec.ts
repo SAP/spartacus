@@ -12,7 +12,7 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   I18nTestingModule,
   RouterState,
@@ -23,14 +23,14 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorRouter,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { KeyboardFocusService } from '@spartacus/storefront';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -111,7 +111,7 @@ describe('ConfigTabBarComponent', () => {
 
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule, RouterTestingModule],
+      imports: [I18nTestingModule, RouterModule],
       declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
       providers: [
         {
@@ -188,20 +188,6 @@ describe('ConfigTabBarComponent', () => {
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('a').length).toEqual(0);
-  });
-
-  it('should tell from semantic route that we are on OV page', () => {
-    mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-    component.isOverviewPage$
-      .subscribe((isOv) => expect(isOv).toBe(true))
-      .unsubscribe();
-  });
-
-  it('should tell from semantic route that we are on config page', () => {
-    mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-    component.isOverviewPage$
-      .subscribe((isOv) => expect(isOv).toBe(false))
-      .unsubscribe();
   });
 
   it('should return proper page type from route', () => {
@@ -378,18 +364,6 @@ describe('ConfigTabBarComponent', () => {
     });
   });
 
-  describe('getTabIndexOverviewTab', () => {
-    it('should return tabindex 0 if on overview page', () => {
-      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-      expect(component.getTabIndexOverviewTab()).toBe(0);
-    });
-
-    it('should return tabindex -1 if on configuration page', () => {
-      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      expect(component.getTabIndexOverviewTab()).toBe(-1);
-    });
-  });
-
   describe('getTabIndexForOverviewTab', () => {
     it('should return tabindex 0 if on overview page', () => {
       expect(
@@ -405,18 +379,6 @@ describe('ConfigTabBarComponent', () => {
           ConfiguratorRouter.PageType.CONFIGURATION
         )
       ).toBe(-1);
-    });
-  });
-
-  describe('getTabIndexConfigTab', () => {
-    it('should return tabindex -1 if on overview page', () => {
-      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-      expect(component.getTabIndexConfigTab()).toBe(-1);
-    });
-
-    it('should return tabindex 0 if on configuration page', () => {
-      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      expect(component.getTabIndexConfigTab()).toBe(0);
     });
   });
 

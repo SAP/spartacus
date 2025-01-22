@@ -1,7 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import {
   RouterStateSerializer,
@@ -48,7 +47,7 @@ describe('Router Reducer', () => {
       declarations: [TestComponent],
       imports: [
         StoreModule.forRoot(fromReducer.reducerToken),
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           { path: '', component: TestComponent },
           {
             path: 'category/:categoryCode',

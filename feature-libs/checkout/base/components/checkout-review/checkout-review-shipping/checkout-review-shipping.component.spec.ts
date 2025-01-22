@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -135,12 +134,7 @@ describe('CheckoutReviewShippingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        IconTestingModule,
-        OutletModule,
-      ],
+      imports: [I18nTestingModule, IconTestingModule, OutletModule],
       declarations: [
         CheckoutReviewShippingComponent,
         MockUrlPipe,

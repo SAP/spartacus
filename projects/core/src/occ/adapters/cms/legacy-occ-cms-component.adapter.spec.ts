@@ -1,7 +1,7 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
@@ -13,6 +13,10 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { LegacyOccCmsComponentAdapter } from './legacy-occ-cms-component.adapter';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const ids = ['comp_uid1', 'comp_uid2'];
 
@@ -43,7 +47,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         LegacyOccCmsComponentAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
@@ -51,6 +55,8 @@ describe('LegacyOccCmsComponentAdapter', () => {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(LegacyOccCmsComponentAdapter);

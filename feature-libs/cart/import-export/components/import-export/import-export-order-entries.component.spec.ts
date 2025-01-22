@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AddOrderEntriesContext,
   GetOrderEntriesContext,
@@ -75,7 +74,7 @@ describe('ImportExportComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PageComponentModule],
+      imports: [PageComponentModule],
       providers: [{ provide: ContextService, useClass: MockContextService }],
       declarations: [
         ImportExportOrderEntriesComponent,

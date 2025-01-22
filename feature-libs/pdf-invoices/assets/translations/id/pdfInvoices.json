@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Tidak dapat mengakses tagihan, pastikan SAP Invoice dan API untuk Tagihan telah diaktifkan.",
+    "invoicesLoadingError": "Terjadi kesalahan. Tidak dapat menampilkan tagihan pesanan.",
+    "invoicesTable": {
+      "header": "Tagihan",
+      "label": "Tabel Tagihan",
+      "invoiceId": "Tagihan #",
+      "createdAt": "Tanggal",
+      "netAmount": "Jumlah Bersih",
+      "totalAmount": "Jumlah Total",
+      "attachment": "Unduh Tagihan",
+      "download": "Unduh",
+      "attachmentDescription": "Unduh tagihan {{id}} dalam format PDF.",
+      "noneFound": "Tagihan Tidak Ditemukan"
+    },
+    "downloadPDFError": "Terjadi kesalahan. Tidak dapat mengakses dokumen tagihan dalam format PDF.",
+    "sortBy": "Urutkan berdasarkan",
+    "sortInvoices": "Urutkan tagihan",
+    "sorts": {
+      "byCreatedAtAsc": "Tanggal Dengan Urutan Naik",
+      "byCreatedAtDesc": "Tanggal Dengan Urutan Turun",
+      "byInvoiceIdAsc": "Nomor Tagihan Dengan Urutan Naik",
+      "byInvoiceIdDesc": "Nomor Tagihan Dengan Urutan Turun",
+      "byNetAmountAsc": "Jumlah Bersih Dengan Urutan Naik",
+      "byNetAmountDesc": "Jumlah Bersih Dengan Urutan Turun",
+      "byTotalAmountAsc": "Jumlah Total Dengan Urutan Naik",
+      "byTotalAmountDesc": "Jumlah Total Dengan Urutan Turun"
+    }
+  }
+}

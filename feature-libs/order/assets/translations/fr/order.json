@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "N° de commande",
+    "orderNumber": "Numéro de commande",
+    "replenishmentId": "Nº de réapprovisionnement",
+    "purchaseOrderId": "Nº de commande d'achat",
+    "purchaseOrderNumber": "Numéro de commande d'achat",
+    "emptyPurchaseOrderId": "Aucune",
+    "none": "Aucune {{value}}",
+    "placed": "Passée",
+    "placedBy": "Passée par",
+    "unit": "Unité",
+    "costCenter": "Centre de coûts",
+    "costCenterAndUnit": "Centre de coûts / Unité",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "Mode de paiement",
+    "payByAccount": "Payer par compte",
+    "paidByCreditCard": "(payée par carte de crédit)",
+    "status": "Statut",
+    "active": "Active",
+    "shippedOn": "Expédiée le",
+    "shippingMethod": "Mode de livraison",
+    "placedOn": "Passée le",
+    "startOn": "Début le",
+    "nextOrderDate": "Prochaine date de commande",
+    "frequency": "Fréquence",
+    "cancelled": " Annulée",
+    "deliveryStatus_IN_TRANSIT": "En transit",
+    "deliveryStatus_READY_FOR_PICKUP": "Prête pour le retrait",
+    "deliveryStatus_READY_FOR_SHIPPING": "Prête pour expédition",
+    "deliveryStatus_WAITING": "En attente",
+    "deliveryStatus_DELIVERING": "En cours de livraison",
+    "deliveryStatus_PICKPACK": "En cours de préparation pour expédition",
+    "deliveryStatus_PICKUP_COMPLETE": "Retrait terminé",
+    "deliveryStatus_DELIVERY_COMPLETED": "Livraison terminée",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Problème de paiement",
+    "deliveryStatus_IN_PROCESS": "Traitement de la commande",
+    "deliveryStatus_READY": "Traitement de la commande",
+    "deliveryStatus_DELIVERY_REJECTED": "Livraison refusée",
+    "deliveryStatus_SHIPPED": "Expédiée",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Problème de taxes",
+    "deliveryStatus_CANCELLED": "Annulée",
+    "statusDisplay_cancelled": "Annulée",
+    "statusDisplay_cancelling": "Annulation en attente",
+    "statusDisplay_completed": "Terminée",
+    "statusDisplay_created": "Créée",
+    "statusDisplay_error": "En attente",
+    "statusDisplay_Error": "En attente",
+    "statusDisplay_processing": "En attente",
+    "statusDisplay_open": "En cours",
+    "statusDisplay_pending": {
+      "approval": "En attente d'approbation",
+      "merchant": {
+        "approval": "En attente de l'approbation du commerçant"
+      }
+    },
+    "statusDisplay_approved": "Approuvée",
+    "statusDisplay_rejected": "Rejetée",
+    "statusDisplay_merchant": {
+      "approved": "Approuvée par le commerçant",
+      "rejected": "Rejetée par le commerçant"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Affectée à l'administrateur"
+    },
+    "consignmentTracking": {
+      "action": "Suivre le colis",
+      "dialog": {
+        "header": "Informations de suivi",
+        "shipped": "Expédiée",
+        "estimate": "Livraison estimée",
+        "carrier": "Service de livraison",
+        "trackingId": "Numéro de suivi",
+        "noTracking": "Le colis n'a pas été expédié de l'entrepôt. Les informations de suivi seront disponibles une fois le colis expédié.",
+        "loadingHeader": "Suivi de consignation"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Demander un retour",
+      "cancelAction": "Annuler des articles",
+      "item": "Article",
+      "itemPrice": "Prix de l'article",
+      "quantity": "Quantité max.",
+      "returnQty": "Quantité à retourner",
+      "cancelQty": "Quantité à annuler",
+      "setAll": "Définir toutes les quantités sur le maximum",
+      "totalPrice": "Total",
+      "submit": "Envoyer la demande",
+      "submitDescription": "Envoyer la demande. Les articles sur cette page seront inclus dans la demande d'annulation.",
+      "returnSuccess": "Votre demande de retour ({{rma}}) a été envoyée.",
+      "cancelSuccess": "Votre demande d'annulation a été envoyée (la commande d'origine {{orderCode}} sera mise à jour)."
+    },
+    "cancelReplenishment": {
+      "title": "Annuler le réapprovisionnement",
+      "description": "Annuler toute commande de réapprovisionnement future ?",
+      "accept": "Oui",
+      "reject": "Non",
+      "cancelSuccess": "La commande de réapprovisionnement n°{{replenishmentOrderCode}} a été annulée avec succès."
+    },
+    "caption": "Contenu de la commande"
+  },
+  "orderHistory": {
+    "orderHistory": "Historique des commandes",
+    "orderId": "N° commande",
+    "emptyPurchaseOrderId": "Aucun(e)",
+    "date": "Date",
+    "status": "Statut",
+    "PONumber": "Numéro de commande d'achat",
+    "total": "Total",
+    "noOrders": "Nous n'avons aucun enregistrement de commande pour ce compte.",
+    "noReplenishmentOrders": "Nous n'avons aucun enregistrement de commande de réapprovisionnement pour ce compte.",
+    "startShopping": "Commencer les achats",
+    "sortBy": "Trier par",
+    "sortOrders": "Trier les commandes",
+    "replenishmentOrderHistory": "Historique des commandes de réapprovisionnement",
+    "replenishmentOrderId": "Nº de réapprovisionnement",
+    "purchaseOrderNumber": "Nº de la commande d'achat",
+    "costCenter": "Centre de coûts",
+    "startOn": "Début le",
+    "frequency": "Fréquence",
+    "nextOrderDate": "Prochaine date de commande",
+    "cancel": "Annuler",
+    "cancelled": "Annulée",
+    "replenishmentHistory": "Historique des réapprovisionnements",
+    "notFound": "Aucune commande trouvée",
+    "actions": "Actions"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "TOUTES LES COMMANDES ({{param}})",
+      "OrderReturnRequestListComponent": "RETOURS ({{param}})"
+    },
+    "tabPanelContainerRegion": "Regrouper avec les détails d'historique de commandes",
+    "tabPanelContainerRegionGroup": "Regrouper avec les détails d'historique de commandes"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Nº de retour",
+    "orderId": "N° commande",
+    "date": "Date de création",
+    "status": "Statut",
+    "sortBy": "Trier par",
+    "sortReturns": "Trier les retours",
+    "statusDisplay_APPROVAL_PENDING": "Approbation en attente",
+    "statusDisplay_CANCELED": "Annulé",
+    "statusDisplay_CANCELLING": "Annulation en cours",
+    "statusDisplay_WAIT": "En attente",
+    "statusDisplay_RECEIVED": "Reçu",
+    "statusDisplay_RECEIVING": "Réception en cours",
+    "statusDisplay_APPROVING": "Approbation en cours",
+    "statusDisplay_REVERSING_PAYMENT": "Annulation du paiement",
+    "statusDisplay_PAYMENT_REVERSED": "Paiement annulé",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Échec de l'annulation du paiement",
+    "statusDisplay_REVERSING_TAX": "Annulation de la TVA",
+    "statusDisplay_TAX_REVERSED": "TVA annulée",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Échec de l'annulation de la TVA",
+    "statusDisplay_COMPLETED": "Terminé"
+  },
+  "returnRequest": {
+    "returnRequestId": "Nº de demande de retour",
+    "orderCode": "Pour la commande nº",
+    "status": "Statut de retour",
+    "cancel": "Annuler la demande de retour",
+    "item": "Description",
+    "itemPrice": "Prix de l'article",
+    "returnQty": "Quantité retournée",
+    "total": "Total",
+    "summary": "Totaux des retours",
+    "subtotal": "Sous-total",
+    "deliveryCode": "Frais de livraison",
+    "estimatedRefund": "Remboursement estimé",
+    "note": "Les totaux sont estimés et peuvent ne pas inclure les taxes applicables ou d'autres frais.",
+    "cancelSuccess": "Votre demande de retour ({{rma}}) a été annulée.",
+    "caption": "Contenu de la commande"
+  },
+  "reorder": {
+    "button": "Recommander",
+    "dialog": {
+      "reorderProducts": "Recommander les produits",
+      "messages": {
+        "reviewConfiguration": "Une erreur s'est produite avec la configuration \"{{ productCode}}\".",
+        "lowStock": "La quantité pour {{ productName }} : {{ quantity }} a été réduite à {{ quantityAdded }}.",
+        "noStock": "{{ productName }} est actuellement en rupture de stock.",
+        "pricingError": "Problème de prix avec \"{{ productCode }}\"",
+        "unresolvableIssues": "Problème non reconnu avec \"{{ productCode }}\"",
+        "success": "Les produits ont été ajoutés au panier avec succès."
+      },
+      "areYouSureToReplaceCart": "Le panier actuel sera remplacé par de nouveaux articles. Voulez-vous poursuivre ?",
+      "cancel": "Annuler",
+      "continue": "Poursuivre"
+    }
+  }
+}

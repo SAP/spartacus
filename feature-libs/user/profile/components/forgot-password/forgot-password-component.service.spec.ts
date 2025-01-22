@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
   GlobalMessageService,
@@ -38,12 +37,7 @@ describe('ForgotPasswordComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
       providers: [
         ForgotPasswordComponentService,

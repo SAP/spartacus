@@ -216,7 +216,7 @@ export class ConfiguratorAttributeHeaderComponent
           this.scrollToAttribute(this.attribute.name);
         } else {
           this.logError(
-            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required.'
           );
         }
       });
@@ -293,12 +293,7 @@ export class ConfiguratorAttributeHeaderComponent
    * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
-    return (
-      (this.isNavigationToGroupEnabled &&
-        this.configuratorUISettingsConfig.productConfigurator
-          ?.enableNavigationToConflict) ??
-      false
-    );
+    return this.isNavigationToGroupEnabled;
   }
 
   /**
