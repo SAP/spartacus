@@ -149,17 +149,6 @@ In the `"compilerOptions"` section, please:
 },
 ```
 
-### `src/main.ts`
-
-Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of the`platformBrowserDynamic().bootstrapModule()` call.
-
-```diff
--platformBrowserDynamic().bootstrapModule(AppModule)
-+platformBrowserDynamic().bootstrapModule(AppModule, {
-+  ngZoneEventCoalescing: true,
-+})
-```
-
 ## For SSR projects, additionally:
 
 ### `angular.json`
