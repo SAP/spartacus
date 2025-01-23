@@ -4,8 +4,6 @@ Angular v17 introduced a new Angular CLI configuration format, which was not rec
 
 Now Spartacus team recommends to use the new Angular CLI configuration format and provides the detailed migration guide. **This guide is applicable only for the apps migrated previously from Spartacus 6.8 to 2211.19** (i.e. from Angular v15 to v17). In other words, the apps created initially with Spartacus 2211.19+ should skip this guide.
 
-This migration will be also a prerequisite for next migrations, like migrating to Spartacus February 2025 and Angular 19.
-
 The benefits of using the new Angular configuration format are:
 - faster builds: application builds are quicker, making life easier and saving time for developers
 - being future-proof: any new Angular and Spartacus features might require you to use the new configuration format as a prerequisite
