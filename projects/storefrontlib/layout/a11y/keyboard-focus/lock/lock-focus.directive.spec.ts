@@ -13,6 +13,7 @@ import { LockFocusService } from './lock-focus.service';
 
 @Directive({
   selector: '[cxLockFocus]',
+  standalone: false,
 })
 class CustomFocusDirective extends LockFocusDirective {
   @Input('cxLockFocus') protected config: LockFocusConfig;
@@ -49,6 +50,7 @@ class CustomFocusDirective extends LockFocusDirective {
       <button id="e3"></button>
     </div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

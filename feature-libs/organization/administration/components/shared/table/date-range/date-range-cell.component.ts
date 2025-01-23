@@ -17,6 +17,7 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-date-range-cell',
   templateUrl: './date-range-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DateRangeCellComponent extends CellComponent {
   @Optional() featuteConfigService = inject(FeatureConfigService, {

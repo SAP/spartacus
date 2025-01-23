@@ -15,6 +15,7 @@ import { Card, CardComponent, CardLinkAction } from './card.component';
 
 @Directive({
   selector: '[cxAtMessage]',
+  standalone: false,
 })
 export class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -23,6 +24,7 @@ export class MockAtMessageDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -31,6 +33,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-truncate-text-popover',
   template: '',
+  standalone: false,
 })
 class MockCxTruncateTextPopoverComponent {
   @Input() content: string;
@@ -44,6 +47,7 @@ function getTruncatedPopover(elem: DebugElement) {
 let isActiveStoreFrontLibCardParagraphTruncated: boolean;
 @Directive({
   selector: '[cxFeature]',
+  standalone: false,
 })
 class MockFeatureDirective {
   constructor(

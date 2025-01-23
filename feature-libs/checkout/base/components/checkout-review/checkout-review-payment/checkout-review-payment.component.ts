@@ -24,6 +24,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-review-payment',
   templateUrl: './checkout-review-payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutReviewPaymentComponent {
   iconTypes = ICON_TYPE;

@@ -22,6 +22,7 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 @Component({
   selector: 'cx-opf-verify-payment',
   templateUrl: './opf-payment-verification.component.html',
+  standalone: false,
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   protected route = inject(ActivatedRoute);

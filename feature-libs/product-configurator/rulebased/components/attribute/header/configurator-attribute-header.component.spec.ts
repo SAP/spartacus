@@ -26,6 +26,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;

@@ -13,6 +13,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 @Component({
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
+  standalone: false,
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(

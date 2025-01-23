@@ -12,6 +12,7 @@ import { HamburgerMenuService } from './hamburger-menu.service';
   selector: 'cx-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HamburgerMenuComponent {
   constructor(private hamburgerMenuService: HamburgerMenuService) {}

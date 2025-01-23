@@ -21,6 +21,7 @@ import { ProductListComponentService } from './product-list-component.service';
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
+  standalone: false,
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

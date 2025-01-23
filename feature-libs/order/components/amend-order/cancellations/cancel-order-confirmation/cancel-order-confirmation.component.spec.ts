@@ -18,6 +18,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
+  standalone: false,
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -29,6 +30,7 @@ class MockAmendOrderActionComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
+  standalone: false,
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

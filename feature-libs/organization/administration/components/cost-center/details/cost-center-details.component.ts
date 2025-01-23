@@ -22,6 +22,7 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class CostCenterDetailsComponent {
   model$: Observable<CostCenter> = this.itemService.key$.pipe(

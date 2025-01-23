@@ -26,6 +26,7 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
   templateUrl: './configurator-attribute-checkbox-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

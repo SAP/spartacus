@@ -9,6 +9,7 @@ import { OutletRenderStrategy } from './outlet-render.strategy';
 
 @Component({
   template: 'test',
+  standalone: false,
 })
 class TestContainerComponent {
   componentType = 'TestContainerComponent';

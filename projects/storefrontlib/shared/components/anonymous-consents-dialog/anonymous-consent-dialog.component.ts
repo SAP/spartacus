@@ -32,6 +32,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
+  standalone: false,
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

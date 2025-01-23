@@ -25,6 +25,7 @@ import { FacetListComponent } from './facet-list.component';
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockIconComponent {
   @Input() type: ICON_TYPE;
@@ -33,6 +34,7 @@ class MockIconComponent {
 @Component({
   selector: 'cx-facet',
   template: '',
+  standalone: false,
 })
 class MockFacetComponent {
   @Input() facet;
@@ -40,6 +42,7 @@ class MockFacetComponent {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 class MockKeyboadFocusDirective {
   @Input() cxFocus;

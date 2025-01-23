@@ -23,6 +23,7 @@ import { MessageService } from '../message/services/message.service';
   templateUrl: './sub-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';

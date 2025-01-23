@@ -15,6 +15,7 @@ import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
+  standalone: false,
 })
 class MockCartItemListComponent {
   @Input() readonly = false;

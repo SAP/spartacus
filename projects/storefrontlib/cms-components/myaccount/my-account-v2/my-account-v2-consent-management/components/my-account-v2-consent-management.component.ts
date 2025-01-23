@@ -10,5 +10,6 @@ import { ConsentManagementComponent } from '../../../consent-management/componen
 @Component({
   selector: 'cx-my-account-v2-consent-management',
   templateUrl: './my-account-v2-consent-management.component.html',
+  standalone: false,
 })
 export class MyAccountV2ConsentManagementComponent extends ConsentManagementComponent {}

@@ -20,6 +20,7 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
   selector: 'cx-opf-cta-element',
   templateUrl: './opf-cta-element.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);

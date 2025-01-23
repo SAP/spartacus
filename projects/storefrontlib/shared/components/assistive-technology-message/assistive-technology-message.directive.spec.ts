@@ -31,6 +31,7 @@ import createSpy = jasmine.createSpy;
       Action
     </button>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

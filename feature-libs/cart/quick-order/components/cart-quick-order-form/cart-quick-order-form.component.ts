@@ -36,6 +36,7 @@ import { first, map } from 'rxjs/operators';
   selector: 'cx-cart-quick-order-form',
   templateUrl: './cart-quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   private featureConfig = inject(FeatureConfigService);

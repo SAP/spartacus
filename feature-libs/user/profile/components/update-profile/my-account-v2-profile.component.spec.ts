@@ -22,6 +22,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 

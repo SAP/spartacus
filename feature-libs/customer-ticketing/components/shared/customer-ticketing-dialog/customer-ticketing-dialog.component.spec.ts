@@ -6,6 +6,7 @@ import { CustomerTicketingDialogComponent } from './customer-ticketing-dialog.co
 
 @Component({
   template: '',
+  standalone: false,
 })
 class DialogComponent extends CustomerTicketingDialogComponent {}
 

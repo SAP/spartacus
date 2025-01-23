@@ -149,6 +149,7 @@ const mockTicketList2: TicketList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -157,6 +158,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
+  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -168,6 +170,7 @@ class MockSortingComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -196,6 +199,7 @@ class MockCustomerTicketingFacade {
 }
 @Component({
   selector: 'cx-customer-ticketing-create',
+  standalone: false,
 })
 class MockCustomerTicketingCreateComponent {}
 

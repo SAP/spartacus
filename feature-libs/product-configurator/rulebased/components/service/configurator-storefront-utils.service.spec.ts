@@ -102,6 +102,7 @@ function createFocusedElements(
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

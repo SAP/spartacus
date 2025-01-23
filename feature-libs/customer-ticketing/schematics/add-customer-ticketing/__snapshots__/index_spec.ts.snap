@@ -110,7 +110,12 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -123,8 +128,8 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -175,7 +180,12 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

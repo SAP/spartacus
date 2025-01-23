@@ -23,6 +23,7 @@ class MockOrderAmendService {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
+  standalone: false,
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -31,6 +32,7 @@ class MockCancelOrReturnItemsComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
+  standalone: false,
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;

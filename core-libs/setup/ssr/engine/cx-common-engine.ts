@@ -8,7 +8,7 @@ import {
   CommonEngine,
   CommonEngineOptions,
   CommonEngineRenderOptions,
-} from '@angular/ssr';
+} from '@angular/ssr/node';
 import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-to-server';
 
 /**

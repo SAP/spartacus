@@ -11,6 +11,7 @@ import { AmendOrderActionsComponent } from './amend-order-actions.component';
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}

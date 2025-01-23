@@ -34,6 +34,7 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
       useExisting: CurrentCostCenterService,
     },
   ],
+  standalone: false,
 })
 export class CostCenterFormComponent {
   form: UntypedFormGroup | null = this.itemService.getForm();

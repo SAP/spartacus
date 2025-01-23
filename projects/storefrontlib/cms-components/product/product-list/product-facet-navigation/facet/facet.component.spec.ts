@@ -21,12 +21,14 @@ import { FacetComponent } from './facet.component';
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 class MockKeyboadFocusDirective {
   @Input() cxFocus;

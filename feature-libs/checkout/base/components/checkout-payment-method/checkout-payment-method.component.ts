@@ -51,6 +51,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   selector: 'cx-payment-method',
   templateUrl: './checkout-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

@@ -100,6 +100,7 @@ class MockProductAvailabilityAdapter {}
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min: number;

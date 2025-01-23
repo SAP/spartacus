@@ -49,6 +49,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

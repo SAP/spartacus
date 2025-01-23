@@ -35,6 +35,7 @@ const unsubLoading$ = new BehaviorSubject<boolean>(false);
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -50,6 +51,7 @@ class MockUrlPipe implements PipeTransform {
     >
     </cx-coupon-card>
   `,
+  standalone: false,
 })
 class MyCouponsComponent {
   eventObj: {

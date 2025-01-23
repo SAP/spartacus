@@ -12,6 +12,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   selector: 'cx-configurator-textfield-input-field-readonly',
   templateUrl: './configurator-textfield-input-field-readonly.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorTextfieldInputFieldReadonlyComponent {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';

@@ -19,6 +19,7 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   templateUrl: './user-change-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class UserChangePasswordFormComponent {
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
