@@ -360,6 +360,7 @@ Note: Since version 17, Angular's command "ng new" by default creates an app wit
 }
 
 function createSassSilenceDeprecations(
+  context: SchematicContext,
   originalStylePreprocessorOptions: {
     sass?: { silenceDeprecations?: string[] };
     [key: string]: any;
@@ -376,6 +377,11 @@ function createSassSilenceDeprecations(
     // and drop the usage of Bootstrap 4, and then we can remove the `silenceDeprecations` option.
     'import',
   ];
+
+  context.logger.warn(
+    `⚠️ Warnings about the Sass '@import' usage were silenced, because Sass '@import' is used in Spartacus and Bootstrap 4 styles. To enable warnings back, in your 'angular.json' file remove the item "import" from the array at section 'architect.build.options.stylePreprocessorOptions.sass.silenceDeprecations'. For more, see: https://sass-lang.com/blog/import-is-deprecated and https://angular.dev/reference/configs/workspace-config#style-preprocessor-options`
+  );
+
   return {
     sass: {
       ...(originalStylePreprocessorOptions.sass || {}),
@@ -409,6 +415,7 @@ export function createStylePreprocessorOptions(
     );
     // Apply silenceDeprecations only for `build` configuration (but not `test` - it's not supported there)
     const buildSassOptions = createSassSilenceDeprecations(
+      context,
       buildStylePreprocessorOptions
     );
     const buildOptions = {
@@ -428,10 +435,6 @@ export function createStylePreprocessorOptions(
       ...architectTest?.options,
       stylePreprocessorOptions: testStylePreprocessorOptions,
     };
-
-    context.logger.warn(
-      `⚠️ Warnings about the Sass '@import' usage were silenced, because Sass '@import' is used in Spartacus and Bootstrap 4 styles. To enable warnings back, in your angular.json remove the "import" value from the array at section 'architect.build.options.stylePreprocessorOptions.sass.silenceDeprecations'. For more, see: https://sass-lang.com/blog/import-is-deprecated and https://angular.dev/reference/configs/workspace-config#style-preprocessor-options`
-    );
 
     const updatedAngularJson = {
       ...angularJson,
