@@ -29,14 +29,14 @@ Here are the migration steps in detail:
 
 Why: we're configuring here the new `application` builder for Angular v17 and later, which is the recommended fast and future-proof builder for Angular v17 and later.
 
-2. In the section `architect > build > options` please apply the all the following modifications, to adapt to the new configuration format for the new builder:
+1. In the section `architect > build > options` please apply the all the following modifications, to adapt to the new configuration format for the new builder:
 
 2.1 In the property `"outputPath"` please remove the ending `"/browser"` from the string value.
 
 ```diff
         "architect": {
           "build": {
-           "options": {
+            "options": {
 -             "outputPath": "dist/YOUR-APP-NAME/browser",
 +             "outputPath": "dist/YOUR-APP-NAME",
 ```
@@ -98,19 +98,7 @@ In the `"compilerOptions"` section, please:
 +             }
 ```
 
-2. In the section `architect > build > configurations > development` please remove 3 properties: `"buildOptimizer"`, `"vendorChunk"`, `"namedChunks"`
-
-```diff
-        "architect": {
-          "build": {
-            "configurations": {
-              "development": {
--               "buildOptimizer": false,
--               "vendorChunk": true,
--               "namedChunks": true
-```
-
-3. In the section `architect > build > configurations` please add a new property with object value `"noSsr": { "ssr": false, "prerender": false }`
+2. In the section `architect > build > configurations` please add a new property with object value `"noSsr": { "ssr": false, "prerender": false }`
 
 ```diff
         "architect": {
@@ -122,7 +110,7 @@ In the `"compilerOptions"` section, please:
 +             }
 ```
 
-4. In the section `architect > serve > configurations` (please mind now the section is `serve` not `build`!) please add the ending `,noSsr` (with the preceding comma) at the end of the string values in subsections `... > production > buildTarget` and `... > development > buildTarget`:
+3. In the section `architect > serve > configurations` (please mind now the section is `serve` not `build`!) please add the ending `,noSsr` (with the preceding comma) at the end of the string values in subsections `... > production > buildTarget` and `... > development > buildTarget`:
 
 ```diff
         "architect": {
@@ -140,7 +128,7 @@ In the `"compilerOptions"` section, please:
 ```
 
 
-5. Please remove the whole 3 sections `architect > server`, `architect > serve-ssr` and `architect > prerender` (because their responsibilities are now handled just by the single new Angular `application` builder)
+4. Please remove the whole 3 sections `architect > server`, `architect > serve-ssr` and `architect > prerender` (because their responsibilities are now handled just by the single new Angular `application` builder)
 
 ```diff
        "architect": {
@@ -244,7 +232,7 @@ Please change the following `"scripts"` properties (because the new `application
    ]
 ```
 
-1. Please add 2 new items to the in the `"files"` array: `"src/main.server.ts"` , `"src/server.ts"`
+2. Please add 2 new items to the in the `"files"` array: `"src/main.server.ts"` , `"src/server.ts"`
 
 ```diff
    "files": [
@@ -271,7 +259,7 @@ Rename file from `app.server.module.ts` to `app.module.server.ts` (i.e. swap the
 Example command on Mac/Linux:
 
 ```bash
-mv src/app.server.module.ts src/app.module.server.ts
+mv src/app/app.server.module.ts src/app/app.module.server.ts
 ```
 
 ### `src/main.server.ts`
@@ -297,17 +285,18 @@ mv src/app.server.module.ts src/app.module.server.ts
 - import { join } from 'path';
 
 - import { AppServerModule } from './src/main.- server';
+- import { APP_BASE_HREF } from '@angular/common';
 - import { existsSync } from 'fs';
 
++ import { APP_BASE_HREF } from '@angular/common';
 + import {
 +   NgExpressEngineDecorator,
 +   ngExpressEngine as engine,
 + } from '@spartacus/setup/ssr';
 + import express from 'express';
-+ import { readFileSync } from 'node:fs';
-+ import { dirname, join, resolve } from + 'node:path';
++ import { dirname, join, resolve } from 'node:path';
 + import { fileURLToPath } from 'node:url';
-+ import AppServerModule from './main.server';
++ import AppServerModule from './src/main.server';
 ```
 
 2. Replace two old constants: `distFolder` and `indexHtml` with new three constants: `serverDistFolder`, `browserDistFolder`, `indexHtml`, according to the diff below:
