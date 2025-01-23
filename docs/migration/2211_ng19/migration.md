@@ -2,7 +2,7 @@
 
 Before upgrading Spartacus to the new version with Angular 18, you need to first:
 
-- If you've upgraded in the past from Spartacus 6.8 to 2211.19, now please complete the guide on [modernizing apps upgraded from 6.8 to 2211.19](./FINAL_modernize-apps-upgraded-from-6.8-to-2211.19.md)
+- **If you've upgraded in the past from Spartacus 6.8 to 2211.19, please first follow the guide**: [Modernize Spartacus apps migrated from 6.8 to 2211.19](./modernize-apps-migrated-from-6.8-to-2211.19.md) and only then please get back here. But apps created initially with Spartacus 2211.19+ should skip this step.
 - upgrade Spartacus to version 2211.32.1
 - install Node 22 version and upgrade `@types/node` to version 22
   ```bash
@@ -97,9 +97,11 @@ For more, see:
 - https://sass-lang.com/blog/import-is-deprecated
 - https://angular.dev/reference/configs/workspace-config#style-preprocessor-options
 
-## Modernize your ng19 app to look like a new Angular 19 app
+## Modernize your app migrated to Angular 19, so it looks like a new Angular 19 app
 
-Please follow the next guide: [Modernize your app to look like a new Angular 19 app](./modernize-ng17-app-to-look-like-ng19.md)
+Apps migrated to Angular 19 are not configured exactly the same as the new Angular 19 apps. 
+It is good to modernize your app to look like a new Angular 19 app, because it will help with migrations to future next versions of Angular and Spartacus. So now please follow the last guide: [Modernize Spartacus app migrated from 2211.32 to Feb2025](./modernize-apps-migrated-from-2211.32-to-Feb2025.md)
+
 
 
 
