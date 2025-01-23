@@ -4,17 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  loginUser,
-  signOut
-} from '../../../helpers/checkout-flow';
+import { loginUser, signOut } from '../../../helpers/checkout-flow';
 import {
   checkoutDeliveryMode,
   checkoutPaymentDetails,
   checkoutShippingAddress,
   my_user,
   orderConfirmation,
-  reviewAndPlaceOrder
+  reviewAndPlaceOrder,
 } from '../../../helpers/estimated-delivery-date';
 
 describe('estimated delivery date', () => {
@@ -25,8 +22,8 @@ describe('estimated delivery date', () => {
     cy.visit('/apparel-uk-spa/en/GBP/product/M_CR_1016');
     cy.wait(4000);
     cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+      .findByText(/Add To Cart/i)
+      .click();
     cy.wait(4000);
     cy.findByText(/proceed to checkout/i).click();
     cy.wait(8000);
@@ -44,7 +41,8 @@ describe('estimated delivery date', () => {
     reviewAndPlaceOrder();
     orderConfirmation();
   });
-  it('should see estimated delivery date in order history', () => { //For this test to run successfully ensure a order is already present.
+  it('should see estimated delivery date in order history', () => {
+    //For this test to run successfully ensure a order is already present.
     cy.visit('/apparel-uk-spa/en/GBP/login');
     loginUser(my_user);
     cy.visit('apparel-uk-spa/en/GBP/my-account/orders/');
