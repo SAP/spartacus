@@ -30,6 +30,7 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;

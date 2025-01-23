@@ -24,6 +24,7 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;

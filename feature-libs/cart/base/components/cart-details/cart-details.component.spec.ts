@@ -41,6 +41,7 @@ interface CartItemComponentOptions {
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
+  standalone: false,
 })
 class MockCartItemListComponent {
   @Input()
@@ -59,6 +60,7 @@ class MockCartItemListComponent {
 @Component({
   template: '',
   selector: 'cx-cart-coupon',
+  standalone: false,
 })
 class MockCartCouponComponent {
   cartIsLoading = false;
@@ -67,6 +69,7 @@ class MockCartCouponComponent {
 @Component({
   selector: 'cx-cart-validation-warnings',
   template: '',
+  standalone: false,
 })
 class MockCartValidationWarningsComponent {}
 

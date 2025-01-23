@@ -19,5 +19,6 @@ import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budg
       useExisting: CostCenterAssignedBudgetListService,
     },
   ],
+  standalone: false,
 })
 export class CostCenterAssignedBudgetListComponent {}

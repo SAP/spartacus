@@ -31,6 +31,7 @@ const DISABLED_STATUS = 'DISABLED';
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
   /**

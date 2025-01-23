@@ -10,6 +10,7 @@ import { DomChangeDirective } from './dom-change.directive';
       <div class="targetElement"></div>
     </div>
   `,
+  standalone: false,
 })
 class TestHostComponent {}
 

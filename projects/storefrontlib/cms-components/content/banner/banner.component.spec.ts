@@ -68,6 +68,7 @@ class MockSemanticPathService {
 @Component({
   selector: 'cx-media',
   template: '',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;

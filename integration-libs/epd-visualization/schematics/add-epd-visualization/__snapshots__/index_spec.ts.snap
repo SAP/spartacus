@@ -172,7 +172,12 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -185,8 +190,8 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -237,7 +242,12 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

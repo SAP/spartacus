@@ -20,6 +20,7 @@ import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
   selector: 'cx-product-variants-container',
   templateUrl: './product-variants-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductVariantsContainerComponent implements OnInit {
   constructor(private currentProductService: CurrentProductService) {}

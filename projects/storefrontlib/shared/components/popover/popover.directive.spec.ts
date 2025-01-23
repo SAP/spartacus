@@ -27,6 +27,7 @@ import { PopoverModule } from './popover.module';
       Popover
     </button>
   `,
+  standalone: false,
 })
 class PopoverTestComponent {
   open() {

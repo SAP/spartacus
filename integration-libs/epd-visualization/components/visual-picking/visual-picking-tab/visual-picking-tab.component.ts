@@ -21,6 +21,7 @@ import { VisualPickingTabService } from './visual-picking-tab.service';
   templateUrl: './visual-picking-tab.component.html',
   providers: [VisualPickingTabService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VisualPickingTabComponent implements AfterViewInit {
   constructor(protected visualPickingTabService: VisualPickingTabService) {}

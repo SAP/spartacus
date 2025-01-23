@@ -29,6 +29,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
+  standalone: false,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;

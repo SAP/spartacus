@@ -25,6 +25,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion',
   templateUrl: './asm-customer-360-promotion.component.html',
+  standalone: false,
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);

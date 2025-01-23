@@ -62,7 +62,12 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -75,8 +80,8 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -126,7 +131,12 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -249,7 +259,12 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -262,8 +277,8 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -314,7 +329,12 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

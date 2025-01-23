@@ -34,6 +34,7 @@ import { GlobalMessageType } from '@spartacus/core';
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: UntypedFormGroup;

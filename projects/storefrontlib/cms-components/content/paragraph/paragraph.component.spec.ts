@@ -7,7 +7,10 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 
-@Pipe({ name: 'cxSupplementHashAnchors' })
+@Pipe({
+  name: 'cxSupplementHashAnchors',
+  standalone: false,
+})
 export class MockAnchorPipe implements PipeTransform {
   public transform(html: string): string {
     return html;

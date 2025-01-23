@@ -33,6 +33,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -152,6 +153,7 @@ const mockAddress: Address = {
 @Component({
   selector: 'cx-payment-form',
   template: '',
+  standalone: false,
 })
 class MockPaymentFormComponent {
   @Input()
@@ -167,6 +169,7 @@ class MockPaymentFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 

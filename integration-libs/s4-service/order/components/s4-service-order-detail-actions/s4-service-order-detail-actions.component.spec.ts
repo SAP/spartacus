@@ -36,6 +36,7 @@ const mockOrder3 = {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -60,6 +61,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 @Component({
   template: '',
   selector: 'cx-order-details-actions',
+  standalone: false,
 })
 class MockOrderDetailActionsComponent {}
 

@@ -10,17 +10,17 @@ import {
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AsmState, ASM_FEATURE } from '../../core/store/asm-state';
+import { ASM_FEATURE, AsmState } from '../../core/store/asm-state';
 import * as fromReducers from '../../core/store/reducers/index';
 import {
   AsmAuthStorageService,
   TokenTarget,
 } from '../services/asm-auth-storage.service';
 import { CsAgentAuthService } from './csagent-auth.service';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 
 class MockAuthService implements Partial<AuthService> {
   logout() {}
@@ -89,7 +89,7 @@ describe('CsAgentAuthService', () => {
         oAuthLibWrapperService,
         'authorizeWithPasswordFlow'
       ).and.callThrough();
-      spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
 
@@ -113,7 +113,7 @@ describe('CsAgentAuthService', () => {
     });
 
     it('when there was logged in user, should login CS agent and start emulation for that user', async () => {
-      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(
         oAuthLibWrapperService,
         'authorizeWithPasswordFlow'
@@ -148,7 +148,7 @@ describe('CsAgentAuthService', () => {
     });
 
     it('should not changed storage state, when authorization failed', async () => {
-      spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow').and.callFake(
         () => {
           return Promise.reject();
@@ -181,7 +181,7 @@ describe('CsAgentAuthService', () => {
 
   describe('startCustomerEmulationSession()', () => {
     it('should start emulation of a customer', () => {
-      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
 
@@ -264,7 +264,7 @@ describe('CsAgentAuthService', () => {
 
   describe('logoutCustomerSupportAgent()', () => {
     it('should logout CS agent', async () => {
-      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
 
       await service.logoutCustomerSupportAgent();
@@ -283,7 +283,7 @@ describe('CsAgentAuthService', () => {
     });
 
     it('should restore previous session when there is old session token', async () => {
-      const dispatch = spyOn(store, 'dispatch').and.callFake(() => {});
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => null);
       spyOn(asmAuthStorageService, 'setToken').and.callThrough();
       spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();

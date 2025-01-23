@@ -6,6 +6,7 @@ import { RoutingParamsService } from './routing-params.service';
 @Component({
   selector: 'cx-mock',
   template: '',
+  standalone: false,
 })
 export class MockComponent {}
 

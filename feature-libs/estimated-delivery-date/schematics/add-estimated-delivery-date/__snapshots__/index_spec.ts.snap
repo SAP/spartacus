@@ -95,7 +95,12 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -108,8 +113,8 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -161,7 +166,12 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

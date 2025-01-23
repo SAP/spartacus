@@ -6,6 +6,7 @@ import { BlockFocusConfig } from '../keyboard-focus.model';
 import { BlockFocusDirective } from './block-focus.directive';
 @Directive({
   selector: '[cxBlockFocus]',
+  standalone: false,
 })
 class CustomFocusDirective extends BlockFocusDirective {
   @Input('cxBlockFocus') protected config: BlockFocusConfig;
@@ -19,6 +20,7 @@ class CustomFocusDirective extends BlockFocusDirective {
     <div id="c" [cxBlockFocus]="{ block: false }" tabindex="0">block</div>
     <div id="d" [cxBlockFocus]="{ otherConfig: true }" tabindex="0">block</div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

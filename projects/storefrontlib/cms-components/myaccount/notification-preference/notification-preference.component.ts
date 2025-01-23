@@ -16,6 +16,7 @@ import { map, tap } from 'rxjs/operators';
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;

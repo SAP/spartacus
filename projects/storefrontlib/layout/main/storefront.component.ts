@@ -37,6 +37,7 @@ import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
+  standalone: false,
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;

@@ -21,6 +21,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-product-title',
   templateUrl: './configurator-product-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorProductTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;

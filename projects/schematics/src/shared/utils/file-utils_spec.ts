@@ -432,20 +432,17 @@ describe('File utils', () => {
       });
       it('should commit provided ReplaceChange', async () => {
         const filePath = '/src/app/app.component.ts';
-        const change = 'ChangedAppComponent';
+        const original = 'AppComponent';
+        const change = 'ChangedComponent';
 
-        const testChange = new ReplaceChange(
-          filePath,
-          173,
-          'AppComponent',
-          change
-        );
+        const testChange = new ReplaceChange(filePath, 192, original, change);
         commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
         const buffer = appTree.read(filePath);
         expect(buffer).toBeTruthy();
         if (buffer) {
           const content = buffer.toString(UTF_8);
+          expect(content).not.toContain(original);
           expect(content).toContain(change);
         }
       });
@@ -453,7 +450,7 @@ describe('File utils', () => {
         const filePath = '/src/app/app.component.ts';
 
         const toRemove = `title = 'schematics-test';`;
-        const testChange = new RemoveChange(filePath, 188, toRemove);
+        const testChange = new RemoveChange(filePath, 213, toRemove);
         commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
         const buffer = appTree.read(filePath);
@@ -1045,7 +1042,7 @@ describe('File utils', () => {
           commentToInsert
         );
         expect(changes).toEqual([
-          new InsertChange(filePath, 158, commentToInsert),
+          new InsertChange(filePath, 179, commentToInsert),
         ]);
       });
     });
@@ -1064,7 +1061,7 @@ describe('File utils', () => {
           newName
         );
         expect(changes).toEqual([
-          new ReplaceChange(filePath, 171, oldName, newName),
+          new ReplaceChange(filePath, 192, oldName, newName),
         ]);
       });
     });

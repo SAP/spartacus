@@ -24,6 +24,7 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
   selector: 'cx-order-overview',
   templateUrl: './order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderOverviewComponent {
   protected orderOverviewComponentService = inject(

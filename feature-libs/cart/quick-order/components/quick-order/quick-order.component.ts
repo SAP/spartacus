@@ -34,6 +34,7 @@ import { QuickOrderFormComponent } from './form/quick-order-form.component';
   selector: 'cx-quick-order',
   templateUrl: './quick-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;

@@ -27,6 +27,7 @@ import {
  */
 @Directive({
   selector: '[cxDomChange]',
+  standalone: false,
 })
 export class DomChangeDirective implements OnDestroy {
   protected changes: MutationObserver;

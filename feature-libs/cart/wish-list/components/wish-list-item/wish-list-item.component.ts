@@ -31,6 +31,7 @@ import {
       useExisting: ProductListItemContextSource,
     },
   ],
+  standalone: false,
 })
 export class WishListItemComponent implements OnChanges {
   @Input()

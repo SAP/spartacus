@@ -63,6 +63,7 @@ class MockComponentService {
 @Component({
   selector: 'cx-address-form',
   template: '',
+  standalone: false,
 })
 class MockAddressFormComponent {
   @Input()

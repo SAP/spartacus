@@ -18,6 +18,7 @@ import { Observable, Subscription, map } from 'rxjs';
 @Component({
   selector: 'cx-card-service-details',
   templateUrl: './service-details-card.component.html',
+  standalone: false,
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

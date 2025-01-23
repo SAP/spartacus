@@ -9,12 +9,20 @@ class StoreFinderServiceMock {
   getStoreLongitude() {}
 }
 
-@Component({ selector: 'cx-schedule', template: '' })
+@Component({
+  selector: 'cx-schedule',
+  template: '',
+  standalone: false,
+})
 class MockScheduleComponent {
   @Input() location;
 }
 
-@Component({ selector: 'cx-store-finder-map', template: '' })
+@Component({
+  selector: 'cx-store-finder-map',
+  template: '',
+  standalone: false,
+})
 class MockStoreFinderMapComponent {
   @Input() locations;
 }

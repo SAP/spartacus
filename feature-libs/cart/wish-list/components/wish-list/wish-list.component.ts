@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-wish-list',
   templateUrl: './wish-list.component.html',
+  standalone: false,
 })
 export class WishListComponent {
   wishList$: Observable<Cart> = this.wishListFacade.getWishList();

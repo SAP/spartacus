@@ -5,7 +5,10 @@
  */
 
 import { StaticProvider } from '@angular/core';
-import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
+import {
+  CommonEngineOptions,
+  CommonEngineRenderOptions,
+} from '@angular/ssr/node';
 import { Request, Response } from 'express';
 import { REQUEST, RESPONSE } from '../tokens/express.tokens';
 import { CxCommonEngine } from './cx-common-engine';

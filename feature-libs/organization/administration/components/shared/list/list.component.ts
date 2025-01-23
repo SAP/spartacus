@@ -32,6 +32,7 @@ import { CreateButtonType, ListService } from './list.service';
   selector: 'cx-org-list',
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ListComponent<T = any, P = PaginationModel> {
   readonly trapFocus = TrapFocus;
