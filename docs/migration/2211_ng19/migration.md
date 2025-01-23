@@ -74,7 +74,7 @@ Please follow the guide: [Spartacus migration - Bootstrap](./bootstrap.md)
 
 ## Silence Sass deprecation warnings
 
-1. In  `angular.json` in the section `architect > build > options > stylePreprocessorOptions` please add the property with object `"sass": { "silenceDeprecations":  ["import"] }`
+In  `angular.json` in the section `architect > build > options > stylePreprocessorOptions` please add the property with object `"sass": { "silenceDeprecations":  ["import"] }`
 
 ```diff
               "stylePreprocessorOptions": {
@@ -84,8 +84,6 @@ Please follow the guide: [Spartacus migration - Bootstrap](./bootstrap.md)
 +               }
               }
 ```
-
-2. Please repeat the above step in the `test` section - `architect > test > options > stylePreprocessorOptions`
 
 **Why it's needed:**
 We need to silence the deprecation warnings for the Sass `@import` because `@import` is used in the Spartacus styles and in the Bootstrap 4 styles (which are imported by the Spartacus styles).
