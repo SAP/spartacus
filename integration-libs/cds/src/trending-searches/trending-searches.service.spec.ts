@@ -81,10 +81,10 @@ describe('TrendingSearchesService', () => {
       { searchPhrase: 'test1', count: 10 },
       { searchPhrase: 'test2', count: 15 },
     ];
+    let searchPhrases: SearchPhrases[] = [];
 
     const subscription = service.getTrendingSearches().subscribe((result) => {
-      // Verify the result
-      expect(result).toEqual(mockSearchPhrases);
+      searchPhrases = result;
     });
 
     // Fast-forward through the availability check
@@ -96,6 +96,9 @@ describe('TrendingSearchesService', () => {
     );
     expect(req.request.method).toBe('GET');
     req.flush({ searchPhrases: mockSearchPhrases });
+
+    // Verify the result
+    expect(searchPhrases).toEqual(mockSearchPhrases);
 
     // Clean up
     subscription.unsubscribe();

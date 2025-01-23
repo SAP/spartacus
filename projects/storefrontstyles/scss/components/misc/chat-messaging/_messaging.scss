@@ -11,6 +11,10 @@
       margin-inline-start: 2.1875rem;
       color: var(--cx-color-light);
       border-right-width: 1px;
+
+      @include cx-highContrastTheme {
+        color: var(--cx-color-dark);
+      }
     }
 
     .cx-messages {
@@ -38,6 +42,10 @@
 
         div {
           width: 100%;
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+            border-color: var(--cx-color-dark);
+          }
         }
       }
 

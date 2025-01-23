@@ -151,11 +151,9 @@ cx-saved-cart-list {
     }
 
     @include cx-highContrastTheme {
-      @include forFeature('a11yHighContrastBorders') {
-        border-color: var(--cx-color-dark);
-        tr {
-          border-bottom-color: var(--cx-color-dark);
-        }
+      border-color: var(--cx-color-dark);
+      tr {
+        border-bottom-color: var(--cx-color-dark);
       }
     }
   }

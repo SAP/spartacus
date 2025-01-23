@@ -4,7 +4,9 @@ Before upgrading Spartacus to the new version with Angular 18, you need to first
 
 - **If you've upgraded in the past from Spartacus 6.8 to 2211.19, please first follow the guide**: [Modernize Spartacus apps migrated from 6.8 to 2211.19](./modernize-apps-migrated-from-6.8-to-2211.19.md) and only then please get back here. But apps created initially with Spartacus 2211.19+ should skip this step.
 - upgrade Spartacus to version 2211.32.1
-- install Node 22 version and upgrade `@types/node` to version 22
+- install Node 22 version
+- upgrade `@types/node` to version 22
+
   ```bash
   npm i @types/node@22
   ```
