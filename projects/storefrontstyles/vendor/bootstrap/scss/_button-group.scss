@@ -1,3 +1,12 @@
+/*!
+ * Bootstrap v4.6.2 (https://getbootstrap.com/)
+ * Copyright 2011-2022 The Bootstrap Authors
+ * Copyright 2011-2022 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ *
+ * DO NOT MODIFY THIS FILE. It preserves compatibility with Bootstrap 4.6 docs.
+ */
+
 // stylelint-disable selector-no-qualifying-type
 
 // Make the div behave like a button
@@ -16,6 +25,7 @@
     @include hover() {
       z-index: 1;
     }
+
     &:focus,
     &:active,
     &.active {
@@ -58,8 +68,13 @@
 //
 // Remix the default button sizing classes into new ones for easier manipulation.
 
-.btn-group-sm > .btn { @extend .btn-sm; }
-.btn-group-lg > .btn { @extend .btn-lg; }
+.btn-group-sm > .btn {
+  @extend .btn-sm;
+}
+
+.btn-group-lg > .btn {
+  @extend .btn-lg;
+}
 
 
 //

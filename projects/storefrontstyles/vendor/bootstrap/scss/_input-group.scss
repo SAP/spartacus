@@ -1,3 +1,12 @@
+/*!
+ * Bootstrap v4.6.2 (https://getbootstrap.com/)
+ * Copyright 2011-2022 The Bootstrap Authors
+ * Copyright 2011-2022 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ *
+ * DO NOT MODIFY THIS FILE. It preserves compatibility with Bootstrap 4.6 docs.
+ */
+
 // stylelint-disable selector-no-qualifying-type
 
 //
@@ -42,7 +51,9 @@
 
   > .form-control,
   > .custom-select {
-    &:not(:first-child) { @include border-left-radius(0); }
+    &:not(:first-child) {
+      @include border-left-radius(0);
+    }
   }
 
   // Custom file inputs have more complex markup, thus requiring different
@@ -52,8 +63,13 @@
     align-items: center;
 
     &:not(:last-child) .custom-file-label,
-    &:not(:last-child) .custom-file-label::after { @include border-right-radius(0); }
-    &:not(:first-child) .custom-file-label { @include border-left-radius(0); }
+    &:not(:last-child) .custom-file-label::after {
+      @include border-right-radius(0);
+    }
+
+    &:not(:first-child) .custom-file-label {
+      @include border-left-radius(0);
+    }
   }
 
   &:not(.has-validation) {
@@ -106,8 +122,13 @@
   }
 }
 
-.input-group-prepend { margin-right: -$input-border-width; }
-.input-group-append { margin-left: -$input-border-width; }
+.input-group-prepend {
+  margin-right: -$input-border-width;
+}
+
+.input-group-append {
+  margin-left: -$input-border-width;
+}
 
 
 // Textual addons
