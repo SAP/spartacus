@@ -183,12 +183,7 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }

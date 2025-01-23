@@ -180,12 +180,7 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }

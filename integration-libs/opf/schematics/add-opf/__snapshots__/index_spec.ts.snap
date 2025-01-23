@@ -176,12 +176,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
