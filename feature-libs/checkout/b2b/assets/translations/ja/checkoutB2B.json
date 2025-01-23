@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "なし",
+    "poNumber": "発注書番号 (オプション)",
+    "costCenter": "原価センタ",
+    "placeholder": "発注書を入力",
+    "availableLabel": "使用可能な発注先住所は原価センタのユニットに依存します",
+    "invalid": {
+      "accountType": "このアカウントではここでチェックアウトできません。"
+    },
+    "methodOfPayment": {
+      "paymentType": "支払タイプ"
+    },
+    "review": {
+      "poNumber": "発注書番号"
+    },
+    "progress": {
+      "methodOfPayment": "支払方法"
+    },
+    "invalidCostCenter": "無効な原価センタです。"
+  }
+}

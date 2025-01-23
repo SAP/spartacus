@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "कार्ट पर वापस जाएं"
+  },
+  "checkoutProgress": {
+    "label": "चेआउट प्रगति",
+    "deliveryAddress": "शिपिंग पता",
+    "deliveryMode": "वितरण मोड",
+    "paymentDetails": "भुगतान",
+    "reviewOrder": "समीक्षा",
+    "state": {
+      "completed": "{{step}}, पूर्ण किया गया",
+      "selected": "{{step}}, चयनित",
+      "disabled": "{{step}}, अक्षम किया गया"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "शिपिंग पता",
+    "selectYourDeliveryAddress": "अपना वितरण पता चुनें",
+    "defaultDeliveryAddress": "डिफ़ॉल्ट वितरण पता",
+    "addNewAddress": "नया पता जोड़ें",
+    "shipToThisAddress": "इस पते पर शिप करें",
+    "deliveryAddressSelected": "वितरण पता चयनित"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "वितरण विधि",
+    "deliveryOptions": "वितरण विकल्प",
+    "standardDelivery": "मानक वितरण",
+    "premiumDelivery": "प्रीमियम वितरण",
+    "deliveryEntries": "शिप किए जाने वाले आइटम"
+  },
+  "checkoutReview": {
+    "review": "समीक्षा",
+    "reviewOrder": "ऑर्डर की समीक्षा करें",
+    "orderItems": "आइटम ऑर्डर करें",
+    "confirmThatRead": "मैं पुष्टि कर रहा हूं कि मैंने पढ़ा और सहमत हूं",
+    "placeOrder": "ऑर्डर दें",
+    "termsAndConditions": "नियम & शर्तें",
+    "editDeliveryAddressDetails": "वितरण पता संपादित करें, वितरण पता पृष्ठ खुलता है",
+    "editBillingDetails": "बिलिंग पता संपादित करें, भुगतान विवरण पृष्ठ खुलता है",
+    "editPaymentDetails": "भुगतान विवरण संपादित करें, भुगतान विवरण पृष्ठ खुलता है",
+    "editPaymentType": "भुगतान विधि संपादित करें, भुगतान विधि का पृष्ठ खुलता है",
+    "editDeliveryMode": "वितरण मोड संपादित करें, वितरण मोड पृष्ठ खुलता है",
+    "orderInProcess": "ऑर्डर प्रक्रिया में है. कृपया प्रतीक्षा करें."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "ऑर्डर की पुष्टीः",
+    "thankYou": "आपके ऑर्डर के लिए धन्यवाद!",
+    "invoiceHasBeenSentByEmail": "ईमेल द्वारा चालान भेजा गया है. आप इसे जल्द ही प्राप्त करेंगे.",
+    "orderItems": "आइटम ऑर्डर करें",
+    "orderPlacedSuccessfully": "ऑर्डर सफलतापूर्वक दिया गया",
+    "createAccount": "एक खाता बनाएं?",
+    "createAccountForNext": "अपनी अगली विजिट पर तेज चेकआउट के लिए  <{{email}}> हेतु खाता बनाएं."
+  }
+}

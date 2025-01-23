@@ -11,15 +11,30 @@ class MockOutletService {
   add = createSpy('add');
 }
 
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class MockGlobalDataComponent {}
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class MockGlobalHeaderComponent {}
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class MockDataComponent {}
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class MockHeaderComponent {}
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class MockCodeRendererComponent {}
 
 const mockOptions: TableOptions = {

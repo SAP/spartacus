@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "出貨",
+      "deliveryMethod": "交貨方法",
+      "paymentAndReview": "付款和審查"
+    },
+    "paymentAndReviewTitle": "付款和審查",
+    "billingAddress": "帳單寄送地址",
+    "paymentOption": "付款選項",
+    "termsAndConditions": "條款和條件",
+    "itemsToBeShipped": "待運送項目",
+    "proceedPayment": "下單",
+    "retryPayment": "重試以繼續",
+    "checkTermsAndConditionsExplicit": "您必須同意條款和條件，才能查看可用付款選項。",
+    "checkTermsAndConditionsImplicit": "提交訂單後，您即同意我們的條款和條件。",
+    "errors": {
+      "loadActiveConfigurations": "系統目前無法載入付款選項，請稍後再試一次。",
+      "noActiveConfigurations": "目前沒有付款選項。請稍後再試一次或聯絡支援團隊。",
+      "updateBillingAddress": "無法更新地址。請檢查弟子資訊正確，且您的裝置已連線至網路。若問題仍存在，則必須清除購物車接著再次開始結帳。"
+    }
+  }
+}

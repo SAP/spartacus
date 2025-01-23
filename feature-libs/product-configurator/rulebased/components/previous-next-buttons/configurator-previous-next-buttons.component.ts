@@ -20,6 +20,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-previous-next-buttons',
   templateUrl: './configurator-previous-next-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorPreviousNextButtonsComponent {
   configuration$: Observable<Configurator.Configuration> =

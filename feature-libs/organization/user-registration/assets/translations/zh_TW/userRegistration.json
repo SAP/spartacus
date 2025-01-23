@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "稱謂 (選擇性)",
+        "placeholder": "稱謂"
+      },
+      "firstName": {
+        "label": "名字",
+        "placeholder": "名字"
+      },
+      "lastName": {
+        "label": "姓氏",
+        "placeholder": "姓氏"
+      },
+      "companyName": {
+        "label": "公司名稱",
+        "placeholder": "公司名稱"
+      },
+      "email": {
+        "label": "電子郵件",
+        "placeholder": "電子郵件"
+      },
+      "city": {
+        "label": "城市/城鎮 (選擇性)",
+        "placeholder": "請選擇城市/城鎮"
+      },
+      "country": {
+        "label": "國家/地區 (選擇性)",
+        "placeholder": "選擇國家/地區"
+      },
+      "state": {
+        "label": "州/省 (選擇性)",
+        "placeholder": "選擇州/省"
+      },
+      "postalCode": {
+        "label": "郵遞區號 (選擇性)",
+        "placeholder": "郵遞區號"
+      },
+      "addressLine": {
+        "label": "地址 (選擇性)",
+        "placeholder": "地址"
+      },
+      "secondAddressLine": {
+        "label": "地址行 2 (選擇性)",
+        "placeholder": "地址行 2"
+      },
+      "phoneNumber": {
+        "label": "電話號碼 (選擇性)",
+        "placeholder": "電話號碼"
+      },
+      "message": {
+        "label": "訊息 (選擇性)",
+        "placeholder": "訊息欄位的範例資料：「部門：地勤支援；保安隊長；主管：Steve Jackson；備註：請為我建立新帳戶」。"
+      }
+    },
+    "messageToApproverTemplate": "公司名稱：{{companyName}}，\n電話號碼：{{phoneNumber}}，\n地址{{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}}，\n訊息：{{message}}",
+    "successFormSubmitMessage": "感謝您註冊！業務代表稍後將聯絡您，並確認您的存取資訊。",
+    "formSubmitButtonLabel": "註冊",
+    "goToLoginButtonLabel": "已註冊？請登入",
+    "httpHandlers": {
+      "conflict": "具有此電子郵件地址的使用者已存在。"
+    },
+    "messageToFailedToRegister": "無法註冊。請聯絡管理員取得進一步協助。"
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "取消",
+    "delete": "刪除",
+    "remove": "移除",
+    "edit": "編輯",
+    "restore": "還原",
+    "back": "返回",
+    "submit": "提交",
+    "continue": "繼續",
+    "save": "儲存",
+    "done": "完成",
+    "home": "首頁",
+    "noData": "無資料。",
+    "confirm": "確認",
+    "more": "更多",
+    "close": "關閉",
+    "loading": "載入中",
+    "menu": "功能表",
+    "reset": "重設",
+    "search": "搜尋",
+    "add": "新增",
+    "breadcrumbs": "路徑指引",
+    "selectFile": "選擇檔案",
+    "clear": "清除",
+    "loaded": "已載入",
+    "results": "結果",
+    "of": "/",
+    "required": "必要",
+    "zoomIn": "放大",
+    "zoomOut": "縮小",
+    "selected": "已選擇",
+    "expand": "展開",
+    "collapse": "收縮"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{count}} 個 {{query}} 的結果",
+      "title_other": "{{count}} 個 {{query}} 的結果"
+    },
+    "checkout": {
+      "title": "結帳"
+    },
+    "search": {
+      "title": "{{count}} 個「{{query}}」的結果",
+      "title_other": "{{count}} 個「{{query}}」的結果",
+      "findProductTitle": "{{count}} 個「{{coupon}}」的優惠券",
+      "findProductTitle_other": "{{count}} 個「{{coupon}}」的優惠券",
+      "default_title": "所有產品"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "正在載入..."
+  },
+  "navigation": {
+    "categoryNavLabel": "種類功能表",
+    "footerNavLabel": "頁尾連結",
+    "goTo": "移至 {{location}}",
+    "navigateTo": "瀏覽至 {{nav}}",
+    "scrollToTop": "捲動回頁面頂端",
+    "linkItemInList": "{{title}}。{{position}}/{{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "輸入產品名稱或 SKU",
+    "productSearch": "尋找產品",
+    "ariaLabelInput": "在此搜尋...",
+    "ariaLabelSuggestions": "輸入建議",
+    "ariaLabelProducts": "產品結果",
+    "initialDescription": "若提供自動完成結果時，請使用向上和向下箭頭以審查和輸入進行選擇。觸控裝置使用者透過觸控或滑動手勢探索。",
+    "suggestions": "建議的關鍵字",
+    "suggestionsResult": "{{ count }} 個建議及 ",
+    "suggestionsResult_other": "{{ count }} 個建議及 ",
+    "products": "建議的產品",
+    "productsResult": "有 {{ count }} 個產品。",
+    "productsResult_other": "有 {{ count }} 個產品。",
+    "resetLabel": "重設搜尋",
+    "help": {
+      "insufficientChars": "請輸入更多字元",
+      "noMatch": "我們找不到結果",
+      "exactMatch": "{{ term }}",
+      "empty": "有任何問題都可向我們詢問"
+    },
+    "closeSearchPanel": "關閉"
+  },
+  "sorting": {
+    "date": "日期",
+    "orderNumber": "訂單號碼",
+    "rma": "退貨號碼",
+    "replenishmentNumber": "補貨號碼",
+    "nextOrderDate": "下一個訂單日期",
+    "pageViewUpdated": "已使用所選選項更新頁面檢視。"
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}。請再登入一次。",
+      "user_is_disabled": "{{ errorMessage }}。請聯絡管理員。"
+    },
+    "badGateway": "發生伺服器錯誤。請稍後再試一次。",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}。請重新登入。",
+    "badRequestOldPasswordIncorrect": "舊密碼不正確。",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} 電子郵件已存在。請使用不同的電子郵件結帳以使用訪客帳戶註冊。",
+    "conflict": "已存在。",
+    "forbidden": "您未授權執行此動作。如果您認證這是錯誤，請聯絡管理員。",
+    "gatewayTimeout": "伺服器未回應，請稍後再試一次。",
+    "internalServerError": "發生內部伺服器錯誤。請稍後再試一次。",
+    "sessionExpired": "您的工作階段已到期。請重新登入。",
+    "unknownError": "發生未知錯誤",
+    "unauthorized": {
+      "common": "發生未知權限錯誤",
+      "invalid_client": "用戶端憑證錯誤"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "不支援所選的信用卡。請選擇其他信用卡。",
+        "card_accountNumber": "輸入的信用卡號無效。",
+        "card_cvNumber": "輸入的信用卡檢查數字無效。",
+        "card_expirationMonth": "輸入的信用卡到期日期無效。",
+        "card_expirationYear": "輸入的信用卡到期日期無效。",
+        "billTo_firstName": "輸入的名字無效。",
+        "billTo_lastName": "輸入的姓氏無效。",
+        "billTo_street1": "輸入的地址無效。",
+        "billTo_street2": "輸入的地址無效。",
+        "billTo_city": "針對此信用卡輸入的城市無效。",
+        "billTo_state": "針對此信用卡輸入的州/省無效。",
+        "billTo_country": "針對此信用卡輸入的國家/地區無效。",
+        "billTo_postalCode": "針對此信用卡輸入的郵遞區號無效。",
+        "country": {
+          "isocode": "缺少國家/地區"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "輸入的信用卡到期日期無效。",
+        "firstName": "輸入的名字無效。",
+        "lastName": "輸入的姓氏無效。",
+        "password": "輸入的密碼無效。",
+        "uid": "UID 無效。",
+        "code": "代碼無效。",
+        "email": "電子郵件無效。",
+        "loginId": "電子郵件無效。"
+      }
+    },
+    "cartNotFound": "找不到購物車。",
+    "invalidCodeProvided": "提供的代碼無效。",
+    "voucherExceeded": "此優惠券已超過可使用的次數",
+    "unknownIdentifier": "找不到項目。",
+    "otherCartErrors": "發生購物車錯誤。"
+  },
+  "miniCart": {
+    "item": "您的購物車目前有 {{count}} 個項目",
+    "item_other": "您的購物車目前有 {{count}} 個項目",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "跳至",
+    "labels": {
+      "header": "表頭",
+      "main": "主要內容",
+      "footer": "頁尾",
+      "productFacets": "產品層面",
+      "productList": "產品清單"
+    }
+  },
+  "carousel": {
+    "previousSlide": "上一張投影片",
+    "nextSlide": "下一張投影片",
+    "slideNumber": "投影片 {{currentSlideNumber}} 包含 {{numberOfSlides}} 個項目",
+    "carouselForProduct": "轉盤，{{product}} 的圖像"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "欄位 {{label}} 為必要",
+      "cxInvalidEmail": "欄位 {{label}} 沒有有效的電子郵件格式。相符模式：example@yourdomain.com",
+      "cxInvalidPassword": "欄位 {{label}} 沒有有效的密碼格式",
+      "cxMinOneUpperCaseCharacter": "密碼必須至少包含一個大寫字元",
+      "cxMinOneDigit": "密碼必須至少包含一位數",
+      "cxMinOneSpecialCharacter": "密碼必須至少包含一個特殊字元",
+      "cxMinSixCharactersLength": "密碼必須至少包含 6 個字元",
+      "cxMinEightCharactersLength": "密碼必須至少包含 8 個字元",
+      "cxMaxCharactersLength": "密碼不能超過 128 個字元",
+      "cxContainsSpecialCharacters": "密碼不能包含特殊字元",
+      "cxNoConsecutiveCharacters": "密碼不能包含連續相同字元",
+      "date": {
+        "required": "欄位 {{label}} 為必要",
+        "min": "欄位 {{label}} 不能早於 {{min}}",
+        "max": "欄位 {{label}} 不能晚於 {{max}}",
+        "pattern": "在欄位 {{label}} 中使用日期格式 yyyy-mm-dd",
+        "invalid": "在 {{label}} 欄位中使用有效日期"
+      }
+    },
+    "globalMessage": "您嘗試提交的表單包含錯誤。",
+    "required": "此為必要欄位",
+    "cxInvalidEmail": "這不是有效的電子郵件格式",
+    "cxInvalidPassword": "這不是有效的密碼格式",
+    "cxPasswordsMustMatch": "密碼欄位必須相符",
+    "cxPasswordsCannotMatch": "密碼欄位必須相符",
+    "cxEmailsMustMatch": "電子郵件欄位必須相符",
+    "cxStarRatingEmpty": "評比欄位為必要",
+    "cxNoSelectedItemToCancel": "至少選擇一個項目",
+    "cxNegativeAmount": "金額必須等於或大於零",
+    "cxContainsSpecialCharacters": "欄位不能包含特殊字元",
+    "date": {
+      "required": "此為必要欄位",
+      "min": "日期不能早於 {{min}}",
+      "max": "日期不能晚於 {{max}}",
+      "pattern": "使用日期格式 yyyy-mm-dd",
+      "invalid": "使用有效日期"
+    },
+    "file": {
+      "required": "欄位為必要",
+      "empty": "欄位不應為空",
+      "invalidExtension": "副檔案無效。",
+      "tooLarge": "檔案大小不應超過 {{ maxSize }} MB",
+      "tooManyEntries": "項目數量大於 {{ maxEntries }}",
+      "notParsable": "欄位無法剖析",
+      "fileNotAllowed": "不允許此檔案類型"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "無法載入指令碼。",
+    "refreshThePage": "請重新整理頁面。"
+  },
+  "assistiveMessage": {
+    "actionCancelled": "已取消動作，無更改"
+  },
+  "passwordVisibility": {
+    "showPassword": "顯示密碼",
+    "hidePassword": "隱藏密碼"
+  },
+  "generalErrors": {
+    "pageFailure": "無法載入頁面。請稍後再試一次。"
+  },
+  "formLegend": {
+    "required": "下列標記「*」的欄位為必填。"
+  },
+  "chatMessaging": {
+    "charactersLeft": "剩餘字元：{{count}}",
+    "addNewMessage": "新增訊息",
+    "send": "傳送",
+    "uploadFile": "上傳檔案",
+    "informationLabel": "{{author}}。{{text}}，{{date}}",
+    "messages": "訊息",
+    "addMessagePlaceHolder": "開始輸入...",
+    "characterLimitAlert": "已達到字源限制。",
+    "a11y": {
+      "itemListBoxLabel": "選擇訊息應套用的項目。"
+    }
+  }
+}

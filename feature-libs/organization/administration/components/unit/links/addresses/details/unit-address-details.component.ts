@@ -29,6 +29,7 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
       useExisting: UnitAddressItemService,
     },
   ],
+  standalone: false,
 })
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;

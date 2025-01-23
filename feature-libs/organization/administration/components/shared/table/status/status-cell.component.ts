@@ -11,6 +11,7 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-status-cell',
   templateUrl: './status-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StatusCellComponent extends CellComponent {
   get label() {

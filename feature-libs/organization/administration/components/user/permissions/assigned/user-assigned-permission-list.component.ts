@@ -19,5 +19,6 @@ import { UserAssignedPermissionListService } from './user-assigned-permission-li
       useExisting: UserAssignedPermissionListService,
     },
   ],
+  standalone: false,
 })
 export class UserAssignedPermissionListComponent {}

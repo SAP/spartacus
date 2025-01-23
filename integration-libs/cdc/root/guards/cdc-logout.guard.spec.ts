@@ -1,7 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import {
   AuthService,
   CmsService,
@@ -34,6 +33,7 @@ const mockedWindowRef = {
 @Component({
   selector: 'cx-page-layout',
   template: 'mock',
+  standalone: false,
 })
 class MockPageLayoutComponent {}
 
@@ -60,7 +60,7 @@ describe('CdcLogoutGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           {
             path: 'logout',
             component: MockPageLayoutComponent,

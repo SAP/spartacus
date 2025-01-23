@@ -14,6 +14,7 @@ import { SkipLinkService } from '../service/skip-link.service';
   selector: 'cx-skip-link',
   templateUrl: './skip-link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SkipLinkComponent {
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();

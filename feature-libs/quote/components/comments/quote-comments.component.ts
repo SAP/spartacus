@@ -28,6 +28,7 @@ const ALL_PRODUCTS_ID = '';
 @Component({
   selector: 'cx-quote-comments',
   templateUrl: './quote-comments.component.html',
+  standalone: false,
 })
 export class QuoteCommentsComponent {
   protected quoteFacade = inject(QuoteFacade);

@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Abierta hasta",
+    "closed": "Cerrada",
+    "back": "Atrás",
+    "call": "Llamar",
+    "getDirections": "Obtener direcciones",
+    "ariaLabelGetDirections": "Obtener direcciones, este enlace se abre en una ventana nueva",
+    "ariaLabelCountriesCount": "Existen tiendas en {{ count }} países",
+    "listView": "Vista de lista",
+    "mapView": "Vista de mapa",
+    "noStoresFound": "No existen tiendas.",
+    "storeHours": "Horarios de la tienda",
+    "storeFeatures": "Funciones de la tienda",
+    "storeFinder": "Buscador de tiendas",
+    "storesFoundTitle": "Existen tiendas",
+    "storesFound": "{{ count }} tienda encontrada",
+    "storesFound_other": "{{ count }} tiendas encontradas",
+    "fromStoresFound": "de {{ count }} tienda encontrada",
+    "fromStoresFound_other": "de {{ count }} tiendas encontradas",
+    "findStore": "Buscar tienda",
+    "useMyLocation": "Utilizar mi ubicación",
+    "viewAllStores": "Ver todas las tiendas",
+    "contactUs": "Contactarnos",
+    "searchBox": "Código postal, ciudad o dirección",
+    "backToList": "Volver a la lista",
+    "noStoresMessage": "No existen tiendas en la base de datos...",
+    "geolocationNotEnabled": "No se pueden ubicar tiendas cercanas; no se ha otorgado consentimiento para la geolocalización",
+    "searchNearestStores": "Buscar tiendas más cercanas",
+    "searchBoxLabel": "Introducir código postal, ciudad o dirección"
+  }
+}

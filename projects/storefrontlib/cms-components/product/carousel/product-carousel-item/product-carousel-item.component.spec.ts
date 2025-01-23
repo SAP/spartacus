@@ -8,7 +8,7 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   ProductService,
@@ -21,10 +21,10 @@ import {
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
-import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -35,6 +35,7 @@ class MockProductService {}
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
@@ -43,6 +44,7 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-media',
   template: '<img>',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -74,7 +76,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule],
       declarations: [
         ProductCarouselItemComponent,
         MockUrlPipe,

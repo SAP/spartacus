@@ -24,6 +24,7 @@ import { ICON_TYPE } from '../../../cms-components/misc/index';
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StarRatingComponent {
   protected initialRate = 0;

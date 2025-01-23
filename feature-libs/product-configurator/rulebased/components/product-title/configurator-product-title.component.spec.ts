@@ -146,6 +146,7 @@ export class MockIconFontLoaderService {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -154,6 +155,7 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-media',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;

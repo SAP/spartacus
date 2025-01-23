@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "In CSV-Datei exportieren",
+    "exportMessage": "Die CSV-Datei wird automatisch auf Ihr Gerät heruntergeladen, andernfalls überprüfen Sie bitte Ihre Browsereinstellungen",
+    "columnNames": {
+      "code": "Code",
+      "quantity": "Menge",
+      "name": "Name",
+      "price": "Preis"
+    },
+    "exportProductToCsv": "Produkt in CSV-Datei eportieren"
+  },
+  "importEntries": {
+    "importProducts": "Produkte importieren"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Produkte importieren",
+    "importProductsSubtitle": "Fügen Sie Produkte hinzu, indem Sie eine .CSV-Datei importieren.",
+    "importProductsNewSavedCartSubtitle": "Fügen Sie Produkte hinzu, indem Sie eine .CSV-Datei importieren und einen neuen gespeicherten Warenkorb erstellen.",
+    "importProductFileDetails": "Die Textdatei sollte eine Liste der Produkte mit erforderlichen, durch ein Komma getrennte Spalten enthalten: SKU und Menge.",
+    "selectFile": "Datei auswählen",
+    "selectedSuccessfully": "CSV-Datei wurde erfolgreich ausgewählt.",
+    "savedCartName": "Name des gespeicherten Warenkorbs",
+    "savedCartDescription": "Beschreibung des gespeicherten Warenkorbs",
+    "optional": "optional",
+    "charactersLeft": "Zeichen übrig: {{count}}",
+    "cancel": "Abbrechen",
+    "upload": "Hochladen",
+    "close": "Schließen",
+    "summary": {
+      "info": "Schließen oder aktualisieren Sie dieses Fenster nicht, während die Produkte importiert werden.",
+      "loadedToCart": "Produkte wurden in den Warenkorb {{ cartName }} geladen",
+      "loaded": "Produkte wurden geladen",
+      "loading": "Produkte werden verarbeitet... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} von {{ total }} Produkten wurden erfolgreich importiert.",
+      "warning": "{{ count }} Produkt wurde nicht vollständig importiert.",
+      "warning_other": "{{ count }} Produkte wurden nicht vollständig importiert.",
+      "error": "{{ count }} Produkt wurde nicht importiert.",
+      "error_other": "{{ count }} Produkte wurden nicht importiert.",
+      "messages": {
+        "unknownIdentifier": "Produkt-SKU \"{{ productCode}}\" ist nicht vorhanden.",
+        "lowStock": "Menge für {{ productName }}: {{ quantity }} wurde auf {{ quantityAdded }} verringert.",
+        "noStock": "{{ productName }} ist zurzeit nicht vorrätig.",
+        "unknownError": "Nicht erkanntes Problem mit \"{{ productCode }}\".",
+        "limitExceeded": "\"{{ productCode }}\" kann nicht hinzugefügt werden. Limit überschritten."
+      },
+      "show": "Anzeigen",
+      "hide": "Ausblenden"
+    }
+  }
+}

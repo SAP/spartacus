@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Platba",
+    "choosePaymentMethod": "Zvolte způsob platby",
+    "paymentType": "Typ platby",
+    "accountHolderName": {
+      "label": "Jméno majitele účtu",
+      "placeholder": "Jméno majitele účtu"
+    },
+    "cardNumber": "Číslo karty",
+    "expirationDate": "Datum expirace",
+    "securityCode": "Bezpečnostní kód (CVV)",
+    "securityCodeTitle": "Ověřovací hodnota karty",
+    "saveAsDefault": "Uložit jako výchozí",
+    "setAsDefault": "Nastavit jako výchozí způsob platby",
+    "billingAddress": "Fakturační adresa",
+    "sameAsDeliveryAddress": "Stejná jako dodací adresa",
+    "billingAddressSameAsShipping": "Fakturační adresa je stejná jako dodací adresa",
+    "selectOne": "Vyberte jednu…",
+    "monthMask": "MM",
+    "yearMask": "RRRR",
+    "expirationYear": "Rok skončení platnosti {{ selected }}",
+    "expirationMonth": "Měsíc skončení platnosti {{ selected }}",
+    "useThisPayment": "Použít tuto platbu",
+    "addNewPayment": "Přidat novou platbu",
+    "paymentAddedSuccessfully": "Nová platba byla úspěšně přidána",
+    "changePayment": "Změnit platbu"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Způsoby platby",
+    "paymentMethodSelected": "Způsob platby byl vybrán",
+    "newPaymentMethodsAreAddedDuringCheckout": "Během kontroly a potvrzení byl přidán nový způsob platby.",
+    "invalidField": "Neplatné pole: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Opravdu chcete odstranit tento způsob platby?",
+    "setAsDefault": "Nastavit jako výchozí",
+    "expires": "Platnost končí: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ STANDARDNÍ",
+    "defaultPaymentLabel": "Standardní způsob platby",
+    "additionalPaymentLabel": "Další způsob platby {{ number }}",
+    "selected": "Vybráno",
+    "selectedPayment": "Vybrané platby",
+    "deletePaymentSuccess": "Způsob platby byl úspěšně odstraněn",
+    "visa": "Karta Visa",
+    "master": "Mastercard Card",
+    "masterEuro": "Karta Mastercard Eurocard",
+    "dinersClub": "Karta Diners Club",
+    "switch": "Karta Switch",
+    "maestro": "Karta Maestro",
+    "amex": "Karta American Express",
+    "credit": "Platební karta"
+  },
+  "paymentTypes": {
+    "title": "Způsob platby",
+    "paymentType_CARD": "Platební karta",
+    "paymentType_ACCOUNT": "Účet"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Nová platba byla úspěšně nastavena jako standardní."
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "新電子郵件地址",
+      "placeholder": "輸入電子郵件"
+    },
+    "confirmNewEmailAddress": {
+      "label": "確認新電子郵件地址",
+      "placeholder": "輸入電子郵件"
+    },
+    "enterValidEmail": "請輸入有效電子郵件。",
+    "bothEmailMustMatch": "兩者電子郵件必須相符",
+    "password": {
+      "label": "密碼",
+      "placeholder": "輸入密碼"
+    },
+    "pleaseInputPassword": "請輸入密碼",
+    "emailUpdateSuccess": "成功。請使用 {{ newUid }} 登入"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "確認密碼",
+      "label": "確認密碼",
+      "placeholder": "確認密碼"
+    },
+    "managementInMyAccount": "在我的帳戶中管理",
+    "termsAndConditions": "條款和條件",
+    "signIn": "我已有帳號。登入",
+    "register": "註冊",
+    "confirmNewPassword": "確認新密碼",
+    "resetPassword": "重設密碼",
+    "createAccount": "建立帳戶",
+    "title": "稱謂",
+    "titleOptional": "稱謂 (選擇性)",
+    "firstName": {
+      "label": "名字",
+      "placeholder": "名字"
+    },
+    "lastName": {
+      "label": "姓氏",
+      "placeholder": "姓氏"
+    },
+    "emailAddress": {
+      "label": "電子郵件地址",
+      "placeholder": "電子郵件地址"
+    },
+    "password": {
+      "label": "密碼",
+      "placeholder": "密碼"
+    },
+    "newPassword": "新密碼",
+    "emailMarketing": "使用我的個人資料接收行銷活動的電子郵件電子報。若要更改設定，請移至我的帳戶中的「同意管理」。",
+    "confirmThatRead": "我確認我已閱讀並同意",
+    "selectTitle": "選擇稱謂",
+    "passwordMinRequirements": "此為安全密碼的快速指南：請使用至少 8 個字元，其中混合大小寫字母、數字和符號。",
+    "passwordStrengthRequirements": "此為安全密碼的快速指南：請使用至少 8 個字元，其中混合大小寫字母、數字和符號。請確保不要連續使用相同字元。",
+    "bothPasswordMustMatch": "兩者密碼必須相符",
+    "titleRequired": "稱謂為必要。",
+    "postRegisterMessage": "請使用提供的憑證登入。",
+    "postRegisterSuccessMessage": "註冊成功：請使用提供的憑證登入"
+  },
+  "forgottenPassword": {
+    "resetPassword": "重設密碼",
+    "enterEmailAddressAssociatedWithYourAccount": "輸入與您帳戶相關的電子郵件地址",
+    "emailAddress": {
+      "label": "電子郵件地址",
+      "placeholder": "輸入電子郵件"
+    },
+    "enterValidEmail": "請輸入有效電子郵件。",
+    "passwordResetEmailSent": "電子郵件已傳送給你，其中包含如何重設密碼的資訊。",
+    "passwordResetSuccess": "成功！您現可使用新密碼登入。"
+  }
+}

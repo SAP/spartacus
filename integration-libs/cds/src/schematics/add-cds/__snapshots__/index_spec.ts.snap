@@ -3,7 +3,7 @@
 exports[`Spartacus CDS schematics: ng-add CDS feature with Profile tag configured general setup should create the feature module 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdsConfig, CdsModule } from "@spartacus/cds";
-import { cdsTranslationChunksConfig, cdsTranslations } from "@spartacus/cds/assets";
+import { cdsTranslationChunksConfig, cdsTranslationsEn } from "@spartacus/cds/assets";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
@@ -13,7 +13,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdsTranslations,
+      resources: { en: cdsTranslationsEn },
       chunks: cdsTranslationChunksConfig,
     },
   }),
@@ -21,9 +21,6 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     cds: {
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
-      endpoints: {
-        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
-      },
       merchandising: {
         defaultCarouselViewportThreshold: 80,
       },
@@ -49,7 +46,7 @@ export class CdsFeatureModule { }
 exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should create the feature module 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdsConfig, CdsModule } from "@spartacus/cds";
-import { cdsTranslationChunksConfig, cdsTranslations } from "@spartacus/cds/assets";
+import { cdsTranslationChunksConfig, cdsTranslationsEn } from "@spartacus/cds/assets";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
@@ -59,7 +56,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cdsTranslations,
+      resources: { en: cdsTranslationsEn },
       chunks: cdsTranslationChunksConfig,
     },
   }),
@@ -67,9 +64,6 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     cds: {
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
-      endpoints: {
-        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
-      },
       merchandising: {
         defaultCarouselViewportThreshold: 80,
       },

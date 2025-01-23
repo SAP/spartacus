@@ -27,6 +27,7 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
   selector: 'cx-claim-dialog',
   templateUrl: './claim-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

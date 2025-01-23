@@ -1,0 +1,10 @@
+{
+  "siteThemeSwitcher": {
+    "theme": "Téma",
+    "themes": {
+      "default": "Alapértelmezett",
+      "highContrastDark": "HC-sötét",
+      "highContrastLight": "HC-világos"
+    }
+  }
+}

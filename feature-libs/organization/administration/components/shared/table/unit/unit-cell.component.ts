@@ -11,6 +11,7 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-unit-cell',
   templateUrl: '../cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitCellComponent extends CellComponent {
   get property() {

@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Assisted Service Mode",
+    "logout": "Keluar",
+    "hideUi": "Tutup ASM",
+    "helpPortalUrl": "Bantuan",
+    "customers": "Pelanggan",
+    "asmCustomer360Button": "Tampilan Pelanggan 360 Derajat",
+    "asmCustomer360ViewButton": "Tampilan 360° - Pelanggan",
+    "createCustomerSuccessfullyAlert": "Akun pelanggan telah dibuat, dan sesi pelanggan telah dimulai.",
+    "saveInactiveCartAlertInfo": "Keranjang ini tidak aktif. Untuk mengambil tindakan lebih lanjut, simpan keranjang terlebih dahulu.",
+    "activeCartAlertInfo": "Keranjang ini aktif.",
+    "startCustomerEmulationAlertInfo": "Emulasi pelanggan telah dimulai. Setiap tindakan yang Anda lakukan akan tercermin pada akun pelanggan.",
+    "toggleUi": {
+      "collapse": "Sembunyikan ASM",
+      "expand": "Tampilkan ASM"
+    },
+    "loginForm": {
+      "submit": "Masuk",
+      "userId": {
+        "label": "ID atau Email Agen"
+      },
+      "password": {
+        "label": "Kata Sandi"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "Nama Pelanggan/Alamat Email"
+      },
+      "searchCustomer": {
+        "label": "Cari berdasarkan nama atau alamat email"
+      },
+      "searchOrder": {
+        "label": "Cari berdasarkan ID pesanan yang lengkap"
+      },
+      "submit": "Mulai Sesi",
+      "startEmulation": "Mulai Emulasi",
+      "noMatch": "Tidak ditemukan pelanggan.",
+      "noMatchResult": "Akun ini tidak dapat ditemukan.",
+      "noCustomerMatchResult": "Tidak ditemukan pelanggan yang cocok.",
+      "noOrderMatchResult": "Cari berdasarkan ID pesanan yang lengkap.",
+      "createCustomer": "Buat Pelanggan Baru",
+      "customer": "Pelanggan",
+      "orderID": "ID Pesanan"
+    },
+    "createCustomerForm": {
+      "title": "Buat Pelanggan Baru",
+      "createAccount": "Buat",
+      "cancel": "Batalkan",
+      "firstName": {
+        "label": "Nama Depan",
+        "placeholder": "Nama depan"
+      },
+      "lastName": {
+        "label": "Nama Belakang",
+        "placeholder": "Nama belakang"
+      },
+      "emailAddress": {
+        "label": "Alamat Email",
+        "placeholder": "Alamat email"
+      },
+      "createAccountAlert": "Sesi pelanggan akan dimulai setelah Anda membuat akun pelanggan.",
+      "validationErrors": {
+        "firstName": "Masukkan nama depan yang valid.",
+        "lastName": "Masukkan nama belakang yang valid.",
+        "emailAddress": "Masukkan alamat email yang valid."
+      },
+      "badRequestDuplicatedEmail": "Masukkan alamat email yang lain karena {{ emailAddress }} sudah ada."
+    },
+    "customerList": {
+      "title": "Daftar Pelanggan",
+      "description": "Pilih pelanggan dari salah satu daftar yang disediakan.",
+      "createCustomer": "Buat Pelanggan Baru",
+      "cancel": "Batalkan",
+      "tableHeader": {
+        "customer": "Pelanggan",
+        "customerName": "Nama Pelanggan",
+        "name": "Nama",
+        "email": "Email",
+        "emailId": "Email/ID",
+        "phone": "Telepon",
+        "account": "Akun",
+        "cart": "Keranjang",
+        "order": "Pesanan",
+        "view": "Tampilan 360",
+        "activeCart": "Keranjang Aktif",
+        "viewActiveCart": "Lihat Keranjang Aktif",
+        "orders": "Pesanan",
+        "viewOrders": "Lihat Pesanan",
+        "customer360": "Tampilan 360° - Pelanggan",
+        "viewCustomer360": "Lihat Tampilan 360° - Pelanggan"
+      },
+      "tableSort": {
+        "sortBy": "Urutkan berdasarkan",
+        "byName": "Nama (Urutkan Naik)",
+        "byNameAsc": "Nama (Urutkan Naik)",
+        "byNameDesc": "Nama (Urutkan Turun)",
+        "byDateAsc": "Tanggal (Urutkan Naik)",
+        "byDateDesc": "Tanggal (Urutkan Turun)",
+        "byOrderDateAsc": "Tanggal Pemesanan (Urutkan Naik)",
+        "byOrderDateDesc": "Tanggal Pemesanan (Urutkan Turun)",
+        "byUnit": "Akun (Urutkan Naik)",
+        "byUnitDesc": "Akun (Urutkan Turun)"
+      },
+      "page": {
+        "page": "Halaman {{count}}",
+        "previous": "Sebelumnya",
+        "next": "Selanjutnya"
+      },
+      "noOfCustomers": "{{count}} Pelanggan",
+      "oneCustomer": "1 Pelanggan",
+      "noCustomers": "Saat ini tidak ada pelanggan dalam daftar pelanggan ini.",
+      "noLists": "Saat ini daftar pelanggan tidak tersedia. Hubungi administrator sistem Anda.",
+      "listsError": "Tidak dapat mengakses daftar pelanggan. Silakan coba lagi nanti.",
+      "searchBox": "Cari",
+      "enterSearchBox": "Masukkan nama atau email pelanggan"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "Peringatan",
+        "body": "Mengeklik \"Ganti Pelanggan\" akan mengakhiri emulasi untuk \"{{ customerA }}\" dan memulai untuk \"{{ customerB }}\". Perubahan apa pun yang telah dibuat pada \"{{ customerA }}\" akan hilang.",
+        "actions": {
+          "switch": "Ganti Pelanggan"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "Simpan untuk Nanti",
+      "dialog": {
+        "saveInfo": "Simpan keranjang sebelum Anda mengambil tindakan lebih lanjut.",
+        "disableInfo": "Tidak dapat menyimpan keranjang karena kosong.",
+        "title": "Simpan Keranjang",
+        "row": {
+          "id": "ID",
+          "qty": "Jml",
+          "qtyFull": "Jumlah",
+          "total": "Total"
+        },
+        "actions": {
+          "save": "Simpan untuk Nanti"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "Nomor Keranjang",
+      "bindCartToCustomer": "Tetapkan Keranjang ke Pelanggan",
+      "success": "Keranjang telah berhasil ditetapkan",
+      "assignCartId": "Tetapkan id keranjang ke pelanggan",
+      "enterCartId": "Masukkan id keranjang",
+      "resetCartId": "Atur Ulang",
+      "dialog": {
+        "title": "Tetapkan Keranjang Anonim",
+        "body": "Apakah Anda ingin mengganti keranjang aktif saat ini dengan keranjang anonim? Jika Anda mengganti keranjang aktif saat ini, keranjang tersebut akan disimpan sebagai keranjang tersimpan.",
+        "actions": {
+          "replace": "Ganti Keranjang"
+        }
+      }
+    },
+    "csagentTokenExpired": "Sesi agen dukungan pelanggan Anda telah habis.",
+    "endSession": "Akhiri Sesi",
+    "endEmulation": "Akhiri Emulasi",
+    "agentSessionTimer": {
+      "label": "Waktu Sesi Habis",
+      "minutes": "mnt",
+      "reset": "Atur Ulang"
+    },
+    "auth": {
+      "agentLoggedInError": "Tidak dapat masuk sebagai pengguna saat sesi agen CS sedang berlangsung. Lakukan emulasi pengguna atau keluar dari agen CS."
+    },
+    "error": {
+      "noCustomerId": "Tidak ada Id pelanggan yang ditemukan untuk pengguna yang dipilih. Sesi tidak dapat dimulai."
+    }
+  }
+}

@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-order-summary',
   templateUrl: './order-summary.component.html',
+  standalone: false,
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input()

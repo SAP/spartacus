@@ -32,6 +32,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;

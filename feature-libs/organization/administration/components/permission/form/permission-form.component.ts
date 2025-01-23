@@ -40,6 +40,7 @@ import { PermissionItemService } from '../services/permission-item.service';
       useExisting: CurrentPermissionService,
     },
   ],
+  standalone: false,
 })
 export class PermissionFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

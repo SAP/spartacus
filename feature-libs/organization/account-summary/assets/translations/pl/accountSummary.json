@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Podsumowania kont",
+    "header": "Wszystkie podsumowania kont ({{count}})",
+    "name": "Jednostka",
+    "details": {
+      "header": "Szczegóły podsumowania konta",
+      "uid": "ID jednostki",
+      "name": "Nazwa jednostki",
+      "address": "Adres",
+      "creditRep": "Ref. ds. kredytów",
+      "creditLine": "Linia kredytowa",
+      "currentBalance": "Bieżące saldo",
+      "openBalance": "Nierozliczone saldo",
+      "pastDueBalance": "Zaległe saldo",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} dni",
+      "dayPlus": "{{minBoundary}}+ dni",
+      "notApplicable": "Nie dotyczy"
+    },
+    "document": {
+      "header": "Dokumenty",
+      "id": "Numer dokumentu",
+      "type": "Typ dokumentu",
+      "date": "Data utworzenia",
+      "dueDate": "Termin",
+      "originalAmount": "Pierwotna kwota",
+      "openAmount": "Kwota nierozliczona",
+      "status": "Status",
+      "attachment": "Załącznik",
+      "download": "Pobierz",
+      "attachmentDescription": "Pobierz załącznik dla {{type}} {{id}}.",
+      "noneFound": "Nie znaleziono dokumentów"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Data utworzenia rosnąco",
+      "byCreatedAtDateDesc": "Data utworzenia malejąco",
+      "byDueAtDateAsc": "Termin rosnąco",
+      "byDueAtDateDesc": "Termin malejąco",
+      "byOriginalAmountAsc": "Kwota pierwotna rosnąco",
+      "byOriginalAmountDesc": "Kwota pierwotna malejąco",
+      "byOpenAmountAsc": "Kwota nierozliczona rosnąco",
+      "byOpenAmountDesc": "Kwota nierozliczona malejąco",
+      "byOrgDocumentTypeAsc": "Typ dokumentu rosnąco",
+      "byOrgDocumentTypeDesc": "Typ dokumentu malejąco",
+      "byStatusAsc": "Status rosnąco",
+      "byStatusDesc": "Status malejąco",
+      "byOrgDocumentIdAsc": "Numer dokumentu rosnąco",
+      "byOrgDocumentIdDesc": "Numer dokumentu malejąco"
+    },
+    "statuses": {
+      "open": "Otwarte",
+      "closed": "Zamknięte",
+      "all": "Wszystkie"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Numer dokumentu",
+      "orgDocumentIdRange": "Zakres numerów dokumentów",
+      "orgDocumentType": "Typ dokumentu",
+      "createdAtDateRange": "Zakres dat utworzenia",
+      "dueAtDateRange": "Zakres terminów",
+      "amountRange": "Zakres kwot pierwotnych",
+      "openAmountRange": "Zakres kwot nierozliczonych"
+    },
+    "sortBy": "Sortuj wg",
+    "sortDocuments": "Sortuj dokumenty",
+    "filter": {
+      "status": "Status",
+      "filterBy": "Filtruj wg",
+      "documentNumber": "Numer dokumentu",
+      "documentType": "Typ dokumentu",
+      "startRange": "Od",
+      "endRange": "Do",
+      "clear": "Wyczyść wszystko",
+      "search": "Szukaj",
+      "errors": {
+        "toDateMustComeAfterFrom": "Wybierz datę końcową późniejszą niż data rozpoczęcia.",
+        "toAmountMustBeLargeThanFrom": "Wybierz wartość końcową zakresu, która jest mniejsza niż wartość początkowa."
+      }
+    },
+    "hint": "Podsumowania kont umożliwiają przeglądanie ogólnych informacji o jednostce, w tym sald i podsumowań wiekowania faktur. W tym miejscu można również przeglądać listę dokumentów transakcji dla jednostki."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Podsumowania kont",
+      "details": "{{name}}"
+    }
+  }
+}

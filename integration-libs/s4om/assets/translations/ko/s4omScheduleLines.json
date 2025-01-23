@@ -1,0 +1,8 @@
+{
+  "s4omScheduleLines": {
+    "quantity": "- 수량",
+    "a11y": {
+      "scheduleLineEntryInfo": "{{ quantity }} 수량이 {{ date }}에 의해 배송될 예정입니다."
+    }
+  }
+}

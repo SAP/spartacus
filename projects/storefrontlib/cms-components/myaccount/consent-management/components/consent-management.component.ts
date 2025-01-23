@@ -35,6 +35,7 @@ import { ConsentManagementComponentService } from '../consent-management-compone
 @Component({
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
+  standalone: false,
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

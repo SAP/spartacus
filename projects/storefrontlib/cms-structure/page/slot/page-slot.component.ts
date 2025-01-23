@@ -46,6 +46,7 @@ import { PageSlotService } from './page-slot.service';
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
   /**

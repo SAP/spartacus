@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-order-confirmation-totals',
   templateUrl: './order-confirmation-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;

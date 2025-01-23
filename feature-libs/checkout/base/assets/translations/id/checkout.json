@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Kembali ke keranjang"
+  },
+  "checkoutProgress": {
+    "label": "Kemajuan Proses Pembayaran",
+    "deliveryAddress": "Alamat Pengiriman",
+    "deliveryMode": "Mode Pengiriman",
+    "paymentDetails": "Pembayaran",
+    "reviewOrder": "Peninjauan",
+    "state": {
+      "completed": "{{step}}, Selesai",
+      "selected": "{{step}}, Dipilih",
+      "disabled": "{{step}}, Nonaktif"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Alamat Pengiriman",
+    "selectYourDeliveryAddress": "Pilih Alamat Pengiriman Anda",
+    "defaultDeliveryAddress": "Alamat Pengiriman Default",
+    "addNewAddress": "Tambah Alamat Baru",
+    "shipToThisAddress": "Kirim ke alamat ini",
+    "deliveryAddressSelected": "Alamat pengiriman dipilih"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Metode Pengiriman",
+    "deliveryOptions": "Opsi Pengiriman",
+    "standardDelivery": "Pengiriman Standar",
+    "premiumDelivery": "Pengiriman Premium",
+    "deliveryEntries": "Item yang akan Dikirim"
+  },
+  "checkoutReview": {
+    "review": "Peninjauan",
+    "reviewOrder": "Tinjau Pesanan",
+    "orderItems": "Item yang Dipesan",
+    "confirmThatRead": "Saya mengonfirmasikan bahwa saya telah membaca dan menyetujui",
+    "placeOrder": "Lakukan Pemesanan",
+    "termsAndConditions": "Syarat & Ketentuan",
+    "editDeliveryAddressDetails": "Mengedit rincian alamat pengiriman akan membuka halaman Alamat Pengiriman",
+    "editBillingDetails": "Mengedit alamat penagihan akan membuka halaman Rincian Pembayaran",
+    "editPaymentDetails": "Mengedit rincian pembayaran akan membuka halaman Rincian Pembayaran",
+    "editPaymentType": "Mengedit metode pembayaran akan membuka halaman Metode Pembayaran",
+    "editDeliveryMode": "Mengedit mode pengiriman akan membuka halaman Mode Pengiriman",
+    "orderInProcess": "Pesanan sedang diproses. Harap tunggu."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Konfirmasi Pesanan:",
+    "thankYou": "Terima kasih atas pesanan Anda!",
+    "invoiceHasBeenSentByEmail": "Tagihan telah dikirim melalui email. Anda akan segera menerimanya.",
+    "orderItems": "Item yang Dipesan",
+    "orderPlacedSuccessfully": "Pemesanan berhasil dilakukan",
+    "createAccount": "Buat akun?",
+    "createAccountForNext": "Buat akun untuk <{{email}}> agar mempercepat proses pembayaran dalam kunjungan Anda yang berikutnya."
+  }
+}

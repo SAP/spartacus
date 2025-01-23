@@ -6,7 +6,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -66,6 +65,7 @@ const mockTitlesList: Title[] = [
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -74,6 +74,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -166,7 +167,6 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,

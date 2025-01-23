@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "商店取貨",
+    "pickupBy": "取貨於",
+    "pickupFrom": "取貨自"
+  },
+  "pickupOptionDialog": {
+    "close": "關閉",
+    "modalHeader": "商店取貨"
+  },
+  "pickupOptions": {
+    "legend": "交貨方法",
+    "changeStore": "更改商店",
+    "delivery": "運送 (免費退貨)",
+    "pickup": "免費商店取貨",
+    "shipIt": "運送",
+    "selectStore": "選擇商店",
+    "freeReturn": "免費退貨",
+    "storeIsNotSelected": "未選擇要取貨的商店。"
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "將此設定為我的商店",
+    "myStore": "我的商店"
+  },
+  "store": {
+    "pickupFromHere": "從這裡取貨",
+    "stockLevel_inStock": "庫存有 {{ count }} 個",
+    "stockLevel_outOfStock": "缺貨",
+    "viewHours": "檢視時數"
+  },
+  "storeList": {
+    "noStoresMessage": "資料庫中找不到商店..."
+  },
+  "storeSchedule": {
+    "closed": "關閉",
+    "storeHours": "商店營業時間"
+  },
+  "storeSearch": {
+    "findAStore": "搜尋商店",
+    "findStores": "搜尋商店",
+    "hideOutOfStockOptions": "從庫存選項隱藏",
+    "searchPlaceholder": "輸入郵遞區號或城鎮或地址",
+    "useMyLocation": "使用我的位置"
+  },
+  "addressBookPickupInStore": {
+    "heading": "取貨商店"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "我的商店"
+  },
+  "checkoutPickupInStore": {
+    "heading": "要取貨的項目",
+    "storeItemHeading": "取貨商店地址"
+  },
+  "cartItems": {
+    "item": "項目"
+  },
+  "cardActions": {
+    "getDirections": "規劃路線，此連結會在新視窗中開啟"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "要取貨的項目",
+    "pickUpInStoreAddress": "取貨商店地址",
+    "itemsToBeShipped": "待運送項目",
+    "shippingAddress": "出貨地址",
+    "deliveryMethod": "交貨方法",
+    "deliveryOptions": "交貨選項",
+    "statusDisplay_cancelled": "已取消",
+    "statusDisplay_cancelling": "取消待處理",
+    "statusDisplay_completed": "已完成",
+    "statusDisplay_created": "已建立",
+    "statusDisplay_error": "待處理",
+    "statusDisplay_Error": "待處理",
+    "statusDisplay_processing": "待處理",
+    "statusDisplay_open": "未結",
+    "statusDisplay_pending": {
+      "approval": "待核准",
+      "merchant": {
+        "approval": "待商家核准"
+      }
+    },
+    "statusDisplay_approved": "已核准",
+    "statusDisplay_rejected": "已拒絕",
+    "statusDisplay_merchant": {
+      "approved": "商家已核准",
+      "rejected": "商家已拒絕"
+    },
+    "statusDisplay_assigned": {
+      "admin": "已指派給管理員"
+    }
+  }
+}

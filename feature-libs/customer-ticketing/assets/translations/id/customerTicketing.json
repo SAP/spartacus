@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Pertiketan Pelanggan",
+    "ticketId": "ID",
+    "createdOn": "Dibuat Pada",
+    "changedOn": "Diubah Pada",
+    "status": "Status",
+    "message": "Pesan",
+    "cancel": "Batal",
+    "submit": "Kirim",
+    "uploadFile": "Unggah File",
+    "fileSizeLimit": "Batas ukuran file: {{count}} MB",
+    "maximumAttachment": "Maksimal satu lampiran per pesan",
+    "errorMessage": "Terjadi kesalahan.",
+    "charactersLeft": "karakter tersisa: {{count}}",
+    "customerService": "Layanan Pelanggan"
+  },
+  "customerTicketingList": {
+    "subject": "Subjek",
+    "ticketCategory": "Kategori",
+    "sortSubtitle": "Urutkan berdasarkan",
+    "sortOrders": "Pengaturan urutan",
+    "noTickets": "Anda tidak memiliki permintaan apa pun",
+    "requestTitle": "Semua Permintaan",
+    "mobile": {
+      "ticketIdFull": "ID Tiket"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "Tambahkan",
+    "addNewRequest": "Tambahkan Permintaan Baru",
+    "addRequest": "Tambahkan Permintaan",
+    "subject": "Subjek",
+    "category": "Kategori",
+    "associateTo": "Hubungkan Ke",
+    "ticketCreated": "Permintaan dibuat.",
+    "optionallySelectAssociatedObject": "Pilih Opsi",
+    "selectCategory": "Pilih Kategori"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "Permintaan Dibuka Kembali.",
+    "requestClosed": "Permintaan ditutup, tetapi dapat dibuka kembali jika diperlukan.",
+    "reopenRequest": "Buka Kembali Permintaan",
+    "closeRequest": "Tutup Permintaan",
+    "ticketNotFound": "Tiket tidak ditemukan."
+  }
+}

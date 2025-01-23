@@ -39,6 +39,7 @@ import { UnitItemService } from '../services/unit-item.service';
       useExisting: CurrentUnitService,
     },
   ],
+  standalone: false,
 })
 export class UnitFormComponent implements OnInit {
   @Input() i18nRoot = 'orgUnit';

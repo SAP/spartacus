@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Exporter au format CSV",
+    "exportMessage": "Le fichier CSV sera téléchargé automatiquement sur votre appareil, si ce n'est pas le cas, veuillez vérifier les paramètres de votre navigateur.",
+    "columnNames": {
+      "code": "Code",
+      "quantity": "Quantité",
+      "name": "Nom",
+      "price": "Prix"
+    },
+    "exportProductToCsv": "Exporter le produit au format CSV"
+  },
+  "importEntries": {
+    "importProducts": "Importer des produits"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Importer des produits",
+    "importProductsSubtitle": "Ajoutez des produits en important un fichier .CSV.",
+    "importProductsNewSavedCartSubtitle": "Ajoutez des produits en important un fichier .CSV et en créant un nouveau panier sauvegardé.",
+    "importProductFileDetails": "Le fichier texte doit contenir une liste de produits avec les colonnes requises séparées par une virgule : UGS et quantité.",
+    "selectFile": "Sélectionner un fichier",
+    "selectedSuccessfully": "Le fichier CSV a été sélectionné avec succès.",
+    "savedCartName": "Nom du panier sauvegardé",
+    "savedCartDescription": "Description du panier sauvegardé",
+    "optional": "facultatif",
+    "charactersLeft": "Caractères restants : {{count}}",
+    "cancel": "Annuler",
+    "upload": "Charger",
+    "close": "Fermer",
+    "summary": {
+      "info": "Ne fermez pas ou n'actualisez pas cette fenêtre pendant l'importation des produits.",
+      "loadedToCart": "Les produits ont été chargés dans le panier {{ cartName }}",
+      "loaded": "Les produits ont été chargés",
+      "loading": "Les produits sont en cours de traitement... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} produits sur {{ total }} ont été importés avec succès.",
+      "warning": "{{ count }} produit n'a pas été importé en totalité.",
+      "warning_other": "{{ count }} produits n'ont pas été importés en totalité.",
+      "error": "{{ count }} produit n'a pas été importé.",
+      "error_other": "{{ count }} produits n'ont pas été importés.",
+      "messages": {
+        "unknownIdentifier": "L'UGS produit \"{{ productCode}}\" n'existe pas.",
+        "lowStock": "La quantité pour {{ productName }} : {{ quantity }} a été réduite à {{ quantityAdded }}.",
+        "noStock": "{{ productName }} est actuellement en rupture de stock.",
+        "unknownError": "Problème non reconnu avec \"{{ productCode }}\"",
+        "limitExceeded": "Impossible d'ajouter \"{{ productCode }}\". Limite dépassée."
+      },
+      "show": "Afficher",
+      "hide": "Masquer"
+    }
+  }
+}

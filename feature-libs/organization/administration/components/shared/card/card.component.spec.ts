@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
@@ -36,7 +35,6 @@ describe('CardComponent', () => {
         // SplitViewTestingModule,
         IconTestingModule,
         I18nTestingModule,
-        RouterTestingModule,
         MessageTestingModule,
         PopoverModule,
       ],

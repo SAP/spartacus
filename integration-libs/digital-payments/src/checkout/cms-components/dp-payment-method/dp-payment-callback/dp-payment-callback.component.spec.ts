@@ -82,6 +82,7 @@ const mockPaymentDetails: PaymentDetails = {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 class MockLaunchDialogService {

@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AnonymousConsentsConfig,
   CmsNavigationComponent,
@@ -18,6 +17,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
+  standalone: false,
 })
 class MockNavigationUIComponent {
   @Input() flyout = true;
@@ -34,6 +34,7 @@ const mockAnonymousConsentsConfig = {
 @Component({
   selector: 'cx-generic-link',
   template: '<ng-content></ng-content>',
+  standalone: false,
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -72,7 +73,7 @@ describe('FooterNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         FooterNavigationComponent,
         NavigationComponent,

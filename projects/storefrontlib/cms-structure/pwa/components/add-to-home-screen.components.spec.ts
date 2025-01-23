@@ -8,6 +8,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-add-to-home',
   template: 'test-add-to-home',
+  standalone: false,
 })
 class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {

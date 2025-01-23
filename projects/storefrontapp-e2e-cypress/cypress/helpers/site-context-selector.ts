@@ -59,6 +59,7 @@ export const TITLE_DE = 'Herr';
 export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
   month: 'long',
 });
+export const EDIT_DE = 'Bearbeiten';
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
 export const PRODUCT_PATH_2 = `/product/${PRODUCT_ID_2}`;

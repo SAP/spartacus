@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { UrlMatcherService } from '../services/url-matcher.service';
 import { ExternalRoutesConfig } from './external-routes-config';
 import { ExternalRoutesGuard } from './external-routes.guard';
@@ -30,7 +29,7 @@ describe('ExternalRoutesService', () => {
       ],
 
       imports: [
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           {
             path: '**',
             component: {} as any,

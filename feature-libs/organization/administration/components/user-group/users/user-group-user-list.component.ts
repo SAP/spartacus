@@ -26,6 +26,7 @@ import { UserGroupUserListService } from './user-group-user-list.service';
       useExisting: UserGroupUserListService,
     },
   ],
+  standalone: false,
 })
 export class UserGroupUserListComponent {
   constructor(

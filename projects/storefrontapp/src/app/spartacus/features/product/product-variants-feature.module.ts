@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   productVariantsTranslationChunksConfig,
-  productVariantsTranslations,
+  productVariantsTranslationsEn,
+  productVariantsTranslationsJa,
+  productVariantsTranslationsDe,
+  productVariantsTranslationsZh,
 } from '@spartacus/product/variants/assets';
 import {
   ProductVariantsRootModule,
@@ -30,7 +33,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: productVariantsTranslations,
+        resources: {
+          en: productVariantsTranslationsEn,
+          ja: productVariantsTranslationsJa,
+          de: productVariantsTranslationsDe,
+          zh: productVariantsTranslationsZh,
+        },
         chunks: productVariantsTranslationChunksConfig,
       },
     }),

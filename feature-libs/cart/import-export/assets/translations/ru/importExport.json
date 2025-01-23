@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Экспорт в CSV",
+    "exportMessage": "Файл CSV автоматически загрузится на ваше устройство. Если этого не произошло, проверьте настройки браузера.",
+    "columnNames": {
+      "code": "Код",
+      "quantity": "Количество",
+      "name": "Имя",
+      "price": "Цена"
+    },
+    "exportProductToCsv": "Экспорт продукта в CSV"
+  },
+  "importEntries": {
+    "importProducts": "Импорт продуктов"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Импорт продуктов",
+    "importProductsSubtitle": "Добавьте продукты через импорт файла .CSV",
+    "importProductsNewSavedCartSubtitle": "Добавьте продукты через импорт файла .CSV и создайте новую сохраненную корзину.",
+    "importProductFileDetails": "Текстовый файл должен содержать список продуктов с обязательными столбцами, разделенными запятой: SKU и количество.",
+    "selectFile": "Выбрать файл",
+    "selectedSuccessfully": "Файл CSV выбран.",
+    "savedCartName": "Имя сохраненной корзины",
+    "savedCartDescription": "Описание сохраненной корзины",
+    "optional": "необязательно",
+    "charactersLeft": "осталось символов: {{count}}",
+    "cancel": "Отменить",
+    "upload": "Загрузить",
+    "close": "Закрыть",
+    "summary": {
+      "info": "Не закрывайте и не обновляйте это окно во время импорта продуктов.",
+      "loadedToCart": "Продукты загружены в корзину {{ cartName }}",
+      "loaded": "Продукты загружены",
+      "loading": "Продукты обрабатываются... ({{ count }}/{{ total }})",
+      "successes": "Импортировано продуктов: {{ successesCount }} из {{ total }}.",
+      "warning": "{{ count }} продукт не импортирован полностью.",
+      "warning_other": "{{ count }} прод. не импортировано полностью.",
+      "error": "{{ count }} продукт не импортирован.",
+      "error_other": "Не импортировано продуктов: {{ count }}.",
+      "messages": {
+        "unknownIdentifier": "SKU продукта \"{{ productCode}}\" не существует.",
+        "lowStock": "Количество для {{ productName }}: {{ quantity }} сокращено до {{ quantityAdded }}. ",
+        "noStock": "{{ productName }} сейчас не в наличии.",
+        "unknownError": "Неизвестная проблема с \"{{ productCode }}\".",
+        "limitExceeded": "Невозможно добавить \"{{ productCode }}\". Превышен лимит."
+      },
+      "show": "Показать",
+      "hide": "Скрыть"
+    }
+  }
+}

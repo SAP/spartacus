@@ -30,6 +30,7 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
       useExisting: UnitUserRolesItemService,
     },
   ],
+  standalone: false,
 })
 export class UnitUserRolesFormComponent {
   protected item: B2BUser | undefined;

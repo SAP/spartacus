@@ -19,6 +19,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   selector: 'cx-configurator-textfield-input-field',
   templateUrl: './configurator-textfield-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';

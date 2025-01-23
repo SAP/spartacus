@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "खाता सारांश",
+    "header": "सभी खातों का सारांश ({{count}})",
+    "name": "इकाई",
+    "details": {
+      "header": "खाता सारांश विवरण",
+      "uid": "इकाई ID",
+      "name": "इकाई का नाम",
+      "address": "पता",
+      "creditRep": "क्रेडिट रिपोर्ट",
+      "creditLine": "क्रेडिट लाइन",
+      "currentBalance": "वर्तमान शेष राशि",
+      "openBalance": "आदिशेष",
+      "pastDueBalance": "पूर्व देय राशि:",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} दिवस",
+      "dayPlus": "{{minBoundary}}+ दिवस",
+      "notApplicable": "लागू नहीं है"
+    },
+    "document": {
+      "header": "दस्तावेज़",
+      "id": "दस्तावेज संख्या",
+      "type": "दस्तावेज़ प्रकार",
+      "date": "निर्माण दिनांक",
+      "dueDate": "नियत दिनांक",
+      "originalAmount": "मूल राशि",
+      "openAmount": "खुली राशि",
+      "status": "स्थिति",
+      "attachment": "संलग्नक",
+      "download": "डाउनलोड करें",
+      "attachmentDescription": "{{type}} {{id}} के लिए अनुलग्नक डाउनलोड करें",
+      "noneFound": "कोई दस्तावेज़ नहीं मिले"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "आरोही पर बनाए गए",
+      "byCreatedAtDateDesc": "अवरोही पर बनाए गए",
+      "byDueAtDateAsc": "आरोही पर देय",
+      "byDueAtDateDesc": "अवरोही पर देय",
+      "byOriginalAmountAsc": "आरोही क्रम में मूल राशि",
+      "byOriginalAmountDesc": "अवरोही क्रम में मूल राशि",
+      "byOpenAmountAsc": "मुक्त राशि आरोही",
+      "byOpenAmountDesc": "मुक्त राशि अवरोही",
+      "byOrgDocumentTypeAsc": "दस्तावेज़ प्रकार आरोही",
+      "byOrgDocumentTypeDesc": "दस्तावेज़ प्रकार अवरोही",
+      "byStatusAsc": "स्थिति आरोही",
+      "byStatusDesc": "स्थिति अवरोही",
+      "byOrgDocumentIdAsc": "दस्तावेज़ संख्या आरोही",
+      "byOrgDocumentIdDesc": "दस्तावेज़ संख्या अवरोही"
+    },
+    "statuses": {
+      "open": "खोलें",
+      "closed": "बंद है",
+      "all": "सभी"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "दस्तावेज संख्या",
+      "orgDocumentIdRange": "दस्तावेज संख्या श्रेणी",
+      "orgDocumentType": "दस्तावेज़ प्रकार",
+      "createdAtDateRange": "निर्माण दिनांक श्रेणी",
+      "dueAtDateRange": "देय दिनांक श्रेणी",
+      "amountRange": "मूल राशि श्रेणी",
+      "openAmountRange": "मुक्त राशि श्रेणी"
+    },
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortDocuments": "दस्तावेज़ क्रमित करें",
+    "filter": {
+      "status": "स्थिति",
+      "filterBy": "इसके द्वारा फ़िल्टर",
+      "documentNumber": "दस्तावेज संख्या",
+      "documentType": "दस्तावेज़ प्रकार",
+      "startRange": "इससे",
+      "endRange": "इस तक",
+      "clear": "सब साफ़ करें",
+      "search": "खोजें",
+      "errors": {
+        "toDateMustComeAfterFrom": "एक समाप्ति दिनांक चुनें जो प्रारंभ दिनांक के बाद की हो.",
+        "toAmountMustBeLargeThanFrom": "एक समाप्ति श्रेणी मान चुनें जो प्रारंभ मान से छोटा हो."
+      }
+    },
+    "hint": "खाता सारांश आपको इकाई के बारे में सामान्य जानकारी की समीक्षा करने की अनुमति देता है, जिसमें चालानों की शेष राशी और एजिंग सारांश शामिल है. यहां, आप किसी इकाई के लिए लेनदेन दस्तावेज़ों की सूची द्वारा भी ब्राउज़ कर सकते हैं."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "खाता सारांश",
+      "details": "{{name}}"
+    }
+  }
+}

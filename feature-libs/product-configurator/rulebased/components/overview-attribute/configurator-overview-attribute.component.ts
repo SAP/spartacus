@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-configurator-overview-attribute',
   templateUrl: './configurator-overview-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorOverviewAttributeComponent {
   @Input() attributeOverview: Configurator.AttributeOverview;

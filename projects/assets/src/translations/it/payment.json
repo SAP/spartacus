@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Pagamento",
+    "choosePaymentMethod": "Scegli un metodo di pagamento",
+    "paymentType": "Tipo di pagamento",
+    "accountHolderName": {
+      "label": "Nome intestatario conto",
+      "placeholder": "Nome intestatario conto"
+    },
+    "cardNumber": "Numero della carta",
+    "expirationDate": "Data di scadenza",
+    "securityCode": "Codice di sicurezza (CVV)",
+    "securityCodeTitle": "Valore di verifica della carta",
+    "saveAsDefault": "Salva come predefinito",
+    "setAsDefault": "Imposta come metodo di pagamento predefinito",
+    "billingAddress": "Indirizzo di fatturazione",
+    "sameAsDeliveryAddress": "Uguale all'indirizzo di consegna",
+    "billingAddressSameAsShipping": "L'indirizzo di fatturazione è uguale all'indirizzo di consegna",
+    "selectOne": "Seleziona uno...",
+    "monthMask": "MM",
+    "yearMask": "AAAA",
+    "expirationYear": "Anno di scadenza {{ selected }}",
+    "expirationMonth": "Mese di scadenza {{ selected }}",
+    "useThisPayment": "Utilizza questo pagamento",
+    "addNewPayment": "Aggiungi nuovo pagamento",
+    "paymentAddedSuccessfully": "Nuovo pagamento aggiunto correttamente",
+    "changePayment": "Modifica pagamento"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Metodi di pagamento",
+    "paymentMethodSelected": "Metodo di pagamento selezionato",
+    "newPaymentMethodsAreAddedDuringCheckout": "Durante il check-out sono stati aggiunti nuovi metodi di pagamento.",
+    "invalidField": "Campo non valido: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Confermare di voler eliminare questo metodo di pagamento?",
+    "setAsDefault": "Imposta come predefinito",
+    "expires": "Scadenza: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ PREDEFINITO",
+    "defaultPaymentLabel": "Metodo di pagamento predefinito",
+    "additionalPaymentLabel": "Metodo di pagamento aggiuntivo {{ number }}",
+    "selected": "Selezionato",
+    "selectedPayment": "Pagamento selezionato",
+    "deletePaymentSuccess": "Metodo di pagamento eliminato correttamente",
+    "visa": "Carta Visa",
+    "master": "Carta MasterCard",
+    "masterEuro": "Carta MasterCard Eurocard",
+    "dinersClub": "Carta Diners Club",
+    "switch": "Cambia carta",
+    "maestro": "Carta Maestro",
+    "amex": "Carta American Express",
+    "credit": "Carta di credito"
+  },
+  "paymentTypes": {
+    "title": "Metodo di pagamento",
+    "paymentType_CARD": "Carta di credito",
+    "paymentType_ACCOUNT": "Account"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Nuovo pagamento impostato correttamente come predefinito"
+  }
+}

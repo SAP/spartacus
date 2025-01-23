@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "Buka hingga",
+    "closed": "Tutup",
+    "back": "Kembali",
+    "call": "Hubungi",
+    "getDirections": "Dapatkan Petunjuk Arah",
+    "ariaLabelGetDirections": "Dapatkan Petunjuk Arah, tautan ini akan terbuka di jendela baru",
+    "ariaLabelCountriesCount": "Toko ditemukan di {{ count }} negara",
+    "listView": "Tampilan Daftar",
+    "mapView": "Tampilan Peta",
+    "noStoresFound": "Toko Tidak Ditemukan.",
+    "storeHours": "Jam buka toko",
+    "storeFeatures": "Fitur-fitur toko",
+    "storeFinder": "Pencari Toko",
+    "storesFoundTitle": "Toko Ditemukan",
+    "storesFound": "{{ count }} toko ditemukan",
+    "storesFound_other": "{{ count }} toko ditemukan",
+    "fromStoresFound": "dari {{ count }} toko ditemukan",
+    "fromStoresFound_other": "dari {{ count }} toko ditemukan",
+    "findStore": "Cari toko",
+    "useMyLocation": "Gunakan lokasi saya",
+    "viewAllStores": "Lihat semua toko",
+    "contactUs": "Hubungi kami",
+    "searchBox": "Kode pos, kota, atau alamat",
+    "backToList": "Kembali ke daftar",
+    "noStoresMessage": "Tidak ada toko di basis data...",
+    "geolocationNotEnabled": "Tidak dapat menemukan toko terdekat. Izin geolokasi belum diaktifkan",
+    "searchNearestStores": "Cari toko terdekat",
+    "searchBoxLabel": "Masukkan kode pos, kota, atau alamat"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "Kép kibontása"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "Felnagyított kép",
+    "close": "Bezárás"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "खाता बंद होने की पुष्टि करें",
+    "confirmAccountClosureMessage": "क्या आप वाकई अपना खाता बंद करना चाहते हैं?",
+    "closeMyAccount": "मेरा खाता बंद करें",
+    "accountClosedSuccessfully": "खाता सफलता से बंद किया गया",
+    "accountClosedFailure": "खाता बंद करने में विफल"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "पुराना पासवर्ड",
+      "placeholder": "पुराना पासवर्ड"
+    },
+    "oldPasswordIsRequired": "पुराना पासवर्ड आवश्यक है.",
+    "newPassword": {
+      "label": "नया पासवर्ड",
+      "placeholder": "नया पासवर्ड"
+    },
+    "passwordMinRequirements": "सुरक्षित पासवर्ड के लिए त्वरित मार्गदर्शिकाः अपर और लोअर केस के वर्ण, संख्या और प्रतीक चिह्नों के कम से कम 8 वर्णों का उपयोग करें.",
+    "passwordStrengthRequirements": "सुरक्षित पासवर्ड के लिए त्वरित मार्गदर्शिकाः अपर और लोअर केस के वर्ण, संख्या और प्रतीक चिह्नों के कम से कम 8 वर्णों का अपयोग करे. ध्यान रखें कि एक ही वर्ण का लगातार उपयोग न करें.",
+    "confirmPassword": {
+      "label": "नए पासवर्ड की पुष्टि करें",
+      "placeholder": "पासवर्ड की पुष्टि करें"
+    },
+    "bothPasswordMustMatch": "दोनों पासवर्ड मेल खाना चाहिए",
+    "passwordUpdateSuccess": "पासवर्ड सफलतापूर्वक अपडेट किया गया",
+    "accessDeniedError": "पहुंच अस्वीकृत किया गया"
+  },
+  "updateProfileForm": {
+    "title": "शीर्षक",
+    "none": "",
+    "firstName": {
+      "label": "प्रथम नाम",
+      "placeholder": "प्रथम नाम"
+    },
+    "firstNameIsRequired": "प्रथम नाम आवश्यक है.",
+    "lastName": {
+      "label": "अंतिम नाम",
+      "placeholder": "अंतिम नाम"
+    },
+    "lastNameIsRequired": "अंतिम नाम आवश्यक है.",
+    "profileUpdateSuccess": "निजी विवरण सफलतापूर्वक अपडेट किया गया",
+    "customerId": "ग्राहक #"
+  },
+  "consentManagementForm": {
+    "clearAll": "सब साफ़ करें",
+    "selectAll": "सभी का चयन करें",
+    "message": {
+      "success": {
+        "given": "स्वीकृति सफलतापूर्वक दी गई.",
+        "withdrawn": "स्वीकृति सफलतापूर्वक हटाई गई."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "आपके पास कोई कूप उपलब्ध नहीं है.",
+    "effectiveTitle": "प्रभावी:",
+    "Effective": "प्रभावी:",
+    "PreSession": "जल्द ही प्रभावी होगा",
+    "ExpireSoon": "जल्दी समाप्त हो रहा है",
+    "readMore": "अधिक पढ़ें",
+    "notification": "अधिसूचना",
+    "findProducts": "उत्पाद खोजें",
+    "status": "स्थिति:",
+    "dialogTitle": "कूपन",
+    "claimCustomerCoupon": "आपने सफलतापूर्वक इस कूपन का दावा किया है.",
+    "myCoupons": "मेरे कूपन",
+    "startDateAsc": "प्रारंभ दिनांक (आरोही)",
+    "startDateDesc": "प्रारंभ दिनांक (अवरोही)",
+    "endDateAsc": "समाप्ति दिनांक (आरोही)",
+    "endDateDesc": "समाप्ति दिनांक (अवरोही)",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortCoupons": "कूपन क्रमित करें",
+    "notesPreffix": "आप कूपन अधिसूचा प्राप्त करे के लिए अपना पसंदीदा चैनल यहां सेट कर सकते हैं ",
+    "notesLink": "अधिसूचना चैनल",
+    "notesSuffix": " पृष्ठ."
+  },
+  "notificationPreference": {
+    "message": "अपना पसंदीदा अधिसूचना चैनल चुनें",
+    "note": "सूचनाः ",
+    "noteMessage": "यदि आपने सभी चैनल निष्क्रिय किए तो आप आगे अधिसूचनाएं प्राप्त करे में सक्षम नहीं होंगे.",
+    "EMAIL": "ई-मेलः",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "साइटसंदेश"
+  },
+  "myInterests": {
+    "header": "मेरी रूचि",
+    "item": "आइटम",
+    "price": "मूल्य",
+    "notifications": "अधिसूचनाएं",
+    "noInterests": "आपके पास अभी तक पंजीकृत रूचियां नहीं हैं.",
+    "inStock": "स्टॉक में है",
+    "lowStock": "कम स्टॉक",
+    "outOfStock": "स्टॉक में नहीं है",
+    "BACK_IN_STOCK": "स्टॉक में वापस जाएं",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortInterests": "रूचियां क्रमित करें",
+    "expirationDate": " - {{ expirationDate }} तक",
+    "productId": "ID {{ code }}",
+    "remove": "निकालें",
+    "sorting": {
+      "byNameAsc": "नाम (आरोही क्रम में)",
+      "byNameDesc": "नाम (अवरोही क्रम में)"
+    },
+    "actions": "कार्रवाईयां",
+    "caption": "मेरी रूचि की सामग्री.",
+    "itemRemoved": "चयनित आइटम निकाले गए."
+  }
+}

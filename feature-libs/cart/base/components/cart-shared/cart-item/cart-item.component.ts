@@ -24,6 +24,7 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
+  standalone: false,
 })
 export class CartItemComponent implements OnChanges {
   @Input() compact = false;

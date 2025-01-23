@@ -1,19 +1,18 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationExtras } from '@angular/router';
 import {
+  BaseOption,
+  I18nTestingModule,
   Product,
   RoutingService,
   UrlCommandRoute,
   UrlCommands,
   VariantType,
-  I18nTestingModule,
-  BaseOption,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ProductVariantsContainerComponent } from './product-variants-container.component';
-import { NavigationExtras } from '@angular/router';
 
 const mockProduct: Product = {
   name: 'mockProduct',
@@ -44,6 +43,7 @@ class MockRoutingService {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
@@ -60,6 +60,7 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-product-variant-style-selector',
   template: '',
+  standalone: false,
 })
 class MockCxProductStyleSelectorComponent {
   @Input() product: Product;
@@ -69,6 +70,7 @@ class MockCxProductStyleSelectorComponent {
 @Component({
   selector: 'cx-product-variant-size-selector',
   template: '',
+  standalone: false,
 })
 class MockCxProductSizeSelectorComponent {
   @Input() product: Product;
@@ -78,6 +80,7 @@ class MockCxProductSizeSelectorComponent {
 @Component({
   selector: 'cx-product-variant-color-selector',
   template: '',
+  standalone: false,
 })
 class MockCxProductColorSelectorComponent {
   @Input() product: Product;
@@ -97,7 +100,7 @@ describe('ProductVariantsContainerComponent', () => {
         MockCxProductSizeSelectorComponent,
         MockCxProductColorSelectorComponent,
       ],
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: RoutingService,

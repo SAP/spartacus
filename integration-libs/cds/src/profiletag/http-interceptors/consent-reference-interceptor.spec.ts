@@ -1,7 +1,12 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
@@ -20,7 +25,7 @@ describe('consent reference interceptor', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: ProfileTagEventService,
@@ -35,6 +40,8 @@ describe('consent reference interceptor', () => {
           provide: OccEndpointsService,
           useValue: occEndPointsMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
   });

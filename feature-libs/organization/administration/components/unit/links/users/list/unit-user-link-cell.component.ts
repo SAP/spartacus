@@ -42,6 +42,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

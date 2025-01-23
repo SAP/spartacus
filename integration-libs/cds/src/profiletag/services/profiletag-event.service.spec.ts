@@ -26,6 +26,7 @@ const mockCDSConfig: CdsConfig = {
       configUrl: 'https:tag.static.us.context.cloud.sap',
       allowInsecureCookies: false,
       gtmId: 'test-id-1234567',
+      sciEnabled: false,
     },
   },
 };

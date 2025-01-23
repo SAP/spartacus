@@ -1,11 +1,10 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { PageTitleComponent } from './page-title.component';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
@@ -23,7 +22,7 @@ describe('PageTitleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [PageTitleComponent],
       providers: [
         { provide: PageMetaService, useClass: MockPageMetaService },

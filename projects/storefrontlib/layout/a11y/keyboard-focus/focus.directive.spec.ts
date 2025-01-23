@@ -10,6 +10,7 @@ import { KeyboardFocusService } from './services';
     id="a"
     [cxFocus]="{ autofocus: true, refreshFocus: modelA }"
   ></div>`,
+  standalone: false,
 })
 class MockComponent {
   modelA = '';
