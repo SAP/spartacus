@@ -1,0 +1,195 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// Individual imports. replace bootstrap with vendor/bootstrap
+// add bootstrap imports in feature libs
+
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+
+const bootstrapImportsToReplace = [
+  {
+    find: 'bootstrap/alert',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/alert',
+  },
+  {
+    find: 'bootstrap/badge',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/badge',
+  },
+  {
+    find: 'bootstrap/breadcrumb',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/breadcrumb',
+  },
+  {
+    find: 'bootstrap/button-group',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/button-group',
+  },
+  {
+    find: 'bootstrap/buttons',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/buttons',
+  },
+  {
+    find: 'bootstrap/card',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/card',
+  },
+  {
+    find: 'bootstrap/carousel',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/carousel',
+  },
+  {
+    find: 'bootstrap/close',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/close',
+  },
+  {
+    find: 'bootstrap/code',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/code',
+  },
+  {
+    find: 'bootstrap/custom-forms',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/custom-forms',
+  },
+  {
+    find: 'bootstrap/dropdown',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/dropdown',
+  },
+  {
+    find: 'bootstrap/forms',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/forms',
+  },
+  {
+    find: 'bootstrap/functions',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/functions',
+  },
+  {
+    find: 'bootstrap/grid',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/grid',
+  },
+  {
+    find: 'bootstrap/images',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/images',
+  },
+  {
+    find: 'bootstrap/input-group',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/input-group',
+  },
+  {
+    find: 'bootstrap/jumbotron',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/jumbotron',
+  },
+  {
+    find: 'bootstrap/list-group',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/list-group',
+  },
+  {
+    find: 'bootstrap/media',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/media',
+  },
+  {
+    find: 'bootstrap/mixins',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/mixins',
+  },
+  {
+    find: 'bootstrap/modal',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/modal',
+  },
+  {
+    find: 'bootstrap/nav',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/nav',
+  },
+  {
+    find: 'bootstrap/navbar',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/navbar',
+  },
+  {
+    find: 'bootstrap/pagination',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/pagination',
+  },
+  {
+    find: 'bootstrap/popover',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/popover',
+  },
+  {
+    find: 'bootstrap/print',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/print',
+  },
+  {
+    find: 'bootstrap/progress',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/progress',
+  },
+  {
+    find: 'bootstrap/reboot',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/reboot',
+  },
+  {
+    find: 'bootstrap/root',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/root',
+  },
+  {
+    find: 'bootstrap/tables',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/tables',
+  },
+  {
+    find: 'bootstrap/toasts',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/toasts',
+  },
+  {
+    find: 'bootstrap/tooltip',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/tooltip',
+  },
+  {
+    find: 'bootstrap/transitions',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/transitions',
+  },
+  {
+    find: 'bootstrap/type',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/type',
+  },
+  {
+    find: 'bootstrap/utilities',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/utilities',
+  },
+  {
+    find: 'bootstrap/variables',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/variables',
+  },
+];
+
+export function replaceBootstrapImports(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    context.logger.info('Starting replacement of Bootstrap imports.');
+
+    tree.visit((filePath) => {
+      // Process only SCSS files
+      if (filePath.endsWith('.scss')) {
+        const fileContent = tree.read(filePath)?.toString('utf-8');
+        if (fileContent) {
+          let updatedContent = fileContent;
+          let hasChanges = false;
+
+          // Apply each replacement
+          bootstrapImportsToReplace.forEach(({ find, replaceWith }) => {
+            const regex = new RegExp(`@import\\s+['"]${find}['"];`, 'g');
+            if (regex.test(updatedContent)) {
+              updatedContent = updatedContent.replace(
+                regex,
+                `@import '${replaceWith}';`
+              );
+              hasChanges = true;
+            }
+          });
+
+          // If changes were made, overwrite the file
+          if (hasChanges) {
+            tree.overwrite(filePath, updatedContent);
+            context.logger.info(`Updated imports in: ${filePath}`);
+          }
+        }
+      }
+    });
+
+    context.logger.info('Replacement completed.');
+    return tree;
+  };
+}
