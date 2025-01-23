@@ -54,6 +54,10 @@ function updateMainStylesFileImports(): Rule {
     }
 
     const updatedContent = fileContent
+      .replace(
+        /\/\* You can add global styles to this file, and also import other style files \*\//g,
+        ''
+      )
       .replace(/@import\s+['"]@spartacus\/styles\/index['"];/g, '')
       .replace(
         /@import ['"]styles-config['"];/g,
