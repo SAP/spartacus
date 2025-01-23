@@ -249,7 +249,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -494,7 +499,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -718,7 +728,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -908,7 +923,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

@@ -167,7 +167,12 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

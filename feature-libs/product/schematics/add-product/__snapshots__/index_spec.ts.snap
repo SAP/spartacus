@@ -218,7 +218,12 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -446,7 +451,12 @@ exports[`Spartacus Product schematics: ng-add FutureStock feature general setup 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -639,7 +649,12 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -832,7 +847,12 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

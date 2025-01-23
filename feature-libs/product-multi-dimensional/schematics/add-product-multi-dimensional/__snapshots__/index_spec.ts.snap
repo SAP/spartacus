@@ -131,7 +131,12 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add list feature gen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
@@ -324,7 +329,12 @@ exports[`Spartacus Product Multi-Dimensional schematics: ng-add selector feature
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

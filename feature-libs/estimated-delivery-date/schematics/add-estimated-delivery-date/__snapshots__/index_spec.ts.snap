@@ -166,7 +166,12 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }
