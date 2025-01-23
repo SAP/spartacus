@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/setup",
-  "version": "2212.32.0",
+  "version": "2211.32.0",
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
   "keywords": [
     "spartacus",
@@ -21,10 +21,10 @@
   "peerDependencies": {
     "@angular/core": "^18.2.9",
     "@angular/ssr": "^18.2.9",
-    "@spartacus/cart": "2212.32.0",
-    "@spartacus/core": "2212.32.0",
-    "@spartacus/order": "2212.32.0",
-    "@spartacus/user": "2212.32.0"
+    "@spartacus/cart": "2211.32.0",
+    "@spartacus/core": "2211.32.0",
+    "@spartacus/order": "2211.32.0",
+    "@spartacus/user": "2211.32.0"
   },
   "optionalDependencies": {
     "@angular/platform-server": "^18.2.9",

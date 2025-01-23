@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/opf",
-  "version": "2212.32.0",
+  "version": "2211.32.0",
   "description": "SAP Open Payment Framework integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -32,14 +32,14 @@
     "@angular/platform-browser": "^18.2.9",
     "@angular/router": "^18.2.9",
     "@ng-select/ng-select": "^13.9.1",
-    "@spartacus/cart": "2212.32.0",
-    "@spartacus/checkout": "2212.32.0",
-    "@spartacus/core": "2212.32.0",
-    "@spartacus/order": "2212.32.0",
-    "@spartacus/schematics": "2212.32.0",
-    "@spartacus/storefront": "2212.32.0",
-    "@spartacus/styles": "2212.32.0",
-    "@spartacus/user": "2212.32.0",
+    "@spartacus/cart": "2211.32.0",
+    "@spartacus/checkout": "2211.32.0",
+    "@spartacus/core": "2211.32.0",
+    "@spartacus/order": "2211.32.0",
+    "@spartacus/schematics": "2211.32.0",
+    "@spartacus/storefront": "2211.32.0",
+    "@spartacus/styles": "2211.32.0",
+    "@spartacus/user": "2211.32.0",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
