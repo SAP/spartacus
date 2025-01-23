@@ -31,10 +31,7 @@ export function updateLibraryScss(): Rule {
         const fileContent = tree.read(filePath)?.toString('utf-8');
         if (fileContent) {
           // Check for original imports to determine where to insert new imports
-          if (
-            fileContent.includes("@import '../styles-config';") ||
-            fileContent.includes('@import "@spartacus/')
-          ) {
+          if (fileContent.includes('@import "@spartacus/')) {
             // Insert new imports after the original ones
             const updatedContent = fileContent.replace(
               /(@import\s+['"][^;]+['"];\s*)+/,

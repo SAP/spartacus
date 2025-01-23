@@ -33,7 +33,6 @@ export function uninstallBootstrap(): Rule {
       context.logger.info(`Bootstrap uninstalled successfully:\n${stdout}`);
     });
 
-    // Return the modified Tree
     return tree;
   };
 }

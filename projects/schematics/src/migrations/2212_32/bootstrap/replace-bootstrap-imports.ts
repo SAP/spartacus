@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Individual imports. replace bootstrap with vendor/bootstrap
-// add bootstrap imports in feature libs
-
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 const bootstrapImportsToReplace = [
@@ -154,6 +151,10 @@ const bootstrapImportsToReplace = [
     find: 'bootstrap/variables',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/variables',
   },
+  {
+    find: 'bootstrap/spinners',
+    replaceWith: '@spartacus/styles/vendor/bootstrap/scss/spinners',
+  },
 ];
 
 export function replaceBootstrapImports(): Rule {
@@ -161,14 +162,12 @@ export function replaceBootstrapImports(): Rule {
     context.logger.info('Starting replacement of Bootstrap imports.');
 
     tree.visit((filePath) => {
-      // Process only SCSS files
       if (filePath.endsWith('.scss')) {
         const fileContent = tree.read(filePath)?.toString('utf-8');
         if (fileContent) {
           let updatedContent = fileContent;
           let hasChanges = false;
 
-          // Apply each replacement
           bootstrapImportsToReplace.forEach(({ find, replaceWith }) => {
             const regex = new RegExp(`@import\\s+['"]${find}['"];`, 'g');
             if (regex.test(updatedContent)) {
@@ -180,7 +179,6 @@ export function replaceBootstrapImports(): Rule {
             }
           });
 
-          // If changes were made, overwrite the file
           if (hasChanges) {
             tree.overwrite(filePath, updatedContent);
             context.logger.info(`Updated imports in: ${filePath}`);
