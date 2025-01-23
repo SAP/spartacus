@@ -154,6 +154,7 @@ export class PickupOptionsComponent
         headerKey: 'pickupOptions.pickup',
         content: this.pickupTabPanel,
         id: PickupOptionsTabs.PICKUP,
+        disableBorderFocus: true,
       },
     ];
     this.tabConfig = {
