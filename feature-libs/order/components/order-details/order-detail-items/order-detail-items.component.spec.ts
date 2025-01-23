@@ -134,6 +134,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
+  standalone: false,
 })
 class MockConsignmentTrackingComponent {
   @Input()

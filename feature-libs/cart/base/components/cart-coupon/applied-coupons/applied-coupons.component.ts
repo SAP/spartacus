@@ -12,6 +12,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AppliedCouponsComponent {
   @Input()

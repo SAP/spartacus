@@ -59,7 +59,12 @@ exports[`Spartacus Requested Delivery Date schematics: ng-add Requested Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -72,8 +77,8 @@ exports[`Spartacus Requested Delivery Date schematics: ng-add Requested Delivery
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -124,7 +129,12 @@ exports[`Spartacus Requested Delivery Date schematics: ng-add Requested Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

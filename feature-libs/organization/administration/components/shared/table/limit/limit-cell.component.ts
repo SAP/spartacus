@@ -12,6 +12,7 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-limit-cell',
   templateUrl: './limit-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LimitCellComponent extends CellComponent {
   get isTimeSpanThreshold(): boolean {

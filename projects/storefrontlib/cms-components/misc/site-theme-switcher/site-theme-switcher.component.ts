@@ -22,6 +22,7 @@ import { map, take } from 'rxjs/operators';
   selector: 'cx-site-theme-switcher',
   templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);

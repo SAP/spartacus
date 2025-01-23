@@ -15,6 +15,7 @@ import { DateValidationService } from '../shared/date-validation.service';
 @Component({
   selector: 'cx-order-overview-delivery-date',
   templateUrl: './order-overview-delivery-date.component.html',
+  standalone: false,
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(

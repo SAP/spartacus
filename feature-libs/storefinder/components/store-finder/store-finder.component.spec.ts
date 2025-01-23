@@ -5,6 +5,7 @@ import { StoreFinderComponent } from './store-finder.component';
 @Component({
   selector: 'cx-store-finder-header',
   template: '',
+  standalone: false,
 })
 class MockStoreFinderHeaderComponent {}
 

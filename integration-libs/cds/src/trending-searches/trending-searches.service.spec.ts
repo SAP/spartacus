@@ -6,24 +6,19 @@
  */
 
 import {
-  fakeAsync,
-  TestBed,
-  tick,
-  discardPeriodicTasks,
-} from '@angular/core/testing';
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { CdsConfig } from '@spartacus/cds';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { TrendingSearchesService } from './trending-searches.service';
 import { Observable, of } from 'rxjs';
 import { SearchPhrases } from './model';
-import { CdsConfig } from '@spartacus/cds';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import { TrendingSearchesService } from './trending-searches.service';
 
 const mockCDSConfig: CdsConfig = {
   cds: {
@@ -86,13 +81,11 @@ describe('TrendingSearchesService', () => {
       { searchPhrase: 'test1', count: 10 },
       { searchPhrase: 'test2', count: 15 },
     ];
+    let searchPhrases: SearchPhrases[] = [];
 
-    let result: SearchPhrases[] | undefined;
-    const subscription = service
-      .getTrendingSearches()
-      .subscribe((searchPhrases) => {
-        result = searchPhrases;
-      });
+    const subscription = service.getTrendingSearches().subscribe((result) => {
+      searchPhrases = result;
+    });
 
     // Fast-forward through the availability check
     tick(250);
@@ -105,14 +98,11 @@ describe('TrendingSearchesService', () => {
     req.flush({ searchPhrases: mockSearchPhrases });
 
     // Verify the result
-    expect(result).toEqual(mockSearchPhrases);
+    expect(searchPhrases).toEqual(mockSearchPhrases);
 
     // Clean up
     subscription.unsubscribe();
     service.ngOnDestroy();
-
-    // Discard any remaining periodic timers
-    discardPeriodicTasks();
   }));
 
   it('should not emit when cdsSiteId is not available', fakeAsync(() => {
@@ -132,13 +122,10 @@ describe('TrendingSearchesService', () => {
       tick(250);
     }
 
-    expect(emitted).toBeFalse();
+    expect(emitted).toBeFalsy();
 
     // Clean up
     subscription.unsubscribe();
     service.ngOnDestroy();
-
-    // Discard any remaining periodic timers
-    discardPeriodicTasks();
   }));
 });

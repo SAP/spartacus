@@ -22,6 +22,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'cx-dp-payment-callback',
   templateUrl: './dp-payment-callback.component.html',
+  standalone: false,
 })
 export class DpPaymentCallbackComponent implements OnInit {
   @Output()

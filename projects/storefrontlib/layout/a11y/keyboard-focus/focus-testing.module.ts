@@ -9,6 +9,7 @@ import { FocusConfig } from './keyboard-focus.model';
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};

@@ -22,6 +22,7 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  standalone: false,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(

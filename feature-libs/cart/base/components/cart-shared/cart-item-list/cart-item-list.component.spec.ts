@@ -87,6 +87,7 @@ const mockUserId = 'test-user';
 @Component({
   template: '',
   selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
+  standalone: false,
 })
 class MockCartItemComponent {
   @Input() item;

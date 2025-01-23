@@ -113,7 +113,12 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -126,8 +131,8 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -178,7 +183,12 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

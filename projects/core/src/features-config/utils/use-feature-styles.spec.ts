@@ -8,14 +8,22 @@ class MockFeatureStylesService {
   unregisterUsage = jasmine.createSpy('unregisterUsage');
 }
 
-@Component({ selector: 'cx-test', template: '' })
+@Component({
+  selector: 'cx-test',
+  template: '',
+  standalone: false,
+})
 class TestComponent {
   constructor() {
     useFeatureStyles('testFeatureFlag');
   }
 }
 
-@Component({ selector: 'cx-erronous-test', template: '' })
+@Component({
+  selector: 'cx-erronous-test',
+  template: '',
+  standalone: false,
+})
 class ErroneousTestComponent implements OnInit {
   ngOnInit() {
     useFeatureStyles('testFeatureFlag');

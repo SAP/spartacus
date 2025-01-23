@@ -34,6 +34,7 @@ const mockFormConfig: FormConfig = {
       </form>
     </div>
   `,
+  standalone: false,
 })
 class MockFormComponent {
   form: UntypedFormGroup = new UntypedFormGroup({

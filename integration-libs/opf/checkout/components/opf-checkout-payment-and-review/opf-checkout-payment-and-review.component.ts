@@ -28,6 +28,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-opf-checkout-payment-and-review',
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent

@@ -42,6 +42,7 @@ const mockEmptyOrderList: OrderHistoryListView = {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -75,6 +76,7 @@ class MockTranslationService {
 @Component({
   template: '',
   selector: 'cx-media',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -85,6 +87,7 @@ class MockMediaComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 

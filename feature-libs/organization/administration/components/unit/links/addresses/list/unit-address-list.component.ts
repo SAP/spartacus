@@ -20,6 +20,7 @@ import { UnitAddressListService } from './unit-address-list.service';
       useExisting: UnitAddressListService,
     },
   ],
+  standalone: false,
 })
 export class UnitAddressListComponent {
   routerKey = ROUTE_PARAMS.addressCode;

@@ -33,6 +33,7 @@ const secondImage = {
       ></ng-container>
     </ng-container>
   `,
+  standalone: false,
 })
 class MockCarouselComponent {
   @Input() items;

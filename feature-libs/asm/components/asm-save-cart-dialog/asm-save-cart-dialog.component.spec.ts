@@ -21,6 +21,7 @@ import { GlobalMessageType } from '@spartacus/core';
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -47,6 +48,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-message',
   template: '',
+  standalone: false,
 })
 class MockCxMessageComponent {
   @Input() text: string;

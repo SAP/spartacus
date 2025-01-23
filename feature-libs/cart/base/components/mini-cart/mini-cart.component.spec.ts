@@ -9,6 +9,7 @@ import { MiniCartComponent } from './mini-cart.component';
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
@@ -19,6 +20,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;

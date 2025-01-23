@@ -21,6 +21,7 @@ import { VisualViewerService } from './visual-viewer.service';
   templateUrl: './visual-viewer.component.html',
   providers: [VisualViewerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VisualViewerComponent {
   constructor(protected visualViewerService: VisualViewerService) {}

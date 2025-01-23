@@ -15,7 +15,6 @@
       ],
       "plugins": ["deprecation", "@typescript-eslint", "@nx", "@stylistic/ts"],
       "rules": {
-        "@angular-eslint/no-host-metadata-property": "off",
         "deprecation/deprecation": "warn",
         "prefer-arrow/prefer-arrow-functions": "off",
         "space-before-function-paren": "off",
@@ -30,6 +29,7 @@
         "no-fallthrough": "off",
         "prefer-const": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
+        "@angular-eslint/prefer-standalone": "off",
         "@stylistic/ts/quotes": "off",
         "@stylistic/ts/member-delimiter-style": [
           "error",

@@ -106,7 +106,12 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -119,8 +124,8 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -171,7 +176,12 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           }
         }

@@ -24,6 +24,7 @@ import { UnitAddressFormService } from './unit-address-form.service';
       useExisting: UnitAddressItemService,
     },
   ],
+  standalone: false,
 })
 export class UnitAddressFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

@@ -21,10 +21,18 @@ const mockOrder = {
   paymentInfo: { billingAddress: { email: 'test@test.com' } },
 };
 
-@Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
+@Component({
+  selector: 'cx-add-to-home-screen-banner',
+  template: '',
+  standalone: false,
+})
 class MockAddtoHomeScreenBannerComponent {}
 
-@Component({ selector: 'cx-guest-register-form', template: '' })
+@Component({
+  selector: 'cx-guest-register-form',
+  template: '',
+  standalone: false,
+})
 class MockGuestRegisterFormComponent {
   @Input() guid: string;
   @Input() email: string;

@@ -69,6 +69,7 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
+  standalone: false,
 })
 class MockConsignmentTrackingComponent {
   @Input() consignment: Consignment;

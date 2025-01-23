@@ -24,6 +24,7 @@ import {
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
+  standalone: false,
 })
 export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;

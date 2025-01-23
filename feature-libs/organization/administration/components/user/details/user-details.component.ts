@@ -23,6 +23,7 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class UserDetailsComponent {
   userGuardSubscription: Subscription;

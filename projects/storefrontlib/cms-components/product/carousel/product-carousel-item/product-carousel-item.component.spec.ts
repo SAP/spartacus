@@ -24,6 +24,7 @@ import { ProductCarouselItemComponent } from './product-carousel-item.component'
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -34,6 +35,7 @@ class MockProductService {}
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
@@ -42,6 +44,7 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-media',
   template: '<img>',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;

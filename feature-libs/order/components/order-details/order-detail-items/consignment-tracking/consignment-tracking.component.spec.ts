@@ -33,6 +33,7 @@ const mockConsignment: Consignment = {
 
 @Pipe({
   name: 'cxTranslateUrl',
+  standalone: false,
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}

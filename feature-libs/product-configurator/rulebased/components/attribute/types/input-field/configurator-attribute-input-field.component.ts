@@ -25,6 +25,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   selector: 'cx-configurator-attribute-input-field',
   templateUrl: './configurator-attribute-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent

@@ -23,6 +23,7 @@ import { ProductGridItemComponent } from './product-grid-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
+  standalone: false,
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -32,6 +33,7 @@ class MockAddToCartComponent {
 @Component({
   selector: 'cx-star-rating',
   template: '*****',
+  standalone: false,
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -42,6 +44,7 @@ class MockStarRatingComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -51,6 +54,7 @@ class MockMediaComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -58,6 +62,7 @@ class MockCxIconComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -68,6 +73,7 @@ class MockProductService {}
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;

@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-cart-item-validation-warning',
   templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartItemValidationWarningComponent {
   @Input()

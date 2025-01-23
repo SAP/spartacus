@@ -19,5 +19,6 @@ import { UserGroupAssignedUserListService } from './user-group-assigned-user-lis
       useExisting: UserGroupAssignedUserListService,
     },
   ],
+  standalone: false,
 })
 export class UserGroupAssignedUserListComponent {}

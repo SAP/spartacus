@@ -25,6 +25,7 @@ const mediaUrl = 'mockProductImageUrl.jpg';
 
 @Directive({
   selector: '[cxFeature]',
+  standalone: false,
 })
 export class MockFeatureDirective {
   protected templateRef = inject(TemplateRef<any>);
@@ -47,6 +48,7 @@ export class MockFeatureDirective {
 
 @Pipe({
   name: 'cxMediaSources',
+  standalone: false,
 })
 export class MockMediaSourcesPipe implements PipeTransform {
   transform() {

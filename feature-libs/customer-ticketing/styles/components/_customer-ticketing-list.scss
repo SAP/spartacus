@@ -71,11 +71,9 @@
     }
 
     @include cx-highContrastTheme {
-      @include forFeature('a11yHighContrastBorders') {
-        border-top-color: var(--cx-color-dark);
-        tr {
-          border-bottom-color: var(--cx-color-dark);
-        }
+      border-top-color: var(--cx-color-dark);
+      tr {
+        border-bottom-color: var(--cx-color-dark);
       }
     }
   }

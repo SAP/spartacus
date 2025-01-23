@@ -14,6 +14,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutProgressComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

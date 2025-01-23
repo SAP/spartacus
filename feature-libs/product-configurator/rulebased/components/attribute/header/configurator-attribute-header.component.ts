@@ -28,6 +28,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   selector: 'cx-configurator-attribute-header',
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent

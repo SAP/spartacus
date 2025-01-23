@@ -11,6 +11,7 @@ import { MessageEvent } from '../messaging/messaging.model';
 @Component({
   selector: 'cx-avatar',
   templateUrl: './avatar.component.html',
+  standalone: false,
 })
 export class AvatarComponent {
   @Input() message: MessageEvent;
