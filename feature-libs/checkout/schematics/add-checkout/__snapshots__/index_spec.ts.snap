@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -255,12 +255,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -453,12 +448,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -542,7 +532,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -745,12 +735,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }

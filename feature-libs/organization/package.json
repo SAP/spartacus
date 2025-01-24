@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/organization",
-  "version": "2211.32.0",
+  "version": "2211.35.0",
   "description": "Organization library for Spartacus",
   "keywords": [
     "spartacus",
@@ -33,13 +33,13 @@
     "@ng-select/ng-select": "^14.1.0",
     "@ngrx/effects": "^19.0.0",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/cart": "2211.32.0",
-    "@spartacus/core": "2211.32.0",
-    "@spartacus/order": "2211.32.0",
-    "@spartacus/schematics": "2211.32.0",
-    "@spartacus/storefront": "2211.32.0",
-    "@spartacus/styles": "2211.32.0",
-    "@spartacus/user": "2211.32.0",
+    "@spartacus/cart": "2211.35.0",
+    "@spartacus/core": "2211.35.0",
+    "@spartacus/order": "2211.35.0",
+    "@spartacus/schematics": "2211.35.0",
+    "@spartacus/storefront": "2211.35.0",
+    "@spartacus/styles": "2211.35.0",
+    "@spartacus/user": "2211.35.0",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
