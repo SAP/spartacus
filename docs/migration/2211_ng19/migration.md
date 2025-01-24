@@ -19,7 +19,9 @@ Before upgrading Spartacus to the new version with Angular 18, you need to first
 > **Warning**
 >
 > While migrating to Angular 18, you'll be asked whether to run the `use-application-builder` migration:
+>
 > `❯◯ [use-application-builder] Migrate application projects to the new build system.`
+>
 > Please do not select this migration, i.e. make sure the circle checkbox is empty `◯ [use-application-builder]` and only then hit ENTER.
 
 Follow the [Angular guidelines for upgrading from v17 to v18](https://angular.dev/update-guide?v=17.0-18.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem  to versions compatible with Angular 18 (e.g. `@ng-select/ng-select@13`, `@ngrx/store@18`, `ngx-infinite-scroll@18`):
@@ -36,7 +38,9 @@ git commit -m "update angular 18 and 3rd party deps angular 18 compatible"
 > **Warning**
 >
 > While migrating to Angular 19, you'll be asked again whether to run the `use-application-builder` migration, but this time it will be preselected:
+> 
 > `❯◉ [use-application-builder] Migrate application projects to the new build system.`
+> 
 > Please unselect select this migration, i.e. first hit SPACE to make the circle checkbox empty `◯ [use-application-builder]` and only then hit ENTER.
 
 
