@@ -35,24 +35,23 @@ export function updateLibraryScss(): Rule {
       // Check if the file is an SCSS file and belongs to an affected library
       if (filePath.endsWith('.scss') && isAffectedLibraryFile(filePath)) {
         const fileContent = tree.read(filePath)?.toString('utf-8');
-        if (fileContent) {
-          // Check for original imports to determine where to insert new imports
-          if (
-            affectedLibraries.some((library) =>
-              fileContent.includes(`@spartacus/${library}`)
-            )
-          ) {
-            // Insert new imports after the original ones
-            const updatedContent = fileContent.replace(
-              /(@import\s+['"][^;]+['"];\s*)+/,
-              (match) => `${match}\n${bootstrapImports}`
-            );
+        // Check for original imports to determine where to insert new imports
+        if (
+          fileContent &&
+          affectedLibraries.some((library) =>
+            fileContent.includes(`@spartacus/${library}`)
+          )
+        ) {
+          // Insert new imports after the original ones
+          const updatedContent = fileContent.replace(
+            /(@import\s+['"][^;]+['"];\s*)+/,
+            (match) => `${match}\n${bootstrapImports}`
+          );
 
-            // Overwrite the file if changes were made
-            if (updatedContent !== fileContent) {
-              tree.overwrite(filePath, updatedContent);
-              context.logger.info(`Updated imports in: ${filePath}`);
-            }
+          // Overwrite the file if changes were made
+          if (updatedContent !== fileContent) {
+            tree.overwrite(filePath, updatedContent);
+            context.logger.info(`Updated imports in: ${filePath}`);
           }
         }
       }
