@@ -245,12 +245,7 @@ exports[`Lib utils assets options should update angular.json file with assets 1`
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -389,12 +384,7 @@ exports[`Lib utils assets options should update angular.json file with assets 2`
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
