@@ -119,4 +119,22 @@ In the `"files"` array, please change the item `"server.ts"` to `"src/server.ts"
    ],
 ```
 
+## For projects using lazy loaded i18n
+
+If your project uses [lazy loaded i18n](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/eaef8c61b6d9477daf75bff9ac1b7eb4/775e61ed219c4999852d43be5244e94a.html?q=i18n#lazy-loading) and if you stored your i18n files in the `src/assets/` folder, now you've them to the `public/` folder.
+
+So please update the Spartacus config for the lazy loading of i18n files (likely in your `spartacus-configuration.module.ts` file) to use the new path:
+
+```diff
+ providers: [
+   provideConfig({
+     i18n: {
+       backend: {
+         loader: (lng: string, ns: string) =>
+-          import(`../../assets/i18n-assets/${lng}/${ns}.json`),
++          import(`../../../public/i18n-assets/${lng}/${ns}.json`),
+```
+
+## Congratulations!
+
 Congratulations! You've modernized your app to look like a new Angular 19 app.
