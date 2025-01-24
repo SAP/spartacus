@@ -1,4 +1,4 @@
-# Modernize apps upgraded from Angular v22.11.32 to v22.11.33
+# Modernize apps upgraded from Angular v2211.32 to v2211.35
 
 New Angular 19 apps are configured a bit differently than the Angular 17 apps migrated to v19. This document is a migration guide for modernizing the migrated apps to look as much as possible like the new Angular 19 apps.
 
