@@ -232,13 +232,13 @@ Please change the following `"scripts"` properties (because the new `application
    ]
 ```
 
-2. Please add 2 new items to the in the `"files"` array: `"src/main.server.ts"` , `"src/server.ts"`
+2. Please add 2 new items to the in the `"files"` array: `"src/main.server.ts"` , `"server.ts"`
 
 ```diff
    "files": [
      "src/main.ts",
 +    "src/main.server.ts",
-+    "src/server.ts"
++    "server.ts"
    ]
 ```
 
