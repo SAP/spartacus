@@ -129,12 +129,7 @@ exports[`Spartacus PDF Invoices schematics: ng-add PDF Invoices feature general 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
