@@ -68,10 +68,10 @@ mv src/favicon.ico public
 Please add an option `{ ngZoneEventCoalescing: true }` to the second argument of the`platformBrowserDynamic().bootstrapModule()` call.
 
 ```diff
--platformBrowserDynamic().bootstrapModule(AppModule)
-+platformBrowserDynamic().bootstrapModule(AppModule, {
-+  ngZoneEventCoalescing: true,
-+})
+- platformBrowserDynamic().bootstrapModule(AppModule)
++ platformBrowserDynamic().bootstrapModule(AppModule, {
++   ngZoneEventCoalescing: true,
++ })
 ```
 
 ## For SSR projects, additionally:
