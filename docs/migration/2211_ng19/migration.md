@@ -59,7 +59,7 @@ git commit -m "update angular 19 and 3rd party deps angular 19 compatible"
 After successfully updating the application to Angular 19, execute this command to initiate the Spartacus update process.
 
 ```bash
-ng update @spartacus/schematics@latest
+ng update @spartacus/schematics@2211.35
 ```
 
 ### If using Server Side Rendering (SSR) and `application` builder
