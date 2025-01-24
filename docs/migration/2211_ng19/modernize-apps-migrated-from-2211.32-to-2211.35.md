@@ -119,3 +119,4 @@ In the `"files"` array, please change the item `"server.ts"` to `"src/server.ts"
    ],
 ```
 
+Congratulations! You've modernized your app to look like a new Angular 19 app.
