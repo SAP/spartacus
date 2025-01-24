@@ -8,7 +8,7 @@ Before upgrading Spartacus to the new version with Angular 18, you need to first
 - upgrade `@types/node` to version 22
 
   ```bash
-  npm i @types/node@22
+  npm i @types/node@22 -D
   ```
 - upgrade Angular to version v18 and then to v19
 
