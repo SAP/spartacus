@@ -1,4 +1,4 @@
-# (EARLY NOTES) Migrating a custom app to use Spartacus with Angular v18
+# Migrating a custom app to use Spartacus 2211.35 with Angular 19
 
 Before upgrading Spartacus to the new version with Angular 18, you need to first:
 
