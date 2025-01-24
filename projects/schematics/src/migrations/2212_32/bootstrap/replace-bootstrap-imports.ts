@@ -8,151 +8,151 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 const bootstrapImportsToReplace = [
   {
-    find: 'bootstrap/alert',
+    find: 'bootstrap/scss/alert',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/alert',
   },
   {
-    find: 'bootstrap/badge',
+    find: 'bootstrap/scss/badge',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/badge',
   },
   {
-    find: 'bootstrap/breadcrumb',
+    find: 'bootstrap/scss/breadcrumb',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/breadcrumb',
   },
   {
-    find: 'bootstrap/button-group',
+    find: 'bootstrap/scss/button-group',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/button-group',
   },
   {
-    find: 'bootstrap/buttons',
+    find: 'bootstrap/scss/buttons',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/buttons',
   },
   {
-    find: 'bootstrap/card',
+    find: 'bootstrap/scss/card',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/card',
   },
   {
-    find: 'bootstrap/carousel',
+    find: 'bootstrap/scss/carousel',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/carousel',
   },
   {
-    find: 'bootstrap/close',
+    find: 'bootstrap/scss/close',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/close',
   },
   {
-    find: 'bootstrap/code',
+    find: 'bootstrap/scss/code',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/code',
   },
   {
-    find: 'bootstrap/custom-forms',
+    find: 'bootstrap/scss/custom-forms',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/custom-forms',
   },
   {
-    find: 'bootstrap/dropdown',
+    find: 'bootstrap/scss/dropdown',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/dropdown',
   },
   {
-    find: 'bootstrap/forms',
+    find: 'bootstrap/scss/forms',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/forms',
   },
   {
-    find: 'bootstrap/functions',
+    find: 'bootstrap/scss/functions',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/functions',
   },
   {
-    find: 'bootstrap/grid',
+    find: 'bootstrap/scss/grid',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/grid',
   },
   {
-    find: 'bootstrap/images',
+    find: 'bootstrap/scss/images',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/images',
   },
   {
-    find: 'bootstrap/input-group',
+    find: 'bootstrap/scss/input-group',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/input-group',
   },
   {
-    find: 'bootstrap/jumbotron',
+    find: 'bootstrap/scss/jumbotron',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/jumbotron',
   },
   {
-    find: 'bootstrap/list-group',
+    find: 'bootstrap/scss/list-group',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/list-group',
   },
   {
-    find: 'bootstrap/media',
+    find: 'bootstrap/scss/media',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/media',
   },
   {
-    find: 'bootstrap/mixins',
+    find: 'bootstrap/scss/mixins',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/mixins',
   },
   {
-    find: 'bootstrap/modal',
+    find: 'bootstrap/scss/modal',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/modal',
   },
   {
-    find: 'bootstrap/nav',
+    find: 'bootstrap/scss/nav',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/nav',
   },
   {
-    find: 'bootstrap/navbar',
+    find: 'bootstrap/scss/navbar',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/navbar',
   },
   {
-    find: 'bootstrap/pagination',
+    find: 'bootstrap/scss/pagination',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/pagination',
   },
   {
-    find: 'bootstrap/popover',
+    find: 'bootstrap/scss/popover',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/popover',
   },
   {
-    find: 'bootstrap/print',
+    find: 'bootstrap/scss/print',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/print',
   },
   {
-    find: 'bootstrap/progress',
+    find: 'bootstrap/scss/progress',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/progress',
   },
   {
-    find: 'bootstrap/reboot',
+    find: 'bootstrap/scss/reboot',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/reboot',
   },
   {
-    find: 'bootstrap/root',
+    find: 'bootstrap/scss/root',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/root',
   },
   {
-    find: 'bootstrap/tables',
+    find: 'bootstrap/scss/tables',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/tables',
   },
   {
-    find: 'bootstrap/toasts',
+    find: 'bootstrap/scss/toasts',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/toasts',
   },
   {
-    find: 'bootstrap/tooltip',
+    find: 'bootstrap/scss/tooltip',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/tooltip',
   },
   {
-    find: 'bootstrap/transitions',
+    find: 'bootstrap/scss/transitions',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/transitions',
   },
   {
-    find: 'bootstrap/type',
+    find: 'bootstrap/scss/type',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/type',
   },
   {
-    find: 'bootstrap/utilities',
+    find: 'bootstrap/scss/utilities',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/utilities',
   },
   {
-    find: 'bootstrap/variables',
+    find: 'bootstrap/scss/variables',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/variables',
   },
   {
-    find: 'bootstrap/spinners',
+    find: 'bootstrap/scss/spinners',
     replaceWith: '@spartacus/styles/vendor/bootstrap/scss/spinners',
   },
 ];
