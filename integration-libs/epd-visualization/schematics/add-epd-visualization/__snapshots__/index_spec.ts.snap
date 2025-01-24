@@ -242,12 +242,7 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }

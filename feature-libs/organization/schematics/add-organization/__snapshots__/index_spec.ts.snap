@@ -218,12 +218,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -451,12 +446,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -684,12 +674,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -917,12 +902,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -1150,12 +1130,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
