@@ -183,12 +183,7 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
