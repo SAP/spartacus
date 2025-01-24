@@ -106,7 +106,7 @@ For more, see:
 ## Modernize your app migrated to Angular 19, so it looks like a new Angular 19 app
 
 Apps migrated to Angular 19 are not configured exactly the same as the new Angular 19 apps. 
-It is good to modernize your app to look like a new Angular 19 app, because it will help with migrations to future next versions of Angular and Spartacus. So now please follow the last guide: [Modernize Spartacus app migrated from 2211.32 to Feb2025](./modernize-apps-migrated-from-2211.32-to-Feb2025.md)
+It is good to modernize your app to look like a new Angular 19 app, because it will help with migrations to future next versions of Angular and Spartacus. So now please follow the last guide: [Modernize Spartacus app migrated from 2211.32 to 2211.35](./modernize-apps-migrated-from-2211.32-to-2211.35.md)
 
 
 

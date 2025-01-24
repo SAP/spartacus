@@ -427,4 +427,4 @@ Note: the same workaround has been documented also for new Angular 17 apps in th
 
 
 # Next
-Once you modernized your app that was migrated from Spartacus 6.8 to 2211.19, you're ready for the next migration guide: [migrating to Angular 19 and Spartacus February 2025](./migration.md).
+Once you modernized your app that was migrated from Spartacus 6.8 to 2211.19, you're ready for the next migration guide: [migrating to Angular 19 and Spartacus 2211.35](./migration.md).
