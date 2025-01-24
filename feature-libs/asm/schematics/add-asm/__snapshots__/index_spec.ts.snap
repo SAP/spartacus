@@ -180,12 +180,7 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }

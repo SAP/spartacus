@@ -55,7 +55,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -238,12 +238,7 @@ exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
