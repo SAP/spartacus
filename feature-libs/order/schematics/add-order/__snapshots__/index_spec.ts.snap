@@ -180,12 +180,7 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }

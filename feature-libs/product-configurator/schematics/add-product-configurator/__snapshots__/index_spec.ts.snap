@@ -58,7 +58,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -249,12 +249,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -318,7 +313,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -499,12 +494,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -564,7 +554,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   })]
 })
@@ -728,12 +718,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -923,12 +908,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
