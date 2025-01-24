@@ -94,7 +94,7 @@ In  `angular.json` in the section `architect > build > options > stylePreprocess
 **Why it's needed:**
 We need to silence the deprecation warnings for the Sass `@import` because `@import` is used in the Spartacus styles and in the Bootstrap 4 styles (which are imported by the Spartacus styles).
 
-Otherwise, since Angular v19 would pollute the terminal with a wall of deprecation warnings when running `ng serve`, making the developer experience less pleasant.
+Otherwise, Angular CLI v19 would pollute the terminal with a wall of deprecation warnings when running `ng serve`, making the developer experience less pleasant.
 
 In the future, we plan to remove all the Sass `@import` usages from the Spartacus styles and drop the usage of Bootstrap 4, and only then we will be able to remove the `silenceDeprecations` option.
 
