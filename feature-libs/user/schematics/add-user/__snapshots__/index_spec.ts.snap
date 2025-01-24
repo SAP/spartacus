@@ -211,12 +211,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
@@ -406,12 +401,7 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ],
-              "sass": {
-                "silenceDeprecations": [
-                  "import"
-                ]
-              }
+              ]
             }
           }
         }
