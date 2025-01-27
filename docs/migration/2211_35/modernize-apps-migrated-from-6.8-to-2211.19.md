@@ -214,7 +214,7 @@ Please change the following `"scripts"` properties (because the new `application
 +     "build:ssr": "ng build"
 ```
 
-3. Please change the value of the property `"serve:ssr"` to `"node dist/YOUR-APP-NAME/server/server.mjs"`
+3. Please rename the property `"serve:ssr"` to `"serve:ssr:YOUR-APP-NAME"` and change its value to `"node dist/YOUR-APP-NAME/server/server.mjs"`
 
 ```diff
    "scripts": {
