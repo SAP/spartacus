@@ -32,6 +32,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     </ng-template>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LinkCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

@@ -36,6 +36,7 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;

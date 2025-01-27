@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "カスタマーサービス",
+    "showMore": "さらに表示",
+    "showMoreLabel": "カスタマーサービス依頼履歴へナビゲート",
+    "changedOn": "変更日: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "件名",
+    "idLabel": "カスタマーサービス ID"
+  }
+}

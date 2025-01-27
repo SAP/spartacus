@@ -11,6 +11,7 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-amount-cell',
   templateUrl: '../cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AmountCellComponent extends CellComponent {
   get property(): string | undefined {

@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Ringkasan Akun",
+    "header": "Semua Ringkasan Akun ({{count}})",
+    "name": "Unit",
+    "details": {
+      "header": "Rincian Ringkasan Akun",
+      "uid": "ID Unit",
+      "name": "Nama Unit",
+      "address": "Alamat",
+      "creditRep": "Perwakilan Kredit",
+      "creditLine": "Batas Kredit",
+      "currentBalance": "Saldo Saat Ini",
+      "openBalance": "Saldo Belum Dibayar",
+      "pastDueBalance": "Saldo Jatuh Tempo",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} Hari",
+      "dayPlus": "{{minBoundary}}+ Hari",
+      "notApplicable": "tidak ada"
+    },
+    "document": {
+      "header": "Dokumen",
+      "id": "Nomor Dokumen",
+      "type": "Tipe Dokumen",
+      "date": "Dibuat Pada",
+      "dueDate": "Jatuh Tempo Pada",
+      "originalAmount": "Jumlah Awal",
+      "openAmount": "Jumlah Yang Belum Dibayar",
+      "status": "Status",
+      "attachment": "Lampiran",
+      "download": "Unduh",
+      "attachmentDescription": "Unduh lampiran untuk {{type}}{{id}}.",
+      "noneFound": "Tidak Ditemukan Dokumen"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Dibuat Pada Urutan Naik",
+      "byCreatedAtDateDesc": "Dibuat Pada Urutan Turun",
+      "byDueAtDateAsc": "Jatuh Tempo Dengan Urutan Naik",
+      "byDueAtDateDesc": "Jatuh Tempo Dengan Urutan Turun",
+      "byOriginalAmountAsc": "Jumlah Awal Dengan Urutan Naik",
+      "byOriginalAmountDesc": "Jumlah Awal Dengan Urutan Turun",
+      "byOpenAmountAsc": "Jumlah Yang Belum Dibayar Dengan Urutan Naik",
+      "byOpenAmountDesc": "Jumlah Yang Belum Dibayar Dengan Urutan Turun",
+      "byOrgDocumentTypeAsc": "Tipe Dokumen Dengan Urutan Naik",
+      "byOrgDocumentTypeDesc": "Tipe Dokumen Dengan Urutan Turun",
+      "byStatusAsc": "Status Dengan Urutan Naik",
+      "byStatusDesc": "Status Dengan Urutan Turun",
+      "byOrgDocumentIdAsc": "Nomor Dokumen Dengan Urutan Naik",
+      "byOrgDocumentIdDesc": "Nomor Dokumen Dengan Urutan Turun"
+    },
+    "statuses": {
+      "open": "Terbuka",
+      "closed": "Tertutup",
+      "all": "Semua"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Nomor Dokumen",
+      "orgDocumentIdRange": "Rentang Nomor Dokumen",
+      "orgDocumentType": "Tipe Dokumen",
+      "createdAtDateRange": "Rentang Dibuat Pada",
+      "dueAtDateRange": "Rentang Jatuh Tempo Pada",
+      "amountRange": "Rentang Jumlah Awal",
+      "openAmountRange": "Rentang Jumlah yang Belum Dibayar"
+    },
+    "sortBy": "Urutkan Berdasarkan",
+    "sortDocuments": "Urutkan dokumen",
+    "filter": {
+      "status": "Status",
+      "filterBy": "Filter Berdasarkan",
+      "documentNumber": "Nomor Dokumen",
+      "documentType": "Tipe Dokumen",
+      "startRange": "Dari",
+      "endRange": "Hingga",
+      "clear": "Hapus Semua",
+      "search": "Cari",
+      "errors": {
+        "toDateMustComeAfterFrom": "Pilih tanggal berakhir yang lebih besar dari tanggal mulai.",
+        "toAmountMustBeLargeThanFrom": "Pilih nilai akhir rentang yang lebih kecil dari nilai awal."
+      }
+    },
+    "hint": "Ringkasan akun memungkinkan Anda untuk meninjau informasi umum tentang unit, termasuk saldo dan ringkasan lamanya tagihan. Anda juga dapat menjelajahi seluruh daftar dokumen transaksi untuk suatu unit."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Ringkasan Akun",
+      "details": "{{name}}"
+    }
+  }
+}

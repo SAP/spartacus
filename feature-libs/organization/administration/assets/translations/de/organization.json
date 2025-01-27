@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "Aktiv",
+    "disabled": "Deaktiviert",
+    "enable": "Aktivieren",
+    "disable": "Deaktivieren",
+    "name": "Name",
+    "code": "Code",
+    "done": "fertig",
+    "cancel": "Abbrechen",
+    "add": "Hinzufügen",
+    "manageUsers": "Benutzer verwalten",
+    "create": "{{name}} erstellen",
+    "edit": "Bearbeiten",
+    "save": "{{name}} speichern",
+    "delete": "Löschen",
+    "assign": "Verwalten",
+    "active": "Aktiv",
+    "status": "Status",
+    "details": "Details",
+    "messages": {
+      "emptyList": "Die Liste ist leer"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "Kunde",
+      "b2bapprovergroup": "Genehmigende Person",
+      "b2bmanagergroup": "Manager",
+      "b2badmingroup": "Admin"
+    },
+    "userRights": {
+      "unitorderviewergroup": "Bestellungen der untergeordneten Ebenen anzeigen"
+    },
+    "breadcrumb": "Organisation",
+    "notification": {
+      "noSufficientPermissions": "Keine ausreichenden Berechtigungen für den Zugriff auf diese Seite",
+      "notExist": "Diese Position ist nicht vorhanden",
+      "disabled": "Sie können eine deaktivierte Position nicht bearbeiten."
+    },
+    "confirmation": {
+      "cancel": "ABBRECHEN",
+      "confirm": "BESTÄTIGEN",
+      "disable": "DEAKTIVIEREN",
+      "delete": "LÖSCHEN"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "Budget mit Code {{ code }} ist bereits vorhanden.",
+        "costCenter": "Kostenstelle mit Code {{ code }} ist bereits vorhanden.",
+        "unit": "Organisationseinheit mit UID {{ code }} ist bereits vorhanden.",
+        "user": "Benutzer mit E-Mail-Adresse {{ code }} ist bereits vorhanden",
+        "userGroup": "Benutzergruppe mit ID {{ code }} ist bereits vorhanden",
+        "permission": "Genehmigungsberechtigng mit Code {{ code }} ist bereits vorhanden.",
+        "unknown": "Servervalidierungsfehler"
+      }
+    },
+    "information": "Weitere Informationen über {{title}}"
+  },
+  "orgCostCenter": {
+    "groupName": "Kostenstellen",
+    "header": "Alle Kostenstellen ({{count}})",
+    "code": "Code",
+    "active": "Status",
+    "name": "Name",
+    "currency": "Währung",
+    "unit": "Übergeordnete Einheit",
+    "actions": "",
+    "sortBy": "Sortieren nach",
+    "sort": {
+      "byName": "Name",
+      "byUnitName": "Einheit",
+      "byCode": "Code"
+    },
+    "hint": "Alle Bestellungen, die über das Einkaufskonto Ihrer Organisation vorgenommen werden, werden zu Nachverfolgungszwecken mit einer Kostenstelle verknüpft. Jede Einheit kann mehrere Kostenstellen haben. Um Ausgaben zu begrenzen, werden den Kostenstellen Budgets zugeordnet. Ein Käufer wählt beim Bezahlen eine Kostenstelle aus.",
+    "disable": {
+      "confirm": "Deaktivieren"
+    },
+    "messages": {
+      "deactivateTitle": "Diese Kostenstelle deaktivieren?",
+      "deactivate": "Deaktivierte Kostenstellen können nicht für neue Bestellungen verwendet werden. Stellen Sie sicher, dass Ihre Einheit mindestens eine Kostenstelle hat. Vorhandene Bestellungen sind nicht betroffen.",
+      "confirmEnabled": "Kostenstelle {{ item.name }} erfolgreich aktiviert",
+      "confirmDisabled": "Kostenstelle {{ item.name }} erfolgreich deaktiviert",
+      "update": "Kostenstelle {{ item.name }} erfolgreich aktualisiert",
+      "create": "Kostenstelle {{ item.name }} erfolgreich erstellt"
+    },
+    "info": {
+      "disabledEdit": "Aktivieren Sie die Kostenstelle, um die Bearbeitung zu ermöglichen.",
+      "disabledEnable": "Einheit muss aktiviert werden, bevor diese Kostenstelle aktiviert werden kann."
+    },
+    "details": {
+      "title": "Kostenstellendetails",
+      "subtitle": "Kostenstelle: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Kostenstelle bearbeiten",
+      "subtitle": "Kostenstelle: {{ item.name }}"
+    },
+    "create": {
+      "title": "Kostenstelle erstellen",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "Budgets"
+    },
+    "breadcrumbs": {
+      "list": "Alle Kostenstellen",
+      "details": "{{name}}",
+      "budgets": "Budgets"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "Budgets verwalten",
+    "subtitle": "Kostenstelle: {{ item.name }}",
+    "assigned": "Budget {{ item.name }} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Budgets {{ item.name }} erfolgreich aufgehoben"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "Zugeordnete Budgets",
+    "subtitle": "Kostenstelle: {{ item.name }}",
+    "assigned": "Budget {{ item.name }} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Budgets {{ item.name }} erfolgreich aufgehoben"
+  },
+  "orgBudget": {
+    "groupName": "Budgets",
+    "header": "Alle Budgets ({{count}})",
+    "code": "Code",
+    "name": "Name",
+    "active": "Status",
+    "currency": "Währung",
+    "amount": "Betrag",
+    "unit": "Einheit",
+    "businessUnits": "Einheit",
+    "dateRange": "Start - Ende",
+    "startDate": "Start",
+    "endDate": "Ende",
+    "actions": "",
+    "sortBy": "Sortieren nach",
+    "sort": {
+      "byName": "Name",
+      "byUnitName": "Einheit",
+      "byCode": "Code",
+      "byValue": "Wert"
+    },
+    "hint": "Budgets legen Gesamteinkaufslimits fest und werden Kostenstellen zugeordnet. Ein Käufer wählt beim Bezahlen eine Kostenstelle aus.",
+    "details": {
+      "title": "Budgetdetails",
+      "subtitle": "Budget: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Budget bearbeiten",
+      "subtitle": "Budget: {{ item.name }}"
+    },
+    "create": {
+      "title": "Budget erstellen",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Dieses Budget deaktivieren?",
+      "deactivate": "Deaktivierte Budgets gelten nicht mehr für die Kostenstellen, denen sie zugeordnet sind. Stellen Sie sicher, dass die verknüpfte Kostenstelle mindestens ein Budget hat.",
+      "confirmEnabled": "Budget {{ item.name }} erfolgreich aktiviert",
+      "confirmDisabled": "Budget {{ item.name }} erfolgreich deaktiviert",
+      "update": "Budget {{ item.name }} erfolgreich aktualisiert",
+      "create": "Budget {{ item.name }} erfolgreich erstellt"
+    },
+    "info": {
+      "disabledEdit": "Aktivieren Sie das Budget, um die Bearbeitung zu ermöglichen.",
+      "disabledEnable": "Einheit muss aktiviert werden, bevor dieses Budget aktiviert werden kann."
+    },
+    "links": {
+      "costCenters": "Kostenstellen"
+    },
+    "breadcrumbs": {
+      "list": "Alle Budgets",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "Kostenstellen",
+    "subtitle": "Budget: {{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "Einheiten",
+    "header": "Alle Einheiten ({{count}})",
+    "unit": "Einheit",
+    "name": "Name",
+    "uid": "ID",
+    "approvalProcess": "Genehmigungsprozess",
+    "parentUnit": "Übergeordnete Einheit",
+    "active": "Status",
+    "hint": "Einheiten stellen Abteilungen, Filialen, Regionen oder andere logische Gruppierungen dar, die für Sie sinnvoll sind. Die Kostenstellen und Lieferadressen, die einem Käufer beim Bezahlen zur Verfügung stehen, hängen von seiner Einheit ab. Benutzer haben Zugriff auf alle untergeordneten Einheiten ihrer primären Einheit.",
+    "details": {
+      "title": "Details der Einheit",
+      "subtitle": "Einheit: {{ item.name }}",
+      "hint": "Einheiten stellen Abteilungen, Filialen, Regionen oder andere logische Gruppierungen dar, die für Sie sinnvoll sind. Durch die Deaktivierung einer Einheit wird alles deaktiviert, was der Einheit untergeordnet ist (einschließlich der untergeordneten Einheiten, Benutzer, genehmigenden Personen und Kostenstellen). Deaktivierte Einheiten können nicht bearbeitet werden."
+    },
+    "edit": {
+      "title": "Einheit bearbeiten",
+      "subtitle": "Einheit: {{ item.name }}"
+    },
+    "create": {
+      "title": "Einheit erstellen",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Diese Einheit deaktivieren?",
+      "deactivate": "Die Deaktivierung einer Einheit hat weitreichende Auswirkungen auf Ihre Handelsorganisation. ALLE untergeordneten Einheiten, Benutzer, Budgets und Kostenstellen der Einheit werden deaktiviert.",
+      "confirmEnabled": "Einheit {{item.name}} erfolgreich aktiviert",
+      "confirmDisabled": "Einheit {{item.name}} erfolgreich deaktiviert",
+      "update": "Einheit {{ item.name }} erfolgreich aktualisiert",
+      "create": "Einheit {{ item.name }} erfolgreich erstellt"
+    },
+    "info": {
+      "disabledEdit": "Aktivieren Sie die Einheit, um die Bearbeitung zu ermöglichen.",
+      "disabledEnable": "Übergeordnete Einheit muss aktiviert werden, bevor diese Einheit aktiviert werden kann.",
+      "disabledDisable": "Wurzeleinheit kann nicht deaktiviert werden."
+    },
+    "links": {
+      "units": "Untergeordnete Einheiten",
+      "users": "Benutzer",
+      "approvers": "Genehmigende Personen",
+      "shippingAddresses": "Lieferadressen",
+      "costCenters": "Kostenstellen"
+    },
+    "tree": {
+      "expandAll": "Alles expandieren",
+      "collapseAll": "Alles komprimieren",
+      "expand": "Expandieren",
+      "collapse": "komprimieren",
+      "explore": "Untereinheiten erkunden"
+    },
+    "children": {
+      "create": {
+        "title": "Untergeordnete Einheit erstellen",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "Einheit {{ item.name }} erfolgreich erstellt"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "Kostenstelle erstellen",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "Übergeordnete Geschäftseinheit",
+      "create": "Einheit erstellen",
+      "parentOrgUnitNotes": "Dies ist die Einheit der höchsten Ebene für Ihre Organisation. Sie kann keiner anderen Einheit zugeordnet werden."
+    },
+    "users": {
+      "header": "Benutzer in {{code}}",
+      "changeUserRoles": "Benutzerrollen ändern",
+      "newUser": "Neuer Benutzer"
+    },
+    "assignRoles": {
+      "header": "Rollen in {{code}} verwalten",
+      "instructions": {
+        "check": "Um einem Benutzer eine Rolle zuzuordnen, markieren Sie das Ankreuzfeld der Rolle.",
+        "uncheck": "Um eine Rolle zu entfernen, entmarkieren Sie das Ankreuzfeld der Rolle.",
+        "changes": "Änderungen werden automatisch gespeichert."
+      }
+    },
+    "approvers": {
+      "header": "Genehmigende Personen in {{code}}",
+      "assign": "Genehmigende Personen verwalten",
+      "new": "Neue genehmigende Person"
+    },
+    "assignApprovers": {
+      "header": "Genehmigende Personen in {{code}} verwalten",
+      "instructions": {
+        "check": "Um dieser Einheit eine genehmigende Person zuzuordnen, markieren Sie das Ankreuzfeld des Benutzers.",
+        "uncheck": "Um eine genehmigende Person zu entfernen, entmarkieren Sie das Ankreuzfeld des Benutzers.",
+        "changes": "Änderungen werden automatisch gespeichert."
+      },
+      "hint": "Benutzer, die in der Liste der genehmigenden Personen angezeigt werden, erhalten Genehmigungsrechte für die Käufer dieser Einheit und der untergeordneten Einheiten. Beachten Sie, dass ein Benutzer mit der Rolle \"Genehmigende Person\" sich von einer genehmigenden Person unterscheidet, die in der Liste \"Genehmigende Personen\" angezeigt wird. Wenn es für eine Einheit keine genehmigende Person gibt oder die genehmigenden Personen nicht über ausreichende Einkaufsgenehmigungsrechte verfügen, wird eine genehmigende Person weiter oben in der Einheitshierarchie gesucht, bis eine Administration ausgewählt wird."
+    },
+    "breadcrumbs": {
+      "list": "Alle Einheiten",
+      "details": "{{name}}",
+      "children": "Untergeordnete Einheiten",
+      "users": "Benutzer",
+      "approvers": "Genehmigende Personen",
+      "addresses": "Lieferadressen",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "Kostenstellen"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "Untergeordnete Einheiten",
+    "subtitle": "Einheit: {{item.name}}",
+    "info": {
+      "disabledCreate": "Untergeordnete Einheit kann für deaktivierte Einheit nicht erstellt werden."
+    },
+    "hint": "Einheiten stellen Abteilungen, Filialen, Regionen oder andere logische Gruppierungen dar, die für Sie sinnvoll sind. Benutzer \"erben\" untergeordnete Einheiten, das heißt, dass Käufer beim Bezahlen auf Kostenstellen und Lieferadressen der untergeordneten Einheiten zugreifen können."
+  },
+  "orgUnitApprovers": {
+    "title": "Genehmigende Personen verwalten",
+    "subtitle": "Einheit: {{item.name}}",
+    "assigned": "Benutzer {{item.name}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Benutzers {{item.name}} erfolgreich aufgehoben"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "Zugeordnete genehmigende Personen",
+    "subtitle": "Einheit: {{item.name}}",
+    "assigned": "Benutzer {{item.name}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Benutzers {{item.name}} erfolgreich aufgehoben",
+    "hint": "Benutzer, die in der Liste der genehmigenden Personen angezeigt werden, erhalten Genehmigungsrechte für die Käufer dieser Einheit und der untergeordneten Einheiten. Beachten Sie, dass ein Benutzer mit der Rolle \"Genehmigende Person\" sich von einer genehmigenden Person unterscheidet, die in der Liste \"Genehmigende Personen\" angezeigt wird. Wenn es für eine Einheit keine genehmigende Person gibt oder die genehmigenden Personen nicht über ausreichende Einkaufsgenehmigungsrechte verfügen, wird eine genehmigende Person weiter oben in der Einheitshierarchie gesucht, bis eine Administration ausgewählt wird."
+  },
+  "orgUnitAssignedRoles": {
+    "header": "Rollen in {{code}} verwalten",
+    "name": "Name",
+    "email": "E-Mail",
+    "roles": "Rollen",
+    "roleCustomer": "Kunde",
+    "roleApprover": "Genehmigende Person",
+    "roleManager": "Manager",
+    "roleAdministrator": "Admin"
+  },
+  "orgUnitUsers": {
+    "title": "Zugeordnete Benutzer",
+    "subtitle": "Einheit: {{item.name}}",
+    "info": {
+      "disabledCreate": "Benutzer kann für deaktivierte Einheit nicht erstellt werden."
+    },
+    "hint": "Benutzer sind die Käufer, genehmigenden Personen, Manager und Administratoren Ihrer Organisation. Jedem Benutzer wird eine Rolle zugeordnet, um Einkäufe durchzuführen oder zu genehmigen. Benutzer \"erben\" untergeordnete Einheiten, d.h. Käufer haben beim Bezahlen Zugriff auf Kostenstellen und Lieferadressen der untergeordneten Einheiten."
+  },
+  "orgUnitUserRoles": {
+    "title": "Benutzerrollen und Rechte",
+    "subtitle": "Benutzer: {{item.name}}",
+    "messages": {
+      "rolesUpdated": "Rollen für {{item.name}} erfolgreich aktualisiert"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "Zugeordnete Benutzer",
+    "subtitle": "Einheit: {{item.name}}"
+  },
+  "orgUnitCostCenters": {
+    "title": "Zugeordnete Kostenstellen",
+    "subtitle": "Einheit: {{item.name}}",
+    "info": {
+      "disabledCreate": "Kostenstelle kann für deaktivierte Einheit nicht erstellt werden."
+    },
+    "hint": "Alle Bestellungen, die über das Einkaufskonto Ihrer Organisation vorgenommen werden, werden zu Nachverfolgungszwecken mit einer Kostenstelle verknüpft. Ein Käufer wählt eine Kostenstelle aus, wenn er mit der Einkaufsmethode \"Konto\" bezahlt. Jede Einheit kann mehrere Kostenstellen haben, aber eine einzelne Kostenstelle kann nur einer einzigen Einheit zugeordnet werden. Um endgültige Ausgabelimits zu definieren, werden den Kostenstellen Budgets zugeordnet. "
+  },
+  "orgUnitAddress": {
+    "title": "Lieferadressen",
+    "subtitle": "Einheit: {{item.name}}",
+    "country": "Land/Region",
+    "titles": "Anrede",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "formattedAddress": "Adresse",
+    "address1": "Adresse",
+    "address2": "Zweite Adresse (optional)",
+    "city": "Ort",
+    "state": "Bundesland",
+    "zipCode": "Postleitzahl",
+    "phoneNumber": "Telefonnummer (optional)",
+    "streetAddress": "Hausanschrift",
+    "aptSuite": "Wohnungsnummer",
+    "selectOne": "Treffen Sie eine Auswahl...",
+    "hint": "Wenn ein Käufer mit der Einkaufsmethode \"Konto\" bezahlt, muss er eine Kostenstelle auswählen. Welche Lieferadressen für den Käufer verfügbar sind, ist von der Einheit der ausgewählten Kostenstelle abhängig.",
+    "details": {
+      "title": "Adressdetails",
+      "subtitle": "Einheit: {{item.name}}"
+    },
+    "edit": {
+      "title": "Adresse bearbeiten"
+    },
+    "create": {
+      "title": "Adresse erstellen"
+    },
+    "form": {
+      "subtitle": "Einheit: {{item.name}}"
+    },
+    "messages": {
+      "create": "Adresse {{ item.firstName }} {{ item.lastName }} erfolgreich erstellt",
+      "update": "Adresse {{ item.firstName }} {{ item.lastName }} erfolgreich aktualisiert",
+      "delete": "Die Adresse kann nicht mehr wiederhergestellt werden. Vorhandene Bestellungen sind nicht betroffen.",
+      "deleteTitle": "Diese Adresse löschen?",
+      "deleted": "Adresse {{ item.firstName }} {{ item.lastName }} erfolgreich gelöscht"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "Benutzergruppen",
+    "header": "Alle Benutzergruppen ({{count}})",
+    "disabled": "(deaktiviert)",
+    "uid": "Code",
+    "name": "Name",
+    "unit": "Einheit",
+    "orgUnit": "Einheit",
+    "actions": "",
+    "sortBy": "Sortieren nach",
+    "sort": {
+      "byName": "Name",
+      "byUnitName": "Einheit",
+      "byGroupID": "Gruppe"
+    },
+    "hint": "Mit Benutzergruppen können Sie Benutzer in einer Gruppe zusammenfassen, um Einkaufslimits für viele Benutzer gleichzeitig zuzuordnen.",
+    "details": {
+      "title": "Benutzergruppendetails",
+      "subtitle": "Benutzergruppe: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Benutzergruppe bearbeiten",
+      "subtitle": "Benutzergruppe: {{ item.name }}"
+    },
+    "create": {
+      "title": "Benutzergruppe erstellen",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "Benutzer",
+      "permission": "Einkaufslimits"
+    },
+    "messages": {
+      "update": "Benutzergruppe {{ item.name }} erfolgreich aktualisiert",
+      "create": "Benutzergruppe {{ item.name }} erfolgreich erstellt",
+      "deleteTitle": "Diese Benutzergruppe löschen?",
+      "delete": "Wenn diese Benutzergruppe gelöscht wird, hat dies keine Auswirkungen auf die Benutzer in dieser Gruppe.",
+      "deleted": "Benutzergruppe {{ item.name }} erfolgreich gelöscht"
+    },
+    "breadcrumbs": {
+      "list": "Alle Benutzergruppen",
+      "details": "{{name}}",
+      "users": "Benutzer",
+      "permissions": "Einkaufslimits"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "Benutzer verwalten",
+    "subtitle": "Benutzergruppe: {{ item.name }}",
+    "assigned": "Benutzer {{item.name}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Benutzers {{item.name}} erfolgreich aufgehoben",
+    "unassignAll": "Zuordnung für alle aufheben",
+    "unassignAllConfirmation": "Zuordnung wurde für alle Benutzer aufgehoben."
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "Zugeordnete Benutzer",
+    "subtitle": "Benutzergruppe: {{ item.name }}",
+    "assigned": "Benutzer {{item.name}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Benutzers {{item.name}} erfolgreich aufgehoben"
+  },
+  "orgUserGroupPermissions": {
+    "title": "Einkaufslimits verwalten",
+    "subtitle": "Limit: {{ item.name }}",
+    "assigned": "Einkaufslimits {{item.code}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung der Einkaufslimits {{item.code}} erfolgreich aufgehoben"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "Zugeordnete Einkaufslimits",
+    "subtitle": "Limit: {{ item.name }}",
+    "assigned": "Einkaufslimits {{item.code}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung der Einkaufslimits {{item.code}} erfolgreich aufgehoben"
+  },
+  "orgUser": {
+    "groupName": "Benutzer",
+    "header": "Alle Benutzer ({{count}})",
+    "disabled": "(deaktiviert)",
+    "uid": "E-Mail",
+    "active": "Status",
+    "name": "Name",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "orgUnit": "Einheit",
+    "unit": "Einheit",
+    "roles": "Rollen",
+    "rights": "Rechte",
+    "title": "Anrede",
+    "hint": "Benutzer sind die Käufer, genehmigenden Personen, Manager und Administratoren Ihrer Organisation. Jedem Benutzer wird eine Rolle zugeordnet, um Einkäufe durchzuführen oder zu genehmigen. Jeder Benutzer gehört zu einer Einheit und hat Zugriff auf alle untergeordneten Einheiten seiner primären Einheit.",
+    "unitApprover": "Genehmigende Person der Einheit",
+    "assignApprover": "Benutzer den genehmigenden Personen für die Einheit hinzufügen",
+    "actions": "",
+    "sortBy": "Sortieren nach",
+    "sort": {
+      "byName": "Name",
+      "byUnit": "Einheit"
+    },
+    "details": {
+      "title": "Benutzerdetails",
+      "subtitle": "Benutzer: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Benutzer bearbeiten",
+      "subtitle": "Benutzer: {{ item.name }}"
+    },
+    "create": {
+      "title": "Benutzer erstellen",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "Kennwort ändern",
+      "approvers": "Genehmigende Personen",
+      "userGroup": "Benutzergruppen",
+      "permission": "Einkaufslimits",
+      "rolesAndRights": "Rollen und Rechte"
+    },
+    "messages": {
+      "deactivateTitle": "Diesen Benutzer deaktivieren?",
+      "deactivate": "Deaktivierte Benutzer können sich nicht an der Storefront anmelden und bestellen.",
+      "confirmEnabled": "Benutzer {{item.firstName}} {{item.lastName}} erfolgreich aktiviert",
+      "confirmDisabled": "Benutzer {{item.firstName}} {{item.lastName}} erfolgreich deaktiviert",
+      "update": "Benutzer {{item.firstName}} {{item.lastName}} erfolgreich aktualisiert",
+      "create": "Benutzer {{item.firstName}} {{item.lastName}} erfolgreich erstellt",
+      "updatePassword": "Kennwort des Benutzers {{item.firstName}} {{item.lastName}} erfolgreich aktualisiert"
+    },
+    "info": {
+      "disabledEdit": "Aktivieren Sie den Benutzer, um die Bearbeitung zu ermöglichen.",
+      "disabledEnable": "Einheit muss aktiviert werden, bevor dieser Benutzer aktiviert werden kann."
+    },
+    "approver": {
+      "link": "Genehmigende Personen",
+      "header": "Genehmigende Personen in {{code}}",
+      "assign": "Genehmigende Personen zuordnen",
+      "assignHeader": "Genehmigende Personen in {{code}} zuordnen",
+      "back": "Zurück",
+      "new": "Neue genehmigende Person",
+      "instructions": {
+        "check": "Um diesem Benutzer eine genehmigende Person zuzuordnen, markieren Sie das Ankreuzfeld des Benutzers.",
+        "uncheck": "Um eine genehmigende Person zu entfernen, entmarkieren Sie das Ankreuzfeld des Benutzers.",
+        "changes": "Änderungen werden automatisch gespeichert."
+      }
+    },
+    "userGroup": {
+      "link": "Benutzergruppen",
+      "header": "Benutzergruppen in {{code}}",
+      "assign": "Benutzergruppen zuordnen",
+      "assignHeader": "Benutzergruppen in {{code}} zuordnen",
+      "back": "Zurück",
+      "instructions": {
+        "check": "Um diesem Benutzer eine Benutzergruppe zuzuordnen, markieren Sie das Ankreuzfeld des Benutzers.",
+        "uncheck": "Um eine Benutzergruppe zu entfernen, entmarkieren Sie das Ankreuzfeld des Benutzers.",
+        "changes": "Änderungen werden automatisch gespeichert."
+      }
+    },
+    "permission": {
+      "link": "Einkaufslimits",
+      "header": "Einkaufslimits in {{code}}",
+      "assign": "Einkaufslimits zuordnen",
+      "assignHeader": "Einkaufslimits in {{code}} zuordnen",
+      "back": "Zurück",
+      "instructions": {
+        "check": "Um diesem Benutzer ein Einkaufslimit zuzuordnen, markieren Sie das zugehörige Ankreuzfeld.",
+        "uncheck": "Um ein Einkaufslimit zuzuordnen, entmarkieren Sie das zugehörige Ankreuzfeld.",
+        "changes": "Änderungen werden automatisch gespeichert."
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "pro Monat",
+        "YEAR": "pro Jahr",
+        "WEEK": "pro Woche",
+        "QUARTER": "pro Quartal"
+      }
+    },
+    "password": {
+      "title": "Kennwort ändern",
+      "subtitle": "Benutzer: {{ item.email }}",
+      "newPassword": "Neues Kennwort",
+      "confirmPassword": "Neues Kennwort erneut eingeben"
+    },
+    "breadcrumbs": {
+      "list": "Alle Benutzer",
+      "details": "{{name}}",
+      "userGroups": "Benutzergruppen",
+      "approvers": "Genehmigende Personen",
+      "permissions": "Einkaufslimits"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "Benutzergruppen verwalten",
+    "subtitle": "Benutzer: {{ item.name }}",
+    "assigned": "Benutzergruppe {{item.name}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung der Benutzergruppe {{item.name}} erfolgreich aufgehoben"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "Zugeordnete Benutzergruppen",
+    "subtitle": "Benutzer: {{ item.name }}",
+    "assigned": "Benutzergruppe {{item.name}} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung der Benutzergruppe {{item.name}} erfolgreich aufgehoben"
+  },
+  "orgUserApprovers": {
+    "title": "Genehmigende Personen verwalten",
+    "subtitle": "Benutzer: {{ item.name }}",
+    "assigned": "Genehmigende Person {{ item.name }} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung der genehmigenden Person {{ item.name }} erfolgreich aufgehoben"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "Zugeordnete genehmigende Personen",
+    "subtitle": "Benutzer: {{ item.name }}",
+    "assigned": "Genehmigende Person {{ item.name }} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung der genehmigenden Person {{ item.name }} erfolgreich aufgehoben"
+  },
+  "orgUserPermissions": {
+    "title": "Einkaufslimits verwalten",
+    "subtitle": "Benutzer: {{ item.name }}",
+    "assigned": "Einkaufslimit {{ item.code }} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Einkaufslimits {{ item.code }} erfolgreich aufgehoben"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "Zugeordnete Einkaufslimits",
+    "subtitle": "Benutzer: {{ item.name }}",
+    "assigned": "Einkaufslimit {{ item.code }} erfolgreich zugeordnet",
+    "unassigned": "Zuordnung des Einkaufslimits {{ item.code }} erfolgreich aufgehoben"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "Einkaufslimits",
+    "header": "Alle Einkaufslimits ({{count}})",
+    "name": "Name",
+    "code": "Code",
+    "active": "Status",
+    "limit": "Limit",
+    "orderApprovalPermissionType": "Typ",
+    "threshold": "Schwellenwert",
+    "periodRange": "Zeitraum",
+    "currency": "Währung",
+    "orgUnit": "Übergeordnete Einheit",
+    "unit": "Übergeordnete Einheit",
+    "actions": "",
+    "hint": "Einkaufslimits helfen bei der Ausgabenkontrolle, indem sie für Käufer die Höhe der Ausgaben pro Bestellung oder pro Woche, Monat, Quartal oder Jahr definieren. Einkaufslimits werden Benutzern oder Benutzergruppen zugeordnet. Einkaufslimits werden außerdem genehmigenden Personen zugeordnet, um festzulegen, wie viel sie genehmigen dürfen. Mithilfe von Benutzergruppen können Sie vielen Benutzern gleichzeitig Einkaufslimits zuordnen.  ",
+    "details": {
+      "title": "Einkaufslimitdetails",
+      "subtitle": "Einkaufslimit: {{ item.code }}"
+    },
+    "edit": {
+      "title": "Einkaufslimit bearbeiten",
+      "subtitle": "Einkaufslimits: {{ item.code }}"
+    },
+    "create": {
+      "title": "Einkaufslimit erstellen",
+      "subtitle": ""
+    },
+    "sortBy": "Sortieren nach",
+    "sort": {
+      "byName": "Name",
+      "byUnitName": "Einheit"
+    },
+    "messages": {
+      "deactivateTitle": "Dieses Einkaufslimit deaktivieren?",
+      "deactivate": "Deaktivierte Einkaufslimits können nicht mehr einem Benutzer oder einer Benutzergruppe zugeordnet werden. Aktuelle Zuordnungen haben keine Auswirkungen.",
+      "confirmEnabled": "Einkaufslimit {{ item.code }} erfolgreich aktiviert",
+      "confirmDisabled": "Einkaufslimit {{ item.code }} erfolgreich deaktiviert",
+      "update": "Einkaufslimit {{ item.code }} erfolgreich aktualisiert",
+      "create": "Einkaufslimit {{ item.code }} erfolgreich erstellt"
+    },
+    "info": {
+      "disabledEdit": "Aktivieren Sie die Einkaufslimits, um die Bearbeitung zu ermöglichen.",
+      "disabledEnable": "Einheit muss aktiviert werden, bevor dieses Einkaufslimit aktiviert werden kann."
+    },
+    "per": {
+      "DAY": "pro Tag",
+      "WEEK": "pro Woche",
+      "MONTH": "pro Monat",
+      "QUARTER": "pro Quartal",
+      "YEAR": "pro Jahr"
+    },
+    "breadcrumbs": {
+      "list": "Alle Einkaufslimits",
+      "details": "{{code}}"
+    }
+  }
+}

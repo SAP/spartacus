@@ -8,10 +8,7 @@ import * as configuration from '../../../helpers/product-configurator';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
-import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as common from '../../../helpers/common';
-import { clickOnConfigurationLink } from '../../../helpers/common';
-import { checkConfigPageDisplayed } from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
@@ -433,20 +430,8 @@ context('Product Configuration', () => {
   });
 
   describe('Conflict solver', () => {
-    let configUISettings: any;
-
     beforeEach(() => {
-      configUISettings = {
-        productConfigurator: {
-          enableNavigationToConflict: true,
-        },
-      };
-      cy.cxConfig(configUISettings);
       cy.visit('/');
-    });
-
-    afterEach(() => {
-      configUISettings.productConfigurator.enableNavigationToConflict = false;
     });
 
     it('should support the conflict solving process', () => {

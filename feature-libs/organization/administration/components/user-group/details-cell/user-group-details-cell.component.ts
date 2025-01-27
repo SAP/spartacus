@@ -11,5 +11,6 @@ import { CellComponent } from '../../shared';
   selector: 'cx-org-user-group-details-cell',
   templateUrl: './user-group-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UserGroupDetailsCellComponent extends CellComponent {}

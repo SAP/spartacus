@@ -21,6 +21,7 @@ import { BaseItem } from '../../organization.model';
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**

@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "營業至",
+    "closed": "已關閉",
+    "back": "返回",
+    "call": "呼叫",
+    "getDirections": "規劃路線",
+    "ariaLabelGetDirections": "規劃路線，此連結會在新視窗中開啟",
+    "ariaLabelCountriesCount": "已在 {{ count }} 個國家/地區中找到商店",
+    "listView": "清單檢視",
+    "mapView": "地圖檢視",
+    "noStoresFound": "找不到商店。",
+    "storeHours": "商店營業時間",
+    "storeFeatures": "商店特性",
+    "storeFinder": "商店搜尋器",
+    "storesFoundTitle": "已找到商店",
+    "storesFound": "已找到 {{ count }} 個商店",
+    "storesFound_other": "已找到 {{ count }} 個商店",
+    "fromStoresFound": "已從 {{ count }} 個商店找到",
+    "fromStoresFound_other": "已從 {{ count }} 個商店中找到",
+    "findStore": "搜尋商店",
+    "useMyLocation": "使用我的位置",
+    "viewAllStores": "檢視所有商店",
+    "contactUs": "聯絡我們",
+    "searchBox": "郵遞區號、城鎮或地址",
+    "backToList": "返回清單",
+    "noStoresMessage": "資料庫中找不到商店...",
+    "geolocationNotEnabled": "找不到附近商店，地理位置同意尚未啟用",
+    "searchNearestStores": "搜尋附近商店",
+    "searchBoxLabel": "輸入郵遞區號、城鎮或地址"
+  }
+}

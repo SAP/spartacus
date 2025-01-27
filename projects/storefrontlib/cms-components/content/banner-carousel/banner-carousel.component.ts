@@ -21,6 +21,7 @@ import { CmsComponentData } from '../../../cms-structure/index';
   selector: 'cx-banner-carousel',
   templateUrl: 'banner-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(

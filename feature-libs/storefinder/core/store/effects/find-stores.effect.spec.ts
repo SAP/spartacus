@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -8,6 +8,10 @@ import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './find-stores.effect';
 import createSpy = jasmine.createSpy;
 import { GeoPoint, SearchConfig } from '@spartacus/core';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const singleStoreResult = {};
 const searchResult: any = { stores: [] };
@@ -28,11 +32,13 @@ describe('FindStores Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

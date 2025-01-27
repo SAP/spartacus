@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "返回購物車"
+  },
+  "checkoutProgress": {
+    "label": "結帳進度",
+    "deliveryAddress": "出貨地址",
+    "deliveryMode": "交貨模式",
+    "paymentDetails": "付款",
+    "reviewOrder": "評論",
+    "state": {
+      "completed": "{{step}} 已完成",
+      "selected": "{{step}} 已選擇",
+      "disabled": "{{step}} 已停用"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "出貨地址",
+    "selectYourDeliveryAddress": "選擇交貨地址",
+    "defaultDeliveryAddress": "預設交貨地址",
+    "addNewAddress": "新增地址",
+    "shipToThisAddress": "出貨至此地址",
+    "deliveryAddressSelected": "已選擇交貨地址"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "交貨方法",
+    "deliveryOptions": "交貨選項",
+    "standardDelivery": "標準交貨",
+    "premiumDelivery": "頂級交貨",
+    "deliveryEntries": "待運送項目"
+  },
+  "checkoutReview": {
+    "review": "評論",
+    "reviewOrder": "評論訂單",
+    "orderItems": "訂單項目",
+    "confirmThatRead": "我確認我已閱讀並同意",
+    "placeOrder": "下單",
+    "termsAndConditions": "條款和條件",
+    "editDeliveryAddressDetails": "編輯交貨地址明細，開啟交貨地址頁面",
+    "editBillingDetails": "編輯帳單寄送地址，開啟付款明細頁面",
+    "editPaymentDetails": "編輯付款明細，開啟付款明細頁面",
+    "editPaymentType": "編輯付款方法開啟付款方法頁面",
+    "editDeliveryMode": "編輯交貨模式，開啟交貨模式頁面",
+    "orderInProcess": "訂單處理中，請稍候。"
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "訂單確認：",
+    "thankYou": "感謝您的訂購！",
+    "invoiceHasBeenSentByEmail": "發票已透過電子郵件傳送，您將於稍後收到。",
+    "orderItems": "訂單項目",
+    "orderPlacedSuccessfully": "已成功下單",
+    "createAccount": "是否建立帳戶？",
+    "createAccountForNext": "為 <{{email}}> 建立帳戶，下次造訪時即可更快速結帳。"
+  }
+}

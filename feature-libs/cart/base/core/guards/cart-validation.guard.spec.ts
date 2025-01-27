@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   CartModification,
@@ -106,7 +105,6 @@ describe(`CartValidationGuard`, () => {
           useClass: MockCartConfigService,
         },
       ],
-      imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(CartValidationGuard);

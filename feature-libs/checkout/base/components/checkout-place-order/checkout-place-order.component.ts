@@ -25,6 +25,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-place-order',
   templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;

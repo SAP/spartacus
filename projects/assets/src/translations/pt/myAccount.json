@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Confirmar fechamento de conta",
+    "confirmAccountClosureMessage": "Tem certeza de que quer fechar sua conta?",
+    "closeMyAccount": "FECHAR MINHA CONTA",
+    "accountClosedSuccessfully": "Conta fechada com êxito",
+    "accountClosedFailure": "Falha ao fechar conta"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Senha antiga",
+      "placeholder": "Senha antiga"
+    },
+    "oldPasswordIsRequired": "A senha antiga é obrigatória.",
+    "newPassword": {
+      "label": "Nova senha",
+      "placeholder": "Nova senha"
+    },
+    "passwordMinRequirements": "Aqui está um guia rápido para uma senha segura: utilize pelo menos 8 caracteres com uma mistura de letras maiúsculas e minúsculas, números e símbolos.",
+    "passwordStrengthRequirements": "Aqui está um guia rápido para uma senha segura: Use pelo menos 8 caracteres com uma combinação de letras maiúsculas e minúsculas, números e símbolos.",
+    "confirmPassword": {
+      "label": "Confirmar nova senha",
+      "placeholder": "Confirmar senha"
+    },
+    "bothPasswordMustMatch": "As duas senhas devem corresponder",
+    "passwordUpdateSuccess": "Senha atualizada com êxito",
+    "accessDeniedError": "O acesso foi negado"
+  },
+  "updateProfileForm": {
+    "title": "Título",
+    "none": "",
+    "firstName": {
+      "label": "Nome",
+      "placeholder": "Nome"
+    },
+    "firstNameIsRequired": "O nome é obrigatório.",
+    "lastName": {
+      "label": "Sobrenome",
+      "placeholder": "Sobrenome"
+    },
+    "lastNameIsRequired": "O sobrenome é obrigatório.",
+    "profileUpdateSuccess": "Detalhes pessoais atualizados com êxito",
+    "customerId": "Nº do cliente"
+  },
+  "consentManagementForm": {
+    "clearAll": "Limpar tudo",
+    "selectAll": "Selecionar tudo",
+    "message": {
+      "success": {
+        "given": "Consentimento dado com êxito.",
+        "withdrawn": "Consentimento retirado com êxito."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "Você não tem cupons disponíveis.",
+    "effectiveTitle": "Efetivo:",
+    "Effective": "EFETIVO",
+    "PreSession": "EFETIVO EM BREVE",
+    "ExpireSoon": "EXPIRANDO EM BREVE",
+    "readMore": "Ler mais",
+    "notification": "Notificação",
+    "findProducts": "Encontrar produtos",
+    "status": "Status:",
+    "dialogTitle": "Cupom",
+    "claimCustomerCoupon": "Você reivindicou este cupom com êxito.",
+    "myCoupons": "Meus cupons",
+    "startDateAsc": "Data inicial (em ordem crescente)",
+    "startDateDesc": "Data inicial (em ordem decrescente)",
+    "endDateAsc": "Data final (em ordem crescente)",
+    "endDateDesc": "Data final (em ordem decrescente)",
+    "sortBy": "Ordenar por",
+    "sortCoupons": "Ordenar cupons",
+    "notesPreffix": "Você pode definir seus canais preferidos para receber notificações de cupom na página ",
+    "notesLink": "Canais de notificação",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Selecione seus canais de notificação preferidos",
+    "note": "Nota: ",
+    "noteMessage": "Se você desativar todos os canais, não poderá receber mais notificações.",
+    "EMAIL": "E-mail:",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "SiteMessage"
+  },
+  "myInterests": {
+    "header": "Meus interesses",
+    "item": "ITEM",
+    "price": "PREÇO",
+    "notifications": "NOTIFICAÇÕES",
+    "noInterests": "Você ainda não tem interesses registrados.",
+    "inStock": "Em estoque",
+    "lowStock": "Estoque baixo",
+    "outOfStock": "Sem estoque",
+    "BACK_IN_STOCK": "De novo em estoque",
+    "sortBy": "Ordenar por",
+    "sortInterests": "Ordenar interesses",
+    "expirationDate": " - Até {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "Remover",
+    "sorting": {
+      "byNameAsc": "Nome (em ordem crescente)",
+      "byNameDesc": "Nome (em ordem decrescente)"
+    },
+    "actions": "AÇÕES",
+    "caption": "Conteúdo de Meus interesses.",
+    "itemRemoved": "O item selecionado foi removido."
+  }
+}

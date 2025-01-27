@@ -26,6 +26,7 @@ interface RouteParts {
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
+  standalone: false,
 })
 export class GenericLinkComponent implements OnChanges {
   constructor(

@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Név",
+    "cartDescription": "Leírás",
+    "cartId": "Azonosító",
+    "dateSaved": "Mentés dátuma",
+    "items": "Tételek",
+    "quantity": "Mennyiség",
+    "total": "Összesen",
+    "editSavedCart": "Mentett kosár szerkesztése",
+    "deleteSavedCart": "Mentett kosár törlése",
+    "addSelectedItems": "Kiválasztott tételek hozzáadása",
+    "emptyCartItems": "Kosár tételeinek kiürítése"
+  },
+  "savedCartList": {
+    "savedCarts": "Mentett kosarak ({{count}})",
+    "cartName": "Név",
+    "cartId": "Azonosító",
+    "dateSaved": "Mentés dátuma",
+    "cartDescription": "Leírás",
+    "quantity": "Menny.",
+    "quantityFull": "Mennyiség",
+    "total": "Összesen",
+    "actions": "Műveletek",
+    "makeCartActive": "Kosár aktiválása",
+    "notFound": "Nem találhatók mentett kosarak",
+    "swapCartNoActiveCart": "A meglévő kosár aktiválása sikeres {{cartName}} által.",
+    "swapCartWithActiveCart": "A meglévő kosár aktiválása sikeres {{cartName}} által. A rendszer a korábbi tételeit egy {{previousCartName}} kosárban mentette."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "A kosár tételei sikeresen mentve későbbi felhasználásra a(z) „{{cartName}}” kosárban"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Mentés későbbre",
+    "itemsSavedForLater": "A kosarában található összes tétel mentve lesz későbbre",
+    "savedCartName": "Mentett kosár neve",
+    "savedCartDescription": "Mentett kosár leírása",
+    "optional": "opcionális",
+    "charactersLeft": "hátralévő karakterek: {{count}}",
+    "cancel": "Mégse",
+    "save": "Mentés",
+    "restore": "Visszaállítás",
+    "followingCartDelete": "A következő mentett kosár törölve lesz",
+    "followingCartRestore": "A következő mentett kosár aktív kosárként lesz visszaállítva",
+    "delete": "Törlés",
+    "deleteCartSuccess": "Kosár sikeresen törölve",
+    "editCartSuccess": "Kosár sikeresen szerkesztve",
+    "editSavedCart": "Mentett kosár szerkesztése",
+    "deleteSavedCart": "Mentett kosár törlése",
+    "restoreSavedCart": "Mentett kosár visszaállítása",
+    "name": "Név",
+    "id": "Azonosító",
+    "description": "Leírás",
+    "quantity": "MENNY.",
+    "quantityFull": "Mennyiség",
+    "total": "Összesen",
+    "keepCopySavedCart": "Tartson meg egy másolatot a kosárról a mentett kosarak listáján",
+    "defaultCloneCartName": "{{name}} másolata",
+    "nameOfCloneCart": "A másolt kosár neve"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Mentett kosarak",
+    "saveCartForLater": "Kosár mentése későbbre"
+  }
+}

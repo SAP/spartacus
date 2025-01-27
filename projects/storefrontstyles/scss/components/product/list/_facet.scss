@@ -188,39 +188,4 @@ $intialExpandedFacetsLarge: 3 !default;
       }
     }
   }
-
-  @mixin native-high-contrast-fix {
-    @media (forced-colors: active) {
-      a,
-      button {
-        color: CanvasText;
-        &.value:hover {
-          color: LinkText;
-        }
-      }
-
-      &.multi-select a.value {
-        forced-color-adjust: none;
-        &:hover {
-          &:not(.selected)::before {
-            border-color: LinkText;
-          }
-        }
-        &::before {
-          border: solid 2px CanvasText;
-        }
-        &.selected::before {
-          background-color: Canvas;
-          border-color: CanvasText;
-          color: CanvasText;
-        }
-      }
-    }
-  }
-
-  @include native-high-contrast-fix;
-
-  @include cx-highContrastTheme {
-    @include native-high-contrast-fix;
-  }
 }

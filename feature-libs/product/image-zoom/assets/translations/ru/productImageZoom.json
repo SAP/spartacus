@@ -1,0 +1,9 @@
+{
+  "productImageZoomTrigger": {
+    "expand": "Развернуть изображение"
+  },
+  "productImageZoomDialog": {
+    "zoomedInImage": "Увеличенное изображение",
+    "close": "Закрыть"
+  }
+}

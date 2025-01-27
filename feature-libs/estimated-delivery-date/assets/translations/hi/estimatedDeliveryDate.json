@@ -1,0 +1,8 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "मात्रा-",
+    "quantityFull": "मात्रा-",
+    "ETA": "अनुमानित वितरण दिनांकः",
+    "estimatedDeliveryDateEntryInfo": "{{ quantity }} मात्रा {{ date }} द्वारा वितरित की जाएगी"
+  }
+}

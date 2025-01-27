@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "Správa souhlasů",
+      "legalDescription": "K personalizaci obsahu a zlepšení zkušenosti uživatele používáme soubory cookie ukládané do úložiště prohlížeče. Údaje o tom, jak používáte naše stránky, můžeme také sdílet s našimi sociálními sítěmi. Více informací naleznete v našich zásadách ochrany osobních údajů.",
+      "selectAll": "Vybrat vše",
+      "clearAll": "Vymazat vše"
+    },
+    "banner": {
+      "title": "Tyto webové stránky používají soubory cookie",
+      "description": "Používáme soubory cookie ukládané do úložiště prohlížeče k personalizaci obsahu a zlepšení zkušenosti uživatele.",
+      "allowAll": "Povolit vše",
+      "viewDetails": "Zobrazit detaily"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "E-mailová adresa",
+      "placeholder": "Zadejte e-mail"
+    },
+    "confirmEmail": {
+      "label": "Potvrďte e-mail",
+      "placeholder": "Potvrďte e-mail"
+    },
+    "continue": "Pokračovat",
+    "emailIsRequired": "Neplatný formát e-mailu",
+    "emailsMustMatch": "E-mail se neshoduje"
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "Byli jste úspěšně odhlášeni."
+  }
+}

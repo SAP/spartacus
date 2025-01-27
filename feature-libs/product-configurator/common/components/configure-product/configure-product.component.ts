@@ -27,6 +27,7 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
   selector: 'cx-configure-product',
   templateUrl: './configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };

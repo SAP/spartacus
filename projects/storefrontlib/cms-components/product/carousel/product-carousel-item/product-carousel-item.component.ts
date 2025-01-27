@@ -28,6 +28,7 @@ import {
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductCarouselItemComponent implements OnChanges {
   @Input() item: Product;

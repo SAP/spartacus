@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "アカウントのクローズを確認",
+    "confirmAccountClosureMessage": "アカウントをクローズしてもよろしいですか?",
+    "closeMyAccount": "マイアカウントをクローズする",
+    "accountClosedSuccessfully": "アカウントが正常にクローズされました",
+    "accountClosedFailure": "アカウントをクローズできませんでした"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "旧パスワード",
+      "placeholder": "旧パスワード"
+    },
+    "oldPasswordIsRequired": "旧パスワードが必要です。",
+    "newPassword": {
+      "label": "新しいパスワード",
+      "placeholder": "新しいパスワード"
+    },
+    "passwordMinRequirements": "安全なパスワードについて簡単に説明します。大文字と小文字、数字、および記号を組み合わせた 8 文字以上を使用してださい。",
+    "passwordStrengthRequirements": "安全なパスワードについて簡単に説明します。大文字と小文字、数字、および記号を組み合わせた 8 文字以上を使用してださい。同じ文字を連続して使用しないようにしてください。",
+    "confirmPassword": {
+      "label": "新しいパスワードを再入力",
+      "placeholder": "パスワードを再入力"
+    },
+    "bothPasswordMustMatch": "両方のパスワードが一致する必要があります",
+    "passwordUpdateSuccess": "パスワードが正常に更新されました",
+    "accessDeniedError": "アクセスが拒否されました"
+  },
+  "updateProfileForm": {
+    "title": "タイトル",
+    "none": "",
+    "firstName": {
+      "label": "名",
+      "placeholder": "名"
+    },
+    "firstNameIsRequired": "名は必須です。",
+    "lastName": {
+      "label": "姓",
+      "placeholder": "姓"
+    },
+    "lastNameIsRequired": "姓は必須です。",
+    "profileUpdateSuccess": "個人詳細が正常に更新されました",
+    "customerId": "顧客番号"
+  },
+  "consentManagementForm": {
+    "clearAll": "すべてクリア",
+    "selectAll": "すべて選択",
+    "message": {
+      "success": {
+        "given": "正常に同意されました。",
+        "withdrawn": "同意が正常に取り消されました。"
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "利用可能なクーポンがありません。",
+    "effectiveTitle": "有効: ",
+    "Effective": "有効",
+    "PreSession": "間もなく有効",
+    "ExpireSoon": "間もなく期限切れ",
+    "readMore": "詳細を表示",
+    "notification": "通知",
+    "findProducts": "商品検索",
+    "status": "ステータス: ",
+    "dialogTitle": "クーポン",
+    "claimCustomerCoupon": "このクーポンを請求できました。",
+    "myCoupons": "マイクーポン",
+    "startDateAsc": "開始日付 (昇順)",
+    "startDateDesc": "開始日付 (降順)",
+    "endDateAsc": "終了日付 (昇順)",
+    "endDateDesc": "終了日付 (降順)",
+    "sortBy": "ソート基準",
+    "sortCoupons": "クーポンをソート",
+    "notesPreffix": "クーポン通知を受け取る優先チャネルを設定できます ",
+    "notesLink": "通知チャネル",
+    "notesSuffix": " ページ。"
+  },
+  "notificationPreference": {
+    "message": "優先通知チャネルを選択してください",
+    "note": "注記:  ",
+    "noteMessage": "すべてのチャネルを無効化すると、今後通知を受信できなくなります。",
+    "EMAIL": "電子メール: ",
+    "SMS": "SMS: ",
+    "SITE_MESSAGE": "SiteMessage"
+  },
+  "myInterests": {
+    "header": "関心事",
+    "item": "アイテム",
+    "price": "価格",
+    "notifications": "通知",
+    "noInterests": "登録された関心事がまだありません。",
+    "inStock": "在庫あり",
+    "lowStock": "在庫僅少",
+    "outOfStock": "在庫なし",
+    "BACK_IN_STOCK": "再入荷",
+    "sortBy": "ソート基準",
+    "sortInterests": "関心事をソート",
+    "expirationDate": " - {{ expirationDate }} まで",
+    "productId": "ID {{ code }}",
+    "remove": "削除",
+    "sorting": {
+      "byNameAsc": "名前 (昇順)",
+      "byNameDesc": "名前 (降順)"
+    },
+    "actions": "処理",
+    "caption": "関心事の内容。",
+    "itemRemoved": "選択したアイテムは削除されています。"
+  }
+}

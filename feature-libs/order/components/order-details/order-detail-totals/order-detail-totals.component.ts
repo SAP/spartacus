@@ -12,6 +12,7 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-totals',
   templateUrl: './order-detail-totals.component.html',
+  standalone: false,
 })
 export class OrderDetailTotalsComponent implements OnInit {
   constructor(protected orderDetailsService: OrderDetailsService) {}

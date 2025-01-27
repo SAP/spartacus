@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "Potvrdit uzavření účtu",
+    "confirmAccountClosureMessage": "Chcete svůj účet opravdu uzavřít?",
+    "closeMyAccount": "UZAVŘÍT MŮJ ÚČET",
+    "accountClosedSuccessfully": "Účet úspěšně uzavřen",
+    "accountClosedFailure": "Nepodařilo se uzavřít účet"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "Staré heslo",
+      "placeholder": "Staré heslo"
+    },
+    "oldPasswordIsRequired": "Je třeba zadat staré heslo.",
+    "newPassword": {
+      "label": "Nové heslo",
+      "placeholder": "Nové heslo"
+    },
+    "passwordMinRequirements": "Zde je stručný návod na bezpečné heslo: Použijte minimálně 8 znaků a kombinujte malá a velká písmena, číslice a symboly.",
+    "passwordStrengthRequirements": "Zde je stručný návod na bezpečné heslo: Použijte minimálně 8 znaků a kombinujte malá a velká písmena, číslice a symboly. Nepoužívejte stejné znaky za sebou.",
+    "confirmPassword": {
+      "label": "Potvrďte nové heslo",
+      "placeholder": "Potvrdit heslo"
+    },
+    "bothPasswordMustMatch": "Obě hesla se musí shodovat",
+    "passwordUpdateSuccess": "Heslo bylo úspěšně aktualizováno",
+    "accessDeniedError": "Přístup byl odepřen"
+  },
+  "updateProfileForm": {
+    "title": "Oslovení",
+    "none": "",
+    "firstName": {
+      "label": "Křestní jméno",
+      "placeholder": "Křestní jméno"
+    },
+    "firstNameIsRequired": "Křestní jméno je povinné.",
+    "lastName": {
+      "label": "Příjmení",
+      "placeholder": "Příjmení"
+    },
+    "lastNameIsRequired": "Příjmení je povinné.",
+    "profileUpdateSuccess": "Osobní údaje byly úspěšně aktualizovány",
+    "customerId": "Č. zákazníka"
+  },
+  "consentManagementForm": {
+    "clearAll": "Vymazat vše",
+    "selectAll": "Vybrat vše",
+    "message": {
+      "success": {
+        "given": "Souhlas úspěšně udělen.",
+        "withdrawn": "Souhlas úspěšně udělen."
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "Nemáte k dispozici žádné kupóny.",
+    "effectiveTitle": "Platné:",
+    "Effective": "PLATNÉ",
+    "PreSession": "BRZY PLATNÉ",
+    "ExpireSoon": "BRZY VYPRŠÍ",
+    "readMore": "Další informace",
+    "notification": "Oznámení",
+    "findProducts": "Hledat produkty",
+    "status": "Status:",
+    "dialogTitle": "Kupón",
+    "claimCustomerCoupon": "Úspěšně jste uplatnili tento kupón.",
+    "myCoupons": "Moje kupóny",
+    "startDateAsc": "Datum zahájení (vzestupně)",
+    "startDateDesc": "Datum ukončení (sestupně)",
+    "endDateAsc": "Datum ukončení (vzestupně)",
+    "endDateDesc": "Datum zahájení (sestupně)",
+    "sortBy": "Řadit podle",
+    "sortCoupons": "Řadit kupóny",
+    "notesPreffix": "Můžete nastavit preferované kanály pro příjem oznámení o kupónech na stránce ",
+    "notesLink": "Kanály oznámení",
+    "notesSuffix": " ."
+  },
+  "notificationPreference": {
+    "message": "Nastavte si preferované kanály oznámení",
+    "note": "Poznámka: ",
+    "noteMessage": "Pokud deaktivujete všechny kanály, nebudete nadále dostávat žádná oznámení.",
+    "EMAIL": "E-mail:",
+    "SMS": "SMS:",
+    "SITE_MESSAGE": "Zpráva webu"
+  },
+  "myInterests": {
+    "header": "Moje zájmy",
+    "item": "POLOŽKA",
+    "price": "CENA",
+    "notifications": "NOTIFIKACE",
+    "noInterests": "Zatím nemáte žádné registrované zájmy.",
+    "inStock": "Na skladě",
+    "lowStock": "Nedostatečné množství zásob",
+    "outOfStock": "Není skladem",
+    "BACK_IN_STOCK": "Opět na skladě",
+    "sortBy": "Řadit podle",
+    "sortInterests": "Řadit zájmy",
+    "expirationDate": " - Do {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "Odebrat",
+    "sorting": {
+      "byNameAsc": "Název (vzestupně)",
+      "byNameDesc": "Název (sestupně)"
+    },
+    "actions": "AKCE",
+    "caption": "Obsah mých zájmů.",
+    "itemRemoved": "Vybraná položka byla odebrána."
+  }
+}

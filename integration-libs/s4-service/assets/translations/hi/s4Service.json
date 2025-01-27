@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "सेवा विवरण",
+    "serviceScheduleHeading": "सेवा शेड्यूल - दिनांक और समय",
+    "address": "शिपिंग पते के अनुसार ही",
+    "serviceLocationHeading": "सेवा स्थान",
+    "datePickerLabel": "सेवा दिनांक शेड्यूल करें",
+    "timePickerLabel": "सेवा समय शेड्यूल करें",
+    "unknownError": "त्रुटि उत्पन्न हुई; सहायता से संपर्क करें",
+    "productDeliveryOptions": "उत्पाद के लिए वितरण विकल्प",
+    "serviceDeliveryOption": "सेवा के लिए वितरण विकल्प",
+    "productDeliveryMethods": "उत्पाद के लिए वितरण विधियां",
+    "serviceDeliveryMethod": "सेवा के लिए वितरण विधि"
+  },
+  "cancelService": {
+    "heading": "निम्न उत्पाद रद्दकरण अनुरोध में शामिल किए जाएंगे",
+    "cancelReason": "सेवा रद्द करने के लिए कारण",
+    "optional": "(वैकल्पिक)",
+    "action": "सेवाओं को रद्द करें",
+    "back": "वापस जाएं",
+    "Submit": "अनुरोध सबमिट करें",
+    "cancelServiceSuccess": "सेवा सफलतापूर्वक रद्द की गई",
+    "unknownError": "अज्ञात त्रुटि उत्पन्न हुई. सहायता से संपर्क करें",
+    "ServiceTime": "सेवा समय",
+    "ServiceLocation": "सेवा स्थान",
+    "ServiceDate": "सेवा दिनांक",
+    "SubmitRequest": "अनुरोध सबमिट करें",
+    "serviceNotRcancelable": "सेवा रद्द करने योग्य नहीं है",
+    "charactersLeft": "वर्ण बचे हैंः  {{count}}",
+    "Services": "सेवाएं"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "रीशेड्यूल सेवा",
+    "headerLabel": "सेवाएं",
+    "contentLabel": "सेवा रीशेड्यूल की गई - नया दिनांक और समय चुनें",
+    "datePickerLabel": "सेवा दिनांक",
+    "timePickerLabel": "सेवा समय",
+    "backButtonLabel": "वापस जाएं",
+    "submitButtonLabel": "अनुरोध सबमिट करें",
+    "note": "कृपया ध्यान रखें कि आपके ऑर्डर पर अनुरोध दर्शाने में कुछ समय लग सकता है.",
+    "unknownError": "अज्ञात त्रुटि उत्पन्न हुई. सहायता से संपर्क करें.",
+    "serviceNotReschedulable": "सेवा रीशेड्यूल नहीं की जा सकती.",
+    "serviceNotAmendable": "शेड्यूल दिनांक से 24 घंटे से कम से पहले सेवा रद्द या रीशेड्यूल नहीं की जा सकती.",
+    "rescheduleSuccess": "सेवा दिनांक और समय सफलतापूर्वक बदला गया."
+  }
+}

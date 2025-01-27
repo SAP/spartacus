@@ -21,6 +21,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   selector: 'cx-import-entries-summary',
   templateUrl: './import-entries-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;

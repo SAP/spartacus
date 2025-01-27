@@ -54,6 +54,7 @@ export interface AddedToCartDialogComponentData {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;

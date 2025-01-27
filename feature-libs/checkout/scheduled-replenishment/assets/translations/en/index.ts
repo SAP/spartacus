@@ -5,7 +5,6 @@
  */
 
 import checkoutScheduledReplenishment from './checkoutScheduledReplenishment.json';
-
 export const en = {
   checkoutScheduledReplenishment,
 };

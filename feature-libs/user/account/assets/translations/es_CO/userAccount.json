@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "¿Olvidó la contraseña?",
+    "signIn": "Iniciar sesión",
+    "register": "Registrarse",
+    "dontHaveAccount": "¿No tiene una cuenta?",
+    "guestCheckout": "Registro de invitado",
+    "emailAddress": {
+      "label": "Dirección de correo electrónico",
+      "placeholder": "Ingrese dirección de correo electrónico"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Ingrese su contraseña"
+    },
+    "wrongEmailFormat": "Este no es un formato de correo electrónico válido."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "El código de verificación se envió a {{target}}. Verifique e ingrese el código.",
+    "needInputCredentials": "Ingrese sus credenciales para continuar.",
+    "sendRateLime": "En {{waitTime}} segundos",
+    "resend": "Reenviar",
+    "verificationCode": {
+      "label": "Código de verificación",
+      "placeholder": "Ingrese el código de verificación"
+    },
+    "noReceiveCode": "¿No recibió el código?",
+    "verify": "Verificar",
+    "back": "Atrás",
+    "tokenInputHint": "Puede solicitar un nuevo código. Se inicia un temporizador que indica los segundos que faltan para que pueda volver a enviar su solicitud."
+  },
+  "verificationTokenDialog": {
+    "title": "No recibí un código",
+    "noReceiveCode": "Si no recibió un código, estas podrían ser las causas:",
+    "contentLine1": "1. El correo electrónico no ha llegado.",
+    "contentLine2": "2. El correo electrónico recibido ha sido tratado como correo no deseado.",
+    "contentLine3": "3. La dirección de correo electrónico o la contraseña ingresadas son incorrectas.",
+    "close": "Cerrar"
+  },
+  "miniLogin": {
+    "userGreeting": "Hola, {{name}}",
+    "signInRegister": "Iniciar sesión / Registrarse"
+  },
+  "myAccountV2User": {
+    "signOut": "Cerrar sesión"
+  }
+}

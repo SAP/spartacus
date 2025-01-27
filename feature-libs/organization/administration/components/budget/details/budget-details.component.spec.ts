@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { EMPTY, of, Subject } from 'rxjs';
 import {
@@ -16,7 +16,6 @@ import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
-import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'b1';
 
@@ -43,7 +42,6 @@ describe('BudgetDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
         CardTestingModule,

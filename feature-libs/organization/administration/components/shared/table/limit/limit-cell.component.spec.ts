@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -14,7 +13,7 @@ describe('LimitCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LimitCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,

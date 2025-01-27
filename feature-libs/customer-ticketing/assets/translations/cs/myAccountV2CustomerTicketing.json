@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Služby zákazníkům",
+    "showMore": "Zobrazit více",
+    "showMoreLabel": "Přejít na historii servisních požadavků zákazníka",
+    "changedOn": "Změněno dne: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "Předmět",
+    "idLabel": "ID služby zákazníkům"
+  }
+}

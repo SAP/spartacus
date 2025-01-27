@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Resumos da conta",
+    "header": "Todos os resumos da conta ({{count}})",
+    "name": "Unidade",
+    "details": {
+      "header": "Detalhes do resumo da conta",
+      "uid": "ID de unidade",
+      "name": "Nome de unidade",
+      "address": "Endereço",
+      "creditRep": "Relatório de crédito",
+      "creditLine": "Linha de crédito",
+      "currentBalance": "Saldo atual",
+      "openBalance": "Saldo em aberto",
+      "pastDueBalance": "Saldo atrasado",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} Dias",
+      "dayPlus": "{{minBoundary}}+ Dias",
+      "notApplicable": "n/a"
+    },
+    "document": {
+      "header": "Documentos",
+      "id": "Número do documento",
+      "type": "Tipo de documento",
+      "date": "Criado em",
+      "dueDate": "Vencimento em",
+      "originalAmount": "Montante original",
+      "openAmount": "Montante em aberto",
+      "status": "Status",
+      "attachment": "Anexo",
+      "download": "Baixar",
+      "attachmentDescription": "Baixar anexo para {{type}} {{id}}.",
+      "noneFound": "Nenhum documento encontrado"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Criado em ordem crescente",
+      "byCreatedAtDateDesc": "Criado em ordem decrescente",
+      "byDueAtDateAsc": "Vencimento em ordem crescente",
+      "byDueAtDateDesc": "Vencimento em ordem decrescente",
+      "byOriginalAmountAsc": "Montante original em ordem crescente",
+      "byOriginalAmountDesc": "Montante original em ordem decrescente",
+      "byOpenAmountAsc": "Montante em aberto em ordem crescente",
+      "byOpenAmountDesc": "Montante em aberto em ordem decrescente",
+      "byOrgDocumentTypeAsc": "Tipo de documento em ordem crescente",
+      "byOrgDocumentTypeDesc": "Tipo de documento em ordem decrescente",
+      "byStatusAsc": "Status em ordem crescente",
+      "byStatusDesc": "Status em ordem decrescente",
+      "byOrgDocumentIdAsc": "Número do documento em ordem crescente",
+      "byOrgDocumentIdDesc": "Número do documento em ordem decrescente"
+    },
+    "statuses": {
+      "open": "Aberto",
+      "closed": "Fechado",
+      "all": "Todos"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Número do documento",
+      "orgDocumentIdRange": "Intervalo de numeração do documento",
+      "orgDocumentType": "Tipo de documento",
+      "createdAtDateRange": "Intervalo criado em",
+      "dueAtDateRange": "Intervalo com vencimento em",
+      "amountRange": "Intervalo de montantes originais",
+      "openAmountRange": "Intervalo de montantes em aberto"
+    },
+    "sortBy": "Ordenar por",
+    "sortDocuments": "Ordenar documentos",
+    "filter": {
+      "status": "Status",
+      "filterBy": "Filtrar por",
+      "documentNumber": "Número do documento",
+      "documentType": "Tipo de documento",
+      "startRange": "Desde",
+      "endRange": "Até",
+      "clear": "Limpar tudo",
+      "search": "Pesquisar",
+      "errors": {
+        "toDateMustComeAfterFrom": "Selecione uma data final posterior à data inicial.",
+        "toAmountMustBeLargeThanFrom": "Selecione um valor de intervalo final menor que o valor inicial."
+      }
+    },
+    "hint": "Os resumos da conta permitem que você revise informações gerais sobre uma unidade, incluindo saldos e resumo de aging de faturas. Aqui, você também pode procurar em uma lista de documentos de transação de uma unidade."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Resumos da conta",
+      "details": "{{name}}"
+    }
+  }
+}

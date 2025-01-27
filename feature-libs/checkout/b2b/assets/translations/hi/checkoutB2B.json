@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "कोई नहीं",
+    "poNumber": "क्रय ऑर्डर संख्या (वैकल्पिक)",
+    "costCenter": "लागत केंद्र",
+    "placeholder": "P.O दर्ज करें",
+    "availableLabel": "लागत केंद्र की इकाई के आधार पर आपके लिए वितरण पता उपलब्ध होगा",
+    "invalid": {
+      "accountType": "आपका खाता आपको यहां चेकआउट करने की अनुमति नहीं देता है."
+    },
+    "methodOfPayment": {
+      "paymentType": "भुगतान प्रकार"
+    },
+    "review": {
+      "poNumber": "क्रय ऑर्डर संख्या"
+    },
+    "progress": {
+      "methodOfPayment": "भुगतान की विधि"
+    },
+    "invalidCostCenter": "अमान्य लागत केंद्र."
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "Самовывоз из магазина",
+    "pickupBy": "Самовывоз (кем)",
+    "pickupFrom": "Самовывоз из"
+  },
+  "pickupOptionDialog": {
+    "close": "Закрыть",
+    "modalHeader": "Самовывоз из магазина"
+  },
+  "pickupOptions": {
+    "legend": "Метод доставки",
+    "changeStore": "Изменить магазин",
+    "delivery": "Доставка (бесплатный возврат)",
+    "pickup": "Бесплатный самовывоз из магазина",
+    "shipIt": "Доставка",
+    "selectStore": "Выбрать магазин",
+    "freeReturn": "Бесплатный возврат",
+    "storeIsNotSelected": "Не выбран магазин для самовывоза."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Сделать моим магазином",
+    "myStore": "Мой магазин"
+  },
+  "store": {
+    "pickupFromHere": "Забрать здесь",
+    "stockLevel_inStock": "{{ count }} в наличии",
+    "stockLevel_outOfStock": "Нет в наличии",
+    "viewHours": "Смотреть часы работы"
+  },
+  "storeList": {
+    "noStoresMessage": "Магазины не найдены в базе данных..."
+  },
+  "storeSchedule": {
+    "closed": "Закрыто",
+    "storeHours": "Часы работы магазина"
+  },
+  "storeSearch": {
+    "findAStore": "Найти магазин",
+    "findStores": "Найти магазины",
+    "hideOutOfStockOptions": "Скрыть опции наличия",
+    "searchPlaceholder": "Введите почтовый индекс, город или адрес",
+    "useMyLocation": "Использовать мое местоположение"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Магазин самовывоза"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "Мой магазин"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Позиции для самовывоза",
+    "storeItemHeading": "Адрес магазина самовывоза"
+  },
+  "cartItems": {
+    "item": "Позиция"
+  },
+  "cardActions": {
+    "getDirections": "Получить маршрут, эта ссылка откроется в новом окне"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Позиции для самовывоза",
+    "pickUpInStoreAddress": "Адрес магазина самовывоза",
+    "itemsToBeShipped": "Позиции для доставки",
+    "shippingAddress": "Адрес доставки",
+    "deliveryMethod": "Метод доставки",
+    "deliveryOptions": "Опции доставки",
+    "statusDisplay_cancelled": "Отменено",
+    "statusDisplay_cancelling": "Ожидает отмены",
+    "statusDisplay_completed": "Завершено",
+    "statusDisplay_created": "Создано",
+    "statusDisplay_error": "Ожидает",
+    "statusDisplay_Error": "Ожидает",
+    "statusDisplay_processing": "Ожидает",
+    "statusDisplay_open": "Открыто",
+    "statusDisplay_pending": {
+      "approval": "Ожидает утверждения",
+      "merchant": {
+        "approval": "Ожидает утверждения продавца"
+      }
+    },
+    "statusDisplay_approved": "Утверждено",
+    "statusDisplay_rejected": "Отклонено",
+    "statusDisplay_merchant": {
+      "approved": "Продавец утвердил",
+      "rejected": "Продавец отклонил"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Присвоено администратору"
+    }
+  }
+}

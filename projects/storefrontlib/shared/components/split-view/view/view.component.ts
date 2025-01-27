@@ -40,6 +40,7 @@ import { SplitViewService } from '../split-view.service';
   selector: 'cx-view',
   templateUrl: './view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ViewComponent implements OnInit, OnDestroy {
   protected _hidden: boolean | undefined;

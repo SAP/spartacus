@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Nueva dirección de correo electrónico",
+      "placeholder": "Ingresar correo electrónico"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Confirmar nueva dirección de correo electrónico",
+      "placeholder": "Ingresar correo electrónico"
+    },
+    "enterValidEmail": "Ingrese un correo electrónico válido.",
+    "bothEmailMustMatch": "Ambos correos electrónicos deben coincidir",
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Ingrese contraseña"
+    },
+    "pleaseInputPassword": "Ingrese la contraseña",
+    "emailUpdateSuccess": "Hecho. Inicie sesión con {{ newUid }}"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Confirmar contraseña",
+      "label": "Confirmar contraseña",
+      "placeholder": "Confirmar contraseña"
+    },
+    "managementInMyAccount": "Gestión en Mi cuenta",
+    "termsAndConditions": "Términos y condiciones",
+    "signIn": "Ya tengo cuenta. Iniciar sesión.",
+    "register": "Registrarme",
+    "confirmNewPassword": "Confirmar nueva contraseña",
+    "resetPassword": "Restablecer contraseña",
+    "createAccount": "Crear una cuenta",
+    "title": "Título",
+    "titleOptional": "Título (opcional)",
+    "firstName": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "lastName": {
+      "label": "Apellido",
+      "placeholder": "Apellido"
+    },
+    "emailAddress": {
+      "label": "Dirección de correo electrónico",
+      "placeholder": "Dirección de correo electrónico"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Contraseña"
+    },
+    "newPassword": "Nueva contraseña",
+    "emailMarketing": "Utilizar mis datos personales para recibir newsletters publicitarios por correo electrónico. Para cambiar la configuración, diríjase a Gestión de consentimiento en Mi cuenta.",
+    "confirmThatRead": "Confirmo que he leído y estoy de acuerdo con los",
+    "selectTitle": "Seleccionar título",
+    "passwordMinRequirements": "Esta es una guía rápida para generar una contraseña segura: utilice al menos 8 caracteres e incluya letras en mayúscula y minúscula, números y símbolos.",
+    "passwordStrengthRequirements": "Esta es una guía rápida para generar una contraseña segura: utilice al menos 8 caracteres e incluya letras en mayúscula y minúscula, números y símbolos. Asegúrese de no utilizar el mismo carácter de forma consecutiva.",
+    "bothPasswordMustMatch": "Ambas contraseñas deben coincidir",
+    "titleRequired": "Se requiere un título.",
+    "postRegisterMessage": "Inicie sesión con las credenciales provistas.",
+    "postRegisterSuccessMessage": "Registro exitoso: inicie sesión con las credenciales provistas"
+  },
+  "forgottenPassword": {
+    "resetPassword": "Restablecer contraseña",
+    "enterEmailAddressAssociatedWithYourAccount": "Introduzca la dirección de correo electrónico asociada con su cuenta",
+    "emailAddress": {
+      "label": "Dirección de correo electrónico",
+      "placeholder": "Ingresar correo electrónico"
+    },
+    "enterValidEmail": "Ingrese un correo electrónico válido.",
+    "passwordResetEmailSent": "Le hemos enviado un correo electrónico que contiene la información sobre cómo restablecer su contraseña.",
+    "passwordResetSuccess": "¡Hecho! Ahora puede iniciar sesión con su contraseña nueva."
+  }
+}

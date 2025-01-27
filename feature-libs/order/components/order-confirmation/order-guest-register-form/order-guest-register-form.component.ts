@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
+  standalone: false,
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major

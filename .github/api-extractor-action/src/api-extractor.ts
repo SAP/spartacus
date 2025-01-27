@@ -134,9 +134,10 @@ async function copyApiExtractorConfig(targetDir: string): Promise<void> {
  *
  * @returns object with name and the newName
  */
-function updateNameInPackageJson(
-  path: string
-): { name: string; newName: string } {
+function updateNameInPackageJson(path: string): {
+  name: string;
+  newName: string;
+} {
   const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
   const name: string = packageContent.name;
   const newName = name.replace(/\//g, '_').replace(/\_/, '/');

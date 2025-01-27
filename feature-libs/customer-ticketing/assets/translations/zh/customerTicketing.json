@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "客户票证",
+    "ticketId": "标识",
+    "createdOn": "创建日期",
+    "changedOn": "更改日期",
+    "status": "状态",
+    "message": "消息",
+    "cancel": "取消",
+    "submit": "提交",
+    "uploadFile": "上载文件",
+    "fileSizeLimit": "文件大小限制：{{count}} MB",
+    "maximumAttachment": "每条消息最多一个附件",
+    "errorMessage": "出现错误。",
+    "charactersLeft": "剩余字符：{{count}}",
+    "customerService": "客户服务"
+  },
+  "customerTicketingList": {
+    "subject": "主题",
+    "ticketCategory": "类别",
+    "sortSubtitle": "排序依据",
+    "sortOrders": "排序订单",
+    "noTickets": "您没有任何请求",
+    "requestTitle": "所有请求",
+    "mobile": {
+      "ticketIdFull": "票证标识"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "添加",
+    "addNewRequest": "添加新请求",
+    "addRequest": "添加请求",
+    "subject": "主题",
+    "category": "类别",
+    "associateTo": "关联至",
+    "ticketCreated": "已创建请求。",
+    "optionallySelectAssociatedObject": "选择选项",
+    "selectCategory": "选择类别"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "已重新打开请求。",
+    "requestClosed": "请求已关闭，您可以根据需要重新打开。",
+    "reopenRequest": "重新打开请求",
+    "closeRequest": "关闭请求",
+    "ticketNotFound": "未找到票证。"
+  }
+}

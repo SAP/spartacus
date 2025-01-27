@@ -7,6 +7,7 @@ import { TrapFocusService } from './trap-focus.service';
 
 @Directive({
   selector: '[cxTrapFocus]',
+  standalone: false,
 })
 class CustomFocusDirective extends TrapFocusDirective {
   @Input('cxTrapFocus') protected config: TrapFocusConfig;
@@ -19,6 +20,7 @@ class CustomFocusDirective extends TrapFocusDirective {
     <div [cxTrapFocus]="{ trap: true }" id="b"></div>
     <div [cxTrapFocus]="{ trap: false }" id="c"></div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

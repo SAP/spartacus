@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Zurück zur Liste",
+    "showForm_APPROVE": "Bestellung genehmigen...",
+    "showForm_REJECT": "Bestellung ablehnen...",
+    "form": {
+      "title_APPROVE": "Bestellung {{orderCode}} mit Summe {{orderTotal}} genehmigen",
+      "title_REJECT": "Bestellung {{orderCode}} mit Summe {{orderTotal}} ablehnen",
+      "submit_APPROVE": "Genehmigen",
+      "submit_REJECT": "Ablehnen",
+      "cancel": "Abbrechen",
+      "comment_APPROVE": {
+        "label": "Kommentar (optional, maximal 255 Zeichen)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Kommentar (maximal 255 Zeichen)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Kundengenehmigungsdetails",
+      "permission": "Berechtigung",
+      "approver": "Genehmigende Person",
+      "status": "Status",
+      "approverComments": "Kommentare der genehmigenden Person",
+      "noApprovalComments": "Keine",
+      "permissionType_B2BBudgetExceededPermission": "Das der ausgewählten Kostenstelle zugeordnete Budget ist überschritten",
+      "permissionType_B2BOrderThresholdPermission": "Bestellgesamtsumme überschreitet das Limit pro Bestellung",
+      "permissionType_B2BOrderThresholdTimespanPermission": "Bestellgesamtsumme überschreitet das Limit pro Zeitraum"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Bestellnummer",
+    "POCode": "Bestellnr.",
+    "placedBy": "Aufgegeben von",
+    "date": "Datum",
+    "status": "Status",
+    "total": "Gesamtsumme",
+    "none": "Keine",
+    "emptyList": "Zurzeit sind keine zu genehmigenden Bestellungen vorhanden.",
+    "orderApprovalList": "Bestellgenehmigungsliste"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Keine ausreichenden Berechtigungen für den Zugriff auf diese Seite"
+    }
+  }
+}

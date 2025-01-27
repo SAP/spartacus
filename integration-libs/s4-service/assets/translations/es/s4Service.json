@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Detalles del servicio",
+    "serviceScheduleHeading": "Horario del servicio: fecha y hora",
+    "address": "La misma que la dirección de envío",
+    "serviceLocationHeading": "Ubicación del servicio",
+    "datePickerLabel": "Programar fecha de servicio",
+    "timePickerLabel": "Programar hora de servicio",
+    "unknownError": "Ocurrió un error desconocido. Póngase en contacto con el servicio de soporte.",
+    "productDeliveryOptions": "Opciones de entrega para productos",
+    "serviceDeliveryOption": "Opción de entrega para servicios",
+    "productDeliveryMethods": "Métodos de entrega para productos",
+    "serviceDeliveryMethod": "Método de entrega para servicios"
+  },
+  "cancelService": {
+    "heading": "Los siguientes artículos estarán incluidos en la solicitud de cancelación",
+    "cancelReason": "Motivo de cancelación del servicio",
+    "optional": "(opcional)",
+    "action": "Cancelar servicio",
+    "back": "Atrás",
+    "Submit": "Enviar solicitud",
+    "cancelServiceSuccess": "El servicio ha sido cancelado correctamente",
+    "unknownError": "Ocurrió un error desconocido. Póngase en contacto con el servicio de soporte.",
+    "ServiceTime": "Hora del servicio",
+    "ServiceLocation": "Ubicación del servicio",
+    "ServiceDate": "Fecha del servicio",
+    "SubmitRequest": "Enviar solicitud",
+    "serviceNotRcancelable": "El servicio no se puede cancelar",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "Services": "Servicios"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Reprogramar servicio",
+    "headerLabel": "Servicios",
+    "contentLabel": "Reprogramación del servicio: seleccione fecha y hora nuevamente",
+    "datePickerLabel": "Fecha del servicio",
+    "timePickerLabel": "Hora del servicio",
+    "backButtonLabel": "Atrás",
+    "submitButtonLabel": "Enviar solicitud",
+    "note": "Tenga en cuenta que su pedido puede demorar un tiempo en reflejar la solicitud.",
+    "unknownError": "Ocurrió un error desconocido. Póngase en contacto con el servicio de soporte.",
+    "serviceNotReschedulable": "No se puede reprogramar el servicio.",
+    "serviceNotAmendable": "No se puede reprogramar o cancelar el servicio en las 24 horas previas a la fecha programada.",
+    "rescheduleSuccess": "La fecha y hora del servicio han sido modificadas correctamente."
+  }
+}

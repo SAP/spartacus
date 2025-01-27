@@ -9,7 +9,10 @@ import { Pipe, PipeTransform, inject, isDevMode } from '@angular/core';
 import { LoggerService } from '../logger';
 import { LanguageService } from '../site-context/facade/language.service';
 
-@Pipe({ name: 'cxNumeric' })
+@Pipe({
+  name: 'cxNumeric',
+  standalone: false,
+})
 export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   protected logger = inject(LoggerService);
 

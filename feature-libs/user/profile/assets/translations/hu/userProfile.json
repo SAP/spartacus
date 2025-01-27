@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Új e-mail-cím",
+      "placeholder": "E-mail-cím megadása"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Új e-mail-cím megerősítése",
+      "placeholder": "E-mail-cím megadása"
+    },
+    "enterValidEmail": "Érvényes e-mail-címet adjon meg.",
+    "bothEmailMustMatch": "A két e-mail-címnek egyeznie kell",
+    "password": {
+      "label": "Jelszó",
+      "placeholder": "Jelszó megadása"
+    },
+    "pleaseInputPassword": "Adja meg a jelszót",
+    "emailUpdateSuccess": "Siker. Jelentkezzen be a következővel: {{ newUid }}"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Jelszó megerősítése",
+      "label": "Jelszó megerősítése",
+      "placeholder": "Jelszó megerősítése"
+    },
+    "managementInMyAccount": "Kezelés a Saját fiók menüben.",
+    "termsAndConditions": "Használati feltételek",
+    "signIn": "Már van fiókom. Bejelentkezés",
+    "register": "Regisztráció",
+    "confirmNewPassword": "Új jelszó megerősítése",
+    "resetPassword": "Jelszó visszaállítása",
+    "createAccount": "Fiók létrehozása",
+    "title": "Megszólítás",
+    "titleOptional": "Megszólítás (opcionális)",
+    "firstName": {
+      "label": "Utónév",
+      "placeholder": "Utónév"
+    },
+    "lastName": {
+      "label": "Vezetéknév",
+      "placeholder": "Vezetéknév"
+    },
+    "emailAddress": {
+      "label": "E-mail-cím",
+      "placeholder": "E-mail-cím"
+    },
+    "password": {
+      "label": "Jelszó",
+      "placeholder": "Jelszó"
+    },
+    "newPassword": "Új jelszó",
+    "emailMarketing": "A személyes adatai felhasználhatók, hogy e-mailes hírlevelet küldjük a marketingkampányok részeként. A beállításait a Saját fiók Hozzájárulás-kezelés menüjében módosíthatja.",
+    "confirmThatRead": "Megerősítem, hogy elolvastam és elfogadom a következőt:",
+    "selectTitle": "Megszólítás kiválasztása",
+    "passwordMinRequirements": "Íme egy gyors útmutató a biztonságos jelszó létrehozásához: Használjon legalább 8 karaktert, kis- és nagybetűket, számokat és szimbólumokat.",
+    "passwordStrengthRequirements": "Íme egy gyors útmutató a biztonságos jelszó létrehozásához: Használjon legalább 8 karaktert, kis- és nagybetűket, számokat és szimbólumokat. Ne használja többször egymás után ugyanazt a karaktert.",
+    "bothPasswordMustMatch": "A két jelszónak egyeznie kell.",
+    "titleRequired": "A megszólítás kitöltése kötelező.",
+    "postRegisterMessage": "Jelentkezzen be a megadott azonosító adatokkal.",
+    "postRegisterSuccessMessage": "Sikeres regisztráció: Jelentkezzen be a megadott azonosító adatokkal."
+  },
+  "forgottenPassword": {
+    "resetPassword": "Jelszó visszaállítása",
+    "enterEmailAddressAssociatedWithYourAccount": "Adja meg a fiókjához társított e-mail-címet",
+    "emailAddress": {
+      "label": "E-mail-cím",
+      "placeholder": "E-mail-cím megadása"
+    },
+    "enterValidEmail": "Érvényes e-mail-címet adjon meg.",
+    "passwordResetEmailSent": "Elküldtünk Önnek egy e-mailt a jelszó visszaállítására vonatkozó útmutatóval.",
+    "passwordResetSuccess": "Siker! Most már bejelentkezhet az új jelszavával."
+  }
+}

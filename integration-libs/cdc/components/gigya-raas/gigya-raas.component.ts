@@ -24,6 +24,7 @@ import { distinctUntilChanged, take, tap } from 'rxjs/operators';
   styleUrls: ['./gigya-raas.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class GigyaRaasComponent implements OnInit {
   protected renderScreenSet = true;

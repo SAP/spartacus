@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   BaseOption,
   I18nTestingModule,
@@ -57,6 +56,7 @@ const mockQualifiers2 = {} as VariantOptionQualifier;
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
@@ -92,7 +92,7 @@ describe('ProductVariantStyleSelectorComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: OccConfig,

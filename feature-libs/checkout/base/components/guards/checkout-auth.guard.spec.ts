@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlTree } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RedirectCommand, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
@@ -76,7 +75,6 @@ describe('CheckoutAuthGuard', () => {
           useClass: MockGlobalMessageService,
         },
       ],
-      imports: [RouterTestingModule],
     });
     checkoutGuard = TestBed.inject(CheckoutAuthGuard);
     authService = TestBed.inject(AuthService);
@@ -100,7 +98,7 @@ describe('CheckoutAuthGuard', () => {
         checkoutConfigService.isGuestCheckout =
           createSpy().and.returnValue(true);
 
-        let result: boolean | UrlTree | undefined;
+        let result: boolean | UrlTree | RedirectCommand | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -109,7 +107,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return url to login without forced flag when guestCheckout feature disabled', () => {
-        let result: boolean | UrlTree | undefined;
+        let result: boolean | UrlTree | RedirectCommand | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -131,7 +129,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree | undefined;
+        let result: boolean | UrlTree | RedirectCommand | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -165,7 +163,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree | undefined;
+        let result: boolean | UrlTree | RedirectCommand | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -191,7 +189,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree | undefined;
+        let result: boolean | UrlTree | RedirectCommand | undefined;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))

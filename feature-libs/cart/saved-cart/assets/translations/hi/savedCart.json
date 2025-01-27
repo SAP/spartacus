@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "नाम",
+    "cartDescription": "वर्णन",
+    "cartId": "ID",
+    "dateSaved": "दिनांक सहेजा गया",
+    "items": "आइटम",
+    "quantity": "मात्रा",
+    "total": "कुल",
+    "editSavedCart": "सहेजा गया कार्ट संपादित करें",
+    "deleteSavedCart": "सहेजा गया कार्ट हटाएं",
+    "addSelectedItems": "चयनित आइटम जोड़ें",
+    "emptyCartItems": "रिक्त कार्ट आइटम"
+  },
+  "savedCartList": {
+    "savedCarts": "सहेजे गए कार्ट ({{count}})",
+    "cartName": "नाम",
+    "cartId": "Id",
+    "dateSaved": "दिनांक सहेजा गया",
+    "cartDescription": "वर्णन",
+    "quantity": "मात्रा",
+    "quantityFull": "मात्रा",
+    "total": "कुल",
+    "actions": "क्रियाएं",
+    "makeCartActive": "कार्ट सक्रिय करें",
+    "notFound": "सहेजा गया कोई कार्ट नहीं मिला",
+    "swapCartNoActiveCart": "मौजूदा कार्ट को {{cartName}} द्वारा सफलतापूर्वक सक्रिय किया गया.",
+    "swapCartWithActiveCart": "मौजूदा कार्ट को {{cartName}} द्वारा सफलतापूर्वक सक्रिय किया गया. आपके पिछले आइटम कार्ट {{previousCartName}} में सहेजे गए."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "आपके कार्ट आइटम बाद के लिए कार्ट  \"{{cartName}}\" में सफलतापूर्वक सहेजे गए"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "बाद के लिए सहेजें",
+    "itemsSavedForLater": "आपकी कार्ट के सभी आइटम बाद के लिए सहेजे जाएंगे",
+    "savedCartName": "सहेजी गई कार्ट का नाम",
+    "savedCartDescription": "सहेजी गई कार्ट का वर्णन",
+    "optional": "वैकल्पिक",
+    "charactersLeft": "वर्ण बचे हैंः  {{count}}",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "restore": "पुनर्स्थापित करें",
+    "followingCartDelete": "निम्नलिखित सहेजे गए कार्ट हटा दिए जाएंगे",
+    "followingCartRestore": "निम्नलिखित सहेजे गए कार्ट सक्रिय कार्ट के रूप में पुनर्स्थापित किए जाएंगे",
+    "delete": "हटाएं",
+    "deleteCartSuccess": "कार्ट सफलतापूर्वक हटाए गए",
+    "editCartSuccess": "कार्ट सफलतापूर्वक संपादित किया गया",
+    "editSavedCart": "सहेजा गया कार्ट संपादित करें",
+    "deleteSavedCart": "सहेजा गया कार्ट हटाएं",
+    "restoreSavedCart": "सहेजे गए कार्ट को पुनर्स्थापित करें",
+    "name": "नाम",
+    "id": "ID",
+    "description": "वर्णन",
+    "quantity": "मात्रा",
+    "quantityFull": "मात्रा",
+    "total": "कुल",
+    "keepCopySavedCart": "इस कार्ट की एक प्रति सहेजी गई कार्ट सूची में रखें",
+    "defaultCloneCartName": "{{name}} की प्रति",
+    "nameOfCloneCart": "प्रति की गई कार्ट का नाम"
+  },
+  "addToSavedCart": {
+    "savedCarts": "सहेजे गए कार्ट",
+    "saveCartForLater": "कार्ट बाद के लिए सहेजें"
+  }
+}

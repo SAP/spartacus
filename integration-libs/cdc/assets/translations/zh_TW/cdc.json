@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "設定檔完成",
+      "description": "我們仍需要您的同意，進行下列"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "已成功更新設定檔明細",
+    "profileUpdateFailure": "無法更新設定檔明細"
+  }
+}

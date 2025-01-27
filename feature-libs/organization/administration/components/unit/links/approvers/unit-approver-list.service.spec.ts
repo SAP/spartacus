@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, B2BUserRole, EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
@@ -66,7 +65,6 @@ describe('UnitApproverListService', () => {
   let userService: B2BUserService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       providers: [
         UnitApproverListService,
         {

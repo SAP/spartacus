@@ -7,13 +7,12 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
-import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(
@@ -27,6 +26,7 @@ class MockCarouselService {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -34,6 +34,7 @@ class MockCxIconComponent {
 
 @Component({
   template: ` <div id="templateEl"></div> `,
+  standalone: false,
 })
 class MockTemplateComponent {}
 
@@ -57,7 +58,7 @@ describe('Carousel Component', () => {
   let template: TemplateRef<any>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         CarouselComponent,
         MockCxIconComponent,

@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "Automatická objednávka na doplnění",
+    "orderType_PLACE_ORDER": "Žádná (pouze jednorázová objednávka)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "Objednávka na doplnění",
+    "every": "Každé",
+    "recurrencePeriodType_DAILY": "Den/dny",
+    "recurrencePeriodType_WEEKLY": "Týden/týdny",
+    "recurrencePeriodType_MONTHLY": "Měsíc",
+    "dayOfMonth": "Dne",
+    "startOn": "Začít dne",
+    "repeatOnDays": "Opakovat v následujících dnech"
+  }
+}

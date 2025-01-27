@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "remove": "Retirer",
+    "edit": "Modifier",
+    "restore": "Restaurer",
+    "back": "Retour",
+    "submit": "Envoyer",
+    "continue": "Poursuivre",
+    "save": "Sauvegarder",
+    "done": "Terminé",
+    "home": "Accueil",
+    "noData": "Aucune donnée",
+    "confirm": "Confirmer",
+    "more": "plus",
+    "close": "Fermer",
+    "loading": "Chargement",
+    "menu": "Menu",
+    "reset": "Réinitialiser",
+    "search": "Rechercher",
+    "add": "Ajouter",
+    "breadcrumbs": "Chemin de navigation",
+    "selectFile": "Sélectionner le fichier",
+    "clear": "Effacer",
+    "loaded": "Chargé",
+    "results": "Résultats",
+    "of": "sur",
+    "required": "obligatoire",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière",
+    "selected": "Sélectionné",
+    "expand": "Développer",
+    "collapse": "Réduire"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{count}} résultat pour {{query}}",
+      "title_other": "{{count}} résultats pour {{query}}"
+    },
+    "checkout": {
+      "title": "Règlement"
+    },
+    "search": {
+      "title": "{{count}} résultat pour \"{{query}}\"",
+      "title_other": "{{count}} résultats pour \"{{query}}\"",
+      "findProductTitle": "{{count}} résultat pour le coupon \"{{coupon}}\"",
+      "findProductTitle_other": "{{count}} résultats pour le coupon \"{{coupon}}\"",
+      "default_title": "Tous les produits"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "Chargement en cours..."
+  },
+  "navigation": {
+    "categoryNavLabel": "Menu Catégorie",
+    "footerNavLabel": "Liens de pied de page",
+    "goTo": "Passer à {{location}}",
+    "navigateTo": "Naviguer vers {{nav}}",
+    "scrollToTop": "Revenir en haut de la page",
+    "linkItemInList": "{{title}}. {{position}} sur {{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "Saisir le nom du produit ou l'UGS",
+    "productSearch": "Rechercher un produit",
+    "ariaLabelInput": "Rechercher ici...",
+    "ariaLabelSuggestions": "Suggestions de saisie",
+    "ariaLabelProducts": "Résultats de produits",
+    "initialDescription": "Lorsque les résultats du remplissage automatique sont disponibles, utilisez les flèches vers le haut et vers le bas pour passer en revue et la touche Entrée pour sélectionner. Pour les utilisateurs d'appareils tactiles, explorez par le toucher ou par balayage.",
+    "suggestions": "Mots-clés suggérés",
+    "suggestionsResult": "{{ count }} suggestion et ",
+    "suggestionsResult_other": "{{ count }} suggestions et ",
+    "products": "Produits recommandés",
+    "productsResult": "{{ count }} produit est disponible.",
+    "productsResult_other": "{{ count }} produits sont disponibles.",
+    "resetLabel": "Réinitialiser la recherche",
+    "help": {
+      "insufficientChars": "Veuillez saisir davantage de caractères",
+      "noMatch": "Nous n'avons pas trouvé de résultats",
+      "exactMatch": "{{ term }}",
+      "empty": "Demandez-nous ce que vous voulez"
+    },
+    "closeSearchPanel": "Fermer"
+  },
+  "sorting": {
+    "date": "Date",
+    "orderNumber": "Numéro de commande",
+    "rma": "Numéro de retour",
+    "replenishmentNumber": "Numéro de réapprovisionnement",
+    "nextOrderDate": "Prochaine date de commande",
+    "pageViewUpdated": "La vue de page a été mise à jour avec vos options de sélection."
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}. Veuillez vous reconnecter.",
+      "user_is_disabled": "{{ errorMessage }}. Veuillez contacter l'administration."
+    },
+    "badGateway": "Une erreur du serveur s'est produite. Veuillez réessayer ultérieurement.",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}. Veuillez vous reconnecter.",
+    "badRequestOldPasswordIncorrect": "L'ancien mot de passe est incorrect.",
+    "badRequestGuestDuplicateEmail": "L'e-mail {{ errorMessage }} existe déjà. Veuillez valider la commande avec un autre e-mail pour vous inscrire via un compte d'invité.",
+    "conflict": "Déjà existant",
+    "forbidden": "Vous n'êtes pas autorisé à effectuer cette action. Veuillez contacter votre administrateur si vous pensez qu'il s'agit d'une erreur.",
+    "gatewayTimeout": "Le serveur n'a pas répondu. Veuillez réessayer ultérieurement.",
+    "internalServerError": "Une erreur de serveur interne s'est produite. Veuillez réessayer ultérieurement.",
+    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+    "unknownError": "Une erreur inconnue s'est produite.",
+    "unauthorized": {
+      "common": "Une erreur d'autorisation inconnue s'est produite.",
+      "invalid_client": "Identifiants client incorrects"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "La carte de crédit sélectionnée n'est pas prise en charge. Veuillez en sélectionner un autre.",
+        "card_accountNumber": "Le numéro de carte de crédit que vous avez saisi n'est pas valide.",
+        "card_cvNumber": "Le code de sécurité que vous avez saisi n'est pas valide.",
+        "card_expirationMonth": "La date d'expiration de la carte de crédit que vous avez saisie n'est pas valide.",
+        "card_expirationYear": "La date d'expiration de la carte de crédit que vous avez saisie n'est pas valide.",
+        "billTo_firstName": "Le prénom que vous avez saisi n'est pas valide.",
+        "billTo_lastName": "Le nom de famille que vous avez saisi n'est pas valide.",
+        "billTo_street1": "L'adresse que vous avez saisie n'est pas valide.",
+        "billTo_street2": "L'adresse que vous avez saisie n'est pas valide.",
+        "billTo_city": "La ville saisie n'est pas valide pour cette carte de crédit.",
+        "billTo_state": "L'État/la province saisi(e) n'est pas valide pour cette carte de crédit.",
+        "billTo_country": "Le pays/la région saisi(e) n'est pas valide pour cette carte de crédit.",
+        "billTo_postalCode": "Le code postal n'est pas valide pour cette carte de crédit.",
+        "country": {
+          "isocode": "Pays/Région manquant(e)"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "La date d'expiration de la carte de crédit que vous avez saisie n'est pas valide.",
+        "firstName": "Le prénom que vous avez saisi n'est pas valide.",
+        "lastName": "Le nom de famille que vous avez saisi n'est pas valide.",
+        "password": "Le mot de passe que vous avez saisi n'est pas valide.",
+        "uid": "L'UID n'est pas valide.",
+        "code": "Le code n'est pas valide.",
+        "email": "L'e-mail n'est pas valide.",
+        "loginId": "L'e-mail n'est pas valide."
+      }
+    },
+    "cartNotFound": "Panier non trouvé",
+    "invalidCodeProvided": "Le code fourni n'est pas valide.",
+    "voucherExceeded": "Ce coupon a dépassé le nombre de fois où il peut être utilisé.",
+    "unknownIdentifier": "Article non trouvé",
+    "otherCartErrors": "Des erreurs avec le panier se sont produites."
+  },
+  "miniCart": {
+    "item": "{{count}} article est actuellement dans votre panier.",
+    "item_other": "{{count}} articles sont actuellement dans votre panier.",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "Passer à",
+    "labels": {
+      "header": "En-tête",
+      "main": "Contenu principal",
+      "footer": "Pied de page",
+      "productFacets": "Facettes de produits",
+      "productList": "Liste des produits"
+    }
+  },
+  "carousel": {
+    "previousSlide": "Diapositive précédente",
+    "nextSlide": "Diapositive suivante",
+    "slideNumber": "La diapositive {{currentSlideNumber}} contient {{numberOfSlides}} articles.",
+    "carouselForProduct": "Carrousel, images pour {{product}}"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "La zone {{label}} est obligatoire.",
+      "cxInvalidEmail": "Le format d'e-mail de la zone {{label}} n'est pas valide. Modèle de correspondance : example@yourdomain.com",
+      "cxInvalidPassword": "Le format du mot de passe de la zone {{label}} n'est pas valide.",
+      "cxMinOneUpperCaseCharacter": "Le mot de passe doit contenir au moins un lettre en majuscule.",
+      "cxMinOneDigit": "Le mot de passe doit contenir au moins un chiffre.",
+      "cxMinOneSpecialCharacter": "Le mot de passe doit contenir au moins un caractère spécial.",
+      "cxMinSixCharactersLength": "Le mot de passe doit contenir au moins 6 caractères.",
+      "cxMinEightCharactersLength": "Le mot de passe doit contenir au moins 8 caractères.",
+      "cxMaxCharactersLength": "Le mot de passe ne peut pas avoir plus de 128 caractères.",
+      "cxContainsSpecialCharacters": "Le mot de passe ne doit pas contenir de caractères spéciaux.",
+      "cxNoConsecutiveCharacters": "Le mot de passe ne doit pas contenir de caractères identiques consécutifs.",
+      "date": {
+        "required": "La zone {{label}} est obligatoire.",
+        "min": "La zone {{label}} ne peut pas être avant le {{min}}.",
+        "max": "La zone {{label}} ne peut pas être après le {{max}}.",
+        "pattern": "Utilisez le format de date aaaa-mm-jj dans la zone {{label}}.",
+        "invalid": "Utilisez une date valide dans la zone {{label}}."
+      }
+    },
+    "globalMessage": "Le formulaire que vous tentez d'envoyer contient des erreurs.",
+    "required": "Cette zone est obligatoire.",
+    "cxInvalidEmail": "Le format de l'e-mail n'est pas valide.",
+    "cxInvalidPassword": "Le format du mot de passe n'est pas valide.",
+    "cxPasswordsMustMatch": "Les zones du mot de passe doivent correspondre.",
+    "cxPasswordsCannotMatch": "Les zones du mot de passe ne correspondent pas.",
+    "cxEmailsMustMatch": "Les zones de l'e-mail doivent correspondre.",
+    "cxStarRatingEmpty": "La zone de notation est obligatoire.",
+    "cxNoSelectedItemToCancel": "Sélectionnez au moins un article.",
+    "cxNegativeAmount": "Le montant doit être supérieur ou égal à zéro.",
+    "cxContainsSpecialCharacters": "La zone ne doit pas contenir de caractères spéciaux.",
+    "date": {
+      "required": "Cette zone est obligatoire.",
+      "min": "La date ne peut pas être avant le {{min}}.",
+      "max": "La date ne peut pas être après le {{max}}",
+      "pattern": "Utilisez le format de date aaaa-mm-jj.",
+      "invalid": "Utilisez une date valide."
+    },
+    "file": {
+      "required": "Le fichier est requis.",
+      "empty": "Le fichier ne doit pas être vide.",
+      "invalidExtension": "L'extension de fichier n'est pas valide.",
+      "tooLarge": "La taille du fichier ne doit pas dépasser {{ maxSize }} Mo.",
+      "tooManyEntries": "Le nombre d'articles est supérieur à {{ maxEntries }}.",
+      "notParsable": "Impossible d'analyser le fichier",
+      "fileNotAllowed": "Ce type de fichier n'est pas autorisé."
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "Échec de chargement du script",
+    "refreshThePage": "Veuillez rafraîchir la page."
+  },
+  "assistiveMessage": {
+    "actionCancelled": "Action annulée, aucune modification n'a été apportée."
+  },
+  "passwordVisibility": {
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
+  },
+  "generalErrors": {
+    "pageFailure": "Impossible de charger la page. Veuillez réessayer ultérieurement."
+  },
+  "formLegend": {
+    "required": "Les zones suivantes marquées d'un \"*\" sont obligatoires."
+  },
+  "chatMessaging": {
+    "charactersLeft": "Caractères restants : {{count}}",
+    "addNewMessage": "Ajouter un nouveau message",
+    "send": "Envoyer",
+    "uploadFile": "Charger un fichier",
+    "informationLabel": "{{author}}. {{text}} à {{date}}",
+    "messages": "Messages",
+    "addMessagePlaceHolder": "Commencez à saisir des caractères...",
+    "characterLimitAlert": "La limite de caractères a été atteinte.",
+    "a11y": {
+      "itemListBoxLabel": "Sélectionnez l'article auquel le message doit s'appliquer."
+    }
+  }
+}

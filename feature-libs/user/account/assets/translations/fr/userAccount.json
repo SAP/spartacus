@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Mot de passe oublié ?",
+    "signIn": "Se connecter",
+    "register": "S'inscrire",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "guestCheckout": "Validation de commande en tant qu'invité",
+    "emailAddress": {
+      "label": "Adresse e-mail",
+      "placeholder": "Saisir l'adresse e-mail"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Saisissez votre mot de passe"
+    },
+    "wrongEmailFormat": "Le format d'e-mail n'est pas valide."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Un code de vérification a été envoyé à {{target}}. Veuillez vérifier et saisir le code.",
+    "needInputCredentials": "Veuillez saisir vos identifiants pour continuer.",
+    "sendRateLime": "dans {{waitTime}} secondes",
+    "resend": "Renvoyer",
+    "verificationCode": {
+      "label": "Code de vérification",
+      "placeholder": "Saisir le code de vérification"
+    },
+    "noReceiveCode": "Vous n'avez pas reçu le code ?",
+    "verify": "Vérifier",
+    "back": "Retour",
+    "tokenInputHint": "Vous pouvez demander un nouveau code. Un chronomètre démarre pour indiquer le nombre de secondes restantes avant que vous ne puissiez renvoyer votre demande."
+  },
+  "verificationTokenDialog": {
+    "title": "Vous n'avez pas reçu le code ?",
+    "noReceiveCode": "Si vous n'avez pas reçu le code, les raisons peuvent être les suivantes :",
+    "contentLine1": "1. L'e-mail n'est pas encore arrivé.",
+    "contentLine2": "2. L'e-mail reçu a été considéré comme du spam.",
+    "contentLine3": "3. Vous avez saisi une adresse e-mail ou un mot de passe incorrect(e).",
+    "close": "Fermer"
+  },
+  "miniLogin": {
+    "userGreeting": "Bonjour, {{name}}",
+    "signInRegister": "Se connecter / S'inscrire"
+  },
+  "myAccountV2User": {
+    "signOut": "Se déconnecter"
+  }
+}

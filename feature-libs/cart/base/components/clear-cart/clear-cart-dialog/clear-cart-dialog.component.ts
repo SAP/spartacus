@@ -19,6 +19,7 @@ import { ClearCartDialogComponentService } from './clear-cart-dialog-component.s
   selector: 'cx-clear-cart-dialog',
   templateUrl: './clear-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ClearCartDialogComponent implements OnDestroy {
   focusConfig: FocusConfig = {

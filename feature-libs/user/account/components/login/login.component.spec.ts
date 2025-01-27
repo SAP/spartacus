@@ -2,7 +2,6 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   I18nTestingModule,
@@ -40,6 +39,7 @@ class MockUserAccountFacade {
 
 @Component({
   selector: 'cx-page-slot',
+  standalone: false,
   template: `
     <cx-navigation-ui>
       <nav>
@@ -59,6 +59,7 @@ class MockDynamicSlotComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): void {}
@@ -74,7 +75,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
       providers: [
         {

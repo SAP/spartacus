@@ -27,6 +27,7 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;

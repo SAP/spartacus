@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Entrega",
+      "deliveryMethod": "Método de entrega",
+      "paymentAndReview": "Pagamento e revisão"
+    },
+    "paymentAndReviewTitle": "Pagamento e revisão",
+    "billingAddress": "Endereço de faturamento",
+    "paymentOption": "Opção de pagamento",
+    "termsAndConditions": "Termos e Condições",
+    "itemsToBeShipped": "Itens a serem enviados",
+    "proceedPayment": "Fazer pedido",
+    "retryPayment": "Tentar novamente para continuar",
+    "checkTermsAndConditionsExplicit": "Você deve concordar com os Termos e Condições para ver as opções de pagamento disponíveis.",
+    "checkTermsAndConditionsImplicit": "Ao enviar o pedido, você está concordando com nossos Termos e Condições.",
+    "errors": {
+      "loadActiveConfigurations": "No momento, não é possível carregar as opções de pagamento. Tente novamente mais tarde.",
+      "noActiveConfigurations": "Não existem opções de pagamento disponíveis no momento. Tente novamente mais tarde ou contate o suporte.",
+      "updateBillingAddress": "Não foi possível atualizar o endereço. Verifique se as informações de endereço estão corretas e se seu dispositivo está conectado à Internet. Se o problema persistir, poderá ser necessário limpar o carrinho e iniciar o check-out novamente."
+    }
+  }
+}

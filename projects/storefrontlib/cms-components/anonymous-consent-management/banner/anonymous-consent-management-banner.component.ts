@@ -14,6 +14,7 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
   templateUrl: './anonymous-consent-management-banner.component.html',
+  standalone: false,
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();

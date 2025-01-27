@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Płatność",
+    "choosePaymentMethod": "Wybierz formę płatności",
+    "paymentType": "Rodzaj płatności",
+    "accountHolderName": {
+      "label": "Nazwisko/nazwa posiadacza rachunku",
+      "placeholder": "Nazwisko/nazwa posiadacza rachunku"
+    },
+    "cardNumber": "Numer karty",
+    "expirationDate": "Data wygaśnięcia",
+    "securityCode": "Kod CVV",
+    "securityCodeTitle": "Wartość kontrolna karty",
+    "saveAsDefault": "Zapisz jako domyślną",
+    "setAsDefault": "Domyślna forma płatności",
+    "billingAddress": "Adres na fakturze",
+    "sameAsDeliveryAddress": "Taki sam jak adres dostawy",
+    "billingAddressSameAsShipping": "Adres na fakturze jest taki sam jak adres dostawy.",
+    "selectOne": "Wybierz jeden...",
+    "monthMask": "MM",
+    "yearMask": "RRRR",
+    "expirationYear": "Rok wygaśnięcia {{ selected }}",
+    "expirationMonth": "Miesiąc wygaśnięcia {{ selected }}",
+    "useThisPayment": "Użyj tej płatności",
+    "addNewPayment": "Dodaj nową płatność",
+    "paymentAddedSuccessfully": "Nowa płatność dodana pomyślnie",
+    "changePayment": "Zmień płatność"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Formy płatności",
+    "paymentMethodSelected": "Wybrana forma płatności",
+    "newPaymentMethodsAreAddedDuringCheckout": "Nowe formy płatności są dodawane podczas realizacji zakupu.",
+    "invalidField": "Niepoprawne pole: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Na pewno chcesz usunąć tę formę płatności?",
+    "setAsDefault": "Ustaw jako domyślne",
+    "expires": "Wygasa: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ DOMYŚLNE",
+    "defaultPaymentLabel": "Domyślna forma płatności",
+    "additionalPaymentLabel": "Dodatkowa forma płatności {{ number }}",
+    "selected": "Wybrane",
+    "selectedPayment": "Wybrana płatność",
+    "deletePaymentSuccess": "Forma płatności usunięta pomyślnie",
+    "visa": "Karta Visa",
+    "master": "Karta Mastercard",
+    "masterEuro": "Mastercard Eurocard",
+    "dinersClub": "Karta Diners Club",
+    "switch": "Zmień kartę",
+    "maestro": "Karta Maestro",
+    "amex": "Karta American Express",
+    "credit": "Karta kredytowa"
+  },
+  "paymentTypes": {
+    "title": "Forma płatności",
+    "paymentType_CARD": "Karta kredytowa",
+    "paymentType_ACCOUNT": "Konto"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Nowa płatność została ustawiona jako domyślna"
+  }
+}

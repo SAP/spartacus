@@ -20,12 +20,14 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-icon',
   template: ``,
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: string;
@@ -34,6 +36,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-consent-management-form',
   template: ``,
+  standalone: false,
 })
 class MockConsentManagementFormComponent {
   @Input()

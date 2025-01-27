@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "无法获取发票，请确保已启用 SAP 发票和发票 API。",
+    "invoicesLoadingError": "出错了。无法显示订单的发票",
+    "invoicesTable": {
+      "header": "发票",
+      "label": "发票表",
+      "invoiceId": "发票编号",
+      "createdAt": "日期",
+      "netAmount": "净金额",
+      "totalAmount": "总金额",
+      "attachment": "下载发票",
+      "download": "下载",
+      "attachmentDescription": "下载发票 {{id}} 的 PDF。",
+      "noneFound": "找不到发票"
+    },
+    "downloadPDFError": "出错了。无法获取发票 PDF。",
+    "sortBy": "排序依据",
+    "sortInvoices": "对发票进行排序",
+    "sorts": {
+      "byCreatedAtAsc": "日期升序",
+      "byCreatedAtDesc": "日期降序",
+      "byInvoiceIdAsc": "发票编号升序",
+      "byInvoiceIdDesc": "发票编号降序",
+      "byNetAmountAsc": "净金额升序",
+      "byNetAmountDesc": "净金额降序",
+      "byTotalAmountAsc": "总金额升序",
+      "byTotalAmountDesc": "总金额降序"
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "Rendelés #",
+    "orderNumber": "Rendelés száma",
+    "replenishmentId": "Utánpótlás #",
+    "purchaseOrderId": "Megrendelés #",
+    "purchaseOrderNumber": "Megrendelés száma",
+    "emptyPurchaseOrderId": "Nincs",
+    "none": "Nincs {{value}}",
+    "placed": "Megrendelve",
+    "placedBy": "Megrendelő:",
+    "unit": "Egység",
+    "costCenter": "Költséghely",
+    "costCenterAndUnit": "Költséghely/egység",
+    "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
+    "methodOfPayment": "Fizetési mód",
+    "payByAccount": "Fizetés számlára",
+    "paidByCreditCard": "(hitelkártyával fizetve)",
+    "status": "Státus",
+    "active": "Aktív",
+    "shippedOn": "Szállítás dátuma",
+    "shippingMethod": "Szállítás módja",
+    "placedOn": "Megrendelés dátuma",
+    "startOn": "Indítás dátuma",
+    "nextOrderDate": "Következő rendelés dátuma",
+    "frequency": "Gyakoriság",
+    "cancelled": " Törölve",
+    "deliveryStatus_IN_TRANSIT": "Szállítás alatt",
+    "deliveryStatus_READY_FOR_PICKUP": "Átvehető",
+    "deliveryStatus_READY_FOR_SHIPPING": "Szállításra kész",
+    "deliveryStatus_WAITING": "Várakozik",
+    "deliveryStatus_DELIVERING": "Kézbesítés folyamatban",
+    "deliveryStatus_PICKPACK": "Előkészítés a szállításra",
+    "deliveryStatus_PICKUP_COMPLETE": "Átvétel befejezve",
+    "deliveryStatus_DELIVERY_COMPLETED": "Kézbesítve",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Fizetési probléma",
+    "deliveryStatus_IN_PROCESS": "Rendelés fedolgozás alatt",
+    "deliveryStatus_READY": "Rendelés fedolgozás alatt",
+    "deliveryStatus_DELIVERY_REJECTED": "Kézbesítés elutasítva",
+    "deliveryStatus_SHIPPED": "Kiszállítva",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Adózási probléma",
+    "deliveryStatus_CANCELLED": "Törölve",
+    "statusDisplay_cancelled": "Törölve",
+    "statusDisplay_cancelling": "Törlés függőben",
+    "statusDisplay_completed": "Befejezve",
+    "statusDisplay_created": "Létrehozva",
+    "statusDisplay_error": "Függőben",
+    "statusDisplay_Error": "Függőben",
+    "statusDisplay_processing": "Függőben",
+    "statusDisplay_open": "Nyitott",
+    "statusDisplay_pending": {
+      "approval": "Jóváhagyásra vár",
+      "merchant": {
+        "approval": "Kereskedő jóváhagyására vár"
+      }
+    },
+    "statusDisplay_approved": "Jóváhagyva",
+    "statusDisplay_rejected": "Elutasítva",
+    "statusDisplay_merchant": {
+      "approved": "Kereskedő által jóváhagyva",
+      "rejected": "Kereskedő által elutasítva"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Rendszergazdához rendelve"
+    },
+    "consignmentTracking": {
+      "action": "Csomagkövetés",
+      "dialog": {
+        "header": "Követési információ",
+        "shipped": "Kiszállítva",
+        "estimate": "Becsült kézbesítés",
+        "carrier": "Kézbesítési szolgáltatás",
+        "trackingId": "Követési szám",
+        "noTracking": "A csomagot még nem indították el a raktárból. A követési információ a csomag szállításának megkezdése után lesz elérhető.",
+        "loadingHeader": "Konszignációs követés"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Visszáru igénylése",
+      "cancelAction": "Tételek törlése",
+      "item": "Tétel",
+      "itemPrice": "Tétel ára",
+      "quantity": "Max. mennyiség",
+      "returnQty": "Visszaküldendő mennyiség",
+      "cancelQty": "Törlendő mennyiség",
+      "setAll": "Összes mennyiség maximumra állítása",
+      "totalPrice": "Összesen",
+      "submit": "Kérelem elküldése",
+      "submitDescription": "Kérelem elküldése. A törlési kérelem tartalmazni fogja az ezen az oldalon található tételeket.",
+      "returnSuccess": "Visszáruigénylés ({{rma}}) elküldve",
+      "cancelSuccess": "Törlési kérelem elküldve (az eredeti rendelés ({{orderCode}}) frissülni fog)"
+    },
+    "cancelReplenishment": {
+      "title": "Utánpótlás törlése",
+      "description": "Törli a jövőbeli utánpótlásra vonatkozó rendeléseket?",
+      "accept": "Igen",
+      "reject": "Nem",
+      "cancelSuccess": "Az utánpótlási rendelés (#{{replenishmentOrderCode}}) törlése sikeres"
+    },
+    "caption": "Rendelés tartalma."
+  },
+  "orderHistory": {
+    "orderHistory": "Rendelési előzmények",
+    "orderId": "Rendelés #",
+    "emptyPurchaseOrderId": "Nincs",
+    "date": "Dátum",
+    "status": "Státus",
+    "PONumber": "Megrendelés száma",
+    "total": "Összesen",
+    "noOrders": "Nincsenek rendelési rekordok ehhez a fiókhoz.",
+    "noReplenishmentOrders": "Nincsenek utánpótlási rendelési rekordok ehhez a fiókhoz.",
+    "startShopping": "Vásárlás megkezdése",
+    "sortBy": "Rendezés alapja",
+    "sortOrders": "Rendelések rendezése",
+    "replenishmentOrderHistory": "Utánpótlási rendelési előzmények",
+    "replenishmentOrderId": "Utánpótlás #",
+    "purchaseOrderNumber": "Megrendelés #",
+    "costCenter": "Költséghely",
+    "startOn": "Indítás dátuma",
+    "frequency": "Gyakoriság",
+    "nextOrderDate": "Következő rendelés dátuma",
+    "cancel": "Mégse",
+    "cancelled": "Törölve",
+    "replenishmentHistory": "Utánpótlási előzmények",
+    "notFound": "Nem található rendelés",
+    "actions": "Műveletek"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "ÖSSZES RENDELÉS ({{param}})",
+      "OrderReturnRequestListComponent": "VISSZÁRUK ({{param}})"
+    },
+    "tabPanelContainerRegion": "Csoportosítás a rendelési előzmények részleteivel",
+    "tabPanelContainerRegionGroup": "Csoportosítás a rendelési előzmények részleteivel"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Visszáru #",
+    "orderId": "Rendelés #",
+    "date": "Létrehozás dátuma",
+    "status": "Státus",
+    "sortBy": "Rendezés alapja",
+    "sortReturns": "Visszáruk rendezése",
+    "statusDisplay_APPROVAL_PENDING": "Jóváhagyásra vár",
+    "statusDisplay_CANCELED": "Törölve",
+    "statusDisplay_CANCELLING": "Törlés",
+    "statusDisplay_WAIT": "Várakozik",
+    "statusDisplay_RECEIVED": "Beérkezett",
+    "statusDisplay_RECEIVING": "Fogadás",
+    "statusDisplay_APPROVING": "Jóváhagyás",
+    "statusDisplay_REVERSING_PAYMENT": "Fizetés stornózása",
+    "statusDisplay_PAYMENT_REVERSED": "Fizetés stornózva",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "A fizetés stornózása sikertelen",
+    "statusDisplay_REVERSING_TAX": "Adó stornózása",
+    "statusDisplay_TAX_REVERSED": "Adó stornózva",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Az adó stornózása sikertelen",
+    "statusDisplay_COMPLETED": "Befejezve"
+  },
+  "returnRequest": {
+    "returnRequestId": "Visszáruigénylés #",
+    "orderCode": "A következő rendeléshez: #",
+    "status": "Visszáru státusa",
+    "cancel": "Visszáruigénylés törlése",
+    "item": "Leírás",
+    "itemPrice": "Tétel ára",
+    "returnQty": "Visszáru mennyisége",
+    "total": "Összesen",
+    "summary": "Visszáru összesen",
+    "subtotal": "Részösszeg",
+    "deliveryCode": "Szállítási költség",
+    "estimatedRefund": "Becsült visszatérítés",
+    "note": "Az összegek csak becsült értékek és előfordulhat, hogy nem tartalmazzák a vonatkozó adókat vagy egyéb díjakat.",
+    "cancelSuccess": "Visszáruigénylés ({{rma}}) törölve",
+    "caption": "Rendelés tartalma."
+  },
+  "reorder": {
+    "button": "Ismételt rendelés",
+    "dialog": {
+      "reorderProducts": "Termékek ismételt rendelése",
+      "messages": {
+        "reviewConfiguration": "Hiba történt a(z) „{{ productCode}}” konfigurációval.",
+        "lowStock": "A(z) {{ productName }}:{{ quantity }} mennyisége a következőre csökkent: {{ quantityAdded }}.",
+        "noStock": "A(z) {{ productName }} jelenleg nincs készleten.",
+        "pricingError": "Árazási probléma a következővel: „{{ productCode }}”.",
+        "unresolvableIssues": "Ismeretlen probléma a következővel: „{{ productCode }}”.",
+        "success": "Termékek sikeresen hozzáadva a kosárhoz"
+      },
+      "areYouSureToReplaceCart": "Az új tételek az aktuális kosár helyére lépnek. Szeretné folytatni?",
+      "cancel": "Mégse",
+      "continue": "Folytatás"
+    }
+  }
+}

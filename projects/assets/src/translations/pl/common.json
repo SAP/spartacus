@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "remove": "Usuń",
+    "edit": "Edytuj",
+    "restore": "Przywróć",
+    "back": "Wstecz",
+    "submit": "Prześlij",
+    "continue": "Kontynuuj",
+    "save": "Zapisz",
+    "done": "Gotowe",
+    "home": "Strona główna",
+    "noData": "Brak danych",
+    "confirm": "Potwierdź",
+    "more": "więcej",
+    "close": "Zamknij",
+    "loading": "Ładowanie",
+    "menu": "Menu",
+    "reset": "Resetuj",
+    "search": "Szukaj",
+    "add": "Dodaj",
+    "breadcrumbs": "Ścieżka nawigacji",
+    "selectFile": "Wybierz plik",
+    "clear": "Wyczyść",
+    "loaded": "Załadowane",
+    "results": "Wyniki",
+    "of": "z",
+    "required": "wymagane",
+    "zoomIn": "Powiększ",
+    "zoomOut": "Pomniejsz",
+    "selected": "Wybrane",
+    "expand": "Rozwiń",
+    "collapse": "Zwiń"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{count}} wynik dla {{query}}",
+      "title_other": "{{count}} wyniki dla {{query}}"
+    },
+    "checkout": {
+      "title": "Realizacja zakupu"
+    },
+    "search": {
+      "title": "{{count}} wynik dla \"{{query}}\"",
+      "title_other": "{{count}} wyniki dla \"{{query}}\"",
+      "findProductTitle": "{{count}} wynik dla kuponu \"{{coupon}}\"",
+      "findProductTitle_other": "{{count}} wyniki dla kuponu \"{{coupon}}\"",
+      "default_title": "Wszystkie produkty"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "Wczytywanie..."
+  },
+  "navigation": {
+    "categoryNavLabel": "Menu kategorii",
+    "footerNavLabel": "Linki w stopce",
+    "goTo": "Przejdź do {{location}}",
+    "navigateTo": "Przejdź do {{nav}}",
+    "scrollToTop": "Przewiń na górę strony",
+    "linkItemInList": "{{title}}. {{position}} z {{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "Wprowadź nazwę produktu lub SKU",
+    "productSearch": "Znajdż produkt",
+    "ariaLabelInput": "Szukaj tutaj...",
+    "ariaLabelSuggestions": "pisanie sugestii",
+    "ariaLabelProducts": "lista wyszukanych produktów",
+    "initialDescription": "Gdy dostępne są wyniki autouzupełniania, użyj strzałek w górę i w dół, aby je przejrzeć i naciśnij Enter, aby je wybrać. Użytkownicy urządzeń dotykowych mogą przeglądać za pomocą dotknięcia lub przesunięcia palcem.",
+    "suggestions": "Sugerowane słowa kluczowe",
+    "suggestionsResult": " {{ count }} sugestia i ",
+    "suggestionsResult_other": " {{ count }} sugestie i ",
+    "products": "Polecane produkty",
+    "productsResult": "{{ count }} produkt jest dostępny.",
+    "productsResult_other": "{{ count }} produkty są dostępne.",
+    "resetLabel": "Resetuj wyszukiwanie",
+    "help": {
+      "insufficientChars": "Wpisz więcej znaków",
+      "noMatch": "Nie udało się znaleźć żadnych wyników",
+      "exactMatch": "{{ term }}",
+      "empty": "Zapytaj nas o cokolwiek"
+    },
+    "closeSearchPanel": "Zamknij"
+  },
+  "sorting": {
+    "date": "Data",
+    "orderNumber": "Numer zamówienia",
+    "rma": "Numer zwrotu",
+    "replenishmentNumber": "Numer uzupełnienia",
+    "nextOrderDate": "Data następnego zamówienia",
+    "pageViewUpdated": "Widok strony zaktualizowany o wybrane opcje."
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}. Zaloguj się ponownie.",
+      "user_is_disabled": "{{ errorMessage }}. Skontaktuj się z administracją."
+    },
+    "badGateway": "Wystąpił wewnętrzny błąd serwera. Spróbuj ponownie później.",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}. Zaloguj się ponownie.",
+    "badRequestOldPasswordIncorrect": "Stare hasło jest niepoprawne.",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} e-mail już istnieje. Aby zarejestrować się za pomocą konta gościa, podaj inny adres e-mail.",
+    "conflict": "Już istnieje.",
+    "forbidden": "Nie masz uprawnień do wykonania tej czynności. Jeśli uważasz, że jest to błąd, skontaktuj się z administratorem.",
+    "gatewayTimeout": "Serwer nie odpowiedział, spróbuj ponownie później.",
+    "internalServerError": "Wystąpił wewnętrzny błąd serwera. Spróbuj ponownie później.",
+    "sessionExpired": "Sesja wygasła. Zaloguj się ponownie.",
+    "unknownError": "Wystąpił nieznany błąd",
+    "unauthorized": {
+      "common": "Wystąpił nieznany błąd autoryzacji",
+      "invalid_client": "Błędne dane uwierzytelniające klienta"
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "Wybrana karta kredytowa nie jest obsługiwana. Wybierz inną kartę.",
+        "card_accountNumber": "Wprowadzony numer karty kredytowej jest nieważny.",
+        "card_cvNumber": "Kod bezpieczeństwa jest nieprawidłowy.",
+        "card_expirationMonth": "Wprowadzona data ważności karty kredytowej jest nieprawidłowa.",
+        "card_expirationYear": "Wprowadzona data ważności karty kredytowej jest nieprawidłowa.",
+        "billTo_firstName": "Wprowadzone imię jest nieprawidłowe.",
+        "billTo_lastName": "Wprowadzone nazwisko jest nieprawidłowe.",
+        "billTo_street1": "Wprowadzony adres jest nieprawidłowy.",
+        "billTo_street2": "Wprowadzony adres jest nieprawidłowy.",
+        "billTo_city": "Wprowadzone miasto jest nieprawidłowe dla tej karty kredytowej.",
+        "billTo_state": "Wprowadzony stan/prowincja jest nieprawidłowy dla tej karty kredytowej.",
+        "billTo_country": "Wprowadzony kraj jest nieprawidłowy dla tej karty kredytowej.",
+        "billTo_postalCode": "Kod pocztowy jest nieprawidłowy dla tej karty kredytowej.",
+        "country": {
+          "isocode": "Brak informacji o kraju/regionie"
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "Wprowadzona data ważności karty kredytowej jest nieprawidłowa.",
+        "firstName": "Wprowadzone imię jest nieprawidłowe.",
+        "lastName": "Wprowadzone nazwisko jest nieprawidłowe.",
+        "password": "Wprowadzone hasło jest nieprawidłowe.",
+        "uid": "UID jest nieprawidłowy.",
+        "code": "Kod jest nieprawidłowy.",
+        "email": "Adres e-mail jest nieprawidłowy.",
+        "loginId": "Adres e-mail jest nieprawidłowy."
+      }
+    },
+    "cartNotFound": "Koszyk nie odnaleziony.",
+    "invalidCodeProvided": "Podano niepoprawny kod.",
+    "voucherExceeded": "Ten kupon przekroczył dozwoloną liczbę możliwych zastosowań",
+    "unknownIdentifier": "Nie znaleziono pozycji.",
+    "otherCartErrors": "Wystąpił błąd koszyka."
+  },
+  "miniCart": {
+    "item": "{{count}} pozycja aktualnie w twoim koszyku",
+    "item_other": "{{count}} pozycje aktualnie w twoim koszyku",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "Pomiń i przejdź do",
+    "labels": {
+      "header": "Nagłówek",
+      "main": "Zawartość główna",
+      "footer": "Stopka",
+      "productFacets": "Właściwości produktu",
+      "productList": "Lista produktów"
+    }
+  },
+  "carousel": {
+    "previousSlide": "Poprzedni slajd",
+    "nextSlide": "Następny slajd",
+    "slideNumber": "Slajd {{currentSlideNumber}} zawiera {{numberOfSlides}} pozycje",
+    "carouselForProduct": "Karuzela, zdjęcia dla {{product}}"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "Pole {{label}} jest wymagane",
+      "cxInvalidEmail": "Pole {{label}} ma nieprawidłowy format e-mail. Dopasuj do wzoru: przyklad@twojadomena.com",
+      "cxInvalidPassword": "Pole {{label}} ma nieprawidłowy format hasła",
+      "cxMinOneUpperCaseCharacter": "Hasło powinno zawierać co najmniej jedną wielką literę",
+      "cxMinOneDigit": "Hasło musi zawierać co najmniej jedną cyfrę",
+      "cxMinOneSpecialCharacter": "Hasło musi zawierać co najmniej jeden znak specjalny",
+      "cxMinSixCharactersLength": "Hasło musi zawierać co najmniej 6 znaków",
+      "cxMinEightCharactersLength": "Hasło musi zawierać co najmniej 8 znaków",
+      "cxMaxCharactersLength": "Hasło nie może mieć więcej niż 128 znaków",
+      "cxContainsSpecialCharacters": "Hasło nie może zawierać znaków specjalnych",
+      "cxNoConsecutiveCharacters": "Hasło nie może zawierać następujących po sobie identycznych znaków",
+      "date": {
+        "required": "Pole {{label}} jest wymagane",
+        "min": "Pole {{label}} nie może być przed {{min}}",
+        "max": "Pole {{label}} nie może być po {{max}}",
+        "pattern": "W polu {{label}} użyj formatu daty rrrr-mm-dd",
+        "invalid": "Użyj ważnej daty w polu {{label}}"
+      }
+    },
+    "globalMessage": "Formularz, który próbujesz przesłać, zawiera błędy.",
+    "required": "To pole jest obowiązkowe",
+    "cxInvalidEmail": "To nie jest prawidłowy format adresu e-mail",
+    "cxInvalidPassword": "To nie jest prawidłowy format hasła",
+    "cxPasswordsMustMatch": "Pola hasła muszą być zgodne",
+    "cxPasswordsCannotMatch": "Pola hasła nie mogą być zgodne",
+    "cxEmailsMustMatch": "Pola adresu e-mail muszą być zgodne",
+    "cxStarRatingEmpty": "Pole oceny jest wymagane",
+    "cxNoSelectedItemToCancel": "Wybierz przynajmniej jedną pozycję",
+    "cxNegativeAmount": "Liczba musi być równa lub większa od zera",
+    "cxContainsSpecialCharacters": "Pole nie może zawierać znaków specjalnych",
+    "date": {
+      "required": "To pole jest obowiązkowe",
+      "min": "Data nie może być przed {{min}}",
+      "max": "Data nie może być po {{max}}",
+      "pattern": "Użyj formatu daty rrrr-mm-dd",
+      "invalid": "Użyj ważnej daty"
+    },
+    "file": {
+      "required": "Pole jest wymagane",
+      "empty": "Pole nie powinno być puste",
+      "invalidExtension": "Rozszerzenie pliku jest nieważne",
+      "tooLarge": "Wielkość pliku nie może przekroczyć {{ maxSize }} MB",
+      "tooManyEntries": "Liczba pozycji jest większa niż {{ maxEntries }}",
+      "notParsable": "Plik nie jest przetwarzalny",
+      "fileNotAllowed": "Ten typ pliku jest niedozwolony"
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "Załadowanie skryptu nie powiodło się.",
+    "refreshThePage": "Odśwież stronę."
+  },
+  "assistiveMessage": {
+    "actionCancelled": "Akcja anulowana, nic nie zmieniono"
+  },
+  "passwordVisibility": {
+    "showPassword": "Pokaż hasło",
+    "hidePassword": "Ukryj hasło"
+  },
+  "generalErrors": {
+    "pageFailure": "Nie można załadować strony. Spróbuj ponownie później."
+  },
+  "formLegend": {
+    "required": "Pola oznaczone znakiem * są wymagane."
+  },
+  "chatMessaging": {
+    "charactersLeft": "pozostało znaków: {{count}}",
+    "addNewMessage": "Dodaj nową wiadomość",
+    "send": "Wyślij",
+    "uploadFile": "Załaduj plik",
+    "informationLabel": "{{author}}. {{text}} w {{date}}",
+    "messages": "Komunikaty",
+    "addMessagePlaceHolder": "Zacznij pisać…",
+    "characterLimitAlert": "Osiągnięto limit znaków.",
+    "a11y": {
+      "itemListBoxLabel": "Wybierz element, którego ma dotyczyć wiadomość."
+    }
+  }
+}

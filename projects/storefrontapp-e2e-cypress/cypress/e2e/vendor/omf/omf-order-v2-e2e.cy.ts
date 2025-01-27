@@ -14,11 +14,11 @@ import {
   interceptOrdersEndpoint,
   waitForResponse,
 } from '../../../helpers/order-history';
+import { OmfConfig } from '@spartacus/core';
 const omfTester = {
   email: 'keenreviewer14@hybris.com',
   password: 'Welcome@1',
 };
-import { OmfConfig } from '@spartacus/core';
 
 const headerName = 'guid';
 

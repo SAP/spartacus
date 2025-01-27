@@ -4,7 +4,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature eager
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { AccountSummaryModule } from "@spartacus/organization/account-summary";
-import { accountSummaryTranslationChunksConfig, accountSummaryTranslations } from "@spartacus/organization/account-summary/assets";
+import { accountSummaryTranslationChunksConfig, accountSummaryTranslationsEn } from "@spartacus/organization/account-summary/assets";
 import { AccountSummaryRootModule } from "@spartacus/organization/account-summary/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { AccountSummaryRootModule } from "@spartacus/organization/account-summar
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: accountSummaryTranslations,
+      resources: { en: accountSummaryTranslationsEn },
       chunks: accountSummaryTranslationChunksConfig,
     },
   })]
@@ -26,7 +26,7 @@ export class OrganizationAccountSummaryFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add Account summary feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -45,13 +45,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -62,7 +62,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Organization schematics: ng-add Account summary feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { accountSummaryTranslationChunksConfig, accountSummaryTranslations } from "@spartacus/organization/account-summary/assets";
+import { accountSummaryTranslationChunksConfig, accountSummaryTranslationsEn } from "@spartacus/organization/account-summary/assets";
 import { AccountSummaryRootModule, ORGANIZATION_ACCOUNT_SUMMARY_FEATURE } from "@spartacus/organization/account-summary/root";
 
 @NgModule({
@@ -80,7 +80,7 @@ import { AccountSummaryRootModule, ORGANIZATION_ACCOUNT_SUMMARY_FEATURE } from "
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: accountSummaryTranslations,
+      resources: { en: accountSummaryTranslationsEn },
       chunks: accountSummaryTranslationChunksConfig,
     },
   })
@@ -93,6 +93,9 @@ export class OrganizationAccountSummaryFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Account summary feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -132,8 +135,10 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -143,7 +148,12 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -151,13 +161,13 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -183,10 +193,7 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -198,8 +205,10 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -223,7 +232,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature eager 
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { AdministrationModule } from "@spartacus/organization/administration";
-import { organizationTranslationChunksConfig, organizationTranslations } from "@spartacus/organization/administration/assets";
+import { organizationTranslationChunksConfig, organizationTranslationsEn } from "@spartacus/organization/administration/assets";
 import { AdministrationRootModule } from "@spartacus/organization/administration/root";
 
 @NgModule({
@@ -234,7 +243,7 @@ import { AdministrationRootModule } from "@spartacus/organization/administration
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: organizationTranslations,
+      resources: { en: organizationTranslationsEn },
       chunks: organizationTranslationChunksConfig,
     },
   })]
@@ -245,7 +254,7 @@ export class OrganizationAdministrationFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -264,13 +273,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -281,7 +290,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { organizationTranslationChunksConfig, organizationTranslations } from "@spartacus/organization/administration/assets";
+import { organizationTranslationChunksConfig, organizationTranslationsEn } from "@spartacus/organization/administration/assets";
 import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from "@spartacus/organization/administration/root";
 
 @NgModule({
@@ -299,7 +308,7 @@ import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from "@
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: organizationTranslations,
+      resources: { en: organizationTranslationsEn },
       chunks: organizationTranslationChunksConfig,
     },
   })
@@ -312,6 +321,9 @@ export class OrganizationAdministrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -351,8 +363,10 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -362,7 +376,12 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -370,13 +389,13 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -402,10 +421,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -417,8 +433,10 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -442,7 +460,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature eager 
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { OrderApprovalModule } from "@spartacus/organization/order-approval";
-import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from "@spartacus/organization/order-approval/assets";
+import { orderApprovalTranslationChunksConfig, orderApprovalTranslationsEn } from "@spartacus/organization/order-approval/assets";
 import { OrderApprovalRootModule } from "@spartacus/organization/order-approval/root";
 
 @NgModule({
@@ -453,7 +471,7 @@ import { OrderApprovalRootModule } from "@spartacus/organization/order-approval/
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: orderApprovalTranslations,
+      resources: { en: orderApprovalTranslationsEn },
       chunks: orderApprovalTranslationChunksConfig,
     },
   })]
@@ -464,7 +482,7 @@ export class OrganizationOrderApprovalFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -483,13 +501,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -500,7 +518,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from "@spartacus/organization/order-approval/assets";
+import { orderApprovalTranslationChunksConfig, orderApprovalTranslationsEn } from "@spartacus/organization/order-approval/assets";
 import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from "@spartacus/organization/order-approval/root";
 
 @NgModule({
@@ -518,7 +536,7 @@ import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from "@s
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: orderApprovalTranslations,
+      resources: { en: orderApprovalTranslationsEn },
       chunks: orderApprovalTranslationChunksConfig,
     },
   })
@@ -531,6 +549,9 @@ export class OrganizationOrderApprovalFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -570,8 +591,10 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -581,7 +604,12 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -589,13 +617,13 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -621,10 +649,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -636,8 +661,10 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -661,7 +688,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature eager load
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { UnitOrderModule } from "@spartacus/organization/unit-order";
-import { unitOrderTranslationChunksConfig, unitOrderTranslations } from "@spartacus/organization/unit-order/assets";
+import { unitOrderTranslationChunksConfig, unitOrderTranslationsEn } from "@spartacus/organization/unit-order/assets";
 import { UnitOrderRootModule } from "@spartacus/organization/unit-order/root";
 
 @NgModule({
@@ -672,7 +699,7 @@ import { UnitOrderRootModule } from "@spartacus/organization/unit-order/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: unitOrderTranslations,
+      resources: { en: unitOrderTranslationsEn },
       chunks: unitOrderTranslationChunksConfig,
     },
   })]
@@ -683,7 +710,7 @@ export class OrganizationUnitOrderFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add Unit order feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -702,13 +729,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -719,7 +746,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Organization schematics: ng-add Unit order feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { unitOrderTranslationChunksConfig, unitOrderTranslations } from "@spartacus/organization/unit-order/assets";
+import { unitOrderTranslationChunksConfig, unitOrderTranslationsEn } from "@spartacus/organization/unit-order/assets";
 import { ORGANIZATION_UNIT_ORDER_FEATURE, UnitOrderRootModule } from "@spartacus/organization/unit-order/root";
 
 @NgModule({
@@ -737,7 +764,7 @@ import { ORGANIZATION_UNIT_ORDER_FEATURE, UnitOrderRootModule } from "@spartacus
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: unitOrderTranslations,
+      resources: { en: unitOrderTranslationsEn },
       chunks: unitOrderTranslationChunksConfig,
     },
   })
@@ -750,6 +777,9 @@ export class OrganizationUnitOrderFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Unit order feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -789,8 +819,10 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -800,7 +832,12 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -808,13 +845,13 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -840,10 +877,7 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -855,8 +889,10 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -880,7 +916,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature eag
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { OrganizationUserRegistrationModule } from "@spartacus/organization/user-registration";
-import { organizationUserRegistrationTranslationChunksConfig, organizationUserRegistrationTranslations } from "@spartacus/organization/user-registration/assets";
+import { organizationUserRegistrationTranslationChunksConfig, organizationUserRegistrationTranslationsEn } from "@spartacus/organization/user-registration/assets";
 import { OrganizationUserRegistrationRootModule } from "@spartacus/organization/user-registration/root";
 
 @NgModule({
@@ -891,7 +927,7 @@ import { OrganizationUserRegistrationRootModule } from "@spartacus/organization/
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: organizationUserRegistrationTranslations,
+      resources: { en: organizationUserRegistrationTranslationsEn },
       chunks: organizationUserRegistrationTranslationChunksConfig,
     },
   })]
@@ -902,7 +938,7 @@ export class OrganizationUserRegistrationFeatureModule { }
 
 exports[`Spartacus Organization schematics: ng-add User registration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -921,13 +957,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -938,7 +974,7 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Organization schematics: ng-add User registration feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { organizationUserRegistrationTranslationChunksConfig, organizationUserRegistrationTranslations } from "@spartacus/organization/user-registration/assets";
+import { organizationUserRegistrationTranslationChunksConfig, organizationUserRegistrationTranslationsEn } from "@spartacus/organization/user-registration/assets";
 import { ORGANIZATION_USER_REGISTRATION_FEATURE, OrganizationUserRegistrationRootModule } from "@spartacus/organization/user-registration/root";
 
 @NgModule({
@@ -956,7 +992,7 @@ import { ORGANIZATION_USER_REGISTRATION_FEATURE, OrganizationUserRegistrationRoo
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: organizationUserRegistrationTranslations,
+      resources: { en: organizationUserRegistrationTranslationsEn },
       chunks: organizationUserRegistrationTranslationChunksConfig,
     },
   })
@@ -969,6 +1005,9 @@ export class OrganizationUserRegistrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add User registration feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -1008,8 +1047,10 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -1019,7 +1060,12 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -1027,13 +1073,13 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -1059,10 +1105,7 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -1074,8 +1117,10 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

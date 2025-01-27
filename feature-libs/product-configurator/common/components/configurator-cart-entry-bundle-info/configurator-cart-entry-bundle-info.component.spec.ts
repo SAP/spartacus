@@ -29,6 +29,7 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 
 @Pipe({
   name: 'cxNumeric',
+  standalone: false,
 })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
@@ -39,6 +40,7 @@ class MockNumericPipe implements PipeTransform {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
+  standalone: false,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;

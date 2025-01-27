@@ -25,6 +25,7 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   selector: 'cx-user-registration-form',
   templateUrl: './user-registration-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UserRegistrationFormComponent implements OnDestroy {
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();

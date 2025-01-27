@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "忘记密码？",
+    "signIn": "登录",
+    "register": "注册",
+    "dontHaveAccount": "没有帐户？",
+    "guestCheckout": "客人结账",
+    "emailAddress": {
+      "label": "电子邮件地址",
+      "placeholder": "输入电子邮件地址"
+    },
+    "password": {
+      "label": "密码",
+      "placeholder": "输入您的密码"
+    },
+    "wrongEmailFormat": "电子邮件格式无效。"
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "验证码已发送至 {{target}}。请查看并输入验证码。",
+    "needInputCredentials": "请输入您的凭据以继续。",
+    "sendRateLime": "{{waitTime}} 秒后",
+    "resend": "重新发送",
+    "verificationCode": {
+      "label": "验证码",
+      "placeholder": "输入验证码"
+    },
+    "noReceiveCode": "没有收到验证码？",
+    "verify": "验证",
+    "back": "返回",
+    "tokenInputHint": "您可以请求新代码。计时器启动，指示可重新发送请求的剩余秒数。"
+  },
+  "verificationTokenDialog": {
+    "title": "未收到验证码",
+    "noReceiveCode": "如果未收到验证码，原因可能如下：",
+    "contentLine1": "1. 电子邮件还未到。",
+    "contentLine2": "2. 收到的电子邮件已被视为垃圾电子邮件。",
+    "contentLine3": "3. 输入的电子邮件地址或密码不正确。",
+    "close": "关闭"
+  },
+  "miniLogin": {
+    "userGreeting": "{{name}}，你好",
+    "signInRegister": "登录/注册"
+  },
+  "myAccountV2User": {
+    "signOut": "退出"
+  }
+}

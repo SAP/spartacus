@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "カートに戻る"
+  },
+  "checkoutProgress": {
+    "label": "チェックアウトの進捗",
+    "deliveryAddress": "配送先住所",
+    "deliveryMode": "配送モード",
+    "paymentDetails": "支払",
+    "reviewOrder": "レビュー",
+    "state": {
+      "completed": "完了済み、{{step}}",
+      "selected": "選択済み、{{step}}",
+      "disabled": "無効化済み、{{step}}"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "配送先住所",
+    "selectYourDeliveryAddress": "配送先住所の選択",
+    "defaultDeliveryAddress": "既定の配送先住所",
+    "addNewAddress": "新しい住所の追加",
+    "shipToThisAddress": "この住所に配送",
+    "deliveryAddressSelected": "配送先住所が選択されました"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "配送方法",
+    "deliveryOptions": "配送オプション",
+    "standardDelivery": "標準配送",
+    "premiumDelivery": "特別配送",
+    "deliveryEntries": "配送対象アイテム"
+  },
+  "checkoutReview": {
+    "review": "レビュー",
+    "reviewOrder": "注文のレビュー",
+    "orderItems": "注文アイテム",
+    "confirmThatRead": "読んで同意したことを確認します",
+    "placeOrder": "注文を行う",
+    "termsAndConditions": "利用条件",
+    "editDeliveryAddressDetails": "配送先住所の詳細を編集するには、配送先住所ページを開きます",
+    "editBillingDetails": "請求先住所を編集するには、支払詳細ページを開きます",
+    "editPaymentDetails": "支払詳細を編集するには、支払詳細ページを開きます",
+    "editPaymentType": "支払方法を編集するには、支払方法ページを開きます",
+    "editDeliveryMode": "配送モードを編集するには、配送方法ページを開きます",
+    "orderInProcess": "注文は処理中です。お待ちください。"
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "注文の確認:",
+    "thankYou": "ご注文、ありがとうございます。",
+    "invoiceHasBeenSentByEmail": "請求書は電子メールで送信されます。間もなく受信される予定です。",
+    "orderItems": "注文アイテム",
+    "orderPlacedSuccessfully": "注文が正常に行われました",
+    "createAccount": "アカウントを作成しますか?",
+    "createAccountForNext": "次回の訪問時にチェックアウト時間が短縮されるように <{{email}}> のアカウントを作成します。"
+  }
+}

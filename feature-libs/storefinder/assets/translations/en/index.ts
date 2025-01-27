@@ -5,7 +5,6 @@
  */
 
 import storeFinder from './storeFinder.json';
-
 export const en = {
   storeFinder,
 };

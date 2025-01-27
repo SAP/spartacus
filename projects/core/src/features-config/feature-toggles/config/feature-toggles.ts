@@ -175,6 +175,11 @@ export interface FeatureTogglesInterface {
   a11yNavigationUiKeyboardControls?: boolean;
 
   /**
+   * In `FutureStockAccordionComponent` use `cx-color-text` for button color
+   */
+  a11yUseProperTextColorForFutureStockAccordion?: boolean;
+
+  /**
    * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
    */
   a11yNavMenuExpandStateReadout?: boolean;
@@ -215,6 +220,11 @@ export interface FeatureTogglesInterface {
    * Fix popover appearance when a High Contrast Theme is applied.
    */
   a11yPopoverHighContrast?: boolean;
+
+  /**
+   * 'TabComponent' disallow automatic tab activation.
+   */
+  a11yTabsManualActivation?: boolean;
 
   /**
    * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
@@ -593,6 +603,8 @@ export interface FeatureTogglesInterface {
   /**
    * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
    * Including this count in aria-label will help screen readers to provide more context to the user.
+   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
+   * in next major relase since ng-select now correctly handles aria-label values of select options.
    */
   a11yNgSelectOptionsCount?: boolean;
 
@@ -913,6 +925,12 @@ export interface FeatureTogglesInterface {
   a11yHamburgerMenuTrapFocus?: boolean;
 
   /**
+   * Associates content regions with their headers improving readout while navigating between sections.
+   * Affects: CardComponent, AccountSummaryDocumentComponent, ListComponent
+   */
+  a11yRegionAssociatedHeaders?: boolean;
+
+  /**
    * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
    *
    * Important: After activation default HTML element in MediaComponent will be `<img>`
@@ -994,6 +1012,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRequiredAsterisks: true,
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
+  a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: false,
   a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
@@ -1002,6 +1021,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
+  a11yTabsManualActivation: false,
   a11yScheduleReplenishment: true,
   a11yScrollToTop: true,
   a11ySavedCartsZoom: true,
@@ -1106,6 +1126,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHideConsentButtonWhenBannerVisible: false,
   a11yRepeatingButtonsUniqueLabels: false,
   a11yHighContrastBorders: false,
+  a11yRegionAssociatedHeaders: false,
   occCartNameAndDescriptionInHttpRequestBody: false,
   cmsBottomHeaderSlotUsingFlexStyles: false,
   useSiteThemeService: false,

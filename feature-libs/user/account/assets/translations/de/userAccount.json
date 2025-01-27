@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Kennwort vergessen?",
+    "signIn": "Anmelden",
+    "register": "Registrieren",
+    "dontHaveAccount": "Kein Konto?",
+    "guestCheckout": "Als Gast bezahlen",
+    "emailAddress": {
+      "label": "E-Mail-Adresse",
+      "placeholder": "E-Mail-Adresse eingeben"
+    },
+    "password": {
+      "label": "Kennwort",
+      "placeholder": "Kennwort eingeben"
+    },
+    "wrongEmailFormat": "Dies ist kein gültiges E-Mail-Format."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Verifizierungscode wurde an {{target}} gesendet. Überprüfen Sie den Code, und geben Sie ihn ein.",
+    "needInputCredentials": "Geben Sie Ihre Anmeldedaten ein, um fortzufahren.",
+    "sendRateLime": "in {{waitTime}} Sekunden",
+    "resend": "Erneut senden",
+    "verificationCode": {
+      "label": "Verifizierungscode",
+      "placeholder": "Verifizierungscode eingeben"
+    },
+    "noReceiveCode": "Haben Sie den Code nicht erhalten?",
+    "verify": "Verifizieren",
+    "back": "Zurück",
+    "tokenInputHint": "Sie können jetzt einen neuen Code anfordern. Ein Timer startet und zeigt die verbleibenden Sekunden an, bis Sie Ihre Anforderung erneut senden können. "
+  },
+  "verificationTokenDialog": {
+    "title": "Code nicht erhalten",
+    "noReceiveCode": "Wenn Sie den Code nicht erhalten haben, kann dies folgende Gründe haben:",
+    "contentLine1": "1. Die E-Mail ist noch nicht gekommen.",
+    "contentLine2": "2. Die eingegangene E-Mail wurde als Spam behandelt.",
+    "contentLine3": "3. Die E-Mail-Adresse oder das eingegebene Kennwort ist nicht korrekt.",
+    "close": "Schließen"
+  },
+  "miniLogin": {
+    "userGreeting": "Hallo {{name}}",
+    "signInRegister": "Anmelden/Registrieren"
+  },
+  "myAccountV2User": {
+    "signOut": "Abmelden"
+  }
+}

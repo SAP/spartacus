@@ -5,7 +5,6 @@
  */
 
 import opfCheckout from './opfCheckout.json';
-
 export const en = {
   opfCheckout,
 };

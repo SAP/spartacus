@@ -14,6 +14,24 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "default": [
+        "ASM",
+        "ASM-Customer-360",
+        "Cart",
+        "WishList",
+        "Checkout",
+        "Order",
+        "Import-Export",
+        "Saved-Cart",
+        "Quick-Order",
+        "Image-Zoom",
+        "Product-Variants",
+        "SmartEdit",
+        "Store-Finder",
+        "Personalization",
+        "User-Account",
+        "User-Profile"
+      ],
       "items": {
         "enum": [
           "ASM",
@@ -71,47 +89,34 @@
         ],
         "type": "string"
       },
-      "default": [
-        "ASM",
-        "ASM-Customer-360",
-        "Cart",
-        "WishList",
-        "Checkout",
-        "Order",
-        "Import-Export",
-        "Saved-Cart",
-        "Quick-Order",
-        "Image-Zoom",
-        "Product-Variants",
-        "SmartEdit",
-        "Store-Finder",
-        "Personalization",
-        "User-Account",
-        "User-Profile"
-      ],
       "x-prompt": {
         "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the User-Account feature is required.",
         "type": "list",
         "items": [
           {
             "value": "ASM",
-            "label": "Assisted Services Module"
+            "label": "Assisted Services Module",
+            "checked": true
           },
           {
             "value": "ASM-Customer-360",
-            "label": "ASM Customer 360"
+            "label": "ASM Customer 360",
+            "checked": true
           },
           {
             "value": "Import-Export",
-            "label": "Import/Export"
+            "label": "Import/Export",
+            "checked": true
           },
           {
             "value": "Saved-Cart",
-            "label": "Saved Cart"
+            "label": "Saved Cart",
+            "checked": true
           },
           {
             "value": "Quick-Order",
-            "label": "Quick Order"
+            "label": "Quick Order",
+            "checked": true
           },
           {
             "value": "CDC",
@@ -131,7 +136,8 @@
           },
           {
             "value": "Checkout",
-            "label": "Checkout base"
+            "label": "Checkout base",
+            "checked": true
           },
           {
             "value": "Checkout-B2B",
@@ -143,15 +149,18 @@
           },
           {
             "value": "Cart",
-            "label": "Cart"
+            "label": "Cart",
+            "checked": true
           },
           {
             "value": "WishList",
-            "label": "WishList"
+            "label": "WishList",
+            "checked": true
           },
           {
             "value": "Order",
-            "label": "Order"
+            "label": "Order",
+            "checked": true
           },
           {
             "value": "Digital-Payments",
@@ -191,7 +200,8 @@
           },
           {
             "value": "Product-Variants",
-            "label": "Product - Variants"
+            "label": "Product - Variants",
+            "checked": true
           },
           {
             "value": "Product-Multi-Dimensional-Selector",
@@ -203,7 +213,8 @@
           },
           {
             "value": "Image-Zoom",
-            "label": "Product - Image Zoom"
+            "label": "Product - Image Zoom",
+            "checked": true
           },
           {
             "value": "Future-Stock",
@@ -255,15 +266,18 @@
           },
           {
             "value": "SmartEdit",
-            "label": "SmartEdit"
+            "label": "SmartEdit",
+            "checked": true
           },
           {
             "value": "Store-Finder",
-            "label": "Store Finder"
+            "label": "Store Finder",
+            "checked": true
           },
           {
             "value": "Personalization",
-            "label": "Tracking - Personalization"
+            "label": "Tracking - Personalization",
+            "checked": true
           },
           {
             "value": "Segment-Refs",
@@ -283,11 +297,13 @@
           },
           {
             "value": "User-Account",
-            "label": "User - Account"
+            "label": "User - Account",
+            "checked": true
           },
           {
             "value": "User-Profile",
-            "label": "User - Profile"
+            "label": "User - Profile",
+            "checked": true
           },
           {
             "value": "Quote",

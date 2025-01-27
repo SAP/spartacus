@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Servizio clienti",
+    "showMore": "Mostra di più",
+    "showMoreLabel": "Passa alla cronologia delle richieste di servizio clienti",
+    "changedOn": "Data modifica: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "Oggetto",
+    "idLabel": "ID servizio clienti"
+  }
+}

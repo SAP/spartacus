@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterStateSnapshot, UrlTree } from '@angular/router';
+import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import { CmsActivatedRouteSnapshot } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CanActivate, GuardsComposer } from '../services/guards-composer';
@@ -10,7 +10,7 @@ class MockGuardsComposer implements Partial<GuardsComposer> {
     _guards: CanActivate[],
     _route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     return of(true);
   }
 }

@@ -233,7 +233,7 @@
       *ngIf="config.recentSearches"
       [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
       [cxOutletContext]="{
-        search: searchInputEl?.nativeElement?.value,
+        search: searchInputEl?.nativeElement?.value ?? '',
         searchBoxActive: searchBoxActive,
         maxRecentSearches: config.maxRecentSearches,
       }"

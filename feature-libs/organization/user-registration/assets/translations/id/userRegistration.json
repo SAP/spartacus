@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Gelar/Sapaan (opsional)",
+        "placeholder": "Gelar/Sapaan"
+      },
+      "firstName": {
+        "label": "Nama depan",
+        "placeholder": "Nama depan"
+      },
+      "lastName": {
+        "label": "Nama belakang",
+        "placeholder": "Nama belakang"
+      },
+      "companyName": {
+        "label": "Nama perusahaan",
+        "placeholder": "Nama perusahaan"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "E-mail"
+      },
+      "city": {
+        "label": "Kota/Kabupaten (opsional)",
+        "placeholder": "Harap pilih Kota/Kabupaten"
+      },
+      "country": {
+        "label": "Negara (opsional)",
+        "placeholder": "Pilih Negara"
+      },
+      "state": {
+        "label": "Negara Bagian/Provinsi (opsional)",
+        "placeholder": "Pilih Negara Bagian/Provinsi"
+      },
+      "postalCode": {
+        "label": "Kode Pos (opsional)",
+        "placeholder": "Kode Pos"
+      },
+      "addressLine": {
+        "label": "Alamat (opsional)",
+        "placeholder": "Alamat"
+      },
+      "secondAddressLine": {
+        "label": "Baris alamat 2 (opsional)",
+        "placeholder": "Baris alamat 2"
+      },
+      "phoneNumber": {
+        "label": "Nomor telepon (opsional)",
+        "placeholder": "Nomor telepon"
+      },
+      "message": {
+        "label": "Pesan (opsional)",
+        "placeholder": "Contoh data pada bidang pesan: \"Departemen: Pelayanan Pesawat Udara di Darat; Posisi: Kepala Pengamanan; Melapor kepada: Steve Jackson; Komentar: Mohon buatkan akun baru untuk saya.\""
+      }
+    },
+    "messageToApproverTemplate": "Nama perusahaan: {{companyName}},\n  Nomor telepon: {{phoneNumber}},\n  Alamat: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Pesan: {{message}}",
+    "successFormSubmitMessage": "Terima kasih sudah mendaftar! Seorang perwakilan akan segera menghubungi Anda untuk mengonfirmasi informasi akses Anda.",
+    "formSubmitButtonLabel": "Daftar",
+    "goToLoginButtonLabel": "Sudah terdaftar? Klik Masuk",
+    "httpHandlers": {
+      "conflict": "Pengguna dengan alamat email ini sudah ada."
+    },
+    "messageToFailedToRegister": "Gagal mendaftar. Silakan hubungi admin untuk bantuan lebih lanjut."
+  }
+}

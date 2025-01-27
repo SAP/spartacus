@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "同意管理",
+      "legalDescription": "クッキー/ブラウザのストレージを使用して、コンテンツをパーソナライズし、ユーザエクスペリエンスを向上させます。サイトの使用に関するデータをソーシャルメディアと共有する場合もあります。詳細については、プライバシーポリシーを確認してください。",
+      "selectAll": "すべて選択",
+      "clearAll": "すべてクリア"
+    },
+    "banner": {
+      "title": "この Web サイトではクッキーが使用されます",
+      "description": "クッキー/ブラウザのストレージを使用して、コンテンツをパーソナライズし、ユーザエクスペリエンスを向上させます。",
+      "allowAll": "すべて許可",
+      "viewDetails": "詳細を表示"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "メールアドレス",
+      "placeholder": "メールアドレスを入力"
+    },
+    "confirmEmail": {
+      "label": "メールアドレスを確認",
+      "placeholder": "メールアドレスを確認"
+    },
+    "continue": "続行",
+    "emailIsRequired": "電子メール形式が無効です",
+    "emailsMustMatch": "電子メールが一致しません"
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "正常にサインアウトしました。"
+  }
+}
