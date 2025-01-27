@@ -812,6 +812,12 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
+   * Removes invalid aria-level usage on button elements and ensures buttons have a proper accessible name via aria-label or aria-labelledby.
+   * Affects: NavigationUIComponent
+   */
+  a11yNavigationButtonsAriaFixes?: boolean;
+
+  /**
    * Restores the focus to the card once a option has been selected and the checkout has updated.
    * Affects: CheckoutPaymentMethodComponent, CheckoutDeliveryAddressComponent
    */
@@ -1114,6 +1120,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderSearchBoxRefocusOnClose: false,
   a11yKeyboardFocusInSearchBox: false,
   a11yAddPaddingToCarouselPanel: false,
+  a11yNavigationButtonsAriaFixes: false,
   a11yFocusOnCardAfterSelecting: false,
   a11ySearchableDropdownFirstElementFocus: false,
   a11yHideConsentButtonWhenBannerVisible: false,
