@@ -27,6 +27,7 @@ import { DateValidationService } from '../shared/date-validation.service';
   selector: 'cx-request-delivery-date',
   templateUrl: './delivery-mode-date-picker.component.html',
   providers: [CxDatePipe],
+  standalone: false,
 })
 export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   constructor(

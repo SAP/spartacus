@@ -22,6 +22,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-button',
   templateUrl: './configurator-overview-filter-button.component.html',
+  standalone: false,
 })
 export class ConfiguratorOverviewFilterButtonComponent {
   protected configuratorStorefrontUtilsService = inject(

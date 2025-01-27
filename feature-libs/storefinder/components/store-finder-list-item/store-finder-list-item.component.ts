@@ -13,6 +13,7 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 @Component({
   selector: 'cx-store-finder-list-item',
   templateUrl: './store-finder-list-item.component.html',
+  standalone: false,
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Input()

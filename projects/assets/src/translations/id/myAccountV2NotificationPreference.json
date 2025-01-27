@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotificationPreference": {
+    "header": "Saluran Notifikasi",
+    "message": "Pilih saluran notifikasi favorit Anda",
+    "note": "Catatan: ",
+    "noteMessage": "Jika Anda menonaktifkan semua saluran, notifikasi selanjutnya tidak akan diterima.",
+    "EMAIL": "Email:"
+  }
+}

@@ -2,7 +2,6 @@ import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartModificationList,
   MultiCartFacade,
@@ -89,6 +88,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -97,11 +97,13 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
@@ -124,7 +126,6 @@ describe('ReorderDialogComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,

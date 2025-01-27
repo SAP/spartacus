@@ -12,6 +12,7 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 @Component({
   selector: 'cx-store-finder-store-description',
   templateUrl: './store-finder-store-description.component.html',
+  standalone: false,
 })
 export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemComponent {
   @Input() location: PointOfService;

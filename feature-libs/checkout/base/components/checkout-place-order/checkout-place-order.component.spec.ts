@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -10,8 +9,8 @@ import {
 import { OrderFacade } from '@spartacus/order/root';
 import {
   AtMessageModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
@@ -34,6 +33,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -49,12 +49,7 @@ describe('CheckoutPlaceOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        AtMessageModule,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
       declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
       providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },

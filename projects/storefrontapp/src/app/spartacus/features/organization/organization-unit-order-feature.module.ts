@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   unitOrderTranslationChunksConfig,
-  unitOrderTranslations,
+  unitOrderTranslationsEn,
+  unitOrderTranslationsJa,
+  unitOrderTranslationsDe,
+  unitOrderTranslationsZh,
 } from '@spartacus/organization/unit-order/assets';
 import {
   UnitOrderRootModule,
@@ -30,7 +33,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: unitOrderTranslations,
+        resources: {
+          en: unitOrderTranslationsEn,
+          ja: unitOrderTranslationsJa,
+          de: unitOrderTranslationsDe,
+          zh: unitOrderTranslationsZh,
+        },
         chunks: unitOrderTranslationChunksConfig,
       },
     }),

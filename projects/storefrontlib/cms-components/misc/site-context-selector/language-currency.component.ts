@@ -18,6 +18,7 @@ import { SiteContextType } from './site-context.model';
     ></cx-site-context-selector>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LanguageCurrencyComponent {
   readonly siteContextType = SiteContextType;

@@ -1,0 +1,23 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Pengiriman",
+      "deliveryMethod": "Metode Pengiriman",
+      "paymentAndReview": "Pembayaran & Peninjauan"
+    },
+    "paymentAndReviewTitle": "Pembayaran dan peninjauan",
+    "billingAddress": "Alamat Penagihan",
+    "paymentOption": "Opsi pembayaran",
+    "termsAndConditions": "Syarat & Ketentuan",
+    "itemsToBeShipped": "Item yang akan dikirim",
+    "proceedPayment": "Lakukan Pemesanan",
+    "retryPayment": "Coba Lagi untuk Melanjutkan",
+    "checkTermsAndConditionsExplicit": "Anda harus menyetujui Syarat & Ketentuan untuk melihat opsi pembayaran yang tersedia.",
+    "checkTermsAndConditionsImplicit": "Dengan menyelesaikan pemesanan, Anda menyetujui Syarat & Ketentuan kami.",
+    "errors": {
+      "loadActiveConfigurations": "Saat ini kami tidak dapat memuat opsi pembayaran. Silakan coba lagi nanti.",
+      "noActiveConfigurations": "Saat ini tidak ada opsi pembayaran yang tersedia. Silakan coba lagi nanti atau hubungi bagian dukungan.",
+      "updateBillingAddress": "Alamat tidak dapat diperbarui. Silakan pastikan bahwa informasi alamat Anda sudah benar dan perangkat Anda terhubung ke internet. Jika masalah berlanjut, Anda mungkin perlu mengosongkan keranjang belanja dan memulai proses pembayaran lagi."
+    }
+  }
+}

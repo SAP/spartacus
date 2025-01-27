@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Params } from '@angular/router';
 import {
   I18nTestingModule,
   RoutingService,
@@ -23,7 +23,6 @@ import {
 } from '@spartacus/order/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
-import { Params } from '@angular/router';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -90,6 +89,7 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -98,6 +98,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
+  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -109,6 +110,7 @@ class MockSortingComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -158,7 +160,7 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         OrderHistoryComponent,
         MockUrlPipe,

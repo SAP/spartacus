@@ -25,6 +25,7 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'cx-import-order-entries',
   templateUrl: './import-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportOrderEntriesComponent {
   protected subscription = new Subscription();

@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;

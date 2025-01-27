@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "इस समय तक खुला है",
+    "closed": "बंद है",
+    "back": "वापस जाएं",
+    "call": "कॉल करें",
+    "getDirections": "मार्गदर्शन प्राप्त करें",
+    "ariaLabelGetDirections": "निर्देश प्राप्त करें, यह लिंक नई विंडो में खुलती है",
+    "ariaLabelCountriesCount": "{{ count }} देशों में स्टोर मिले",
+    "listView": "सूची दृश्य",
+    "mapView": "मैप दृश्य",
+    "noStoresFound": "कोई स्टोर नहीं मिले.",
+    "storeHours": "स्टोर का समय",
+    "storeFeatures": "स्टोर की विशेषताएं",
+    "storeFinder": "स्टोर खोजकर्ता",
+    "storesFoundTitle": "स्टोर मिले",
+    "storesFound": "{{ count }} स्टोर मिले",
+    "storesFound_other": "{{ count }} स्टोर मिले",
+    "fromStoresFound": "{{ count }} से स्टोर मिला",
+    "fromStoresFound_other": "{{ count }} से स्टोर मिले",
+    "findStore": "स्टोर खोजें",
+    "useMyLocation": "मेरे स्थान का उपयोग करें",
+    "viewAllStores": "सभी स्टोर देखें",
+    "contactUs": "हमसे संपर्क करें",
+    "searchBox": "पोस्टल कोड या शहर या पता",
+    "backToList": "सूची में वापस जाएं",
+    "noStoresMessage": "डेटाबेस में कोई स्टोर नहीं मिला...",
+    "geolocationNotEnabled": "नज़दीकी स्टोर का पता नहीं चल सकता. जियोलोकेशन सहमति सक्षम नहीं है",
+    "searchNearestStores": "सबसे नज़दीकी स्टोर खोजें",
+    "searchBoxLabel": "पोस्टल कोड या शहर या पता दर्ज करें"
+  }
+}

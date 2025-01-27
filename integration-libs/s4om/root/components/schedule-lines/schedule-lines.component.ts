@@ -13,6 +13,7 @@ import { EMPTY, Observable } from 'rxjs';
   selector: 'cx-schedule-lines',
   templateUrl: './schedule-lines.component.html',
   providers: [CxDatePipe],
+  standalone: false,
 })
 export class ScheduleLinesComponent {
   constructor(

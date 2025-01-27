@@ -14,11 +14,6 @@ export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration>
 {
-  /**
-   * @deprecated since 6.2
-   */
-  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
-
   convert(
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration

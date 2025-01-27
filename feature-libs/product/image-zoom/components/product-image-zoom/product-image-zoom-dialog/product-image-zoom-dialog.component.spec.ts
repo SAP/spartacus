@@ -15,6 +15,7 @@ class MockLaunchDialogService {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -23,6 +24,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-product-image-zoom-view',
   template: '',
+  standalone: false,
 })
 class MockProductImageZoomViewComponent {
   @Input() galleryIndex: number;

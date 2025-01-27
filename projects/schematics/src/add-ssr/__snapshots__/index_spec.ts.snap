@@ -23,12 +23,12 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
               "budgets": [
                 {
                   "maximumError": "3.5mb",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "type": "initial",
                 },
                 {
-                  "maximumError": "4kb",
-                  "maximumWarning": "2kb",
+                  "maximumError": "8kB",
+                  "maximumWarning": "4kB",
                   "type": "anyComponentStyle",
                 },
               ],
@@ -38,8 +38,10 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "defaultConfiguration": "production",
           "options": {
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "public",
+              },
             ],
             "browser": "src/main.ts",
             "index": "src/index.html",
@@ -52,12 +54,17 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
             "scripts": [],
             "server": "src/main.server.ts",
             "ssr": {
-              "entry": "server.ts",
+              "entry": "src/server.ts",
             },
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/",
               ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import",
+                ],
+              },
             },
             "styles": [
               "src/styles.scss",
@@ -67,9 +74,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build",
-          },
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -87,8 +91,10 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "public",
+              },
             ],
             "inlineStyleLanguage": "scss",
             "polyfills": [
@@ -133,16 +139,12 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
 exports[`add-ssr app.module.server.ts should be updated 1`] = `
 "import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
-
-import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
 import { provideServer } from '@spartacus/setup/ssr';
 
 @NgModule({
-  imports: [
-    AppModule,
-    ServerModule,
-  ],
+  imports: [AppModule, ServerModule],
   bootstrap: [AppComponent],
   providers: [
     ...provideServer({
@@ -156,7 +158,7 @@ export class AppServerModule {}
 
 exports[`add-ssr app.module.ts should be updated 1`] = `
 "import { NgModule } from '@angular/core';
-import { BrowserModule,  } from '@angular/platform-browser';
+import { BrowserModule,   } from '@angular/platform-browser';
 
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
 import { EffectsModule } from "@ngrx/effects";
@@ -212,7 +214,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import AppServerModule from './src/main.server';
+import AppServerModule from './main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
   ssrFeatureToggles: {
@@ -225,7 +227,7 @@ export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(browserDistFolder, 'index.html');
+  const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');

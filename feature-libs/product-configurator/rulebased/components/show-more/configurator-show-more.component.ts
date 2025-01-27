@@ -18,6 +18,7 @@ import { Config, useFeatureStyles } from '@spartacus/core';
   selector: 'cx-configurator-show-more',
   templateUrl: './configurator-show-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

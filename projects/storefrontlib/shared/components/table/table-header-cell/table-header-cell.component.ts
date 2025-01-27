@@ -16,6 +16,7 @@ import {
   selector: 'cx-table-header-cell',
   template: `{{ header || (localizedHeader | cxTranslate) }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableHeaderCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

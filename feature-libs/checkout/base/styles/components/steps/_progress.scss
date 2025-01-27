@@ -41,6 +41,9 @@
 
       &.disabled {
         border-color: var(--cx-color-medium);
+        @include cx-highContrastTheme {
+          border-color: var(--cx-color-secondary);
+        }
       }
 
       &:first-child ::before {

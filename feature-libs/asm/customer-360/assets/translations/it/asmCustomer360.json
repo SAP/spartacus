@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Impossibile caricare le informazioni. Riprovare più tardi o contattare l'amministratore di sistema.",
+    "errorMessageHeader": "Si è verificato un errore.",
+    "applyActionAlter": "Impossibile completare l'azione. Riprovare più tardi.",
+    "header": {
+      "title": "Profilo cliente",
+      "newTitle": "Cliente 360°",
+      "subTitle": "Vista cliente 360° {{name}}",
+      "newSubTitle": "Vista 360° {{name}}",
+      "activeCartLabel": "{{cartSize}} articoli aggiunti al carrello acquisti",
+      "recentOrderLabel": "{{price}} ultimo ordine ",
+      "recentTicketLabel": "Ultimo ticket",
+      "signedUpAt": "Account creato il {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Numero totale articoli {{count}}",
+      "totalPrice": "Prezzo totale {{price}}",
+      "showMore": "Mostra di più",
+      "showLess": "Mostra di meno"
+    },
+    "productItem": {
+      "outOfStock": "Non disponibile",
+      "quantity": "Qtà: {{count}}",
+      "itemPrice": "Prezzo articolo: {{price}}"
+    },
+    "activeCart": {
+      "header": "Carrello acquisti attivo",
+      "emptyDescription": "Al momento, non ci sono articoli nel carrello acquisti attivo",
+      "aria": {
+        "linkLabel": "Carrello acquisti attivo {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Ultimo carrello acquisti salvato",
+      "emptyDescription": "Al momento, non ci sono articoli nel carrello acquisti salvato",
+      "aria": {
+        "linkLabel": "Ultimo carrello acquisti salvato {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Interessi",
+      "emptyDescription": "Al momento non ci sono articoli di interesse"
+    },
+    "profile": {
+      "address": "Indirizzo",
+      "billingAddress": "Indirizzo di fatturazione",
+      "deliveryAddress": "Indirizzo di consegna",
+      "phone1": "Telefono 1",
+      "phone2": "Telefono 2",
+      "paymentMethodHeader": "Metodi di pagamento salvati"
+    },
+    "activity": {
+      "type": "Tipo",
+      "id": "ID",
+      "description": "Descrizione",
+      "status": "Stato",
+      "created": "Creato",
+      "updated": "Aggiornato",
+      "numberOfCartItems": "Carrello acquisti con {{count}} articoli",
+      "cart": "Carrello acquisti",
+      "order": "Ordine",
+      "savedCart": "Carrello acquisti salvato",
+      "emptyStateText": "Al momento non ci sono attività del cliente registrato",
+      "headerText": "Generale"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Articolo",
+        "dateAndStatus": "Data/stato",
+        "rating": "Valutazione",
+        "review": "Recensione"
+      },
+      "header": "Recensioni prodotto",
+      "emptyDescription": "Al momento non ci sono articoli con recensione prodotto",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Intestazione",
+        "category": "Categoria"
+      },
+      "header": "Tickets supporto",
+      "emptyDescription": "Al momento non ci sono ticket di supporto"
+    },
+    "coupons": {
+      "headerText": "Coupons",
+      "emptyDescription": "Al momento non ci sono coupon",
+      "applyButtonText": "Applica al carrello acquisti",
+      "applied": "Coupon applicato",
+      "removeButtonText": "Rimuovi"
+    },
+    "promotions": {
+      "headerText": "Promozioni",
+      "emptyDescription": "Al momento non ci sono promozioni",
+      "applied": "Promozione applicata",
+      "headerName": "Nome",
+      "headerAction": "Azione"
+    },
+    "customerCoupons": {
+      "headerText": "Coupons cliente",
+      "emptyDescription": "Al momento non ci sono coupon cliente",
+      "applyButtonText": "Assegna al cliente",
+      "removeButtonText": "Rimuovi",
+      "availableTab": "Disponibile",
+      "sentTab": "Inviato",
+      "searchBox": "Coupon"
+    },
+    "maps": {
+      "storeClosed": "Chiudi",
+      "storesFound": "Trovati {{ initial }} - {{ end }} di {{ total }} punti vendita"
+    },
+    "overviewTab": "Riepilogo",
+    "profileTab": "Profilo",
+    "activityTab": "Attività",
+    "feedbackTab": "Feedback",
+    "promotionsTab": "Promozioni",
+    "mapsTab": "Mappe",
+    "storeLocationsTab": "Ubicazioni dei punti vendita",
+    "aria": {
+      "activeCartCode": "Carrello acquisti attivo {{code}}",
+      "recentOrderCode": "{{code}} ultimo ordine"
+    },
+    "pagination": "Impaginazione",
+    "page": "Pagina {{number}}",
+    "emptyCellValue": "---"
+  }
+}

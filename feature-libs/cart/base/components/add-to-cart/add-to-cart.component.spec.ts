@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -106,6 +105,7 @@ class MockProductAvailabilityAdapter {}
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min;
@@ -132,7 +132,6 @@ describe('AddToCartComponent', () => {
     return TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,

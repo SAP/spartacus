@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Megszólítás (opcionális)",
+        "placeholder": "Megszólítás"
+      },
+      "firstName": {
+        "label": "Utónév",
+        "placeholder": "Utónév"
+      },
+      "lastName": {
+        "label": "Vezetéknév",
+        "placeholder": "Vezetéknév"
+      },
+      "companyName": {
+        "label": "Vállalat neve",
+        "placeholder": "Vállalat neve"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "E-mail"
+      },
+      "city": {
+        "label": "Település (opcionális)",
+        "placeholder": "Válassza ki a települést"
+      },
+      "country": {
+        "label": "Ország (opcionális)",
+        "placeholder": "Válassza ki az országot"
+      },
+      "state": {
+        "label": "Állam/tartomány (opcionális)",
+        "placeholder": "Válassza ki az államot/tartományt"
+      },
+      "postalCode": {
+        "label": "Irányítószám (opcionális)",
+        "placeholder": "Irányítószám"
+      },
+      "addressLine": {
+        "label": "Cím (opcionális)",
+        "placeholder": "Cím"
+      },
+      "secondAddressLine": {
+        "label": "Cím 2. sora (opcionális)",
+        "placeholder": "Cím 2. sora"
+      },
+      "phoneNumber": {
+        "label": "Telefonszám (opcionális)",
+        "placeholder": "Telefonszám"
+      },
+      "message": {
+        "label": "Üzenet (opcionális)",
+        "placeholder": "Az üzenet mező példaadata: „Osztály: szárazföldi támogatás; Pozíció: vezető biztonsági hivatalnok; Felettes: Steve Jackson; Megjegyzés: Új fiók létrehozását szeretném igényelni”."
+      }
+    },
+    "messageToApproverTemplate": "Vállalat neve: {{companyName}},\n  Telefonszám: {{phoneNumber}},\n  Cím: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Üzenet: {{message}}",
+    "successFormSubmitMessage": "Köszönjük a regisztrációt! Egy képviselőnk hamarosan felveszi Önnel a kapcsolatot, és tájékoztatja a hozzáférési információkról.",
+    "formSubmitButtonLabel": "Regisztráció",
+    "goToLoginButtonLabel": "Már regisztrált? Lépjen be.",
+    "httpHandlers": {
+      "conflict": "Már létezik felhasználó ezzel az e-mail-címmel."
+    },
+    "messageToFailedToRegister": "Sikertelen regisztráció. További segítségért forduljon a rendszergazdájához."
+  }
+}

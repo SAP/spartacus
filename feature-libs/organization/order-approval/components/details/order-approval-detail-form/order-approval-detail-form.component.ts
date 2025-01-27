@@ -23,6 +23,7 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   selector: 'cx-order-approval-detail-form',
   templateUrl: './order-approval-detail-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;

@@ -1,7 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -40,7 +39,6 @@ describe('Order detail reorder component', () => {
       imports: [I18nTestingModule],
       declarations: [OrderDetailReorderComponent],
       providers: [
-        RouterTestingModule,
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,

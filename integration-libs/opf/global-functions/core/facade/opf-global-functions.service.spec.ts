@@ -22,6 +22,7 @@ import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 export const WINDOW = new InjectionToken<Window>('window');
 @Component({
   template: '',
+  standalone: false,
 })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}

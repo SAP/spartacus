@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Nombre:",
+      "description": "Descripción:",
+      "validity": "Esta oferta es válida hasta {{ expirationTime }}",
+      "option": {
+        "yes": "Sí",
+        "no": "No"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Cerrar el modo de envío de oferta"
+          },
+          "title": "¿Desea enviar la solicitud de oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea enviar esta solicitud de oferta?",
+          "successMessage": "Solicitud de oferta enviada correctamente"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Cerrar modo de cancelación de oferta"
+          },
+          "title": "¿Desea cancelar la solicitud de oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea cancelar esta solicitud de oferta?",
+          "successMessage": "Solicitud de oferta cancelada"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Cerrar el modo de edición de ofertas"
+          },
+          "title": "¿Confirma la edición de oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea editar esta oferta aprobada?",
+          "warningNote": "Esta oferta ya se aprobó. Si la edita, no podrá realizar el pago hasta que se aprueben las nuevas modificaciones."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Cerrar modo de cancelación de oferta"
+          },
+          "title": "¿Cancelar oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea cancelar esta oferta?",
+          "successMessage": "Oferta cancelada"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Cerrar el modo de pago de oferta"
+          },
+          "title": "¿Finalizar la compra de la oferta{{ code }}?",
+          "confirmNote": "¿Confirma que desea aceptar y pagar esta oferta?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Cerrar el modo de edición de ofertas"
+          },
+          "title": "¿Confirma la edición de la oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea editar esta oferta vencida?",
+          "warningNote": "Esta oferta ha caducado. Si la edita, no podrá realizar el pago hasta que se aprueben las nuevas modificaciones."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Cerrar modo para volver a crear oferta"
+          },
+          "title": "¿Recrear solicitud de oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea recrear esta solicitud de oferta?",
+          "warningNote": "Esta oferta ha caducado. Si la vuelve a crear, se generará una nueva solicitud de oferta con el mismo contenido, que se puede editar y enviar para su aprobación posterior."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Cerrar el modo de envío de oferta"
+          },
+          "title": "¿Enviar oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea enviar esta oferta?",
+          "warningNote": "Dependiendo del valor total de la oferta, podría requerirse una aprobación adicional antes de que el comprador pueda consultar esta oferta.",
+          "successMessage": "Oferta enviada correctamente"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Cerrar modo de aprobación de oferta"
+          },
+          "title": "¿Aprobar oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea aprobar esta oferta?",
+          "successMessage": "Oferta aprobada correctamente"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Cerrar modo de oferta rechazada"
+          },
+          "title": "¿Rechazar oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea rechazar esta oferta?",
+          "successMessage": "Oferta rechazada"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Cerrar modo para volver a crear oferta"
+          },
+          "title": "¿Recrear solicitud de oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea recrear esta solicitud de oferta?",
+          "warningNote": "Su cesta actual se convertirá en una cesta guardada."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Cerrar el modo de edición de ofertas"
+          },
+          "title": "¿Editar oferta {{ code }}?",
+          "confirmNote": "¿Confirma que desea editar esta oferta?",
+          "warningNote": "Su cesta actual se convertirá en una cesta guardada."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Contacto/Cuadro de comentarios",
+      "title": "Contacto",
+      "invalidComment": "Entrada no válida. Escriba nuevamente...",
+      "allProducts": "Todos los productos"
+    },
+    "commons": {
+      "requestQuote": "Solicitar oferta",
+      "cart": "Cesta",
+      "minRequestInitiationNote": "Se requiere un subtotal mínimo de ${{minValue}} para enviar una oferta ",
+      "savedActiveCart": "Su cesta activa se convirtió en cesta guardada {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Cancelar la edición de la información del encabezado de oferta",
+          "save": "Guardar la información del encabezado de oferta"
+        }
+      },
+      "overview": {
+        "regionTitle": "Resumen de detalles de la oferta",
+        "id": "ID de oferta",
+        "status": "Estado",
+        "information": "Información de la oferta",
+        "name": "Nombre",
+        "description": "Descripción",
+        "charactersLeft": "caracteres restantes: {{count}}",
+        "priceAndExpiry": "Precio y caducidad",
+        "estimatedTotal": "Total estimado",
+        "total": "Total",
+        "expirationTime": "Fecha de caducidad",
+        "a11y": {
+          "edit": "Editar información de encabezado de oferta"
+        },
+        "createdAndUpdated": "Creado y actualizado",
+        "createdDate": "Creado",
+        "lastUpdatedDate": "Última actualización"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Hay problemas con sus entradas. Revise su cesta.",
+      "quoteCartIssue": "No es posible realizar cambios en las entradas de la cesta. Proceda al pago",
+      "absoluteDiscountIssue": "Elija un descuento que no exceda el valor total",
+      "expirationDateIssue": "Elija una fecha de vencimiento futura",
+      "threshold": {
+        "underThresholdError": "El precio total de la oferta solicitada no alcanza el umbral mínimo"
+      },
+      "expired": "Esta oferta ha caducado. Debe volver a enviar su solicitud de oferta para recibir la oferta de otro proveedor.",
+      "downloadPDFError": "Algo salió mal. No se pudo obtener el documento de propuesta en formato PDF."
+    },
+    "items": {
+      "regionTitle": "Elementos de la cesta"
+    },
+    "links": {
+      "newCart": "Nueva cesta",
+      "quotes": "Ofertas",
+      "download": "Descargar propuesta",
+      "a11y": {
+        "newCart": "Crear una cesta nueva vacía e ir hasta ella.",
+        "quotes": "Ir a la lista de resultados de búsqueda de ofertas.",
+        "download": "Comenzar a descargar la propuesta de oferta"
+      }
+    },
+    "list": {
+      "regionTitle": "Resumen de lista de ofertas",
+      "title": "Lista de ofertas",
+      "name": "Nombre",
+      "updated": "Actualizado",
+      "sortBy": "Ordenar por",
+      "sortQuotes": "Ordenar ofertas",
+      "empty": "No tenemos registro de ofertas para esta cuenta.",
+      "quoteId": "ID de oferta",
+      "status": "Estado",
+      "clickableRow": "Haga clic en la fila para obtener más información de las ofertas"
+    },
+    "states": {
+      "BUYER_DRAFT": "Borrador",
+      "BUYER_SUBMITTED": "Enviada",
+      "BUYER_ACCEPTED": "Aceptada",
+      "BUYER_APPROVED": "Aprobada",
+      "BUYER_REJECTED": "Rechazada",
+      "BUYER_OFFER": "Oferta de proveedor",
+      "BUYER_ORDERED": "Pedida",
+      "SELLER_DRAFT": "Borrador",
+      "SELLER_REQUEST": "Solicitada",
+      "SELLER_SUBMITTED": "Enviada",
+      "SELLERAPPROVER_DRAFT": "Borrador",
+      "SELLERAPPROVER_PENDING": "Aprobación pendiente",
+      "SELLERAPPROVER_APPROVED": "Aprobada",
+      "SELLERAPPROVER_REJECTED": "Rechazada",
+      "CREATED": "Creada",
+      "CANCELLED": "Cancelada",
+      "EXPIRED": "Caducada"
+    },
+    "summary": {
+      "regionTitle": "Resumen del pedido",
+      "actions": {
+        "APPROVE": "Aprobar oferta",
+        "CANCEL": "Cancelar oferta",
+        "CHECKOUT": "Aceptar y finalizar compra",
+        "EDIT": "Editar oferta",
+        "REJECT": "Rechazar oferta",
+        "REQUOTE": "Solicitar oferta nueva",
+        "SAVE": "Grabar oferta",
+        "SUBMIT": "Enviar oferta",
+        "VIEW": "Ver oferta"
+      },
+      "prices": {
+        "title": "Resumen del pedido",
+        "subtotal": "Subtotal",
+        "productDiscount": "Descuento del elemento",
+        "orderDiscount": "Descuento del pedido",
+        "quoteDiscount": "Descuentos de la oferta",
+        "total": "Total",
+        "hint": "No se incluyen impuestos en el total"
+      },
+      "sellerEdit": {
+        "discount": "Descuento",
+        "apply": "Aplicar",
+        "expiryDate": "Fecha de caducidad",
+        "discountValidationText": "Ingresar un descuento de porcentaje válido",
+        "a11y": {
+          "apply": "Haga clic para aplicar el valor de descuento ingresado a esta oferta",
+          "discount": "Ingrese un valor de descuento porcentual que se aplicará a esta oferta",
+          "expiryDate": "Ingrese una fecha de vencimiento para esta oferta"
+        }
+      }
+    }
+  }
+}

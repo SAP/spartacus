@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Civilité (facultatif)",
+        "placeholder": "Civilité"
+      },
+      "firstName": {
+        "label": "Prénom",
+        "placeholder": "Prénom"
+      },
+      "lastName": {
+        "label": "Nom de famille",
+        "placeholder": "Nom de famille"
+      },
+      "companyName": {
+        "label": "Nom de l'entreprise",
+        "placeholder": "Nom de l'entreprise"
+      },
+      "email": {
+        "label": "Adresse e-mail",
+        "placeholder": "Adresse e-mail"
+      },
+      "city": {
+        "label": "Ville/Localité (facultatif)",
+        "placeholder": "Veuillez sélectionner une ville/localité"
+      },
+      "country": {
+        "label": "Pays (facultatif)",
+        "placeholder": "Sélectionner le pays"
+      },
+      "state": {
+        "label": "État/Province (facultatif)",
+        "placeholder": "Sélectionner l'État/la province"
+      },
+      "postalCode": {
+        "label": "Code postal/ZIP (facultatif)",
+        "placeholder": "Code postal/ZIP"
+      },
+      "addressLine": {
+        "label": "Adresse (facultatif)",
+        "placeholder": "Adresse"
+      },
+      "secondAddressLine": {
+        "label": "Adresse, ligne 2 (facultatif)",
+        "placeholder": "Adresse, ligne 2"
+      },
+      "phoneNumber": {
+        "label": "Numéro de téléphone (facultatif)",
+        "placeholder": "Numéro de téléphone"
+      },
+      "message": {
+        "label": "Message (facultatif)",
+        "placeholder": "Un exemple de données pour la zone du message : \"Département : Assistance au sol ; Poste : Chef de la sécurité ; Sous la responsabilité de : Steve Jackson ; Commentaires : Veuillez créer un nouveau compte pour moi\"."
+      }
+    },
+    "messageToApproverTemplate": "Nom de l'entreprise : {{companyName}},\nNuméro de téléphone : {{phoneNumber}},\n  Adresse : {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Message : {{message}}",
+    "successFormSubmitMessage": "Merci de vous être inscrit ! Un représentant vous contactera sous peu pour confirmer vos informations d'accès.",
+    "formSubmitButtonLabel": "S'inscrire",
+    "goToLoginButtonLabel": "Vous êtes déjà inscrit ? Connectez-vous",
+    "httpHandlers": {
+      "conflict": "Un utilisateur avec cette adresse e-mail existe déjà."
+    },
+    "messageToFailedToRegister": "L'enregistrement a échoué. Veuillez contacter votre administrateur pour obtenir de l'aide."
+  }
+}

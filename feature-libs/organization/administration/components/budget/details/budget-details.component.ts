@@ -22,6 +22,7 @@ import { BudgetItemService } from '../services/budget-item.service';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class BudgetDetailsComponent implements OnInit {
   model$: Observable<Budget>;

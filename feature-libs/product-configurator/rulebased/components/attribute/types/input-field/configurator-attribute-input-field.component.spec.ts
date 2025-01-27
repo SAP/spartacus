@@ -24,6 +24,7 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;

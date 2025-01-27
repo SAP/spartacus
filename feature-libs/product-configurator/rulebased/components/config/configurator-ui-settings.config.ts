@@ -14,7 +14,6 @@ export interface ProductConfiguratorUISettingsConfig {
     date?: number;
   };
   addRetractOption?: boolean;
-  enableNavigationToConflict?: boolean;
   descriptions?: {
     attributeDescriptionLength?: number;
     valueDescriptionLength?: number;

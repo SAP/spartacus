@@ -31,6 +31,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked

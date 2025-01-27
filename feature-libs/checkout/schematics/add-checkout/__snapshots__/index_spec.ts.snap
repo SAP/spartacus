@@ -3,10 +3,10 @@
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { CheckoutModule } from "@spartacus/checkout/base";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -20,13 +20,13 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
+      resources: { en: checkoutTranslationsEn },
       chunks: checkoutTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutB2BTranslations,
+      resources: { en: checkoutB2BTranslationsEn },
       chunks: checkoutB2BTranslationChunksConfig,
     },
   })
@@ -38,7 +38,7 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -57,13 +57,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -73,9 +73,9 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -95,13 +95,13 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
+      resources: { en: checkoutTranslationsEn },
       chunks: checkoutTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutB2BTranslations,
+      resources: { en: checkoutB2BTranslationsEn },
       chunks: checkoutB2BTranslationChunksConfig,
     },
   })
@@ -130,6 +130,9 @@ export class CheckoutWrapperModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/checkout";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -169,8 +172,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -180,7 +185,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -188,13 +198,13 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -220,10 +230,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -235,8 +242,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -259,7 +268,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CheckoutModule } from "@spartacus/checkout/base";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -271,7 +280,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
+      resources: { en: checkoutTranslationsEn },
       chunks: checkoutTranslationChunksConfig,
     },
   })]
@@ -282,7 +291,7 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -301,7 +310,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
+      resources: { en: checkoutTranslationsEn },
       chunks: checkoutTranslationChunksConfig,
     },
   })
@@ -314,6 +323,9 @@ export class CheckoutFeatureModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/checkout";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -353,8 +365,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -364,7 +378,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -372,13 +391,13 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -404,10 +423,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -419,8 +435,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -443,13 +461,13 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
 import { CheckoutModule } from "@spartacus/checkout/base";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CheckoutScheduledReplenishmentModule } from "@spartacus/checkout/scheduled-replenishment";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslationsEn } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -465,19 +483,19 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
+      resources: { en: checkoutTranslationsEn },
       chunks: checkoutTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutB2BTranslations,
+      resources: { en: checkoutB2BTranslationsEn },
       chunks: checkoutB2BTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutScheduledReplenishmentTranslations,
+      resources: { en: checkoutScheduledReplenishmentTranslationsEn },
       chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
     },
   })
@@ -489,7 +507,7 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
@@ -508,13 +526,13 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     context: {},
   }), provideConfig(<I18nConfig>{
     i18n: {
-      resources: translations,
+      resources: { en: translationsEn },
       chunks: translationChunksConfig,
       fallbackLang: 'en'
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.32'
+      level: '2211.35'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -524,11 +542,11 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslationsEn } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -549,19 +567,19 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
+      resources: { en: checkoutTranslationsEn },
       chunks: checkoutTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutB2BTranslations,
+      resources: { en: checkoutB2BTranslationsEn },
       chunks: checkoutB2BTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutScheduledReplenishmentTranslations,
+      resources: { en: checkoutScheduledReplenishmentTranslationsEn },
       chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
     },
   })
@@ -592,6 +610,9 @@ export class CheckoutWrapperModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/checkout";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -631,8 +652,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -642,7 +665,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -650,13 +678,13 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -682,10 +710,7 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -697,8 +722,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

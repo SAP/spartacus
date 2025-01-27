@@ -13,6 +13,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-totals',
   templateUrl: './return-request-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

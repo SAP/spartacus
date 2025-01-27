@@ -11,6 +11,7 @@ import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
 @Component({
   selector: 'cx-add-to-home-screen-btn',
   templateUrl: './add-to-home-screen-btn.component.html',
+  standalone: false,
 })
 export class AddToHomeScreenBtnComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {

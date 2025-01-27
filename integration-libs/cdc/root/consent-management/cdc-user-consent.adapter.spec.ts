@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
@@ -8,6 +8,10 @@ import { of } from 'rxjs';
 import { CdcUserConsentAdapter } from './cdc-user-consent.adapter';
 import { CdcConsentsLocalStorageService } from './services/cdc-consents-local-storage.service';
 import { CdcUserConsentService } from './services/cdc-user-consent.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const consentTemplateId = 'xxxx';
@@ -29,8 +33,8 @@ describe('CdcUserConsentAdapter', () => {
   let httpMock: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, StoreModule.forRoot()],
       declarations: [],
+      imports: [StoreModule.forRoot()],
       providers: [
         {
           provide: CdcUserConsentService,
@@ -40,6 +44,8 @@ describe('CdcUserConsentAdapter', () => {
           provide: CdcConsentsLocalStorageService,
           useClass: MockCdcConsentsLocalStorageService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(CdcUserConsentAdapter);

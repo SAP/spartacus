@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -22,6 +21,7 @@ import { NavigationUIComponent } from './navigation-ui.component';
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockIconComponent {
   @Input() type: string;
@@ -30,6 +30,7 @@ class MockIconComponent {
 @Component({
   selector: 'cx-generic-link',
   template: '<a href={{url}}>{{title}}</a>',
+  standalone: false,
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -117,7 +118,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         NavigationUIComponent,
         MockIconComponent,

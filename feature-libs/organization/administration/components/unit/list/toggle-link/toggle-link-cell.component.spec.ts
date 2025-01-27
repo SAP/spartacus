@@ -5,7 +5,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -50,12 +49,7 @@ describe('ToggleLinkCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ToggleLinkCellComponent],
-      imports: [
-        RouterTestingModule,
-        UrlTestingModule,
-        IconModule,
-        I18nTestingModule,
-      ],
+      imports: [UrlTestingModule, IconModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,

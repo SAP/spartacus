@@ -19,6 +19,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-active-cart',
   templateUrl: './asm-customer-360-active-cart.component.html',
+  standalone: false,
 })
 export class AsmCustomer360ActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;

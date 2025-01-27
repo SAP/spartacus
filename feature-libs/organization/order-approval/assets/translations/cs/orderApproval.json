@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Zpět na seznam",
+    "showForm_APPROVE": "Schválit objednávku…",
+    "showForm_REJECT": "Zamítnout objednávku…",
+    "form": {
+      "title_APPROVE": "Schválit objednávku {{orderCode}} v celkové výši {{orderTotal}}",
+      "title_REJECT": "Zamítnout objednávku {{orderCode}} v celkové výši {{orderTotal}}",
+      "submit_APPROVE": "Schválit",
+      "submit_REJECT": "Odmítnout",
+      "cancel": "Zrušit",
+      "comment_APPROVE": {
+        "label": "Komentář (volitelný, max. 255 znaků)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Komentář (max. 255 znaků)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Podrobnosti o schvalování zákazníka",
+      "permission": "Oprávnění",
+      "approver": "Schvalovatel",
+      "status": "Status",
+      "approverComments": "Komentáře schvalovatele",
+      "noApprovalComments": "Nic",
+      "permissionType_B2BBudgetExceededPermission": "Rozpočet přiřazený vybranému nákladovému středisku byl překročen.",
+      "permissionType_B2BOrderThresholdPermission": "Celková výše objednávky překročila limit na objednávku.",
+      "permissionType_B2BOrderThresholdTimespanPermission": "Celková výše objednávky překročila limit na časové období."
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Číslo objednávky",
+    "POCode": "Č. objednávky",
+    "placedBy": "Podal",
+    "date": "Datum",
+    "status": "Status",
+    "total": "Celkem",
+    "none": "Nic",
+    "emptyList": "Momentálně zde nejsou žádné objednávky ke schválení.",
+    "orderApprovalList": "Seznam schválení objednávek"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Pro přístup na tuto stránku nemáte dostatečná oprávnění."
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "closeAccount": {
+    "confirmAccountClosure": "確認帳戶關閉",
+    "confirmAccountClosureMessage": "您確定要關閉帳戶嗎？",
+    "closeMyAccount": "關閉我的帳戶",
+    "accountClosedSuccessfully": "帳戶關閉成功",
+    "accountClosedFailure": "無法關閉帳戶"
+  },
+  "updatePasswordForm": {
+    "oldPassword": {
+      "label": "舊密碼",
+      "placeholder": "舊密碼"
+    },
+    "oldPasswordIsRequired": "舊密碼為必要。",
+    "newPassword": {
+      "label": "新密碼",
+      "placeholder": "新密碼"
+    },
+    "passwordMinRequirements": "此為安全密碼的快速指南：請使用至少 8 個字元，其中混合大小寫字母、數字和符號。",
+    "passwordStrengthRequirements": "此為安全密碼的快速指南：請使用至少 8 個字元，其中混合大小寫字母、數字和符號。請確保不要連續使用相同字元。",
+    "confirmPassword": {
+      "label": "確認新密碼",
+      "placeholder": "確認密碼"
+    },
+    "bothPasswordMustMatch": "兩者密碼必須相符",
+    "passwordUpdateSuccess": "密碼更新成功",
+    "accessDeniedError": "已拒絕存取"
+  },
+  "updateProfileForm": {
+    "title": "稱謂",
+    "none": "",
+    "firstName": {
+      "label": "名字",
+      "placeholder": "名字"
+    },
+    "firstNameIsRequired": "名字為必要。",
+    "lastName": {
+      "label": "姓氏",
+      "placeholder": "姓氏"
+    },
+    "lastNameIsRequired": "姓氏為必要。",
+    "profileUpdateSuccess": "已成功更新個人明細",
+    "customerId": "客戶 #"
+  },
+  "consentManagementForm": {
+    "clearAll": "全部清除",
+    "selectAll": "全部選擇",
+    "message": {
+      "success": {
+        "given": "已成功提供同意。",
+        "withdrawn": "已成功撤銷同意。"
+      }
+    }
+  },
+  "myCoupons": {
+    "noCouponsMessage": "您沒有優惠券",
+    "effectiveTitle": "有效：",
+    "Effective": "有效",
+    "PreSession": "即將有效",
+    "ExpireSoon": "即將到期",
+    "readMore": "讀取更多",
+    "notification": "通知",
+    "findProducts": "尋找產品",
+    "status": "狀態：",
+    "dialogTitle": "優惠券",
+    "claimCustomerCoupon": "您已成功索取此優惠券。",
+    "myCoupons": "我的優惠券",
+    "startDateAsc": "開始日期 (升冪)",
+    "startDateDesc": "開始日期 (降冪)",
+    "endDateAsc": "結束日期 (升冪)",
+    "endDateDesc": "結束日期 (降冪)",
+    "sortBy": "排序依據",
+    "sortCoupons": "排序優惠券",
+    "notesPreffix": "您可設定用來接收優惠券通知的偏好管道，位置為 ",
+    "notesLink": "通知管道",
+    "notesSuffix": " 頁面。"
+  },
+  "notificationPreference": {
+    "message": "選擇您的偏好通知管道",
+    "note": "請注意： ",
+    "noteMessage": "若您已停用所有管道，則將無法再接收通知。",
+    "EMAIL": "電子郵件：",
+    "SMS": "SMS：",
+    "SITE_MESSAGE": "網站訊息"
+  },
+  "myInterests": {
+    "header": "我的興趣",
+    "item": "項目",
+    "price": "價格",
+    "notifications": "通知",
+    "noInterests": "您尚無註冊的興趣。",
+    "inStock": "庫存",
+    "lowStock": "少量庫存",
+    "outOfStock": "缺貨",
+    "BACK_IN_STOCK": "到貨",
+    "sortBy": "排序依據",
+    "sortInterests": "排序興趣",
+    "expirationDate": " - 直到 {{ expirationDate }}",
+    "productId": "ID {{ code }}",
+    "remove": "移除",
+    "sorting": {
+      "byNameAsc": "名稱 (升冪)",
+      "byNameDesc": "名稱 (降冪)"
+    },
+    "actions": "動作",
+    "caption": "我的興趣內容。",
+    "itemRemoved": "所選項目已移除。"
+  }
+}

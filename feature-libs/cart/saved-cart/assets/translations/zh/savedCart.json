@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "名称",
+    "cartDescription": "描述",
+    "cartId": "标识",
+    "dateSaved": "保存的日期",
+    "items": "项目",
+    "quantity": "数量",
+    "total": "总计",
+    "editSavedCart": "编辑已保存购物车",
+    "deleteSavedCart": "删除已保存购物车",
+    "addSelectedItems": "添加所选项目",
+    "emptyCartItems": "清空购物车项目"
+  },
+  "savedCartList": {
+    "savedCarts": "已保存购物车 ({{count}})",
+    "cartName": "名称",
+    "cartId": "标识",
+    "dateSaved": "保存的日期",
+    "cartDescription": "描述",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "total": "总计",
+    "actions": "操作",
+    "makeCartActive": "激活购物车",
+    "notFound": "未找到保存的购物车",
+    "swapCartNoActiveCart": "现有购物车已由 {{cartName}} 成功激活。",
+    "swapCartWithActiveCart": "现有购物车已由 {{cartName}} 成功激活。您之前的项目已在购物车 {{previousCartName}} 中保存。"
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "您的购物车项目已成功保存，稍后可放入“{{cartName}}”购物车"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "保存备用",
+    "itemsSavedForLater": "购物车中的所有项目将保存备用",
+    "savedCartName": "已保存购物车名称",
+    "savedCartDescription": "已保存购物车描述",
+    "optional": "可选",
+    "charactersLeft": "剩余字符：{{count}}",
+    "cancel": "取消",
+    "save": "保存",
+    "restore": "还原",
+    "followingCartDelete": "将删除以下保存的购物车",
+    "followingCartRestore": "以下已保存的购物车将恢复为活动购物车",
+    "delete": "删除",
+    "deleteCartSuccess": "已成功删除购物车",
+    "editCartSuccess": "已成功编辑购物车",
+    "editSavedCart": "编辑已保存购物车",
+    "deleteSavedCart": "删除已保存购物车",
+    "restoreSavedCart": "恢复已保存购物车",
+    "name": "名称",
+    "id": "标识",
+    "description": "描述",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "total": "总计",
+    "keepCopySavedCart": "将该购物车副本保存到已保存购物车列表",
+    "defaultCloneCartName": "{{name}} 副本",
+    "nameOfCloneCart": "复制购物车的名称"
+  },
+  "addToSavedCart": {
+    "savedCarts": "已保存购物车",
+    "saveCartForLater": "保存购物车备用"
+  }
+}

@@ -19,6 +19,7 @@ import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
   selector: 'cx-opf-quick-buy-buttons',
   templateUrl: './opf-quick-buy-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OpfQuickBuyButtonsComponent implements OnInit {
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);

@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Szolgáltatás adatai",
+    "serviceScheduleHeading": "Szolgáltatási ütemezés – Dátum és időpont",
+    "address": "Megegyezik a szállítási címmel",
+    "serviceLocationHeading": "Szolgáltatási helyszín",
+    "datePickerLabel": "Szolgáltatás dátumának ütemezése",
+    "timePickerLabel": "Szolgáltatás időpontjának ütemezése",
+    "unknownError": "Ismeretlen hiba történt. Forduljon a támogatáshoz.",
+    "productDeliveryOptions": "Kézbesítési lehetőségek a termékek esetén",
+    "serviceDeliveryOption": "Kézbesítési lehetőségek a szolgáltatások esetén",
+    "productDeliveryMethods": "Kézbesítési módok a termékek esetén",
+    "serviceDeliveryMethod": "Kézbesítési módok a szolgáltatások esetén"
+  },
+  "cancelService": {
+    "heading": "A következő tételek a törlési kérés részét fogják képezni",
+    "cancelReason": "A szolgáltatás törlésének oka",
+    "optional": "(opcionális)",
+    "action": "Szolgáltatás törlése",
+    "back": "Vissza",
+    "Submit": "Kérés elküldése",
+    "cancelServiceSuccess": "A szolgáltatás törlése sikeres",
+    "unknownError": "Ismeretlen hiba történt. Forduljon a támogatáshoz.",
+    "ServiceTime": "Szolgáltatási időpont",
+    "ServiceLocation": "Szolgáltatási helyszín",
+    "ServiceDate": "Szolgáltatási dátum",
+    "SubmitRequest": "Kérés elküldése",
+    "serviceNotRcancelable": "A szolgáltatás nem törölhető",
+    "charactersLeft": "hátralévő karakterek: {{count}}",
+    "Services": "Szolgáltatások"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Szolgáltatás újraütemezése",
+    "headerLabel": "Szolgáltatások",
+    "contentLabel": "Szolgáltatás újraütemezése – Válasszon egy új dátumot és időpontot",
+    "datePickerLabel": "Szolgáltatási dátum",
+    "timePickerLabel": "Szolgáltatási időpont",
+    "backButtonLabel": "Vissza",
+    "submitButtonLabel": "Kérés elküldése",
+    "note": "Megjegyzés: eltarthat egy kis ideig, míg a rendelése a kérésnek megfelelően módosul.",
+    "unknownError": "Ismeretlen hiba történt. Forduljon a támogatáshoz.",
+    "serviceNotReschedulable": "A szolgáltatás nem ütemezhető újra.",
+    "serviceNotAmendable": "A szolgáltatás nem törölhető vagy ütemezhető újra az ütemezett dátum előtt kevesebb, mint 24 órával.",
+    "rescheduleSuccess": "A szolgáltatás dátumának és időpontjának módosítása sikeres."
+  }
+}

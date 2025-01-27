@@ -1,0 +1,254 @@
+{
+  "common": {
+    "cancel": "취소",
+    "delete": "삭제",
+    "remove": "제거",
+    "edit": "편집",
+    "restore": "복원",
+    "back": "뒤로",
+    "submit": "제출",
+    "continue": "계속",
+    "save": "저장",
+    "done": "완료",
+    "home": "홈",
+    "noData": "데이터 없음",
+    "confirm": "확인",
+    "more": "더 보기",
+    "close": "닫기",
+    "loading": "로드하는 중",
+    "menu": "메뉴",
+    "reset": "재설정",
+    "search": "검색",
+    "add": "추가",
+    "breadcrumbs": "탐색 경로",
+    "selectFile": "파일 선택",
+    "clear": "지우기",
+    "loaded": "로드됨",
+    "results": "결과",
+    "of": "/",
+    "required": "필수",
+    "zoomIn": "확대",
+    "zoomOut": "축소",
+    "selected": "선택됨",
+    "expand": "펼치기",
+    "collapse": "접기"
+  },
+  "pageMetaResolver": {
+    "category": {
+      "title": "{{query}}에 대한 {{count}}개의 결과",
+      "title_other": "{{query}}에 대한 {{count}}개의 결과"
+    },
+    "checkout": {
+      "title": "체크아웃"
+    },
+    "search": {
+      "title": "\"{{query}}\"에 대한 {{count}}개의 결과",
+      "title_other": "\"{{query}}\"에 대한 {{count}}개의 결과",
+      "findProductTitle": "쿠폰 \"{{coupon}}\"에 대한 {{count}}개의 결과",
+      "findProductTitle_other": "쿠폰 \"{{coupon}}\"에 대한 {{count}}개의 결과",
+      "default_title": "모든 제품"
+    },
+    "product": {
+      "description": "{{description}}",
+      "heading": "{{heading}}",
+      "title": "{{title}}"
+    }
+  },
+  "spinner": {
+    "loading": "로드하는 중..."
+  },
+  "navigation": {
+    "categoryNavLabel": "범주 메뉴",
+    "footerNavLabel": "바닥글 링크",
+    "goTo": "{{location}}(으)로 가기",
+    "navigateTo": "{{nav}}(으)로 이동",
+    "scrollToTop": "페이지 맨 위로 이동",
+    "linkItemInList": "{{title}}. {{position}}/{{listLength}}"
+  },
+  "searchBox": {
+    "placeholder": "제품 이름이나 SKU 입력",
+    "productSearch": "제품 찾기",
+    "ariaLabelInput": "여기서 검색...",
+    "ariaLabelSuggestions": "입력 제안",
+    "ariaLabelProducts": "제품 결과",
+    "initialDescription": "자동 완성 결과가 있으면 위아래 화살표를 사용하여 확인한 후에 선택하십시오. 터치 디바이스 사용자는 터치하거나 쓸어넘기면서 찾으십시오. ",
+    "suggestions": "제안 키워드",
+    "suggestionsResult": "{{ count }}개의 제안 및 ",
+    "suggestionsResult_other": "{{ count }}개의 제안 및 ",
+    "products": "추천 제품",
+    "productsResult": "{{ count }}개의 제품을 사용할 수 있습니다.",
+    "productsResult_other": "{{ count }}개의 제품을 사용할 수 있습니다.",
+    "resetLabel": "검색 재설정",
+    "help": {
+      "insufficientChars": "글자를 더 입력하십시오.",
+      "noMatch": "결과를 찾을 수 없습니다.",
+      "exactMatch": "{{ term }}",
+      "empty": "무엇이든지 물어보세요"
+    },
+    "closeSearchPanel": "닫기"
+  },
+  "sorting": {
+    "date": "날짜",
+    "orderNumber": "주문 번호",
+    "rma": "반품 번호",
+    "replenishmentNumber": "보충 번호",
+    "nextOrderDate": "다음 주문일",
+    "pageViewUpdated": "페이지 보기에 선택한 옵션이 업데이트되었습니다."
+  },
+  "httpHandlers": {
+    "badRequest": {
+      "bad_credentials": "{{ errorMessage }}. 다시 로그인하십시오.",
+      "user_is_disabled": "{{ errorMessage }}. 관리자에게 문의하십시오."
+    },
+    "badGateway": "서버 오류가 발생했습니다. 나중에 다시 시도하십시오.",
+    "badRequestPleaseLoginAgain": "{{ errorMessage }}. 다시 로그인하십시오.",
+    "badRequestOldPasswordIncorrect": "이전 암호가 틀렸습니다.",
+    "badRequestGuestDuplicateEmail": "{{ errorMessage }} 이메일이 이미 있습니다. 게스트 계정을 사용하여 등록하려면 다른 이메일로 체크아웃하십시오.",
+    "conflict": "이미 있습니다.",
+    "forbidden": "이 작업을 수행할 수 있는 권한이 없습니다. 잘못되었다고 생각하시면 관리자에게 문의하십시오.",
+    "gatewayTimeout": "서버가 응답하지 않습니다. 나중에 다시 시도하십시오.",
+    "internalServerError": "내부 서버 오류가 발생했습니다. 나중에 다시 시도하십시오.",
+    "sessionExpired": "세션이 만료되었습니다. 다시 로그인하십시오.",
+    "unknownError": "알 수 없는 오류가 발생했습니다.",
+    "unauthorized": {
+      "common": "알 수 없는 승인 오류가 발생했습니다.",
+      "invalid_client": "잘못된 클라이언트 자격 증명입니다."
+    },
+    "validationErrors": {
+      "missing": {
+        "card_cardType": "선택한 신용 카드는 지원되지 않습니다. 다른 신용 카드를 선택하십시오.",
+        "card_accountNumber": "입력한 신용 카드 번호가 올바르지 않습니다.",
+        "card_cvNumber": "보안 코드가 올바르지 않습니다.",
+        "card_expirationMonth": "입력한 신용 카드 만료일이 올바르지 않습니다.",
+        "card_expirationYear": "입력한 신용 카드 만료일이 올바르지 않습니다.",
+        "billTo_firstName": "입력한 이름이 올바르지 않습니다.",
+        "billTo_lastName": "입력한 성이 올바르지 않습니다.",
+        "billTo_street1": "입력한 주소가 올바르지 않습니다.",
+        "billTo_street2": "입력한 주소가 올바르지 않습니다.",
+        "billTo_city": "이 신용 카드에 입력한 시/군/구가 올바르지 않습니다.",
+        "billTo_state": "이 신용 카드에 입력한 시/도가 올바르지 않습니다.",
+        "billTo_country": "이 신용 카드에 입력한 국가/지역이 올바르지 않습니다.",
+        "billTo_postalCode": "이 신용 카드에 입력한 우편번호가 올바르지 않습니다.",
+        "country": {
+          "isocode": "국가/지역이 없습니다."
+        }
+      },
+      "invalid": {
+        "card_expirationMonth": "입력한 신용 카드 만료일이 올바르지 않습니다.",
+        "firstName": "입력한 이름이 올바르지 않습니다.",
+        "lastName": "입력한 성이 올바르지 않습니다.",
+        "password": "입력한 암호가 올바르지 않습니다.",
+        "uid": "UID가 올바르지 않습니다.",
+        "code": "코드가 올바르지 않습니다.",
+        "email": "이메일이 올바르지 않습니다.",
+        "loginId": "이메일이 올바르지 않습니다."
+      }
+    },
+    "cartNotFound": "장바구니가 없습니다.",
+    "invalidCodeProvided": "잘못된 코드를 입력했습니다.",
+    "voucherExceeded": "이 쿠폰은 사용 횟수를 초과했습니다.",
+    "unknownIdentifier": "품목이 없습니다.",
+    "otherCartErrors": "장바구니 오류가 발생했습니다."
+  },
+  "miniCart": {
+    "item": "장바구니에 현재 {{count}}개 품목이 있음",
+    "item_other": "장바구니에 현재 {{count}}개 품목이 있음",
+    "total": "{{total}}",
+    "count": "{{count}}"
+  },
+  "skipLink": {
+    "skipTo": "건너뛰기 -",
+    "labels": {
+      "header": "머리글",
+      "main": "본문",
+      "footer": "바닥글",
+      "productFacets": "제품 패싯",
+      "productList": "제품 목록"
+    }
+  },
+  "carousel": {
+    "previousSlide": "이전 슬라이드",
+    "nextSlide": "다음 슬라이드",
+    "slideNumber": "슬라이드 {{currentSlideNumber}}에 {{numberOfSlides}}개의 품목이 있음",
+    "carouselForProduct": "{{product}}의 캐러셀, 이미지"
+  },
+  "formErrors": {
+    "labeled": {
+      "required": "필드 {{label}}은(는) 필수 필드입니다.",
+      "cxInvalidEmail": "필드 {{label}}의 형식이 올바른 이메일 형식이 아닙니다. example@yourdomain.com 형식이어야 합니다.",
+      "cxInvalidPassword": "필드 {{label}}의 형식이 올바른 암호 형식이 아닙니다.",
+      "cxMinOneUpperCaseCharacter": "암호에는 대문자가 하나 이상 포함되어야 합니다.",
+      "cxMinOneDigit": "암호에는 숫자가 하나 이상 포함되어야 합니다.",
+      "cxMinOneSpecialCharacter": "암호에는 특수 문자가 하나 이상 포함되어야 합니다.",
+      "cxMinSixCharactersLength": "암호는 6자 이상이어야 합니다.",
+      "cxMinEightCharactersLength": "암호는 8자 이상이어야 합니다.",
+      "cxMaxCharactersLength": "암호가 128자보다 길면 안 됩니다.",
+      "cxContainsSpecialCharacters": "암호에 특수 문자가 있으면 안 됩니다.",
+      "cxNoConsecutiveCharacters": "암호에 같은 문자가 연속되면 안 됩니다.",
+      "date": {
+        "required": "필드 {{label}}은(는) 필수 필드입니다.",
+        "min": "필드 {{label}}이(가) {{min}} 앞에 있으면 안 됩니다.",
+        "max": "필드 {{label}}이(가) {{max}} 뒤에 있으면 안 됩니다.",
+        "pattern": "필드 {{label}}에 yyyy-mm-dd 날짜 형식을 사용하십시오.",
+        "invalid": "필드 {{label}}에 올바른 날짜를 사용하십시오."
+      }
+    },
+    "globalMessage": "제출하려고 하는 서식에 오류가 있습니다.",
+    "required": "이 필드는 필수 필드입니다.",
+    "cxInvalidEmail": "올바른 이메일 형식이 아닙니다.",
+    "cxInvalidPassword": "올바른 암호 형식이 아닙니다.",
+    "cxPasswordsMustMatch": "암호 필드가 일치해야 합니다.",
+    "cxPasswordsCannotMatch": "암호 필드를 일치시킬 수 없습니다.",
+    "cxEmailsMustMatch": "이메일 필드가 일치해야 합니다.",
+    "cxStarRatingEmpty": "등급 필드는 필수 항목입니다.",
+    "cxNoSelectedItemToCancel": "품목을 하나 이상 선택하십시오.",
+    "cxNegativeAmount": "금액은 0보다 크거나 같아야 합니다.",
+    "cxContainsSpecialCharacters": "필드에 특수 문자가 있으면 안 됩니다.",
+    "date": {
+      "required": "이 필드는 필수 필드입니다.",
+      "min": "날짜가 {{min}}보다 먼저이면 안 됩니다.",
+      "max": "날짜가 {{max}}보다 나중이면 안 됩니다.",
+      "pattern": "yyyy-mm-dd 날짜 형식을 사용하십시오.",
+      "invalid": "올바른 날짜를 사용하십시오."
+    },
+    "file": {
+      "required": "파일이 필요합니다.",
+      "empty": "파일이 비어 있으면 안 됩니다.",
+      "invalidExtension": "파일 확장자가 올바르지 않습니다.",
+      "tooLarge": "파일 크기가 {{ maxSize }}MB보다 크면 안 됩니다.",
+      "tooManyEntries": "항목 수가 {{ maxEntries }}개보다 많습니다.",
+      "notParsable": "파일 구문을 분석할 수 없습니다.",
+      "fileNotAllowed": "이 파일 유형은 사용할 수 없습니다."
+    }
+  },
+  "errorHandlers": {
+    "scriptFailedToLoad": "스크립트를 로드하지 못했습니다.",
+    "refreshThePage": "페이지를 새로 고치십시오."
+  },
+  "assistiveMessage": {
+    "actionCancelled": "작업이 취소되었으며 아무 것도 변경되지 않았습니다."
+  },
+  "passwordVisibility": {
+    "showPassword": "암호 표시",
+    "hidePassword": "암호 숨기기"
+  },
+  "generalErrors": {
+    "pageFailure": "페이지를 로드할 수 없습니다. 나중에 다시 시도하십시오."
+  },
+  "formLegend": {
+    "required": "\"*\"가 표시된 필드는 필수 필드입니다."
+  },
+  "chatMessaging": {
+    "charactersLeft": "{{count}}자 남음",
+    "addNewMessage": "새 메시지 추가",
+    "send": "보내기",
+    "uploadFile": "파일 업로드",
+    "informationLabel": "{{author}}. {{text}} - {{date}}",
+    "messages": "메시지",
+    "addMessagePlaceHolder": "입력 시작...",
+    "characterLimitAlert": "문자 수 제한에 도달했습니다.",
+    "a11y": {
+      "itemListBoxLabel": "메시지가 적용되어야 하는 항목을 선택하십시오."
+    }
+  }
+}

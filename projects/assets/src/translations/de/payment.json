@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Zahlung",
+    "choosePaymentMethod": "Eine Zahlungsart auswählen",
+    "paymentType": "Zahlungstyp",
+    "accountHolderName": {
+      "label": "Name des Kontoinhabers",
+      "placeholder": "Name des Kontoinhabers"
+    },
+    "cardNumber": "Kartennummer",
+    "expirationDate": "Ablaufdatum",
+    "securityCode": "Sicherheitscode (CVV)",
+    "securityCodeTitle": "Kartenprüfwert",
+    "saveAsDefault": "Als Standard speichern",
+    "setAsDefault": "Als Standardzahlungsart festlegen",
+    "billingAddress": "Rechnungsadresse",
+    "sameAsDeliveryAddress": "Mit Lieferadresse identisch",
+    "billingAddressSameAsShipping": "Rechnungsadresse stimmt mit Lieferadresse überein",
+    "selectOne": "Treffen Sie eine Auswahl...",
+    "monthMask": "MM",
+    "yearMask": "JJJJ",
+    "expirationYear": "Ablaufjahr {{ selected }}",
+    "expirationMonth": "Ablaufmonat {{ selected }}",
+    "useThisPayment": "Diese Zahlung verwenden",
+    "addNewPayment": "Neue Zahlung hinzufügen",
+    "paymentAddedSuccessfully": "Neue Zahlung wurde erfolgreich hinzugefügt",
+    "changePayment": "Zahlung ändern"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Zahlungsarten",
+    "paymentMethodSelected": "Ausgewählte Zahlungsart",
+    "newPaymentMethodsAreAddedDuringCheckout": "Neue Zahlungsarten werden beim Bezahlen hinzugefügt.",
+    "invalidField": "Ungültiges Feld: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Möchten Sie diese Zahlungsart wirklich löschen?",
+    "setAsDefault": "Als Standard festlegen",
+    "expires": "Gültig bis: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ STANDARD",
+    "defaultPaymentLabel": "Standardzahlungsart",
+    "additionalPaymentLabel": "Zusätzliche Zahlungsart {{ number }}",
+    "selected": "Ausgewählt",
+    "selectedPayment": "Ausgewählte Zahlung",
+    "deletePaymentSuccess": "Zahlungsart erfolgreich gelöscht",
+    "visa": "Visa-Karte",
+    "master": "Mastercard-Karte",
+    "masterEuro": "Mastercard-Eurocard-Karte",
+    "dinersClub": "Diners-Club-Karte",
+    "switch": "Switch-Karte",
+    "maestro": "Maestro-Karte",
+    "amex": "American-Express-Karte",
+    "credit": "Kreditkarte"
+  },
+  "paymentTypes": {
+    "title": "Zahlungsart",
+    "paymentType_CARD": "Kreditkarte",
+    "paymentType_ACCOUNT": "Konto"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Neue Zahlung wurde erfolgreich als Standard festgelegt"
+  }
+}

@@ -17,7 +17,10 @@ const focusConfig = {
   autofocus: true,
 };
 
-@Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
+@Component({
+  template: '<div id="a"></div><div id="b" tabindex="5"></div>',
+  standalone: false,
+})
 class MockComponent {}
 
 class mockFeatureConfigService {

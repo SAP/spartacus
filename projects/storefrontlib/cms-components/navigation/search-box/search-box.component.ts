@@ -59,6 +59,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);

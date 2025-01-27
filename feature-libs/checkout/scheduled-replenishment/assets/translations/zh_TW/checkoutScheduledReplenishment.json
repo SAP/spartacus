@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "自動補貨訂單",
+    "orderType_PLACE_ORDER": "無 (僅一次性訂單)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "補貨訂單",
+    "every": "每",
+    "recurrencePeriodType_DAILY": "天",
+    "recurrencePeriodType_WEEKLY": "週",
+    "recurrencePeriodType_MONTHLY": "月",
+    "dayOfMonth": "於日期",
+    "startOn": "開始日期",
+    "repeatOnDays": "於下列日期重複"
+  }
+}

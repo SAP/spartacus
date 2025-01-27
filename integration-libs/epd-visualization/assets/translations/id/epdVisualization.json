@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "Beranda"
+        },
+        "zoomButton": {
+          "label": "Zum"
+        },
+        "panButton": {
+          "label": "Geser"
+        },
+        "rotateButton": {
+          "label": "Putar"
+        },
+        "isolateButton": {
+          "label": "Sorot"
+        },
+        "playButton": {
+          "label": "Putar"
+        },
+        "pauseButton": {
+          "label": "Jeda"
+        },
+        "hotspotsButton": {
+          "label": "Titik Akses",
+          "show": "Tampilkan",
+          "hide": "Sembunyikan"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "Penggeser Animasi",
+          "role": "Penggeser"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "Tidak ada suku cadang tersedia untuk produk ini."
+      },
+      "visualPickingProductList": {
+        "description": "Deskripsi",
+        "itemPrice": "Harga",
+        "outOfStock": "Stok habis",
+        "id": "ID"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "Filter berdasarkan nama atau id"
+        },
+        "searchButton": {
+          "label": "cari"
+        },
+        "resetButton": {
+          "label": "atur ulang"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "Tidak ditemukan visualisasi yang cocok",
+        "multipleMatchingVisualsFound": "Ditemukan beberapa visualisasi yang cocok",
+        "unexpectedLoadError": "Terjadi kesalahan saat memuat visualisasi"
+      }
+    }
+  }
+}

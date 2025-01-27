@@ -25,6 +25,7 @@ import { CdcReconsentComponentService } from './cdc-reconsent-component.service'
   selector: 'cx-anonymous-consent-dialog', //reusing existing selector
   templateUrl: './cdc-reconsent.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

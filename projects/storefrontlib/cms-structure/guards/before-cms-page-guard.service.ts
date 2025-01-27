@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { RouterStateSnapshot, UrlTree } from '@angular/router';
+import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import { CmsActivatedRouteSnapshot } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { GuardsComposer } from '../services/guards-composer';
@@ -27,7 +27,7 @@ export class BeforeCmsPageGuardService {
   canActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     return this.guardsComposer.canActivate(this.guards, route, state);
   }
 }

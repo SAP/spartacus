@@ -6,13 +6,18 @@
 
 import { NgModule, Type } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import {
   CpqConfiguratorRootModule,
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   RulebasedConfiguratorRootModule,
 } from '@spartacus/product-configurator/rulebased/root';
 import { environment } from '../../../../environments/environment';
+import {
+  configuratorTranslationsDe,
+  configuratorTranslationsEn,
+  configuratorTranslationsJa,
+  configuratorTranslationsZh,
+} from '@spartacus/product-configurator/common/assets';
 
 const extensions: Type<any>[] = [];
 
@@ -35,7 +40,12 @@ if (environment.cpq) {
     }),
     provideConfig({
       i18n: {
-        resources: configuratorTranslations,
+        resources: {
+          en: configuratorTranslationsEn,
+          ja: configuratorTranslationsJa,
+          de: configuratorTranslationsDe,
+          zh: configuratorTranslationsZh,
+        },
       },
     }),
   ],

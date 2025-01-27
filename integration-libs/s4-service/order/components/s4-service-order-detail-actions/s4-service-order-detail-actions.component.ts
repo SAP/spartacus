@@ -15,6 +15,7 @@ import { map, Observable } from 'rxjs';
   selector: 'cx-s4-service-order-detail-actions',
   templateUrl: './s4-service-order-detail-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
   protected checkoutServiceSchedulePickerService = inject(

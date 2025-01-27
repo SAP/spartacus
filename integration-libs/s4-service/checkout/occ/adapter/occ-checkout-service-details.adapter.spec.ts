@@ -1,11 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { LoggerService, OccEndpointsService } from '@spartacus/core';
 import { ServiceDetails } from '@spartacus/s4-service/root';
 import { OccCheckoutServiceDetailsAdapter } from './occ-checkout-service-details.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 const mockUrl =
   'testUrl/setServiceScheduleSlot?userId=testUserId&cartId=testCartId';
@@ -27,11 +31,13 @@ describe('OccCheckoutServiceDetailsAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCheckoutServiceDetailsAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: LoggerService, useValue: loggerService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     adapter = TestBed.inject(OccCheckoutServiceDetailsAdapter);

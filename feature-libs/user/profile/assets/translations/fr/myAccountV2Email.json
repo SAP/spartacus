@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "Mon adresse e-mail",
+    "email": "E-mail",
+    "emailAddress": "Adresse e-mail",
+    "newEmailAddress": "Nouvelle adresse e-mail",
+    "confirmNewEmailAddress": "Confirmer la nouvelle adresse e-mail",
+    "emailPlaceHolder": "Saisir l'e-mail",
+    "passwordPlaceHolder": "Saisir le mot de passe",
+    "password": "Mot de passe",
+    "reloginIndicator": "Vous devez vous reconnecter après avoir défini une nouvelle adresse e-mail."
+  }
+}

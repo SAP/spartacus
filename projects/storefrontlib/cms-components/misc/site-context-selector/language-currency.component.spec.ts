@@ -23,6 +23,7 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;

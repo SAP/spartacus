@@ -1,6 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutPaymentFacade,
   CheckoutStep,
@@ -66,6 +65,7 @@ class MockCheckoutStepService {
 @Component({
   selector: 'cx-card',
   template: '',
+  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -74,6 +74,7 @@ class MockCardComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -85,7 +86,7 @@ describe('CheckoutReviewPaymentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
+      imports: [I18nTestingModule, IconTestingModule],
       declarations: [
         CheckoutReviewPaymentComponent,
         MockUrlPipe,

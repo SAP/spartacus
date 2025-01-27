@@ -20,6 +20,7 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   templateUrl:
     './configurator-attribute-single-selection-bundle-dropdown.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

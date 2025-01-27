@@ -1,7 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Navigation, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Navigation, Router, RouterModule } from '@angular/router';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
@@ -18,7 +17,11 @@ class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
   }
 }
 
-@Component({ selector: 'cx-test-component', template: 'test' })
+@Component({
+  selector: 'cx-test-component',
+  template: 'test',
+  standalone: false,
+})
 export class TestComponent {}
 
 describe('AuthRedirectService', () => {
@@ -40,7 +43,7 @@ describe('AuthRedirectService', () => {
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
       ],
       imports: [
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           { path: 'login', component: TestComponent },
 
           { path: 'some/url', redirectTo: 'some/url/after/redirects' },

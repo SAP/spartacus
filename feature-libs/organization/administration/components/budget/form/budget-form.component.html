@@ -15,11 +15,14 @@
         placeholder="{{ 'orgBudget.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
+        [attr.aria-describedby]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.name' | cxTranslate,
         }"
@@ -43,11 +46,14 @@
         required
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
+        [attr.aria-describedby]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.code' | cxTranslate,
         }"
@@ -143,11 +149,14 @@
         placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
         formControlName="budget"
         min="0"
+        [attr.aria-describedby]="'budgetError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="budgetError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.amount' | cxTranslate,
         }"

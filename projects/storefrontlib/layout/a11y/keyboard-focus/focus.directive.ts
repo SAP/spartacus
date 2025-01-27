@@ -11,6 +11,7 @@ import { KeyboardFocusService } from './services/keyboard-focus.service';
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class FocusDirective extends LockFocusDirective {
   protected defaultConfig: FocusConfig = {};

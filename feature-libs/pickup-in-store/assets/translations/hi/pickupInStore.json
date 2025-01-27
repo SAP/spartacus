@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "स्टोर पिकअप",
+    "pickupBy": "पिकअप करने वाला",
+    "pickupFrom": "इससे पिकअप करें"
+  },
+  "pickupOptionDialog": {
+    "close": "बंद करें",
+    "modalHeader": "स्टोर से प्राप्त करें"
+  },
+  "pickupOptions": {
+    "legend": "वितरण विधि",
+    "changeStore": "स्टोर बदलें",
+    "delivery": "इसे शिप करें (मुफ़्त वापसी)",
+    "pickup": "स्टोर से मुफ़्त प्राप्त करें",
+    "shipIt": "इसे शिप करें",
+    "selectStore": "स्टोर चुनें",
+    "freeReturn": "मुफ़्त वापसी",
+    "storeIsNotSelected": "पिकअप के लिए स्टोर नहीं चुना गया."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "इसे मेरा स्टोर बनाएं",
+    "myStore": "मेरा स्टोर"
+  },
+  "store": {
+    "pickupFromHere": "यहां से पिक अप करें",
+    "stockLevel_inStock": "{{ count }} स्टॉक में है",
+    "stockLevel_outOfStock": "स्टॉक में नहीं है",
+    "viewHours": "घंटे देखें"
+  },
+  "storeList": {
+    "noStoresMessage": "डेटाबेस में कोई स्टोर नहीं मिला..."
+  },
+  "storeSchedule": {
+    "closed": "बंद है",
+    "storeHours": "स्टोर का समय"
+  },
+  "storeSearch": {
+    "findAStore": "स्टोर खोजें ",
+    "findStores": "स्टोर खोजें",
+    "hideOutOfStockOptions": "समाप्त स्टॉक के विकल्प छुपाएं",
+    "searchPlaceholder": "ज़िप कोड या शहर या पता दर्ज करें",
+    "useMyLocation": "मेरे स्थान का उपयोग करें"
+  },
+  "addressBookPickupInStore": {
+    "heading": "पिक-अप स्टोर"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "मेरा स्टोर"
+  },
+  "checkoutPickupInStore": {
+    "heading": "पिकअप किए जाने वाले आइटम",
+    "storeItemHeading": "पिकअप स्टोर का पता"
+  },
+  "cartItems": {
+    "item": "आइटम"
+  },
+  "cardActions": {
+    "getDirections": "निर्देश प्राप्त करें, यह लिंक नई विंडो में खुलती है"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "पिकअप किए जाने वाले आइटम",
+    "pickUpInStoreAddress": "पिकअप स्टोर का पता",
+    "itemsToBeShipped": "शिप किए जाने वाले आइटम",
+    "shippingAddress": "शिपिंग पता",
+    "deliveryMethod": "वितरण विधि",
+    "deliveryOptions": "वितरण विकल्प",
+    "statusDisplay_cancelled": "रद्द किया गया",
+    "statusDisplay_cancelling": "लंबित रद्द करें",
+    "statusDisplay_completed": "पूर्ण हुआ",
+    "statusDisplay_created": "बनाया गया",
+    "statusDisplay_error": "लंबित",
+    "statusDisplay_Error": "लंबित",
+    "statusDisplay_processing": "लंबित",
+    "statusDisplay_open": "खोलें",
+    "statusDisplay_pending": {
+      "approval": "लंबित अनुमोदन",
+      "merchant": {
+        "approval": "मर्चेंट के अनुमोदन के लिए लंबित"
+      }
+    },
+    "statusDisplay_approved": "अनुमोदित",
+    "statusDisplay_rejected": "अस्वीकृत",
+    "statusDisplay_merchant": {
+      "approved": "मर्चेंट द्वारा अनुमोदित",
+      "rejected": "मर्चेंट द्वारा अस्वीकृत"
+    },
+    "statusDisplay_assigned": {
+      "admin": "व्यवस्थापक को असाइन किया गया"
+    }
+  }
+}

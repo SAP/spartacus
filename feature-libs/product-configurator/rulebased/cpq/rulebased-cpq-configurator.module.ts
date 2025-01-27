@@ -7,17 +7,11 @@
 import { NgModule } from '@angular/core';
 import { CpqConfiguratorCommonModule } from './common/cpq-configurator-common.module';
 import { CpqConfiguratorOccModule } from './occ/cpq-configurator-occ.module';
-import { CpqConfiguratorRestModule } from './rest/cpq-configurator-rest.module';
 
 /**
- * Exposes the CPQ flavor of rulebase configurator, which connects to CPQ directly via
- * REST APIs and to commerce via OCC
+ * Exposes the CPQ flavor of rulebase configurator
  */
 @NgModule({
-  imports: [
-    CpqConfiguratorCommonModule,
-    CpqConfiguratorOccModule,
-    CpqConfiguratorRestModule,
-  ],
+  imports: [CpqConfiguratorCommonModule, CpqConfiguratorOccModule],
 })
 export class RulebasedCpqConfiguratorModule {}

@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Paiement",
+    "choosePaymentMethod": "Sélectionner un mode de paiement",
+    "paymentType": "Type de paiement",
+    "accountHolderName": {
+      "label": "Nom du titulaire du compte",
+      "placeholder": "Nom du titulaire du compte"
+    },
+    "cardNumber": "Numéro de carte",
+    "expirationDate": "Date d'expiration",
+    "securityCode": "Code de sécurité (CVV)",
+    "securityCodeTitle": "Valeur de vérification de la carte",
+    "saveAsDefault": "Enregistrer par défaut",
+    "setAsDefault": "Définir comme mode de paiement par défaut",
+    "billingAddress": "Adresse de facturation",
+    "sameAsDeliveryAddress": "Identique à l'adresse de livraison",
+    "billingAddressSameAsShipping": "L'adresse de facturation est la même que l'adresse de livraison.",
+    "selectOne": "Sélectionner un…",
+    "monthMask": "MM",
+    "yearMask": "AAAA",
+    "expirationYear": "Année d'expiration {{ selected }}",
+    "expirationMonth": "Mois d'expiration {{ selected }}",
+    "useThisPayment": "Utiliser ce paiement",
+    "addNewPayment": "Ajouter un nouveau paiement",
+    "paymentAddedSuccessfully": "Le nouveau paiement a été ajouté avec succès.",
+    "changePayment": "Modifier le paiement"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Modes de paiement",
+    "paymentMethodSelected": "Mode de paiement sélectionné",
+    "newPaymentMethodsAreAddedDuringCheckout": "Les nouveaux modes de paiement sont ajoutés lors de la validation de la commande.",
+    "invalidField": "Zone non valide : {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Voulez-vous vraiment supprimer ce mode de paiement ?",
+    "setAsDefault": "Définir par défaut",
+    "expires": "Expire en : {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ PAR DÉFAUT",
+    "defaultPaymentLabel": "Mode de paiement par défaut",
+    "additionalPaymentLabel": "Mode de paiement supplémentaire {{ number }}",
+    "selected": "Sélectionné",
+    "selectedPayment": "Paiement sélectionné",
+    "deletePaymentSuccess": "Mode de paiement supprimé avec succès",
+    "visa": "Carte Visa",
+    "master": "Carte Mastercard",
+    "masterEuro": "Carte Eurocard Mastercard",
+    "dinersClub": "Carte Diners Club",
+    "switch": "Carte Switch",
+    "maestro": "Carte Maestro",
+    "amex": "Carte American Express",
+    "credit": "Carte de crédit"
+  },
+  "paymentTypes": {
+    "title": "Mode de paiement",
+    "paymentType_CARD": "Carte de crédit",
+    "paymentType_ACCOUNT": "Compte"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Le nouveau paiement a bien été défini par défaut."
+  }
+}

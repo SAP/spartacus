@@ -1,0 +1,92 @@
+{
+  "pickupInfo": {
+    "inStorePickup": "Ritiro al punto vendita",
+    "pickupBy": "Ritiro da parte di",
+    "pickupFrom": "Ritiro da"
+  },
+  "pickupOptionDialog": {
+    "close": "Chiudi",
+    "modalHeader": "Ritiro al punto vendita"
+  },
+  "pickupOptions": {
+    "legend": "Metodo di consegna",
+    "changeStore": "Cambia punto vendita",
+    "delivery": "Spedisci (reso gratuito)",
+    "pickup": "Ritiro gratuito al punto vendita",
+    "shipIt": "Spedisci",
+    "selectStore": "Seleziona punto vendita",
+    "freeReturn": "Reso gratuito",
+    "storeIsNotSelected": "Punto vendita per ritiro non selezionato."
+  },
+  "setPreferredStore": {
+    "makeThisMyStore": "Impostalo come punto vendita personale",
+    "myStore": "Punto vendita personale"
+  },
+  "store": {
+    "pickupFromHere": "Ritira qui",
+    "stockLevel_inStock": "{{ count }} in stock",
+    "stockLevel_outOfStock": "Non disponibile",
+    "viewHours": "Visualizza orari"
+  },
+  "storeList": {
+    "noStoresMessage": "Nessun punto vendita trovato nel database..."
+  },
+  "storeSchedule": {
+    "closed": "Chiuso",
+    "storeHours": "Orari del punto vendita"
+  },
+  "storeSearch": {
+    "findAStore": "Trova un punto vendita",
+    "findStores": "Trova punti vendita",
+    "hideOutOfStockOptions": "Nascondi le opzioni non disponibili",
+    "searchPlaceholder": "Inserisci CAP o città o indirizzo",
+    "useMyLocation": "Utilizza la mia posizione"
+  },
+  "addressBookPickupInStore": {
+    "heading": "Punto vendita del ritiro"
+  },
+  "storeFinderPickupInStore": {
+    "heading": "Punto vendita personale"
+  },
+  "checkoutPickupInStore": {
+    "heading": "Articoli da ritirare",
+    "storeItemHeading": "Indirizzo del punto vendita di ritiro"
+  },
+  "cartItems": {
+    "item": "Articolo"
+  },
+  "cardActions": {
+    "getDirections": "Ottieni indicazioni stradali; questo collegamento aprirà una nuova finestra"
+  },
+  "deliveryPointOfServiceDetails": {
+    "itemsToBePickUp": "Articoli da ritirare",
+    "pickUpInStoreAddress": "Indirizzo del punto vendita di ritiro",
+    "itemsToBeShipped": "Articoli da spedire",
+    "shippingAddress": "Indirizzo di spedizione",
+    "deliveryMethod": "Metodo di consegna",
+    "deliveryOptions": "Opzioni di consegna",
+    "statusDisplay_cancelled": "Annullato",
+    "statusDisplay_cancelling": "Annullamento in sospeso",
+    "statusDisplay_completed": "Completato",
+    "statusDisplay_created": "Creato",
+    "statusDisplay_error": "In sospeso",
+    "statusDisplay_Error": "In sospeso",
+    "statusDisplay_processing": "In sospeso",
+    "statusDisplay_open": "Aperto",
+    "statusDisplay_pending": {
+      "approval": "In attesa di approvazione",
+      "merchant": {
+        "approval": "In attesa di approvazione da esercente"
+      }
+    },
+    "statusDisplay_approved": "Approvato",
+    "statusDisplay_rejected": "Rifiutato",
+    "statusDisplay_merchant": {
+      "approved": "Approvato dall'esercente",
+      "rejected": "Rifiutato dall'esercente"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Assegnato ad amministratore"
+    }
+  }
+}

@@ -5,7 +5,10 @@ import { MessageData } from '../message.model';
 import { NotificationMessageComponent } from '../notification/notification-message.component';
 import { MessageRenderService } from './message-render.service';
 
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class MockComponent extends BaseMessageComponent {}
 
 describe('MessageRenderService', () => {

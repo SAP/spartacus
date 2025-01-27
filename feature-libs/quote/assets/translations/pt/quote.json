@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Nome:",
+      "description": "Descrição:",
+      "validity": "Esta cotação é válida até {{ expirationTime }}",
+      "option": {
+        "yes": "Sim",
+        "no": "Não"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Fechar modal de envio de cotação"
+          },
+          "title": "Enviar solicitação de cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer enviar esta solicitação de cotação?",
+          "successMessage": "Solicitação de cotação enviada com êxito"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Fechar modal de cancelamento de cotação"
+          },
+          "title": "Cancelar solicitação de cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer cancelar esta solicitação de cotação?",
+          "successMessage": "Solicitação de cotação cancelada"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Fechar modal de edição de cotação"
+          },
+          "title": "Confirmar edição de cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer editar esta cotação aprovada?",
+          "warningNote": "Esta cotação foi aprovada. A edição desta cotação evitará o check-out até as novas edições serem aprovadas."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Fechar modal de cancelamento de cotação"
+          },
+          "title": "Cancelar cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer cancelar esta cotação?",
+          "successMessage": "Cotação cancelada"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Fechar modal de check-out de cotação"
+          },
+          "title": "Fazer check-out da cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer aceitar e fazer check-out desta cotação?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Fechar modal de edição de cotação"
+          },
+          "title": "Confirmar edição de cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer editar esta cotação expirada?",
+          "warningNote": "Esta cotação expirou. A edição desta cotação evitará o check-out até as novas edições serem aprovadas."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Fechar modal de nova cotação"
+          },
+          "title": "Recriar solicitação de cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer recriar esta solicitação de cotação?",
+          "warningNote": "Esta cotação expirou. A nova cotação criará uma nova solicitação de cotação com o mesmo conteúdo, que poderá ser editada e enviada para aprovação posteriormente."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Fechar modal de envio de cotação"
+          },
+          "title": "Enviar cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer enviar esta cotação?",
+          "warningNote": "Dependendo do valor total da cotação, poderá ser necessária uma aprovação adicional antes que o comprador possa fazer check-out dessa cotação.",
+          "successMessage": "Cotação enviada com êxito"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Fechar modal de aprovação de cotação"
+          },
+          "title": "Aprovar cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer aprovar esta cotação?",
+          "successMessage": "Cotação aprovada com êxito"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Fechar modal de rejeição de cotação"
+          },
+          "title": "Rejeitar cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer rejeitar esta cotação?",
+          "successMessage": "Cotação rejeitada"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Fechar modal de nova cotação"
+          },
+          "title": "Recriar solicitação de cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer recriar esta solicitação de cotação?",
+          "warningNote": "Seu carrinho atual será convertido em um carrinho gravado."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Fechar modal de edição de cotação"
+          },
+          "title": "Editar cotação {{ code }}?",
+          "confirmNote": "Tem a certeza que quer editar esta cotação?",
+          "warningNote": "Seu carrinho atual será convertido em um carrinho gravado."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Contato/caixa de comentários",
+      "title": "Contato",
+      "invalidComment": "Entrada inválida - Digite novamente...",
+      "allProducts": "Todos os produtos"
+    },
+    "commons": {
+      "requestQuote": "Solicitar cotação",
+      "cart": "Carrinho",
+      "minRequestInitiationNote": "É necessário um subtotal mínimo de ${{minValue}} para enviar uma cotação ",
+      "savedActiveCart": "Seu carrinho ativo foi convertido no carrinho gravado {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Cancelar edição de informações do cabeçalho da cotação",
+          "save": "Gravar informações do cabeçalho da cotação"
+        }
+      },
+      "overview": {
+        "regionTitle": "Resumo de detalhes da cotação",
+        "id": "ID da cotação",
+        "status": "Status",
+        "information": "Informações da cotação",
+        "name": "Nome",
+        "description": "Descrição",
+        "charactersLeft": "caracteres restantes: {{count}}",
+        "priceAndExpiry": "Preço e validade",
+        "estimatedTotal": "Total estimado",
+        "total": "Total",
+        "expirationTime": "Data de validade",
+        "a11y": {
+          "edit": "Editar informações do cabeçalho da cotação"
+        },
+        "createdAndUpdated": "Criado e atualizado",
+        "createdDate": "Criado",
+        "lastUpdatedDate": "Última atualização"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Existem problemas com suas entradas. Revise seu carrinho.",
+      "quoteCartIssue": "Não é possível efetuar modificações nas entradas do carrinho. Prossiga para o check-out",
+      "absoluteDiscountIssue": "Selecione um desconto que não exceda o valor total",
+      "expirationDateIssue": "Selecione uma data de expiração no futuro",
+      "threshold": {
+        "underThresholdError": "O preço total da cotação solicitada não cumpre o limite mínimo"
+      },
+      "expired": "Esta cotação expirou. Você deve reenviar sua solicitação de cotação para receber outra cotação do fornecedor.",
+      "downloadPDFError": "Algo deu errado. Impossível obter PDF do documento de proposta."
+    },
+    "items": {
+      "regionTitle": "Itens do carrinho"
+    },
+    "links": {
+      "newCart": "Novo carrinho",
+      "quotes": "Cotações",
+      "download": "Baixar proposta",
+      "a11y": {
+        "newCart": "Crie um novo carrinho vazio e navegue para o mesmo.",
+        "quotes": "Navegue para a lista de resultados da pesquisa de cotações.",
+        "download": "Inicie o download de uma proposta de cotação"
+      }
+    },
+    "list": {
+      "regionTitle": "Resumo da lista de cotações ",
+      "title": "Lista de cotações",
+      "name": "Nome",
+      "updated": "Atualizado",
+      "sortBy": "Ordenar por",
+      "sortQuotes": "Ordenar cotações",
+      "empty": "Não temos registros de cotações para essa conta.",
+      "quoteId": "ID da cotação",
+      "status": "Status",
+      "clickableRow": "Clique na linha para obter mais detalhes da cotação"
+    },
+    "states": {
+      "BUYER_DRAFT": "Rascunho",
+      "BUYER_SUBMITTED": "Enviado",
+      "BUYER_ACCEPTED": "Aceito",
+      "BUYER_APPROVED": "Aprovado",
+      "BUYER_REJECTED": "Rejeitado",
+      "BUYER_OFFER": "Cotação do fornecedor",
+      "BUYER_ORDERED": "Pedido",
+      "SELLER_DRAFT": "Rascunho",
+      "SELLER_REQUEST": "Solicitado",
+      "SELLER_SUBMITTED": "Enviado",
+      "SELLERAPPROVER_DRAFT": "Rascunho",
+      "SELLERAPPROVER_PENDING": "Aprovação pendente",
+      "SELLERAPPROVER_APPROVED": "Aprovado",
+      "SELLERAPPROVER_REJECTED": "Rejeitado",
+      "CREATED": "Criado",
+      "CANCELLED": "Cancelado",
+      "EXPIRED": "Expirado"
+    },
+    "summary": {
+      "regionTitle": "Resumo do pedido",
+      "actions": {
+        "APPROVE": "Aprovar cotação",
+        "CANCEL": "Cancelar cotação",
+        "CHECKOUT": "Aceitar e fazer check-out",
+        "EDIT": "Editar cotação",
+        "REJECT": "Rejeitar cotação",
+        "REQUOTE": "Solicitar nova cotação",
+        "SAVE": "Gravar cotação",
+        "SUBMIT": "Enviar cotação",
+        "VIEW": "Visualizar cotação"
+      },
+      "prices": {
+        "title": "Resumo do pedido",
+        "subtotal": "Subtotal",
+        "productDiscount": "Desconto de item",
+        "orderDiscount": "Desconto do pedido",
+        "quoteDiscount": "Desconto de cotação",
+        "total": "Total",
+        "hint": "Não são incluídos impostos no total"
+      },
+      "sellerEdit": {
+        "discount": "Desconto",
+        "apply": "Aplicar",
+        "expiryDate": "Data de validade",
+        "discountValidationText": "Insira um desconto percentual válido",
+        "a11y": {
+          "apply": "Clique para aplicar o valor de desconto inserido a essa cotação",
+          "discount": "Insira um valor do desconto percentual a ser aplicado a essa cotação",
+          "expiryDate": "Insira uma data de validade para essa cotação"
+        }
+      }
+    }
+  }
+}

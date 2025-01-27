@@ -45,6 +45,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;

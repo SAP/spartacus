@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "동의 관리",
+    "dateDescription": "승인일 ",
+    "clearAll": "모두 비활성화",
+    "selectAll": "모두 활성화",
+    "message": {
+      "success": {
+        "given": "동의가 제공되었습니다.",
+        "withdrawn": "동의가 취소되었습니다."
+      }
+    }
+  }
+}

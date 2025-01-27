@@ -29,6 +29,7 @@ import { CreatedCustomer } from './asm-create-customer-form.model';
 @Component({
   selector: 'cx-asm-create-customer-form',
   templateUrl: './asm-create-customer-form.component.html',
+  standalone: false,
 })
 export class AsmCreateCustomerFormComponent {
   createdCustomer: CreatedCustomer;

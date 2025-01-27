@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Voltar à lista",
+    "showForm_APPROVE": "Aprovar pedido...",
+    "showForm_REJECT": "Rejeitar pedido...",
+    "form": {
+      "title_APPROVE": "Aprovar pedido {{orderCode}} com o total de {{orderTotal}}",
+      "title_REJECT": "Rejeitar pedido {{orderCode}} com o total de {{orderTotal}}",
+      "submit_APPROVE": "Aprovar",
+      "submit_REJECT": "Rejeitar",
+      "cancel": "Cancelar",
+      "comment_APPROVE": {
+        "label": "Comentário (opcional, máximo de 255 caracteres)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Comentário (máximo de 255 caracteres)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Detalhes da aprovação do cliente",
+      "permission": "Permissão",
+      "approver": "Aprovador",
+      "status": "Status",
+      "approverComments": "Comentários do aprovador",
+      "noApprovalComments": "Nenhum",
+      "permissionType_B2BBudgetExceededPermission": "O orçamento associado ao centro de custo selecionado foi excedido",
+      "permissionType_B2BOrderThresholdPermission": "O total do pedido excedeu o limite por pedido",
+      "permissionType_B2BOrderThresholdTimespanPermission": "O total do pedido excedeu o limite por faixa de tempo"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Nº do pedido",
+    "POCode": "Nº do pedido",
+    "placedBy": "Feito por",
+    "date": "Data",
+    "status": "Status",
+    "total": "Total",
+    "none": "Nenhum",
+    "emptyList": "Não existem pedidos para aprovar no momento.",
+    "orderApprovalList": "Lista de aprovação de pedidos"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Sem permissões suficientes para acessar esta página."
+    }
+  }
+}

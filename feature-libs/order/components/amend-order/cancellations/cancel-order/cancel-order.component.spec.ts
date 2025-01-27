@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -24,6 +23,7 @@ class MockOrderAmendService {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
+  standalone: false,
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -32,6 +32,7 @@ class MockCancelOrReturnItemsComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
+  standalone: false,
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -46,7 +47,7 @@ describe('CancelOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormErrorsModule],
+      imports: [FormErrorsModule],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],

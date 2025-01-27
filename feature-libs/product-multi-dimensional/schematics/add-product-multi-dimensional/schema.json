@@ -24,6 +24,10 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "default": [
+        "Product-Multi-Dimensional-Selector",
+        "Product-Multi-Dimensional-List"
+      ],
       "items": {
         "enum": [
           "Product-Multi-Dimensional-Selector",
@@ -31,21 +35,19 @@
         ],
         "type": "string"
       },
-      "default": [
-        "Product-Multi-Dimensional-Selector",
-        "Product-Multi-Dimensional-List"
-      ],
       "x-prompt": {
         "message": "Which Product Multi-Dimensional features would you like to set up?",
         "type": "list",
         "items": [
           {
             "value": "Product-Multi-Dimensional-Selector",
-            "label": "Product Multi-Dimensional - Selector"
+            "label": "Product Multi-Dimensional - Selector",
+            "checked": true
           },
           {
             "value": "Product-Multi-Dimensional-List",
-            "label": "Product Multi-Dimensional - PLP price range"
+            "label": "Product Multi-Dimensional - PLP price range",
+            "checked": true
           }
         ]
       }

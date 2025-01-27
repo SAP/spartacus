@@ -1,11 +1,14 @@
 <div
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
-  class="cx-customer-ticket-form-dialog"
+  class="modal-dialog modal-dialog-centered cx-customer-ticket-form-dialog"
   role="dialog"
   aria-labelledby="dialogTitle"
 >
-  <form [formGroup]="form" class="cx-customer-ticket-form-container">
+  <form
+    [formGroup]="form"
+    class="modal-content cx-customer-ticket-form-container"
+  >
     <div class="modal-header cx-customer-ticket-form-header">
       <div id="dialogTitle" class="cx-customer-ticket-form-title modal-title">
         {{ 'customerTicketingDetails.reopenRequest' | cxTranslate }}
@@ -23,7 +26,7 @@
       </button>
     </div>
 
-    <div class="cx-customer-ticket-form-body">
+    <div class="modal-body cx-customer-ticket-form-body">
       <div class="cx-customer-ticket-form-row">
         <label>
           <span class="cx-customer-ticket-label label-content">
@@ -34,9 +37,14 @@
             class="form-control"
             formControlName="message"
             rows="5"
+            [attr.aria-describedby]="'messageError'"
           ></textarea>
 
-          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+          <cx-form-errors
+            id="messageError"
+            aria-live="off"
+            [control]="form.get('message')"
+          ></cx-form-errors>
 
           <p class="cx-customer-ticket-input-hint">
             {{

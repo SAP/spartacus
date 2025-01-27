@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Exportar para CSV",
+    "exportMessage": "O arquivo CSV será baixado automaticamente em seu dispositivo, caso contrário, verifique as configurações do seu navegador",
+    "columnNames": {
+      "code": "Código",
+      "quantity": "Quantidade",
+      "name": "Nome",
+      "price": "Preço"
+    },
+    "exportProductToCsv": "Exportar produto para CSV"
+  },
+  "importEntries": {
+    "importProducts": "Importar produtos"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Importar produtos",
+    "importProductsSubtitle": "Adicionar produtos importando um arquivo .CSV.",
+    "importProductsNewSavedCartSubtitle": "Adicionar produtos importando um arquivo .CSV e criando um novo carrinho gravado.",
+    "importProductFileDetails": "O arquivo de texto deve conter uma lista de produtos com colunas obrigatórias separadas por vírgula: SKU e quantidade.",
+    "selectFile": "Selecionar arquivo",
+    "selectedSuccessfully": "O arquivo CSV foi selecionado com êxito.",
+    "savedCartName": "Nome do carrinho gravado",
+    "savedCartDescription": "Descrição do carrinho gravado",
+    "optional": "opcional",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "cancel": "Cancelar",
+    "upload": "Carregar",
+    "close": "Fechar",
+    "summary": {
+      "info": "Não feche ou atualize essa janela enquanto os produtos estiverem sendo importados.",
+      "loadedToCart": "Os produtos foram carregados no carrinho {{ cartName }}",
+      "loaded": "Os produtos foram carregados",
+      "loading": "Os produtos estão sendo processados... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} de {{ total }} produtos foram importados com êxito.",
+      "warning": "{{ count }} produto não foi importado totalmente.",
+      "warning_other": "{{ count }} produtos não foram importados totalmente.",
+      "error": "{{ count }} produto não foi importado.",
+      "error_other": "{{ count }} produtos não foram importados.",
+      "messages": {
+        "unknownIdentifier": "A SKU do produto \"{{ productCode}}\" não existe.",
+        "lowStock": "A quantidade para {{ productName }}: {{ quantity }} foi reduzida para {{ quantityAdded }}.",
+        "noStock": "{{ productName }} está atualmente sem estoque.",
+        "unknownError": "Problema não reconhecido com \"{{ productCode }}\".",
+        "limitExceeded": "Não é possível adicionar \"{{ productCode }}\". Limite excedido."
+      },
+      "show": "Mostrar",
+      "hide": "Ocultar"
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { OrderSummaryComponent } from './order-summary.component';
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
+  standalone: false,
 })
 class MockAppliedCouponsComponent {
   @Input()

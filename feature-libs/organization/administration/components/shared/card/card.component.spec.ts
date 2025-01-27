@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { MessageTestingModule } from '../message/message.testing.module';
@@ -35,11 +35,10 @@ describe('CardComponent', () => {
         // SplitViewTestingModule,
         IconTestingModule,
         I18nTestingModule,
-        RouterTestingModule,
         MessageTestingModule,
         PopoverModule,
       ],
-      declarations: [CardComponent, ViewComponent],
+      declarations: [CardComponent, ViewComponent, MockFeatureDirective],
       providers: [
         {
           provide: ItemService,
