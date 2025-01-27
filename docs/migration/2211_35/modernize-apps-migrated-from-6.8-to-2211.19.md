@@ -219,7 +219,7 @@ Please change the following `"scripts"` properties (because the new `application
 ```diff
    "scripts": {
 -    "serve:ssr": "node dist/YOUR-APP-NAME/server/main.js",
-+    "serve:ssr": "node dist/YOUR-APP-NAME/server/server.mjs",
++    "serve:ssr:YOUR-APP-NAME": "node dist/YOUR-APP-NAME/server/server.mjs",
 ```
 
 ### `tsconfig.app.json`
