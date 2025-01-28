@@ -52,9 +52,6 @@
     "heading": "受け取るアイテム",
     "storeItemHeading": "受け取り店舗の住所"
   },
-  "cartItems": {
-    "item": "アイテム"
-  },
   "cardActions": {
     "getDirections": "ルート案内取得 (このリンクをクリックすると新しいウィンドウが開きます)"
   },

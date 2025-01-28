@@ -52,9 +52,6 @@
     "heading": "Abzuholende Positionen",
     "storeItemHeading": "Adresse der Filiale für Abholung"
   },
-  "cartItems": {
-    "item": "Position"
-  },
   "cardActions": {
     "getDirections": "Wegbeschreibung abrufen, dieser Link öffnet sich in einem neuen Fenster"
   },
