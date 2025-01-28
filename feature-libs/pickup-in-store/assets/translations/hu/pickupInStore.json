@@ -52,9 +52,6 @@
     "heading": "Átveendő tételek",
     "storeItemHeading": "Átvételi üzlet címe"
   },
-  "cartItems": {
-    "item": "Tétel"
-  },
   "cardActions": {
     "getDirections": "Útvonal tervezése; ez a hivatkozás új ablakban nyílik meg"
   },
