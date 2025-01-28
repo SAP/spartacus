@@ -115,7 +115,7 @@ export function updateServerFile(): Rule {
     const serverFilePath = findServerFile(tree);
     if (!serverFilePath) {
       context.logger.warn('🔍 Could not find server.ts file - skipping update');
-      return;
+      return tree;
     }
 
     context.logger.info(
@@ -127,7 +127,7 @@ export function updateServerFile(): Rule {
       context.logger.warn(
         `⚠️ Could not read ${serverFilePath} - skipping update`
       );
-      return;
+      return tree;
     }
 
     const content = fileContentBuffer.toString('utf-8');
