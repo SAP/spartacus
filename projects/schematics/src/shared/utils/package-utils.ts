@@ -31,7 +31,10 @@ import {
 } from '../libs-constants';
 import { getServerTsPath } from './file-utils';
 import { addPackageJsonDependencies, dependencyExists } from './lib-utils';
-import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
+import {
+  getDefaultProjectNameFromWorkspace,
+  getWorkspace,
+} from './workspace-utils';
 
 const DEV_DEPENDENCIES_KEYWORDS = [
   'schematics',
@@ -147,9 +150,9 @@ export function getSpartacusCurrentFeatureLevel(): string {
 
 export function checkIfSSRIsUsed(tree: Tree): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
-  const angularJson = readAngularJson(tree);
+  const { workspace: angularJson } = getWorkspace(tree);
   const isServerConfiguration =
-    !!angularJson.projects[projectName].architect['server'];
+    !!angularJson?.projects[projectName]?.architect?.['server'];
 
   const serverFileLocation = getServerTsPath(tree);
 
@@ -185,7 +188,7 @@ interface ApplicationBuilderWorkspaceArchitect {
  */
 export function checkIfSSRIsUsedWithApplicationBuilder(tree: Tree): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
-  const angularJson = readAngularJson(tree);
+  const { workspace: angularJson } = getWorkspace(tree);
   const architect = angularJson.projects[projectName]
     .architect as ApplicationBuilderWorkspaceArchitect;
   const builderType = architect?.build?.builder;
@@ -225,7 +228,7 @@ export function getServerTsPathForApplicationBuilder(
   tree: Tree
 ): string | null {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
-  const angularJson = readAngularJson(tree);
+  const { workspace: angularJson } = getWorkspace(tree);
   const architect = angularJson.projects[projectName]
     .architect as ApplicationBuilderWorkspaceArchitect;
   const buildOptions = architect?.build?.options;
@@ -348,20 +351,4 @@ export function readPackageJson(tree: Tree): any {
   }
 
   return JSON.parse(buffer.toString(UTF_8));
-}
-
-/**
- * Reads and parses the angular.json file from the root of the project.
- *
- * @param tree - The virtual file tree provided by the Angular schematics
- * @returns The parsed angular.json content as an object
- * @throws SchematicsException if angular.json cannot be found or parsed
- */
-function readAngularJson(tree: Tree): any {
-  const buffer = tree.read('angular.json');
-  if (!buffer) {
-    throw new SchematicsException('Could not find angular.json');
-  }
-  const angularFileBuffer = buffer.toString(UTF_8);
-  return JSON.parse(angularFileBuffer);
 }
