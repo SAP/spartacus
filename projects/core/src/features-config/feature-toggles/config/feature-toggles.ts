@@ -615,6 +615,12 @@ export interface FeatureTogglesInterface {
   a11yNgSelectCloseDropdownOnEscape?: boolean;
 
   /**
+   * 'NgSelectA11yDirective' will customize a ng-select dropdowns by setting custom
+   * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
+   */
+  a11yNgSelectAriaLabelDropdownCustomized?: boolean;
+
+  /**
    * Removes duplicated error message from 'CancelOrderComponent'.
    */
   a11yRepeatedCancelOrderError?: boolean;
@@ -1084,6 +1090,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDeliveryModeRadiogroup: false,
   a11yNgSelectOptionsCount: false,
   a11yNgSelectCloseDropdownOnEscape: false,
+  a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
   a11yNgSelectMobileReadout: false,
