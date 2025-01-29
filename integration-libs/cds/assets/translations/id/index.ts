@@ -6,5 +6,5 @@
 
 import cds from './cds.json';
 export const id = {
-  cds
+  cds,
 };

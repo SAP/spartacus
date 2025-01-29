@@ -6,5 +6,5 @@
 
 import cds from './cds.json';
 export const zh_TW = {
-  cds
+  cds,
 };

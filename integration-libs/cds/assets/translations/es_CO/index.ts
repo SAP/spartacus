@@ -6,5 +6,5 @@
 
 import cds from './cds.json';
 export const es_CO = {
-  cds
+  cds,
 };
