@@ -52,9 +52,6 @@
     "heading": "픽업할 품목",
     "storeItemHeading": "픽업 매장 주소"
   },
-  "cartItems": {
-    "item": "품목"
-  },
   "cardActions": {
     "getDirections": "오시는 길, 이 링크를 클릭하면 새 창이 열립니다."
   },

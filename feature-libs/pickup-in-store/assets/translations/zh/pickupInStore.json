@@ -52,9 +52,6 @@
     "heading": "待提货商品",
     "storeItemHeading": "提货店铺地址"
   },
-  "cartItems": {
-    "item": "商品"
-  },
   "cardActions": {
     "getDirections": "获取方位，此链接将在新窗口中打开"
   },
