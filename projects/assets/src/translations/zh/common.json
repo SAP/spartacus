@@ -73,6 +73,8 @@
     "ariaLabelProducts": "产品结果",
     "initialDescription": "如果自动完成结果可用，请使用向上和向下箭头进行审阅，并按回车键进行选择。触摸设备用户，通过触摸或滑动手势进行浏览。",
     "suggestions": "建议关键字",
+    "recentSearches": "最近搜索",
+    "trendingSearches": "趋势搜索",
     "suggestionsResult": "{{ count }} 个建议和 ",
     "suggestionsResult_other": "{{ count }} 个建议和 ",
     "products": "推荐产品",

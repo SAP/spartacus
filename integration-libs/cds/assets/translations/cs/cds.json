@@ -1,6 +1,8 @@
 {
+  "cdsRecentSearches": {
+    "ariaRecentSearches": "vypisování nejnovějších hledání"
+  },
   "cdsTrendingSearches": {
-    "trendingSearches": "Častá hledání",
     "ariaTrendingSearches": "vypisování častých hledání"
   }
 }

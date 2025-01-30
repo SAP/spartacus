@@ -73,6 +73,8 @@
     "ariaLabelProducts": "उत्पाद परिणाम",
     "initialDescription": "स्वतः पूर्ण परिणामों के उपलब्ध होने पर समीक्षा करने के लिए ऊपर और नीचे तीरों का और चयन करने के लिए enter का उपयोग करें. स्पर्श उपकरण उपयोगकर्ता स्पर्श करके या स्वाइप करके खोजें.",
     "suggestions": "सुझाए गए कीवर्ड",
+    "recentSearches": "तात्कालिक खोजें",
+    "trendingSearches": "ट्रेडिंग खोजें",
     "suggestionsResult": "{{ count }} सुझाव और ",
     "suggestionsResult_other": "{{ count }} सुझाव और ",
     "products": "अनुशंसित उत्पाद",
