@@ -1,6 +1,8 @@
 {
+  "cdsRecentSearches": {
+    "ariaRecentSearches": "ввод последних поисковых запросов"
+  },
   "cdsTrendingSearches": {
-    "trendingSearches": "Популярные поисковые запросы",
     "ariaTrendingSearches": "ввод популярных поисковых запросов"
   }
 }

@@ -73,6 +73,8 @@
     "ariaLabelProducts": "lista wyszukanych produktów",
     "initialDescription": "Gdy dostępne są wyniki autouzupełniania, użyj strzałek w górę i w dół, aby je przejrzeć i naciśnij Enter, aby je wybrać. Użytkownicy urządzeń dotykowych mogą przeglądać za pomocą dotknięcia lub przesunięcia palcem.",
     "suggestions": "Sugerowane słowa kluczowe",
+    "recentSearches": "Ostatnie wyszukiwania",
+    "trendingSearches": "Popularne wyszukiwania",
     "suggestionsResult": " {{ count }} sugestia i ",
     "suggestionsResult_other": " {{ count }} sugestie i ",
     "products": "Polecane produkty",

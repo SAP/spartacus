@@ -52,9 +52,6 @@
     "heading": "Položky, které mají být vyzvednuty",
     "storeItemHeading": "Adresa prodejny pro vyzvednutí"
   },
-  "cartItems": {
-    "item": "Položka"
-  },
   "cardActions": {
     "getDirections": "Získat popis cesty – tento odkaz otevře nové okno"
   },

@@ -52,9 +52,6 @@
     "heading": "Pozycje do odbioru",
     "storeItemHeading": "Adres punktu odbioru"
   },
-  "cartItems": {
-    "item": "Pozycja"
-  },
   "cardActions": {
     "getDirections": "Jak dojechać. Ten link otwiera się w nowym oknie."
   },

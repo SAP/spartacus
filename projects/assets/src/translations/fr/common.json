@@ -73,6 +73,8 @@
     "ariaLabelProducts": "Résultats de produits",
     "initialDescription": "Lorsque les résultats du remplissage automatique sont disponibles, utilisez les flèches vers le haut et vers le bas pour passer en revue et la touche Entrée pour sélectionner. Pour les utilisateurs d'appareils tactiles, explorez par le toucher ou par balayage.",
     "suggestions": "Mots-clés suggérés",
+    "recentSearches": "Recherches récentes",
+    "trendingSearches": "Recherches tendances",
     "suggestionsResult": "{{ count }} suggestion et ",
     "suggestionsResult_other": "{{ count }} suggestions et ",
     "products": "Produits recommandés",

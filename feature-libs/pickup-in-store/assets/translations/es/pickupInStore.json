@@ -52,9 +52,6 @@
     "heading": "Artículos para recoger",
     "storeItemHeading": "Dirección de la tienda de recogida"
   },
-  "cartItems": {
-    "item": "Artículo"
-  },
   "cardActions": {
     "getDirections": "Obtener direcciones, este enlace se abre en una ventana nueva"
   },

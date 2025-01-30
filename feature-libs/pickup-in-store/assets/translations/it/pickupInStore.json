@@ -52,9 +52,6 @@
     "heading": "Articoli da ritirare",
     "storeItemHeading": "Indirizzo del punto vendita di ritiro"
   },
-  "cartItems": {
-    "item": "Articolo"
-  },
   "cardActions": {
     "getDirections": "Ottieni indicazioni stradali; questo collegamento aprirà una nuova finestra"
   },

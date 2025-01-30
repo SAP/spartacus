@@ -75,6 +75,8 @@
     "ariaLabelProducts": "product results",
     "initialDescription": "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
     "suggestions": "Suggested Keywords",
+    "recentSearches": "Recent Searches",
+    "trendingSearches": "Trending Searches",
     "suggestionsResult": "{{ count }} suggestion and ",
     "suggestionsResult_other": "{{ count }} suggestions and ",
     "products": "Recommended Products",
