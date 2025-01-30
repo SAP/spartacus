@@ -73,6 +73,8 @@
     "ariaLabelProducts": "Produktergebnisse",
     "initialDescription": "Wenn Ergebnisse aus der automatischen Vervollständigung verfügbar sind, können Sie sie mit den nach oben und unten zeigenden Pfeiltasten ansehen und mit der Eingabetaste auswählen. Benutzer von Touchgeräten verwenden Touch- oder Wischgesten.  ",
     "suggestions": "Vorgeschlagene Schlüsselwörter",
+    "recentSearches": "Vor kurzem verwendete Suchen",
+    "trendingSearches": "Trendsuchen",
     "suggestionsResult": "{{ count }} Vorschlag und ",
     "suggestionsResult_other": "{{ count }} Vorschläge und ",
     "products": "Empfohlene Produkte",

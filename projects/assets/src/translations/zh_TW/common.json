@@ -73,6 +73,8 @@
     "ariaLabelProducts": "產品結果",
     "initialDescription": "若提供自動完成結果時，請使用向上和向下箭頭以審查和輸入進行選擇。觸控裝置使用者透過觸控或滑動手勢探索。",
     "suggestions": "建議的關鍵字",
+    "recentSearches": "最近搜尋",
+    "trendingSearches": "趨勢搜尋",
     "suggestionsResult": "{{ count }} 個建議及 ",
     "suggestionsResult_other": "{{ count }} 個建議及 ",
     "products": "建議的產品",
