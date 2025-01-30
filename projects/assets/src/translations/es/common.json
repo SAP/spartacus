@@ -73,6 +73,8 @@
     "ariaLabelProducts": "resultados de productos",
     "initialDescription": "Si están disponibles los resultados de autocompletar, use las flechas de arriba y abajo y la tecla Intro para seleccionar. Los usuarios de dispositivos táctiles pueden explorar tocando la pantalla o con gestos de deslizamiento.",
     "suggestions": "Palabras clave sugeridas",
+    "recentSearches": "Búsquedas recientes",
+    "trendingSearches": "Búsquedas populares",
     "suggestionsResult": "{{ count }} sugerencia y ",
     "suggestionsResult_other": "{{ count }} sugerencias y ",
     "products": "Productos recomendados",

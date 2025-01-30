@@ -73,6 +73,8 @@
     "ariaLabelProducts": "商品結果",
     "initialDescription": "オートコンプリート結果が表示されたら、上下の矢印キーを使用して確認し、Enter を押して選択します。ダッチデバースユーザは、タッチするかスワイプジェスチャーによって参照します。",
     "suggestions": "提案されたキーワード",
+    "recentSearches": "最近の検索",
+    "trendingSearches": "検索の傾向",
     "suggestionsResult": "{{ count }} 提案および ",
     "suggestionsResult_other": "{{ count }} 提案および ",
     "products": "推奨商品",

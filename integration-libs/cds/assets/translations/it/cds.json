@@ -1,6 +1,8 @@
 {
+  "cdsRecentSearches": {
+    "ariaRecentSearches": "inserimento di ricerche recenti in corso"
+  },
   "cdsTrendingSearches": {
-    "trendingSearches": "Ricerche di tendenza",
     "ariaTrendingSearches": "inserimento di ricerche di tendenza in corso"
   }
 }

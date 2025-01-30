@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import cdsRecentSearches from './cdsRecentSearches.json';
-import cdsTrendingSearches from './cdsTrendingSearches.json';
+import cds from './cds.json';
 export const zh = {
-  cdsRecentSearches,
-  cdsTrendingSearches,
+  cds,
 };
