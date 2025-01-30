@@ -1,6 +1,8 @@
 {
+  "cdsRecentSearches": {
+    "ariaRecentSearches": "輸入最近搜尋"
+  },
   "cdsTrendingSearches": {
-    "trendingSearches": "趨勢搜尋",
     "ariaTrendingSearches": "輸入趨勢搜尋"
   }
 }

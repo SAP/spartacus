@@ -73,6 +73,8 @@
     "ariaLabelProducts": "resultados do produto",
     "initialDescription": "Quando os resultados de preenchimento automático estiverem disponíveis, utilize as setas para cima e para baixo para revisar e Enter para selecionar. Utilizadores de dispositivos de toque, explore por toque ou com gestos de passar o dedo.",
     "suggestions": "Palavras-chave sugeridas",
+    "recentSearches": "Pesquisas recentes",
+    "trendingSearches": "Pesquisas de tendência",
     "suggestionsResult": "{{ count }} sugestão e ",
     "suggestionsResult_other": "{{ count }} sugestões e ",
     "products": "Produtos recomendados",

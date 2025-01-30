@@ -1,6 +1,8 @@
 {
+  "cdsRecentSearches": {
+    "ariaRecentSearches": "typing recent searches"
+  },
   "cdsTrendingSearches": {
-    "trendingSearches": "Trending Searches",
     "ariaTrendingSearches": "typing trending searches"
   }
 }
