@@ -73,6 +73,8 @@
     "ariaLabelProducts": "terméktalálatok",
     "initialDescription": "Ha elérhetők az automatikus kiegészítés találatai, a fel és le nyilakkal ellenőrizheti, az Enter billentyűvel pedig kiválaszthatja őket. Az érintőképernyős eszközök felhasználói érintéssel vagy húzással navigálhatnak.",
     "suggestions": "Javasolt kulcsszavak",
+    "recentSearches": "Legutóbbi keresések",
+    "trendingSearches": "Népszerű keresések",
     "suggestionsResult": "{{ count }} javaslat és ",
     "suggestionsResult_other": "{{ count }} javaslat és ",
     "products": "Ajánlott termékek",

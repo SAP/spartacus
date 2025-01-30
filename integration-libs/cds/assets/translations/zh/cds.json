@@ -1,6 +1,8 @@
 {
+  "cdsRecentSearches": {
+    "ariaRecentSearches": "输入最近搜索"
+  },
   "cdsTrendingSearches": {
-    "trendingSearches": "趋势搜索",
     "ariaTrendingSearches": "键入趋势搜索"
   }
 }

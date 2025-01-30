@@ -73,6 +73,8 @@
     "ariaLabelProducts": "výsledky produktu",
     "initialDescription": "Když jsou k dispozici výsledky automatického dokončování, použijte šipky nahoru a dolů k prohlížení a enter k výběru. Uživatelé dotykových zařízení mohou vyhledávat dotykem nebo gesty přejetí prstem.",
     "suggestions": "Navržená klíčová slova",
+    "recentSearches": "Nejnovější hledání",
+    "trendingSearches": "Častá hledání",
     "suggestionsResult": "{{ count }} návrh a ",
     "suggestionsResult_other": "Počet návrhů: {{ count }} a ",
     "products": "Doporučené produkty",
