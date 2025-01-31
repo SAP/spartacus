@@ -247,7 +247,7 @@
     "01-migration-v2211_35-bootstrap": {
       "version": "2211.35.0",
       "factory": "./2212_32/bootstrap/bootstrap#migrate",
-      "description": "replace imports"
+      "description": "Replace import paths for Bootstrap usages"
     },
     "02-migration-v2211_35-ssr": {
       "version": "2211.35.0",
