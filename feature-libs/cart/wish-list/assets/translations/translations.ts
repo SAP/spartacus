@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const wishListTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const wishListTranslationChunksConfig: TranslationChunksConfig = {
+  wishlist: ['wishlist'],
+};
 
 export { cs as wishListTranslationsCs } from './cs/index';
 export { de as wishListTranslationsDe } from './de/index';
