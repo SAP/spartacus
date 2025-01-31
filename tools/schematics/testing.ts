@@ -84,6 +84,20 @@ const commands = [
 ] as const;
 type Command = (typeof commands)[number];
 
+const isVoiceNotifyEnabled = process.argv.includes('--voice-notify');
+if (isVoiceNotifyEnabled) {
+  console.log('Voice notifications enabled');
+}
+function voiceAlert(message: string): void {
+  if (isVoiceNotifyEnabled) {
+    try {
+      execSync(`say "${message}"`);
+    } catch (error) {
+      console.warn('Voice notification failed:', error);
+    }
+  }
+}
+
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 const verdaccioRegistryUrl = 'http://localhost:4873/';
 const originalRegistryUrl = execSync('npm config get @spartacus:registry')
@@ -204,9 +218,11 @@ async function executeCommand(command: Command): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
+      voiceAlert('Publishing completed');
       break;
     case 'build projects/schematics':
       buildSchematics({ publish: true });
+      voiceAlert('Schematics build completed');
       break;
     case 'build asm/schematics':
     case 'build cart/schematics':
@@ -240,12 +256,15 @@ async function executeCommand(command: Command): Promise<void> {
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
       buildSchematicsAndPublish(`npm run build:${lib}`);
+      voiceAlert(`Schematics build of lib ${lib} completed`);
       break;
     case 'build all libs':
       buildLibs();
+      voiceAlert('All libraries build completed');
       break;
     case 'test all schematics':
       testAllSchematics();
+      voiceAlert('All schematics tests completed');
       break;
     case 'exit':
       beforeExit();
