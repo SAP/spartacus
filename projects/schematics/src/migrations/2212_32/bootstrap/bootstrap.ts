@@ -91,7 +91,7 @@ function updateMainStylesFileImports(): Rule {
       .replace(/@import ['"]styles-config['"];/g, styleImportsToInsert);
 
     tree.overwrite(filePath, updatedContent);
-    context.logger.info(`Updated imports in ${filePath}.`);
+    context.logger.info(`Updated imports of Bootstrap in file '${filePath}'.`);
 
     return tree;
   };
