@@ -187,7 +187,7 @@ export function replaceBootstrapImports(): Rule {
       }
     });
 
-    context.logger.info('Replacement completed.');
+    context.logger.info('Replacement of Bootstrap imports completed.');
     return tree;
   };
 }
