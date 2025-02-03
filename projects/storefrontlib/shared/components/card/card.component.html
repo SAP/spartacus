@@ -2,6 +2,7 @@
   *ngIf="content"
   class="cx-card"
   [tabindex]="border ? 0 : -1"
+  [attr.role]="role"
   [attr.aria-labelledby]="getLabel('content-header')"
   [attr.aria-describedby]="ariaDescribedBy"
   [class.cx-card-border]="border"
