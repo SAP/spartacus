@@ -46,7 +46,6 @@ function uninstallBootstrap(): Rule {
       context.logger.warn(
         'Could not detect a package manager. Please uninstall Bootstrap manually.'
       );
-      return tree;
     }
 
     exec(uninstallCommand, (error) => {
