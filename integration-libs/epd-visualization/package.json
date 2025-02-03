@@ -1,6 +1,9 @@
 {
   "name": "@spartacus/epd-visualization",
   "version": "2211.35.0-1",
+  "engines": {
+    "node": "^22.0.0"
+  },
   "description": "SAP Enterprise Product Development Visualization integration library for Spartacus",
   "keywords": [
     "spartacus",

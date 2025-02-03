@@ -1,6 +1,9 @@
 {
   "name": "@spartacus/cpq-quote",
   "version": "2211.35.0-1",
+  "engines": {
+    "node": "^22.0.0"
+  },
   "description": "cpq-quote library for Spartacus",
   "keywords": [
     "spartacus",
