@@ -4,10 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const cartBaseTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const cartBaseTranslationChunksConfig: TranslationChunksConfig = {
+  cart: [
+    'cartDetails',
+    'cartItems',
+    'orderCost',
+    'voucher',
+    'saveForLaterItems',
+    'clearCart',
+    'validation',
+  ],
+};
 
 export { cs as cartBaseTranslationsCs } from './cs/index';
 export { de as cartBaseTranslationsDe } from './de/index';

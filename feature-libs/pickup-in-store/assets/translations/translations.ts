@@ -4,10 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const pickupInStoreTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const pickupInStoreTranslationChunksConfig: TranslationChunksConfig = {
+  pickupInStore: [
+    'pickupInfo',
+    'pickupOptionDialog',
+    'pickupOptions',
+    'setPreferredStore',
+    'store',
+    'storeList',
+    'storeSchedule',
+    'storeSearch',
+    'addressBookPickupInStore',
+    'storeFinderPickupInStore',
+    'checkoutPickupInStore',
+    'cardActions',
+    'deliveryPointOfServiceDetails',
+  ],
+};
 
 export { cs as pickupInStoreTranslationsCs } from './cs/index';
 export { de as pickupInStoreTranslationsDe } from './de/index';

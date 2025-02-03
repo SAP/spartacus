@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const opfCheckoutTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const opfCheckoutTranslationChunksConfig: TranslationChunksConfig = {
+  opfCheckout: ['opfCheckout'],
+};
 
 export { cs as opfCheckoutTranslationsCs } from './cs/index';
 export { de as opfCheckoutTranslationsDe } from './de/index';

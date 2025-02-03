@@ -4,10 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const organizationTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const organizationTranslationChunksConfig: TranslationChunksConfig = {
+  organization: [
+    'organization',
+    'orgCostCenter',
+    'orgCostCenterBudgets',
+    'orgCostCenterAssignedBudgets',
+    'orgBudget',
+    'orgBudgetAssignedCostCenters',
+    'orgUnit',
+    'orgUnitChildren',
+    'orgUnitApprovers',
+    'orgUnitAssignedApprovers',
+    'orgUnitAssignedRoles',
+    'orgUnitUsers',
+    'orgUnitUserRoles',
+    'orgUnitAssignedUsers',
+    'orgUnitCostCenters',
+    'orgUnitAddress',
+    'orgUserGroup',
+    'orgUserGroupUsers',
+    'orgUserGroupAssignedUsers',
+    'orgUserGroupPermissions',
+    'orgUserGroupAssignedPermissions',
+    'orgUser',
+    'orgUserUserGroups',
+    'orgUserAssignedUserGroups',
+    'orgUserApprovers',
+    'orgUserAssignedApprovers',
+    'orgUserPermissions',
+    'orgUserAssignedPermissions',
+    'orgPurchaseLimit',
+  ],
+};
 
 export { cs as organizationTranslationsCs } from './cs/index';
 export { de as organizationTranslationsDe } from './de/index';
