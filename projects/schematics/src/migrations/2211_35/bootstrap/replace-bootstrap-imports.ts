@@ -181,7 +181,9 @@ export function replaceBootstrapImports(): Rule {
 
           if (hasChanges) {
             tree.overwrite(filePath, updatedContent);
-            context.logger.info(`Updated imports of Bootstrap in file '${filePath}'`);
+            context.logger.info(
+              `Updated imports of Bootstrap in file '${filePath}'`
+            );
           }
         }
       }
