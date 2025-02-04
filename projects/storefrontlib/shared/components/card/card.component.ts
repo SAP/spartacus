@@ -80,6 +80,9 @@ export class CardComponent implements OnInit {
   @Input()
   index: number;
 
+  @Input()
+  role?: string;
+
   // ACTIONS
 
   setEditMode(): void {

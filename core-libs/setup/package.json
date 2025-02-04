@@ -1,6 +1,9 @@
 {
   "name": "@spartacus/setup",
   "version": "2211.35.0-1",
+  "engines": {
+    "node": "^22.0.0"
+  },
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
   "keywords": [
     "spartacus",

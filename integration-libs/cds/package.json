@@ -1,6 +1,9 @@
 {
   "name": "@spartacus/cds",
   "version": "2211.35.0-1",
+  "engines": {
+    "node": "^22.0.0"
+  },
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",

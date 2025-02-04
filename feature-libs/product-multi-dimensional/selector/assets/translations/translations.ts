@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const multiDimensionalSelectorTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const multiDimensionalSelectorTranslationChunksConfig: TranslationChunksConfig =
+  {
+    multiDimensionalSelector: ['multiDimensionalSelector'],
+  };
 
 export { cs as multiDimensionalSelectorTranslationsCs } from './cs/index';
 export { de as multiDimensionalSelectorTranslationsDe } from './de/index';

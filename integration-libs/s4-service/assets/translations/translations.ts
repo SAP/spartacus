@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const s4ServiceTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const s4ServiceTranslationChunksConfig: TranslationChunksConfig = {
+  s4Service: ['serviceOrderCheckout', 'cancelService', 'rescheduleService'],
+};
 
 export { cs as s4ServiceTranslationsCs } from './cs/index';
 export { de as s4ServiceTranslationsDe } from './de/index';
