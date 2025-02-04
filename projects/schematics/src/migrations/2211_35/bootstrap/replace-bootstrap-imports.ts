@@ -159,7 +159,10 @@ const bootstrapImportsToReplace = [
 
 export function replaceBootstrapImports(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('Starting replacement of Bootstrap imports.');
+    context.logger.info(
+      'Scanning files for Bootstrap imports. ' +
+        'Imports will be updated to use `@spartacus/styles/vendor/bootstrap/scss/`.'
+    );
 
     tree.visit((filePath) => {
       if (filePath.endsWith('.scss')) {
@@ -189,7 +192,7 @@ export function replaceBootstrapImports(): Rule {
       }
     });
 
-    context.logger.info('Replacement of Bootstrap imports completed.');
+    context.logger.info('Bootstrap import replacement process completed.');
     return tree;
   };
 }

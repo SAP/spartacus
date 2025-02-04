@@ -76,6 +76,8 @@ function updateMainStylesFileImports(): Rule {
       return tree;
     }
 
+    context.logger.info(`Updating Bootstrap imports in '${filePath}'...`);
+
     const styleImportsToInsert =
       `@import 'styles-config';\n` +
       `\n// ORDER IMPORTANT: Spartacus core first\n` +
@@ -108,7 +110,10 @@ function updateMainStylesFileImports(): Rule {
       .replace(/@import ['"]styles-config['"];/g, styleImportsToInsert);
 
     tree.overwrite(filePath, updatedContent);
-    context.logger.info(`Updated imports of Bootstrap in file '${filePath}'.`);
+
+    context.logger.info(
+      `Bootstrap imports updated successfully in '${filePath}'.`
+    );
 
     return tree;
   };
