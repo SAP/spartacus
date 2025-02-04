@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const asmTranslationChunksConfig = extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const asmTranslationChunksConfig: TranslationChunksConfig = {
+  asm: ['asm'],
+};
 
 export { cs as asmTranslationsCs } from './cs/index';
 export { de as asmTranslationsDe } from './de/index';

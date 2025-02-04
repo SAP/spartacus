@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const cdcTranslationChunksConfig = extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const cdcTranslationChunksConfig: TranslationChunksConfig = {
+  cdc: ['reconsent', 'cdcProfile'],
+};
 
 export { cs as cdcTranslationsCs } from './cs/index';
 export { de as cdcTranslationsDe } from './de/index';

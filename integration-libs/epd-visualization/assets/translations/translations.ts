@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const epdVisualizationTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const epdVisualizationTranslationChunksConfig: TranslationChunksConfig =
+  {
+    epdVisualization: ['epdVisualization'],
+  };
 
 export { cs as epdVisualizationTranslationsCs } from './cs/index';
 export { de as epdVisualizationTranslationsDe } from './de/index';
