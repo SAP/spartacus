@@ -25,15 +25,9 @@ import { removeImportFromContent } from '../../../shared/utils/file-utils';
 export function removeImportsFromServerTs(updatedContent: string): string {
   const importsToRemove: { symbolName?: string; importPath: string }[] = [
     { importPath: 'zone.js/node' },
-    { symbolName: 'ngExpressEngine', importPath: '@spartacus/setup/ssr' },
-    {
-      symbolName: 'NgExpressEngineDecorator',
-      importPath: '@spartacus/setup/ssr',
-    },
     { symbolName: 'express', importPath: 'express' },
     { symbolName: 'join', importPath: 'path' },
     { symbolName: 'AppServerModule', importPath: './src/main.server' },
-    { symbolName: 'APP_BASE_HREF', importPath: '@angular/common' },
     { symbolName: 'existsSync', importPath: 'fs' },
   ];
 

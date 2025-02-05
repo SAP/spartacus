@@ -34,19 +34,6 @@ export function addImportsToServerTs(updatedContent: string): string {
     asName?: string;
   }[] = [
     {
-      importPath: '@angular/common',
-      symbolName: 'APP_BASE_HREF',
-    },
-    {
-      importPath: '@spartacus/setup/ssr',
-      symbolName: 'NgExpressEngineDecorator',
-    },
-    {
-      importPath: '@spartacus/setup/ssr',
-      symbolName: 'ngExpressEngine',
-      asName: 'engine',
-    },
-    {
       importPath: 'express',
       symbolName: 'express',
       isDefault: true,
