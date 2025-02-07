@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { UnitTestTree } from '@angular-devkit/schematics/testing';
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
