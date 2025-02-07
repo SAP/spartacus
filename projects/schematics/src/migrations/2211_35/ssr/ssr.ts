@@ -5,13 +5,11 @@
  */
 
 import { noop, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { checkIfSSRIsUsedWithApplicationBuilder } from '../../../shared/utils/package-utils';
+import { isSsrUsed } from '../../../shared/utils/package-utils';
 import { updateServerFile } from './update-ssr/update-server-files';
 
 export function migrate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    return checkIfSSRIsUsedWithApplicationBuilder(tree)
-      ? updateServerFile()
-      : noop();
+    return isSsrUsed(tree) ? updateServerFile() : noop();
   };
 }
