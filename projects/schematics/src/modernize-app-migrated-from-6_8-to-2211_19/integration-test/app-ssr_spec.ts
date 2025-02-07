@@ -5,9 +5,9 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
-import { loadFixturesIntoTree } from '../test/fixtures-test-utils';
+import { loadFixturesIntoTree } from '../../test/fixtures-test-utils';
 
-const collectionPath = join(__dirname, '../collection.json');
+const collectionPath = join(__dirname, '../../collection.json');
 
 const SCHEMATICS_NAME = 'modernize-app-migrated-from-6_8-to-2211_19';
 
