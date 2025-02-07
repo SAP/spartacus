@@ -190,7 +190,7 @@ interface ApplicationBuilderWorkspaceArchitect {
  * @param tree - The file tree to check for SSR configuration
  * @returns true if SSR is configured and the server file exists, false otherwise
  */
-export function checkIfSSRIsUsedWithApplicationBuilder(tree: Tree): boolean {
+export function isSsrUsed(tree: Tree): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const { workspace: angularJson } = getWorkspace(tree);
   const architect = angularJson.projects[projectName]
