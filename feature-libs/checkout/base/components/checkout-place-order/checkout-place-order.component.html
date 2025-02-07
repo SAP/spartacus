@@ -20,7 +20,7 @@
           [routerLink]="
             {
               cxRoute: 'termsAndConditions',
-              params: [language$ | async, currency$ | async],
+              params: [params$ | async],
             } | cxUrl
           "
           class="cx-tc-link"

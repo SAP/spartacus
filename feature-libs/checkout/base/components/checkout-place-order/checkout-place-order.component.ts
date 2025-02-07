@@ -25,7 +25,7 @@ import {
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
@@ -35,8 +35,7 @@ import { Observable } from 'rxjs';
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
-  currency$ = new Observable<string>();
-  language$ = new Observable<string>();
+  params$ = new Observable<string[]>();
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
@@ -57,8 +56,10 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit() {
-    this.currency$ = this.currencyService.getActive();
-    this.language$ = this.languageService.getActive();
+    this.params$ = combineLatest([
+      this.currencyService.getActive(),
+      this.languageService.getActive(),
+    ]).pipe(map(([currency, language]) => [currency, language]));
   }
 
   submitForm(): void {

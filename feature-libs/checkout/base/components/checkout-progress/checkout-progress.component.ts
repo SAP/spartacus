@@ -11,8 +11,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutStep, CheckoutStepState } from '@spartacus/checkout/base/root';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CurrencyService, LanguageService } from '@spartacus/core';
 
@@ -23,9 +23,7 @@ import { CurrencyService, LanguageService } from '@spartacus/core';
   standalone: false,
 })
 export class CheckoutProgressComponent implements OnInit {
-  currency$ = new Observable<string>();
-  language$ = new Observable<string>();
-
+  params$ = new Observable<string[]>();
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
   private currencyService = inject(CurrencyService);
@@ -44,8 +42,10 @@ export class CheckoutProgressComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currency$ = this.currencyService.getActive();
-    this.language$ = this.languageService.getActive();
+    this.params$ = combineLatest([
+      this.currencyService.getActive(),
+      this.languageService.getActive(),
+    ]).pipe(map(([currency, language]) => [currency, language]));
   }
 
   getTabIndex(stepIndex: number): number {

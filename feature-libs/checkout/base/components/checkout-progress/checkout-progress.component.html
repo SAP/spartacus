@@ -14,7 +14,7 @@
             [routerLink]="
               {
                 cxRoute: step.routeName,
-                params: [language$ | async, currency$ | async],
+                params: [params$ | async],
               } | cxUrl
             "
             class="cx-link"
