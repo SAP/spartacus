@@ -33,7 +33,7 @@
       "aliases": ["wrapper"]
     },
     "modernize-app-migrated-from-6_8-to-2211_19": {
-      "description": "Modernize Angular application migrated from 6.8 to 22.11.19",
+      "description": "Modernize Angular application migrated from 6.8 to 2211.19",
       "factory": "./modernize-app-migrated-from-6_8-to-2211_19/index#migrate"
     }
   }
