@@ -5,7 +5,7 @@ import * as shared from '../../../shared/utils/package-utils';
 
 jest.mock('../../../shared/utils/package-utils', () => ({
   ...jest.requireActual('../../../shared/utils/package-utils'),
-  checkIfSSRIsUsedWithApplicationBuilder: jest.fn(),
+  isSsrUsed: jest.fn(),
 }));
 
 const collectionPath = join(__dirname, '../../migrations.json');
@@ -68,9 +68,7 @@ describe('Update SSR Migration', () => {
   it.each(['/server.ts', '/src/server.ts'])(
     'should update %s when using application builder and SSR is used',
     async (filePath) => {
-      (
-        shared.checkIfSSRIsUsedWithApplicationBuilder as jest.Mock
-      ).mockReturnValue(true);
+      (shared.isSsrUsed as jest.Mock).mockReturnValue(true);
       tree.create(filePath, serverFileContent);
 
       const newTree = await runner.runSchematic(
@@ -83,16 +81,12 @@ describe('Update SSR Migration', () => {
       expect(content).toContain('export function app()');
       expect(content).toContain("join(serverDistFolder, 'index.server.html')");
       expect(content).not.toContain("join(browserDistFolder, 'index.html')");
-      expect(
-        shared.checkIfSSRIsUsedWithApplicationBuilder
-      ).toHaveBeenCalledWith(tree);
+      expect(shared.isSsrUsed).toHaveBeenCalledWith(tree);
     }
   );
 
   it('should not update when SSR is not used', async () => {
-    (
-      shared.checkIfSSRIsUsedWithApplicationBuilder as jest.Mock
-    ).mockReturnValue(false);
+    (shared.isSsrUsed as jest.Mock).mockReturnValue(false);
     tree.create('/server.ts', serverFileContent);
 
     const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
@@ -102,29 +96,21 @@ describe('Update SSR Migration', () => {
     expect(content).not.toContain(
       "join(serverDistFolder, 'index.server.html')"
     );
-    expect(shared.checkIfSSRIsUsedWithApplicationBuilder).toHaveBeenCalledWith(
-      tree
-    );
+    expect(shared.isSsrUsed).toHaveBeenCalledWith(tree);
   });
 
   it('should handle missing server.ts file', async () => {
-    (
-      shared.checkIfSSRIsUsedWithApplicationBuilder as jest.Mock
-    ).mockReturnValue(true);
+    (shared.isSsrUsed as jest.Mock).mockReturnValue(true);
 
     const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
 
     expect(newTree.exists('/server.ts')).toBe(false);
     expect(newTree.exists('/src/server.ts')).toBe(false);
-    expect(shared.checkIfSSRIsUsedWithApplicationBuilder).toHaveBeenCalledWith(
-      tree
-    );
+    expect(shared.isSsrUsed).toHaveBeenCalledWith(tree);
   });
 
   it('should preserve other join statements when SSR is used', async () => {
-    (
-      shared.checkIfSSRIsUsedWithApplicationBuilder as jest.Mock
-    ).mockReturnValue(true);
+    (shared.isSsrUsed as jest.Mock).mockReturnValue(true);
 
     const contentWithMultipleJoins = `
       const otherFile = join(process.cwd(), 'other.html');
@@ -140,8 +126,6 @@ describe('Update SSR Migration', () => {
     expect(content).toContain("join(process.cwd(), 'other.html')");
     expect(content).toContain('join(serverDistFolder, "index.server.html")');
     expect(content).toContain("join(process.cwd(), 'another.html')");
-    expect(shared.checkIfSSRIsUsedWithApplicationBuilder).toHaveBeenCalledWith(
-      tree
-    );
+    expect(shared.isSsrUsed).toHaveBeenCalledWith(tree);
   });
 });
