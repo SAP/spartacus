@@ -41,10 +41,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
-  //TODO: CXSPA-9005: Remove this property in next major release
-  /**
-   * @deprecated since 2211.33
-   */
   protected translationService = inject(TranslationService);
   protected domSanitizer = inject(DomSanitizer);
   protected selectComponent = inject(NgSelectComponent);
@@ -105,6 +101,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
+    if (
+      this.featureConfigService?.isEnabled(
+        'a11yNgSelectAriaLabelDropdownCustomized'
+      )
+    ) {
+      this.customizeNgSelectAriaLabelDropdown();
+    }
 
     const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
     const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));
@@ -201,5 +204,14 @@ export class NgSelectA11yDirective implements AfterViewInit {
       );
     }
     observer.disconnect();
+  }
+
+  customizeNgSelectAriaLabelDropdown() {
+    this.translationService
+      .translate('common.ngSelectDropdownOptionsList')
+      .pipe(take(1))
+      .subscribe((translation) => {
+        this.selectComponent.ariaLabelDropdown = translation;
+      });
   }
 }

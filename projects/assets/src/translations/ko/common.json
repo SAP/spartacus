@@ -73,6 +73,8 @@
     "ariaLabelProducts": "제품 결과",
     "initialDescription": "자동 완성 결과가 있으면 위아래 화살표를 사용하여 확인한 후에 선택하십시오. 터치 디바이스 사용자는 터치하거나 쓸어넘기면서 찾으십시오. ",
     "suggestions": "제안 키워드",
+    "recentSearches": "최근 검색",
+    "trendingSearches": "인기 검색어",
     "suggestionsResult": "{{ count }}개의 제안 및 ",
     "suggestionsResult_other": "{{ count }}개의 제안 및 ",
     "products": "추천 제품",

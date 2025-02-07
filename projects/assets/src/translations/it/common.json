@@ -73,6 +73,8 @@
     "ariaLabelProducts": "risultati prodotti",
     "initialDescription": "Quando sono disponibili i risultati del completamento automatico, utilizzare le frecce Su e Giù per la revisione e Invio per la selezione. Gli utenti dei dispositivi touch posso esplorare tramite tocco o gesti di scorrimento.",
     "suggestions": "Parole chiave consigliate",
+    "recentSearches": "Ricerche recenti",
+    "trendingSearches": "Ricerche di tendenza",
     "suggestionsResult": "{{ count }} consiglio e ",
     "suggestionsResult_other": "{{ count }} consigli e ",
     "products": "Prodotti consigliati",

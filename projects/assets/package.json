@@ -1,6 +1,9 @@
 {
   "name": "@spartacus/assets",
-  "version": "2211.35.0",
+  "version": "2211.35.0-1",
+  "engines": {
+    "node": "^22.0.0"
+  },
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/assets",
   "scripts": {
@@ -11,9 +14,6 @@
   },
   "dependencies": {
     "tslib": "^2.8.1"
-  },
-  "peerDependencies": {
-    "@spartacus/core": "2211.35.0"
   },
   "publishConfig": {
     "access": "public"

@@ -32,9 +32,10 @@
 
 
 # ================================================
-#  This code owners file
+#  Admin files
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
+/projects/storefrontstyles/vendor/bootstrap          @SAP/spartacus-admins
 
 # ================================================
 #  Folders where anyone with write access to the repo can approve Pull Requests

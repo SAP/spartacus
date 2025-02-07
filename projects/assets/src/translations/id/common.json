@@ -73,6 +73,8 @@
     "ariaLabelProducts": "hasil produk",
     "initialDescription": "Jika hasil pengisian otomatis tersedia, gunakan tombol panah atas dan bawah untuk meninjau dan tombol enter untuk memilih. Untuk pengguna dengan perangkat layar sentuh, jelajahi dengan sentuhan atau gerakan geser.",
     "suggestions": "Kata Kunci yang Disarankan",
+    "recentSearches": "Pencarian Terbaru",
+    "trendingSearches": "Pencarian Populer",
     "suggestionsResult": "{{ count }} saran dan ",
     "suggestionsResult_other": "{{ count }} saran dan ",
     "products": "Produk yang Direkomendasikan",

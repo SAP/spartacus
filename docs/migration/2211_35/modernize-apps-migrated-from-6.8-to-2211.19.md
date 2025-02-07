@@ -31,17 +31,7 @@ Why: we're configuring here the new `application` builder for Angular v17 and la
 
 1. In the section `architect > build > options` please apply the all the following modifications, to adapt to the new configuration format for the new builder:
 
-2.1 In the property `"outputPath"` please remove the ending `"/browser"` from the string value.
-
-```diff
-        "architect": {
-          "build": {
-            "options": {
--             "outputPath": "dist/YOUR-APP-NAME/browser",
-+             "outputPath": "dist/YOUR-APP-NAME",
-```
-
-2.2 rename the property `"main"` to `"browser"`
+2.1 rename the property `"main"` to `"browser"`
 
 ```diff
         "architect": {
@@ -52,7 +42,7 @@ Why: we're configuring here the new `application` builder for Angular v17 and la
 ```
 
 
-2.3. In the section `architect > build > configurations > development` please remove 3 properties: `"buildOptimizer"`, `"vendorChunk"`, `"namedChunks"`
+2.2. In the section `architect > build > configurations > development` please remove 3 properties: `"buildOptimizer"`, `"vendorChunk"`, `"namedChunks"`
 
 ```diff
         "architect": {
@@ -85,7 +75,19 @@ In the `"compilerOptions"` section, please:
 
 ### `angular.json`
 
-1. In the section `architect > build > options` please add 3 new options with values: `"server": "src/main.server.ts"`, `"prerender": false`, `"ssr": { "entry": "server.ts" }`
+1. In the section `architect > build > options` please apply all the following modifications:
+
+1.1 In the property `"outputPath"` please remove the ending `"/browser"` from the string value.
+
+```diff
+        "architect": {
+          "build": {
+            "options": {
+-             "outputPath": "dist/YOUR-APP-NAME/browser",
++             "outputPath": "dist/YOUR-APP-NAME",
+```
+
+1.2 Please add 3 new options with values: `"server": "src/main.server.ts"`, `"prerender": false`, `"ssr": { "entry": "server.ts" }`
 
 ```diff
         "architect": {
