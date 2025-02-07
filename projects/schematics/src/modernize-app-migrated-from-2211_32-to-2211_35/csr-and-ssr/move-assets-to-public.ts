@@ -41,7 +41,6 @@ export function moveAssetsToPublic(): Rule {
           tree.create(`${AssetsDirs.NEW}/${relativeFilePath}`, content);
         } else {
           printErrorWithDocs(`Failed to read ${filePath} file`, context);
-          return;
         }
       });
     } catch (error) {

@@ -60,7 +60,8 @@ export function updateTsConfig(): Rule {
     );
     tsConfig.compilerOptions.moduleResolution = 'bundler';
 
-    tree.overwrite(tsconfigPath, JSON.stringify(tsConfig, null, 2));
+    const JSON_INDENT = 2;
+    tree.overwrite(tsconfigPath, JSON.stringify(tsConfig, null, JSON_INDENT));
     context.logger.info(`✅ Updated ${tsconfigPath}`);
   };
 }

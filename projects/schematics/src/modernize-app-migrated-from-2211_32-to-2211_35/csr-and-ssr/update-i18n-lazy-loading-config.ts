@@ -83,8 +83,7 @@ function hasConfigForLazyLoadingI18n(content: string): boolean {
   );
 
   const objectLiterals = findObjectLiterals(sourceFile);
-  const hasValidConfig = objectLiterals.some(isConfigForLazyLoadingI18n);
-  return hasValidConfig;
+  return objectLiterals.some(isConfigForLazyLoadingI18n);
 }
 
 /**

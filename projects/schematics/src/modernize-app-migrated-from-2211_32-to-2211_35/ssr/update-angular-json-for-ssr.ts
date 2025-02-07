@@ -48,7 +48,8 @@ export function updateAngularJsonForSsr(): Rule {
       return;
     }
 
-    tree.overwrite(path, JSON.stringify(workspace, null, 2));
+    const JSON_INDENT = 2;
+    tree.overwrite(path, JSON.stringify(workspace, null, JSON_INDENT));
     context.logger.info('✅ Updated angular.json for SSR');
   };
 }

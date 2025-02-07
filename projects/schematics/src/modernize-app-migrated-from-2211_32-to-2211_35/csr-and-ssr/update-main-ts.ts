@@ -27,7 +27,7 @@ export function updateMainTs(): Rule {
       printErrorWithDocs(`Failed to read ${mainTsPath} file`, context);
       return;
     }
-    let originalContent = content.toString();
+    const originalContent = content.toString();
 
     context.logger.info(
       '  ↳ Updating `bootstrapModule()` call to include `ngZoneEventCoalescing: true`'
