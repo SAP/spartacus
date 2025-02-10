@@ -93,12 +93,12 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
   beforeEach(waitForAsync(() => {
-     const mockCurrencyService = {
-       getActive: () => of('USD'),
-     };
-     const mockLanguageService = {
-       getActive: () => of('en'),
-     };
+    const mockCurrencyService = {
+      getActive: () => of('USD'),
+    };
+    const mockLanguageService = {
+      getActive: () => of('en'),
+    };
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
       declarations: [

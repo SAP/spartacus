@@ -57,7 +57,7 @@ class MockMultiLinePipe implements PipeTransform {
   }
 }
 
-  xdescribe('CheckoutProgressComponent', () => {
+describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
