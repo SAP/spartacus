@@ -7,7 +7,10 @@
 import { NgModule } from '@angular/core';
 import {
   savedCartTranslationChunksConfig,
-  savedCartTranslations,
+  savedCartTranslationsEn,
+  savedCartTranslationsJa,
+  savedCartTranslationsDe,
+  savedCartTranslationsZh,
 } from '@spartacus/cart/saved-cart/assets';
 import {
   CART_SAVED_CART_FEATURE,
@@ -28,7 +31,12 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: savedCartTranslations,
+        resources: {
+          en: savedCartTranslationsEn,
+          ja: savedCartTranslationsJa,
+          de: savedCartTranslationsDe,
+          zh: savedCartTranslationsZh,
+        },
         chunks: savedCartTranslationChunksConfig,
         fallbackLang: 'en',
       },

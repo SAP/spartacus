@@ -39,6 +39,7 @@ export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
  */
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 export class MockUrlPipe implements PipeTransform {
   constructor(

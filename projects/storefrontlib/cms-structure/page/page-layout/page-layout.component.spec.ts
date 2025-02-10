@@ -24,18 +24,21 @@ const slots = {
       <div class="content">content projection</div>
     </cx-page-layout>
   `,
+  standalone: false,
 })
 class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
   template: ` <cx-page-layout section="header"> </cx-page-layout> `,
+  standalone: false,
 })
 class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-page-slot',
   template: 'dynamic-slot.component',
+  standalone: false,
 })
 class MockDynamicSlotComponent {
   @Input() position: string;

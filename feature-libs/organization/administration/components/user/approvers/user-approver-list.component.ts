@@ -19,5 +19,6 @@ import { UserApproverListService } from './user-approver-list.service';
       useExisting: UserApproverListService,
     },
   ],
+  standalone: false,
 })
 export class UserApproverListComponent {}

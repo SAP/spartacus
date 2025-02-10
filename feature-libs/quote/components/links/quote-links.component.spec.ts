@@ -4,17 +4,16 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { Router, Routes } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule, Routes } from '@angular/router';
 import {
   EventService,
-  I18nTestingModule,
-  Price,
   FeatureConfigService,
   GlobalMessageService,
-  HttpErrorModel,
-  Translatable,
   GlobalMessageType,
+  HttpErrorModel,
+  I18nTestingModule,
+  Price,
+  Translatable,
 } from '@spartacus/core';
 import {
   CartUtilsService,
@@ -112,8 +111,8 @@ describe('QuoteLinksComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        RouterTestingModule.withRoutes(mockRoutes),
         UrlTestingModule,
+        RouterModule.forRoot(mockRoutes),
       ],
       declarations: [QuoteLinksComponent],
       providers: [

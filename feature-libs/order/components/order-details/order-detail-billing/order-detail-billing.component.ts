@@ -20,6 +20,7 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-detail-billing',
   templateUrl: './order-detail-billing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderDetailBillingComponent {
   order$: Observable<Order | undefined> =

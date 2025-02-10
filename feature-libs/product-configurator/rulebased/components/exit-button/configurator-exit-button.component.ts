@@ -26,6 +26,7 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-exit-button',
   templateUrl: './configurator-exit-button.component.html',
+  standalone: false,
 })
 export class ConfiguratorExitButtonComponent {
   container$: Observable<{

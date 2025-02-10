@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "Historial de pedidos a nivel de unidad",
+    "orderId": "Número de pedido",
+    "emptyPurchaseOrderId": "Ninguno",
+    "date": "Fecha",
+    "status": "Estado",
+    "buyer": "Comprador",
+    "unit": "Unidad",
+    "total": "Total",
+    "noOrders": "No tenemos registros de pedidos coincidentes para su unidad.",
+    "startShopping": "Comenzar compra",
+    "sortBy": "Clasificar por",
+    "sortOrders": "Órdenes de clasificación",
+    "purchaseOrderNumber": "Número de pedido",
+    "startOn": "Fecha de inicio",
+    "frequency": "Frecuencia",
+    "nextOrderDate": "Próxima fecha de pedido",
+    "notFound": "No existen pedidos",
+    "applyFilter": "Aplicar",
+    "filterBy": "Filtrar por",
+    "filterByBuyer": "Filtrar por comprador",
+    "filterByBuyerLabel": "Nombre del comprador",
+    "filterByBuyerPlaceholder": "Ingrese nombre del comprador",
+    "filterByBuyerAriaLabel": "Filtrar lista por comprador",
+    "filterByUnit": "Filtrar por unidad",
+    "filterByUnitLabel": "Nombre de unidad",
+    "filterByUnitPlaceholder": "Ingrese nombre de unidad",
+    "filterByUnitAriaLabel": "Filtrar lista por unidad",
+    "search": "Buscar",
+    "clearAll": "Borrar todo",
+    "removeAppliedFilters": "Eliminar filtros",
+    "yourFilters": "Sus filtros:",
+    "and": " y "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "Fecha",
+    "orderNumber": "Número de pedido",
+    "buyer": "Comprador (ascendente)",
+    "buyerDesc": "Comprador (descendente)",
+    "orgUnit": "Unidad (ascendente)",
+    "orgUnitDesc": "Unidad (descendente)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "Comprador"
+  }
+}

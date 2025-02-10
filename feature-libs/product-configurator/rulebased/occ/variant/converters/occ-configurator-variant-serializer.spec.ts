@@ -299,7 +299,7 @@ describe('OccConfiguratorVariantSerializer', () => {
     const attributeWithRetraction: Configurator.Attribute = {
       name: 'attr',
       uiType: Configurator.UiType.DROPDOWN,
-      selectedSingleValue: OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+      selectedSingleValue: Configurator.RetractValueCode,
     };
     const occAttributes: OccConfigurator.Attribute[] = [];
     occConfiguratorVariantSerializer.convertAttribute(
@@ -326,8 +326,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       const attribute: Configurator.Attribute = {
         name: 'attr',
         uiType: Configurator.UiType.DROPDOWN,
-        selectedSingleValue:
-          OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+        selectedSingleValue: Configurator.RetractValueCode,
       };
 
       expect(
@@ -419,8 +418,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       const attribute: Configurator.Attribute = {
         name: 'attr',
         uiType: Configurator.UiType.DROPDOWN,
-        selectedSingleValue:
-          OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+        selectedSingleValue: Configurator.RetractValueCode,
         values: [value1, value2, value3, value4],
       };
 

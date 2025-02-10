@@ -7,7 +7,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfig,
@@ -25,11 +24,13 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
 @Directive({
   selector: '[cxNgSelectA11y]',
+  standalone: false,
 })
 class MockNgSelectA11yDirective {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
@@ -70,7 +71,6 @@ describe('UpdateProfileComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
         UrlTestingModule,
         NgSelectModule,
       ],

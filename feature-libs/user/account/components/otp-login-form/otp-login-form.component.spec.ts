@@ -2,7 +2,6 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService, WindowRef } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import {
@@ -32,6 +31,7 @@ class MockRoutingService {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -49,7 +49,6 @@ describe('OneTimePasswordLoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,

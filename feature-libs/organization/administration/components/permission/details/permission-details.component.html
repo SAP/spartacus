@@ -5,7 +5,7 @@
 >
   <a
     actions
-    class="link edit"
+    class="link btn btn-link btn-sm edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgPurchaseLimitEdit', params: model } | cxUrl"
   >

@@ -1,0 +1,32 @@
+{
+  "anonymousConsents": {
+    "dialog": {
+      "title": "同意管理",
+      "legalDescription": "系統使用 Cookie/瀏覽器儲存空間，個人化內容並改善使用者體驗。我們也會將關於您網站的資料與我們的社群媒體分享。如需更多資訊，請審查我們的隱私權政策。",
+      "selectAll": "全部選擇",
+      "clearAll": "全部清除"
+    },
+    "banner": {
+      "title": "此網站使用 Cookie",
+      "description": "我們使用 Cookie/瀏覽器儲存空間，個人化內容並改善使用者體驗。",
+      "allowAll": "全部允許",
+      "viewDetails": "檢視明細"
+    }
+  },
+  "checkoutLogin": {
+    "emailAddress": {
+      "label": "電子郵件地址",
+      "placeholder": "輸入電子郵件"
+    },
+    "confirmEmail": {
+      "label": "確認電子郵件",
+      "placeholder": "確認電子郵件"
+    },
+    "continue": "繼續",
+    "emailIsRequired": "電子郵件格式無效",
+    "emailsMustMatch": "電子郵件不相符"
+  },
+  "authMessages": {
+    "signedOutSuccessfully": "您已成功登出。"
+  }
+}

@@ -57,6 +57,7 @@ import {
   getStylesConfigFilePath,
 } from '../shared/utils/styling-utils';
 import {
+  createSassSilenceDeprecations,
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
   getProjectTargets,
@@ -148,7 +149,26 @@ function installStyles(options: SpartacusOptions): Rule {
       styleFilePath
     );
     let insertion =
-      `\n@import '${relativeStyleConfigImportPath}';\n` +
+      `@import '${relativeStyleConfigImportPath}';\n` +
+      `\n// ORDER IMPORTANT: Spartacus core first\n` +
+      `@import '@spartacus/styles/scss/core';\n\n` +
+      `// ORDER IMPORTANT: Copy of Bootstrap files next\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/reboot';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/type';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/grid';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/utilities';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/transitions';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/dropdown';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/card';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/nav';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/buttons';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/forms';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/custom-forms';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/modal';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/close';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/alert';\n` +
+      `@import '@spartacus/styles/vendor/bootstrap/scss/tooltip';\n\n` +
+      `// ORDER IMPORTANT: Spartacus styles last\n` +
       `@import '@spartacus/styles/index';\n`;
 
     if (options?.theme) {
@@ -358,9 +378,17 @@ export function createStylePreprocessorOptions(
     const buildStylePreprocessorOptions = createStylePreprocessorOptionsArray(
       (architectBuild?.options as any)?.stylePreprocessorOptions
     );
+    // Apply silenceDeprecations only for `build` configuration (but not `test` - it's not supported there)
+    const buildSassOptions = createSassSilenceDeprecations(
+      context,
+      buildStylePreprocessorOptions
+    );
     const buildOptions = {
       ...architectBuild?.options,
-      stylePreprocessorOptions: buildStylePreprocessorOptions,
+      stylePreprocessorOptions: {
+        ...buildStylePreprocessorOptions,
+        ...buildSassOptions,
+      },
     };
 
     // `test` architect section
@@ -403,30 +431,28 @@ export function createStylePreprocessorOptions(
 }
 
 function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions: {
+  includePaths?: string[];
+  [key: string]: any;
+}): {
   includePaths: string[];
-}): { includePaths: string[] } {
-  const NODE_MODULES_PATH = 'node_modules/';
+  [key: string]: any;
+} {
   if (!angularJsonStylePreprocessorOptions) {
-    angularJsonStylePreprocessorOptions = {
-      includePaths: [NODE_MODULES_PATH],
-    };
-  } else {
-    if (!angularJsonStylePreprocessorOptions.includePaths) {
-      angularJsonStylePreprocessorOptions.includePaths = [NODE_MODULES_PATH];
-    } else {
-      if (
-        !angularJsonStylePreprocessorOptions.includePaths.includes(
-          NODE_MODULES_PATH
-        )
-      ) {
-        angularJsonStylePreprocessorOptions.includePaths.push(
-          NODE_MODULES_PATH
-        );
-      }
-    }
+    angularJsonStylePreprocessorOptions = {};
   }
 
-  return angularJsonStylePreprocessorOptions;
+  const NODE_MODULES_PATH = 'node_modules/';
+  const includePaths = Array.from(
+    new Set([
+      ...(angularJsonStylePreprocessorOptions.includePaths || []),
+      NODE_MODULES_PATH,
+    ])
+  );
+
+  return {
+    ...angularJsonStylePreprocessorOptions,
+    includePaths,
+  };
 }
 
 function prepareDependencies(features: string[]): NodeDependency[] {

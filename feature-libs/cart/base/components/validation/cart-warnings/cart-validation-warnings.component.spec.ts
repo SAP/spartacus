@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartModification,
   CartValidationFacade,
@@ -55,6 +54,7 @@ class MockCartValidationFacade {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -62,6 +62,7 @@ class MockCxIconComponent {
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -69,6 +70,7 @@ class MockTranslatePipe implements PipeTransform {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -82,7 +84,6 @@ describe('CartValidationWarningsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         CartValidationWarningsComponent,
         MockCxIconComponent,

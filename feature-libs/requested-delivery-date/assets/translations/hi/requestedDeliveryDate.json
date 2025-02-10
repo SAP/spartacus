@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "वितरण दिनांक का अनुरोध करें",
+    "readOnlyTextLabel": "अनुरोधित वितरण दिनांक",
+    "successMessage": "वितरण दिनांक सफलतापूर्वक अपडेट किया गया.",
+    "errorMessage": "कुछ गलत हुआ है. अनुरोधित दिनांक अपडेट करे में अक्षम."
+  }
+}

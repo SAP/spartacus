@@ -1,7 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
@@ -60,10 +65,12 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCheckoutBillingAddressAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(OccCheckoutBillingAddressAdapter);

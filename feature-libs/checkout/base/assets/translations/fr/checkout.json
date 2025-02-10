@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Retour au panier"
+  },
+  "checkoutProgress": {
+    "label": "Progression de la validation de la commande",
+    "deliveryAddress": "Adresse d'expédition",
+    "deliveryMode": "Mode de livraison",
+    "paymentDetails": "Paiement",
+    "reviewOrder": "Vérification",
+    "state": {
+      "completed": "{{step}}, terminé",
+      "selected": "{{step}}, sélectionné",
+      "disabled": "{{step}}, désactivé"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Adresse d'expédition",
+    "selectYourDeliveryAddress": "Sélectionnez votre adresse de livraison",
+    "defaultDeliveryAddress": "Adresse de livraison par défaut",
+    "addNewAddress": "Ajouter une nouvelle adresse",
+    "shipToThisAddress": "Expédier à cette adresse",
+    "deliveryAddressSelected": "Adresse de livraison sélectionnée"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Mode de livraison",
+    "deliveryOptions": "Options de livraison",
+    "standardDelivery": "Livraison standard",
+    "premiumDelivery": "Livraison premium",
+    "deliveryEntries": "Articles à expédier"
+  },
+  "checkoutReview": {
+    "review": "Vérification",
+    "reviewOrder": "Vérifier la commande",
+    "orderItems": "Articles de la commande",
+    "confirmThatRead": "Je confirme avoir lu et accepté les",
+    "placeOrder": "Passer la commande",
+    "termsAndConditions": "Conditions générales",
+    "editDeliveryAddressDetails": "Modifier les détails de l'adresse de livraison, ouverture de la page Adresse de livraison",
+    "editBillingDetails": "Modifier l'adresse de facturation, ouverture de la page Détails du paiement",
+    "editPaymentDetails": "Modifier les détails du paiement, ouverture de la page Détails du paiement",
+    "editPaymentType": "Modifier le mode de paiement, ouverture de la page Mode de paiement",
+    "editDeliveryMode": "Modifier le mode de livraison, ouverture de la page Mode de livraison",
+    "orderInProcess": "La commande est en cours. Veuillez patienter."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Confirmation de la commande :",
+    "thankYou": "Merci pour votre commande !",
+    "invoiceHasBeenSentByEmail": "Une facture vous a été envoyée par e-mail. Vous devriez la recevoir bientôt.",
+    "orderItems": "Articles de la commande",
+    "orderPlacedSuccessfully": "La commande a été passée avec succès",
+    "createAccount": "Créer un compte ?",
+    "createAccountForNext": "Créez un compte pour <{{email}}> pour valider plus rapidement votre commande lors de votre prochaine visite."
+  }
+}

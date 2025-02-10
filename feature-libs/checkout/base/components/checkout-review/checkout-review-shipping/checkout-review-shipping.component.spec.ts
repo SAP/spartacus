@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -109,6 +108,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -117,6 +117,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-card',
   template: '',
+  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -135,12 +136,7 @@ describe('CheckoutReviewShippingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        IconTestingModule,
-        OutletModule,
-      ],
+      imports: [I18nTestingModule, IconTestingModule, OutletModule],
       declarations: [
         CheckoutReviewShippingComponent,
         MockUrlPipe,

@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "Домашняя страница"
+        },
+        "zoomButton": {
+          "label": "Масштаб"
+        },
+        "panButton": {
+          "label": "Панорама"
+        },
+        "rotateButton": {
+          "label": "Повернуть"
+        },
+        "isolateButton": {
+          "label": "Изолировать"
+        },
+        "playButton": {
+          "label": "Воспроизвести"
+        },
+        "pauseButton": {
+          "label": "Пауза"
+        },
+        "hotspotsButton": {
+          "label": "Горячие точки",
+          "show": "Показать",
+          "hide": "Скрыть"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "Анимационный слайдер",
+          "role": "Слайдер"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "Для этого продукта запасные части отсутствуют."
+      },
+      "visualPickingProductList": {
+        "description": "Описание",
+        "itemPrice": "Цена",
+        "outOfStock": "Нет в наличии",
+        "id": "Ид."
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "Фильтр по имени или ид."
+        },
+        "searchButton": {
+          "label": "Поиск"
+        },
+        "resetButton": {
+          "label": "Сбросить"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "Соответствующая визуализация не найдена",
+        "multipleMatchingVisualsFound": "Найдено несколько соответствующих визуализаций",
+        "unexpectedLoadError": "При загрузке визуализации произошла ошибка"
+      }
+    }
+  }
+}

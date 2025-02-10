@@ -4,7 +4,7 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature e
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { PickupInStoreModule } from "@spartacus/pickup-in-store";
-import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslations } from "@spartacus/pickup-in-store/assets";
+import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslationsEn } from "@spartacus/pickup-in-store/assets";
 import { PickupInStoreRootModule } from "@spartacus/pickup-in-store/root";
 
 @NgModule({
@@ -15,7 +15,7 @@ import { PickupInStoreRootModule } from "@spartacus/pickup-in-store/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: pickupInStoreTranslations,
+      resources: { en: pickupInStoreTranslationsEn },
       chunks: pickupInStoreTranslationChunksConfig,
     },
   })]
@@ -27,7 +27,7 @@ export class PickupInStoreFeatureModule { }
 exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslations } from "@spartacus/pickup-in-store/assets";
+import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslationsEn } from "@spartacus/pickup-in-store/assets";
 import { PICKUP_IN_STORE_FEATURE, PickupInStoreRootModule } from "@spartacus/pickup-in-store/root";
 
 @NgModule({
@@ -45,7 +45,7 @@ import { PICKUP_IN_STORE_FEATURE, PickupInStoreRootModule } from "@spartacus/pic
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: pickupInStoreTranslations,
+      resources: { en: pickupInStoreTranslationsEn },
       chunks: pickupInStoreTranslationChunksConfig,
     },
   })
@@ -58,6 +58,9 @@ export class PickupInStoreFeatureModule { }
 exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/pickup-in-store";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -97,8 +100,10 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -108,7 +113,12 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -116,13 +126,13 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -148,10 +158,7 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -163,8 +170,10 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

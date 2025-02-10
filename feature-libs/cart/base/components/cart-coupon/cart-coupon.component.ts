@@ -27,6 +27,7 @@ import { map, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
+  standalone: false,
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;

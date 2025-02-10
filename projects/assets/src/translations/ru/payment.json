@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Оплата",
+    "choosePaymentMethod": "Выберите метод оплаты",
+    "paymentType": "Тип оплаты",
+    "accountHolderName": {
+      "label": "Имя владельца учетной записи",
+      "placeholder": "Имя владельца учетной записи"
+    },
+    "cardNumber": "Номер карты",
+    "expirationDate": "Дата окончания действия",
+    "securityCode": "Код безопасности (CVV)",
+    "securityCodeTitle": "Значение для проверки карты",
+    "saveAsDefault": "Сохранить как значение по умолчанию",
+    "setAsDefault": "Установить как метод оплаты по умолчанию",
+    "billingAddress": "Адрес выставления счета",
+    "sameAsDeliveryAddress": "Совпадает с адресом доставки",
+    "billingAddressSameAsShipping": "Адрес выставления счета совпадает с адресом доставки",
+    "selectOne": "Выберите...",
+    "monthMask": "ММ",
+    "yearMask": "ГГГГ",
+    "expirationYear": "Год истечения срока {{ selected }}",
+    "expirationMonth": "Месяц истечения срока {{ selected }}",
+    "useThisPayment": "Использовать эту оплату",
+    "addNewPayment": "Добавить новую оплату",
+    "paymentAddedSuccessfully": "Новая оплата успешно добавлена",
+    "changePayment": "Изменить оплату"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Методы оплаты",
+    "paymentMethodSelected": "Метод оплаты выбран",
+    "newPaymentMethodsAreAddedDuringCheckout": "Новые методы оплаты добавляются при оформлении заказа.",
+    "invalidField": "Недействительное поле: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Действительно удалить этот метод оплаты?",
+    "setAsDefault": "Установить по умолчанию",
+    "expires": "Истекает: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ ПО УМОЛЧАНИЮ",
+    "defaultPaymentLabel": "Метод оплаты по умолчанию",
+    "additionalPaymentLabel": "Дополнительный метод оплаты {{ number }}",
+    "selected": "Выбрано",
+    "selectedPayment": "Выбранная оплата",
+    "deletePaymentSuccess": "Метод оплаты удален",
+    "visa": "Карта Visa",
+    "master": "Карта Mastercard",
+    "masterEuro": "Карта Mastercard Eurocard",
+    "dinersClub": "Карта Diners Club",
+    "switch": "Карта Switch",
+    "maestro": "Карта Maestro",
+    "amex": "Карта American Express",
+    "credit": "Кредитная карта"
+  },
+  "paymentTypes": {
+    "title": "Метод оплаты",
+    "paymentType_CARD": "Кредитная карта",
+    "paymentType_ACCOUNT": "Учетная запись"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Новая оплата установлена по умолчанию"
+  }
+}

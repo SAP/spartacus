@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "इकाई-स्तर ऑर्डर इतिहास",
+    "orderId": "ऑर्डर #",
+    "emptyPurchaseOrderId": "कोई नहीं",
+    "date": "दिनांक",
+    "status": "स्थिति",
+    "buyer": "क्रेता",
+    "unit": "इकाई",
+    "total": "कुल",
+    "noOrders": "हमारे पास आपकी इकाई के लिए कोई मेल खाते ऑर्डर रिकॉर्ड नहीं है.",
+    "startShopping": "शॉपिंग प्रारंभ करें",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortOrders": "ऑर्डर क्रमित करें",
+    "purchaseOrderNumber": "PO #",
+    "startOn": "प्रारंभ दिनांक",
+    "frequency": "आवृत्ति",
+    "nextOrderDate": "अगले ऑर्डर का दिनांक",
+    "notFound": "कोई ऑर्डर नहीं मिला ",
+    "applyFilter": "लागू करें",
+    "filterBy": "फ़िल्टरकर्ता",
+    "filterByBuyer": "क्रेता द्वारा फ़िल्टर किया गया",
+    "filterByBuyerLabel": "क्रेता का नाम",
+    "filterByBuyerPlaceholder": "क्रेता का नाम दर्ज करें",
+    "filterByBuyerAriaLabel": "क्रेता के अनुसार फ़िल्टर सूची",
+    "filterByUnit": "इकाई के अनुसार फ़िल्टर",
+    "filterByUnitLabel": "इकाई का नाम",
+    "filterByUnitPlaceholder": "इकाई का नाम दर्ज करें",
+    "filterByUnitAriaLabel": "इकाई के अनुसार फ़िल्टर सूची",
+    "search": "खोजें",
+    "clearAll": "सब साफ़ करें",
+    "removeAppliedFilters": "फ़िल्टर निकालें",
+    "yourFilters": "आपके फ़िल्टरः",
+    "and": " और "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "दिनांक",
+    "orderNumber": "ऑर्डर संख्या",
+    "buyer": "क्रेता (आरोही)",
+    "buyerDesc": "क्रेता (अवरोही)",
+    "orgUnit": "इकाई (आरोही)",
+    "orgUnitDesc": "इकाई (अवरोही)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "क्रेता"
+  }
+}

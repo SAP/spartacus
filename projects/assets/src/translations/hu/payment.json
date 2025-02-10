@@ -1,0 +1,62 @@
+{
+  "paymentForm": {
+    "payment": "Fizetés",
+    "choosePaymentMethod": "Válasszon fizetési módot",
+    "paymentType": "Fizetési mód",
+    "accountHolderName": {
+      "label": "Számlatulajdonos neve",
+      "placeholder": "Számlatulajdonos neve"
+    },
+    "cardNumber": "Kártya száma",
+    "expirationDate": "Lejárat dátuma",
+    "securityCode": "Biztonsági kód (CVV)",
+    "securityCodeTitle": "Kártyahitelesítési érték",
+    "saveAsDefault": "Mentés alapértelmezettként",
+    "setAsDefault": "Beállítás alapértelmezett fizetési módként",
+    "billingAddress": "Számlázási cím",
+    "sameAsDeliveryAddress": "Megegyezik a kézbesítési címmel",
+    "billingAddressSameAsShipping": "A számlázási cím megegyezik a kézbesítési címmel",
+    "selectOne": "Válasszon egyet…",
+    "monthMask": "HH",
+    "yearMask": "ÉÉÉÉ",
+    "expirationYear": "Lejárat éve: {{ selected }}",
+    "expirationMonth": "Lejárat hónapja: {{ selected }}",
+    "useThisPayment": "Fizetés használata",
+    "addNewPayment": "Új fizetés hozzáadása",
+    "paymentAddedSuccessfully": "Az új fizetés hozzáadása sikeres",
+    "changePayment": "Fizetés módosítása"
+  },
+  "paymentMethods": {
+    "paymentMethods": "Fizetési módok",
+    "paymentMethodSelected": "Fizetési mód kiválasztva",
+    "newPaymentMethodsAreAddedDuringCheckout": "Új fizetési módokat a fizetéskor lehet hozzáadni.",
+    "invalidField": "InvalidField: {{ field }}"
+  },
+  "paymentCard": {
+    "deleteConfirmation": "Biztosan törölni szeretné ezt a fizetési módot?",
+    "setAsDefault": "Beállítás alapértelmezettként",
+    "expires": "Lejárat: {{ month }}/{{ year }}",
+    "defaultPaymentMethod": "✓ ALAPÉRTELMEZETT",
+    "defaultPaymentLabel": "Alapértelmezett fizetési mód",
+    "additionalPaymentLabel": "További fizetési mód: {{ number }}",
+    "selected": "Kiválasztva",
+    "selectedPayment": "Kiválasztott fizetés",
+    "deletePaymentSuccess": "Fizetési mód törlése sikeres",
+    "visa": "Visa kártya",
+    "master": "Mastercard kártya",
+    "masterEuro": "Mastercard Eurocard kártya",
+    "dinersClub": "Diners Club kártya",
+    "switch": "Switch kártya",
+    "maestro": "Maestro kártya",
+    "amex": "American Express kártya",
+    "credit": "Hitelkártya"
+  },
+  "paymentTypes": {
+    "title": "Fizetési mód",
+    "paymentType_CARD": "Hitelkártya",
+    "paymentType_ACCOUNT": "Számla"
+  },
+  "paymentMessages": {
+    "setAsDefaultSuccessfully": "Új fizetés sikeresen beállítva alapértelmezettként"
+  }
+}

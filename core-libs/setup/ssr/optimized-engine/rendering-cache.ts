@@ -28,7 +28,10 @@ export class RenderingCache {
     if (this.options?.cacheSize) {
       this.renders.delete(key);
       if (this.renders.size >= this.options.cacheSize) {
-        this.renders.delete(this.renders.keys().next().value);
+        const oldestKey = this.renders.keys().next().value;
+        if (oldestKey !== undefined) {
+          this.renders.delete(oldestKey);
+        }
       }
     }
     // cache only if shouldCacheRenderingResult return true

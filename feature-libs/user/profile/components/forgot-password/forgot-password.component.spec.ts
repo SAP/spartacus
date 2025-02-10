@@ -6,7 +6,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -28,6 +27,7 @@ class MockForgotPasswordService
 }
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -48,7 +48,6 @@ describe('ForgotPasswordComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,

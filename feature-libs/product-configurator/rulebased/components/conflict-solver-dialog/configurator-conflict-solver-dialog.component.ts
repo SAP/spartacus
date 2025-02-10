@@ -27,6 +27,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-conflict-solver-dialog',
   templateUrl: './configurator-conflict-solver-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy

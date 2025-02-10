@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Esqueceu a senha?",
+    "signIn": "Iniciar sessão",
+    "register": "Registrar",
+    "dontHaveAccount": "Não tem uma conta?",
+    "guestCheckout": "Check-out de convidado",
+    "emailAddress": {
+      "label": "Endereço de e-mail",
+      "placeholder": "Inserir endereço de e-mail"
+    },
+    "password": {
+      "label": "Senha",
+      "placeholder": "Insira sua senha"
+    },
+    "wrongEmailFormat": "Este não é um formato de e-mail válido."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Código de verificação enviado para {{target}}. Verifique e insira o código.",
+    "needInputCredentials": "Insira suas credenciais para continuar.",
+    "sendRateLime": "em {{waitTime}} segundos",
+    "resend": "Reenviar",
+    "verificationCode": {
+      "label": "Código de verificação",
+      "placeholder": "Inserir código de verificação"
+    },
+    "noReceiveCode": "Não recebeu o código?",
+    "verify": "Verificar",
+    "back": "Voltar",
+    "tokenInputHint": "Você pode solicitar um novo código. Um temporizador começa a indicar os segundos restantes até que você possa reenviar sua solicitação."
+  },
+  "verificationTokenDialog": {
+    "title": "Não recebi o código",
+    "noReceiveCode": "Se você não tiver recebido o código, os motivos podem ser os seguintes:",
+    "contentLine1": "1. O e-mail ainda não chegou.",
+    "contentLine2": "2. O e-mail recebido foi tratado como e-mail de lixo eletrônico.",
+    "contentLine3": "3. O endereço de e-mail ou a senha que você inseriu está incorreto.",
+    "close": "Fechar"
+  },
+  "miniLogin": {
+    "userGreeting": "Olá, {{name}}",
+    "signInRegister": "Iniciar sessão/Registrar-se"
+  },
+  "myAccountV2User": {
+    "signOut": "Encerrar sessão"
+  }
+}

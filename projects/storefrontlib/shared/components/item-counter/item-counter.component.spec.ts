@@ -6,7 +6,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { MockKeyboardFocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from '../../test/mock-feature-directive';
@@ -22,7 +21,7 @@ describe('ItemCounterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         ItemCounterComponent,
         MockFeatureDirective,

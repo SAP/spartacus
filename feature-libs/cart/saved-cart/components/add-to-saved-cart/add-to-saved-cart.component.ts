@@ -23,6 +23,7 @@ import { map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-saved-cart',
   templateUrl: './add-to-saved-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

@@ -12,6 +12,7 @@ const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
 
 @Component({
   template: '',
+  standalone: false,
 })
 class WrapperComponent {
   constructor(public vcr: ViewContainerRef) {}

@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
@@ -88,6 +87,7 @@ const mockUserId = 'test-user';
 @Component({
   template: '',
   selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
+  standalone: false,
 })
 class MockCartItemComponent {
   @Input() item;
@@ -130,12 +130,7 @@ describe('CartItemListComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        PromotionsModule,
-        I18nTestingModule,
-      ],
+      imports: [ReactiveFormsModule, PromotionsModule, I18nTestingModule],
       declarations: [CartItemListComponent, MockCartItemComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },

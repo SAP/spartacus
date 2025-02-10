@@ -22,6 +22,7 @@ import { CartCouponComponent } from './cart-coupon.component';
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
+  standalone: false,
 })
 class MockAppliedCouponsComponent {
   @Input()

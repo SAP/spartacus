@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Назад в корзину"
+  },
+  "checkoutProgress": {
+    "label": "Ход оформления",
+    "deliveryAddress": "Адрес доставки",
+    "deliveryMode": "Способ доставки",
+    "paymentDetails": "Оплата",
+    "reviewOrder": "Проверка",
+    "state": {
+      "completed": "{{step}}, завершено",
+      "selected": "{{step}}, выбрано",
+      "disabled": "{{step}}, деактивировано"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Адрес доставки",
+    "selectYourDeliveryAddress": "Выберите адрес доставки",
+    "defaultDeliveryAddress": "Адрес доставки по умолчанию",
+    "addNewAddress": "Добавить новый адрес",
+    "shipToThisAddress": "Доставить на этот адрес",
+    "deliveryAddressSelected": "Адрес доставки выбран"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Метод доставки",
+    "deliveryOptions": "Опции доставки",
+    "standardDelivery": "Стандартная доставка",
+    "premiumDelivery": "Премиальная доставка",
+    "deliveryEntries": "Позиции для отгрузки"
+  },
+  "checkoutReview": {
+    "review": "Проверка",
+    "reviewOrder": "Проверить заказ",
+    "orderItems": "Позиции заказа",
+    "confirmThatRead": "Я подтверждаю, что прочитал(а) и принимаю",
+    "placeOrder": "Разместить заказ",
+    "termsAndConditions": "Условия",
+    "editDeliveryAddressDetails": "Редактировать сведения об адресе доставки, откроется страница \"Адрес доставки\"",
+    "editBillingDetails": "Редактировать адрес выставления счета, откроется страница \"Платежные реквизиты\"",
+    "editPaymentDetails": "Редактировать платежные реквизиты, откроется страница \"Платежные реквизиты\"",
+    "editPaymentType": "Редактировать метод оплаты, откроется страница \"Метод оплаты\"",
+    "editDeliveryMode": "Редактировать способ доставки, открывается страница \"Способ доставки\"",
+    "orderInProcess": "Заказ обрабатывается. Подождите."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Подтверждение заказа:",
+    "thankYou": "Спасибо за заказ!",
+    "invoiceHasBeenSentByEmail": "Счет отправлен по электронной почте. Скоро вы его получите.",
+    "orderItems": "Позиции заказа",
+    "orderPlacedSuccessfully": "Заказ успешно размещен",
+    "createAccount": "Создать учетную запись?",
+    "createAccountForNext": "Создайте учетную запись для <{{email}}>, чтобы быстро оформить заказ в следующий раз."
+  }
+}

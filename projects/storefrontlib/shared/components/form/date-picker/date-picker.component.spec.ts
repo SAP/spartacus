@@ -8,6 +8,7 @@ import { DatePickerComponent } from './date-picker.component';
 
 @Component({
   selector: 'cx-form-errors',
+  standalone: false,
 })
 class MockFormErrorComponent {
   @Input() control: UntypedFormControl;

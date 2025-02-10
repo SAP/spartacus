@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import { AbstractOrderType, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -26,12 +25,17 @@ const savedCartCode = '0108336';
 const quoteCode = '01008764';
 const productCode = 'PRODUCT_CODE';
 
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
+
 class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
 }
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -59,9 +63,10 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, RouterModule],
+      imports: [I18nTestingModule, RouterModule],
       declarations: [ConfigureCartEntryComponent, MockUrlPipe],
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -221,22 +226,6 @@ describe('ConfigureCartEntryComponent', () => {
       });
     });
 
-    describe('getOwnerType', () => {
-      it('should find correct default owner type', () => {
-        component.cartEntry.orderCode = undefined;
-        expect(component.getOwnerType()).toBe(
-          CommonConfigurator.OwnerType.CART_ENTRY
-        );
-      });
-
-      it('should find correct owner type for entry belonging to order', () => {
-        component.cartEntry.orderCode = orderCode;
-        expect(component.getOwnerType()).toBe(
-          CommonConfigurator.OwnerType.ORDER_ENTRY
-        );
-      });
-    });
-
     describe('retrieveOwnerTypeFromAbstractOrderType', () => {
       it('should find correct owner type in case entry knows order', () => {
         component.readOnly = true;
@@ -326,25 +315,6 @@ describe('ConfigureCartEntryComponent', () => {
             type: AbstractOrderType.CART,
           })
         ).toThrowError();
-      });
-    });
-
-    describe('getEntityKey', () => {
-      it('should find correct entity key for cart entry', () => {
-        component.cartEntry = { entryNumber: 0 };
-        expect(component.getEntityKey()).toBe('0');
-      });
-
-      it('should throw error if entry number not present in entry', () => {
-        component.cartEntry = {};
-        expect(() => component.getEntityKey()).toThrowError();
-      });
-
-      it('should find correct entity key for order entry', () => {
-        component.cartEntry = { entryNumber: 0, orderCode: orderCode };
-
-        component.readOnly = true;
-        expect(component.getEntityKey()).toBe(orderCode + '+0');
       });
     });
 
@@ -487,46 +457,8 @@ describe('ConfigureCartEntryComponent', () => {
       });
     });
 
-    describe('getQueryParams', () => {
-      it('should set "forceReload" parameter', () => {
-        expect(component.getQueryParams().forceReload).toBe(true);
-      });
-      it('should not set "resolveIssues" parameter in case no issues exist', () => {
-        component.readOnly = false;
-        component.msgBanner = false;
-        component.cartEntry = {
-          entryNumber: 0,
-          product: { configuratorType: configuratorType },
-          statusSummaryList: [],
-        };
-        expect(component.getQueryParams().resolveIssues).toBe(false);
-      });
-      it('should set "resolveIssues" parameter in case issues exist', () => {
-        component.readOnly = false;
-        component.msgBanner = true;
-        component.cartEntry = {
-          entryNumber: 0,
-          product: { configuratorType: configuratorType },
-          statusSummaryList: [
-            { status: OrderEntryStatus.Error, numberOfIssues: 3 },
-          ],
-        };
-        expect(component.getQueryParams().resolveIssues).toBe(true);
-      });
-      it('should not set "resolveIssues" parameter in case issues exist but component is not rendered in the context of the resolve issues banner', () => {
-        component.readOnly = false;
-        component.msgBanner = false;
-        component.cartEntry = {
-          entryNumber: 0,
-          product: { configuratorType: configuratorType },
-          statusSummaryList: [
-            { status: OrderEntryStatus.Error, numberOfIssues: 3 },
-          ],
-        };
-        expect(component.getQueryParams().resolveIssues).toBe(false);
-      });
-
-      it('should set "navigateToCheckout" parameter in case the navigation to the cart is relevant', (done) => {
+    describe('queryParam$', () => {
+      it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', (done) => {
         mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
         component.queryParams$
           .pipe(take(1), delay(0))
@@ -536,7 +468,7 @@ describe('ConfigureCartEntryComponent', () => {
           });
       });
 
-      it('should set "productCode" parameter in case product code is relevant', (done) => {
+      it('should contain "productCode" parameter in case product code is relevant', (done) => {
         component.cartEntry = {
           entryNumber: 0,
           product: { configuratorType: configuratorType, code: productCode },
@@ -546,6 +478,41 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.productCode).toBe(productCode);
+            done();
+          });
+      });
+
+      it('should not contain "resolveIssues" parameter in case no issues exist', (done) => {
+        component.readOnly = false;
+        component.msgBanner = false;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+        };
+        fixture.detectChanges();
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.resolveIssues).toBe(false);
+            done();
+          });
+      });
+
+      it('should contain "resolveIssues" parameter in case issues exist', (done) => {
+        component.readOnly = false;
+        component.msgBanner = true;
+        component.cartEntry = {
+          entryNumber: 0,
+          product: { configuratorType: configuratorType, code: productCode },
+          statusSummaryList: [
+            { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+          ],
+        };
+        fixture.detectChanges();
+        component.queryParams$
+          .pipe(take(1), delay(0))
+          .subscribe((queryParams) => {
+            expect(queryParams.resolveIssues).toBe(true);
             done();
           });
       });

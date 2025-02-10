@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "顧客チケット",
+    "ticketId": "ID",
+    "createdOn": "作成日付",
+    "changedOn": "変更日付",
+    "status": "ステータス",
+    "message": "メッセージ",
+    "cancel": "キャンセル",
+    "submit": "送信",
+    "uploadFile": "ファイルのアップロード",
+    "fileSizeLimit": "ファイルサイズ制限: {{count}} MB",
+    "maximumAttachment": "メッセージごとの 1 添付ファイルの最大",
+    "errorMessage": "問題が発生しました。",
+    "charactersLeft": "残り文字数: {{count}}",
+    "customerService": "カスタマーサービス"
+  },
+  "customerTicketingList": {
+    "subject": "件名",
+    "ticketCategory": "カテゴリ",
+    "sortSubtitle": "ソート基準",
+    "sortOrders": "ソート順序",
+    "noTickets": "申請がありません",
+    "requestTitle": "すべての申請",
+    "mobile": {
+      "ticketIdFull": "チケット ID"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "追加",
+    "addNewRequest": "新しい申請の追加",
+    "addRequest": "申請の追加",
+    "subject": "件名",
+    "category": "カテゴリ",
+    "associateTo": "関連付け",
+    "ticketCreated": "申請が作成されました。",
+    "optionallySelectAssociatedObject": "オプションの選択",
+    "selectCategory": "カテゴリの選択"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "申請が再開されました。",
+    "requestClosed": "申請は終了しました。必要に応じて再開することができます。",
+    "reopenRequest": "再開申請",
+    "closeRequest": "申請の終了",
+    "ticketNotFound": "チケットが見つかりません。"
+  }
+}

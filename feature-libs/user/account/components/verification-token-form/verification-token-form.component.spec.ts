@@ -11,7 +11,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -46,6 +45,7 @@ class MockRoutingService {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -67,7 +67,6 @@ describe('VerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,

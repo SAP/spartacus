@@ -31,6 +31,7 @@ import { first } from 'rxjs/operators';
   selector: 'cx-close-account-modal',
   templateUrl: './close-account-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CloseAccountModalComponent implements OnInit {
   iconTypes = ICON_TYPE;

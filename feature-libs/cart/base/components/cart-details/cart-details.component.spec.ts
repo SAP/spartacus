@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -42,6 +41,7 @@ interface CartItemComponentOptions {
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
+  standalone: false,
 })
 class MockCartItemListComponent {
   @Input()
@@ -60,6 +60,7 @@ class MockCartItemListComponent {
 @Component({
   template: '',
   selector: 'cx-cart-coupon',
+  standalone: false,
 })
 class MockCartCouponComponent {
   cartIsLoading = false;
@@ -68,6 +69,7 @@ class MockCartCouponComponent {
 @Component({
   selector: 'cx-cart-validation-warnings',
   template: '',
+  standalone: false,
 })
 class MockCartValidationWarningsComponent {}
 
@@ -96,7 +98,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
+      imports: [PromotionsModule, I18nTestingModule],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,

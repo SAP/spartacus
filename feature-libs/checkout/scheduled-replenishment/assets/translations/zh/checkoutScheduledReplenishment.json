@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "自动补货订单",
+    "orderType_PLACE_ORDER": "无（仅限一次订单）",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "补货订单",
+    "every": "每",
+    "recurrencePeriodType_DAILY": "天",
+    "recurrencePeriodType_WEEKLY": "周",
+    "recurrencePeriodType_MONTHLY": "月",
+    "dayOfMonth": "日期",
+    "startOn": "开始日期",
+    "repeatOnDays": "以下日期重复"
+  }
+}

@@ -1,3 +1,4 @@
+import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,7 +12,9 @@ import * as path from 'path';
 import { UTF_8 } from '../constants';
 import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
+  isSsrUsed,
   getMajorVersionNumber,
+  getServerTsPathForApplicationBuilder,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
   readPackageJson,
@@ -102,6 +105,96 @@ describe('Package utils', () => {
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(7);
       expect(featureLevel).toEqual(version.substring(0, 7));
+    });
+  });
+
+  describe('SSR Application Builder Tests', () => {
+    let ssrTree: UnitTestTree;
+
+    const createWorkspace = (
+      builderType: string,
+      serverPath?: string,
+      ssrEntry?: string
+    ) => {
+      const angularJson = {
+        projects: {
+          test: {
+            architect: {
+              build: {
+                builder: builderType,
+                options: {
+                  ...(serverPath && { server: serverPath }),
+                  ...(ssrEntry && { ssr: { entry: ssrEntry } }),
+                },
+              },
+            },
+          },
+        },
+      };
+      ssrTree.create('angular.json', JSON.stringify(angularJson));
+    };
+
+    beforeEach(() => {
+      ssrTree = new UnitTestTree(Tree.empty());
+    });
+
+    describe('isSsrUsed', () => {
+      it('should return false when builder is not application builder', () => {
+        createWorkspace('@angular-devkit/build-angular:browser');
+        expect(isSsrUsed(ssrTree)).toBeFalsy();
+      });
+
+      it('should return false when SSR config is missing', () => {
+        createWorkspace('@angular-devkit/build-angular:application');
+        expect(isSsrUsed(ssrTree)).toBeFalsy();
+      });
+
+      it('should return false when server file does not exist', () => {
+        createWorkspace(
+          '@angular-devkit/build-angular:application',
+          'src/main.server.ts',
+          'server.ts'
+        );
+        expect(isSsrUsed(ssrTree)).toBeFalsy();
+      });
+
+      it('should return true when SSR is properly configured and server file exists', () => {
+        createWorkspace(
+          '@angular-devkit/build-angular:application',
+          'src/main.server.ts',
+          'server.ts'
+        );
+        ssrTree.create('server.ts', 'export const server = {};');
+        expect(isSsrUsed(ssrTree)).toBeTruthy();
+      });
+    });
+
+    describe('getServerTsPathForApplicationBuilder', () => {
+      it('should return configured SSR entry path when it exists', () => {
+        createWorkspace(
+          '@angular-devkit/build-angular:application',
+          'src/main.server.ts',
+          'custom/server.ts'
+        );
+        ssrTree.create('custom/server.ts', 'export const server = {};');
+        expect(getServerTsPathForApplicationBuilder(ssrTree)).toBe(
+          'custom/server.ts'
+        );
+      });
+
+      it('should return null when configured SSR entry path does not exist', () => {
+        createWorkspace(
+          '@angular-devkit/build-angular:application',
+          'src/main.server.ts',
+          'custom/server.ts'
+        );
+        expect(getServerTsPathForApplicationBuilder(ssrTree)).toBeNull();
+      });
+
+      it('should return null when no server file exists in any location', () => {
+        createWorkspace('@angular-devkit/build-angular:application');
+        expect(getServerTsPathForApplicationBuilder(ssrTree)).toBeNull();
+      });
     });
   });
 });

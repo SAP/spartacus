@@ -74,7 +74,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual('false');
       expect(secondButton.getAttribute('aria-expanded')).toEqual(null);
-      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('-1');
     });
 
@@ -102,7 +101,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual('false');
       expect(secondButton.getAttribute('aria-expanded')).toEqual(null);
-      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('-1');
     });
 
@@ -321,6 +319,25 @@ describe('TabComponent', () => {
       expect(component.isOpen(2)).toEqual(false);
       expect(component.isOpen(0)).toEqual(true);
     });
+
+    it('should not set aria-controls when the tab is closed', () => {
+      component.config = {
+        label: 'test',
+        mode: TAB_MODE.TAB,
+        openTabs: [0],
+      };
+      fixture.detectChanges();
+
+      expect(component.isOpen(0)).toEqual(true);
+      expect(component.isOpen(1)).toEqual(false);
+
+      const buttonEls = document.querySelectorAll('button[role="tab"]');
+
+      const firstButton = buttonEls[0];
+      expect(firstButton.getAttribute('aria-controls')).toEqual('section-0');
+      const secondButton = buttonEls[1];
+      expect(secondButton.getAttribute('aria-controls')).toBeNull();
+    });
   });
 
   describe('Accordian Mode', () => {
@@ -353,7 +370,6 @@ describe('TabComponent', () => {
       expect(secondButton.getAttribute('class')).toEqual('tab-btn');
       expect(secondButton.getAttribute('aria-selected')).toEqual(null);
       expect(secondButton.getAttribute('aria-expanded')).toEqual('false');
-      expect(secondButton.getAttribute('aria-controls')).toEqual('section-1');
       expect(secondButton.getAttribute('tabindex')).toEqual('0');
       expect(secondButton.getAttribute('title')).toEqual('Expand tab 1');
     });

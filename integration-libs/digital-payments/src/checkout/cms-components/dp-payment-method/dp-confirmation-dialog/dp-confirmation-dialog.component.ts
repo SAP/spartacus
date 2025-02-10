@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'cx-dp-confirmation-dialog',
   templateUrl: './dp-confirmation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

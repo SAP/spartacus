@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Rechnungen konnten nicht abgerufen werden. Stellen Sie sicher, dass SAP Invoice und das API für Rechnungen aktiviert sind.",
+    "invoicesLoadingError": "Es ist ein Fehler aufgetreten. Für die Bestellung können keine Rechnungen angezeigt werden",
+    "invoicesTable": {
+      "header": "Rechnungen",
+      "label": "Rechnungstabelle",
+      "invoiceId": "Rechnungsnummer",
+      "createdAt": "Datum",
+      "netAmount": "Nettobetrag",
+      "totalAmount": "Gesamtbetrag",
+      "attachment": "Rechnung herunterladen.",
+      "download": "Herunterladen",
+      "attachmentDescription": "Laden Sie eine PDF-Datei für die Rechnung {{id}} herunter.",
+      "noneFound": "Keine Rechnungen gefunden"
+    },
+    "downloadPDFError": "Es ist ein Fehler aufgetreten. Die PDF-Datei für die Rechnung kann nicht abgerufen werden",
+    "sortBy": "Sortieren nach",
+    "sortInvoices": "Rechnungen sortieren",
+    "sorts": {
+      "byCreatedAtAsc": "Datum aufsteigend",
+      "byCreatedAtDesc": "Datum absteigend",
+      "byInvoiceIdAsc": "Rechnungsnummer aufsteigend",
+      "byInvoiceIdDesc": "Rechnungsnummer absteigend",
+      "byNetAmountAsc": "Nettobetrag aufsteigend",
+      "byNetAmountDesc": "Nettobetrag absteigend",
+      "byTotalAmountAsc": "Gesamtbetrag aufsteigend",
+      "byTotalAmountDesc": "Nettobetrag absteigend"
+    }
+  }
+}

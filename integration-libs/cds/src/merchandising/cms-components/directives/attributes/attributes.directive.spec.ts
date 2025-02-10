@@ -15,6 +15,7 @@ const attributeNamePrefix = 'attribute-prefix';
       [cxAttributesNamePrefix]="attributesNamePrefix"
     ></div>
   `,
+  standalone: false,
 })
 class TestComponent {
   attributes: { [attribute: string]: any };

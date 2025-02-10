@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "शीर्षक",
+    "titleOptional": "शीर्षक (वैकल्पिक)",
+    "defaultTitle": "शीर्षक",
+    "firstName": {
+      "label": "प्रथम नाम",
+      "placeholder": "पहला नाम"
+    },
+    "lastName": {
+      "label": "अंतिम नाम",
+      "placeholder": "अंतिम नाम"
+    },
+    "address1": "पता 1",
+    "address2": "पता 2 (वैकल्पिक)",
+    "country": "देश/क्षेत्र",
+    "city": {
+      "label": "शहर",
+      "placeholder": "शहर"
+    },
+    "state": "राज्य",
+    "zipCode": {
+      "label": "जिप कोड",
+      "placeholder": "पोस्टल कोड/जिप"
+    },
+    "phoneNumber": {
+      "label": "फोन नंबर (वैकल्पिक)",
+      "placeholder": "उदाहरण (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "मोबाइल नंबर (वैकल्पिक)",
+      "placeholder": "उदाहरण (###) - ### - ####"
+    },
+    "saveAsDefault": "डिफ़ॉल्ट के रूप में सहेजें",
+    "chooseAddress": "पता चुनें",
+    "streetAddress": "सड़क का पता",
+    "aptSuite": "अपार्टमेंट संख्या",
+    "selectOne": "एक चुनें...",
+    "setAsDefault": "डिफ़ॉल्ट डिलीवरी पते के रूप में सेट करें",
+    "titleRequired": "शीर्षक आवश्यक है.",
+    "userAddressAddSuccess": "नया पता सफलतापूर्वक जोड़ा गया!",
+    "userAddressUpdateSuccess": "पता सफलतापूर्वक अपडेट किया गया!",
+    "userAddressDeleteSuccess": "पता सफलतापूर्वक हटाया गया!",
+    "invalidAddress": "अमान्य पता"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "डिलीवरी का नया पता जोड़ें",
+    "editDeliveryAddress": "वितरण का पता संपादित करें",
+    "areYouSureToDeleteAddress": "क्या आप वाकई इस पते को हटाना चाहते हैं?",
+    "addNewAddress": "नया पता जोड़ें",
+    "addAddress": "पता जोड़ें",
+    "updateAddress": "पता अपडेट करें",
+    "backToAddressList": "पता सूची में वापस जाएं",
+    "defaultDeliveryAddress": "डिफ़ॉल्ट वितरण पता",
+    "additionalDeliveryAddress": "अतिरिक्त वितरण पता{{number}}"
+  },
+  "addressCard": {
+    "default": "डिफ़ॉल्ट",
+    "selected": "चयनित",
+    "selectedAddress": "पता चुनें",
+    "setAsDefault": "डिफ़ॉल्ट के रूप में सेट करें",
+    "shipTo": "यहां भेजें",
+    "billTo": "पर बिल करें",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "अपना पता सत्यापित करें",
+    "ensureAccuracySuggestChange": "वितरण शुद्धता सुनिश्चित करने के लिए, हम निम्न चयित परिवर्तन की अनुशंसा करते हैं.",
+    "chooseAddressToUse": "आप कौनसे पते का उपयोग करना चाहते हैं वो कृपया चुनेंः",
+    "suggestedAddress": "सूचित पता",
+    "enteredAddress": "दर्ज किया गया पता",
+    "editAddress": "पता संपादित करें",
+    "saveAddress": "पता सहेजें "
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "पता {{ streetAddress }} सफलतापूर्वक डिफ़ॉल्ट के रूप में सेट किया गया"
+  }
+}

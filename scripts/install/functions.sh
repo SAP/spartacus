@@ -111,7 +111,7 @@ function add_b2b {
         ng add @spartacus/checkout@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
 
-        ng add @spartacus/product@${SPARTACUS_VERSION} --skip-confirmation
+        ng add @spartacus/product@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/product --skip-confirmation --no-interactive --features "Future-Stock"
     fi
 }

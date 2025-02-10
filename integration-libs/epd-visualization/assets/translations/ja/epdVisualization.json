@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "ホーム"
+        },
+        "zoomButton": {
+          "label": "ズーム"
+        },
+        "panButton": {
+          "label": "パン"
+        },
+        "rotateButton": {
+          "label": "回転"
+        },
+        "isolateButton": {
+          "label": "分離"
+        },
+        "playButton": {
+          "label": "再生"
+        },
+        "pauseButton": {
+          "label": "一時停止"
+        },
+        "hotspotsButton": {
+          "label": "ホットスポット",
+          "show": "表示",
+          "hide": "非表示"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "アニメーションスライダ",
+          "role": "スライダ"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "この商品にはスペアパーツがありません。"
+      },
+      "visualPickingProductList": {
+        "description": "説明",
+        "itemPrice": "価格",
+        "outOfStock": "在庫なし",
+        "id": "ID"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "名前または ID でフィルタ"
+        },
+        "searchButton": {
+          "label": "検索"
+        },
+        "resetButton": {
+          "label": "リセット"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "一致するビジュアライゼーションが見つかりません",
+        "multipleMatchingVisualsFound": "一致するビジュアライゼーションが複数見つかりました",
+        "unexpectedLoadError": "ビジュアライゼーションのロード中にエラーが発生しました"
+      }
+    }
+  }
+}

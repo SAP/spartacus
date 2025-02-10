@@ -1,0 +1,32 @@
+{
+  "storeFinder": {
+    "openUntil": "打开持续时间",
+    "closed": "已关闭",
+    "back": "返回",
+    "call": "致电",
+    "getDirections": "获取方位",
+    "ariaLabelGetDirections": "获取方位，此链接将在新窗口中打开",
+    "ariaLabelCountriesCount": "找到 {{ count }} 个国家/地区的店铺",
+    "listView": "列表视图",
+    "mapView": "地图视图",
+    "noStoresFound": "找不到店铺。",
+    "storeHours": "店铺营业时间",
+    "storeFeatures": "店铺特征",
+    "storeFinder": "店铺查找器",
+    "storesFoundTitle": "找到店铺",
+    "storesFound": "找到 {{ count }} 个店铺",
+    "storesFound_other": "找到 {{ count }} 个店铺",
+    "fromStoresFound": "（共找到 {{ count }} 个店铺）",
+    "fromStoresFound_other": "（共找到 {{ count }} 个店铺）",
+    "findStore": "查找店铺",
+    "useMyLocation": "使用我的位置",
+    "viewAllStores": "查看所有店铺",
+    "contactUs": "联系我们",
+    "searchBox": "邮政编码、城镇或地址",
+    "backToList": "返回列表",
+    "noStoresMessage": "未在数据库中找到店铺...",
+    "geolocationNotEnabled": "无法找到附近店铺。地理定位许可尚未启用",
+    "searchNearestStores": "搜索最近的店铺",
+    "searchBoxLabel": "输入邮政编码、城镇或地址"
+  }
+}

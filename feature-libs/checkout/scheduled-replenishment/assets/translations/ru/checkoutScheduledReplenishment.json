@@ -1,0 +1,14 @@
+{
+  "checkoutScheduledReplenishment": {
+    "autoReplenishOrder": "Заказ с автоматическим пополнением",
+    "orderType_PLACE_ORDER": "Нет (разовый заказ)",
+    "orderType_SCHEDULE_REPLENISHMENT_ORDER": "Пополнение заказа",
+    "every": "Кажд.",
+    "recurrencePeriodType_DAILY": "дн.",
+    "recurrencePeriodType_WEEKLY": "нед.",
+    "recurrencePeriodType_MONTHLY": "месяц",
+    "dayOfMonth": "день месяца",
+    "startOn": "Начало",
+    "repeatOnDays": "Повторять по следующим дням"
+  }
+}

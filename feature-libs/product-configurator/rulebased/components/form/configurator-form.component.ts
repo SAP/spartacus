@@ -39,6 +39,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

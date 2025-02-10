@@ -28,6 +28,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
       useExisting: UserGroupItemService,
     },
   ],
+  standalone: false,
 })
 export class UserGroupFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

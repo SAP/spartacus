@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   quoteTranslationChunksConfig,
-  quoteTranslations,
+  quoteTranslationsEn,
+  quoteTranslationsJa,
+  quoteTranslationsDe,
+  quoteTranslationsZh,
 } from '@spartacus/quote/assets';
 import {
   QUOTE_CART_GUARD_FEATURE,
@@ -29,7 +32,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: quoteTranslations,
+        resources: {
+          en: quoteTranslationsEn,
+          ja: quoteTranslationsJa,
+          de: quoteTranslationsDe,
+          zh: quoteTranslationsZh,
+        },
         chunks: quoteTranslationChunksConfig,
       },
     }),

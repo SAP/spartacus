@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Tidak Ada",
+    "poNumber": "Nomor pesanan pembelian (opsional)",
+    "costCenter": "Pusat Biaya",
+    "placeholder": "Masukkan Pesanan Pembelian (PO)",
+    "availableLabel": "Alamat pengiriman yang tersedia untuk Anda bergantung pada unit pusat biaya",
+    "invalid": {
+      "accountType": "Akun Anda tidak mengizinkan Anda untuk melakukan pembayaran di sini."
+    },
+    "methodOfPayment": {
+      "paymentType": "Tipe Pembayaran"
+    },
+    "review": {
+      "poNumber": "Nomor Pesanan Pembelian"
+    },
+    "progress": {
+      "methodOfPayment": "Metode Pembayaran"
+    },
+    "invalidCostCenter": "Pusat biaya tidak valid."
+  }
+}

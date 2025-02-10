@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,8 +11,8 @@ function assertNavigationButtonsAttributes(buttonsSelector: string) {
   cy.get(buttonsSelector).each(($btn) => {
     const btnAriaControl = $btn.attr('aria-controls');
     cy.wrap($btn)
-      .should('have.attr', 'title', `${btnAriaControl} Menu`)
-      .should('have.attr', 'aria-label', btnAriaControl);
+      .should('have.attr', 'aria-label', btnAriaControl)
+      .and('have.attr', 'aria-controls', btnAriaControl);
   });
 }
 

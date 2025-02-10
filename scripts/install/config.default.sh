@@ -51,7 +51,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='develop' 
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -61,7 +61,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^17.0.5'
+ANGULAR_CLI_VERSION='^19.0.4'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"

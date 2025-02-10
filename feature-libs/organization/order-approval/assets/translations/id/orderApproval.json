@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Kembali Ke Daftar",
+    "showForm_APPROVE": "Setujui Pemesanan...",
+    "showForm_REJECT": "Tolak Pemesanan...",
+    "form": {
+      "title_APPROVE": "Setujui pemesanan {{orderCode}} dengan total {{orderTotal}}",
+      "title_REJECT": "Tolak pemesanan {{orderCode}} dengan total {{orderTotal}}",
+      "submit_APPROVE": "Setujui",
+      "submit_REJECT": "Tolak",
+      "cancel": "Batalkan",
+      "comment_APPROVE": {
+        "label": "Komentar (opsional, maksimal 255 karakter)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Komentar (maksimal 255 karakter)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Rincian Persetujuan Pelanggan",
+      "permission": "Izin",
+      "approver": "Penyetuju",
+      "status": "Status",
+      "approverComments": "Komentar Penyetuju",
+      "noApprovalComments": "Tidak ada",
+      "permissionType_B2BBudgetExceededPermission": "Anggaran yang terkait dengan pusat biaya yang dipilih telah terlampaui",
+      "permissionType_B2BOrderThresholdPermission": "Total pesanan melampaui batas untuk setiap pemesanannya",
+      "permissionType_B2BOrderThresholdTimespanPermission": "Total pesanan melampaui batas untuk setiap rentang waktunya"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Pemesanan #",
+    "POCode": "PO #",
+    "placedBy": "Dipesan oleh",
+    "date": "Tanggal",
+    "status": "Status",
+    "total": "Total",
+    "none": "Tidak ada",
+    "emptyList": "Saat ini tidak ada pemesanan yang perlu disetujui.",
+    "orderApprovalList": "Daftar Persetujuan Pemesanan"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Tidak memiliki izin yang memadai untuk mengakses halaman ini."
+    }
+  }
+}

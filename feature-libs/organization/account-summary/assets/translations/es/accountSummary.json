@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Resúmenes de cuenta",
+    "header": "Todos los resúmenes de cuenta ({{count}})",
+    "name": "Unidad",
+    "details": {
+      "header": "Detalles de resúmenes de cuenta",
+      "uid": "ID de unidad",
+      "name": "Nombre de unidad",
+      "address": "Dirección",
+      "creditRep": "Informe de crédito",
+      "creditLine": "Línea de crédito",
+      "currentBalance": "Saldo actual",
+      "openBalance": "Saldo pendiente",
+      "pastDueBalance": "Saldo adeudado",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} días",
+      "dayPlus": "+{{minBoundary}} días",
+      "notApplicable": "n/d"
+    },
+    "document": {
+      "header": "Documentos",
+      "id": "Número de documento",
+      "type": "Tipo de documento",
+      "date": "Fecha de creación",
+      "dueDate": "Con vencimiento el",
+      "originalAmount": "Importe original",
+      "openAmount": "Importe pendiente",
+      "status": "Estado",
+      "attachment": "Adjunto",
+      "download": "Descargar",
+      "attachmentDescription": "Descargar adjuntos para {{type}} {{id}}.",
+      "noneFound": "No se encontró ningún documento"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Creado en forma ascendente",
+      "byCreatedAtDateDesc": "Creado en forma descendente",
+      "byDueAtDateAsc": "Con vencimiento en ascendente",
+      "byDueAtDateDesc": "Con vencimiento en descendente",
+      "byOriginalAmountAsc": "Monto original ascendente",
+      "byOriginalAmountDesc": "Monto original descendente",
+      "byOpenAmountAsc": "Monto ascendente pendiente",
+      "byOpenAmountDesc": "Monto descendente pendiente",
+      "byOrgDocumentTypeAsc": "Tipo de documento ascendente",
+      "byOrgDocumentTypeDesc": "Tipo de documento descendente",
+      "byStatusAsc": "Estado ascendente",
+      "byStatusDesc": "Estado descendente",
+      "byOrgDocumentIdAsc": "Número de documento ascendente",
+      "byOrgDocumentIdDesc": "Número de documento descendente"
+    },
+    "statuses": {
+      "open": "Abierto",
+      "closed": "Cerrado",
+      "all": "Todo"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Número de documento",
+      "orgDocumentIdRange": "Rango de número de documento",
+      "orgDocumentType": "Tipo de documento",
+      "createdAtDateRange": "Rango creado el",
+      "dueAtDateRange": "Rango con vencimiento",
+      "amountRange": "Rango de importe original",
+      "openAmountRange": "Rango de importe pendiente"
+    },
+    "sortBy": "Clasificado por",
+    "sortDocuments": "Clasificar documentos",
+    "filter": {
+      "status": "Estado",
+      "filterBy": "Filtrar por",
+      "documentNumber": "Número de documento",
+      "documentType": "Tipo de documento",
+      "startRange": "De",
+      "endRange": "A",
+      "clear": "Borrar todo",
+      "search": "Buscar",
+      "errors": {
+        "toDateMustComeAfterFrom": "Seleccione una fecha final que sea posterior a la fecha de inicio.",
+        "toAmountMustBeLargeThanFrom": "Seleccione un valor de rango final que sea menor que el valor inicial."
+      }
+    },
+    "hint": "Los resúmenes de cuenta le permiten revisar información general sobre una unidad, incluidos los saldos y el resumen de antigüedad de las facturas. Aquí también puede explorar una lista de documentos de transacciones de una unidad."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Resúmenes de cuenta",
+      "details": "{{name}}"
+    }
+  }
+}

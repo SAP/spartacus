@@ -4,7 +4,7 @@ exports[`Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add S
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { S4ServiceModule } from "@spartacus/s4-service";
-import { s4ServiceTranslationChunksConfig, s4ServiceTranslations } from "@spartacus/s4-service/assets";
+import { s4ServiceTranslationChunksConfig, s4ServiceTranslationsEn } from "@spartacus/s4-service/assets";
 import { S4ServiceCheckoutModule } from "@spartacus/s4-service/checkout";
 import { S4ServiceOrderModule } from "@spartacus/s4-service/order";
 import { S4ServiceRootModule } from "@spartacus/s4-service/root";
@@ -19,7 +19,7 @@ import { S4ServiceRootModule } from "@spartacus/s4-service/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: s4ServiceTranslations,
+      resources: { en: s4ServiceTranslationsEn },
       chunks: s4ServiceTranslationChunksConfig,
     },
   })]
@@ -31,7 +31,7 @@ export class S4ServiceFeatureModule { }
 exports[`Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add S4-Service feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { s4ServiceTranslationChunksConfig, s4ServiceTranslations } from "@spartacus/s4-service/assets";
+import { s4ServiceTranslationChunksConfig, s4ServiceTranslationsEn } from "@spartacus/s4-service/assets";
 import { S4_SERVICE_FEATURE, S4ServiceRootModule } from "@spartacus/s4-service/root";
 
 @NgModule({
@@ -49,7 +49,7 @@ import { S4_SERVICE_FEATURE, S4ServiceRootModule } from "@spartacus/s4-service/r
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: s4ServiceTranslations,
+      resources: { en: s4ServiceTranslationsEn },
       chunks: s4ServiceTranslationChunksConfig,
     },
   })

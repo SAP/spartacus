@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "已將 ({{ quantity }}) {{ product }} 新增至購物車",
+    "entryWasAdded": "已將 {{ product }} 新增至購物車",
+    "noResults": "系統找不到產品",
+    "stockLevelReached": "已達到最大庫存量",
+    "title": "快速訂購",
+    "productCodePlaceholder": "輸入 ID",
+    "entryProductCode": "輸入快速訂單的產品 ID",
+    "quantity": "快速訂單的數量",
+    "addToCart": "將產品新增至快速訂單",
+    "add": "新增",
+    "product": "產品",
+    "products": "產品",
+    "productCodeLabel": "產品 ID",
+    "quantityLabel": "數量",
+    "quantityFullLabel": "數量"
+  },
+  "quickOrderForm": {
+    "placeholder": "輸入產品名稱或 SKU",
+    "searchBoxLabel": "輸入快速訂單的產品名稱或 SKU。每個訂單最多可新增 {{ limit }} 個產品。",
+    "listLimitReached": "已達到產品限制。",
+    "id": "ID {{ id }}",
+    "noResults": "系統找不到結果",
+    "addProduct": "新增產品 {{ product }}",
+    "initialDescription": "若提供自動完成結果時，請使用向上和向下箭頭以審查和輸入進行選擇。",
+    "productsResults": "{{ count }} 個產品可供使用。",
+    "quickOrderSearch": "尋找快速訂單的產品"
+  },
+  "quickOrderList": {
+    "addToCart": "新增至購物車",
+    "emptyList": "空白清單",
+    "header": "新增產品/SKU",
+    "subHeader": "您一次最多可新增 {{ limit }} 個有效的 SKU。",
+    "errorProceedingToCart": "繼續移至購物車時發生錯誤。",
+    "warningProceedingToCart": "繼續移至購物車時發生警告。",
+    "successfullyAddedToCart": "已成功新增至購物車。",
+    "errors": {
+      "productIsOutOfStock": "{{ name }} (#{{code}}) 缺貨。",
+      "reviewErrors": "請審查這些錯誤。",
+      "listIsFull": "清單已滿，請將 {{ count }} 個產品新增至購物車以繼續。",
+      "nonPurchasableError": "無法購買產品 {{ name }}",
+      "outOfStockErrorFound": "未新增 {{count}} 個缺貨產品。",
+      "outOfStockErrorFound_other": "未新增 {{count}} 個缺貨產品。"
+    },
+    "warnings": {
+      "productWasReduced": "已將 {{ name }} (#{{code}}) 的數量減少為 {{ quantityAdded}}。",
+      "reviewWarnings": "請審查這些警告。",
+      "reduceWarningFound": "已減少 {{count}} 個產品數量。",
+      "reduceWarningFound_other": "已減少 {{count}} 個產品數量。"
+    },
+    "successes": {
+      "productAddedToCart": "已將 {{ name }} (#{{code}}) 新增至購物車。",
+      "addedToCartFound": "已將 {{ count }} 產品新增至購物車。",
+      "addedToCartFound_other": "已將 {{ count }} 產品新增至購物車。"
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "新增至購物車前，先將產品新增至清單。"
+    },
+    "undo": "復原",
+    "revokeUndo": "已撤銷產品「{{name}}」刪除。",
+    "productWasDeleted": "已將產品「{{ name }}」移至垃圾桶。"
+  },
+  "quickOrderTable": {
+    "product": "產品",
+    "id": "ID",
+    "price": "價格",
+    "quantity": "數量",
+    "quantityFull": "數量",
+    "itemPrice": "項目價格",
+    "qty": "數量",
+    "actions": "動作",
+    "inStock": "有存貨",
+    "lowStock": "少量庫存",
+    "outOfStock": "缺貨",
+    "listCleared": "已清除快速訂單清單",
+    "addedtoCart": "已將快速訂單清單新增至購物車",
+    "caption": "快速訂單內容。"
+  }
+}

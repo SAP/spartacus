@@ -11,5 +11,6 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-roles-cell',
   templateUrl: './roles-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RolesCellComponent extends CellComponent {}

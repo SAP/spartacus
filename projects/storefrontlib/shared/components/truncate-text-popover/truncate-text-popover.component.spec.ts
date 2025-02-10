@@ -1,7 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { TruncateTextPopoverComponent } from './truncate-text-popover.component';
 import { TruncateTextPopoverModule } from './truncate-text-popover.module';
@@ -19,11 +18,7 @@ describe('TruncateTextPopoverComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        TruncateTextPopoverModule,
-        RouterTestingModule,
-      ],
+      imports: [I18nTestingModule, TruncateTextPopoverModule],
       declarations: [TruncateTextPopoverComponent],
     }).compileComponents();
   }));

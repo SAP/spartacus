@@ -29,7 +29,7 @@ export function navigateToOrganizationUserRegisterPage() {
     clickHamburger();
   });
   cy.findByText(/Sign in \/ Register/i).click();
-  cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).click();
+  cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
 }
 
 export function fillOrganizationUserRegistrationForm(
