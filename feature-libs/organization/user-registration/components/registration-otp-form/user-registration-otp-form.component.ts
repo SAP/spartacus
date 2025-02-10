@@ -28,6 +28,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'cx-user-registration-form',
   templateUrl: './user-registration-otp-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UserRegistrationOTPFormComponent {
   protected routingService = inject(RoutingService);

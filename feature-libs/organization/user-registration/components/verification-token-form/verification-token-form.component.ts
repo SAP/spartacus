@@ -30,6 +30,7 @@ import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-con
   selector: 'cx-verification-token-form',
   templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RegisterVerificationTokenFormComponent implements OnInit {
   protected service: RegisterVerificationTokenFormComponentService = inject(
