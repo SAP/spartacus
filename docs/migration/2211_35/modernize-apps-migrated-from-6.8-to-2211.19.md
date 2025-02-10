@@ -11,6 +11,40 @@ The benefits of using the new Angular configuration format are:
 The side-effect consequences of using the new configuration format are:
 - For SSR apps: the server-side rendering and prerendering scripts will be executed differently (it will be explained in the last section of this page "[New commands for SSR projects](#new-commands-for-ssr-projects)")
 
+
+# Automatic migration
+
+The Spartacus team provides special schematics that automatically modernize the app to look as much as possible like the new Angular 17 apps.
+
+Note: the tool was released only in `@spartacus/schematics` v2211.35.0, but you need to run it before fully upgrading your app to this version.
+To do this, you'll need to install `@spartacus/schematics@2211.35.0` in a temporary directory and execute the migration schematic from there.
+
+Please run those commands from your project root directory:
+
+```bash
+# 1. Create a temporary sibling directory for the isolated Schematics v2211.35 installation
+node -e "require('fs').mkdirSync('../temp-schematics-35')"
+
+# 2. Install schematics in the temporary directory
+npm install @spartacus/schematics@2211.35.0 --prefix ../temp-schematics-35
+
+# 3. Execute in your project the schematics from the temporary directory
+ng g ../temp-schematics-35/node_modules/@spartacus/schematics:modernize-app-migrated-from-6_8-to-2211_19
+
+# 4. Clean up the temporary directory
+node -e "require('fs').rmSync('../temp-schematics-35', { recursive: true, force: true })"
+```
+
+In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
+
+> ⚠️ Warning:
+>
+> Reminder for SSR apps: from now on the server-side rendering and prerendering scripts will be executed differently (see the last section of this page "[New commands for SSR projects](#new-commands-for-ssr-projects)")
+
+In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
+
+# Manual migration
+
 Here are the migration steps in detail:
 
 ## Migration to the new Angular `application` builder
