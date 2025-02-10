@@ -1,0 +1,350 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_35" in SSR app should update the angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "test-app-migrated-from-2211_32-to-2211_35-ssr": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/test-app-migrated-from-2211_32-to-2211_35-ssr",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/user.scss",
+              "src/styles/spartacus/cart.scss",
+              "src/styles/spartacus/order.scss",
+              "src/styles/spartacus/checkout.scss",
+              "src/styles/spartacus/storefinder.scss",
+              "src/styles/spartacus/asm.scss",
+              "src/styles/spartacus/product.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            },
+            "server": "src/main.server.ts",
+            "prerender": false,
+            "ssr": {
+              "entry": "src/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "namedChunks": true
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "noSsr": {
+              "ssr": false,
+              "prerender": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "test-app-migrated-from-2211_32-to-2211_35-ssr:build:production,noSsr"
+            },
+            "development": {
+              "buildTarget": "test-app-migrated-from-2211_32-to-2211_35-ssr:build:development,noSsr"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "test-app-migrated-from-2211_32-to-2211_35-ssr:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/user.scss",
+              "src/styles/spartacus/cart.scss",
+              "src/styles/spartacus/order.scss",
+              "src/styles/spartacus/checkout.scss",
+              "src/styles/spartacus/storefinder.scss",
+              "src/styles/spartacus/asm.scss",
+              "src/styles/spartacus/product.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_35" in SSR app should update the src/app/spartacus/spartacus-configuration.module.ts 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig } from '@spartacus/assets';
+import {
+  FeaturesConfig,
+  I18nConfig,
+  OccConfig,
+  provideConfig,
+  SiteContextConfig,
+} from '@spartacus/core';
+import {
+  defaultCmsContentProviders,
+  layoutConfig,
+  mediaConfig,
+} from '@spartacus/storefront';
+
+@NgModule({
+  declarations: [],
+  imports: [],
+  providers: [
+    provideConfig(layoutConfig),
+    provideConfig(mediaConfig),
+    ...defaultCmsContentProviders,
+    provideConfig(<SiteContextConfig>{
+      context: {},
+    }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        // resources: translations,
+        backend: {
+          loader: (lng: string, ns: string) =>
+            import(
+              \`../../../public/i18n-assets/\${lng}/\${ns}.json\`
+            ),
+          chunks: translationChunksConfig,
+        },
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    provideConfig(<FeaturesConfig>{
+      features: {
+        level: '2211.32',
+      },
+    }),
+  ],
+})
+export class SpartacusConfigurationModule {}
+"
+`;
+
+exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_35" in SSR app should update the src/main.ts 1`] = `
+"import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+
+
+platformBrowserDynamic().bootstrapModule(AppModule, { ngZoneEventCoalescing: true })
+  .catch(err => console.error(err));
+"
+`;
+
+exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_35" in SSR app should update the src/server.ts 1`] = `
+"import { APP_BASE_HREF } from '@angular/common';
+import {
+  NgExpressEngineDecorator,
+  defaultExpressErrorHandlers,
+  ngExpressEngine as engine,
+} from '@spartacus/setup/ssr';
+import express from 'express';
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import AppServerModule from './main.server';
+
+const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
+  ssrFeatureToggles: {
+    avoidCachingErrors: true,
+  },
+});
+
+// The Express app is exported so that it can be used by serverless Functions.
+export function app(): express.Express {
+  const server = express();
+  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+  const browserDistFolder = resolve(serverDistFolder, '../browser');
+  const indexHtml = join(serverDistFolder, 'index.server.html');
+  const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
+
+  server.set('trust proxy', 'loopback');
+
+  server.engine(
+    'html',
+    ngExpressEngine({
+      bootstrap: AppServerModule,
+    })
+  );
+
+  server.set('view engine', 'html');
+  server.set('views', browserDistFolder);
+
+  // Serve static files from /browser
+  server.get(
+    '*.*',
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+    })
+  );
+
+  // All regular routes use the Universal engine
+  server.get('*', (req, res) => {
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+    });
+  });
+
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
+
+  return server;
+}
+
+function run() {
+  const port = process.env['PORT'] || 4000;
+
+  // Start up the Node server
+  const server = app();
+  server.listen(port, () => {
+    console.log(\`Node Express server listening on http://localhost:\${port}\`);
+  });
+}
+
+run();
+"
+`;
+
+exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_35" in SSR app should update the tsconfig.app.json 1`] = `
+"{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [
+      "node"
+    ]
+  },
+  "files": [
+    "src/main.ts",
+    "src/main.server.ts",
+    "src/server.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}"
+`;
+
+exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_35" in SSR app should update the tsconfig.json 1`] = `
+"{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "isolatedModules": true,
+    "moduleResolution": "bundler"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}"
+`;

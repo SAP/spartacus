@@ -22,7 +22,6 @@ export interface ProfileTagJsConfig {
   configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
-  sciEnabled?: boolean;
 }
 
 export interface ConsentReferenceEvent extends CustomEvent {
