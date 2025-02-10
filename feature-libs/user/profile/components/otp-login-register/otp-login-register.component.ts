@@ -47,6 +47,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'cx-otp-register-form',
   templateUrl: './otp-login-register.component.html',
+  standalone: false,
 })
 export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   protected globalMessageService = inject(GlobalMessageService);

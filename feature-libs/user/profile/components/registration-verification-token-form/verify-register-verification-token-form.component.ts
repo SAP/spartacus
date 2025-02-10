@@ -45,6 +45,7 @@ import {
   selector: 'cx-registration-verification-token-form',
   templateUrl: './verify-register-verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);
