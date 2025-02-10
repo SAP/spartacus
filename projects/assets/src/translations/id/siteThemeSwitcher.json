@@ -1,10 +1,10 @@
 {
-  "siteThemeSwitcher" : {
-    "theme" : "Tema",
-    "themes" : {
-      "default" : "Default",
-      "highContrastDark" : "Kontras Tinggi - Gelap",
-      "highContrastLight" : "Kontras Tinggi - Terang"
+  "siteThemeSwitcher": {
+    "theme": "Tema",
+    "themes": {
+      "default": "Default",
+      "highContrastDark": "Kontras Tinggi - Gelap",
+      "highContrastLight": "Kontras Tinggi - Terang"
     }
   }
 }

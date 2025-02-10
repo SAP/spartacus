@@ -1,10 +1,10 @@
 {
-  "siteThemeSwitcher" : {
-    "theme" : "主題",
-    "themes" : {
-      "default" : "預設",
-      "highContrastDark" : "HC-Dark",
-      "highContrastLight" : "HC-Light"
+  "siteThemeSwitcher": {
+    "theme": "主題",
+    "themes": {
+      "default": "預設",
+      "highContrastDark": "HC-Dark",
+      "highContrastLight": "HC-Light"
     }
   }
 }

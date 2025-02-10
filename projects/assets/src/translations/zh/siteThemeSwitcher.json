@@ -1,10 +1,10 @@
 {
-  "siteThemeSwitcher" : {
-    "theme" : "主题",
-    "themes" : {
-      "default" : "默认",
-      "highContrastDark" : "HC-Dark",
-      "highContrastLight" : "HC-Light"
+  "siteThemeSwitcher": {
+    "theme": "主题",
+    "themes": {
+      "default": "默认",
+      "highContrastDark": "HC-Dark",
+      "highContrastLight": "HC-Light"
     }
   }
 }

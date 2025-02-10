@@ -1,11 +1,11 @@
 {
-  "productImageZoomTrigger" : {
-    "expand" : "Agrandir l'image"
+  "productImageZoomTrigger": {
+    "expand": "Agrandir l'image"
   },
-  "productImageZoomDialog" : {
-    "zoomedInImage" : "Zoomé dans l'image",
-    "previousSlide" : "Diapositive précédente",
-    "nextSlide" : "Diapositive suivante",
-    "close" : "Fermer"
+  "productImageZoomDialog": {
+    "zoomedInImage": "Zoomé dans l'image",
+    "previousSlide": "Diapositive précédente",
+    "nextSlide": "Diapositive suivante",
+    "close": "Fermer"
   }
 }

@@ -1,13 +1,13 @@
 {
-  "myAccountV2Consent" : {
-    "header" : "Zarządzanie zgodami",
-    "dateDescription" : "Zatwierdzono na ",
-    "clearAll" : "Wyłącz wszystko",
-    "selectAll" : "Włącz wszystko",
-    "message" : {
-      "success" : {
-        "given" : "Zgoda została udzielona.",
-        "withdrawn" : "Zgoda została cofnięta."
+  "myAccountV2Consent": {
+    "header": "Zarządzanie zgodami",
+    "dateDescription": "Zatwierdzono na ",
+    "clearAll": "Wyłącz wszystko",
+    "selectAll": "Włącz wszystko",
+    "message": {
+      "success": {
+        "given": "Zgoda została udzielona.",
+        "withdrawn": "Zgoda została cofnięta."
       }
     }
   }

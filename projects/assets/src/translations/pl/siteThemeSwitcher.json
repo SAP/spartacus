@@ -1,10 +1,10 @@
 {
-  "siteThemeSwitcher" : {
-    "theme" : "Motyw",
-    "themes" : {
-      "default" : "Domyślne",
-      "highContrastDark" : "HC-Ciemny",
-      "highContrastLight" : "HC-Jasny"
+  "siteThemeSwitcher": {
+    "theme": "Motyw",
+    "themes": {
+      "default": "Domyślne",
+      "highContrastDark": "HC-Ciemny",
+      "highContrastLight": "HC-Jasny"
     }
   }
 }

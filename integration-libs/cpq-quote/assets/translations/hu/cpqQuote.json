@@ -1,4 +1,4 @@
 {
-  "cpqQuoteHeading" : "Tétel ára",
-  "discountCaption" : "A tételre {{ discount }}%-os engedmény van érvényben"
+  "cpqQuoteHeading": "Tétel ára",
+  "discountCaption": "A tételre {{ discount }}%-os engedmény van érvényben"
 }

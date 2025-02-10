@@ -1,10 +1,10 @@
 {
-  "siteThemeSwitcher" : {
-    "theme" : "Тема",
-    "themes" : {
-      "default" : "По умолчанию",
-      "highContrastDark" : "Высокий контраст, темная",
-      "highContrastLight" : "Высокий контраст, светлая"
+  "siteThemeSwitcher": {
+    "theme": "Тема",
+    "themes": {
+      "default": "По умолчанию",
+      "highContrastDark": "Высокий контраст, темная",
+      "highContrastLight": "Высокий контраст, светлая"
     }
   }
 }

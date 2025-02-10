@@ -1,13 +1,13 @@
 {
-  "myAccountV2Consent" : {
-    "header" : "Управление согласиями",
-    "dateDescription" : "Дата утверждения ",
-    "clearAll" : "Деактивировать все",
-    "selectAll" : "Активировать все",
-    "message" : {
-      "success" : {
-        "given" : "Согласие получено.",
-        "withdrawn" : "Согласие отозвано."
+  "myAccountV2Consent": {
+    "header": "Управление согласиями",
+    "dateDescription": "Дата утверждения ",
+    "clearAll": "Деактивировать все",
+    "selectAll": "Активировать все",
+    "message": {
+      "success": {
+        "given": "Согласие получено.",
+        "withdrawn": "Согласие отозвано."
       }
     }
   }
