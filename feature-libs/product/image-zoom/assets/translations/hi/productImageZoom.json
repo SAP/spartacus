@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "छवि ज़ूम इन करें",
+    "previousSlide": "पिछली स्लाइड",
+    "nextSlide": "अगली स्लाइड",
     "close": "बंद करें"
   }
 }

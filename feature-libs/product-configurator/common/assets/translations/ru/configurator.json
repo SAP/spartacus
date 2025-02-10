@@ -196,8 +196,8 @@
       "iconIncomplete": "Группа содержит обязательные атрибуты без выбранных значений.",
       "iconComplete": "Группа завершена.",
       "iconSubGroup": "Группа имеет подгруппу.",
-      "next": "Переход к следующей группе.",
-      "previous": "Переход к предыдущей группе.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "Просмотрите больше информации о продукте {{ product }} или перейдите к конфигурации.",
       "showLessProductInfo": "Просмотрите меньше информации о продукте {{ product }} или перейдите к конфигурации.",
       "productName": "Имя продукта",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "Обзор конфигурации фильтров по группе {{groupName}}",
       "closeConflictSolverModal": "Закрыть модуль средства устранения конфликтов",
       "closeRestartDialog": "Закрыть диалоговое окно \"Незавершенная конфигурация\" и вернуться на страницу сведений продукта",
-      "description": "Щелкните, чтобы просмотреть описание значения"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "Предварительно настроенные версии"

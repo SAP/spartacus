@@ -1,0 +1,53 @@
+import { NgModule } from '@angular/core';
+import { translationChunksConfig } from '@spartacus/assets';
+import {
+  FeaturesConfig,
+  I18nConfig,
+  OccConfig,
+  provideConfig,
+  SiteContextConfig,
+} from '@spartacus/core';
+import {
+  defaultCmsContentProviders,
+  layoutConfig,
+  mediaConfig,
+} from '@spartacus/storefront';
+
+@NgModule({
+  declarations: [],
+  imports: [],
+  providers: [
+    provideConfig(layoutConfig),
+    provideConfig(mediaConfig),
+    ...defaultCmsContentProviders,
+    provideConfig(<OccConfig>{
+      backend: {
+        occ: {
+          baseUrl: 'https://40.76.109.9:9002',
+        },
+      },
+    }),
+    provideConfig(<SiteContextConfig>{
+      context: {},
+    }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        backend: {
+          loader: (language: string, chunkName: string) => {
+            return import(
+              `../../assets/i18n-assets/${language}/${chunkName}.json`
+            );
+          },
+        },
+        chunks: translationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    provideConfig(<FeaturesConfig>{
+      features: {
+        level: '2211.32',
+      },
+    }),
+  ],
+})
+export class SpartacusConfigurationModule {}

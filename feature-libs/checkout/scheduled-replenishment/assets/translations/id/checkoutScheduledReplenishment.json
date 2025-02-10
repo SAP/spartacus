@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "Bulan",
     "dayOfMonth": "Pada hari",
     "startOn": "Dimulai pada",
-    "repeatOnDays": "Ulangi di hari berikutnya"
+    "repeatOnDays": "Ulangi di hari berikutnya",
+    "duration": "Durasi"
   }
 }

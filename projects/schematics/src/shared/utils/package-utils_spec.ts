@@ -12,7 +12,7 @@ import * as path from 'path';
 import { UTF_8 } from '../constants';
 import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
-  checkIfSSRIsUsedWithApplicationBuilder,
+  isSsrUsed,
   getMajorVersionNumber,
   getServerTsPathForApplicationBuilder,
   getSpartacusCurrentFeatureLevel,
@@ -138,15 +138,15 @@ describe('Package utils', () => {
       ssrTree = new UnitTestTree(Tree.empty());
     });
 
-    describe('checkIfSSRIsUsedWithApplicationBuilder', () => {
+    describe('isSsrUsed', () => {
       it('should return false when builder is not application builder', () => {
         createWorkspace('@angular-devkit/build-angular:browser');
-        expect(checkIfSSRIsUsedWithApplicationBuilder(ssrTree)).toBeFalsy();
+        expect(isSsrUsed(ssrTree)).toBeFalsy();
       });
 
       it('should return false when SSR config is missing', () => {
         createWorkspace('@angular-devkit/build-angular:application');
-        expect(checkIfSSRIsUsedWithApplicationBuilder(ssrTree)).toBeFalsy();
+        expect(isSsrUsed(ssrTree)).toBeFalsy();
       });
 
       it('should return false when server file does not exist', () => {
@@ -155,7 +155,7 @@ describe('Package utils', () => {
           'src/main.server.ts',
           'server.ts'
         );
-        expect(checkIfSSRIsUsedWithApplicationBuilder(ssrTree)).toBeFalsy();
+        expect(isSsrUsed(ssrTree)).toBeFalsy();
       });
 
       it('should return true when SSR is properly configured and server file exists', () => {
@@ -165,7 +165,7 @@ describe('Package utils', () => {
           'server.ts'
         );
         ssrTree.create('server.ts', 'export const server = {};');
-        expect(checkIfSSRIsUsedWithApplicationBuilder(ssrTree)).toBeTruthy();
+        expect(isSsrUsed(ssrTree)).toBeTruthy();
       });
     });
 

@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "已放大图像",
+    "previousSlide": "上一张幻灯片",
+    "nextSlide": "下一张幻灯片",
     "close": "关闭"
   }
 }

@@ -10,7 +10,8 @@
       "title": "この Web サイトではクッキーが使用されます",
       "description": "クッキー/ブラウザのストレージを使用して、コンテンツをパーソナライズし、ユーザエクスペリエンスを向上させます。",
       "allowAll": "すべて許可",
-      "viewDetails": "詳細を表示"
+      "viewDetails": "詳細を表示",
+      "consentManagement": "同意管理"
     }
   },
   "checkoutLogin": {
