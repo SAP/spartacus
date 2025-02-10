@@ -298,7 +298,6 @@ if (environment.cpq) {
         showDownloadProposalButton: false,
         showPromotionsInPDP: false,
         searchBoxV2: false,
-        recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
         storeFrontLibCardParagraphTruncated: true,

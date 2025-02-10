@@ -72,11 +72,6 @@ export interface FeatureTogglesInterface {
   showStyleChangesInASM?: boolean;
 
   /**
-   * In `SearchBoxComponent` it shows the recent searches.
-   */
-  recentSearches?: boolean;
-
-  /**
    * In `SearchBoxComponent` it shows the trending searches.
    */
   trendingSearches?: boolean;
@@ -1006,7 +1001,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: true,
   showPromotionsInPDP: true,
   searchBoxV2: false,
-  recentSearches: true,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
   storeFrontLibCardParagraphTruncated: true,
