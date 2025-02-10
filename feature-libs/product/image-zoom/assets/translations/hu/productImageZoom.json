@@ -1,9 +1,11 @@
 {
-  "productImageZoomTrigger": {
-    "expand": "Kép kibontása"
+  "productImageZoomTrigger" : {
+    "expand" : "Kép kibontása"
   },
-  "productImageZoomDialog": {
-    "zoomedInImage": "Felnagyított kép",
-    "close": "Bezárás"
+  "productImageZoomDialog" : {
+    "zoomedInImage" : "Felnagyított kép",
+    "previousSlide" : "Előző dia",
+    "nextSlide" : "Következő dia",
+    "close" : "Bezárás"
   }
 }

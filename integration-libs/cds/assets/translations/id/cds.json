@@ -1,8 +1,8 @@
 {
-  "cdsRecentSearches": {
-    "ariaRecentSearches": "mengetik pencarian terbaru"
+  "cdsRecentSearches" : {
+    "ariaRecentSearches" : "mengetik pencarian terbaru"
   },
-  "cdsTrendingSearches": {
-    "ariaTrendingSearches": "mengetik pencarian populer"
+  "cdsTrendingSearches" : {
+    "ariaTrendingSearches" : "mengetik pencarian populer"
   }
 }

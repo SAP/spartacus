@@ -1,23 +1,26 @@
 {
-  "opfCheckout": {
-    "tabs": {
-      "shipping": "Doprava",
-      "deliveryMethod": "Způsob dodání",
-      "paymentAndReview": "Platba a kontrola"
+  "opfCheckout" : {
+    "tabs" : {
+      "shipping" : "Doprava",
+      "deliveryMethod" : "Způsob dodání",
+      "paymentAndReview" : "Platba a kontrola"
     },
-    "paymentAndReviewTitle": "Platba a kontrola",
-    "billingAddress": "Fakturační adresa",
-    "paymentOption": "Možnost platby",
-    "termsAndConditions": "Obchodní podmínky",
-    "itemsToBeShipped": "Položky k odeslání",
-    "proceedPayment": "Objednat",
-    "retryPayment": "Chcete-li pokračovat, zkuste to znovu.",
-    "checkTermsAndConditionsExplicit": "Aby se vám zobrazily možnosti platby, musíte odsouhlasit Obchodní podmínky.",
-    "checkTermsAndConditionsImplicit": "Odesláním objednávky vyjadřujete souhlas s Obchodními podmínkami.",
-    "errors": {
-      "loadActiveConfigurations": "Momentálně nemůžeme načíst možnosti platby. Zkuste to znovu později.",
-      "noActiveConfigurations": "Momentálně nejsou k dispozici žádné možnosti platby. Zkuste to později znovu nebo kontaktujte podporu.",
-      "updateBillingAddress": "Adresu nebylo možné aktualizovat. Zkontrolujte, zda jsou údaje o adrese správné a zda je vaše zařízení připojeno k internetu. Pokud problém přetrvává, bude možná nutné vyprázdnit košík a znovu zahájit proces kontroly a potvrzení."
+    "paymentAndReviewTitle" : "Platba a kontrola",
+    "billingAddress" : "Fakturační adresa",
+    "paymentOption" : "Možnost platby",
+    "termsAndConditions" : "Obchodní podmínky",
+    "closeTermsAndConditionsAlert" : "Close alert",
+    "itemsToBeShipped" : "Položky k odeslání",
+    "proceedPayment" : "Objednat",
+    "defaultPaymentInfoMessage" : "You are about to make a payment. Depending on the option selected, you will either be redirected to a secure external page or complete the process directly within this page",
+    "proceedPaymentButtonLabel" : "Place Order, opens external page",
+    "retryPayment" : "Chcete-li pokračovat, zkuste to znovu.",
+    "checkTermsAndConditionsExplicit" : "Aby se vám zobrazily možnosti platby, musíte odsouhlasit Obchodní podmínky.",
+    "checkTermsAndConditionsImplicit" : "Odesláním objednávky vyjadřujete souhlas s Obchodními podmínkami.",
+    "errors" : {
+      "loadActiveConfigurations" : "Momentálně nemůžeme načíst možnosti platby. Zkuste to znovu později.",
+      "noActiveConfigurations" : "Momentálně nejsou k dispozici žádné možnosti platby. Zkuste to později znovu nebo kontaktujte podporu.",
+      "updateBillingAddress" : "Adresu nebylo možné aktualizovat. Zkontrolujte, zda jsou údaje o adrese správné a zda je vaše zařízení připojeno k internetu. Pokud problém přetrvává, bude možná nutné vyprázdnit košík a znovu zahájit proces kontroly a potvrzení."
     }
   }
 }

@@ -1,9 +1,11 @@
 {
-  "productImageZoomTrigger": {
-    "expand": "Perluas gambar"
+  "productImageZoomTrigger" : {
+    "expand" : "Perluas gambar"
   },
-  "productImageZoomDialog": {
-    "zoomedInImage": "Gambar yang diperbesar",
-    "close": "Tutup"
+  "productImageZoomDialog" : {
+    "zoomedInImage" : "Gambar yang diperbesar",
+    "previousSlide" : "Slide sebelumnya",
+    "nextSlide" : "Slide berikutnya",
+    "close" : "Tutup"
   }
 }

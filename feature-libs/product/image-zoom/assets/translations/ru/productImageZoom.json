@@ -1,9 +1,11 @@
 {
-  "productImageZoomTrigger": {
-    "expand": "Развернуть изображение"
+  "productImageZoomTrigger" : {
+    "expand" : "Развернуть изображение"
   },
-  "productImageZoomDialog": {
-    "zoomedInImage": "Увеличенное изображение",
-    "close": "Закрыть"
+  "productImageZoomDialog" : {
+    "zoomedInImage" : "Увеличенное изображение",
+    "previousSlide" : "Предыдущий слайд",
+    "nextSlide" : "Следующий слайд",
+    "close" : "Закрыть"
   }
 }

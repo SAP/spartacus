@@ -1,8 +1,8 @@
 {
-  "cdsRecentSearches": {
-    "ariaRecentSearches": "Eingabe der vor kurzem verwendeten Suchen"
+  "cdsRecentSearches" : {
+    "ariaRecentSearches" : "Eingabe der vor kurzem verwendeten Suchen"
   },
-  "cdsTrendingSearches": {
-    "ariaTrendingSearches": "Eingabe von Trendsuchen"
+  "cdsTrendingSearches" : {
+    "ariaTrendingSearches" : "Eingabe von Trendsuchen"
   }
 }

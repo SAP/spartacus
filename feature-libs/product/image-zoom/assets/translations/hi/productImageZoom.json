@@ -1,9 +1,11 @@
 {
-  "productImageZoomTrigger": {
-    "expand": "छवि विस्तृत करें"
+  "productImageZoomTrigger" : {
+    "expand" : "छवि विस्तृत करें"
   },
-  "productImageZoomDialog": {
-    "zoomedInImage": "छवि ज़ूम इन करें",
-    "close": "बंद करें"
+  "productImageZoomDialog" : {
+    "zoomedInImage" : "छवि ज़ूम इन करें",
+    "previousSlide" : "पिछली स्लाइड",
+    "nextSlide" : "अगली स्लाइड",
+    "close" : "बंद करें"
   }
 }

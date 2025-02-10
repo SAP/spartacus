@@ -1,9 +1,11 @@
 {
-  "productImageZoomTrigger": {
-    "expand": "展開圖像"
+  "productImageZoomTrigger" : {
+    "expand" : "展開圖像"
   },
-  "productImageZoomDialog": {
-    "zoomedInImage": "放大圖像",
-    "close": "關閉"
+  "productImageZoomDialog" : {
+    "zoomedInImage" : "放大圖像",
+    "previousSlide" : "上一張投影片",
+    "nextSlide" : "下一張投影片",
+    "close" : "關閉"
   }
 }

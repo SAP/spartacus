@@ -1,23 +1,26 @@
 {
-  "opfCheckout": {
-    "tabs": {
-      "shipping": "Kiszállítás",
-      "deliveryMethod": "Kézbesítési mód",
-      "paymentAndReview": "Fizetés és ellenőrzés"
+  "opfCheckout" : {
+    "tabs" : {
+      "shipping" : "Kiszállítás",
+      "deliveryMethod" : "Kézbesítési mód",
+      "paymentAndReview" : "Fizetés és ellenőrzés"
     },
-    "paymentAndReviewTitle": "Fizetés és ellenőrzés",
-    "billingAddress": "Számlázási cím",
-    "paymentOption": "Fizetési lehetőség",
-    "termsAndConditions": "Használati feltételek",
-    "itemsToBeShipped": "Szállítandó tételek",
-    "proceedPayment": "Rendelés leadása",
-    "retryPayment": "A folytatáshoz próbálja újra",
-    "checkTermsAndConditionsExplicit": "A rendelkezésre álló fizetési lehetőségek megtekintéséhez el kell fogadnia a használati feltételeket",
-    "checkTermsAndConditionsImplicit": "A rendelés elküldésével elfogadja a használati feltételeinket.",
-    "errors": {
-      "loadActiveConfigurations": "Jelenleg nem tudjuk betölteni a fizetési lehetőségeket. Próbálja újra később.",
-      "noActiveConfigurations": "Jelenleg nincsenek rendelkezésre álló fizetési lehetőségek. Próbálja újra később, vagy vegye fel a kapcsolatot a támogatással.",
-      "updateBillingAddress": "Nem sikerült frissíteni a címet. Ellenőrizze, hogy a címadatok helyesek-e és hogy az eszköze csatlakozik-e az internethez. Ha a probléma továbbra is fennáll, előfordulhat, hogy ki kell ürítenie a kosarát, és újra kell indítania a fizetési folyamatot."
+    "paymentAndReviewTitle" : "Fizetés és ellenőrzés",
+    "billingAddress" : "Számlázási cím",
+    "paymentOption" : "Fizetési lehetőség",
+    "termsAndConditions" : "Használati feltételek",
+    "closeTermsAndConditionsAlert" : "Close alert",
+    "itemsToBeShipped" : "Szállítandó tételek",
+    "proceedPayment" : "Rendelés leadása",
+    "defaultPaymentInfoMessage" : "You are about to make a payment. Depending on the option selected, you will either be redirected to a secure external page or complete the process directly within this page",
+    "proceedPaymentButtonLabel" : "Place Order, opens external page",
+    "retryPayment" : "A folytatáshoz próbálja újra",
+    "checkTermsAndConditionsExplicit" : "A rendelkezésre álló fizetési lehetőségek megtekintéséhez el kell fogadnia a használati feltételeket",
+    "checkTermsAndConditionsImplicit" : "A rendelés elküldésével elfogadja a használati feltételeinket.",
+    "errors" : {
+      "loadActiveConfigurations" : "Jelenleg nem tudjuk betölteni a fizetési lehetőségeket. Próbálja újra később.",
+      "noActiveConfigurations" : "Jelenleg nincsenek rendelkezésre álló fizetési lehetőségek. Próbálja újra később, vagy vegye fel a kapcsolatot a támogatással.",
+      "updateBillingAddress" : "Nem sikerült frissíteni a címet. Ellenőrizze, hogy a címadatok helyesek-e és hogy az eszköze csatlakozik-e az internethez. Ha a probléma továbbra is fennáll, előfordulhat, hogy ki kell ürítenie a kosarát, és újra kell indítania a fizetési folyamatot."
     }
   }
 }

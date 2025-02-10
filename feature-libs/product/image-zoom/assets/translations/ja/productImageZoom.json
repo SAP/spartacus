@@ -1,9 +1,11 @@
 {
-  "productImageZoomTrigger": {
-    "expand": "画像を拡大"
+  "productImageZoomTrigger" : {
+    "expand" : "画像を拡大"
   },
-  "productImageZoomDialog": {
-    "zoomedInImage": "画像にズームイン",
-    "close": "閉じる"
+  "productImageZoomDialog" : {
+    "zoomedInImage" : "画像にズームイン",
+    "previousSlide" : "前のスライド",
+    "nextSlide" : "次のスライド",
+    "close" : "閉じる"
   }
 }

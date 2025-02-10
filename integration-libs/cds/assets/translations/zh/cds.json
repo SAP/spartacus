@@ -1,8 +1,8 @@
 {
-  "cdsRecentSearches": {
-    "ariaRecentSearches": "输入最近搜索"
+  "cdsRecentSearches" : {
+    "ariaRecentSearches" : "输入最近搜索"
   },
-  "cdsTrendingSearches": {
-    "ariaTrendingSearches": "键入趋势搜索"
+  "cdsTrendingSearches" : {
+    "ariaTrendingSearches" : "键入趋势搜索"
   }
 }

@@ -1,8 +1,8 @@
 {
-  "cdsRecentSearches": {
-    "ariaRecentSearches": "legutóbbi keresések gépelése"
+  "cdsRecentSearches" : {
+    "ariaRecentSearches" : "legutóbbi keresések gépelése"
   },
-  "cdsTrendingSearches": {
-    "ariaTrendingSearches": "népszerű keresések begépelése"
+  "cdsTrendingSearches" : {
+    "ariaTrendingSearches" : "népszerű keresések begépelése"
   }
 }

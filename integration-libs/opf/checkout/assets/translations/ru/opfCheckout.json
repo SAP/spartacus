@@ -1,23 +1,26 @@
 {
-  "opfCheckout": {
-    "tabs": {
-      "shipping": "Доставка",
-      "deliveryMethod": "Метод доставки",
-      "paymentAndReview": "Оплата и проверка"
+  "opfCheckout" : {
+    "tabs" : {
+      "shipping" : "Доставка",
+      "deliveryMethod" : "Метод доставки",
+      "paymentAndReview" : "Оплата и проверка"
     },
-    "paymentAndReviewTitle": "Оплата и проверка",
-    "billingAddress": "Адрес выставления счета",
-    "paymentOption": "Опция оплаты",
-    "termsAndConditions": "Условия",
-    "itemsToBeShipped": "Позиции для доставки",
-    "proceedPayment": "Разместить заказ",
-    "retryPayment": "Повторить попытку, чтобы продолжить",
-    "checkTermsAndConditionsExplicit": "Вы должны выразить согласие с условиями, чтобы увидеть опции оплаты.",
-    "checkTermsAndConditionsImplicit": "Отправляя заказ, вы соглашаетесь с условиями.",
-    "errors": {
-      "loadActiveConfigurations": "Не удалось загрузить опции оплаты. Повторите попытку позже.",
-      "noActiveConfigurations": "Опции оплаты сейчас недоступны. Повторите попытку позже или обратитесь в службу поддержки.",
-      "updateBillingAddress": "Не удалось обновить адрес. Проверьте правильность информации об адресе и подключение вашего устройства к интернету. Если проблема сохраняется, возможно, вам придется очистить корзину и начать оформление заказа заново."
+    "paymentAndReviewTitle" : "Оплата и проверка",
+    "billingAddress" : "Адрес выставления счета",
+    "paymentOption" : "Опция оплаты",
+    "termsAndConditions" : "Условия",
+    "closeTermsAndConditionsAlert" : "Close alert",
+    "itemsToBeShipped" : "Позиции для доставки",
+    "proceedPayment" : "Разместить заказ",
+    "defaultPaymentInfoMessage" : "You are about to make a payment. Depending on the option selected, you will either be redirected to a secure external page or complete the process directly within this page",
+    "proceedPaymentButtonLabel" : "Place Order, opens external page",
+    "retryPayment" : "Повторить попытку, чтобы продолжить",
+    "checkTermsAndConditionsExplicit" : "Вы должны выразить согласие с условиями, чтобы увидеть опции оплаты.",
+    "checkTermsAndConditionsImplicit" : "Отправляя заказ, вы соглашаетесь с условиями.",
+    "errors" : {
+      "loadActiveConfigurations" : "Не удалось загрузить опции оплаты. Повторите попытку позже.",
+      "noActiveConfigurations" : "Опции оплаты сейчас недоступны. Повторите попытку позже или обратитесь в службу поддержки.",
+      "updateBillingAddress" : "Не удалось обновить адрес. Проверьте правильность информации об адресе и подключение вашего устройства к интернету. Если проблема сохраняется, возможно, вам придется очистить корзину и начать оформление заказа заново."
     }
   }
 }
