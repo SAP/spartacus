@@ -10,7 +10,8 @@
       "title": "Tyto webové stránky používají soubory cookie",
       "description": "Používáme soubory cookie ukládané do úložiště prohlížeče k personalizaci obsahu a zlepšení zkušenosti uživatele.",
       "allowAll": "Povolit vše",
-      "viewDetails": "Zobrazit detaily"
+      "viewDetails": "Zobrazit detaily",
+      "consentManagement": "Správa souhlasů"
     }
   },
   "checkoutLogin": {

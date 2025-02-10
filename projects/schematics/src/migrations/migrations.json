@@ -249,6 +249,11 @@
       "version": "2211.35.0",
       "factory": "./2211_35/bootstrap/bootstrap#migrate",
       "description": "Replace import paths for Bootstrap usages"
+    },
+    "03-migration-v2211_35-silence-sass-deprecations": {
+      "version": "2211.35.0",
+      "factory": "./2211_35/silence-sass-deprecations/silence-sass-deprecations#migrate",
+      "description": "Silence Sass deprecations about the `@import` directive"
     }
   }
 }

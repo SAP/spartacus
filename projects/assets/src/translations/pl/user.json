@@ -10,7 +10,8 @@
       "title": "Ta strona używa cookies",
       "description": "Używamy plików cookie/pamięci przeglądarki do personalizacji treści i poprawy komfortu użytkowania.",
       "allowAll": "Zgoda na wszystko",
-      "viewDetails": "Wyświetl szczegóły"
+      "viewDetails": "Wyświetl szczegóły",
+      "consentManagement": "Zarządzanie zgodami"
     }
   },
   "checkoutLogin": {
