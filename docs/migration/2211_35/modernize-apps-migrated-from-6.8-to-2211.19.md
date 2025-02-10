@@ -41,7 +41,7 @@ In case of any issues during the automatic migration, you can always fall back t
 >
 > Reminder for SSR apps: from now on the server-side rendering and prerendering scripts will be executed differently (see the last section of this page "[New commands for SSR projects](#new-commands-for-ssr-projects)")
 
-Note: any step of the automatic migration fails due to any reason, please fall back to the manual migration steps below:
+In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
 
 # Manual migration
 
