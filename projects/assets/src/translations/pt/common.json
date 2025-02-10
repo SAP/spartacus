@@ -21,11 +21,13 @@
     "search": "Pesquisa",
     "add": "Adicionar",
     "breadcrumbs": "breadcrumbs",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Selecionar arquivo",
     "clear": "Limpar",
     "loaded": "Carregado",
     "results": "Resultados",
     "of": "de",
+    "ngSelectDropdownOptionsList": "Opções",
     "required": "obrigatório",
     "zoomIn": "Ampliar",
     "zoomOut": "Reduzir",
@@ -63,7 +65,8 @@
     "goTo": "Ir para {{location}}",
     "navigateTo": "Navegar para {{nav}}",
     "scrollToTop": "Navegue para trás para o topo da página",
-    "linkItemInList": "{{title}}. {{position}} de {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} de {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Inserir nome do produto ou SKU",

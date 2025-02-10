@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "개월",
     "dayOfMonth": "당일",
     "startOn": "시작 날짜",
-    "repeatOnDays": "다음 날짜에 반복"
+    "repeatOnDays": "다음 날짜에 반복",
+    "duration": "기간"
   }
 }

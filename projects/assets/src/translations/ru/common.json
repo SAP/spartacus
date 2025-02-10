@@ -21,11 +21,13 @@
     "search": "Поиск",
     "add": "Добавить",
     "breadcrumbs": "история навигации",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Выбрать файл",
     "clear": "Очистить",
     "loaded": "Загружено",
     "results": "Результаты",
     "of": "из",
+    "ngSelectDropdownOptionsList": "Опции",
     "required": "обязательно",
     "zoomIn": "Увеличить",
     "zoomOut": "Уменьшить",
@@ -63,7 +65,8 @@
     "goTo": "Перейти к {{location}}",
     "navigateTo": "Перейти к {{nav}}",
     "scrollToTop": "Прокрутка назад к началу страницы",
-    "linkItemInList": "{{title}}. {{position}} из {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} из {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Введите продукт или SKU",

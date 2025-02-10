@@ -21,11 +21,13 @@
     "search": "Rechercher",
     "add": "Ajouter",
     "breadcrumbs": "Chemin de navigation",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Sélectionner le fichier",
     "clear": "Effacer",
     "loaded": "Chargé",
     "results": "Résultats",
     "of": "sur",
+    "ngSelectDropdownOptionsList": "Options",
     "required": "obligatoire",
     "zoomIn": "Zoom avant",
     "zoomOut": "Zoom arrière",
@@ -63,7 +65,8 @@
     "goTo": "Passer à {{location}}",
     "navigateTo": "Naviguer vers {{nav}}",
     "scrollToTop": "Revenir en haut de la page",
-    "linkItemInList": "{{title}}. {{position}} sur {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} sur {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Saisir le nom du produit ou l'UGS",

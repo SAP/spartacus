@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "mois",
     "dayOfMonth": "À la date",
     "startOn": "Début le",
-    "repeatOnDays": "Répéter les jours suivants"
+    "repeatOnDays": "Répéter les jours suivants",
+    "duration": "Durée"
   }
 }
