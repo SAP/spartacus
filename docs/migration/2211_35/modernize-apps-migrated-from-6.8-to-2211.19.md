@@ -28,7 +28,7 @@ node -e "require('fs').mkdirSync('../temp-schematics-35')"
 # 2. Install schematics in the temporary directory
 npm install @spartacus/schematics@2211.35.0 --prefix ../temp-schematics-35
 
-# 3. Execute the modernization schematic from the temporary directory
+# 3. Execute schematics from the temporary directory in your project 
 ng g ../temp-schematics-35/node_modules/@spartacus/schematics:modernize-app-migrated-from-6_8-to-2211_19
 
 # 4. Clean up the temporary directory
