@@ -196,8 +196,8 @@
       "iconIncomplete": "समूह में चयनित मानों के बिना आवश्यक विशेषताएं हैं.",
       "iconComplete": "समूह पूर्ण है.",
       "iconSubGroup": "समूह के उप-समूह हैं.",
-      "next": "अगले समूह पर नेविगेट करें.",
-      "previous": "पिछले समूह पर नेविगेट करें.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "उत्पाद {{ product }} के लिए अधिक जानकारी दिखाएं या कॉन्फ़िगरेशन हेतु जारी रखें.",
       "showLessProductInfo": "उत्पाद {{ product }} के लिए कम जानकारी दिखाएं या कॉन्फ़िगरेशन हेतु जारी रखें.",
       "productName": "उत्पाद का नाम",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "समूह {{groupName}} के अनुसार कॉन्फ़िगरेशन ओवरव्यू फ़िल्टर करें",
       "closeConflictSolverModal": "टकराव समाधानकर्ता मॉडल बंद करें",
       "closeRestartDialog": "\"अपूर्ण कॉन्फ़िगरेशन\" डायलॉग बंद करें और उत्पाद विवरण पृष्ठ पर वापस नेविगेट करें",
-      "description": "इस मान के लिए विवरण देखने हेतु क्लिक करें"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "पूर्व-कॉन्फ़िगर किए गए संस्करण"

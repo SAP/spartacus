@@ -196,8 +196,8 @@
       "iconIncomplete": "群組有必要屬性，但沒有所選值。",
       "iconComplete": "群組已完成。",
       "iconSubGroup": "群組有子群組。",
-      "next": "瀏覽至下一個群組。",
-      "previous": "瀏覽至上一個群組。",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "顯示產品 {{ product }} 的更多資訊，或繼續組態。",
       "showLessProductInfo": "顯示產品 {{ product }} 的更少資訊，或繼續組態。",
       "productName": "產品名稱",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "按群組 {{groupName}} 篩選組態概觀",
       "closeConflictSolverModal": "關閉衝突解決程式強制回應視窗",
       "closeRestartDialog": "關閉「未完成的組態」對話並瀏覽回產品明細頁面",
-      "description": "按一下以查看此值的說明"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "預先組態的版本"

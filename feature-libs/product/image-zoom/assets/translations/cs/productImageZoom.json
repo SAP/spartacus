@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Zvětšený obrázek",
+    "previousSlide": "Předchozí snímek",
+    "nextSlide": "Další snímek",
     "close": "Zavřít"
   }
 }

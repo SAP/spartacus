@@ -10,6 +10,8 @@ export interface OrganizationUserRegistration {
   firstName: string;
   lastName: string;
   message?: string;
+  verificationTokenId?: string;
+  verificationTokenCode?: string;
 }
 
 export interface OrganizationUserRegistrationForm

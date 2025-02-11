@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "माह",
     "dayOfMonth": "दिन पर",
     "startOn": "प्रारंभ दिनांक",
-    "repeatOnDays": "निम्न दिनों पर फिर से करें"
+    "repeatOnDays": "निम्न दिनों पर फिर से करें",
+    "duration": "अवधि"
   }
 }
