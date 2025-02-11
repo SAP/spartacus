@@ -196,8 +196,8 @@
       "iconIncomplete": "Gruppe hat erforderliche Attribute ohne ausgewählte Werte.",
       "iconComplete": "Gruppe ist vollständig.",
       "iconSubGroup": "Gruppe hat eine Untergruppe.",
-      "next": "Navigieren Sie zur nächsten Gruppe.",
-      "previous": "Navigieren Sie zur vorigen Gruppe.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "Zeigen Sie mehr Informationen für das Produkt {{ product }} an, oder fahren Sie mit der Konfiguration fort.",
       "showLessProductInfo": "Zeigen Sie weniger Informationen für das Produkt {{ product }} an, oder fahren Sie mit der Konfiguration fort.",
       "productName": "Produktname",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "Konfigurationsübersicht nach Gruppe {{groupName}} filtern",
       "closeConflictSolverModal": "Modalen Dialog zum Auflösen von Konflikten schließen",
       "closeRestartDialog": "Dialog \"Unbeendete Konfiguration\" schließen und zur Seite der Produktdetails zurückkehren",
-      "description": "Klicken, um eine Beschreibung für diesen Wert anzuzeigen"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "Vorkonfigurierte Versionen"

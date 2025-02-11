@@ -63,6 +63,13 @@
     "findProducts": "Найти продукты",
     "status": "Статус:",
     "dialogTitle": "Купон",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "Код купона",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "Вы успешно использовали этот купон.",
     "myCoupons": "Мои купоны",
     "startDateAsc": "Дата начала (по возрастанию)",

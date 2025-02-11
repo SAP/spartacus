@@ -21,11 +21,13 @@
     "search": "검색",
     "add": "추가",
     "breadcrumbs": "탐색 경로",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "파일 선택",
     "clear": "지우기",
     "loaded": "로드됨",
     "results": "결과",
     "of": "/",
+    "ngSelectDropdownOptionsList": "옵션",
     "required": "필수",
     "zoomIn": "확대",
     "zoomOut": "축소",
@@ -63,7 +65,8 @@
     "goTo": "{{location}}(으)로 가기",
     "navigateTo": "{{nav}}(으)로 이동",
     "scrollToTop": "페이지 맨 위로 이동",
-    "linkItemInList": "{{title}}. {{position}}/{{listLength}}"
+    "linkItemInList": "{{title}}. {{position}}/{{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "제품 이름이나 SKU 입력",

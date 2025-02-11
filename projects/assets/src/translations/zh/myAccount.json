@@ -63,6 +63,13 @@
     "findProducts": "查找产品",
     "status": "状态:",
     "dialogTitle": "优惠券",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "优惠券代码",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "您已成功领取此优惠券.",
     "myCoupons": "我的优惠券",
     "startDateAsc": "开始日期（升序）",
