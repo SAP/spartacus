@@ -35,6 +35,10 @@
       @include media-breakpoint-down(lg) {
         top: 10px;
       }
+
+      @include media-breakpoint-down(sm) {
+        top: 26px;
+      }
     }
 
     .disabled-action {

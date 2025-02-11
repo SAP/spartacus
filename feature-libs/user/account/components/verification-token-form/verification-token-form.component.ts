@@ -60,20 +60,32 @@ export class VerificationTokenFormComponent implements OnInit {
 
   isResendDisabled: boolean = true;
 
+  errorStatus: number;
+
+  upToRateLimit: boolean;
+
+  waitTimeForRateLimit: number = 300;
+
   ngOnInit() {
     if (!!history.state) {
       this.tokenId = history.state['tokenId'];
       this.password = history.state['password'];
       this.target = history.state['loginId'];
+      this.errorStatus = history.state['errorStatus'];
       history.pushState(
         {
           tokenId: '',
           password: '',
           loginId: '',
+          errorStatus: '',
         },
         'verifyToken'
       );
-      if (!this.target || !this.password || !this.tokenId) {
+      if (this.errorStatus === 400) {
+        this.upToRateLimit = true;
+        this.tokenId = 'invalidTokenId';
+        this.startRateLimitWaitTimeInterval();
+      } else if (!this.target || !this.password || !this.tokenId) {
         this.service.displayMessage(
           'verificationTokenForm.needInputCredentials',
           {}
@@ -140,5 +152,18 @@ export class VerificationTokenFormComponent implements OnInit {
       event.preventDefault();
       this.openInfoDailog();
     }
+  }
+
+  startRateLimitWaitTimeInterval(): void {
+    const interval = setInterval(() => {
+      this.waitTimeForRateLimit--;
+      this.cdr.detectChanges();
+      if (this.waitTimeForRateLimit <= 0) {
+        clearInterval(interval);
+        this.upToRateLimit = false;
+        this.isResendDisabled = false;
+        this.cdr.detectChanges();
+      }
+    }, 1000);
   }
 }

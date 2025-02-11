@@ -14,6 +14,7 @@
     "saveAsDefault": "另存为默认值",
     "setAsDefault": "设置为默认付款方式",
     "billingAddress": "账单地址",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "与送货地址一致",
     "billingAddressSameAsShipping": "账单地址与送货地址一致",
     "selectOne": "选择一个...",

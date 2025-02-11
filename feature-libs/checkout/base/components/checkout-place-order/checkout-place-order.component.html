@@ -17,7 +17,12 @@
       <span class="form-check-label">
         {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
         <a
-          [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+          [routerLink]="
+            {
+              cxRoute: 'termsAndConditions',
+              params: [params$ | async],
+            } | cxUrl
+          "
           class="cx-tc-link"
           target="_blank"
           rel="noopener noreferrer"

@@ -63,6 +63,13 @@
     "findProducts": "उत्पाद खोजें",
     "status": "स्थिति:",
     "dialogTitle": "कूपन",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "कूपन कोड",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "आपने सफलतापूर्वक इस कूपन का दावा किया है.",
     "myCoupons": "मेरे कूपन",
     "startDateAsc": "प्रारंभ दिनांक (आरोही)",
