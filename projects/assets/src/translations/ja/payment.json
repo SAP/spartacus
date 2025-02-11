@@ -14,6 +14,7 @@
     "saveAsDefault": "デフォルトとして保存",
     "setAsDefault": "デフォルトの支払方法として設定",
     "billingAddress": "請求先住所",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "配送先住所と同じ",
     "billingAddressSameAsShipping": "請求先住所は配送先住所と同じです",
     "selectOne": "1 つ選択...",

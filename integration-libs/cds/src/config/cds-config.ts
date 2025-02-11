@@ -23,7 +23,6 @@ export abstract class CdsConfig {
     endpoints?: CdsEndpoints;
     merchandising?: MerchandisingConfig;
     profileTag?: ProfileTagConfig;
-    sciEnabled?: boolean;
   };
 }
 

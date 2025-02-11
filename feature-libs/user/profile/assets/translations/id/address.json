@@ -25,11 +25,11 @@
     },
     "phoneNumber": {
       "label": "Nomor telepon (opsional)",
-      "placeholder": "misalnya (###) - ### - ####"
+      "placeholder": "misalnya (+62) - ### - #### - ####"
     },
     "cellphone": {
       "label": "Nomor ponsel (opsional)",
-      "placeholder": "misalnya (###) - ### - ####"
+      "placeholder": "misalnya (+62) - ### - #### - ####"
     },
     "saveAsDefault": "Simpan sebagai default",
     "chooseAddress": "Pilih alamat",

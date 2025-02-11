@@ -148,7 +148,11 @@ export function getSpartacusCurrentFeatureLevel(): string {
   return version.split('.').slice(0, 2).join('.');
 }
 
-export function checkIfSSRIsUsed(tree: Tree): boolean {
+/**
+ * Tells whether the app is using SSR with legacy configuration
+ * (not using Application Builder, but the old Server Builder)
+ */
+export function isUsingLegacyServerBuilder(tree: Tree): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const { workspace: angularJson } = getWorkspace(tree);
   const isServerConfiguration =
@@ -186,7 +190,7 @@ interface ApplicationBuilderWorkspaceArchitect {
  * @param tree - The file tree to check for SSR configuration
  * @returns true if SSR is configured and the server file exists, false otherwise
  */
-export function checkIfSSRIsUsedWithApplicationBuilder(tree: Tree): boolean {
+export function isSsrUsed(tree: Tree): boolean {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const { workspace: angularJson } = getWorkspace(tree);
   const architect = angularJson.projects[projectName]

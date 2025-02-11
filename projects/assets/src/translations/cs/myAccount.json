@@ -63,6 +63,13 @@
     "findProducts": "Hledat produkty",
     "status": "Status:",
     "dialogTitle": "Kupón",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "Kód kupónu",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "Úspěšně jste uplatnili tento kupón.",
     "myCoupons": "Moje kupóny",
     "startDateAsc": "Datum zahájení (vzestupně)",
