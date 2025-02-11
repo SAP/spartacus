@@ -168,9 +168,13 @@ export const orderHistoryTest = {
       cy.visit('/my-account/orders');
 
       cy.get('.top cx-sorting .ng-select', { timeout: 15000 }).click();
-      cy.get('.ng-dropdown-panel .ng-option', { timeout: 15000 }).contains('Order Number').click();
+      cy.get('.ng-dropdown-panel .ng-option', { timeout: 15000 })
+        .contains('Order Number')
+        .click();
 
-      cy.wait('@query_order_asc', { timeout: 15000 }).its('response.statusCode').should('eq', 200);
+      cy.wait('@query_order_asc', { timeout: 15000 })
+        .its('response.statusCode')
+        .should('eq', 200);
       cy.wait(2000);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
         ($orders) => {
