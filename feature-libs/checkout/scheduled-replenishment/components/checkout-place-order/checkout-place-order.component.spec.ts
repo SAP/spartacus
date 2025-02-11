@@ -2,8 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import {
+  CurrencyService,
   GlobalMessageService,
   I18nTestingModule,
+  LanguageService,
   RoutingService,
 } from '@spartacus/core';
 import {
@@ -91,6 +93,12 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
   beforeEach(waitForAsync(() => {
+    const mockCurrencyService = {
+      getActive: () => of('USD'),
+    };
+    const mockLanguageService = {
+      getActive: () => of('en'),
+    };
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
       declarations: [
@@ -113,6 +121,8 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           provide: GlobalMessageService,
           useValue: {},
         },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
       ],
     }).compileComponents();
   }));
