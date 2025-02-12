@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "月",
     "dayOfMonth": "日期",
     "startOn": "开始日期",
-    "repeatOnDays": "以下日期重复"
+    "repeatOnDays": "以下日期重复",
+    "duration": "持续时间"
   }
 }

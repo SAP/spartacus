@@ -196,8 +196,8 @@
       "iconIncomplete": "组具有必需属性，但未选择值。",
       "iconComplete": "组未完成。",
       "iconSubGroup": "组具有子组。",
-      "next": "导航到下一个组。",
-      "previous": "导航到上一个组。",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "显示产品 {{ product }} 的更多信息或继续配置。",
       "showLessProductInfo": "显示产品 {{ product }} 的更少信息或继续配置。",
       "productName": "产品名称",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "按组 {{groupName}} 过滤配置概览",
       "closeConflictSolverModal": "关闭冲突处理器模式",
       "closeRestartDialog": "关闭“未完成配置”对话框并导航回产品详细信息页面",
-      "description": "单击以查看此值的描述"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "预配置版本"

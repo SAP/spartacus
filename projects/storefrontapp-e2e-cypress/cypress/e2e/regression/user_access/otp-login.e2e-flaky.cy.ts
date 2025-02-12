@@ -6,13 +6,36 @@
 
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { user } from '../../../sample-data/checkout-flow';
 import { interceptPost } from '../../../support/utils/intercept';
+import { registerWithOtp } from '../../../helpers/auth-forms';
+import { waitForPage } from '../../../helpers/checkout-flow';
 
 export function listenForCreateVerificationToken(): string {
   return interceptPost(
     'createVerificationToken',
     '/users/anonymous/verificationToken?*'
   );
+}
+
+export function listenForUserRegistrationVerficationCodeEmailReceive(
+  customerEmail: string
+) {
+  const mailCCV2Url =
+    Cypress.env('MAIL_CCV2_URL') +
+    Cypress.env('MAIL_CCV2_PREFIX') +
+    '/search?query=' +
+    customerEmail +
+    '&kind=to';
+
+  cy.request({
+    method: 'GET',
+    url: mailCCV2Url,
+  }).then((response) => {
+    if (response.body.total != 1) {
+      listenForUserRegistrationVerficationCodeEmailReceive(customerEmail);
+    }
+  });
 }
 
 export function listenForUserVerficationCodeEmailReceive(
@@ -39,11 +62,69 @@ describe('OTP Login', () => {
   viewportContext(['mobile'], () => {
     describe('Create OTP', () => {
       beforeEach(() => {
-        cy.visit('/login');
+        cy.visit('/login/register');
+        cy.get('cx-otp-register-form form').within(() => {
+          cy.get('ng-select[formcontrolname="titleCode"]')
+            .click()
+            .get('div.ng-option')
+            .contains('Mr')
+            .click();
+          cy.get('[formcontrolname="firstName"]').clear().type(user.firstName);
+          cy.get('[formcontrolname="lastName"]').clear().type(user.lastName);
+          cy.get('[formcontrolname="email"]').clear().type(user.email);
+          cy.get('[formcontrolname="termsandconditions"]').click();
+          cy.get('button[type=submit]').click();
+        });
+        listenForUserRegistrationVerficationCodeEmailReceive(user.email);
+
+        const mailCCV2Url =
+          Cypress.env('MAIL_CCV2_URL') +
+          Cypress.env('MAIL_CCV2_PREFIX') +
+          '/search?query=' +
+          user.email +
+          '&kind=to&start=0&limit=1';
+
+        cy.request({
+          method: 'GET',
+          url: mailCCV2Url,
+        }).then((response) => {
+          const verificationCodeEmailStartText =
+            'Please use the following verification code to register in Spartacus Electronics Site:</p>';
+          const lableP = '<p>';
+
+          const items = response.body.items;
+          const emailBody = items[0].Content.Body;
+
+          const verificationCodeEmailStartIndex =
+            emailBody.indexOf(verificationCodeEmailStartText) +
+            verificationCodeEmailStartText.length;
+          const verificationCodeStartIndex =
+            emailBody.indexOf(lableP, verificationCodeEmailStartIndex) +
+            lableP.length;
+          const verificationCode = emailBody.substring(
+            verificationCodeStartIndex,
+            verificationCodeStartIndex + 8
+          );
+          login.listenForTokenAuthenticationRequest();
+          cy.get('cx-registration-verification-token-form').within(() => {
+            cy.get('[formcontrolname="tokenCode"]')
+              .clear()
+              .type(verificationCode);
+            cy.get('[formcontrolname="password"]').clear().type(user.password);
+            cy.get('[formcontrolname="passwordconf"]')
+              .clear()
+              .type(user.password);
+
+            cy.get('button[type=submit]').click();
+            const loginPage = waitForPage('/login', 'getLoginPage');
+            cy.wait(`@${loginPage}`)
+              .its('response.statusCode')
+              .should('eq', 200);
+          });
+        });
       });
 
       it('should be able to create a new OTP by customer click Sign In button (CXSPA-6672)', () => {
-        const user = login.registerUserFromLoginPage();
         listenForCreateVerificationToken();
 
         cy.log(`🛒 Logging in user ${user.email} from the login form`);
@@ -148,6 +229,23 @@ describe('OTP Login', () => {
 
         cy.get('cx-verification-token-form').should('not.exist');
         cy.get('cx-otp-login-form form').should('exist');
+      });
+    });
+
+    describe('Rate limit for login', () => {
+      it('Should display error message when create verification token with login up to rate limit (CXSPA-9111)', () => {
+        for (let i = 0; i < 6; i++) {
+          cy.visit('/login');
+          cy.get('cx-otp-login-form form').within(() => {
+            cy.get('[formcontrolname="userId"]').clear().type(user.email);
+            cy.get('[formcontrolname="password"]').clear().type(user.password);
+            cy.get('button[type=submit]').click();
+            cy.wait(1000);
+          });
+        }
+
+        cy.get('cx-verification-token-form').should('exist');
+        cy.get('.rate-limit-error-display').should('exist');
       });
     });
   });

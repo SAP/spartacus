@@ -63,6 +63,13 @@
     "findProducts": "Termékek keresése",
     "status": "Státus:",
     "dialogTitle": "Kupon",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "Kuponkód",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "Sikeresen igényelte ezt a kupont.",
     "myCoupons": "Saját kuponok",
     "startDateAsc": "Kezdő dátum (növekvő)",

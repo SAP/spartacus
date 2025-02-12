@@ -24,7 +24,6 @@ export const environment: Environment = {
   occBaseUrl: buildProcess.env.CX_BASE_URL,
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
-  sciEnabled: buildProcess.env.CX_SCI ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
   cdp: buildProcess.env.CX_CDP ?? false,

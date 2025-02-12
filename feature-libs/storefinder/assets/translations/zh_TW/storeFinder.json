@@ -19,6 +19,7 @@
     "fromStoresFound": "已從 {{ count }} 個商店找到",
     "fromStoresFound_other": "已從 {{ count }} 個商店中找到",
     "findStore": "搜尋商店",
+    "findStoreBy": "Find store by",
     "useMyLocation": "使用我的位置",
     "viewAllStores": "檢視所有商店",
     "contactUs": "聯絡我們",

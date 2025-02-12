@@ -4,10 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const userAccountTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const userAccountTranslationChunksConfig: TranslationChunksConfig = {
+  userAccount: [
+    'loginForm',
+    'verificationTokenForm',
+    'verificationTokenDialog',
+    'miniLogin',
+    'myAccountV2User',
+  ],
+};
 
 export { cs as userAccountTranslationsCs } from './cs/index';
 export { de as userAccountTranslationsDe } from './de/index';
