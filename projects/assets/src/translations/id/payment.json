@@ -14,6 +14,7 @@
     "saveAsDefault": "Simpan sebagai default",
     "setAsDefault": "Tetapkan sebagai metode pembayaran default",
     "billingAddress": "Alamat penagihan",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "Sama seperti alamat pengiriman",
     "billingAddressSameAsShipping": "Alamat penagihan sama seperti alamat pengiriman",
     "selectOne": "Pilih Satu...",

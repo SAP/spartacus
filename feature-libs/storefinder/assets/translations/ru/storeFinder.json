@@ -19,6 +19,7 @@
     "fromStoresFound": "из {{ count }} магазина найдено",
     "fromStoresFound_other": "из {{ count }} магазинов найдено",
     "findStore": "Найти магазин",
+    "findStoreBy": "Find store by",
     "useMyLocation": "Использовать мое местоположение",
     "viewAllStores": "Смотреть все магазины",
     "contactUs": "Свяжитесь с нами",

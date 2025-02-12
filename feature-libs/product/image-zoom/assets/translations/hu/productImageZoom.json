@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Felnagyított kép",
+    "previousSlide": "Előző dia",
+    "nextSlide": "Következő dia",
     "close": "Bezárás"
   }
 }

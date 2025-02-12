@@ -196,8 +196,8 @@
       "iconIncomplete": "그룹에 값이 선택되지 않은 필수 특성이 있습니다.",
       "iconComplete": "그룹이 완료되었습니다.",
       "iconSubGroup": "그룹에 하위 그룹이 있습니다.",
-      "next": "다음 그룹으로 이동합니다.",
-      "previous": "이전 그룹으로 이동합니다.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "제품 {{ product }}에 대한 자세한 정보를 표시하거나 구성을 계속합니다.",
       "showLessProductInfo": "제품 {{ product }}에 대한 간단한 정보를 표시하거나 구성을 계속합니다.",
       "productName": "제품 이름",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "그룹 {{groupName}}별로 구성 개요를 필터링합니다.",
       "closeConflictSolverModal": "충돌 솔버 닫기 모달",
       "closeRestartDialog": "\"완료되지 않은 구성\" 대화 상자를 닫고 제품 세부사항 페이지로 돌아갑니다.",
-      "description": "이 값에 대한 설명을 보려면 클릭합니다."
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "사전 구성된 버전"

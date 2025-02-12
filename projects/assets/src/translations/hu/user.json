@@ -10,7 +10,8 @@
       "title": "Ez a weboldal cookie-kat használ",
       "description": "Cookie-kat/a böngésző tárhelyét használjuk, hogy személyre szabjuk a tartalmat és javítsuk a felhasználói élményt.",
       "allowAll": "Összes engedélyezése",
-      "viewDetails": "Részletek megtekintése"
+      "viewDetails": "Részletek megtekintése",
+      "consentManagement": "Hozzájárulás-kezelés"
     }
   },
   "checkoutLogin": {

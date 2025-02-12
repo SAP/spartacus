@@ -14,6 +14,7 @@
     "saveAsDefault": "Сохранить как значение по умолчанию",
     "setAsDefault": "Установить как метод оплаты по умолчанию",
     "billingAddress": "Адрес выставления счета",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "Совпадает с адресом доставки",
     "billingAddressSameAsShipping": "Адрес выставления счета совпадает с адресом доставки",
     "selectOne": "Выберите...",

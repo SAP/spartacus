@@ -14,6 +14,7 @@
     "saveAsDefault": "Uložit jako výchozí",
     "setAsDefault": "Nastavit jako výchozí způsob platby",
     "billingAddress": "Fakturační adresa",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "Stejná jako dodací adresa",
     "billingAddressSameAsShipping": "Fakturační adresa je stejná jako dodací adresa",
     "selectOne": "Vyberte jednu…",

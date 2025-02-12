@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "画像にズームイン",
+    "previousSlide": "前のスライド",
+    "nextSlide": "次のスライド",
     "close": "閉じる"
   }
 }

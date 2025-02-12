@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Увеличенное изображение",
+    "previousSlide": "Предыдущий слайд",
+    "nextSlide": "Следующий слайд",
     "close": "Закрыть"
   }
 }
