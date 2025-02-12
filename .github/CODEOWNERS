@@ -85,4 +85,4 @@
 # ================================================
 #  Holidays spartacus e2e tests
 # ================================================
-run-spartacus-cust-e2es.sh    @SAP/spartacus-codeowners @SAP/spartacus-holidays 
+/run-spartacus-cust-e2es.sh    @SAP/spartacus-codeowners @SAP/spartacus-holidays 
