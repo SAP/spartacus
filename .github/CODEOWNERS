@@ -83,3 +83,7 @@
 # ================================================
 /feature-libs/pickup-in-store/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
 
+# ================================================
+#  EPD Visualization
+# ================================================
+/integration-libs/epd-visualization/         @SAP/spartacus-codeowners @SAP/spartacus-epd
