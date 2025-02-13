@@ -7,10 +7,8 @@
 import * as ts from 'typescript';
 import {
   hasPropertyInitialization,
-  implementsInterface,
   isAccessModifier,
   isClassPropertyParameter,
-  isInterfaceWithName,
   isPropertyAssignment,
   isPropertyInitialized,
 } from './typescript-ast-utils';
@@ -100,44 +98,7 @@ const createMockDeclaration = (
     decorators: undefined,
   }) as unknown as ts.ClassDeclaration;
 
-/**
- * Creates a mock TypeScript TypeChecker that can resolve symbol names
- * @param symbolNames - Map of nodes to their corresponding symbol names
- * @returns A mocked TypeScript TypeChecker object
- */
-const createMockTypeChecker = (
-  symbolNames: Map<ts.Node, string>
-): ts.TypeChecker =>
-  ({
-    getSymbolAtLocation: (node: ts.Node) =>
-      createMockSymbol(symbolNames.get(node) || ''),
-  }) as ts.TypeChecker;
-
 describe('typescript-ast-utils', () => {
-  describe('isInterfaceWithName', () => {
-    it('should return true for matching interface declaration', () => {
-      const node = ts.factory.createInterfaceDeclaration(
-        undefined,
-        'TestInterface',
-        undefined,
-        undefined,
-        []
-      );
-      expect(isInterfaceWithName(node, 'TestInterface')).toBe(true);
-    });
-
-    it('should return false for non-matching interface declaration', () => {
-      const node = ts.factory.createInterfaceDeclaration(
-        undefined,
-        'OtherInterface',
-        undefined,
-        undefined,
-        []
-      );
-      expect(isInterfaceWithName(node, 'TestInterface')).toBe(false);
-    });
-  });
-
   describe('isAccessModifier', () => {
     it('should return true for public keyword', () => {
       const modifier = ts.factory.createModifier(ts.SyntaxKind.PublicKeyword);
@@ -194,17 +155,6 @@ describe('typescript-ast-utils', () => {
       expect(hasPropertyInitialization(property, 'testProp')).toBe(true);
     });
 
-    it('should return true for property with definite assignment assertion', () => {
-      const property = ts.factory.createPropertyDeclaration(
-        undefined,
-        'testProp',
-        ts.factory.createToken(ts.SyntaxKind.ExclamationToken),
-        undefined,
-        undefined
-      );
-      expect(hasPropertyInitialization(property, 'testProp')).toBe(true);
-    });
-
     it('should return false for property without initialization', () => {
       const property = ts.factory.createPropertyDeclaration(
         undefined,
@@ -219,7 +169,7 @@ describe('typescript-ast-utils', () => {
 
   describe('isPropertyAssignment', () => {
     it('should return true for property assignment', () => {
-      const stmt = ts.factory.createExpressionStatement(
+      const statement = ts.factory.createExpressionStatement(
         ts.factory.createBinaryExpression(
           ts.factory.createPropertyAccessExpression(
             ts.factory.createThis(),
@@ -229,203 +179,18 @@ describe('typescript-ast-utils', () => {
           ts.factory.createStringLiteral('test')
         )
       );
-      expect(isPropertyAssignment(stmt, 'testProp')).toBe(true);
+      expect(isPropertyAssignment(statement, 'testProp')).toBe(true);
     });
 
     it('should return false for non-property assignment', () => {
-      const stmt = ts.factory.createExpressionStatement(
+      const statement = ts.factory.createExpressionStatement(
         ts.factory.createCallExpression(
           ts.factory.createIdentifier('test'),
           undefined,
           []
         )
       );
-      expect(isPropertyAssignment(stmt, 'testProp')).toBe(false);
-    });
-  });
-
-  describe('implementsInterface', () => {
-    const mockSymbolNames = new Map<ts.Node, string>();
-    const mockChecker = createMockTypeChecker(mockSymbolNames);
-
-    beforeEach(() => {
-      mockSymbolNames.clear();
-    });
-
-    it('should return false for non-class type', () => {
-      const type = createMockType(false);
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        false
-      );
-    });
-
-    it('should return false if type has no symbol', () => {
-      const type = createMockType(true);
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        false
-      );
-    });
-
-    it('should return true if type directly implements interface', () => {
-      const interfaceDecl = ts.factory.createInterfaceDeclaration(
-        undefined,
-        'TestInterface',
-        undefined,
-        undefined,
-        []
-      );
-      const mockDeclaration = {
-        ...createMockNode(),
-        _declarationBrand: true as const,
-        kind: ts.SyntaxKind.PropertyDeclaration,
-        flags: 0,
-        parent: interfaceDecl,
-      } as unknown as ts.Declaration;
-
-      const property = createMockSymbol('test', [mockDeclaration]);
-      const type = createMockType(true, createMockSymbol('TestClass'), [
-        property,
-      ]);
-
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        true
-      );
-    });
-
-    it('should return true if type implements interface through heritage clause', () => {
-      const expression = ts.factory.createIdentifier('TestInterface');
-      mockSymbolNames.set(expression, 'TestInterface');
-
-      const heritageClause = ts.factory.createHeritageClause(
-        ts.SyntaxKind.ImplementsKeyword,
-        [ts.factory.createExpressionWithTypeArguments(expression, [])]
-      );
-
-      const declaration = createMockDeclaration([], [heritageClause]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        true
-      );
-    });
-
-    it('should return true if parent type implements interface', () => {
-      const interfaceDecl = ts.factory.createInterfaceDeclaration(
-        undefined,
-        'TestInterface',
-        undefined,
-        undefined,
-        []
-      );
-      const mockDeclaration = {
-        ...createMockNode(),
-        _declarationBrand: true as const,
-        kind: ts.SyntaxKind.PropertyDeclaration,
-        flags: 0,
-        parent: interfaceDecl,
-      } as unknown as ts.Declaration;
-
-      const property = createMockSymbol('test', [mockDeclaration]);
-      const parentType = createMockType(true, createMockSymbol('ParentClass'), [
-        property,
-      ]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass'),
-        [],
-        [parentType]
-      );
-
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        true
-      );
-    });
-
-    it('should return true if type implements interface through multiple levels of inheritance', () => {
-      const interfaceDecl = ts.factory.createInterfaceDeclaration(
-        undefined,
-        'TestInterface',
-        undefined,
-        undefined,
-        []
-      );
-      const mockDeclaration = {
-        ...createMockNode(),
-        _declarationBrand: true as const,
-        kind: ts.SyntaxKind.PropertyDeclaration,
-        flags: 0,
-        parent: interfaceDecl,
-      } as unknown as ts.Declaration;
-
-      const property = createMockSymbol('test', [mockDeclaration]);
-      const grandParentType = createMockType(
-        true,
-        createMockSymbol('GrandParentClass'),
-        [property]
-      );
-      const parentType = createMockType(
-        true,
-        createMockSymbol('ParentClass'),
-        [],
-        [grandParentType]
-      );
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass'),
-        [],
-        [parentType]
-      );
-
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        true
-      );
-    });
-
-    it('should return true if type implements interface through multiple heritage clauses', () => {
-      const expression1 = ts.factory.createIdentifier('OtherInterface');
-      const expression2 = ts.factory.createIdentifier('TestInterface');
-      mockSymbolNames.set(expression2, 'TestInterface');
-
-      const heritageClause = ts.factory.createHeritageClause(
-        ts.SyntaxKind.ImplementsKeyword,
-        [
-          ts.factory.createExpressionWithTypeArguments(expression1, []),
-          ts.factory.createExpressionWithTypeArguments(expression2, []),
-        ]
-      );
-
-      const declaration = createMockDeclaration([], [heritageClause]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        true
-      );
-    });
-
-    it('should return false if type implements different interface', () => {
-      const expression = ts.factory.createIdentifier('OtherInterface');
-      mockSymbolNames.set(expression, 'OtherInterface');
-
-      const heritageClause = ts.factory.createHeritageClause(
-        ts.SyntaxKind.ImplementsKeyword,
-        [ts.factory.createExpressionWithTypeArguments(expression, [])]
-      );
-
-      const declaration = createMockDeclaration([], [heritageClause]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(implementsInterface(type, 'TestInterface', mockChecker)).toBe(
-        false
-      );
+      expect(isPropertyAssignment(statement, 'testProp')).toBe(false);
     });
   });
 
@@ -510,14 +275,15 @@ describe('typescript-ast-utils', () => {
         undefined,
         ts.factory.createStringLiteral('test')
       );
+      const declaration = createMockDeclaration([]);
       const parentDeclaration = createMockDeclaration([property]);
       const parentType = createMockType(
         true,
-        createMockSymbol('ParentClass', [parentDeclaration])
+        createMockSymbol('ParentClass', [declaration])
       );
       const type = createMockType(
         true,
-        createMockSymbol('TestClass'),
+        createMockSymbol('TestClass', [parentDeclaration]),
         [],
         [parentType]
       );
@@ -562,6 +328,7 @@ describe('typescript-ast-utils', () => {
         undefined,
         ts.factory.createStringLiteral('test')
       );
+      const declaration = createMockDeclaration([]);
       const parentDeclaration1 = createMockDeclaration([]);
       const parentType1 = createMockType(
         true,
@@ -574,7 +341,7 @@ describe('typescript-ast-utils', () => {
       );
       const type = createMockType(
         true,
-        createMockSymbol('TestClass'),
+        createMockSymbol('TestClass', [declaration]),
         [],
         [parentType1, parentType2]
       );
@@ -603,9 +370,9 @@ describe('typescript-ast-utils', () => {
       expect(isPropertyInitialized(type, 'testProp')).toBe(true);
     });
 
-    it('should return true if property is assigned via constructor parameter in body', () => {
+    it('should return true if property is assigned in constructor body, it is constructor implementation and it has a constructor parameter with access modifier', () => {
       const param = ts.factory.createParameterDeclaration(
-        undefined,
+        [ts.factory.createModifier(ts.SyntaxKind.PublicKeyword)],
         undefined,
         'param'
       );
@@ -619,12 +386,12 @@ describe('typescript-ast-utils', () => {
           ts.factory.createIdentifier('param')
         )
       );
-      const constructor = ts.factory.createConstructorDeclaration(
+      const constructorWithParam = ts.factory.createConstructorDeclaration(
         undefined,
         [param],
         ts.factory.createBlock([assignment])
       );
-      const declaration = createMockDeclaration([constructor]);
+      const declaration = createMockDeclaration([constructorWithParam]);
       const type = createMockType(
         true,
         createMockSymbol('TestClass', [declaration])
@@ -632,5 +399,60 @@ describe('typescript-ast-utils', () => {
 
       expect(isPropertyInitialized(type, 'testProp')).toBe(true);
     });
+  });
+
+  it('should return true if property is assigned in constructor body, it is constructor implementation and it has no constructor parameters', () => {
+    const assignment = ts.factory.createExpressionStatement(
+      ts.factory.createBinaryExpression(
+        ts.factory.createPropertyAccessExpression(
+          ts.factory.createThis(),
+          'testProp'
+        ),
+        ts.factory.createToken(ts.SyntaxKind.EqualsToken),
+        ts.factory.createIdentifier('param')
+      )
+    );
+    const constructorWithoutParam = ts.factory.createConstructorDeclaration(
+      undefined,
+      [],
+      ts.factory.createBlock([assignment])
+    );
+    const declaration = createMockDeclaration([constructorWithoutParam]);
+    const type = createMockType(
+      true,
+      createMockSymbol('TestClass', [declaration])
+    );
+
+    expect(isPropertyInitialized(type, 'testProp')).toBe(true);
+  });
+
+  it('should return false if property is assigned in constructor body but it is not a constructor implementation', () => {
+    const param = ts.factory.createParameterDeclaration(
+      undefined,
+      undefined,
+      'param'
+    );
+    const assignment = ts.factory.createExpressionStatement(
+      ts.factory.createBinaryExpression(
+        ts.factory.createPropertyAccessExpression(
+          ts.factory.createThis(),
+          'testProp'
+        ),
+        ts.factory.createToken(ts.SyntaxKind.EqualsToken),
+        ts.factory.createIdentifier('param')
+      )
+    );
+    const constructorWithParam = ts.factory.createConstructorDeclaration(
+      undefined,
+      [param],
+      ts.factory.createBlock([assignment])
+    );
+    const declaration = createMockDeclaration([constructorWithParam]);
+    const type = createMockType(
+      true,
+      createMockSymbol('TestClass', [declaration])
+    );
+
+    expect(isPropertyInitialized(type, 'testProp')).toBe(false);
   });
 });

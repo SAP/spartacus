@@ -17,6 +17,8 @@ const ruleTester = new RuleTester({
   },
 });
 
+const filename = 'file.ts';
+
 ruleTester.run(RULE_NAME, rule, {
   valid: [
     {
@@ -31,7 +33,7 @@ ruleTester.run(RULE_NAME, rule, {
             error = 'some error'; // Property initializer
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Constructor parameter',
@@ -45,7 +47,7 @@ ruleTester.run(RULE_NAME, rule, {
             constructor(public error: any) {} // Constructor parameter
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Constructor assignment',
@@ -62,7 +64,7 @@ ruleTester.run(RULE_NAME, rule, {
             }
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Constructor body assignment',
@@ -79,7 +81,7 @@ ruleTester.run(RULE_NAME, rule, {
             }
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Class not implementing ErrorAction',
@@ -93,7 +95,7 @@ ruleTester.run(RULE_NAME, rule, {
           constructor(public payload: any) {}
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Class with Fail but not implementing ErrorAction',
@@ -103,7 +105,7 @@ ruleTester.run(RULE_NAME, rule, {
             constructor(public payload: Error) {}
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Multiple interfaces implementation',
@@ -123,20 +125,94 @@ ruleTester.run(RULE_NAME, rule, {
           }
         }
       `,
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Inheritance case',
       code: `
         export interface ErrorAction { error: Object; }
-        export class BaseFailAction implements ErrorAction {
+        export class ParentFailAction implements ErrorAction {
           error = new Error();
         }
-        export class DerivedFail extends BaseFailAction {
+        export class DerivedFail extends ParentFailAction {
           readonly type = DERIVED_FAIL;
         }
       `,
-      filename: 'file.ts',
+      filename,
+    },
+    {
+      name: 'Inheritance case - with constructor param',
+      code: `
+        export interface ErrorAction { error: Object; }
+        export class ParentFailAction implements ErrorAction {
+          constructor(public error: Object) {};
+        }
+        export class DerivedFail extends ParentFailAction {
+          readonly type = DERIVED_FAIL;
+        }
+      `,
+      filename,
+    },
+    {
+      name: 'Inheritance case - parent does not implement ErrorAction',
+      code: `
+        export interface ErrorAction { error: Object; }
+        export class ParentFailAction {
+          constructor(public error: Object) {};
+        }
+        export class DerivedFail extends ParentFailAction implements ErrorAction {
+          readonly type = DERIVED_FAIL;
+        }
+      `,
+      filename,
+    },
+    {
+      name: 'Grandparent inheritance case - with constructor param',
+      code: `  
+        export interface ErrorAction { error: Object; }  
+        export class GrandparentFailAction implements ErrorAction {  
+          constructor(public error: Object) {}; 
+        }  
+        export class ParentFailAction extends GrandparentFailAction {  
+          readonly type = PARENT_FAIL;  
+        }  
+        export class ChildFailAction extends ParentFailAction {  
+          readonly type = CHILD_FAIL;  
+        }  
+      `,
+      filename,
+    },
+    {
+      name: 'Grandparent inheritance case',
+      code: `  
+        export interface ErrorAction { error: Object; }  
+        export class GrandparentActionFail implements ErrorAction {  
+          error = new Error();  
+        }  
+        export class ParentActionFail extends GrandparentActionFail {  
+          readonly type = PARENT_FAIL;  
+        }  
+        export class ChildActionFail extends ParentActionFail {  
+          readonly type = CHILD_FAIL;  
+        }  
+      `,
+      filename,
+    },
+    {
+      name: 'Grandparent inheritance case - grandparent does not implement ErrorAction',
+      code: `  
+        export interface ErrorAction { error: Object; }  
+        export class GrandparentActionFail {  
+          error = new Error();  
+        }  
+        export class ParentActionFail extends GrandparentActionFail {  
+          readonly type = PARENT_FAIL;  
+        }  
+        export class ChildActionFail extends ParentActionFail implements ErrorAction {  
+          readonly type = CHILD_FAIL;  
+        }  
+      `,
+      filename,
     },
   ],
   invalid: [
@@ -156,7 +232,7 @@ ruleTester.run(RULE_NAME, rule, {
       errors: [
         { messageId: 'missingErrorInitialization', line: 6, column: 22 },
       ],
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Missing error initialization in class',
@@ -173,7 +249,7 @@ ruleTester.run(RULE_NAME, rule, {
       errors: [
         { messageId: 'missingErrorInitialization', line: 6, column: 22 },
       ],
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Missing error initialization in inherited class',
@@ -186,7 +262,7 @@ ruleTester.run(RULE_NAME, rule, {
           error: Error;
         }
        
-        export class DerivedFail extends BaseFailAction {
+        export class DerivedFail extends BaseFailAction implements ErrorAction {
           readonly type = DERIVED_FAIL;
         }
       `,
@@ -194,7 +270,7 @@ ruleTester.run(RULE_NAME, rule, {
         { messageId: 'missingErrorInitialization', line: 6, column: 22 }, // BaseFailAction
         { messageId: 'missingErrorInitialization', line: 10, column: 22 }, // DerivedFail
       ],
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Multiple interfaces with uninitialized error',
@@ -216,7 +292,7 @@ ruleTester.run(RULE_NAME, rule, {
       errors: [
         { messageId: 'missingErrorInitialization', line: 10, column: 22 }, // ComplexFail
       ],
-      filename: 'file.ts',
+      filename,
     },
     {
       name: 'Typed error property without initialization',
@@ -233,7 +309,7 @@ ruleTester.run(RULE_NAME, rule, {
       errors: [
         { messageId: 'missingErrorInitialization', line: 6, column: 22 },
       ],
-      filename: 'file.ts',
+      filename,
     },
   ],
 });

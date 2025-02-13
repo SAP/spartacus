@@ -5,10 +5,8 @@
  */
 
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
-import {
-  implementsInterface,
-  isPropertyInitialized,
-} from './utils/typescript-ast-utils';
+import { hasImplementsInterface } from './utils/implements-interface-utils';
+import { isPropertyInitialized } from './utils/typescript-ast-utils';
 
 export const RULE_NAME = 'ngrx-fail-action-must-initialize-error';
 const ERROR_PROPERTY_NAME = 'error';
@@ -65,7 +63,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
     schema: [],
     messages: {
       missingErrorInitialization:
-        '[Spartacus] NgRx Failure Action that implements `ErrorAction` interface must initialize the `error` property. You can do this in the constructor or as a property initializer',
+        '[Spartacus] NgRx Failure Action that implements `ErrorAction` interface must initialize the `error` property. You can do this in the constructor (e.g. `constructor(public error: Object) {}`) or as a property initializer (e.g. `this.error = <some-value>`)',
     },
     // Removing fixable since we don't want to enforce any particular initialization pattern
     fixable: undefined,
@@ -81,7 +79,7 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
           services.esTreeNodeToTSNodeMap.get(node)
         );
 
-        if (!implementsInterface(classType, ERROR_ACTION_INTERFACE, checker)) {
+        if (!hasImplementsInterface(node, ERROR_ACTION_INTERFACE)) {
           return;
         }
 

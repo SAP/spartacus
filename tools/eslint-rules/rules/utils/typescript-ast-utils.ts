@@ -7,22 +7,6 @@
 import ts from 'typescript';
 
 /**
- * Checks if a given node is an interface declaration with a specific name
- * @param node - The TypeScript node to check
- * @param interfaceName - The name of the interface to check for
- * @returns True if the node is an interface declaration with the specified name
- */
-export function isInterfaceWithName(
-  node: ts.Node,
-  interfaceName: string
-): boolean {
-  if (!ts.isInterfaceDeclaration(node)) {
-    return false;
-  }
-  return node.name.text === interfaceName;
-}
-
-/**
  * Checks if a modifier is an access modifier (public, private, protected)
  * @param modifier - The modifier to check
  * @returns True if the modifier is an access modifier
@@ -62,10 +46,10 @@ export function isClassPropertyParameter(
 }
 
 /**
- * Checks if a property declaration has an initializer or definite assignment assertion
+ * Checks if a property declaration has an initializer
  * @param member - The class member to check
  * @param propertyName - The name of the property to check for
- * @returns True if the property is initialized or has definite assignment
+ * @returns True if the property is initialized
  */
 export function hasPropertyInitialization(
   member: ts.ClassElement,
@@ -83,107 +67,50 @@ export function hasPropertyInitialization(
     return false;
   }
 
-  return !!(member.initializer || member.exclamationToken);
+  return !!member.initializer;
 }
 
 /**
  * Checks if a statement is a property assignment
- * @param stmt - The statement to check
+ * @param statement - The statement to check
  * @param propertyName - The name of the property to check for
  * @returns True if the statement assigns to the specified property
  */
 export function isPropertyAssignment(
-  stmt: ts.Statement,
+  statement: ts.Statement,
   propertyName: string
 ): boolean {
-  if (!ts.isExpressionStatement(stmt)) {
+  if (!ts.isExpressionStatement(statement)) {
     return false;
   }
 
-  const expr = stmt.expression;
-  if (!ts.isBinaryExpression(expr)) {
+  const expression = statement.expression;
+  if (!ts.isBinaryExpression(expression)) {
     return false;
   }
 
-  if (expr.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
+  if (expression.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
     return false;
   }
 
-  if (!ts.isPropertyAccessExpression(expr.left)) {
+  if (!ts.isPropertyAccessExpression(expression.left)) {
     return false;
   }
 
-  if (!ts.isIdentifier(expr.left.name)) {
+  if (!ts.isIdentifier(expression.left.name)) {
     return false;
   }
 
-  return expr.left.name.text === propertyName;
+  return expression.left.name.text === propertyName;
 }
 
 /**
- * Checks if a type implements a specific interface directly or through inheritance
- * @param type - The TypeScript type to check
- * @param interfaceName - The name of the interface to check for
- * @param checker - TypeScript type checker instance
- * @returns True if the type implements the interface
- */
-export function implementsInterface(
-  type: ts.Type,
-  interfaceName: string,
-  checker: ts.TypeChecker
-): boolean {
-  if (!type.isClass()) {
-    return false;
-  }
-
-  const symbol = type.getSymbol();
-  if (!symbol) {
-    return false;
-  }
-
-  // Check if the type directly implements interface through properties
-  const interfaces = type
-    .getProperties()
-    .map((prop) => prop.declarations?.[0]?.parent)
-    .filter((parent): parent is ts.Node => parent !== undefined);
-
-  if (interfaces.some((iface) => isInterfaceWithName(iface, interfaceName))) {
-    return true;
-  }
-
-  // Check if any interface in the heritage chain matches
-  if (symbol.declarations?.[0]) {
-    const declaration = symbol.declarations[0];
-    if (ts.isClassDeclaration(declaration) && declaration.heritageClauses) {
-      const implementsInterface = declaration.heritageClauses.some((clause) => {
-        if (clause.token !== ts.SyntaxKind.ImplementsKeyword) {
-          return false;
-        }
-        return clause.types.some((type) => {
-          const typeSymbol = checker.getSymbolAtLocation(type.expression);
-          return typeSymbol?.getName() === interfaceName;
-        });
-      });
-
-      if (implementsInterface) {
-        return true;
-      }
-    }
-  }
-
-  // Check base class recursively
-  const baseTypes = type.getBaseTypes();
-  if (!baseTypes) {
-    return false;
-  }
-
-  return baseTypes.some((baseType) =>
-    implementsInterface(baseType, interfaceName, checker)
-  );
-}
-
-/**
- * Checks if a property is definitely initialized in the class or its parent classes
+ * Checks if a property has been initialized in the class or its parent classes.
+ * A property is considered initialized if any of these conditions are met:
+ * - It has an initializer in its declaration (e.g. `prop = value`)
+ * - It is declared as a parameter property in the constructor (e.g. `constructor(private prop: type)`)
+ * - It is explicitly assigned in the constructor body (e.g. `this.prop = value`)
+ * - It is initialized in any parent class through any of the above methods
  * @param classType - The TypeScript type representing the class
  * @param propertyName - The name of the property to check
  * @returns True if the property is definitely initialized
@@ -193,56 +120,57 @@ export function isPropertyInitialized(
   propertyName: string
 ): boolean {
   const symbol = classType.getSymbol();
-  if (!symbol?.declarations?.[0]) {
-    // Check parent class if no declarations in current class
-    const baseTypes = classType.getBaseTypes();
-    if (!baseTypes) {
-      return false;
-    }
-    return baseTypes.some((baseType) =>
-      isPropertyInitialized(baseType, propertyName)
-    );
-  }
 
-  const declaration = symbol.declarations[0];
-  if (!ts.isClassDeclaration(declaration)) {
+  // Return false if the symbol or its first declaration is not defined
+  if (!symbol?.declarations?.[0]) {
     return false;
   }
-
-  // Check for property declaration with initializer
-  if (
-    declaration.members.some((member) =>
-      hasPropertyInitialization(member, propertyName)
-    )
-  ) {
-    return true;
-  }
-
-  // Check all constructors, including deprecated ones
-  const constructors = declaration.members.filter(ts.isConstructorDeclaration);
-
-  // Check each constructor
-  for (const constructor of constructors) {
-    // Check constructor parameters for parameter properties
+  const declaration = symbol.declarations[0];
+  if (ts.isClassDeclaration(declaration)) {
+    // Check for property declaration with initializer
     if (
-      constructor.parameters.some((param) =>
-        isClassPropertyParameter(param, propertyName)
+      declaration.members.some((member) =>
+        hasPropertyInitialization(member, propertyName)
       )
     ) {
       return true;
     }
 
-    // Check constructor body for assignments
-    if (
-      constructor.body?.statements.some((stmt) =>
-        isPropertyAssignment(stmt, propertyName)
-      )
-    ) {
-      return true;
+    // Find constructor that either has no parameters or has parameter properties
+    const constructor = declaration.members
+      .filter(ts.isConstructorDeclaration)
+      .find((constructor) => {
+        // If constructor has no parameters
+        if (constructor.parameters.length === 0) {
+          return true;
+        }
+        // Otherwise check if any parameter has access modifiers
+        return constructor.parameters.some((param) =>
+          param.modifiers?.some(isAccessModifier)
+        );
+      });
+
+    if (constructor) {
+      // Check constructor parameters for parameter properties
+      if (
+        constructor.parameters.some((param) =>
+          isClassPropertyParameter(param, propertyName)
+        )
+      ) {
+        return true;
+      }
+
+      // Check constructor body for assignments
+      if (
+        constructor.body?.statements.some((statement) =>
+          isPropertyAssignment(statement, propertyName)
+        )
+      ) {
+        return true;
+      }
     }
   }
-
-  // Check parent class
+  // Check parent class if property is not initialized in the current class
   const baseTypes = classType.getBaseTypes();
   if (!baseTypes) {
     return false;
