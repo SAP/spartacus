@@ -91,12 +91,6 @@ const originalRegistryUrl = execSync('npm config get @spartacus:registry')
   .trim();
 
 function startVerdaccio(): ChildProcess {
-  //Since migration to NPM, packages will be published with version that has been set in package.json files
-  //and before each subsequent release Verdaccio will be cleaned up so that there is no conflict due to the version of existing packages.
-  //Because of the strategy used by NPM to resolve peer dependencies, any upgrade of a package's version would also require upgrading the version of that package in all places where it is used as a peer dependency.
-  //This in turn would cause too much noise
-
-  //clear Verdaccio storage
   execSync('rm -rf ./scripts/install/storage');
 
   console.log('Waiting for verdaccio to boot...');
@@ -264,6 +258,12 @@ function printPackagesPublishingProgress(
  * Publish all packages to Verdaccio
  */
 async function publishAllPackages(): Promise<void> {
+  //Since migration to NPM, packages will be published with version that has been set in package.json files
+  //and before each subsequent release Verdaccio will be cleaned up so that there is no conflict due to the version of existing packages.
+  //Because of the strategy used by NPM to resolve peer dependencies, any upgrade of a package's version would also require upgrading the version of that package in all places where it is used as a peer dependency.
+  //This in turn would cause too much noise
+
+  //clear Verdaccio storage
   execSync('rm -rf ./scripts/install/storage', { stdio: 'ignore' });
 
   const allFiles = getPackageJsonFiles();
