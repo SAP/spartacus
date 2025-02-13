@@ -19,6 +19,7 @@
     "fromStoresFound": "{{ count }} 件の店舗が見つかりました",
     "fromStoresFound_other": "{{ count }} 件の店舗が見つかりました",
     "findStore": "店舗検索",
+    "findStoreBy": "Find store by",
     "useMyLocation": "自分の位置を使用",
     "viewAllStores": "すべての店舗を表示",
     "contactUs": "連絡先",

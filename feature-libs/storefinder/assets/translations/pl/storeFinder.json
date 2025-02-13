@@ -19,6 +19,7 @@
     "fromStoresFound": "z {{ count }} znalezionego sklepu",
     "fromStoresFound_other": "z {{ count }} znalezionych sklepów",
     "findStore": "Znajdź sklep",
+    "findStoreBy": "Find store by",
     "useMyLocation": "Użyj mojej lokalizacji",
     "viewAllStores": "Pokaż wszystkie sklepy",
     "contactUs": "Skontaktuj się z nami",

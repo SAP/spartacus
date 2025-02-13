@@ -2,6 +2,22 @@
 
 New Angular 19 apps are configured a bit differently than the Angular 17 apps migrated to v19. This document is a migration guide for modernizing the migrated apps to look as much as possible like the new Angular 19 apps.
 
+# Automatic migration
+
+The Spartacus team provides special schematics that automatically modernize the app to look as much as possible like the new Angular 19 apps.
+
+Please run the following command from your project root directory:
+
+```bash
+ng g @spartacus/schematics:modernize-app-migrated-from-2211_32-to-2211_35
+```
+
+In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
+
+# Manual migration
+
+Here are the migration steps in detail:
+
 ### `angular.json`
 
 1. In the section `architect > build > options > assets`, please replace 2 string values in the array: `"src/favicon.ico"` and `"src/assets"` with a single object `{ "glob": "**/*", "input": "public" }`

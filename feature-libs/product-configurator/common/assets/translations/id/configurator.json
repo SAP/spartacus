@@ -196,8 +196,8 @@
       "iconIncomplete": "Terdapat atribut wajib dalam grup meskipun tanpa nilai yang dipilih.",
       "iconComplete": "Grup sudah lengkap.",
       "iconSubGroup": "Terdapat subgrup dalam grup.",
-      "next": "Arahkan ke grup berikutnya.",
-      "previous": "Arahkan ke grup sebelumnya.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "Tampilkan lebih banyak informasi untuk produk {{ product }} atau lanjutkan ke konfigurasi.",
       "showLessProductInfo": "Tampilkan lebih sedikit informasi untuk produk {{ product }} atau lanjutkan ke konfigurasi.",
       "productName": "Nama Produk",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "Filter gambaran umum konfigurasi berdasarkan grup {{groupName}}",
       "closeConflictSolverModal": "Tutup modal fitur penyelesaian ketidaksesuaian",
       "closeRestartDialog": "Tutup dialog \"Konfigurasi yang Belum Selesai\" dan arahkan kembali ke halaman rincian produk",
-      "description": "Klik untuk melihat deskripsi nilai ini"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "Versi yang Telah Dikonfigurasi Sebelumnya"

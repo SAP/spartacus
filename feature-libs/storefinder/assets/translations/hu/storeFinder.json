@@ -19,6 +19,7 @@
     "fromStoresFound": "a talált {{ count }} üzletből",
     "fromStoresFound_other": "a talált {{ count }} üzletből",
     "findStore": "Üzlet keresése",
+    "findStoreBy": "Find store by",
     "useMyLocation": "Saját hely használata",
     "viewAllStores": "Összes üzlet megtekintése",
     "contactUs": "Kapcsolatfelvétel",

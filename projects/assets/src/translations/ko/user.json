@@ -10,7 +10,8 @@
       "title": "이 웹사이트에서는 쿠키를 사용함",
       "description": "쿠키/브라우저 저장소를 사용하여 내용을 개인에 맞게 설정하고 사용자 경험을 향상시킵니다.",
       "allowAll": "모두 허용",
-      "viewDetails": "세부사항 보기"
+      "viewDetails": "세부사항 보기",
+      "consentManagement": "동의 관리"
     }
   },
   "checkoutLogin": {

@@ -1007,7 +1007,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorAttributeTypesV2: true,
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
-  productConfiguratorDeltaRendering: false,
+  productConfiguratorDeltaRendering: true,
   a11yRequiredAsterisks: true,
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
