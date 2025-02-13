@@ -52,7 +52,7 @@
           else heading
         "
         [ariaLabel]="
-          isMyAccount
+          a11yOptionCount
             ? undefined
             : ('navigation.linkItemInList'
               | cxTranslate: { title: node.title, position, listLength })
@@ -149,10 +149,10 @@
       </ng-container>
       <ng-template #title>
         <span
-          [attr.role]="isMyAccount ? null : 'heading'"
-          [attr.aria-level]="isMyAccount ? null : 4"
+          [attr.role]="a11yOptionCount ? null : 'heading'"
+          [attr.aria-level]="a11yOptionCount ? null : 4"
           *ngIf="node.title"
-          [attr.tabindex]="isMyAccount ? 0 : -1"
+          [attr.tabindex]="a11yOptionCount ? 0 : -1"
         >
           {{ node.title }}
         </span>
