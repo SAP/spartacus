@@ -154,6 +154,9 @@ describe('OTP Registration', () => {
       it('Should display error message when create verification token with registration up to rate limit (CXSPA-9111)', () => {
         for (let i = 0; i < 6; i++) {
           cy.visit('/login/register');
+          cy.get('cx-otp-register-form form', { timeout: 10000 }).should(
+            'exist'
+          );
           cy.get('cx-otp-register-form form').within(() => {
             cy.get('ng-select[formcontrolname="titleCode"]')
               .click()
