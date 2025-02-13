@@ -137,36 +137,29 @@ export function isPropertyInitialized(
     }
 
     // Find constructor that either has no parameters or has parameter properties
-    const constructor = declaration.members
-      .filter(ts.isConstructorDeclaration)
-      .find((constructor) => {
-        // If constructor has no parameters
-        if (constructor.parameters.length === 0) {
+    const constructors = declaration.members.filter(
+      ts.isConstructorDeclaration
+    );
+
+    for (const constructor of constructors) {
+      if (constructor) {
+        // Check constructor parameters for parameter properties
+        if (
+          constructor.parameters.some((param) =>
+            isClassPropertyParameter(param, propertyName)
+          )
+        ) {
           return true;
         }
-        // Otherwise check if any parameter has access modifiers
-        return constructor.parameters.some((param) =>
-          param.modifiers?.some(isAccessModifier)
-        );
-      });
 
-    if (constructor) {
-      // Check constructor parameters for parameter properties
-      if (
-        constructor.parameters.some((param) =>
-          isClassPropertyParameter(param, propertyName)
-        )
-      ) {
-        return true;
-      }
-
-      // Check constructor body for assignments
-      if (
-        constructor.body?.statements.some((statement) =>
-          isPropertyAssignment(statement, propertyName)
-        )
-      ) {
-        return true;
+        // Check constructor body for assignments
+        if (
+          constructor.body?.statements.some((statement) =>
+            isPropertyAssignment(statement, propertyName)
+          )
+        ) {
+          return true;
+        }
       }
     }
   }

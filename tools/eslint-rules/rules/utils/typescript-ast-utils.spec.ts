@@ -279,11 +279,11 @@ describe('typescript-ast-utils', () => {
       const parentDeclaration = createMockDeclaration([property]);
       const parentType = createMockType(
         true,
-        createMockSymbol('ParentClass', [declaration])
+        createMockSymbol('ParentClass', [parentDeclaration])
       );
       const type = createMockType(
         true,
-        createMockSymbol('TestClass', [parentDeclaration]),
+        createMockSymbol('TestClass', [declaration]),
         [],
         [parentType]
       );
@@ -370,9 +370,9 @@ describe('typescript-ast-utils', () => {
       expect(isPropertyInitialized(type, 'testProp')).toBe(true);
     });
 
-    it('should return true if property is assigned in constructor body, it is constructor implementation and it has a constructor parameter with access modifier', () => {
+    it('should return true if property is assigned via constructor parameter in body', () => {
       const param = ts.factory.createParameterDeclaration(
-        [ts.factory.createModifier(ts.SyntaxKind.PublicKeyword)],
+        undefined,
         undefined,
         'param'
       );
@@ -386,12 +386,12 @@ describe('typescript-ast-utils', () => {
           ts.factory.createIdentifier('param')
         )
       );
-      const constructorWithParam = ts.factory.createConstructorDeclaration(
+      const constructor = ts.factory.createConstructorDeclaration(
         undefined,
         [param],
         ts.factory.createBlock([assignment])
       );
-      const declaration = createMockDeclaration([constructorWithParam]);
+      const declaration = createMockDeclaration([constructor]);
       const type = createMockType(
         true,
         createMockSymbol('TestClass', [declaration])
@@ -399,60 +399,5 @@ describe('typescript-ast-utils', () => {
 
       expect(isPropertyInitialized(type, 'testProp')).toBe(true);
     });
-  });
-
-  it('should return true if property is assigned in constructor body, it is constructor implementation and it has no constructor parameters', () => {
-    const assignment = ts.factory.createExpressionStatement(
-      ts.factory.createBinaryExpression(
-        ts.factory.createPropertyAccessExpression(
-          ts.factory.createThis(),
-          'testProp'
-        ),
-        ts.factory.createToken(ts.SyntaxKind.EqualsToken),
-        ts.factory.createIdentifier('param')
-      )
-    );
-    const constructorWithoutParam = ts.factory.createConstructorDeclaration(
-      undefined,
-      [],
-      ts.factory.createBlock([assignment])
-    );
-    const declaration = createMockDeclaration([constructorWithoutParam]);
-    const type = createMockType(
-      true,
-      createMockSymbol('TestClass', [declaration])
-    );
-
-    expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-  });
-
-  it('should return false if property is assigned in constructor body but it is not a constructor implementation', () => {
-    const param = ts.factory.createParameterDeclaration(
-      undefined,
-      undefined,
-      'param'
-    );
-    const assignment = ts.factory.createExpressionStatement(
-      ts.factory.createBinaryExpression(
-        ts.factory.createPropertyAccessExpression(
-          ts.factory.createThis(),
-          'testProp'
-        ),
-        ts.factory.createToken(ts.SyntaxKind.EqualsToken),
-        ts.factory.createIdentifier('param')
-      )
-    );
-    const constructorWithParam = ts.factory.createConstructorDeclaration(
-      undefined,
-      [param],
-      ts.factory.createBlock([assignment])
-    );
-    const declaration = createMockDeclaration([constructorWithParam]);
-    const type = createMockType(
-      true,
-      createMockSymbol('TestClass', [declaration])
-    );
-
-    expect(isPropertyInitialized(type, 'testProp')).toBe(false);
   });
 });
