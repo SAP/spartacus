@@ -63,6 +63,13 @@
     "findProducts": "Cari Produk",
     "status": "Status:",
     "dialogTitle": "Kupon",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "Kode Kupon",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "Anda telah berhasil mengeklaim kupon ini.",
     "myCoupons": "Kupon saya",
     "startDateAsc": "Tanggal Mulai (urutkan naik)",

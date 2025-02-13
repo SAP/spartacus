@@ -19,6 +19,7 @@
     "fromStoresFound": "dari {{ count }} toko ditemukan",
     "fromStoresFound_other": "dari {{ count }} toko ditemukan",
     "findStore": "Cari toko",
+    "findStoreBy": "Find store by",
     "useMyLocation": "Gunakan lokasi saya",
     "viewAllStores": "Lihat semua toko",
     "contactUs": "Hubungi kami",

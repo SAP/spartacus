@@ -63,6 +63,13 @@
     "findProducts": "제품 찾기",
     "status": "상태:",
     "dialogTitle": "쿠폰",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "쿠폰 코드",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "이 쿠폰을 청구했습니다.",
     "myCoupons": "내 쿠폰",
     "startDateAsc": "시작 날짜(오름차순)",

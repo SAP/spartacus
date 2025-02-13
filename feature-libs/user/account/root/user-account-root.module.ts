@@ -24,6 +24,7 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
           'ReturningCustomerRegisterComponent',
           'MyAccountViewUserComponent',
           'ReturningCustomerOTPLoginComponent',
+          'RegisterCustomerWithOTPComponent',
         ],
       },
       // by default core is bundled together with components

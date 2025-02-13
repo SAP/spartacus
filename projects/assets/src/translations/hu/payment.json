@@ -14,6 +14,7 @@
     "saveAsDefault": "Mentés alapértelmezettként",
     "setAsDefault": "Beállítás alapértelmezett fizetési módként",
     "billingAddress": "Számlázási cím",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "Megegyezik a kézbesítési címmel",
     "billingAddressSameAsShipping": "A számlázási cím megegyezik a kézbesítési címmel",
     "selectOne": "Válasszon egyet…",
