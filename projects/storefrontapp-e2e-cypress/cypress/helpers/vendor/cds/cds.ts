@@ -21,6 +21,10 @@ export const cdsHelper = {
   allowInsecureCookies(): void {
     cy.cxConfig({
       cds: {
+        endpoints: {
+          strategyProducts:
+            '/strategy/${tenant}/strategies/${strategyId}/products',
+        },
         profileTag: {
           allowInsecureCookies: true,
         },
