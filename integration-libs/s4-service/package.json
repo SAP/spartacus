@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/s4-service",
-  "version": "2211.35.0-1",
+  "version": "2211.36.0-1",
   "engines": {
     "node": "^22.0.0"
   },
@@ -33,12 +33,12 @@
     "@angular/core": "^19.0.3",
     "@angular/forms": "^19.0.3",
     "@angular/router": "^19.0.3",
-    "@spartacus/cart": "2211.35.0-1",
-    "@spartacus/checkout": "2211.35.0-1",
-    "@spartacus/core": "2211.35.0-1",
-    "@spartacus/order": "2211.35.0-1",
-    "@spartacus/schematics": "2211.35.0-1",
-    "@spartacus/storefront": "2211.35.0-1",
+    "@spartacus/cart": "2211.36.0-1",
+    "@spartacus/checkout": "2211.36.0-1",
+    "@spartacus/core": "2211.36.0-1",
+    "@spartacus/order": "2211.36.0-1",
+    "@spartacus/schematics": "2211.36.0-1",
+    "@spartacus/storefront": "2211.36.0-1",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
