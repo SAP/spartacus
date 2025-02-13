@@ -23,16 +23,16 @@ Please run those commands from your project root directory:
 
 ```bash
 # 1. Create a temporary sibling directory for the isolated Schematics v2211.36 installation
-node -e "require('fs').mkdirSync('../temp-schematics-35')"
+node -e "require('fs').mkdirSync('../temp-schematics-36')"
 
 # 2. Install schematics in the temporary directory
-npm install @spartacus/schematics@2211.36.0 --prefix ../temp-schematics-35
+npm install @spartacus/schematics@2211.36.0 --prefix ../temp-schematics-36
 
 # 3. Execute in your project the schematics from the temporary directory
-ng g ../temp-schematics-35/node_modules/@spartacus/schematics:modernize-app-migrated-from-6_8-to-2211_19
+ng g ../temp-schematics-36/node_modules/@spartacus/schematics:modernize-app-migrated-from-6_8-to-2211_19
 
 # 4. Clean up the temporary directory
-node -e "require('fs').rmSync('../temp-schematics-35', { recursive: true, force: true })"
+node -e "require('fs').rmSync('../temp-schematics-36', { recursive: true, force: true })"
 ```
 
 In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
