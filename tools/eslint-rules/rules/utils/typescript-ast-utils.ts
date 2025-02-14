@@ -21,19 +21,18 @@ export function isAccessModifier(modifier: ts.ModifierLike): boolean {
 }
 
 /**
- * Checks if a given parameter is a class property parameter (has access modifier)
+ * Checks if a given parameter is a class property parameter
  * @param param - The parameter node to check
  * @param propertyName - The name of the property to check for
  * @returns True if the parameter is a class property with the specified name
  */
-export function isClassPropertyParameter(
+export function isInitializedConstructorParameter(
   param: ts.ParameterDeclaration,
   propertyName: string
 ): boolean {
   if (!ts.isParameter(param)) {
     return false;
   }
-
   if (!param.modifiers?.some(isAccessModifier)) {
     return false;
   }
@@ -146,7 +145,7 @@ export function isPropertyInitialized(
         // Check constructor parameters for parameter properties
         if (
           constructor.parameters.some((param) =>
-            isClassPropertyParameter(param, propertyName)
+            isInitializedConstructorParameter(param, propertyName)
           )
         ) {
           return true;

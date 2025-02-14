@@ -1,403 +1,716 @@
-/*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import * as ts from 'typescript';
+import { RuleTester } from '@angular-eslint/test-utils';
+import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
+import { join } from 'path';
+import ts from 'typescript';
 import {
   hasPropertyInitialization,
   isAccessModifier,
-  isClassPropertyParameter,
+  isInitializedConstructorParameter,
   isPropertyAssignment,
   isPropertyInitialized,
 } from './typescript-ast-utils';
 
-/**
- * Creates a mock TypeScript Type with specified properties
- * @param isClass - Whether the type represents a class
- * @param symbol - The symbol associated with the type
- * @param properties - List of properties available on the type
- * @param baseTypes - List of base types (for inheritance)
- * @returns A mocked TypeScript Type object
- */
-const createMockType = (
-  isClass = true,
-  symbol?: ts.Symbol,
-  properties: ts.Symbol[] = [],
-  baseTypes: ts.Type[] = []
-): ts.Type =>
-  ({
-    isClass: () => isClass,
-    getSymbol: () => symbol,
-    getProperties: () => properties,
-    getBaseTypes: () => baseTypes,
-  }) as ts.Type;
+const filename = 'file.ts';
 
-/**
- * Creates a mock TypeScript Symbol with specified name and declarations
- * @param name - The name of the symbol
- * @param declarations - List of declarations associated with the symbol
- * @returns A mocked TypeScript Symbol object
- */
-const createMockSymbol = (
-  name: string,
-  declarations: ts.Declaration[] = []
-): ts.Symbol =>
-  ({
-    getName: () => name,
-    declarations,
-  }) as ts.Symbol;
-
-/**
- * Creates a mock TypeScript Node with all required base node properties
- * Used as a base for other node types to ensure they have all required Node properties
- * @returns A mocked TypeScript Node object with default implementations
- */
-const createMockNode = () => ({
-  getSourceFile: () => undefined as any,
-  getChildCount: () => 0,
-  getChildAt: () => undefined as any,
-  getChildren: () => [],
-  getStart: () => 0,
-  getFullStart: () => 0,
-  getEnd: () => 0,
-  getWidth: () => 0,
-  getFullWidth: () => 0,
-  getLeadingTriviaWidth: () => 0,
-  getFullText: () => '',
-  getText: () => '',
-  forEachChild: () => undefined as any,
-  pos: 0,
-  end: 0,
-  getFirstToken: () => undefined as any,
-  getLastToken: () => undefined as any,
+const ruleTester = new RuleTester({
+  languageOptions: {
+    parserOptions: {
+      project: '../../tsconfig.spec.json',
+      tsconfigRootDir: join(__dirname, '../fixtures'),
+    },
+  },
 });
 
-/**
- * Creates a mock TypeScript ClassDeclaration with specified members and heritage clauses
- * @param members - List of class members (properties, methods, etc.)
- * @param heritageClauses - List of heritage clauses (extends, implements)
- * @returns A mocked TypeScript ClassDeclaration object
- */
-const createMockDeclaration = (
-  members: ts.ClassElement[] = [],
-  heritageClauses?: ts.HeritageClause[]
-): ts.ClassDeclaration =>
-  ({
-    ...createMockNode(),
-    kind: ts.SyntaxKind.ClassDeclaration,
-    members,
-    heritageClauses,
-    flags: 0,
-    _declarationBrand: true as const,
-    name: ts.factory.createIdentifier('TestClass'),
-    parent: undefined as any,
-    modifiers: undefined,
-    typeParameters: undefined,
-    decorators: undefined,
-  }) as unknown as ts.ClassDeclaration;
+const isAccessModifierRule = ESLintUtils.RuleCreator(() => __filename)({
+  name: 'test-typescript-utils',
+  meta: {
+    messages: {
+      invalidAccessModifier: 'Invalid access modifier found',
+    },
+    docs: {
+      description:
+        'Test rule for typescript-ast-utils isAccessModifier function',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  defaultOptions: [],
+  create(context) {
+    const services = ESLintUtils.getParserServices(context);
+    if (!services || !services.program) {
+      return {};
+    }
 
-describe('typescript-ast-utils', () => {
-  describe('isAccessModifier', () => {
-    it('should return true for public keyword', () => {
-      const modifier = ts.factory.createModifier(ts.SyntaxKind.PublicKeyword);
-      expect(isAccessModifier(modifier)).toBe(true);
-    });
+    return {
+      PropertyDefinition(node: TSESTree.PropertyDefinition) {
+        if (node.accessibility) {
+          const tsNode = services.esTreeNodeToTSNodeMap.get(node);
+          const modifiers = ts.getModifiers(tsNode);
+          const accessModifier = modifiers?.find(
+            (mod) =>
+              mod.kind === ts.SyntaxKind.PublicKeyword ||
+              mod.kind === ts.SyntaxKind.PrivateKeyword ||
+              mod.kind === ts.SyntaxKind.ProtectedKeyword
+          );
 
-    it('should return true for private keyword', () => {
-      const modifier = ts.factory.createModifier(ts.SyntaxKind.PrivateKeyword);
-      expect(isAccessModifier(modifier)).toBe(true);
-    });
+          if (accessModifier && !isAccessModifier(accessModifier)) {
+            context.report({
+              node,
+              messageId: 'invalidAccessModifier',
+            });
+          }
+        }
+      },
+    };
+  },
+});
 
-    it('should return true for protected keyword', () => {
-      const modifier = ts.factory.createModifier(
-        ts.SyntaxKind.ProtectedKeyword
-      );
-      expect(isAccessModifier(modifier)).toBe(true);
-    });
+ruleTester.run('isAccessModifier tests', isAccessModifierRule, {
+  valid: [
+    {
+      name: 'should allow public property',
+      code: `
+          class TestClass {
+            public testProperty = '';
+          }
+        `,
+      filename,
+    },
+    {
+      name: 'should allow private property',
+      code: `
+          class TestClass {
+            private testProperty = '';
+          }
+        `,
+      filename,
+    },
+    {
+      name: 'should allow protected property',
+      code: `
+          class TestClass {
+            protected testProperty = '';
+          }
+        `,
+      filename,
+    },
+    {
+      name: 'should allow property without access modifier',
+      code: `
+          class TestClass {
+            testProperty = '';
+          }
+        `,
+      filename,
+    },
+  ],
+  invalid: [],
+});
 
-    it('should return false for other modifiers', () => {
-      const modifier = ts.factory.createModifier(ts.SyntaxKind.ReadonlyKeyword);
-      expect(isAccessModifier(modifier)).toBe(false);
-    });
-  });
+const hasPropertyInitializationRule = ESLintUtils.RuleCreator(() => __filename)(
+  {
+    name: 'test-property-initialization',
+    meta: {
+      messages: {
+        noInitialized: 'Property {{ propertyName }} has no initializer',
+      },
+      docs: {
+        description:
+          'Test rule for typescript-ast-utils hasPropertyInitialization function',
+      },
+      schema: [],
+      type: 'problem',
+    },
+    defaultOptions: [],
+    create(context) {
+      const services = ESLintUtils.getParserServices(context);
+      if (!services || !services.program) {
+        return {};
+      }
 
-  describe('isClassPropertyParameter', () => {
-    it('should return true for parameter with access modifier', () => {
-      const param = ts.factory.createParameterDeclaration(
-        [ts.factory.createModifier(ts.SyntaxKind.PublicKeyword)],
-        undefined,
-        'testParam'
-      );
-      expect(isClassPropertyParameter(param, 'testParam')).toBe(true);
-    });
+      return {
+        PropertyDefinition(node: TSESTree.PropertyDefinition) {
+          if (node.key.type !== 'Identifier') return;
 
-    it('should return false for parameter without access modifier', () => {
-      const param = ts.factory.createParameterDeclaration(
-        undefined,
-        undefined,
-        'testParam'
-      );
-      expect(isClassPropertyParameter(param, 'testParam')).toBe(false);
-    });
-  });
+          const tsNode = services.esTreeNodeToTSNodeMap.get(node);
+          const propertyName = node.key.name;
 
-  describe('hasPropertyInitialization', () => {
-    it('should return true for property with initializer', () => {
-      const property = ts.factory.createPropertyDeclaration(
-        undefined,
-        'testProp',
-        undefined,
-        undefined,
-        ts.factory.createStringLiteral('test')
-      );
-      expect(hasPropertyInitialization(property, 'testProp')).toBe(true);
-    });
+          if (!hasPropertyInitialization(tsNode, propertyName)) {
+            context.report({
+              node: node.key,
+              messageId: 'noInitialized',
+              data: { propertyName },
+            });
+          }
+        },
+      };
+    },
+  }
+);
 
-    it('should return false for property without initialization', () => {
-      const property = ts.factory.createPropertyDeclaration(
-        undefined,
-        'testProp',
-        undefined,
-        undefined,
-        undefined
-      );
-      expect(hasPropertyInitialization(property, 'testProp')).toBe(false);
-    });
-  });
-
-  describe('isPropertyAssignment', () => {
-    it('should return true for property assignment', () => {
-      const statement = ts.factory.createExpressionStatement(
-        ts.factory.createBinaryExpression(
-          ts.factory.createPropertyAccessExpression(
-            ts.factory.createThis(),
-            'testProp'
-          ),
-          ts.factory.createToken(ts.SyntaxKind.EqualsToken),
-          ts.factory.createStringLiteral('test')
-        )
-      );
-      expect(isPropertyAssignment(statement, 'testProp')).toBe(true);
-    });
-
-    it('should return false for non-property assignment', () => {
-      const statement = ts.factory.createExpressionStatement(
-        ts.factory.createCallExpression(
-          ts.factory.createIdentifier('test'),
-          undefined,
-          []
-        )
-      );
-      expect(isPropertyAssignment(statement, 'testProp')).toBe(false);
-    });
-  });
-
-  describe('isPropertyInitialized', () => {
-    it('should return false if type has no symbol', () => {
-      const type = createMockType();
-      expect(isPropertyInitialized(type, 'testProp')).toBe(false);
-    });
-
-    it('should return false if symbol has no declarations', () => {
-      const type = createMockType(true, createMockSymbol('TestClass'));
-      expect(isPropertyInitialized(type, 'testProp')).toBe(false);
-    });
-
-    it('should return true if property has initializer', () => {
-      const property = ts.factory.createPropertyDeclaration(
-        undefined,
-        'testProp',
-        undefined,
-        undefined,
-        ts.factory.createStringLiteral('test')
-      );
-      const declaration = createMockDeclaration([property]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-
-    it('should return true if property is initialized in constructor parameter', () => {
-      const param = ts.factory.createParameterDeclaration(
-        [ts.factory.createModifier(ts.SyntaxKind.PublicKeyword)],
-        undefined,
-        'testProp'
-      );
-      const constructor = ts.factory.createConstructorDeclaration(
-        undefined,
-        [param],
-        ts.factory.createBlock([])
-      );
-      const declaration = createMockDeclaration([constructor]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-
-    it('should return true if property is assigned in constructor', () => {
-      const assignment = ts.factory.createExpressionStatement(
-        ts.factory.createBinaryExpression(
-          ts.factory.createPropertyAccessExpression(
-            ts.factory.createThis(),
-            'testProp'
-          ),
-          ts.factory.createToken(ts.SyntaxKind.EqualsToken),
-          ts.factory.createStringLiteral('test')
-        )
-      );
-      const constructor = ts.factory.createConstructorDeclaration(
-        undefined,
-        [],
-        ts.factory.createBlock([assignment])
-      );
-      const declaration = createMockDeclaration([constructor]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-
-    it('should return true if property is initialized in parent class', () => {
-      const property = ts.factory.createPropertyDeclaration(
-        undefined,
-        'testProp',
-        undefined,
-        undefined,
-        ts.factory.createStringLiteral('test')
-      );
-      const declaration = createMockDeclaration([]);
-      const parentDeclaration = createMockDeclaration([property]);
-      const parentType = createMockType(
-        true,
-        createMockSymbol('ParentClass', [parentDeclaration])
-      );
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration]),
-        [],
-        [parentType]
-      );
-
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-
-    it('should return true if property is initialized in any constructor (multiple constructors)', () => {
-      const deprecatedConstructor = ts.factory.createConstructorDeclaration(
-        undefined,
-        [
-          ts.factory.createParameterDeclaration(
-            [ts.factory.createModifier(ts.SyntaxKind.PublicKeyword)],
-            undefined,
-            'testProp'
-          ),
+ruleTester.run(
+  'hasPropertyInitialization tests',
+  hasPropertyInitializationRule,
+  {
+    valid: [
+      {
+        name: 'should detect direct property initialization with string value',
+        code: `
+          class TestClass {
+            testProperty = 'initialized';
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should detect initialization with different primitive and object types',
+        code: `
+          class TestClass {
+            numberProp = 42;
+            booleanProp = true;
+            objectProp = { key: 'value' };
+            arrayProp = [1, 2, 3];
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should detect initialization with computed values and template literals',
+        code: `
+          class TestClass {
+            computedProp = 40 + 2;
+            templateProp = \`template\${value}\`;
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should detect initialization with function calls and method references',
+        code: `
+          class TestClass {
+            functionProp = someFunction();
+            methodProp = this.someMethod();
+          }
+        `,
+        filename,
+      },
+    ],
+    invalid: [
+      {
+        name: 'should report property without initialization',
+        code: `
+          class TestClass {
+            testProperty: string;
+          }
+        `,
+        errors: [
+          {
+            messageId: 'noInitialized',
+            data: { propertyName: 'testProperty' },
+          },
         ],
-        ts.factory.createBlock([])
-      );
-      const newConstructor = ts.factory.createConstructorDeclaration(
-        undefined,
-        [],
-        ts.factory.createBlock([])
-      );
-      const declaration = createMockDeclaration([
-        deprecatedConstructor,
-        newConstructor,
-      ]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
+        filename,
+      },
+      {
+        name: 'should report multiple properties without initialization',
+        code: `
+          class TestClass {
+            prop1: string;
+            prop2: number;
+            prop3: boolean;
+          }
+        `,
+        errors: [
+          { messageId: 'noInitialized', data: { propertyName: 'prop1' } },
+          { messageId: 'noInitialized', data: { propertyName: 'prop2' } },
+          { messageId: 'noInitialized', data: { propertyName: 'prop3' } },
+        ],
+        filename,
+      },
+      {
+        name: 'should report only uninitialized properties in mixed initialization',
+        code: `
+          class TestClass {
+            initialized = true;
+            uninitialized: string;
+            alsoInitialized = 42;
+            alsoUninitialized: number;
+          }
+        `,
+        errors: [
+          {
+            messageId: 'noInitialized',
+            data: { propertyName: 'uninitialized' },
+          },
+          {
+            messageId: 'noInitialized',
+            data: { propertyName: 'alsoUninitialized' },
+          },
+        ],
+        filename,
+      },
+    ],
+  }
+);
 
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
+const isPropertyAssignmentRule = ESLintUtils.RuleCreator(() => __filename)({
+  name: 'test-property-assignment',
+  meta: {
+    messages: {
+      notAssigned:
+        'Property {{ propertyName }} is not assigned in this statement',
+    },
+    docs: {
+      description:
+        'Test rule for typescript-ast-utils isPropertyAssignment function',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  defaultOptions: [],
+  create(context) {
+    const services = ESLintUtils.getParserServices(context);
+    if (!services || !services.program) {
+      return {};
+    }
 
-    it('should return true if property is initialized in any parent class (multiple inheritance)', () => {
-      const property = ts.factory.createPropertyDeclaration(
-        undefined,
-        'testProp',
-        undefined,
-        undefined,
-        ts.factory.createStringLiteral('test')
-      );
-      const declaration = createMockDeclaration([]);
-      const parentDeclaration1 = createMockDeclaration([]);
-      const parentType1 = createMockType(
-        true,
-        createMockSymbol('ParentClass1', [parentDeclaration1])
-      );
-      const parentDeclaration2 = createMockDeclaration([property]);
-      const parentType2 = createMockType(
-        true,
-        createMockSymbol('ParentClass2', [parentDeclaration2])
-      );
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration]),
-        [],
-        [parentType1, parentType2]
-      );
+    return {
+      ExpressionStatement(node: TSESTree.ExpressionStatement) {
+        const tsNode = services.esTreeNodeToTSNodeMap.get(node);
+        const propertyName = 'testProperty';
 
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-
-    it('should return true if property is initialized via optional constructor parameter', () => {
-      const param = ts.factory.createParameterDeclaration(
-        [ts.factory.createModifier(ts.SyntaxKind.PublicKeyword)],
-        undefined,
-        'testProp',
-        ts.factory.createToken(ts.SyntaxKind.QuestionToken)
-      );
-      const constructor = ts.factory.createConstructorDeclaration(
-        undefined,
-        [param],
-        ts.factory.createBlock([])
-      );
-      const declaration = createMockDeclaration([constructor]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-
-    it('should return true if property is assigned via constructor parameter in body', () => {
-      const param = ts.factory.createParameterDeclaration(
-        undefined,
-        undefined,
-        'param'
-      );
-      const assignment = ts.factory.createExpressionStatement(
-        ts.factory.createBinaryExpression(
-          ts.factory.createPropertyAccessExpression(
-            ts.factory.createThis(),
-            'testProp'
-          ),
-          ts.factory.createToken(ts.SyntaxKind.EqualsToken),
-          ts.factory.createIdentifier('param')
-        )
-      );
-      const constructor = ts.factory.createConstructorDeclaration(
-        undefined,
-        [param],
-        ts.factory.createBlock([assignment])
-      );
-      const declaration = createMockDeclaration([constructor]);
-      const type = createMockType(
-        true,
-        createMockSymbol('TestClass', [declaration])
-      );
-
-      expect(isPropertyInitialized(type, 'testProp')).toBe(true);
-    });
-  });
+        if (!isPropertyAssignment(tsNode, propertyName)) {
+          context.report({
+            node,
+            messageId: 'notAssigned',
+            data: { propertyName },
+          });
+        }
+      },
+    };
+  },
 });
+
+ruleTester.run('isPropertyAssignment tests', isPropertyAssignmentRule, {
+  valid: [
+    {
+      name: 'should detect direct property assignment in constructor',
+      code: `
+          class TestClass {
+            testProperty: string;
+            constructor() {
+              this.testProperty = 'value';
+            }
+          }
+        `,
+      filename,
+    },
+  ],
+  invalid: [
+    {
+      name: 'should report property reference without assignment',
+      code: `
+          class TestClass {
+            testProperty: string;
+            constructor() {
+              this.testProperty;
+            }
+          }
+        `,
+      errors: [
+        { messageId: 'notAssigned', data: { propertyName: 'testProperty' } },
+      ],
+      filename,
+    },
+    {
+      name: 'should report compound assignment operators',
+      code: `
+          class TestClass {
+            testProperty: string;
+            constructor() {
+              this.testProperty += 'value';
+            }
+          }
+        `,
+      errors: [
+        { messageId: 'notAssigned', data: { propertyName: 'testProperty' } },
+      ],
+      filename,
+    },
+    {
+      name: 'should report when different property is assigned',
+      code: `
+          class TestClass {
+            testProperty: string;
+            otherProperty: string;
+            constructor() {
+              this.otherProperty = 'value';
+            }
+          }
+        `,
+      errors: [
+        { messageId: 'notAssigned', data: { propertyName: 'testProperty' } },
+      ],
+      filename,
+    },
+  ],
+});
+
+const isPropertyInitializedRule = ESLintUtils.RuleCreator(() => __filename)({
+  name: 'test-property-initialized',
+  meta: {
+    messages: {
+      notInitialized: 'Property {{ propertyName }} is not initialized',
+    },
+    docs: {
+      description:
+        'Test rule for typescript-ast-utils isPropertyInitialized function',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  defaultOptions: [],
+  create(context) {
+    const services = ESLintUtils.getParserServices(context);
+    if (!services || !services.program) {
+      return {};
+    }
+
+    return {
+      ClassDeclaration(node: TSESTree.ClassDeclaration) {
+        const tsNode = services.esTreeNodeToTSNodeMap.get(node);
+        const type = services.program
+          .getTypeChecker()
+          .getTypeAtLocation(tsNode);
+        const propertyName = 'testProperty';
+
+        if (!isPropertyInitialized(type, propertyName)) {
+          context.report({
+            node,
+            messageId: 'notInitialized',
+            data: { propertyName },
+          });
+        }
+      },
+    };
+  },
+});
+
+ruleTester.run('isPropertyInitialized tests', isPropertyInitializedRule, {
+  valid: [
+    {
+      name: 'should detect property initialization in class declaration',
+      code: `
+          class TestClass {
+            testProperty = 'initialized';
+          }
+        `,
+      filename,
+    },
+    {
+      name: 'should detect property initialization in constructor parameter',
+      code: `
+          class TestClass {
+            constructor(public testProperty: string) {}
+          }
+        `,
+      filename,
+    },
+    {
+      name: 'should detect property initialization in constructor body',
+      code: `
+          class TestClass {
+            testProperty: string;
+            constructor() {
+              this.testProperty = 'initialized';
+            }
+          }
+        `,
+      filename,
+    },
+    {
+      name: 'should detect property initialization in parent class declaration',
+      code: `
+          class BaseClass {
+            testProperty = 'initialized';
+          }
+          class TestClass extends BaseClass {}
+        `,
+      filename,
+    },
+    {
+      name: 'should detect property initialization in parent class constructor parameter',
+      code: `
+          class BaseClass {
+            constructor(public testProperty: string) {}
+          }
+          class TestClass extends BaseClass {}
+        `,
+      filename,
+    },
+    {
+      name: 'should detect property initialization in parent class constructor body',
+      code: `
+          class BaseClass {
+            testProperty: string;
+            constructor() {
+              this.testProperty = 'initialized';
+            }
+          }
+          class TestClass extends BaseClass {}
+        `,
+      filename,
+    },
+    {
+      name: 'should detect property initialization through deep inheritance chain',
+      code: `
+          class GrandParentClass {
+            testProperty = 'initialized';
+          }
+          class ParentClass extends GrandParentClass {}
+          class TestClass extends ParentClass {}
+        `,
+      filename,
+    },
+  ],
+  invalid: [
+    {
+      name: 'should report uninitialized property in class',
+      code: `
+          class TestClass {
+            testProperty: string;
+          }
+        `,
+      errors: [
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+      ],
+      filename,
+    },
+    {
+      name: 'should report uninitialized property in parent class',
+      code: `
+          class BaseClass {
+            testProperty: string;
+          }
+          class TestClass extends BaseClass {}
+        `,
+      errors: [
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+      ],
+      filename,
+    },
+    {
+      name: 'should report uninitialized property through deep inheritance chain',
+      code: `
+          class GrandParentClass {
+            testProperty: string;
+          }
+          class ParentClass extends GrandParentClass {}
+          class TestClass extends ParentClass {}
+        `,
+      errors: [
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+      ],
+      filename,
+    },
+    {
+      name: 'should report uninitialized property even with initialized sibling class',
+      code: `
+          class BaseClass {
+            testProperty: string;
+          }
+          class SiblingClass {
+            testProperty = 'initialized';
+          }
+          class TestClass extends BaseClass {}
+        `,
+      errors: [
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+      ],
+      filename,
+    },
+    {
+      name: 'should report uninitialized property in base class even with initialized child class',
+      code: `
+          class BaseClass {
+            testProperty: string;
+          }
+          class TestClass extends BaseClass {
+            testProperty = 'initialized';
+          }
+        `,
+      errors: [
+        {
+          messageId: 'notInitialized',
+          data: { propertyName: 'testProperty' },
+        },
+      ],
+      filename,
+    },
+  ],
+});
+
+const isInitializedConstructorParameterRule = ESLintUtils.RuleCreator(
+  () => __filename
+)({
+  name: 'test-class-property-parameter',
+  meta: {
+    messages: {
+      notInitializedConstructorParameter:
+        'Parameter is not initialized in constructor',
+    },
+    docs: {
+      description:
+        'Test rule for typescript-ast-utils isInitializedConstructorParameter function',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  defaultOptions: [],
+  create(context) {
+    const services = ESLintUtils.getParserServices(context);
+    if (!services || !services.program) {
+      return {};
+    }
+
+    return {
+      'MethodDefinition[kind="constructor"]'(node: TSESTree.Parameter) {
+        const tsNode = services.esTreeNodeToTSNodeMap.get(node);
+
+        if (!ts.isConstructorDeclaration(tsNode)) return;
+        // Only report if it's not a class property parameter
+        const hasInitializerInConstructor = tsNode.parameters.some((param) =>
+          isInitializedConstructorParameter(param, 'testProperty')
+        );
+
+        if (!hasInitializerInConstructor) {
+          context.report({
+            node,
+            messageId: 'notInitializedConstructorParameter',
+          });
+        }
+      },
+    };
+  },
+});
+
+ruleTester.run(
+  'isInitializedConstructorParameter tests',
+  isInitializedConstructorParameterRule,
+  {
+    valid: [
+      {
+        name: 'should allow public parameter property',
+        code: `
+          class TestClass {
+            constructor(public testProperty: string) {}
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should allow private parameter property',
+        code: `
+          class TestClass {
+            constructor(private testProperty: string) {}
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should allow protected parameter property',
+        code: `
+          class TestClass {
+            constructor(protected testProperty: string) {}
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should allow readonly parameter property',
+        code: `
+          class TestClass {
+            constructor(public readonly testProperty: string) {}
+          }
+        `,
+        filename,
+      },
+      {
+        name: 'should allow multiple parameter properties',
+        code: `
+          class TestClass {
+            constructor(
+              public prop1: string,
+              private testProperty: number,
+              protected prop3: boolean
+            ) {}
+          }
+        `,
+        filename,
+      },
+    ],
+    invalid: [
+      {
+        name: 'should not allow regular parameter (not a property)',
+        code: `
+          class TestClass {
+            constructor(testProperty: string) {}
+          }
+        `,
+        errors: [
+          {
+            messageId: 'notInitializedConstructorParameter',
+            data: { paramName: 'testProperty' },
+          },
+        ],
+        filename,
+      },
+      {
+        name: 'should not allow mixed parameters',
+        code: `
+          class TestClass {
+            constructor(
+              public prop1: string,
+              regularParam: number,
+              protected prop3: boolean
+            ) {}
+          }
+        `,
+        errors: [
+          {
+            messageId: 'notInitializedConstructorParameter',
+          },
+        ],
+        filename,
+      },
+    ],
+  }
+);
