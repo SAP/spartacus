@@ -51,15 +51,15 @@
           node.url && (!node.children || node.children?.length === 0);
           else heading
         "
-       [ariaLabel]="
-       'navigation.linkItemInList'
-         | cxTranslate
-           : {
-               title: node.title,
-               position,
-               listLength,
-             }
-     "
+        [ariaLabel]="
+          'navigation.linkItemInList'
+            | cxTranslate
+              : {
+                  title: node.title,
+                  position,
+                  listLength,
+                }
+        "
         [url]="node.url"
         [target]="node.target"
         [style]="node.styleAttributes"
