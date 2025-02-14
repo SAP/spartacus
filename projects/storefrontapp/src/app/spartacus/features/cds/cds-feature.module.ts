@@ -32,12 +32,6 @@ const cds1: CdsConfig = {
     baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
-    endpoints: {
-      strategyProducts:
-        '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
@@ -64,12 +58,6 @@ const cds2: CdsConfig = {
     ],
     tenant: 'A_CDS_TENANT',
     baseUrl: 'A_CDS_BASE_URL',
-    endpoints: {
-      strategyProducts:
-        '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
       configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
