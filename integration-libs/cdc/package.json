@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdc",
-  "version": "2211.35.0-1",
+  "version": "2211.36.0-1",
   "engines": {
     "node": "^22.0.0"
   },
@@ -33,12 +33,12 @@
     "@ng-select/ng-select": "^14.1.0",
     "@ngrx/effects": "^19.0.0",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/asm": "2211.35.0-1",
-    "@spartacus/core": "2211.35.0-1",
-    "@spartacus/organization": "2211.35.0-1",
-    "@spartacus/schematics": "2211.35.0-1",
-    "@spartacus/storefront": "2211.35.0-1",
-    "@spartacus/user": "2211.35.0-1",
+    "@spartacus/asm": "2211.36.0-1",
+    "@spartacus/core": "2211.36.0-1",
+    "@spartacus/organization": "2211.36.0-1",
+    "@spartacus/schematics": "2211.36.0-1",
+    "@spartacus/storefront": "2211.36.0-1",
+    "@spartacus/user": "2211.36.0-1",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
