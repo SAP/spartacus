@@ -51,12 +51,15 @@
           node.url && (!node.children || node.children?.length === 0);
           else heading
         "
-        [ariaLabel]="
-          a11yOptionCount
-            ? undefined
-            : ('navigation.linkItemInList'
-              | cxTranslate: { title: node.title, position, listLength })
-        "
+       [ariaLabel]="
+       'navigation.linkItemInList'
+         | cxTranslate
+           : {
+               title: node.title,
+               position,
+               listLength,
+             }
+     "
         [url]="node.url"
         [target]="node.target"
         [style]="node.styleAttributes"
@@ -149,8 +152,8 @@
       </ng-container>
       <ng-template #title>
         <span
-          [attr.role]="a11yOptionCount ? null : 'heading'"
-          [attr.aria-level]="a11yOptionCount ? null : 4"
+          role="heading"
+          aria-level="4"
           *ngIf="node.title"
           [attr.tabindex]="a11yOptionCount ? 0 : -1"
         >
