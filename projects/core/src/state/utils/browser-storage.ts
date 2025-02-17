@@ -10,7 +10,8 @@ import { StorageSyncType } from '../config/state-config';
 
 export function getStorage(
   storageType: StorageSyncType,
-  winRef: WindowRef
+  winRef: WindowRef,
+  memoryStorage: Storage
 ): Storage | undefined {
   let storage: Storage | undefined;
 
@@ -25,6 +26,10 @@ export function getStorage(
     }
     case StorageSyncType.NO_STORAGE: {
       storage = undefined;
+      break;
+    }
+    case StorageSyncType.IN_MEMORY_STORAGE: {
+      storage = memoryStorage;
       break;
     }
 

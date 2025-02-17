@@ -11,6 +11,7 @@ export enum StorageSyncType {
   NO_STORAGE = 'NO_STORAGE',
   LOCAL_STORAGE = 'LOCAL_STORAGE',
   SESSION_STORAGE = 'SESSION_STORAGE',
+  IN_MEMORY_STORAGE = 'IN_MEMORY_STORAGE',
 }
 
 export enum StateTransferType {

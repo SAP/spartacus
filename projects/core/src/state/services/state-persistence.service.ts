@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { MemoryStorageService } from '../../memory-storage/memory-storage.service';
 import { StorageSyncType } from '../../state/config/state-config';
 import { WindowRef } from '../../window/window-ref';
 import {
@@ -19,6 +20,8 @@ import {
   providedIn: 'root',
 })
 export class StatePersistenceService {
+  memoryStorageService = inject(MemoryStorageService);
+
   constructor(protected winRef: WindowRef) {}
 
   /**
@@ -56,7 +59,11 @@ export class StatePersistenceService {
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T | undefined) => void;
   }): Subscription {
-    const storage = getStorage(storageType, this.winRef);
+    const storage = getStorage(
+      storageType,
+      this.winRef,
+      this.memoryStorageService
+    );
 
     const subscriptions = new Subscription();
 
@@ -111,7 +118,11 @@ export class StatePersistenceService {
     context?: string | Array<string>;
     storageType?: StorageSyncType;
   }): T | undefined {
-    const storage = getStorage(storageType, this.winRef);
+    const storage = getStorage(
+      storageType,
+      this.winRef,
+      this.memoryStorageService
+    );
 
     if (storage) {
       return readFromStorage(

@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
+import { AuthConfigService } from '../services';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -36,6 +37,8 @@ export class AuthService {
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
+  protected authConfigService = inject(AuthConfigService);
+
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
@@ -50,16 +53,21 @@ export class AuthService {
    * Check params in url and if there is an code/token then try to login with those.
    */
   async checkOAuthParamsInUrl(): Promise<void> {
+    console.log('checkOAuthParamsInUrl');
     try {
       const loginResult: OAuthTryLoginResult =
         await this.oAuthLibWrapperService.tryLogin();
 
       const token = this.authStorageService.getItem('access_token');
+      console.log('token', token);
+      // const silentRefRes = await this.oAuthLibWrapperService.trySilentLogin();
 
+      // console.log('silentRefRes', silentRefRes);
       // We get the value `true` of `result` in the _code flow_ even if we did not log in successfully
       // (see source code https://github.com/manfredsteyer/angular-oauth2-oidc/blob/d95d7da788e2c1390346c66de62dc31f10d2b852/projects/lib/src/oauth-service.ts#L1711),
       // that why we also need to check if we have access_token
       if (loginResult.result && token) {
+        console.log('loginResult', loginResult);
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.store.dispatch(new AuthActions.Login());
 
@@ -67,7 +75,13 @@ export class AuthService {
         // If so, we will redirect as we can deduce we are returning from the authentication server.
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
         if (loginResult.tokenReceived) {
+          console.log('loginResult.tokenReceived');
           this.authRedirectService.redirect();
+        }
+      } else {
+        if (this.authConfigService.getOAuthLibConfig()?.useSilentRefresh) {
+          console.log('trySilentLogin');
+          await this.oAuthLibWrapperService.trySilentLogin();
         }
       }
     } catch {}

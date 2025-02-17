@@ -5,6 +5,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
+import { StorageSyncType } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
@@ -51,6 +52,7 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
+        // storageType: StorageSyncType.IN_MEMORY_STORAGE,
         onRead: (state) => this.onRead(state),
       })
     );
@@ -79,9 +81,11 @@ export class AuthStatePersistenceService implements OnDestroy {
           token = { ...token };
           // To minimize risk of user account hijacking we don't persist user refresh_token
           delete token.refresh_token;
+          delete token.access_token;
         }
         return { token, userId, redirectUrl };
       })
+      // tap((state) => console.log('Auth state persisted:', state))
     );
   }
 
@@ -109,6 +113,8 @@ export class AuthStatePersistenceService implements OnDestroy {
   protected readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
+      context: '',
+      storageType: StorageSyncType.IN_MEMORY_STORAGE,
     });
   }
 
