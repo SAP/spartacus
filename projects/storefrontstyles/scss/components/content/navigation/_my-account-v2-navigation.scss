@@ -19,6 +19,8 @@
 
   cx-navigation-ui {
     background: var(--cx-color-inverse);
+    flex-direction: column;
+    width: 100%;
     // Node Heading
     span,
     h4 {

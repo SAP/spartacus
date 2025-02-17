@@ -321,8 +321,6 @@
 
 %cx-navigation-ui {
   display: flex;
-  flex-direction: column;
-  width: 100%;
 
   @include media-breakpoint-up(lg) {
     background-color: var(--cx-color-text);

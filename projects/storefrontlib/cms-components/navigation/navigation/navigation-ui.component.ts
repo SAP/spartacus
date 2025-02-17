@@ -59,7 +59,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * Flag indicates whether to set option count in aria-label.
    */
-  @Input() a11yOptionCount: boolean = false;
+  @Input() a11yIntraceableNavSectionTitle: boolean = false;
 
   @Input() navAriaLabel: string | null | undefined;
   /**

@@ -68,7 +68,6 @@
     "linkItemInList": "{{title}}. {{position}} of {{listLength}}",
     "menuButonTitle": "{{title}} Menu"
   },
-
   "searchBox": {
     "placeholder": "Enter product name or SKU",
     "productSearch": "Find a product",
