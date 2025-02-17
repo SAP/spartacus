@@ -57,7 +57,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   @Input() resetMenuOnClose: boolean | undefined;
 
   /**
-   * Flag indicates whether to set option count in aria-label.
+   * Flag indicates whether to focus the section titles on tab.
    */
   @Input() a11yIntraceableNavSectionTitle: boolean = false;
 
