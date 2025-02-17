@@ -57,9 +57,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   @Input() resetMenuOnClose: boolean | undefined;
 
   /**
-   * Flag indicates whether to focus the section titles on tab.
+   * Include non intractable node titles within the tabbing order.
    */
-  @Input() a11yIntraceableNavSectionTitle: boolean = false;
+  @Input() focusableNodeTitles: boolean = false;
 
   @Input() navAriaLabel: string | null | undefined;
   /**

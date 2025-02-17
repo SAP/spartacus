@@ -12,6 +12,4 @@ import { NavigationComponent } from '../../../navigation';
   templateUrl: './my-account-v2-navigation.component.html',
   standalone: false,
 })
-export class MyAccountV2NavigationComponent extends NavigationComponent {
-  isMyAccount = true;
-}
+export class MyAccountV2NavigationComponent extends NavigationComponent {}
