@@ -36,9 +36,9 @@
       "description": "Modernize Angular application migrated from 6.8 to 2211.19",
       "factory": "./modernize-app-migrated-from-6_8-to-2211_19/index#migrate"
     },
-    "modernize-app-migrated-from-2211_32-to-2211_35": {
-      "description": "Modernize Angular application migrated from 2211.32 to 2211.35",
-      "factory": "./modernize-app-migrated-from-2211_32-to-2211_35/index#migrate"
+    "modernize-app-migrated-from-2211_32-to-2211_36": {
+      "description": "Modernize Angular application migrated from 2211.32 to 2211.36",
+      "factory": "./modernize-app-migrated-from-2211_32-to-2211_36/index#migrate"
     }
   }
 }
