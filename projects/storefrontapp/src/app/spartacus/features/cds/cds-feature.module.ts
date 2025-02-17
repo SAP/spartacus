@@ -20,6 +20,7 @@ import {
   cdsTranslationsZh,
 } from '@spartacus/cds/assets';
 
+
 /**
  * Only differences to the default cds config, they are merged together.
  *
@@ -27,18 +28,29 @@ import {
  * @see CdsModule.forRoot
  */
 
+
+
 const cds1: CdsConfig = {
   cds: {
-    baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
-    tenant: 'argotest',
-    baseUrl: 'https://api.stage.context.cloud.sap',
-    profileTag: {
-      javascriptUrl:
-        'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
-      configUrl:
-        'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
-      allowInsecureCookies: true,
-    },
+    // baseSite:
+    //   ['electronics-spa', 'electronics', 'electronics-standalone'],
+    // tenant: 'issqa-test1-s0',
+    // baseUrl: 'https://issqa-test1-s0.iss.commerce.stage.context.cloud.sap',
+    // endpoints: {
+    //   strategyProducts:
+    //      '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products',
+    //   searchIntelligence:
+    //     '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
+    // },
+    // profileTag: {
+    //   javascriptUrl:
+    //     'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
+    //   configUrl:
+    //     'https://tag.static.stage.context.cloud.sap/config/e2etest1-main-default',
+    //   allowInsecureCookies: true,
+    //   siteId: 'testblabliblu',
+    //   sciEnabled: true
+    // },
   },
 };
 
@@ -56,12 +68,21 @@ const cds2: CdsConfig = {
       'apparel-uk-spa',
       'apparel-uk-standalone',
     ],
-    tenant: 'A_CDS_TENANT',
-    baseUrl: 'A_CDS_BASE_URL',
+    tenant: 'issqa-test1-s0',
+    baseUrl: 'https://issqa-test1-s0.iss.commerce.stage.context.cloud.sap',
+    endpoints: {
+      strategyProducts:
+         '/strategy/v1/sites/main/strategies/${strategyId}/products',
+      searchIntelligence:
+        '/search-intelligence/v1/sites/apparel-uk-spa/trendingSearches',
+    },
     profileTag: {
-      javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
-      configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
+      javascriptUrl: 'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
+      configUrl:
+         'https://tag.static.stage.context.cloud.sap/config/e2etest1-main-default',
       allowInsecureCookies: true,
+      siteId: 'main',
+      sciEnabled: true
     },
   },
 };
