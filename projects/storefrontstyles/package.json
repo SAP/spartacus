@@ -1,9 +1,6 @@
 {
   "name": "@spartacus/styles",
-  "version": "2211.36.0-1",
-  "engines": {
-    "node": "^22.0.0"
-  },
+  "version": "2211.36.0",
   "description": "Style library containing global styles",
   "keywords": [
     "spartacus",
@@ -24,6 +21,9 @@
     "@fontsource/open-sans": "^5.1.0",
     "@fortawesome/fontawesome-free": "6.7.2",
     "@ng-select/ng-select": "^14.1.0"
+  },
+  "engines": {
+    "node": "^22.0.0"
   },
   "publishConfig": {
     "access": "public"
