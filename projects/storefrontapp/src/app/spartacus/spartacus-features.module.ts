@@ -291,6 +291,7 @@ if (environment.cpq) {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: false,
+        showOauth2AsmloginPage: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,

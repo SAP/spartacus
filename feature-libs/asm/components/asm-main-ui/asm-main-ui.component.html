@@ -42,11 +42,28 @@
       >
     </div>
 
-    <cx-asm-toggle-ui></cx-asm-toggle-ui>
+    <cx-asm-toggle-ui
+      *ngIf="
+        !isShowOauth2AsmloginPage || (customerSupportAgentLoggedIn$ | async)
+      "
+    ></cx-asm-toggle-ui>
 
     <cx-asm-session-timer
       *ngIf="customerSupportAgentLoggedIn$ | async"
     ></cx-asm-session-timer>
+    <div
+      class="cx-asm-customer-list"
+      *ngIf="
+        !(customerSupportAgentLoggedIn$ | async) && isShowOauth2AsmloginPage
+      "
+    >
+      <a
+        role="link"
+        class="cx-asm-customer-list-link"
+        (click)="loginCustomerSupportAgentWithAuthorizationCodeFlow()"
+        >{{ 'asm.asmSignIn' | cxTranslate }}</a
+      >
+    </div>
 
     <button
       class="close"
@@ -105,7 +122,7 @@
 
   <ng-template #showLoginForm>
     <cx-csagent-login-form
-      *ngIf="notCollapsed"
+      *ngIf="notCollapsed && !isShowOauth2AsmloginPage"
       (submitEvent)="loginCustomerSupportAgent($event)"
       [csAgentTokenLoading]="csAgentTokenLoading$ | async"
     ></cx-csagent-login-form>

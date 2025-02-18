@@ -62,6 +62,11 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
+   * In 'ASM' it shows pages when use code flow authentication.
+   */
+  showOauth2AsmloginPage?: boolean;
+
+  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
@@ -999,6 +1004,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: false,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
+  showOauth2AsmloginPage: true,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
   useExtractedBillingAddressComponent: true,

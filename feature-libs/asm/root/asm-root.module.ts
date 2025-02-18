@@ -10,6 +10,7 @@ import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
+  CONFIG_INITIALIZER,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { AsmLoaderModule } from './asm-loader.module';
@@ -18,11 +19,24 @@ import { UserIdHttpHeaderInterceptor } from './interceptors/user-id-http-header.
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
+import { AuthConfigInitializer } from './config';
+
+export function initAuthConfigFactory(
+  authConfigInitializer: AuthConfigInitializer
+) {
+  return authConfigInitializer;
+}
 
 @NgModule({
   imports: [AsmLoaderModule],
   providers: [
     provideDefaultConfig(defaultAsmConfig),
+    {
+      provide: CONFIG_INITIALIZER,
+      useFactory: initAuthConfigFactory,
+      deps: [AuthConfigInitializer],
+      multi: true,
+    },
     {
       provide: AuthStorageService,
       useExisting: AsmAuthStorageService,
