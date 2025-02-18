@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "2211.36.0",
+  "version": "2211.36.1",
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",
@@ -28,12 +28,12 @@
     "@angular/core": "^19.0.3",
     "@angular/router": "^19.0.3",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/cart": "2211.36.0",
-    "@spartacus/core": "2211.36.0",
-    "@spartacus/order": "2211.36.0",
-    "@spartacus/schematics": "2211.36.0",
-    "@spartacus/storefront": "2211.36.0",
-    "@spartacus/tracking": "2211.36.0",
+    "@spartacus/cart": "2211.36.1",
+    "@spartacus/core": "2211.36.1",
+    "@spartacus/order": "2211.36.1",
+    "@spartacus/schematics": "2211.36.1",
+    "@spartacus/storefront": "2211.36.1",
+    "@spartacus/tracking": "2211.36.1",
     "rxjs": "^7.8.0"
   },
   "engines": {
