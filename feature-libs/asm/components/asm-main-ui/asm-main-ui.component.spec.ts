@@ -229,7 +229,6 @@ describe('AsmMainUiComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
-    component.isShowOauth2AsmloginPage = false;
   });
 
   it('should create', () => {

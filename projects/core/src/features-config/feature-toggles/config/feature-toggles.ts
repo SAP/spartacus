@@ -1004,7 +1004,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: false,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
-  showOauth2AsmloginPage: true,
+  showOauth2AsmloginPage: false,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
   useExtractedBillingAddressComponent: true,
