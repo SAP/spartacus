@@ -301,6 +301,7 @@ if (environment.cpq) {
         recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
+        storeFrontLibCardParagraphTruncated: true,
         useProductCarouselBatchApi: true,
         productConfiguratorAttributeTypesV2: true,
         propagateErrorsToServer: true,
