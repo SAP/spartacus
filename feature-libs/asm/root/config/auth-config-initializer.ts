@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { Injectable, inject } from '@angular/core';
 import { AuthConfig } from '@spartacus/core';
 import { ConfigInitializer } from 'projects/core/src/config/config-initializer/config-initializer';
