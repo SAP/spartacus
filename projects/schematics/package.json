@@ -1,9 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.35.0-1",
-  "engines": {
-    "node": "^22.0.0"
-  },
+  "version": "2211.36.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -39,6 +36,9 @@
     "canvas": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": "^22.0.0"
   },
   "ng-add": {
     "save": "devDependencies"

@@ -21,11 +21,13 @@
     "search": "Hledat",
     "add": "Přidat",
     "breadcrumbs": "Navigační cesty",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Vyberte soubor",
     "clear": "Vymazat",
     "loaded": "Načteno",
     "results": "Výsledky",
     "of": "z",
+    "ngSelectDropdownOptionsList": "Možnosti",
     "required": "povinné",
     "zoomIn": "Zvětšit",
     "zoomOut": "Zmenšit",
@@ -63,7 +65,8 @@
     "goTo": "Přejít na {{location}}",
     "navigateTo": "Navigovat k {{nav}}",
     "scrollToTop": "Vraťte se na začátek stránky.",
-    "linkItemInList": "{{title}}. {{position}} z {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} z {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Zadejte název produktu nebo SKU",

@@ -10,7 +10,8 @@
       "title": "Questo sito Web utilizza i cookie",
       "description": "Utilizziamo i cookie/la memoria del browser per personalizzare i contenuti e migliorare l'esperienza degli utenti.",
       "allowAll": "Consenti tutto",
-      "viewDetails": "Visualizza dettagli"
+      "viewDetails": "Visualizza dettagli",
+      "consentManagement": "Gestione dei consensi"
     }
   },
   "checkoutLogin": {

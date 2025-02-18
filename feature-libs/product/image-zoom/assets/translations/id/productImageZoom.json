@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Gambar yang diperbesar",
+    "previousSlide": "Slide sebelumnya",
+    "nextSlide": "Slide berikutnya",
     "close": "Tutup"
   }
 }

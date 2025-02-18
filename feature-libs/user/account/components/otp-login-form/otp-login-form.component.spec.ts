@@ -4,14 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, RoutingService, WindowRef } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { VerificationTokenService } from '@spartacus/user/account/core';
 import {
-  VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
+import { HttpErrorResponse } from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
@@ -20,27 +19,14 @@ const verificationTokenCreation: VerificationTokenCreation = {
   password: '1234',
 };
 
-const verificationToken: VerificationToken = {
-  expiresIn: '300',
-  tokenId: 'mockTokenId',
-};
-
 class MockWinRef {
   get nativeWindow(): Window {
     return {} as Window;
   }
 }
 
-class MockVerificationTokenService
-  implements Partial<VerificationTokenService>
-{
-  createVerificationToken = createSpy().and.callFake(() =>
-    of(verificationToken)
-  );
-}
-
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
+class MockRoutingService {
+  go = createSpy();
 }
 
 @Pipe({
@@ -57,6 +43,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
   let el: DebugElement;
   let service: VerificationTokenFacade;
   let winRef: WindowRef;
+  let mockRoutingService: RoutingService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -68,10 +55,6 @@ describe('OneTimePasswordLoginFormComponent', () => {
       ],
       declarations: [OneTimePasswordLoginFormComponent, MockUrlPipe],
       providers: [
-        {
-          provide: VerificationTokenFacade,
-          useClass: MockVerificationTokenService,
-        },
         { provide: WindowRef, useClass: MockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
@@ -82,6 +65,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
     winRef = TestBed.inject(WindowRef);
     fixture = TestBed.createComponent(OneTimePasswordLoginFormComponent);
     service = TestBed.inject(VerificationTokenFacade);
+    mockRoutingService = TestBed.inject(RoutingService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -116,6 +100,12 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should request email', () => {
+        spyOn(service, 'createVerificationToken').and.returnValue(
+          of({
+            expiresIn: '300',
+            tokenId: 'mockTokenId',
+          })
+        );
         component.onSubmit();
         expect(service.createVerificationToken).toHaveBeenCalledWith(
           verificationTokenCreation
@@ -123,6 +113,12 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should reset the form', () => {
+        spyOn(service, 'createVerificationToken').and.returnValue(
+          of({
+            expiresIn: '300',
+            tokenId: 'mockTokenId',
+          })
+        );
         spyOn(component.form, 'reset').and.stub();
         component.onSubmit();
         expect(component.form.reset).toHaveBeenCalled();
@@ -138,6 +134,12 @@ describe('OneTimePasswordLoginFormComponent', () => {
       });
 
       it('should not create OTP', () => {
+        spyOn(service, 'createVerificationToken').and.returnValue(
+          of({
+            expiresIn: '300',
+            tokenId: 'mockTokenId',
+          })
+        );
         component.onSubmit();
         expect(service.createVerificationToken).not.toHaveBeenCalled();
       });
@@ -193,12 +195,39 @@ describe('OneTimePasswordLoginFormComponent', () => {
     });
 
     it('should call the service method on submit', () => {
+      spyOn(service, 'createVerificationToken').and.returnValue(
+        of({
+          expiresIn: '300',
+          tokenId: 'mockTokenId',
+        })
+      );
       component.form.setValue({
         userId: verificationTokenCreation.loginId,
         password: verificationTokenCreation.password,
       });
       component.onSubmit();
       expect(service.createVerificationToken).toHaveBeenCalled();
+    });
+  });
+
+  describe('Up To Rate Limit For Login', () => {
+    beforeEach(() => {
+      component.form.setValue({
+        userId: verificationTokenCreation.loginId,
+        password: verificationTokenCreation.password,
+      });
+    });
+
+    it('should redirect to next register page when create login verification token up to rate limit', () => {
+      const httpErrorResponse = new HttpErrorResponse({
+        status: 400,
+        url: 'https://localhost:9002/occ/v2/electronics-spa/users/anonymous/verificationToken?lang=en&curr=USD',
+      });
+      spyOn(service, 'createVerificationToken').and.returnValue(
+        throwError(() => httpErrorResponse)
+      );
+      component.onSubmit();
+      expect(mockRoutingService.go).toHaveBeenCalled();
     });
   });
 });
