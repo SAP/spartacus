@@ -13,6 +13,7 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
+import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
@@ -37,6 +38,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
     return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
+  refreshAuthConfig = createSpy().and.stub();
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -269,6 +271,13 @@ describe('AuthService', () => {
       service.logout();
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
+    });
+  });
+
+  describe('refreshAuthConfig()', () => {
+    it('should call refreshAuthConfig method', () => {
+      service.refreshAuthConfig();
+      expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
     });
   });
 });
