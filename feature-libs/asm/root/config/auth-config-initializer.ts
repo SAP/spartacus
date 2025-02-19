@@ -9,12 +9,18 @@ import {
   AuthConfig,
   BaseSiteService,
   ConfigInitializer,
+  OccConfig,
 } from '@spartacus/core';
 import { Observable, lastValueFrom, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthConfigInitializer implements ConfigInitializer {
   protected baseSiteService = inject(BaseSiteService);
+  protected authConfig = inject(AuthConfig);
+  protected occConfig = inject(OccConfig);
+  private get config(): AuthConfig['authentication'] {
+    return this.authConfig?.authentication ?? {};
+  }
   readonly scopes = ['authentication'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
   /**
@@ -27,16 +33,19 @@ export class AuthConfigInitializer implements ConfigInitializer {
       authentication: {
         client_id: 'mobile_android',
         revokeEndpoint: '/oauth2/revoke',
-        baseUrl: 'https://localhost:9002/authserver',
+        baseUrl:
+          this.config?.baseUrl ??
+          (this.occConfig?.backend?.occ?.baseUrl ?? '') + '/authserver',
         loginUrl: '/oauth2/authorize',
         tokenEndpoint: '/oauth2/token',
         client_secret: 'secret',
         OAuthLibConfig: {
-          issuer: 'https://localhost:9002/authserver',
+          issuer:
+            this.config?.baseUrl ??
+            (this.occConfig?.backend?.occ?.baseUrl ?? '') + '/authserver',
           redirectUri: `${window.location.origin}/electronics-spa/en/USD/login`,
           disablePKCE: true,
           responseType: 'code',
-          //   scope: 'openid',
         },
       },
     };
