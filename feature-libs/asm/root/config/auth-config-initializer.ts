@@ -5,9 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { AuthConfig } from '@spartacus/core';
-import { ConfigInitializer } from 'projects/core/src/config/config-initializer/config-initializer';
-import { BaseSiteService } from 'projects/core/src/site-context/facade/base-site.service';
+import { AuthConfig, BaseSiteService, ConfigInitializer } from '@spartacus/core';
 import { Observable, lastValueFrom, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
