@@ -56,6 +56,7 @@ import { AsmComponentService } from '../services/asm-component.service';
   selector: 'cx-asm-bind-cart',
   templateUrl: './asm-bind-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
   activeCartValidator: ValidatorFn = (control) => {

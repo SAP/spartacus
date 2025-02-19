@@ -99,7 +99,9 @@ async function propagateAugmentableTypes(
   for (const packageJsonFile of files) {
     try {
       // get typings file from package.json
-      const packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
+      const packageData = JSON.parse(
+        await fs.readFile(packageJsonFile, 'utf8')
+      );
       const typingsFile = packageData.typings;
 
       if (!typingsFile) {

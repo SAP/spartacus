@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Tryb usługi wspomaganej",
+    "logout": "Wyloguj się",
+    "hideUi": "Zamknij ASM",
+    "helpPortalUrl": "Pomoc",
+    "customers": "Klienci",
+    "asmCustomer360Button": "Widok klienta 360",
+    "asmCustomer360ViewButton": "Klient 360°",
+    "createCustomerSuccessfullyAlert": "Konto klienta zostało utworzone i sesja klienta rozpoczęła się.",
+    "saveInactiveCartAlertInfo": "Zidentyfikowany koszyk jest nieaktywny. Aby wykonać dalsze czynności na tym koszyku, najpierw go zapisz.",
+    "activeCartAlertInfo": "Zidentyfikowany koszyk jest aktywny.",
+    "startCustomerEmulationAlertInfo": "Rozpoczęła się emulacja klienta. Wszelkie wykonane czynności będą miały wpływ na konto klienta.",
+    "toggleUi": {
+      "collapse": "Ukryj ASM",
+      "expand": "Pokaż ASM"
+    },
+    "loginForm": {
+      "submit": "Zarejestruj się",
+      "userId": {
+        "label": "ID lub e-mail agenta"
+      },
+      "password": {
+        "label": "Hasło"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "Nazwa klienta/adres e-mail"
+      },
+      "searchCustomer": {
+        "label": "Szukaj po nazwie lub adresie e-mail"
+      },
+      "searchOrder": {
+        "label": "Szukaj według pełnego ID zamówienia"
+      },
+      "submit": "Rozpocznij sesję",
+      "startEmulation": "Rozpocznij emulację",
+      "noMatch": "Nie znaleziono klienta.",
+      "noMatchResult": "Nie znaleziono tego konta.",
+      "noCustomerMatchResult": "Nie znaleziono pasującego klienta.",
+      "noOrderMatchResult": "Szukaj według pełnego ID zamówienia.",
+      "createCustomer": "Utwórz nowego klienta",
+      "customer": "Klient",
+      "orderID": "ID zamówienia"
+    },
+    "createCustomerForm": {
+      "title": "Utwórz nowego klienta",
+      "createAccount": "Utwórz",
+      "cancel": "Anuluj",
+      "firstName": {
+        "label": "Imię",
+        "placeholder": "Imię"
+      },
+      "lastName": {
+        "label": "Nazwisko",
+        "placeholder": "Nazwisko"
+      },
+      "emailAddress": {
+        "label": "Adres e-mail",
+        "placeholder": "Adres e-mail"
+      },
+      "createAccountAlert": "Sesja klienta rozpoczyna się po utworzeniu konta klienta.",
+      "validationErrors": {
+        "firstName": "Wprowadź prawidłowe imię.",
+        "lastName": "Wprowadź prawidłowe nazwisko.",
+        "emailAddress": "Wprowadź prawidłowy adres e-mail."
+      },
+      "badRequestDuplicatedEmail": "Wprowadź inny adres e-mail, ponieważ {{ emailAddress }} już istnieje."
+    },
+    "customerList": {
+      "title": "Lista klientów",
+      "description": "Wybierz klienta z jednej z kilku dostępnych list.",
+      "createCustomer": "Utwórz nowego klienta",
+      "cancel": "Anuluj",
+      "tableHeader": {
+        "customer": "Klient",
+        "customerName": "Nazwa odbiorcy",
+        "name": "Nazwa",
+        "email": "E-mail",
+        "emailId": "E-mail/ID",
+        "phone": "Telefon",
+        "account": "Konto",
+        "cart": "Koszyk zakupów",
+        "order": "Zamówienie",
+        "view": "Widok 360",
+        "activeCart": "Aktywny koszyk zakupów",
+        "viewActiveCart": "Wyświetl aktywny koszyk",
+        "orders": "Zamówienia",
+        "viewOrders": "Wyświetl zamówienia",
+        "customer360": "Klient 360°",
+        "viewCustomer360": "Wyświetl klienta 360°"
+      },
+      "tableSort": {
+        "sortBy": "Sortuj według",
+        "byName": "Nazwa (rosn.)",
+        "byNameAsc": "Nazwa (rosn.)",
+        "byNameDesc": "Nazwa (malej.)",
+        "byDateAsc": "Data (rosn.)",
+        "byDateDesc": "Data (malej.)",
+        "byOrderDateAsc": "Data zamówienia (rosn.)",
+        "byOrderDateDesc": "Data zamówienia (malej.)",
+        "byUnit": "Konto (rosn.)",
+        "byUnitDesc": "Konto (malej.)"
+      },
+      "page": {
+        "page": "Strona {{count}}",
+        "previous": "Poprzednie",
+        "next": "Następne"
+      },
+      "noOfCustomers": "{{count}} klientów",
+      "oneCustomer": "1 klient",
+      "noCustomers": "Obecnie nie ma klientów na tej liście klientów.",
+      "noLists": "Obecnie nie są dostępne żadne listy klientów. Skontaktuj się z administratorem systemu.",
+      "listsError": "Nie można pobrać listy klientów. Spróbuj ponownie później.",
+      "searchBox": "Szukaj",
+      "enterSearchBox": "Wprowadź nazwę klienta lub adres e-mail"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "Ostrzeżenie",
+        "body": "Kliknięcie \"Przełącz klienta\" zakończy emulację dla \"{{ customerA }}\" i rozpocznie dla \"{{ customerB }}\". Niezapisane zmiany dla \"{{ customerA }}\" zostaną utracone.",
+        "actions": {
+          "switch": "Przełącz klienta"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "Zapisz w celu późniejszego użycia",
+      "dialog": {
+        "saveInfo": "Zapisz koszyk przed wykonaniem kolejnych czynności.",
+        "disableInfo": "Nie można zapisać koszyka, ponieważ jest pusty.",
+        "title": "Zapisz koszyk",
+        "row": {
+          "id": "ID",
+          "qty": "Ilość",
+          "qtyFull": "Ilość",
+          "total": "Suma"
+        },
+        "actions": {
+          "save": "Zapisz w celu późniejszego użycia"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "Numer koszyka",
+      "bindCartToCustomer": "Przypisz koszyk do klienta",
+      "success": "Koszyk został przypisany",
+      "assignCartId": "Przypisz ID koszyka do klienta",
+      "enterCartId": "Wprowadź ID koszyka",
+      "resetCartId": "Resetuj",
+      "dialog": {
+        "title": "Przypisz koszyk anonimowy",
+        "body": "Czy chcesz zastąpić bieżący aktywny koszyk koszykiem anonimowym? Jeśli zastąpisz bieżący aktywny koszyk, zostanie on zapisany jako zapisany koszyk.",
+        "actions": {
+          "replace": "Zastąp koszyk"
+        }
+      }
+    },
+    "csagentTokenExpired": "Sesja agenta obsługi klienta wygasła.",
+    "endSession": "Zakończ sesję",
+    "endEmulation": "Zakończ emulację",
+    "agentSessionTimer": {
+      "label": "Przekroczenie czasu sesji",
+      "minutes": "min",
+      "reset": "Resetuj"
+    },
+    "auth": {
+      "agentLoggedInError": "Nie można zalogować się jako użytkownik, gdy aktywna jest sesja agenta CS. Emuluj użytkownika lub wyloguj agenta CS."
+    },
+    "error": {
+      "noCustomerId": "Nie znaleziono customerId dla wybranego użytkownika. Nie można rozpocząć sesji."
+    }
+  }
+}

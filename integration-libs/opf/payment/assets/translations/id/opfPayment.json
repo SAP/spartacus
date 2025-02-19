@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "Saat ini kami tidak dapat melanjutkan dengan metode pembayaran ini. Silakan coba lagi nanti atau pilih opsi pembayaran lain.",
+      "cancelPayment": "Pembayaran telah Anda batalkan. Untuk melanjutkan pemesanan, coba lagi atau pilih opsi pembayaran lain.",
+      "cardExpired": "Kartu telah kedaluwarsa.",
+      "insufficientFunds": "Dana tidak mencukupi.",
+      "invalidCreditCard": "Kartu kredit tidak valid. Silakan tinjau rincian kartu.",
+      "unknown": "Terjadi kesalahan yang tidak dikenal saat mengambil rincian pembayaran. Silakan hubungi bagian dukungan",
+      "cardReportedLost": "Kartu dilaporkan hilang."
+    }
+  }
+}

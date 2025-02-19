@@ -17,6 +17,7 @@ import { TrapFocusService } from './trap-focus.service';
     </div>
     <div id="c"></div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

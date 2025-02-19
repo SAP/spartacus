@@ -25,11 +25,13 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'cx-otp-login-form',
   templateUrl: './otp-login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OneTimePasswordLoginFormComponent {
   protected routingService = inject(RoutingService);
@@ -75,7 +77,21 @@ export class OneTimePasswordLoginFormComponent {
       .subscribe({
         next: (result: VerificationToken) =>
           this.goToVerificationTokenForm(result, verificationTokenCreation),
-        error: () => this.busy$.next(false),
+        error: (error: HttpErrorResponse) => {
+          this.routingService.go(
+            {
+              cxRoute: 'verifyToken',
+            },
+            {
+              state: {
+                loginId: verificationTokenCreation.loginId,
+                password: verificationTokenCreation.password,
+                errorStatus: error.status,
+              },
+            }
+          );
+          this.busy$.next(false);
+        },
         complete: () => this.onCreateVerificationTokenComplete(),
       });
   }

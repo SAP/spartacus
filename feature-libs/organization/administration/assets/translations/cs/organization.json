@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "Aktivní",
+    "disabled": "Deaktivováno",
+    "enable": "Aktivovat",
+    "disable": "Deaktivovat",
+    "name": "Název",
+    "code": "Kód",
+    "done": "hotovo",
+    "cancel": "Zrušit",
+    "add": "Přidat",
+    "manageUsers": "Správa uživatelů",
+    "create": "Vytvořit {{name}}",
+    "edit": "Upravit",
+    "save": "Uložit {{name}}",
+    "delete": "Vymazat",
+    "assign": "Spravovat",
+    "active": "Aktivní",
+    "status": "Status",
+    "details": "Detaily",
+    "messages": {
+      "emptyList": "Tento seznam je prázdný."
+    },
+    "userRoles": {
+      "b2bcustomergroup": "Zákazník",
+      "b2bapprovergroup": "Schvalovatel",
+      "b2bmanagergroup": "Manažer",
+      "b2badmingroup": "Správce"
+    },
+    "userRights": {
+      "unitorderviewergroup": "Zobrazit objednávky na úrovni jednotek"
+    },
+    "breadcrumb": "Organizace",
+    "notification": {
+      "noSufficientPermissions": "Pro přístup na tuto stránku nemáte dostatečné oprávnění",
+      "notExist": "Tato položka neexistuje.",
+      "disabled": "Nemůžete upravovat deaktivovanou položku"
+    },
+    "confirmation": {
+      "cancel": "ZRUŠIT",
+      "confirm": "POTVRDIT",
+      "disable": "DEAKTIVOVAT",
+      "delete": "SMAZAT"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "Rozpočet s kódem {{ code }} již existuje.",
+        "costCenter": "Nákladové středisko s kódem {{ code }} již existuje.",
+        "unit": "Organizační jednotka s UID {{ code }} již existuje.",
+        "user": "Uživatel s e-mailem {{ code }} již existuje.",
+        "userGroup": "Uživatelská skupina s ID {{ code }} již existuje.",
+        "permission": "Oprávnění ke schvalování s kódem {{ code }} již existuje.",
+        "unknown": "Chyba ověření serveru."
+      }
+    },
+    "information": "Další informace o {{title}}"
+  },
+  "orgCostCenter": {
+    "groupName": "Nákladová střediska",
+    "header": "Všechna nákladová střediska ({{count}})",
+    "code": "Kód",
+    "active": "Status",
+    "name": "Název",
+    "currency": "Měna",
+    "unit": "Nadřazená jednotka",
+    "actions": "",
+    "sortBy": "Řadit podle",
+    "sort": {
+      "byName": "Název",
+      "byUnitName": "Jednotka",
+      "byCode": "Kód"
+    },
+    "hint": "Všechny objednávky zadané prostřednictvím nákupního účtu vaší organizace jsou pro účely sledování propojeny s nákladovým střediskem. Každá jednotka může mít více nákladových středisek. K omezení výdajů se nákladovým střediskům přiřazují rozpočty. Nákupčí si ve fázi kontroly a potvrzení vybere nákladové středisko.",
+    "disable": {
+      "confirm": "Deaktivovat"
+    },
+    "messages": {
+      "deactivateTitle": "Deaktivovat nákladové středisko?",
+      "deactivate": "Deaktivovaná nákladová střediska nemohou být použita pro zadávání nových objednávek. Ujistěte se, že vaše jednotka má alespoň jedno nákladové středisko. Existující objednávky nejsou dotčeny.",
+      "confirmEnabled": "Nákladové středisko {{ item.name }} bylo úspěšně aktivováno.",
+      "confirmDisabled": "Nákladové středisko {{ item.name }} bylo úspěšně deaktivováno.",
+      "update": "Nákladové středisko {{ item.name }} bylo úspěšně aktualizováno.",
+      "create": "Nákladové středisko {{ item.name }} bylo úspěšně vytvořeno."
+    },
+    "info": {
+      "disabledEdit": "Aktivujte nákladové středisko, aby ho bylo možné upravovat.",
+      "disabledEnable": "Než bude možné aktivovat toto nákladové středisko, je třeba aktivovat jednotku."
+    },
+    "details": {
+      "title": "Detaily nákladového střediska",
+      "subtitle": "Nákladové středisko: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Upravit nákladové středisko",
+      "subtitle": "Nákladové středisko: {{ item.name }}"
+    },
+    "create": {
+      "title": "Vytvořit nákladové středisko",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "Rozpočty"
+    },
+    "breadcrumbs": {
+      "list": "Všechna nákladové střediska",
+      "details": "{{name}}",
+      "budgets": "Rozpočty"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "Správa rozpočtů.",
+    "subtitle": "Nákladové středisko: {{ item.name }}",
+    "assigned": "Rozpočet {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení rozpočtu {{ item.name }} úspěšně zrušeno"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "Přiřazené rozpočty",
+    "subtitle": "Nákladové středisko: {{ item.name }}",
+    "assigned": "Rozpočet {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení rozpočtu {{ item.name }} úspěšně zrušeno"
+  },
+  "orgBudget": {
+    "groupName": "Rozpočty",
+    "header": "Všechny rozpočty ({{count}})",
+    "code": "Kód",
+    "name": "Název",
+    "active": "Status",
+    "currency": "Měna",
+    "amount": "Částka",
+    "unit": "Jednotka",
+    "businessUnits": "Jednotka",
+    "dateRange": "Začátek – konec",
+    "startDate": "Začátek",
+    "endDate": "Konec",
+    "actions": "",
+    "sortBy": "Řadit podle",
+    "sort": {
+      "byName": "Název",
+      "byUnitName": "Jednotka",
+      "byCode": "Kód",
+      "byValue": "Hodnota"
+    },
+    "hint": "Rozpočty určují celkové limity nákupů a jsou přiřazeny nákladovým střediskům. Nákupčí si vybere nákladové středisko při kontrole a potvrzení.",
+    "details": {
+      "title": "Detaily rozpočtu",
+      "subtitle": "Rozpočet: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Upravit rozpočet",
+      "subtitle": "Rozpočet: {{ item.name }}"
+    },
+    "create": {
+      "title": "Vytvořit rozpočet",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Deaktivovat tento rozpočet?",
+      "deactivate": "Deaktivované rozpočty se již nevztahují na nákladová střediska, ke kterým byly přiřazeny. Ujistěte se, že přiřazené nákladové středisko má alespoň jeden rozpočet.",
+      "confirmEnabled": "Rozpočet {{ item.name }} úspěšně aktivován",
+      "confirmDisabled": "Rozpočet {{ item.name }} úspěšně deaktivován",
+      "update": "Rozpočet {{ item.name }} úspěšně aktualizován",
+      "create": "Rozpočet {{ item.name }} úspěšně vytvořen"
+    },
+    "info": {
+      "disabledEdit": "Aktivujte rozpočet, aby ho bylo možné upravovat.",
+      "disabledEnable": "Než bude možné aktivovat tento rozpočet, je třeba aktivovat jednotku."
+    },
+    "links": {
+      "costCenters": "Nákladová střediska"
+    },
+    "breadcrumbs": {
+      "list": "Všechny rozpočty",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "Nákladová střediska",
+    "subtitle": "Rozpočet: {{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "Jednotky",
+    "header": "Všechny jednotky ({{count}})",
+    "unit": "Jednotka",
+    "name": "Název",
+    "uid": "ID",
+    "approvalProcess": "Proces schvalování",
+    "parentUnit": "Nadřazená jednotka",
+    "active": "Status",
+    "hint": "Jednotky představují oddělení, prodejny, regiony nebo jakékoli další logická uskupení, která vám dávají smysl. Nákladová střediska a dodací adresy, které má nákupčí k dispozici při kontrole a potvrzení, závisí na jeho jednotce. Uživatelé mají přístup ke všem podřízeným jednotkám své primární jednotky.",
+    "details": {
+      "title": "Detaily jednotky",
+      "subtitle": "Jednotka: {{ item.name }}",
+      "hint": "Jednotky představují oddělení, prodejny, regiony nebo jakékoli další logická uskupení, která vám dávají smysl. Když deaktivujete jednotku, deaktivujete tím všechny její podřízené elementy včetně podřízených jednotek, uživatelů, schvalovatelů a nákladových středisek. Deaktivované jednotky nelze upravovat."
+    },
+    "edit": {
+      "title": "Upravit jednotku",
+      "subtitle": "Jednotka: {{ item.name }}"
+    },
+    "create": {
+      "title": "Vytvořit jednotku",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Deaktivovat tuto jednotku?",
+      "deactivate": "Deaktivace jednotky má rozsáhlý vliv na celou vaši obchodní organizaci. VŠECHNY podřízené jednotky, uživatelé, rozpočty a nákladová střediska budou rovněž deaktivována.",
+      "confirmEnabled": "Jednotka {{ item.name }} úspěšně aktivována",
+      "confirmDisabled": "Jednotka {{ item.name }} úspěšně deaktivována",
+      "update": "Jednotka {{ item.name }} úspěšně aktualizována",
+      "create": "Jednotka {{ item.name }} úspěšně vytvořena"
+    },
+    "info": {
+      "disabledEdit": "Aktivujte jednotku, aby ji bylo možné upravovat.",
+      "disabledEnable": "Než bude možné aktivovat tuto jednotku, je třeba aktivovat její nadřazenou jednotku.",
+      "disabledDisable": "Kořenovou jednotku nelze deaktivovat."
+    },
+    "links": {
+      "units": "Podřízené jednotky",
+      "users": "Uživatelé",
+      "approvers": "Schvalovatelé",
+      "shippingAddresses": "Dodací adresy",
+      "costCenters": "Nákladová střediska"
+    },
+    "tree": {
+      "expandAll": "Rozbalit vše",
+      "collapseAll": "Sbalit vše",
+      "expand": "Rozbalit",
+      "collapse": "Sbalit",
+      "explore": "Prozkoumat podjednotky"
+    },
+    "children": {
+      "create": {
+        "title": "Vytvořit podřízenou jednotku",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "Jednotka {{ item.name }} úspěšně vytvořena"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "Vytvořit nákladové středisko",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "Nadřazená obchodní jednotka",
+      "create": "Vytvořit jednotku",
+      "parentOrgUnitNotes": "Tato jednotka je ve vaší organizaci jednotkou nejvyšší úrovně. Nelze ji přiřadit jiné jednotce."
+    },
+    "users": {
+      "header": "Uživatelé v {{code}}",
+      "changeUserRoles": "Změnit role uživatelů",
+      "newUser": "Nový uživatel"
+    },
+    "assignRoles": {
+      "header": "Spravovat role v {{code}}",
+      "instructions": {
+        "check": "Chcete-li uživateli přiřadit roli, zaškrtněte příslušné pole dané role.",
+        "uncheck": "Chcete-li uživateli odebrat roli, zrušte zaškrtnutí příslušného pole.",
+        "changes": "Změny se ukládají automaticky."
+      }
+    },
+    "approvers": {
+      "header": "Schvalovatelé v {{code}}",
+      "assign": "Správa schvalovatelů",
+      "new": "Nový schvalovatel"
+    },
+    "assignApprovers": {
+      "header": "Spravovat schvalovatele v {{code}}",
+      "instructions": {
+        "check": "Chcete-li této jednotce přiřadit schvalovatele, zaškrtněte u něj příslušné pole.",
+        "uncheck": "Chcete-li odebrat schvalovatele, zrušte zaškrtnutí příslušného pole.",
+        "changes": "Změny se ukládají automaticky."
+      },
+      "hint": "Uživatelé uvedení v seznamu Schvalovatelé mají přidělena práva schvalovat nákupčí dané jednotky a podřízených jednotek. Vezměte na vědomí, že uživatel s rolí schvalovatele není totéž jako schvalovatel uvedený v seznamu Schvalovatelé. Pokud pro jednotku neexistuje schvalovatel nebo pokud schvalovatelé nemají dostatečná práva ke schválení nákupu, hledá se schvalovatel výše v hierarchii jednotek, až je vybrán správce."
+    },
+    "breadcrumbs": {
+      "list": "Všechny jednotky",
+      "details": "{{name}}",
+      "children": "Podřízené jednotky",
+      "users": "Uživatelé",
+      "approvers": "Schvalovatelé",
+      "addresses": "Dodací adresy",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "Nákladová střediska"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "Podřízené jednotky",
+    "subtitle": "Jednotka: {{ item.name }}",
+    "info": {
+      "disabledCreate": "K deaktivovaným jednotkám nelze vytvářet podřízené jednotky."
+    },
+    "hint": "Jednotky představují oddělení, prodejny, regiony nebo jakékoli další logická uskupení, která vám dávají smysl. Uživatelé „dědí“ podřízené jednotky. To znamená, že nákupčí mají při kontrole a potvrzení přístup do nákladových středisek a k dodacím adresám podřízených jednotek."
+  },
+  "orgUnitApprovers": {
+    "title": "Správa schvalovatelů",
+    "subtitle": "Jednotka: {{ item.name }}",
+    "assigned": "Uživatel {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení uživatele {{ item.name }} úspěšně zrušeno"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "Přiřazení schvalovatelé",
+    "subtitle": "Jednotka: {{ item.name }}",
+    "assigned": "Uživatel {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení uživatele {{ item.name }} úspěšně zrušeno",
+    "hint": "Uživatelé uvedení v seznamu Schvalovatelé mají přidělena práva schvalovat nákupčí dané jednotky a podřízených jednotek. Vezměte na vědomí, že uživatel s rolí schvalovatele není totéž jako schvalovatel uvedený v seznamu Schvalovatelé. Pokud pro jednotku neexistuje schvalovatel nebo pokud schvalovatelé nemají dostatečná práva ke schválení nákupu, hledá se schvalovatel výše v hierarchii jednotek, až je vybrán správce."
+  },
+  "orgUnitAssignedRoles": {
+    "header": "Spravovat role v {{code}}",
+    "name": "Název",
+    "email": "E-mail",
+    "roles": "Role",
+    "roleCustomer": "Zákazník",
+    "roleApprover": "Schvalovatel",
+    "roleManager": "Manažer",
+    "roleAdministrator": "Správce"
+  },
+  "orgUnitUsers": {
+    "title": "Přiřazení uživatelé",
+    "subtitle": "Jednotka: {{ item.name }}",
+    "info": {
+      "disabledCreate": "K deaktivovaným jednotkám nelze vytvářet uživatele."
+    },
+    "hint": "Uživatelé jsou nákupčí, schvalovatelé, manažeři a správci vaší organizace. Každému uživateli je přiřazena role k provádění nebo schvalování nákupů. Uživatelé „dědí“ podřízené jednotky, což znamená, že nákupčí mají při kontrole a potvrzení přístup k nákladovým střediskům a dodacím adresám podřízených jednotek."
+  },
+  "orgUnitUserRoles": {
+    "title": "Role a práva uživatelů",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "messages": {
+      "rolesUpdated": "Role {{item.name}} byly úspěšně aktualizovány"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "Přiřazení uživatelé",
+    "subtitle": "Jednotka: {{ item.name }}"
+  },
+  "orgUnitCostCenters": {
+    "title": "Přiřazená nákladová střediska",
+    "subtitle": "Jednotka: {{ item.name }}",
+    "info": {
+      "disabledCreate": "K deaktivovaným jednotkám nelze vytvářet nákladová střediska."
+    },
+    "hint": "Veškeré objednávky podané prostřednictvím nákupního účtu vaší organizace jsou pro účely sledování propojeny s nákladovým střediskem. Nákupčí si zvolí nákladové středisko ve fázi kontroly a potvrzení při použití metody nákupu „Účet“. Každá jednotka může mít více nákladových středisek, ale konkrétní nákladové středisko smí být přiřazeno pouze jedné jednotce. Nákladovým střediskům se přiřazují rozpočty, které definují limit maximálních výdajů. "
+  },
+  "orgUnitAddress": {
+    "title": "Dodací adresy",
+    "subtitle": "Jednotka: {{ item.name }}",
+    "country": "Země/region",
+    "titles": "Oslovení",
+    "firstName": "Křestní jméno",
+    "lastName": "Příjmení",
+    "formattedAddress": "Adresa",
+    "address1": "Adresa",
+    "address2": "2. adresa (volitelná)",
+    "city": "Město",
+    "state": "Stát",
+    "zipCode": "PSČ",
+    "phoneNumber": "Telefonní číslo (volitelné)",
+    "streetAddress": "Ulice",
+    "aptSuite": "Číslo bytu",
+    "selectOne": "Vyberte jedno…",
+    "hint": "Když nákupčí finalizuje objednávku ve fázi kontrola a potvrzení prostřednictvím metody nákupu „Účet“, musí vybrat nákladové středisko. Dodací adresy, které má nákupčí k dispozici, závisejí na jednotce zvoleného nákladového střediska.",
+    "details": {
+      "title": "Detaily adresy",
+      "subtitle": "Jednotka: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Upravit adresu"
+    },
+    "create": {
+      "title": "Vytvořit adresu"
+    },
+    "form": {
+      "subtitle": "Jednotka: {{ item.name }}"
+    },
+    "messages": {
+      "create": "Adresa {{ item.firstName }} {{ item.lastName }} úspěšně vytvořena",
+      "update": "Adresa {{ item.firstName }} {{ item.lastName }} úspěšně aktualizována",
+      "delete": "Adresu nelze vrátit. Existující objednávky nebudou dotčeny.",
+      "deleteTitle": "Odstranit tuto adresu?",
+      "deleted": "Adresa {{ item.firstName }} {{ item.lastName }} úspěšně odstraněna"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "Skupiny uživatelů",
+    "header": "Všechny skupiny uživatelů: ({{count}})",
+    "disabled": "(deaktivováno)",
+    "uid": "Kód",
+    "name": "Název",
+    "unit": "Jednotka",
+    "orgUnit": "Jednotka",
+    "actions": "",
+    "sortBy": "Řadit podle",
+    "sort": {
+      "byName": "Název",
+      "byUnitName": "Jednotka",
+      "byGroupID": "Skupina"
+    },
+    "hint": "Skupiny uživatelů umožňují sdružit uživatele do skupin a následně nastavovat více uživatelům limity nákupu najednou.",
+    "details": {
+      "title": "Detaily skupiny uživatelů",
+      "subtitle": "Skupina uživatelů: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Upravit skupinu uživatelů",
+      "subtitle": "Skupina uživatelů: {{ item.name }}"
+    },
+    "create": {
+      "title": "Vytvořit skupinu uživatelů",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "Uživatelé",
+      "permission": "Limity nákupu"
+    },
+    "messages": {
+      "update": "Skupina uživatelů {{ item.name }} úspěšně aktualizována",
+      "create": "Skupina uživatelů {{ item.name }} úspěšně vytvořena",
+      "deleteTitle": "Odstranit skupinu uživatelů?",
+      "delete": "Uživatelů v této skupině se nijak nedotkne, když bude skupina odstraněna.",
+      "deleted": "Skupina uživatelů {{ item.name }} úspěšně odstraněna"
+    },
+    "breadcrumbs": {
+      "list": "Všechny skupiny uživatelů",
+      "details": "{{name}}",
+      "users": "Uživatelé",
+      "permissions": "Limity nákupu"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "Správa uživatelů",
+    "subtitle": "Skupina uživatelů: {{ item.name }}",
+    "assigned": "Uživatel {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení uživatele {{ item.name }} úspěšně zrušeno",
+    "unassignAll": "Zrušit přiřazení všech",
+    "unassignAllConfirmation": "Přiřazení všech uživatelů úspěšně zrušeno"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "Přiřazení uživatelé",
+    "subtitle": "Skupina uživatelů: {{ item.name }}",
+    "assigned": "Uživatel {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení uživatele {{ item.name }} úspěšně zrušeno"
+  },
+  "orgUserGroupPermissions": {
+    "title": "Správa limitů nákupu",
+    "subtitle": "Limit: {{ item.name }}",
+    "assigned": "Limity nákupu {{item.code}} úspěšně přiřazeny",
+    "unassigned": "Přiřazení limitů nákupu {{item.code}} úspěšně zrušeno"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "Přiřazené limity nákupu",
+    "subtitle": "Limit: {{ item.name }}",
+    "assigned": "Limity nákupu {{item.code}} úspěšně přiřazeny",
+    "unassigned": "Přiřazení limitů nákupu {{item.code}} úspěšně zrušeno"
+  },
+  "orgUser": {
+    "groupName": "Uživatelé",
+    "header": "Všichni uživatelé ({{count}})",
+    "disabled": "(deaktivováno)",
+    "uid": "E-mail",
+    "active": "Status",
+    "name": "Název",
+    "firstName": "Křestní jméno",
+    "lastName": "Příjmení",
+    "email": "E-mail",
+    "orgUnit": "Jednotka",
+    "unit": "Jednotka",
+    "roles": "Role",
+    "rights": "Práva",
+    "title": "Oslovení",
+    "hint": "Uživatelé jsou nákupčí, schvalovatelé, manažeři a správci vaší organizace. Každému uživateli je přiřazena role k provádění nebo schvalování nákupů. Každý uživatel je přiřazen konkrétní jednotce a má přístup ke všem podřízeným jednotkám dané primární jednotky.",
+    "unitApprover": "Schvalovatel jednotky",
+    "assignApprover": "Přidat uživatele mezi schvalovatele jednotky",
+    "actions": "",
+    "sortBy": "Řadit podle",
+    "sort": {
+      "byName": "Název",
+      "byUnit": "Jednotka"
+    },
+    "details": {
+      "title": "Detaily uživatele",
+      "subtitle": "Uživatel: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Upravit uživatele",
+      "subtitle": "Uživatel: {{ item.name }}"
+    },
+    "create": {
+      "title": "Vytvořit uživatele",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "Změnit heslo",
+      "approvers": "Schvalovatelé",
+      "userGroup": "Uživatelské skupiny",
+      "permission": "Limity nákupu",
+      "rolesAndRights": "Role a práva"
+    },
+    "messages": {
+      "deactivateTitle": "Deaktivovat tohoto uživatele?",
+      "deactivate": "Deaktivovaní uživatelé se nemohou přihlásit na storefront a zadávat objednávky.",
+      "confirmEnabled": "Uživatel {{ item.firstName }} {{ item.lastName }} úspěšně aktivován",
+      "confirmDisabled": "Uživatel {{ item.firstName }} {{ item.lastName }} úspěšně deaktivován",
+      "update": "Uživatel {{ item.firstName }} {{ item.lastName }} úspěšně aktualizován",
+      "create": "Uživatel {{ item.firstName }} {{ item.lastName }} úspěšně vytvořen",
+      "updatePassword": "Heslo uživatele {{item.firstName}} {{item.lastName}} úspěšně aktualizováno"
+    },
+    "info": {
+      "disabledEdit": "Aktivujte uživatele, aby ho bylo možné upravovat.",
+      "disabledEnable": "Než bude možné aktivovat tohoto uživatele, je třeba aktivovat jednotku."
+    },
+    "approver": {
+      "link": "Schvalovatelé",
+      "header": "Schvalovatelé v {{code}}",
+      "assign": "Přiřadit schvalovatele",
+      "assignHeader": "Přiřadit schvalovatele {{code}}",
+      "back": "Zpět",
+      "new": "Nový schvalovatel",
+      "instructions": {
+        "check": "Chcete-li tomuto uživateli přiřadit schvalovatele, zaškrtněte u něj příslušné pole.",
+        "uncheck": "Chcete-li odebrat schvalovatele, zrušte zaškrtnutí příslušného pole.",
+        "changes": "Změny se ukládají automaticky."
+      }
+    },
+    "userGroup": {
+      "link": "Skupiny uživatelů",
+      "header": "Skupiny uživatelů v {{code}}",
+      "assign": "Přiřadit skupiny uživatelů",
+      "assignHeader": "Přiřadit skupiny uživatelů v {{code}}",
+      "back": "Zpět",
+      "instructions": {
+        "check": "Chcete-li tomuto uživateli přiřadit skupinu, zaškrtněte u něj příslušné pole.",
+        "uncheck": "Chcete-li odebrat skupinu uživatelů, zrušte zaškrtnutí příslušného pole.",
+        "changes": "Změny se ukládají automaticky."
+      }
+    },
+    "permission": {
+      "link": "Limity nákupu",
+      "header": "Limity nákupu v {{code}}",
+      "assign": "Přiřadit limity nákupu",
+      "assignHeader": "Přiřadit limity nákupu v {{code}}",
+      "back": "Zpět",
+      "instructions": {
+        "check": "Chcete-li přiřadit tomuto uživateli limity nákupu, zaškrtněte u něj příslušné pole.",
+        "uncheck": "Chcete-li odebrat limity nákupu, zrušte zaškrtnutí příslušného pole.",
+        "changes": "Změny se ukládají automaticky."
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "za měsíc",
+        "YEAR": "za rok",
+        "WEEK": "za týden",
+        "QUARTER": "za čtvrletí"
+      }
+    },
+    "password": {
+      "title": "Změnit heslo",
+      "subtitle": "Uživatel: {{ item.name }}",
+      "newPassword": "Nové heslo",
+      "confirmPassword": "Napište nové heslo znovu"
+    },
+    "breadcrumbs": {
+      "list": "Všichni uživatelé",
+      "details": "{{name}}",
+      "userGroups": "Skupiny uživatelů",
+      "approvers": "Schvalovatelé",
+      "permissions": "Limity nákupu"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "Správa skupin uživatelů",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "assigned": "Skupina uživatelů {{ item.name }} úspěšně přiřazena",
+    "unassigned": "Přiřazení skupiny uživatelů {{item.name}} úspěšně zrušeno"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "Přiřazené skupiny uživatelů",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "assigned": "Skupina uživatelů {{ item.name }} úspěšně přiřazena",
+    "unassigned": "Přiřazení skupiny uživatelů {{item.name}} úspěšně zrušeno"
+  },
+  "orgUserApprovers": {
+    "title": "Správa schvalovatelů",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "assigned": "Schvalovatel {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení schvalovatele {{ item.name }} úspěšně zrušeno"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "Přiřazení schvalovatelé",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "assigned": "Schvalovatel {{ item.name }} úspěšně přiřazen",
+    "unassigned": "Přiřazení schvalovatele {{ item.name }} úspěšně zrušeno"
+  },
+  "orgUserPermissions": {
+    "title": "Správa limitů nákupu",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "assigned": "Limity nákupu {{item.code}} úspěšně přiřazeny",
+    "unassigned": "Přiřazení limitů nákupu {{item.code}} úspěšně zrušeno"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "Přiřazené limity nákupu",
+    "subtitle": "Uživatel: {{ item.name }}",
+    "assigned": "Limity nákupu {{item.code}} úspěšně přiřazeny",
+    "unassigned": "Přiřazení limitů nákupu {{item.code}} úspěšně zrušeno"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "Limity nákupu",
+    "header": "Všechny limity nákupu ({{count}})",
+    "name": "Název",
+    "code": "Kód",
+    "active": "Status",
+    "limit": "Limit",
+    "orderApprovalPermissionType": "Typ",
+    "threshold": "Práh",
+    "periodRange": "Období",
+    "currency": "Měna",
+    "orgUnit": "Nadřazená jednotka",
+    "unit": "Nadřazená jednotka",
+    "actions": "",
+    "hint": "Limity nákupu pomáhají kontrolovat výdaje stanovením, kolik mohou nákupčí utratit za jednu objednávku nebo za týden, měsíc, čtvrtletí či rok. Nákupní limity se přiřazují uživatelům nebo skupinám uživatelů. Nákupní limity se přidělují také schvalovatelům a určují, do jaké výše mohou nákupy schvalovat. Pomocí skupin uživatelů můžete limity nákupu přiřadit mnoha uživatelům najednou.",
+    "details": {
+      "title": "Detaily limitu nákupu",
+      "subtitle": "Limit nákupu: {{ item.code }}"
+    },
+    "edit": {
+      "title": "Upravit limit nákupu",
+      "subtitle": "Limity nákupu: {{ item.code }}"
+    },
+    "create": {
+      "title": "Vytvořit limit nákupu",
+      "subtitle": ""
+    },
+    "sortBy": "Řadit podle",
+    "sort": {
+      "byName": "Název",
+      "byUnitName": "Jednotka"
+    },
+    "messages": {
+      "deactivateTitle": "Deaktivovat tento limit nákupu?",
+      "deactivate": "Deaktivované limity nákupu již nelze dále přiřazovat uživatelům ani skupinám uživatelů. Na stávající přiřazení to nebude mít vliv.",
+      "confirmEnabled": "Limity nákupu {{item.code}} úspěšně aktivovány",
+      "confirmDisabled": "Limity nákupu {{item.code}} úspěšně deaktivovány",
+      "update": "Limity nákupu {{item.code}} úspěšně aktualizovány",
+      "create": "Limity nákupu {{item.code}} úspěšně vytvořeny"
+    },
+    "info": {
+      "disabledEdit": "Aktivujte limit nákupu, aby jej bylo možné upravovat.",
+      "disabledEnable": "Než bude možné aktivovat tento limit nákupu, je třeba aktivovat jednotku."
+    },
+    "per": {
+      "DAY": "za den",
+      "WEEK": "za týden",
+      "MONTH": "za měsíc",
+      "QUARTER": "za čtvrtletí",
+      "YEAR": "za rok"
+    },
+    "breadcrumbs": {
+      "list": "Všechny limity nákupu",
+      "details": "{{code}}"
+    }
+  }
+}

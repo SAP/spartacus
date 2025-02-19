@@ -8,8 +8,11 @@ import { NgModule } from '@angular/core';
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  cdcTranslations,
   cdcTranslationChunksConfig,
+  cdcTranslationsEn,
+  cdcTranslationsJa,
+  cdcTranslationsDe,
+  cdcTranslationsZh,
 } from '@spartacus/cdc/assets';
 @NgModule({
   imports: [CdcRootModule],
@@ -37,7 +40,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: cdcTranslations,
+        resources: {
+          en: cdcTranslationsEn,
+          ja: cdcTranslationsJa,
+          de: cdcTranslationsDe,
+          zh: cdcTranslationsZh,
+        },
         chunks: cdcTranslationChunksConfig,
         fallbackLang: 'en',
       },

@@ -1,7 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -23,6 +23,7 @@ import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -30,6 +31,7 @@ class MockTranslatePipe implements PipeTransform {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -117,15 +119,20 @@ function initialize(router: ConfiguratorRouter.Data) {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: any;
 }
 
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
+
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule, RouterTestingModule],
+      imports: [RouterModule],
       declarations: [
         ConfiguratorOverviewNotificationBannerComponent,
         MockTranslatePipe,
@@ -133,6 +140,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfigRouterExtractorService,

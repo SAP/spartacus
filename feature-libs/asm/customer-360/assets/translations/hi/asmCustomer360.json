@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "यह जानकारी लोड नहीं की जा सकती. कृपया बाद में कोशिश करें या अपने सिस्टम व्यवस्थापक से संपर्क करें.",
+    "errorMessageHeader": "ओह! कुछ गलत हुआ है.",
+    "applyActionAlter": "कार्रवाई पूर्ण नहीं की जा सकी. कृपया फिर से कोशिश करें.",
+    "header": {
+      "title": "ग्राहक प्रोफाइल",
+      "newTitle": "ग्राहक 360°",
+      "subTitle": "{{name}} ग्राहक 360° दृश्य",
+      "newSubTitle": "{{name}} 360 दृश्य",
+      "activeCartLabel": "{{cartSize}} आइटम कार्ट में जोड़ा गया",
+      "recentOrderLabel": "अंतिम ऑर्डर {{price}}",
+      "recentTicketLabel": "अंतिम टिकट",
+      "signedUpAt": "{{date}} पर खाता बनाया गया"
+    },
+    "productListing": {
+      "totalNoItems": "आइटम की कुल संख्या {{count}}",
+      "totalPrice": "कुल मूल्यः {{price}}",
+      "showMore": "अधिक दिखाएं",
+      "showLess": "कम दिखाएं"
+    },
+    "productItem": {
+      "outOfStock": "स्टॉक में नहीं है",
+      "quantity": "मात्राः {{count}}",
+      "itemPrice": "आइटम मूल्यः {{price}}"
+    },
+    "activeCart": {
+      "header": "सक्रिय कार्ट",
+      "emptyDescription": "वर्तमान में कोई सक्रिय कार्ट आइटम नहीं है",
+      "aria": {
+        "linkLabel": "सक्रिय कार्ट {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "अंतिम सहेजा हुआ कार्ट",
+      "emptyDescription": "वर्तमान में कोई सहेजा हुआ कार्ट आइटम नहीं है",
+      "aria": {
+        "linkLabel": "अंतिम सहेजा हुआ कार्ट {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "ब्याज",
+      "emptyDescription": "वर्तमान में कोई ब्याज आइटम नहीं हैं"
+    },
+    "profile": {
+      "address": "पता",
+      "billingAddress": "बिलिंग पता",
+      "deliveryAddress": "वितरण का पता",
+      "phone1": "फ़ोन 1",
+      "phone2": "फ़ोन 2",
+      "paymentMethodHeader": "सहेजी गई भुगतान विधियां"
+    },
+    "activity": {
+      "type": "प्रकार",
+      "id": "Id",
+      "description": "वर्णन",
+      "status": "स्थिति",
+      "created": "बनाया गया",
+      "updated": "अपडेट किया गया",
+      "numberOfCartItems": "{{count}} आइटम सहित कार्ट",
+      "cart": "कार्ट",
+      "order": "ऑर्डर",
+      "savedCart": "सहेजे गए कार्ट",
+      "emptyStateText": "वर्तमान में कोई रिकॉर्ड की गई ग्राहक गतिविधि नहीं है",
+      "headerText": "सामान्य"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "आइटम",
+        "dateAndStatus": "दिनांक / स्थिति",
+        "rating": "रेटिंग",
+        "review": "समीक्षा"
+      },
+      "header": "उत्पाद समीक्षाएं",
+      "emptyDescription": "वर्तमान में कोई उत्पाद समीक्षा आइटम नहीं है",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "शीर्षक",
+        "category": "श्रेणी"
+      },
+      "header": "सहायता टिकट",
+      "emptyDescription": "वर्तमान में कोई समर्थन टिकट नहीं है"
+    },
+    "coupons": {
+      "headerText": "कूपन",
+      "emptyDescription": "वर्तमान में कोई कूपन नहीं हैं",
+      "applyButtonText": "कार्ट पर लागू करें",
+      "applied": "कूपन लागू किया गया",
+      "removeButtonText": "निकालें"
+    },
+    "promotions": {
+      "headerText": "प्रचार",
+      "emptyDescription": "वर्तमान में कोई प्रचार नहीं है",
+      "applied": "प्रचार लागू किया गया",
+      "headerName": "नाम",
+      "headerAction": "कार्रवाई"
+    },
+    "customerCoupons": {
+      "headerText": "ग्राहक कूपन",
+      "emptyDescription": "वर्तमान में कोई ग्राहक कूपन नहीं हैं",
+      "applyButtonText": "ग्राहक को असाइन करें",
+      "removeButtonText": "निकालें",
+      "availableTab": "उपलब्ध",
+      "sentTab": "प्रेषित",
+      "searchBox": "कूपन"
+    },
+    "maps": {
+      "storeClosed": "बंद करें",
+      "storesFound": "{{ total }} से {{ initial }} - {{ end }} स्टोर मिले"
+    },
+    "overviewTab": "ओवरव्यू",
+    "profileTab": "प्रोफाइल",
+    "activityTab": "गतिविधि",
+    "feedbackTab": "फ़ीडबैक",
+    "promotionsTab": "प्रचार",
+    "mapsTab": "मैप",
+    "storeLocationsTab": "स्टोर स्थान",
+    "aria": {
+      "activeCartCode": "सक्रिय कार्ट {{code}}",
+      "recentOrderCode": "अंतिम ऑर्डर {{code}}"
+    },
+    "pagination": "पृष्ठांकन",
+    "page": "पृष्ठ {{number}}",
+    "emptyCellValue": "---"
+  }
+}

@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "活动",
+    "disabled": "已禁用",
+    "enable": "启用",
+    "disable": "禁用",
+    "name": "名称",
+    "code": "代码",
+    "done": "完成",
+    "cancel": "取消",
+    "add": "添加",
+    "manageUsers": "管理用户",
+    "create": "创建 {{name}}",
+    "edit": "编辑",
+    "save": "保存 {{name}}",
+    "delete": "删除",
+    "assign": "管理",
+    "active": "活动",
+    "status": "状态",
+    "details": "详细信息",
+    "messages": {
+      "emptyList": "此列表为空"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "客户",
+      "b2bapprovergroup": "批准人",
+      "b2bmanagergroup": "经理",
+      "b2badmingroup": "管理员"
+    },
+    "userRights": {
+      "unitorderviewergroup": "查看单位级别订单"
+    },
+    "breadcrumb": "组织",
+    "notification": {
+      "noSufficientPermissions": "权限不足，无法访问此页面",
+      "notExist": "此项目不存在",
+      "disabled": "您无法编辑禁用的项目"
+    },
+    "confirmation": {
+      "cancel": "取消",
+      "confirm": "确认",
+      "disable": "禁用",
+      "delete": "删除"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "代码为 {{ code }} 的预算已存在。",
+        "costCenter": "代码为 {{ code }} 的成本中心已存在。",
+        "unit": "uid 为 {{ code }} 的组织单位已存在。",
+        "user": "电子邮件为 {{ code }} 的用户已存在",
+        "userGroup": "标识为 {{ code }} 的用户组已存在",
+        "permission": "代码为 {{ code }} 的审批权限已存在。",
+        "unknown": "服务器验证错误。"
+      }
+    },
+    "information": "关于 {{title}} 的更多信息"
+  },
+  "orgCostCenter": {
+    "groupName": "成本中心",
+    "header": "所有成本中心 ({{count}})",
+    "code": "代码",
+    "active": "状态",
+    "name": "名称",
+    "currency": "货币",
+    "unit": "父单位",
+    "actions": "",
+    "sortBy": "排序依据",
+    "sort": {
+      "byName": "名称",
+      "byUnitName": "单位",
+      "byCode": "代码"
+    },
+    "hint": "通过贵组织的采购账户下达的所有订单都与成本中心相关联，以便进行跟踪。每个单位可以有多个成本中心。为了限制开支，预算被分配给成本中心。采购商在结账时选择成本中心。",
+    "disable": {
+      "confirm": "禁用"
+    },
+    "messages": {
+      "deactivateTitle": "禁用此成本中心？",
+      "deactivate": "已禁用的成本中心不能用于下新订单。请确保您的单位至少有一个成本中心。现有订单不受影响。",
+      "confirmEnabled": "已成功启用成本中心 {{ item.name }}",
+      "confirmDisabled": "已成功禁用成本中心 {{ item.name }}",
+      "update": "已成功更新成本中心 {{ item.name }}",
+      "create": "已成功创建成本中心 {{ item.name }}"
+    },
+    "info": {
+      "disabledEdit": "启用成本中心以允许编辑。",
+      "disabledEnable": "必须先启用单位，然后才能启用此成本中心。"
+    },
+    "details": {
+      "title": "成本中心详细信息",
+      "subtitle": "成本中心：{{ item.name }}"
+    },
+    "edit": {
+      "title": "编辑成本中心",
+      "subtitle": "成本中心：{{ item.name }}"
+    },
+    "create": {
+      "title": "创建成本中心",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "预算"
+    },
+    "breadcrumbs": {
+      "list": "所有成本中心",
+      "details": "{{name}}",
+      "budgets": "预算"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "管理预算",
+    "subtitle": "成本中心：{{ item.name }}",
+    "assigned": "已成功分配预算 {{ item.name }}",
+    "unassigned": "已成功取消分配预算 {{ item.name }} "
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "已分配预算",
+    "subtitle": "成本中心：{{ item.name }}",
+    "assigned": "已成功分配预算 {{ item.name }}",
+    "unassigned": "已成功取消分配预算 {{ item.name }} "
+  },
+  "orgBudget": {
+    "groupName": "预算",
+    "header": "所有预算 ({{count}})",
+    "code": "代码",
+    "name": "名称",
+    "active": "状态",
+    "currency": "货币",
+    "amount": "金额",
+    "unit": "单位",
+    "businessUnits": "单位",
+    "dateRange": "开始 - 结束",
+    "startDate": "开始",
+    "endDate": "结束",
+    "actions": "",
+    "sortBy": "排序依据",
+    "sort": {
+      "byName": "名称",
+      "byUnitName": "单位",
+      "byCode": "代码",
+      "byValue": "值"
+    },
+    "hint": "预算设置了总体购买限额并分配给成本中心。采购商在结账时选择成本中心。",
+    "details": {
+      "title": "预算详细信息",
+      "subtitle": "预算：{{ item.name }}"
+    },
+    "edit": {
+      "title": "编辑预算",
+      "subtitle": "预算：{{ item.name }}"
+    },
+    "create": {
+      "title": "创建预算",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "禁用此预算？",
+      "deactivate": "已禁用的预算不再适用于其分配到的成本中心。请确保相关联成本中心至少有一个预算。",
+      "confirmEnabled": "已成功启用预算 {{ item.name }} ",
+      "confirmDisabled": "已成功禁用预算 {{ item.name }} ",
+      "update": "已成功更新预算 {{ item.name }} ",
+      "create": "已成功创建预算 {{ item.name }} "
+    },
+    "info": {
+      "disabledEdit": "启用预算以允许编辑。",
+      "disabledEnable": "必须先启用单位，然后才能启用此预算。"
+    },
+    "links": {
+      "costCenters": "成本中心"
+    },
+    "breadcrumbs": {
+      "list": "所有预算",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "成本中心",
+    "subtitle": "预算：{{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "单位",
+    "header": "所有单位 ({{count}})",
+    "unit": "单位",
+    "name": "名称",
+    "uid": "标识",
+    "approvalProcess": "审批流程",
+    "parentUnit": "父单位",
+    "active": "状态",
+    "hint": "单位代表部门、商店、地区或任何其他对您有意义的逻辑分组。采购商结账时可用的成本中心和送货地址取决于其单位。用户可以访问其主要单位的所有子单位。",
+    "details": {
+      "title": "单位详细信息",
+      "subtitle": "单位：{{ item.name }}",
+      "hint": "单位代表部门、商店、地区或任何其他对您有意义的逻辑分组。禁用某个单位会禁用该单位的所有子单位，包括子单位、用户、审批人和成本中心。已禁用的单位无法编辑。"
+    },
+    "edit": {
+      "title": "编辑单位",
+      "subtitle": "单位：{{ item.name }}"
+    },
+    "create": {
+      "title": "创建单位",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "禁用此单位？",
+      "deactivate": "禁用某个单位会对您的商业组织产生广泛影响。此单位的所有子单位、用户、预算和成本中心也将禁用。",
+      "confirmEnabled": "已成功启用单位 {{item.name}}",
+      "confirmDisabled": "已成功禁用预算 {{ item.name }} ",
+      "update": "已成功更新单位 {{ item.name }} ",
+      "create": "已成功创建单位 {{ item.name }} "
+    },
+    "info": {
+      "disabledEdit": "启用单位以允许编辑。",
+      "disabledEnable": "必须先启用父项，然后才能启用此单位。",
+      "disabledDisable": "无法禁用根单位。"
+    },
+    "links": {
+      "units": "子单位",
+      "users": "用户",
+      "approvers": "批准人",
+      "shippingAddresses": "送货地址",
+      "costCenters": "成本中心"
+    },
+    "tree": {
+      "expandAll": "全部展开",
+      "collapseAll": "全部折叠",
+      "expand": "展开",
+      "collapse": "折叠",
+      "explore": "浏览子单位"
+    },
+    "children": {
+      "create": {
+        "title": "创建子单位",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "已成功创建单位 {{ item.name }} "
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "创建成本中心",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "父业务单位",
+      "create": "创建单位",
+      "parentOrgUnitNotes": "此单位是贵组织的顶级单位。无法将其分配给其他单位。"
+    },
+    "users": {
+      "header": "{{code}} 中的用户",
+      "changeUserRoles": "更改用户角色",
+      "newUser": "新用户"
+    },
+    "assignRoles": {
+      "header": "管理 {{code}} 中的角色",
+      "instructions": {
+        "check": "要将角色分配给此用户，请选中角色的复选框。",
+        "uncheck": "要移除角色，请清除角色的复选框。",
+        "changes": "更改自动保存。"
+      }
+    },
+    "approvers": {
+      "header": "{{code}} 中的审批人",
+      "assign": "管理审批人",
+      "new": "新审批人"
+    },
+    "assignApprovers": {
+      "header": "管理 {{code}} 中的审批人",
+      "instructions": {
+        "check": "要将审批人分配到此单位，请选中用户的复选框。",
+        "uncheck": "要移除审批人，请清除用户的复选框。",
+        "changes": "更改自动保存。"
+      },
+      "hint": "审批人列表下显示的用户已分配有此单位及其子单位的采购商的审批权限。请注意，具有审批人角色的用户与审批人列表下显示的审批人是分开的。如果某个单位没有审批人，或者审批人没有足够的审批购买权限，则会查找单位层次结构中更高级别的审批人，直到选出管理。"
+    },
+    "breadcrumbs": {
+      "list": "所有单位",
+      "details": "{{name}}",
+      "children": "子单位",
+      "users": "用户",
+      "approvers": "批准人",
+      "addresses": "送货地址",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "成本中心"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "子单位",
+    "subtitle": "单位：{{item.name}}",
+    "info": {
+      "disabledCreate": "无法为禁用的单位创建子单位。"
+    },
+    "hint": "单位代表部门、商店、地区或任何其他对您有意义的逻辑分组。用户“继承”子单位，这意味着采购商在结账时可以访问子单位的成本中心和送货地址。"
+  },
+  "orgUnitApprovers": {
+    "title": "管理审批人",
+    "subtitle": "单位：{{item.name}}",
+    "assigned": "已成功分配用户 {{item.name}}",
+    "unassigned": "已成功取消分配用户 {{item.name}}"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "已分配审批人",
+    "subtitle": "单位：{{item.name}}",
+    "assigned": "已成功分配用户 {{item.name}}",
+    "unassigned": "已成功取消分配用户 {{item.name}}",
+    "hint": "审批人列表下显示的用户已分配有此单位及其子单位的采购商的审批权限。请注意，具有审批人角色的用户与审批人列表下显示的审批人是分开的。如果某个单位没有审批人，或者审批人没有足够的审批购买权限，则会查找单位层次结构中更高级别的审批人，直到选出管理。"
+  },
+  "orgUnitAssignedRoles": {
+    "header": "管理 {{code}} 中的角色",
+    "name": "名称",
+    "email": "电子邮件",
+    "roles": "角色",
+    "roleCustomer": "客户",
+    "roleApprover": "批准人",
+    "roleManager": "经理",
+    "roleAdministrator": "管理员"
+  },
+  "orgUnitUsers": {
+    "title": "已分配用户",
+    "subtitle": "单位：{{item.name}}",
+    "info": {
+      "disabledCreate": "无法为禁用的单位创建用户。"
+    },
+    "hint": "用户是贵组织的采购商、审批人、经理和管理员。每个用户都分配有负责进行或审批购买的角色。用户“继承”子单位，这意味着采购商在结账时可以访问子单位的成本中心和送货地址。"
+  },
+  "orgUnitUserRoles": {
+    "title": "用户角色和权限",
+    "subtitle": "用户：{{item.name}}",
+    "messages": {
+      "rolesUpdated": "已成功更新 {{item.name}} 的角色"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "已分配用户",
+    "subtitle": "单位：{{item.name}}"
+  },
+  "orgUnitCostCenters": {
+    "title": "已分配成本中心",
+    "subtitle": "单位：{{item.name}}",
+    "info": {
+      "disabledCreate": "无法为禁用的单位创建成本中心。"
+    },
+    "hint": "通过贵组织的采购账户下达的所有订单都会链接到成本中心，以便进行跟踪。采购商在使用“账户”购买方式结账时会选择成本中心。每个单位可以有多个成本中心，但一个成本中心只能分配给一个单位。为了定义最终支出限制，预算会分配给成本中心。 "
+  },
+  "orgUnitAddress": {
+    "title": "送货地址",
+    "subtitle": "单位：{{item.name}}",
+    "country": "国家/地区",
+    "titles": "标题",
+    "firstName": "名字",
+    "lastName": "姓氏",
+    "formattedAddress": "地址",
+    "address1": "地址",
+    "address2": "第二个地址（可选）",
+    "city": "城市",
+    "state": "状态",
+    "zipCode": "邮政编码",
+    "phoneNumber": "电话号码（可选）",
+    "streetAddress": "街道地址",
+    "aptSuite": "公寓编号",
+    "selectOne": "选择一个...",
+    "hint": "当采购商使用“账户”购买方式结账时，他们必须选择成本中心。采购商可用的送货地址取决于所选成本中心的单位。",
+    "details": {
+      "title": "地址详细信息",
+      "subtitle": "单位：{{item.name}}"
+    },
+    "edit": {
+      "title": "编辑地址"
+    },
+    "create": {
+      "title": "创建地址"
+    },
+    "form": {
+      "subtitle": "单位：{{item.name}}"
+    },
+    "messages": {
+      "create": "已成功创建地址 {{ item.firstName }} {{ item.lastName }}",
+      "update": "已成功更新地址 {{ item.firstName }} {{ item.lastName }}",
+      "delete": "此地址不可找回。现有订单不受影响。",
+      "deleteTitle": "删除此地址？",
+      "deleted": "已成功删除地址 {{ item.firstName }} {{ item.lastName }}"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "用户组",
+    "header": "所有用户组 ({{count}})",
+    "disabled": "（已禁用）",
+    "uid": "代码",
+    "name": "名称",
+    "unit": "单位",
+    "orgUnit": "单位",
+    "actions": "",
+    "sortBy": "排序依据",
+    "sort": {
+      "byName": "名称",
+      "byUnitName": "单位",
+      "byGroupID": "组"
+    },
+    "hint": "用户组允许您将用户合并到一个组中，以便同时为多个用户分配购买限制。",
+    "details": {
+      "title": "用户组详细信息",
+      "subtitle": "用户组：{{ item.name }}"
+    },
+    "edit": {
+      "title": "编辑用户组",
+      "subtitle": "用户组：{{ item.name }}"
+    },
+    "create": {
+      "title": "创建用户组",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "用户",
+      "permission": "购买限制"
+    },
+    "messages": {
+      "update": "已成功更新用户组 {{ item.name }} ",
+      "create": "已成功创建用户组 {{ item.name }} ",
+      "deleteTitle": "删除此用户组？",
+      "delete": "删除用户组时，该组中的用户不受影响。",
+      "deleted": "已成功删除用户组 {{ item.name }} "
+    },
+    "breadcrumbs": {
+      "list": "所有用户组",
+      "details": "{{name}}",
+      "users": "用户",
+      "permissions": "购买限制"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "管理用户",
+    "subtitle": "用户组：{{ item.name }}",
+    "assigned": "已成功分配用户 {{item.name}}",
+    "unassigned": "已成功取消分配用户 {{item.name}}",
+    "unassignAll": "取消分配所有",
+    "unassignAllConfirmation": "已成功取消分配所有用户"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "已分配用户",
+    "subtitle": "用户组：{{ item.name }}",
+    "assigned": "已成功分配用户 {{item.name}}",
+    "unassigned": "已成功取消分配用户 {{item.name}}"
+  },
+  "orgUserGroupPermissions": {
+    "title": "管理购买限制",
+    "subtitle": "限制：{{ item.name }}",
+    "assigned": "已成功分配购买限制 {{item.code}} ",
+    "unassigned": "已成功取消分配购买限制 {{item.code}}"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "已分配购买限制",
+    "subtitle": "限制：{{ item.name }}",
+    "assigned": "已成功分配购买限制 {{item.code}} ",
+    "unassigned": "已成功取消分配购买限制 {{item.code}}"
+  },
+  "orgUser": {
+    "groupName": "用户",
+    "header": "所有用户({{count}})",
+    "disabled": "（已禁用）",
+    "uid": "电子邮件",
+    "active": "状态",
+    "name": "名称",
+    "firstName": "名字",
+    "lastName": "姓氏",
+    "email": "电子邮件",
+    "orgUnit": "单位",
+    "unit": "单位",
+    "roles": "角色",
+    "rights": "权限",
+    "title": "标题",
+    "hint": "用户是贵组织的采购商、审批人、经理和管理员。每个用户都分配有负责进行或审批购买的角色。每个用户都属于单位，并且他们有权访问其主要单位的所有子单位。",
+    "unitApprover": "单位审批人",
+    "assignApprover": "将用户添加到单位的审批人",
+    "actions": "",
+    "sortBy": "排序依据",
+    "sort": {
+      "byName": "名称",
+      "byUnit": "单位"
+    },
+    "details": {
+      "title": "用户详细信息",
+      "subtitle": "用户：{{ item.name }}"
+    },
+    "edit": {
+      "title": "编辑用户",
+      "subtitle": "用户：{{ item.name }}"
+    },
+    "create": {
+      "title": "创建用户",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "更改密码",
+      "approvers": "批准人",
+      "userGroup": "用户组",
+      "permission": "购买限制",
+      "rolesAndRights": "角色和权限"
+    },
+    "messages": {
+      "deactivateTitle": "禁用此用户？",
+      "deactivate": "已禁用用户无法登录店面和下达订单。",
+      "confirmEnabled": "已成功启用用户 {{item.firstName}} {{item.lastName}}",
+      "confirmDisabled": "已成功禁用用户 {{item.firstName}} {{item.lastName}}",
+      "update": "已成功更新用户 {{item.firstName}} {{item.lastName}}",
+      "create": "已成功创建用户 {{item.firstName}} {{item.lastName}}",
+      "updatePassword": "已成功更新用户 {{item.firstName}} {{item.lastName}} 密码"
+    },
+    "info": {
+      "disabledEdit": "启用用户以允许编辑。",
+      "disabledEnable": "必须先启用单位，然后才能启用此用户。"
+    },
+    "approver": {
+      "link": "批准人",
+      "header": "{{code}} 中的审批人",
+      "assign": "分配审批人",
+      "assignHeader": "在 {{code}} 中分配审批人",
+      "back": "返回",
+      "new": "新审批人",
+      "instructions": {
+        "check": "要将审批人分配到此用户，请选中用户的复选框。",
+        "uncheck": "要移除审批人，请清除用户的复选框。",
+        "changes": "更改自动保存。"
+      }
+    },
+    "userGroup": {
+      "link": "用户组",
+      "header": "{{code}} 中的用户组",
+      "assign": "分配用户组",
+      "assignHeader": "在 {{code}} 中分配用户组",
+      "back": "返回",
+      "instructions": {
+        "check": "要将用户组分配到此用户，请选中用户的复选框。",
+        "uncheck": "要移除用户组，请清除用户的复选框。",
+        "changes": "更改自动保存。"
+      }
+    },
+    "permission": {
+      "link": "购买限制",
+      "header": "{{code}} 中的购买限制",
+      "assign": "分配购买限制",
+      "assignHeader": "在 {{code}} 中分配购买限制",
+      "back": "返回",
+      "instructions": {
+        "check": "要将购买限制分配给此用户，请选中其复选框。",
+        "uncheck": "要取消分配购买限制，请清除其复选框。",
+        "changes": "更改自动保存。"
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "每月",
+        "YEAR": "每年",
+        "WEEK": "每周",
+        "QUARTER": "每季度"
+      }
+    },
+    "password": {
+      "title": "更改密码",
+      "subtitle": "用户：{{ item.email }}",
+      "newPassword": "新密码",
+      "confirmPassword": "重新输入新密码"
+    },
+    "breadcrumbs": {
+      "list": "所有用户",
+      "details": "{{name}}",
+      "userGroups": "用户组",
+      "approvers": "批准人",
+      "permissions": "购买限制"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "管理用户组",
+    "subtitle": "用户：{{ item.name }}",
+    "assigned": "已成功分配用户组 {{item.name}}",
+    "unassigned": "已成功取消分配用户组 {{item.name}}"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "已分配用户组",
+    "subtitle": "用户：{{ item.name }}",
+    "assigned": "已成功分配用户组 {{item.name}}",
+    "unassigned": "已成功取消分配用户组 {{item.name}}"
+  },
+  "orgUserApprovers": {
+    "title": "管理审批人",
+    "subtitle": "用户：{{ item.name }}",
+    "assigned": "已成功分配审批人 {{ item.name }}",
+    "unassigned": "已成功取消分配审批人 {{ item.name }}"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "已分配审批人",
+    "subtitle": "用户：{{ item.name }}",
+    "assigned": "已成功分配审批人 {{ item.name }}",
+    "unassigned": "已成功取消分配审批人 {{ item.name }}"
+  },
+  "orgUserPermissions": {
+    "title": "管理购买限制",
+    "subtitle": "用户：{{ item.name }}",
+    "assigned": "已成功分配购买限制 {{ item.code }}",
+    "unassigned": "已成功取消分配购买限制 {{ item.code }}"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "已分配购买限制",
+    "subtitle": "用户：{{ item.name }}",
+    "assigned": "已成功分配购买限制 {{ item.code }}",
+    "unassigned": "已成功取消分配购买限制 {{ item.code }}"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "购买限制",
+    "header": "所有购买限制 ({{count}})",
+    "name": "名称",
+    "code": "代码",
+    "active": "状态",
+    "limit": "限制",
+    "orderApprovalPermissionType": "类型",
+    "threshold": "阈值",
+    "periodRange": "期间",
+    "currency": "货币",
+    "orgUnit": "父单位",
+    "unit": "父单位",
+    "actions": "",
+    "hint": "购买限制通过定义采购商每笔订单或每周、每月、每季度或每年可以花多少钱来帮助控制支出。购买限制分配给用户或用户组。购买限制还分配给审批人，定义允许他们批准多少。您可以使用用户组一次将购买限制分配给多个用户。",
+    "details": {
+      "title": "购买限制详细信息",
+      "subtitle": "购买限制：{{ item.code }}"
+    },
+    "edit": {
+      "title": "编辑购买限制",
+      "subtitle": "购买限制：{{ item.code }}"
+    },
+    "create": {
+      "title": "创建购买限制",
+      "subtitle": ""
+    },
+    "sortBy": "排序依据",
+    "sort": {
+      "byName": "名称",
+      "byUnitName": "单位"
+    },
+    "messages": {
+      "deactivateTitle": "禁用此购买限制？",
+      "deactivate": "已禁用的购买限制无法再分配给用户或用户组。当前分配将不起作用。",
+      "confirmEnabled": "已成功启用购买限制 {{ item.code }}",
+      "confirmDisabled": "已成功禁用购买限制 {{ item.code }}",
+      "update": "已成功更新购买限制 {{ item.code }}",
+      "create": "已成功创建购买限制 {{ item.code }}"
+    },
+    "info": {
+      "disabledEdit": "启用购买限制以允许编辑。",
+      "disabledEnable": "必须先启用单位，然后才能启用此购买限制。"
+    },
+    "per": {
+      "DAY": "每天",
+      "WEEK": "每周",
+      "MONTH": "每月",
+      "QUARTER": "每季度",
+      "YEAR": "每年"
+    },
+    "breadcrumbs": {
+      "list": "所有购买限制",
+      "details": "{{code}}"
+    }
+  }
+}

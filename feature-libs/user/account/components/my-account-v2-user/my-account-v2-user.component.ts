@@ -10,5 +10,6 @@ import { LoginComponent } from '../login';
 @Component({
   selector: 'cx-my-account-v2-user',
   templateUrl: './my-account-v2-user.component.html',
+  standalone: false,
 })
 export class MyAccountV2UserComponent extends LoginComponent {}

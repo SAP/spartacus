@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject, isDevMode } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { inject, Injectable, isDevMode } from '@angular/core';
+import { ActivatedRouteSnapshot, GuardResult, Router } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -23,7 +23,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { LoggerService, RoutingConfigService } from '@spartacus/core';
-import { Observable, combineLatest, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -54,7 +54,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
     );
   }
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
     let currentIndex = -1;
     const currentRouteUrl = '/' + route.url.join('/');
 
@@ -99,7 +99,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
   protected isB2BStepSet(
     step: CheckoutStep,
     isAccountPayment: boolean
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.PAYMENT_TYPE: {
@@ -122,9 +122,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
     return of(true);
   }
 
-  protected isPaymentTypeSet(
-    step: CheckoutStep
-  ): Observable<boolean | UrlTree> {
+  protected isPaymentTypeSet(step: CheckoutStep): Observable<GuardResult> {
     return this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -141,7 +139,7 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
   protected isDeliveryAddressAndCostCenterSet(
     step: CheckoutStep,
     isAccountPayment: boolean
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     return combineLatest([
       this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
         filter((state) => !state.loading),

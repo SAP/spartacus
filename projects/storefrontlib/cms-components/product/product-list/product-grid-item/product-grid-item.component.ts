@@ -28,6 +28,7 @@ import { ProductListService } from '../product-list.service';
       useExisting: ProductListItemContextSource,
     },
   ],
+  standalone: false,
 })
 export class ProductGridItemComponent implements OnChanges {
   protected productListService = inject(ProductListService);

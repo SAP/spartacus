@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -18,6 +17,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
+  standalone: false,
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -29,6 +29,7 @@ class MockAmendOrderActionComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
+  standalone: false,
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -67,7 +68,7 @@ describe('ReturnOrderConfirmationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
+      imports: [I18nTestingModule, ReactiveFormsModule],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],

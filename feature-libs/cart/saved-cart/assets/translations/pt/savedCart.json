@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Nome",
+    "cartDescription": "Descrição",
+    "cartId": "ID",
+    "dateSaved": "Data em que foi gravado",
+    "items": "Itens",
+    "quantity": "Quantidade",
+    "total": "Total",
+    "editSavedCart": "Editar carrinho gravado",
+    "deleteSavedCart": "Eliminar carrinho gravado",
+    "addSelectedItems": "Adicionar itens selecionados",
+    "emptyCartItems": "Itens do carrinho vazio"
+  },
+  "savedCartList": {
+    "savedCarts": "Carrinhos gravados ({{count}})",
+    "cartName": "Nome",
+    "cartId": "ID",
+    "dateSaved": "Data em que foi gravado",
+    "cartDescription": "Descrição",
+    "quantity": "Qtd",
+    "quantityFull": "Quantidade",
+    "total": "Total",
+    "actions": "Ações",
+    "makeCartActive": "Tornar carrinho ativo",
+    "notFound": "Nenhum carrinho gravado encontrado",
+    "swapCartNoActiveCart": "O carrinho existente é ativado por {{cartName}} com êxito.",
+    "swapCartWithActiveCart": "O carrinho existente é ativado por {{cartName}} com êxito. Seus itens anteriores foram gravados em um carrinho {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Os itens do seu carrinho foram gravados para mais tarde com êxito no carrinho \"{{cartName}}\""
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Gravar para mais tarde",
+    "itemsSavedForLater": "Todos os itens em seu carrinho serão gravados para mais tarde",
+    "savedCartName": "Nome do carrinho gravado",
+    "savedCartDescription": "Descrição do carrinho gravado",
+    "optional": "opcional",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "cancel": "Cancelar",
+    "save": "Gravar",
+    "restore": "Restaurar",
+    "followingCartDelete": "O seguinte carrinho gravado será eliminado",
+    "followingCartRestore": "O seguinte carrinho gravado será restaurado como carrinho ativo",
+    "delete": "Eliminar",
+    "deleteCartSuccess": "Carrinho eliminado com êxito",
+    "editCartSuccess": "Carrinho editado com êxito",
+    "editSavedCart": "Editar carrinho gravado",
+    "deleteSavedCart": "Eliminar carrinho gravado",
+    "restoreSavedCart": "Restaurar carrinho gravado",
+    "name": "Nome",
+    "id": "ID",
+    "description": "Descrição",
+    "quantity": "QTD",
+    "quantityFull": "Quantidade",
+    "total": "Total",
+    "keepCopySavedCart": "Manter uma cópia deste carrinho na lista de carrinhos gravados",
+    "defaultCloneCartName": "Cópia de {{name}}",
+    "nameOfCloneCart": "Nome do carrinho copiado"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Carrinhos gravados",
+    "saveCartForLater": "Gravar carrinho para mais tarde"
+  }
+}

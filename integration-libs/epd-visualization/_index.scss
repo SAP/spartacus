@@ -1,9 +1,5 @@
 @import '@spartacus/styles/scss/core';
 
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/_mixins';
-
 @import './styles/index';
 
 $epd-visualization-components-allowlist: cx-epd-visualization-viewer,

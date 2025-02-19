@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "タイトル (オプション)",
+        "placeholder": "タイトル"
+      },
+      "firstName": {
+        "label": "名",
+        "placeholder": "名"
+      },
+      "lastName": {
+        "label": "姓",
+        "placeholder": "姓"
+      },
+      "companyName": {
+        "label": "会社名",
+        "placeholder": "会社名"
+      },
+      "email": {
+        "label": "電子メールアドレス",
+        "placeholder": "電子メールアドレス"
+      },
+      "city": {
+        "label": "市区町村 (オプション)",
+        "placeholder": "市区町村を選択してください"
+      },
+      "country": {
+        "label": "国 (オプション)",
+        "placeholder": "国を選択してください"
+      },
+      "state": {
+        "label": "都道府県 (オプション)",
+        "placeholder": "都道府県を選択してください"
+      },
+      "postalCode": {
+        "label": "郵便番号 (オプション)",
+        "placeholder": "郵便番号を選択してください"
+      },
+      "addressLine": {
+        "label": "住所 (オプション)",
+        "placeholder": "住所"
+      },
+      "secondAddressLine": {
+        "label": "住所行 2 (オプション)",
+        "placeholder": "住所行 2"
+      },
+      "phoneNumber": {
+        "label": "電話番号 (オプション)",
+        "placeholder": "電話番号"
+      },
+      "message": {
+        "label": "メッセージ (オプション)",
+        "placeholder": "メッセージフィールドのデータ例: \"部門: 地上サポート; 職位: 安全ガード担当長; 上司: Steve Jackson; コメント: 新しいアカウントを作成してください\""
+      }
+    },
+    "messageToApproverTemplate": "会社名: {{companyName}}、\n  電話番号: {{phoneNumber}}、\n  住所: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}}、\n  メッセージ: {{message}}",
+    "successFormSubmitMessage": "ご登録、ありがとうございます。担当者が間もなく連絡して、アクセス情報を確認いたします。",
+    "formSubmitButtonLabel": "登録",
+    "goToLoginButtonLabel": "登録済みですか? サインインへ移動",
+    "httpHandlers": {
+      "conflict": "この電子メールアドレスのユーザはすでに存在します。"
+    },
+    "messageToFailedToRegister": "登録に失敗しました。支援が必要な場合は管理者に連絡してください。"
+  }
+}

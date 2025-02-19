@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -92,6 +91,7 @@ const mockPaymentTypes: PaymentType[] = [
 @Component({
   selector: 'cx-card',
   template: '',
+  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -204,6 +204,7 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -218,7 +219,6 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        RouterTestingModule,
         IconTestingModule,
         OutletModule,
       ],

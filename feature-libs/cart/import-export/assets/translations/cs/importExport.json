@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Exportovat do CSV",
+    "exportMessage": "Soubor CSV se do vašeho zařízení stáhne automaticky. Pokud se tak nestane, zkontrolujte nastavení prohlížeče.",
+    "columnNames": {
+      "code": "Kód",
+      "quantity": "Množství",
+      "name": "Název",
+      "price": "Cena"
+    },
+    "exportProductToCsv": "Exportovat do CSV"
+  },
+  "importEntries": {
+    "importProducts": "Import produktů"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Import produktů",
+    "importProductsSubtitle": "Přidejte produkty prostřednictvím importu souboru .CSV",
+    "importProductsNewSavedCartSubtitle": "Přidejte produkty prostřednictvím importu souboru .CSV a vytvořením nového uloženého košíku.",
+    "importProductFileDetails": "Textový soubor musí obsahovat seznam produktů s požadovanými sloupci oddělenými čárkou: SKU a množství.",
+    "selectFile": "Vyberte soubor",
+    "selectedSuccessfully": "Soubor CSV byl úspěšně vybrán.",
+    "savedCartName": "Název uloženého košíku",
+    "savedCartDescription": "Popis uloženého košiku",
+    "optional": "volitelné",
+    "charactersLeft": "zbývá znaků: {{count}}",
+    "cancel": "Zrušit",
+    "upload": "Upload",
+    "close": "Zavřít",
+    "summary": {
+      "info": "Během importu produktů nezavírejte ani neaktualizujte toto okno.",
+      "loadedToCart": "Produkty byly nahrány do košíku {{ cartName }}",
+      "loaded": "Produkty byly nahrány",
+      "loading": "Probíhá zpracování produktů… ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} z {{ total }} produktů byl úspěšně importován.",
+      "warning": "{{ count }} nebyl zcela importován.",
+      "warning_other": "Počet produktů, které nebyly zcela importovány: {{ count }}",
+      "error": "{{ count }} nebyl importován.",
+      "error_other": "Počet produktů, které nebyly importovány: {{ count }}",
+      "messages": {
+        "unknownIdentifier": "SKU produktu „{{ productCode}}“ neexistuje.",
+        "lowStock": "Množství pro {{ productName }}:{{ quantity }}) bylo sníženo na {{ quantityAdded }}.",
+        "noStock": "{{ productName }} není momentálně skladem.",
+        "unknownError": "Neznámý problém s „{{ productCode }}“.",
+        "limitExceeded": "Nelze přidat „{{ productCode }}“. Překročen limit."
+      },
+      "show": "Zobrazit",
+      "hide": "Skrýt"
+    }
+  }
+}

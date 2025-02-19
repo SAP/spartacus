@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Titolo",
+    "titleOptional": "Titolo (facoltativo)",
+    "defaultTitle": "Titolo",
+    "firstName": {
+      "label": "Nome",
+      "placeholder": "Nome"
+    },
+    "lastName": {
+      "label": "Cognome",
+      "placeholder": "Cognome"
+    },
+    "address1": "Indirizzo 1",
+    "address2": "Indirizzo 2 (facoltativo)",
+    "country": "Paese/regione",
+    "city": {
+      "label": "Città",
+      "placeholder": "Città"
+    },
+    "state": "Stato",
+    "zipCode": {
+      "label": "CAP",
+      "placeholder": "Codice postale/CAP"
+    },
+    "phoneNumber": {
+      "label": "Numero di telefono (facoltativo)",
+      "placeholder": "ad es. (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Numero di cellulare (facoltativo)",
+      "placeholder": "ad es. (###) - ### - ####"
+    },
+    "saveAsDefault": "Salva come predefinito",
+    "chooseAddress": "Scegli indirizzo",
+    "streetAddress": "Via",
+    "aptSuite": "Numero di appartamento",
+    "selectOne": "Seleziona uno...",
+    "setAsDefault": "Salva come indirizzo di consegna predefinito",
+    "titleRequired": "Il titolo è obbligatorio.",
+    "userAddressAddSuccess": "Nuovo indirizzo aggiunto correttamente.",
+    "userAddressUpdateSuccess": "Indirizzo aggiornato correttamente.",
+    "userAddressDeleteSuccess": "Indirizzo eliminato correttamente.",
+    "invalidAddress": "Indirizzo non valido"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Aggiungi un nuovo indirizzo di consegna",
+    "editDeliveryAddress": "Modifica indirizzo di consegna",
+    "areYouSureToDeleteAddress": "Confermare di voler eliminare questo indirizzo?",
+    "addNewAddress": "Aggiungi nuovo indirizzo",
+    "addAddress": "Aggiungi indirizzo",
+    "updateAddress": "Aggiorna indirizzo",
+    "backToAddressList": "Torna alla lista di indirizzi",
+    "defaultDeliveryAddress": "Indirizzo di consegna predefinito",
+    "additionalDeliveryAddress": "Indirizzo di consegna aggiuntivo {{number}}"
+  },
+  "addressCard": {
+    "default": "PREDEFINITO",
+    "selected": "Selezionato",
+    "selectedAddress": "Indirizzo selezionato",
+    "setAsDefault": "Imposta come predefinito",
+    "shipTo": "Destinatario spedizione",
+    "billTo": "Destinatario fattura",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Verifica l'indirizzo",
+    "ensureAccuracySuggestChange": "Per garantire l'accuratezza della consegna, si consiglia la modifica selezionata sotto.",
+    "chooseAddressToUse": "Scegliere l'indirizzo da utilizzare:",
+    "suggestedAddress": "Indirizzo consigliato",
+    "enteredAddress": "Indirizzo inserito",
+    "editAddress": "Modifica indirizzo",
+    "saveAddress": "Salva indirizzo"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "Indirizzo {{ streetAddress }} impostato correttamente come predefinito"
+  }
+}

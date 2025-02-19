@@ -10,6 +10,7 @@ import { Card } from '@spartacus/storefront';
 
 @Pipe({
   name: 'cxGetAddressCardContent',
+  standalone: false,
 })
 export class GetAddressCardContent implements PipeTransform {
   transform(address: Address): Card {

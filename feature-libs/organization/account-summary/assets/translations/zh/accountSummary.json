@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "账户摘要",
+    "header": "所有账户摘要 ({{count}})",
+    "name": "单位",
+    "details": {
+      "header": "账户摘要详细信息",
+      "uid": "单位标识",
+      "name": "单位名称",
+      "address": "地址",
+      "creditRep": "信用报告",
+      "creditLine": "信用额度",
+      "currentBalance": "当前余额",
+      "openBalance": "未结余额",
+      "pastDueBalance": "逾期余额",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} 天",
+      "dayPlus": "{{minBoundary}} 天以上",
+      "notApplicable": "不适用"
+    },
+    "document": {
+      "header": "文档",
+      "id": "凭证编号",
+      "type": "凭证类型",
+      "date": "创建日期",
+      "dueDate": "到期日期",
+      "originalAmount": "原始金额",
+      "openAmount": "未结金额",
+      "status": "状态",
+      "attachment": "附件",
+      "download": "下载",
+      "attachmentDescription": "下载 {{type}} {{id}} 的附件。",
+      "noneFound": "未找到凭证"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "创建日期（升序）",
+      "byCreatedAtDateDesc": "创建日期（降序）",
+      "byDueAtDateAsc": "到期日期（升序）",
+      "byDueAtDateDesc": "到期日期（降序）",
+      "byOriginalAmountAsc": "原始金额（升序）",
+      "byOriginalAmountDesc": "原始金额（降序）",
+      "byOpenAmountAsc": "未结金额（升序）",
+      "byOpenAmountDesc": "未结金额（降序）",
+      "byOrgDocumentTypeAsc": "凭证类型（升序）",
+      "byOrgDocumentTypeDesc": "凭证类型（降序）",
+      "byStatusAsc": "状态（升序）",
+      "byStatusDesc": "状态（降序）",
+      "byOrgDocumentIdAsc": "凭证编号（升序）",
+      "byOrgDocumentIdDesc": "凭证编号（降序）"
+    },
+    "statuses": {
+      "open": "未完成",
+      "closed": "已关闭",
+      "all": "全部"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "凭证编号",
+      "orgDocumentIdRange": "凭证编号范围",
+      "orgDocumentType": "凭证类型",
+      "createdAtDateRange": "创建日期范围",
+      "dueAtDateRange": "到期日期范围",
+      "amountRange": "原始金额范围",
+      "openAmountRange": "未结金额范围"
+    },
+    "sortBy": "排序方式",
+    "sortDocuments": "排序凭证",
+    "filter": {
+      "status": "状态",
+      "filterBy": "过滤条件",
+      "documentNumber": "凭证编号",
+      "documentType": "凭证类型",
+      "startRange": "从",
+      "endRange": "到",
+      "clear": "全部清除",
+      "search": "搜索",
+      "errors": {
+        "toDateMustComeAfterFrom": "选择晚于起始日期的结束日期。",
+        "toAmountMustBeLargeThanFrom": "选择小于起始值的结束范围值。"
+      }
+    },
+    "hint": "账户摘要可让您查看单位的一般信息，包括余额和发票账龄摘要。在此，您还可以浏览单位的交易凭证列表。"
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "账户摘要",
+      "details": "{{name}}"
+    }
+  }
+}

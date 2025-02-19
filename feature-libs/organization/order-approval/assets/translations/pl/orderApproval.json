@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Powrót do listy",
+    "showForm_APPROVE": "Zatwierdź zamówienie...",
+    "showForm_REJECT": "Odrzuć zamówienie...",
+    "form": {
+      "title_APPROVE": "Zatwierdź zamówienie {{orderCode}} na łączną kwotę {{orderTotal}}",
+      "title_REJECT": "Odrzuć zamówienie {{orderCode}} na łączną kwotę {{orderTotal}}",
+      "submit_APPROVE": "Zatwierdź",
+      "submit_REJECT": "Odrzuć",
+      "cancel": "Anuluj",
+      "comment_APPROVE": {
+        "label": "Komentarz (opcjonalny, maksymalnie 255 znaków)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Komentarz (maksymalnie 255 znaków)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Szczegóły zatwierdzenia klienta",
+      "permission": "Uprawnienie",
+      "approver": "Osoba zatwierdzająca",
+      "status": "Status",
+      "approverComments": "Komentarz osoby zatwierdzającej",
+      "noApprovalComments": "Brak",
+      "permissionType_B2BBudgetExceededPermission": "Budżet powiązany z wybranym miejscem powstawania kosztów został przekroczony",
+      "permissionType_B2BOrderThresholdPermission": "Suma zamówienia przekroczyła limit przypadający na zamówienie",
+      "permissionType_B2BOrderThresholdTimespanPermission": "Suma zamówienia przekroczyła limit przypadający na okres"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Zamówienie nr",
+    "POCode": "Zamówienie nr",
+    "placedBy": "Złożone przez",
+    "date": "Data",
+    "status": "Status",
+    "total": "Suma",
+    "none": "Brak",
+    "emptyList": "Obecnie nie ma żadnych zamówień do zatwierdzenia.",
+    "orderApprovalList": "Lista zatwierdzeń zamówień"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Niewystarczające uprawnienia dostępu do tej strony."
+    }
+  }
+}

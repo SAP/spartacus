@@ -112,6 +112,7 @@ describe('AsmCustomer360Component', () => {
   @Component({
     selector: 'cx-asm-customer-360-section',
     template: '',
+    standalone: false,
   })
   class MockAsmCustomer360SectionComponent {}
 

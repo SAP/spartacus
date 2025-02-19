@@ -18,6 +18,7 @@ import { CartItemListComponentService } from './cart-item-list-row.component.ser
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
+  standalone: false,
 })
 export class CartItemListRowComponent extends CartItemComponent {
   protected componentService = inject(CartItemListComponentService);

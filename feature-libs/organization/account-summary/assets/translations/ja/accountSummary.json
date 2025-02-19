@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "アカウント概要",
+    "header": "すべてのアカウント概要 ({{count}})",
+    "name": "ユニット",
+    "details": {
+      "header": "アカウント概要の詳細",
+      "uid": "ユニット ID",
+      "name": "ユニット名",
+      "address": "住所",
+      "creditRep": "信用報告書",
+      "creditLine": "与信限度額",
+      "currentBalance": "現在の残高",
+      "openBalance": "開始残高",
+      "pastDueBalance": "未払い残高",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} 日間",
+      "dayPlus": "{{minBoundary}}+ 日間",
+      "notApplicable": "なし"
+    },
+    "document": {
+      "header": "文書",
+      "id": "文書番号",
+      "type": "文書タイプ",
+      "date": "作成日付",
+      "dueDate": "期限日",
+      "originalAmount": "元の金額",
+      "openAmount": "未処理金額",
+      "status": "ステータス",
+      "attachment": "添付ファイル",
+      "download": "ダウンロード",
+      "attachmentDescription": "{{type}} {{id}} の添付ファイルをダウンロードします。",
+      "noneFound": "文書がみつかりません"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "作成日付 (昇順)",
+      "byCreatedAtDateDesc": "作成日付 (降順)",
+      "byDueAtDateAsc": "期限日 (昇順)",
+      "byDueAtDateDesc": "期限日 (降順)",
+      "byOriginalAmountAsc": "元の金額 (昇順)",
+      "byOriginalAmountDesc": "元の金額 (降順)",
+      "byOpenAmountAsc": "未処理金額 (昇順)",
+      "byOpenAmountDesc": "未処理金額 (降順)",
+      "byOrgDocumentTypeAsc": "文書タイプ (昇順)",
+      "byOrgDocumentTypeDesc": "文書タイプ (降順)",
+      "byStatusAsc": "ステータス (昇順)",
+      "byStatusDesc": "ステータス (降順)",
+      "byOrgDocumentIdAsc": "文書番号 (昇順)",
+      "byOrgDocumentIdDesc": "文書番号 (降順)"
+    },
+    "statuses": {
+      "open": "未処理",
+      "closed": "処理済み",
+      "all": "すべて"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "文書番号",
+      "orgDocumentIdRange": "文書番号範囲",
+      "orgDocumentType": "文書タイプ",
+      "createdAtDateRange": "作成日付範囲",
+      "dueAtDateRange": "期限日範囲",
+      "amountRange": "元の金額範囲",
+      "openAmountRange": "未処理金額範囲"
+    },
+    "sortBy": "ソート基準",
+    "sortDocuments": "ソートの文書",
+    "filter": {
+      "status": "ステータス",
+      "filterBy": "フィルタ基準",
+      "documentNumber": "文書番号",
+      "documentType": "文書タイプ",
+      "startRange": "開始",
+      "endRange": "終了",
+      "clear": "すべてクリア",
+      "search": "検索",
+      "errors": {
+        "toDateMustComeAfterFrom": "開始日より後の終了日を選択します。",
+        "toAmountMustBeLargeThanFrom": "開始値よりも小さな終了範囲値を選択します"
+      }
+    },
+    "hint": "アカウント概要では残高や請求書概要の時間経過を含むユニットについての一般情報をレビューできます。ユニットのトランザクション文書を一覧で表示することもできます。"
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "アカウント概要",
+      "details": "{{name}}"
+    }
+  }
+}

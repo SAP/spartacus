@@ -5,7 +5,6 @@ import {
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartItemContext,
   OrderEntry,
@@ -30,6 +29,7 @@ class MockCartItemContext implements Partial<CartItemContext> {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
+  standalone: false,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -46,7 +46,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         ConfiguratorCartEntryInfoComponent,
         MockConfigureCartEntryComponent,

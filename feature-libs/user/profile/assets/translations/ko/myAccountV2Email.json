@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "내 이메일 주소",
+    "email": "이메일",
+    "emailAddress": "이메일 주소",
+    "newEmailAddress": "새 이메일 주소",
+    "confirmNewEmailAddress": "새 이메일 주소 확인",
+    "emailPlaceHolder": "이메일 입력",
+    "passwordPlaceHolder": "암호 입력",
+    "password": "암호",
+    "reloginIndicator": "새 이메일 주소를 설정한 후에 다시 로그인해야 합니다."
+  }
+}

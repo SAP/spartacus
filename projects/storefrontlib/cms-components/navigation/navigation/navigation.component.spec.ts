@@ -13,6 +13,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
+  standalone: false,
 })
 class MockNavigationUIComponent {
   @Input()

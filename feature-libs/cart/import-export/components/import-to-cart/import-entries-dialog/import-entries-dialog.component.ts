@@ -26,6 +26,7 @@ import { finalize, map } from 'rxjs/operators';
   selector: 'cx-import-entries-dialog',
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;

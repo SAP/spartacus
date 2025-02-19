@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}) {{ product }} कार्ट में जोड़े गए",
+    "entryWasAdded": "{{ product }} कार्ट में जोड़ा गया",
+    "noResults": "हमें कोई उत्पाद हीं मिल सका",
+    "stockLevelReached": "अधिकतम स्टॉक स्तर सीमा पार कर गया",
+    "title": "त्वरित ऑर्डर",
+    "productCodePlaceholder": "ID दर्ज करें",
+    "entryProductCode": "त्वरित ऑर्डर के लिए उत्पाद ID दर्ज करें",
+    "quantity": "त्वरित ऑर्डर के लिए मात्रा",
+    "addToCart": "त्वरित ऑर्डर के लिए उत्पाद जोड़ें",
+    "add": "जोड़ें",
+    "product": "उत्पाद",
+    "products": "उत्पाद",
+    "productCodeLabel": "उत्पाद ID",
+    "quantityLabel": "मात्रा",
+    "quantityFullLabel": "मात्रा"
+  },
+  "quickOrderForm": {
+    "placeholder": "उत्पाद नाम या SKU दर्ज करें",
+    "searchBoxLabel": "त्वरित ऑर्डर के लिए उत्पाद का नाम या SKU दर्ज करें. आप प्रति ऑर्डर  {{ limit }} तक उत्पाद जोड़ सकते हैं.",
+    "listLimitReached": "उत्पाद सीमा पार कर गया.",
+    "id": "ID {{ id }}",
+    "noResults": "हमें कोई परिणाम नहीं मिल सका",
+    "addProduct": "उत्पाद जोड़ें {{ product }}",
+    "initialDescription": "स्वतः पूर्ण परिणामों के उपलब्ध होने पर समीक्षा करने के लिए ऊपर और नीचे तीरों का और चयन करने के लिए enter का उपयोग करें.",
+    "productsResults": "{{ count }} उत्पाद उपलब्ध हैं.",
+    "quickOrderSearch": "त्वरित ऑर्डर के लिए उत्पाद खोजें"
+  },
+  "quickOrderList": {
+    "addToCart": "कार्ट में जोड़ें",
+    "emptyList": "रिक्त सूची",
+    "header": "उत्पाद/SKU जोड़ें",
+    "subHeader": "आप एक समय में {{ limit }} मान्य SKU जोड़ सकते हैं.",
+    "errorProceedingToCart": "कार्ट पर जाने में त्रुटि हुई.",
+    "warningProceedingToCart": "कार्ट पर जाने के लिए चेतावनी",
+    "successfullyAddedToCart": "कार्ट में सफलतापूर्वक जोड़ा गया.",
+    "errors": {
+      "productIsOutOfStock": "{{ name }} (#{{code}}) स्टॉक में नहीं है.",
+      "reviewErrors": "कृपया इन त्रुटियों की समीक्षा करें.",
+      "listIsFull": "सूची भर गई गई है, जारी रखने के लिए ये {{ count }} उत्पाद कार्ट में जोड़ें.",
+      "nonPurchasableError": "उत्पाद {{ name }} खरीदा नहीं जा सकता",
+      "outOfStockErrorFound": "{{count}} समाप्त स्टॉक का उत्पाद जोड़ा नहीं गया.",
+      "outOfStockErrorFound_other": "{{count}} समाप्त स्टॉक के उत्पाद जोड़े नहीं गए."
+    },
+    "warnings": {
+      "productWasReduced": "{{ name }} (#{{code}}) के लिए मात्रा {{ quantityAdded}} तक कम की गई.",
+      "reviewWarnings": "कृपया इन चेतावनियों की समीक्षा करें.",
+      "reduceWarningFound": "{{count}} उत्पाद मात्रा कम की गई.",
+      "reduceWarningFound_other": "{{count}} उत्पाद मात्राएं कम की गईं."
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }} (#{{code}}) कार्ट में जोड़े गए.",
+      "addedToCartFound": "{{ count }} उत्पाद कार्ट में जोड़ा गया.",
+      "addedToCartFound_other": "{{ count }} उत्पाद कार्ट में जोड़े गए."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "कार्ट में जोड़ने से पहले उत्पाद सूची में जोड़ें."
+    },
+    "undo": "पूर्ववत करें",
+    "revokeUndo": "निरस्त उत्पाद \"{{name}}\" को हटाना.",
+    "productWasDeleted": "उत्पाद \"{{ name }}\" ट्रैश में ले जाया गया."
+  },
+  "quickOrderTable": {
+    "product": "उत्पाद",
+    "id": "ID",
+    "price": "मूल्य",
+    "quantity": "मात्रा",
+    "quantityFull": "मात्रा",
+    "itemPrice": "आइटम मूल्य",
+    "qty": "मात्रा",
+    "actions": "क्रियाएं",
+    "inStock": "स्टॉक में है",
+    "lowStock": "कम स्टॉक",
+    "outOfStock": "स्टॉक में नहीं है",
+    "listCleared": "त्वरित ऑर्डर सूची साफ की गई",
+    "addedtoCart": "त्वरित ऑर्डर सूची को कार्ट में जोड़ा गया",
+    "caption": "त्वरित ऑर्डर सामग्री."
+  }
+}

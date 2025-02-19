@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Zapomněli jste heslo?",
+    "signIn": "Přihlásit se",
+    "register": "Registrovat",
+    "dontHaveAccount": "Nemáte účet?",
+    "guestCheckout": "Kontrola a potvrzení pro hosty",
+    "emailAddress": {
+      "label": "E-mailová adresa",
+      "placeholder": "Zadejte e-mailovou adresu"
+    },
+    "password": {
+      "label": "Heslo",
+      "placeholder": "Zadejte své heslo"
+    },
+    "wrongEmailFormat": "Toto není platný formát e-mailu."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Ověřovací kód zaslán na {{target}}. Zkontrolujte a zadejte kód.",
+    "needInputCredentials": "Chcete-li pokračovat, zadejte své přihlašovací údaje.",
+    "sendRateLime": "{{waitTime}} s",
+    "resend": "Odeslat znovu",
+    "verificationCode": {
+      "label": "Ověřovací kód",
+      "placeholder": "Zadejte ověřovací kód"
+    },
+    "noReceiveCode": "Neobdrželi jste kód?",
+    "verify": "Ověřit",
+    "back": "Zpět",
+    "tokenInputHint": "Můžete si vyžádat nový kód. Spustí se časovač, který bude ukazovat, kolik sekund zbývá, než budete moci požadavek opakovat."
+  },
+  "verificationTokenDialog": {
+    "title": "Neobdrželi jste kód?",
+    "noReceiveCode": "Pokud jste neobdrželi kód, může to být z následujících důvodů:",
+    "contentLine1": "1. E-mail ještě nedorazil.",
+    "contentLine2": "2. Přijatý e-mail byl zařazen do spamu.",
+    "contentLine3": "3. Zadali jste nesprávný e-mail nebo heslo.",
+    "close": "Zavřít"
+  },
+  "miniLogin": {
+    "userGreeting": "Dobrý den, {{name}}",
+    "signInRegister": "Přihlásit se / zaregistrovat se"
+  },
+  "myAccountV2User": {
+    "signOut": "Odhlásit se"
+  }
+}

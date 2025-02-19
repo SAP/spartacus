@@ -26,6 +26,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;

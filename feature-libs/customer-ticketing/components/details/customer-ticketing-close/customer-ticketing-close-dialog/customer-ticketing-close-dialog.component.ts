@@ -17,6 +17,7 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
 @Component({
   selector: 'cx-customer-ticketing-close-dialog',
   templateUrl: './customer-ticketing-close-dialog.component.html',
+  standalone: false,
 })
 export class CustomerTicketingCloseDialogComponent
   extends CustomerTicketingDialogComponent

@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "Domů"
+        },
+        "zoomButton": {
+          "label": "Lupa"
+        },
+        "panButton": {
+          "label": "Posunout"
+        },
+        "rotateButton": {
+          "label": "Otočit"
+        },
+        "isolateButton": {
+          "label": "Izolovat"
+        },
+        "playButton": {
+          "label": "Přehrát"
+        },
+        "pauseButton": {
+          "label": "Pozastavit"
+        },
+        "hotspotsButton": {
+          "label": "Hotspoty",
+          "show": "Zobrazit",
+          "hide": "Skrýt"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "Slider s animací",
+          "role": "Slider"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "Pro tento produkt nejsou k dispozici žádné náhradní díly."
+      },
+      "visualPickingProductList": {
+        "description": "Popis",
+        "itemPrice": "Cena",
+        "outOfStock": "Není skladem",
+        "id": "ID"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "Filtrovat podle názvu nebo ID"
+        },
+        "searchButton": {
+          "label": "hledat"
+        },
+        "resetButton": {
+          "label": "reset"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "Nebyly nalezeny žádné vyhovující vizualizace",
+        "multipleMatchingVisualsFound": "Bylo nalezeno několik vyhovujících vizualizací",
+        "unexpectedLoadError": "Došlo k chybě při načítání vizualizací"
+      }
+    }
+  }
+}

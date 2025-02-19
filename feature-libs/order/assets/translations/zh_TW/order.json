@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "訂單號碼",
+    "orderNumber": "訂單號碼",
+    "replenishmentId": "補貨號碼",
+    "purchaseOrderId": "採購單號碼",
+    "purchaseOrderNumber": "採購單號碼",
+    "emptyPurchaseOrderId": "無",
+    "none": "無 {{value}}",
+    "placed": "已下單",
+    "placedBy": "下單者",
+    "unit": "單位",
+    "costCenter": "成本中心",
+    "costCenterAndUnit": "成本中心/單位",
+    "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
+    "methodOfPayment": "付款方法",
+    "payByAccount": "由帳戶付款",
+    "paidByCreditCard": "(由信用卡付款)",
+    "status": "狀態",
+    "active": "啟用中",
+    "shippedOn": "出貨日期",
+    "shippingMethod": "出貨方法",
+    "placedOn": "下單日期",
+    "startOn": "開始日期",
+    "nextOrderDate": "下一個訂單日期",
+    "frequency": "頻率",
+    "cancelled": " 已取消",
+    "deliveryStatus_IN_TRANSIT": "在途",
+    "deliveryStatus_READY_FOR_PICKUP": "就緒可取貨",
+    "deliveryStatus_READY_FOR_SHIPPING": "就緒可出貨",
+    "deliveryStatus_WAITING": "等待中",
+    "deliveryStatus_DELIVERING": "正在交貨",
+    "deliveryStatus_PICKPACK": "正在準備出貨",
+    "deliveryStatus_PICKUP_COMPLETE": "取貨完成",
+    "deliveryStatus_DELIVERY_COMPLETED": "交貨完成",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "付款問題",
+    "deliveryStatus_IN_PROCESS": "訂單處理中",
+    "deliveryStatus_READY": "訂單處理中",
+    "deliveryStatus_DELIVERY_REJECTED": "已拒絕交貨",
+    "deliveryStatus_SHIPPED": "已出貨",
+    "deliveryStatus_TAX_NOT_COMMITTED": "稅務問題",
+    "deliveryStatus_CANCELLED": "已取消",
+    "statusDisplay_cancelled": "已取消",
+    "statusDisplay_cancelling": "取消待處理",
+    "statusDisplay_completed": "已完成",
+    "statusDisplay_created": "已建立",
+    "statusDisplay_error": "待處理",
+    "statusDisplay_Error": "待處理",
+    "statusDisplay_processing": "待處理",
+    "statusDisplay_open": "未結",
+    "statusDisplay_pending": {
+      "approval": "待核准",
+      "merchant": {
+        "approval": "待商家核准"
+      }
+    },
+    "statusDisplay_approved": "已核准",
+    "statusDisplay_rejected": "已拒絕",
+    "statusDisplay_merchant": {
+      "approved": "商家已核准",
+      "rejected": "商家已拒絕"
+    },
+    "statusDisplay_assigned": {
+      "admin": "已指派給管理員"
+    },
+    "consignmentTracking": {
+      "action": "追蹤包裹",
+      "dialog": {
+        "header": "追蹤資訊",
+        "shipped": "已出貨",
+        "estimate": "預計交貨",
+        "carrier": "交貨服務",
+        "trackingId": "追蹤號碼",
+        "noTracking": "包裹未從倉庫發貨。包裹出貨後，才會提供追蹤資訊。",
+        "loadingHeader": "託售追蹤"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "請求退貨",
+      "cancelAction": "取消項目",
+      "item": "項目",
+      "itemPrice": "項目價格",
+      "quantity": "最大數量",
+      "returnQty": "待退貨數量",
+      "cancelQty": "待取消數量",
+      "setAll": "將所有數量設定為最大值",
+      "totalPrice": "總計",
+      "submit": "提交請求",
+      "submitDescription": "提交請求。此頁面上的項目將包含在取消請求中。",
+      "returnSuccess": "已提交您的退貨請求 ({{rma}})",
+      "cancelSuccess": "已提交您的取消請求 (原始訂單 {{orderCode}} 將更新)"
+    },
+    "cancelReplenishment": {
+      "title": "取消補貨",
+      "description": "是否取消未來補貨訂單？",
+      "accept": "是",
+      "reject": "否",
+      "cancelSuccess": "已成功取消補貨訂單號碼 {{replenishmentOrderCode}}"
+    },
+    "caption": "訂單內容。"
+  },
+  "orderHistory": {
+    "orderHistory": "訂單歷史記錄",
+    "orderId": "訂單號碼",
+    "emptyPurchaseOrderId": "無",
+    "date": "日期",
+    "status": "狀態",
+    "PONumber": "採購單號碼",
+    "total": "總計",
+    "noOrders": "此帳戶沒有訂單記錄。",
+    "noReplenishmentOrders": "此帳戶沒有補貨訂單記錄",
+    "startShopping": "開始購物",
+    "sortBy": "排序依據",
+    "sortOrders": "排序順序",
+    "replenishmentOrderHistory": "補貨訂單歷史記錄",
+    "replenishmentOrderId": "補貨號碼",
+    "purchaseOrderNumber": "訂購單號碼",
+    "costCenter": "成本中心",
+    "startOn": "開始日期",
+    "frequency": "頻率",
+    "nextOrderDate": "下一個訂單日期",
+    "cancel": "取消",
+    "cancelled": "已取消",
+    "replenishmentHistory": "補貨歷史記錄",
+    "notFound": "找不到訂單",
+    "actions": "動作"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "所有訂單 ({{param}})",
+      "OrderReturnRequestListComponent": "退貨 ({{param}})"
+    },
+    "tabPanelContainerRegion": "以訂單歷史記錄明細分組",
+    "tabPanelContainerRegionGroup": "以訂單歷史記錄明細分組"
+  },
+  "returnRequestList": {
+    "returnRequestId": "退貨號碼",
+    "orderId": "訂單號碼",
+    "date": "建立日期",
+    "status": "狀態",
+    "sortBy": "排序依據",
+    "sortReturns": "排序退貨",
+    "statusDisplay_APPROVAL_PENDING": "核准待處理",
+    "statusDisplay_CANCELED": "已取消",
+    "statusDisplay_CANCELLING": "正在取消",
+    "statusDisplay_WAIT": "等待",
+    "statusDisplay_RECEIVED": "已接收",
+    "statusDisplay_RECEIVING": "正在接收",
+    "statusDisplay_APPROVING": "正在核准",
+    "statusDisplay_REVERSING_PAYMENT": "正在迴轉付款",
+    "statusDisplay_PAYMENT_REVERSED": "已迴轉付款",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "付款迴轉失敗",
+    "statusDisplay_REVERSING_TAX": "正在迴轉稅款",
+    "statusDisplay_TAX_REVERSED": "已迴轉稅款",
+    "statusDisplay_TAX_REVERSAL_FAILED": "稅款迴轉失敗",
+    "statusDisplay_COMPLETED": "已完成"
+  },
+  "returnRequest": {
+    "returnRequestId": "退貨請求號碼",
+    "orderCode": "針對訂單號碼",
+    "status": "退貨狀態",
+    "cancel": "取消退貨請求",
+    "item": "說明",
+    "itemPrice": "項目價格",
+    "returnQty": "退貨數量",
+    "total": "總計",
+    "summary": "退貨總計",
+    "subtotal": "小計",
+    "deliveryCode": "交貨成本",
+    "estimatedRefund": "預計退款",
+    "note": "已預計總計，但可能未包含適用稅款貨其他費用。",
+    "cancelSuccess": "已取消您的退貨請求 ({{rma}})",
+    "caption": "訂單內容。"
+  },
+  "reorder": {
+    "button": "重新訂購",
+    "dialog": {
+      "reorderProducts": "重新訂購產品",
+      "messages": {
+        "reviewConfiguration": "\"{{ productCode}}\" 組態發生錯誤。",
+        "lowStock": "{{ productName }} 的數量：{{ quantity }} 已減少為 {{ quantityAdded }}。",
+        "noStock": "{{ productName }} 目前缺貨。",
+        "pricingError": "\"{{ productCode }}\" 發生定價問題。",
+        "unresolvableIssues": "\"{{ productCode }}\" 發生無法識別的問題。",
+        "success": "已成功將產品新增至購物車"
+      },
+      "areYouSureToReplaceCart": "目前購物車將使用新項目取代。您要繼續嗎？",
+      "cancel": "取消",
+      "continue": "繼續"
+    }
+  }
+}

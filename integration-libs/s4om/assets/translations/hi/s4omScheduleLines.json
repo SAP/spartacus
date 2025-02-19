@@ -1,0 +1,8 @@
+{
+  "s4omScheduleLines": {
+    "quantity": "मात्रा",
+    "a11y": {
+      "scheduleLineEntryInfo": "{{ quantity }} मात्रा {{ date }} द्वारा वितरित की जाएगी"
+    }
+  }
+}

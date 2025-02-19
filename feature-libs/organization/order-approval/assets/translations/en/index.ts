@@ -5,7 +5,6 @@
  */
 
 import orderApproval from './orderApproval.json';
-
 export const en = {
   orderApproval,
 };

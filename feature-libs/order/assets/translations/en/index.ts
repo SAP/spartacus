@@ -6,8 +6,7 @@
 
 import myAccountV2Order from './myAccountV2Order.json';
 import order from './order.json';
-
 export const en = {
-  order,
   myAccountV2Order,
+  order,
 };

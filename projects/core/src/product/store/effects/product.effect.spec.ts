@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -13,6 +13,10 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const router = {
@@ -56,16 +60,15 @@ describe('Product Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ product: () => mockProductState }),
-      ],
+      imports: [StoreModule.forRoot({ product: () => mockProductState })],
       providers: [
         { provide: ProductConnector, useClass: MockProductConnector },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

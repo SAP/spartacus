@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { waitForAsync, TestBed } from '@angular/core/testing';
 import { BaseFocusService } from './base-focus.service';
 
-@Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
+@Component({
+  template: '<div id="a"></div><div id="b" tabindex="5"></div>',
+  standalone: false,
+})
 class MockComponent {}
 describe('BaseFocusService', () => {
   let service: BaseFocusService;

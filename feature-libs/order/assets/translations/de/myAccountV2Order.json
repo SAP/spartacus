@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Alle Bestellungen ({{param}})",
+    "item": "{{param}} Position",
+    "items": "{{param}} Positionen",
+    "totalPrice": "Gesamtpreis: {{param}}",
+    "consignmentCode": "Sendung {{param}}",
+    "statusDate": "Zuletzt aktualisiert: {{param}}",
+    "returnProcessed": "Rücksendung bearbeitet: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Abzuholen - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Zu versenden - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Abzuholen - "
+    },
+    "orderListResults": "Liste der Bestellungen",
+    "orderListPagination": "Paginierung der Bestellliste",
+    "totalPriceLabel": "Gesamtpreis",
+    "orderPlaced": "Bestellung aufgegeben am",
+    "orderCodeLabel": "Bestellcode",
+    "consignmentDetailLabel": "Sendungsinformationen",
+    "consignmentNumberLabel": "Sendungsnummer",
+    "consignmentStatusLabel": "Sendungsstatus",
+    "consignmentStatusDateLabel": "Zuletzt aktualisiert am",
+    "estimateDeliveryLabel": "Voraussichtliches Lieferdatum"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Positionen zurücksenden",
+    "cancelItems": "Positionen stornieren",
+    "downloadInvoices": "Rechnungen herunterladen",
+    "viewAllOrders": "Alle Bestellungen anzeigen",
+    "noInvoices": "Rechnungen noch nicht generiert. Bitte kommen Sie später zurück."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} Position",
+    "items": "{{value}} Positionen",
+    "heading": "Bestellungen und Rücksendungen",
+    "orderNumber": "Bestellnummer ({{value}})",
+    "purchasedOn": "Gekauft am: {{value}}",
+    "orderedItems": "Bestellte Positionen: {{value}}",
+    "totalPrice": "Gesamtpreis: {{value}}",
+    "orderDetails": "Bestelldetails",
+    "orderDetailsLabel": "Bestelldetails für Bestellnummer {{value}} anzeigen",
+    "orderStatusLabel": "Bestellstatus",
+    "returnOrder": "Rücksendeauftrag",
+    "showMore": "Mehr anzeigen",
+    "showMoreLabel": "Zum Bestellverlauf navigieren"
+  }
+}

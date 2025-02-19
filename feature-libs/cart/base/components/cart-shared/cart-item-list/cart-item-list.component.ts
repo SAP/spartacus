@@ -48,6 +48,7 @@ interface ItemListContext {
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

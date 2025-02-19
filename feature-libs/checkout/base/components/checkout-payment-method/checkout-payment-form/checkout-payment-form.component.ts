@@ -51,6 +51,7 @@ import { CheckoutBillingAddressFormService } from '../../checkout-billing-addres
   selector: 'cx-payment-form',
   templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;

@@ -33,6 +33,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   selector: 'cx-saved-cart-details-items',
   templateUrl: './saved-cart-details-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

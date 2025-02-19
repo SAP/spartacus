@@ -4,24 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CdsEndpointsService } from '../services';
-import { CdsConfig } from '../config';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import {
-  BehaviorSubject,
-  Observable,
-  timer,
-  switchMap,
-  map,
-  takeWhile,
-  take,
-  shareReplay,
-  EMPTY,
   catchError,
+  EMPTY,
   filter,
+  map,
+  Observable,
+  shareReplay,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+  takeWhile,
+  timer,
 } from 'rxjs';
+import { CdsConfig } from '../config';
+import { CdsEndpointsService } from '../services';
 import { SearchPhrases } from './model';
 
 const AVAILABILITY_CHECK_INTERVAL = 250;
@@ -39,7 +40,7 @@ export class TrendingSearchesService implements OnDestroy {
   protected httpClient = inject(HttpClient);
   protected winRef = inject(WindowRef);
 
-  private destroy$ = new BehaviorSubject<boolean>(false);
+  private destroy$ = new Subject<boolean>();
   private trendingSearches$ = this.initTrendingSearches().pipe(shareReplay(1));
 
   protected checkAvailability(): Observable<string> {
@@ -80,7 +81,7 @@ export class TrendingSearchesService implements OnDestroy {
         const url = this.constructTrendingSearchUrl(cdsSiteId);
         return timer(0, POLL_INTERVAL).pipe(
           switchMap(() => this.fetchTrendingSearches(url)),
-          takeWhile(() => !this.destroy$.value)
+          takeUntil(this.destroy$)
         );
       })
     );
@@ -89,7 +90,6 @@ export class TrendingSearchesService implements OnDestroy {
   getTrendingSearches(): Observable<SearchPhrases[]> {
     return this.trendingSearches$;
   }
-
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.complete();

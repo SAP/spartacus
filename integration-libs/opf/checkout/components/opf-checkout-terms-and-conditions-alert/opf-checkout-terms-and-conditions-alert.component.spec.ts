@@ -5,6 +5,7 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-term
 @Component({
   selector: 'cx-icon',
   template: '<ng-content></ng-content>',
+  standalone: false,
 })
 class MockIconComponent {
   @Input() type: string;
@@ -12,6 +13,7 @@ class MockIconComponent {
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}

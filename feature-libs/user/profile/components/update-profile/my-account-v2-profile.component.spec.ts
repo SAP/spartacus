@@ -6,23 +6,23 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
-import createSpy = jasmine.createSpy;
 import { UpdateProfileComponentService } from './update-profile-component.service';
+import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
@@ -56,7 +56,6 @@ describe('MyAccountV2ProfileComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
         UrlTestingModule,
         NgSelectModule,
         FeaturesConfigModule,

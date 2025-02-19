@@ -16,6 +16,7 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -23,6 +24,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-active-facets',
   template: '',
+  standalone: false,
 })
 class MockActiveFacetsComponent {
   @Input() facetList;
@@ -30,6 +32,7 @@ class MockActiveFacetsComponent {
 @Component({
   selector: 'cx-facet-list',
   template: '',
+  standalone: false,
 })
 class MockFacetListComponent {
   @Input() isDialog;

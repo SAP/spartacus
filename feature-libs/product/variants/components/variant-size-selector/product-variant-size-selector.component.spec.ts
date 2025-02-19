@@ -1,17 +1,16 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationExtras } from '@angular/router';
 import {
   I18nTestingModule,
-  RoutingService,
-  UrlCommands,
   Product,
   ProductService,
-  VariantQualifier,
+  RoutingService,
+  UrlCommands,
   VariantOptionQualifier,
+  VariantQualifier,
 } from '@spartacus/core';
-import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
-import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 
 const mockProduct = {
   code: 'p1',
@@ -54,7 +53,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProductVariantSizeSelectorComponent],
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         {

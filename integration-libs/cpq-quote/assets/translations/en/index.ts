@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import cpqQuoteHeading from './cpq-quote.json';
-import discountCaption from './cpq-quote.json';
-
+import cpqQuote from './cpqQuote.json';
 export const en = {
-  cpqQuoteHeading,
-  discountCaption,
+  cpqQuote,
 };

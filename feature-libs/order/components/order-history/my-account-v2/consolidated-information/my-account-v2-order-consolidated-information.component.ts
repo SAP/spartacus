@@ -24,6 +24,7 @@ import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
   selector: 'cx-my-account-v2-order-consolidated-information',
   templateUrl: './my-account-v2-order-consolidated-information.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(
