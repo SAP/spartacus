@@ -93,11 +93,6 @@ exports[`Workspace utils getProject should return project 1`] = `
           "includePaths": [
             "node_modules/",
           ],
-          "sass": {
-            "silenceDeprecations": [
-              "import",
-            ],
-          },
         },
         "styles": [
           "src/styles.scss",
@@ -217,11 +212,6 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
         "includePaths": [
           "node_modules/",
         ],
-        "sass": {
-          "silenceDeprecations": [
-            "import",
-          ],
-        },
       },
       "styles": [
         "src/styles.scss",

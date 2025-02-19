@@ -19,6 +19,7 @@
     "fromStoresFound": "（共找到 {{ count }} 个店铺）",
     "fromStoresFound_other": "（共找到 {{ count }} 个店铺）",
     "findStore": "查找店铺",
+    "findStoreBy": "Find store by",
     "useMyLocation": "使用我的位置",
     "viewAllStores": "查看所有店铺",
     "contactUs": "联系我们",

@@ -14,6 +14,7 @@
     "saveAsDefault": "儲存為預設",
     "setAsDefault": "設硬為預設付款方法",
     "billingAddress": "帳單寄送地址",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "與交貨地址相同",
     "billingAddressSameAsShipping": "帳單寄送地址與交貨地址相同",
     "selectOne": "選擇一個...",

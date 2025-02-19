@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const dpTranslationChunksConfig = extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const dpTranslationChunksConfig: TranslationChunksConfig = {
+  dpPaymentForm: ['dpPaymentForm'],
+};
 
 export { cs as dpTranslationsCs } from './cs/index';
 export { de as dpTranslationsDe } from './de/index';

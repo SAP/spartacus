@@ -105,29 +105,49 @@
           </button>
         </ng-container>
         <ng-container *cxFeature="'a11yNavigationUiKeyboardControls'">
-          <button
-            aria-level="4"
-            [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
-            [attr.aria-haspopup]="true"
-            [attr.aria-expanded]="false"
-            [attr.aria-controls]="node.title"
-            [attr.aria-label]="node.title"
-            [attr.title]="
-              'navigation.menuButonTitle' | cxTranslate: { title: node.title }
-            "
-            (click)="toggleOpen($any($event))"
-            (mouseenter)="onMouseEnter($event)"
-            (keydown.space)="onSpace($any($event))"
-            (keydown.enter)="onSpace($any($event))"
-            (keydown.esc)="back()"
-            (keydown.arrowDown)="focusOnNode($any($event))"
-            (focus)="depth || reinitializeMenu()"
-          >
-            <ng-container *ngIf="!node.url">
-              {{ node.title }}
-            </ng-container>
-            <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
-          </button>
+          <ng-container *cxFeature="'!a11yNavigationButtonsAriaFixes'">
+            <button
+              aria-level="4"
+              [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
+              [attr.aria-haspopup]="true"
+              [attr.aria-expanded]="false"
+              [attr.aria-controls]="node.title"
+              [attr.aria-describedby]="'greeting'"
+              (click)="toggleOpen($any($event))"
+              (mouseenter)="onMouseEnter($event)"
+              (keydown.space)="onSpace($any($event))"
+              (keydown.enter)="onSpace($any($event))"
+              (keydown.esc)="back()"
+              (keydown.arrowDown)="focusOnNode($any($event))"
+              (focus)="depth || reinitializeMenu()"
+            >
+              <ng-container *ngIf="!node.url">
+                {{ node.title }}
+              </ng-container>
+              <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+            </button>
+          </ng-container>
+          <ng-container *cxFeature="'a11yNavigationButtonsAriaFixes'">
+            <button
+              [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
+              [attr.aria-haspopup]="true"
+              [attr.aria-expanded]="false"
+              [attr.aria-label]="getAriaLabelAndControl(node)"
+              [attr.aria-controls]="getAriaLabelAndControl(node)"
+              (click)="toggleOpen($any($event))"
+              (mouseenter)="onMouseEnter($event)"
+              (keydown.space)="onSpace($any($event))"
+              (keydown.enter)="onSpace($any($event))"
+              (keydown.esc)="back()"
+              (keydown.arrowDown)="focusOnNode($any($event))"
+              (focus)="depth || reinitializeMenu()"
+            >
+              <ng-container *ngIf="!node.url">
+                {{ node.title }}
+              </ng-container>
+              <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+            </button>
+          </ng-container>
         </ng-container>
       </ng-container>
       <ng-template #title>
@@ -135,7 +155,7 @@
           role="heading"
           aria-level="4"
           *ngIf="node.title"
-          [attr.tabindex]="-1"
+          [attr.tabindex]="focusableNodeTitles ? 0 : -1"
         >
           {{ node.title }}
         </span>
@@ -144,7 +164,7 @@
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div
-      [id]="node.title"
+      [id]="getSanitizedTitle(node.title)"
       class="wrapper"
       *ngIf="node.children && node.children.length > 0"
     >

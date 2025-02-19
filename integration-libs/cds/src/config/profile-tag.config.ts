@@ -9,5 +9,4 @@ export interface ProfileTagConfig {
   configUrl?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
-  sciEnabled?: boolean;
 }

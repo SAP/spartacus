@@ -36,4 +36,6 @@ export interface UserSignUp {
   password?: string;
   titleCode?: string;
   uid?: string;
+  verificationTokenId?: string;
+  verificationTokenCode?: string;
 }

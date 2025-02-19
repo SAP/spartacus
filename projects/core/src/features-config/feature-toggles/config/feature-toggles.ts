@@ -615,6 +615,12 @@ export interface FeatureTogglesInterface {
   a11yNgSelectCloseDropdownOnEscape?: boolean;
 
   /**
+   * 'NgSelectA11yDirective' will customize a ng-select dropdowns by setting custom
+   * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
+   */
+  a11yNgSelectAriaLabelDropdownCustomized?: boolean;
+
+  /**
    * Removes duplicated error message from 'CancelOrderComponent'.
    */
   a11yRepeatedCancelOrderError?: boolean;
@@ -812,6 +818,12 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
+   * Removes invalid aria-level usage on button elements and ensures buttons have a proper accessible name via aria-label or aria-labelledby.
+   * Affects: NavigationUIComponent
+   */
+  a11yNavigationButtonsAriaFixes?: boolean;
+
+  /**
    * Restores the focus to the card once a option has been selected and the checkout has updated.
    * Affects: CheckoutPaymentMethodComponent, CheckoutDeliveryAddressComponent
    */
@@ -986,8 +998,8 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: false,
   formErrorsDescriptiveMessages: true,
-  showSearchingCustomerByOrderInASM: false,
-  showStyleChangesInASM: false,
+  showSearchingCustomerByOrderInASM: true,
+  showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
   useExtractedBillingAddressComponent: true,
   showBillingAddressInDigitalPayments: true,
@@ -1064,23 +1076,24 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabComponent: false,
   a11yCarouselArrowKeysNavigation: false,
   a11yPickupOptionsTabs: false,
-  a11yNotificationsOnConsentChange: false,
+  a11yNotificationsOnConsentChange: true,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
   a11yFacetsDialogFocusHandling: true,
   a11yResetFocusAfterNavigating: false,
   headerLayoutForSmallerViewports: false,
-  a11yStoreFinderAlerts: false,
+  a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
-  a11yFormErrorMuteIcon: false,
-  a11yCxMessageFocus: false,
+  a11yFormErrorMuteIcon: true,
+  a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: false,
-  a11yDeliveryModeRadiogroup: false,
+  a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: false,
   a11yNgSelectCloseDropdownOnEscape: false,
+  a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: false,
   a11yAddedToCartActiveDialog: false,
-  a11yNgSelectMobileReadout: false,
+  a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: false,
   a11yShowMoreReviewsBtnFocus: false,
   a11yQuickOrderAriaControls: false,
@@ -1114,14 +1127,15 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderSearchBoxRefocusOnClose: false,
   a11yKeyboardFocusInSearchBox: false,
   a11yAddPaddingToCarouselPanel: false,
+  a11yNavigationButtonsAriaFixes: false,
   a11yFocusOnCardAfterSelecting: false,
   a11ySearchableDropdownFirstElementFocus: false,
   a11yHideConsentButtonWhenBannerVisible: false,
   a11yRepeatingButtonsUniqueLabels: false,
   a11yHighContrastBorders: false,
   a11yRegionAssociatedHeaders: false,
-  occCartNameAndDescriptionInHttpRequestBody: false,
-  cmsBottomHeaderSlotUsingFlexStyles: false,
+  occCartNameAndDescriptionInHttpRequestBody: true,
+  cmsBottomHeaderSlotUsingFlexStyles: true,
   useSiteThemeService: false,
   enableConsecutiveCharactersPasswordRequirement: false,
   enablePasswordsCannotMatchInPasswordUpdateForm: false,

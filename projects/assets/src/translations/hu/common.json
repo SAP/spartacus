@@ -21,11 +21,13 @@
     "search": "Keresés",
     "add": "Hozzáadás",
     "breadcrumbs": "útkövetések",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Fájl kiválasztása",
     "clear": "Törlés",
     "loaded": "Betöltve",
     "results": "Eredmények",
     "of": "/",
+    "ngSelectDropdownOptionsList": "Opciók",
     "required": "kötelező",
     "zoomIn": "Nagyítás",
     "zoomOut": "Kicsinyítés",
@@ -63,7 +65,8 @@
     "goTo": "Tovább: {{location}}",
     "navigateTo": "Navigálás: {{nav}}",
     "scrollToTop": "Visszagörgetés az oldal tetejére",
-    "linkItemInList": "{{title}}. {{position}}/{{listLength}}"
+    "linkItemInList": "{{title}}. {{position}}/{{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Adja meg a terméknevet vagy cikkszámot",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "terméktalálatok",
     "initialDescription": "Ha elérhetők az automatikus kiegészítés találatai, a fel és le nyilakkal ellenőrizheti, az Enter billentyűvel pedig kiválaszthatja őket. Az érintőképernyős eszközök felhasználói érintéssel vagy húzással navigálhatnak.",
     "suggestions": "Javasolt kulcsszavak",
+    "recentSearches": "Legutóbbi keresések",
+    "trendingSearches": "Népszerű keresések",
     "suggestionsResult": "{{ count }} javaslat és ",
     "suggestionsResult_other": "{{ count }} javaslat és ",
     "products": "Ajánlott termékek",

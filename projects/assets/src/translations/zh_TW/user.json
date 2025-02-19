@@ -10,7 +10,8 @@
       "title": "此網站使用 Cookie",
       "description": "我們使用 Cookie/瀏覽器儲存空間，個人化內容並改善使用者體驗。",
       "allowAll": "全部允許",
-      "viewDetails": "檢視明細"
+      "viewDetails": "檢視明細",
+      "consentManagement": "同意管理"
     }
   },
   "checkoutLogin": {

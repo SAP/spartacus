@@ -21,11 +21,13 @@
     "search": "Hledat",
     "add": "Přidat",
     "breadcrumbs": "Navigační cesty",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Vyberte soubor",
     "clear": "Vymazat",
     "loaded": "Načteno",
     "results": "Výsledky",
     "of": "z",
+    "ngSelectDropdownOptionsList": "Možnosti",
     "required": "povinné",
     "zoomIn": "Zvětšit",
     "zoomOut": "Zmenšit",
@@ -63,7 +65,8 @@
     "goTo": "Přejít na {{location}}",
     "navigateTo": "Navigovat k {{nav}}",
     "scrollToTop": "Vraťte se na začátek stránky.",
-    "linkItemInList": "{{title}}. {{position}} z {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} z {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Zadejte název produktu nebo SKU",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "výsledky produktu",
     "initialDescription": "Když jsou k dispozici výsledky automatického dokončování, použijte šipky nahoru a dolů k prohlížení a enter k výběru. Uživatelé dotykových zařízení mohou vyhledávat dotykem nebo gesty přejetí prstem.",
     "suggestions": "Navržená klíčová slova",
+    "recentSearches": "Nejnovější hledání",
+    "trendingSearches": "Častá hledání",
     "suggestionsResult": "{{ count }} návrh a ",
     "suggestionsResult_other": "Počet návrhů: {{ count }} a ",
     "products": "Doporučené produkty",

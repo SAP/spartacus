@@ -21,11 +21,13 @@
     "search": "Buscar",
     "add": "Agregar",
     "breadcrumbs": "rutas de navegación",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Seleccionar archivo",
     "clear": "Borrar",
     "loaded": "Cargado",
     "results": "Resultados",
     "of": "de",
+    "ngSelectDropdownOptionsList": "Opciones",
     "required": "obligatorio",
     "zoomIn": "Acercar",
     "zoomOut": "Alejar",
@@ -63,7 +65,8 @@
     "goTo": "Vaya a {{location}}",
     "navigateTo": "Navegue a {{nav}}",
     "scrollToTop": "Desplácese hacia arriba al principio de la página",
-    "linkItemInList": "{{title}}. {{position}} de {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} de {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Ingresar nombre de producto o SKU",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "resultados de productos",
     "initialDescription": "Si están disponibles los resultados de autocompletar, use las flechas de arriba y abajo y la tecla Intro para seleccionar. Los usuarios de dispositivos táctiles pueden explorar tocando la pantalla o con gestos de deslizamiento.",
     "suggestions": "Palabras clave sugeridas",
+    "recentSearches": "Búsquedas recientes",
+    "trendingSearches": "Búsquedas más populares",
     "suggestionsResult": "{{ count }} sugerencia y ",
     "suggestionsResult_other": "{{ count }} sugerencias y ",
     "products": "Productos recomendados",
