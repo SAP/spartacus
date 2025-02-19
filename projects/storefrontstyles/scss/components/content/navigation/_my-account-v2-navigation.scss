@@ -2,11 +2,11 @@
   background: var(--cx-color-inverse);
   font-family: sans-serif;
   padding: 5px 5px 5px 5px;
-  width: 250px;
+  width: 100%;
   a {
     font-size: var(--cx-font-medium);
     font-weight: bold;
-    width: 250px;
+    width: 100%;
     height: 50px;
     display: flex;
     text-indent: 5px;
@@ -19,17 +19,22 @@
 
   cx-navigation-ui {
     background: var(--cx-color-inverse);
+    flex-direction: column;
+    width: 100%;
     // Node Heading
-    span {
+    span,
+    h4 {
       text-indent: 5px;
       font-weight: bold;
       display: block;
       padding: 10px 5px 15px 5px;
       background-color: var(--cx-color-background);
       border: 1px solid var(--cx-color-medium);
-      width: 250px;
+      width: 100%;
       height: 40px;
       margin-top: 20px;
+      margin-bottom: 0px;
+      line-height: normal;
     }
 
     > nav > ul {
@@ -51,5 +56,29 @@
     font-family: sans-serif, 'Font Awesome 5 Free';
     font-size: var(--cx-font-medium);
     display: inline-block;
+  }
+}
+
+@media screen and (max-width: 544px) {
+  cx-navigation-ui h4,
+  span {
+    font-size: 14px;
+  }
+  cx-my-account-v2-navigation a,
+  cx-my-account-v2-navigation .fas {
+    height: auto;
+    padding: 19px 0 19px 2px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 444px) {
+  cx-navigation-ui h4,
+  span {
+    font-size: 11px;
+  }
+  cx-my-account-v2-navigation a,
+  cx-my-account-v2-navigation .fas {
+    font-size: 10px;
+    word-wrap: break-word;
   }
 }

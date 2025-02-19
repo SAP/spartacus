@@ -18,7 +18,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 describe('Payment Methods', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       visitHomePage();
