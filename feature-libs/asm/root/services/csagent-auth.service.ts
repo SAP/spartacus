@@ -84,7 +84,7 @@ export class CsAgentAuthService {
   }
 
   /**
-   * Loads access token for a customer support agent when use code flow.
+   * Loads access token for a customer support agent with authorization code flow.
    */
   async authorizeCustomerSupportAgentWhenUseCodeFlow(): Promise<void> {
     let userToken: AuthToken | undefined;
