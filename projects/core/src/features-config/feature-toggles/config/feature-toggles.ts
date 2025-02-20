@@ -62,7 +62,7 @@ export interface FeatureTogglesInterface {
   showSearchingCustomerByOrderInASM?: boolean;
 
   /**
-   * In 'ASM' it shows pages when use code flow authentication.
+   * After the feature toggle is enabled, Customer Support Agent logs in ASM with the Authorization Code flow.
    */
   showOauth2AsmloginPage?: boolean;
 
