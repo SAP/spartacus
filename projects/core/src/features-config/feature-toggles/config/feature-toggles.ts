@@ -52,11 +52,6 @@ export interface FeatureTogglesInterface {
   showDownloadProposalButton?: boolean;
 
   /**
-   * In `ProductSummaryComponent` it shows the promotions info.
-   */
-  showPromotionsInPDP?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -999,7 +994,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtractedBillingAddressComponent: true,
   showBillingAddressInDigitalPayments: true,
   showDownloadProposalButton: true,
-  showPromotionsInPDP: true,
   searchBoxV2: false,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
