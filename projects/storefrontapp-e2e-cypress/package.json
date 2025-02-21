@@ -45,7 +45,7 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
     "@cypress/webpack-preprocessor": "^6.0.0",
-    "@testing-library/cypress": "10.0.2",
+    "@testing-library/cypress": "10.0.3",
     "babel-loader": "^9.0.0",
     "cypress": "^13.8.0",
     "cypress-file-upload": "^5.0.8",
