@@ -37,6 +37,7 @@ import {
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
+import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-list',
@@ -107,6 +108,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmCustomerListFacade: AsmCustomerListFacade,
     protected occConfig?: OccConfig
   ) {
+    useFeatureStyles('a11yShowLabelOfSelect');
     this.breakpoint$ = this.getBreakpoint();
   }
 

@@ -29,14 +29,21 @@ $sapFioriContent_LabelColor: #6a6d70;
     display: flex;
     .cx-header-select {
       display: flex;
+      @include forFeature('a11yShowLabelOfSelect') {
+        align-items: flex-end;
+      }
       .cx-total {
         padding: 0.6875rem 1rem;
+        padding: 1rem 1rem;
       }
     }
     .cx-header-select.mobile {
       flex-direction: column;
     }
     .cx-header-actions {
+      @include forFeature('a11yShowLabelOfSelect') {
+        align-items: flex-end;
+      }
       display: flex;
       label {
         margin: 0;
@@ -44,7 +51,7 @@ $sapFioriContent_LabelColor: #6a6d70;
       .search-wrapper {
         position: relative;
         margin-inline-start: 1rem;
-
+        margin-bottom: -0.15rem;
         .form-control {
           padding-inline-end: 46px;
           &:hover,
