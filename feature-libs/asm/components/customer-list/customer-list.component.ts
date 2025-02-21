@@ -25,6 +25,7 @@ import {
   TranslationService,
   User,
   OccConfig,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -37,7 +38,6 @@ import {
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
-import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-list',
