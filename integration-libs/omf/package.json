@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/omf",
-  "version": "2211.36.0",
+  "version": "2211.36.1",
   "description": "SAP Order Management Foundation Integration",
   "keywords": [
     "spartacus",
@@ -25,9 +25,9 @@
     "@angular/core": "^19.0.3",
     "@angular/router": "^19.0.3",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/core": "2211.36.0",
-    "@spartacus/order": "2211.36.0",
-    "@spartacus/schematics": "2211.36.0",
+    "@spartacus/core": "2211.36.1",
+    "@spartacus/order": "2211.36.1",
+    "@spartacus/schematics": "2211.36.1",
     "rxjs": "^7.8.0"
   },
   "engines": {
