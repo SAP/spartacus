@@ -7,7 +7,7 @@
 export interface ProfileTagConfig {
   javascriptUrl?: string;
   configUrl?: string;
-  siteId?: string;
+  cdsSiteId?: string;
   allowInsecureCookies?: boolean;
   gtmId?: string;
   sciEnabled?: boolean;
