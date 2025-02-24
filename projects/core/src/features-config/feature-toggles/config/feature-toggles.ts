@@ -52,11 +52,6 @@ export interface FeatureTogglesInterface {
   showDownloadProposalButton?: boolean;
 
   /**
-   * In `ProductSummaryComponent` it shows the promotions info.
-   */
-  showPromotionsInPDP?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -70,11 +65,6 @@ export interface FeatureTogglesInterface {
    * Some Changes for input of cart Number and text of Customer360View in ASM view
    */
   showStyleChangesInASM?: boolean;
-
-  /**
-   * In `SearchBoxComponent` it shows the recent searches.
-   */
-  recentSearches?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the trending searches.
@@ -998,9 +988,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtractedBillingAddressComponent: true,
   showBillingAddressInDigitalPayments: true,
   showDownloadProposalButton: true,
-  showPromotionsInPDP: true,
   searchBoxV2: false,
-  recentSearches: true,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
   useProductCarouselBatchApi: false,

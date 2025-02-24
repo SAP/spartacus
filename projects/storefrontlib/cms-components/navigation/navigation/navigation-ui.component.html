@@ -155,7 +155,7 @@
           role="heading"
           aria-level="4"
           *ngIf="node.title"
-          [attr.tabindex]="-1"
+          [attr.tabindex]="focusableNodeTitles ? 0 : -1"
         >
           {{ node.title }}
         </span>

@@ -56,6 +56,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   @Input() resetMenuOnClose: boolean | undefined;
 
+  /**
+   * Include non intractable node titles within the tabbing order.
+   */
+  @Input() focusableNodeTitles: boolean = false;
+
   @Input() navAriaLabel: string | null | undefined;
   /**
    * the icon type that will be used for navigation nodes
