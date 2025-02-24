@@ -107,6 +107,14 @@ export function verifyTabbingOrder() {
   );
 }
 
+export function verifyTabbingOrderForRegistrationWithOTP() {
+  tabbingOrder('form', config.userRegistrationFormWithOTP);
+}
+
+export function verifyTabbingOrderForOTPVerification() {
+  tabbingOrder('form', config.verificationToken);
+}
+
 export function verifyFormErrors() {
   const requiredFirstNameFieldMessage = 'Field First name is required';
   const requiredLastNameFieldMessage = 'Field Last name is required';

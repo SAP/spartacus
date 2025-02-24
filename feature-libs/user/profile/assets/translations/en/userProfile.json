@@ -27,6 +27,7 @@
     "termsAndConditions": "Terms & Conditions",
     "signIn": "I already have an account. Sign In",
     "register": "Register",
+    "furtherRegistration": "Continue",
     "confirmNewPassword": "Confirm New Password",
     "resetPassword": "Reset Password",
     "createAccount": "Create an account",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Both password must match",
     "titleRequired": "Title is required.",
     "postRegisterMessage": "Please log in with provided credentials.",
-    "postRegisterSuccessMessage": "Successful Registration: Please log in with provided credentials"
+    "postRegisterSuccessMessage": "Your account has been successfully created! Please log in with provided credentials",
+    "rateLimitForRegistrationMessage": "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Verification code has been sent to {{target}}. Please enter the code.",
+      "sendRateLime": "in {{waitTime}} seconds",
+      "resend": "Resend",
+      "verificationCode": {
+        "label": "Verification Code",
+        "placeholder": "Enter Verification Code"
+      },
+      "back": "Back"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Reset password",

@@ -21,11 +21,13 @@
     "search": "検索",
     "add": "追加",
     "breadcrumbs": "ブレッドクラム",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "ファイルを選択",
     "clear": "クリア",
     "loaded": "ロード済み",
     "results": "結果",
     "of": "/",
+    "ngSelectDropdownOptionsList": "オプション",
     "required": "必須",
     "zoomIn": "拡大",
     "zoomOut": "縮小",
@@ -63,7 +65,8 @@
     "goTo": "{{location}} に移動",
     "navigateTo": "{{nav}} にナビゲート",
     "scrollToTop": "ページの上部にスクロールして戻る",
-    "linkItemInList": "{{title}}. {{position}} / {{listLength}} "
+    "linkItemInList": "{{title}}. {{position}} / {{listLength}} ",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "商品名または SKU を入力",

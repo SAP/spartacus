@@ -19,6 +19,7 @@
     "fromStoresFound": "{{ count }}개 매장에서 찾음",
     "fromStoresFound_other": "{{ count }}개 매장에서 찾음",
     "findStore": "매장 찾기",
+    "findStoreBy": "Find store by",
     "useMyLocation": "내 위치 사용",
     "viewAllStores": "모든 매장 보기",
     "contactUs": "사용자 문의",

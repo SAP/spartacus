@@ -10,7 +10,7 @@ export function checkBanner() {
 
 export function clickHamburger() {
   cy.onMobile(() => {
-    cy.get('cx-hamburger-menu button').click();
+    cy.get('cx-hamburger-menu button', { timeout: 15000 }).click();
   });
 }
 

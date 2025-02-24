@@ -4,10 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const customerTicketingTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const customerTicketingTranslationChunksConfig: TranslationChunksConfig =
+  {
+    customerTicketing: [
+      'customerTicketing',
+      'customerTicketingList',
+      'createCustomerTicket',
+      'customerTicketingDetails',
+    ],
+    myAccountV2CustomerTicketing: ['myAccountV2CustomerTicketing'],
+  };
 
 export { cs as customerTicketingTranslationsCs } from './cs/index';
 export { de as customerTicketingTranslationsDe } from './de/index';

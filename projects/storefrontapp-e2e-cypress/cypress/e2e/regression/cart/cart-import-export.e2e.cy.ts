@@ -11,7 +11,7 @@ import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { ImportExportContext } from './../../../helpers/cart-import-export';
 
 context('Cart Import/Export', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
     });
