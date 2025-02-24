@@ -16,6 +16,6 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@angular-devkit/architect": "0.1802.8"
+    "@angular-devkit/architect": "0.1901.8"
   }
 }
