@@ -53,6 +53,7 @@ describe('ProductSummaryComponent in product', () => {
     expect(currentProductService.getProduct).toHaveBeenCalledWith([
       'details',
       'price',
+      'promotions',
     ]);
   });
 
