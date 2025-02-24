@@ -1,6 +1,6 @@
 {
   "name": "ssr-tests",
-  "version": "2211.36.1",
+  "version": "2211.37.0-1",
   "private": true,
   "description": "Spartacus SSR Tests",
   "keywords": [
@@ -17,7 +17,7 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@spartacus/core": "2211.36.1",
+    "@spartacus/core": "2211.37.0-1",
     "http-proxy": "^1.18.1",
     "jest-circus": "^29.0.0",
     "jest-environment-node": "^29.0.0"
