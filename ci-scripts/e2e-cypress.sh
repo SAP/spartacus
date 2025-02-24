@@ -104,7 +104,7 @@ else
     echo "Running Cypress end to end tests"
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+      if [[ "${GITHUB_HEAD_REF}" == epic/* && "${GITHUB_HEAD_REF}" != renovate/* && "${GITHUB_HEAD_REF}" != dependabot/* ]]; then
         npm run e2e:run:ci"${SUITE}"
       else
         npm run e2e:run:ci:core"${SUITE}"
