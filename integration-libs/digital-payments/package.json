@@ -1,9 +1,6 @@
 {
   "name": "@spartacus/digital-payments",
-  "version": "2211.35.0-1",
-  "engines": {
-    "node": "^22.0.0"
-  },
+  "version": "2211.37.0-1",
   "description": "Digital Payments Integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -30,12 +27,15 @@
     "@angular/forms": "^19.0.3",
     "@angular/router": "^19.0.3",
     "@ng-select/ng-select": "^14.1.0",
-    "@spartacus/cart": "2211.35.0-1",
-    "@spartacus/checkout": "2211.35.0-1",
-    "@spartacus/core": "2211.35.0-1",
-    "@spartacus/schematics": "2211.35.0-1",
-    "@spartacus/storefront": "2211.35.0-1",
+    "@spartacus/cart": "2211.37.0-1",
+    "@spartacus/checkout": "2211.37.0-1",
+    "@spartacus/core": "2211.37.0-1",
+    "@spartacus/schematics": "2211.37.0-1",
+    "@spartacus/storefront": "2211.37.0-1",
     "rxjs": "^7.8.0"
+  },
+  "engines": {
+    "node": "^22.0.0"
   },
   "publishConfig": {
     "access": "public"
