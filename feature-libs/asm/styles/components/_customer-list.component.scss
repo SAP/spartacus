@@ -34,7 +34,9 @@ $sapFioriContent_LabelColor: #6a6d70;
       }
       .cx-total {
         padding: 0.6875rem 1rem;
-        padding: 1rem 1rem;
+        @include forFeature('a11yShowLabelOfSelect') {
+          padding: 1rem 1rem;
+        }
       }
     }
     .cx-header-select.mobile {
