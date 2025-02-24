@@ -11,7 +11,7 @@ export * from './translations/translations';
 /**
  * @deprecated Please use **specific language** translations (suffixed with language code) instead,
  * like in the following example:
- *             ```diff
+ *             ```diffs
  *               i18n: {
  *             -   resources: s4omTranslations
  *             +   resources: { en: s4omTranslationsEn }

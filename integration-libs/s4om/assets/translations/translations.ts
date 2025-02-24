@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/**
+ * test
+ */
+
 import { TranslationChunksConfig } from '@spartacus/core';
 
 export const s4omTranslationChunksConfig: TranslationChunksConfig = {
