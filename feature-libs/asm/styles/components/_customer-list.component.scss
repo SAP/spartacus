@@ -53,7 +53,9 @@ $sapFioriContent_LabelColor: #6a6d70;
       .search-wrapper {
         position: relative;
         margin-inline-start: 1rem;
-        margin-bottom: -0.15rem;
+        @include forFeature('a11yShowLabelOfSelect') {
+          margin-bottom: -0.15rem;
+        }
         .form-control {
           padding-inline-end: 46px;
           &:hover,
