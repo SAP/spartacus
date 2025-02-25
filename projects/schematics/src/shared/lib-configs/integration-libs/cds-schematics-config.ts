@@ -106,7 +106,8 @@ function buildCdsConfig(
                   options.profileTagConfigUrl ||
                   'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
                 }',
-              allowInsecureCookies: true
+              allowInsecureCookies: true,
+              sciEnabled: ${options.sciEnabled}
             },
           },
         }`,
