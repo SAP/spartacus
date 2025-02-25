@@ -19,7 +19,7 @@ context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
 
-    it('should checkout as logged in customer (CXSPA-7026)', () => {
+    it('should checkout as customer (CXSPA-7026)', () => {
       cy.cxConfig({
         features: {
           showSearchingCustomerByOrderInASM: true,

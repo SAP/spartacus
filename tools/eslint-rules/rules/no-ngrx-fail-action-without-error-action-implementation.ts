@@ -33,7 +33,8 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   meta: {
     type: 'problem',
     docs: {
-      description: ``,
+      description:
+        'Ensures NgRx Failure Actions implement ErrorAction interface',
     },
     schema: [], // no options
     messages: {
