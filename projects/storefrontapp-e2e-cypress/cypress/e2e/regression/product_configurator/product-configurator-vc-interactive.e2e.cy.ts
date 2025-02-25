@@ -29,7 +29,6 @@ const VIDEO_SYSTEM = 'Video System';
 const SOURCE_COMPONENTS = 'Source Components';
 const PROJECTOR = 'Projector';
 
-
 // List of conflict groups
 const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
 
