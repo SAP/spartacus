@@ -98,7 +98,7 @@ if (!environment.production) {
     provideConfig(<StoreFinderConfig>{
       // For security compliance, by default, google maps does not display.
       // Using special key value 'cx-development' allows google maps to display
-      // without a key, for development or demo purposes.
+      // without a key, for development or demo purposes
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
   ],
