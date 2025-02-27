@@ -247,7 +247,7 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.6.3",
-    "webpack": "~5.97.0",
+    "webpack": "~5.98.0",
     "webpack-cli": "^5.0.0"
   }
 }

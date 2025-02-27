@@ -605,6 +605,14 @@ export interface FeatureTogglesInterface {
   a11yNgSelectAriaLabelDropdownCustomized?: boolean;
 
   /**
+   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
+   * when a screen reader is used.
+   * Replaces select with ng-select component in the following component:
+   * `CustomerTicketingCreateDialogComponent`
+   */
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
+
+  /**
    * Removes duplicated error message from 'CancelOrderComponent'.
    */
   a11yRepeatedCancelOrderError?: boolean;
@@ -1071,6 +1079,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
