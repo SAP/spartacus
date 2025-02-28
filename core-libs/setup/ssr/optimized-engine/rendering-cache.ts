@@ -44,13 +44,7 @@ export class RenderingCache {
       this.tryRemoveOldestCacheEntries(htmlSize);
 
       if (shouldCache) {
-        if (
-          this.options?.cacheLimit &&
-          htmlSize + this.usedCacheSize <= this.options.cacheLimit
-        ) {
-          this.renders.set(key, entry);
-          this.usedCacheSize += htmlSize;
-        }
+        this.tryToCacheTheEntry(htmlSize, key, entry);
       }
       return;
     }
@@ -98,6 +92,20 @@ export class RenderingCache {
 
   getUsedCacheSize() {
     return this.usedCacheSize;
+  }
+
+  protected tryToCacheTheEntry(
+    htmlSize: number,
+    key: string,
+    entry: RenderingEntry
+  ) {
+    if (
+      this.options?.cacheLimit &&
+      htmlSize + this.usedCacheSize <= this.options.cacheLimit
+    ) {
+      this.renders.set(key, entry);
+      this.usedCacheSize += htmlSize;
+    }
   }
 
   protected tryRemoveOldestCacheEntries(htmlSize: number): void {
