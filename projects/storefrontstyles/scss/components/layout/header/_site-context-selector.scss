@@ -36,6 +36,9 @@ $caretSize: 7px;
     @include forFeature('a11yShowDownArrowOnFocusedSelectMenu') {
       z-index: 1000;
     }
+    @include forFeature('a11yVisibleFocusOverflows') {
+      z-index: 1;
+    }
   }
 
   select {
