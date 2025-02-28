@@ -396,7 +396,7 @@ export interface FeatureTogglesInterface {
    * Includes style changes for:
    * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
    * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
-   * `SiteContextSelectorComponent`, `SiteThemeSwitcherComponent`, `CarouselComponent`, `ProductListItemComponent`
+   * `CarouselComponent`, `ProductListItemComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
