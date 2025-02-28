@@ -102,6 +102,7 @@
     "start:ci:b2b": "env-cmd --no-override -e ci,b2b,$SPA_ENV nx serve storefrontapp --configuration=development",
     "start:opf": "env-cmd --no-override -e opf,$SPA_ENV nx serve storefrontapp --configuration=development",
     "start:opf:ssl": "env-cmd --no-override -e opf,$SPA_ENV nx serve storefrontapp --configuration=development --ssl",
+    "start:punchout": "env-cmd --no-override -e punchout,$SPA_ENV nx serve storefrontapp --configuration=development",
     "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx serve storefrontapp --configuration=production",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "nx test",
