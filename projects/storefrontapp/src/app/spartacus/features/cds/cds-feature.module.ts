@@ -19,7 +19,6 @@ import {
   cdsTranslationsDe,
   cdsTranslationsZh,
 } from '@spartacus/cds/assets';
-import { environment } from '../../../../environments/environment';
 
 /**
  * Only differences to the default cds config, they are merged together.
@@ -28,28 +27,17 @@ import { environment } from '../../../../environments/environment';
  * @see CdsModule.forRoot
  */
 
-const sciEnabled = environment.sciEnabled;
-
 const cds1: CdsConfig = {
   cds: {
     baseSite: ['electronics-spa', 'electronics', 'electronics-standalone'],
     tenant: 'argotest',
     baseUrl: 'https://api.stage.context.cloud.sap',
-    endpoints: {
-      strategyProducts: sciEnabled
-        ? '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products'
-        : '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
     profileTag: {
       javascriptUrl:
         'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
-      configUrl: sciEnabled
-        ? 'https://tag.static.stage.context.cloud.sap/config/profiletag-default-config'
-        : 'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
+      configUrl:
+        'https://tag.static.stage.context.cloud.sap/config/mytenant-main-default',
       allowInsecureCookies: true,
-      sciEnabled: sciEnabled,
     },
   },
 };
@@ -70,20 +58,11 @@ const cds2: CdsConfig = {
     ],
     tenant: 'A_CDS_TENANT',
     baseUrl: 'A_CDS_BASE_URL',
-    endpoints: {
-      strategyProducts: sciEnabled
-        ? '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products'
-        : '/strategy/${tenant}/strategies/${strategyId}/products',
-      searchIntelligence:
-        '/search-intelligence/v1/sites/${cdsSiteId}/trendingSearches',
-    },
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
-      configUrl: sciEnabled
-        ? 'https://tag.static.stage.context.cloud.sap/config/profiletag-default-config'
-        : 'A_CDS_PROFILE_TAG_CONFIG_URL',
+      configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
+      cdsSiteId: 'A_CDS_SITE_ID',
       allowInsecureCookies: true,
-      sciEnabled: sciEnabled,
     },
   },
 };

@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const quickOrderTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const quickOrderTranslationChunksConfig: TranslationChunksConfig = {
+  quickOrder: [
+    'quickOrderCartForm',
+    'quickOrderForm',
+    'quickOrderList',
+    'quickOrderTable',
+  ],
+};
 
 export { cs as quickOrderTranslationsCs } from './cs/index';
 export { de as quickOrderTranslationsDe } from './de/index';

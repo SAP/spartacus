@@ -136,7 +136,6 @@
   (click)="close($any($event), true)"
   role="listbox"
   [class.no-headers]="
-    !isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) &&
     !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
     !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
   "
@@ -157,7 +156,6 @@
   >
     <ng-container
       *ngIf="
-        isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
@@ -171,7 +169,6 @@
       attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
       role="listbox"
       [class.no-headers]="
-        !isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) &&
         !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
         !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
@@ -228,23 +225,19 @@
   </div>
 
   <!--  RECENT SEARCHES-->
-  <ng-container *cxFeature="searchBoxFeatures.RECENT_SEARCHES_FEATURE">
-    <ng-template
-      *ngIf="config.recentSearches"
-      [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
-      [cxOutletContext]="{
-        search: searchInputEl?.nativeElement?.value ?? '',
-        searchBoxActive: searchBoxActive,
-        maxRecentSearches: config.maxRecentSearches,
-      }"
-    ></ng-template>
-  </ng-container>
-
+  <ng-template
+    *ngIf="config.recentSearches"
+    [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
+    [cxOutletContext]="{
+      search: searchInputEl?.nativeElement?.value ?? '',
+      searchBoxActive: searchBoxActive,
+      maxRecentSearches: config.maxRecentSearches,
+    }"
+  ></ng-template>
   <!--RESULT  PRODUCTS-->
   <div class="products">
     <ng-container
       *ngIf="
-        isEnabledFeature(searchBoxFeatures.RECENT_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
         isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
@@ -365,10 +358,10 @@
         class="trendingSearches-header"
         *ngIf="searchInputEl?.nativeElement?.value?.length === 0"
       >
-        {{ 'cdsTrendingSearches.trendingSearches' | cxTranslate }}
+        {{ 'searchBox.trendingSearches' | cxTranslate }}
       </h3>
       <h3 class="recentSearches-header">
-        {{ 'cdsRecentSearches.recentSearches' | cxTranslate }}
+        {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
       <h3 class="products-header" *ngIf="result.products?.length">
         {{ 'searchBox.products' | cxTranslate }}

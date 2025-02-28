@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Vergrößertes Bild",
+    "previousSlide": "Vorherige Folie",
+    "nextSlide": "Nächste Folie",
     "close": "Schließen"
   }
 }

@@ -56,6 +56,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   @Input() resetMenuOnClose: boolean | undefined;
 
+  /**
+   * Include non intractable node titles within the tabbing order.
+   */
+  @Input() focusableNodeTitles: boolean = false;
+
   @Input() navAriaLabel: string | null | undefined;
   /**
    * the icon type that will be used for navigation nodes
@@ -396,5 +401,19 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       return 0;
     }
     return depth > 0 && !node?.children ? -1 : 0;
+  }
+
+  /**
+   * // Replace spaces with hyphens and convert to lowercase
+   */
+  getSanitizedTitle(title: string | undefined): string | null {
+    return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
+  }
+
+  /**
+   * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
+   */
+  getAriaLabelAndControl(node: NavigationNode): string | null {
+    return this.getSanitizedTitle(node.title) || null;
   }
 }

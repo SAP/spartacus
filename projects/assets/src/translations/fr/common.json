@@ -21,11 +21,13 @@
     "search": "Rechercher",
     "add": "Ajouter",
     "breadcrumbs": "Chemin de navigation",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Sélectionner le fichier",
     "clear": "Effacer",
     "loaded": "Chargé",
     "results": "Résultats",
     "of": "sur",
+    "ngSelectDropdownOptionsList": "Options",
     "required": "obligatoire",
     "zoomIn": "Zoom avant",
     "zoomOut": "Zoom arrière",
@@ -63,7 +65,8 @@
     "goTo": "Passer à {{location}}",
     "navigateTo": "Naviguer vers {{nav}}",
     "scrollToTop": "Revenir en haut de la page",
-    "linkItemInList": "{{title}}. {{position}} sur {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} sur {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Saisir le nom du produit ou l'UGS",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "Résultats de produits",
     "initialDescription": "Lorsque les résultats du remplissage automatique sont disponibles, utilisez les flèches vers le haut et vers le bas pour passer en revue et la touche Entrée pour sélectionner. Pour les utilisateurs d'appareils tactiles, explorez par le toucher ou par balayage.",
     "suggestions": "Mots-clés suggérés",
+    "recentSearches": "Recherches récentes",
+    "trendingSearches": "Recherches tendances",
     "suggestionsResult": "{{ count }} suggestion et ",
     "suggestionsResult_other": "{{ count }} suggestions et ",
     "products": "Produits recommandés",

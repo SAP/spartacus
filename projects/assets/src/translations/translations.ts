@@ -4,9 +4,65 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const translationChunksConfig = extractTranslationChunksConfig(en);
+export const translationChunksConfig = {
+  common: [
+    'common',
+    'pageMetaResolver',
+    'spinner',
+    'navigation',
+    'searchBox',
+    'sorting',
+    'httpHandlers',
+    'miniCart',
+    'skipLink',
+    'carousel',
+    'formErrors',
+    'errorHandlers',
+    'assistiveMessage',
+    'passwordVisibility',
+    'generalErrors',
+    'formLegend',
+    'chatMessaging',
+  ],
+  deliveryMode: ['setDeliveryMode'],
+  myAccountV2Consent: ['myAccountV2Consent'],
+  myAccountV2NotificationPreference: ['myAccountV2NotificationPreference'],
+  myAccount: [
+    'closeAccount',
+    'updatePasswordForm',
+    'updateProfileForm',
+    'consentManagementForm',
+    'myCoupons',
+    'notificationPreference',
+    'myInterests',
+  ],
+  payment: [
+    'paymentForm',
+    'paymentMethods',
+    'paymentCard',
+    'paymentTypes',
+    'paymentMessages',
+  ],
+  pdf: ['pdf'],
+  product: [
+    'productDetails',
+    'productList',
+    'productFacetNavigation',
+    'productSummary',
+    'productReview',
+    'productCarousel',
+    'addToCart',
+    'TabPanelContainer',
+    'addToWishList',
+    'stockNotification',
+    'itemCounter',
+    'productView',
+  ],
+  pwa: ['pwa'],
+  siteThemeSwitcher: ['siteThemeSwitcher'],
+  user: ['anonymousConsents', 'checkoutLogin', 'authMessages'],
+  video: ['player'],
+};
 
 export { cs as translationsCs } from './cs/index';
 export { de as translationsDe } from './de/index';

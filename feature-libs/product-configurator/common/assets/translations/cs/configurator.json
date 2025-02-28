@@ -196,8 +196,8 @@
       "iconIncomplete": "Skupina má požadované atributy bez vybraných hodnot.",
       "iconComplete": "Skupina je kompletní.",
       "iconSubGroup": "Skupina má podskupiny.",
-      "next": "Přejít na další skupinu.",
-      "previous": "Přejít na předchozí skupinu.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "Zobrazit další informace pro produkt  {{ product }} nebo pokračovat v konfiguraci.",
       "showLessProductInfo": "Zobrazte méně informací pro produkt  {{ product }} nebo pokračovat v konfiguraci.",
       "productName": "Název produktu",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "Filtrovat přehled konfigurace podle skupiny {{groupName}}",
       "closeConflictSolverModal": "Zavřít modální okno pro řešení konfliktů",
       "closeRestartDialog": "Zavřít dialogové okno „Nedokončená konfigurace“ a přejít zpět na stránku s detaily produktu.",
-      "description": "Popis této hodnoty zobrazíte kliknutím"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "Předkonfigurované verze"

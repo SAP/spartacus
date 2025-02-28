@@ -10,7 +10,8 @@
       "title": "此网站使用 cookie",
       "description": "我们使用 cookie/浏览器的存储个性化内容并改善用户体验。",
       "allowAll": "全部显示",
-      "viewDetails": "查看详情"
+      "viewDetails": "查看详情",
+      "consentManagement": "Consent Management"
     }
   },
   "checkoutLogin": {

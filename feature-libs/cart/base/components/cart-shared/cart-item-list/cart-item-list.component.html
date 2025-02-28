@@ -6,7 +6,7 @@
   </caption>
   <thead *ngIf="hasHeader">
     <tr role="row" class="cx-item-list-header">
-      <th role="columnheader" class="cx-item-list-desc">
+      <th role="columnheader" scope="col" class="cx-item-list-desc">
         {{ 'cartItems.item' | cxTranslate }}
       </th>
 
@@ -18,6 +18,7 @@
       <th
         *cxFeature="'a11yQTY2Quantity'"
         role="columnheader"
+        scope="col"
         class="cx-item-list-qty"
       >
         {{ 'cartItems.quantityFull' | cxTranslate }}
@@ -25,19 +26,20 @@
       <th
         *cxFeature="'!a11yQTY2Quantity'"
         role="columnheader"
+        scope="col"
         class="cx-item-list-qty"
       >
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>
       <ng-container *ngIf="options.isSaveForLater; else totalHeader">
-        <th role="columnheader" class="cx-item-list-total">
+        <th role="columnheader" scope="col" class="cx-item-list-total">
           {{ 'saveForLaterItems.stock' | cxTranslate }}
         </th>
       </ng-container>
       <ng-container
         *ngIf="!readonly || options.isSaveForLater || options.displayAddToCart"
       >
-        <th role="columnheader" class="cx-item-list-actions">
+        <th role="columnheader" scope="col" class="cx-item-list-actions">
           {{ 'cartItems.actions' | cxTranslate }}
         </th>
       </ng-container>
@@ -58,6 +60,7 @@
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
           [options]="options"
+          [attr.aria-rowindex]="i + 1"
         ></tr>
       </ng-container>
     </ng-container>
@@ -65,7 +68,7 @@
 </table>
 
 <ng-template #totalHeader>
-  <th role="columnheader" class="cx-item-list-total">
+  <th role="columnheader" scope="col" class="cx-item-list-total">
     {{ 'cartItems.total' | cxTranslate }}
   </th>
 </ng-template>

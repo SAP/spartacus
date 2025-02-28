@@ -196,8 +196,8 @@
       "iconIncomplete": "A csoport kiválasztott értékek nélküli kötelező attribútumokkal rendelkezik.",
       "iconComplete": "A csoport elkészült.",
       "iconSubGroup": "A csoport alcsoporttal rendelkezik.",
-      "next": "Navigáljon a következő csoportra.",
-      "previous": "Navigáljon az előző csoportra.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "Több információt jeleníthet meg a(z) {{ product }} termékhez, vagy folytathatja a konfigurációt.",
       "showLessProductInfo": "Kevesebb információt jeleníthet meg a(z) {{ product }} termékhez, vagy folytathatja a konfigurációt.",
       "productName": "Termék neve",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "A konfiguráció áttekintésének szűrése a(z) {{groupName}} csoport szerint",
       "closeConflictSolverModal": "Ütközésfeloldó előugró ablak bezárása",
       "closeRestartDialog": "A „Be nem fejezett konfiguráció” párbeszédablak bezárása, majd visszalépés a termék részletei oldalra",
-      "description": "Kattintással megtekintheti az érték leírását"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "Előre konfigurált verziók"

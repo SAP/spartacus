@@ -2551,4 +2551,23 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Verify', type: TabbingOrderTypes.BUTTON },
     { value: 'Back', type: TabbingOrderTypes.LINK },
   ],
+  otpRegistration: [
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.LINK },
+  ],
+  verifyTokenForRegistration: [
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
+  ],
 };

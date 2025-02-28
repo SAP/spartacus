@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "Měsíc",
     "dayOfMonth": "Dne",
     "startOn": "Začít dne",
-    "repeatOnDays": "Opakovat v následujících dnech"
+    "repeatOnDays": "Opakovat v následujících dnech",
+    "duration": "Doba trvání"
   }
 }

@@ -14,6 +14,7 @@
     "saveAsDefault": "기본값으로 저장",
     "setAsDefault": "기본 지불 방법으로 설정",
     "billingAddress": "청구 주소",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "배송 주소와 같음",
     "billingAddressSameAsShipping": "청구 주소가 배송 주소와 같습니다.",
     "selectOne": "하나를 선택하십시오...",

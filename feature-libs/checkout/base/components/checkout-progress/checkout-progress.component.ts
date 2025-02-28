@@ -4,11 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CheckoutStep, CheckoutStepState } from '@spartacus/checkout/base/root';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { CurrencyService, LanguageService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-progress',
@@ -16,9 +22,12 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CheckoutProgressComponent {
+export class CheckoutProgressComponent implements OnInit {
+  params$ = new Observable<string[]>();
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
+  private currencyService = inject(CurrencyService);
+  private languageService = inject(LanguageService);
 
   constructor(protected checkoutStepService: CheckoutStepService) {}
 
@@ -30,6 +39,13 @@ export class CheckoutProgressComponent {
 
   get steps$(): Observable<CheckoutStep[]> {
     return this._steps$.asObservable();
+  }
+
+  ngOnInit(): void {
+    this.params$ = combineLatest([
+      this.currencyService.getActive(),
+      this.languageService.getActive(),
+    ]).pipe(map(([currency, language]) => [currency, language]));
   }
 
   getTabIndex(stepIndex: number): number {

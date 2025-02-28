@@ -21,11 +21,13 @@
     "search": "Cari",
     "add": "Tambahkan",
     "breadcrumbs": "jejak navigasi",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Pilih file",
     "clear": "Hapus",
     "loaded": "Dimuat",
     "results": "Hasil",
     "of": "dari",
+    "ngSelectDropdownOptionsList": "Pilihan",
     "required": "diwajibkan",
     "zoomIn": "Perbesar",
     "zoomOut": "Perkecil",
@@ -63,7 +65,8 @@
     "goTo": "Buka {{location}}",
     "navigateTo": "Arahkan ke {{nav}}",
     "scrollToTop": "Kembali ke bagian atas halaman",
-    "linkItemInList": "{{title}}. {{position}} dari {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} dari {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Masukkan nama produk atau SKU",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "hasil produk",
     "initialDescription": "Jika hasil pengisian otomatis tersedia, gunakan tombol panah atas dan bawah untuk meninjau dan tombol enter untuk memilih. Untuk pengguna dengan perangkat layar sentuh, jelajahi dengan sentuhan atau gerakan geser.",
     "suggestions": "Kata Kunci yang Disarankan",
+    "recentSearches": "Pencarian Terbaru",
+    "trendingSearches": "Pencarian Populer",
     "suggestionsResult": "{{ count }} saran dan ",
     "suggestionsResult_other": "{{ count }} saran dan ",
     "products": "Produk yang Direkomendasikan",

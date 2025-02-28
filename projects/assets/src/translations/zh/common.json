@@ -21,11 +21,13 @@
     "search": "搜索",
     "add": "添加",
     "breadcrumbs": "面包屑导航",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "选择文件",
     "clear": "清除",
     "loaded": "已加载",
     "results": "结果",
     "of": "/",
+    "ngSelectDropdownOptionsList": "选项",
     "required": "必需",
     "zoomIn": "放大",
     "zoomOut": "缩小",
@@ -63,7 +65,8 @@
     "goTo": "转到 {{location}}",
     "navigateTo": "导航到 {{nav}}",
     "scrollToTop": "滚动回页面顶部",
-    "linkItemInList": "{{title}}。{{position}}/{{listLength}}"
+    "linkItemInList": "{{title}}。{{position}}/{{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "输入产品名称或 SKU",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "产品结果",
     "initialDescription": "如果自动完成结果可用，请使用向上和向下箭头进行审阅，并按回车键进行选择。触摸设备用户，通过触摸或滑动手势进行浏览。",
     "suggestions": "建议关键字",
+    "recentSearches": "最近搜索",
+    "trendingSearches": "趋势搜索",
     "suggestionsResult": "{{ count }} 个建议和 ",
     "suggestionsResult_other": "{{ count }} 个建议和 ",
     "products": "推荐产品",

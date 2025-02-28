@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const cpqquoteTranslationChunksConfig =
-  extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const cpqquoteTranslationChunksConfig: TranslationChunksConfig = {
+  cpqQuote: ['cpqQuoteHeading', 'discountCaption'],
+};
 
 export { cs as cpqquoteTranslationsCs } from './cs/index';
 export { de as cpqquoteTranslationsDe } from './de/index';

@@ -4,9 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { en } from './en/index';
-import { extractTranslationChunksConfig } from '@spartacus/core';
-export const orderTranslationChunksConfig = extractTranslationChunksConfig(en);
+import { TranslationChunksConfig } from '@spartacus/core';
+
+export const orderTranslationChunksConfig: TranslationChunksConfig = {
+  myAccountV2Order: [
+    'myAccountV2OrderHistory',
+    'myAccountV2OrderDetails',
+    'myAccountV2Orders',
+  ],
+  order: [
+    'orderDetails',
+    'orderHistory',
+    'AccountOrderHistoryTabContainer',
+    'returnRequestList',
+    'returnRequest',
+    'reorder',
+  ],
+};
 
 export { cs as orderTranslationsCs } from './cs/index';
 export { de as orderTranslationsDe } from './de/index';

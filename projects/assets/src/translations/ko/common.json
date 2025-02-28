@@ -21,11 +21,13 @@
     "search": "검색",
     "add": "추가",
     "breadcrumbs": "탐색 경로",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "파일 선택",
     "clear": "지우기",
     "loaded": "로드됨",
     "results": "결과",
     "of": "/",
+    "ngSelectDropdownOptionsList": "옵션",
     "required": "필수",
     "zoomIn": "확대",
     "zoomOut": "축소",
@@ -63,7 +65,8 @@
     "goTo": "{{location}}(으)로 가기",
     "navigateTo": "{{nav}}(으)로 이동",
     "scrollToTop": "페이지 맨 위로 이동",
-    "linkItemInList": "{{title}}. {{position}}/{{listLength}}"
+    "linkItemInList": "{{title}}. {{position}}/{{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "제품 이름이나 SKU 입력",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "제품 결과",
     "initialDescription": "자동 완성 결과가 있으면 위아래 화살표를 사용하여 확인한 후에 선택하십시오. 터치 디바이스 사용자는 터치하거나 쓸어넘기면서 찾으십시오. ",
     "suggestions": "제안 키워드",
+    "recentSearches": "최근 검색",
+    "trendingSearches": "인기 검색어",
     "suggestionsResult": "{{ count }}개의 제안 및 ",
     "suggestionsResult_other": "{{ count }}개의 제안 및 ",
     "products": "추천 제품",

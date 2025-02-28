@@ -52,9 +52,6 @@
     "heading": "Articles à retirer",
     "storeItemHeading": "Adresse du point de vente pour le retrait"
   },
-  "cartItems": {
-    "item": "Article"
-  },
   "cardActions": {
     "getDirections": "Obtenir un itinéraire, ce lien s'ouvre dans une nouvelle fenêtre"
   },

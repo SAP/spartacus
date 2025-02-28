@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Acercar imagen",
+    "previousSlide": "Diapositiva anterior",
+    "nextSlide": "Diapositiva siguiente",
     "close": "Cerrar"
   }
 }

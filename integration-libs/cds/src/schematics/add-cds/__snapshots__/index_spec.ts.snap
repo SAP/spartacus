@@ -21,6 +21,11 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     cds: {
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
+      endpoints: {
+        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+        searchIntelligence:
+          '/search-intelligence/v1/sites/\${cdsSiteId}/trendingSearches',
+      },
       merchandising: {
         defaultCarouselViewportThreshold: 80,
       },
@@ -34,6 +39,56 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
         configUrl:
           'profile-tag-config-url.com',
         allowInsecureCookies: true,
+        sciEnabled: false
+      },
+    },
+  })
+  ]
+})
+export class CdsFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDS schematics: ng-add CDS feature with sciEnabled option set to true general setup should create the feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdsConfig, CdsModule } from "@spartacus/cds";
+import { cdsTranslationChunksConfig, cdsTranslationsEn } from "@spartacus/cds/assets";
+import { I18nConfig, provideConfig } from "@spartacus/core";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CdsModule.forRoot()
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: cdsTranslationsEn },
+      chunks: cdsTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      tenant: 'my-tenant',
+      baseUrl: 'my-base-url.com',
+      endpoints: {
+        strategyProducts: '/strategy/v1/sites/\${baseSite}/strategies/\${strategyId}/products',
+        searchIntelligence:
+          '/search-intelligence/v1/sites/\${cdsSiteId}/trendingSearches',
+      },
+      merchandising: {
+        defaultCarouselViewportThreshold: 80,
+      },
+    },
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      profileTag: {
+        javascriptUrl:
+          'profile-tag-load-url.com',
+        configUrl:
+          'profile-tag-config-url.com',
+        allowInsecureCookies: true,
+        sciEnabled: true
       },
     },
   })
@@ -64,6 +119,11 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     cds: {
       tenant: 'my-tenant',
       baseUrl: 'my-base-url.com',
+      endpoints: {
+        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+        searchIntelligence:
+          '/search-intelligence/v1/sites/\${cdsSiteId}/trendingSearches',
+      },
       merchandising: {
         defaultCarouselViewportThreshold: 80,
       },
@@ -77,6 +137,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
         configUrl:
           'PROFILE_TAG_CONFIG_URL_PLACEHOLDER',
         allowInsecureCookies: true,
+        sciEnabled: false
       },
     },
   })

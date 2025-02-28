@@ -21,11 +21,13 @@
     "search": "खोजें",
     "add": "जोड़ें",
     "breadcrumbs": "ब्रेडक्रंब",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "फाइल चुनें",
     "clear": "साफ़ करें",
     "loaded": "लोड किया गया",
     "results": "परिणाम",
     "of": "इसमें से",
+    "ngSelectDropdownOptionsList": "विकल्प",
     "required": "आवश्यक",
     "zoomIn": "ज़ूम इन",
     "zoomOut": "ज़ूम आउट",
@@ -63,7 +65,8 @@
     "goTo": "{{location}} पर जाएं",
     "navigateTo": "{{nav}} पर नेविगेट करें",
     "scrollToTop": "पृष्ठ के शीर्ष पर वापस स्क्रोल करें",
-    "linkItemInList": "{{listLength}} का {{title}}. {{position}}"
+    "linkItemInList": "{{listLength}} का {{title}}. {{position}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "उत्पाद नाम या SKU दर्ज करें",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "उत्पाद परिणाम",
     "initialDescription": "स्वतः पूर्ण परिणामों के उपलब्ध होने पर समीक्षा करने के लिए ऊपर और नीचे तीरों का और चयन करने के लिए enter का उपयोग करें. स्पर्श उपकरण उपयोगकर्ता स्पर्श करके या स्वाइप करके खोजें.",
     "suggestions": "सुझाए गए कीवर्ड",
+    "recentSearches": "तात्कालिक खोजें",
+    "trendingSearches": "ट्रेडिंग खोजें",
     "suggestionsResult": "{{ count }} सुझाव और ",
     "suggestionsResult_other": "{{ count }} सुझाव और ",
     "products": "अनुशंसित उत्पाद",

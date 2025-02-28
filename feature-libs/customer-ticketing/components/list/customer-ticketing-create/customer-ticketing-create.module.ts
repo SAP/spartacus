@@ -13,9 +13,11 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog/customer-ticketing-create-dialog.component';
 import { CustomerTicketingCreateComponent } from './customer-ticketing-create.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { CustomerTicketingCreateComponent } from './customer-ticketing-create.co
     FormErrorsModule,
     FileUploadModule,
     FeaturesConfigModule,
+    NgSelectModule,
+    NgSelectA11yModule,
   ],
   declarations: [
     CustomerTicketingCreateComponent,

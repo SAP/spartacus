@@ -1,7 +1,7 @@
 {
   "myAccountV2NotificationPreference": {
     "header": "Értesítési csatornák",
-    "message": "Preferált értesítési csatornák kiválasztása",
+    "message": "A preferált értesítési csatornáit az",
     "note": "Megjegyzés: ",
     "noteMessage": "Ha inaktiválja az összes csatornát, nem fog tudni további értesítéseket fogadni.",
     "EMAIL": "E-mail:"
