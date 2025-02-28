@@ -91,7 +91,7 @@ describe('RenderingCache', () => {
 
       renderingCache.store('largeEntry', null, bigHtml);
 
-      expect(renderingCache.get('largeEntry')).toBeDefined();
+      expect(renderingCache.get('largeEntry')).toBeUndefined();
       expect(renderingCache.getUsedCacheSize()).toBe(0);
     });
   });

@@ -23,54 +23,33 @@ export class RenderingCache {
 
   store(key: string, err?: Error | null, html?: string) {
     const entry: RenderingEntry = { err, html };
+
+    // cache only if shouldCacheRenderingResult return true
+    const shouldCache = this.options?.shouldCacheRenderingResult?.({
+      options: this.options,
+      entry,
+    });
+
     let htmlSize = 0;
     if (this.options?.ttl) {
       entry.time = Date.now();
     }
 
     if (this.options?.ssrFeatureToggles?.cacheSizeInBytes) {
-      if (this.options?.cacheLimit) {
-        if (html) {
-          htmlSize = this.getHtmlSize(html);
-        }
-
-        this.renders.delete(key);
-
-        // if new html exceeds capacity?
-        while (
-          this.usedCacheSize + htmlSize > this.options.cacheLimit &&
-          this.usedCacheSize > 0
-        ) {
-          const oldestKey = this.renders.keys().next().value;
-          if (oldestKey !== undefined) {
-            const oldestEntry = this.renders.get(oldestKey);
-            const oldestHtmlSize = this.getHtmlSize(oldestEntry?.html || '');
-            this.renders.delete(oldestKey);
-            this.usedCacheSize = Math.max(
-              0,
-              this.usedCacheSize - oldestHtmlSize
-            );
-          } else {
-            break; // Prevent infinite loop if cache is empty
-          }
-        }
+      if (html) {
+        htmlSize = this.getHtmlSize(html);
       }
 
-      // cache only if shouldCacheRenderingResult return true
-      if (
-        this.options?.shouldCacheRenderingResult?.({
-          options: this.options,
-          entry,
-        })
-      ) {
+      this.renders.delete(key);
+      this.tryRemoveOldestCacheEntries(htmlSize);
+
+      if (shouldCache) {
         if (
           this.options?.cacheLimit &&
           htmlSize + this.usedCacheSize <= this.options.cacheLimit
         ) {
           this.renders.set(key, entry);
           this.usedCacheSize += htmlSize;
-        } else {
-          this.renders.set(key, entry);
         }
       }
       return;
@@ -86,12 +65,7 @@ export class RenderingCache {
       }
     }
 
-    if (
-      this.options?.shouldCacheRenderingResult?.({
-        options: this.options,
-        entry,
-      })
-    ) {
+    if (shouldCache) {
       this.renders.set(key, entry);
     }
   }
@@ -124,5 +98,24 @@ export class RenderingCache {
 
   getUsedCacheSize() {
     return this.usedCacheSize;
+  }
+
+  protected tryRemoveOldestCacheEntries(htmlSize: number): void {
+    if (this.options?.cacheLimit) {
+      while (
+        this.usedCacheSize + htmlSize > this.options?.cacheLimit &&
+        this.usedCacheSize > 0
+      ) {
+        const oldestKey = this.renders.keys().next().value;
+        if (oldestKey !== undefined) {
+          const oldestEntry = this.renders.get(oldestKey);
+          const oldestHtmlSize = this.getHtmlSize(oldestEntry?.html || '');
+          this.renders.delete(oldestKey);
+          this.usedCacheSize = Math.max(0, this.usedCacheSize - oldestHtmlSize);
+        } else {
+          break; // Prevent infinite loop if cache is empty
+        }
+      }
+    }
   }
 }
