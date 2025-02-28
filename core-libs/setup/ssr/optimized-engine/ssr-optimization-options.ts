@@ -191,6 +191,13 @@ export interface SsrOptimizationOptions {
      */
     avoidCachingErrors?: boolean;
 
+    /**
+     * Determines if cache size should be managed in bytes rather than entries.
+     *
+     * If `true`, cache size will be calculated in bytes. This allows for more granular
+     * control of memory usage and helps ensure that the cache size does not exceed a given
+     * memory limit.
+     */
     cacheSizeInBytes?: boolean;
   };
 }
