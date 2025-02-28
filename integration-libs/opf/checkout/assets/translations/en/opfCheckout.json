@@ -1,6 +1,7 @@
 {
   "opfCheckout": {
     "tabs": {
+      "paymentType": "Method of payment",
       "shipping": "Shipping",
       "deliveryMethod": "Delivery Method",
       "paymentAndReview": "Payment & Review"

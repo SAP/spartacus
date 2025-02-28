@@ -10,34 +10,46 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 
+const opfB2bCheckoutSteps = [
+  {
+    id: 'opfPaymentType',
+    name: 'opfCheckout.tabs.paymentType',
+    routeName: 'opfCheckoutPaymentType',
+    type: [CheckoutStepType.PAYMENT_TYPE],
+  },
+  {
+    id: 'deliveryAddress',
+    name: 'opfCheckout.tabs.shipping',
+    routeName: 'checkoutDeliveryAddress',
+    type: [CheckoutStepType.DELIVERY_ADDRESS],
+  },
+  {
+    id: 'deliveryMode',
+    name: 'opfCheckout.tabs.deliveryMethod',
+    routeName: 'checkoutDeliveryMode',
+    type: [CheckoutStepType.DELIVERY_MODE],
+  },
+  {
+    id: 'opfReviewOrder',
+    name: 'opfCheckout.tabs.paymentAndReview',
+    routeName: 'opfCheckoutPaymentAndReview',
+    type: [CheckoutStepType.PAYMENT_DETAILS],
+  },
+  {
+    id: 'reviewOrder',
+    name: 'checkoutProgress.reviewOrder',
+    routeName: 'checkoutReviewOrder',
+    type: [CheckoutStepType.REVIEW_ORDER],
+  },
+];
+
 export const defaultOpfCheckoutB2bConfig: CheckoutConfig = {
   checkout: {
-    steps: [
-      {
-        id: 'paymentType',
-        name: 'checkoutB2B.progress.methodOfPayment',
-        routeName: 'checkoutPaymentType',
-        type: [CheckoutStepType.PAYMENT_TYPE],
+    flows: {
+      OPF: {
+        steps: opfB2bCheckoutSteps,
+        guest: false,
       },
-      {
-        id: 'deliveryAddress',
-        name: 'opfCheckout.tabs.shipping',
-        routeName: 'checkoutDeliveryAddress',
-        type: [CheckoutStepType.DELIVERY_ADDRESS],
-      },
-      {
-        id: 'deliveryMode',
-        name: 'opfCheckout.tabs.deliveryMethod',
-        routeName: 'checkoutDeliveryMode',
-        type: [CheckoutStepType.DELIVERY_MODE],
-      },
-      {
-        id: 'reviewOrder',
-        name: 'opfCheckout.tabs.paymentAndReview',
-        routeName: 'checkoutReviewOrder',
-        // TODO OPF: provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
-        type: [CheckoutStepType.REVIEW_ORDER],
-      },
-    ],
+    },
   },
 };

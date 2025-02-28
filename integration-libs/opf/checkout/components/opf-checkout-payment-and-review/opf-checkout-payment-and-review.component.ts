@@ -22,7 +22,7 @@ import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -71,6 +71,13 @@ export class OpfCheckoutPaymentAndReviewComponent
       .getActive()
       .pipe(map((cart: Cart) => cart.paymentType));
   }
+
+  getSelectedPaymentId$ = this.opfMetadataStoreService
+    .getOpfMetadataState()
+    .pipe(
+      take(1),
+      map((data) => data?.selectedPaymentOptionId)
+    );
 
   protected isCmsComponentInPage(cmsComponentUid: string, page: Page): boolean {
     return !!page && JSON.stringify(page).includes(cmsComponentUid);

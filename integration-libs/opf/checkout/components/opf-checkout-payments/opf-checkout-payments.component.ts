@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  output,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -50,6 +51,15 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected paginationIndex = 0;
 
   @Input()
+  isHeadingDisplayed? = true;
+
+  @Input()
+  isPaymentRenderBelow? = true;
+
+  @Input()
+  isPaymentInfoMessageEnabled? = true;
+
+  @Input()
   elementsPerPage?: number;
 
   @Input()
@@ -65,6 +75,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   >;
 
   iconTypes = ICON_TYPE;
+
+  onPaymentChange = output<OpfActiveConfiguration>();
 
   getActiveConfigurations(): Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
@@ -157,6 +169,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
+    this.onPaymentChange.emit(payment);
   }
 
   getPaginationModel(

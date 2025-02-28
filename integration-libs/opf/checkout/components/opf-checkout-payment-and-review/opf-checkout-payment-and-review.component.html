@@ -55,7 +55,8 @@
 
     <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
 
-    <cx-opf-checkout-terms-and-conditions-alert
+    <!-- detect if b2c -->
+    <!-- <cx-opf-checkout-terms-and-conditions-alert
       *ngIf="!explicitTermsAndConditions.value"
       [isDismissible]="true"
       [isVisible]="termsAndConditionInvalid"
@@ -73,7 +74,23 @@
         [isVisible]="termsAndConditionInvalid"
         [isExplicit]="explicitTermsAndConditions.value"
       ></cx-opf-checkout-terms-and-conditions-alert>
-    </cx-opf-checkout-payments>
+    </cx-opf-checkout-payments> -->
+
+    <!-- detect for b2b -->
+    <section
+      class="cx-opf-payment-wrapper"
+      *ngIf="getSelectedPaymentId$ | async as selectedPaymentId"
+      [attr.aria-label]="'opfCheckout.paymentOption' | cxTranslate"
+    >
+      <h3>
+        {{ 'opfCheckout.paymentOption' | cxTranslate }}
+      </h3>
+
+      <cx-opf-checkout-payment-wrapper
+        *ngIf="selectedPaymentId"
+        [selectedPaymentId]="selectedPaymentId"
+      ></cx-opf-checkout-payment-wrapper>
+    </section>
 
     <!-- CART ITEM SECTION -->
     <ng-container *ngIf="cart$ | async as cart">

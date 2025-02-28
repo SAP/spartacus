@@ -27,6 +27,7 @@ import {
 
 import { AddressFormModule } from '@spartacus/user/profile/components';
 import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
+import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
@@ -47,6 +48,7 @@ import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and
     IconModule,
     CardModule,
     OpfCheckoutTermsAndConditionsAlertModule,
+    OpfCheckoutPaymentWrapperModule,
   ],
 
   providers: [

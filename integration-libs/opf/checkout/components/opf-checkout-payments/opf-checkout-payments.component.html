@@ -1,5 +1,5 @@
 <section [attr.aria-label]="'opfCheckout.paymentOption' | cxTranslate">
-  <h3>
+  <h3 *ngIf="isHeadingDisplayed">
     {{ 'opfCheckout.paymentOption' | cxTranslate }}
   </h3>
   <ng-container
@@ -39,7 +39,9 @@
             </div>
           </label>
 
-          <ng-container *ngIf="isPaymentInfoMessageVisible">
+          <ng-container
+            *ngIf="isPaymentInfoMessageEnabled && isPaymentInfoMessageVisible"
+          >
             <ng-container
               *ngIf="
                 getPaymentInfoMessage(configuration.id)
@@ -66,7 +68,11 @@
           </ng-container>
 
           <cx-opf-checkout-payment-wrapper
-            *ngIf="selectedPaymentId && configuration.id === selectedPaymentId"
+            *ngIf="
+              isPaymentRenderBelow &&
+              selectedPaymentId &&
+              configuration.id === selectedPaymentId
+            "
             [selectedPaymentId]="selectedPaymentId"
           ></cx-opf-checkout-payment-wrapper>
         </div>

@@ -17,6 +17,7 @@ export interface OpfActiveConfiguration {
   displayName?: string;
   acquirerCountryCode?: string;
   logoUrl?: string;
+  code?: string;
 }
 
 export interface OpfActiveConfigurationsPagination {
