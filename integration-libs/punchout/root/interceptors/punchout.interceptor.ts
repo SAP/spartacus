@@ -12,7 +12,7 @@ import {
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PunchoutStateService } from '../public_api';
+import { PunchoutStateService } from '../services/punchout-state.service';
 
 @Injectable({ providedIn: 'root' })
 export class PunchoutInterceptor implements HttpInterceptor {

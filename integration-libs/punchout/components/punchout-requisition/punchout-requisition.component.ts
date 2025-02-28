@@ -9,9 +9,7 @@ import {
   Component,
   ElementRef,
   inject,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -36,7 +34,7 @@ import { PunchoutComponentService } from '../punchout.component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class PunchoutRequisitionComponent implements OnInit, OnChanges {
+export class PunchoutRequisitionComponent implements OnInit {
   @ViewChild('punchoutFormElement')
   punchoutFormElement!: ElementRef<HTMLFormElement>;
 
@@ -74,35 +72,6 @@ export class PunchoutRequisitionComponent implements OnInit, OnChanges {
       order: [''],
     });
   }
-
-  ngOnChanges(changes?: SimpleChanges): void {
-    console.log('ngOnChanges:', changes?.item);
-    if (changes?.item) {
-      console.log('in condition:', changes?.item);
-    }
-  }
-
-  // ngAfterViewInit(): void {
-  //   console.log('Form is fully rendered with values:', this.myForm.value);
-  //   console.log('ngAfterViewInit');
-  //   timer(100)
-  //     .pipe(
-  //       mergeMap(() => {
-  //         if (!this.formElement.nativeElement) {
-  //           console.log('Form is null');
-  //           return throwError(() => 'Form not ready');
-  //         } else {
-  //           return of(true);
-  //         }
-  //       }),
-  //       retry(10)
-  //     )
-  //     .subscribe(() => {
-  //       // this.pchtForm.nativeElement.submit();
-  //       console.log('here');
-  //       // this.formElement.nativeElement.submit();
-  //     });
-  // }
 
   submitForm(): Observable<boolean> {
     console.log('submitForm');

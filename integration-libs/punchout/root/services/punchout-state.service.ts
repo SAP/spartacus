@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { PunchoutSession, PunchoutState } from '@spartacus/punchout/root';
+import { PunchoutSession, PunchoutState } from '../model/punchout.model';
 
 @Injectable()
 export class PunchoutStateService {
