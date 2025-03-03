@@ -449,4 +449,4 @@ if (environment.cpq) {
     }),
   ],
 })
-export class SpartacusFeaturesModule { }
+export class SpartacusFeaturesModule {}
