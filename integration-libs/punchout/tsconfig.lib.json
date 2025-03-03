@@ -1,5 +1,5 @@
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */{
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */ {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
@@ -15,14 +15,9 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": [
-        "dist/core"
-      ]
+      "@spartacus/core": ["dist/core"]
     }
   },
   "angularCompilerOptions": {
@@ -34,9 +29,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": false
   },
-  "exclude": [
-    "test.ts",
-    "setup-jest.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }
