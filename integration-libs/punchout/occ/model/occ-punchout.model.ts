@@ -7,10 +7,23 @@
 import { OccEndpoint } from '@spartacus/core';
 
 export interface PunchoutOccEndpoints {
+  /**
+   * Endpoint for the punchout session
+   *
+   * @member {string}
+   */
   punchoutSession?: string | OccEndpoint;
+  /**
+   * Endpoint for the punchout Requisition
+   *
+   * @member {string}
+   */
   punchoutRequisition?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
-  interface OccEndpoints extends PunchoutOccEndpoints {}
+  interface OccEndpoints extends PunchoutOccEndpoints {
+    punchoutSession?: string | OccEndpoint;
+    punchoutRequisition?: string | OccEndpoint;
+  }
 }
