@@ -1,4 +1,5 @@
 import {
+  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -11,9 +12,14 @@ import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
+import {
+  PUNCHOUT_REQUISITION_NORMALIZER,
+  PUNCHOUT_SESSION_NORMALIZER,
+} from '@spartacus/punchout/core';
 import { PunchoutRequisition, PunchoutSession } from '@spartacus/punchout/root';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { OccPunchoutAdapter } from './occ-punchout.adapter';
 // import createSpy = jasmine.createSpy;
 
@@ -41,8 +47,10 @@ describe('OccPunchoutAdapter', () => {
   let httpMock: HttpTestingController;
   let mockConverter: jasmine.SpyObj<ConverterService>;
   let mockOccEndpointsService: jasmine.SpyObj<OccEndpointsService>;
-
+  let httpClient: HttpClient;
   let mockLogger: jasmine.SpyObj<LoggerService>;
+  let converter: ConverterService;
+
   beforeEach(() => {
     mockConverter = jasmine.createSpyObj('ConverterService', ['pipeable']);
     mockOccEndpointsService = jasmine.createSpyObj('OccEndpointsService', [
@@ -55,16 +63,18 @@ describe('OccPunchoutAdapter', () => {
         OccPunchoutAdapter,
         { provide: ConverterService, useValue: mockConverter },
         { provide: OccEndpointsService, useValue: mockOccEndpointsService },
-
         { provide: LoggerService, useValue: mockLogger },
-
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
-
     service = TestBed.inject(OccPunchoutAdapter);
     httpMock = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    converter = TestBed.inject(ConverterService);
+    mockConverter.pipeable.and.callFake(() => {
+      return (source: Observable<any>) => source;
+    });
   });
 
   afterEach(() => {
@@ -75,13 +85,10 @@ describe('OccPunchoutAdapter', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getPunchoutSession', (done) => {
+  it('should getPunchoutSession successfully', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}`
     );
-    mockConverter.pipeable.and.callFake(() => {
-      return (source: Observable<any>) => source;
-    });
 
     service.getPunchoutSession(mockSid).subscribe({
       next: (result) => {
@@ -91,16 +98,16 @@ describe('OccPunchoutAdapter', () => {
     });
     const req = httpMock.expectOne(`/punchout/sessions/${mockSid}`);
     expect(req.request.method).toBe('GET');
+    expect(converter.pipeable).toHaveBeenCalledWith(
+      PUNCHOUT_SESSION_NORMALIZER
+    );
     req.flush(mockPunchoutSessionResponse);
   });
 
-  it('getPunchoutRequisition', (done) => {
+  it('should getPunchoutRequisition successfully', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}/requisition`
     );
-    mockConverter.pipeable.and.callFake(() => {
-      return (source: Observable<any>) => source;
-    });
 
     service.getPunchoutRequisition(mockSid).subscribe({
       next: (result) => {
@@ -110,6 +117,40 @@ describe('OccPunchoutAdapter', () => {
     });
     const req = httpMock.expectOne(`/punchout/sessions/${mockSid}/requisition`);
     expect(req.request.method).toBe('GET');
+    expect(converter.pipeable).toHaveBeenCalledWith(
+      PUNCHOUT_REQUISITION_NORMALIZER
+    );
     req.flush(mockPunchoutRequisitionResponse);
+  });
+
+  it('should getPunchoutRequisition logs error when failing', (done) => {
+    mockOccEndpointsService.buildUrl.and.returnValue(
+      `/punchout/sessions/${mockSid}/requisition`
+    );
+    const mockError = { status: 500, message: 'Server Error' };
+    const result = tryNormalizeHttpError(mockError, mockLogger);
+    spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
+    service.getPunchoutRequisition(mockSid).subscribe({
+      error: (error) => {
+        expect(error).toBe(result);
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSession logs error when failing', (done) => {
+    mockOccEndpointsService.buildUrl.and.returnValue(
+      `/punchout/sessions/${mockSid}`
+    );
+    const mockError = { status: 500, message: 'Server Error' };
+
+    const result = tryNormalizeHttpError(mockError, mockLogger);
+    spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
+    service.getPunchoutSession(mockSid).subscribe({
+      error: (error) => {
+        expect(error).toBe(result);
+        done();
+      },
+    });
   });
 });
