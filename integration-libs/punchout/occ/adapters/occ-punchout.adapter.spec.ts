@@ -21,10 +21,8 @@ import {
 import { PunchoutRequisition, PunchoutSession } from '@spartacus/punchout/root';
 import { Observable, throwError } from 'rxjs';
 import { OccPunchoutAdapter } from './occ-punchout.adapter';
-// import createSpy = jasmine.createSpy;
 
 const mockSid = 'mockSid';
-
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
@@ -36,7 +34,6 @@ const mockPunchoutSessionResponse: PunchoutSession = {
     tokenType: 'Bearer',
   },
 };
-
 const mockPunchoutRequisitionResponse: PunchoutRequisition = {
   browseFormPostUrl: 'mockFormUrl',
   orderAsCXML: 'mockCXML',
