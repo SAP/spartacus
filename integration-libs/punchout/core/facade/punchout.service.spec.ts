@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { PunchoutRequisition, PunchoutSession } from '@spartacus/punchout/root';
+import {
+  PunchOutLevel,
+  PunchOutOperation,
+  PunchoutRequisition,
+  PunchoutSession,
+} from '@spartacus/punchout/root';
 import { of } from 'rxjs';
 import { PunchoutConnector } from '../connectors';
 import { PunchoutService } from './punchout.service';
@@ -10,8 +15,8 @@ const mockSid = 'mockSid';
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
-  punchOutLevel: 'product',
-  punchOutOperation: 'edit',
+  punchOutLevel: PunchOutLevel.PRODUCT,
+  punchOutOperation: PunchOutOperation.EDIT,
   selectedItem: 'mockItemId',
   token: {
     accessToken: 'mockToken',

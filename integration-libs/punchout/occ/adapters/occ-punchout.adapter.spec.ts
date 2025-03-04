@@ -18,7 +18,12 @@ import {
   PUNCHOUT_REQUISITION_NORMALIZER,
   PUNCHOUT_SESSION_NORMALIZER,
 } from '@spartacus/punchout/core';
-import { PunchoutRequisition, PunchoutSession } from '@spartacus/punchout/root';
+import {
+  PunchOutLevel,
+  PunchOutOperation,
+  PunchoutRequisition,
+  PunchoutSession,
+} from '@spartacus/punchout/root';
 import { Observable, throwError } from 'rxjs';
 import { OccPunchoutAdapter } from './occ-punchout.adapter';
 
@@ -26,8 +31,8 @@ const mockSid = 'mockSid';
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
-  punchOutLevel: 'product',
-  punchOutOperation: 'edit',
+  punchOutLevel: PunchOutLevel.PRODUCT,
+  punchOutOperation: PunchOutOperation.EDIT,
   selectedItem: 'mockItemId',
   token: {
     accessToken: 'mockToken',
