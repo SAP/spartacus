@@ -10,13 +10,15 @@ import { Observable } from 'rxjs';
 export abstract class PunchoutAdapter {
   /**
    * Abstract method used to get Punchout Session
-   * @param sId is the sesssion Id given by ARIBA via url
+   * @param sessionId is the sesssion Id given by ARIBA via url
    */
-  abstract getPunchoutSession(sId: string): Observable<PunchoutSession>;
+  abstract getPunchoutSession(sessionId: string): Observable<PunchoutSession>;
 
   /**
-   * Abstract method used to get Punchout Requisition data
-   * @param sId is the sesssion Id given by ARIBA via url
+   * Abstract method used to get Punchout Session Requisition data
+   * @param sessionId is the sesssion Id given by ARIBA via url
    */
-  abstract getPunchoutRequisition(sId: string): Observable<PunchoutRequisition>;
+  abstract getPunchoutSessionRequisition(
+    sessionId: string
+  ): Observable<PunchoutRequisition>;
 }

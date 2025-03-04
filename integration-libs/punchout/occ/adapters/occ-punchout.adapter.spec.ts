@@ -101,12 +101,12 @@ describe('OccPunchoutAdapter', () => {
     req.flush(mockPunchoutSessionResponse);
   });
 
-  it('should getPunchoutRequisition successfully', (done) => {
+  it('should getPunchoutSessionRequisition successfully', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}/requisition`
     );
 
-    service.getPunchoutRequisition(mockSid).subscribe({
+    service.getPunchoutSessionRequisition(mockSid).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
         done();
@@ -120,14 +120,14 @@ describe('OccPunchoutAdapter', () => {
     req.flush(mockPunchoutRequisitionResponse);
   });
 
-  it('should getPunchoutRequisition logs error when failing', (done) => {
+  it('should getPunchoutSessionRequisition logs error when failing', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}/requisition`
     );
     const mockError = { status: 500, message: 'Server Error' };
     const result = tryNormalizeHttpError(mockError, mockLogger);
     spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
-    service.getPunchoutRequisition(mockSid).subscribe({
+    service.getPunchoutSessionRequisition(mockSid).subscribe({
       error: (error) => {
         expect(error).toBe(result);
         done();

@@ -9,8 +9,8 @@ export const PUNCHOUT_SESSION_KEY = 'sid';
 export interface PunchoutSession {
   customerId: string;
   cartId: string;
-  punchOutLevel: string;
-  punchOutOperation: string;
+  punchOutLevel: 'store' | 'product' | 'aisle' | 'shelf';
+  punchOutOperation: 'create' | 'edit' | 'inspect' | 'source';
   selectedItem: string;
   token: {
     accessToken: string;

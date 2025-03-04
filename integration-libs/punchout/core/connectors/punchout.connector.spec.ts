@@ -27,9 +27,9 @@ class MockPunchoutAdapter implements PunchoutAdapter {
   getPunchoutSession = createSpy('getPunchoutSession').and.callFake(() =>
     of(mockPunchoutSessionResponse)
   );
-  getPunchoutRequisition = createSpy('getPunchoutRequisition').and.callFake(
-    () => of(mockPunchoutRequisitionResponse)
-  );
+  getPunchoutSessionRequisition = createSpy(
+    'getPunchoutSessionRequisition'
+  ).and.callFake(() => of(mockPunchoutRequisitionResponse));
 }
 
 describe('PunchoutConnector', () => {
@@ -61,11 +61,13 @@ describe('PunchoutConnector', () => {
     });
   });
 
-  it('getPunchoutRequisition should call adapter', (done) => {
-    service.getPunchoutRequisition(mockSid).subscribe({
+  it('getPunchoutSessionRequisition should call adapter', (done) => {
+    service.getPunchoutSessionRequisition(mockSid).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
-        expect(adapter.getPunchoutRequisition).toHaveBeenCalledWith(mockSid);
+        expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
+          mockSid
+        );
         done();
       },
     });

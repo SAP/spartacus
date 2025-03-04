@@ -13,11 +13,13 @@ import { PunchoutAdapter } from './punchout.adapter';
 export class PunchoutConnector {
   protected adapter = inject(PunchoutAdapter);
 
-  public getPunchoutSession(sId: string): Observable<PunchoutSession> {
-    return this.adapter.getPunchoutSession(sId);
+  public getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
+    return this.adapter.getPunchoutSession(sessionId);
   }
 
-  public getPunchoutRequisition(sId: string): Observable<PunchoutRequisition> {
-    return this.adapter.getPunchoutRequisition(sId);
+  public getPunchoutSessionRequisition(
+    sessionId: string
+  ): Observable<PunchoutRequisition> {
+    return this.adapter.getPunchoutSessionRequisition(sessionId);
   }
 }

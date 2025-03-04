@@ -18,11 +18,13 @@ import { PunchoutConnector } from '../connectors';
 export class PunchoutService implements PunchoutFacade {
   protected punchoutConnector = inject(PunchoutConnector);
 
-  getPunchoutSession(sId: string): Observable<PunchoutSession> {
-    return this.punchoutConnector.getPunchoutSession(sId);
+  getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
+    return this.punchoutConnector.getPunchoutSession(sessionId);
   }
 
-  getPunchoutRequisition(sId: string): Observable<PunchoutRequisition> {
-    return this.punchoutConnector.getPunchoutRequisition(sId);
+  getPunchoutSessionRequisition(
+    sessionId: string
+  ): Observable<PunchoutRequisition> {
+    return this.punchoutConnector.getPunchoutSessionRequisition(sessionId);
   }
 }

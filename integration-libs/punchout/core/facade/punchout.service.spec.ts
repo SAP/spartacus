@@ -28,8 +28,8 @@ class MockPunchoutConnector implements Partial<PunchoutConnector> {
   getPunchoutSession = createSpy(
     'PunchoutConnector.getPunchoutSession'
   ).and.callFake(() => of(mockPunchoutSessionResponse));
-  getPunchoutRequisition = createSpy(
-    'PunchoutConnector.getPunchoutRequisition'
+  getPunchoutSessionRequisition = createSpy(
+    'PunchoutConnector.getPunchoutSessionRequisition'
   ).and.callFake(() => of(mockPunchoutRequisitionResponse));
 }
 
@@ -62,11 +62,13 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('getPunchoutRequisition should call connector', (done) => {
-    service.getPunchoutRequisition(mockSid).subscribe({
+  it('getPunchoutSessionRequisition should call connector', (done) => {
+    service.getPunchoutSessionRequisition(mockSid).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
-        expect(connector.getPunchoutRequisition).toHaveBeenCalledWith(mockSid);
+        expect(connector.getPunchoutSessionRequisition).toHaveBeenCalledWith(
+          mockSid
+        );
         done();
       },
     });

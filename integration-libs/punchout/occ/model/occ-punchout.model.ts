@@ -14,16 +14,16 @@ export interface PunchoutOccEndpoints {
    */
   punchoutSession?: string | OccEndpoint;
   /**
-   * Endpoint for the punchout Requisition
+   * Endpoint for the punchout Session Requisition
    *
    * @member {string}
    */
-  punchoutRequisition?: string | OccEndpoint;
+  punchoutSessionRequisition?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
   interface OccEndpoints extends PunchoutOccEndpoints {
     punchoutSession?: string | OccEndpoint;
-    punchoutRequisition?: string | OccEndpoint;
+    punchoutSessionRequisition?: string | OccEndpoint;
   }
 }

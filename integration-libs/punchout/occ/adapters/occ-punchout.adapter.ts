@@ -27,11 +27,11 @@ export class OccPunchoutAdapter implements PunchoutAdapter {
   protected logger = inject(LoggerService);
   protected converter = inject(ConverterService);
 
-  getPunchoutSession(sId: string): Observable<PunchoutSession> {
+  getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
     return this.http
       .get<PunchoutSession>(
         this.occEndpoints.buildUrl('punchoutSession', {
-          urlParams: { sId },
+          urlParams: { sessionId },
         })
       )
       .pipe(
@@ -42,11 +42,13 @@ export class OccPunchoutAdapter implements PunchoutAdapter {
       );
   }
 
-  getPunchoutRequisition(sId: string): Observable<PunchoutRequisition> {
+  getPunchoutSessionRequisition(
+    sessionId: string
+  ): Observable<PunchoutRequisition> {
     return this.http
       .get<PunchoutRequisition>(
         this.occEndpoints.buildUrl('punchoutRequisition', {
-          urlParams: { sId },
+          urlParams: { sessionId },
         })
       )
       .pipe(

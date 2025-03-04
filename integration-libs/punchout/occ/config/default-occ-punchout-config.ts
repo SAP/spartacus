@@ -8,8 +8,8 @@ import { OccConfig } from '@spartacus/core';
 import { PunchoutOccEndpoints } from '../model/occ-punchout.model';
 
 const punchoutOccEndpoints: PunchoutOccEndpoints = {
-  punchoutSession: 'punchout/sessions/${sId}',
-  punchoutRequisition: 'punchout/sessions/${sId}/requisition',
+  punchoutSession: 'punchout/sessions/${sessionId}',
+  punchoutSessionRequisition: 'punchout/sessions/${sessionId}/requisition',
 };
 
 export const defaultOccPunchoutConfig: OccConfig = {
