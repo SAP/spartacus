@@ -77,13 +77,16 @@ echo '-----'
 echo "Building Spartacus storefrontapp"
 npm run build
 
-is_bot_commit() {
+should_run_only_core_e2e() {
     LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
+    LAST_COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')
 
     echo "Last commit author: ${LAST_COMMIT_AUTHOR}"
+    echo "Last commit message: ${LAST_COMMIT_MESSAGE}"
 
     if [[ "${LAST_COMMIT_AUTHOR}" == *"dependabot[bot]@users.noreply.github.com" ]] ||
-        [[ "${LAST_COMMIT_AUTHOR}" == *"renovate[bot]@users.noreply.github.com" ]]; then
+        [[ "${LAST_COMMIT_AUTHOR}" == *"renovate[bot]@users.noreply.github.com" ]] ||
+        [[ "${LAST_COMMIT_MESSAGE}" == doc:* ]]; then
         return 0
     else
         return 1
@@ -115,7 +118,7 @@ if [[ "${SSR}" = true ]]; then
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
         echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
+        if should_run_only_core_e2e; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
             npm run e2e:run:ci:core:ssr
         else
@@ -146,7 +149,7 @@ else
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
         echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
+        if should_run_only_core_e2e; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
             npm run e2e:run:ci:core"${SUITE}"
         else
