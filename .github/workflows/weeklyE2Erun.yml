@@ -1,0 +1,36 @@
+# This is a basic workflow that is manually triggered
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  schedule:
+        - cron: "2 20 * * 0"
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    
+env:
+  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  NODE_VERSION: '20'
+  AMP_API_TOKEN: ${{ secrets.AMP_API_TOKEN }}
+  CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
+
+name: Run asm e2es every Tuesday 8PM
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  greet:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run all asm e2es
+        id: save-e2e-output-result
+        run: |
+          source run-spartacus-asm-e2es.sh
+          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
