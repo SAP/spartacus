@@ -51,7 +51,17 @@ export class CdcUserPreferenceSerializer
       }
       consentCode = consentCode[elem];
     }
-    consentCode[list[len - 1]] = value;
+    if (
+      list[len - 1] !== '__proto__' &&
+      list[len - 1] !== 'constructor' &&
+      list[len - 1] !== 'prototype'
+    ) {
+      consentCode[list[len - 1]] = value;
+    } else {
+      throw new Error('Invalid key assignment');
+    }
+
+    //consentCode[list[len - 1]] = value;
     return target;
   }
 }

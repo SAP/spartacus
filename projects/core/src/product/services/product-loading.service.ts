@@ -56,11 +56,33 @@ export class ProductLoadingService {
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
+    const isValidKey = (key) =>
+      typeof key === 'string' &&
+      !['__proto__', 'constructor', 'prototype'].includes(key);
+
     isKeyInvalid(productCode);
     if (!this.products[productCode]) {
       this.products[productCode] = {};
     }
 
+    for (const scope of scopes) {
+      if (isValidKey(productCode)) {
+        if (!Object.prototype.hasOwnProperty.call(this.products, productCode)) {
+          this.products[productCode] = {};
+        }
+      } else {
+        console.error(
+          'Invalid key detected, potential prototype pollution attempt!'
+        );
+      }
+
+      if (!this.products[productCode][scope]) {
+        this.products[productCode][scope] = this.getProductForScope(
+          productCode,
+          scope
+        );
+      }
+    }
     for (const scope of scopes) {
       if (!this.products[productCode][scope]) {
         this.products[productCode][scope] = this.getProductForScope(
@@ -71,17 +93,29 @@ export class ProductLoadingService {
     }
 
     if (scopes.length > 1) {
-      this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
-        scopes.map((scope) => this.products[productCode][scope])
-      ).pipe(
-        map((productParts) =>
-          productParts.every(Boolean)
-            ? deepMerge({}, ...productParts)
-            : undefined
-        ),
-        distinctUntilChanged()
-      );
+      if (isValidKey(productCode)) {
+        this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
+          scopes.map((scope) => this.products[productCode][scope])
+        ).pipe(
+          map((productParts) =>
+            productParts.every(Boolean)
+              ? deepMerge({}, ...productParts)
+              : undefined
+          ),
+          distinctUntilChanged()
+        );
+      } else {
+        throw new Error('Invalid product code');
+      }
     }
+  }
+
+  protected isValidKey(key) {
+    return (
+      typeof key === 'string' &&
+      /^[a-zA-Z0-9_-]+$/.test(key) && // Allow only alphanumeric, hyphens, underscores
+      !['__proto__', 'constructor', 'prototype'].includes(key)
+    );
   }
 
   protected getScopesIndex(scopes: string[]): string {
