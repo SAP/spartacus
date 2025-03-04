@@ -5,9 +5,9 @@
     </p>
     <label>
       <span class="label-content required"
-        >{{ 'orgCostCenter.name' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgCostCenter.name' | cxTranslate }}
+        <cx-form-required-asterisks></cx-form-required-asterisks>
+      </span>
       <input
         type="text"
         class="form-control"
@@ -38,8 +38,8 @@
     <label>
       <span class="label-content required"
         >{{ 'orgCostCenter.code' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        }}<cx-form-required-asterisks></cx-form-required-asterisks>
+      </span>
       <input
         class="form-control"
         type="text"
@@ -69,8 +69,8 @@
     <label formGroupName="currency">
       <span class="label-content required"
         >{{ 'orgCostCenter.currency' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        }}<cx-form-required-asterisks></cx-form-required-asterisks>
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
@@ -103,8 +103,8 @@
     <label [formGroup]="$any(form.get('unit'))">
       <span class="label-content required"
         >{{ 'orgCostCenter.unit' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        }}<cx-form-required-asterisks></cx-form-required-asterisks>
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
@@ -135,13 +135,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

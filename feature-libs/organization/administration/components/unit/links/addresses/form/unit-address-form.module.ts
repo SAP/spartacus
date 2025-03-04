@@ -9,7 +9,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsteriksModule,
+} from '@spartacus/storefront';
 import { FormModule } from '../../../../shared/form/form.module';
 import { UnitAddressFormComponent } from './unit-address-form.component';
 
@@ -23,6 +26,7 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
     ReactiveFormsModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   declarations: [UnitAddressFormComponent],
 })

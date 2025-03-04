@@ -25,8 +25,8 @@
   <label>
     <span class="label-content"
       >{{ 'updateProfileForm.firstName.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+      <cx-form-required-asterisks></cx-form-required-asterisks>
+    </span>
     <input
       required="true"
       type="text"
@@ -59,8 +59,8 @@
   <label>
     <span class="label-content"
       >{{ 'updateProfileForm.lastName.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+      <cx-form-required-asterisks></cx-form-required-asterisks>
+    </span>
     <input
       required="true"
       type="text"
@@ -138,13 +138,3 @@
     {{ 'common.save' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

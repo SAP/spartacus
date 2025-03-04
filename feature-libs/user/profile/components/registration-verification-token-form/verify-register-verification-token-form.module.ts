@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   IconModule,
   KeyboardFocusModule,
   SpinnerModule,
@@ -40,6 +41,7 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
     FormErrorsModule,
     SpinnerModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

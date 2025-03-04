@@ -12,11 +12,20 @@ import {
 } from '@spartacus/checkout/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
-import { DatePickerModule } from '@spartacus/storefront';
+import {
+  DatePickerModule,
+  FormRequiredAsteriksModule,
+} from '@spartacus/storefront';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, DatePickerModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    DatePickerModule,
+    ReactiveFormsModule,
+    FormRequiredAsteriksModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

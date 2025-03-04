@@ -34,7 +34,7 @@
         <label>
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.subject' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <textarea
             [maxLength]="inputCharactersForSubject"
@@ -61,7 +61,7 @@
         <label *ngIf="ticketCategories$ | async as ticketCategories">
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.category' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <select
             *cxFeature="
@@ -167,7 +167,7 @@
         <label>
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.message' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <textarea
             required="true"
@@ -241,13 +241,3 @@
     </div>
   </form>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

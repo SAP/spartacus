@@ -10,7 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsteriksModule,
+} from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
 import { PermissionFormComponent } from './permission-form.component';
@@ -27,6 +30,7 @@ import { PermissionFormComponent } from './permission-form.component';
     FormModule,
     ItemActiveModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   declarations: [PermissionFormComponent],
   exports: [PermissionFormComponent],

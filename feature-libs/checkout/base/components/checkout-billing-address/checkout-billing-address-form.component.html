@@ -48,9 +48,7 @@
             <label>
               <span class="label-content required">
                 {{ 'addressForm.country' | cxTranslate }}
-                <ng-template
-                  [ngTemplateOutlet]="requiredAsterisk"
-                ></ng-template>
+                <cx-form-required-asterisks></cx-form-required-asterisks>
               </span>
               <ng-select
                 [inputAttrs]="{ required: 'true' }"
@@ -79,7 +77,7 @@
         <label>
           <span class="label-content required">
             {{ 'addressForm.firstName.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -102,7 +100,7 @@
         <label>
           <span class="label-content required">
             {{ 'addressForm.lastName.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -123,7 +121,7 @@
         <label>
           <span class="label-content required">
             {{ 'addressForm.address1' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -158,7 +156,7 @@
           <label>
             <span class="label-content required">
               {{ 'addressForm.city.label' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+              <cx-form-required-asterisks></cx-form-required-asterisks>
             </span>
             <input
               required="true"
@@ -179,7 +177,7 @@
           <label>
             <span class="label-content required">
               {{ 'addressForm.zipCode.label' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+              <cx-form-required-asterisks></cx-form-required-asterisks>
             </span>
             <input
               required="true"
@@ -235,13 +233,3 @@
     </div>
   </ng-template>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

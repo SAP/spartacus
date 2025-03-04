@@ -30,7 +30,7 @@
         <label>
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.message' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <textarea
             required="true"
@@ -71,12 +71,3 @@
     <cx-spinner *ngIf="isDataLoading$ | async" class="overlay"></cx-spinner>
   </form>
 </div>
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

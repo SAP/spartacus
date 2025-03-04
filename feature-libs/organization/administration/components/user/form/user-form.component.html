@@ -34,7 +34,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.firstName' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks></cx-form-required-asterisks>
       </span>
       <input
         type="text"
@@ -63,7 +63,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.lastName' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks></cx-form-required-asterisks>
       </span>
       <input
         type="text"
@@ -92,7 +92,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.email' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks></cx-form-required-asterisks>
       </span>
       <input
         class="form-control"
@@ -167,7 +167,7 @@
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">
         {{ 'orgUser.orgUnit' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks></cx-form-required-asterisks>
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -209,13 +209,3 @@
     </div>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

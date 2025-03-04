@@ -11,6 +11,7 @@ import { I18nModule, FeaturesConfigModule } from '@spartacus/core';
 import {
   FileUploadModule,
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   IconModule,
   KeyboardFocusModule,
   NgSelectA11yModule,
@@ -31,6 +32,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FeaturesConfigModule,
     NgSelectModule,
     NgSelectA11yModule,
+    FormRequiredAsteriksModule,
   ],
   declarations: [
     CustomerTicketingCreateComponent,

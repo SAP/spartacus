@@ -13,7 +13,10 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsteriksModule,
+} from '@spartacus/storefront';
 import { NotCheckoutAuthGuard } from '../guards/not-checkout-auth.guard';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
@@ -25,6 +28,7 @@ import { CheckoutLoginComponent } from './checkout-login.component';
     ReactiveFormsModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -12,6 +12,7 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   CardModule,
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   IconModule,
   NgSelectA11yModule,
   SpinnerModule,
@@ -30,6 +31,7 @@ import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-
     SpinnerModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [CheckoutBillingAddressFormService],
   declarations: [CheckoutBillingAddressFormComponent],

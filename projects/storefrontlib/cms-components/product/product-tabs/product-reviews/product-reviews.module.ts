@@ -14,7 +14,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule, StarRatingModule } from '../../../../shared/index';
+import {
+  FormErrorsModule,
+  FormRequiredAsteriksModule,
+  StarRatingModule,
+} from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
 
 @NgModule({
@@ -26,6 +30,7 @@ import { ProductReviewsComponent } from './product-reviews.component';
     StarRatingModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -22,6 +22,7 @@ import {
 import {
   BtnLikeLinkModule,
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -53,6 +54,7 @@ const myAccountV2ProfileMapping: CmsConfig = {
     NgSelectA11yModule,
     FeaturesConfigModule,
     BtnLikeLinkModule,
+    FormRequiredAsteriksModule,
   ],
   declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],

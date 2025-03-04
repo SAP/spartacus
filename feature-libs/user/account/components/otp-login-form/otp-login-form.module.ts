@@ -18,6 +18,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -35,6 +36,7 @@ import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
     SpinnerModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

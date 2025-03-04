@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -37,6 +38,7 @@ import { ResetPasswordComponent } from './reset-password.component';
     SpinnerModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

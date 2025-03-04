@@ -35,8 +35,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.firstName.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks></cx-form-required-asterisks>
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -68,8 +68,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.lastName.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks></cx-form-required-asterisks>
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -101,8 +101,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.emailAddress.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks></cx-form-required-asterisks>
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -192,9 +192,7 @@
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
-                  <ng-template
-                    [ngTemplateOutlet]="requiredAsterisk"
-                  ></ng-template>
+                  <cx-form-required-asterisks></cx-form-required-asterisks>
                 </span>
 
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -230,16 +228,6 @@
     </div>
   </div>
 </section>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>

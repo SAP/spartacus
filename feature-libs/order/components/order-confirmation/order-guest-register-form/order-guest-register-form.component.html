@@ -16,7 +16,7 @@
         <label>
           <span class="label-content">
             {{ 'register.password.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -52,7 +52,7 @@
         <label>
           <span class="label-content">
             {{ 'register.confirmPassword.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -94,13 +94,3 @@
     </form>
   </div>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

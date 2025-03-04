@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -44,6 +45,7 @@ import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.c
       },
     }),
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   declarations: [UserRegistrationOTPFormComponent],
   exports: [UserRegistrationOTPFormComponent],

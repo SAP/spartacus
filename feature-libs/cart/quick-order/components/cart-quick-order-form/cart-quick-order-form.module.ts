@@ -13,7 +13,10 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsteriksModule,
+} from '@spartacus/storefront';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
 @NgModule({
@@ -23,6 +26,7 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
     I18nModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

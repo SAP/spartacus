@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -34,6 +35,7 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     I18nModule,
     SpinnerModule,
     FormErrorsModule,
+    FormRequiredAsteriksModule,
     NgSelectModule,
     NgSelectA11yModule,
     ConfigModule.withConfig(<CmsConfig>{

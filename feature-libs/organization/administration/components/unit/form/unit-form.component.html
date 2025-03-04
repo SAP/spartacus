@@ -6,7 +6,7 @@
     <label>
       <span class="label-content required">
         <span>{{ 'orgUnit.name' | cxTranslate }}</span>
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks></cx-form-required-asterisks>
       </span>
       <input
         type="text"
@@ -37,7 +37,7 @@
     <label>
       <span class="label-content required">
         <span>{{ 'orgUnit.uid' | cxTranslate }}</span>
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks></cx-form-required-asterisks>
       </span>
       <input
         class="form-control"
@@ -113,7 +113,7 @@
       <label formGroupName="parentOrgUnit">
         <span class="label-content required">
           {{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}
-          <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+          <cx-form-required-asterisks></cx-form-required-asterisks>
         </span>
         <ng-select
           *cxFeature="'a11yApprovalProcessWithNoClearable'"
@@ -165,13 +165,3 @@
     </ng-template>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

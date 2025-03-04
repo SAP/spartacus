@@ -86,7 +86,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.reviewTitle' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -118,7 +118,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.writeYourComments' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <textarea
             required="true"
@@ -149,7 +149,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.rating' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks></cx-form-required-asterisks>
           </span>
           <input
             required="true"
@@ -213,13 +213,3 @@
     </form>
   </ng-template>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

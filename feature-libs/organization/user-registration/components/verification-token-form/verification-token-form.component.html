@@ -4,7 +4,7 @@
   <label>
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      <cx-form-required-asterisks></cx-form-required-asterisks>
     </span>
     <input
       required="true"
@@ -85,13 +85,3 @@
     </button>
   </div>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

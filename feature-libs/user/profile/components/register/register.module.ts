@@ -21,6 +21,7 @@ import {
 import {
   CaptchaModule,
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
@@ -39,6 +40,7 @@ import { RegisterComponent } from './register.component';
     I18nModule,
     SpinnerModule,
     FormErrorsModule,
+    FormRequiredAsteriksModule,
     NgSelectA11yModule,
     NgSelectModule,
     PasswordVisibilityToggleModule,

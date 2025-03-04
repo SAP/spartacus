@@ -12,6 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsteriksModule,
   KeyboardFocusModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
@@ -31,6 +32,7 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     KeyboardFocusModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsteriksModule,
   ],
   declarations: [UserChangePasswordFormComponent],
 })
