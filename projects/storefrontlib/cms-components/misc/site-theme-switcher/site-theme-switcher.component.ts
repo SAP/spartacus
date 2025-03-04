@@ -7,13 +7,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SiteTheme,
-  useFeatureStyles,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
-import { map, take } from 'rxjs/operators';
 
 /**
  * Component for switching themes.
@@ -30,6 +30,7 @@ export class SiteThemeSwitcherComponent {
 
   constructor() {
     useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   protected themeSwitcherComponentService = inject(
