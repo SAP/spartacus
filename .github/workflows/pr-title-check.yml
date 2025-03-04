@@ -1,0 +1,76 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, ready_for_review]
+
+jobs:
+  validate_pr_title:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title format
+        id: check-title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          # Allowed commit types
+          VALID_TYPES="docs|feat|fix|perf|refactor|style|test|chore"
+          
+          # Regex pattern to check title format
+          PATTERN="^($VALID_TYPES): .+$"
+
+          # Validate PR title
+          if [[ ! "$PR_TITLE" =~ $PATTERN ]]; then
+            echo "❌ Invalid PR title format."
+            echo "::set-output name=VALID::false"
+            exit 1
+          fi
+
+          echo "✅ PR title is valid!"
+          echo "::set-output name=VALID::true"
+
+      - name: Post PR comment if invalid
+        if: steps.check-title.outputs.VALID == 'false'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const commentBody = `
+            # 🚨 PR Title Validation Failed 🚨  
+            
+            Your pull request title does not follow the required format. Please update it to match the expected pattern:  
+
+            **Expected format:**  
+            \`<type>: <subject>\`
+
+            ## **Allowed Types**
+            - **docs:** Changes to documentation only
+            - **feat:** New feature work
+            - **fix:** Bug fixes
+            - **perf:** Code improvements for performance
+            - **refactor:** Code changes that are not bug fixes or features
+            - **style:** Code style changes (e.g., whitespace, formatting)
+            - **test:** Adding or updating tests
+            - **chore:** Build, CI, scripts, configs, etc.
+
+            ## **Example of a valid PR title**
+            ✅ \`feat: Add user authentication\`  
+            ✅ \`fix: Resolve checkout bug\`  
+            ✅ \`docs: Update API documentation\`  
+
+            ❌ **Merge is blocked until the PR title is corrected.**
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
+              body: commentBody
+            });
+
+            core.setFailed('Invalid PR title. Please update it to follow the required format.');
