@@ -393,9 +393,10 @@ export interface FeatureTogglesInterface {
 
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * Includes style changes for:
    * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`
+   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
+   * `CarouselComponent`, `ProductListItemComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
@@ -603,6 +604,14 @@ export interface FeatureTogglesInterface {
    * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
    */
   a11yNgSelectAriaLabelDropdownCustomized?: boolean;
+
+  /**
+   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
+   * when a screen reader is used.
+   * Replaces select with ng-select component in the following component:
+   * `CustomerTicketingCreateDialogComponent`
+   */
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
    * Removes duplicated error message from 'CancelOrderComponent'.
@@ -980,7 +989,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showDeliveryOptionsTranslation: false,
+  showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
@@ -991,7 +1000,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: false,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
-  useProductCarouselBatchApi: false,
+  useProductCarouselBatchApi: true,
   productConfiguratorAttributeTypesV2: true,
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
@@ -1000,7 +1009,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
-  a11yNavMenuExpandStateReadout: false,
+  a11yNavMenuExpandStateReadout: true,
   a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
   a11yViewChangeAssistiveMessage: true,
@@ -1067,19 +1076,20 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormErrorMuteIcon: true,
   a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yRepeatedPageTitleFix: false,
+  a11yRepeatedPageTitleFix: true,
   a11yDeliveryModeRadiogroup: true,
-  a11yNgSelectOptionsCount: false,
+  a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
-  a11yRepeatedCancelOrderError: false,
-  a11yAddedToCartActiveDialog: false,
+  a11yRepeatedCancelOrderError: true,
+  a11yAddedToCartActiveDialog: true,
   a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: false,
   a11yShowMoreReviewsBtnFocus: false,
-  a11yQuickOrderAriaControls: false,
-  a11yRemoveStatusLoadedRole: false,
-  a11yDialogsHeading: false,
+  a11yQuickOrderAriaControls: true,
+  a11yRemoveStatusLoadedRole: true,
+  a11yDialogsHeading: true,
   a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
