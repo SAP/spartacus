@@ -17,7 +17,6 @@ jobs:
 
           if [[ ! "$PR_TITLE" =~ ^(docs|feat|fix|perf|refactor|style|test|chore):\ .+ ]]; then
             echo "❌ PR title is invalid."
-            echo "::set-output name=failed::true"
             exit 1
           fi
 
@@ -31,31 +30,37 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `# 🚨 PR Title Validation Failed 🚨  
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const commentBody = `# 🚨 PR Title Validation Failed 🚨  
               
-              Your pull request title does not follow the required format. Please update it to match the expected pattern:  
+            Your pull request title does not follow the required format. Please update it to match the expected pattern:  
 
-              **Expected format:**  
-              \`<type>: <subject>\`
+            **Expected format:**  
+            \`<type>: <subject>\`
 
-              ## **Allowed Types**
-              - **docs:** Changes to documentation only
-              - **feat:** New feature work
-              - **fix:** Bug fixes
-              - **perf:** Code improvements for performance
-              - **refactor:** Code changes that are not bug fixes or features
-              - **style:** Code style changes (e.g., whitespace, formatting)
-              - **test:** Adding or updating tests
-              - **chore:** Build, CI, scripts, configs, etc.
+            ## **Allowed Types**
+            - **docs:** Changes to documentation only
+            - **feat:** New feature work
+            - **fix:** Bug fixes
+            - **perf:** Code improvements for performance
+            - **refactor:** Code changes that are not bug fixes or features
+            - **style:** Code style changes (e.g., whitespace, formatting)
+            - **test:** Adding or updating tests
+            - **chore:** Build, CI, scripts, configs, etc.
 
-              ## **Example of a valid PR title**
-              ✅ \`feat: Add user authentication\`  
-              ✅ \`fix: Resolve checkout bug\`  
-              ✅ \`docs: Update API documentation\`  
+            ## **Example of a valid PR title**
+            ✅ \`feat: Add user authentication\`  
+            ✅ \`fix: Resolve checkout bug\`  
+            ✅ \`docs: Update API documentation\`  
 
-              ❌ **Merge is blocked until the PR title is corrected.**`
-            }); `
+            ❌ **Merge is blocked until the PR title is corrected.**`;
+
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
+              body: commentBody
+            });
