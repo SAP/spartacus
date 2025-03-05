@@ -13,6 +13,7 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
@@ -31,6 +32,7 @@ import { PermissionFormComponent } from './permission-form.component';
     ItemActiveModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [PermissionFormComponent],
   exports: [PermissionFormComponent],

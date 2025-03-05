@@ -22,6 +22,7 @@ import {
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   IconModule,
   KeyboardFocusModule,
   SpinnerModule,
@@ -47,6 +48,7 @@ import { VerificationTokenFacade } from '@spartacus/user/account/root';
     SpinnerModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

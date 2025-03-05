@@ -13,6 +13,7 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   KeyboardFocusModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
@@ -33,6 +34,7 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [UserChangePasswordFormComponent],
 })

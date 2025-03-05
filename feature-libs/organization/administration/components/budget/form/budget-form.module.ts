@@ -14,6 +14,7 @@ import {
   DatePickerModule,
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
@@ -33,6 +34,7 @@ import { BudgetFormComponent } from './budget-form.component';
     DatePickerModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [BudgetFormComponent],
 })

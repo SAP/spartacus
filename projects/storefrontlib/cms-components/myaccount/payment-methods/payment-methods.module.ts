@@ -16,6 +16,7 @@ import {
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { PaymentMethodsComponent } from './payment-methods.component';
+import { FormRequiredLegendModule } from '../../../shared/components/form';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { PaymentMethodsComponent } from './payment-methods.component';
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

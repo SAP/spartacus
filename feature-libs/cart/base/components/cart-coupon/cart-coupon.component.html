@@ -6,9 +6,7 @@
         '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
       "
     >
-      <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-        {{ 'formLegend.required' | cxTranslate }}
-      </p>
+      <cx-form-required-legend></cx-form-required-legend>
     </ng-container>
 
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">

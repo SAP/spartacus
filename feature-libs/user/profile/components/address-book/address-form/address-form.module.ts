@@ -13,6 +13,7 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   IconModule,
   KeyboardFocusModule,
   NgSelectA11yModule,
@@ -34,6 +35,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
     KeyboardFocusModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   exports: [AddressFormComponent, SuggestedAddressDialogComponent],

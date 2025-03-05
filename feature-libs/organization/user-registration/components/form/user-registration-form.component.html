@@ -6,9 +6,7 @@
   ></div>
 
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend></cx-form-required-legend>
     <label>
       <span class="label-content">{{
         'userRegistrationForm.fields.titleCode.label' | cxTranslate

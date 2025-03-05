@@ -13,6 +13,7 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
@@ -33,6 +34,7 @@ import { UnitFormComponent } from './unit-form.component';
     FeaturesConfigModule,
     NgSelectA11yModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [UnitFormComponent],
   exports: [UnitFormComponent],

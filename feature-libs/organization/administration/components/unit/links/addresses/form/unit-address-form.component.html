@@ -6,9 +6,7 @@
   "
 >
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend></cx-form-required-legend>
     <label formGroupName="country">
       <span class="label-content required"
         >{{ 'orgUnitAddress.country' | cxTranslate }}

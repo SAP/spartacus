@@ -13,6 +13,7 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { UserGroupFormComponent } from './user-group-form.component';
@@ -29,6 +30,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
     FormModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [UserGroupFormComponent],
 })

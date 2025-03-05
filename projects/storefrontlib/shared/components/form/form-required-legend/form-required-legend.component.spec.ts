@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { FormRequiredAsterisksComponent } from './form-required-asterisks.component';
+import { FormRequiredLegendComponent } from './form-required-legend.component';
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled(_feature: string) {
@@ -9,9 +9,9 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   }
 }
 
-describe('FormRequiredAsterisksComponent', () => {
-  let component: FormRequiredAsterisksComponent;
-  let fixture: ComponentFixture<FormRequiredAsterisksComponent>;
+describe('FormRequiredLegendComponent', () => {
+  let component: FormRequiredLegendComponent;
+  let fixture: ComponentFixture<FormRequiredLegendComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -23,12 +23,12 @@ describe('FormRequiredAsterisksComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-      declarations: [FormRequiredAsterisksComponent, MockFeatureDirective],
+      declarations: [FormRequiredLegendComponent, MockFeatureDirective],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormRequiredAsterisksComponent);
+    fixture = TestBed.createComponent(FormRequiredLegendComponent);
     component = fixture.componentInstance;
   });
 
@@ -39,19 +39,17 @@ describe('FormRequiredAsterisksComponent', () => {
 
   it('should render correctly', () => {
     fixture.detectChanges();
-    expect(component.titleTranslation).toEqual(undefined);
-    expect(fixture.debugElement.nativeElement.innerText).toBe('*');
+    expect(component.formLegendTranslation).toEqual(undefined);
+    expect(fixture.debugElement.nativeElement.innerText).toBe(
+      'formLegend.required'
+    );
   });
 
-  it('should render correctly, when provided titleTranslation input value', () => {
-    const translation = 'custom.common.required';
-    component.titleTranslation = translation;
+  it('should render correctly, when provided formLegendTranslation input value', () => {
+    const translation = 'custom.formLegend.required';
+    component.formLegendTranslation = translation;
     fixture.detectChanges();
-    expect(component.titleTranslation).toEqual(translation);
-    expect(fixture.debugElement.nativeElement.innerText).toBe('*');
-    expect(
-      fixture.debugElement.nativeElement.querySelector('abbr.required-asterisk')
-        .title
-    ).toBe(translation);
+    expect(component.formLegendTranslation).toEqual(translation);
+    expect(fixture.debugElement.nativeElement.innerText).toBe(translation);
   });
 });

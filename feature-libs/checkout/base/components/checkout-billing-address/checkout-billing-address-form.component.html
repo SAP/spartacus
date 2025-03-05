@@ -39,9 +39,7 @@
   <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->
   <ng-template #billingAddress>
     <div [formGroup]="billingAddressForm">
-      <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-        {{ 'formLegend.required' | cxTranslate }}
-      </p>
+      <cx-form-required-legend></cx-form-required-legend>
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">

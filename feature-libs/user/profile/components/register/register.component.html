@@ -11,9 +11,7 @@
     <div class="col-md-6">
       <div class="cx-section">
         <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-        <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-          {{ 'formLegend.required' | cxTranslate }}
-        </p>
+        <cx-form-required-legend></cx-form-required-legend>
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>

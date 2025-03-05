@@ -1,8 +1,6 @@
 <cx-org-form i18nRoot="orgCostCenter">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend></cx-form-required-legend>
     <label>
       <span class="label-content required"
         >{{ 'orgCostCenter.name' | cxTranslate }}

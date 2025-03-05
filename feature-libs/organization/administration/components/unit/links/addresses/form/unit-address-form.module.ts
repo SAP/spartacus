@@ -12,6 +12,7 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { FormModule } from '../../../../shared/form/form.module';
 import { UnitAddressFormComponent } from './unit-address-form.component';
@@ -27,6 +28,7 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [UnitAddressFormComponent],
 })

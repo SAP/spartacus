@@ -1,9 +1,7 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend></cx-form-required-legend>
   <label>
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}

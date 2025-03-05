@@ -12,6 +12,7 @@ import {
   FileUploadModule,
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   IconModule,
   KeyboardFocusModule,
   NgSelectA11yModule,
@@ -33,6 +34,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule,
     NgSelectA11yModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   declarations: [
     CustomerTicketingCreateComponent,

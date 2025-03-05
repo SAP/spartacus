@@ -16,6 +16,7 @@ import {
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
@@ -27,6 +28,7 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -15,6 +15,7 @@ import { CheckoutServiceDetailsComponent } from './checkout-service-details.comp
 import {
   DatePickerModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -25,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     DatePickerModule,
     ReactiveFormsModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

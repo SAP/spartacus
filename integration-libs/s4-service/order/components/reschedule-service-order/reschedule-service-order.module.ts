@@ -21,6 +21,7 @@ import {
   OutletModule,
   CardModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
 } from '@spartacus/storefront';
 import { ServiceOrderGuard } from '../guards';
 import { RouterModule } from '@angular/router';
@@ -38,6 +39,7 @@ import { RouterModule } from '@angular/router';
     DatePickerModule,
     ReactiveFormsModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

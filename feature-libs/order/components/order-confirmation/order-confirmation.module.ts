@@ -23,6 +23,7 @@ import {
   CardModule,
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
@@ -62,6 +63,7 @@ const orderConfirmationComponents = [
     AbstractOrderContextModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

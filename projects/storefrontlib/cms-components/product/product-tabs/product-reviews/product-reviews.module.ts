@@ -17,6 +17,7 @@ import {
 import {
   FormErrorsModule,
   FormRequiredAsteriksModule,
+  FormRequiredLegendModule,
   StarRatingModule,
 } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
@@ -31,6 +32,7 @@ import { ProductReviewsComponent } from './product-reviews.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsteriksModule,
+    FormRequiredLegendModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
