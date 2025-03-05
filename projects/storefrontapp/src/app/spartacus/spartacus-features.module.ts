@@ -296,9 +296,7 @@ if (environment.cpq) {
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
-        showPromotionsInPDP: false,
         searchBoxV2: false,
-        recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
         useProductCarouselBatchApi: true,
@@ -388,6 +386,7 @@ if (environment.cpq) {
          */
         a11yNgSelectOptionsCount: false,
         a11yNgSelectCloseDropdownOnEscape: true,
+        a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,

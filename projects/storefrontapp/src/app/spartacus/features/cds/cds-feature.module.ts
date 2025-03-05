@@ -61,6 +61,7 @@ const cds2: CdsConfig = {
     profileTag: {
       javascriptUrl: 'A_CDS_PROFILE_TAG_LOAD_URL',
       configUrl: 'A_CDS_PROFILE_TAG_CONFIG_URL',
+      cdsSiteId: 'A_CDS_SITE_ID',
       allowInsecureCookies: true,
     },
   },

@@ -6,6 +6,5 @@
 
 export enum SearchBoxFeatures {
   SEARCH_BOX_V2 = 'searchBoxV2',
-  RECENT_SEARCHES_FEATURE = 'recentSearches',
   TRENDING_SEARCHES_FEATURE = 'trendingSearches',
 }

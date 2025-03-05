@@ -23,10 +23,12 @@ import {
   FormErrorsModule,
   ICON_TYPE,
   LaunchDialogService,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const mockCategories = [
   {
@@ -121,6 +123,8 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
+        NgSelectModule,
+        NgSelectA11yModule,
       ],
       declarations: [
         CustomerTicketingCreateDialogComponent,

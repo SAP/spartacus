@@ -23,7 +23,7 @@ import { TrendingSearchesService } from './trending-searches.service';
 const mockCDSConfig: CdsConfig = {
   cds: {
     tenant: 'storksfront',
-    baseUrl: 'https://api.stage.context.cloud.sap',
+    baseUrl: 'https://storksfront-main.api.stage.context.cloud.sap',
     endpoints: {
       strategyProducts: '',
       searchIntelligence:

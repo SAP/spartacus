@@ -1,9 +1,6 @@
 {
   "name": "@spartacus/core",
-  "version": "2211.35.0-1",
-  "engines": {
-    "node": "^22.0.0"
-  },
+  "version": "2211.37.0-1",
   "description": "Spartacus - the core framework",
   "keywords": [
     "spartacus",
@@ -30,6 +27,9 @@
     "i18next-http-backend": "^3.0.1",
     "i18next-resources-to-backend": "^1.2.1",
     "rxjs": "^7.8.0"
+  },
+  "engines": {
+    "node": "^22.0.0"
   },
   "publishConfig": {
     "access": "public"

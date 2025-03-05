@@ -1,9 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "2211.35.0-1",
-  "engines": {
-    "node": "^22.0.0"
-  },
+  "version": "2211.37.0-1",
   "keywords": [
     "spartacus",
     "storefront",
@@ -26,9 +23,12 @@
     "@ngrx/effects": "^19.0.0",
     "@ngrx/router-store": "^19.0.0",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/core": "2211.35.0-1",
+    "@spartacus/core": "2211.37.0-1",
     "ngx-infinite-scroll": "^19.0.0",
     "rxjs": "^7.8.0"
+  },
+  "engines": {
+    "node": "^22.0.0"
   },
   "publishConfig": {
     "access": "public"

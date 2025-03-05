@@ -1,9 +1,6 @@
 {
   "name": "@spartacus/segment-refs",
-  "version": "2211.35.0-1",
-  "engines": {
-    "node": "^22.0.0"
-  },
+  "version": "2211.37.0-1",
   "description": "segment-refs",
   "keywords": [
     "spartacus",
@@ -26,9 +23,12 @@
     "@angular-devkit/schematics": "^19.0.4",
     "@angular/common": "^19.0.3",
     "@angular/core": "^19.0.3",
-    "@spartacus/core": "2211.35.0-1",
-    "@spartacus/schematics": "2211.35.0-1",
+    "@spartacus/core": "2211.37.0-1",
+    "@spartacus/schematics": "2211.37.0-1",
     "rxjs": "^7.8.0"
+  },
+  "engines": {
+    "node": "^22.0.0"
   },
   "publishConfig": {
     "access": "public"
