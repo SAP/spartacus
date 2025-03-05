@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './connectors/index';
-export * from './facade/index';
-export * from './punchout-core.module';
+export * from './converters';
+export * from './punchout.adapter';
+export * from './punchout.connector';
