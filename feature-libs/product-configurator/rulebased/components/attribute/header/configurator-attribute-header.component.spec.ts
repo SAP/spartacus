@@ -331,7 +331,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should not render "Show Options" button when domainOnDemand is false', () => {
+    it('should not render "Show Options" button if domainOnDemand is false', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
