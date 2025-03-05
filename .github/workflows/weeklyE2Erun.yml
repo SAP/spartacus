@@ -4,7 +4,7 @@
 # or API.
 on:
   schedule:
-        - cron: "15 16 * * 3"
+        - cron: "45 16 * * 3"
   workflow_dispatch:
     # Inputs the workflow accepts.
     
