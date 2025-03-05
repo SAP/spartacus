@@ -40,7 +40,6 @@ export class PunchoutSessionComponent implements OnInit {
   ngOnInit(): void {
     console.log('PunchoutSessionComponent');
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((param: Params) => {
-      param;
       const sid = param?.[PUNCHOUT_SESSION_KEY];
       if (sid) {
         this.cleanBrowserUrl();
@@ -68,13 +67,6 @@ export class PunchoutSessionComponent implements OnInit {
             console.log('session: ', session);
           });
       }
-      // this.punchoutService
-      //   .logout()
-      //   .pipe(delay(5000))
-      //   .subscribe((res) => {
-      //     console.log('logout res: ', res);
-
-      //   });
       console.log('sid is ', sid);
     });
   }

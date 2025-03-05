@@ -52,9 +52,8 @@ export class PunchoutRequisitionComponent implements OnInit {
             tap((value: string) => console.log('order value changed', value)),
             filter((value: string) => value === req.orderAsCXML),
             take(1),
-            switchMap((value) => {
-              console.log('flo val', value);
-              return this.submitForm();
+            switchMap(() => {
+              return this.isFormReady();
             }),
             take(1)
           )
@@ -73,7 +72,7 @@ export class PunchoutRequisitionComponent implements OnInit {
     });
   }
 
-  submitForm(): Observable<boolean> {
+  isFormReady(): Observable<boolean> {
     console.log('submitForm');
     return timer(10).pipe(
       mergeMap(() => {
