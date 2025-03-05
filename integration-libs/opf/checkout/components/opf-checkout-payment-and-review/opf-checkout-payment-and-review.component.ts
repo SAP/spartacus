@@ -16,13 +16,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CmsService, Page } from '@spartacus/core';
-import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfBaseFacade,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
+import { Card } from '@spartacus/storefront';
 
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -37,6 +42,8 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected fb = inject(UntypedFormBuilder);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cmsService = inject(CmsService);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected opfBaseFacade = inject(OpfBaseFacade);
 
   protected defaultTermsAndConditionsFieldValue = false;
 
@@ -71,6 +78,29 @@ export class OpfCheckoutPaymentAndReviewComponent
       .getActive()
       .pipe(map((cart: Cart) => cart.paymentType));
   }
+
+  get poNumber$(): Observable<string | undefined> {
+    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
+  }
+
+  getPoNumberCard(poNumber?: string | null): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('checkoutB2B.review.poNumber'),
+      this.translationService.translate('checkoutB2B.noPoNumber'),
+    ]).pipe(
+      map(([textTitle, noneTextTitle]) => {
+        return {
+          title: textTitle,
+          textBold: poNumber ? poNumber : noneTextTitle,
+        };
+      })
+    );
+  }
+
+  getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
 
   getSelectedPaymentId$ = this.opfMetadataStoreService
     .getOpfMetadataState()

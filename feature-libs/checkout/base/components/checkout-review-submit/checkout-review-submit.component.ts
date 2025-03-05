@@ -37,6 +37,7 @@ export class CheckoutReviewSubmitComponent {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
+  checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
   checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
   checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
   checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
