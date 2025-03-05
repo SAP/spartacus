@@ -338,7 +338,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-configurator-show-options'
       );
     });
-    it('should render "Show Options" button when domainOnDemand is true', () => {
+    it('should render "Show Options" button if domainOnDemand is true', () => {
       component.attribute.domainOnDemand = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
