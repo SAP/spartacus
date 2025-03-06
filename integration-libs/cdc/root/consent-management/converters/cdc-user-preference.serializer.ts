@@ -49,19 +49,16 @@ export class CdcUserPreferenceSerializer
       if (!consentCode[elem]) {
         consentCode[elem] = {};
       }
+      if (
+        elem === '__proto__' ||
+        elem === 'constructor' ||
+        elem === 'prototype'
+      ) {
+        throw new Error('Invalid key assignment');
+      }
       consentCode = consentCode[elem];
     }
-    if (
-      list[len - 1] !== '__proto__' &&
-      list[len - 1] !== 'constructor' &&
-      list[len - 1] !== 'prototype'
-    ) {
-      consentCode[list[len - 1]] = value;
-    } else {
-      throw new Error('Invalid key assignment');
-    }
-
-    //consentCode[list[len - 1]] = value;
+    consentCode[list[len - 1]] = value;
     return target;
   }
 }
