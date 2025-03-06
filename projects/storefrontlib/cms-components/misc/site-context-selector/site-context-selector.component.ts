@@ -42,6 +42,7 @@ export class SiteContextSelectorComponent {
 
   constructor(private componentService: SiteContextComponentService) {
     useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   get items$(): Observable<any> {
