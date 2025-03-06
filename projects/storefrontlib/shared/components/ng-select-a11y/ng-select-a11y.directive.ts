@@ -16,16 +16,15 @@ import {
   Input,
   Optional,
   PLATFORM_ID,
-  Renderer2,
-  SecurityContext,
+  Renderer2
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
+import sanitizeHtml from 'sanitize-html';
 
 const ARIA_LABEL = 'aria-label';
 
@@ -42,7 +41,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
   protected translationService = inject(TranslationService);
-  protected domSanitizer = inject(DomSanitizer);
   protected selectComponent = inject(NgSelectComponent);
   protected destroyRef = inject(DestroyRef);
   private featureConfigService = inject(FeatureConfigService);
@@ -166,10 +164,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
         .subscribe((translation) => {
           options.forEach(
             (option: HTMLOptionElement, index: string | number) => {
-              const sanitizedOptionText = this.domSanitizer.sanitize(
-                SecurityContext.HTML,
-                option.innerText
-              );
+              const sanitizedOptionText = sanitizeHtml(option.innerText);
               const ariaLabel = `${sanitizedOptionText}, ${+index + 1} ${translation} ${options.length}`;
               this.renderer.setAttribute(option, ARIA_LABEL, ariaLabel);
             }
@@ -188,10 +183,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     observer: MutationObserver,
     divCombobox: HTMLElement
   ) {
-    const sanitizedValueLabel = this.domSanitizer.sanitize(
-      SecurityContext.HTML,
-      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText
-    );
+    const sanitizedValueLabel = sanitizeHtml(this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText);
     if (sanitizedValueLabel) {
       const comboboxAriaLabel = divCombobox?.getAttribute(ARIA_LABEL) || '';
       const valueElement =
