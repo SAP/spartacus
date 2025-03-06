@@ -2,6 +2,7 @@
 <ng-container *cxFeature="'a11ySemanticPaginationLabel'"
   ><a
     *ngFor="let item of pages"
+    #paginationButton
     [class]="item.type"
     [class.disabled]="isInactive(item)"
     [class.current]="isCurrent(item)"
@@ -10,7 +11,7 @@
     [tabIndex]="isInactive(item) ? -1 : 0"
     [attr.aria-current]="isCurrent(item)"
     [attr.aria-disabled]="isInactive(item)"
-    (click)="pageChange(item)"
+    (click)="pageChange(item, paginationButton)"
     [attr.aria-label]="getAriaLabel$(item) | async"
     [attr.title]="getAriaLabel$(item) | async"
   >
@@ -20,6 +21,7 @@
 <ng-container *cxFeature="'!a11ySemanticPaginationLabel'"
   ><a
     *ngFor="let item of pages"
+    #paginationButton
     [class]="item.type"
     [class.disabled]="isInactive(item)"
     [class.current]="isCurrent(item)"
@@ -28,7 +30,7 @@
     [tabIndex]="isInactive(item) ? -1 : 0"
     [attr.aria-current]="isCurrent(item)"
     [attr.aria-disabled]="isInactive(item)"
-    (click)="pageChange(item)"
+    (click)="pageChange(item, paginationButton)"
     [attr.aria-label]="getAriaLabel(item.label, item.type)"
   >
     {{ item.label }}

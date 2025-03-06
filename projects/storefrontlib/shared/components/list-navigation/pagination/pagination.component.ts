@@ -5,12 +5,17 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Optional,
   Output,
+  QueryList,
+  ViewChildren,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -30,7 +35,11 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class PaginationComponent {
+export class PaginationComponent implements AfterViewInit, OnDestroy {
+  @ViewChildren('paginationButton') paginationButtons!: QueryList<ElementRef>;
+
+  private lastFocusedPageNumber: number | null | undefined = undefined;
+  private observer: MutationObserver;
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
   @Input() pageRoute: string = '.';
 
@@ -50,6 +59,8 @@ export class PaginationComponent {
   @Input() set pagination(value: PaginationModel | undefined) {
     if (value) {
       this._pagination = value;
+      console.log('setPagination********');
+      console.log('_pagintaion: ', this._pagination);
       this.render(value);
     }
   }
@@ -66,12 +77,15 @@ export class PaginationComponent {
   constructor(
     private paginationBuilder: PaginationBuilder,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    console.log('PaginationComponent created');
+  }
 
   protected render(pagination: PaginationModel): void {
     if (!pagination) {
       return;
     }
+    console.log('rerenders***************: ');
     this.pages = this.paginationBuilder.paginate(
       pagination.totalPages ?? 0,
       pagination.currentPage ?? 0
@@ -178,7 +192,49 @@ export class PaginationComponent {
     return queryParams;
   }
 
-  pageChange(page: PaginationItem): void {
+  pageChange(page: PaginationItem, paginationButton: HTMLElement): void {
     this.viewPageEvent.emit(page.number);
+
+    this.lastFocusedPageNumber = page.number;
+
+    paginationButton.focus({ preventScroll: true });
+  }
+
+  private restoreFocus(): void {
+    console.log('restore focus: ');
+    if (this.lastFocusedPageNumber !== null && this.paginationButtons) {
+      console.log('restore focus******* ');
+
+      const buttonToFocus = this.paginationButtons.find(
+        (el) =>
+          Number(el.nativeElement.innerText.trim()) ===
+          (this.lastFocusedPageNumber || 0) + 1
+      );
+
+      if (buttonToFocus) {
+        buttonToFocus.nativeElement.focus();
+        buttonToFocus.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // this.lastFocusedPageNumber = null; // Reset after focusing
+    }
+  }
+
+  ngOnDestroy(): void {
+    console.log('PaginationComponent destroyed');
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    this.observer = new MutationObserver(() => {
+      this.restoreFocus();
+    });
+
+    this.observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
   }
 }
