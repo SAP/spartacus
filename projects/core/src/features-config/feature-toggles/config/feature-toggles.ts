@@ -393,9 +393,10 @@ export interface FeatureTogglesInterface {
 
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * Includes style changes for:
    * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`
+   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
+   * `CarouselComponent`, `ProductListItemComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
@@ -603,6 +604,14 @@ export interface FeatureTogglesInterface {
    * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
    */
   a11yNgSelectAriaLabelDropdownCustomized?: boolean;
+
+  /**
+   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
+   * when a screen reader is used.
+   * Replaces select with ng-select component in the following component:
+   * `CustomerTicketingCreateDialogComponent`
+   */
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
    * Removes duplicated error message from 'CancelOrderComponent'.
@@ -1071,6 +1080,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,

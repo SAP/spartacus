@@ -76,6 +76,9 @@
       color: var(--cx-color, var(--cx-color-primary));
       cursor: pointer;
       font-weight: var(--cx-font-weight-bold);
+      @include forFeature('a11yVisibleFocusOverflows') {
+        z-index: 10;
+      }
     }
 
     // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed

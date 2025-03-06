@@ -76,6 +76,7 @@
     "e2e:run:ci:digital-payments": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:digital-payments",
     "e2e:run:ci:s4-service": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:s4-service",
     "e2e:run:ci:epd-visualization": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:epd-visualization",
+    "e2e:run:ci:asm": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:asm",
     "e2e:run:ci:ccv2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",
     "e2e:run:ci:ccv2-product-configurator": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-product-configurator",
@@ -221,7 +222,7 @@
     "jest": "^29.7.0",
     "jest-circus": "^29.0.0",
     "jest-environment-node": "^29.0.0",
-    "jest-preset-angular": "14.5.2",
+    "jest-preset-angular": "14.5.3",
     "jsonc-parser": "^3.3.1",
     "karma": "~6.4.1",
     "karma-chrome-launcher": "~3.2.0",
@@ -247,7 +248,7 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.7.3",
-    "webpack": "~5.97.0",
+    "webpack": "~5.98.0",
     "webpack-cli": "^5.0.0"
   }
 }

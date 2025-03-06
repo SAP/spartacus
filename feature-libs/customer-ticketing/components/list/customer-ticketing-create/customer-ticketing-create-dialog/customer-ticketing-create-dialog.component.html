@@ -38,6 +38,7 @@
           </span>
           <textarea
             [maxLength]="inputCharactersForSubject"
+            required="true"
             class="form-control"
             formControlName="subject"
             rows="1"
@@ -62,7 +63,13 @@
             {{ 'createCustomerTicket.category' | cxTranslate }}
             <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
-          <select class="form-control" formControlName="ticketCategory">
+          <select
+            *cxFeature="
+              '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+            "
+            class="form-control"
+            formControlName="ticketCategory"
+          >
             <option value="" disabled selected>
               {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
             </option>
@@ -74,8 +81,27 @@
               {{ category.name }}
             </option>
           </select>
+          <ng-select
+            *cxFeature="
+              'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+            "
+            [inputAttrs]="{ required: 'true' }"
+            class="ticket-category-select"
+            id="ticket-category-select"
+            [searchable]="false"
+            [clearable]="false"
+            [items]="ticketCategories"
+            [placeholder]="'createCustomerTicket.selectCategory' | cxTranslate"
+            bindLabel="name"
+            formControlName="ticketCategory"
+            [cxNgSelectA11y]="{}"
+            [attr.aria-describedby]="'ticketCategoryError'"
+          >
+          </ng-select>
 
           <cx-form-errors
+            id="ticketCategoryError"
+            aria-live="off"
             [control]="form.get('ticketCategory')"
           ></cx-form-errors>
         </label>
@@ -87,7 +113,13 @@
             <span class="cx-customer-ticket-label label-content">
               {{ 'createCustomerTicket.associateTo' | cxTranslate }}
             </span>
-            <select class="form-control" formControlName="associatedTo">
+            <select
+              *cxFeature="
+                '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+              "
+              class="form-control"
+              formControlName="associatedTo"
+            >
               <option value="" disabled selected>
                 {{
                   'createCustomerTicket.optionallySelectAssociatedObject'
@@ -105,6 +137,30 @@
                 {{ associatedObject.code }}
               </option>
             </select>
+            <ng-select
+              *cxFeature="
+                'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+              "
+              [clearable]="false"
+              [items]="ticketAssociatedObjects"
+              [placeholder]="
+                'createCustomerTicket.optionallySelectAssociatedObject'
+                  | cxTranslate
+              "
+              [searchable]="false"
+              formControlName="associatedTo"
+              id="associated-to-select"
+              [cxNgSelectA11y]="{}"
+            >
+              <ng-template
+                ng-option-tmp
+                let-item="item"
+                let-search="searchTerm"
+                let-index="index"
+              >
+                <span>{{ item.type + ' ' + item.code }}</span>
+              </ng-template>
+            </ng-select>
           </label>
         </ng-container>
 
@@ -114,6 +170,7 @@
             <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
           </span>
           <textarea
+            required="true"
             [maxLength]="inputCharactersLimit"
             class="form-control"
             formControlName="message"
