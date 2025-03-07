@@ -5,6 +5,8 @@
  */
 
 export const PUNCHOUT_SESSION_KEY = 'sid';
+export const PUNCHOUT_ERROR_PAGE_URL = '/punchout/cxml/error';
+export const PUNCHOUT_SESSION_ID = 'punchoutSessionId';
 
 export enum PunchOutLevel {
   STORE = 'store',
@@ -26,7 +28,7 @@ export interface PunchoutSession {
   punchOutLevel: PunchOutLevel;
   punchOutOperation: PunchOutOperation;
   selectedItem: string;
-  token: {
+  token?: {
     accessToken: string;
     tokenType: string;
   };
@@ -35,4 +37,9 @@ export interface PunchoutSession {
 export interface PunchoutRequisition {
   browseFormPostUrl: string;
   orderAsCXML: string;
+}
+
+export interface PunchoutState {
+  session?: PunchoutSession;
+  sId?: string;
 }
