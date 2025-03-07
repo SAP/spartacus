@@ -17,8 +17,8 @@ import {
 import {
   FileUploadModule,
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   IconModule,
   KeyboardFocusModule,
   MessageComponentModule,
@@ -36,8 +36,9 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     FormsModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
     IconModule,
     KeyboardFocusModule,
     FileUploadModule,

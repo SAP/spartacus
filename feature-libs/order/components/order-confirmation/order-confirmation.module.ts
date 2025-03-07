@@ -22,13 +22,13 @@ import {
 import {
   CardModule,
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
-  PwaModule,
   provideOutlet,
+  PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { OrderDetailBillingComponent } from '../order-details/order-detail-billing/order-detail-billing.component';
@@ -62,8 +62,9 @@ const orderConfirmationComponents = [
     PasswordVisibilityToggleModule,
     AbstractOrderContextModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

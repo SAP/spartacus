@@ -15,8 +15,8 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
 } from '@spartacus/storefront';
 import { NotCheckoutAuthGuard } from '../guards/not-checkout-auth.guard';
 import { CheckoutLoginComponent } from './checkout-login.component';
@@ -29,8 +29,9 @@ import { CheckoutLoginComponent } from './checkout-login.component';
     ReactiveFormsModule,
     FormErrorsModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

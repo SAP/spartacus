@@ -6,11 +6,11 @@
   "
 >
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <cx-form-required-legend></cx-form-required-legend>
+    <cx-form-required-legend />
     <label formGroupName="country">
       <span class="label-content required"
         >{{ 'orgUnitAddress.country' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -59,7 +59,7 @@
     <label>
       <span class="label-content required"
         >{{ 'orgUnitAddress.firstName' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -89,7 +89,7 @@
     <label>
       <span class="label-content required"
         >{{ 'orgUnitAddress.lastName' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -118,7 +118,7 @@
     <label class="full-width">
       <span class="label-content required"
         >{{ 'orgUnitAddress.address1' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -171,7 +171,7 @@
     <label>
       <span class="label-content required"
         >{{ 'orgUnitAddress.city' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -200,7 +200,7 @@
     <label>
       <span class="label-content required"
         >{{ 'orgUnitAddress.zipCode' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -236,7 +236,7 @@
       >
         <span class="label-content required"
           >{{ 'orgUnitAddress.state' | cxTranslate }}
-          <cx-form-required-asterisks></cx-form-required-asterisks>
+          <cx-form-required-asterisks />
         </span>
         <ng-select
           [inputAttrs]="{ required: 'true' }"

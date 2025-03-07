@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './form-required-asterisks.module';
 export * from './form-required-asterisks.component';

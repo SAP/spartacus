@@ -14,9 +14,9 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
+import { FormRequiredLegendComponent } from '../../../shared/components/form/form-required-legend';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { PaymentMethodsComponent } from './payment-methods.component';
-import { FormRequiredLegendModule } from '../../../shared/components/form';
 
 @NgModule({
   imports: [
@@ -25,7 +25,8 @@ import { FormRequiredLegendModule } from '../../../shared/components/form';
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
-    FormRequiredLegendModule,
+
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

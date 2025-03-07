@@ -10,8 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   IconModule,
   KeyboardFocusModule,
 } from '@spartacus/storefront';
@@ -27,8 +27,9 @@ import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component
     IconModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   declarations: [SavedCartFormDialogComponent],
   exports: [SavedCartFormDialogComponent],

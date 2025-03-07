@@ -15,7 +15,7 @@ describe('FormRequiredLegendComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, FormRequiredLegendComponent],
       providers: [
         FeatureConfigService,
         {
@@ -23,7 +23,7 @@ describe('FormRequiredLegendComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-      declarations: [FormRequiredLegendComponent, MockFeatureDirective],
+      declarations: [MockFeatureDirective],
     }).compileComponents();
   }));
 
@@ -39,7 +39,7 @@ describe('FormRequiredLegendComponent', () => {
 
   it('should render correctly', () => {
     fixture.detectChanges();
-    expect(component.formLegendTranslation).toEqual(undefined);
+    expect(component.formLegendTranslation).toEqual('formLegend.required');
     expect(fixture.debugElement.nativeElement.innerText).toBe(
       'formLegend.required'
     );

@@ -1,10 +1,10 @@
 <cx-org-form i18nRoot="orgPurchaseLimit">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <cx-form-required-legend></cx-form-required-legend>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">
         {{ 'orgPurchaseLimit.code' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -36,7 +36,7 @@
     >
       <span class="label-content required">
         {{ 'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -72,7 +72,7 @@
     <label *ngIf="form.get('periodRange')">
       <span class="label-content required">
         {{ 'orgPurchaseLimit.periodRange' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -106,7 +106,7 @@
     >
       <span class="label-content required">
         {{ 'orgPurchaseLimit.currency' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
@@ -139,7 +139,7 @@
     <label *ngIf="form.get('threshold')">
       <span class="label-content required">
         {{ 'orgPurchaseLimit.threshold' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -170,7 +170,7 @@
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">
         {{ 'orgPurchaseLimit.orgUnit' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"

@@ -15,14 +15,14 @@ import {
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
   WindowRef,
-  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -41,8 +41,9 @@ import { LoginFormComponent } from './login-form.component';
     SpinnerModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

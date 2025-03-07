@@ -6,7 +6,7 @@
     [attr.aria-label]="'common.loaded' | cxTranslate"
   ></div>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-  <cx-form-required-legend></cx-form-required-legend>
+  <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -16,7 +16,7 @@
               <label>
                 <span class="label-content required"
                   >{{ 'paymentForm.paymentType' | cxTranslate }}
-                  <cx-form-required-asterisks></cx-form-required-asterisks>
+                  <cx-form-required-asterisks />
                 </span>
                 <ng-select
                   [inputAttrs]="{ required: 'true' }"
@@ -56,7 +56,7 @@
           <label>
             <span class="label-content"
               >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
-              <cx-form-required-asterisks></cx-form-required-asterisks>
+              <cx-form-required-asterisks />
             </span>
             <input
               required="true"
@@ -91,7 +91,7 @@
           <label>
             <span class="label-content"
               >{{ 'paymentForm.cardNumber' | cxTranslate }}
-              <cx-form-required-asterisks></cx-form-required-asterisks>
+              <cx-form-required-asterisks />
             </span>
             <input
               required="true"
@@ -124,7 +124,7 @@
             <fieldset class="cx-payment-form-exp-date">
               <legend class="label-content">
                 {{ 'paymentForm.expirationDate' | cxTranslate }}
-                <cx-form-required-asterisks></cx-form-required-asterisks>
+                <cx-form-required-asterisks />
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
@@ -197,7 +197,7 @@
             <label>
               <span class="label-content">
                 {{ 'paymentForm.securityCode' | cxTranslate }}
-                <cx-form-required-asterisks></cx-form-required-asterisks>
+                <cx-form-required-asterisks />
                 <cx-icon
                   [type]="iconTypes.INFO"
                   class="cx-payment-form-tooltip"
@@ -308,7 +308,7 @@
                     <label>
                       <span class="label-content required">
                         {{ 'addressForm.country' | cxTranslate }}
-                        <cx-form-required-asterisks></cx-form-required-asterisks>
+                        <cx-form-required-asterisks />
                       </span>
                       <ng-select
                         [inputAttrs]="{ required: 'true' }"
@@ -350,7 +350,7 @@
                 <label>
                   <span class="label-content required">
                     {{ 'addressForm.firstName.label' | cxTranslate }}
-                    <cx-form-required-asterisks></cx-form-required-asterisks>
+                    <cx-form-required-asterisks />
                   </span>
                   <input
                     required="true"
@@ -384,7 +384,7 @@
                 <label>
                   <span class="label-content required">
                     {{ 'addressForm.lastName.label' | cxTranslate }}
-                    <cx-form-required-asterisks></cx-form-required-asterisks>
+                    <cx-form-required-asterisks />
                   </span>
                   <input
                     required="true"
@@ -418,7 +418,7 @@
                 <label>
                   <span class="label-content required">
                     {{ 'addressForm.address1' | cxTranslate }}
-                    <cx-form-required-asterisks></cx-form-required-asterisks>
+                    <cx-form-required-asterisks />
                   </span>
                   <input
                     required="true"
@@ -466,7 +466,7 @@
                   <label>
                     <span class="label-content required">
                       {{ 'addressForm.city.label' | cxTranslate }}
-                      <cx-form-required-asterisks></cx-form-required-asterisks>
+                      <cx-form-required-asterisks />
                     </span>
                     <input
                       required="true"
@@ -500,7 +500,7 @@
                   <label>
                     <span class="label-content required">
                       {{ 'addressForm.zipCode.label' | cxTranslate }}
-                      <cx-form-required-asterisks></cx-form-required-asterisks>
+                      <cx-form-required-asterisks />
                     </span>
                     <input
                       required="true"

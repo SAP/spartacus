@@ -1,10 +1,10 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="checkoutLoginForm">
-  <cx-form-required-legend></cx-form-required-legend>
+  <cx-form-required-legend />
   <div class="form-group">
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.emailAddress.label' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -40,7 +40,7 @@
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.confirmEmail.label' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"

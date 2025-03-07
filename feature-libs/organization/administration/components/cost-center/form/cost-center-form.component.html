@@ -1,10 +1,10 @@
 <cx-org-form i18nRoot="orgCostCenter">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <cx-form-required-legend></cx-form-required-legend>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required"
         >{{ 'orgCostCenter.name' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -35,8 +35,7 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgCostCenter.code' | cxTranslate
-        }}<cx-form-required-asterisks></cx-form-required-asterisks>
+        >{{ 'orgCostCenter.code' | cxTranslate }}<cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -67,7 +66,7 @@
     <label formGroupName="currency">
       <span class="label-content required"
         >{{ 'orgCostCenter.currency' | cxTranslate
-        }}<cx-form-required-asterisks></cx-form-required-asterisks>
+        }}<cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -100,8 +99,7 @@
 
     <label [formGroup]="$any(form.get('unit'))">
       <span class="label-content required"
-        >{{ 'orgCostCenter.unit' | cxTranslate
-        }}<cx-form-required-asterisks></cx-form-required-asterisks>
+        >{{ 'orgCostCenter.unit' | cxTranslate }}<cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"

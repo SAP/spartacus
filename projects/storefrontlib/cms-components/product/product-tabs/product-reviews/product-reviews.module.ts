@@ -16,8 +16,8 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   StarRatingModule,
 } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
@@ -31,8 +31,9 @@ import { ProductReviewsComponent } from './product-reviews.component';
     StarRatingModule,
     FormErrorsModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

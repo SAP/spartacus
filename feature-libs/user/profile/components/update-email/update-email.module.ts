@@ -24,8 +24,8 @@ import {
 import {
   BtnLikeLinkModule,
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   MessageComponentModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
@@ -59,8 +59,9 @@ const myAccountV2EmailMapping: CmsConfig = {
     FeaturesConfigModule,
     MessageComponentModule,
     BtnLikeLinkModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
   exports: [UpdateEmailComponent, MyAccountV2EmailComponent],

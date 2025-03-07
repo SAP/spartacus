@@ -1,4 +1,4 @@
-<cx-form-required-legend></cx-form-required-legend>
+<cx-form-required-legend />
 <form class="cx-place-order-form form-check" [formGroup]="checkoutSubmitForm">
   <div class="form-group">
     <label>
@@ -27,7 +27,7 @@
         >
           {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
         </a>
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
         <cx-form-errors
           [control]="checkoutSubmitForm.get('termsAndConditions')"
         ></cx-form-errors>

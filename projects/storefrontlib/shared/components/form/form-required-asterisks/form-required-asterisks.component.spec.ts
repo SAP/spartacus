@@ -15,7 +15,7 @@ describe('FormRequiredAsterisksComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, FormRequiredAsterisksComponent],
       providers: [
         FeatureConfigService,
         {
@@ -23,7 +23,7 @@ describe('FormRequiredAsterisksComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-      declarations: [FormRequiredAsterisksComponent, MockFeatureDirective],
+      declarations: [MockFeatureDirective],
     }).compileComponents();
   }));
 
@@ -39,7 +39,7 @@ describe('FormRequiredAsterisksComponent', () => {
 
   it('should render correctly', () => {
     fixture.detectChanges();
-    expect(component.titleTranslation).toEqual(undefined);
+    expect(component.titleTranslation).toEqual('common.required');
     expect(fixture.debugElement.nativeElement.innerText).toBe('*');
   });
 

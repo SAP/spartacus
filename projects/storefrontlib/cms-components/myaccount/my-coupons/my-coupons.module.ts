@@ -30,14 +30,14 @@ import { CouponClaimComponent } from './coupon-claim/coupon-claim.component';
 import { ClaimDialogComponent } from './claim-dialog/claim-dialog.component';
 import { defaultCouponLayoutConfig } from './default-coupon-card-layout.config';
 import { MyCouponsComponent } from './my-coupons.component';
-import { FormRequiredAsteriksModule } from '../../../shared/components/form/form-required-asterisks';
+import { FormRequiredAsterisksComponent } from '../../../shared/components/form/form-required-asterisks';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    FormRequiredAsteriksModule,
+    FormRequiredAsterisksComponent,
     CardModule,
     SpinnerModule,
     I18nModule,

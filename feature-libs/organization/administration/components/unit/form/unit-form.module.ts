@@ -12,8 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
@@ -33,8 +33,9 @@ import { UnitFormComponent } from './unit-form.component';
     ItemActiveModule,
     FeaturesConfigModule,
     NgSelectA11yModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   declarations: [UnitFormComponent],
   exports: [UnitFormComponent],

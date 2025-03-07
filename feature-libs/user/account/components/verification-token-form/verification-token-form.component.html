@@ -1,11 +1,11 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <cx-form-required-legend></cx-form-required-legend>
+  <cx-form-required-legend />
   <label>
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
-      <cx-form-required-asterisks></cx-form-required-asterisks>
+      <cx-form-required-asterisks />
     </span>
     <input
       required="true"

@@ -19,7 +19,7 @@ import {
   BtnLikeLinkModule,
   CaptchaModule,
   FormErrorsModule,
-  FormRequiredAsteriksModule,
+  FormRequiredAsterisksComponent,
   NgSelectA11yModule,
   PageSlotModule,
   SpinnerModule,
@@ -45,7 +45,7 @@ import { RegisterComponentService } from '../register';
     CaptchaModule,
     SpinnerModule,
     FormErrorsModule,
-    FormRequiredAsteriksModule,
+    FormRequiredAsterisksComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

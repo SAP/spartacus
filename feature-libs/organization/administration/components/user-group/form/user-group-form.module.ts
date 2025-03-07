@@ -12,8 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { UserGroupFormComponent } from './user-group-form.component';
@@ -29,8 +29,9 @@ import { UserGroupFormComponent } from './user-group-form.component';
     FormErrorsModule,
     FormModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   declarations: [UserGroupFormComponent],
 })

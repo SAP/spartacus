@@ -1,6 +1,6 @@
 <cx-org-form i18nRoot="orgUser">
   <ng-container main *ngIf="form" [formGroup]="form">
-    <cx-form-required-legend></cx-form-required-legend>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">{{
         'orgUser.title' | cxTranslate
@@ -32,7 +32,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.firstName' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -61,7 +61,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.lastName' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -90,7 +90,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.email' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -165,7 +165,7 @@
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">
         {{ 'orgUser.orgUnit' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"

@@ -1,5 +1,5 @@
 <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-<cx-form-required-legend></cx-form-required-legend>
+<cx-form-required-legend />
 <form (ngSubmit)="verifyAddress()" [formGroup]="addressForm">
   <div class="form-group" formGroupName="country">
     <ng-container *ngIf="countries$ | async as countries">
@@ -7,7 +7,7 @@
         <label>
           <span class="label-content required"
             >{{ 'addressForm.country' | cxTranslate }}
-            <cx-form-required-asterisks></cx-form-required-asterisks>
+            <cx-form-required-asterisks />
           </span>
           <ng-select
             [inputAttrs]="{ required: 'true' }"
@@ -68,7 +68,7 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.firstName.label' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -97,7 +97,7 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.lastName.label' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -126,7 +126,7 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.address1' | cxTranslate }}
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -170,7 +170,7 @@
         <span class="label-content required"
           >{{ 'addressForm.city.label' | cxTranslate }}
 
-          <cx-form-required-asterisks></cx-form-required-asterisks>
+          <cx-form-required-asterisks />
         </span>
         <input
           required="true"
@@ -200,7 +200,7 @@
         <span class="label-content required"
           >{{ 'addressForm.zipCode.label' | cxTranslate }}
 
-          <cx-form-required-asterisks></cx-form-required-asterisks>
+          <cx-form-required-asterisks />
         </span>
         <input
           required="true"
@@ -231,7 +231,7 @@
           <label>
             <span class="label-content required"
               >{{ 'addressForm.state' | cxTranslate }}
-              <cx-form-required-asterisks></cx-form-required-asterisks>
+              <cx-form-required-asterisks />
             </span>
             <ng-select
               [inputAttrs]="{ required: 'true' }"

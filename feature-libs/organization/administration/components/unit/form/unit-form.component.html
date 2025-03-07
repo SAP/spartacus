@@ -1,10 +1,10 @@
 <cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <cx-form-required-legend></cx-form-required-legend>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">
         <span>{{ 'orgUnit.name' | cxTranslate }}</span>
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -35,7 +35,7 @@
     <label>
       <span class="label-content required">
         <span>{{ 'orgUnit.uid' | cxTranslate }}</span>
-        <cx-form-required-asterisks></cx-form-required-asterisks>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -111,7 +111,7 @@
       <label formGroupName="parentOrgUnit">
         <span class="label-content required">
           {{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}
-          <cx-form-required-asterisks></cx-form-required-asterisks>
+          <cx-form-required-asterisks />
         </span>
         <ng-select
           *cxFeature="'a11yApprovalProcessWithNoClearable'"

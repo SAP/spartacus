@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './form-required-legend.module';
 export * from './form-required-legend.component';

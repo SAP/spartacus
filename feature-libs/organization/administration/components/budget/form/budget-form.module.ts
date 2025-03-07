@@ -13,8 +13,8 @@ import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   DatePickerModule,
   FormErrorsModule,
-  FormRequiredAsteriksModule,
-  FormRequiredLegendModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
 } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
@@ -33,8 +33,9 @@ import { BudgetFormComponent } from './budget-form.component';
     ItemActiveModule,
     DatePickerModule,
     FeaturesConfigModule,
-    FormRequiredAsteriksModule,
-    FormRequiredLegendModule,
+    FormRequiredAsterisksComponent,
+
+    FormRequiredLegendComponent,
   ],
   declarations: [BudgetFormComponent],
 })
