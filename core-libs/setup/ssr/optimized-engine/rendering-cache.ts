@@ -151,9 +151,9 @@ export class RenderingCache {
         const oldestKey = this.renders.keys().next().value;
         if (oldestKey !== undefined) {
           const oldestEntry = this.renders.get(oldestKey);
-          const oldestHtmlSize = oldestEntry?.size ?? 0;
+          const oldestEntrySize = oldestEntry?.size ?? 0;
           this.renders.delete(oldestKey);
-          this.usedCacheSize = Math.max(0, this.usedCacheSize - oldestHtmlSize);
+          this.usedCacheSize = Math.max(0, this.usedCacheSize - oldestEntrySize);
         } else {
           break; // Prevent infinite loop if cache is empty
         }
