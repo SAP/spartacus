@@ -15,7 +15,9 @@ export class PunchoutStoreService {
     session: undefined,
   });
 
-  punchoutState = new BehaviorSubject<PunchoutState>(this.INITIAL_STATE);
+  protected readonly punchoutState = new BehaviorSubject<PunchoutState>(
+    this.INITIAL_STATE
+  );
 
   getPunchoutState(): Observable<PunchoutState> {
     return this.punchoutState.asObservable();
