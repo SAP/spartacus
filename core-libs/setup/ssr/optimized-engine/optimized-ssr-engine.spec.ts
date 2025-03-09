@@ -204,7 +204,7 @@ describe('OptimizedSsrEngine', () => {
       renderKeyResolver: 'function getRequestUrl(req) {\\n' +
         '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
         '}',
-      ssrFeatureToggles: { avoidCachingErrors: false, cacheSizeInBytes: false }
+      ssrFeatureToggles: { avoidCachingErrors: false, cacheLimitInBytes: false }
     }
   }
 }",
@@ -1494,7 +1494,7 @@ describe('OptimizedSsrEngine', () => {
         Boolean(entry.err))",
       "ssrFeatureToggles": {
         "avoidCachingErrors": false,
-        "cacheSizeInBytes": false,
+        "cacheLimitInBytes": false,
       },
       "timeout": 3000,
       "ttl": undefined,

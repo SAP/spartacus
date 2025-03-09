@@ -12,4 +12,5 @@ export interface RenderingEntry {
   err?: any;
   time?: number;
   rendering?: boolean;
+  size?: number;
 }

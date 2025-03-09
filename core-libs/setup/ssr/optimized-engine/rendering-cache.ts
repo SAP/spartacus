@@ -30,22 +30,25 @@ export class RenderingCache {
       entry,
     });
 
-    let htmlSize = 0;
+    let entrySize = 0;
+
     if (this.options?.ttl) {
       entry.time = Date.now();
     }
 
-    if (this.options?.ssrFeatureToggles?.cacheSizeInBytes) {
-      if (html) {
-        htmlSize = this.getHtmlSize(html);
+    if (this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
+      if (!shouldCache) {
+        return;
+      }
+
+      if (html || err) {
+        entrySize = this.getEntrySize(entry);
       }
 
       this.renders.delete(key);
-      this.tryRemoveOldestCacheEntries(htmlSize);
+      this.tryRemoveOldestCacheEntries(entrySize);
 
-      if (shouldCache) {
-        this.tryToCacheTheEntry(htmlSize, key, entry);
-      }
+      this.tryToCacheTheEntry(entrySize, key, entry);
       return;
     }
 
@@ -86,38 +89,69 @@ export class RenderingCache {
     return Date.now() - (this.renders.get(key)?.time ?? 0) < this.options?.ttl;
   }
 
-  getHtmlSize(html: string) {
-    return Buffer.byteLength(html, 'utf8');
+  getEntrySize(entry: any): number {
+    let totalSize = 0;
+
+    if (entry.err) {
+      // errStr = JSON.stringify(entry.err)
+
+      let errStr = '';
+
+      if (entry.err.name) {
+        errStr += entry.err.name;
+      }
+
+      if (entry.err.message) {
+        errStr += entry.err.message;
+      }
+
+      if (entry.err.stack) {
+        errStr += entry.err.stack;
+      }
+
+      totalSize += Buffer.byteLength(errStr, 'utf8');
+    }
+
+    if (entry.html) {
+      totalSize += Buffer.byteLength(entry.html, 'utf8');
+    }
+
+    // const estimateRemainingPropsSize = 20;
+
+    // totalSize += estimateRemainingPropsSize;
+
+    return totalSize;
   }
 
-  getUsedCacheSize() {
+  protected getUsedCacheSize() {
     return this.usedCacheSize;
   }
 
   protected tryToCacheTheEntry(
-    htmlSize: number,
+    entrySize: number,
     key: string,
     entry: RenderingEntry
   ) {
     if (
       this.options?.cacheLimit &&
-      htmlSize + this.usedCacheSize <= this.options.cacheLimit
+      entrySize + this.usedCacheSize <= this.options.cacheLimit
     ) {
+      entry.size = entrySize;
       this.renders.set(key, entry);
-      this.usedCacheSize += htmlSize;
+      this.usedCacheSize += entrySize;
     }
   }
 
-  protected tryRemoveOldestCacheEntries(htmlSize: number): void {
+  protected tryRemoveOldestCacheEntries(entrySize: number): void {
     if (this.options?.cacheLimit) {
       while (
-        this.usedCacheSize + htmlSize > this.options?.cacheLimit &&
+        this.usedCacheSize + entrySize > this.options?.cacheLimit &&
         this.usedCacheSize > 0
       ) {
         const oldestKey = this.renders.keys().next().value;
         if (oldestKey !== undefined) {
           const oldestEntry = this.renders.get(oldestKey);
-          const oldestHtmlSize = this.getHtmlSize(oldestEntry?.html || '');
+          const oldestHtmlSize = oldestEntry?.size ?? 0;
           this.renders.delete(oldestKey);
           this.usedCacheSize = Math.max(0, this.usedCacheSize - oldestHtmlSize);
         } else {

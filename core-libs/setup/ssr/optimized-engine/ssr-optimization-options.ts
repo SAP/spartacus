@@ -51,9 +51,9 @@ export interface SsrOptimizationOptions {
    *
    * The default value is set to 3GB.
    *
-   * You can use the provided function `getCacheLimitInBytes` to adjust this limit as needed:
+   * You can use the provided function `convertToBytes` to adjust this limit as needed:
    *
-   * `cacheLimit: getCacheLimitInBytes(3, 'GB')`
+   * `cacheLimit: convertToBytes(3, 'GB')`
    */
   cacheLimit?: number;
 
@@ -198,7 +198,7 @@ export interface SsrOptimizationOptions {
      * control of memory usage and helps ensure that the cache size does not exceed a given
      * memory limit.
      */
-    cacheSizeInBytes?: boolean;
+    cacheLimitInBytes?: boolean;
   };
 }
 
@@ -222,7 +222,7 @@ type DeepRequired<T> = {
  * @param unit - The unit of measurement ('KB', 'MB', 'GB').
  * @returns The corresponding cache size in bytes.
  */
-export function getCacheLimitInBytes(
+export function convertToBytes(
   limit: number,
   unit: 'KB' | 'MB' | 'GB'
 ): number {
@@ -262,7 +262,7 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheLimit: getCacheLimitInBytes(3, 'GB'),
+  cacheLimit: convertToBytes(3, 'GB'),
   ttl: undefined,
   concurrency: 10,
   timeout: 3_000,
@@ -281,6 +281,6 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     avoidCachingErrors: false,
-    cacheSizeInBytes: false,
+    cacheLimitInBytes: false,
   },
 };
