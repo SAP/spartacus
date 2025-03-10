@@ -78,7 +78,7 @@ describe('Punchoutservice', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getPunchoutSession should call connector', (done) => {
+  it('should getPunchoutSession calls connector', (done) => {
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
     );
@@ -91,7 +91,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('getPunchoutSessionRequisition should call connector', (done) => {
+  it('should getPunchoutSessionRequisition calls connector', (done) => {
     spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
       of(mockPunchoutRequisitionResponse)
     );
@@ -106,7 +106,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('getPunchoutSessionRequisition with empty param routes to error page', (done) => {
+  it('should getPunchoutSessionRequisition with empty param opens error page', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     service.getPunchoutSession('').subscribe({
       error: () => {
@@ -116,7 +116,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('getPunchoutSession routes to error page when failing', (done) => {
+  it('should getPunchoutSession opens error page when request failed', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       throwError(() => 'error')
@@ -129,7 +129,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('getPunchoutSession routes to error page when no auth token', (done) => {
+  it('should getPunchoutSession opens error page when no auth token', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({ ...mockPunchoutSessionResponse, token: undefined })
@@ -143,7 +143,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('getPunchoutSession routes to home page when no product item', (done) => {
+  it('should getPunchoutSession opens home page when no product item', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({ ...mockPunchoutSessionResponse, selectedItem: '' })
