@@ -304,6 +304,11 @@ export class OptimizedSsrEngine {
         // store the render for future use
         this.renderingCache.store(renderingKey, err, html);
       }
+      this.log(
+        `SUM OF BYTES:${(this.renderingCache as any).getUsedCacheSize()}`,
+        false,
+        { request }
+      );
     };
 
     this.handleRender({

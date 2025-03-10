@@ -23,9 +23,13 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  cache: process.env['SSR_CACHE'] === 'true',
+  cache: true,
+  shouldCacheRenderingResult:
+  defaultSsrOptimizationOptions.shouldCacheRenderingResult,
+  cacheLimit: 1000 * 1024,
   ssrFeatureToggles: {
     avoidCachingErrors: true,
+    cacheLimitInBytes: true
   },
 };
 
