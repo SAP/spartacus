@@ -16,6 +16,9 @@ import {
 } from '@spartacus/core';
 import { from, map, Observable, of, switchMap, take } from 'rxjs';
 
+const ACCESS_TOKEN = 'access_token';
+const ACCESS_TOKEN_STORED_AT = 'access_token_stored_at';
+
 @Injectable()
 export class PunchoutAuthService {
   protected authService = inject(AuthService);
@@ -31,7 +34,6 @@ export class PunchoutAuthService {
         return isLoggedIn
           ? from(this.authService.coreLogout()).pipe(
               map(() => {
-                console.log('logging out');
                 this.globalMessageService.remove(
                   GlobalMessageType.MSG_TYPE_CONFIRMATION
                 );
@@ -45,11 +47,9 @@ export class PunchoutAuthService {
 
   loginWithToken(accessToken: string, userId: string) {
     // Code mostly based on auth lib we use and the way it handles token properties
-    this.authStorageService.setItem('access_token', accessToken);
-    this.authStorageService.setItem('access_token_stored_at', '' + Date.now());
-
+    this.authStorageService.setItem(ACCESS_TOKEN, accessToken);
+    this.authStorageService.setItem(ACCESS_TOKEN_STORED_AT, '' + Date.now());
     this.userIdService.setUserId(userId);
-
     this.store.dispatch(new AuthActions.Login());
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
   }

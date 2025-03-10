@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, NgModule, provideAppInitializer } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
-import { PunchoutStatePersistanceService } from './services/punchout-state-persistence.service';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -21,15 +20,6 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  providers: [
-    provideAppInitializer(() => {
-      const punchoutPersistenceService = inject(
-        PunchoutStatePersistanceService
-      );
-      punchoutPersistenceService.initSync();
-    }),
-
-    provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig),
-  ],
+  providers: [provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig)],
 })
 export class PunchoutRootModule {}

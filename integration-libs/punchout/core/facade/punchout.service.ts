@@ -12,7 +12,6 @@ import {
   PunchoutFacade,
   PunchoutRequisition,
   PunchoutSession,
-  PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
 import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
@@ -25,13 +24,24 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutAuthService = inject(PunchoutAuthService);
   protected commandService = inject(CommandService);
   protected routingService = inject(RoutingService);
-  protected punchoutStoreService = inject(PunchoutStoreService);
 
+  /**
+   * getPunchoutSession workflow:
+   * Get PunchoutSession from  occ api
+   * Logout silently
+   * Login silently
+   * Route to target page based on punchout session info
+   * Redirect to Punchout Error page if error occurs
+   */
   protected getPunchoutSessionCommand: Command<
     { sessionId: string },
     PunchoutSession
   > = this.commandService.create((payload) => {
     let punchoutSession: PunchoutSession;
+    if (!payload?.sessionId) {
+      this.displayErrorPage();
+      return throwError(() => {});
+    }
     return this.punchoutConnector.getPunchoutSession(payload.sessionId).pipe(
       tap((session) => (punchoutSession = session)),
       switchMap(() => this.punchoutAuthService.logout()),
@@ -45,10 +55,6 @@ export class PunchoutService implements PunchoutFacade {
             punchoutSession.token.accessToken,
             punchoutSession.customerId
           );
-          this.punchoutStoreService.setPunchoutState({
-            sId: payload.sessionId,
-            session: punchoutSession,
-          });
           this.routeToTargetPage(punchoutSession);
         } else {
           this.displayErrorPage();

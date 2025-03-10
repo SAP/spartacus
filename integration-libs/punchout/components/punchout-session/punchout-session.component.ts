@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,22 +21,12 @@ import { take } from 'rxjs';
 })
 export class PunchoutSessionComponent implements OnInit {
   protected activatedRoute = inject(ActivatedRoute);
-  protected location = inject(Location);
   protected punchoutFacade = inject(PunchoutFacade);
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((param: Params) => {
       const sid = param?.[PUNCHOUT_SESSION_KEY];
-      if (sid) {
-        this.cleanBrowserUrl();
-        this.punchoutFacade.getPunchoutSession(sid).pipe(take(1)).subscribe();
-      }
+      this.punchoutFacade.getPunchoutSession(sid).pipe(take(1)).subscribe();
     });
-  }
-  protected cleanBrowserUrl() {
-    // security purpose, remove sessionId from browser address bar.
-    const fullUrl = window.location.href;
-    const newUrl = fullUrl.split('?' + PUNCHOUT_SESSION_KEY)[0];
-    this.location.replaceState(newUrl);
   }
 }
