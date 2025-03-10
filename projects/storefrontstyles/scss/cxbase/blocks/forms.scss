@@ -402,6 +402,13 @@ input[type='radio'] {
   }
 }
 
+ng-select.ng-select.ng-select-opened .ng-select-container,
+ng-select .ng-dropdown-panel {
+  @include forFeature('a11yNgSelectLayering') {
+    z-index: 10;
+  }
+}
+
 :focus:not(main) {
   @include visible-focus();
 }
