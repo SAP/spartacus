@@ -15,7 +15,7 @@
       ],
       "plugins": ["deprecation", "@typescript-eslint", "@nx", "@stylistic/ts"],
       "rules": {
-        "deprecation/deprecation": "warn",
+        "deprecation/deprecation": "off",
         "prefer-arrow/prefer-arrow-functions": "off",
         "space-before-function-paren": "off",
         "@angular-eslint/no-input-rename": "off",
@@ -78,6 +78,7 @@
           "error",
           {
             "allow": [],
+            "allowCircularSelfDependency": true,
             "depConstraints": [
               {
                 "sourceTag": "*",
