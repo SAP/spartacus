@@ -33,6 +33,11 @@
                     [pagination]="model.pagination"
                     queryParam="currentPage"
                     [defaultPage]="0"
+                    paginationId="top"
+                    [focusState]="paginationFocusState"
+                    (updateFocusState)="
+                      setPaginationFocus($event.paginationId, $event.pageNumber)
+                    "
                   ></cx-pagination>
                 </div>
               </div>
@@ -102,6 +107,11 @@
                     [pagination]="model.pagination"
                     queryParam="currentPage"
                     [defaultPage]="0"
+                    paginationId="bottom"
+                    [focusState]="paginationFocusState"
+                    (updateFocusState)="
+                      setPaginationFocus($event.paginationId, $event.pageNumber)
+                    "
                   ></cx-pagination>
                 </div>
               </div>

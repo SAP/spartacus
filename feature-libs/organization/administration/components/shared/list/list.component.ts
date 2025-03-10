@@ -63,6 +63,11 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   createButtonType = this.service.getCreateButtonType();
 
+  paginationFocusState = {
+    lastFocusedPageNumber: null as number | null,
+    lastClickedPaginationId: null as string | null,
+  };
+
   /**
    * The current key represents the current selected item from the dataset.
    * This key is used to load the item details as well as highlight the item in
@@ -132,5 +137,10 @@ export class ListComponent<T = any, P = PaginationModel> {
    */
   getCreateButtonLabel(): Translatable {
     return this.service.getCreateButtonLabel();
+  }
+
+  setPaginationFocus(paginationId: string, pageNumber: number) {
+    this.paginationFocusState.lastFocusedPageNumber = pageNumber;
+    this.paginationFocusState.lastClickedPaginationId = paginationId;
   }
 }

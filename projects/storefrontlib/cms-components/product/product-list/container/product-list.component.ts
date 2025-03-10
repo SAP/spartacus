@@ -27,6 +27,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   isInfiniteScroll: boolean | undefined;
+  paginationFocusState = {
+    lastFocusedPageNumber: null as number | null,
+    lastClickedPaginationId: null as string | null,
+  };
 
   model$: Observable<ProductSearchPage> =
     this.productListComponentService.model$;
@@ -85,5 +89,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  setPaginationFocus(paginationId: string, pageNumber: number) {
+    this.paginationFocusState.lastFocusedPageNumber = pageNumber;
+    this.paginationFocusState.lastClickedPaginationId = paginationId;
   }
 }
