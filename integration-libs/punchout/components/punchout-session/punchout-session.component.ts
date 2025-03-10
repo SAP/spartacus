@@ -25,8 +25,11 @@ export class PunchoutSessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((param: Params) => {
-      const sid = param?.[PUNCHOUT_SESSION_KEY];
-      this.punchoutFacade.getPunchoutSession(sid).pipe(take(1)).subscribe();
+      const punchoutSessionId = param?.[PUNCHOUT_SESSION_KEY];
+      this.punchoutFacade
+        .getPunchoutSession(punchoutSessionId)
+        .pipe(take(1))
+        .subscribe();
     });
   }
 }

@@ -38,8 +38,3 @@ export interface PunchoutRequisition {
   browseFormPostUrl: string;
   orderAsCXML: string;
 }
-
-export interface PunchoutState {
-  session?: PunchoutSession;
-  sId?: string;
-}
