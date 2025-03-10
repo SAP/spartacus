@@ -35,12 +35,6 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
 class MockPunchoutConnector implements Partial<PunchoutConnector> {
   getPunchoutSession = () => of(mockPunchoutSessionResponse);
   getPunchoutSessionRequisition = () => of(mockPunchoutRequisitionResponse);
-  // getPunchoutSession = createSpy(
-  //   'PunchoutConnector.getPunchoutSession'
-  // ).and.callFake(() => of(mockPunchoutSessionResponse));
-  // getPunchoutSessionRequisition = createSpy(
-  //   'PunchoutConnector.getPunchoutSessionRequisition'
-  // ).and.callFake(() => of(mockPunchoutRequisitionResponse));
 }
 
 class MockPunchoutAuthService implements Partial<PunchoutAuthService> {

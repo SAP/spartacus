@@ -45,16 +45,15 @@ export class PunchoutAuthService {
     );
   }
 
-  loginWithToken(accessToken: string, userId: string) {
+  loginWithToken(accessToken: string, userId: string): void {
     // Code mostly based on auth lib we use and the way it handles token properties
     this.authStorageService.setItem(ACCESS_TOKEN, accessToken);
-    this.authStorageService.setItem(ACCESS_TOKEN_STORED_AT, '' + Date.now());
+    this.authStorageService.setItem(
+      ACCESS_TOKEN_STORED_AT,
+      Date.now().toString()
+    );
     this.userIdService.setUserId(userId);
     this.store.dispatch(new AuthActions.Login());
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
-  }
-
-  checkPunchoutSessionIdInLocalStorage() {
-    this.authStorageService.getItem;
   }
 }
