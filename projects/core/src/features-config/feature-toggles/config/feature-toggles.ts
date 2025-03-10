@@ -986,6 +986,14 @@ export interface FeatureTogglesInterface {
    * as well as enforcing both a minimum and maximum password length.
    */
   enableSecurePasswordValidation?: boolean;
+
+  /**
+   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
+   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
+   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
+   * on demand by clicking on `Show Options` button.
+   */
+  readDomainValuesOnDemand?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1139,4 +1147,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  readDomainValuesOnDemand: false,
 };

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { delay, take, distinctUntilChanged, skip } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
@@ -16,10 +16,11 @@ import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-s
   standalone: false,
 })
 export class ConfiguratorShowOptionsComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
 
   constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
