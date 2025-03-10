@@ -14,7 +14,7 @@ import {
   PunchoutSession,
 } from '@spartacus/punchout/root';
 
-import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
 import { PunchoutConnector } from '../connectors';
 import { PunchoutAuthService } from '../services';
 
@@ -40,16 +40,18 @@ export class PunchoutService implements PunchoutFacade {
     let punchoutSession: PunchoutSession;
     if (!payload?.sessionId) {
       this.displayErrorPage();
-      return throwError(() => {});
+      return throwError(() => 'Punchout Session Id missing');
     }
     return this.punchoutConnector.getPunchoutSession(payload.sessionId).pipe(
-      tap((session) => (punchoutSession = session)),
-      switchMap(() => this.punchoutAuthService.logout()),
-      catchError((error) => {
-        this.displayErrorPage();
-        return throwError(() => error);
+      map((session) => {
+        if (!session?.token?.accessToken || punchoutSession?.customerId) {
+          throw 'Punchout login info missing';
+        }
+        punchoutSession = session;
+        return session;
       }),
-      tap(() => {
+      switchMap(() => this.punchoutAuthService.logout()),
+      map(() => {
         if (punchoutSession?.token?.accessToken) {
           this.punchoutAuthService.loginWithToken(
             punchoutSession.token.accessToken,
@@ -57,10 +59,15 @@ export class PunchoutService implements PunchoutFacade {
           );
           this.routeToTargetPage(punchoutSession);
         } else {
-          this.displayErrorPage();
+          throw 'Punchout Access Token missing';
         }
+
+        return punchoutSession;
       }),
-      map(() => punchoutSession)
+      catchError((error) => {
+        this.displayErrorPage();
+        return throwError(() => error);
+      })
     );
   });
 
