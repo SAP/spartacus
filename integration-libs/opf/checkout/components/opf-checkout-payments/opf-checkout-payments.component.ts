@@ -60,6 +60,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   selectedPaymentId?: number;
 
+  isOnlyOnePaymentOptionAvailable = false;
+
   activeConfigurations$: Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   >;
@@ -84,6 +86,13 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
+              this.isOnlyOnePaymentOptionAvailable =
+                state.data.value.length === 1;
+
+              if (this.isOnlyOnePaymentOptionAvailable) {
+                this.selectedPaymentId = state.data?.value[0]?.id;
+              }
+
               this.opfMetadataStoreService.updateOpfMetadata({
                 defaultSelectedPaymentOptionId: state.data?.value[0]?.id,
               });
