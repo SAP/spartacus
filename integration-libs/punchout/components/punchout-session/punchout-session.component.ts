@@ -15,7 +15,7 @@ import { PUNCHOUT_SESSION_KEY, PunchoutFacade } from '@spartacus/punchout/root';
 import { take } from 'rxjs';
 @Component({
   selector: 'cx-punchout-session',
-  template: ` <p>Punchout session loading</p> `,
+  template: `<p>Punchout session loading</p> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })

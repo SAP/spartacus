@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-punchout-error',
   template: `<h2>Punchout Error</h2>
     <p>Please navigate back to Ariba</p> `,
   standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PunchoutErrorComponent {}
