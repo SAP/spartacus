@@ -76,12 +76,15 @@
         type="text"
         placeholder="{{ 'addressForm.firstName.placeholder' | cxTranslate }}"
         formControlName="firstName"
-        [attr.aria-describedby]="'firstNameError'"
+        [attr.aria-invalid]="
+          addressForm.get('firstName')?.touched &&
+          addressForm.get('firstName')?.invalid
+        "
+        [attr.aria-errormessage]="'firstNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
-        aria-live="off"
         [translationParams]="{
           label: 'addressForm.firstName.label' | cxTranslate,
         }"
@@ -105,12 +108,15 @@
         class="form-control"
         placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
         formControlName="lastName"
-        [attr.aria-describedby]="'lastNameError'"
+        [attr.aria-invalid]="
+          addressForm.get('lastName')?.touched &&
+          addressForm.get('lastName')?.invalid
+        "
+        [attr.aria-errormessage]="'lastNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
-        aria-live="off"
         [translationParams]="{
           label: 'addressForm.lastName.label' | cxTranslate,
         }"
@@ -134,12 +140,14 @@
         class="form-control"
         placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
         formControlName="line1"
-        [attr.aria-describedby]="'line1Error'"
+        [attr.aria-invalid]="
+          addressForm.get('line1')?.touched && addressForm.get('line1')?.invalid
+        "
+        [attr.aria-errormessage]="'line1Error'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="line1Error"
-        aria-live="off"
         [translationParams]="{
           label: 'addressForm.address1' | cxTranslate,
         }"
@@ -178,12 +186,14 @@
           class="form-control"
           placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
           formControlName="town"
-          [attr.aria-describedby]="'townError'"
+          [attr.aria-invalid]="
+            addressForm.get('town')?.touched && addressForm.get('town')?.invalid
+          "
+          [attr.aria-errormessage]="'townError'"
         />
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           id="townError"
-          aria-live="off"
           [translationParams]="{
             label: 'addressForm.city.label' | cxTranslate,
           }"
@@ -208,12 +218,15 @@
           class="form-control"
           placeholder="{{ 'addressForm.zipCode.placeholder' | cxTranslate }}"
           formControlName="postalCode"
-          [attr.aria-describedby]="'postalCodeError'"
+          [attr.aria-invalid]="
+            addressForm.get('postalCode')?.touched &&
+            addressForm.get('postalCode')?.invalid
+          "
+          [attr.aria-errormessage]="'postalCodeError'"
         />
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           id="postalCodeError"
-          aria-live="off"
           [translationParams]="{
             label: 'addressForm.zipCode.label' | cxTranslate,
           }"

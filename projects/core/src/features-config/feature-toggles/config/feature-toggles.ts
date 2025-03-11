@@ -557,6 +557,12 @@ export interface FeatureTogglesInterface {
   a11yFormErrorMuteIcon?: boolean;
 
   /**
+   * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
+   *  together with aria-live="atomic"
+   */
+  a11yImprovedErrorMessage?: boolean;
+
+  /**
    * `MessageComponent` gets focused after a message with an action is rendered.
    */
   a11yCxMessageFocus?: boolean;
@@ -1080,6 +1086,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
   a11yFormErrorMuteIcon: true,
+  a11yImprovedErrorMessage: true,
   a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
