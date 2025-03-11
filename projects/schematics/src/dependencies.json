@@ -403,7 +403,7 @@
     "@angular/common": "^19.1.8",
     "@angular/core": "^19.1.8",
     "@angular/router": "^19.1.8",
-    "@ngrx/store": "^19.0.0",
+    "@ngrx/store": "^19.0.1",
     "@spartacus/core": "2211.37.0",
     "@spartacus/order": "2211.37.0",
     "@spartacus/schematics": "2211.37.0",
