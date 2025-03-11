@@ -223,6 +223,9 @@
     }
     ul.childs > li > cx-generic-link > a {
       padding: 5px 0;
+      @include forFeature('a11yImproveContrast') {
+        padding: 0;
+      }
     }
     @include forFeature('a11yImproveContrast') {
       li > cx-generic-link > a {
