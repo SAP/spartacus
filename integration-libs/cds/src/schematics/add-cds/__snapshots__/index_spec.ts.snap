@@ -38,7 +38,8 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
           'profile-tag-load-url.com',
         configUrl:
           'profile-tag-config-url.com',
-        allowInsecureCookies: true
+        allowInsecureCookies: true,
+        sciEnabled: false
       },
     },
   })
@@ -86,7 +87,8 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
           'profile-tag-load-url.com',
         configUrl:
           'profile-tag-config-url.com',
-        allowInsecureCookies: true
+        allowInsecureCookies: true,
+        sciEnabled: true
       },
     },
   })
@@ -134,7 +136,8 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
           'PROFILE_TAG_LOAD_URL_PLACEHOLDER',
         configUrl:
           'PROFILE_TAG_CONFIG_URL_PLACEHOLDER',
-        allowInsecureCookies: true
+        allowInsecureCookies: true,
+        sciEnabled: false
       },
     },
   })
