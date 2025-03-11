@@ -60,7 +60,6 @@ const myAccountV2EmailMapping: CmsConfig = {
     MessageComponentModule,
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],

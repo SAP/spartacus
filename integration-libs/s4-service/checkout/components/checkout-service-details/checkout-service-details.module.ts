@@ -26,7 +26,6 @@ import { CheckoutServiceDetailsComponent } from './checkout-service-details.comp
     DatePickerModule,
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

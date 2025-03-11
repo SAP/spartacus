@@ -38,7 +38,6 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     ItemActiveModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [CostCenterFormComponent],

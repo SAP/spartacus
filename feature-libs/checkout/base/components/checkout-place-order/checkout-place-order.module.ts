@@ -37,7 +37,6 @@ import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spin
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

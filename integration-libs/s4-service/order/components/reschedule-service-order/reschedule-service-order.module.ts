@@ -39,7 +39,6 @@ import { RescheduleServiceOrderComponent } from './reschedule-service-order.comp
     DatePickerModule,
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

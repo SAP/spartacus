@@ -40,7 +40,6 @@ import { ResetPasswordComponent } from './reset-password.component';
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

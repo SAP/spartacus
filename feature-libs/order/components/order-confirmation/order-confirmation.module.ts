@@ -63,7 +63,6 @@ const orderConfirmationComponents = [
     AbstractOrderContextModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

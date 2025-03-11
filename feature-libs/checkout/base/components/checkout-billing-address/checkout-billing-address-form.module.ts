@@ -33,7 +33,6 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [CheckoutBillingAddressFormService],

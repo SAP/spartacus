@@ -30,7 +30,6 @@ import { CheckoutLoginComponent } from './checkout-login.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

@@ -60,7 +60,6 @@ const myAccountV2PasswordMapping: CmsConfig = {
     MessageComponentModule,
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

@@ -42,7 +42,6 @@ import { RegisterComponent } from './register.component';
     SpinnerModule,
     FormErrorsModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
     NgSelectA11yModule,
     NgSelectModule,

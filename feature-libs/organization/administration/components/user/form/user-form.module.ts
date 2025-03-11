@@ -30,7 +30,6 @@ import { UserFormComponent } from './user-form.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [UserFormComponent],

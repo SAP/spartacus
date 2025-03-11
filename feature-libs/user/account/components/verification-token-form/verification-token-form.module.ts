@@ -48,7 +48,6 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
     SpinnerModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

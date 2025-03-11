@@ -34,7 +34,6 @@ import { BudgetFormComponent } from './budget-form.component';
     DatePickerModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [BudgetFormComponent],

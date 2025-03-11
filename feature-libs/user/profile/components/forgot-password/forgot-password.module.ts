@@ -42,7 +42,6 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     FeaturesConfigModule,
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

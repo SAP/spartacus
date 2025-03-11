@@ -34,7 +34,6 @@ import { UnitFormComponent } from './unit-form.component';
     FeaturesConfigModule,
     NgSelectA11yModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [UnitFormComponent],

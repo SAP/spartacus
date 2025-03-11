@@ -28,7 +28,6 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [UnitAddressFormComponent],

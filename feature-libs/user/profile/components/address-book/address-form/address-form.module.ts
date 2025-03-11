@@ -35,7 +35,6 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
     KeyboardFocusModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],

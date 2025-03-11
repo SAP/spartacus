@@ -28,7 +28,6 @@ import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component
     KeyboardFocusModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [SavedCartFormDialogComponent],

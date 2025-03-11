@@ -28,7 +28,6 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

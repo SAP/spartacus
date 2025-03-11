@@ -42,7 +42,6 @@ import { LoginFormComponent } from './login-form.component';
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

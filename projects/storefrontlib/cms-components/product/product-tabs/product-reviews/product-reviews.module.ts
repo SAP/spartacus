@@ -32,7 +32,6 @@ import { ProductReviewsComponent } from './product-reviews.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

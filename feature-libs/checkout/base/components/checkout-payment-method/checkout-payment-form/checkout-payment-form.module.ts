@@ -34,7 +34,6 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form.component'
     FeaturesConfigModule,
     CheckoutBillingAddressFormModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [CheckoutPaymentFormComponent],

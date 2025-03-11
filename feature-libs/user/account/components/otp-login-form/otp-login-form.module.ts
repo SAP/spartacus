@@ -38,7 +38,6 @@ import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   providers: [

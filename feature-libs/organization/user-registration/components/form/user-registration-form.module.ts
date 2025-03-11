@@ -37,7 +37,6 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     SpinnerModule,
     FormErrorsModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
     NgSelectModule,
     NgSelectA11yModule,

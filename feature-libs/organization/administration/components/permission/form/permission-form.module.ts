@@ -32,7 +32,6 @@ import { PermissionFormComponent } from './permission-form.component';
     ItemActiveModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [PermissionFormComponent],

@@ -34,7 +34,6 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [UserChangePasswordFormComponent],

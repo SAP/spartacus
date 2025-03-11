@@ -56,7 +56,6 @@ const myAccountV2ProfileMapping: CmsConfig = {
     FeaturesConfigModule,
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
   ],
   declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],

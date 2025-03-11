@@ -37,7 +37,6 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     ReactiveFormsModule,
     FormErrorsModule,
     FormRequiredAsterisksComponent,
-
     FormRequiredLegendComponent,
     IconModule,
     KeyboardFocusModule,
