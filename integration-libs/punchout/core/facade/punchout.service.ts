@@ -45,7 +45,7 @@ export class PunchoutService implements PunchoutFacade {
     return this.punchoutConnector.getPunchoutSession(payload.sessionId).pipe(
       map((session) => {
         if (!session?.token?.accessToken || punchoutSession?.customerId) {
-          throw 'Punchout login info missing';
+          throw new Error('Punchout login info missing');
         }
         punchoutSession = session;
         return session;
@@ -59,7 +59,7 @@ export class PunchoutService implements PunchoutFacade {
           );
           this.routeToTargetPage(punchoutSession);
         } else {
-          throw 'Punchout Access Token missing';
+          throw new Error('Punchout Access Token missing');
         }
 
         return punchoutSession;
