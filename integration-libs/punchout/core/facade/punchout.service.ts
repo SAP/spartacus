@@ -40,7 +40,7 @@ export class PunchoutService implements PunchoutFacade {
     let punchoutSession: PunchoutSession;
     if (!payload?.sessionId) {
       this.displayErrorPage();
-      return throwError(() => 'Punchout Session Id missing');
+      return throwError(() => new Error('Punchout Session Id missing'));
     }
     return this.punchoutConnector.getPunchoutSession(payload.sessionId).pipe(
       map((session) => {
@@ -66,7 +66,7 @@ export class PunchoutService implements PunchoutFacade {
       }),
       catchError((error) => {
         this.displayErrorPage();
-        return throwError(() => error);
+        return throwError(() => new Error(error));
       })
     );
   });
