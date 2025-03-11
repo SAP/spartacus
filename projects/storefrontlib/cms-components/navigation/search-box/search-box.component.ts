@@ -27,7 +27,7 @@ import {
   useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { defaultIfEmpty, Observable, of, Subscription, takeLast, takeUntil, timer } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -606,12 +606,44 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    *
    * TODO: if there's a single product match, we could open the PDP.
    */
+
+  private redirectedKeywords = new Set<string>();
+  private hasKeywordRedirected(query: string): boolean {
+    return this.redirectedKeywords.has(query.toLowerCase().trim());
+  }
+
   launchSearchResult(event: UIEvent, query: string): void {
     if (!query || query.trim().length === 0) {
       return;
     }
     this.close(event);
-    this.searchBoxComponentService.launchSearchPage(query);
+
+    // Create a timer to force completion after 500ms
+    const timer$ = timer(500);
+
+    // Process all emissions until the timer fires
+    this.results$.pipe(
+      // Collect all emissions during the time window
+      takeUntil(timer$),
+      // Process each emission to collect redirected keywords
+      tap(results => {
+        if (results.keywordRedirectUrl && results.suggestions && results.suggestions.length > 0) {
+          this.redirectedKeywords.add(results.suggestions[0]);
+        }
+      }),
+      // Only proceed with the last emission
+      takeLast(1),
+      // If empty (no emissions before timeout), don't proceed
+      defaultIfEmpty(null)
+    ).subscribe(results => {
+      // Only launch search page once after all processing is complete
+      if (results !== null && !this.hasKeywordRedirected(query)) {
+        this.searchBoxComponentService.launchSearchPage(query);
+      } else if (results === null && !this.hasKeywordRedirected(query)) {
+        // Handle case where there were no emissions
+        this.searchBoxComponentService.launchSearchPage(query);
+      }
+    });
   }
 
   /**

@@ -22,4 +22,5 @@ export interface SearchResults {
   products?: any[];
   suggestions?: string[];
   recentSearches?: string[];
+  keywordRedirectUrl?: string;
 }
