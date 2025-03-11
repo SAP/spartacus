@@ -627,7 +627,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.close(event);
 
     // Create a timer to force completion after 500ms
-    const timer$ = timer(500);
+    const timer$ = timer(750);
 
     // Process all emissions until the timer fires
     this.results$
@@ -649,12 +649,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         // If empty (no emissions before timeout), don't proceed
         defaultIfEmpty(null)
       )
-      .subscribe((results) => {
+      .subscribe(() => {
         // Only launch search page once after all processing is complete
-        if (results !== null && !this.hasKeywordRedirected(query)) {
-          this.searchBoxComponentService.launchSearchPage(query);
-        } else if (results === null && !this.hasKeywordRedirected(query)) {
-          // Handle case where there were no emissions
+        if (!this.hasKeywordRedirected(query)) {
           this.searchBoxComponentService.launchSearchPage(query);
         }
       });
