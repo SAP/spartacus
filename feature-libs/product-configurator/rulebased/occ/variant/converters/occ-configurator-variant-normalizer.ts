@@ -383,6 +383,7 @@ export class OccConfiguratorVariantNormalizer
       case OccConfigurator.UiType.READ_ONLY: {
         uiType =
           !sourceAttribute.retractBlocked &&
+          !sourceAttribute.domainOnDemand &&
           this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.RADIOBUTTON
             : Configurator.UiType.READ_ONLY;
@@ -391,6 +392,7 @@ export class OccConfiguratorVariantNormalizer
       case OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE: {
         uiType =
           !sourceAttribute.retractBlocked &&
+          !sourceAttribute.domainOnDemand &&
           this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.SINGLE_SELECTION_IMAGE
             : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
@@ -399,6 +401,7 @@ export class OccConfiguratorVariantNormalizer
       case OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE: {
         uiType =
           !sourceAttribute.retractBlocked &&
+          !sourceAttribute.domainOnDemand &&
           this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.MULTI_SELECTION_IMAGE
             : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;

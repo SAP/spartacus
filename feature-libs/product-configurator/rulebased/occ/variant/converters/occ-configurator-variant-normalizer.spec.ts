@@ -1826,6 +1826,300 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
   });
 
+  describe('getReadOnlyUiType', () => {
+    describe("should return 'READ_ONLY'", () => {
+      it("should return 'READ_ONLY' when retractBlocked is 'true', domainOnDemand is 'true' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: true,
+          domainOnDemand: true,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.READ_ONLY);
+      });
+
+      it("should return 'READ_ONLY' when retractBlocked is 'true', domainOnDemand is 'false' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: true,
+          domainOnDemand: false,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.READ_ONLY);
+      });
+
+      it("should return 'READ_ONLY' when retractBlocked is 'false', domainOnDemand is 'true' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: true,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.READ_ONLY);
+      });
+
+      it("should return 'READ_ONLY' when retractBlocked is 'false', domainOnDemand is 'false' and there are no conflicts", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: false,
+          conflicts: [],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.READ_ONLY);
+      });
+
+      it("should return 'RADIOBUTTON' when retractBlocked is 'false', domainOnDemand is 'false', and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: false,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          OccConfigurator.UiType.READ_ONLY,
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.RADIOBUTTON);
+      });
+    });
+
+    describe("should return 'READ_ONLY_SINGLE_SELECTION_IMAGE'", () => {
+      it("should return 'READ_ONLY_SINGLE_SELECTION_IMAGE' when retractBlocked is 'true', domainOnDemand is 'true' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: true,
+          domainOnDemand: true,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_SINGLE_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'READ_ONLY_SINGLE_SELECTION_IMAGE' when retractBlocked is 'true', domainOnDemand is 'false' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: true,
+          domainOnDemand: false,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_SINGLE_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'READ_ONLY_SINGLE_SELECTION_IMAGE' when retractBlocked is 'false', domainOnDemand is 'true' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: true,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_SINGLE_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'READ_ONLY_SINGLE_SELECTION_IMAGE' when retractBlocked is 'false', domainOnDemand is 'false' and there are no conflicts", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: false,
+          conflicts: [],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_SINGLE_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'SINGLE_SELECTION_IMAGE' when retractBlocked is 'false', domainOnDemand is 'false', and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: false,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_SINGLE_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.SINGLE_SELECTION_IMAGE);
+      });
+    });
+
+    describe("should return 'READ_ONLY_MULTI_SELECTION_IMAGE'", () => {
+      it("should return 'READ_ONLY_MULTI_SELECTION_IMAGE' when retractBlocked is 'true', domainOnDemand is 'true' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: true,
+          domainOnDemand: true,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_MULTI_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'READ_ONLY_MULTI_SELECTION_IMAGE' when retractBlocked is 'true', domainOnDemand is 'false' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: true,
+          domainOnDemand: false,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_MULTI_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'READ_ONLY_MULTI_SELECTION_IMAGE' when retractBlocked is 'false', domainOnDemand is 'true' and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: true,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_MULTI_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'READ_ONLY_MULTI_SELECTION_IMAGE' when retractBlocked is 'false', domainOnDemand is 'false' and there are no conflicts", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: false,
+          conflicts: [],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          'READ_ONLY_MULTI_SELECTION_IMAGE',
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(
+          Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+        );
+      });
+
+      it("should return 'MULTI_SELECTION_IMAGE' when retractBlocked is 'false', domainOnDemand is 'false', and there is a conflict", () => {
+        const sourceAttribute: OccConfigurator.Attribute = {
+          name: 'sourceAttribute',
+          key: 'key',
+          retractBlocked: false,
+          domainOnDemand: false,
+          conflicts: ['conflict1'],
+        };
+
+        const uiType = occConfiguratorVariantNormalizer['getReadOnlyUiType'](
+          sourceAttribute,
+          OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE,
+          Configurator.UiType.NOT_IMPLEMENTED
+        );
+
+        expect(uiType).toEqual(Configurator.UiType.MULTI_SELECTION_IMAGE);
+      });
+    });
+  });
+
   it('should set async pricing flag to true', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.isPricingAsync).toBe(true);
