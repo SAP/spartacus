@@ -1826,6 +1826,78 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
   });
 
+  describe('isReadOnly', () => {
+    it("should return 'false' when retractBlocked is 'true', domainOnDemand is 'true' and there is a conflict", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        retractBlocked: true,
+        domainOnDemand: true,
+        conflicts: ['conflict1'],
+      };
+
+      expect(
+        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+      ).toBeFalsy();
+    });
+
+    it("should return 'false' when retractBlocked is 'true', domainOnDemand is 'false' and there is a conflict", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        retractBlocked: true,
+        domainOnDemand: false,
+        conflicts: ['conflict1'],
+      };
+
+      expect(
+        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+      ).toBeFalsy();
+    });
+
+    it("should return 'false' when retractBlocked is 'false', domainOnDemand is 'true' and there is a conflict", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        retractBlocked: false,
+        domainOnDemand: true,
+        conflicts: ['conflict1'],
+      };
+
+      expect(
+        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+      ).toBeFalsy();
+    });
+
+    it("should return 'false' when retractBlocked is 'false', domainOnDemand is 'false' and there are no conflicts", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        retractBlocked: false,
+        domainOnDemand: false,
+        conflicts: [],
+      };
+
+      expect(
+        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+      ).toBeFalsy();
+    });
+
+    it("should return 'true' when retractBlocked is 'false', domainOnDemand is 'false', and there is a conflict", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: 'sourceAttribute',
+        key: 'key',
+        retractBlocked: false,
+        domainOnDemand: false,
+        conflicts: ['conflict1'],
+      };
+
+      expect(
+        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+      ).toBeTruthy();
+    });
+  });
+
   describe('getReadOnlyUiType', () => {
     describe("should return 'READ_ONLY'", () => {
       it("should return 'READ_ONLY' when retractBlocked is 'true', domainOnDemand is 'true' and there is a conflict", () => {

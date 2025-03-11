@@ -374,6 +374,14 @@ export class OccConfiguratorVariantNormalizer
     return uiType;
   }
 
+  protected isReadOnly(sourceAttribute: OccConfigurator.Attribute): boolean {
+    return (
+      !sourceAttribute.retractBlocked &&
+      !sourceAttribute.domainOnDemand &&
+      this.hasSourceAttributeConflicts(sourceAttribute)
+    );
+  }
+
   protected getReadOnlyUiType(
     sourceAttribute: OccConfigurator.Attribute,
     coreSourceType: string,
@@ -381,30 +389,21 @@ export class OccConfiguratorVariantNormalizer
   ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.READ_ONLY: {
-        uiType =
-          !sourceAttribute.retractBlocked &&
-          !sourceAttribute.domainOnDemand &&
-          this.hasSourceAttributeConflicts(sourceAttribute)
-            ? Configurator.UiType.RADIOBUTTON
-            : Configurator.UiType.READ_ONLY;
+        uiType = this.isReadOnly(sourceAttribute)
+          ? Configurator.UiType.RADIOBUTTON
+          : Configurator.UiType.READ_ONLY;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE: {
-        uiType =
-          !sourceAttribute.retractBlocked &&
-          !sourceAttribute.domainOnDemand &&
-          this.hasSourceAttributeConflicts(sourceAttribute)
-            ? Configurator.UiType.SINGLE_SELECTION_IMAGE
-            : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+        uiType = this.isReadOnly(sourceAttribute)
+          ? Configurator.UiType.SINGLE_SELECTION_IMAGE
+          : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE: {
-        uiType =
-          !sourceAttribute.retractBlocked &&
-          !sourceAttribute.domainOnDemand &&
-          this.hasSourceAttributeConflicts(sourceAttribute)
-            ? Configurator.UiType.MULTI_SELECTION_IMAGE
-            : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+        uiType = this.isReadOnly(sourceAttribute)
+          ? Configurator.UiType.MULTI_SELECTION_IMAGE
+          : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         break;
       }
     }
