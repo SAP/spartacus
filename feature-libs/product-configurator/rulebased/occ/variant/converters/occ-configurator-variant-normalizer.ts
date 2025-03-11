@@ -374,7 +374,7 @@ export class OccConfiguratorVariantNormalizer
     return uiType;
   }
 
-  protected isReadOnly(sourceAttribute: OccConfigurator.Attribute): boolean {
+  protected isNotReadOnly(sourceAttribute: OccConfigurator.Attribute): boolean {
     return (
       !sourceAttribute.retractBlocked &&
       !sourceAttribute.domainOnDemand &&
@@ -389,19 +389,19 @@ export class OccConfiguratorVariantNormalizer
   ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.READ_ONLY: {
-        uiType = this.isReadOnly(sourceAttribute)
+        uiType = this.isNotReadOnly(sourceAttribute)
           ? Configurator.UiType.RADIOBUTTON
           : Configurator.UiType.READ_ONLY;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE: {
-        uiType = this.isReadOnly(sourceAttribute)
+        uiType = this.isNotReadOnly(sourceAttribute)
           ? Configurator.UiType.SINGLE_SELECTION_IMAGE
           : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE: {
-        uiType = this.isReadOnly(sourceAttribute)
+        uiType = this.isNotReadOnly(sourceAttribute)
           ? Configurator.UiType.MULTI_SELECTION_IMAGE
           : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         break;

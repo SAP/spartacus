@@ -1826,7 +1826,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
   });
 
-  describe('isReadOnly', () => {
+  describe('isNotReadOnly', () => {
     it("should return 'false' when retractBlocked is 'true', domainOnDemand is 'true' and there is a conflict", () => {
       const sourceAttribute: OccConfigurator.Attribute = {
         name: 'sourceAttribute',
@@ -1837,7 +1837,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       expect(
-        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+        occConfiguratorVariantNormalizer['isNotReadOnly'](sourceAttribute)
       ).toBeFalsy();
     });
 
@@ -1851,7 +1851,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       expect(
-        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+        occConfiguratorVariantNormalizer['isNotReadOnly'](sourceAttribute)
       ).toBeFalsy();
     });
 
@@ -1865,7 +1865,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       expect(
-        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+        occConfiguratorVariantNormalizer['isNotReadOnly'](sourceAttribute)
       ).toBeFalsy();
     });
 
@@ -1879,7 +1879,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       expect(
-        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+        occConfiguratorVariantNormalizer['isNotReadOnly'](sourceAttribute)
       ).toBeFalsy();
     });
 
@@ -1893,7 +1893,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       expect(
-        occConfiguratorVariantNormalizer['isReadOnly'](sourceAttribute)
+        occConfiguratorVariantNormalizer['isNotReadOnly'](sourceAttribute)
       ).toBeTruthy();
     });
   });
