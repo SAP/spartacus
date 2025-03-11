@@ -27,7 +27,15 @@ import {
   useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
-import { defaultIfEmpty, Observable, of, Subscription, takeLast, takeUntil, timer } from 'rxjs';
+import {
+  defaultIfEmpty,
+  Observable,
+  of,
+  Subscription,
+  takeLast,
+  takeUntil,
+  timer,
+} from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -622,28 +630,34 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const timer$ = timer(500);
 
     // Process all emissions until the timer fires
-    this.results$.pipe(
-      // Collect all emissions during the time window
-      takeUntil(timer$),
-      // Process each emission to collect redirected keywords
-      tap(results => {
-        if (results.keywordRedirectUrl && results.suggestions && results.suggestions.length > 0) {
-          this.redirectedKeywords.add(results.suggestions[0]);
+    this.results$
+      .pipe(
+        // Collect all emissions during the time window
+        takeUntil(timer$),
+        // Process each emission to collect redirected keywords
+        tap((results) => {
+          if (
+            results.keywordRedirectUrl &&
+            results.suggestions &&
+            results.suggestions.length > 0
+          ) {
+            this.redirectedKeywords.add(results.suggestions[0]);
+          }
+        }),
+        // Only proceed with the last emission
+        takeLast(1),
+        // If empty (no emissions before timeout), don't proceed
+        defaultIfEmpty(null)
+      )
+      .subscribe((results) => {
+        // Only launch search page once after all processing is complete
+        if (results !== null && !this.hasKeywordRedirected(query)) {
+          this.searchBoxComponentService.launchSearchPage(query);
+        } else if (results === null && !this.hasKeywordRedirected(query)) {
+          // Handle case where there were no emissions
+          this.searchBoxComponentService.launchSearchPage(query);
         }
-      }),
-      // Only proceed with the last emission
-      takeLast(1),
-      // If empty (no emissions before timeout), don't proceed
-      defaultIfEmpty(null)
-    ).subscribe(results => {
-      // Only launch search page once after all processing is complete
-      if (results !== null && !this.hasKeywordRedirected(query)) {
-        this.searchBoxComponentService.launchSearchPage(query);
-      } else if (results === null && !this.hasKeywordRedirected(query)) {
-        // Handle case where there were no emissions
-        this.searchBoxComponentService.launchSearchPage(query);
-      }
-    });
+      });
   }
 
   /**

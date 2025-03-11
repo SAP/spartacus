@@ -89,7 +89,9 @@ export class SearchBoxComponentService {
     ]).pipe(
       map(([productResults, suggestions, message]) => {
         return {
-          keywordRedirectUrl: productResults ? productResults.keywordRedirectUrl : undefined,
+          keywordRedirectUrl: productResults
+            ? productResults.keywordRedirectUrl
+            : undefined,
           products: productResults ? productResults.products : undefined,
           suggestions,
           message,
@@ -226,8 +228,8 @@ export class SearchBoxComponentService {
       switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
-            term: productResult.freeTextSearch,
-          })
+              term: productResult.freeTextSearch,
+            })
           : of(undefined);
       })
     );
