@@ -33,6 +33,7 @@ export class SearchBoxComponentService {
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
+  private finishedSearch: boolean = false;
 
   constructor(
     public searchService: SearchboxService,
@@ -48,6 +49,7 @@ export class SearchBoxComponentService {
    * products or suggestions.
    */
   search(query: string, config: SearchBoxConfig): void {
+    this.finishedSearch = false;
     if (
       !this.enableRecentSearches &&
       !this.enableTrendingSearches &&
@@ -64,15 +66,23 @@ export class SearchBoxComponentService {
     }
 
     if (config.displayProducts) {
-      this.searchService.search(query, {
-        pageSize: config.maxProducts,
-      });
+      this.searchService
+        .searchWithCompletion(query, {
+          pageSize: config.maxProducts,
+        })
+        .subscribe(() => {
+          this.finishedSearch = true;
+        });
     }
 
     if (config.displaySuggestions) {
-      this.searchService.searchSuggestions(query, {
-        pageSize: config.maxSuggestions,
-      });
+      this.searchService
+        .searchSuggestionsWithCompletion(query, {
+          pageSize: config.maxSuggestions,
+        })
+        .subscribe(() => {
+          this.finishedSearch = true;
+        });
     }
   }
 
@@ -263,10 +273,12 @@ export class SearchBoxComponentService {
    * Navigates to the search result page with a given query
    */
   launchSearchPage(query: string): void {
-    this.routingService.go({
-      cxRoute: 'search',
-      params: { query },
-    });
+    if (this.finishedSearch) {
+      this.routingService.go({
+        cxRoute: 'search',
+        params: { query },
+      });
+    }
   }
 
   private fetchTranslation(
