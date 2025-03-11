@@ -136,7 +136,7 @@ describe('Punchoutservice', () => {
     );
 
     service.getPunchoutSession(mockSid).subscribe({
-      next: () => {
+      error: () => {
         expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
         done();
       },
