@@ -43,12 +43,16 @@ export class SearchboxService extends ProductSearchService {
   /**
    * Performs search and returns an Observable that emits when the search is completed
    */
-  searchWithCompletion(query: string, searchConfig?: SearchConfig): Observable<boolean> {
+  searchWithCompletion(
+    query: string,
+    searchConfig?: SearchConfig
+  ): Observable<boolean> {
     this.search(query, searchConfig);
     return this.actionsSubject.pipe(
-      filter((action: any) =>
-        action.type === ProductActions.SEARCH_PRODUCTS_SUCCESS ||
-        action.type === ProductActions.SEARCH_PRODUCTS_FAIL
+      filter(
+        (action: any) =>
+          action.type === ProductActions.SEARCH_PRODUCTS_SUCCESS ||
+          action.type === ProductActions.SEARCH_PRODUCTS_FAIL
       ),
       take(1)
     );
@@ -85,12 +89,16 @@ export class SearchboxService extends ProductSearchService {
   /**
    * Performs suggestions search and returns an Observable that emits when the operation is completed
    */
-  searchSuggestionsWithCompletion(query: string, searchConfig?: SearchConfig): Observable<boolean> {
+  searchSuggestionsWithCompletion(
+    query: string,
+    searchConfig?: SearchConfig
+  ): Observable<boolean> {
     this.searchSuggestions(query, searchConfig);
     return this.actionsSubject.pipe(
-      filter((action: any) =>
-        action.type === ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS ||
-        action.type === ProductActions.GET_PRODUCT_SUGGESTIONS_FAIL
+      filter(
+        (action: any) =>
+          action.type === ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS ||
+          action.type === ProductActions.GET_PRODUCT_SUGGESTIONS_FAIL
       ),
       take(1)
     );
