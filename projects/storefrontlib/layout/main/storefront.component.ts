@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -16,23 +17,22 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FeatureConfigService,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import {
   FocusConfig,
-  SkipFocusConfig,
   KeyboardFocusService,
+  SkipFocusConfig,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'cx-storefront',
@@ -103,6 +103,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('headerLayoutForSmallerViewports');
     useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
+    useFeatureStyles('a11yNgSelectLayering');
   }
 
   ngOnInit(): void {
