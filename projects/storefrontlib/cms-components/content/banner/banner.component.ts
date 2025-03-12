@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import {
   CmsBannerComponent,
   CmsService,
@@ -16,6 +21,7 @@ import {
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BannerComponentService } from './banner.component.service';
 
 @Component({
   selector: 'cx-banner',
@@ -40,6 +46,8 @@ export class BannerComponent {
     protected urlService: SemanticPathService,
     protected cmsService: CmsService
   ) {}
+
+  protected bannerComponentService = inject(BannerComponentService);
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the
@@ -99,5 +107,11 @@ export class BannerComponent {
     const imgAltText = this.getImageAltText(data);
 
     return data.headline ?? imgAltText;
+  }
+
+  getImageFetchPriority(
+    data: CmsBannerComponent
+  ): 'low' | 'auto' | 'high' | undefined {
+    return this.bannerComponentService.getImageFetchPriority(data);
   }
 }
