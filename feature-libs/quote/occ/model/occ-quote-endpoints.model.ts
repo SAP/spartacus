@@ -18,6 +18,11 @@ export interface QuoteOccEndpoints {
   createQuote?: string | OccEndpoint;
 
   /**
+   * Get Order Code associated with the Quote. The Order Code is present if the quote was used to place an order.
+   */
+  getOrderCode?: string | OccEndpoint;
+
+  /**
    * Get a specific quote.
    */
   getQuote?: string | OccEndpoint;
