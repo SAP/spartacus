@@ -442,6 +442,7 @@ if (environment.cpq) {
         showRealTimeStockInPDP: false,
         a11yScrollToTopPositioning: true,
         a11yWrapReviewOrderInSection: true,
+        a11yNgSelectLayering: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
