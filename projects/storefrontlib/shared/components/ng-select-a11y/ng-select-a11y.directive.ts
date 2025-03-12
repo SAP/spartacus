@@ -16,7 +16,7 @@ import {
   Input,
   Optional,
   PLATFORM_ID,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgSelectComponent } from '@ng-select/ng-select';
@@ -183,7 +183,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
     observer: MutationObserver,
     divCombobox: HTMLElement
   ) {
-    const sanitizedValueLabel = sanitizeHtml(this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText);
+    const sanitizedValueLabel = sanitizeHtml(
+      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText
+    );
     if (sanitizedValueLabel) {
       const comboboxAriaLabel = divCombobox?.getAttribute(ARIA_LABEL) || '';
       const valueElement =
