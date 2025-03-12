@@ -3,6 +3,11 @@
   display: block;
 
   img {
+    // SPIKE NEW - necessary for responsive images, but it's a breaking change. needs feature toggle.
+    width: 100%;
+    height: auto;
+    // SPIKE END
+
     max-width: 100%;
     max-height: 100%;
     transform: scale(1);
