@@ -975,6 +975,13 @@ export interface FeatureTogglesInterface {
   a11yWrapReviewOrderInSection?: boolean;
 
   /**
+   * Adjusts line spacing in menus and navigation dropdowns for better readability
+   * across different monitors, text sizes, and zoom levels.
+   * Affects: NavigationUIComponent
+   */
+  a11yOptimizedMenuSpacing?: boolean;
+
+  /**
    * Fixes layering issues caused by native ng-select styles.
    * Sets the dropdown's z-index property to be more in line with Spartacus.
    */
@@ -1148,6 +1155,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: false,
   a11yScrollToTopPositioning: false,
+  a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
