@@ -126,6 +126,8 @@ describe('SearchBoxComponentService', () => {
   it('should navigate at launchSearchPage(query: string)', () => {
     spyOn(service, 'launchSearchPage').and.callThrough();
 
+    (service as any)['finishedSearch'] = true;
+
     service.launchSearchPage(mockQueryString);
     expect(service.launchSearchPage).toHaveBeenCalled();
     expect(MockRoutingService.go).toHaveBeenCalledWith({
