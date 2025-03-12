@@ -400,6 +400,11 @@ input[type='radio'] {
       }
     }
   }
+  @include forFeature('a11yImproveContrast') {
+    input {
+      color: var(--cx-color-text);
+    }
+  }
 }
 
 :focus:not(main) {

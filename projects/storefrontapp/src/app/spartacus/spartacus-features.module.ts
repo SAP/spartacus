@@ -440,7 +440,7 @@ if (environment.cpq) {
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
         showRealTimeStockInPDP: false,
-        a11yScrollToTopPositioning: false,
+        a11yScrollToTopPositioning: true,
         a11yWrapReviewOrderInSection: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,

@@ -8,10 +8,6 @@
     outline-offset: 2px;
     box-shadow: 0 0 0 2px var(--cx-color-inverse);
   }
-  // TODO: (CXSPA-7208) Remove feature flag next major
-  @include forFeature('a11yVisibleFocusOverflows') {
-    z-index: 1000;
-  }
 
   // TODO: (CXSPA-5912) Remove feature flag next major
   @include forFeature('a11yMobileVisibleFocus') {
@@ -21,6 +17,7 @@
         position: initial;
       }
       &[type='radio'],
+      &[type='checkbox'],
       &.btn-tertiary {
         outline-offset: 2px;
       }
