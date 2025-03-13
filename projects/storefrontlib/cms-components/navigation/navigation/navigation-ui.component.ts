@@ -19,7 +19,11 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  useFeatureStyles,
+  WindowRef,
+} from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -114,6 +118,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+    useFeatureStyles('a11yOptimizedMenuSpacing');
   }
 
   /**
