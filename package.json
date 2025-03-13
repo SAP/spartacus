@@ -124,6 +124,9 @@
     "dev:cds:ssr": "env-cmd --no-override -e dev,b2c,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
     "prerender:cds:dev": "env-cmd --no-override -e dev,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender --routes-file projects/storefrontapp/prerender.txt"
   },
+  "overrides": {
+    "rxjs": "^7.8.2"
+  },
   "private": false,
   "dependencies": {
     "@angular/animations": "^19.1.8",
