@@ -5,8 +5,21 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { PUNCHOUT_FEATURE } from './feature-name';
+
+export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
+    featureModules: {
+      [PUNCHOUT_FEATURE]: {
+        cmsComponents: ['PunchoutSessionComponent', 'PunchoutErrorComponent'],
+      },
+    },
+  };
+  return config;
+}
 
 @NgModule({
-  providers: [],
+  providers: [provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig)],
 })
 export class PunchoutRootModule {}
