@@ -46,9 +46,9 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   /**
    * @override
    *
-   * On backend errors indicating expired `refresh_token` we need to logout
-   * silently by revoke invalid/expired token and prevent Login page redirection.
-   * Workaround to address CXSPA-9608 - Public pages not displayed when token is invalid
+   * On backend errors indicating expired `refresh_token`, we need to silently logout
+   * by revoking invalid token and preventing Login page redirection.
+   * It is a workaround to address CXSPA-9608 - Public pages not displayed when token is invalid.
    * To be removed once CXSPA-9608 is closed.
    */
   public handleExpiredRefreshToken(): void {
