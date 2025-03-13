@@ -1,14 +1,13 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
 <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-<p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-  {{ 'formLegend.required' | cxTranslate }}
-</p>
+<cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <label>
     <span class="label-content"
       >{{ 'updateEmailForm.newEmailAddress.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+
+      <cx-form-required-asterisks />
+    </span>
     <input
       required="true"
       type="email"
@@ -41,8 +40,9 @@
   <label>
     <span class="label-content"
       >{{ 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+
+      <cx-form-required-asterisks />
+    </span>
     <input
       required="true"
       type="email"
@@ -75,8 +75,9 @@
   <label>
     <span class="label-content"
       >{{ 'updateEmailForm.password.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+
+      <cx-form-required-asterisks />
+    </span>
     <input
       required="true"
       type="password"
@@ -119,13 +120,3 @@
     {{ 'common.save' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
