@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, ActionsSubject, Store } from '@ngrx/store';
 import { Observable, filter, take } from 'rxjs';
 import { ProductSearchPage, Suggestion } from '../../model/index';
@@ -18,10 +18,9 @@ import { StateWithProduct } from '../store/product-state';
   providedIn: 'root',
 })
 export class SearchboxService extends ProductSearchService {
-  constructor(
-    protected actionsSubject: ActionsSubject,
-    protected store: Store<StateWithProduct>
-  ) {
+  private actionsSubject = inject(ActionsSubject);
+
+  constructor(protected store: Store<StateWithProduct>) {
     super(store);
   }
 
