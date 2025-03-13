@@ -18,7 +18,7 @@ export class MockTranslationService implements TranslationService {
   ): Observable<string> {
     return new Observable<string>((subscriber) => {
       const value = mockTranslate(key, options);
-      subscriber.next(value);
+      subscriber.next(value as string);
       subscriber.complete();
     });
   }

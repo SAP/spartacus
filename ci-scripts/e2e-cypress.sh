@@ -13,34 +13,33 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --ssr                                   Run ssr smoke test
 "
 
-while [ "${1:0:1}" == "-" ]
-do
+while [ "${1:0:1}" == "-" ]; do
     case "$1" in
-        '--suite' | '-s' )
-            SUITE=":$2"
-            shift
-            shift
-            ;;
-        '--environment' | '--env' )
-            CI_ENV=":$2"
-            shift
-            shift
-            ;;
-        '--ssr' )
-            SSR=true
-            shift
-            ;;
-        '--help' | '-h' )
-            echo "$help_display"
-            exit 0
-            ;;
-        * )
-            POSITIONAL+=("$1")
-            shift
+    '--suite' | '-s')
+        SUITE=":$2"
+        shift
+        shift
+        ;;
+    '--environment' | '--env')
+        CI_ENV=":$2"
+        shift
+        shift
+        ;;
+    '--ssr')
+        SSR=true
+        shift
+        ;;
+    '--help' | '-h')
+        echo "$help_display"
+        exit 0
+        ;;
+    *)
+        POSITIONAL+=("$1")
+        shift
 
-            echo "Error: unknown option: ${POSITIONAL}"
-            exit 1
-            ;;
+        echo "Error: unknown option: ${POSITIONAL}"
+        exit 1
+        ;;
     esac
 done
 
@@ -78,6 +77,19 @@ echo '-----'
 echo "Building Spartacus storefrontapp"
 npm run build
 
+is_bot_commit() {
+    LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
+
+    echo "Last commit author: ${LAST_COMMIT_AUTHOR}"
+
+    if [[ "${LAST_COMMIT_AUTHOR}" == *"dependabot[bot]@users.noreply.github.com" ]] ||
+        [[ "${LAST_COMMIT_AUTHOR}" == *"renovate[bot]@users.noreply.github.com" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 if [[ "${SSR}" = true ]]; then
     echo "Building Spartacus storefrontapp (SSR PROD mode)"
     npm run build:ssr:ci
@@ -89,13 +101,30 @@ if [[ "${SSR}" = true ]]; then
     echo "Running SSR Cypress smoke test"
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-        npm run e2e:run:ci:ssr
-      else
-        npm run e2e:run:ci:core:ssr
-      fi
+        echo "Running Cypress end to end tests for pull request"
+
+        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+            echo "Running Cypress end to end tests for pull request"
+
+            npm run e2e:run:ci:ssr
+        else
+            echo "Running core Cypress end to end tests for pull requests"
+
+            npm run e2e:run:ci:core:ssr
+        fi
+    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+        echo "Running Cypress end-to-end tests for push event"
+
+        if is_bot_commit; then
+            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+            npm run e2e:run:ci:core:ssr
+        else
+            echo "Running full Cypress end-to-end tests"
+            npm run e2e:run:ci:ssr
+        fi
     else
-        npm run e2e:run:ci:ssr"${SUITE}"
+        echo "Running full Cypress end-to-end tests"
+        npm run e2e:run:ci:ssr
     fi
 else
     npm run start:pwa &
@@ -104,12 +133,28 @@ else
     echo "Running Cypress end to end tests"
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-      if [[ "${GITHUB_HEAD_REF}" == epic/* && "${GITHUB_HEAD_REF}" != renovate/* && "${GITHUB_HEAD_REF}" != dependabot/* ]]; then
-        npm run e2e:run:ci"${SUITE}"
-      else
-        npm run e2e:run:ci:core"${SUITE}"
-      fi
+        echo "Running Cypress end-to-end tests for pull request"
+
+        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+            echo "Running full Cypress end-to-end tests for epic branch"
+            npm run e2e:run:ci"${SUITE}"
+        else
+            echo "Running core Cypress end-to-end tests for pull requests"
+            npm run e2e:run:ci:core"${SUITE}"
+        fi
+
+    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+        echo "Running Cypress end-to-end tests for push event"
+
+        if is_bot_commit; then
+            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+            npm run e2e:run:ci:core"${SUITE}"
+        else
+            echo "Running full Cypress end-to-end tests"
+            npm run e2e:run:ci"${SUITE}"
+        fi
     else
+        echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci"${SUITE}"
     fi
 fi

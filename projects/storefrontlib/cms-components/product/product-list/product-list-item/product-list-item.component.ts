@@ -42,6 +42,7 @@ export class ProductListItemComponent implements OnChanges {
     protected productListItemContextSource: ProductListItemContextSource
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {
