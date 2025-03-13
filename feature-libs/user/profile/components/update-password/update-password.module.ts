@@ -24,6 +24,8 @@ import {
 import {
   BtnLikeLinkModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   MessageComponentModule,
   PasswordVisibilityToggleModule,
   SpinnerModule,
@@ -57,6 +59,8 @@ const myAccountV2PasswordMapping: CmsConfig = {
     FeaturesConfigModule,
     MessageComponentModule,
     BtnLikeLinkModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
