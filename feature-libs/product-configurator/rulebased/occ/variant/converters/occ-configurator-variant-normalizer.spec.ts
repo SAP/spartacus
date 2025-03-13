@@ -1519,6 +1519,21 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
     });
 
+    it('should not add a retract value to the list of values for a read-only that is involved in a conflict in case domain is not yet present', () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
+      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
+      sourceAttribute.conflicts = ['conflict1'];
+      sourceAttribute.retractBlocked = false;
+      sourceAttribute.domainOnDemand = true;
+
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(0);
+    });
+
     it('should add a retract value to the list of values for a read-only-single-selection-image that is involved in a conflict', () => {
       (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
         false;
