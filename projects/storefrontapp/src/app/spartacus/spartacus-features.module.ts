@@ -301,7 +301,6 @@ if (environment.cpq) {
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
         useProductCarouselBatchApi: true,
-        productConfiguratorAttributeTypesV2: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         productConfiguratorDeltaRendering: true,
