@@ -19,6 +19,7 @@ export const defaultOccQuoteConfig: OccConfig = {
           'users/${userId}/quotes/${quoteCode}?fields=FULL,expirationTime' +
           PRICE_HEADER_FIELDS +
           ',entries(FULL)',
+        getOrderCode: 'users/${userId}/quotes/${quoteCode}?fields=sapOrderCode',
         editQuote: 'users/${userId}/quotes/${quoteCode}',
         performQuoteAction: 'users/${userId}/quotes/${quoteCode}/action',
         addComment: 'users/${userId}/quotes/${quoteCode}/comments',

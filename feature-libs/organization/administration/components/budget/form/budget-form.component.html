@@ -1,12 +1,10 @@
 <cx-org-form i18nRoot="orgBudget">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">
         {{ 'orgBudget.name' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -38,7 +36,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgBudget.code' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -69,7 +67,7 @@
     <label>
       <span class="label-content">
         {{ 'orgBudget.startDate' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <cx-date-picker
         [control]="$any(form.get('startDate'))"
@@ -83,7 +81,7 @@
     <label>
       <span class="label-content">
         {{ 'orgBudget.endDate' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -140,7 +138,7 @@
     <label>
       <span class="label-content">
         {{ 'orgBudget.amount' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -175,7 +173,7 @@
     >
       <span class="label-content required">
         {{ 'orgBudget.businessUnits' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -207,13 +205,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

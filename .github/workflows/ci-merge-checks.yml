@@ -7,21 +7,20 @@ on:
       - release-*
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
-  
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   GH_TOKEN: ${{ github.token }}
   NODE_VERSION: '20'
-  AMP_API_TOKEN: ${{ secrets.AMP_API_TOKEN }}
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
-concurrency: 
+concurrency:
   group: ci-merge-checks-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Merge Checks
 jobs:
-  no_retries: 
+  no_retries:
     name: MC - Prevent retries
     # E2Es can't be retried.  Moreover, in some retry cases, they don't run
     # and the job returns a success code.
@@ -31,12 +30,12 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
   validate_e2e_execution:
     name: MC - Confirm e2es should run
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +43,7 @@ jobs:
           fetch-depth: 0
       - name: Determine whether to run e2es
         id: save-e2e-output-result
-        run: |         
+        run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   b2c_e2e_tests:
@@ -60,7 +59,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
       - name: Setup node
@@ -71,14 +70,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v4
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        env: 
+        env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
@@ -93,7 +92,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
       - name: Setup node
@@ -104,14 +103,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v4
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        env: 
+        env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
@@ -129,7 +128,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
       - name: Setup node
@@ -140,7 +139,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v4
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -150,7 +149,7 @@ jobs:
         env:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |     
+        run: |
           ci-scripts/e2e-cypress.sh -s b2b
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
@@ -167,11 +166,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `# Merge Checks Failed
-                Please push a commit to re-trigger the build. 
+                Please push a commit to re-trigger the build.
                 To push an empty commit you can use \`git commit --allow-empty -m "Trigger Build"\``
             })
             core.setFailed('Please push a commit to re-trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: |
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
