@@ -103,18 +103,6 @@ export interface FeatureTogglesInterface {
   useProductCarouselBatchApi?: boolean;
 
   /**
-   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
-   * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
-   * to render read-only attribute with images and a long description at the value level accordingly.
-   *
-   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
-   * `cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
-   * `cx-configurator-attribute-type` and `cx-configurator-form-group` some styling changes were done
-   * to render read-only attribute with images and a long description at the value level accordingly.
-   */
-  productConfiguratorAttributeTypesV2?: boolean;
-
-  /**
    * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
    * (in the Angular's `ErrorHandler` class) to the server layer.
    *
@@ -975,6 +963,13 @@ export interface FeatureTogglesInterface {
   a11yWrapReviewOrderInSection?: boolean;
 
   /**
+   * Adjusts line spacing in menus and navigation dropdowns for better readability
+   * across different monitors, text sizes, and zoom levels.
+   * Affects: NavigationUIComponent
+   */
+  a11yOptimizedMenuSpacing?: boolean;
+
+  /**
    * Fixes layering issues caused by native ng-select styles.
    * Sets the dropdown's z-index property to be more in line with Spartacus.
    */
@@ -1013,7 +1008,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
   useProductCarouselBatchApi: true,
-  productConfiguratorAttributeTypesV2: true,
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
   productConfiguratorDeltaRendering: true,
@@ -1148,6 +1142,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: false,
   a11yScrollToTopPositioning: false,
+  a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
