@@ -16,6 +16,11 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
+   * In Order details page, it shows link to its Quote details page and vice-versa
+   */
+  showOrderQuoteLink?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -958,6 +963,19 @@ export interface FeatureTogglesInterface {
   a11yWrapReviewOrderInSection?: boolean;
 
   /**
+   * Adjusts line spacing in menus and navigation dropdowns for better readability
+   * across different monitors, text sizes, and zoom levels.
+   * Affects: NavigationUIComponent
+   */
+  a11yOptimizedMenuSpacing?: boolean;
+
+  /**
+   * Fixes layering issues caused by native ng-select styles.
+   * Sets the dropdown's z-index property to be more in line with Spartacus.
+   */
+  a11yNgSelectLayering?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -977,6 +995,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
@@ -1123,6 +1142,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: false,
   a11yScrollToTopPositioning: false,
+  a11yOptimizedMenuSpacing: false,
+  a11yNgSelectLayering: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
