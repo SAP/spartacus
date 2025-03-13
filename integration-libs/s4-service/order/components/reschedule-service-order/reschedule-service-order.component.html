@@ -1,7 +1,5 @@
 <form [formGroup]="form" (submit)="rescheduleServiceOrder()">
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <div class="cx-reschedule-service-form-fields">
     <div class="cx-section-header d-none d-lg-block d-xl-block">
       <h2>{{ 'rescheduleService.headerLabel' | cxTranslate }}</h2>
@@ -16,7 +14,7 @@
         >
           <span class="label-content">
             {{ 'rescheduleService.datePickerLabel' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <cx-date-picker
             [control]="$any(form.get('scheduleDate'))"
@@ -31,7 +29,7 @@
         >
           <span class="label-content">
             {{ 'rescheduleService.timePickerLabel' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <select
             *ngIf="scheduleTimes$ | async as scheduleTimes"
@@ -100,13 +98,3 @@
     </div>
   </div>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
