@@ -37,7 +37,7 @@
     "@spartacus/schematics": "2211.37.0",
     "@spartacus/storefront": "2211.37.0",
     "@spartacus/styles": "2211.37.0",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.2"
   },
   "engines": {
     "node": "^22.0.0"
