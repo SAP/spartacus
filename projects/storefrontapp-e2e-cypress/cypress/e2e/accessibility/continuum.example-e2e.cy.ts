@@ -35,7 +35,6 @@ function checkA11yConcerns() {
   it('should NOT have any accessibility concerns', () => {
     cy.a11yContinuumRunAllTests()
       .a11YContinuumPrintResults()
-      .a11yContinuumSubmitConcernsToAmp()
       .a11YContinuumFailIfConcerns();
   });
 }
