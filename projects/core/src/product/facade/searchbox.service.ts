@@ -5,24 +5,19 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { select, ActionsSubject, Store } from '@ngrx/store';
+import { select, ActionsSubject } from '@ngrx/store';
 import { Observable, filter, take } from 'rxjs';
 import { ProductSearchPage, Suggestion } from '../../model/index';
 import { SearchConfig } from '../model/index';
 import { ProductActions } from '../store/actions/index';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
-import { StateWithProduct } from '../store/product-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchboxService extends ProductSearchService {
   private actionsSubject = inject(ActionsSubject);
-
-  constructor(protected store: Store<StateWithProduct>) {
-    super(store);
-  }
 
   /**
    * dispatch the search for the search box
