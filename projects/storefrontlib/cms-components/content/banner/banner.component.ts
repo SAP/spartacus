@@ -21,7 +21,7 @@ import {
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BannerComponentService } from './banner.component.service';
+import { BannerComponentService } from './banner-component.service';
 
 @Component({
   selector: 'cx-banner',
