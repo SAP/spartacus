@@ -18,6 +18,7 @@ import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-clos
 import {
   FileUploadModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
   IconModule,
   KeyboardFocusModule,
   SpinnerModule,
@@ -36,6 +37,7 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
     FileUploadModule,
     SpinnerModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
   ],
   providers: [
     CustomerTicketingCloseComponentService,

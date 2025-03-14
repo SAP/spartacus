@@ -14,7 +14,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule, IconModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredLegendComponent,
+  IconModule,
+} from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';
 
@@ -30,6 +34,7 @@ import { CartCouponComponent } from './cart-coupon.component';
     IconModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
