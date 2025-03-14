@@ -1,12 +1,10 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="checkoutLoginForm">
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <div class="form-group">
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.emailAddress.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -42,7 +40,7 @@
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.confirmEmail.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -78,13 +76,3 @@
     {{ 'checkoutLogin.continue' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
