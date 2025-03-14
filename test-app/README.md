@@ -1,5 +1,5 @@
 
-### Prerequisite: build Spartacus libs, publish to local verdaccio, install in the test-app
+## Prerequisite: build Spartacus libs, publish to local verdaccio, install in the test-app
 In the first time, you need to build Spartacus libs, publish them to local verdaccio and then install them in the `test-app`.
 
 1. enter the root folder of Spartacus repo
@@ -22,7 +22,7 @@ If you make changes only in one lib, you can rebuild only this lib (not all) and
 8. remove `node_modules` folder (run `rm -rf node_modules`)
 9. run `npm install` (being still in the `test-app` folder)
 
-### Run test-app with SSR in dev mode (watch mode)
+## Run test-app with SSR in dev mode (watch mode)
 
 - run `npm run dev:ssr`
 - (wait until you see in the terminal `[SERVE] Node Express server listening on http://localhost:4000`)
@@ -33,7 +33,7 @@ Note: Under the hood, `npm run dev:ssr` runs 2 commands via `concurrently`: `npm
 Note 2: in subsequent runs of  `npm run dev:ssr` you might see a message immediately `[SERVE] Node Express server listening on http://localhost:4000` (because it can see the previously built SSR app). But after the app is rebuilt for the first time, the SSR server will be restarted with the updated code and you'll see again the message `[SERVE] Node Express server listening on http://localhost:4000`.
 
 
-### Dependencies
+## Dependencies
 
 - `@spartacus` libs should be built locally from branch `epic/performance-improvements` of the main Spartacus repo and published to local verdaccio
 
