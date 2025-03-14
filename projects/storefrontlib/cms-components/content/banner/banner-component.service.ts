@@ -7,9 +7,11 @@
 import { Injectable } from '@angular/core';
 import { CmsBannerComponent } from '@spartacus/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+/**
+ * An extension point to allow for easier customization of the `BannerComponent` logic
+ * without replacing the component itself.
+ */
+@Injectable({ providedIn: 'root' })
 export class BannerComponentService {
   getImageFetchPriority(
     _data: CmsBannerComponent
