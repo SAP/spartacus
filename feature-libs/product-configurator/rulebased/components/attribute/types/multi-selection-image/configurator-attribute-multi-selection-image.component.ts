@@ -53,7 +53,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       attributeComponentContext.attribute.key
     );
 
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
     useFeatureStyles('a11yDifferentiateFocusedAndSelected');
   }
 
