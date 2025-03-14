@@ -21,12 +21,12 @@ export const rule =ESLintUtils.RuleCreator(() => __filename)({
   meta: {
     type: 'problem',
     docs: {
-      description: `forbid the usage of const enums`,
+      description: 'forbid the usage of const enums',
     },
     schema: [],
     messages: {
       noConstEnum:
-        "Usage of 'const enum' is forbidden.",
+        "Usage of `const enum` is forbidden.",
     },
   },
   defaultOptions: [],
