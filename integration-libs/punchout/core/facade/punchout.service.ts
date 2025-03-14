@@ -12,6 +12,7 @@ import {
   PunchoutFacade,
   PunchoutRequisition,
   PunchoutSession,
+  PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
 import {
@@ -32,6 +33,7 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutAuthService = inject(PunchoutAuthService);
   protected commandService = inject(CommandService);
   protected routingService = inject(RoutingService);
+  protected punchoutStoreService = inject(PunchoutStoreService);
 
   /**
    * getPunchoutSession workflow:
@@ -42,7 +44,7 @@ export class PunchoutService implements PunchoutFacade {
    * Redirect to Punchout Error page if error occurs
    */
   protected getPunchoutSessionCommand: Command<
-    { sessionId: string },
+    { sessionId: string; isPageRefresh: boolean },
     PunchoutSession
   > = this.commandService.create((payload) => {
     if (!payload?.sessionId) {
@@ -71,7 +73,14 @@ export class PunchoutService implements PunchoutFacade {
             punchoutSession.token.accessToken,
             punchoutSession.customerId
           );
-          this.routeToTargetPage(punchoutSession);
+
+          this.punchoutStoreService.setPunchoutState({
+            sessionId: payload.sessionId,
+            session: { ...punchoutSession },
+          });
+          if (!payload?.isPageRefresh) {
+            this.routeToTargetPage(punchoutSession);
+          }
         } else {
           throw new Error('Punchout Access Token missing');
         }
@@ -85,8 +94,11 @@ export class PunchoutService implements PunchoutFacade {
     );
   });
 
-  getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
-    return this.getPunchoutSessionCommand.execute({ sessionId });
+  getPunchoutSession(
+    sessionId: string,
+    isPageRefresh = false
+  ): Observable<PunchoutSession> {
+    return this.getPunchoutSessionCommand.execute({ sessionId, isPageRefresh });
   }
 
   getPunchoutSessionRequisition(
