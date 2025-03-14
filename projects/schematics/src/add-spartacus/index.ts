@@ -581,6 +581,55 @@ function addAppRoutingModuleImport(
   context.logger.info(`✅ Imported AppRoutingModule of Spartacus in AppModule`);
 }
 
+/**
+ * Replaces caret (^) with tilde (~) for Spartacus dependencies in package.json.
+ *
+ * Note: Angular CLI by default puts `^` in customer's `package.json` during `ng add @spartacus/schematics@latest`.
+ *       But since 2211.19 we agreed to break SemVer and release breaking changes in "minor" (x.Y.z) versions,
+ *       so we need to replace `^` with `~` to prevent breaking changes from being installed automatically
+ *       in the future and causing peer dependency conflicts when Spartacus updates e.g. Angular versions.
+ */
+function replaceCaretWithTildeForSpartacusDependencies(
+  options: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(
+        `⌛️ Replacing ^ with ~ for @spartacus dependencies in package.json`
+      );
+    }
+
+    const packageJsonFile = readPackageJson(tree);
+
+    const DEPENDENCY_TYPES = ['dependencies', 'devDependencies'];
+    const TILDE = '~';
+    const CARET = '^';
+
+    DEPENDENCY_TYPES.forEach((dependencyType) => {
+      const deps = packageJsonFile[dependencyType] || {};
+
+      const spartacusPackages = Object.keys(deps).filter((packageName) =>
+        packageName.startsWith('@spartacus')
+      );
+
+      spartacusPackages.forEach((packageName) => {
+        const currentVersion = deps[packageName];
+        deps[packageName] = currentVersion.replace(CARET, TILDE);
+      });
+    });
+
+    tree.overwrite('package.json', JSON.stringify(packageJsonFile, null, 2));
+
+    if (options.debug) {
+      context.logger.info(
+        '✅ Replaced ^ with ~ for all @spartacus dependencies'
+      );
+    }
+
+    return tree;
+  };
+}
+
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
@@ -628,6 +677,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
          */
         updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
         installPackageJsonDependencies(),
+        replaceCaretWithTildeForSpartacusDependencies(options),
       ]),
 
       finalizeInstallation(options, features),

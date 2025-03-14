@@ -16,6 +16,11 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
+   * In Order details page, it shows link to its Quote details page and vice-versa
+   */
+  showOrderQuoteLink?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -96,18 +101,6 @@ export interface FeatureTogglesInterface {
    * ```
    */
   useProductCarouselBatchApi?: boolean;
-
-  /**
-   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
-   * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
-   * to render read-only attribute with images and a long description at the value level accordingly.
-   *
-   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
-   * `cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
-   * `cx-configurator-attribute-type` and `cx-configurator-form-group` some styling changes were done
-   * to render read-only attribute with images and a long description at the value level accordingly.
-   */
-  productConfiguratorAttributeTypesV2?: boolean;
 
   /**
    * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
@@ -393,9 +386,10 @@ export interface FeatureTogglesInterface {
 
   /**
    * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Modifies the 'visible-focus' mixin. Includes style changes for:
+   * Includes style changes for:
    * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`
+   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
+   * `CarouselComponent`, `ProductListItemComponent`
    */
   a11yVisibleFocusOverflows?: boolean;
 
@@ -603,6 +597,14 @@ export interface FeatureTogglesInterface {
    * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
    */
   a11yNgSelectAriaLabelDropdownCustomized?: boolean;
+
+  /**
+   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
+   * when a screen reader is used.
+   * Replaces select with ng-select component in the following component:
+   * `CustomerTicketingCreateDialogComponent`
+   */
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
    * Removes duplicated error message from 'CancelOrderComponent'.
@@ -961,6 +963,19 @@ export interface FeatureTogglesInterface {
   a11yWrapReviewOrderInSection?: boolean;
 
   /**
+   * Adjusts line spacing in menus and navigation dropdowns for better readability
+   * across different monitors, text sizes, and zoom levels.
+   * Affects: NavigationUIComponent
+   */
+  a11yOptimizedMenuSpacing?: boolean;
+
+  /**
+   * Fixes layering issues caused by native ng-select styles.
+   * Sets the dropdown's z-index property to be more in line with Spartacus.
+   */
+  a11yNgSelectLayering?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -980,7 +995,8 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showDeliveryOptionsTranslation: false,
+  showOrderQuoteLink: false,
+  showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
@@ -991,8 +1007,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: false,
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
-  useProductCarouselBatchApi: false,
-  productConfiguratorAttributeTypesV2: true,
+  useProductCarouselBatchApi: true,
   propagateErrorsToServer: false,
   ssrStrictErrorHandlingForHttpAndNgrx: false,
   productConfiguratorDeltaRendering: true,
@@ -1000,7 +1015,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
-  a11yNavMenuExpandStateReadout: false,
+  a11yNavMenuExpandStateReadout: true,
   a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
   a11yViewChangeAssistiveMessage: true,
@@ -1067,19 +1082,20 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFormErrorMuteIcon: true,
   a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yRepeatedPageTitleFix: false,
+  a11yRepeatedPageTitleFix: true,
   a11yDeliveryModeRadiogroup: true,
-  a11yNgSelectOptionsCount: false,
+  a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
-  a11yRepeatedCancelOrderError: false,
-  a11yAddedToCartActiveDialog: false,
+  a11yRepeatedCancelOrderError: true,
+  a11yAddedToCartActiveDialog: true,
   a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: false,
   a11yShowMoreReviewsBtnFocus: false,
-  a11yQuickOrderAriaControls: false,
-  a11yRemoveStatusLoadedRole: false,
-  a11yDialogsHeading: false,
+  a11yQuickOrderAriaControls: true,
+  a11yRemoveStatusLoadedRole: true,
+  a11yDialogsHeading: true,
   a11yDialogTriggerRefocus: false,
   a11yAddToWishlistFocus: false,
   a11ySearchBoxFocusOnEscape: false,
@@ -1126,6 +1142,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: false,
   a11yScrollToTopPositioning: false,
+  a11yOptimizedMenuSpacing: false,
+  a11yNgSelectLayering: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,

@@ -13,6 +13,7 @@ export const defaultOccOrderConfig: OccConfig = {
         /* eslint-disable max-len */
         orderHistory: 'users/${userId}/orders',
         orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        quoteCode: 'users/${userId}/orders/${orderId}?fields=sapQuoteCode',
         consignmentTracking:
           'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
         cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',

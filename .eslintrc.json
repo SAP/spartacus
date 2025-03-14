@@ -78,6 +78,7 @@
           "error",
           {
             "allow": [],
+            "allowCircularSelfDependency": true,
             "depConstraints": [
               {
                 "sourceTag": "*",
@@ -122,7 +123,8 @@
     {
       "files": ["*.action*.ts"],
       "rules": {
-        "@nx/workspace/no-ngrx-fail-action-without-error-action-implementation": "error"
+        "@nx/workspace/no-ngrx-fail-action-without-error-action-implementation": "error",
+        "@nx/workspace/ngrx-fail-action-must-initialize-error": "error"
       }
     }
   ]
