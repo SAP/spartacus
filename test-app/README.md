@@ -37,6 +37,6 @@ Note 2: in subsequent runs of  `npm run dev:ssr` you might see a message immedia
 
 - `@spartacus` libs should be built locally from branch `epic/performance-improvements` of the main Spartacus repo and published to local verdaccio
 
-### Customizations
+## Customizations
 
 To clearly see what is a customization and what is a fresh app code, let's keep all the customizations only in the folder `src/app/custom`. Any exceptional customizations outside of the folder should be documented in the file `src/app/custom/CUSTOMIZATIONS-OUTSIDE-THIS-FOLDER.md`.
