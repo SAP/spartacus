@@ -5,8 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  AuthHttpHeaderService,
+  CmsConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
+import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -20,6 +25,12 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  providers: [provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig)],
+  providers: [
+    provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig),
+    {
+      provide: AuthHttpHeaderService,
+      useExisting: PunchoutAuthHttpHeaderService,
+    },
+  ],
 })
 export class PunchoutRootModule {}
