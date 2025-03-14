@@ -1,7 +1,14 @@
-### Run SSR
+### Install dependencies
 
-- `npm run watch` in one terminal + `npm run serve:ssr:watch` in another terminal
+- enter the `test-app` folder, e.g. `cd test-app`
+- run `npm install`
+
+### Build and run SSR in dev mode (watch mode)
+
+- run `npm run dev:ssr`
 - open http://localhost:4000/
+
+Note: Runs `npm run watch` and `npm run serve:ssr:watch` in parallel. After code changes, build progress appears first, then SSR server restarts with updated code.
 
 ### Dependencies
 
