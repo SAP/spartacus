@@ -175,7 +175,7 @@
     "@angular/cli": "^19.0.4",
     "@angular/compiler-cli": "^19.0.3",
     "@angular/language-service": "^19.0.3",
-    "@babel/runtime": "^7.18.9",
+    "@babel/runtime": "^7.26.10",
     "@ngrx/store-devtools": "^19.0.1",
     "@nx/angular": "^20.4.6",
     "@nx/devkit": "^20.4.6",

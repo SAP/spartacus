@@ -7,17 +7,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule, FeaturesConfigModule } from '@spartacus/core';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   FileUploadModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   IconModule,
   KeyboardFocusModule,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog/customer-ticketing-create-dialog.component';
 import { CustomerTicketingCreateComponent } from './customer-ticketing-create.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FeaturesConfigModule,
     NgSelectModule,
     NgSelectA11yModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [
     CustomerTicketingCreateComponent,
