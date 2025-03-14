@@ -22,9 +22,7 @@ import {
     ...defaultCmsContentProviders,
     provideConfig(<OccConfig>{
       backend: {
-        occ: {
-          baseUrl: 'https://40.76.109.9:9002',
-        },
+        occ: {},
       },
     }),
     provideConfig(<SiteContextConfig>{
