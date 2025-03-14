@@ -95,7 +95,6 @@ export class CustomOccCmsPageNormalizer extends OccCmsPageNormalizer {
   } {
     // Banner images in our sample data happen to follow the pattern `somename-WIDTHxHEIGHT-somename...`
     // so we can leverage it to extract the dimensions
-    // (yes it's a workaround! ideally dimensions should be defined in CMS!)
     const pattern = /\/medias\/[^-]+-(\d+)x(\d+)-[^-]+/;
     const match = url.match(pattern);
     if (match) {

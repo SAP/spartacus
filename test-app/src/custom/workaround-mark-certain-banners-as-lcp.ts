@@ -2,6 +2,13 @@ import { Injectable, Provider } from '@angular/core';
 import { CmsBannerComponent } from '@spartacus/core';
 import { BannerComponentService } from '@spartacus/storefront';
 
+/**
+ * Marks certain banners as LCP (Largest Contentful Paint), making them
+ * fetched with high priority.
+ *
+ * (yes it's a workaround! ideally such information should not be hardcoded in Spartacus
+ * by "component name" but rather defined in CMS!)
+ */
 @Injectable({ providedIn: 'root' })
 export class CustomBannerComponentService extends BannerComponentService {
   override getImageFetchPriority(
