@@ -2,8 +2,9 @@
   <label>
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+      <cx-form-required-asterisks />
+      ></span
+    >
     <input
       required="true"
       class="form-control"
@@ -64,8 +65,9 @@
     <label>
       <span class="label-content"
         >{{ 'register.password.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        <cx-form-required-asterisks />
+        ></span
+      >
       <input
         required="true"
         class="form-control"
@@ -101,8 +103,9 @@
     <label>
       <span class="label-content"
         >{{ 'register.confirmPassword.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        <cx-form-required-asterisks />
+        ></span
+      >
       <input
         required="true"
         class="form-control"
@@ -146,16 +149,6 @@
     </button>
   </div>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>
