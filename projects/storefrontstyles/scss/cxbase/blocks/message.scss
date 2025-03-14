@@ -129,4 +129,8 @@
     right: 20px;
     top: 11px;
   }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
 }
