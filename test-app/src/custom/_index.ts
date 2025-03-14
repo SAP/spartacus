@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { lazyLoadMediaImagesByDefault } from './lazy-load-media-images-by-default';
 import { addPreconnectLinkToCdnInSsr } from './preconnect-to-cdn';
 import { useCdnForBackendAndMediaBaseUrl } from './use-cdn-for-backend-and-media-base-url';
