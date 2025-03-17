@@ -6,17 +6,28 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  DatePickerModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
-import { DatePickerModule } from '@spartacus/storefront';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, DatePickerModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    DatePickerModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

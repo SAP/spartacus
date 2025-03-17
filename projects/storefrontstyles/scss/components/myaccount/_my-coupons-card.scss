@@ -125,4 +125,10 @@
       @include type('8');
     }
   }
+  @include cx-highContrastTheme {
+    .card {
+      background-color: initial;
+      border-color: var(--cx-color-text);
+    }
+  }
 }

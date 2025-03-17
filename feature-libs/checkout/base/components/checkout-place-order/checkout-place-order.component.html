@@ -1,6 +1,4 @@
-<p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-  {{ 'formLegend.required' | cxTranslate }}
-</p>
+<cx-form-required-legend />
 <form class="cx-place-order-form form-check" [formGroup]="checkoutSubmitForm">
   <div class="form-group">
     <label>
@@ -26,13 +24,7 @@
         >
           {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
         </a>
-        <abbr
-          *cxFeature="'a11yRequiredAsterisks'"
-          aria-hidden="true"
-          class="text-decoration-none required-asterisk"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
-        >
+        <cx-form-required-asterisks />
         <cx-form-errors
           id="termsAndConditionsError"
           [control]="checkoutSubmitForm.get('termsAndConditions')"
