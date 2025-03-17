@@ -264,10 +264,9 @@
                   />
                   <span class="form-check-label">
                     {{ consents[i].template.description }}
-                    <ng-template
-                      *ngIf="consents[i].required"
-                      [ngTemplateOutlet]="requiredAsterisk"
-                    ></ng-template>
+                    <ng-container *ngIf="consents[i].required">
+                      <cx-form-required-asterisks />
+                    </ng-container>
                   </span>
                   <cx-form-errors
                     [control]="control.get('isConsentGranted')"
