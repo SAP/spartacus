@@ -55,7 +55,6 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   protected normalize(text: string = ''): string {
-    const sanitizedHTML = sanitizeHtml(text).replace(/<[^>]*>/g, '');
-    return sanitizedHTML;
+    return sanitizeHtml(text);
   }
 }

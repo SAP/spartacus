@@ -26,7 +26,8 @@
     "i18next": "^24.2.1",
     "i18next-http-backend": "^3.0.1",
     "i18next-resources-to-backend": "^1.2.1",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "sanitize-html": "^2.14.0"
   },
   "engines": {
     "node": "^22.0.0"
