@@ -57,7 +57,10 @@ export class PunchoutStatePersistanceService implements OnDestroy {
     ) {
       console.log('flo onRead1');
       this.punchoutFacade
-        .getPunchoutSession(state?.sessionId, true)
+        .getPunchoutSession({
+          punchoutSessionId: state?.sessionId,
+          isPageRefresh: true,
+        })
         .pipe(take(1))
         .subscribe(() => {
           console.log('flo onRead2');

@@ -23,6 +23,11 @@ export enum PunchOutOperation {
   SOURCE = 'source',
 }
 
+export interface PunchoutSessionInput {
+  punchoutSessionId: string;
+  isPageRefresh?: boolean;
+}
+
 export interface PunchoutSession {
   customerId: string;
   cartId: string;
