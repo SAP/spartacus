@@ -10,8 +10,12 @@ import { CdcUserPreferenceSerializer } from './converters/cdc-user-preference.se
 import { CommonModule } from '@angular/common';
 import { CdcConsentManagementComponentService } from './services/cdc-consent-management-component.service';
 import { ConsentManagementComponentService } from '@spartacus/storefront';
-import { CDC_USER_PREFERENCE_SERIALIZER } from './converters/converter';
+import {
+  CDC_PREFERENCE_SERIALIZER,
+  CDC_USER_PREFERENCE_SERIALIZER,
+} from './converters/converter';
 import { CdcUserConsentAdapter } from './cdc-user-consent.adapter';
+import { CdcPreferenceSerializer } from './converters';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
@@ -24,6 +28,11 @@ import { CdcUserConsentAdapter } from './cdc-user-consent.adapter';
     {
       provide: CDC_USER_PREFERENCE_SERIALIZER,
       useExisting: CdcUserPreferenceSerializer,
+      multi: true,
+    },
+    {
+      provide: CDC_PREFERENCE_SERIALIZER,
+      useExisting: CdcPreferenceSerializer,
       multi: true,
     },
   ],

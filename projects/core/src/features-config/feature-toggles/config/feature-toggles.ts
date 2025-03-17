@@ -963,6 +963,12 @@ export interface FeatureTogglesInterface {
   a11yWrapReviewOrderInSection?: boolean;
 
   /**
+   * Improves wide viewport layout issues.
+   * Affects the styles of: Order confirmation page, product configurator.
+   */
+  a11yWideScreenImprovements?: boolean;
+
+  /**
    * Adjusts line spacing in menus and navigation dropdowns for better readability
    * across different monitors, text sizes, and zoom levels.
    * Affects: NavigationUIComponent
@@ -1142,6 +1148,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: false,
   a11yScrollToTopPositioning: false,
+  a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
   enableSecurePasswordValidation: false,

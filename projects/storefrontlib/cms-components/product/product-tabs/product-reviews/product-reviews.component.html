@@ -78,15 +78,13 @@
 
   <ng-template #writeReview>
     <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
           <span class="label-content"
             >{{ 'productReview.reviewTitle' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -118,7 +116,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.writeYourComments' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <textarea
             required="true"
@@ -149,7 +147,7 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.rating' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -213,13 +211,3 @@
     </form>
   </ng-template>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
