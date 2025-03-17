@@ -5,12 +5,9 @@
       <input
         formControlName="termsAndConditions"
         class="scaled-input form-check-input"
-        required="true"
         type="checkbox"
-        [attr.aria-invalid]="
-          checkoutSubmitForm.get('termsAndConditions')?.touched &&
-          checkoutSubmitForm.get('termsAndConditions')?.invalid
-        "
+        aria-required="true"
+        [attr.aria-describedby]="'termsAndConditionsError'"
       />
       <span class="form-check-label">
         {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
@@ -29,6 +26,7 @@
         </a>
         <cx-form-required-asterisks />
         <cx-form-errors
+          id="termsAndConditionsError"
           [control]="checkoutSubmitForm.get('termsAndConditions')"
         ></cx-form-errors>
       </span>

@@ -5,4 +5,5 @@
  */
 
 export * from './cdc-user-preference.serializer';
+export * from './cdc-preference.serializer';
 export * from './converter';

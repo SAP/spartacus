@@ -125,7 +125,7 @@ export class CdcJsService implements OnDestroy {
                 (this.winRef.nativeWindow as { [key: string]: any })[
                   '__gigyaConf'
                 ] = {
-                  include: 'id_token, missing-required-fields',
+                  include: 'id_token, missing-required-fields, preferences',
                 };
               }
             }
@@ -281,7 +281,8 @@ export class CdcJsService implements OnDestroy {
                   password,
                   response.missingRequiredFields,
                   response.errorMessage,
-                  response.regToken
+                  response.regToken,
+                  response.preferences
                 );
               }
             },
@@ -822,7 +823,8 @@ export class CdcJsService implements OnDestroy {
     password: string,
     reconsentIds: string[],
     errorMessage: string,
-    regToken: string
+    regToken: string,
+    preferences?: any
   ): void {
     const consentIds: string[] = [];
     reconsentIds.forEach((template) => {
@@ -839,6 +841,7 @@ export class CdcJsService implements OnDestroy {
     newReConsentEvent.consentIds = consentIds;
     newReConsentEvent.errorMessage = errorMessage;
     newReConsentEvent.regToken = regToken;
+    newReConsentEvent.preferences = preferences;
     this.eventService.dispatch(newReConsentEvent);
   }
 
