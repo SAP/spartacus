@@ -5,9 +5,12 @@
  */
 
 import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     OPF_ERROR = 'OPF_ERROR',
   }
 }
+
+(LAUNCH_CALLER as any)['OPF_ERROR'] = 'OPF_ERROR';

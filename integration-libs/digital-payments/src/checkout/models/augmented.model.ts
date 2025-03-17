@@ -5,9 +5,12 @@
  */
 
 import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     DP_SHOW_CONFIRMATION_DIALOG = 'DP_SHOW_CONFIRMATION_DIALOG',
   }
 }
+(LAUNCH_CALLER as any)['DP_SHOW_CONFIRMATION_DIALOG'] =
+  'DP_SHOW_CONFIRMATION_DIALOG';

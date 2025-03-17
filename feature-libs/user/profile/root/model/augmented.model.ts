@@ -5,9 +5,11 @@
  */
 
 import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     CLOSE_ACCOUNT = 'CLOSE_ACCOUNT',
   }
 }
+(LAUNCH_CALLER as any)['CLOSE_ACCOUNT'] = 'CLOSE_ACCOUNT';

@@ -5,10 +5,13 @@
  */
 
 import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     CLEAR_CART = 'CLEAR_CART',
     ADDED_TO_CART = 'ADDED_TO_CART',
   }
 }
+(LAUNCH_CALLER as any)['CLEAR_CART'] = 'CLEAR_CART';
+(LAUNCH_CALLER as any)['ADDED_TO_CART'] = 'ADDED_TO_CART';

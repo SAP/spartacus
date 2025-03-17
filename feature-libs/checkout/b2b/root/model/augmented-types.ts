@@ -7,9 +7,10 @@
 import { PaymentType } from '@spartacus/cart/base/root';
 import '@spartacus/checkout/base/root';
 import { CostCenter } from '@spartacus/core';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
 
 declare module '@spartacus/checkout/base/root' {
-  const enum CheckoutStepType {
+  enum CheckoutStepType {
     PAYMENT_TYPE = 'paymentType',
   }
 
@@ -19,3 +20,5 @@ declare module '@spartacus/checkout/base/root' {
     paymentType?: PaymentType;
   }
 }
+
+(CheckoutStepType as any)['PAYMENT_TYPE'] = 'paymentType';

@@ -13,6 +13,7 @@ import {
 } from './checkout-service-details.model';
 import { Injectable } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
 
 export abstract class ServiceOrderConfiguration {
   serviceOrderConfiguration?: {
@@ -37,13 +38,15 @@ declare module '@spartacus/order/root' {
 }
 
 declare module '@spartacus/checkout/base/root' {
-  const enum CheckoutStepType {
+  enum CheckoutStepType {
     SERVICE_DETAILS = 'serviceDetails',
   }
   interface CheckoutState {
     servicedAt?: ServiceDateTime; //response property name
   }
 }
+
+(CheckoutStepType as any)['SERVICE_DETAILS'] = 'serviceDetails';
 
 declare module '@spartacus/core' {
   interface OccEndpoints extends CheckoutServiceOrderOccEndpoints {}

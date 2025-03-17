@@ -5,9 +5,12 @@
  */
 
 import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     ASM_CUSTOMER_360 = 'ASM_CUSTOMER_360',
   }
 }
+
+(LAUNCH_CALLER as any)['ASM_CUSTOMER_360'] = 'ASM_CUSTOMER_360';
