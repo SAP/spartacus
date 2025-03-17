@@ -8,7 +8,8 @@ export default {
     ...pathsToModuleNameMapper(compilerOptions.paths || {}, {
       prefix: '<rootDir>/',
     }),
-    '^../third_party/beasties/index.js$': '<rootDir>/../../node_modules/beasties',
+    '^../third_party/beasties/index.js$':
+      '<rootDir>/../../node_modules/beasties',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transform: {
