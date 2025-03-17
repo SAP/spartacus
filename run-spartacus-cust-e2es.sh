@@ -6,11 +6,12 @@
 
 CYPRESS_ROOT_FOLDER="cypress/e2e"
 CYPRESS_OTP_FOLDER="$CYPRESS_ROOT_FOLDER/regression/user_access"
+CYPRESS_B2B_OTP_FOLDER="$CYPRESS_ROOT_FOLDER/b2b/regression/user_registration"
 CYPRESS_MYACCOUNT_V2_FOLDER="$CYPRESS_ROOT_FOLDER/regression/my-account"
 CYPRESS_ACCESSIBILITY_FOLDER="$CYPRESS_ROOT_FOLDER/accessibility"
 
 export CX_MY_ACCOUNT_V2=true
-export E2ES_TO_RUN="$CYPRESS_OTP_FOLDER/otp-login.e2e-flaky.cy.ts,$CYPRESS_OTP_FOLDER/otp-registration.e2e-flaky.cy.ts"
+export E2ES_TO_RUN="$CYPRESS_OTP_FOLDER/otp*.e2e-flaky.cy.ts,$CYPRESS_B2B_OTP_FOLDER/b2b-otp*.e2e-flaky.cy.ts"
 
 # install cypress standlone dependencies
 (cd projects/storefrontapp-e2e-cypress && npm install)
