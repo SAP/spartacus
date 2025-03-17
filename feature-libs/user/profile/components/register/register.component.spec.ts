@@ -125,6 +125,7 @@ class MockRegisterComponentService
   postRegisterMessage = createSpy();
   getAdditionalConsents = createSpy();
   generateAdditionalConsentsFormControl = createSpy();
+  collectDataFromRegisterForm = createSpy();
 }
 
 class MockSiteAdapter {
@@ -309,19 +310,23 @@ describe('RegisterComponent', () => {
   describe('collectDataFromRegisterForm()', () => {
     it('should return correct register data', () => {
       const form = mockRegisterFormData;
-
-      expect(component.collectDataFromRegisterForm(form)).toEqual({
-        firstName: form.firstName,
-        lastName: form.lastName,
-        uid: form.email_lowercase,
-        password: form.password,
-        titleCode: form.titleCode,
-      });
+      component.collectDataFromRegisterForm(form);
+      expect(
+        registerComponentService.collectDataFromRegisterForm
+      ).toHaveBeenCalledWith(form);
     });
   });
 
   describe('register', () => {
     it('should register with valid form', () => {
+      regComponentService.collectDataFromRegisterForm =
+        createSpy().and.returnValue({
+          firstName: mockRegisterFormData.firstName,
+          lastName: mockRegisterFormData.lastName,
+          uid: mockRegisterFormData.email_lowercase,
+          password: mockRegisterFormData.password,
+          titleCode: mockRegisterFormData.titleCode,
+        });
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
       component.submitForm();

@@ -224,18 +224,22 @@
 
           <div class="form-group">
             <div class="form-check">
-              <label *ngIf="anonymousConsent$ | async as anonymousConsent">
-                <input
-                  type="checkbox"
-                  name="newsletter"
-                  class="form-check-input"
-                  formControlName="newsletter"
-                  [checked]="isConsentGiven(anonymousConsent.consent)"
-                />
-                <span class="form-check-label">
-                  {{ anonymousConsent.template }}
-                </span>
-              </label>
+              <ng-container
+                *ngIf="anonymousConsent$ | async as anonymousConsent"
+              >
+                <label *ngIf="anonymousConsent.template">
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    class="form-check-input"
+                    formControlName="newsletter"
+                    [checked]="isConsentGiven(anonymousConsent.consent)"
+                  />
+                  <span class="form-check-label">
+                    {{ anonymousConsent.template }}
+                  </span>
+                </label>
+              </ng-container>
             </div>
           </div>
 
@@ -247,6 +251,7 @@
             <div
               class="form-check"
               *ngFor="let control of additionalConsents.controls; let i = index"
+              [formGroupName]="i"
             >
               <div *ngIf="consents[i]?.template?.id as id">
                 <label>
@@ -255,12 +260,17 @@
                     [required]="consents[i].required"
                     [name]="id"
                     (change)="updateAdditionalConsents($any($event), i)"
-                    [formControlName]="i"
+                    formControlName="isConsentGranted"
                   />
                   <span class="form-check-label">
                     {{ consents[i].template.description }}
+                    <ng-container *ngIf="consents[i].required">
+                      <cx-form-required-asterisks />
+                    </ng-container>
                   </span>
-                  <cx-form-errors [control]="control"></cx-form-errors>
+                  <cx-form-errors
+                    [control]="control.get('isConsentGranted')"
+                  ></cx-form-errors>
                 </label>
               </div>
             </div>

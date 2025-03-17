@@ -29,6 +29,7 @@ mockEvent.password = 'password';
 mockEvent.consentIds = ['consent.survey', 'terms.of.use'];
 mockEvent.errorMessage = 'Account Registration Pending';
 mockEvent.regToken = 'xcEfsd123';
+mockEvent.preferences = { terms: { isConsentGranted: true } };
 describe('CdcReconsentDialogEventListener', () => {
   let listener: CdcReconsentDialogEventListener;
   let launchDialogService: LaunchDialogService;
@@ -72,6 +73,7 @@ describe('CdcReconsentDialogEventListener', () => {
           consentIds: mockEvent.consentIds,
           errorMessage: mockEvent.errorMessage,
           regToken: mockEvent.regToken,
+          preferences: mockEvent.preferences,
         }
       );
     });
