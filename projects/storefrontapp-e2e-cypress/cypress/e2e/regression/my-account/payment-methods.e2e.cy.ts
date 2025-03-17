@@ -41,19 +41,24 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      // Core test. Repeat in different view port.
-      paymentMethods.testRenderEmptyPaymentDetailsPage();
+      it('should render page with different number of payment methods', () => {
+        // Core test. Repeat in different view port.
+        
+        // Render empty payment details page:
+        paymentMethods.testRenderEmptyPaymentDetailsPage();
 
-      // Core test. Repeat in different view port.
-      paymentMethods.testRenderOnePaymentMethod();
+        // Render page with only one payment method:
+        paymentMethods.testRenderOnePaymentMethod();
 
-      // Below tests depend on core tests for setup
-      it('should render page with two payment methods', () => {
+        // Below tests depend on core tests for setup
+
+        // Render page with two payment methods:
         cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);
         visitPaymentDetailsPage();
         verifyPaymentCard(2);
       });
+      
 
       it('should set additional payment method as default', () => {
         cy.intercept({
