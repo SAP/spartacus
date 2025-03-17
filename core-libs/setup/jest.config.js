@@ -1,10 +1,11 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.spec.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
+const { createCjsPreset } = require('jest-preset-angular/jest-preset');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'jest-preset-angular',
+  ...createCjsPreset(),
   moduleNameMapper: {
     ...pathsToModuleNameMapper(compilerOptions.paths || {}, {
       prefix: '<rootDir>/',
