@@ -40,3 +40,7 @@ Note 2: in subsequent runs of  `npm run dev:ssr` you might see a message immedia
 ## Customizations
 
 To clearly see what is a customization and what is a fresh app code, let's keep all the customizations only in the folder `src/app/custom`. Any exceptional customizations outside of the folder should be documented in the file `src/app/custom/CUSTOMIZATIONS-OUTSIDE-THIS-FOLDER.md`.
+
+## Cloudflare configuration
+
+If you want to configure your own domain for the test-app and use optimizations from Cloudflare(CDN, Image Transformations, etc.), see [HOW-TO-CONFIGURE-CLOUDFLARE-DNS.md](HOW-TO-CONFIGURE-CLOUDFLARE-DNS.md)
