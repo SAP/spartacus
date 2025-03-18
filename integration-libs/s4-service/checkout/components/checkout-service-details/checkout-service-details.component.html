@@ -21,9 +21,7 @@
   {{ 'serviceOrderCheckout.serviceScheduleHeading' | cxTranslate }}
 </h2>
 <form [formGroup]="this.form">
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <div class="row">
     <label
       class="col"
@@ -31,7 +29,7 @@
     >
       <div>
         {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </div>
       <div>
         <cx-date-picker
@@ -49,7 +47,7 @@
     >
       <div>
         {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </div>
       <div>
         <select
@@ -92,13 +90,3 @@
     </button>
   </section>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

@@ -20,6 +20,7 @@ $caretSize: 7px;
   }
   label {
     display: flex;
+    align-items: center;
     margin: 0;
     span {
       color: var(--cx-color-text);
@@ -38,6 +39,7 @@ $caretSize: 7px;
   }
 
   select {
+    padding: 2px 4px;
     background-color: var(--cx-color-light);
     color: var(--cx-color-text);
     border: 0;

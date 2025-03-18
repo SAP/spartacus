@@ -337,7 +337,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   getColumnCount(length: number): number {
-    return Math.round(length / (this.wrapAfter || length));
+    if (!this.wrapAfter || length <= 0) {
+      return 1;
+    }
+
+    let subSectionColumns = Math.floor(length / this.wrapAfter);
+
+    if (subSectionColumns >= 1 && length % this.wrapAfter > 0) {
+      subSectionColumns += 1;
+    }
+
+    return subSectionColumns;
   }
 
   focusAfterPreviousClicked(event: MouseEvent) {
