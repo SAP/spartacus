@@ -11,6 +11,7 @@ import {
   Component,
   Input,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -29,7 +30,10 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   @Input() productName: string;
   @Input() tabIndex = -1;
 
-  constructor(protected cdRef: ChangeDetectorRef) {}
+  constructor(
+    protected cdRef: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);
@@ -54,6 +58,9 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   protected normalize(text: string = ''): string {
-    return text.replace(/<[^>]*>/g, '');
+    return this.sanitizer
+      .bypassSecurityTrustHtml(text)
+      .toString()
+      .replace(/<[^>]*>/g, '');
   }
 }
