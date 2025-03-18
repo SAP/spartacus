@@ -13,6 +13,7 @@ import {
   SearchboxService,
   TranslationService,
   WindowRef,
+  ProductActions,
 } from '@spartacus/core';
 import { combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { map, switchMap, tap, filter, take } from 'rxjs/operators';
@@ -21,7 +22,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { GET_PRODUCT_SUGGESTIONS_SUCCESS, SEARCH_PRODUCTS_SUCCESS } from 'projects/core/src/product/store/actions/product-search.action';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 
@@ -79,7 +79,10 @@ export class SearchBoxComponentService {
           pageSize: config.maxProducts,
         })
         .subscribe((result: any) => {
-          if (result?.type === SEARCH_PRODUCTS_SUCCESS && result?.payload?.keywordRedirectUrl) {
+          if (
+            result?.type === ProductActions.SEARCH_PRODUCTS_SUCCESS &&
+            result?.payload?.keywordRedirectUrl
+          ) {
             this.hasKeywordRedirect = true;
           }
           productsComplete = true;
@@ -93,7 +96,10 @@ export class SearchBoxComponentService {
           pageSize: config.maxSuggestions,
         })
         .subscribe((result: any) => {
-          if (result?.type === GET_PRODUCT_SUGGESTIONS_SUCCESS && result?.payload?.keywordRedirectUrl) {
+          if (
+            result?.type === ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS &&
+            result?.payload?.keywordRedirectUrl
+          ) {
             this.hasKeywordRedirect = true;
           }
           suggestionsComplete = true;
@@ -105,8 +111,15 @@ export class SearchBoxComponentService {
   /**
    * Check if search operations are complete based on actual completion flags
    */
-  private checkSearchCompletion(productsComplete: boolean, suggestionsComplete: boolean): void {
-    if (productsComplete && suggestionsComplete && this.currentQueryLength > 0) {
+  private checkSearchCompletion(
+    productsComplete: boolean,
+    suggestionsComplete: boolean
+  ): void {
+    if (
+      productsComplete &&
+      suggestionsComplete &&
+      this.currentQueryLength > 0
+    ) {
       this.searchCompleted.next(true);
     }
   }
