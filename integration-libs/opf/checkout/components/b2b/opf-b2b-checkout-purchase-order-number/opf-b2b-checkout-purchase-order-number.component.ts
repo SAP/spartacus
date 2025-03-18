@@ -30,8 +30,8 @@ export class OpfB2bCheckoutPurchaseOrderNumberComponent {
 
   getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('checkoutB2B.review.poNumber'),
-      this.translationService.translate('checkoutB2B.noPoNumber'),
+      this.translationService.translate('opfCheckout.poNumber'),
+      this.translationService.translate('opfCheckout.noPoNumber'),
     ]).pipe(
       map(([textTitle, noneTextTitle]) => {
         return {
