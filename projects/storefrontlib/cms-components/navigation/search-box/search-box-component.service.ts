@@ -14,13 +14,14 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, ReplaySubject } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { map, switchMap, tap, filter, take } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
+import { GET_PRODUCT_SUGGESTIONS_SUCCESS, SEARCH_PRODUCTS_SUCCESS } from 'projects/core/src/product/store/actions/product-search.action';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 
@@ -30,11 +31,12 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
+  searchCompleted = new Subject<boolean>();
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
-  private finishedSearch: boolean = false;
-
+  private currentQueryLength: number = 0;
+  private hasKeywordRedirect: boolean = false;
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -49,7 +51,10 @@ export class SearchBoxComponentService {
    * products or suggestions.
    */
   search(query: string, config: SearchBoxConfig): void {
-    this.finishedSearch = false;
+    this.hasKeywordRedirect = false;
+    this.currentQueryLength = query ? query.length : 0;
+    this.searchCompleted.next(false);
+
     if (
       !this.enableRecentSearches &&
       !this.enableTrendingSearches &&
@@ -65,13 +70,20 @@ export class SearchBoxComponentService {
       return;
     }
 
+    let productsComplete = !config.displayProducts;
+    let suggestionsComplete = !config.displaySuggestions;
+
     if (config.displayProducts) {
       this.searchService
         .searchWithCompletion(query, {
           pageSize: config.maxProducts,
         })
-        .subscribe(() => {
-          this.finishedSearch = true;
+        .subscribe((result: any) => {
+          if (result?.type === SEARCH_PRODUCTS_SUCCESS && result?.payload?.keywordRedirectUrl) {
+            this.hasKeywordRedirect = true;
+          }
+          productsComplete = true;
+          this.checkSearchCompletion(productsComplete, suggestionsComplete);
         });
     }
 
@@ -80,9 +92,22 @@ export class SearchBoxComponentService {
         .searchSuggestionsWithCompletion(query, {
           pageSize: config.maxSuggestions,
         })
-        .subscribe(() => {
-          this.finishedSearch = true;
+        .subscribe((result: any) => {
+          if (result?.type === GET_PRODUCT_SUGGESTIONS_SUCCESS && result?.payload?.keywordRedirectUrl) {
+            this.hasKeywordRedirect = true;
+          }
+          suggestionsComplete = true;
+          this.checkSearchCompletion(productsComplete, suggestionsComplete);
         });
+    }
+  }
+
+  /**
+   * Check if search operations are complete based on actual completion flags
+   */
+  private checkSearchCompletion(productsComplete: boolean, suggestionsComplete: boolean): void {
+    if (productsComplete && suggestionsComplete && this.currentQueryLength > 0) {
+      this.searchCompleted.next(true);
     }
   }
 
@@ -117,6 +142,10 @@ export class SearchBoxComponentService {
   clearResults() {
     this.searchService.clearResults();
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
+
+    // Reset search completion state
+    this.hasKeywordRedirect = false;
+    this.currentQueryLength = 0;
   }
 
   hasBodyClass(className: string): boolean {
@@ -271,14 +300,24 @@ export class SearchBoxComponentService {
 
   /**
    * Navigates to the search result page with a given query
+   * after waiting for all search operations to complete
    */
   launchSearchPage(query: string): void {
-    if (this.finishedSearch) {
-      this.routingService.go({
-        cxRoute: 'search',
-        params: { query },
+    // Reset the completed state before starting new search
+    this.searchCompleted.next(false);
+    this.searchCompleted
+      .pipe(
+        filter((complete) => complete), // Only proceed when true
+        take(1) // Take only the first completion
+      )
+      .subscribe(() => {
+        if (!this.hasKeywordRedirect) {
+          this.routingService.go({
+            cxRoute: 'search',
+            params: { query },
+          });
+        }
       });
-    }
   }
 
   private fetchTranslation(
