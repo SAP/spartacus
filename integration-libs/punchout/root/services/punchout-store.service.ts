@@ -5,20 +5,20 @@ import { PunchoutState } from '../model';
 @Injectable({ providedIn: 'root' })
 export class PunchoutStoreService {
   protected readonly INITIAL_STATE: PunchoutState = Object.freeze({
-    sId: undefined,
-    session: undefined,
+    punchoutSessionId: undefined,
+    punchoutSession: undefined,
   });
 
-  punchoutState = new BehaviorSubject<PunchoutState>(this.INITIAL_STATE);
+  protected punchoutState = new BehaviorSubject<PunchoutState>(
+    this.INITIAL_STATE
+  );
 
   getPunchoutState(): Observable<PunchoutState> {
     return this.punchoutState.asObservable();
   }
 
   setPunchoutState(payload: Partial<PunchoutState>): void {
-    console.log('setPunchoutState', payload);
     this.punchoutState.next({
-      ...this.punchoutState.value,
       ...payload,
     });
   }

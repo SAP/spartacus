@@ -23,6 +23,8 @@ export enum PunchOutOperation {
   SOURCE = 'source',
 }
 
+export const PUNCHOUT_STORAGE_KEY = 'punchout';
+
 export interface PunchoutSessionInput {
   punchoutSessionId: string;
   isPageRefresh?: boolean;
@@ -46,6 +48,6 @@ export interface PunchoutRequisition {
 }
 
 export interface PunchoutState {
-  session?: PunchoutSession;
-  sessionId?: string;
+  punchoutSession?: PunchoutSession;
+  punchoutSessionId?: string;
 }

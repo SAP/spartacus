@@ -6,14 +6,15 @@ import {
   PunchOutOperation,
   PunchoutRequisition,
   PunchoutSession,
+  PunchoutSessionInput,
 } from '@spartacus/punchout/root';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { PunchoutConnector } from '../connectors';
 import { PunchoutAuthService } from '../services';
 import { PunchoutService } from './punchout.service';
 import createSpy = jasmine.createSpy;
 
-const mockSid = 'mockSid';
+const mockSessionInput: PunchoutSessionInput = { punchoutSessionId: 'mockSid' };
 
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
@@ -82,10 +83,12 @@ describe('Punchoutservice', () => {
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
     );
-    service.getPunchoutSession(mockSid).subscribe({
+    service.getPunchoutSession(mockSessionInput).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutSessionResponse);
-        expect(connector.getPunchoutSession).toHaveBeenCalledWith(mockSid);
+        expect(connector.getPunchoutSession).toHaveBeenCalledWith(
+          mockSessionInput.punchoutSessionId
+        );
         done();
       },
     });
@@ -95,20 +98,22 @@ describe('Punchoutservice', () => {
     spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
       of(mockPunchoutRequisitionResponse)
     );
-    service.getPunchoutSessionRequisition(mockSid).subscribe({
-      next: (result) => {
-        expect(result).toEqual(mockPunchoutRequisitionResponse);
-        expect(connector.getPunchoutSessionRequisition).toHaveBeenCalledWith(
-          mockSid
-        );
-        done();
-      },
-    });
+    service
+      .getPunchoutSessionRequisition(mockSessionInput.punchoutSessionId)
+      .subscribe({
+        next: (result) => {
+          expect(result).toEqual(mockPunchoutRequisitionResponse);
+          expect(connector.getPunchoutSessionRequisition).toHaveBeenCalledWith(
+            mockSessionInput.punchoutSessionId
+          );
+          done();
+        },
+      });
   });
 
   it('should getPunchoutSessionRequisition with empty param opens error page', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    service.getPunchoutSession('').subscribe({
+    service.getPunchoutSession({ punchoutSessionId: '' }).subscribe({
       error: () => {
         expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
         done();
@@ -116,12 +121,27 @@ describe('Punchoutservice', () => {
     });
   });
 
+  it('should getPunchoutSession stays on page when isPageRefresh is true', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutRequisitionResponse)
+    );
+    service
+      .getPunchoutSession({ ...mockSessionInput, isPageRefresh: true })
+      .subscribe({
+        next: () => {
+          expect(routingService.go).not.toHaveBeenCalled();
+          done();
+        },
+      });
+  });
+
   it('should getPunchoutSession opens error page when request failed', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
-      throwError(() => 'error')
+      of({ ...mockPunchoutSessionResponse, token: undefined })
     );
-    service.getPunchoutSession(mockSid).subscribe({
+    service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
         expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
         done();
@@ -135,7 +155,7 @@ describe('Punchoutservice', () => {
       of({ ...mockPunchoutSessionResponse, token: undefined })
     );
 
-    service.getPunchoutSession(mockSid).subscribe({
+    service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
         expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
         done();
@@ -149,7 +169,7 @@ describe('Punchoutservice', () => {
       of({ ...mockPunchoutSessionResponse, selectedItem: '' })
     );
 
-    service.getPunchoutSession(mockSid).subscribe({
+    service.getPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith('/');
         done();

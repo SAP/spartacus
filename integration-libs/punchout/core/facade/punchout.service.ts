@@ -78,8 +78,8 @@ export class PunchoutService implements PunchoutFacade {
             );
 
             this.punchoutStoreService.setPunchoutState({
-              sessionId: payload.punchoutSessionId,
-              session: { ...punchoutSession },
+              punchoutSessionId: payload.punchoutSessionId,
+              punchoutSession: { ...punchoutSession },
             });
             if (!payload?.isPageRefresh) {
               this.routeToTargetPage(punchoutSession);
