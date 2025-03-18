@@ -10,7 +10,6 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '20'
-  AMP_API_TOKEN: ${{ secrets.AMP_API_TOKEN }}
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 concurrency:
@@ -232,7 +231,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v4
         with:
-          path: | 
+          path: |
             node_modules
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}

@@ -1,13 +1,11 @@
 <cx-org-form i18nRoot="orgUserGroup">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required"
-        >{{ 'orgUserGroup.name' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUserGroup.name' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -35,9 +33,9 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgUserGroup.uid' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUserGroup.uid' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
@@ -64,9 +62,9 @@
 
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required"
-        >{{ 'orgUserGroup.orgUnit' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUserGroup.orgUnit' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
@@ -95,13 +93,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

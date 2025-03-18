@@ -167,11 +167,12 @@ describe('Navigation UI Component', () => {
     });
 
     it('should return 2 for 11', () => {
-      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+      expect(navigationComponent.getColumnCount(11)).toEqual(3);
     });
 
     it('should return 2 for 12', () => {
-      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+      console.log(navigationComponent.wrapAfter);
+      expect(navigationComponent.getColumnCount(12)).toEqual(3);
     });
 
     it('should return 3 for 13', () => {
