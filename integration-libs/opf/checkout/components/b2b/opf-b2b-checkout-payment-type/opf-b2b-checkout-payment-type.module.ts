@@ -18,7 +18,7 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { OpfCheckoutPaymentsModule } from '../../components/opf-checkout-payments';
+import { OpfCheckoutPaymentsModule } from '../../../components/opf-checkout-payments';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
 
 @NgModule({

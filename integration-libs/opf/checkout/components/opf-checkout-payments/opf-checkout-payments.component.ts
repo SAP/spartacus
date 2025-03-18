@@ -68,6 +68,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   explicitTermsAndConditions: boolean | null | undefined;
 
+  @Input()
+  onlyPaymentWrapperMode? = false;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -98,6 +101,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
+              if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
+                state.data.value = state.data.value.filter(
+                  (config) => config.id === this.selectedPaymentId
+                );
+              }
+
               this.isOnlyOnePaymentOptionAvailable =
                 state.data.value.length === 1;
 
@@ -130,7 +139,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   get isPaymentInfoMessageVisible(): boolean {
-    return Boolean(this.opfConfig?.opf?.paymentOption?.enableInfoMessage);
+    return Boolean(
+      this.opfConfig?.opf?.paymentOption?.enableInfoMessage &&
+        this.isPaymentInfoMessageEnabled
+    );
   }
 
   /**

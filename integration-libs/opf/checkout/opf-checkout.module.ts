@@ -5,8 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfCheckoutComponentsModule } from '@spartacus/opf/checkout/components';
-import { OpfB2bCheckoutComponentsModule } from './b2b/opf-b2b-checkout-components.module';
+import {
+  OpfB2bCheckoutComponentsModule,
+  OpfCheckoutComponentsModule,
+} from '@spartacus/opf/checkout/components';
 
 @NgModule({
   imports: [OpfCheckoutComponentsModule, OpfB2bCheckoutComponentsModule], // TODO: Do not add B2B components to the B2C bundle
