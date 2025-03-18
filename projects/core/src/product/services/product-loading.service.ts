@@ -56,7 +56,7 @@ export class ProductLoadingService {
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
-    const isValidKey = (key) =>
+    const isValidKey = (key: string) =>
       typeof key === 'string' &&
       !['__proto__', 'constructor', 'prototype'].includes(key);
 
@@ -110,7 +110,7 @@ export class ProductLoadingService {
     }
   }
 
-  protected isValidKey(key) {
+  protected isValidKey(key: string) {
     return (
       typeof key === 'string' &&
       /^[a-zA-Z0-9_-]+$/.test(key) && // Allow only alphanumeric, hyphens, underscores
