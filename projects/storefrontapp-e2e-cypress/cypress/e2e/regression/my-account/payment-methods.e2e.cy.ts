@@ -30,6 +30,15 @@ describe('Payment Methods', () => {
         cy.location('pathname').should('contain', '/login');
       });
     });
+  });
+});
+
+describe('Payment Methods', () => {
+  viewportContext(['desktop', 'mobile'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      visitHomePage();
+    });
 
     describe('Authenticated user', { testIsolation: false }, () => {
       isolateTests();
