@@ -440,6 +440,7 @@ if (environment.cpq) {
         useExtendedMediaComponentConfiguration: true,
         showRealTimeStockInPDP: false,
         a11yScrollToTopPositioning: true,
+        a11yWideScreenImprovements: true,
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
