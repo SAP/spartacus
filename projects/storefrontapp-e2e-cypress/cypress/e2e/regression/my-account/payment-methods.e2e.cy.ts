@@ -43,7 +43,7 @@ describe('Payment Methods', () => {
 
       it('should render page with different number of payment methods', () => {
         // Core test. Repeat in different view port.
-        
+
         // Render empty payment details page:
         paymentMethods.testRenderEmptyPaymentDetailsPage();
 
@@ -58,7 +58,6 @@ describe('Payment Methods', () => {
         visitPaymentDetailsPage();
         verifyPaymentCard(2);
       });
-      
 
       it('should set additional payment method as default', () => {
         cy.intercept({
