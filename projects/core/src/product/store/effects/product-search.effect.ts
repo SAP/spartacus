@@ -12,11 +12,11 @@ import { LoggerService } from '../../../logger';
 import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
+import { HttpErrorModel } from '../../../model';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
-} from '@spartacus/core';
+} from '../../../global-message';
 
 @Injectable()
 export class ProductsSearchEffects {
