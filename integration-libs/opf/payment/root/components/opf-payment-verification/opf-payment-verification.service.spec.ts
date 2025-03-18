@@ -140,7 +140,10 @@ describe('OpfPaymentVerificationService', () => {
             cxRoute: 'paymentVerificationResult',
           },
         },
-        queryParams: of({ opfAfterRedirectFlag: 'true' }),
+        queryParams: of({
+          [OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG]:
+            'true',
+        }),
       } as unknown as ActivatedRoute;
 
       const mockOpfMetadata: OpfMetadataModel = {
