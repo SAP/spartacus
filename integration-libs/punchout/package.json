@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/punchout",
-  "version": "2211.37.0-1",
+  "version": "2211.37.0",
   "description": "punchout library for Spartacus",
   "keywords": [
     "spartacus",
@@ -30,8 +30,8 @@
     "@angular/core": "^19.0.3",
     "@angular/router": "^19.0.3",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/core": "2211.37.0-1",
-    "@spartacus/schematics": "2211.37.0-1",
+    "@spartacus/core": "2211.37.0",
+    "@spartacus/schematics": "2211.37.0",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
