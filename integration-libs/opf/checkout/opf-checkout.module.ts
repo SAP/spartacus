@@ -11,6 +11,6 @@ import {
 } from '@spartacus/opf/checkout/components';
 
 @NgModule({
-  imports: [OpfCheckoutComponentsModule, OpfB2bCheckoutComponentsModule], // TODO: Do not add B2B components to the B2C bundle
+  imports: [OpfCheckoutComponentsModule, OpfB2bCheckoutComponentsModule],
 })
 export class OpfCheckoutModule {}

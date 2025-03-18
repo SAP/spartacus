@@ -6,3 +6,4 @@
 
 export * from './opf-b2b-checkout-components.module';
 export * from './opf-b2b-checkout-payment-type/index';
+export * from './opf-b2b-checkout-purchase-order-number/index';

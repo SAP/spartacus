@@ -12,87 +12,9 @@
       {{ 'opfCheckout.tabs.paymentAndReview' | cxTranslate }}
     </h2>
 
-    <div
-      class="cx-shipping-and-delivery-info-cards"
-      style="margin-bottom: 2rem"
-    >
-      <div
-        *ngIf="deliveryAddress$ | async as deliveryAddress"
-        class="cx-review-summary-card cx-review-card-address"
-      >
-        <cx-card
-          [content]="getPoNumberCard(poNumber$ | async) | async"
-        ></cx-card>
-        <div class="cx-review-summary-edit-step">
-          <a
-            [attr.aria-label]="
-              'checkoutReview.editDeliveryAddressDetails' | cxTranslate
-            "
-            [routerLink]="
-              {
-                cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType),
-              } | cxUrl
-            "
-            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-          ></a>
-        </div>
-      </div>
+    <cx-opf-b2b-checkout-purchase-order-number></cx-opf-b2b-checkout-purchase-order-number>
 
-      <div
-        *ngIf="deliveryMode$ | async as deliveryMode"
-        class="cx-review-summary-card cx-review-delivery-method"
-      >
-        <div
-          class="cx-card"
-          tabindex="-1"
-          aria-labelledby="content-header"
-          aria-describedby="content-title cx-card-container"
-        >
-          <!--bindings={}-->
-          <div class="card-body cx-card-body">
-            <!--bindings={
-        "ng-reflect-ng-if": "false"
-      }--><!--bindings={
-        "ng-reflect-ng-if": "Purchase Order Number"
-      }-->
-            <div class="cx-card-container" id="cx-card-container">
-              <div class="cx-card-label-container">
-                <div class="cx-card-label-bold">
-                  <span class="cx-card-title" id="content-title">
-                    Method of Payment</span
-                  >
-                  <span *ngIf="getSelectedPayment$ | async as payments">
-                    <div *ngFor="let item of payments.data.value">
-                      <div
-                        *ngIf="item.id === (getSelectedPaymentId$ | async)"
-                        style="margin-top: 0.125rem"
-                      >
-                        {{ item.displayName }}
-                      </div>
-                    </div>
-                  </span>
-                </div>
-                <!--bindings={
-
-      }--><!--bindings={}-->
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="cx-review-summary-edit-step">
-          <a
-            [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
-            [routerLink]="
-              {
-                cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentType),
-              } | cxUrl
-            "
-            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-          ></a>
-        </div>
-      </div>
-    </div>
+    <cx-opf-b2b-checkout-payment-method></cx-opf-b2b-checkout-payment-method>
 
     <div
       *ngIf="explicitTermsAndConditions.value"

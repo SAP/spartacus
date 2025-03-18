@@ -9,6 +9,8 @@
     "paymentAndReviewTitle": "Payment and review",
     "billingAddress": "Billing Address",
     "paymentOption": "Payment option",
+    "paymentMethod": "Method of Payment",
+    "noPaymentMethod": "No payment method selected", 
     "termsAndConditions": "Terms & Conditions",
     "closeTermsAndConditionsAlert": "Close alert",
     "itemsToBeShipped": "Items to be shipped",

@@ -24,16 +24,12 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import { Card } from '@spartacus/storefront';
-
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { Observable, take, map } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent
@@ -77,27 +73,6 @@ export class OpfCheckoutPaymentAndReviewComponent
     return this.activeCartFacade
       .getActive()
       .pipe(map((cart: Cart) => cart.paymentType));
-  }
-
-  get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
-      filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
-    );
-  }
-
-  getPoNumberCard(poNumber?: string | null): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('checkoutB2B.review.poNumber'),
-      this.translationService.translate('checkoutB2B.noPoNumber'),
-    ]).pipe(
-      map(([textTitle, noneTextTitle]) => {
-        return {
-          title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
-        };
-      })
-    );
   }
 
   getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
