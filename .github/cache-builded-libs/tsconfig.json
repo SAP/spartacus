@@ -7,7 +7,7 @@
       "es2019",
       "esnext.bigint",
       "es2022.string",
-      "es2022.symbol.wellknown"
+      "es2020.symbol.wellknown"
     ] /* Specify library files to be included in the compilation. */,
     "allowJs": false /* Allow javascript files to be compiled. */,
     "checkJs": false /* Report errors in .js files. */,
