@@ -33,7 +33,6 @@ export const rule =ESLintUtils.RuleCreator(() => __filename)({
   create(context) {
     return {
       TSEnumDeclaration(node) {
-        // Check if the enum is a const enum
         if (node.const) {
           context.report({
             node,
