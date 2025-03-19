@@ -13,7 +13,7 @@
     "noPaymentMethod": "No payment method selected",
     "editPaymentMethod": "Edit payment method",
     "poNumber": "Purchase Order Number",
-    "noPoNumber": "No purchase order number",
+    "noPoNumber": "None",
     "editPoNumber": "Edit purchase order number",
     "termsAndConditions": "Terms & Conditions",
     "closeTermsAndConditionsAlert": "Close alert",
