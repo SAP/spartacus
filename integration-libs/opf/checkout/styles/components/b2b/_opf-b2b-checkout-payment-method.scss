@@ -1,0 +1,37 @@
+%cx-opf-b2b-checkout-payment-method {
+  display: block;
+  margin-bottom: 2rem;
+  border: 1px solid var(--cx-color-border);
+  padding: 1.75rem;
+  border-radius: 10px;
+  background-color: var(--cx-color-background);
+
+  @include media-breakpoint-down(md) {
+    margin-top: 1rem;
+  }
+
+  .cx-card-body {
+    padding: 0;
+  }
+
+  .cx-payment-method-info {
+    display: flex;
+    align-items: flex-start;
+
+    cx-card {
+      flex-grow: 1;
+    }
+
+    button {
+      outline: none;
+      border: none;
+      background: none;
+      margin-top: 1rem;
+      cursor: pointer;
+
+      cx-icon {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+}
