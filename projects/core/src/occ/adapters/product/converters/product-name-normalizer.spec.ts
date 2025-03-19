@@ -21,10 +21,10 @@ describe('ProductNameNormalizer', () => {
   let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
   beforeEach(() => {
-     sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
-       'sanitize',
-       'bypassSecurityTrustHtml',
-     ]);
+    sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
+      'sanitize',
+      'bypassSecurityTrustHtml',
+    ]);
     TestBed.configureTestingModule({
       providers: [
         ProductNameNormalizer,
@@ -68,7 +68,6 @@ describe('ProductNameNormalizer', () => {
     );
     expect(result.name).toEqual('Sanitized Name'); // Ensure sanitized name is returned
   });
-
 
   it('should handle empty names', () => {
     sanitizerSpy.sanitize.and.returnValue('');

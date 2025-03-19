@@ -58,7 +58,10 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-   normalize(text: string = ''): string {
-    return this.sanitizer.sanitize(SecurityContext.HTML, text) || ''.replace(/<[^>]*>/g, '');
+  normalize(text: string = ''): string {
+    return (
+      this.sanitizer.sanitize(SecurityContext.HTML, text) ||
+      ''.replace(/<[^>]*>/g, '')
+    );
   }
 }

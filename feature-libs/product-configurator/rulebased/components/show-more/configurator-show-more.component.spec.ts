@@ -53,60 +53,60 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   // removed unit testing because now i used sanitized dom and i did unit testing for this
-   it('should remove HTML tags from input text', () => {
-     sanitizerSpy.sanitize.and.returnValue('Sanitized Text');
+  it('should remove HTML tags from input text', () => {
+    sanitizerSpy.sanitize.and.returnValue('Sanitized Text');
 
-     const result = component.normalize('<b>Sanitized Text</b>');
+    const result = component.normalize('<b>Sanitized Text</b>');
 
-     expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
-       SecurityContext.HTML,
-       '<b>Sanitized Text</b>'
-     );
-     expect(result).toEqual('Sanitized Text');
-   });
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      '<b>Sanitized Text</b>'
+    );
+    expect(result).toEqual('Sanitized Text');
+  });
 
-   it('should return an empty string when input is null', () => {
-     sanitizerSpy.sanitize.and.returnValue(null);
+  it('should return an empty string when input is null', () => {
+    sanitizerSpy.sanitize.and.returnValue(null);
 
-     const result = component.normalize(null as unknown as string);
+    const result = component.normalize(null as unknown as string);
 
-     expect(result).toEqual('');
-   });
+    expect(result).toEqual('');
+  });
 
-   it('should return an empty string when input is undefined', () => {
-     sanitizerSpy.sanitize.and.returnValue(undefined);
+  it('should return an empty string when input is undefined', () => {
+    sanitizerSpy.sanitize.and.returnValue(undefined);
 
-     const result = component.normalize(undefined as unknown as string);
+    const result = component.normalize(undefined as unknown as string);
 
-     expect(result).toEqual('');
-   });
+    expect(result).toEqual('');
+  });
 
-   it('should return the same text if there are no HTML elements', () => {
-     sanitizerSpy.sanitize.and.returnValue('Plain Text');
+  it('should return the same text if there are no HTML elements', () => {
+    sanitizerSpy.sanitize.and.returnValue('Plain Text');
 
-     const result = component.normalize('Plain Text');
+    const result = component.normalize('Plain Text');
 
-     expect(result).toEqual('Plain Text');
-   });
+    expect(result).toEqual('Plain Text');
+  });
 
-   it('should remove script tags to prevent XSS', () => {
-     sanitizerSpy.sanitize.and.returnValue('Safe Content');
+  it('should remove script tags to prevent XSS', () => {
+    sanitizerSpy.sanitize.and.returnValue('Safe Content');
 
-     const result = component.normalize(
-       '<script>alert("XSS Attack")</script>Safe Content'
-     );
+    const result = component.normalize(
+      '<script>alert("XSS Attack")</script>Safe Content'
+    );
 
-     expect(result).toEqual('Safe Content');
-   });
+    expect(result).toEqual('Safe Content');
+  });
 
-   it('should handle special characters properly', () => {
-     sanitizerSpy.sanitize.and.returnValue('Text & Special Chars ©');
+  it('should handle special characters properly', () => {
+    sanitizerSpy.sanitize.and.returnValue('Text & Special Chars ©');
 
-     const result = component.normalize('Text & Special Chars ©');
+    const result = component.normalize('Text & Special Chars ©');
 
-     expect(result).toEqual('Text & Special Chars ©');
-   });
-  
+    expect(result).toEqual('Text & Special Chars ©');
+  });
+
   describe('Accessibility', () => {
     beforeEach(() => {
       component.text = 'Here is a short description to the product';
