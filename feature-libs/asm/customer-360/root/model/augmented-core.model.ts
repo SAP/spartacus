@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
