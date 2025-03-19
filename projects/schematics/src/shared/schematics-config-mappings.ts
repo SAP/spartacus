@@ -7,10 +7,10 @@
 import { SchematicsException } from '@angular-devkit/schematics';
 import {
   CDP_SCHEMATICS_CONFIG,
+  OMF_SCHEMATICS_CONFIG,
   OPPS_SCHEMATICS_CONFIG,
   QUOTE_SCHEMATICS_CONFIG,
   S4_SERVICE_SCHEMATICS_CONFIG,
-  OMF_SCHEMATICS_CONFIG,
   SUBSCRIPTION_BILLING_SCHEMATICS_CONFIG,
 } from './lib-configs';
 import {
