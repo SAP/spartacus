@@ -5,7 +5,6 @@
  */
 
 import { PaymentType } from '@spartacus/cart/base/root';
-import '@spartacus/checkout/base/root';
 import { CostCenter } from '@spartacus/core';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 

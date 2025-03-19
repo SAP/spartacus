@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/storefront';
 import { QuoteComment } from './quote.model';
 import { LAUNCH_CALLER } from '@spartacus/storefront';
 
