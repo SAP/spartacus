@@ -90,37 +90,32 @@ export class RenderingCache {
   }
 
   getEntrySize(entry: any): number {
-    let totalSize = 0;
+    let objStr = '';
 
-    if (entry.err) {
-      // errStr = JSON.stringify(entry.err)
+    if (!this.options?.ssrFeatureToggles?.avoidCachingErrors) {
+      if (entry.err) {
+        if (entry.err.name) {
+          objStr += entry.err.name;
+        }
 
-      let errStr = '';
+        if (entry.err.message) {
+          objStr += entry.err.message;
+        }
 
-      if (entry.err.name) {
-        errStr += entry.err.name;
+        if (entry.err.stack) {
+          objStr += entry.err.stack;
+        }
       }
-
-      if (entry.err.message) {
-        errStr += entry.err.message;
-      }
-
-      if (entry.err.stack) {
-        errStr += entry.err.stack;
-      }
-
-      totalSize += Buffer.byteLength(errStr, 'utf8');
     }
 
     if (entry.html) {
-      totalSize += Buffer.byteLength(entry.html, 'utf8');
+      objStr += entry.html;
     }
 
-    // const estimateRemainingPropsSize = 20;
+    const propSize = 10;
+    const estimatedPropSize = 5 * propSize;
 
-    // totalSize += estimateRemainingPropsSize;
-
-    return totalSize;
+    return Buffer.byteLength(objStr, 'utf8') + estimatedPropSize;
   }
 
   protected getUsedCacheSize() {
