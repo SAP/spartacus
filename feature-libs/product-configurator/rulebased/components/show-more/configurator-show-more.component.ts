@@ -10,6 +10,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  SecurityContext,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -57,10 +58,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  protected normalize(text: string = ''): string {
-    return this.sanitizer
-      .bypassSecurityTrustHtml(text)
-      .toString()
-      .replace(/<[^>]*>/g, '');
+   normalize(text: string = ''): string {
+    return this.sanitizer.sanitize(SecurityContext.HTML, text) || ''.replace(/<[^>]*>/g, '');
   }
 }

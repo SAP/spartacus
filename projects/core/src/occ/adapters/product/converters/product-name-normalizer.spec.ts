@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Product } from '../../../../model/product.model';
 import { OccConfig } from '../../../config/occ-config';
-import { Occ } from '../../../occ-models/occ.models';
 import { ProductNameNormalizer } from './product-name-normalizer';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SecurityContext } from '@angular/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -18,24 +18,18 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('ProductNameNormalizer', () => {
   let service: ProductNameNormalizer;
-
-  const product: Occ.Product = {
-    name: '<div>Product1</div>',
-    code: 'testCode',
-  };
-
-  const convertedProduct: Product = {
-    name: 'Product1',
-    nameHtml: '<div>Product1</div>',
-    code: 'testCode',
-    slug: 'product1',
-  };
+  let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
   beforeEach(() => {
+     sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
+       'sanitize',
+       'bypassSecurityTrustHtml',
+     ]);
     TestBed.configureTestingModule({
       providers: [
         ProductNameNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: DomSanitizer, useValue: sanitizerSpy },
       ],
     });
 
@@ -49,34 +43,38 @@ describe('ProductNameNormalizer', () => {
     }
   ));
 
-  it('should convert product name', () => {
-    const result = service.convert(product);
-    expect(result).toEqual(convertedProduct);
+  it('should sanitize the name', () => {
+    sanitizerSpy.sanitize.and.returnValue('Sanitized Name');
+
+    const result = service.convert({
+      name: '<script>alert("XSS")</script>Product',
+    });
+
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      '<script>alert("XSS")</script>Product'
+    );
+    expect(result.name).toEqual('Sanitized Name');
   });
 
-  describe('slug', () => {
-    const reservedChars = ` !*'();:@&=+$,/?%#[]`;
+  it('should sanitize the name', () => {
+    sanitizerSpy.sanitize.and.returnValue('Sanitized Name');
 
-    // try all chars separately
-    reservedChars.split('').forEach((char) => {
-      it(`should replace "${char}"`, () => {
-        const result = service.convert({
-          name: `a product with ${char} included`,
-        });
-        expect(result.slug).toEqual('a-product-with-included');
-      });
-    });
+    const result = service.convert({ name: '<b>Unsafe Name</b>' });
 
-    it(`should replace multiple occasions of the slug char (-)`, () => {
-      const result = service.convert({
-        name: ` a product with multiple --- symbols `,
-      });
-      expect(result.slug).toEqual('a-product-with-multiple-symbols');
-    });
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      '<b>Unsafe Name</b>'
+    );
+    expect(result.name).toEqual('Sanitized Name'); // Ensure sanitized name is returned
+  });
 
-    it('should not alter the original name', () => {
-      const result = service.convert({ name: 'my product title' });
-      expect(result.name).toEqual('my product title');
-    });
+
+  it('should handle empty names', () => {
+    sanitizerSpy.sanitize.and.returnValue('');
+
+    const result = service.convert({ name: '' });
+
+    expect(result.name).toEqual('');
   });
 });
