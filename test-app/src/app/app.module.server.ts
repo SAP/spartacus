@@ -15,7 +15,8 @@ import { AppModule } from './app.module';
   bootstrap: [AppComponent],
   providers: [
     ...provideServer({
-      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      // SPIKE UNDO - added temporarily for DX: simpler prerendering configuration
+      serverRequestOrigin: 'example.com', //process.env['SERVER_REQUEST_ORIGIN'],
     }),
   ],
 })

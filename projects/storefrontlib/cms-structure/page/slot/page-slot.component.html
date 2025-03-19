@@ -3,7 +3,8 @@
   [cxOutlet]="position"
   [cxOutletContext]="{ components$: components$ }"
 >
-  <ng-container *ngFor="let component of components">
+  <!-- SPIKE NEW - use RxFor to cut tasks -->
+  <ng-container *rxFor="let component of components">
     <ng-template
       *ngIf="component.flexType"
       [cxOutlet]="component.flexType"

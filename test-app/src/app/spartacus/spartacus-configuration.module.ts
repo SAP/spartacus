@@ -32,7 +32,10 @@ import {
       },
     }),
     provideConfig(<SiteContextConfig>{
-      context: {},
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: ['electronics-spa'],
+      },
     }),
     provideConfig(<I18nConfig>{
       i18n: {

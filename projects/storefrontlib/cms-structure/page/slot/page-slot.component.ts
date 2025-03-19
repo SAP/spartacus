@@ -73,13 +73,18 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   /**
    * Indicates that the page slot is the last page slot above the fold.
    */
-  @HostBinding('class.page-fold') @Input() isPageFold = false;
+  // SPIKE NEW - removing temporarily HostBinding to potentially reduce CLS
+  // @HostBinding('class.page-fold')
+  @Input() isPageFold = false;
 
   /**
    * Indicates that the components of the page slot haven't been loaded as long
    * as the isPending state is true.
    */
-  @HostBinding('class.cx-pending') isPending = true;
+
+  // SPIKE NEW - removing temporarily HostBinding to potentially reduce CLS
+  // @HostBinding('class.cx-pending')
+  isPending = true;
 
   /**
    * Indicates that the page slot doesn't contain any components. This is no
