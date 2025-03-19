@@ -5,7 +5,10 @@
  */
 
 import { Config, OccEndpoint } from '@spartacus/core';
-import { serviceCancellable, ServiceDateTime } from './checkout-service-details.model';
+import {
+  serviceCancellable,
+  ServiceDateTime,
+} from './checkout-service-details.model';
 import { Injectable } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
