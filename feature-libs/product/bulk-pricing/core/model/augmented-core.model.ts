@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { ProductScope } from '@spartacus/core';
 
 declare module '@spartacus/core' {
