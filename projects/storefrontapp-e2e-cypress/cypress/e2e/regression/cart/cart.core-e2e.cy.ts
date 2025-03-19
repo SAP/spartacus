@@ -121,7 +121,6 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      // will fail right now, as this is not implemented yet - is this comment still needed? the run doesn't fail
       it('should first try to load cart when adding first entry for logged user', () => {
         cart.loginCartUser();
 
