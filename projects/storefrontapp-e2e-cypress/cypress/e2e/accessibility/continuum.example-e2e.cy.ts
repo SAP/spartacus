@@ -31,10 +31,12 @@ context('Access Continuum', () => {
   });
 });
 
-function checkA11yConcerns() {
+export function checkA11yConcerns(strict: boolean = true): void {
   it('should NOT have any accessibility concerns', () => {
-    cy.a11yContinuumRunAllTests()
-      .a11YContinuumPrintResults()
-      .a11YContinuumFailIfConcerns();
+    cy.a11yContinuumRunAllTests().a11YContinuumPrintResults();
+
+    if (strict) {
+      cy.a11YContinuumFailIfConcerns();
+    }
   });
 }
