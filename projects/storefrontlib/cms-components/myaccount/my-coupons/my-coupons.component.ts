@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
@@ -13,11 +13,13 @@ import {
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
 @Component({
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
+  standalone: false,
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
   couponResult$: Observable<CustomerCouponSearchResult>;
@@ -64,6 +66,8 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     byEndDateDesc: string;
   }>;
 
+  protected launchDialogService = inject(LaunchDialogService);
+
   constructor(
     protected couponService: CustomerCouponService,
     protected myCouponsComponentService: MyCouponsComponentService
@@ -107,6 +111,23 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
           this.subscriptionFail(error);
         })
     );
+
+    const resultStr = decodeURIComponent(this.getHashStr());
+    const index = resultStr.indexOf('#');
+    if (index !== -1) {
+      const couponCode = resultStr.substring(index + 1);
+      if (couponCode !== undefined && couponCode.length > 0) {
+        this.launchDialogService.openDialogAndSubscribe(
+          LAUNCH_CALLER.CLAIM_DIALOG,
+          undefined,
+          { coupon: couponCode, pageSize: this.PAGE_SIZE }
+        );
+      }
+    }
+  }
+
+  getHashStr() {
+    return location.hash;
   }
 
   private subscriptionFail(error: boolean) {

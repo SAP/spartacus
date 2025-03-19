@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
   selector: 'cx-asm-customer-360-saved-cart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './asm-customer-360-saved-cart.component.html',
+  standalone: false,
 })
 export class AsmCustomer360SavedCartComponent {
   savedCart$: Observable<CustomerCart | undefined>;

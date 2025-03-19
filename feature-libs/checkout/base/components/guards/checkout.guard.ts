@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
@@ -23,7 +23,7 @@ export class CheckoutGuard {
     this.checkoutStepService.steps$.pipe(
       map((steps) => {
         return this.router.parseUrl(
-          this.routingConfigService.getRouteConfig(steps[0].routeName)
+          this.routingConfigService.getRouteConfig(steps[0]?.routeName)
             ?.paths?.[0] as string
         );
       })
@@ -38,7 +38,7 @@ export class CheckoutGuard {
     protected checkoutStepService: CheckoutStepService
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     const expressCheckout$ = this.expressCheckoutService
       .trySetDefaultCheckoutDetails()
       .pipe(

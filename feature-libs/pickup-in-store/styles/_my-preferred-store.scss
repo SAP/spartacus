@@ -1,6 +1,4 @@
 %cx-my-preferred-store {
-  @import 'bootstrap/scss/buttons';
-
   .cx-store-opening-hours-toggle {
     @include type('6');
     color: $cx-color-link-primary;
@@ -10,6 +8,9 @@
     .cx-store-opening-hours-icon {
       color: var(--cx-color-secondary);
       opacity: var(--cx-opacity, 0.5);
+      @include forFeature('a11yViewHoursButtonIconContrast') {
+        opacity: var(--cx-opacity, 1);
+      }
     }
     padding-inline-start: 0;
     padding-top: 0.5rem;
@@ -37,8 +38,6 @@
     }
     cx-card {
       .cx-card-actions {
-        @extend .btn, .btn-sm, .btn-block;
-        @extend .btn-outline-text !optional;
         border-width: 2px;
         border-style: solid;
         text-decoration: none;
@@ -71,6 +70,21 @@
           font-weight: 700;
           text-decoration: none;
           width: 100%;
+        }
+      }
+    }
+
+    @include forFeature('a11yImproveButtonsInCardComponent') {
+      cx-card {
+        .cx-card-actions:not(:disabled):not(.disabled):active {
+          background-color: unset;
+        }
+        .cx-card-actions {
+          border: unset;
+          margin-top: 0;
+        }
+        .cx-card-actions > *:only-child {
+          flex: 1;
         }
       }
     }

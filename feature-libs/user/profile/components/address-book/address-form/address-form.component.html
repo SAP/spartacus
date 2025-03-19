@@ -1,7 +1,5 @@
 <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-<p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-  {{ 'formLegend.required' | cxTranslate }}
-</p>
+<cx-form-required-legend />
 <form (ngSubmit)="verifyAddress()" [formGroup]="addressForm">
   <div class="form-group" formGroupName="country">
     <ng-container *ngIf="countries$ | async as countries">
@@ -9,7 +7,7 @@
         <label>
           <span class="label-content required"
             >{{ 'addressForm.country' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <ng-select
             [inputAttrs]="{ required: 'true' }"
@@ -23,9 +21,7 @@
             bindValue="isocode"
             placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
-            [cxNgSelectA11y]="{
-              ariaLabel: 'addressForm.country' | cxTranslate,
-            }"
+            [cxNgSelectA11y]="{}"
           >
           </ng-select>
           <cx-form-errors
@@ -72,17 +68,20 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.firstName.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
         type="text"
         placeholder="{{ 'addressForm.firstName.placeholder' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-describedby]="'firstNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'addressForm.firstName.label' | cxTranslate,
         }"
@@ -98,17 +97,20 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.lastName.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-describedby]="'lastNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'addressForm.lastName.label' | cxTranslate,
         }"
@@ -124,17 +126,20 @@
     <label>
       <span class="label-content required"
         >{{ 'addressForm.address1' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
         formControlName="line1"
+        [attr.aria-describedby]="'line1Error'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="line1Error"
+        aria-live="off"
         [translationParams]="{
           label: 'addressForm.address1' | cxTranslate,
         }"
@@ -164,17 +169,21 @@
       <label>
         <span class="label-content required"
           >{{ 'addressForm.city.label' | cxTranslate }}
-          <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-        ></span>
+
+          <cx-form-required-asterisks />
+        </span>
         <input
           required="true"
           type="text"
           class="form-control"
           placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
           formControlName="town"
+          [attr.aria-describedby]="'townError'"
         />
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="townError"
+          aria-live="off"
           [translationParams]="{
             label: 'addressForm.city.label' | cxTranslate,
           }"
@@ -190,17 +199,21 @@
       <label>
         <span class="label-content required"
           >{{ 'addressForm.zipCode.label' | cxTranslate }}
-          <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-        ></span>
+
+          <cx-form-required-asterisks />
+        </span>
         <input
           required="true"
           type="text"
           class="form-control"
           placeholder="{{ 'addressForm.zipCode.placeholder' | cxTranslate }}"
           formControlName="postalCode"
+          [attr.aria-describedby]="'postalCodeError'"
         />
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="postalCodeError"
+          aria-live="off"
           [translationParams]="{
             label: 'addressForm.zipCode.label' | cxTranslate,
           }"
@@ -218,8 +231,8 @@
           <label>
             <span class="label-content required"
               >{{ 'addressForm.state' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-            ></span>
+              <cx-form-required-asterisks />
+            </span>
             <ng-select
               [inputAttrs]="{ required: 'true' }"
               class="region-select"
@@ -309,12 +322,3 @@
     </div>
   </div>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

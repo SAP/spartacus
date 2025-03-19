@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   selector: 'cx-export-order-entries',
   templateUrl: './export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ExportOrderEntriesComponent {
   @HostBinding('class') styles = 'container';

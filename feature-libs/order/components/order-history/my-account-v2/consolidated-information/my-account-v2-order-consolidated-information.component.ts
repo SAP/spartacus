@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
   selector: 'cx-my-account-v2-order-consolidated-information',
   templateUrl: './my-account-v2-order-consolidated-information.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(

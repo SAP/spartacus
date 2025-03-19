@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   selector: 'cx-my-account-v2-profile',
   templateUrl: './my-account-v2-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,10 +20,33 @@ import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
+/**
+ * The HTML element rendered in the template can be either `<img>` or `<picture>`,
+ * depending on the input value of `elementType`, which defaults to `'img'`.
+ *
+ * In the case of a `<picture>` element, each `<source>` element will contain `srcset` attribute with exactly one URL.
+ *
+ * If you need multiple URLs per `<source>` (e.g. for different pixel densities),
+ * split it into multiple media queries (e.g. with `min-device-pixel-ratio`). See the following example:
+ *
+ * Instead of:
+ *
+ * ```html
+ * <source media="(min-width: 960px)" srcset="image-1400.jpg 1x, image-2800.jpg 2x">
+ * ```
+ *
+ * Use additional formats and additional media queries, such as:
+ *
+ * ```html
+ * <source media="(min-width: 960px) and (-webkit-min-device-pixel-ratio: 2)" srcset="image-2800.jpg">
+ * <source media="(min-width: 960px)" srcset="image-1400.jpg">
+ * ```
+ */
 @Component({
   selector: 'cx-media',
   templateUrl: './media.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MediaComponent implements OnChanges {
   /**
@@ -62,6 +85,30 @@ export class MediaComponent implements OnChanges {
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
+   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
+   *
+   * @default img
+   */
+  @Input() elementType: 'img' | 'picture' = 'img';
+
+  /**
+   * Specifies the `sizes` attribute for responsive images.
+   *
+   * The `sizes` attribute describes the layout width of the image for various viewport sizes.
+   * It helps the browser determine which image to download from the `srcset` attribute.
+   *
+   * - The `sizes` attribute is defined using media queries.
+   * - It allows specifying different sizes for various screen widths or other conditions (e.g., device orientation).
+   * - The browser uses the value to pick the most appropriate image source from the `srcset`.
+   *
+   * This input is applicable only when the `elementType` input is set to `'img'`, as the `sizes` attribute
+   * is currently added only to the `<img>` HTML element.
+   *
+   * Works only when the `useExtendedMediaComponentConfiguration` toggle is set to `true`.
+   */
+  @Input() sizesForImgElement: string;
+
+  /**
    * Once the media is loaded, we emit an event.
    */
   @Output() loaded: EventEmitter<Boolean> = new EventEmitter<Boolean>();
@@ -95,6 +142,13 @@ export class MediaComponent implements OnChanges {
   protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
     item.media;
 
+  /**
+   * @deprecated since 2211.31. It will be eventually removed in the future
+   *
+   * To use `img` HTML element instead of `picture`
+   * use `useExtendedMediaComponentConfiguration` feature flag
+   * and pass `[elementType]="'img'"` input to the component
+   */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||
@@ -110,12 +164,14 @@ export class MediaComponent implements OnChanges {
    * Creates the `Media` object
    */
   protected create(): void {
-    this.media = this.mediaService.getMedia(
+    this.media = this.mediaService.getMediaBasedOnHTMLElementType(
+      this.elementType,
       this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,
       this.role
     );
+
     if (!this.media?.src) {
       this.handleMissing();
     }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,10 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
+  BtnLikeLinkModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -51,6 +54,9 @@ const myAccountV2ProfileMapping: CmsConfig = {
     NgSelectModule,
     NgSelectA11yModule,
     FeaturesConfigModule,
+    BtnLikeLinkModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [UpdateProfileComponent, MyAccountV2ProfileComponent],
   exports: [UpdateProfileComponent, MyAccountV2ProfileComponent],

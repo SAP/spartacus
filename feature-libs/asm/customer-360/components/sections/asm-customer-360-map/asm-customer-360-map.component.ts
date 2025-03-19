@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-map',
   templateUrl: './asm-customer-360-map.component.html',
+  standalone: false,
 })
 export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   storeData: StoreFinderSearchPage;

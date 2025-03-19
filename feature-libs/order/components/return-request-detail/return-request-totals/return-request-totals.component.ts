@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-totals',
   templateUrl: './return-request-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  CanActivateFn,
+  GuardResult,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { CmsActivatedRouteSnapshot, wrapIntoObservable } from '@spartacus/core';
 import { Observable, concat, endWith, first, of, skipWhile } from 'rxjs';
 
@@ -17,7 +21,7 @@ export type CanActivate = { canActivate: CanActivateFn };
 /**
  * Observable that emits a boolean or an UrlTree.
  */
-export type CanActivateObservable = Observable<boolean | UrlTree>;
+export type CanActivateObservable = Observable<GuardResult>;
 
 /**
  * Utility service for running multiple guards and composing their results
@@ -36,7 +40,7 @@ export class GuardsComposer {
     guards: CanActivate[],
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     if (guards.length) {
       const canActivateObservables = guards.map((guard) =>
         this.canActivateGuard(guard, route, state)
@@ -56,7 +60,7 @@ export class GuardsComposer {
     guard: CanActivate,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     if (this.isCanActivate(guard)) {
       return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
     } else {
@@ -75,7 +79,7 @@ export class GuardsComposer {
     canActivateObservables: CanActivateObservable[]
   ): CanActivateObservable {
     return concat(...canActivateObservables).pipe(
-      skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
+      skipWhile((canActivate: GuardResult) => canActivate === true),
       endWith(true),
       first()
     );

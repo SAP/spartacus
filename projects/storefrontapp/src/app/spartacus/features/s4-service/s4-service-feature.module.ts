@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   s4ServiceTranslationChunksConfig,
-  s4ServiceTranslations,
+  s4ServiceTranslationsEn,
+  s4ServiceTranslationsJa,
+  s4ServiceTranslationsDe,
+  s4ServiceTranslationsZh,
 } from '@spartacus/s4-service/assets';
 import {
   S4ServiceRootModule,
@@ -28,7 +31,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: s4ServiceTranslations,
+        resources: {
+          en: s4ServiceTranslationsEn,
+          ja: s4ServiceTranslationsJa,
+          de: s4ServiceTranslationsDe,
+          zh: s4ServiceTranslationsZh,
+        },
         chunks: s4ServiceTranslationChunksConfig,
         fallbackLang: 'en',
       },

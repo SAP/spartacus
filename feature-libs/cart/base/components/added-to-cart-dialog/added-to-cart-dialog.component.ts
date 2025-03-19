@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,6 +54,7 @@ export interface AddedToCartDialogComponentData {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
@@ -95,6 +96,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yPreventHorizontalScroll');
+    useFeatureStyles('a11yUpdatingCartNoNarration');
   }
 
   ngOnInit(): void {

@@ -22,6 +22,10 @@
       top: 0;
       left: 0;
       position: absolute;
+
+      &:focus {
+        outline-offset: -2px;
+      }
     }
     cx-generic-link {
       display: unset;

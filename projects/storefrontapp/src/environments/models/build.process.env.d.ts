@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ interface Env {
   CX_DIGITAL_PAYMENTS: boolean;
   CX_EPD_VISUALIZATION: boolean;
   CX_S4OM: boolean;
+  CX_OPF: boolean;
   CX_OMF: boolean;
   CX_SEGMENT_REFS: boolean;
   CX_OPPS: boolean;

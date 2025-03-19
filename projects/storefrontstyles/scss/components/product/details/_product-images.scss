@@ -76,6 +76,15 @@ $productThumbSize: 75px !default;
       &:hover {
         border-color: var(--cx-color-primary);
       }
+
+      @include forFeature('a11yDifferentiateFocusedAndSelected') {
+        &.is-active {
+          border-style: dotted;
+        }
+        &:hover {
+          border-style: dashed;
+        }
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OCC_HTTP_TOKEN } from '../../utils';
 import { Router } from '@angular/router';
+
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   protected router = inject(Router, {
@@ -97,6 +98,20 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     );
   }
 
+  searchByCategory(
+    category: string,
+    scope?: string
+  ): Observable<{ products: Product[] }> {
+    return this.http
+      .get<Product[]>(this.getSearchByCategoryEndpoint(category, scope))
+      .pipe(
+        this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER),
+        map((productSearchPage) => ({
+          products: productSearchPage.products ?? [],
+        }))
+      );
+  }
+
   loadSuggestions(
     term: string,
     pageSize: number = 3
@@ -109,6 +124,16 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
         map((suggestionsList) => suggestionsList.suggestions ?? []),
         this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
       );
+  }
+
+  protected getSearchByCategoryEndpoint(
+    categoryCode: string,
+    scope?: string
+  ): string {
+    return this.occEndpoints.buildUrl('productSearchByCategory', {
+      urlParams: { categoryCode },
+      scope,
+    });
   }
 
   protected getSearchEndpoint(

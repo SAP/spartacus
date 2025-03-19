@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,7 +36,7 @@ import {
  * CAUTION: It MUST be provided as the first one in the application to be able to
  *          catch errors from all subsequent interceptors.
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected errorHandler = inject(ErrorHandler);
   protected occEndpointsService = inject(OccEndpointsService);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'cx-tracking-events',
   templateUrl: './tracking-events.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

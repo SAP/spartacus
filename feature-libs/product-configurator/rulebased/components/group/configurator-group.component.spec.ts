@@ -65,7 +65,7 @@ const OWNER = ConfiguratorModelUtils.createOwner(
   PRODUCT_CODE
 );
 
-const conflictGroup: Configurator.Group = {
+const conflictGroupBase: Configurator.Group = {
   id: 'GROUP_ID_CONFLICT_1',
   name: 'The conflict text',
   groupType: Configurator.GroupType.CONFLICT_GROUP,
@@ -76,9 +76,12 @@ const conflictGroup: Configurator.Group = {
   ],
 };
 
+let conflictGroup: Configurator.Group;
+
 @Component({
   selector: 'cx-configurator-conflict-description',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorConflictDescriptionComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -88,6 +91,7 @@ class MockConfiguratorConflictDescriptionComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -96,6 +100,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
+  standalone: false,
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -104,6 +109,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-input-field',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorAttributeInputFieldComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -117,6 +123,7 @@ class MockConfiguratorAttributeInputFieldComponent {
 @Component({
   selector: 'cx-configurator-attribute-numeric-input-field',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -131,6 +138,7 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -138,6 +146,7 @@ class MockCxIconComponent {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
@@ -402,6 +411,7 @@ describe('ConfiguratorGroupComponent', () => {
 
     configuratorUtils.setOwnerKey(OWNER);
     isConfigurationLoadingObservable = of(false);
+    conflictGroup = structuredClone(conflictGroupBase);
   });
 
   function createComponent(): ConfiguratorGroupComponent {
@@ -761,6 +771,9 @@ describe('ConfiguratorGroupComponent', () => {
   });
 
   describe('getComponentKey', () => {
+    beforeEach(() => {
+      createComponent();
+    });
     it('should compile key for standard attribute type', () => {
       expect(
         component.getComponentKey(ConfigurationTestData.attributeDropDown)
@@ -792,6 +805,9 @@ describe('ConfiguratorGroupComponent', () => {
 
   describe('trackByFn', () => {
     const attribute = ConfigurationTestData.attributeDropDown;
+    beforeEach(() => {
+      createComponent();
+    });
     it('should return attribute itself, if performance optimization is not active', () => {
       productConfiguratorDeltaRenderingEnabled = false;
       expect(component.trackByFn(0, attribute)).toBe(attribute);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,14 @@ import {
   CMSTabParagraphContainer,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
@@ -34,6 +40,7 @@ const defaultTabConfig = {
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   /**
@@ -62,6 +69,13 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   tabConfig$: BehaviorSubject<TabConfig> = new BehaviorSubject<TabConfig>(
     defaultTabConfig
   );
+
+  /**
+   * Map with key as the component uid and value as the observable of the title parameters.
+   */
+  protected tabTitleParams$ = new BehaviorSubject<
+    Map<string, Observable<any> | null>
+  >(new Map());
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -144,27 +158,43 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }
 
     // Render the tabs after the templates have completed loading in the view.
-    this.tabs$ = combineLatest([this.components$, this.tabRefs.changes]).pipe(
-      map(([components, refs]) =>
-        components.map((component, index) => ({
-          headerKey: component.title,
-          content: refs.get(index),
-          id: index,
-        }))
-      )
+    this.tabs$ = combineLatest([
+      this.components$,
+      this.tabRefs.changes.pipe(startWith(this.tabRefs)),
+      this.tabTitleParams$,
+    ]).pipe(
+      switchMap(([components, refs, params]) => {
+        const paramObservables = components.map(
+          (component) => params.get(component.uid) || of(null)
+        );
+
+        return combineLatest(paramObservables).pipe(
+          map((resolvedParams) =>
+            components.map((component, index) => ({
+              headerKey: component.title,
+              content: refs.get(index),
+              id: index,
+              headerParams: { param: resolvedParams[index] },
+            }))
+          )
+        );
+      })
     );
   }
 
-  /**
-   * @deprecated This method will be removed.
-   */
-  tabCompLoaded(componentRef: any): void {
+  tabCompLoaded(componentRef: any, componentId?: string): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
+    if (componentId) {
+      const currentParams = this.tabTitleParams$.getValue();
+      // We need to check if the componentId is already in the map
+      // to avoid infinite loop(tabs$ emit -> component load -> tabTitleParams$ emit -> tabs$ emit)
+      if (!currentParams.has(componentId)) {
+        currentParams.set(componentId, componentRef.instance.tabTitleParam$);
+        this.tabTitleParams$.next(currentParams);
+      }
+    }
   }
 
-  /**
-   * @deprecated This method will be removed.
-   */
   protected getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
       this.tabTitleParams.push(comp['cmpRef']?.instance.tabTitleParam$ ?? null);

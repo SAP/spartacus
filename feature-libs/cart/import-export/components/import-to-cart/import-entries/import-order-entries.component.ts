@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'cx-import-order-entries',
   templateUrl: './import-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportOrderEntriesComponent {
   protected subscription = new Subscription();

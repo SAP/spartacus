@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ import { PopoverService } from './popover.service';
  */
 @Directive({
   selector: '[cxPopover]',
+  standalone: false,
 })
 export class PopoverDirective implements OnInit {
   /**
@@ -225,8 +226,16 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
+        const body = this.winRef.document.body;
+        const element = this.featureConfigService?.isEnabled(
+          'a11yPopoverHighContrast'
+        )
+          ? // we need to select first child element if exists,
+            // otherwise HCT theming in popover will not be picked up.
+            (body.firstElementChild ?? body)
+          : body;
         this.renderer.appendChild(
-          this.winRef.document.body,
+          element,
           this.popoverContainer.location.nativeElement
         );
       }

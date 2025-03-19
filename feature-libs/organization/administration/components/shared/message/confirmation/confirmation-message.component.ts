@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { ConfirmationMessageData } from './confirmation-message.model';
   selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

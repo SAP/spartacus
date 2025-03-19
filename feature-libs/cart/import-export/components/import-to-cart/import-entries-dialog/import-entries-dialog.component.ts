@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import { finalize, map } from 'rxjs/operators';
   selector: 'cx-import-entries-dialog',
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;
@@ -54,6 +55,7 @@ export class ImportEntriesDialogComponent {
 
   constructor(protected launchDialogService: LaunchDialogService) {
     useFeatureStyles('a11yExpandedFocusIndicator');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   isNewCartForm(context: AddOrderEntriesContext) {

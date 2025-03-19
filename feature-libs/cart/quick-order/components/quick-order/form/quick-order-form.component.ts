@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -16,7 +17,13 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Config, Product, WindowRef, useFeatureStyles } from '@spartacus/core';
+import {
+  Config,
+  FeatureConfigService,
+  Product,
+  useFeatureStyles,
+  WindowRef,
+} from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -33,6 +40,7 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
@@ -45,6 +53,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
 
+  private featureConfigService = inject(FeatureConfigService);
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
@@ -78,6 +87,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
+      if (
+        this.featureConfigService.isEnabled(
+          'a11yQuickOrderSearchBoxRefocusOnClose'
+        )
+      ) {
+        requestAnimationFrame(() => {
+          this.quickOrderInput.nativeElement.focus();
+        });
+      }
     }
 
     const product = this.form.get('product')?.value;
@@ -140,6 +158,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     // Focus on first index moving to last
     if (results.length) {
+      if (
+        this.featureConfigService.isEnabled(
+          'a11ySearchableDropdownFirstElementFocus'
+        )
+      ) {
+        this.winRef.document
+          .querySelector('main')
+          ?.classList.remove('mouse-focus');
+      }
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {

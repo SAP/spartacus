@@ -10,17 +10,12 @@ import { ConfiguratorAttributePriceChangeService } from '../../price-change/conf
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 const attributeCode = 1;
-const currentAttribute: Configurator.Attribute = {
-  name: 'attributeId',
-  attrCode: attributeCode,
-  uiType: Configurator.UiType.RADIOBUTTON,
-};
 
 const attributeIncomplete: Configurator.Attribute = { name: 'name' };
-let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+let configuratorUISettingsConfigTemplate: ConfiguratorUISettingsConfig = {
   productConfigurator: {
     descriptions: {
-      valueDescriptionLength: 80,
+      valueDescriptionLength: 100,
     },
   },
 };
@@ -44,8 +39,13 @@ class MockFeatureConfigService {
 describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
   let configuratorAttributePriceChangeService: ConfiguratorAttributePriceChangeService;
+  let currentAttribute: Configurator.Attribute;
+  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
 
   beforeEach(() => {
+    configuratorUISettingsConfig = structuredClone(
+      configuratorUISettingsConfigTemplate
+    );
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -76,6 +76,12 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       configuratorAttributePriceChangeService,
       'getChangedPrices'
     ).and.callThrough();
+
+    currentAttribute = {
+      name: 'attributeId',
+      attrCode: attributeCode,
+      uiType: Configurator.UiType.RADIOBUTTON,
+    };
   });
 
   it('should generate value key', () => {
@@ -173,6 +179,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     const value: Configurator.Value = { valueCode: 'val', images: [image] };
 
     it('should return first image if present', () => {
+      value.images = [image];
       expect(classUnderTest.getImage(value)).toBe(image);
     });
 
@@ -662,8 +669,8 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
 
     it('should return default value if descriptions setting is not provided', () => {
-      (configuratorUISettingsConfig.productConfigurator ??= {}).descriptions ??=
-        {};
+      (configuratorUISettingsConfig.productConfigurator ?? {}).descriptions =
+        undefined;
       expect(classUnderTest.getValueDescriptionLength()).toEqual(70);
     });
 

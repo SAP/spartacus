@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,10 @@ import {
 
 import {
   pickupInStoreTranslationChunksConfig,
-  pickupInStoreTranslations,
+  pickupInStoreTranslationsEn,
+  pickupInStoreTranslationsJa,
+  pickupInStoreTranslationsDe,
+  pickupInStoreTranslationsZh,
 } from '@spartacus/pickup-in-store/assets';
 
 @NgModule({
@@ -31,7 +34,12 @@ import {
     }),
     provideConfig({
       i18n: {
-        resources: pickupInStoreTranslations,
+        resources: {
+          en: pickupInStoreTranslationsEn,
+          ja: pickupInStoreTranslationsJa,
+          de: pickupInStoreTranslationsDe,
+          zh: pickupInStoreTranslationsZh,
+        },
         chunks: pickupInStoreTranslationChunksConfig,
         fallbackLang: 'en',
       },

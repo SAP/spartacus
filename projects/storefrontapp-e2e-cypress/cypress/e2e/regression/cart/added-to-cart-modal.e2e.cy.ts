@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { removeCartItem } from '../../../helpers/cart';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { interceptGet, interceptPost } from '../../../support/utils/intercept';
-import { removeCartItem } from '../../../helpers/cart';
 
 const productId = '266685';
 const productId2 = '2006139';
@@ -36,7 +36,9 @@ describe('Added to cart modal - Anonymous user', () => {
             .blur()
             .should('have.value', stock);
 
-          cy.get('button').contains('+').should('be.disabled');
+          cy.get('button')
+            .contains('+')
+            .should('have.attr', 'aria-disabled', 'true');
 
           // Value should change to minimum, '-' button disabled
           cy.get('input')
@@ -44,7 +46,9 @@ describe('Added to cart modal - Anonymous user', () => {
             .blur()
             .should('have.value', '1');
 
-          cy.get('button').contains('-').should('be.disabled');
+          cy.get('button')
+            .contains('-')
+            .should('have.attr', 'aria-disabled', 'true');
         });
       });
     });

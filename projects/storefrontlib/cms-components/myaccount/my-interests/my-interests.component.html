@@ -54,6 +54,7 @@
           }}
         </caption>
         <thead
+          *cxFeature="'!a11yTableHeaderReadout'"
           class="cx-product-interests-thead-mobile cx-product-interests-header"
         >
           <th role="columnheader">
@@ -68,6 +69,25 @@
           <th srole="columnheader">
             {{ 'myInterests.actions' | cxTranslate }}
           </th>
+        </thead>
+        <thead
+          *cxFeature="'a11yTableHeaderReadout'"
+          class="cx-product-interests-thead-mobile cx-product-interests-header"
+        >
+          <tr>
+            <th>
+              {{ 'myInterests.item' | cxTranslate }}
+            </th>
+            <th>
+              {{ 'myInterests.price' | cxTranslate }}
+            </th>
+            <th>
+              {{ 'myInterests.notifications' | cxTranslate }}
+            </th>
+            <th>
+              {{ 'myInterests.actions' | cxTranslate }}
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr

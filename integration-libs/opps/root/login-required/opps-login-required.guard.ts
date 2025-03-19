@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable, inject, isDevMode } from '@angular/core';
-import { RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { GuardResult, Router, RouterStateSnapshot } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
@@ -29,7 +29,7 @@ export class OppsLoginRequiredGuard {
   canActivate(
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const navigation = this.router.getCurrentNavigation();
     return this.authService.isUserLoggedIn().pipe(
       take(1),

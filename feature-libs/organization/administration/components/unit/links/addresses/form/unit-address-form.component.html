@@ -6,10 +6,12 @@
   "
 >
   <ng-container *ngIf="form" [formGroup]="form" main>
+    <cx-form-required-legend />
     <label formGroupName="country">
-      <span class="label-content required">{{
-        'orgUnitAddress.country' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUnitAddress.country' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         class="country-select"
@@ -55,20 +57,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUnitAddress.firstName' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUnitAddress.firstName' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
         type="text"
         placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-describedby]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgUnitAddress.firstName' | cxTranslate,
         }"
@@ -81,20 +87,24 @@
       ></cx-form-errors>
     </label>
     <label>
-      <span class="label-content required">{{
-        'orgUnitAddress.lastName' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUnitAddress.lastName' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-describedby]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
       ></cx-form-errors>
@@ -106,20 +116,24 @@
     </label>
 
     <label class="full-width">
-      <span class="label-content required">{{
-        'orgUnitAddress.address1' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUnitAddress.address1' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
         formControlName="line1"
+        [attr.aria-describedby]="'line1Error'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="line1Error"
+        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
         [control]="form.get('line1')"
       ></cx-form-errors>
@@ -155,20 +169,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUnitAddress.city' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUnitAddress.city' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
         formControlName="town"
+        [attr.aria-describedby]="'townError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="townError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
         [control]="form.get('town')"
       ></cx-form-errors>
@@ -180,20 +198,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUnitAddress.zipCode' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUnitAddress.zipCode' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
         formControlName="postalCode"
+        [attr.aria-describedby]="'postalCodeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="postalCodeError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
         [control]="form.get('postalCode')"
       ></cx-form-errors>
@@ -212,9 +234,10 @@
         formGroupName="region"
         *ngIf="regions.length > 0"
       >
-        <span class="label-content required">{{
-          'orgUnitAddress.state' | cxTranslate
-        }}</span>
+        <span class="label-content required"
+          >{{ 'orgUnitAddress.state' | cxTranslate }}
+          <cx-form-required-asterisks />
+        </span>
         <ng-select
           [inputAttrs]="{ required: 'true' }"
           class="region-select"

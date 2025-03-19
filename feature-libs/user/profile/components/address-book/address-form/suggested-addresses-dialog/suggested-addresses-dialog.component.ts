@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

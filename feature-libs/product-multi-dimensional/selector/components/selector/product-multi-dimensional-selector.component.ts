@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-product-multi-dimensional-selector',
   templateUrl: './product-multi-dimensional-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductMultiDimensionalSelectorComponent {
   protected multiDimensionalService: ProductMultiDimensionalSelectorService =

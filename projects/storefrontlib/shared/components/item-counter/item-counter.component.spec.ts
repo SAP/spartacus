@@ -6,8 +6,9 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockKeyboardFocusDirective } from '@spartacus/storefront';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { ItemCounterComponent } from './item-counter.component';
 
 const form = new UntypedFormGroup({
@@ -20,8 +21,12 @@ describe('ItemCounterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [ItemCounterComponent],
+      imports: [ReactiveFormsModule, I18nTestingModule],
+      declarations: [
+        ItemCounterComponent,
+        MockFeatureDirective,
+        MockKeyboardFocusDirective,
+      ],
     }).compileComponents();
   }));
 
@@ -154,7 +159,11 @@ describe('ItemCounterComponent', () => {
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
-      expect((<HTMLButtonElement>button[1].nativeElement).disabled).toBeFalsy();
+      expect(
+        (<HTMLButtonElement>button[1].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('false');
     });
 
     it('should disable increase button if max number is reached', () => {
@@ -165,8 +174,10 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[1].nativeElement).disabled
-      ).toBeTruthy();
+        (<HTMLButtonElement>button[1].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('true');
     });
   });
 
@@ -201,7 +212,11 @@ describe('ItemCounterComponent', () => {
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
       );
-      expect((<HTMLButtonElement>button[0].nativeElement).disabled).toBeFalsy();
+      expect(
+        (<HTMLButtonElement>button[0].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('false');
     });
 
     it('should disable decrease button if min number is reached', () => {
@@ -212,8 +227,10 @@ describe('ItemCounterComponent', () => {
         By.css('button')
       );
       expect(
-        (<HTMLButtonElement>button[0].nativeElement).disabled
-      ).toBeTruthy();
+        (<HTMLButtonElement>button[0].nativeElement).getAttribute(
+          'aria-disabled'
+        )
+      ).toBe('true');
     });
   });
 

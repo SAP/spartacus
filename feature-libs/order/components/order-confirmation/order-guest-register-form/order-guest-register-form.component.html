@@ -9,11 +9,13 @@
     </p>
 
     <form (ngSubmit)="submit()" [formGroup]="guestRegisterForm">
+      <cx-form-required-legend />
       <div class="form-group">
         <label>
-          <span class="label-content">{{
-            'register.password.label' | cxTranslate
-          }}</span>
+          <span class="label-content">
+            {{ 'register.password.label' | cxTranslate }}
+            <cx-form-required-asterisks />
+          </span>
           <input
             required="true"
             class="form-control"
@@ -22,12 +24,15 @@
             placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
             formControlName="password"
             [attr.aria-label]="'register.password.placeholder' | cxTranslate"
+            [attr.aria-describedby]="'passwordError'"
             cxPasswordVisibilitySwitch
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="passwordError"
+            aria-live="off"
             [translationParams]="{
               label: 'register.password.label' | cxTranslate,
             }"
@@ -43,9 +48,10 @@
 
       <div class="form-group">
         <label>
-          <span class="label-content">{{
-            'register.confirmPassword.label' | cxTranslate
-          }}</span>
+          <span class="label-content">
+            {{ 'register.confirmPassword.label' | cxTranslate }}
+            <cx-form-required-asterisks />
+          </span>
           <input
             required="true"
             class="form-control"
@@ -58,12 +64,15 @@
             [attr.aria-label]="
               'register.confirmPassword.placeholder' | cxTranslate
             "
+            [attr.aria-describedby]="'passwordconfError'"
             cxPasswordVisibilitySwitch
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="passwordconfError"
+            aria-live="off"
             [translationParams]="{
               label: 'register.confirmPassword.label' | cxTranslate,
             }"

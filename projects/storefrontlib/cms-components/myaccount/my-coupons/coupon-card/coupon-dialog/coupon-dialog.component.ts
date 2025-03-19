@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CouponDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

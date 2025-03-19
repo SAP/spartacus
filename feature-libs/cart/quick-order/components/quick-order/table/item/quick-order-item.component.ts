@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import { Subscription } from 'rxjs';
   selector: '[cx-quick-order-item], cx-quick-order-item',
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: UntypedFormControl;
@@ -51,6 +52,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     protected quickOrderService: QuickOrderFacade
   ) {
     useFeatureStyles('a11yCartItemsLinksStyles');
+    useFeatureStyles('a11yQTY2Quantity');
   }
 
   ngOnInit(): void {

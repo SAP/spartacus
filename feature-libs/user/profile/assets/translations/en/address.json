@@ -57,6 +57,7 @@
   "addressCard": {
     "default": "DEFAULT",
     "selected": "Selected",
+    "selectedAddress": "Selected Address",
     "setAsDefault": "Set as default",
     "shipTo": "Ship To",
     "billTo": "Bill To",

@@ -2,16 +2,24 @@
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
   class="cx-modal-container"
+  role="dialog"
+  aria-describedby="downloadInvoicesContent"
 >
-  <div class="cx-modal-content">
+  <div id="downloadInvoicesContent" class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
+      <div
+        id="downloadInvoicesTitle"
+        class="cx-dialog-title modal-title"
+        aria-labelledby="downloadInvoicesTitle"
+        tabindex="-1"
+      >
         {{ 'myAccountV2OrderDetails.downloadInvoices' | cxTranslate }}
       </div>
       <button
         type="button"
         class="close"
         attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+        aria-controls="downloadInvoicesContent"
         title="{{ 'addToCart.closeModal' | cxTranslate }}"
         (click)="close('Close download invoices dialog')"
       >
@@ -23,10 +31,15 @@
 
     <div class="cx-dialog-body modal-body">
       <cx-invoices-list> </cx-invoices-list>
-      <div id="noInvoice" *ngIf="invoiceCount === 0">
+      <div id="noInvoice" *ngIf="invoiceCount === 0" role="alert">
         {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
       </div>
-      <div *ngIf="invoiceCount === undefined" class="cx-spinner">
+      <div
+        *ngIf="invoiceCount === undefined"
+        class="cx-spinner"
+        aria-live="polite"
+        role="alert"
+      >
         <cx-spinner></cx-spinner>
       </div>
     </div>

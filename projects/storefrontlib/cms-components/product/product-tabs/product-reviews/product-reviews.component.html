@@ -78,15 +78,13 @@
 
   <ng-template #writeReview>
     <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
           <span class="label-content"
             >{{ 'productReview.reviewTitle' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -94,11 +92,14 @@
             type="text"
             class="form-control"
             formControlName="title"
+            [attr.aria-describedby]="'titleError'"
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="titleError"
+            aria-live="off"
             [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate,
             }"
@@ -115,18 +116,21 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.writeYourComments' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <textarea
             required="true"
             class="form-control"
             rows="3"
             formControlName="comment"
+            [attr.aria-describedby]="'commentError'"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="commentError"
+            aria-live="off"
             [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate,
             }"
@@ -143,13 +147,14 @@
         <label>
           <span class="label-content"
             >{{ 'productReview.rating' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
             type="number"
             formControlName="rating"
             class="rating-input"
+            [attr.aria-describedby]="'ratingError'"
           />
           <cx-star-rating
             tabindex="0"
@@ -161,6 +166,8 @@
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="ratingError"
+            aria-live="off"
             [translationParams]="{
               label: 'productReview.rating' | cxTranslate,
             }"
@@ -204,12 +211,3 @@
     </form>
   </ng-template>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

@@ -28,6 +28,7 @@ class MockUserIdService implements Partial<UserIdService> {
 
 class MockOrderConnector implements Partial<OrderConnector> {
   placeOrder = createSpy().and.returnValue(of(mockOrder));
+  placePaymentAuthorizedOrder = createSpy().and.returnValue(of(mockOrder));
 }
 
 class MockEventService implements Partial<EventService> {
@@ -86,6 +87,32 @@ describe(`OrderService`, () => {
           cartId: mockCartId,
           cartCode: mockCartId,
           order: mockOrder,
+        },
+        OrderPlacedEvent
+      );
+    });
+  });
+
+  describe(`placePaymentAuthorizedOrder`, () => {
+    it(`should call orderConnector.placePaymentAuthorizedOrder`, () => {
+      service.placePaymentAuthorizedOrder(termsChecked);
+
+      expect(connector.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        termsChecked
+      );
+    });
+
+    it(`should dispatch OrderPlacedEvent`, () => {
+      service.placePaymentAuthorizedOrder(termsChecked);
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          order: mockOrder,
+          userId: mockUserId,
+          cartId: mockCartId,
+          cartCode: mockCartId,
         },
         OrderPlacedEvent
       );

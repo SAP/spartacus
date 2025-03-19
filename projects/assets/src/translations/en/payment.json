@@ -14,6 +14,7 @@
     "saveAsDefault": "Save as default",
     "setAsDefault": "Set as default payment method",
     "billingAddress": "Billing address",
+    "editBillingAddress": "Edit billing Address",
     "sameAsDeliveryAddress": "Same as delivery address",
     "billingAddressSameAsShipping": "Billing address is the same as delivery address",
     "selectOne": "Select One...",
@@ -40,7 +41,16 @@
     "defaultPaymentLabel": "Default payment method",
     "additionalPaymentLabel": "Additional payment method {{ number }}",
     "selected": "Selected",
-    "deletePaymentSuccess": "Payment method deleted successfully"
+    "selectedPayment": "Selected Payment",
+    "deletePaymentSuccess": "Payment method deleted successfully",
+    "visa": "Visa Card",
+    "master": "Mastercard Card",
+    "masterEuro": "Mastercard Eurocard Card",
+    "dinersClub": "Diners Club Card",
+    "switch": "Switch Card",
+    "maestro": "Maestro Card",
+    "amex": "American Express Card",
+    "credit": "Credit Card"
   },
   "paymentTypes": {
     "title": "Payment method",

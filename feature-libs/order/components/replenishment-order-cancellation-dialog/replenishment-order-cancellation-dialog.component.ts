@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import { startWith } from 'rxjs/operators';
   selector: 'cx-replenishment-order-cancellation-dialog',
   templateUrl: './replenishment-order-cancellation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy

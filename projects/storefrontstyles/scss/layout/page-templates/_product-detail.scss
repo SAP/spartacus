@@ -17,9 +17,17 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(5, auto) 1fr;
 
+        @include forFeature('a11yPdpGridArrangement') {
+          grid-template-rows: repeat(6, auto) 1fr;
+        }
+
         cx-product-images {
           grid-column: 1;
           grid-row: 1 / span 6;
+
+          @include forFeature('a11yPdpGridArrangement') {
+            grid-row: 1 / span 7;
+          }
         }
 
         cx-product-intro {
@@ -42,6 +50,10 @@
           padding-inline-end: 20px;
           padding-bottom: 0px;
           padding-inline-start: 20px;
+
+          @include forFeature('a11yPdpGridArrangement') {
+            grid-row: unset;
+          }
         }
 
         cx-stock-notification {

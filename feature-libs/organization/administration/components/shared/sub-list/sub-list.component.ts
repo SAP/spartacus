@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { MessageService } from '../message/services/message.service';
   templateUrl: './sub-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';

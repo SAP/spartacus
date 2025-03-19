@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "未來可用度",
+    "quantity": "數量",
+    "noFutureStocks": "此產品沒有未來可用度資訊。"
+  }
+}

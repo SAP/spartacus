@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import { debounceTime } from 'rxjs/operators';
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
+  standalone: false,
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: UntypedFormGroup;

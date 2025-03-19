@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsBannerComponent,
   CmsService,
@@ -12,6 +11,7 @@ import {
   SemanticPathService,
   UrlCommand,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
@@ -68,9 +68,11 @@ class MockSemanticPathService {
 @Component({
   selector: 'cx-media',
   template: '',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
+  @Input() elementType: 'img' | 'picture' = 'img';
 }
 
 describe('BannerComponent', () => {
@@ -80,8 +82,13 @@ describe('BannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FeaturesConfigModule],
-      declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
+      imports: [FeaturesConfigModule],
+      declarations: [
+        BannerComponent,
+        MockMediaComponent,
+        GenericLinkComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: CmsComponentData,

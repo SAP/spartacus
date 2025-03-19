@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,22 +9,25 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   HostListener,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
   FeatureConfigService,
   PageType,
   RoutingService,
+  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -56,8 +59,11 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  private elementRef = inject(ElementRef);
+  private renderer = inject(Renderer2);
   readonly searchBoxOutlets = SearchBoxOutlets;
   readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
@@ -68,11 +74,31 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input('queryText')
   set queryText(value: string) {
     if (value) {
+      this.updateChosenWord(value);
       this.search(value);
     }
   }
 
-  @ViewChild('searchInput') searchInput: any;
+  @HostBinding('class.search-box-v2') get searchBoxV2() {
+    return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
+  }
+
+  get hasSearchBoxV2(): boolean {
+    const hostElement = this.elementRef.nativeElement;
+    return hostElement.classList.contains('search-box-v2');
+  }
+
+  /**
+   * Listener for clickout out of searchInput and searchPanel
+   * */
+  @HostListener('document:click', ['$event'])
+  clickout(event: UIEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.softClose();
+    }
+  }
+
+  @ViewChild('searchInput') searchInputEl: any;
 
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
 
@@ -81,11 +107,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (
       (this.featureConfigService?.isEnabled('a11ySearchBoxFocusOnEscape') &&
         this.winRef.document.activeElement !==
-          this.searchInput.nativeElement) ||
+          this.searchInputEl?.nativeElement) ||
       this.searchBoxActive
     ) {
       setTimeout(() => {
-        this.searchInput.nativeElement.focus();
+        this.searchInputEl.nativeElement.focus();
       });
     }
   }
@@ -111,9 +137,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-6929) - Remove getter next major release.
   /** Temporary getter, not ment for public use */
   get a11ySearchBoxMobileFocusEnabled(): boolean {
-    return (
-      this.featureConfigService?.isEnabled('a11ySearchBoxMobileFocus') || false
-    );
+    return this.isEnabledFeature('a11ySearchBoxMobileFocus') || false;
   }
 
   // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
@@ -131,7 +155,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService
-  ) {}
+  ) {
+    useFeatureStyles('a11ySearchboxLabel');
+    useFeatureStyles('a11yKeyboardFocusInSearchBox');
+  }
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
@@ -164,6 +191,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
+  items$: Observable<any> = this.results$.pipe(
+    map((result) => result.products?.map((prod) => of(prod)))
+  );
+
   ngOnInit(): void {
     const routeStateSubscription = this.routingService
       .getRouterState()
@@ -175,7 +206,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
             data.state.context?.type === PageType.CONTENT_PAGE
           )
         ) {
-          this.chosenWord = '';
+          this.updateChosenWord('');
         }
       });
 
@@ -213,6 +244,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   search(query: string): void {
     this.searchBoxComponentService.search(query, this.config);
+
+    this.checkOuterResults();
     // force the searchBox to open
     this.open();
   }
@@ -229,7 +262,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           true
         );
         this.searchBoxActive = true;
-        this.searchInput?.nativeElement.focus();
+        this.searchInputEl?.nativeElement.focus();
       }
     } else {
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
@@ -267,7 +300,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
   }
 
+  softClose(): void {
+    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
+    this.searchBoxActive = false;
+  }
+
   protected blurSearchBox(event: UIEvent): void {
+    this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
     // TODO: (CXSPA-6929) - Remove feature flag next major release
@@ -290,6 +329,19 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected checkOuterResults() {
+    const recentSearches = this.elementRef.nativeElement.querySelector(
+      'cx-recent-searches .recent-searches'
+    );
+    const trendingSearches = this.elementRef.nativeElement.querySelector(
+      'cx-trending-searches .trending-searches'
+    );
+    const results = this.elementRef.nativeElement.querySelector('.results');
+    if (recentSearches || trendingSearches) {
+      this.renderer.addClass(results, 'has-outer-results');
+    }
+  }
+
   /**
    * Especially in mobile we do not want the search icon
    * to focus the input again when it's already open.
@@ -302,28 +354,81 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Return result list as HTMLElement array
-  private getResultElements(): HTMLElement[] {
+  protected getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products > li a, .suggestions > li a, .recent-searches > li a'
+        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a,.trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
       )
     );
   }
 
+  // Return group list as HTMLElement array
+  private getGroupElements(): HTMLElement[][] {
+    const groups: HTMLElement[][] = [];
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll(
+          '.products ul:not(.hidden) > li a'
+        )
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll('.suggestions ul  > li a')
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll(
+          '.trending-searches-container.d-block .trending-searches ul > li a'
+        )
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll('.recent-searches ul > li a')
+      )
+    );
+
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll(
+          '.carousel-panel .item.active > a, .carousel-panel > button:not([disabled])'
+        )
+      )
+    );
+    groups.push(
+      Array.from(
+        this.winRef.document.querySelectorAll('.search-panel-close-btn')
+      )
+    );
+    return groups.filter((group) => group.length);
+  }
   // Return focused element as HTMLElement
-  private getFocusedElement(): HTMLElement {
+  protected getFocusedElement(): HTMLElement {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
   updateChosenWord(chosenWord: string): void {
     this.chosenWord = chosenWord;
+    if (this.searchInputEl) {
+      this.searchInputEl.nativeElement.value = this.chosenWord;
+    }
   }
 
-  private getFocusedIndex(): number {
+  protected getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
   }
 
-  private propagateEvent(event: KeyboardEvent) {
+  protected getFocusedGroupIndex(): number {
+    return (
+      this.getGroupElements().findIndex(
+        (group) => group.indexOf(this.getFocusedElement()) !== -1
+      ) ?? 0
+    );
+  }
+
+  protected propagateEvent(event: KeyboardEvent) {
     if (event.code) {
       switch (event.code) {
         case 'Escape':
@@ -335,6 +440,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           return;
         case 'ArrowDown':
           this.focusNextChild(event);
+          return;
+        case 'ArrowLeft':
+          this.focusPreviousGroup(event);
+          return;
+        case 'ArrowRight':
+          this.focusNextGroup(event);
           return;
         default:
           return;
@@ -371,11 +482,122 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     ];
     // Focus on first index moving to last
     if (results.length) {
+      if (
+        this.featureConfigService?.isEnabled(
+          'a11ySearchableDropdownFirstElementFocus'
+        )
+      ) {
+        this.winRef.document
+          .querySelector('header')
+          ?.classList.remove('mouse-focus');
+      }
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {
         results[focusedIndex + 1].focus();
       }
+    }
+  }
+
+  // Focus on previous item in results list
+  focusPreviousGroup(event: UIEvent) {
+    event.preventDefault(); // Prevent default key scrolling behavior
+
+    const results = this.getGroupElements(); // Get all group elements
+    const focusedGroupIndex = this.getFocusedGroupIndex(); // Get the currently focused group index
+
+    // Check if there are any groups and if the focused index is valid
+    if (
+      !results.length ||
+      focusedGroupIndex < 0 ||
+      focusedGroupIndex >= results.length
+    ) {
+      return; // Exit if no groups or invalid focused index
+    }
+
+    // Check if the current group contains any elements
+    const currentGroup = results[focusedGroupIndex];
+    if (currentGroup.length === 0) {
+      return; // If the current group is empty, exit the function
+    }
+
+    // Set focus on the appropriate group
+    const previousGroupIndex =
+      focusedGroupIndex > 0 ? focusedGroupIndex - 1 : 0;
+    const previousGroup = results[previousGroupIndex];
+
+    // Check if the previous group contains any elements
+    if (previousGroup.length > 0) {
+      previousGroup[0].focus(); // Focus on the first element of the previous group
+    }
+  }
+
+  // Focus on next item in results list
+  focusNextGroup(event: UIEvent) {
+    this.open(); // Ensure the dropdown or UI is open before navigating
+    event.preventDefault(); // Prevent default key scrolling behavior
+
+    const results = this.getGroupElements(); // Get all group elements
+    const focusedGroupIndex = this.getFocusedGroupIndex(); // Get the current focused group index
+
+    // Check if there are any groups and if the focused index is valid
+    if (
+      !results.length ||
+      focusedGroupIndex < 0 ||
+      focusedGroupIndex >= results.length
+    ) {
+      return; // Exit if no groups or invalid focused index
+    }
+
+    // Find the next group that contains elements
+    let nextGroupIndex = focusedGroupIndex + 1;
+
+    // Loop forward through groups until a non-empty group is found
+    while (
+      nextGroupIndex < results.length &&
+      results[nextGroupIndex].length === 0
+    ) {
+      nextGroupIndex++; // Keep moving to the next group if current one is empty
+    }
+
+    // If no next group with elements was found, wrap around to the first group
+    if (nextGroupIndex >= results.length) {
+      nextGroupIndex = 0; // Move focus to the first group
+      if (results[nextGroupIndex].length === 0) {
+        return; // Exit if the first group is also empty
+      }
+    }
+
+    // Set focus on the first element of the next (or first) non-empty group
+    results[nextGroupIndex][0].focus();
+  }
+
+  carouselEventPropagator(event: KeyboardEvent | null) {
+    if (!event || !event?.code) {
+      return;
+    }
+    switch (event.code) {
+      case 'ArrowRight':
+        this.focusNextChild(event);
+        return;
+      case 'ArrowLeft': {
+        this.getGroupElements().forEach((group) => {
+          if (group.indexOf(this.getFocusedElement()) !== -1) {
+            if (group.indexOf(this.getFocusedElement()) === 0) {
+              this.focusPreviousGroup(event);
+            } else {
+              this.focusPreviousChild(event);
+            }
+          }
+        });
+
+        return;
+      }
+      case 'ArrowUp':
+        this.focusNextGroup(event);
+        return;
+      default:
+        return;
     }
   }
 
@@ -417,6 +639,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       el.focus();
       this.ignoreCloseEvent = false;
     });
+  }
+
+  isEnabledFeature(feature: string) {
+    return this.featureConfigService?.isEnabled(feature);
   }
 
   ngOnDestroy(): void {

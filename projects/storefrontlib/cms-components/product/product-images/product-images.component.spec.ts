@@ -55,6 +55,7 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-media',
   template: '',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -69,6 +70,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
+  standalone: false,
 })
 class MockCarouselComponent {
   @Input() items;

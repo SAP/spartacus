@@ -1,12 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
-import { CdsConfig, cdsConfigValidator, DEFAULT_CDS_CONFIG } from './config';
+import {
+  provideConfigValidator,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import {
+  CdsConfig,
+  cdsConfigValidator,
+  defaultCdsConfigFactory,
+} from './config';
 import { MerchandisingModule } from './merchandising';
 import {
   ProfileTagModule,
@@ -15,7 +23,6 @@ import {
 } from './profiletag';
 import { RecentSearchesModule } from './recent-searches/recent-searches.module';
 import { TrendingSearchesModule } from './trending-searches/trending-searches.module';
-
 @NgModule({
   imports: [
     ProfileTagModule,
@@ -30,7 +37,7 @@ export class CdsModule {
     return {
       ngModule: CdsModule,
       providers: [
-        provideDefaultConfig(DEFAULT_CDS_CONFIG),
+        provideDefaultConfigFactory(defaultCdsConfigFactory),
         provideDefaultConfig(config),
         provideConfigValidator(cdsConfigValidator),
         ProfileTagPushEventsService,

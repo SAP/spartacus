@@ -30,6 +30,11 @@
   padding: 1rem 0.938rem;
   box-shadow: 0px 1px 11px 2px var(--cx-popover-box-shadow-color);
 
+  // limiting the width to a portion of the viewport ensures there is no overflow on sub 375px devices
+  @include media-breakpoint-down('xs') {
+    max-width: 70vw;
+  }
+
   @include forFeature('a11yImproveContrast') {
     @include type('7');
   }
@@ -202,6 +207,16 @@
       margin-top: -5px;
       margin-inline-end: -5px;
       font-size: 1rem;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    box-shadow: none;
+    .popover-body > .cx-close-row {
+      .close {
+        color: var(--cx-color-text);
+      }
     }
   }
 }

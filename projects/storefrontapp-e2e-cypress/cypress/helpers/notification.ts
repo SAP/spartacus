@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -127,7 +127,7 @@ export function updateEmail(): String {
 }
 
 export function updateEmailV2(): String {
-  const password = 'Password123.';
+  const password = 'Pas!sword123.';
   const newUid = generateMail(randomString(), true);
 
   navigateToUpdateEmailPage();
@@ -283,7 +283,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.get(
-      '.cx-product-interests-product-image-link > .is-initialized > picture'
+      '.cx-product-interests-product-image-link > .is-initialized > img'
     ).click();
   });
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,7 @@ export const CART_TYPE_KEY: CartTypeKey = {
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
+  standalone: false,
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;

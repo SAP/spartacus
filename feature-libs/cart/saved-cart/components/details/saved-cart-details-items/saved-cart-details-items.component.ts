@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   selector: 'cx-saved-cart-details-items',
   templateUrl: './saved-cart-details-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

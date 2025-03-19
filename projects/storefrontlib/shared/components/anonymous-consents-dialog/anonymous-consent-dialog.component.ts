@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   HostListener,
   inject,
   OnDestroy,
@@ -24,7 +23,7 @@ import {
   GlobalMessageType,
   useFeatureStyles,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/index';
@@ -33,11 +32,9 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
+  standalone: false,
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
-  @HostBinding('attr.role') role = 'dialog';
-  @HostBinding('attr.aria-modal') modal = true;
-
   private subscriptions = new Subscription();
   private featureConfigService = inject(FeatureConfigService);
 
@@ -59,6 +56,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   @Optional() globalMessageService = inject(GlobalMessageService, {
     optional: true,
   });
+  globalMessageType = GlobalMessageType;
+  message$ = new Subject<{ type: GlobalMessageType; key: string } | null>();
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -83,6 +82,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     }
     useFeatureStyles('a11yUseButtonsForBtnLinks');
     useFeatureStyles('a11yExpandedFocusIndicator');
+    useFeatureStyles('a11yAnonymousConsentMessageInDialog');
   }
 
   ngOnInit(): void {
@@ -121,7 +121,13 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe(() => this.onConsentWithdrawnSuccess())
     );
-    this.close('rejectAll');
+    if (
+      !this.featureConfigService.isEnabled(
+        'a11yAnonymousConsentMessageInDialog'
+      )
+    ) {
+      this.close('rejectAll');
+    }
   }
 
   allowAll(): void {
@@ -151,7 +157,13 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe(() => this.onConsentGivenSuccess())
     );
-    this.close('allowAll');
+    if (
+      !this.featureConfigService.isEnabled(
+        'a11yAnonymousConsentMessageInDialog'
+      )
+    ) {
+      this.close('allowAll');
+    }
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
@@ -194,6 +206,13 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
 
   protected onConsentGivenSuccess(): void {
     if (
+      this.featureConfigService.isEnabled('a11yAnonymousConsentMessageInDialog')
+    ) {
+      this.message$.next({
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+        key: 'consentManagementForm.message.success.given',
+      });
+    } else if (
       this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
     ) {
       this.globalMessageService?.add(
@@ -205,6 +224,13 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
 
   protected onConsentWithdrawnSuccess(): void {
     if (
+      this.featureConfigService.isEnabled('a11yAnonymousConsentMessageInDialog')
+    ) {
+      this.message$.next({
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+        key: 'consentManagementForm.message.success.withdrawn',
+      });
+    } else if (
       this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
     ) {
       this.globalMessageService?.add(
@@ -212,6 +238,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
+  }
+
+  closeMessage(): void {
+    this.message$.next(null);
   }
 
   ngOnDestroy(): void {

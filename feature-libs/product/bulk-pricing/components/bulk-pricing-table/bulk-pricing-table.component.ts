@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
+  standalone: false,
 })
 export class BulkPricingTableComponent implements OnInit {
   protected readonly PRODUCT_KEY = 'productCode';

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import { UserItemService } from '../services/user-item.service';
       useExisting: CurrentUserService,
     },
   ],
+  standalone: false,
 })
 export class UserFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

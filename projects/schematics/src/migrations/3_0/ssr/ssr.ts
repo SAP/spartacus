@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,7 @@ import {
 } from '../../../shared/utils/lib-utils';
 import { createImportChange } from '../../../shared/utils/module-file-utils';
 import {
-  checkIfSSRIsUsed,
+  isUsingLegacyServerBuilder as isOldSsrUsed,
   getSpartacusSchematicsVersion,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
@@ -43,7 +43,7 @@ export function migrate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
 
-    return checkIfSSRIsUsed(tree)
+    return isOldSsrUsed(tree)
       ? chain([
           updateImport(),
           addSetupPackageJsonDependencies(packageJson),

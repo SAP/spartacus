@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import { Product } from '@spartacus/core';
   selector: 'cx-product-images',
   templateUrl: './product-image-zoom-product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);

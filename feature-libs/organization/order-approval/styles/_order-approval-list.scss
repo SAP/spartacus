@@ -109,6 +109,24 @@ cx-order-approval-list {
     padding: 0;
     margin-bottom: 0;
 
+    @include forFeature('a11yShowLabelOfSelect') {
+      .cx-order-approval-form-group-label {
+        padding: 0;
+        margin-bottom: 0;
+        align-items: center;
+        display: flex;
+
+        span {
+          margin-inline-end: 0.5rem;
+          flex: none;
+        }
+
+        cx-sorting {
+          width: 100%;
+        }
+      }
+    }
+
     @include media-breakpoint-down(sm) {
       padding: 1.25rem;
     }

@@ -15,6 +15,7 @@ import { Card, CardComponent, CardLinkAction } from './card.component';
 
 @Directive({
   selector: '[cxAtMessage]',
+  standalone: false,
 })
 export class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -23,6 +24,7 @@ export class MockAtMessageDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -31,6 +33,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-truncate-text-popover',
   template: '',
+  standalone: false,
 })
 class MockCxTruncateTextPopoverComponent {
   @Input() content: string;
@@ -41,9 +44,10 @@ class MockCxTruncateTextPopoverComponent {
 function getTruncatedPopover(elem: DebugElement) {
   return elem.queryAll(By.css('cx-truncate-text-popover'));
 }
-let isActiveStoreFrontLibCardParagraphTruncated: boolean;
+
 @Directive({
   selector: '[cxFeature]',
+  standalone: false,
 })
 class MockFeatureDirective {
   constructor(
@@ -52,10 +56,8 @@ class MockFeatureDirective {
   ) {}
 
   @Input() set cxFeature(feature: string) {
-    const featureDesiredAndPresent =
-      isActiveStoreFrontLibCardParagraphTruncated && !feature.startsWith('!');
-    const featureNotDesiredAndNotPresent =
-      !isActiveStoreFrontLibCardParagraphTruncated && feature.startsWith('!');
+    const featureDesiredAndPresent = !feature.startsWith('!');
+    const featureNotDesiredAndNotPresent = feature.startsWith('!');
     if (featureDesiredAndPresent || featureNotDesiredAndNotPresent) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
@@ -94,7 +96,6 @@ describe('CardComponent', () => {
     spyOn(component.setDefaultCard, 'emit').and.callThrough();
     spyOn(component.sendCard, 'emit').and.callThrough();
     spyOn(component.editCard, 'emit').and.callThrough();
-    isActiveStoreFrontLibCardParagraphTruncated = false;
   });
 
   it('should create', () => {
@@ -221,13 +222,7 @@ describe('CardComponent', () => {
     checkParagraph(component, fixture, el);
   });
 
-  it('should render passed paragraph in case isActiveStoreFrontLibCardParagraphTruncated is active', () => {
-    isActiveStoreFrontLibCardParagraphTruncated = true;
-    checkParagraph(component, fixture, el);
-  });
-
   it('should render passed paragraph with text for truncated text popover for a long text', () => {
-    isActiveStoreFrontLibCardParagraphTruncated = true;
     const mockCard: Card = {
       paragraphs: [
         { title: 'paragraph1', text: ['text1'] },
@@ -400,6 +395,74 @@ describe('CardComponent', () => {
     const editActionButton = getLinkAction(el);
     expect(editActionButton.textContent).toContain(link.name);
     expect(editActionButton.href).toContain(link.link);
+  });
+
+  it('should set aria-labelledby correctly based on index', () => {
+    const mockCard: Card = { header: 'Card Header' };
+    component.content = mockCard;
+    component.index = 1;
+    fixture.detectChanges();
+
+    const cardElement = el.query(By.css('.cx-card')).nativeNode;
+    expect(cardElement.getAttribute('aria-labelledby')).toBe(
+      'content-header-1'
+    );
+  });
+
+  it('should set aria-labelledby correctly when index is negative', () => {
+    const mockCard: Card = { header: 'Card Header' };
+    component.content = mockCard;
+    component.index = -1;
+    fixture.detectChanges();
+
+    const cardElement = el.query(By.css('.cx-card')).nativeNode;
+    expect(cardElement.getAttribute('aria-labelledby')).toBe('content-header');
+  });
+
+  it('should set aria-describedby correctly when content.title is present', () => {
+    const mockCard: Card = { title: 'Card Title' };
+    component.content = mockCard;
+    component.index = 1;
+    fixture.detectChanges();
+
+    const cardElement = el.query(By.css('.cx-card')).nativeNode;
+    expect(cardElement.getAttribute('aria-describedby')).toBe(
+      'content-title-1 cx-card-container-1'
+    );
+  });
+
+  it('should set aria-describedby correctly when content.title is not present', () => {
+    component.content = {};
+    component.index = 1;
+    fixture.detectChanges();
+
+    const cardElement = el.query(By.css('.cx-card')).nativeNode;
+    expect(cardElement.getAttribute('aria-describedby')).toBe(
+      'cx-card-container-1'
+    );
+  });
+
+  it('should set aria-describedby correctly when content.title is present and index is negative', () => {
+    const mockCard: Card = { title: 'Card Title' };
+    component.content = mockCard;
+    component.index = -1;
+    fixture.detectChanges();
+
+    const cardElement = el.query(By.css('.cx-card')).nativeNode;
+    expect(cardElement.getAttribute('aria-describedby')).toBe(
+      'content-title cx-card-container'
+    );
+  });
+
+  it('should set aria-describedby correctly when content.title is not present and index is negative', () => {
+    component.content = {};
+    component.index = -1;
+    fixture.detectChanges();
+
+    const cardElement = el.query(By.css('.cx-card')).nativeNode;
+    expect(cardElement.getAttribute('aria-describedby')).toBe(
+      'cx-card-container'
+    );
   });
 });
 

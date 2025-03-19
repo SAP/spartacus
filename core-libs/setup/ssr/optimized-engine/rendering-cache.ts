@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,10 @@ export class RenderingCache {
     if (this.options?.cacheSize) {
       this.renders.delete(key);
       if (this.renders.size >= this.options.cacheSize) {
-        this.renders.delete(this.renders.keys().next().value);
+        const oldestKey = this.renders.keys().next().value;
+        if (oldestKey !== undefined) {
+          this.renders.delete(oldestKey);
+        }
       }
     }
     // cache only if shouldCacheRenderingResult return true

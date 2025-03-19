@@ -52,7 +52,10 @@
         [cxOutlet]="component.flexType"
         #tabRef
       >
-        <ng-container [cxComponentWrapper]="component"></ng-container>
+        <ng-container
+          [cxComponentWrapper]="component"
+          (cxComponentRef)="tabCompLoaded($event, component.uid)"
+        ></ng-container>
       </ng-template>
     </cx-tab>
   </ng-container>

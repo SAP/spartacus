@@ -4,6 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "Zoomed in image",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
     "close": "Close"
   }
 }

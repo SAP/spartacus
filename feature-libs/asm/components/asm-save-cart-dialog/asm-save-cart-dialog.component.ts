@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, useFeatureStyles } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export enum SAVE_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-save-cart-dialog',
   templateUrl: './asm-save-cart-dialog.component.html',
+  standalone: false,
 })
 export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
@@ -38,7 +39,9 @@ export class AsmSaveCartDialogComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected savedCartFacade: SavedCartFacade
-  ) {}
+  ) {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
 
   ngOnInit(): void {
     this.launchDialogService.data$.pipe(take(1)).subscribe((data: Cart) => {

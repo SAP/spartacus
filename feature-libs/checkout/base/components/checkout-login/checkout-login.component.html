@@ -1,9 +1,11 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="checkoutLoginForm">
+  <cx-form-required-legend />
   <div class="form-group">
     <label>
-      <span class="label-content">{{
-        'checkoutLogin.emailAddress.label' | cxTranslate
-      }}</span>
+      <span class="label-content">
+        {{ 'checkoutLogin.emailAddress.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="email"
@@ -13,11 +15,14 @@
         placeholder="{{
           'checkoutLogin.emailAddress.placeholder' | cxTranslate
         }}"
+        [attr.aria-describedby]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
+        aria-live="off"
         [translationParams]="{
           label: 'checkoutLogin.emailAddress.label' | cxTranslate,
         }"
@@ -33,9 +38,10 @@
 
   <div class="form-group">
     <label>
-      <span class="label-content">{{
-        'checkoutLogin.confirmEmail.label' | cxTranslate
-      }}</span>
+      <span class="label-content">
+        {{ 'checkoutLogin.confirmEmail.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="email"
@@ -45,11 +51,14 @@
         placeholder="{{
           'checkoutLogin.confirmEmail.placeholder' | cxTranslate
         }}"
+        [attr.aria-describedby]="'emailConfirmationError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailConfirmationError"
+        aria-live="off"
         [translationParams]="{
           label: 'checkoutLogin.confirmEmail.label' | cxTranslate,
         }"

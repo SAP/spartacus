@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,10 @@ export interface CheckoutOccEndpoints {
    *Endpoint for get all delivery modes for the current store and delivery address.
    */
   deliveryModes?: string | OccEndpoint;
+  /**
+   * Endpoint for set billing address to cart
+   */
+  setBillingAddress?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

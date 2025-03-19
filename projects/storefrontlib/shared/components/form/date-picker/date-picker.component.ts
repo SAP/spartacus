@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,8 +21,7 @@ import { DatePickerService } from './date-picker.service';
 @Component({
   selector: 'cx-date-picker',
   templateUrl: './date-picker.component.html',
-  // we cannot use onPush change detection as the form state isn't updated without explicit
-  // change detection, see https://github.com/angular/angular/issues/10816
+  standalone: false,
 })
 export class DatePickerComponent {
   constructor(protected service: DatePickerService) {}

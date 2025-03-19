@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-ticketing-create',
   templateUrl: './customer-ticketing-create.component.html',
+  standalone: false,
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
   protected subscription = new Subscription();

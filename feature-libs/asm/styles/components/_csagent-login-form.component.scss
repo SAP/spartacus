@@ -39,6 +39,9 @@
     .label-content {
       color: #556b82;
       max-width: 110px;
+      @include forFeature('a11yTextSpacingAdjustments') {
+        max-width: unset;
+      }
       margin-inline-end: 6px;
       white-space: nowrap;
       @media (min-width: 575px) {

@@ -1,11 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
+import {
+  ImageGroup,
+  Product,
+  isNotNullable,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
@@ -14,6 +19,7 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImagesComponent {
   protected mainMediaContainer = new BehaviorSubject<any>(null);
@@ -37,7 +43,9 @@ export class ProductImagesComponent {
     this.mainMediaContainer,
   ]).pipe(map(([, container]) => container));
 
-  constructor(protected currentProductService: CurrentProductService) {}
+  constructor(protected currentProductService: CurrentProductService) {
+    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
+  }
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);

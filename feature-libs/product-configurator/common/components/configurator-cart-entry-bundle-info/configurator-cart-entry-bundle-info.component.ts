@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  standalone: false,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(

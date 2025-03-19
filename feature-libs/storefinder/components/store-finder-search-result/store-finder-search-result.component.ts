@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import {
 @Component({
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
+  standalone: false,
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;

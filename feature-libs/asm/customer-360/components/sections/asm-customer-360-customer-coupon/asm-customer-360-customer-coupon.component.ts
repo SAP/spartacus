@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-customer-coupon',
   templateUrl: './asm-customer-360-customer-coupon.component.html',
+  standalone: false,
 })
 export class AsmCustomer360CustomerCouponComponent
   implements OnInit, OnDestroy

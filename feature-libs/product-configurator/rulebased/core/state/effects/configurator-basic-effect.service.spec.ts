@@ -37,7 +37,7 @@ const groupWithSubGroup: Configurator.Group = {
   ],
   subGroups: [group],
 };
-const productConfiguration: Configurator.Configuration = {
+const productConfigurationBase: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createInitialOwner()
@@ -48,6 +48,7 @@ const productConfiguration: Configurator.Configuration = {
   priceSummary: {},
   priceSupplements: [],
 };
+let productConfiguration: Configurator.Configuration;
 
 const groupListWithConflicts: Configurator.Group[] = [
   {
@@ -82,7 +83,7 @@ const groupListWithConflicts: Configurator.Group[] = [
   {
     id: GROUP_ID_4,
     attributes: [],
-    subGroups: productConfiguration.groups,
+    subGroups: structuredClone(productConfigurationBase.groups),
   },
   {
     id: GROUP_ID_5,
@@ -140,6 +141,7 @@ describe('ConfiguratorBasicEffectService', () => {
     classUnderTest = TestBed.inject(
       ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
     );
+    productConfiguration = structuredClone(productConfigurationBase);
   });
 
   describe('getFirstGroupWithAttributes', () => {

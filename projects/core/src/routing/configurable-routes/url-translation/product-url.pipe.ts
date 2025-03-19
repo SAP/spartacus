@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import { SemanticPathService } from './semantic-path.service';
 import { Product } from '../../../model/product.model';
 @Pipe({
   name: 'cxProductUrl',
+  standalone: false,
 })
 export class ProductURLPipe implements PipeTransform {
   constructor(private semanticPath: SemanticPathService) {}

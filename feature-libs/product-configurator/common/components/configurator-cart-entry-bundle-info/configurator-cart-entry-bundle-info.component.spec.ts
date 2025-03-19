@@ -29,6 +29,7 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
 
 @Pipe({
   name: 'cxNumeric',
+  standalone: false,
 })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
@@ -39,6 +40,7 @@ class MockNumericPipe implements PipeTransform {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
+  standalone: false,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -259,20 +261,22 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('isBundleBasedConfigurator', () => {
     it('should return false because the configurator type is not bundle based one', () => {
+      let clonedEntry = structuredClone(entry);
       setConfiguratorTypeIntoFirstConfigInfo(
-        entry,
+        clonedEntry,
         'notBundleBasedConfiguratorType'
       );
 
       fixture.detectChanges();
-      expect(component.isBundleBasedConfigurator(entry)).toBe(false);
+      expect(component.isBundleBasedConfigurator(clonedEntry)).toBe(false);
     });
 
     it('should return true because the configurator type is a bundle based one', () => {
-      setConfiguratorTypeIntoFirstConfigInfo(entry, ConfiguratorType.CPQ);
+      let clonedEntry = structuredClone(entry);
+      setConfiguratorTypeIntoFirstConfigInfo(clonedEntry, ConfiguratorType.CPQ);
 
       fixture.detectChanges();
-      expect(component.isBundleBasedConfigurator(entry)).toBe(true);
+      expect(component.isBundleBasedConfigurator(clonedEntry)).toBe(true);
     });
 
     it('should return false in case no configuration infos are available', () => {
@@ -346,20 +350,18 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it('should display number of bundle items', () => {
-        let numberOfItems: number = 0;
-        component.numberOfLineItems$.subscribe(
-          (value) => (numberOfItems = value)
-        );
-        expect(numberOfItems).toBe(configurationInfos?.length);
-
+      it('should display number of bundle items', (done) => {
+        component.numberOfLineItems$.subscribe((numberOfItems) => {
+          expect(numberOfItems).toBe(3);
+          done();
+        });
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
           '.cx-number-items'
         );
 
-        const expectedText = 'configurator.header.items count:' + numberOfItems;
+        const expectedText = 'configurator.header.items count:3';
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,

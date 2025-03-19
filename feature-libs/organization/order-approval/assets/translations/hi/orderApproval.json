@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "सूची में वापस जाएं",
+    "showForm_APPROVE": "ऑर्डर अनुमोदित करें...",
+    "showForm_REJECT": "अस्वीकृत ऑर्डर...",
+    "form": {
+      "title_APPROVE": "अनुमोदित ऑर्डर {{orderCode}} कुल {{orderTotal}}",
+      "title_REJECT": "ऑर्डर अस्वीकृत {{orderCode}} कुल {{orderTotal}}",
+      "submit_APPROVE": "अनुमोदन करें",
+      "submit_REJECT": "अस्वीकृत करें",
+      "cancel": "रद्द करें",
+      "comment_APPROVE": {
+        "label": "टिप्पणी (वैकल्पिक, अधिकतम 255 वर्ण)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "टिप्पणी (अधिकतम 255 वर्ण)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "ग्राहक के अनुमोदन का विवरण",
+      "permission": "अनुमति",
+      "approver": "अनुमोदक",
+      "status": "स्थिति",
+      "approverComments": "अनुमोदक की टिप्पणियां",
+      "noApprovalComments": "कोई नहीं",
+      "permissionType_B2BBudgetExceededPermission": "चुने हुए लागत केंद्र से संबंधित बजट पार हो गया है",
+      "permissionType_B2BOrderThresholdPermission": "ऑर्डर का कुल योग प्रति ऑर्डर सीमा पार कर गया",
+      "permissionType_B2BOrderThresholdTimespanPermission": "ऑर्डर का कुल योग प्रति समयस्पान सीमा पार कर गया"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "ऑर्डर #",
+    "POCode": "PO #",
+    "placedBy": "ऑर्डर प्रदाता",
+    "date": "दिनांक",
+    "status": "स्थिति",
+    "total": "कुल",
+    "none": "कोई नहीं",
+    "emptyList": "इस समय अनुमोदन के लिए कोई ऑर्डर नहीं है.",
+    "orderApprovalList": "ऑर्डर अनुमोदन सूची"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "इस पृष्ठ पर पहुंच के लिए पर्याप्त अनुमति नहीं है."
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,8 @@ export interface OrganizationUserRegistration {
   firstName: string;
   lastName: string;
   message?: string;
+  verificationTokenId?: string;
+  verificationTokenCode?: string;
 }
 
 export interface OrganizationUserRegistrationForm

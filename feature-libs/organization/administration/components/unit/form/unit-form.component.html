@@ -1,9 +1,11 @@
 <cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form" [formGroup]="form" main>
+    <cx-form-required-legend />
     <label>
-      <span class="label-content required">{{
-        'orgUnit.name' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        <span>{{ 'orgUnit.name' | cxTranslate }}</span>
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -11,11 +13,13 @@
         placeholder="{{ 'orgUnit.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+        [attr.aria-describedby]="'nameError'"
       />
-
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
@@ -29,20 +33,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUnit.uid' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        <span>{{ 'orgUnit.uid' | cxTranslate }}</span>
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
+        [attr.aria-describedby]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"
@@ -60,6 +68,20 @@
         'orgUnit.approvalProcess' | cxTranslate
       }}</span>
       <ng-select
+        *cxFeature="'a11yApprovalProcessWithNoClearable'"
+        formControlName="code"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="approvalProcess$ | async"
+        bindLabel="name"
+        bindValue="code"
+        appendTo="cx-org-list"
+        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+        [cxNgSelectA11y]="{}"
+      >
+      </ng-select>
+      <ng-select
+        *cxFeature="'!a11yApprovalProcessWithNoClearable'"
         [inputAttrs]="{ required: 'true' }"
         formControlName="code"
         [searchable]="false"
@@ -87,10 +109,26 @@
     </label>
     <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
       <label formGroupName="parentOrgUnit">
-        <span class="label-content required">{{
-          'orgUnit.form.parentOrgUnit' | cxTranslate
-        }}</span>
+        <span class="label-content required">
+          {{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}
+          <cx-form-required-asterisks />
+        </span>
         <ng-select
+          *cxFeature="'a11yApprovalProcessWithNoClearable'"
+          [inputAttrs]="{ required: 'true' }"
+          formControlName="uid"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="(units$ | async) ?? null"
+          bindLabel="name"
+          bindValue="id"
+          appendTo="cx-org-list"
+          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+          [cxNgSelectA11y]="{}"
+        >
+        </ng-select>
+        <ng-select
+          *cxFeature="'!a11yApprovalProcessWithNoClearable'"
           [inputAttrs]="{ required: 'true' }"
           formControlName="uid"
           [searchable]="true"

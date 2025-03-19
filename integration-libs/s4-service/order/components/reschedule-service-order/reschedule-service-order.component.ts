@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
   selector: 'cx-reschedule-service-order',
   templateUrl: './reschedule-service-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);

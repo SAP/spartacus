@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,10 +14,17 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
+import { BtnLikeLinkModule } from '@spartacus/storefront';
 
 @NgModule({
   declarations: [S4ServiceOrderDetailActionsComponent],
-  imports: [CommonModule, I18nModule, RouterModule, UrlModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    RouterModule,
+    UrlModule,
+    BtnLikeLinkModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

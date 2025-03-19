@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ export type IOutletContextData = { item: Consignment };
 @Component({
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
+  standalone: false,
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   constructor(

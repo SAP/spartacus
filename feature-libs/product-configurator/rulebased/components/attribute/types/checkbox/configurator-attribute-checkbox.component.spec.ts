@@ -22,6 +22,7 @@ import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
@@ -30,6 +31,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -38,6 +40,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -200,6 +203,9 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
   describe('rendering description at value level', () => {
     it('should not render description in case description not present on model', () => {
+      (component.attribute.values ?? [{ description: '' }])[0].description =
+        undefined;
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,

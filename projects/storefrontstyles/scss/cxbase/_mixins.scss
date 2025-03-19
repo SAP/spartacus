@@ -2,7 +2,9 @@
 // lower level bootstrap variables. Hence we import the variables here,
 // to make the mixins reusable. In order to have the right variables
 // we load variables through the theme import.  */
-@import 'bootstrap/scss/_mixins';
+@import '../theme';
+
+@import '@spartacus/styles/vendor/bootstrap/scss/_mixins';
 
 @import './mixins/reset';
 @import './mixins/weight';

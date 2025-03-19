@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Nazwa",
+    "cartDescription": "Opis",
+    "cartId": "ID",
+    "dateSaved": "Data zapisana",
+    "items": "Pozycje",
+    "quantity": "Ilość",
+    "total": "Suma",
+    "editSavedCart": "Edytuj zapisany koszyk",
+    "deleteSavedCart": "Usuń zapisany koszyk",
+    "addSelectedItems": "Dodaj wybrane pozycje",
+    "emptyCartItems": "Puste pozycje koszyka"
+  },
+  "savedCartList": {
+    "savedCarts": "Zapisane koszyki ({{count}})",
+    "cartName": "Nazwa",
+    "cartId": "ID",
+    "dateSaved": "Data zapisana",
+    "cartDescription": "Opis",
+    "quantity": "Ilość",
+    "quantityFull": "Ilość",
+    "total": "Suma",
+    "actions": "Czynności",
+    "makeCartActive": "Aktywuj koszyk",
+    "notFound": "Nie znaleziono zapisanych koszyków",
+    "swapCartNoActiveCart": "Istniejący koszyk został aktywowany przez {{cartName}}.",
+    "swapCartWithActiveCart": "Istniejący koszyk został aktywowany przez {{cartName}}. Twoje poprzednie pozycje zostały zapisane w koszyku {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Twoja pozycja koszyka została zapisana na później w koszyku \"{{cartName}}\""
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Zapisz na później",
+    "itemsSavedForLater": "Wszystkie produkty w koszyku zostaną zapisane do późniejszego wykorzystania",
+    "savedCartName": "Zapisana nazwa koszyka",
+    "savedCartDescription": "Zapisany opis koszyka",
+    "optional": "opcjonalnie",
+    "charactersLeft": "pozostało znaków: {{count}}",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "restore": "Przywróć",
+    "followingCartDelete": "Następujący zapisany koszyk zostanie usunięty",
+    "followingCartRestore": "Następujący zapisany koszyk zostanie przywrócony jako aktywny koszyk",
+    "delete": "Usuń",
+    "deleteCartSuccess": "Koszyk został usunięty",
+    "editCartSuccess": "Koszyk został edytowany",
+    "editSavedCart": "Edytuj zapisany koszyk",
+    "deleteSavedCart": "Usuń zapisany koszyk",
+    "restoreSavedCart": "Przywróć zapisany koszyk",
+    "name": "Nazwa",
+    "id": "ID",
+    "description": "Opis",
+    "quantity": "ILOŚĆ",
+    "quantityFull": "Ilość",
+    "total": "Suma",
+    "keepCopySavedCart": "Zachowaj kopię tego koszyka na zapisanej liście koszyków",
+    "defaultCloneCartName": "Kopia {{name}}",
+    "nameOfCloneCart": "Nazwa skopiowanego koszyka"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Zapisane koszyki",
+    "saveCartForLater": "Zapisz koszyk na później"
+  }
+}

@@ -17,19 +17,37 @@ import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
+
+let mockedWindow: {
+  innerWidth?: number;
+  innerHeight?: number;
+  scrollY?: number;
+  scroll(): void;
+} = {
+  innerWidth: 1000,
+  innerHeight: 1000,
+  scrollY: 1000,
+  scroll() {},
+};
+class MockedWindowRef extends WindowRef {
+  get nativeWindow(): Window | undefined {
+    return this.isBrowser() ? <any>mockedWindow : undefined;
+  }
+}
 
 let isGroupVisited: Observable<boolean> = of(false);
 const testSelector = 'test-configurator-overview-menu';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-const mockRouterState: any = {
+const mockRouterStateTemplate: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
       ownerType: CommonConfigurator.OwnerType.PRODUCT,
+      displayOnly: false,
     },
     queryParams: {},
     semanticRoute: CONFIGURATOR_ROUTE,
@@ -84,6 +102,7 @@ function createFocusedElements(
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
+  standalone: false,
 })
 class MockComponent {}
 
@@ -110,16 +129,16 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   let fixture: ComponentFixture<MockComponent>;
   let htmlElem: HTMLElement;
   let focusedElements: any;
+  let mockRouterState: any;
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     'testProduct'
   );
   let windowRef: WindowRef;
   let keyboardFocusService: KeyboardFocusService;
-  let querySelectorOriginal: any;
 
   beforeEach(() => {
-    mockRouterState.state.params.displayOnly = false;
+    mockRouterState = structuredClone(mockRouterStateTemplate);
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
@@ -141,22 +160,26 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        { provide: WindowRef, useClass: MockedWindowRef },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
     htmlElem = fixture.nativeElement;
-    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
+    windowRef = TestBed.inject(WindowRef);
+    mockedWindow.innerHeight = 1000;
+    mockedWindow.innerWidth = 1000;
+    mockedWindow.scrollY = 1000;
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
-    querySelectorOriginal = document.querySelector;
   });
 
   afterEach(() => {
-    document.querySelector = querySelectorOriginal;
-    document.body.removeChild(htmlElem);
+    if (htmlElem) {
+      document.body.removeChild(htmlElem);
+    }
   });
 
   it('should be created', () => {
@@ -174,9 +197,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
   it('should scroll to element', () => {
     const theElement = document.createElement('div');
-    document.querySelector = jasmine
-      .createSpy('HTML Element')
-      .and.returnValue(theElement);
+    spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
     spyOn(theElement, 'getBoundingClientRect').and.returnValue(
       new DOMRect(100, 2000, 100, 100)
     );
@@ -308,9 +329,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       it('should delegate to keyboard focus service', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         const focusedElements = createFocusedElements('ATTR', 2, 3);
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(focusedElements);
+        spyOn(windowRef.document, 'querySelector').and.returnValue(
+          focusedElements[0]
+        );
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
@@ -320,9 +341,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       it('should not delegate to keyboard focus service because form is undefined', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(undefined);
+        spyOn(windowRef.document, 'querySelector').and.returnValue(undefined);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
@@ -338,9 +357,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       it('should not delegate to keyboard focus service because keyboard focus service returns no focusable elements', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         const focusedElements = createFocusedElements('ATTR', 2, 3);
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(focusedElements);
+        spyOn(windowRef.document, 'querySelector').and.returnValue(
+          focusedElements[0]
+        );
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
         classUnderTest.focusFirstActiveElement('elementSelector');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
@@ -348,6 +367,8 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
 
     describe('focusValue', () => {
+      let attribute: Configurator.Attribute;
+
       function createValue(name: string, isSelected: boolean) {
         const value: Configurator.Value = {
           valueCode: name,
@@ -369,7 +390,6 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         haveBeenCalledTimes = 0,
         focusedElementIndex?: number
       ): void {
-        classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(
           haveBeenCalledTimes
         );
@@ -383,28 +403,28 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         });
       }
 
-      let attribute: Configurator.Attribute = {
-        name: 'ATTR_1',
-        uiType: Configurator.UiType.RADIOBUTTON,
-        values: [],
-      };
-
       beforeEach(() => {
+        attribute = {
+          name: 'ATTR_1',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          values: [],
+        };
         focusedElements = fixture.debugElement
           .queryAll(By.css('label'))
           .map((el) => el.nativeNode);
-
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(focusedElements);
+        spyOn(windowRef.document, 'querySelector').and.returnValue(
+          focusedElements
+        );
       });
 
-      it('should not set focus because attribute does not contain any values', () => {
+      it('should set focus because attribute exists', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
+
+        classUnderTest.focusValue(attribute);
         verify(focusedElements, 1, 0);
       });
 
@@ -420,6 +440,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         const value3 = createValue('value_3', false);
         attribute.values = [value1, value2, value3];
 
+        classUnderTest.focusValue(attribute);
         verify(focusedElements, 1, 1);
       });
 
@@ -438,6 +459,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         const value3 = createValue('value_3', false);
         attribute.values = [value1, value2, value3];
 
+        classUnderTest.focusValue(attribute);
         verify(focusedElements, 1, 0);
       });
 
@@ -449,6 +471,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         );
         attribute.name = 'NO_ATTR_2';
 
+        classUnderTest.focusValue(attribute);
         verify(focusedElements, 1);
       });
 
@@ -458,10 +481,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(undefined);
+        asSpy(windowRef.document.querySelector).and.returnValue(undefined);
 
+        classUnderTest.focusValue(attribute);
         verify(focusedElements);
       });
 
@@ -472,6 +494,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
           focusedElements
         );
 
+        classUnderTest.focusValue(attribute);
         verify(focusedElements);
       });
     });
@@ -526,9 +549,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     it('should get HTML element based on query selector', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
 
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
@@ -537,9 +558,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
   describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(undefined);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(undefined);
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).not.toEqual('sticky');
@@ -547,9 +566,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
@@ -561,9 +578,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
       theElement.style.position = 'sticky';
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(undefined);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(undefined);
 
       classUnderTest.removeStyling('elementMock', 'position');
       expect(theElement.style.position).toEqual('sticky');
@@ -573,9 +588,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const theElement = document.createElement('elementMock');
       theElement.style.position = 'sticky';
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
 
       classUnderTest.removeStyling('elementMock', 'position');
       expect(theElement.style.position).toBe('');
@@ -605,9 +618,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       const elements: Array<HTMLElement> = createElements('section', 10);
 
-      document.querySelectorAll = jasmine
-        .createSpy('section')
-        .and.returnValue(elements);
+      spyOn(document, 'querySelectorAll').and.returnValue(<any>elements);
 
       const htmlElements = classUnderTest.getElements('section');
 
@@ -627,7 +638,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should return number of pixels that the document is currently scrolled vertically', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      spyOnProperty(window, 'scrollY').and.returnValue(250);
+      mockedWindow.scrollY = 250;
       const nativeWindow = windowRef.nativeWindow;
       if (nativeWindow) {
         expect(classUnderTest.getVerticallyScrolledPixels()).toBe(250);
@@ -637,9 +648,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
   describe('hasScrollbar', () => {
     it('should return false because element is undefined', () => {
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(undefined);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(undefined);
 
       expect(classUnderTest.hasScrollbar('elementMock')).toBe(false);
     });
@@ -711,27 +720,25 @@ describe('ConfiguratorStorefrontUtilsService', () => {
         label.style.height = '10px';
       });
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+      mockedWindow.innerWidth = 100;
 
       expect(classUnderTest['isInViewport'](form)).toBe(false);
     });
 
-    // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit("should return true because window's innerWith is known", () => {
+    it("should return true because window's innerWith is known", () => {
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+      mockedWindow.innerWidth = 1000;
 
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
 
-    // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit('should return true because clientWidth of element is known and its right is less than its width', () => {
+    it('should return true because clientWidth of element is known and its right is less than its width', () => {
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
+      mockedWindow.innerWidth = undefined;
 
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
@@ -741,7 +748,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       form.style.flexDirection = 'column';
       form.style.height = '1000px';
 
-      spyOnProperty(window, 'innerHeight').and.returnValue(undefined);
+      mockedWindow.innerHeight = undefined;
 
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
@@ -765,15 +772,14 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       expect(classUnderTest['getHeight']('unknown-query')).toBe(0);
     });
 
-    it('should return zero because form is not im viewport', () => {
-      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+    it('should return zero because form is not in viewport', () => {
+      mockedWindow.innerWidth = 100;
 
       expect(classUnderTest['getHeight']('cx-configurator-form')).toBe(0);
     });
 
-    // TODO: CXSPA-8270 - fix failing tests on Azure & GiHub
-    xit('should return offsetHeight of the element because form is not im viewport', () => {
-      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+    it('should return offsetHeight of the element because form is not in viewport', () => {
+      mockedWindow.innerWidth = 1000;
 
       expect(
         classUnderTest['getHeight']('cx-configurator-form')
@@ -804,7 +810,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       addToCart = document.createElement('cx-configurator-add-to-cart-button');
       document.body.append(addToCart);
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+      mockedWindow.innerWidth = 1000;
     }
 
     it('should return zero because isBrowser is undefined', () => {
@@ -877,9 +883,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     it('should not ensure visibility of the element', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       ovMenu = document.createElement('cx-configurator-overview-menu');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(ovMenu);
+      spyOn(windowRef.document, 'querySelector').and.returnValue(ovMenu);
       classUnderTest.ensureElementVisible(
         'cx-configurator-overview-menu',
         undefined
@@ -940,7 +944,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should return `false` in case the product is `undefined`', () => {
       mockRouterState.state.params.displayOnly = true;
-      mockRouterState.state.queryParams.productCode = PRODUCT_CODE;
+      mockRouterState.state.queryParams.productCode = undefined;
       fixture.detectChanges();
 
       classUnderTest
@@ -988,4 +992,8 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       expect(classUnderTest.isLastSelected('name', 'code')).toBe(false);
     });
   });
+
+  function asSpy(f: any) {
+    return <jasmine.Spy>f;
+  }
 });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import { CurrentLocationService } from '../../services/current-location.service'
 @Component({
   selector: 'cx-store-search',
   templateUrl: './store-search.component.html',
+  standalone: false,
 })
 export class StoreSearchComponent {
   /** Whether the hide out of stock checkbox appears checked */

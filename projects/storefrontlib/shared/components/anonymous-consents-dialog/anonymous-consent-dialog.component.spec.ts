@@ -20,12 +20,14 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-icon',
   template: ``,
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: string;
@@ -34,6 +36,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-consent-management-form',
   template: ``,
+  standalone: false,
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -371,6 +374,14 @@ describe('AnonymousConsentsDialogComponent', () => {
       expect(
         component.getCorrespondingConsent(mockTemplates[0], mockConsents)
       ).toEqual(mockConsents[1]);
+    });
+  });
+
+  describe('closeMessage', () => {
+    it('should reset message$ subject', () => {
+      spyOn(component.message$, 'next').and.stub();
+      component.closeMessage();
+      expect(component.message$.next).toHaveBeenCalledWith(null);
     });
   });
 

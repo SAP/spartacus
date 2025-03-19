@@ -2,19 +2,17 @@
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
 
-  @include forFeature('productConfiguratorAttributeTypesV2') {
-    .form-group {
-      @include media-breakpoint-up(md) {
-        select {
-          width: 80%;
-        }
+  .form-group {
+    @include media-breakpoint-up(md) {
+      select {
+        width: 80%;
       }
-      @include media-breakpoint-down(sm) {
-        flex-direction: column;
+    }
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
 
-        select {
-          width: 100%;
-        }
+      select {
+        width: 100%;
       }
     }
   }
@@ -22,8 +20,13 @@
   flex-direction: column;
 
   cx-configurator-attribute-product-card {
-    @include forFeature('productConfiguratorAttributeTypesV2') {
-      width: 100%;
+    width: 100%;
+
+    .cx-product-card {
+      @include media-breakpoint-down(sm) {
+        padding-inline-start: 0px;
+        padding-inline-end: 0px;
+      }
     }
 
     &:first-of-type {

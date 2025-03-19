@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,10 @@
 import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'cxDate' })
+@Pipe({
+  name: 'cxDate',
+  standalone: false,
+})
 export class MockDatePipe extends DatePipe implements PipeTransform {
   transform(value: any, ...args: any[]): any;
   // Overload to support stricter type check from angular 11 onwards

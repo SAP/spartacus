@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,6 +45,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
@@ -70,6 +71,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   @Input()
   showCancelBtn = true;
+
+  @Input()
+  countries: Observable<Country[]>;
 
   @Output()
   submitAddress = new EventEmitter<any>();
@@ -110,14 +114,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Fetching countries
-    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap((countries: Country[]) => {
-        if (Object.keys(countries).length === 0) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      })
-    );
+    // Fetching countries if no data stream was provided
+    this.countries$ =
+      this.countries ||
+      this.userAddressService.getDeliveryCountries().pipe(
+        tap((countries: Country[]) => {
+          if (Object.keys(countries).length === 0) {
+            this.userAddressService.loadDeliveryCountries();
+          }
+        })
+      );
 
     // Fetching titles
     this.titles$ = this.getTitles();

@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { CdcAuthFacade } from '@spartacus/cdc/root';
 import {

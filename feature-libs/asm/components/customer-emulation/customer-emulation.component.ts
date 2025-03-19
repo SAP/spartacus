@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
+  standalone: false,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;

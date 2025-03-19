@@ -25,6 +25,7 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import createSpy = jasmine.createSpy;
 
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { mockAccountSummaryList } from '../account-summary-mock-data';
 
 const blob = new Blob();
@@ -32,6 +33,7 @@ const blob = new Blob();
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -40,6 +42,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
+  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -52,6 +55,7 @@ class MockSortingComponent {
 @Component({
   template: '',
   selector: 'cx-account-summary-document-filter',
+  standalone: false,
 })
 class MockAccountSummaryDocumentFilterComponent {
   @Input() documentTypeOptions: any;
@@ -100,6 +104,7 @@ describe('AccountSummaryDocumentComponent', () => {
         MockAccountSummaryDocumentFilterComponent,
         MockPaginationComponent,
         MockSortingComponent,
+        MockFeatureDirective,
       ],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
@@ -281,7 +286,7 @@ describe('AccountSummaryDocumentComponent', () => {
       By.css('.cx-account-summary-document-table')
     );
 
-    const tableRows = tableElement.queryAll(By.css('tr'));
+    const tableRows = tableElement.queryAll(By.css('tbody tr'));
     expect(tableRows?.length).toEqual(10);
 
     tableRows?.forEach((row, rowNumber) => {

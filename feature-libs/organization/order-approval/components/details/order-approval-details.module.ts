@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,11 @@ import {
   OrderDetailsService,
   OrderOverviewComponent,
 } from '@spartacus/order/components';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  BtnLikeLinkModule,
+  FormErrorsModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
@@ -37,6 +41,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
     FormErrorsModule,
     SpinnerModule,
     RouterModule,
+    BtnLikeLinkModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrderApprovalDetailTotalsComponent: {

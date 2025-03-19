@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -14,12 +18,13 @@ import {
   TicketList,
 } from '@spartacus/customer-ticketing/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
+  standalone: false,
 })
 export class CustomerTicketingListComponent {
   constructor(
@@ -27,7 +32,9 @@ export class CustomerTicketingListComponent {
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected customerTicketingConfig: CustomerTicketingConfig
-  ) {}
+  ) {
+    useFeatureStyles('a11yHighContrastBorders');
+  }
   PAGE_SIZE =
     this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
   sortType: string;

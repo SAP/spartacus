@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { inject, Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, GuardResult, Router } from '@angular/router';
 
 import {
   RouterState,
@@ -31,7 +31,7 @@ export class QuoteCartGuard implements CanActivate {
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return combineLatest([
       this.quoteCartService.isQuoteCartActive(),
       this.quoteCartService.getQuoteId(),

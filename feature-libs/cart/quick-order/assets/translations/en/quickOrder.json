@@ -13,7 +13,8 @@
     "product": "Product",
     "products": "Products",
     "productCodeLabel": "Product ID",
-    "quantityLabel": "Qty"
+    "quantityLabel": "Qty",
+    "quantityFullLabel": "Quantity"
   },
   "quickOrderForm": {
     "placeholder": "Enter Product name or SKU",
@@ -65,6 +66,7 @@
     "id": "ID",
     "price": "Price",
     "quantity": "QTY",
+    "quantityFull": "Quantity",
     "itemPrice": "Item price",
     "qty": "Qty",
     "actions": "Actions",

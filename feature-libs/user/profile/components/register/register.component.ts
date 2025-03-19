@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
@@ -34,6 +35,7 @@ import { RegisterComponentService } from './register-component.service';
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
+  standalone: false,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
@@ -43,20 +45,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
-    ? this.featureConfigService.isEnabled(
-        'enableConsecutiveCharactersPasswordRequirement'
-      )
-      ? [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]
-      : CustomFormValidators.passwordValidators
+    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+      ? CustomFormValidators.securePasswordValidators
+      : this.featureConfigService.isEnabled(
+            'enableConsecutiveCharactersPasswordRequirement'
+          )
+        ? [
+            ...CustomFormValidators.passwordValidators,
+            CustomFormValidators.noConsecutiveCharacters,
+          ]
+        : CustomFormValidators.passwordValidators
     : [
-        this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-          ? CustomFormValidators.strongPasswordValidator
-          : CustomFormValidators.passwordValidator,
+        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+          ? CustomFormValidators.securePasswordValidator
+          : this.featureConfigService.isEnabled(
+                'enableConsecutiveCharactersPasswordRequirement'
+              )
+            ? CustomFormValidators.strongPasswordValidator
+            : CustomFormValidators.passwordValidator,
       ];
 
   titles$: Observable<Title[]>;
@@ -107,7 +113,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   updateAdditionalConsents(event: MouseEvent, index: number) {
     const { checked } = event.target as HTMLInputElement;
-    this.registerForm.value.additionalConsents[index] = checked;
+    this.registerForm.value.additionalConsents[index].isConsentGranted =
+      checked;
   }
 
   constructor(
@@ -118,7 +125,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
-  ) {}
+  ) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+  }
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -207,15 +216,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   collectDataFromRegisterForm(formData: any): UserSignUp {
-    const { firstName, lastName, email, password, titleCode } = formData;
-
-    return {
-      firstName,
-      lastName,
-      uid: email.toLowerCase(),
-      password,
-      titleCode,
-    };
+    return this.registerComponentService.collectDataFromRegisterForm(formData);
   }
 
   isConsentGiven(consent: AnonymousConsent | undefined): boolean {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,8 +17,11 @@ import {
   MIN_ONE_SPECIAL_CHARACTER_PATTERN,
   MIN_ONE_UPPER_CASE_CHARACTER_PATTERN,
   MIN_SIX_CHARACTERS_PATTERN,
+  MIN_EIGHT_CHARACTERS_PATTERN,
+  MAX_CHARACTERS_PATTERN,
   PASSWORD_PATTERN,
   STRONG_PASSWORD_PATTERN,
+  SECURE_PASSWORD_PATTERN,
 } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -60,6 +63,17 @@ export class CustomFormValidators {
       : { cxInvalidPassword: true };
   }
 
+  static securePasswordValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(SECURE_PASSWORD_PATTERN))
+      ? null
+      : { cxInvalidPassword: true };
+  }
+
   // TODO: (CXSPA-7567) Remove after removing formErrorsDescriptiveMessages feature toggle
   /**
    * Checks control's value with predefined password regexp
@@ -82,7 +96,6 @@ export class CustomFormValidators {
       ? null
       : { cxInvalidPassword: true };
   }
-
   /**
    * Checks control's value with predefined  at least one upper case character regexp
    *
@@ -168,6 +181,36 @@ export class CustomFormValidators {
   }
 
   /**
+   * Checks control's value with predefined  at least one upper case character regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMinEightCharactersLength' validator error
+   * @memberof CustomFormValidators
+   */
+  static minEightCharactersLengthValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(MIN_EIGHT_CHARACTERS_PATTERN))
+      ? null
+      : { cxMinEightCharactersLength: true };
+  }
+  static maxCharactersLengthValidator(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const password = control.value as string;
+
+    return password &&
+      (!password.length || password.match(MAX_CHARACTERS_PATTERN))
+      ? null
+      : { cxMaxCharactersLength: true };
+  }
+  /**
    * Validates that the control's value does not contain consecutive identical characters.
    *
    * NOTE: Use this as a control validator.
@@ -203,6 +246,15 @@ export class CustomFormValidators {
     this.minOneUpperCaseCharacterValidator,
     this.minOneSpecialCharacterValidator,
     this.minSixCharactersLengthValidator,
+  ];
+
+  static securePasswordValidators = [
+    this.minOneDigitValidator,
+    this.minOneUpperCaseCharacterValidator,
+    this.minOneSpecialCharacterValidator,
+    this.minEightCharactersLengthValidator,
+    this.maxCharactersLengthValidator,
+    this.noConsecutiveCharacters,
   ];
 
   /**

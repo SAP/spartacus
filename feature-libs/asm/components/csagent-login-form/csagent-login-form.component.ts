@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,12 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
+  standalone: false,
 })
 export class CSAgentLoginFormComponent implements OnInit {
   csAgentLoginForm: UntypedFormGroup;
@@ -24,7 +26,10 @@ export class CSAgentLoginFormComponent implements OnInit {
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
-  constructor(protected fb: UntypedFormBuilder) {}
+  constructor(protected fb: UntypedFormBuilder) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+    useFeatureStyles('a11yTextSpacingAdjustments');
+  }
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({

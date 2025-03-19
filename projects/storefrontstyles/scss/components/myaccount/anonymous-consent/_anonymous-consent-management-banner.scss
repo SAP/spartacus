@@ -50,4 +50,10 @@
       background-color: var(--cx-color-background);
     }
   }
+
+  @include forFeature('a11yScrollToTopPositioning') {
+    &:has(.anonymous-consent-banner) ~ cx-scroll-to-top {
+      bottom: 180px;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   I18nTestingModule,
@@ -13,6 +13,7 @@ import {
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -21,8 +22,6 @@ import {
   ReadOnlyPostfix,
 } from './../../core/model/common-configurator.model';
 import { ConfigureProductComponent } from './configure-product.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { By } from '@angular/platform-browser';
 
 const productCode = 'CONF_LAPTOP';
 const configuratorType = ConfiguratorType.VARIANT;
@@ -36,7 +35,7 @@ const mockProductNotConfigurable: Product = {
   configurable: false,
 };
 
-const testProduct = { ...mockProduct };
+let testProduct: Product;
 
 class MockCurrentProductService implements Partial<CurrentProductService> {
   getProduct(): Observable<Product> {
@@ -64,6 +63,7 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -113,11 +113,7 @@ function setupWithCurrentProductService(
     }).compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [I18nTestingModule, StoreModule.forRoot({})],
       declarations: [
         ConfigureProductComponent,
         MockUrlPipe,
@@ -136,11 +132,7 @@ function setupWithCurrentProductService(
     }).compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [I18nTestingModule, StoreModule.forRoot({})],
       declarations: [
         ConfigureProductComponent,
         MockUrlPipe,
@@ -173,6 +165,7 @@ function setupWithCurrentProductService(
   fixture = TestBed.createComponent(ConfigureProductComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
+  testProduct = structuredClone(mockProduct);
 }
 
 describe('ConfigureProductComponent', () => {
@@ -356,6 +349,10 @@ describe('ConfigureProductComponent', () => {
   });
 
   describe('isReadOnlyBaseProduct', () => {
+    beforeEach(() => {
+      testProduct = structuredClone(mockProduct);
+      setupWithCurrentProductService(true);
+    });
     it('should return `false` in case configurator type is CPQCONFIGURATOR', () => {
       expect(component.isReadOnlyBaseProduct(testProduct)).toEqual(false);
     });
@@ -380,6 +377,10 @@ describe('ConfigureProductComponent', () => {
   });
 
   describe('isBaseProduct', () => {
+    beforeEach(() => {
+      testProduct = structuredClone(mockProduct);
+      setupWithCurrentProductService(true);
+    });
     it('should return `false` in case base product and product code are not equal', () => {
       testProduct.baseProduct = 'BASE_PRODUCT';
       expect(component['isBaseProduct'](testProduct)).toEqual(false);
@@ -403,10 +404,6 @@ describe('ConfigureProductComponent', () => {
 
     it('should return false in case configurator type is undefined', () => {
       expect(component['isConfiguratorTypeReadOnly'](undefined)).toBe(false);
-    });
-
-    it('should return false in case configurator type is null', () => {
-      expect(component['isConfiguratorTypeReadOnly'](null)).toBe(false);
     });
 
     it('should return false in case configurator type is empty string', () => {

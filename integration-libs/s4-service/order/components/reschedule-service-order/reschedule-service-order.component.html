@@ -1,4 +1,5 @@
 <form [formGroup]="form" (submit)="rescheduleServiceOrder()">
+  <cx-form-required-legend />
   <div class="cx-reschedule-service-form-fields">
     <div class="cx-section-header d-none d-lg-block d-xl-block">
       <h2>{{ 'rescheduleService.headerLabel' | cxTranslate }}</h2>
@@ -13,6 +14,7 @@
         >
           <span class="label-content">
             {{ 'rescheduleService.datePickerLabel' | cxTranslate }}
+            <cx-form-required-asterisks />
           </span>
           <cx-date-picker
             [control]="$any(form.get('scheduleDate'))"
@@ -27,6 +29,7 @@
         >
           <span class="label-content">
             {{ 'rescheduleService.timePickerLabel' | cxTranslate }}
+            <cx-form-required-asterisks />
           </span>
           <select
             *ngIf="scheduleTimes$ | async as scheduleTimes"

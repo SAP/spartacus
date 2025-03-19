@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,10 @@
 import { NgModule } from '@angular/core';
 import {
   futureStockTranslationChunksConfig,
-  futureStockTranslations,
+  futureStockTranslationsEn,
+  futureStockTranslationsJa,
+  futureStockTranslationsDe,
+  futureStockTranslationsZh,
 } from '@spartacus/product/future-stock/assets';
 import { FutureStockRootModule } from '@spartacus/product/future-stock/root';
 import { provideConfig } from '@spartacus/core';
@@ -26,7 +29,12 @@ import { PRODUCT_FUTURE_STOCK_FEATURE } from '@spartacus/product/future-stock/ro
         },
       },
       i18n: {
-        resources: futureStockTranslations,
+        resources: {
+          en: futureStockTranslationsEn,
+          ja: futureStockTranslationsJa,
+          de: futureStockTranslationsDe,
+          zh: futureStockTranslationsZh,
+        },
         chunks: futureStockTranslationChunksConfig,
         fallbackLang: 'en',
       },

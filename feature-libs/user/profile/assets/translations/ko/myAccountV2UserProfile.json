@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "내 전자메일 주소",
+    "myInformation": "내 정보",
+    "name": "이름",
+    "customerId": "고객 ID",
+    "title": "호칭",
+    "firstName": "이름",
+    "lastName": "성"
+  }
+}

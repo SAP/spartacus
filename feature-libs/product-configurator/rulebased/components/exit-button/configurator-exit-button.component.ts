@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-exit-button',
   templateUrl: './configurator-exit-button.component.html',
+  standalone: false,
 })
 export class ConfiguratorExitButtonComponent {
   container$: Observable<{

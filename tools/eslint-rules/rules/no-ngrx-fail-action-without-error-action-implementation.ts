@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,8 @@ export const rule = ESLintUtils.RuleCreator(() => __filename)({
   meta: {
     type: 'problem',
     docs: {
-      description: ``,
-      recommended: 'recommended',
+      description:
+        'Ensures NgRx Failure Actions implement ErrorAction interface',
     },
     schema: [], // no options
     messages: {

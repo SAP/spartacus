@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { navigation } from '../../../../helpers/navigation';
 import {
   QUERY_ALIAS,
   createProductQuery,
+  searchUrlPrefix,
 } from '../../../../helpers/product-search';
 import {
   cdsHelper,
@@ -63,7 +64,7 @@ describe('Custom header additions to occ calls', () => {
       // withdraw consent
       cy.get('button.btn.btn-link').contains('Consent').click();
       cy.get('input.form-check-input').uncheck();
-      cy.get('button.close').click();
+      cy.get('button.close').first().click();
       navigation.visitHomePage({
         options: {
           onBeforeLoad: profileTagHelper.interceptProfileTagJs,
@@ -88,19 +89,24 @@ describe('Custom header additions to occ calls', () => {
         expect(consentAccepted.length).to.equal(3);
         expect(consentAccepted[2].data.granted).to.eq(true);
       });
+
+      cy.intercept({ method: 'GET', path: `${searchUrlPrefix}**` }).as(
+        'getSearch'
+      );
+
       // search for cameras
       createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
       cy.get('cx-searchbox input').type('camera{enter}');
       profileTagHelper.waitForCMSComponents();
       cy.wait(`@${QUERY_ALIAS.CAMERA}`);
-      cy.wait('@searchRequest')
+      cy.wait('@getSearch')
         .its('request.headers')
         .should('have.deep.property', X_CONSENT_REFERENCE_HEADER);
       // refresh page
       cy.reload();
       // verify
       cy.wait(`@${QUERY_ALIAS.CAMERA}`);
-      cy.wait('@searchRequest')
+      cy.wait('@getSearch')
         .its('request.headers')
         .should('have.deep.property', X_CONSENT_REFERENCE_HEADER);
     });

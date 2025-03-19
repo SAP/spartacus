@@ -1,36 +1,84 @@
 <ng-container *ngIf="!!media">
-  <picture *ngIf="media.srcset && !isLegacy; else legacyImgTmp">
-    <source
-      *ngFor="
-        let source of media!.srcset! | cxMediaSources;
-        trackBy: trackByMedia
+  <ng-container *cxFeature="'useExtendedMediaComponentConfiguration'">
+    <picture
+      *ngIf="
+        !!media?.sources?.length && elementType !== 'img';
+        else imageElementTmp
       "
-      [srcset]="source.srcset"
-      [media]="source.media"
-    />
+    >
+      <source
+        *ngFor="let source of media.sources; trackBy: trackByMedia"
+        [media]="source.media"
+        [srcset]="source.srcset"
+        [attr.width]="source.width"
+        [attr.height]="source.height"
+      />
 
-    <img
-      [loading]="loading"
-      [alt]="media.alt"
-      [title]="media.alt"
-      [src]="media.src"
-      [attr.role]="media.role"
-      (load)="loadHandler()"
-      (error)="errorHandler()"
-    />
-  </picture>
+      <img
+        [loading]="loading"
+        [alt]="media.alt"
+        [title]="media.alt"
+        [src]="media.src"
+        [attr.role]="media.role"
+        [attr.width]="media.width"
+        [attr.height]="media.height"
+        (load)="loadHandler()"
+        (error)="errorHandler()"
+      />
+    </picture>
 
-  <ng-template #legacyImgTmp>
-    <img
-      *ngIf="media.src"
-      [loading]="loading"
-      [alt]="media.alt"
-      [title]="media.alt"
-      [src]="media.src"
-      [srcset]="media?.srcset || media.src"
-      [attr.role]="media.role"
-      (load)="loadHandler()"
-      (error)="errorHandler()"
-    />
-  </ng-template>
+    <ng-template #imageElementTmp>
+      <img
+        *ngIf="media.src"
+        [loading]="loading"
+        [alt]="media.alt"
+        [title]="media.alt"
+        [src]="media.src"
+        [srcset]="media.srcset || media.src"
+        [attr.role]="media.role"
+        [attr.width]="media.width"
+        [attr.height]="media.height"
+        [attr.sizes]="sizesForImgElement"
+        (load)="loadHandler()"
+        (error)="errorHandler()"
+      />
+    </ng-template>
+  </ng-container>
+
+  <ng-container *cxFeature="'!useExtendedMediaComponentConfiguration'">
+    <picture *ngIf="media.srcset && !isLegacy; else legacyImgTmp">
+      <source
+        *ngFor="
+          let source of media!.srcset! | cxMediaSources;
+          trackBy: trackByMedia
+        "
+        [srcset]="source.srcset"
+        [media]="source.media"
+      />
+
+      <img
+        [loading]="loading"
+        [alt]="media.alt"
+        [title]="media.alt"
+        [src]="media.src"
+        [attr.role]="media.role"
+        (load)="loadHandler()"
+        (error)="errorHandler()"
+      />
+    </picture>
+
+    <ng-template #legacyImgTmp>
+      <img
+        *ngIf="media.src"
+        [loading]="loading"
+        [alt]="media.alt"
+        [title]="media.alt"
+        [src]="media.src"
+        [srcset]="media?.srcset || media.src"
+        [attr.role]="media.role"
+        (load)="loadHandler()"
+        (error)="errorHandler()"
+      />
+    </ng-template>
+  </ng-container>
 </ng-container>

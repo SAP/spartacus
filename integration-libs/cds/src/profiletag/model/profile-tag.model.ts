@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,14 +53,14 @@ export interface ProfileTagPushEvent {
 export class NavigatedPushEvent implements ProfileTagPushEvent {
   name = 'Navigated';
   data: any;
-  constructor(data?) {
+  constructor(data?: any) {
     this.data = data;
   }
 }
 
 export class ConsentChangedPushEvent implements ProfileTagPushEvent {
   name = 'ConsentChanged';
-  data: { granted: boolean } = { granted: undefined };
+  data: { granted?: boolean } = { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted = granted;
   }

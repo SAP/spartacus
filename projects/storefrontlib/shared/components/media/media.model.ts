@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,21 @@ export interface Media {
    * readers or magnifiers
    */
   role?: string;
+
+  /**
+   * The sources holds a list of source element for picture html element
+   */
+  sources?: PictureHTMLElementSource[];
+
+  /**
+   * Specifies the intrinsic width of the image in pixels. Allowed if the parent of `<source>` is a `<picture>`
+   */
+  width?: number;
+
+  /**
+   * Specifies the intrinsic height of the image in pixels. Allowed if the parent of `<source>` is a `<picture>`
+   */
+  height?: number;
 }
 
 /**
@@ -49,6 +64,22 @@ export interface MediaFormatSize {
    * different media's can be used in a responsive layout.
    */
   width?: number;
+}
+
+/**
+ * Specifies media queries that can be used to generate information for the
+ * browser to resolve the right media for the right layout or device.
+ *
+ * You can check available queries in official docs
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries
+ */
+export type PictureElementQueries = string;
+
+export interface PictureHTMLElementSource {
+  srcset: string;
+  media: string;
+  width?: number;
+  height?: number;
 }
 
 /**

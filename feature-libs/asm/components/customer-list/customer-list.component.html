@@ -1,7 +1,9 @@
 <div
   class="cx-asm-customer-list cx-modal-container cx-asm-dialog"
+  role="dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
+  aria-labelledby="asm-customer-list-title"
 >
   <div class="cx-modal-content">
     <!-- Modal Header -->
@@ -295,6 +297,7 @@
           occConfig?.backend?.occ?.baseUrl + customerEntry?.userAvatar?.url
         "
         alt="{{ 'asm.mainLogoLabel' | cxTranslate }}"
+        title="{{ 'asm.mainLogoLabel' | cxTranslate }}"
       />
       <div class="cx-avatar-text" *ngIf="!customerEntry?.userAvatar?.url">
         {{ getBadgeText(customerEntry) }}
@@ -373,6 +376,7 @@
       [type]="iconTypes.SEARCH"
       role="button"
       [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
+      [title]="'storeFinder.searchNearestStores' | cxTranslate"
       class="search"
       (click)="searchCustomers()"
     ></cx-icon>
@@ -395,7 +399,10 @@
 
 <ng-template #sort>
   <label>
-    <span class="cx-visually-hidden">{{
+    <span *cxFeature="'a11yShowLabelOfSelect'" class="label-content">{{
+      'asm.customerList.tableSort.sortBy' | cxTranslate
+    }}</span>
+    <span *cxFeature="'!a11yShowLabelOfSelect'" class="cx-visually-hidden">{{
       'asm.customerList.tableSort.sortBy' | cxTranslate
     }}</span>
     <cx-sorting
@@ -405,10 +412,8 @@
       (sortListEvent)="changeSortCode($event)"
       [selectedOption]="sortCode"
       placeholder="{{ 'asm.customerList.tableSort.sortBy' | cxTranslate }}"
-      [cxNgSelectA11y]="{
-        ariaLabel: sortCode,
-        ariaControls: 'asm-cusomer-list-table',
-      }"
+      [ariaLabel]="sortCode"
+      ariaControls="asm-cusomer-list-table"
     ></cx-sorting>
   </label>
 </ng-template>
@@ -443,7 +448,10 @@
 
 <ng-template #groupSelector let-customerListsPage="customerListsPage">
   <label>
-    <span class="cx-visually-hidden">{{
+    <span *cxFeature="'a11yShowLabelOfSelect'" class="label-content">{{
+      'asm.customerList.title' | cxTranslate
+    }}</span>
+    <span *cxFeature="'!a11yShowLabelOfSelect'" class="cx-visually-hidden">{{
       'asm.customerList.title' | cxTranslate
     }}</span>
     <ng-select

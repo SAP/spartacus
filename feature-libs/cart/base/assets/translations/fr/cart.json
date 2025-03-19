@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "Valider la commande",
+    "cartName": "Panier nº{{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "Description",
+    "item": "Article",
+    "itemPrice": "Prix de l'article",
+    "quantity": "Qté",
+    "quantityFull": "Quantité",
+    "quantityTitle": "La quantité représente le nombre total d'unités cet article dans votre panier.",
+    "total": "Total",
+    "actions": "Actions",
+    "cartTotal": "Total du panier ({{count}} article)",
+    "cartTotal_other": "Total du panier ({{count}} articles)",
+    "itemRemoved": "L'article sélectionné a été supprimé. Le total du panier a été mis à jour.",
+    "caption": "Contenu du panier"
+  },
+  "orderCost": {
+    "orderSummary": "Synthèse de la commande",
+    "subtotal": "Sous-total après remises :",
+    "shipping": "Expédition :",
+    "estimatedShipping": "Estimation des frais d'expédition :",
+    "discount": "Vous avez économisé :",
+    "salesTax": "Taxe sur les ventes :",
+    "grossTax": "Le total de la commande n'inclut pas la taxe de",
+    "grossIncludeTax": "Le total de la commande inclut la taxe de",
+    "total": "Total :",
+    "toBeDetermined": "À déterminer"
+  },
+  "voucher": {
+    "coupon": "Vous avez un bon de réduction ?",
+    "coupon_other": "Codes promo",
+    "couponLabel": "Saisissez un code promo ici",
+    "addCoupon": "Ajouter un bon de réduction",
+    "apply": "Appliquer",
+    "placeholder": "Code promo",
+    "applyVoucherSuccess": "{{voucherCode}} a été appliqué.",
+    "removeVoucherSuccess": "{{voucherCode}} a été supprimé.",
+    "anchorLabel": "Saisissez ou supprimez votre code promo",
+    "vouchersApplied": "Bons de réduction appliqués",
+    "availableCoupons": "Bons de réduction disponibles",
+    "availableCouponsLabel": "Vous pouvez ajouter ces bons de réduction à cette commande.  "
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Sauvegardé pour plus tard ({{count}} article)",
+    "itemTotal_other": "Sauvegardés pour plus tard ({{count}} articles)",
+    "cartTitle": "Panier",
+    "saveForLater": "Sauvegarder pour plus tard",
+    "moveToCart": "Déplacer vers le panier",
+    "stock": "Stock",
+    "forceInStock": "En stock"
+  },
+  "clearCart": {
+    "clearCart": "Vider le panier",
+    "clearingCart": "Suppression des articles du panier...",
+    "cartClearedSuccessfully": "Le panier actif a été vidé avec succès.",
+    "areYouSureToClearCart": "Voulez-vous vraiment vider ce panier ?",
+    "allItemsWillBeRemoved": "Tous les articles de votre panier actif seront supprimés."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "Lors de la validation de la commande, nous avons trouvé des problèmes avec vos entrées. Veuillez vérifier votre panier.",
+    "cartEntryRemoved": "{{name}} a été retiré du panier en raison d'une rupture de stock.",
+    "productOutOfStock": "{{name}} a été retiré du panier en raison d'un stock insuffisant.",
+    "lowStock": "La quantité a été réduite à {{quantity}} en raison d'un stock insuffisant.",
+    "reviewConfiguration": "Commencez par résoudre les problèmes de configuration de la saisie du panier.",
+    "configurationError": "Commencez par résoudre les problèmes de configuration des saisies du panier.",
+    "pricingError": "La tarification du configurateur est actuellement indisponible. Il est impossible de valider la commande ou de soumettre un devis. Veuillez réessayer ultérieurement.",
+    "unresolvableIssues": "La configuration du produit nécessite des entrées supplémentaires dans le back-end. Par conséquent, vous ne pouvez pas poursuivre. Veuillez contacter le service d'assistance.",
+    "inProgress": "En cours de traitement"
+  }
+}

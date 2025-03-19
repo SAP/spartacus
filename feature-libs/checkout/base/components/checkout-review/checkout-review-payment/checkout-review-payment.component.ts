@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,14 @@ import {
   CheckoutPaymentFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { PaymentDetails, TranslationService } from '@spartacus/core';
+import {
+  PaymentDetails,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -20,6 +24,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-review-payment',
   templateUrl: './checkout-review-payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutReviewPaymentComponent {
   iconTypes = ICON_TYPE;
@@ -32,7 +37,9 @@ export class CheckoutReviewPaymentComponent {
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected translationService: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11yHighContrastBorders');
+  }
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(

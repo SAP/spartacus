@@ -16,6 +16,10 @@ cx-page-slot {
         padding-inline-start: 20px;
         padding-inline-end: 20px;
         padding-block-end: 0px;
+
+        @include forFeature('a11yPdpGridArrangement') {
+          grid-row: unset;
+        }
       }
     }
   }

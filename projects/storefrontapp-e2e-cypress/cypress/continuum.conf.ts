@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ window.LevelAccess_AccessContinuumConfiguration = {
     2127 /* WCAG 2.2 Level A */, 2128 /* WCAG 2.2 Level AA */,
   ],
   includePotentialAccessibilityConcerns: false,
-  ampApiToken: Cypress.env('AMP_API_TOKEN'),
   proxy: {
     host: null,
     port: null,

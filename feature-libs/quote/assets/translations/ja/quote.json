@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "名前: ",
+      "description": "説明: ",
+      "validity": "この見積は {{ expirationTime }} まで有効です",
+      "option": {
+        "yes": "はい",
+        "no": "いいえ"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "見積依頼モーダルを閉じる"
+          },
+          "title": "見積依頼 {{ code }} を送信しますか?",
+          "confirmNote": "この見積依頼を送信してもよろしいですか?",
+          "successMessage": "見積依頼が正常に送信されました"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "見積キャンセルモーダルを閉じる"
+          },
+          "title": "見積依頼 {{ code }} をキャンセルしますか?",
+          "confirmNote": "この見積依頼をキャンセルしてもよろしいですか?",
+          "successMessage": "見積依頼がキャンセルされました"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "見積編集モーダルを閉じる"
+          },
+          "title": "見積編集 {{ code }} を確認しますか?",
+          "confirmNote": "この承認済み見積を編集してもよろしいですか?",
+          "warningNote": "この見積は承認されました。この見積を編集すると、新しい編集内容が承認されるまで、チェックアウトできません。"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "見積キャンセルモーダルを閉じる"
+          },
+          "title": "見積 {{ code }} をキャンセルしますか?",
+          "confirmNote": "この見積をキャンセルしてもよろしいですか?",
+          "successMessage": "見積がキャンセルされました"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "見積チェックアウトモーダルを閉じる"
+          },
+          "title": "見積 {{ code }} をチェックアウトしますか?",
+          "confirmNote": "この見積を受け入れてチェックアウトしてもよろしいですか?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "見積編集モーダルを閉じる"
+          },
+          "title": "見積編集 {{ code }} を確認しますか?",
+          "confirmNote": "この期限切れ見積を編集してもよろしいですか?",
+          "warningNote": "この見積の期限が切れました。この見積を編集すると、新しい編集内容が承認されるまで、チェックアウトできません。"
+        },
+        "requote": {
+          "a11y": {
+            "close": "再見積モーダルを閉じる"
+          },
+          "title": "見積依頼 {{ code }} を再作成しますか?",
+          "confirmNote": "この見積依頼を再作成してもよろしいですか?",
+          "warningNote": "この見積の期限が切れました。再見積を行うと、同じ内容で新しい見積依頼が作成されます。これは後で編集して承認のために送信することができます。"
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "見積送信モーダルを閉じる"
+          },
+          "title": "見積 {{ code }} を送信しますか?",
+          "confirmNote": "この見積を送信してもよろしいですか?",
+          "warningNote": "見積の合計金額に応じて、購買担当者がこの見積をチェックアウトする前に追加承認が必要になる場合があります。",
+          "successMessage": "見積が正常に送信されました"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "見積承認モーダルを閉じる"
+          },
+          "title": "見積 {{ code }} を承認しますか?",
+          "confirmNote": "この見積を承認してもよろしいですか?",
+          "successMessage": "見積が正常に承認されました"
+        },
+        "reject": {
+          "a11y": {
+            "close": "見積却下モーダルを閉じる"
+          },
+          "title": "見積 {{ code }} を却下しますか?",
+          "confirmNote": "この見積を却下してもよろしいですか?",
+          "successMessage": "見積が却下されました"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "再見積モーダルを閉じる"
+          },
+          "title": "見積依頼 {{ code }} を再作成しますか?",
+          "confirmNote": "この見積依頼をキャンセルしてもよろしいですか?",
+          "warningNote": "現在のカートは保存されたカートに変換されます。"
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "見積編集モーダルを閉じる"
+          },
+          "title": "見積 {{ code }} を編集しますか?",
+          "confirmNote": "この見積を編集してもよろしいですか?",
+          "warningNote": "現在のカートは保存済みカートに変換されます。"
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "お問い合わせ/コメントボックス",
+      "title": "お問い合わせ",
+      "invalidComment": "無効な入力 - もう一度入力してください...",
+      "allProducts": "すべての商品"
+    },
+    "commons": {
+      "requestQuote": "見積依頼",
+      "cart": "カート",
+      "minRequestInitiationNote": "見積を送信するには、小計 ${{minValue}} 以上が必要です ",
+      "savedActiveCart": "有効なカートが保存済みカート {{ code }} に変換されました"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "見積ヘッダ情報の編集をキャンセル",
+          "save": "見積ヘッダ情報を保存"
+        }
+      },
+      "overview": {
+        "regionTitle": "見積詳細概要",
+        "id": "見積 ID",
+        "status": "ステータス",
+        "information": "見積情報",
+        "name": "名前",
+        "description": "説明",
+        "charactersLeft": "残り文字数: {{count}}",
+        "priceAndExpiry": "価格および失効日",
+        "estimatedTotal": "見積合計",
+        "total": "合計",
+        "expirationTime": "失効日",
+        "a11y": {
+          "edit": "見積ヘッダ情報を編集"
+        },
+        "createdAndUpdated": "作成済みおよび更新済み",
+        "createdDate": "作成済み",
+        "lastUpdatedDate": "最終更新"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "エントリに問題があります。カートを確認してください。",
+      "quoteCartIssue": "カートエントリを変更することはできません。チェックアウトに進んでください",
+      "absoluteDiscountIssue": "合計金額を超えない値引を選択してください",
+      "expirationDateIssue": "有効期限は将来の日付を選択してください",
+      "threshold": {
+        "underThresholdError": "依頼された見積の合計価格が最小しきい値を満たしていません"
+      },
+      "expired": "この見積の期限が切れました。見積依頼を再送信して、別の仕入先見積もりを受け取る必要があります。",
+      "downloadPDFError": "問題が発生しました。提案文書の PDF を取得できません。"
+    },
+    "items": {
+      "regionTitle": "カート内のアイテム"
+    },
+    "links": {
+      "newCart": "新規カート",
+      "quotes": "見積",
+      "download": "提案をダウンロード",
+      "a11y": {
+        "newCart": "空の新規カートを作成し、そこにナビゲートしてください。",
+        "quotes": "見積検索結果一覧にナビゲートしてください。",
+        "download": "見積提案のダウンロードを開始"
+      }
+    },
+    "list": {
+      "regionTitle": "見積リスト概要",
+      "title": "見積リスト",
+      "name": "名前",
+      "updated": "更新済み",
+      "sortBy": "ソート基準",
+      "sortQuotes": "見積をソート",
+      "empty": "このアカウントには見積レコードがありません。",
+      "quoteId": "見積 ID",
+      "status": "ステータス",
+      "clickableRow": "さらに見積詳細を表示するには、行をクリックしてください"
+    },
+    "states": {
+      "BUYER_DRAFT": "下書き",
+      "BUYER_SUBMITTED": "送信済み",
+      "BUYER_ACCEPTED": "受入済み",
+      "BUYER_APPROVED": "承認済み",
+      "BUYER_REJECTED": "却下済み",
+      "BUYER_OFFER": "仕入先見積",
+      "BUYER_ORDERED": "注文済み",
+      "SELLER_DRAFT": "下書き",
+      "SELLER_REQUEST": "依頼済み",
+      "SELLER_SUBMITTED": "送信済み",
+      "SELLERAPPROVER_DRAFT": "下書き",
+      "SELLERAPPROVER_PENDING": "保留中の承認",
+      "SELLERAPPROVER_APPROVED": "承認済み",
+      "SELLERAPPROVER_REJECTED": "却下済み",
+      "CREATED": "作成済み",
+      "CANCELLED": "キャンセル済み",
+      "EXPIRED": "失効"
+    },
+    "summary": {
+      "regionTitle": "注文内容",
+      "actions": {
+        "APPROVE": "見積を承認",
+        "CANCEL": "見積をキャンセル",
+        "CHECKOUT": "受入とチェックアウト",
+        "EDIT": "見積を編集",
+        "REJECT": "見積を却下",
+        "REQUOTE": "新規見積依頼",
+        "SAVE": "見積を保存",
+        "SUBMIT": "見積を送信",
+        "VIEW": "見積を表示"
+      },
+      "prices": {
+        "title": "注文内容",
+        "subtotal": "小計",
+        "productDiscount": "アイテム値引",
+        "orderDiscount": "注文値引",
+        "quoteDiscount": "見積値引",
+        "total": "合計",
+        "hint": "合計には税金が含まれていません"
+      },
+      "sellerEdit": {
+        "discount": "値引",
+        "apply": "適用",
+        "expiryDate": "失効日",
+        "discountValidationText": "有効な値引率を入力してください",
+        "a11y": {
+          "apply": "クリックして、入力した値引金額をこの見積もりに適用します",
+          "discount": "この見積に適用する値引率を入力してください",
+          "expiryDate": "この見積の失効日を入力してください"
+        }
+      }
+    }
+  }
+}

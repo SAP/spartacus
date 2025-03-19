@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ type ConsignmentOutletContextData = { item: Consignment; order?: Order };
 @Component({
   selector: 'cx-my-account-v2-consignment-tracking',
   templateUrl: './my-account-v2-consignment-tracking.component.html',
+  standalone: false,
 })
 export class MyAccountV2ConsignmentTrackingComponent
   extends ConsignmentTrackingComponent

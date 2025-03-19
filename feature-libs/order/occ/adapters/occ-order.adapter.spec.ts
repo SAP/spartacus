@@ -1,7 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import {
@@ -24,6 +29,8 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
       endpoints: {
         placeOrder: 'users/${userId}/orders?fields=FULL',
+        placePaymentAuthorizedOrder:
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
       } as OccEndpoints,
     },
   },
@@ -74,11 +81,13 @@ describe('OccOrderAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LoggerService, useClass: MockLoggerService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(OccOrderAdapter);
@@ -169,6 +178,104 @@ describe('OccOrderAdapter', () => {
         let result: Order | undefined;
         const subscription = service
           .placeOrder(userId, cartId, termsChecked)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
+
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
+
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
+
+        // 3*3*300 = 2700
+        tick(2700);
+
+        expect(result).toEqual({});
+        subscription.unsubscribe();
+      }));
+    });
+  });
+
+  describe(`placePaymentAuthorizedOrder`, () => {
+    it(`should be able to place order after the payment was authorized`, (done) => {
+      service
+        .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(orderData);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            `users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orderData);
+    });
+
+    it(`should use converter`, (done) => {
+      service
+        .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
+        .pipe(take(1))
+        .subscribe(() => {
+          done();
+        });
+      httpMock
+        .expectOne(
+          (req) =>
+            req.method === 'POST' &&
+            req.url ===
+              `users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+        )
+        .flush({});
+      expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
+    });
+
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'post').and.returnValue(
+          throwError(() => mockJaloError)
+        );
+
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
+
+        tick(4200);
+
+        expect(result).toEqual(mockNormalizedJaloError);
+
+        subscription.unsubscribe();
+      }));
+
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
+
+        spyOn(httpClient, 'post').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of({});
+            }
+            return throwError(() => mockJaloError);
+          })
+        );
+
+        let result: Order | undefined;
+        const subscription = service
+          .placePaymentAuthorizedOrder(userId, cartId, termsChecked)
           .pipe(take(1))
           .subscribe((res) => {
             result = res;

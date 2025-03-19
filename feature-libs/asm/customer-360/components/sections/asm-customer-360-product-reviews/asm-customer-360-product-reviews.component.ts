@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
   selector: 'cx-asm-customer-360-product-reviews',
   templateUrl: './asm-customer-360-product-reviews.component.html',
   providers: [CxDatePipe],
+  standalone: false,
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
   reviewColumns: Array<CustomerTableColumn> = [

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,6 +54,7 @@ import {
   selector: 'cx-product-image-zoom-view',
   templateUrl: './product-image-zoom-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
@@ -170,6 +171,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     protected breakpointService: BreakpointService
   ) {
     useFeatureStyles('a11yKeyboardAccessibleZoom');
+    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit() {

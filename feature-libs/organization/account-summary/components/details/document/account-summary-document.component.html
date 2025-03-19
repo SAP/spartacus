@@ -1,8 +1,8 @@
 <ng-container *ngIf="accountSummary$ | async as accountSummary">
-  <div>
+  <div role="region" aria-labelledby="regionTitle">
     <!-- HEADER -->
     <div class="cx-account-summary-document-header">
-      <h2>
+      <h2 id="regionTitle">
         {{ 'orgAccountSummary.document.header' | cxTranslate }}
       </h2>
     </div>
@@ -56,7 +56,10 @@
           id="cx-account-summary-document-table"
           class="table cx-account-summary-document-table"
         >
-          <thead class="cx-account-summary-document-thead-mobile">
+          <thead
+            *cxFeature="'!a11yTableHeaderReadout'"
+            class="cx-account-summary-document-thead-mobile"
+          >
             <th scope="col">
               {{ 'orgAccountSummary.document.id' | cxTranslate }}
             </th>
@@ -87,6 +90,43 @@
                 }}"
               ></cx-icon>
             </th>
+          </thead>
+          <thead
+            *cxFeature="'a11yTableHeaderReadout'"
+            class="cx-account-summary-document-thead-mobile"
+          >
+            <tr>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.id' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.type' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.date' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.originalAmount' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'orgAccountSummary.document.status' | cxTranslate }}
+              </th>
+              <th scope="col">
+                <cx-icon
+                  [type]="ICON_TYPE.DOWNLOAD"
+                  class="cx-account-summary-document-attachment-icon"
+                  title="{{
+                    'orgAccountSummary.document.attachment' | cxTranslate
+                  }}"
+                ></cx-icon>
+              </th>
+            </tr>
           </thead>
           <tbody>
             <tr

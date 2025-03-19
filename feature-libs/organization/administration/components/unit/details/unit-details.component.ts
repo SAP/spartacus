@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { UnitItemService } from '../services/unit-item.service';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class UnitDetailsComponent {
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,12 +18,12 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartOutlets,
   ConsignmentEntry,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-  CartOutlets,
 } from '@spartacus/cart/base/root';
 import {
   FeatureConfigService,
@@ -48,6 +48,7 @@ interface ItemListContext {
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
@@ -99,6 +100,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
     useFeatureStyles('a11yPreventHorizontalScroll');
+    useFeatureStyles('a11yQTY2Quantity');
+    useFeatureStyles('a11yPickupOptionsTabs');
+    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit(): void {

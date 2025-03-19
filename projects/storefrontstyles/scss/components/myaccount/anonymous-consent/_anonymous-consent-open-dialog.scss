@@ -3,10 +3,17 @@
   justify-content: center;
   margin: 0 3vw 3vw 3vw;
 
+  @include forFeature('a11yHideConsentButtonWhenBannerVisible') {
+    margin: 0;
+  }
+
   @include media-breakpoint-down(sm) {
     justify-content: flex-start;
   }
   .btn-link {
+    @include forFeature('a11yHideConsentButtonWhenBannerVisible') {
+      margin: 1.5vw 3vw;
+    }
     padding: 0;
     color: var(--cx-color-inverse);
     font-size: 0.875rem;

@@ -4,7 +4,7 @@
     class="anonymous-consent-banner"
   >
     <div class="container">
-      <div class="row">
+      <div class="row" *cxFeature="'!a11yHideConsentButtonWhenBannerVisible'">
         <div class="col-lg-7 col-xs-12">
           <div class="cx-banner-title">
             {{ 'anonymousConsents.banner.title' | cxTranslate }}
@@ -17,6 +17,25 @@
         <div class="col-lg-5 col-xs-12 cx-banner-buttons">
           <button class="btn btn-secondary" (click)="viewDetails()">
             {{ 'anonymousConsents.banner.viewDetails' | cxTranslate }}
+          </button>
+          <button class="btn btn-primary" (click)="allowAll()">
+            {{ 'anonymousConsents.banner.allowAll' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+      <div class="row" *cxFeature="'a11yHideConsentButtonWhenBannerVisible'">
+        <div class="col-xl-7 col-lg-6 col-xs-12">
+          <div class="cx-banner-title">
+            {{ 'anonymousConsents.banner.title' | cxTranslate }}
+          </div>
+          <div class="cx-banner-description">
+            {{ 'anonymousConsents.banner.description' | cxTranslate }}
+          </div>
+        </div>
+
+        <div class="col-xl-5 col-lg-6 col-xs-12 cx-banner-buttons">
+          <button class="btn btn-secondary" (click)="viewDetails()">
+            {{ 'anonymousConsents.banner.consentManagement' | cxTranslate }}
           </button>
           <button class="btn btn-primary" (click)="allowAll()">
             {{ 'anonymousConsents.banner.allowAll' | cxTranslate }}

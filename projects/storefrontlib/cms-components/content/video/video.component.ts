@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import { MediaService } from '../../../shared/components/media/media.service';
   selector: 'cx-video',
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;

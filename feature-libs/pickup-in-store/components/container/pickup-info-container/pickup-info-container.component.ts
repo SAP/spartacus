@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
+  standalone: false,
 })
 export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];

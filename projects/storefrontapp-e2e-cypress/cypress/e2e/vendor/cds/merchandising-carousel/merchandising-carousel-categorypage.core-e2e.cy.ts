@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -88,7 +88,7 @@ context('Merchandising Carousel - Category page', () => {
     });
 
     it('should request products filtered by additional facets when facets on a category page are changed', () => {
-      merchandisingCarousel.applyFacet(
+      merchandisingCarousel.openHiddenFacetAndApply(
         'Brand',
         merchandisingCarousel.canonBrandName
       );

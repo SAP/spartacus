@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,5 +19,17 @@ export class OrderConnector {
     termsChecked: boolean
   ): Observable<Order> {
     return this.adapter.placeOrder(userId, cartId, termsChecked);
+  }
+
+  public placePaymentAuthorizedOrder(
+    userId: string,
+    cartId: string,
+    termsChecked: boolean
+  ): Observable<Order> {
+    return this.adapter.placePaymentAuthorizedOrder(
+      userId,
+      cartId,
+      termsChecked
+    );
   }
 }

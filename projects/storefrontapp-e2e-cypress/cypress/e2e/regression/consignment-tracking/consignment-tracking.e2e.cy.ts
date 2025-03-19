@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,8 @@ describe('consignment tracking', () => {
           cy.get('.btn-track').click();
         });
       cy.get('.cx-tracking-event-body').should('have.length', 3);
-      cy.get('.close').click();
+
+      cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
         .next()
         .first()
@@ -33,7 +34,7 @@ describe('consignment tracking', () => {
           cy.get('.btn-track').click();
         });
       cy.get('.cx-no-tracking-heading').should('have.length', 1);
-      cy.get('.close').click();
+      cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
         .last()
         .within(() => {

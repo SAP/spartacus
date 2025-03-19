@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -497,6 +497,36 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Already registered? Go to Sign in',
       type: TabbingOrderTypes.LINK,
+    },
+  ],
+  userRegistrationFormWithOTP: [
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.TEXT_AREA },
+    {
+      value: 'Continue',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  verificationToken: [
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'Register',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   quoteDetailsPage: [

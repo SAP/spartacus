@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-import-export-order-entries',
   templateUrl: './import-export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

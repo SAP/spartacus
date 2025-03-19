@@ -14,6 +14,7 @@ import { NotificationPreferenceComponent } from './notification-preference.compo
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 

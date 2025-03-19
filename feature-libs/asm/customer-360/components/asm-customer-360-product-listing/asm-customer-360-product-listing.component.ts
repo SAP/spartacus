@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { ProductItem } from './product-item.model';
   selector: 'cx-asm-customer-360-product-listing',
   templateUrl: './asm-customer-360-product-listing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
   @Input()

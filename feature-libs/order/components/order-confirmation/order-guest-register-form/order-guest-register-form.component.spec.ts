@@ -104,7 +104,8 @@ describe('OrderGuestRegisterFormComponent', () => {
         cxMinOneDigit: true,
         cxMinOneUpperCaseCharacter: true,
         cxMinOneSpecialCharacter: true,
-        cxMinSixCharactersLength: true,
+        cxMinEightCharactersLength: true,
+        cxMaxCharactersLength: true,
       });
     });
 

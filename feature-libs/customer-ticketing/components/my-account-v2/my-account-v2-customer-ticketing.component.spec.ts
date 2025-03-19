@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
@@ -29,12 +28,14 @@ const mockTicketList: TicketList = {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -69,7 +70,7 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         MyAccountV2CustomerTicketingComponent,
         MockTranslatePipe,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -293,7 +293,7 @@ describe('Cart', () => {
         cy.wait('@addEntry').its('response.statusCode').should('eq', 400);
         cy.get('cx-added-to-cart-dialog .modal-header').should(
           'not.contain',
-          'Item(s) added to your cart'
+          'Item Added To Your Cart'
         );
         cart.checkAddedToCartDialog();
         cy.visit('/cart');

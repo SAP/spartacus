@@ -11,7 +11,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -46,6 +45,7 @@ class MockRoutingService {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -67,7 +67,6 @@ describe('VerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
@@ -210,6 +209,32 @@ describe('VerificationTokenFormComponent', () => {
         'verificationTokenForm.createVerificationToken',
         { target: 'example@example.com' }
       );
+    });
+  });
+
+  describe('Up To Rate Limit For Login', () => {
+    it('should diplay error message when creat verification token up to rate limit', () => {
+      history.pushState(
+        {
+          tokenId: '',
+          loginId: 'JohnDoe@thebest.john.intheworld.com',
+          titleCode: 'Mr',
+          firstName: 'John',
+          lastName: 'Doe',
+          errorStatus: 400,
+        },
+        ''
+      );
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      fixture.whenStable();
+      expect(component.upToRateLimit).toBe(true);
+      component.waitTimeForRateLimit = 300;
+      const errorMessageElement = fixture.debugElement.queryAll(
+        By.css('.rate-limit-error-display')
+      );
+      expect(errorMessageElement).toBeTruthy();
     });
   });
 });

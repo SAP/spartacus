@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-checkout-login',
   templateUrl: './checkout-login.component.html',
+  standalone: false,
 })
 export class CheckoutLoginComponent implements OnDestroy {
   checkoutLoginForm: UntypedFormGroup = this.formBuilder.group(

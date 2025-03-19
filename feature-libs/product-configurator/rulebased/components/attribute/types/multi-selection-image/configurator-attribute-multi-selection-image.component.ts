@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
@@ -52,7 +53,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       attributeComponentContext.attribute.key
     );
 
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
+    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

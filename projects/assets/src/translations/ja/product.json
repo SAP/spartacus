@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "ID",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "productDetails": "商品詳細",
+    "specification": "仕様",
+    "reviews": "レビュー",
+    "shipping": "配送中",
+    "share": "共有",
+    "showReviews": "レビューを表示",
+    "noReviews": "まだレビューなし",
+    "productPrice": "商品価格",
+    "noProductImage": "イメージがありません、{{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "フィルタ基準",
+      "action": "フィルタ基準"
+    },
+    "activeFilter": "{{filter}} フィルタ、このボタンをクリックするとフィルタが削除されます",
+    "appliedFilter": "適用済みフィルタ: ",
+    "showLess": "表示制限...",
+    "showMore": "表示追加...",
+    "sortBy": "ソート基準",
+    "sortResults": "結果をソート",
+    "backToTopBtn": "先頭に戻る",
+    "showMoreBtn": "表示追加",
+    "productSearchPagination": "商品検索のページネーション",
+    "productListResults": "商品結果一覧"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "フィルタ基準",
+      "action": "フィルタ基準",
+      "facet": "結果をファセットでフィルタ",
+      "name": "{{name}} でフィルタ"
+    },
+    "appliedFilter": "適用済みフィルタ: ",
+    "showLess": "表示制限...",
+    "showMore": "表示追加...",
+    "sortBy": "ソート基準",
+    "ariaLabelShowLess": "表示制限、ボタン、このボタンをクリックすると有効なグループのオプションが減ります",
+    "ariaLabelShowMore": "表示追加、ボタン、このボタンをクリックすると有効なグループのすべてのオプションが表示されます",
+    "ariaLabelItemsAvailable": "{{name}}、{{state}} {{count}} アイテムを利用できます",
+    "ariaLabelItemsAvailable_other": "{{name}}、{{state}} {{count}} アイテムを利用できます",
+    "decreaseOptionsVisibility": "有効なタブグループでオプションが非表示になりました。戻ってオプションを読み込むか、次のグループに進んでください",
+    "increaseOptionsVisibility": "有効なタブグループにオプションが追加されました。戻ってオプションを読み込むか、次のグループに進んでください",
+    "backToResults": "結果に戻る",
+    "productFacets": "商品ファセット"
+  },
+  "productSummary": {
+    "id": "ID",
+    "showReviews": "レビューを表示",
+    "showReviewsDetailed": "{{count}} レビューを表示、5 つ星のうち {{rating}} と評価",
+    "share": "共有",
+    "newItemPrice": "新しいアイテム価格"
+  },
+  "productReview": {
+    "overallRating": "総合評価",
+    "reviewTitle": "レビュータイトル",
+    "writeYourComments": "コメントを入力してください",
+    "rating": "評価",
+    "ratingRequired": "商品評価、必須",
+    "addRate": "評価を追加: {{count}} つ星",
+    "addRate_other": "評価を追加: {{count}} つ星",
+    "reviewerName": "レビュー担当者名 (オプション)",
+    "writeReview": "レビューを書く",
+    "more": "レビューをさらに表示",
+    "less": "レビューの表示を減らす",
+    "thankYouForReview": "レビューをありがとうございます。レビューにはここに表示される前のレビューが必要な場合があることに注意してください。",
+    "postReviewFail": "レビューの投稿中に何らかの問題が発生しました。後でもう一度実行してください。",
+    "ratedOutOf": "評価: 5 のうち {{rating}}"
+  },
+  "productCarousel": {
+    "carouselLabel": "カルーセル、{{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "アイテムがカートに追加されました",
+    "itemsAddedToYourCart": "アイテムがカートに追加されました",
+    "itemsIncrementedInYourCart": "このアイテムはすでにカートに追加されています。数量が更新されました。",
+    "items": "アイテム",
+    "updatingCart": "カードを更新しています...",
+    "addToCart": "カートに追加",
+    "viewCart": "カートを表示",
+    "proceedToCheckout": "チェックアウトに進む",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "outOfStock": "在庫なし",
+    "inStock": "在庫あり",
+    "selectStyleAndSize": "在庫を確認するにはスタイルとサイズを選択してください",
+    "removeFromCart": "カートから商品を削除",
+    "closeModal": "モーダルを閉じる",
+    "buyItAgain": "再購入",
+    "addToActiveCart": "有効なカートに追加"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "商品詳細",
+      "ProductSpecsTabComponent": "仕様",
+      "ProductReviewsTabComponent": "レビュー",
+      "deliveryTab": "配送中",
+      "SparePartsTabComponent": " スペアパーツ"
+    },
+    "tabPanelContainerRegion": "より多くの商品詳細が含まれるタブグループ",
+    "tabPanelContainerRegionGroup": "より多くの商品詳細が含まれるグループ"
+  },
+  "addToWishList": {
+    "add": "ウィッシュリストに追加",
+    "remove": "ウィッシュリストから削除",
+    "anonymous": "サインインしてウィッシュリストに追加",
+    "addedToWishList": "ウィッシュリストに追加された商品",
+    "removedFromWishList": "ウィッシュリストから削除された商品"
+  },
+  "stockNotification": {
+    "notifyMe": "通知を受け取る",
+    "stopNotify": "通知を停止",
+    "getNotify": "この商品が入手可能になったときに通知を受け取ります。",
+    "getNotifySuffix": "この商品が入手可能になったときに通知を受け取ります。",
+    "activateChannelsPrefix": "通知を受け取るために有効化が必要 ",
+    "channelsLink": "通知チャネル",
+    "activateChannelsSuffix": ".",
+    "notified": "この商品が再入荷したときに通知を受け取ります。",
+    "getNotified": "この商品が再入荷したときに通知を受け取ります。",
+    "unsubscribeSuccess": "この商品の再入荷通知を受け取りません。",
+    "subscriptionDialog": {
+      "header": "定期購入の在庫なし",
+      "notifiedPrefix": "通知日: ",
+      "notifiedSuffix": "この商品が再入荷次第。",
+      "manageChannelsPrefix": "優先通知チャネルを管理します ",
+      "manageChannelsLink": "通知設定",
+      "manageChannelsSuffix": " ページ。",
+      "manageSubscriptionsPrefix": "定期購入を管理できます ",
+      "manageSubscriptionsLink": "関心事",
+      "manageSubscriptionsSuffix": " ページ。",
+      "okBtn": "OK",
+      "subscribing": "この商品の在庫なし通知の購読"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "削除",
+    "addOneMore": "もう 1 つ追加",
+    "quantity": "数量"
+  },
+  "productView": {
+    "gridView": "選択してグリッドビューに変更",
+    "listView": "選択してリストビューに変更"
+  }
+}

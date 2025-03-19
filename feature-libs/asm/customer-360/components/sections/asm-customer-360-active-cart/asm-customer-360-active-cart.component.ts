@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-active-cart',
   templateUrl: './asm-customer-360-active-cart.component.html',
+  standalone: false,
 })
 export class AsmCustomer360ActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;

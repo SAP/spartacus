@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import { HamburgerMenuService } from './hamburger-menu.service';
   selector: 'cx-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HamburgerMenuComponent {
   constructor(private hamburgerMenuService: HamburgerMenuService) {}

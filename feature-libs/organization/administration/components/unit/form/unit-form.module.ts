@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  NgSelectA11yModule,
+} from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
 import { UnitFormComponent } from './unit-form.component';
@@ -27,6 +32,9 @@ import { UnitFormComponent } from './unit-form.component';
     FormErrorsModule,
     ItemActiveModule,
     FeaturesConfigModule,
+    NgSelectA11yModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [UnitFormComponent],
   exports: [UnitFormComponent],

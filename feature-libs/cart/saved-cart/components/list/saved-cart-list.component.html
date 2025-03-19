@@ -15,29 +15,84 @@
 
     <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">
       <table role="table" class="table cx-saved-cart-list-table">
-        <thead role="row" class="cx-saved-cart-list-thead-mobile">
-          <th role="columnheader" scope="col">
-            {{ 'savedCartList.cartName' | cxTranslate }}
-          </th>
-          <th role="columnheader" scope="col">
-            {{ 'savedCartList.cartId' | cxTranslate }}
-          </th>
-          <th role="columnheader" scope="col">
-            {{ 'savedCartList.dateSaved' | cxTranslate }}
-          </th>
-          <th role="columnheader" scope="col" class="cx-saved-cart-list-th-qty">
-            {{ 'savedCartList.quantity' | cxTranslate }}
-          </th>
-          <th
-            role="columnheader"
-            scope="col"
-            class="cx-saved-cart-list-th-total"
+        <thead
+          *cxFeature="'!a11yTableHeaderReadout'"
+          role="row"
+          class="cx-saved-cart-list-thead-mobile"
+        >
+          <thead role="row" class="cx-saved-cart-list-thead-mobile">
+            <th role="columnheader" scope="col">
+              {{ 'savedCartList.cartName' | cxTranslate }}
+            </th>
+            <th role="columnheader" scope="col">
+              {{ 'savedCartList.cartId' | cxTranslate }}
+            </th>
+            <th role="columnheader" scope="col">
+              {{ 'savedCartList.dateSaved' | cxTranslate }}
+            </th>
+            <th
+              *cxFeature="'a11yQTY2Quantity'"
+              role="columnheader"
+              scope="col"
+              class="cx-saved-cart-list-th-qty"
+            >
+              {{ 'savedCartList.quantityFull' | cxTranslate }}
+            </th>
+            <th
+              *cxFeature="'!a11yQTY2Quantity'"
+              role="columnheader"
+              scope="col"
+              class="cx-saved-cart-list-th-qty"
+            >
+              {{ 'savedCartList.quantity' | cxTranslate }}
+            </th>
+            <th
+              role="columnheader"
+              scope="col"
+              class="cx-saved-cart-list-th-total"
+            >
+              {{ 'savedCartList.total' | cxTranslate }}
+            </th>
+            <th role="columnheader" scope="col">
+              {{ 'savedCartList.actions' | cxTranslate }}
+            </th>
+          </thead>
+          <thead
+            *cxFeature="'a11yTableHeaderReadout'"
+            class="cx-saved-cart-list-thead-mobile"
           >
-            {{ 'savedCartList.total' | cxTranslate }}
-          </th>
-          <th role="columnheader" scope="col">
-            {{ 'savedCartList.actions' | cxTranslate }}
-          </th>
+            <tr>
+              <th scope="col">
+                {{ 'savedCartList.cartName' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'savedCartList.cartId' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'savedCartList.dateSaved' | cxTranslate }}
+              </th>
+              <th
+                *cxFeature="'a11yQTY2Quantity'"
+                scope="col"
+                class="cx-saved-cart-list-th-qty"
+              >
+                {{ 'savedCartList.quantityFull' | cxTranslate }}
+              </th>
+              <th
+                *cxFeature="'!a11yQTY2Quantity'"
+                scope="col"
+                class="cx-saved-cart-list-th-qty"
+              >
+                {{ 'savedCartList.quantity' | cxTranslate }}
+              </th>
+              <th scope="col" class="cx-saved-cart-list-th-total">
+                {{ 'savedCartList.total' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'savedCartList.actions' | cxTranslate }}
+              </th>
+            </tr>
+          </thead>
         </thead>
         <tbody>
           <tr
@@ -92,7 +147,16 @@
               >
             </td>
             <td class="cx-saved-cart-list-quantity">
-              <div class="cx-table-label-mobile cx-saved-cart-list-label">
+              <div
+                *cxFeature="'a11yQTY2Quantity'"
+                class="cx-table-label-mobile cx-saved-cart-list-label"
+              >
+                {{ 'savedCartList.quantityFull' | cxTranslate }}
+              </div>
+              <div
+                *cxFeature="'!a11yQTY2Quantity'"
+                class="cx-table-label-mobile cx-saved-cart-list-label"
+              >
                 {{ 'savedCartList.quantity' | cxTranslate }}
               </div>
               <a

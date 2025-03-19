@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { RoutingService } from '@spartacus/core';
   templateUrl: './update-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form' },
+  standalone: false,
 })
 export class UpdateProfileComponent {
   @Optional() protected routingService = inject(RoutingService, {

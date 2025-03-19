@@ -1,48 +1,91 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  inject,
   Input,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { BreakpointService } from '../../../layout/breakpoint';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
-import { TranslationService } from '@spartacus/core';
+import {
+  TranslationService,
+  useFeatureStyles,
+  FeatureConfigService,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-tab',
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class TabComponent implements OnInit {
+export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
+  /**
+   * If you have nested templates that are subject to complex changes,
+   * it can be better to use this property instead with an Observable
+   * to set Tabs.
+   *
+   * Note: You should NOT set the `tabs` property if using this.
+   */
+  @Input() tabs$: Observable<Tab[] | any>;
   @Input() tabs: Tab[] | any;
   @Input() config: TabConfig | any;
+  @Input() disabled: boolean = false;
 
   readonly TAB_MODE = TAB_MODE;
 
-  openTabs$: BehaviorSubject<number[]>;
-  mode$: Observable<TAB_MODE>;
+  protected breakpointService = inject(BreakpointService);
+  protected translationService = inject(TranslationService);
+  protected cd = inject(ChangeDetectorRef);
+  private featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
-  constructor(
-    protected breakpointService: BreakpointService,
-    protected translationService: TranslationService
-  ) {}
+  openTabs$: BehaviorSubject<number[]>;
+  mode$: Observable<TAB_MODE>;
+  protected subscriptions = new Subscription();
+
+  constructor() {
+    useFeatureStyles('a11yCroppedFocusRing');
+  }
 
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);
     this.mode$ = this.getMode();
+  }
+
+  ngAfterViewInit(): void {
+    /**
+     * We subscribe to the tabs observable if added and use this to set
+     * the `tabs` property. The input `tabs` property should not be
+     * initialized. It will be overwritten by this otherwise.
+     */
+    this.subscriptions.add(
+      this.tabs$?.subscribe((tabs) => {
+        this.tabs = tabs;
+        this.cd.detectChanges();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   /**
@@ -76,11 +119,19 @@ export class TabComponent implements OnInit {
   selectOrFocus(tabNum: number, mode: TAB_MODE, event: KeyboardEvent): void {
     event.preventDefault();
 
-    switch (mode) {
-      case TAB_MODE.TAB:
-        return this.select(tabNum, mode);
-      case TAB_MODE.ACCORDIAN:
-        return this.focus(tabNum);
+    if (this.featureConfigService?.isEnabled('a11yTabsManualActivation')) {
+      switch (mode) {
+        case TAB_MODE.TAB:
+        case TAB_MODE.ACCORDIAN:
+          return this.focus(tabNum);
+      }
+    } else {
+      switch (mode) {
+        case TAB_MODE.TAB:
+          return this.select(tabNum, mode);
+        case TAB_MODE.ACCORDIAN:
+          return this.focus(tabNum);
+      }
     }
   }
 
@@ -104,6 +155,14 @@ export class TabComponent implements OnInit {
     const PREVIOUS_TAB = wrapIntoBounds(tabNum - 1, LAST_TAB);
     const NEXT_TAB = wrapIntoBounds(tabNum + 1, LAST_TAB);
 
+    // Disable some keys is `restrictDirectionKeys` is enabled.
+    if (
+      this.config.restrictDirectionKeys &&
+      this.shouldRestrictKeys(mode, event)
+    ) {
+      return;
+    }
+
     switch (event.key) {
       case 'ArrowLeft':
       case 'ArrowUp':
@@ -116,6 +175,21 @@ export class TabComponent implements OnInit {
       case 'End':
         return this.selectOrFocus(LAST_TAB, mode, event);
     }
+  }
+
+  protected shouldRestrictKeys(mode: TAB_MODE, event: KeyboardEvent): boolean {
+    if (mode === TAB_MODE.TAB && ['ArrowUp', 'ArrowDown'].includes(event.key)) {
+      return true;
+    }
+
+    if (
+      mode === TAB_MODE.ACCORDIAN &&
+      ['ArrowLeft', 'ArrowRight'].includes(event.key)
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -163,15 +237,19 @@ export class TabComponent implements OnInit {
       return null;
     }
 
+    let header = tab.header;
+    if (tab.headerKey) {
+      this.translationService
+        .translate(tab.headerKey)
+        .pipe(take(1))
+        .subscribe((val) => {
+          header = val;
+        });
+    }
+
     return (
       // Show expanded or collapsed.
-      (this.isOpen(index) ? 'Collapse' : 'Expand') +
-      ' ' +
-      // Show the translation key for header if available.
-      // Otherwise fallback to header string value.
-      (tab.headerKey
-        ? this.translationService.translate(tab.headerKey)
-        : tab.header)
+      (this.isOpen(index) ? 'Collapse' : 'Expand') + ' ' + header
     );
   }
 

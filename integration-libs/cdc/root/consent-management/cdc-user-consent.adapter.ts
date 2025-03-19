@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,9 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
       );
     } else {
       return this.cdcUserConsentService
-        .updateCdcConsent(true, [consentTemplateId])
+        .updateCdcUserPreferences([
+          { id: consentTemplateId, isConsentGranted: true },
+        ])
         .pipe(
           catchError((error: any) => throwError(error)),
           switchMap((result) => {
@@ -71,7 +73,9 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
       return super.withdrawConsent(userId, consentCode);
     } else {
       return this.cdcUserConsentService
-        .updateCdcConsent(false, consentId ? [consentId] : [])
+        .updateCdcUserPreferences([
+          { id: consentId ?? '', isConsentGranted: false },
+        ])
         .pipe(
           catchError((error: any) => throwError(error)),
           switchMap((result) => {

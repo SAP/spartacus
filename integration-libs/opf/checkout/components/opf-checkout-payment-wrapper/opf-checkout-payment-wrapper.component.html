@@ -1,0 +1,96 @@
+<div
+  class="cx-payment-option-container"
+  *ngIf="renderPaymentMethodEvent$ | async as paymentLink"
+>
+  <ng-container
+    *ngTemplateOutlet="
+      !paymentLink?.isLoading ? paymentData : noPaymentData;
+      context: { paymentLink: paymentLink }
+    "
+  >
+  </ng-container>
+</div>
+
+<ng-template #paymentData let-paymentLink="paymentLink">
+  <div>
+    <ng-container *ngIf="paymentLink?.destination?.url">
+      <div
+        *ngIf="
+          paymentLink.renderType === RENDER_PATTERN.FULL_PAGE &&
+          !paymentLink.destination?.form?.length
+        "
+        class="cx-payment-link"
+      >
+        <a
+          class="btn btn-primary"
+          [href]="paymentLink.destination.url"
+          [attr.title]="'opfCheckout.proceedPayment' | cxTranslate"
+          [attr.aria-label]="
+            'opfCheckout.proceedPaymentButtonLabel' | cxTranslate
+          "
+          >{{ 'opfCheckout.proceedPayment' | cxTranslate }}</a
+        >
+      </div>
+      <ng-container
+        *ngIf="
+          paymentLink.renderType === RENDER_PATTERN.IFRAME &&
+          !paymentLink?.destination?.form?.length
+        "
+      >
+        <iframe
+          class="cx-payment-iframe"
+          [src]="bypassSecurityTrustResourceUrl(paymentLink.destination?.url)"
+        ></iframe>
+      </ng-container>
+      <div
+        *ngIf="paymentLink?.destination?.form?.length"
+        class="cx-payment-link"
+      >
+        <form
+          [action]="paymentLink.destination?.url"
+          [method]="paymentLink.destination?.method"
+          [enctype]="paymentLink.destination?.contentType"
+        >
+          <fieldset>
+            <input
+              *ngFor="let field of paymentLink.destination?.form"
+              type="hidden"
+              [name]="field?.name"
+              [value]="field?.value"
+            />
+          </fieldset>
+          <input
+            class="btn btn-primary"
+            type="submit"
+            [value]="'opfCheckout.proceedPayment' | cxTranslate"
+          />
+        </form>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="paymentLink?.html">
+      <div [innerHTML]="bypassSecurityTrustHtml(paymentLink.html)"></div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #noPaymentData let-paymentLink="paymentLink">
+  <ng-container *ngIf="paymentLink?.isError; else loading">
+    <div class="cx-payment-option-container">
+      <div class="cx-payment-link">
+        <button
+          [ngClass]="'btn btn-primary'"
+          type="button"
+          (click)="retryInitiatePayment()"
+          [attr.title]="'opfCheckout.retryPayment' | cxTranslate"
+          [attr.aria-label]="'opfCheckout.retryPayment' | cxTranslate"
+        >
+          {{ 'opfCheckout.retryPayment' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <cx-spinner></cx-spinner>
+  </ng-template>
+</ng-template>

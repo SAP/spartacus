@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import { Observable, Subscription, map } from 'rxjs';
 @Component({
   selector: 'cx-card-service-details',
   templateUrl: './service-details-card.component.html',
+  standalone: false,
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

@@ -11,6 +11,10 @@
       margin-inline-start: 2.1875rem;
       color: var(--cx-color-light);
       border-right-width: 1px;
+
+      @include cx-highContrastTheme {
+        color: var(--cx-color-dark);
+      }
     }
 
     .cx-messages {
@@ -38,6 +42,10 @@
 
         div {
           width: 100%;
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+            border-color: var(--cx-color-dark);
+          }
         }
       }
 
@@ -56,6 +64,9 @@
           90%
         );
         border-radius: 0px 16px 16px 16px;
+        @include forFeature('a11yCroppedFocusRing') {
+          outline-offset: -2px;
+        }
       }
 
       .cx-message-right-align-text {
@@ -63,6 +74,9 @@
         border: 1px solid var(--cx-color-light);
         background-color: var(--cx-color-background);
         border-radius: 0px 16px 16px 16px;
+        @include forFeature('a11yCroppedFocusRing') {
+          outline-offset: -2px;
+        }
       }
 
       .cx-attachment {

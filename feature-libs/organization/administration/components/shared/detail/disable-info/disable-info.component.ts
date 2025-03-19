@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import { DisableInfoService } from './disable-info.service';
   selector: 'cx-org-disable-info',
   templateUrl: './disable-info.component.html',
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

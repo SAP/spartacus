@@ -1,9 +1,11 @@
 <cx-org-form i18nRoot="orgBudget">
   <ng-container *ngIf="form" [formGroup]="form" main>
+    <cx-form-required-legend />
     <label>
-      <span class="label-content required">{{
-        'orgBudget.name' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgBudget.name' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -11,11 +13,14 @@
         placeholder="{{ 'orgBudget.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
+        [attr.aria-describedby]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.name' | cxTranslate,
         }"
@@ -29,20 +34,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgBudget.code' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgBudget.code' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
+        [attr.aria-describedby]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.code' | cxTranslate,
         }"
@@ -56,9 +65,10 @@
     </label>
 
     <label>
-      <span class="label-content">{{
-        'orgBudget.startDate' | cxTranslate
-      }}</span>
+      <span class="label-content">
+        {{ 'orgBudget.startDate' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <cx-date-picker
         [control]="$any(form.get('startDate'))"
         [max]="form.get('endDate')?.value"
@@ -69,7 +79,10 @@
     </label>
 
     <label>
-      <span class="label-content">{{ 'orgBudget.endDate' | cxTranslate }}</span>
+      <span class="label-content">
+        {{ 'orgBudget.endDate' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-date-picker
@@ -123,7 +136,10 @@
     </label>
 
     <label>
-      <span class="label-content">{{ 'orgBudget.amount' | cxTranslate }}</span>
+      <span class="label-content">
+        {{ 'orgBudget.amount' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="number"
@@ -131,11 +147,14 @@
         placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
         formControlName="budget"
         min="0"
+        [attr.aria-describedby]="'budgetError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="budgetError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.amount' | cxTranslate,
         }"
@@ -152,9 +171,10 @@
       *ngIf="units$ | async as units"
       [formGroup]="$any(form.get('orgUnit'))"
     >
-      <span class="label-content required">{{
-        'orgBudget.businessUnits' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgBudget.businessUnits' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"

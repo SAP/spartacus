@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,11 +22,13 @@ import {
 import {
   CardModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
-  PwaModule,
   provideOutlet,
+  PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { OrderDetailBillingComponent } from '../order-details/order-detail-billing/order-detail-billing.component';
@@ -60,6 +62,8 @@ const orderConfirmationComponents = [
     PasswordVisibilityToggleModule,
     AbstractOrderContextModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

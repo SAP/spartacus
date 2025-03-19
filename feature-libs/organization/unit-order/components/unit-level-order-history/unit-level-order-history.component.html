@@ -50,7 +50,10 @@
             id="order-history-table"
             class="table cx-unit-level-order-history-table"
           >
-            <thead class="cx-unit-level-order-history-thead-mobile">
+            <thead
+              *cxFeature="'!a11yTableHeaderReadout'"
+              class="cx-unit-level-order-history-thead-mobile"
+            >
               <th scope="col">
                 {{ 'unitLevelOrderHistory.orderId' | cxTranslate }}
               </th>
@@ -69,6 +72,31 @@
               <th scope="col">
                 {{ 'unitLevelOrderHistory.total' | cxTranslate }}
               </th>
+            </thead>
+            <thead
+              *cxFeature="'a11yTableHeaderReadout'"
+              class="cx-unit-level-order-history-thead-mobile"
+            >
+              <tr>
+                <th scope="col">
+                  {{ 'unitLevelOrderHistory.orderId' | cxTranslate }}
+                </th>
+                <th scope="col">
+                  {{ 'unitLevelOrderHistory.date' | cxTranslate }}
+                </th>
+                <th scope="col">
+                  {{ 'unitLevelOrderHistory.status' | cxTranslate }}
+                </th>
+                <th scope="col">
+                  {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+                </th>
+                <th scope="col">
+                  {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+                </th>
+                <th scope="col">
+                  {{ 'unitLevelOrderHistory.total' | cxTranslate }}
+                </th>
+              </tr>
             </thead>
             <tbody>
               <tr
@@ -140,10 +168,19 @@
                     class="cx-unit-level-order-history-value"
                   >
                     {{ order?.orgCustomer?.name }}
-                    <span class="text-ellipsis">{{
-                      order?.orgCustomer?.email
-                    }}</span></a
-                  >
+                    <ng-container
+                      *cxFeature="'a11yTruncatedTextUnitLevelOrderHistory'"
+                    >
+                      <span>{{ order?.orgCustomer?.email }}</span>
+                    </ng-container>
+                    <ng-container
+                      *cxFeature="'!a11yTruncatedTextUnitLevelOrderHistory'"
+                    >
+                      <span class="text-ellipsis">{{
+                        order?.orgCustomer?.email
+                      }}</span>
+                    </ng-container>
+                  </a>
                 </td>
                 <td class="cx-unit-level-order-history-unit">
                   <div class="cx-unit-level-order-history-label">
@@ -223,6 +260,7 @@
                 [routerLink]="{ cxRoute: 'home' } | cxUrl"
                 routerLinkActive="active"
                 class="btn btn-primary btn-block"
+                cxBtnLikeLink
                 >{{ 'unitLevelOrderHistory.startShopping' | cxTranslate }}</a
               >
             </div>

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,9 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
+import { useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item',
@@ -24,6 +24,7 @@ import { useFeatureStyles } from '@spartacus/core';
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
+  standalone: false,
 })
 export class CartItemComponent implements OnChanges {
   @Input() compact = false;
@@ -45,6 +46,8 @@ export class CartItemComponent implements OnChanges {
 
   constructor(protected cartItemContextSource: CartItemContextSource) {
     useFeatureStyles('a11yCartItemsLinksStyles');
+    useFeatureStyles('a11yQTY2Quantity');
+    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnChanges(changes?: SimpleChanges) {

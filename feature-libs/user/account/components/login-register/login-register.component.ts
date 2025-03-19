@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import { RoutingService } from '@spartacus/core';
 @Component({
   selector: 'cx-login-register',
   templateUrl: './login-register.component.html',
+  standalone: false,
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;

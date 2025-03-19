@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
+  standalone: false,
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;
@@ -164,25 +165,27 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
     if (reason === this.CLOSE_WITHOUT_SELECTION) {
-      this.intendedPickupLocationService
-        .getIntendedLocation(this.productCode)
-        .pipe(
-          filter(
-            (store: AugmentedPointOfService | undefined) =>
-              typeof store !== 'undefined'
-          ),
-          map((store) => store as AugmentedPointOfService),
-          filter((store) => !store.name),
-          take(1),
-          tap(() =>
-            this.intendedPickupLocationService.setPickupOption(
-              this.productCode,
-              'delivery'
+      if (!this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
+        this.intendedPickupLocationService
+          .getIntendedLocation(this.productCode)
+          .pipe(
+            filter(
+              (store: AugmentedPointOfService | undefined) =>
+                typeof store !== 'undefined'
+            ),
+            map((store) => store as AugmentedPointOfService),
+            filter((store) => !store.name),
+            take(1),
+            tap(() =>
+              this.intendedPickupLocationService.setPickupOption(
+                this.productCode,
+                'delivery'
+              )
             )
           )
-        )
-        .subscribe();
-      this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
+          .subscribe();
+        this.pickupOptionFacade.setPickupOption(this.entryNumber, 'delivery');
+      }
       return;
     }
     this.subscription.add(

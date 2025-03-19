@@ -6,7 +6,10 @@
       </div>
     </div>
     <table class="table table-striped cx-approval-table">
-      <thead class="cx-approval-thead-mobile">
+      <thead
+        *cxFeature="'!a11yTableHeaderReadout'"
+        class="cx-approval-thead-mobile"
+      >
         <th scope="col">
           {{
             'orderApprovalDetails.permissionResults.permission' | cxTranslate
@@ -24,6 +27,32 @@
               | cxTranslate
           }}
         </th>
+      </thead>
+      <thead
+        *cxFeature="'a11yTableHeaderReadout'"
+        class="cx-approval-thead-mobile"
+      >
+        <tr>
+          <th scope="col">
+            {{
+              'orderApprovalDetails.permissionResults.permission' | cxTranslate
+            }}
+          </th>
+          <th scope="col">
+            {{
+              'orderApprovalDetails.permissionResults.approver' | cxTranslate
+            }}
+          </th>
+          <th scope="col">
+            {{ 'orderApprovalDetails.permissionResults.status' | cxTranslate }}
+          </th>
+          <th scope="col">
+            {{
+              'orderApprovalDetails.permissionResults.approverComments'
+                | cxTranslate
+            }}
+          </th>
+        </tr>
       </thead>
       <tbody>
         <tr *ngFor="let permissionResult of order.permissionResults">

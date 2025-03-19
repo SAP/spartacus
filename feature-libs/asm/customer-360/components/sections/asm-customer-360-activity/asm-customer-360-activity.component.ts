@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { ActivityEntry, TypeCodes } from './asm-customer-360-activity.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-activity',
   templateUrl: './asm-customer-360-activity.component.html',
+  standalone: false,
 })
 export class AsmCustomer360ActivityComponent implements OnInit {
   entries$: Observable<Array<ActivityEntry>>;

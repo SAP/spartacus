@@ -1,21 +1,26 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
+import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 
 @Component({
   selector: 'cx-unit-level-order-history',
   templateUrl: './unit-level-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
@@ -32,7 +37,10 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
     protected translation: TranslationService
-  ) {}
+  ) {
+    useFeatureStyles('a11yTruncatedTextForResponsiveView');
+    useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
+  }
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
     .getOrderHistoryList(this.PAGE_SIZE)

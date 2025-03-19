@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ enum TextStyle {
   Blue = '\x1b[34m',
   Gray = '\x1b[90m',
   Green = '\x1b[32m',
-  Bold = '\x1b[1m'
+  Bold = '\x1b[1m',
 }
 
 export const Reset = '\x1b[0m';
@@ -50,10 +50,10 @@ function paint(text: string | undefined, color: string): string {
  * - `chalk.bold(text)`: Applies bold style to the text.
  */
 export const chalk = {
-  red: (text?: string) => paint(text, TextStyle.Red,),
+  red: (text?: string) => paint(text, TextStyle.Red),
   yellow: (text?: string) => paint(text, TextStyle.Yellow),
   blue: (text?: string) => paint(text, TextStyle.Blue),
   gray: (text?: string) => paint(text, TextStyle.Gray),
   green: (text?: string) => paint(text, TextStyle.Green),
-  bold: (text?: string) => paint(text, TextStyle.Bold)
+  bold: (text?: string) => paint(text, TextStyle.Bold),
 };

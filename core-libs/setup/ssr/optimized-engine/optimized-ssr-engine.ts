@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,6 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { getRequestUrl } from '../express-utils/express-request-url';
 import {
   EXPRESS_SERVER_LOGGER,
   ExpressServerLogger,
@@ -21,12 +20,8 @@ import {
   RenderingStrategy,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
+  getDefaultRenderKey,
 } from './ssr-optimization-options';
-
-/**
- * Returns the full url for the given SSR Request.
- */
-export const getDefaultRenderKey = getRequestUrl;
 
 export type SsrCallbackFn = (
   /**

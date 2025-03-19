@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import { OrderAmendService } from '../../amend-order.service';
   selector: 'cx-cancel-order',
   templateUrl: './cancel-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CancelOrderComponent {
   orderCode: string;

@@ -19,6 +19,20 @@
       brightness(90%) contrast(90%);
   }
 
+  @include cx-highContrastTheme-dark {
+    cx-banner cx-media {
+      --cx-img-filter: invert(68%) sepia(15%) saturate(1363%) hue-rotate(161deg)
+        brightness(105%) contrast(108%);
+    }
+  }
+
+  @include cx-highContrastTheme-light {
+    cx-banner cx-media {
+      --cx-img-filter: invert(22%) sepia(100%) saturate(7497%)
+        hue-rotate(213deg) brightness(90%) contrast(101%);
+    }
+  }
+
   .BodyContent {
     justify-content: space-between;
     @include media-breakpoint-up(sm) {

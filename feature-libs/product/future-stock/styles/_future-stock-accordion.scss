@@ -7,6 +7,18 @@ cx-future-stock-accordion {
     border: none;
     background-color: transparent;
     padding-inline-start: 1.25rem;
+    @include forFeature('a11yCroppedFocusRing') {
+      padding-inline-start: unset;
+      margin-inline-start: 1.25rem;
+      padding: 0;
+
+      @include media-breakpoint-down(md) {
+        margin-inline-start: 0;
+      }
+    }
+    @include forFeature('a11yUseProperTextColorForFutureStockAccordion') {
+      color: var(--cx-color-text);
+    }
     margin: 0.5rem auto;
     cursor: pointer;
 

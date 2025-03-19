@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: false,
 })
 export class ActiveFacetsComponent {
   @HostBinding('attr.role') role = 'group';

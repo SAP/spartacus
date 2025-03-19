@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -35,6 +36,7 @@ import { first, map } from 'rxjs/operators';
   selector: 'cx-cart-quick-order-form',
   templateUrl: './cart-quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   private featureConfig = inject(FeatureConfigService);
@@ -55,7 +57,9 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected formBuilder: UntypedFormBuilder,
     protected globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
 
   ngOnInit(): void {
     this.buildForm();

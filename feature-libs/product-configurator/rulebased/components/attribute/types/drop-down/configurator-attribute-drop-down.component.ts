@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import { UntypedFormControl } from '@angular/forms';
-import { Config, TranslationService, useFeatureStyles } from '@spartacus/core';
+import { Config, TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -27,6 +27,7 @@ import { ConfiguratorAttributePriceChangeService } from '../../price-change/conf
   templateUrl: './configurator-attribute-drop-down.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
@@ -53,7 +54,6 @@ export class ConfiguratorAttributeDropDownComponent
     );
 
     this.group = attributeComponentContext.group.id;
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   ngOnInit() {

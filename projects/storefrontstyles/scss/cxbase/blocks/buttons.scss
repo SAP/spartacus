@@ -1,4 +1,4 @@
-@import 'bootstrap/scss/buttons';
+@import '../../theme';
 
 button {
   &:focus {
@@ -175,6 +175,7 @@ button {
     text-decoration: underline;
     cursor: pointer;
     display: inline-block;
+    border-style: none;
 
     &:focus {
       border-radius: 4px;
@@ -333,5 +334,14 @@ button,
 .btn {
   &:focus {
     @include visible-focus();
+  }
+}
+
+// override opacity of bootstrap .close class
+button.close:not(:disabled):not(.disabled) {
+  @include forFeature('a11yImproveContrast') {
+    &:focus {
+      opacity: 1;
+    }
   }
 }

@@ -2,6 +2,7 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Tab, TAB_MODE } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 
 const mockTab: Tab | any = {
   id: 1,
@@ -11,6 +12,7 @@ const mockTab: Tab | any = {
   template: `<ng-template #templateRef
     ><span id="tempRef">hello</span></ng-template
   >`,
+  standalone: false,
 })
 class MockComponent {
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
@@ -22,6 +24,7 @@ describe('TabPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [KeyboardFocusTestingModule],
       declarations: [TabPanelComponent, MockComponent],
     }).compileComponents();
   }));
@@ -56,6 +59,17 @@ describe('TabPanelComponent', () => {
     expect(tabPanel?.getAttribute('role')).toEqual('region');
     expect(tabPanel?.getAttribute('class')).toEqual('active');
     expect(tabPanel?.getAttribute('aria-labelledby')).toEqual('1');
+  });
+
+  it('should have correct attribues when disableBorderFocus is active', () => {
+    component.tab = {
+      ...mockTab,
+      disableBorderFocus: true,
+    };
+    fixture.detectChanges();
+
+    const tabPanel = document.querySelector('div[role="tabpanel"]');
+    expect(tabPanel?.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should display template ref', () => {

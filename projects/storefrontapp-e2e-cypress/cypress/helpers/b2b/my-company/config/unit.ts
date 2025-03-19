@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -104,7 +104,7 @@ export const unitConfig: MyCompanyConfig = {
       updateValue: `edited-unit-${randomString()}`,
       showInTable: true,
       showInDetails: true,
-      formLabel: 'Name',
+      formLabel: 'Name*',
       sortLabel: 'Name',
     },
     {
@@ -125,7 +125,7 @@ export const unitConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       useInUrl: true,
-      formLabel: 'ID',
+      formLabel: 'ID*',
     },
     {
       label: 'Approval process',
@@ -147,7 +147,7 @@ export const unitConfig: MyCompanyConfig = {
       createValue: 'Custom Retail',
       updateValue: 'Rustic Retail',
       showInTable: false,
-      formLabel: 'Parent business unit',
+      formLabel: 'Parent business unit *',
       showInDetails: true,
     },
   ],

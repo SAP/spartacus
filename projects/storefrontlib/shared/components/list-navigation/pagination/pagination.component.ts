@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */

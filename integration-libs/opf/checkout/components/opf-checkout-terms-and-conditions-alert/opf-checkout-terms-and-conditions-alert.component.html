@@ -1,0 +1,27 @@
+<div *ngIf="isVisible" class="cx-opf-checkout-terms-and-conditions-alert">
+  <div class="alert alert-info">
+    <span class="alert-icon" aria-hidden="true">
+      <cx-icon [type]="iconTypes.INFO"></cx-icon>
+    </span>
+    <p class="message" tabindex="0" role="alert" aria-live="polite">
+      {{
+        (isExplicit
+          ? 'opfCheckout.checkTermsAndConditionsExplicit'
+          : 'opfCheckout.checkTermsAndConditionsImplicit'
+        ) | cxTranslate
+      }}
+    </p>
+    <button
+      *ngIf="isDismissible"
+      class="close"
+      type="button"
+      (click)="close()"
+      [attr.aria-label]="
+        'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate
+      "
+      [attr.title]="'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate"
+    >
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+</div>

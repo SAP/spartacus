@@ -26,6 +26,7 @@
       [attr.aria-label]="
         'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate
       "
+      [attr.title]="'unitLevelOrderHistory.filterByBuyerLabel' | cxTranslate"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
@@ -41,6 +42,7 @@
       [attr.aria-label]="
         'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate
       "
+      [attr.title]="'unitLevelOrderHistory.filterByUnitLabel' | cxTranslate"
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
@@ -91,6 +93,7 @@
         <button
           id="clearBuyerMobileBtn"
           [attr.aria-label]="'common.reset' | cxTranslate"
+          [attr.title]="'common.reset' | cxTranslate"
           (mousedown)="clearBuyerMobile()"
           (keydown.enter)="clearBuyerMobile()"
           class="reset cx-unit-level-order-history-filter-reset-button"
@@ -101,6 +104,7 @@
         <div role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
+            [attr.title]="'common.search' | cxTranslate"
             [type]="iconTypes.SEARCH"
           ></cx-icon>
         </div>
@@ -160,6 +164,7 @@
         <button
           id="clearUnitMobileBtn"
           [attr.aria-label]="'common.reset' | cxTranslate"
+          [attr.title]="'common.reset' | cxTranslate"
           (mousedown)="clearUnitMobile()"
           (keydown.enter)="clearUnitMobile()"
           class="reset cx-unit-level-order-history-filter-reset-button"
@@ -170,6 +175,7 @@
         <div role="presentation" class="search-icon">
           <cx-icon
             class="search-icon-filter"
+            [attr.title]="'common.search' | cxTranslate"
             [type]="iconTypes.SEARCH"
           ></cx-icon>
         </div>
@@ -221,6 +227,7 @@
             <button
               id="clearBuyerBtn"
               [attr.aria-label]="'common.reset' | cxTranslate"
+              [attr.title]="'common.reset' | cxTranslate"
               (mousedown)="clearBuyer()"
               (keydown.enter)="clearBuyer()"
               class="reset cx-unit-level-order-history-filter-reset-button"
@@ -231,6 +238,7 @@
             <div role="presentation" class="search-icon">
               <cx-icon
                 class="search-icon-filter"
+                [attr.title]="'common.search' | cxTranslate"
                 [type]="iconTypes.SEARCH"
               ></cx-icon>
             </div>
@@ -269,6 +277,7 @@
               id="clearUnitBtn"
               type="button"
               [attr.aria-label]="'common.reset' | cxTranslate"
+              [attr.title]="'common.reset' | cxTranslate"
               (mousedown)="clearUnit()"
               (keydown.enter)="clearUnit()"
               class="reset cx-unit-level-order-history-filter-reset-button"
@@ -278,6 +287,7 @@
 
             <div role="presentation" class="search-icon">
               <cx-icon
+                [attr.title]="'common.search' | cxTranslate"
                 class="search-icon-filter"
                 [type]="iconTypes.SEARCH"
               ></cx-icon>

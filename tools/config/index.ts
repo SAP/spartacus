@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import glob from 'glob';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
-import {chalk} from "../chalk";
+import { chalk } from '../chalk';
 
 // ------------ Utilities ------------
 

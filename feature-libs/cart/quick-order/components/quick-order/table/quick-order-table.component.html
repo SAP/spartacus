@@ -16,7 +16,18 @@
       <th role="columnheader" class="cx-item-list-price">
         {{ 'quickOrderTable.price' | cxTranslate }}
       </th>
-      <th role="columnheader" class="cx-item-list-qty">
+      <th
+        *cxFeature="'a11yQTY2Quantity'"
+        role="columnheader"
+        class="cx-item-list-qty"
+      >
+        {{ 'quickOrderTable.quantityFull' | cxTranslate }}
+      </th>
+      <th
+        *cxFeature="'!a11yQTY2Quantity'"
+        role="columnheader"
+        class="cx-item-list-qty"
+      >
         {{ 'quickOrderTable.quantity' | cxTranslate }}
       </th>
       <th role="columnheader" class="cx-item-list-actions">

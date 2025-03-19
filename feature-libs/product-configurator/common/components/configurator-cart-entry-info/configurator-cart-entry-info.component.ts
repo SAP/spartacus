@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 @Component({
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
+  standalone: false,
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(

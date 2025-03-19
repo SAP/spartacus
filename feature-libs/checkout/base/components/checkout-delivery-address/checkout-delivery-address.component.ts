@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,15 +24,21 @@ import {
   GlobalMessageType,
   TranslationService,
   UserAddressService,
+  WindowRef,
   getLastValueSync,
 } from '@spartacus/core';
-import { Card, getAddressNumbers } from '@spartacus/storefront';
+import {
+  Card,
+  SelectFocusUtility,
+  getAddressNumbers,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   switchMap,
+  take,
   tap,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services';
@@ -47,6 +53,7 @@ export interface CardWithAddress {
   selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);
@@ -78,6 +85,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
     );
   }
+
+  @Optional() protected focusService = inject(SelectFocusUtility);
+  @Optional() protected windowRef = inject(WindowRef);
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -118,8 +128,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     const numbers = getAddressNumbers(address, textPhone, textMobile);
     const isSelected: boolean = selected && selected.id === address.id;
 
+    const role = this.getCardRole(isSelected);
+
     return {
-      role: 'region',
+      role,
       title: address.defaultAddress ? textDefaultDeliveryAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
@@ -153,6 +165,38 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
 
     this.setAddress(address);
+    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
+      this.focusCardAfterSelecting();
+    }
+  }
+
+  /**
+   * Restores the focus to the Card component after it has been selected and the checkout has finished updating.
+   * The focus is lost due to DOM changes making it otherwise impossible to target elements that have been removed.
+   */
+  focusCardAfterSelecting(): void {
+    const cardNodes = Array.from(
+      this.windowRef?.document.querySelectorAll('cx-card')
+    );
+    const triggeredCard =
+      this.windowRef?.document.activeElement?.closest('cx-card');
+
+    if (triggeredCard) {
+      const selectedCardIndex = cardNodes.indexOf(triggeredCard);
+      this.isUpdating$
+        .pipe(
+          filter((isUpdating) => !isUpdating),
+          take(1)
+        )
+        .subscribe(() => {
+          requestAnimationFrame(() => {
+            const selectedCard = this.windowRef?.document.querySelectorAll(
+              'cx-card'
+            )[selectedCardIndex] as HTMLElement;
+            this.focusService.findFirstFocusable(selectedCard)?.focus();
+          });
+        });
+    }
   }
 
   addAddress(address: Address | undefined): void {
@@ -225,7 +269,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.translationService.translate('addressCard.selected'),
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      )
+        ? this.translationService.translate('addressCard.selectedAddress')
+        : this.translationService.translate('addressCard.selected'),
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
@@ -328,5 +376,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected shouldUseAddressSavedInCart(): boolean {
     return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
+  }
+
+  protected getCardRole(isCardSelected: boolean): 'button' | 'application' {
+    const isButtonRole =
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      ) && !isCardSelected;
+    return isButtonRole ? 'button' : 'application';
   }
 }

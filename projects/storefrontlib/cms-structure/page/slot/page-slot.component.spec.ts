@@ -56,6 +56,7 @@ class MockDynamicAttributeService {
       class="existing-style and-more"
     ></cx-page-slot>
   `,
+  standalone: false,
 })
 class MockHostComponent {}
 
@@ -63,6 +64,7 @@ class MockHostComponent {}
   template: `
     <div cx-page-slot position="Section2" class="existing-style and-more"></div>
   `,
+  standalone: false,
 })
 class MockHostWithDivComponent {}
 
@@ -77,6 +79,7 @@ class MockPageSlotService implements Partial<PageSlotService> {
 }
 @Directive({
   selector: '[cxComponentWrapper]',
+  standalone: false,
 })
 class MockComponentWrapperDirective {
   @Input() cxComponentWrapper;

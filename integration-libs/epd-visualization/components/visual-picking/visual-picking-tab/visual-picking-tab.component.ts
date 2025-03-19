@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { VisualPickingTabService } from './visual-picking-tab.service';
   templateUrl: './visual-picking-tab.component.html',
   providers: [VisualPickingTabService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VisualPickingTabComponent implements AfterViewInit {
   constructor(protected visualPickingTabService: VisualPickingTabService) {}

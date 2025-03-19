@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { ProductAdapter } from '../../../product/connectors/product/product.adapter';
+import { ProductAvailabilityAdapter } from '../../../product/connectors/product/prduct-availability.adapter';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { ProductReferencesAdapter } from '../../../product/connectors/references/product-references.adapter';
 import { ProductReviewsAdapter } from '../../../product/connectors/reviews/product-reviews.adapter';
@@ -24,6 +25,7 @@ import { ProductNameNormalizer } from './converters/product-name-normalizer';
 import { defaultOccProductConfig } from './default-occ-product-config';
 import './product-occ-config';
 import { provideDefaultConfig } from '../../../config/config-providers';
+import { OccProductAvailabilityAdapter } from './occ-product-availability-adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -32,6 +34,10 @@ import { provideDefaultConfig } from '../../../config/config-providers';
     {
       provide: ProductAdapter,
       useClass: OccProductAdapter,
+    },
+    {
+      provide: ProductAvailabilityAdapter,
+      useClass: OccProductAvailabilityAdapter,
     },
     {
       provide: PRODUCT_NORMALIZER,

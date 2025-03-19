@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
       useExisting: UnitCostCenterListService,
     },
   ],
+  standalone: false,
 })
 export class UnitCostCenterListComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService

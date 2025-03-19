@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
     AddressFormModule,
     SpinnerModule,
     I18nModule,
+    FeaturesConfigModule,
   ],
   declarations: [AddressBookComponent],
   exports: [AddressBookComponent],
@@ -40,7 +41,6 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
     }),
     provideDefaultConfig(defaultSuggestedAddressesDialogLayoutConfig),
     UserAddressService,
-    FeaturesConfigModule,
   ],
 })
 export class AddressBookModule {}

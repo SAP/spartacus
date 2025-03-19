@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,6 +35,7 @@ import { CurrentBudgetService } from '../services/current-budget.service';
       useExisting: CurrentBudgetService,
     },
   ],
+  standalone: false,
 })
 export class BudgetFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

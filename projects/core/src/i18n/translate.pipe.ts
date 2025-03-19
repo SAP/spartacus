@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,11 @@ import {
 } from './translatable';
 import { TranslationService } from './translation.service';
 
-@Pipe({ name: 'cxTranslate', pure: false })
+@Pipe({
+  name: 'cxTranslate',
+  pure: false,
+  standalone: false,
+})
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
   private lastOptions: object;

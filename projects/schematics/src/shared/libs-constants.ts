@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -229,6 +229,32 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_OPF = `@spartacus/opf`;
+export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;
+export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;
+
+export const SPARTACUS_OPF_CHECKOUT = `@spartacus/opf/checkout`;
+export const SPARTACUS_OPF_CHECKOUT_ROOT = `@spartacus/opf/checkout/root`;
+export const SPARTACUS_OPF_CHECKOUT_ASSETS = `@spartacus/opf/checkout/assets`;
+
+export const SPARTACUS_OPF_PAYMENT = `@spartacus/opf/payment`;
+export const SPARTACUS_OPF_PAYMENT_ROOT = `@spartacus/opf/payment/root`;
+export const SPARTACUS_OPF_PAYMENT_ASSETS = `@spartacus/opf/payment/assets`;
+
+export const SPARTACUS_OPF_GLOBAL_FUNCTIONS = `@spartacus/opf/global-functions`;
+export const SPARTACUS_OPF_GLOBAL_FUNCTIONS_ROOT = `@spartacus/opf/global-functions/root`;
+
+export const SPARTACUS_OPF_CTA = `@spartacus/opf/cta`;
+export const SPARTACUS_OPF_CTA_ROOT = `@spartacus/opf/cta/root`;
+
+export const SPARTACUS_OPF_ORDER = `@spartacus/opf/order`;
+
+export const SPARTACUS_OPF_QUICK_BUY = `@spartacus/opf/quick-buy`;
+export const SPARTACUS_OPF_QUICK_BUY_ROOT = `@spartacus/opf/quick-buy/root`;
+
+export const SPARTACUS_OPF_BASE = `@spartacus/opf/base`;
+export const SPARTACUS_OPF_BASE_ROOT = `@spartacus/opf/base/root`;
+
 export const SPARTACUS_OMF = '@spartacus/omf';
 export const SPARTACUS_OMF_ROOT = '@spartacus/omf/root';
 export const SPARTACUS_OMF_ORDER = '@spartacus/omf/order';
@@ -347,6 +373,13 @@ export const OPPS_FEATURE_NAME = 'OPPS';
 export const OMF_FEATURE_NAME = 'OMF';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
+export const OPF_FEATURE_NAME = 'OPF';
+export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
+export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
+export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
+export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
+export const OPF_GLOBAL_FUNCTIONS_FEATURE_NAME = 'OPF-Global-Functions';
+export const OPF_QUICK_BUY_FEATURE_NAME = 'OPF-Quick-Buy';
 /***** Feature name end *****/
 
 /***** Feature name start *****/
@@ -360,3 +393,10 @@ export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
 export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
+
+export const SPARTACUS_BOOTSTRAP_FUNCTIONS =
+  '@spartacus/styles/vendor/bootstrap/scss/functions';
+export const SPARTACUS_BOOTSTRAP_VARIABLES =
+  '@spartacus/styles/vendor/bootstrap/scss/variables';
+export const SPARTACUS_BOOTSTRAP_MIXINS =
+  '@spartacus/styles/vendor/bootstrap/scss/_mixins';

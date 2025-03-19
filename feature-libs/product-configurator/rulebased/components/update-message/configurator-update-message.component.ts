@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import { ConfiguratorMessageConfig } from '../config/configurator-message.config
   selector: 'cx-configurator-update-message',
   templateUrl: './configurator-update-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorUpdateMessageComponent {
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService

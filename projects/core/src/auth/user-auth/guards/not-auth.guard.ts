@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
@@ -25,7 +25,7 @@ export class NotAuthGuard {
     protected router: Router
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     // redirect, if user is already logged in:
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {

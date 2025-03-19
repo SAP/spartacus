@@ -22,6 +22,9 @@
 
         button.close {
           padding-inline-end: 0px;
+          @include forFeature('a11yCroppedFocusRing') {
+            padding: 0;
+          }
         }
         @include cx-highContrastTheme {
           background-color: var(--cx-color-background);

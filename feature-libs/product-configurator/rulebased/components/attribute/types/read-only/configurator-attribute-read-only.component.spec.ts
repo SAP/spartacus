@@ -15,6 +15,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -23,6 +24,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -35,8 +37,7 @@ const priceDetails: Configurator.PriceDetails = {
   formattedValue: '$3',
   value: 3,
 };
-
-const myValues: Configurator.Value[] = [
+const allValues: Configurator.Value[] = [
   {
     valueCode: 'val1',
     valueDisplay: 'val1',
@@ -59,6 +60,7 @@ const myValues: Configurator.Value[] = [
     valuePrice: priceDetails,
   },
 ];
+let myValues: Configurator.Value[];
 
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
@@ -70,12 +72,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
   let htmlElem: HTMLElement;
-  let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions = {
-    quantity: myValues[0].quantity,
-    price: myValues[0].valuePrice,
-    priceTotal: myValues[0].valuePriceTotal,
-    isLightedUp: myValues[0].selected,
-  };
+  let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
@@ -127,6 +124,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       quantity: 1,
     };
     fixture.detectChanges();
+    myValues = structuredClone(allValues);
+    configuratorPriceComponentOptions = {
+      quantity: myValues[0].quantity,
+      price: myValues[0].valuePrice,
+      priceTotal: myValues[0].valuePriceTotal,
+      isLightedUp: myValues[0].selected,
+    };
   });
 
   it('should create component', () => {

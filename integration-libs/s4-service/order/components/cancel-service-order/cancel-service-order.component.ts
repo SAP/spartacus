@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { mergeMap } from 'rxjs/operators';
   selector: 'cx-cancel-service-order',
   templateUrl: './cancel-service-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CancelServiceOrderComponent {
   protected orderDetailsService = inject(OrderDetailsService);

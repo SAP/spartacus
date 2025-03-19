@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,11 @@ import {
   rule as noNgrxFailActionWithoutErrorActionImplementation,
   RULE_NAME as noNgrxFailActionWithoutErrorActionImplementationName,
 } from './rules/no-ngrx-fail-action-without-error-action-implementation';
+
+import {
+  rule as ngrxFailActionMustInitializeError,
+  RULE_NAME as ngrxFailActionMustInitializeErrorName,
+} from './rules/ngrx-fail-action-must-initialize-error';
 
 /**
  * Import your custom workspace rules at the top of this file.
@@ -62,5 +67,6 @@ module.exports = {
       useProvideDefaultFeatureTogglesFactory,
     [noNgrxFailActionWithoutErrorActionImplementationName]:
       noNgrxFailActionWithoutErrorActionImplementation,
+    [ngrxFailActionMustInitializeErrorName]: ngrxFailActionMustInitializeError,
   },
 };

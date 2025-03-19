@@ -96,6 +96,7 @@ class MockProductService {
 @Component({
   selector: 'cx-configurator-overview-filter',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
@@ -105,6 +106,7 @@ class MockConfiguratorOverviewFilterComponent {
 @Component({
   selector: 'cx-configurator-overview-menu',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorOverviewMenuComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -141,15 +143,14 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
         },
       ],
     }).compileComponents();
+    initTestComponent();
   }));
 
   it('should create component', () => {
-    initTestComponent();
     expect(component).toBeDefined();
   });
 
   it('should render overview menu component by default', () => {
-    initTestComponent();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -158,7 +159,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected', () => {
-    initTestComponent();
     // click filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -172,7 +172,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected by enter-key', () => {
-    initTestComponent();
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -186,7 +185,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview filter component when filter tab is selected by space-key', () => {
-    initTestComponent();
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
@@ -200,7 +198,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview menu component when menu tab is selected', () => {
-    initTestComponent();
     component.onFilter();
     fixture.detectChanges();
     // click menu button
@@ -216,7 +213,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview menu component when menu tab is selected by enter-key', () => {
-    initTestComponent();
     component.onFilter();
     fixture.detectChanges();
     // keypress on menu button
@@ -232,7 +228,6 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
   });
 
   it('should render overview menu component when menu tab is selected by space-key', () => {
-    initTestComponent();
     component.onFilter();
     fixture.detectChanges();
     // keypress on menu button

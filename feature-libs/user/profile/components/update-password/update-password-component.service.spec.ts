@@ -124,16 +124,16 @@ describe('UpdatePasswordComponentService', () => {
   describe('updatePassword', () => {
     describe('success', () => {
       beforeEach(() => {
-        oldPassword.setValue('Old123!');
-        newPassword.setValue('New123!');
-        newPasswordConfirm.setValue('New123!');
+        oldPassword.setValue('OldPas123!');
+        newPassword.setValue('NewPas123!');
+        newPasswordConfirm.setValue('NewPas123!');
       });
 
       it('should update password', () => {
         service.updatePassword();
         expect(userPasswordFacade.update).toHaveBeenCalledWith(
-          'Old123!',
-          'New123!'
+          'OldPas123!',
+          'NewPas123!'
         );
       });
 
@@ -201,7 +201,8 @@ describe('UpdatePasswordComponentService', () => {
           cxMinOneDigit: true,
           cxMinOneUpperCaseCharacter: true,
           cxMinOneSpecialCharacter: true,
-          cxMinSixCharactersLength: true,
+          cxMinEightCharactersLength: true,
+          cxMaxCharactersLength: true,
         });
       });
     });

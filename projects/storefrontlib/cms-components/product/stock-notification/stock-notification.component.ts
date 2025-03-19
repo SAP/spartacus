@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,6 +36,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

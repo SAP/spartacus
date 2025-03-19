@@ -2,12 +2,14 @@
 
 exports[`Spartacus OMF Schematics: ng-add OMF feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
+import { OmfOrderModule } from "@spartacus/omf/order";
 import { OmfRootModule } from "@spartacus/omf/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    OmfRootModule
+    OmfRootModule,
+    OmfOrderModule
   ]
 })
 export class OmfFeatureModule { }
@@ -16,12 +18,14 @@ export class OmfFeatureModule { }
 
 exports[`Spartacus OMF Schematics: ng-add OMF feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
+import { OmfOrderModule } from "@spartacus/omf/order";
 import { OmfRootModule } from "@spartacus/omf/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    OmfRootModule
+    OmfRootModule,
+    OmfOrderModule
   ]
 })
 export class OmfFeatureModule { }

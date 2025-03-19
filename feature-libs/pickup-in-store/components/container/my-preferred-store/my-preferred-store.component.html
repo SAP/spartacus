@@ -37,11 +37,13 @@
           <div *ngIf="!isStoreFinder">
             <button
               (click)="toggleOpenHours()"
+              [attr.aria-expanded]="openHoursOpen"
               class="cx-store-opening-hours-toggle"
             >
               {{ 'store.viewHours' | cxTranslate }}
               <span class="cx-store-opening-hours-icon"
                 ><cx-icon
+                  aria-hidden="true"
                   [type]="
                     openHoursOpen ? ICON_TYPE.CARET_UP : ICON_TYPE.CARET_DOWN
                   "

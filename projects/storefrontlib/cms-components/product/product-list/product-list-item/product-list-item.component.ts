@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import { ProductListService } from '../product-list.service';
       useExisting: ProductListItemContextSource,
     },
   ],
+  standalone: false,
 })
 export class ProductListItemComponent implements OnChanges {
   protected productListService = inject(ProductListService);
@@ -41,6 +42,7 @@ export class ProductListItemComponent implements OnChanges {
     protected productListItemContextSource: ProductListItemContextSource
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {

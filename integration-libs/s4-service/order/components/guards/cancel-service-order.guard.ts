@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import { GuardResult, Router } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { map, Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class CancelServiceOrderGuard {
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return this.orderDetailsService.getOrderDetails().pipe(
       map((orderDetails) => {
         if (

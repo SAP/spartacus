@@ -22,6 +22,7 @@
       <a
         [routerLink]="{ cxRoute: 'register' } | cxUrl"
         class="btn btn-block btn-secondary btn-register"
+        cxBtnLikeLink
         >{{ 'loginForm.register' | cxTranslate }}</a
       >
     </ng-container>
@@ -30,6 +31,7 @@
       <a
         [routerLink]="{ cxRoute: 'checkoutLogin' } | cxUrl"
         class="btn btn-block btn-secondary btn-guest"
+        cxBtnLikeLink
         >{{ 'loginForm.guestCheckout' | cxTranslate }}</a
       >
     </ng-container>

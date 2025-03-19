@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   GlobalMessageService,
@@ -64,6 +63,7 @@ class MockComponentService {
 @Component({
   selector: 'cx-address-form',
   template: '',
+  standalone: false,
 })
 class MockAddressFormComponent {
   @Input()
@@ -99,12 +99,7 @@ describe('AddressBookComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SpinnerModule,
-        I18nTestingModule,
-        CardModule,
-        RouterTestingModule,
-      ],
+      imports: [SpinnerModule, I18nTestingModule, CardModule],
       providers: [
         {
           provide: AddressBookComponentService,

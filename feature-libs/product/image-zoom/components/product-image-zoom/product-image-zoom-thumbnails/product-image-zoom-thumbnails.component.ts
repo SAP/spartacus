@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import { filter, map } from 'rxjs/operators';
   selector: 'cx-product-image-zoom-thumbnails',
   templateUrl: './product-image-zoom-thumbnails.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>({});

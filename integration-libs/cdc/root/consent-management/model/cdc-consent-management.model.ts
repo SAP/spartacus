@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,11 @@ export interface CdcSiteConsentTemplate {
   siteConsentDetails: {
     [key: string]: { isMandatory: boolean; isActive: boolean };
   };
+}
+
+export interface CdcConsent {
+  id?: string;
+  isConsentGranted?: boolean;
 }
 
 export interface CdcLocalStorageTemplate {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,13 +9,18 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  KeyboardFocusService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   delay,
@@ -34,10 +39,12 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
+  protected keyboardFocusService = inject(KeyboardFocusService);
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -157,6 +164,9 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
               );
             }
           });
+      } else {
+        // Clear persisted focus before entering the configurator UI
+        this.keyboardFocusService.clear();
       }
 
       if (routingData.expMode) {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,7 @@ import { OutletService } from './outlet.service';
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   private renderedTemplate: any[] = [];

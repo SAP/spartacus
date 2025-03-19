@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,11 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { CxDatePipe, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   FocusConfig,
@@ -26,6 +30,7 @@ import { ConfirmationContext } from './quote-confirm-dialog.model';
   templateUrl: './quote-confirm-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
+  standalone: false,
 })
 export class QuoteConfirmDialogComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);
@@ -43,6 +48,10 @@ export class QuoteConfirmDialogComponent implements OnInit {
   };
 
   confirmationContext$: Observable<ConfirmationContext>;
+
+  constructor() {
+    useFeatureStyles('a11yCroppedFocusRing');
+  }
 
   ngOnInit(): void {
     this.confirmationContext$ = this.launchDialogService.data$.pipe(

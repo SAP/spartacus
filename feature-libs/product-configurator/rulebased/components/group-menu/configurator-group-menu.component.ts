@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,12 +18,12 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
+  BREAKPOINT,
+  BreakpointService,
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
-  BREAKPOINT,
-  BreakpointService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -38,6 +38,7 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   selector: 'cx-configurator-group-menu',
   templateUrl: './configurator-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
@@ -503,13 +504,11 @@ export class ConfiguratorGroupMenuComponent {
     group: Configurator.Group,
     currentGroupId?: string
   ): boolean {
-    let isCurrentGroupFound = false;
-    group.subGroups?.forEach((subGroup) => {
-      if (this.isGroupSelected(subGroup.id, currentGroupId)) {
-        isCurrentGroupFound = true;
-      }
-    });
-    return isCurrentGroupFound;
+    return !!group.subGroups?.find(
+      (subGroup) =>
+        this.isGroupSelected(subGroup.id, currentGroupId) ||
+        this.containsSelectedGroup(subGroup, currentGroupId)
+    );
   }
 
   /**
@@ -521,14 +520,10 @@ export class ConfiguratorGroupMenuComponent {
    * @returns {number} - tab index
    */
   getTabIndex(group: Configurator.Group, currentGroupId: string): number {
-    if (
-      !this.isGroupSelected(group.id, currentGroupId) &&
-      !this.containsSelectedGroup(group, currentGroupId)
-    ) {
-      return -1;
-    } else {
-      return 0;
-    }
+    const isCurrentGroupPartOfGroupHierarchy =
+      this.isGroupSelected(group.id, currentGroupId) ||
+      this.containsSelectedGroup(group, currentGroupId);
+    return isCurrentGroupPartOfGroupHierarchy ? 0 : -1; // 0 -> add to tab chain, -1 -> remove from tab chain
   }
 
   /**

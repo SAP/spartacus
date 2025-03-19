@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,6 @@ import { ProductSelectors } from '../store/selectors/index';
 })
 export class ProductSearchService {
   constructor(protected store: Store<StateWithProduct>) {}
-
   search(query: string | undefined, searchConfig?: SearchConfig): void {
     if (query) {
       this.store.dispatch(

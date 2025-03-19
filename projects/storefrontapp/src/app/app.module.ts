@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,21 +18,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translationChunksConfig, translations } from '@spartacus/assets';
+import {
+  translationChunksConfig,
+  translationsDe,
+  translationsEn,
+  translationsJa,
+  translationsZh,
+} from '@spartacus/assets';
 import {
   I18nConfig,
   OccConfig,
-  provideConfig,
   RoutingConfig,
   TestConfigModule,
+  provideConfig,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import {
-  AppRoutingModule,
-  StorefrontComponent,
-  USE_LEGACY_MEDIA_COMPONENT,
-} from '@spartacus/storefront';
+import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -82,7 +84,12 @@ if (!environment.production) {
     provideConfig(<I18nConfig>{
       // we bring in static translations to be up and running soon right away
       i18n: {
-        resources: translations,
+        resources: {
+          en: translationsEn,
+          ja: translationsJa,
+          de: translationsDe,
+          zh: translationsZh,
+        },
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
@@ -94,10 +101,6 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
-    {
-      provide: USE_LEGACY_MEDIA_COMPONENT,
-      useValue: false,
-    },
   ],
   bootstrap: [StorefrontComponent],
 })

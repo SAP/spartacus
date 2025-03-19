@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,12 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule, StarRatingModule } from '../../../../shared/index';
+import {
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  StarRatingModule,
+} from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
 
 @NgModule({
@@ -26,6 +31,8 @@ import { ProductReviewsComponent } from './product-reviews.component';
     StarRatingModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

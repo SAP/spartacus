@@ -43,6 +43,7 @@
 %cx-my-account-v2-download-invoices {
   .cx-modal-container {
     .cx-modal-content {
+      overflow-y: hidden;
       .cx-dialog-title {
         @include type('3');
       }

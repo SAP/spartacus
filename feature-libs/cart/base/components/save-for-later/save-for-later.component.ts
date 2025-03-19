@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
+  standalone: false,
 })
 export class SaveForLaterComponent implements OnInit {
   saveForLater$: Observable<Cart>;

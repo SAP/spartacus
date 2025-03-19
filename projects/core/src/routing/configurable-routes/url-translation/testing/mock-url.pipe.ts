@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,6 +39,7 @@ export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
  */
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 export class MockUrlPipe implements PipeTransform {
   constructor(

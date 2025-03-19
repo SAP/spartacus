@@ -1,8 +1,6 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
 <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-<p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-  {{ 'formLegend.required' | cxTranslate }}
-</p>
+<cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <label>
     <span class="label-content">{{
@@ -25,8 +23,8 @@
   <label>
     <span class="label-content"
       >{{ 'updateProfileForm.firstName.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+      <cx-form-required-asterisks />
+    </span>
     <input
       required="true"
       type="text"
@@ -36,11 +34,14 @@
         'updateProfileForm.firstName.placeholder' | cxTranslate
       }}"
       formControlName="firstName"
+      [attr.aria-describedby]="'firstNameError'"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="firstNameError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateProfileForm.firstName.label' | cxTranslate,
       }"
@@ -56,8 +57,8 @@
   <label>
     <span class="label-content"
       >{{ 'updateProfileForm.lastName.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-    ></span>
+      <cx-form-required-asterisks />
+    </span>
     <input
       required="true"
       type="text"
@@ -65,11 +66,14 @@
       name="lastName"
       placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
       formControlName="lastName"
+      [attr.aria-describedby]="'lastNameError'"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="lastNameError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateProfileForm.lastName.label' | cxTranslate,
       }"
@@ -92,12 +96,15 @@
       class="form-control"
       name="customerId"
       formControlName="customerId"
+      [attr.aria-describedby]="'customerIdError'"
       readonly
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="customerIdError"
+      aria-live="off"
       [translationParams]="{
         label: 'updateProfileForm.customerId' | cxTranslate,
       }"
@@ -120,6 +127,7 @@
     <a
       [routerLink]="{ cxRoute: 'home' } | cxUrl"
       class="btn btn-block btn-secondary"
+      cxBtnLikeLink
       >{{ 'common.cancel' | cxTranslate }}</a
     >
   </ng-container>
@@ -128,12 +136,3 @@
     {{ 'common.save' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

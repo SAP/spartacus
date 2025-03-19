@@ -1,0 +1,3 @@
+<ng-container *ngIf="isApplePaySupported$ | async">
+  <div (click)="initTransaction()" class="apple-pay-button"></div>
+</ng-container>

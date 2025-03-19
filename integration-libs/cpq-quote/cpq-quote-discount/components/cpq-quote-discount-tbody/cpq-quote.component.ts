@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
+  standalone: false,
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;
@@ -51,12 +52,20 @@ export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
     }
   }
   getDiscountedPrice(
-    basePrice: number | undefined,
-    discountPercentage: number | undefined
+    basePrice: number,
+    appliedDiscount: number | undefined,
+    quantity: number | undefined
   ): number | undefined {
-    if (basePrice !== undefined && discountPercentage !== undefined) {
-      const discountAmount = (basePrice * discountPercentage) / 100;
-      return basePrice - discountAmount;
+    if (
+      basePrice > 0 &&
+      appliedDiscount !== undefined &&
+      quantity !== undefined &&
+      quantity > 0
+    ) {
+      const totalBasePrice = basePrice * quantity;
+      const discountedPrice = totalBasePrice - appliedDiscount;
+      return discountedPrice / quantity;
     }
+    return undefined;
   }
 }

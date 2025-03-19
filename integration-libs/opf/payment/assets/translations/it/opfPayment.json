@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "Al momento non è possibile procedere con questo metodo di pagamento. Riprovare più tardi o scegliere un'opzione di pagamento diversa.",
+      "cancelPayment": "Il pagamento è stato annullato. Per procedere con l'ordine, riprovare o scegliere un'opzione di pagamento diversa.",
+      "cardExpired": "Carta di credito scaduta.",
+      "insufficientFunds": "Fondi insufficienti.",
+      "invalidCreditCard": "Carta di credito non valida. Rivedere i dettagli della carta.",
+      "unknown": "Errore sconosciuto durante il recupero del pagamento. Contattare il supporto.",
+      "cardReportedLost": "La carta è segnalata come smarrita. "
+    }
+  }
+}

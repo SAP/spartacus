@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,13 @@ import {
   RoutingService,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  BtnLikeLinkModule,
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
@@ -34,6 +40,9 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     FormErrorsModule,
     SpinnerModule,
     FeaturesConfigModule,
+    BtnLikeLinkModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

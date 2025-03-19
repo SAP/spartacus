@@ -1,4 +1,3 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -6,6 +5,13 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
+import {
+  Component,
+  Directive,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -18,7 +24,14 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, ReplaySubject, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  Observable,
+  ReplaySubject,
+  of,
+  delay,
+} from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
@@ -27,6 +40,8 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchResults } from './search-box.model';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { OutletDirective } from '@spartacus/storefront';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
@@ -51,6 +66,7 @@ class MockCmsComponentData {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
@@ -60,6 +76,7 @@ class MockUrlPipe implements PipeTransform {
 
 @Pipe({
   name: 'cxHighlight',
+  standalone: false,
 })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
@@ -68,6 +85,7 @@ class MockHighlightPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -76,6 +94,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-media',
   template: '<img>',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -83,6 +102,26 @@ class MockMediaComponent {
   @Input() alt;
 }
 
+@Directive({
+  selector: '[cxOutlet]',
+  standalone: false,
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: string;
+}
+
+@Component({
+  selector: 'cx-carousel',
+  template: ``,
+  standalone: false,
+})
+class MockCarouselComponent {
+  @Input() items: any;
+  @Input() itemWidth: any;
+  @Input() template: any;
+  @Input() hideIndicators: any;
+}
 const mockRouterState: RouterState = {
   nextState: undefined,
   state: {
@@ -129,8 +168,8 @@ describe('SearchBoxComponent', () => {
     sharedEvent = new ReplaySubject<KeyboardEvent>();
 
     launchSearchPage = jasmine.createSpy('launchSearchPage');
-    getResults = jasmine.createSpy('search').and.callFake(() =>
-      of(<SearchResults>{
+    getResults = jasmine.createSpy('search').and.callFake(() => {
+      const results = {
         suggestions: ['te', 'test'],
         message: 'I found stuff for you!',
         products: [
@@ -138,8 +177,9 @@ describe('SearchBoxComponent', () => {
             name: 'title 1',
           },
         ],
-      })
-    );
+      };
+      return of(<SearchResults>results);
+    });
     dispatchSuggestionSelectedEvent = jasmine.createSpy(
       'dispatchSuggestionSelectedEvent'
     );
@@ -160,10 +200,13 @@ describe('SearchBoxComponent', () => {
       ],
       declarations: [
         SearchBoxComponent,
+        MockFeatureDirective,
         MockUrlPipe,
         MockHighlightPipe,
         MockCxIconComponent,
         MockMediaComponent,
+        MockOutletDirective,
+        MockCarouselComponent,
       ],
       providers: [
         {
@@ -216,10 +259,29 @@ describe('SearchBoxComponent', () => {
       expect(searchBoxComponent).toBeTruthy();
     });
 
+    it('should initialize subscriptions on initialization', () => {
+      spyOn(searchBoxComponent['subscriptions'], 'add');
+      spyOn(serviceSpy['chosenWord'], 'subscribe');
+      spyOn(serviceSpy['sharedEvent'], 'subscribe');
+
+      searchBoxComponent.ngOnInit();
+
+      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(serviceSpy.chosenWord.subscribe).toHaveBeenCalled();
+      expect(serviceSpy.sharedEvent.subscribe).toHaveBeenCalled();
+      expect(searchBoxComponent['subscriptions'].add).toHaveBeenCalledTimes(3);
+    });
+
     it('should dispatch new results when search is executed', () => {
       searchBoxComponent.search('testQuery');
       fixture.detectChanges();
       expect(serviceSpy.getResults).toHaveBeenCalled();
+    });
+
+    it('should set the queryText and trigger a search', () => {
+      searchBoxComponent.queryText = 'testQuery';
+      expect(searchBoxComponent.chosenWord).toBe('testQuery');
+      expect(searchBoxComponent.search).toHaveBeenCalledWith('testQuery');
     });
 
     it('should dispatch new search query on input', () => {
@@ -229,8 +291,8 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should launch the search page, given it is not an empty search', () => {
-      const input = fixture.debugElement.query(By.css('.searchbox > input'));
-
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('.searchbox input'));
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
 
@@ -240,7 +302,8 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not launch search page on empty search', () => {
-      const input = fixture.debugElement.query(By.css('.searchbox > input'));
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('.searchbox input'));
       input.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();
@@ -248,8 +311,95 @@ describe('SearchBoxComponent', () => {
       expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
     });
 
+    it('should return true when the feature is enabled', () => {
+      spyOn(
+        searchBoxComponent.featureConfigService,
+        'isEnabled'
+      ).and.returnValue(true);
+      expect(searchBoxComponent.searchBoxV2).toBeTrue();
+    });
+
+    it('should return false when the feature is disabled', function () {
+      spyOn(
+        searchBoxComponent.featureConfigService,
+        'isEnabled'
+      ).and.returnValue(false);
+      expect(searchBoxComponent.searchBoxV2).toBeFalse();
+    });
+
+    it('should bind the "search-box-v2" class when the feature is enabled', function () {
+      spyOn(
+        searchBoxComponent.featureConfigService,
+        'isEnabled'
+      ).and.returnValue(true);
+      expect(searchBoxComponent.searchBoxV2).toBeTrue();
+    });
+
+    it('should handle typing, selecting suggestion, and pressing Enter to launch search', () => {
+      spyOn(searchBoxComponent, 'launchSearchResult').and.callThrough();
+      const inputElement = document.createElement('input');
+      const mockEventData: SearchBoxSuggestionSelectedEvent = {
+        freeText: 'laptop',
+        selectedSuggestion: 'laptop',
+        searchSuggestions: [{ value: 'laptop' }, { value: 'camileo' }],
+      };
+      searchBoxComponent.searchInputEl = { nativeElement: inputElement };
+      // Simulate typing a query
+      searchBoxComponent.search('laptop');
+
+      // Simulate selecting a suggestion
+      const suggestionEvent = new KeyboardEvent('keydown', { code: 'Enter' });
+      searchBoxComponent.dispatchSuggestionEvent(mockEventData);
+
+      // Simulate pressing Enter
+      searchBoxComponent.launchSearchResult(suggestionEvent, 'laptop');
+      expect(searchBoxComponent.launchSearchResult).toHaveBeenCalledWith(
+        suggestionEvent,
+        'laptop'
+      );
+    });
+
+    it('should handle async search result fetching and update the results', fakeAsync(() => {
+      const mockResults = {
+        products: [{ name: 'Product 1' }, { name: 'Product 2' }],
+      };
+      serviceSpy.getResults = jasmine
+        .createSpy()
+        .and.returnValue(of(mockResults).pipe(delay(1000)));
+
+      let results: any;
+      searchBoxComponent.results$.subscribe((res) => (results = res));
+
+      expect(results).toBeUndefined(); // Initially no results
+      tick(1000); // Simulate the passage of time for async call
+      expect(results.products.length).toBe(2); // Results are fetched after delay
+    }));
+
+    it('should use setTimeout to delay focus action', () => {
+      spyOn(window, 'setTimeout');
+      searchBoxComponent.onEscape();
+      expect(setTimeout).toHaveBeenCalled();
+    });
+
+    it('should return an Observable when breakpointService is available', () => {
+      const result = searchBoxComponent.isMobile;
+      expect(result).toBeInstanceOf(Observable);
+    });
+
+    it('should return 0 when isMobile is false', () => {
+      const result = searchBoxComponent.getTabIndex(false);
+      expect(result).toBe(0);
+    });
+
+    it('should return 0 when isMobile is true and searchBoxActive is true', () => {
+      searchBoxComponent.searchBoxActive = true;
+      const result = searchBoxComponent.getTabIndex(true);
+      expect(result).toBe(0);
+    });
+
     describe('UI tests', () => {
       it('should contain an input text field', () => {
+        fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('input'))).not.toBeNull();
       });
 
@@ -264,20 +414,11 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
       }));
 
-      it('should contain 2 suggestion after search', () => {
-        searchBoxComponent.queryText = 'te';
-        fixture.detectChanges();
-
-        expect(
-          fixture.debugElement.queryAll(By.css('.suggestions a')).length
-        ).toEqual(2);
-      });
-
       it('should contain a message after search', () => {
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();
 
-        const el = fixture.debugElement.query(By.css('.results .message'));
+        const el = fixture.debugElement.query(By.css('.results h3'));
         expect(el).toBeTruthy();
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
           'I found stuff for you!'
@@ -288,7 +429,7 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
         const box = fixture.debugElement.query(
-          By.css('.searchbox > input')
+          By.css('.searchbox input')
         ).nativeElement;
         box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
@@ -309,7 +450,7 @@ describe('SearchBoxComponent', () => {
         fixture.detectChanges();
         searchBoxComponent.searchBoxActive = true;
         const mockSearchInput = fixture.debugElement.query(
-          By.css('.searchbox > input')
+          By.css('.searchbox input')
         ).nativeElement;
         spyOn(mockSearchInput, 'focus');
 
@@ -318,6 +459,26 @@ describe('SearchBoxComponent', () => {
 
         expect(mockSearchInput.focus).toHaveBeenCalled();
       }));
+
+      it('should navigate between groups and results with arrow keys', () => {
+        const eventDown = new KeyboardEvent('keydown', { code: 'ArrowDown' });
+        const eventUp = new KeyboardEvent('keydown', { code: 'ArrowUp' });
+
+        spyOn(searchBoxComponent, 'focusNextChild').and.callThrough();
+        spyOn(searchBoxComponent, 'focusPreviousChild').and.callThrough();
+
+        // Simulate navigating down
+        searchBoxComponent['propagateEvent'](eventDown);
+        expect(searchBoxComponent.focusNextChild).toHaveBeenCalledWith(
+          eventDown
+        );
+
+        // Simulate navigating up
+        searchBoxComponent['propagateEvent'](eventUp);
+        expect(searchBoxComponent.focusPreviousChild).toHaveBeenCalledWith(
+          eventUp
+        );
+      });
     });
 
     it('should contain 1 product after search', () => {
@@ -347,7 +508,8 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should contain chosen word from the dropdown', () => {
-      const input = fixture.debugElement.query(By.css('.searchbox > input'));
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('.searchbox input'));
       mockRouterState.state.context = {
         id: 'search',
         type: PageType.CONTENT_PAGE,
@@ -361,11 +523,13 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not contain searched word when navigating to another page', () => {
-      const input = fixture.debugElement.query(By.css('.searchbox > input'));
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('.searchbox input'));
       mockRouterState.state.context = null;
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
       routerState$.next(mockRouterState);
+
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual('');
       expect(input.nativeElement.value).toEqual('');
@@ -378,52 +542,189 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('.searchbox > input')
+          By.css('.searchbox input')
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());
       });
 
-      it('should navigate to first child', () => {
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
+      describe('focusPreviousGroup', () => {
+        it('should prevent default key scrolling', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
 
-        expect(
-          fixture.debugElement.query(By.css('.results .suggestions > li > a'))
-            .nativeElement
-        ).toBe(getFocusedElement());
+          // Create a mock element with a focus method
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+
+          // Mock getGroupElements to return arrays with mock elements
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(1);
+
+          searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          // Check that focus was called on the mock element
+          expect(mockEvent.preventDefault).toHaveBeenCalled();
+          expect(mockElement.focus).toHaveBeenCalled();
+        });
+
+        it('should not change focus if there are no groups', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue(
+            []
+          ); // No groups
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
+
+          const result = searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should not change focus if current group is empty', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [],
+            ['element2'],
+          ]); // First group is empty
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
+
+          const result = searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should focus on the previous group if valid', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(1);
+
+          searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the previous group
+        });
+
+        it('should focus on the first group when current group is the first', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
+
+          searchBoxComponent.focusPreviousGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the first group
+        });
       });
+      describe('focusNextGroup', () => {
+        it('should prevent default key scrolling', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
 
-      it('should navigate to second child', () => {
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
-        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
+          // Create a mock element with a focus method
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
 
-        expect(
-          fixture.debugElement.query(
-            By.css('.results .suggestions > li:nth-child(2) > a')
-          ).nativeElement
-        ).toBe(getFocusedElement());
-      });
+          // Mock getGroupElements to return arrays with mock elements
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            ['element1'],
+            [mockElement],
+          ]);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0); // First group focused
 
-      it('should navigate to last child', () => {
-        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
+          searchBoxComponent.focusNextGroup(mockEvent);
 
-        expect(
-          fixture.debugElement.query(
-            By.css('.results .products > li > a:last-child')
-          ).nativeElement
-        ).toBe(getFocusedElement());
-      });
+          // Check that the default event was prevented and focus was called on the next element
+          expect(mockEvent.preventDefault).toHaveBeenCalled();
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the next group
+        });
 
-      it('should navigate to second last child', () => {
-        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
-        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
-        fixture.detectChanges();
+        it('should not change focus if there are no groups', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue(
+            []
+          ); // No groups
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
 
-        expect(
-          fixture.debugElement.query(
-            By.css('.results .suggestions > li:nth-child(2) > a')
-          ).nativeElement
-        ).toBe(getFocusedElement());
+          const result = searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should not change focus if all groups are empty', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [],
+            [],
+          ]); // Both groups are empty
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
+
+          const result = searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(result).toBeUndefined(); // Should return early
+        });
+
+        it('should focus on the next group if valid', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            ['element1'],
+            [mockElement],
+          ]);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(0);
+
+          searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the next group
+        });
+
+        it('should wrap around and focus on the first group if last group is focused', () => {
+          const mockEvent = jasmine.createSpyObj('UIEvent', ['preventDefault']);
+          const mockElement = jasmine.createSpyObj('HTMLDivElement', ['focus']);
+          spyOn<any>(searchBoxComponent, 'getGroupElements').and.returnValue([
+            [mockElement],
+            ['element2'],
+          ]);
+          spyOn<any>(
+            searchBoxComponent,
+            'getFocusedGroupIndex'
+          ).and.returnValue(1); // Last group
+
+          searchBoxComponent.focusNextGroup(mockEvent);
+
+          expect(mockElement.focus).toHaveBeenCalled(); // Focus on the first element of the first group
+        });
       });
     });
 

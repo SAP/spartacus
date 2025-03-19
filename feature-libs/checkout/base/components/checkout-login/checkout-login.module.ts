@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { NotCheckoutAuthGuard } from '../guards/not-checkout-auth.guard';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
@@ -25,6 +29,8 @@ import { CheckoutLoginComponent } from './checkout-login.component';
     ReactiveFormsModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

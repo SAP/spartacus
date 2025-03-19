@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
 @Component({
   selector: 'cx-qualtrics',
   template: '',
+  standalone: false,
 })
 export class QualtricsComponent {
   protected logger = inject(LoggerService);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import { ProductItem } from '../asm-customer-360-product-listing/product-item.mo
   selector: 'cx-asm-customer-360-product-item',
   templateUrl: './asm-customer-360-product-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AsmCustomer360ProductItemComponent {
   @Input() product: ProductItem;

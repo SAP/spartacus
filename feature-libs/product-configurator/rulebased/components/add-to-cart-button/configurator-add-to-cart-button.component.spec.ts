@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -47,18 +47,17 @@ import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart
 import createSpy = jasmine.createSpy;
 
 const CART_ENTRY_KEY = '001+1';
-const ORDER_ENTRY_KEY = '001+1';
-const PRODUCT_ENTRY_KEY = '001+1';
-const QUOTE_CODE = '003';
+const ORDER_ENTRY_KEY = '002+1';
+const PRODUCT_ENTRY_KEY = '003+1';
+const QUOTE_CODE = '004';
 const QUOTE_ENTRY_KEY = QUOTE_CODE + '+1';
 const QUANTITY = 99;
 const QUANTITY_CHANGED = 7;
 
 const configuratorType = ConfiguratorType.VARIANT;
 
+const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
-
-const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 
 const mockProductConfigurationWithoutPriceSummary =
   ConfigurationTestData.productConfigurationWithConflicts;
@@ -81,14 +80,9 @@ const navParamsOverview: any = {
 };
 
 const queryParams: any = {
-  queryParams: { productCode: mockProductConfiguration.productCode },
-};
-
-const mockOwner = mockProductConfiguration.owner;
-const mockRouterData: ConfiguratorRouter.Data = {
-  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
-  isOwnerCartEntry: false,
-  owner: mockOwner,
+  queryParams: {
+    productCode: ConfigurationTestData.PRODUCT_CODE,
+  },
 };
 
 const mockOrder: Order = {
@@ -98,6 +92,7 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -106,6 +101,7 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -123,6 +119,10 @@ let productConfigurationObservable: Observable<any>;
 let pendingChangesObservable: Observable<any>;
 let elementMock: { style: any };
 let orderEntryObservable: Observable<any>;
+let mockProductConfiguration: Configurator.Configuration;
+let mockOwner: CommonConfigurator.Owner;
+let mockRouterData: ConfiguratorRouter.Data;
+let mockRouterState: any;
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
@@ -133,6 +133,37 @@ function initialize() {
   htmlElem = fixture.nativeElement;
   component.quantityControl = new UntypedFormControl(1);
   fixture.detectChanges();
+}
+
+function initTestData() {
+  mockProductConfiguration = structuredClone(
+    ConfigurationTestData.productConfiguration
+  );
+  mockOwner = structuredClone(ConfigurationTestData.productConfiguration.owner);
+  mockProductConfiguration.owner = mockOwner;
+  mockRouterData = {
+    pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+    isOwnerCartEntry: false,
+    owner: mockOwner,
+    displayOnly: false,
+  };
+  mockRouterState = {
+    state: {
+      semanticRoute: ROUTE_CONFIGURATION,
+      params: {
+        entityKey: ConfigurationTestData.PRODUCT_CODE,
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+      },
+      queryParams: {},
+    },
+  };
+
+  cart.quoteCode = QUOTE_CODE;
+  elementMock = {
+    style: {
+      position: '',
+    },
+  };
 }
 
 class MockGlobalMessageService {
@@ -365,18 +396,6 @@ function performUpdateOnOV() {
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
 
-const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
-const mockRouterState: any = {
-  state: {
-    semanticRoute: ROUTE_CONFIGURATION,
-    params: {
-      entityKey: ConfigurationTestData.PRODUCT_CODE,
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-  },
-};
-
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -471,21 +490,11 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
       ],
-    })
-      .overrideComponent(ConfiguratorAddToCartButtonComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    elementMock = {
-      style: {
-        position: '',
-      },
-    };
+    initTestData();
     pendingChangesObservable = of(false);
     initialize();
     routingService = TestBed.inject(RoutingService);
@@ -514,11 +523,6 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       'focusFirstActiveElement'
     ).and.callThrough();
     spyOn(keyboardFocusService, 'clear').and.callThrough();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
-    mockRouterData.displayOnly = false;
   });
 
   it('should create cart-btn-container', () => {
@@ -1109,6 +1113,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('isQuoteCartActive', () => {
+    cart.quoteCode = QUOTE_CODE;
     it('should return `true` in case quote cart is active', () => {
       component['isQuoteCartActive']()
         .subscribe((isQuoteCartActive) => {
@@ -1124,7 +1129,6 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
           expect(isQuoteCartActive).toBe(false);
         })
         .unsubscribe();
-      cart.quoteCode = QUOTE_CODE;
     });
   });
 

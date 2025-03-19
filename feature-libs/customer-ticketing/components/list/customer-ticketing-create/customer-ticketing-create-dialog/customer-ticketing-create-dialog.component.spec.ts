@@ -23,10 +23,12 @@ import {
   FormErrorsModule,
   ICON_TYPE,
   LaunchDialogService,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const mockCategories = [
   {
@@ -94,6 +96,7 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -101,6 +104,7 @@ class MockCxIconComponent {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -119,6 +123,8 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
+        NgSelectModule,
+        NgSelectA11yModule,
       ],
       declarations: [
         CustomerTicketingCreateDialogComponent,

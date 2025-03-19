@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -2550,5 +2550,24 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: "Didn't receive the code?", type: TabbingOrderTypes.LINK },
     { value: 'Verify', type: TabbingOrderTypes.BUTTON },
     { value: 'Back', type: TabbingOrderTypes.LINK },
+  ],
+  otpRegistration: [
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.LINK },
+  ],
+  verifyTokenForRegistration: [
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
   ],
 };

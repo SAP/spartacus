@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { CustomerTicketingReopenComponentService } from './customer-ticketing-re
 @Component({
   selector: 'cx-customer-ticketing-reopen',
   templateUrl: './customer-ticketing-reopen.component.html',
+  standalone: false,
 })
 export class CustomerTicketingReopenComponent implements OnDestroy {
   protected subscription = new Subscription();

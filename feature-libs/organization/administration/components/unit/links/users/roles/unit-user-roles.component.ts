@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
       useExisting: UnitUserRolesItemService,
     },
   ],
+  standalone: false,
 })
 export class UnitUserRolesFormComponent {
   protected item: B2BUser | undefined;

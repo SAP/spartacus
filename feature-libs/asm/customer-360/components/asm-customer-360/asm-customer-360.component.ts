@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,6 +49,7 @@ import { AsmCustomer360Config } from '../config/asm-customer-360-config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
+  standalone: false,
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
   @HostBinding('attr.role') role = 'dialog';

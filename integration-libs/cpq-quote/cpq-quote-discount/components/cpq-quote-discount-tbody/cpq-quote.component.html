@@ -11,8 +11,11 @@
       <span role="cell" class="cx-total cx-discount">
         {{ discount.isoCode
         }}{{
-          getDiscountedPrice(quoteDiscountData.basePrice?.value, discount.value)
-            | number: '1.2-2' : 'en-US'
+          getDiscountedPrice(
+            quoteDiscountData.basePrice?.value ?? 0,
+            discount.appliedValue,
+            quoteDiscountData.quantity
+          ) | number: '1.2-2' : 'en-US'
         }}
       </span>
     </ng-container>

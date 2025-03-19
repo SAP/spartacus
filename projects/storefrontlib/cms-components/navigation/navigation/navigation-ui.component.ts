@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,11 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  useFeatureStyles,
+  WindowRef,
+} from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -38,6 +42,7 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
@@ -54,6 +59,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
   @Input() resetMenuOnClose: boolean | undefined;
+
+  /**
+   * Include non intractable node titles within the tabbing order.
+   */
+  @Input() focusableNodeTitles: boolean = false;
 
   @Input() navAriaLabel: string | null | undefined;
   /**
@@ -108,6 +118,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+    useFeatureStyles('a11yOptimizedMenuSpacing');
   }
 
   /**
@@ -294,7 +305,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       ) {
         const removedNode = this.openNodes.pop();
         setTimeout(() => {
-          (removedNode?.querySelector('[tabindex="0"]') as HTMLElement).focus();
+          (
+            removedNode?.querySelector('[aria-haspopup="true"]') as HTMLElement
+          ).focus();
         }, 0);
       } else {
         this.openNodes.pop();
@@ -324,7 +337,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   getColumnCount(length: number): number {
-    return Math.round(length / (this.wrapAfter || length));
+    if (!this.wrapAfter || length <= 0) {
+      return 1;
+    }
+
+    let subSectionColumns = Math.floor(length / this.wrapAfter);
+
+    if (subSectionColumns >= 1 && length % this.wrapAfter > 0) {
+      subSectionColumns += 1;
+    }
+
+    return subSectionColumns;
   }
 
   focusAfterPreviousClicked(event: MouseEvent) {
@@ -393,5 +416,19 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       return 0;
     }
     return depth > 0 && !node?.children ? -1 : 0;
+  }
+
+  /**
+   * // Replace spaces with hyphens and convert to lowercase
+   */
+  getSanitizedTitle(title: string | undefined): string | null {
+    return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
+  }
+
+  /**
+   * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
+   */
+  getAriaLabelAndControl(node: NavigationNode): string | null {
+    return this.getSanitizedTitle(node.title) || null;
   }
 }

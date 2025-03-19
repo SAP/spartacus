@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -21,7 +21,7 @@ export class OrderConfirmationGuard {
     protected semanticPathService: SemanticPathService
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return this.orderFacade.getOrderDetails().pipe(
       map((orderDetails) => {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {

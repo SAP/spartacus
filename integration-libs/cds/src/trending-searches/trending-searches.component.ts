@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ const MAX_TRENDING_SEARCHES = 5;
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TrendingSearchesComponent implements OnInit {
   public searchPhrases$: Observable<SearchPhrases[]>;
@@ -59,5 +60,12 @@ export class TrendingSearchesComponent implements OnInit {
 
   get contextObservable() {
     return this.outletContext?.context$ ?? EMPTY;
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.searchBoxComponentService.shareEvent(event);
   }
 }

@@ -21,6 +21,7 @@
   {{ 'serviceOrderCheckout.serviceScheduleHeading' | cxTranslate }}
 </h2>
 <form [formGroup]="this.form">
+  <cx-form-required-legend />
   <div class="row">
     <label
       class="col"
@@ -28,6 +29,7 @@
     >
       <div>
         {{ 'serviceOrderCheckout.datePickerLabel' | cxTranslate }}
+        <cx-form-required-asterisks />
       </div>
       <div>
         <cx-date-picker
@@ -45,6 +47,7 @@
     >
       <div>
         {{ 'serviceOrderCheckout.timePickerLabel' | cxTranslate }}
+        <cx-form-required-asterisks />
       </div>
       <div>
         <select

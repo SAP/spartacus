@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
+  standalone: false,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

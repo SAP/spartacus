@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-store-finder-stores-count',
   templateUrl: './store-finder-stores-count.component.html',
+  standalone: false,
 })
 export class StoreFinderStoresCountComponent implements OnInit {
   // TODO: CXSPA-6884 Make service required in next major.

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,10 +28,7 @@ import { startWith } from 'rxjs/operators';
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  // do not use OnPush change detection strategy as we would not
-  // get updates of other form control state (disabled). We want to have a
-  // disabled state in order to ensure that the control cannot be used while
-  // the cart is updated.
+  standalone: false,
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**
@@ -66,6 +63,12 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
   @Input() allowZero = false;
 
   /**
+   * ID of the element associated with the number input,
+   * so it gets narrated by a screen reader
+   */
+  @Input() ariaDescribedById: string = '';
+
+  /**
    * In readonly mode the item counter will only be shown as a label,
    * the form controls are not rendered.
    * Please not that readonly is different from the `disabled` form state.
@@ -85,6 +88,7 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
 
   constructor() {
     useFeatureStyles('a11yVisibleFocusOverflows');
+    useFeatureStyles('a11yItemCounterFocus');
   }
 
   // TODO: (CXSPA-6034) Remove HostListener next major release

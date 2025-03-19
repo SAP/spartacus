@@ -1,4 +1,10 @@
 %cx-order-history {
+  .cx-order-history-container {
+    @include forFeature('a11yTabComponent') {
+      padding: 0 20px;
+    }
+  }
+
   .cx-order-history {
     @include media-breakpoint-down(sm) {
       max-width: 100%;
@@ -68,6 +74,10 @@
       padding-inline-end: 20px;
       padding-bottom: 0;
       padding-inline-start: 20px;
+    }
+
+    @include forFeature('a11yTabComponent') {
+      padding: 0;
     }
   }
 

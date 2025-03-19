@@ -6,9 +6,7 @@
     [attr.aria-label]="'common.loaded' | cxTranslate"
   ></div>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -18,10 +16,8 @@
               <label>
                 <span class="label-content required"
                   >{{ 'paymentForm.paymentType' | cxTranslate }}
-                  <ng-template
-                    [ngTemplateOutlet]="requiredAsterisk"
-                  ></ng-template
-                ></span>
+                  <cx-form-required-asterisks />
+                </span>
                 <ng-select
                   [inputAttrs]="{ required: 'true' }"
                   [searchable]="true"
@@ -60,8 +56,8 @@
           <label>
             <span class="label-content"
               >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-            ></span>
+              <cx-form-required-asterisks />
+            </span>
             <input
               required="true"
               class="form-control"
@@ -70,11 +66,14 @@
                 'paymentForm.accountHolderName.placeholder' | cxTranslate
               }}"
               formControlName="accountHolderName"
+              [attr.aria-describedby]="'accountHolderNameError'"
             />
 
             <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
               *cxFeature="'formErrorsDescriptiveMessages'"
+              id="accountHolderNameError"
+              aria-live="off"
               [translationParams]="{
                 label: 'paymentForm.accountHolderName.label' | cxTranslate,
               }"
@@ -92,18 +91,21 @@
           <label>
             <span class="label-content"
               >{{ 'paymentForm.cardNumber' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-            ></span>
+              <cx-form-required-asterisks />
+            </span>
             <input
               required="true"
               type="text"
               class="form-control"
               formControlName="cardNumber"
+              [attr.aria-describedby]="'cardNumberError'"
             />
 
             <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
               *cxFeature="'formErrorsDescriptiveMessages'"
+              id="cardNumberError"
+              aria-live="off"
               [translationParams]="{
                 label: 'paymentForm.cardNumber' | cxTranslate,
               }"
@@ -122,9 +124,7 @@
             <fieldset class="cx-payment-form-exp-date">
               <legend class="label-content">
                 {{ 'paymentForm.expirationDate' | cxTranslate }}
-                <ng-template
-                  [ngTemplateOutlet]="requiredAsterisk"
-                ></ng-template>
+                <cx-form-required-asterisks />
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
                 <ng-select
@@ -197,9 +197,7 @@
             <label>
               <span class="label-content">
                 {{ 'paymentForm.securityCode' | cxTranslate }}
-                <ng-template
-                  [ngTemplateOutlet]="requiredAsterisk"
-                ></ng-template>
+                <cx-form-required-asterisks />
                 <cx-icon
                   [type]="iconTypes.INFO"
                   class="cx-payment-form-tooltip"
@@ -217,11 +215,14 @@
                 class="form-control"
                 id="cVVNumber"
                 formControlName="cvn"
+                [attr.aria-describedby]="'cvnError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="cvnError"
+                aria-live="off"
                 [translationParams]="{
                   label: 'paymentForm.securityCode' | cxTranslate,
                 }"
@@ -305,9 +306,10 @@
                 <ng-container *ngIf="countries$ | async as countries">
                   <div *ngIf="countries.length !== 0">
                     <label>
-                      <span class="label-content required">{{
-                        'addressForm.country' | cxTranslate
-                      }}</span>
+                      <span class="label-content required">
+                        {{ 'addressForm.country' | cxTranslate }}
+                        <cx-form-required-asterisks />
+                      </span>
                       <ng-select
                         [inputAttrs]="{ required: 'true' }"
                         [searchable]="true"
@@ -346,9 +348,10 @@
               </div>
               <div class="form-group">
                 <label>
-                  <span class="label-content required">{{
-                    'addressForm.firstName.label' | cxTranslate
-                  }}</span>
+                  <span class="label-content required">
+                    {{ 'addressForm.firstName.label' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
                   <input
                     required="true"
                     class="form-control"
@@ -357,11 +360,14 @@
                       'addressForm.firstName.placeholder' | cxTranslate
                     }}"
                     formControlName="firstName"
+                    [attr.aria-describedby]="'firstNameError'"
                   />
 
                   <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
+                    id="firstNameError"
+                    aria-live="off"
                     [translationParams]="{
                       label: 'addressForm.firstName.label' | cxTranslate,
                     }"
@@ -376,9 +382,10 @@
               </div>
               <div class="form-group">
                 <label>
-                  <span class="label-content required">{{
-                    'addressForm.lastName.label' | cxTranslate
-                  }}</span>
+                  <span class="label-content required">
+                    {{ 'addressForm.lastName.label' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
                   <input
                     required="true"
                     type="text"
@@ -387,11 +394,14 @@
                       'addressForm.lastName.placeholder' | cxTranslate
                     }}"
                     formControlName="lastName"
+                    [attr.aria-describedby]="'lastNameError'"
                   />
 
                   <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
+                    id="lastNameError"
+                    aria-live="off"
                     [translationParams]="{
                       label: 'addressForm.lastName.label' | cxTranslate,
                     }"
@@ -406,9 +416,10 @@
               </div>
               <div class="form-group">
                 <label>
-                  <span class="label-content required">{{
-                    'addressForm.address1' | cxTranslate
-                  }}</span>
+                  <span class="label-content required">
+                    {{ 'addressForm.address1' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
                   <input
                     required="true"
                     type="text"
@@ -417,11 +428,14 @@
                       'addressForm.streetAddress' | cxTranslate
                     }}"
                     formControlName="line1"
+                    [attr.aria-describedby]="'line1Error'"
                   />
 
                   <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
+                    id="line1Error"
+                    aria-live="off"
                     [translationParams]="{
                       label: 'addressForm.address1' | cxTranslate,
                     }"
@@ -450,9 +464,10 @@
               <div class="row">
                 <div class="form-group col-md-6">
                   <label>
-                    <span class="label-content required">{{
-                      'addressForm.city.label' | cxTranslate
-                    }}</span>
+                    <span class="label-content required">
+                      {{ 'addressForm.city.label' | cxTranslate }}
+                      <cx-form-required-asterisks />
+                    </span>
                     <input
                       required="true"
                       type="text"
@@ -461,11 +476,14 @@
                         'addressForm.city.placeholder' | cxTranslate
                       }}"
                       formControlName="town"
+                      [attr.aria-describedby]="'townError'"
                     />
 
                     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                     <cx-form-errors
                       *cxFeature="'formErrorsDescriptiveMessages'"
+                      id="townError"
+                      aria-live="off"
                       [translationParams]="{
                         label: 'addressForm.city.label' | cxTranslate,
                       }"
@@ -480,9 +498,10 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label>
-                    <span class="label-content required">{{
-                      'addressForm.zipCode.label' | cxTranslate
-                    }}</span>
+                    <span class="label-content required">
+                      {{ 'addressForm.zipCode.label' | cxTranslate }}
+                      <cx-form-required-asterisks />
+                    </span>
                     <input
                       required="true"
                       type="text"
@@ -491,11 +510,14 @@
                         'addressForm.zipCode.placeholder' | cxTranslate
                       }}"
                       formControlName="postalCode"
+                      [attr.aria-describedby]="'postalCodeError'"
                     />
 
                     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                     <cx-form-errors
                       *cxFeature="'formErrorsDescriptiveMessages'"
+                      id="postalCodeError"
+                      aria-live="off"
                       [translationParams]="{
                         label: 'addressForm.zipCode.label' | cxTranslate,
                       }"
@@ -595,15 +617,6 @@
     </div>
   </form>
 </ng-container>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
 
 <ng-template #spinner>
   <cx-spinner></cx-spinner>

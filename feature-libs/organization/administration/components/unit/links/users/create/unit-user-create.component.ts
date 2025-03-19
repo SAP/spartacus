@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { UnitUserItemService } from './unit-user-item.service';
       useExisting: UnitUserItemService,
     },
   ],
+  standalone: false,
 })
 export class UnitUserCreateComponent {
   unitKey$: Observable<string> = this.unitService.key$;

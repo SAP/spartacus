@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import {
   isNotUndefined,
   RoutingService,
   TranslationService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   Order,
@@ -24,6 +25,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderHistoryComponent implements OnDestroy {
   constructor(
@@ -31,7 +33,9 @@ export class OrderHistoryComponent implements OnDestroy {
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  ) {}
+  ) {
+    useFeatureStyles('a11yTabComponent');
+  }
 
   private PAGE_SIZE = 5;
   sortType: string;

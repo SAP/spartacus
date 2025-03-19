@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 @Component({
   selector: 'cx-configurator-textfield-form',
   templateUrl: './configurator-textfield-form.component.html',
+  standalone: false,
 })
 export class ConfiguratorTextfieldFormComponent {
   configuration$: Observable<ConfiguratorTextfield.Configuration> =

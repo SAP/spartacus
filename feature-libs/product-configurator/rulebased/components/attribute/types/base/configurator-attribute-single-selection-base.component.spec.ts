@@ -67,6 +67,7 @@ class MockConfiguratorCommonsService {
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
@@ -171,10 +172,15 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   });
 
   describe('onSelectAdditionalValue', () => {
-    const configFormUpdateEvent: ConfigFormUpdateEvent = {
-      ownerKey: ownerKey,
-      changedAttribute: { name: 'Attr' },
-    };
+    let configFormUpdateEvent: ConfigFormUpdateEvent;
+
+    beforeEach(() => {
+      configFormUpdateEvent = {
+        ownerKey: ownerKey,
+        changedAttribute: { name: 'Attr' },
+      };
+    });
+
     it('should not call emit of selectionChange in case no user input is present', () => {
       spyOn(
         component['configuratorCommonsService'],

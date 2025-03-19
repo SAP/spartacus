@@ -223,6 +223,9 @@
     }
     ul.childs > li > cx-generic-link > a {
       padding: 5px 0;
+      @include forFeature('a11yOptimizedMenuSpacing') {
+        padding: 0;
+      }
     }
     @include forFeature('a11yImproveContrast') {
       li > cx-generic-link > a {
@@ -477,7 +480,7 @@
       color: var(--cx-color-text);
       background-color: var(--cx-color-background);
       nav ul li > cx-generic-link + button {
-        border-inline-start: 1px solid var(--cx-color-background);
+        border-style: none;
       }
       button:hover {
         outline-color: var(--cx-color-dark);

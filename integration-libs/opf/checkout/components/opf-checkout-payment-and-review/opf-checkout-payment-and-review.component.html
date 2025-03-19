@@ -1,0 +1,163 @@
+<!-- For B2B Account payment, OPF should not be displayed -->
+<ng-container
+  *ngIf="{
+    value: explicitTermsAndConditions$ | async,
+  } as explicitTermsAndConditions"
+>
+  <section
+    *ngIf="(paymentType$ | async)?.code !== 'ACCOUNT'"
+    [attr.aria-label]="'opfCheckout.tabs.paymentAndReview' | cxTranslate"
+  >
+    <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'opfCheckout.tabs.paymentAndReview' | cxTranslate }}
+    </h2>
+
+    <div
+      *ngIf="explicitTermsAndConditions.value"
+      class="cx-opf-terms-and-conditions"
+      [attr.aria-label]="'opfCheckout.termsAndConditions' | cxTranslate"
+    >
+      <h3>{{ 'opfCheckout.termsAndConditions' | cxTranslate }}</h3>
+
+      <cx-opf-checkout-terms-and-conditions-alert
+        [isVisible]="termsAndConditionInvalid"
+        [isExplicit]="explicitTermsAndConditions.value"
+        [isDismissible]="false"
+      ></cx-opf-checkout-terms-and-conditions-alert>
+
+      <form
+        class="cx-place-order-form form-check"
+        [formGroup]="checkoutSubmitForm"
+      >
+        <div class="form-group">
+          <label>
+            <input
+              formControlName="termsAndConditions"
+              class="scaled-input form-check-input"
+              type="checkbox"
+              (change)="toggleTermsAndConditions()"
+            />
+            <span class="form-check-label">
+              {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+              <a
+                [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+                class="cx-tc-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+              </a>
+            </span>
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
+
+    <cx-opf-checkout-terms-and-conditions-alert
+      *ngIf="!explicitTermsAndConditions.value"
+      [isDismissible]="true"
+      [isVisible]="termsAndConditionInvalid"
+      [isExplicit]="explicitTermsAndConditions.value"
+    ></cx-opf-checkout-terms-and-conditions-alert>
+
+    <cx-opf-checkout-payments
+      [elementsPerPage]="10"
+      [explicitTermsAndConditions]="explicitTermsAndConditions.value"
+      [disabled]="termsAndConditionInvalid"
+    >
+      <cx-opf-checkout-terms-and-conditions-alert
+        *ngIf="!explicitTermsAndConditions.value"
+        [isDismissible]="true"
+        [isVisible]="termsAndConditionInvalid"
+        [isExplicit]="explicitTermsAndConditions.value"
+      ></cx-opf-checkout-terms-and-conditions-alert>
+    </cx-opf-checkout-payments>
+
+    <!-- CART ITEM SECTION -->
+    <ng-container *ngIf="cart$ | async as cart">
+      <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
+        {{
+          'cartItems.cartTotal'
+            | cxTranslate: { count: cart.deliveryItemsQuantity }
+        }}:
+        {{ cart.totalPrice?.formattedValue }}
+      </div>
+      <div
+        class="cx-review-cart-item col-md-12"
+        *ngIf="entries$ | async as entries"
+      >
+        <cx-promotions
+          [promotions]="
+            (cart.appliedOrderPromotions || []).concat(
+              cart.potentialOrderPromotions || []
+            )
+          "
+        ></cx-promotions>
+
+        <div class="cx-items-to-ship-label">
+          {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
+        </div>
+
+        <div class="cx-shipping-and-delivery-info-cards">
+          <div
+            *ngIf="deliveryAddress$ | async as deliveryAddress"
+            class="cx-review-summary-card cx-review-card-address"
+          >
+            <cx-card
+              [content]="getDeliveryAddressCard(deliveryAddress) | async"
+            ></cx-card>
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.aria-label]="
+                  'checkoutReview.editDeliveryAddressDetails' | cxTranslate
+                "
+                [routerLink]="
+                  {
+                    cxRoute: getCheckoutStepUrl(
+                      checkoutStepTypeDeliveryAddress
+                    ),
+                  } | cxUrl
+                "
+                ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+              ></a>
+            </div>
+          </div>
+
+          <div
+            *ngIf="deliveryMode$ | async as deliveryMode"
+            class="cx-review-summary-card cx-review-delivery-method"
+          >
+            <cx-card
+              [content]="getDeliveryModeCard(deliveryMode) | async"
+            ></cx-card>
+            <div class="cx-review-summary-edit-step">
+              <a
+                [attr.aria-label]="
+                  'checkoutReview.editDeliveryMode' | cxTranslate
+                "
+                [routerLink]="
+                  {
+                    cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
+                  } | cxUrl
+                "
+                ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <ng-template
+          [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            items: entries,
+            readonly: true,
+            promotionLocation: promotionLocation,
+          }"
+        >
+        </ng-template>
+      </div>
+    </ng-container>
+  </section>
+</ng-container>

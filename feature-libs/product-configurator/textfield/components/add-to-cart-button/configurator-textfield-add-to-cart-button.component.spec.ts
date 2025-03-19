@@ -5,7 +5,7 @@ import {
   Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   I18nTestingModule,
   RouterState,
@@ -56,6 +56,7 @@ class MockConfiguratorTextfieldService {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -83,7 +84,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         ConfiguratorTextfieldAddToCartButtonComponent,
         MockUrlPipe,

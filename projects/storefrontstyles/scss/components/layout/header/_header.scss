@@ -89,6 +89,10 @@ $space: 0.5rem;
     cx-link {
       display: block;
       padding-inline-end: 10px;
+
+      @include forFeature('headerLayoutForSmallerViewports') {
+        padding-inline-end: 0;
+      }
     }
   }
 
@@ -207,6 +211,10 @@ $space: 0.5rem;
     .SiteLinks {
       justify-content: flex-end;
       color: var(--cx-color-primary);
+
+      @include forFeature('headerLayoutForSmallerViewports') {
+        flex-wrap: nowrap;
+      }
     }
 
     .SiteLogin {

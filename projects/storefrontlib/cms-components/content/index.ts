@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,3 +18,7 @@ export * from './tab-paragraph-container/tab-paragraph-container.component';
 export * from './tab-paragraph-container/tab-paragraph-container.module';
 export * from './video/video.component';
 export * from './video/video.module';
+export * from './tab/tab.component';
+export * from './tab/tab.model';
+export * from './tab/tab.module';
+export * from './tab/panel/tab-panel.component';

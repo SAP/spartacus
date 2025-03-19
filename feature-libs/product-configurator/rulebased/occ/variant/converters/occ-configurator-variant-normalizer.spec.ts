@@ -38,7 +38,7 @@ const maxlength = 3;
 let flatGroups: Configurator.Group[] = [];
 let groups: Configurator.Group[] = [];
 
-const occImage: OccConfigurator.Image = {
+const occImageTemplate: OccConfigurator.Image = {
   altText: 'Alternate Text for Image',
   format: OccConfigurator.ImageFormatType.VALUE_IMAGE,
   imageType: OccConfigurator.ImageType.PRIMARY,
@@ -47,7 +47,7 @@ const occImage: OccConfigurator.Image = {
 
 const occAttribute: OccConfigurator.Attribute = {
   name: attributeName,
-  images: [occImage],
+  images: [occImageTemplate],
   key: csticKey,
   validationType: 'NUMERIC',
 };
@@ -59,7 +59,7 @@ const occAttributeWithValues: OccConfigurator.Attribute = {
   key: groupKey,
   longText: 'Here is a description at attribute level',
   domainValues: [
-    { key: valueKey, images: [occImage] },
+    { key: valueKey, images: [occImageTemplate] },
     {
       key: valueKey2,
       selected: selectedFlag,
@@ -67,7 +67,7 @@ const occAttributeWithValues: OccConfigurator.Attribute = {
     },
   ],
 };
-const attributeRBWithValues: Configurator.Attribute = {
+const attributeRBWithValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.RADIOBUTTON,
@@ -79,13 +79,13 @@ const attributeRBWoValues: Configurator.Attribute = {
   uiType: Configurator.UiType.RADIOBUTTON,
   selectedSingleValue: '',
 };
-const attributeDDWithValues: Configurator.Attribute = {
+const attributeDDWithValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: 'SomeValue',
 };
-const attributeDDWoValues: Configurator.Attribute = {
+const attributeDDWoValuesTemplate: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
   uiType: Configurator.UiType.DROPDOWN,
@@ -193,7 +193,7 @@ const attributeMSIWithValue: Configurator.Attribute = {
     },
   ],
 };
-const configuration: OccConfigurator.Configuration = {
+const configurationTemplate: OccConfigurator.Configuration = {
   configId: configId,
   complete: true,
   consistent: true,
@@ -202,19 +202,19 @@ const configuration: OccConfigurator.Configuration = {
   immediateConflictResolution: true,
   groups: [
     {
-      attributes: [occAttributeWithValues],
+      attributes: [structuredClone(occAttributeWithValues)],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
       id: '3',
       subGroups: [
         {
-          attributes: [occAttributeWithValues],
+          attributes: [structuredClone(occAttributeWithValues)],
           groupType: OccConfigurator.GroupType.CSTIC_GROUP,
           id: groupId,
         },
       ],
     },
     {
-      attributes: [occAttributeWithValues],
+      attributes: [structuredClone(occAttributeWithValues)],
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
       id: '2',
     },
@@ -232,14 +232,14 @@ const group: OccConfigurator.Group = {
   description: groupDescription,
   id: groupId,
   groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-  attributes: [occAttributeWithValues],
+  attributes: [structuredClone(occAttributeWithValues)],
 };
 
 const occConflictGroup: OccConfigurator.Group = {
   name: conflictGroupName,
   description: conflictExplanation,
   groupType: OccConfigurator.GroupType.CONFLICT,
-  attributes: [occAttributeWithValues],
+  attributes: [structuredClone(occAttributeWithValues)],
   id: groupId,
 };
 
@@ -303,7 +303,7 @@ class MockTranslationService {
   }
 }
 
-const MockOccModuleConfig: OccConfig = {
+const mockOccModuleConfigTemplate: OccConfig = {
   backend: {
     occ: {
       baseUrl: 'https://occBackendBaseUrl/',
@@ -315,7 +315,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+const mockConfiguratorUISettingsConfigTemplate: ConfiguratorUISettingsConfig = {
   productConfigurator: {
     addRetractOption: false,
   },
@@ -323,19 +323,25 @@ const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
 
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
-  let occConfig: OccConfig;
   let configUISettingsConfig: ConfiguratorUISettingsConfig;
+  let configuration: OccConfigurator.Configuration;
+  let mockOccModuleConfig: OccConfig;
+  let mockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig;
 
   beforeEach(() => {
+    mockOccModuleConfig = structuredClone(mockOccModuleConfigTemplate);
+    mockConfiguratorUISettingsConfig = structuredClone(
+      mockConfiguratorUISettingsConfigTemplate
+    );
     TestBed.configureTestingModule({
       providers: [
         OccConfiguratorVariantNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: ConfiguratorUISettingsConfig,
-          useValue: MockConfiguratorUISettingsConfig,
+          useValue: mockConfiguratorUISettingsConfig,
         },
       ],
     });
@@ -343,12 +349,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
     occConfiguratorVariantNormalizer = TestBed.inject(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
-    occConfig = TestBed.inject(OccConfig as Type<OccConfig>);
     configUISettingsConfig = TestBed.inject(
       ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
     );
     groups = [];
     flatGroups = [];
+    configuration = structuredClone(configurationTemplate);
   });
 
   it('should be created', () => {
@@ -1089,57 +1095,57 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('convertImage', () => {
+    let images: Configurator.Image[] = [];
+    let occImage: OccConfigurator.Image;
+    beforeEach(() => {
+      images = [];
+      occImage = structuredClone(occImageTemplate);
+    });
+
     it('should convert image with media URL configured', () => {
-      const images: Configurator.Image[] = [];
-      const media = occConfig?.backend?.media;
-      expect(media).toBeDefined();
-      if (media) {
-        media.baseUrl = 'https://mediaBackendBaseUrl/';
+      occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+      expect(images.length).toBe(1);
+      expect(images[0].url).toBe(
+        'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
+      );
 
-        expect(images.length).toBe(1);
-        expect(images[0].url).toBe(
-          'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
-        );
-
-        occConfiguratorVariantNormalizer.convertImage(occImage, images);
-        expect(images.length).toBe(2);
-      }
+      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+      expect(images.length).toBe(2);
     });
 
     it('should convert image with no media URL configured', () => {
-      const images: Configurator.Image[] = [];
-      const media = occConfig?.backend?.media;
-      expect(media).toBeDefined();
-      if (media) {
-        media.baseUrl = undefined;
-        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+      (mockOccModuleConfig.backend?.media ?? {}).baseUrl = undefined;
 
-        expect(images.length).toBe(1);
-        expect(images[0].url).toBe(
-          'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
-        );
-      }
+      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+
+      expect(images.length).toBe(1);
+      expect(images[0].url).toBe(
+        'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
+      );
     });
 
     it('should convert image with no URL configuration at all', () => {
-      const images: Configurator.Image[] = [];
-      const media = occConfig?.backend?.media;
-      expect(media).toBeDefined();
-      const occ = occConfig?.backend?.occ;
-      if (media && occ) {
-        media.baseUrl = undefined;
-        occ.baseUrl = undefined;
-        occConfiguratorVariantNormalizer.convertImage(occImage, images);
+      (mockOccModuleConfig.backend?.media ?? {}).baseUrl = undefined;
+      (mockOccModuleConfig.backend?.occ ?? {}).baseUrl = undefined;
+      occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-        expect(images.length).toBe(1);
-        expect(images[0].url).toBe('media?This%20%is%20%a%20%URL');
-      }
+      expect(images.length).toBe(1);
+      expect(images[0].url).toBe('media?This%20%is%20%a%20%URL');
     });
   });
 
   describe('check the setting of incomplete', () => {
+    let attributeDDWithValues: Configurator.Attribute;
+    let attributeDDWoValues: Configurator.Attribute;
+    let attributeRBWithValues: Configurator.Attribute;
+
+    beforeEach(() => {
+      attributeDDWithValues = structuredClone(attributeDDWithValuesTemplate);
+      attributeDDWoValues = structuredClone(attributeDDWoValuesTemplate);
+      attributeRBWithValues = structuredClone(attributeRBWithValuesTemplate);
+    });
+
     it('should set incomplete by string type correctly', () => {
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeStringWoValue
@@ -1243,6 +1249,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete for attribute types with additional value', () => {
+      attributeDDWithValues.selectedSingleValue = undefined;
       attributeDDWithValues.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
@@ -1253,6 +1260,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete for attribute types with additional value, ignoring user input, as that is not sent when retrieving a configuration ', () => {
       //a previous user input is always be part of the domain after a roundtrip
+      attributeDDWithValues.selectedSingleValue = undefined;
       attributeDDWithValues.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       attributeDDWithValues.userInput = 'NeverBeSentFromBackend';
@@ -1420,14 +1428,15 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   describe('addRetractValue', () => {
     let values: Configurator.Value[] = [];
-    let sourceAttribute: OccConfigurator.Attribute = createOccAttribute(
-      'key',
-      'name',
-      OccConfigurator.UiType.NOT_IMPLEMENTED
-    );
+    let sourceAttribute: OccConfigurator.Attribute;
 
-    afterEach(() => {
+    beforeEach(() => {
       values = [];
+      sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.NOT_IMPLEMENTED
+      );
     });
 
     it("should not add a retract value to the list of values because retractBlocked is set to 'true'", () => {

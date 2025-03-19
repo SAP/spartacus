@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/pr
   selector: 'cx-product-image-zoom-trigger',
   templateUrl: 'product-image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;

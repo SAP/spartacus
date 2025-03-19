@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { Card } from '../../../shared/components/card/card.component';
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
+  standalone: false,
 })
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
@@ -83,13 +84,14 @@ export class PaymentMethodsComponent implements OnInit {
           }
           actions.push({ name: textDelete, event: 'edit' });
           const card: Card = {
-            role: 'region',
+            role: 'application',
             header: defaultPayment ? textDefaultPaymentMethod : undefined,
             textBold: accountHolderName,
             text: [cardNumber ?? '', textExpires],
             actions,
             deleteMsg: textDeleteConfirmation,
             img: this.getCardIcon(cardType?.code ?? ''),
+            imgLabel: this.getCardIconLabel(cardType?.code),
             label: defaultPayment
               ? 'paymentCard.defaultPaymentLabel'
               : 'paymentCard.additionalPaymentLabel',
@@ -139,5 +141,28 @@ export class PaymentMethodsComponent implements OnInit {
     }
 
     return ccIcon;
+  }
+
+  getCardIconLabel(code: string | undefined): string {
+    let ccIconLabel: string;
+    if (code === 'visa') {
+      ccIconLabel = 'paymentCard.visa';
+    } else if (code === 'master') {
+      ccIconLabel = 'paymentCard.master';
+    } else if (code === 'mastercard_eurocard') {
+      ccIconLabel = 'paymentCard.masterEuro';
+    } else if (code === 'diners') {
+      ccIconLabel = 'paymentCard.dinersClub';
+    } else if (code === 'amex') {
+      ccIconLabel = 'paymentCard.amex';
+    } else if (code === 'switch') {
+      ccIconLabel = 'paymentCard.switch';
+    } else if (code === 'maestro') {
+      ccIconLabel = 'paymentCard.maestro';
+    } else {
+      ccIconLabel = 'paymentCard.credit';
+    }
+
+    return ccIconLabel;
   }
 }

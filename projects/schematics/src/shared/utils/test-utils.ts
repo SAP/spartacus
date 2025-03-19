@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -115,6 +115,8 @@ export const digitalPaymentsFeatureModulePath =
   'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
 export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
+export const opfFeatureModulePath =
+  'src/app/spartacus/features/opf/opf-feature.module.ts';
 export const segmentRefsFeatureModulePath =
   'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
 export const oppsFeatureModulePath =

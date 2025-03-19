@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   KeyboardFocusModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
@@ -31,6 +33,8 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     KeyboardFocusModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [UserChangePasswordFormComponent],
 })

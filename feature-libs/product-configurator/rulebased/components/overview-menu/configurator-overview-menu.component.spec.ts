@@ -57,6 +57,7 @@ class MockConfiguratorStorefrontUtilsService {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -123,10 +124,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
       ],
     }).compileComponents();
   }));
-
-  afterEach(() => {
-    document.body.removeChild(htmlElem);
-  });
 
   it('should create component', () => {
     initialize();
@@ -417,12 +414,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    afterEach(() => {
-      groups?.forEach((group: any) => {
-        ConfiguratorTestUtils.remove(group);
-      });
-    });
-
     it('should not get menu item to highlight because getElements method return undefined', () => {
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         undefined
@@ -435,10 +426,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     it('should not get menu item to highlight because getScrollY method return undefined', () => {
       groups = createElements('div');
 
-      document.querySelectorAll = jasmine
-        .createSpy('div.cx-group')
-        .and.returnValue(groups);
-
+      spyOn(document, 'querySelectorAll').and.returnValue(groups);
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         groups
       );
@@ -456,10 +444,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     it('should get menu item to highlight', () => {
       groups = createElements('div');
 
-      document.querySelectorAll = jasmine
-        .createSpy('div.cx-group')
-        .and.returnValue(groups);
-
+      spyOn(document, 'querySelectorAll').and.returnValue(groups);
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         groups
       );

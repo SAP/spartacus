@@ -1,20 +1,25 @@
 <cx-org-form i18nRoot="orgPurchaseLimit">
   <ng-container *ngIf="form" [formGroup]="form" main>
+    <cx-form-required-legend />
     <label>
-      <span class="label-content required">{{
-        'orgPurchaseLimit.code' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgPurchaseLimit.code' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgPurchaseLimit.code' | cxTranslate }}"
         formControlName="code"
+        [attr.aria-describedby]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
+        aria-live="off"
         [translationParams]="{ label: 'orgPurchaseLimit.code' | cxTranslate }"
         [control]="form.get('code')"
       ></cx-form-errors>
@@ -29,9 +34,10 @@
       *ngIf="(types$ | async)?.length"
       [formGroup]="$any(form.get('orderApprovalPermissionType'))"
     >
-      <span class="label-content required">{{
-        'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="code"
@@ -64,9 +70,10 @@
     </label>
 
     <label *ngIf="form.get('periodRange')">
-      <span class="label-content required">{{
-        'orgPurchaseLimit.periodRange' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgPurchaseLimit.periodRange' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="periodRange"
@@ -97,9 +104,10 @@
       *ngIf="form.get('currency')"
       [formGroup]="$any(form.get('currency'))"
     >
-      <span class="label-content required">{{
-        'orgPurchaseLimit.currency' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgPurchaseLimit.currency' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
         [inputAttrs]="{ required: 'true' }"
@@ -129,20 +137,24 @@
     </label>
 
     <label *ngIf="form.get('threshold')">
-      <span class="label-content required">{{
-        'orgPurchaseLimit.threshold' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgPurchaseLimit.threshold' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="number"
         required
         placeholder="{{ 'orgPurchaseLimit.threshold' | cxTranslate }}"
         formControlName="threshold"
+        [attr.aria-describedby]="'thresholdError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="thresholdError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgPurchaseLimit.threshold' | cxTranslate,
         }"
@@ -156,9 +168,10 @@
     </label>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
-      <span class="label-content required">{{
-        'orgPurchaseLimit.orgUnit' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgPurchaseLimit.orgUnit' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"

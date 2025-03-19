@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,8 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import {
   Config,
-  useFeatureStyles,
   FeatureConfigService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -29,6 +29,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   templateUrl: './configurator-attribute-single-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
@@ -48,11 +49,12 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
+    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
+
     super();
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
     this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key

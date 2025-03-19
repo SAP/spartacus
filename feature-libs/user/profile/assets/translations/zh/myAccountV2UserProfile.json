@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "我的电子邮件地址",
+    "myInformation": "我的信息",
+    "name": "名称",
+    "customerId": "客户标识",
+    "title": "标题",
+    "firstName": "名字",
+    "lastName": "姓氏"
+  }
+}

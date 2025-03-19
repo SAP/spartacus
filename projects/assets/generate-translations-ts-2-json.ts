@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as fs from 'fs-extra';
-import { translations } from './src/translations/translations';
+import { en } from './src/translations/en';
 
 const assetsDistDir = '../../dist/assets/';
 const translationsDistDir = assetsDistDir + 'i18n-assets/';
@@ -29,14 +29,14 @@ if (!fs.existsSync(assetsDistDir)) {
   createDir(translationsDistDir);
 
   // generate files
-  Object.keys(translations).forEach((lang) => {
-    createDir(getLangDir(lang));
-    Object.keys(translations[lang]).forEach((chunk) => {
-      const obj = translations[lang][chunk];
-      const json = JSON.stringify(obj, null, 2);
-      const fileName = getFileName(lang, chunk);
-      fs.writeFileSync(fileName, json, 'utf8');
-    });
+  const lang = 'en';
+  const translationsEn: Record<string, any> = en;
+  createDir(getLangDir(lang));
+  Object.keys(translationsEn).forEach((chunk) => {
+    const obj = translationsEn[chunk];
+    const json = JSON.stringify(obj, null, 2);
+    const fileName = getFileName(lang, chunk);
+    fs.writeFileSync(fileName, json, 'utf8');
   });
   /* eslint-disable-next-line no-console */
   console.log(`Translations generated in '${assetsDistDir}'`);

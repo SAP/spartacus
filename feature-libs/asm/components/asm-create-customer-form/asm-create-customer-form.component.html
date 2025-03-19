@@ -1,14 +1,16 @@
 <div
   class="cx-modal-container cx-asm-dialog"
+  role="dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
+  aria-labelledby="asm-create-customer-form-title"
 >
   <div class="cx-modal-content">
     <ng-container>
       <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
         <!-- Modal Header -->
         <div class="cx-dialog-header modal-header">
-          <h2 class="title modal-title">
+          <h2 id="asm-create-customer-form-title" class="title modal-title">
             {{ 'asm.createCustomerForm.title' | cxTranslate }}
           </h2>
         </div>
@@ -47,10 +49,13 @@
                   placeholder="{{
                     'asm.createCustomerForm.firstName.placeholder' | cxTranslate
                   }}"
+                  [attr.aria-describedby]="'firstNameError'"
                   formControlName="firstName"
                   name="text"
                 />
                 <cx-form-errors
+                  id="firstNameError"
+                  aria-live="off"
                   [control]="registerForm.get('firstName')"
                 ></cx-form-errors>
               </label>
@@ -67,10 +72,13 @@
                   placeholder="{{
                     'asm.createCustomerForm.lastName.placeholder' | cxTranslate
                   }}"
+                  [attr.aria-describedby]="'lastNameError'"
                   name="text"
                   formControlName="lastName"
                 />
                 <cx-form-errors
+                  id="lastNameError"
+                  aria-live="off"
                   [control]="registerForm.get('lastName')"
                 ></cx-form-errors>
               </label>
@@ -88,10 +96,13 @@
                     'asm.createCustomerForm.emailAddress.placeholder'
                       | cxTranslate
                   }}"
+                  [attr.aria-describedby]="'emailError'"
                   name="email"
                   formControlName="email"
                 />
                 <cx-form-errors
+                  id="emailError"
+                  aria-live="off"
                   [control]="registerForm.get('email')"
                 ></cx-form-errors>
               </label>

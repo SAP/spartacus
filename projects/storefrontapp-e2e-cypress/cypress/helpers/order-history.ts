@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -166,8 +166,16 @@ export const orderHistoryTest = {
     it('should sort the orders table by given code', () => {
       cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
       cy.visit('/my-account/orders');
-      cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-      cy.wait('@query_order_asc').its('response.statusCode').should('eq', 200);
+
+      cy.get('.top cx-sorting .ng-select', { timeout: 15000 }).click();
+      cy.get('.ng-dropdown-panel .ng-option', { timeout: 15000 })
+        .contains('Order Number')
+        .click();
+
+      cy.wait('@query_order_asc', { timeout: 15000 })
+        .its('response.statusCode')
+        .should('eq', 200);
+      cy.wait(2000);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
         ($orders) => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
@@ -234,6 +242,15 @@ export const orderHistoryTest = {
           orderData.body.totalPrice.formattedValue
         );
       });
+    });
+  },
+  checkTabsAreDisplayedAfterNavigation() {
+    it('should display order history tabs after navigation', () => {
+      cy.visit('/my-account/orders');
+      cy.get('cx-order-history h2').should('contain', 'Order history');
+      goToOrderDetails();
+      cy.go('back');
+      cy.get('cx-order-history h2').should('contain', 'Order history');
     });
   },
 };

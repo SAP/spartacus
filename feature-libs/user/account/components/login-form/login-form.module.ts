@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,12 +15,14 @@ import {
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
   WindowRef,
-  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -39,6 +41,8 @@ import { LoginFormComponent } from './login-form.component';
     SpinnerModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

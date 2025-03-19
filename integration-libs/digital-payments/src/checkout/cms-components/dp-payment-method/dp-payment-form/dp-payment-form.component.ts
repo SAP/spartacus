@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'cx-dp-payment-form',
   templateUrl: './dp-payment-form.component.html',
+  standalone: false,
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()

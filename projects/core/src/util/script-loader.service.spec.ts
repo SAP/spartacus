@@ -78,6 +78,7 @@ describe('ScriptLoader', () => {
       attributes: {
         type: 'text/javascript',
         'data-custom-attr': 'custom-attribute-value',
+        'mock-attr-key': 'mock-attr-value',
       },
     });
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
@@ -85,6 +86,31 @@ describe('ScriptLoader', () => {
     expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.getAttribute('data-custom-attr')).toEqual(
       'custom-attribute-value'
+    );
+    expect(jsDomElement.getAttribute('mock-attr-key')).toBeFalsy();
+  });
+
+  it('should add script with unrestricted custom attributes', () => {
+    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+
+    scriptLoader.embedScript({
+      disableKeyRestriction: true,
+      src: SCRIPT_LOAD_URL,
+      params: undefined,
+      attributes: {
+        type: 'text/javascript',
+        'data-custom-attr': 'custom-attribute-value',
+        'mock-attr-key': 'mock-attr-value',
+      },
+    });
+    expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
+    expect(jsDomElement.type).toEqual('text/javascript');
+    expect(jsDomElement.getAttribute('data-custom-attr')).toEqual(
+      'custom-attribute-value'
+    );
+    expect(jsDomElement.getAttribute('mock-attr-key')).toEqual(
+      'mock-attr-value'
     );
   });
 

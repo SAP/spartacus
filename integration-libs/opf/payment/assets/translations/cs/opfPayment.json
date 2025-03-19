@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "Momentálně nemůžeme zpracovat tento způsob platby. Opakujte později nebo vyberte jiný způsob platby.",
+      "cancelPayment": "Zrušili jste platbu. Chcete-li pokračovat v objednávce, zkuste to znovu, nebo si vyberte jiný způsob platby.",
+      "cardExpired": "Platnost karty vypršela.",
+      "insufficientFunds": "Nedostatečné prostředky.",
+      "invalidCreditCard": "Neplatná karta. Zkontrolujte údaje karty.",
+      "unknown": "Došlo k neznámé chybě při načítání platby. Obraťte se na podporu.",
+      "cardReportedLost": "Karta byla nahlášena jako ztracená."
+    }
+  }
+}

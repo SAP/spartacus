@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ export class MockTranslationService implements TranslationService {
   ): Observable<string> {
     return new Observable<string>((subscriber) => {
       const value = mockTranslate(key, options);
-      subscriber.next(value);
+      subscriber.next(value as string);
       subscriber.complete();
     });
   }

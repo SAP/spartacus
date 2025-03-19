@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-overview-notification-banner',
   templateUrl: './configurator-overview-notification-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =

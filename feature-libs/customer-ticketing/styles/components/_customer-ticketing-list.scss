@@ -69,6 +69,13 @@
         }
       }
     }
+
+    @include cx-highContrastTheme {
+      border-top-color: var(--cx-color-dark);
+      tr {
+        border-bottom-color: var(--cx-color-dark);
+      }
+    }
   }
 
   .cx-ticketing-list-thead-mobile {

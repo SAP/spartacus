@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,6 +72,14 @@ export interface CartOccEndpoints {
    * Get cart validation results
    */
   validate?: string | OccEndpoint;
+  /**
+   * Generates an access code for a cart
+   */
+  cartAccessCode?: string | OccEndpoint;
+  /**
+   * Creates a guest user, and assigns the user to the cart
+   */
+  cartGuestUser?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

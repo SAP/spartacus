@@ -1,9 +1,11 @@
 <cx-org-form i18nRoot="orgCostCenter">
   <ng-container *ngIf="form" [formGroup]="form" main>
+    <cx-form-required-legend />
     <label>
-      <span class="label-content required">{{
-        'orgCostCenter.name' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgCostCenter.name' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -11,11 +13,14 @@
         placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
+        [attr.aria-describedby]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgCostCenter.name' | cxTranslate,
         }"
@@ -29,20 +34,23 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgCostCenter.code' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgCostCenter.code' | cxTranslate }}<cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
         formControlName="code"
+        [attr.aria-describedby]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
+        aria-live="off"
         [translationParams]="{
           label: 'orgCostCenter.code' | cxTranslate,
         }"
@@ -56,9 +64,10 @@
     </label>
 
     <label formGroupName="currency">
-      <span class="label-content required">{{
-        'orgCostCenter.currency' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgCostCenter.currency' | cxTranslate
+        }}<cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
@@ -89,9 +98,9 @@
     </label>
 
     <label [formGroup]="$any(form.get('unit'))">
-      <span class="label-content required">{{
-        'orgCostCenter.unit' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgCostCenter.unit' | cxTranslate }}<cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"

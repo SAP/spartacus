@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   selector: 'cx-unit-level-order-overview',
   templateUrl: './unit-level-order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(

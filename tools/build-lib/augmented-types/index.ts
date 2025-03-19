@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -99,7 +99,9 @@ async function propagateAugmentableTypes(
   for (const packageJsonFile of files) {
     try {
       // get typings file from package.json
-      const packageData = JSON.parse(await fs.readFile(packageJsonFile, 'utf8'));
+      const packageData = JSON.parse(
+        await fs.readFile(packageJsonFile, 'utf8')
+      );
       const typingsFile = packageData.typings;
 
       if (!typingsFile) {

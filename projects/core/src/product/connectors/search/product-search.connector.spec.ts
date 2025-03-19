@@ -16,6 +16,12 @@ class MockProductSearchAdapter implements ProductSearchAdapter {
   searchByCodes = createSpy('ProductSearchAdapter.searchByCodes').and.callFake(
     (codes, scope) => of({ products: codes.map((code) => ({ code, scope })) })
   );
+
+  searchByCategory = createSpy(
+    'ProductSearchAdapter.searchByCategory'
+  ).and.callFake((_category, scope) =>
+    of({ products: [{ code: 'product1', scope }] })
+  );
 }
 
 describe('ProductSearchConnector', () => {
@@ -71,6 +77,20 @@ describe('ProductSearchConnector', () => {
     expect(adapter.loadSuggestions).toHaveBeenCalledWith(
       'test term',
       undefined
+    );
+  });
+
+  it('searchByCategory should call adapter', () => {
+    let result;
+    service.searchByCategory('testCategory', 'testScope').subscribe((res) => {
+      result = res;
+    });
+    expect(result).toEqual({
+      products: [{ code: 'product1', scope: 'testScope' }],
+    });
+    expect(adapter.searchByCategory).toHaveBeenCalledWith(
+      'testCategory',
+      'testScope'
     );
   });
 });

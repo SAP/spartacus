@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-cost-center',
   templateUrl: './checkout-cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

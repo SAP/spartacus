@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,6 +38,7 @@ import {
 @Component({
   selector: 'cx-quote-summary-seller-edit',
   templateUrl: './quote-summary-seller-edit.component.html',
+  standalone: false,
 })
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);

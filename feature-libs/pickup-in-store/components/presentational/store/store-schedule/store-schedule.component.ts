@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ type OpeningTime = {
 @Component({
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
+  standalone: false,
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,7 @@ import {
   reportProgress,
   success,
 } from './index';
-import {chalk} from "../chalk";
+import { chalk } from '../chalk';
 
 function readTsConfigFile(path: string): any {
   return parse(fs.readFileSync(path, 'utf-8'));
@@ -353,14 +353,17 @@ function handleAppConfigs(
   // Add paths to `projects/storefrontapp/tsconfig.app.prod.json` config.
   const appEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
-    .reduce((acc, curr) => {
-      curr.entryPoints.forEach((entryPoint) => {
-        acc[entryPoint.entryPoint] = [
-          joinPaths('dist', curr.distDir, entryPoint.directory),
-        ];
-      });
-      return acc;
-    }, {} as { [key: string]: [string] });
+    .reduce(
+      (acc, curr) => {
+        curr.entryPoints.forEach((entryPoint) => {
+          acc[entryPoint.entryPoint] = [
+            joinPaths('dist', curr.distDir, entryPoint.directory),
+          ];
+        });
+        return acc;
+      },
+      {} as { [key: string]: [string] }
+    );
 
   const hadErrorsApp = handleConfigUpdate(
     appEntryPoints,
@@ -371,20 +374,23 @@ function handleAppConfigs(
   // Add paths to `projects/storefrontapp/tsconfig.server.json` config.
   const serverEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
-    .reduce((acc, curr) => {
-      curr.entryPoints.forEach((entryPoint) => {
-        // For server configuration we need relative paths that's why we append `../..`
-        acc[entryPoint.entryPoint] = [
-          joinPaths(
-            '../..',
-            curr.directory,
-            entryPoint.directory,
-            entryPoint.entryFile
-          ),
-        ];
-      });
-      return acc;
-    }, {} as { [key: string]: [string] });
+    .reduce(
+      (acc, curr) => {
+        curr.entryPoints.forEach((entryPoint) => {
+          // For server configuration we need relative paths that's why we append `../..`
+          acc[entryPoint.entryPoint] = [
+            joinPaths(
+              '../..',
+              curr.directory,
+              entryPoint.directory,
+              entryPoint.entryFile
+            ),
+          ];
+        });
+        return acc;
+      },
+      {} as { [key: string]: [string] }
+    );
   const hadErrorsServer = handleConfigUpdate(
     serverEntryPoints,
     'projects/storefrontapp/tsconfig.server.json',
@@ -394,15 +400,18 @@ function handleAppConfigs(
   // Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
   const serverProdEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
-    .reduce((acc, curr) => {
-      curr.entryPoints.forEach((entryPoint) => {
-        // For server configuration we need relative paths that's why we append `../..`
-        acc[entryPoint.entryPoint] = [
-          joinPaths('../..', 'dist', curr.distDir, entryPoint.directory),
-        ];
-      });
-      return acc;
-    }, {} as { [key: string]: [string] });
+    .reduce(
+      (acc, curr) => {
+        curr.entryPoints.forEach((entryPoint) => {
+          // For server configuration we need relative paths that's why we append `../..`
+          acc[entryPoint.entryPoint] = [
+            joinPaths('../..', 'dist', curr.distDir, entryPoint.directory),
+          ];
+        });
+        return acc;
+      },
+      {} as { [key: string]: [string] }
+    );
 
   const hadErrorsServerProd = handleConfigUpdate(
     serverProdEntryPoints,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -133,7 +133,7 @@ export function checkDialogClosed() {
 }
 
 export function closeAnonymousConsentsDialog() {
-  cy.get(`${ANONYMOUS_DIALOG} button.close`).click({ force: true });
+  cy.get(`${ANONYMOUS_DIALOG} button.close`).first().click({ force: true });
 }
 
 export function toggleAnonymousConsent(position) {

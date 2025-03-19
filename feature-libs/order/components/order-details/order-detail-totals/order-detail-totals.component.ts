@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-totals',
   templateUrl: './order-detail-totals.component.html',
+  standalone: false,
 })
 export class OrderDetailTotalsComponent implements OnInit {
   constructor(protected orderDetailsService: OrderDetailsService) {}

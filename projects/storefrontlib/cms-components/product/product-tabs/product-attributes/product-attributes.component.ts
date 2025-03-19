@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-attributes',
   templateUrl: './product-attributes.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductAttributesComponent {
   product$: Observable<Product | null> = this.currentProductService.getProduct(

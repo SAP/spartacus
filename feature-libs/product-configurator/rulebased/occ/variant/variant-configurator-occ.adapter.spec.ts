@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -40,6 +40,10 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -63,8 +67,6 @@ class MockTranslationService {
 
 const productCode = 'CONF_LAPTOP';
 const kbLogSys = 'RR5CLNT910';
-let expMode = true;
-let forceReset = false;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
 const CONFIG_ID_TEMPLATE = '1234-56-abcd';
@@ -128,10 +130,14 @@ describe('OccConfigurationVariantAdapter', () => {
   let occEndpointsService: OccEndpointsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configExpertModeService: ConfiguratorExpertModeService;
+  let expMode: boolean;
+  let forceReset: boolean;
 
   beforeEach(() => {
+    forceReset = false;
+    expMode = true;
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         VariantConfiguratorOccAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
@@ -151,6 +157,8 @@ describe('OccConfigurationVariantAdapter', () => {
           useExisting: OccConfiguratorVariantPriceNormalizer,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -555,7 +563,6 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(pricesOcc);
   });
   describe('readConfigurationForCartEntry', () => {
-    const expMode = false;
     const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
       {
         owner: configuration.owner,

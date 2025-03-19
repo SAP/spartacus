@@ -33,6 +33,13 @@ cx-order-detail-permission-results {
         text-align: start;
         color: var(--cx-color-inverse);
       }
+      @include forFeature('a11yTableHeaderReadout') {
+        background-color: unset;
+
+        th {
+          background-color: var(--cx-color-dark);
+        }
+      }
 
       @include media-breakpoint-down(md) {
         display: none;

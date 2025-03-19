@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,20 +45,8 @@ describe('Kayboard navigation', () => {
   context('Facet component', () => {
     beforeEach(() => {
       cy.visit('/Brands/all/c/brands');
-      cy.get('cx-facet button').first().as('facetHeader');
+      cy.get('cx-facet-list button.tab-btn').first().as('facetHeader');
       cy.get('cx-facet a').first().as('firstFacetOption');
-    });
-
-    it('focuses first option on ArrowDown while facet header is focused', () => {
-      cy.get('@facetHeader').focus().type('{downArrow}');
-      cy.get('@firstFacetOption').should('have.focus');
-    });
-
-    it('toggles facet closed/open with left and right arrow keys', () => {
-      cy.get('@facetHeader').focus().type('{leftArrow}');
-      cy.get('@firstFacetOption').should('not.be.visible');
-      cy.get('@facetHeader').focus().type('{rightArrow}');
-      cy.get('@firstFacetOption').should('be.visible');
     });
 
     it('navigates facet options with down arrow key', () => {
@@ -85,6 +73,32 @@ describe('Kayboard navigation', () => {
       cy.contains('Choshi').should('have.focus').type('{upArrow}');
       cy.contains('Chiba').should('have.focus').type('{upArrow}');
       cy.contains('Chiba').should('have.focus');
+    });
+
+    it('navigates facet categories with down arrow key', () => {
+      cy.get('cx-facet-list').get('@facetHeader').focus().type('{downArrow}');
+      cy.get('cx-facet-list')
+        .contains('Price')
+        .should('have.focus')
+        .type('{downArrow}');
+      cy.get('cx-facet-list')
+        .contains('Resolution')
+        .should('have.focus')
+        .type('{downArrow}');
+      cy.get('cx-facet-list').contains('Mounting').should('have.focus');
+    });
+
+    it('navigates facet categories with up arrow key', () => {
+      cy.get('@facetHeader').focus().type('{upArrow}');
+      cy.get('cx-facet-list')
+        .contains('Category')
+        .should('have.focus')
+        .type('{upArrow}');
+      cy.get('cx-facet-list')
+        .contains('Brand')
+        .should('have.focus')
+        .type('{upArrow}');
+      cy.get('cx-facet-list').contains('Color').should('have.focus');
     });
   });
 });

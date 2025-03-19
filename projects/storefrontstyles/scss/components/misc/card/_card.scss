@@ -73,6 +73,31 @@
     padding: 1.25rem 0 0 0;
   }
 
+  @include forFeature('a11yImproveButtonsInCardComponent') {
+    .cx-card-actions {
+      gap: 16px;
+      cx-generic-link {
+        font-weight: var(--cx-font-weight-semi);
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
+      .cx-card-action-item {
+        display: flex;
+        align-items: center;
+      }
+
+      button.btn-tertiary {
+        color: var(--cx-color-primary);
+        border-radius: var(--cx-buttons-border-radius);
+        padding: 12px 16px;
+        border-style: none;
+        &:focus {
+          @include visible-focus();
+        }
+      }
+    }
+  }
+
   .cx-card-link {
     margin-inline-start: 1rem;
   }

@@ -51,6 +51,7 @@
       a,
       button {
         text-transform: uppercase;
+        z-index: inherit;
 
         @include media-breakpoint-up(md) {
           margin-inline-start: 10px;

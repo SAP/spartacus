@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -93,7 +93,9 @@ export abstract class CustomerTicketingDialogComponent {
     protected filesFormValidators: FilesFormValidators,
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected routingService: RoutingService
-  ) {}
+  ) {
+    useFeatureStyles('a11yExpandedFocusIndicator');
+  }
 
   protected buildForm(): void {
     const form = new FormGroup({});

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   selector: 'cx-schedule-replenishment-order',
   templateUrl: './checkout-schedule-replenishment-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy

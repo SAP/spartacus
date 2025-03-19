@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import { Params } from '@angular/router';
 import {
   AbstractOrderKey,
   AbstractOrderType,
@@ -31,6 +30,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);
@@ -71,18 +71,6 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * @deprecated Use retrieveOwnerTypeFromAbstractOrderType instead
-   * Verifies whether the cart entry has an order code and returns a corresponding owner type.
-   *
-   * @returns - an owner type
-   */
-  getOwnerType(): CommonConfigurator.OwnerType {
-    return this.cartEntry.orderCode !== undefined
-      ? CommonConfigurator.OwnerType.ORDER_ENTRY
-      : CommonConfigurator.OwnerType.CART_ENTRY;
-  }
-
-  /**
    * Retrieves owner for an abstract order type
    *
    * @returns - an owner type
@@ -104,27 +92,6 @@ export class ConfigureCartEntryComponent {
         return CommonConfigurator.OwnerType.CART_ENTRY;
       }
     }
-  }
-
-  /**
-   * @deprecated Use retrieveEntityKey instead
-   * Verifies whether the cart entry has an order code, retrieves a composed owner ID
-   * and concatenates a corresponding entry number.
-   *
-   * @returns - an entry key
-   */
-  getEntityKey(): string {
-    const entryNumber = this.cartEntry.entryNumber;
-    if (entryNumber === undefined) {
-      throw new Error('No entryNumber present in entry');
-    }
-
-    return this.cartEntry.orderCode
-      ? this.commonConfigUtilsService.getComposedOwnerId(
-          this.cartEntry.orderCode,
-          entryNumber
-        )
-      : entryNumber.toString();
   }
 
   /**
@@ -189,22 +156,6 @@ export class ConfigureCartEntryComponent {
   getResolveIssuesA11yDescription(): string | undefined {
     const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
     return !this.getDisplayOnly() && this.msgBanner ? errorMsgId : undefined;
-  }
-
-  /**
-   * @deprecated since 2211.24 use instead queryParams$
-   *
-   * Compiles query parameters for the router link.
-   * 'resolveIssues' is only set if the component is
-   * rendered in the context of the message banner, and if issues exist at all
-   *
-   * @returns Query parameters
-   */
-  getQueryParams(): Params {
-    return {
-      forceReload: true,
-      resolveIssues: this.msgBanner && this.hasIssues(),
-    };
   }
 
   protected isInCheckout(): Observable<boolean> {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,7 @@ export class CdcReconsentDialogEventListener implements OnDestroy {
       consentIds: event.consentIds,
       errorMessage: event.errorMessage,
       regToken: event.regToken,
+      preferences: event.preferences,
     };
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CDC_RECONSENT,

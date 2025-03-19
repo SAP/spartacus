@@ -1,5 +1,4 @@
-@import 'bootstrap/scss/forms';
-@import 'bootstrap/scss/custom-forms';
+@import '../../theme';
 
 .form-control {
   margin-bottom: 0.25rem;
@@ -160,6 +159,9 @@ label {
       font-weight: var(--cx-font-weight-semi);
     }
   }
+}
+abbr.required-asterisk {
+  color: var(--cx-color-danger);
 }
 
 .notes-content {
@@ -397,6 +399,18 @@ input[type='radio'] {
       }
     }
   }
+  @include forFeature('a11yImproveContrast') {
+    input {
+      color: var(--cx-color-text);
+    }
+  }
+}
+
+ng-select.ng-select.ng-select-opened .ng-select-container,
+ng-select .ng-dropdown-panel {
+  @include forFeature('a11yNgSelectLayering') {
+    z-index: 10;
+  }
 }
 
 :focus:not(main) {
@@ -501,5 +515,14 @@ form {
         background-color 0s 600000s,
         color 0s 600000s !important;
     }
+  }
+}
+
+input[cxpasswordvisibilityswitch] {
+  @include forFeature('a11yPasswordVisibliltyBtnValueOverflow') {
+    $password-visibbility-btn-width: 30px;
+    padding-inline-end: calc(
+      $password-visibbility-btn-width + $input-padding-x
+    );
   }
 }

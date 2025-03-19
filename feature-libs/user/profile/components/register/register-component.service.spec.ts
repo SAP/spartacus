@@ -1,11 +1,27 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 
 import createSpy = jasmine.createSpy;
+const mockRegisterFormData: any = {
+  titleCode: 'Mr',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'JohnDoe@thebest.john.intheworld.com',
+  email_lowercase: 'johndoe@thebest.john.intheworld.com',
+  termsandconditions: true,
+  password: 'strongPass$!123',
+  passwordconf: 'strongPass$!123',
+  newsletter: true,
+  captcha: true,
+};
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
   getTitles = createSpy().and.returnValue(of([]));
@@ -13,6 +29,12 @@ class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
 }
 
 describe('RegisterComponentService', () => {
@@ -28,6 +50,7 @@ describe('RegisterComponentService', () => {
         UntypedFormBuilder,
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -71,7 +94,7 @@ describe('RegisterComponentService', () => {
     it('should delegate to globalMessageService.add', () => {
       service.postRegisterMessage();
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'register.postRegisterMessage' },
+        { key: 'register.postRegisterSuccessMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
@@ -86,5 +109,15 @@ describe('RegisterComponentService', () => {
   it('getAdditionalConsents', () => {
     let result = service.getAdditionalConsents();
     expect(result).toEqual([]);
+  });
+  it('collectDataFromRegisterForm()', () => {
+    const form = mockRegisterFormData;
+    expect(service.collectDataFromRegisterForm(form)).toEqual({
+      firstName: form.firstName,
+      lastName: form.lastName,
+      uid: form.email_lowercase,
+      password: form.password,
+      titleCode: form.titleCode,
+    });
   });
 });

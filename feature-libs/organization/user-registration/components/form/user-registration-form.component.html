@@ -6,6 +6,7 @@
   ></div>
 
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
+    <cx-form-required-legend />
     <label>
       <span class="label-content">{{
         'userRegistrationForm.fields.titleCode.label' | cxTranslate
@@ -30,9 +31,10 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'userRegistrationForm.fields.firstName.label' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'userRegistrationForm.fields.firstName.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -42,11 +44,14 @@
           'userRegistrationForm.fields.firstName.placeholder' | cxTranslate
         }}"
         formControlName="firstName"
+        [attr.aria-describedby]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.firstName.label' | cxTranslate,
         }"
@@ -60,9 +65,10 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'userRegistrationForm.fields.lastName.label' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'userRegistrationForm.fields.lastName.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -72,11 +78,14 @@
           'userRegistrationForm.fields.lastName.placeholder' | cxTranslate
         }}"
         formControlName="lastName"
+        [attr.aria-describedby]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.lastName.label' | cxTranslate,
         }"
@@ -90,9 +99,10 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'userRegistrationForm.fields.companyName.label' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'userRegistrationForm.fields.companyName.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -102,9 +112,12 @@
           'userRegistrationForm.fields.companyName.placeholder' | cxTranslate
         }}"
         formControlName="companyName"
+        [attr.aria-describedby]="'companyNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="companyNameError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.companyName.label' | cxTranslate,
         }"
@@ -117,9 +130,10 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'userRegistrationForm.fields.email.label' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'userRegistrationForm.fields.email.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -129,11 +143,14 @@
           'userRegistrationForm.fields.email.placeholder' | cxTranslate
         }}"
         formControlName="email"
+        [attr.aria-describedby]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.email.label' | cxTranslate,
         }"
@@ -200,11 +217,14 @@
           'userRegistrationForm.fields.addressLine.placeholder' | cxTranslate
         }}"
         formControlName="line1"
+        [attr.aria-describedby]="'line1Error'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="line1Error"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate,
         }"
@@ -229,8 +249,13 @@
             | cxTranslate
         }}"
         formControlName="line2"
+        [attr.aria-describedby]="'line2Error'"
       />
-      <cx-form-errors [control]="registerForm.get('line2')"></cx-form-errors>
+      <cx-form-errors
+        id="line2Error"
+        aria-live="off"
+        [control]="registerForm.get('line2')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -244,8 +269,13 @@
           'userRegistrationForm.fields.city.label' | cxTranslate
         }}"
         formControlName="town"
+        [attr.aria-describedby]="'townError'"
       />
-      <cx-form-errors [control]="registerForm.get('town')"></cx-form-errors>
+      <cx-form-errors
+        id="townError"
+        aria-live="off"
+        [control]="registerForm.get('town')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -259,11 +289,14 @@
           'userRegistrationForm.fields.postalCode.placeholder' | cxTranslate
         }}"
         formControlName="postalCode"
+        [attr.aria-describedby]="'postalCodeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="postalCodeError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate,
         }"
@@ -326,11 +359,14 @@
           'userRegistrationForm.fields.phoneNumber.placeholder' | cxTranslate
         }}"
         formControlName="phoneNumber"
+        [attr.aria-describedby]="'phoneNumberError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="phoneNumberError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate,
         }"
@@ -354,11 +390,14 @@
           'userRegistrationForm.fields.message.placeholder' | cxTranslate
         }}"
         rows="5"
+        [attr.aria-describedby]="'messageError'"
       ></textarea>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="messageError"
+        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.message.label' | cxTranslate,
         }"

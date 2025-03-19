@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
   selector: 'cx-configure-product',
   templateUrl: './configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };

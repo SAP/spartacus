@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row">
+  <div class="row" *cxFeature="'!a11yStoreFinderLabel'">
     <div class="col-md-12 col-lg-6">
       <div class="form-group search-wrapper">
         <input
@@ -16,6 +16,7 @@
           [type]="iconTypes.SEARCH"
           role="button"
           [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
+          [attr.title]="'storeFinder.searchNearestStores' | cxTranslate"
           class="search"
           (keyup)="onKey($event)"
           [routerLink]="['/store-finder/find']"
@@ -26,25 +27,71 @@
         ></cx-icon>
       </div>
     </div>
+    <ng-template [ngTemplateOutlet]="searchActionButtons"></ng-template>
+  </div>
+
+  <div class="row align-items-end" *cxFeature="'a11yStoreFinderLabel'">
     <div class="col-md-12 col-lg-6">
-      <div class="row cx-search-links mb-3">
-        <div class="col-6">
-          <button
-            (click)="viewStoresWithMyLoc()"
-            class="btn btn-primary btn-block"
-          >
-            {{ 'storeFinder.useMyLocation' | cxTranslate }}
-          </button>
-        </div>
-        <div class="col-6">
-          <button
-            [routerLink]="['/store-finder/view-all']"
-            class="btn btn-primary btn-block"
-          >
-            {{ 'storeFinder.viewAllStores' | cxTranslate }}
-          </button>
-        </div>
+      <div class="form-group">
+        <label for="store-finder-search-input">
+          <span class="text-left label-content">
+            {{ 'storeFinder.findStoreBy' | cxTranslate }}
+          </span>
+          <div class="search-wrapper">
+            <input
+              #queryInput
+              id="store-finder-search-input"
+              [formControl]="searchBox"
+              (keyup)="onKey($event)"
+              type="text"
+              class="form-control"
+              placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
+            />
+            <cx-icon
+              [attr.tabindex]="queryInput.value?.length ? 0 : -1"
+              [type]="iconTypes.SEARCH"
+              role="button"
+              [attr.aria-label]="
+                'storeFinder.searchNearestStores' | cxTranslate
+              "
+              [attr.title]="'storeFinder.searchNearestStores' | cxTranslate"
+              class="search"
+              (keyup)="onKey($event)"
+              [routerLink]="['/store-finder/find']"
+              [queryParams]="{ query: queryInput.value }"
+              [ngClass]="{
+                'disabled-action': !(
+                  queryInput.value && queryInput.value.length
+                ),
+              }"
+            ></cx-icon>
+          </div>
+        </label>
+      </div>
+    </div>
+    <ng-template [ngTemplateOutlet]="searchActionButtons"></ng-template>
+  </div>
+</div>
+
+<ng-template #searchActionButtons>
+  <div class="col-md-12 col-lg-6">
+    <div class="row cx-search-links mb-3">
+      <div class="col-6">
+        <button
+          (click)="viewStoresWithMyLoc()"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'storeFinder.useMyLocation' | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-6">
+        <button
+          [routerLink]="['/store-finder/view-all']"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'storeFinder.viewAllStores' | cxTranslate }}
+        </button>
       </div>
     </div>
   </div>
-</div>
+</ng-template>

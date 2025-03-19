@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,6 +47,7 @@ interface GroupValidator {
   selector: 'cx-account-summary-document-filter',
   templateUrl: './account-summary-document-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy

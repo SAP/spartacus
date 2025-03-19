@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,10 +7,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
   Optional,
-  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -27,8 +27,9 @@ import {
   PaymentDetails,
   TranslationService,
   UserPaymentService,
+  WindowRef,
 } from '@spartacus/core';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import { Card, ICON_TYPE, SelectFocusUtility } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -50,6 +51,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   selector: 'cx-payment-method',
   templateUrl: './checkout-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
@@ -58,6 +60,8 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   @Optional() protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
+  @Optional() protected focusService = inject(SelectFocusUtility);
+  @Optional() protected windowRef = inject(WindowRef);
 
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   iconTypes = ICON_TYPE;
@@ -151,7 +155,11 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       this.selectedMethod$,
       this.translationService.translate('paymentForm.useThisPayment'),
       this.translationService.translate('paymentCard.defaultPaymentMethod'),
-      this.translationService.translate('paymentCard.selected'),
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      )
+        ? this.translationService.translate('paymentCard.selectedPayment')
+        : this.translationService.translate('paymentCard.selected'),
     ]).pipe(
       tap(([paymentMethods, selectedMethod]) =>
         this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
@@ -214,6 +222,38 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     );
 
     this.savePaymentMethod(paymentDetails);
+    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
+      this.focusCardAfterSelecting();
+    }
+  }
+
+  /**
+   * Restores the focus to the Card component after it has been selected and the checkout has finished updating.
+   * The focus is lost due to DOM changes making it otherwise impossible to target elements that have been removed.
+   */
+  focusCardAfterSelecting(): void {
+    const cardNodes = Array.from(
+      this.windowRef?.document.querySelectorAll('cx-card')
+    );
+    const triggeredCard =
+      this.windowRef?.document.activeElement?.closest('cx-card');
+
+    if (triggeredCard) {
+      const selectedCardIndex = cardNodes.indexOf(triggeredCard);
+      this.isUpdating$
+        .pipe(
+          filter((isUpdating) => !isUpdating),
+          take(1)
+        )
+        .subscribe(() => {
+          requestAnimationFrame(() => {
+            const selectedCard = this.windowRef?.document.querySelectorAll(
+              'cx-card'
+            )[selectedCardIndex] as HTMLElement;
+            this.focusService.findFirstFocusable(selectedCard)?.focus();
+          });
+        });
+    }
   }
 
   showNewPaymentForm(): void {
@@ -299,9 +339,14 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       'a11yHideSelectBtnForSelectedAddrOrPayment'
     );
     const isSelected = selected?.id === paymentDetails.id;
+    const isButtonRole =
+      this.featureConfigService?.isEnabled(
+        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
+      ) && !isSelected;
+    const role = isButtonRole ? 'button' : 'application';
 
     return {
-      role: 'region',
+      role,
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
         : '',

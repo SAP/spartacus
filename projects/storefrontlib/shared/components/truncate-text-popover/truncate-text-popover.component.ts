@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'cx-truncate-text-popover',
   templateUrl: './truncate-text-popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TruncateTextPopoverComponent {
   /**

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-cart-validation-warnings',
   templateUrl: './cart-validation-warnings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,11 @@ export interface QuoteOccEndpoints {
    * Request a quote.
    */
   createQuote?: string | OccEndpoint;
+
+  /**
+   * Get Order Code associated with the Quote. The Order Code is present if the quote was used to place an order.
+   */
+  getOrderCode?: string | OccEndpoint;
 
   /**
    * Get a specific quote.

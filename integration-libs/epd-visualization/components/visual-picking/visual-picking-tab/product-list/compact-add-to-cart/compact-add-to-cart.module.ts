@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import { CompactAddToCartComponent } from './compact-add-to-cart.component';
     RouterModule,
     SpinnerModule,
     PromotionsModule,
-
+    I18nModule,
     UrlModule,
     IconModule,
     I18nModule,

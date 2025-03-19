@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,6 +54,7 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
   selector: CX_SELECTOR,
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

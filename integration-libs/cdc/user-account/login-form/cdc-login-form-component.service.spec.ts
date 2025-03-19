@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
@@ -53,12 +52,7 @@ describe('CdcLoginComponentService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
       providers: [
         CdcLoginFormComponentService,

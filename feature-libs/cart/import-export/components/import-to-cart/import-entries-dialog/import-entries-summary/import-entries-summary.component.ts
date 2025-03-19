@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   selector: 'cx-import-entries-summary',
   templateUrl: './import-entries-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;

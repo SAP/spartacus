@@ -1,9 +1,11 @@
 <cx-org-form i18nRoot="orgUserGroup">
   <ng-container *ngIf="form" [formGroup]="form" main>
+    <cx-form-required-legend />
     <label>
-      <span class="label-content required">{{
-        'orgUserGroup.name' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUserGroup.name' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -11,11 +13,14 @@
         placeholder="{{ 'orgUserGroup.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+        [attr.aria-describedby]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
         [control]="form.get('name')"
       ></cx-form-errors>
@@ -27,20 +32,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUserGroup.uid' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUserGroup.uid' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
         formControlName="uid"
+        [attr.aria-describedby]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
         [control]="form.get('uid')"
       ></cx-form-errors>
@@ -52,9 +61,10 @@
     </label>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
-      <span class="label-content required">{{
-        'orgUserGroup.orgUnit' | cxTranslate
-      }}</span>
+      <span class="label-content required"
+        >{{ 'orgUserGroup.orgUnit' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"

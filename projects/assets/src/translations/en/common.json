@@ -21,11 +21,13 @@
     "search": "Search",
     "add": "Add",
     "breadcrumbs": "breadcrumbs",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Select file",
     "clear": "Clear",
     "loaded": "Loaded",
     "results": "Results",
     "of": "of",
+    "ngSelectDropdownOptionsList": "Options",
     "required": "required",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
@@ -62,7 +64,9 @@
     "footerNavLabel": "Footer links",
     "goTo": "Go to {{location}}",
     "navigateTo": "Navigate to {{nav}}",
-    "scrollToTop": "Scroll back to the top of the page"
+    "scrollToTop": "Scroll back to the top of the page",
+    "linkItemInList": "{{title}}. {{position}} of {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Enter product name or SKU",
@@ -72,6 +76,8 @@
     "ariaLabelProducts": "product results",
     "initialDescription": "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
     "suggestions": "Suggested Keywords",
+    "recentSearches": "Recent Searches",
+    "trendingSearches": "Trending Searches",
     "suggestionsResult": "{{ count }} suggestion and ",
     "suggestionsResult_other": "{{ count }} suggestions and ",
     "products": "Recommended Products",
@@ -83,7 +89,8 @@
       "noMatch": "We could not find any results",
       "exactMatch": "{{ term }}",
       "empty": "Ask us anything"
-    }
+    },
+    "closeSearchPanel": "Close"
   },
   "sorting": {
     "date": "Date",
@@ -179,8 +186,11 @@
       "cxMinOneDigit": "Password must contain at least one digit",
       "cxMinOneSpecialCharacter": "Password must contain at least one special character",
       "cxMinSixCharactersLength": "Password must contain at least 6 characters",
+      "cxMinEightCharactersLength": "Password must contain at least 8 characters",
+      "cxMaxCharactersLength": "Password cannot have more than 128 characters",
       "cxContainsSpecialCharacters": "Password cannot contain special characters",
       "cxNoConsecutiveCharacters": "Password cannot contain consecutive identical characters",
+      "invalidTokenCodeError": "This code is not valid",
       "date": {
         "required": "Field {{label}} is required",
         "min": "Field {{label}} cannot be before {{min}}",

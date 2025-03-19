@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,8 @@ import {
 import {
   FileUploadModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   IconModule,
   KeyboardFocusModule,
   MessageComponentModule,
@@ -34,6 +36,8 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     FormsModule,
     ReactiveFormsModule,
     FormErrorsModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
     IconModule,
     KeyboardFocusModule,
     FileUploadModule,

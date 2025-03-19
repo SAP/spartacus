@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
+  standalone: false,
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;

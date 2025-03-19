@@ -19,6 +19,13 @@
     border-color: var(--cx-color-secondary);
   }
 
+  .toolbarHBox,
+  .toolbarButtonsHBox {
+    @include media-breakpoint-down(sm) {
+      padding: 0 !important;
+    }
+  }
+
   .sapVizKitViewport {
     grid-row: 1;
     grid-column: 1;

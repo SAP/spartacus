@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -295,9 +295,22 @@ export function verifyMerchandisingCarouselRendersOnPDPPage(
 }
 
 export function applyFacet(facetGroup: string, facetName: string): void {
-  cy.get('cx-facet .heading')
-    .contains(facetGroup)
-    .parents('cx-facet')
+  cy.get('cx-product-facet-navigation')
+    .contains('button.tab-btn', facetGroup)
+    .parents('cx-product-facet-navigation')
+    .within(() => {
+      cy.get('a.value').contains(facetName).click();
+    });
+}
+
+export function openHiddenFacetAndApply(
+  facetGroup: string,
+  facetName: string
+): void {
+  cy.get('cx-product-facet-navigation')
+    .contains('button.tab-btn', facetGroup)
+    .click()
+    .parents('cx-product-facet-navigation')
     .within(() => {
       cy.get('a.value').contains(facetName).click();
     });

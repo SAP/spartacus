@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,10 +7,10 @@
 import { Injectable, Type } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  GuardResult,
   Route,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import {
   CmsComponentChildRoutesConfig,
@@ -160,11 +160,11 @@ export class CmsRoutesImplService {
   ): (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ) => Observable<boolean | UrlTree> {
+  ) => Observable<GuardResult> {
     return (
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
-    ): Observable<boolean | UrlTree> => {
+    ): Observable<GuardResult> => {
       return this.cmsGuardsService.canActivateGuard(guardClass, route, state);
     };
   }

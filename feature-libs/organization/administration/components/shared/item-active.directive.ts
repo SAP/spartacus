@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { BaseItem } from './organization.model';
 
 @Directive({
   selector: '[cxOrgItemActive]',
+  standalone: false,
 })
 export class ItemActiveDirective<T extends BaseItem = BaseItem>
   implements OnInit, OnDestroy

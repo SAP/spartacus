@@ -20,7 +20,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -31,10 +31,12 @@ import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
@@ -218,12 +220,13 @@ function createComponentWithoutData(): ConfiguratorFormComponent {
   fixture = TestBed.createComponent(ConfiguratorFormComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
+  component.currentGroup$ = NEVER;
+  component.configuration$ = NEVER;
   fixture.detectChanges();
   return component;
 }
 
-const configuration: Configurator.Configuration =
-  structuredClone(productConfiguration);
+let configuration: Configurator.Configuration;
 
 const group: Configurator.Group = structuredClone(
   productConfiguration.groups[0]
@@ -258,6 +261,7 @@ let component: ConfiguratorFormComponent;
 let htmlElem: HTMLElement;
 let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
+let keyboardFocusService: KeyboardFocusService;
 
 describe('ConfigurationFormComponent', () => {
   beforeEach(waitForAsync(() => {
@@ -347,6 +351,11 @@ describe('ConfigurationFormComponent', () => {
       LaunchDialogService as Type<LaunchDialogService>
     );
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService as Type<KeyboardFocusService>
+    );
+    spyOn(keyboardFocusService, 'clear').and.callThrough();
+    configuration = structuredClone(productConfiguration);
   });
 
   describe('resolve issues navigation', () => {
@@ -421,6 +430,14 @@ describe('ConfigurationFormComponent', () => {
     });
   });
 
+  it('should reset persisted focus when UI is opened without resolve issue mode', () => {
+    routerStateObservable = mockRouterStateWithQueryParams({
+      resolveIssues: 'false',
+    });
+    createComponentWithData();
+    expect(keyboardFocusService.clear).toHaveBeenCalledTimes(1);
+  });
+
   describe('Rendering', () => {
     it('should render ghost view if no data is present', () => {
       createComponentWithoutData();
@@ -490,6 +507,10 @@ describe('ConfigurationFormComponent', () => {
   });
 
   describe('isNavigationToGroupEnabled()', () => {
+    beforeEach(() => {
+      component = createComponentWithoutData();
+    });
+
     it('should return true in case immediateConflictResolution is set to false', () => {
       expect(component.isNavigationToGroupEnabled(configuration)).toBe(true);
     });
@@ -558,6 +579,9 @@ describe('ConfigurationFormComponent', () => {
   });
 
   describe('listenForConflictResolution()', () => {
+    beforeEach(() => {
+      routerStateObservable = of(mockRouterState);
+    });
     it('should raise message in case a conflict has been resolved', () => {
       hasConfigurationConflictsObservable = of(true, false);
       createComponentWithData();

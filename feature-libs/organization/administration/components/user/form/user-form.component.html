@@ -1,5 +1,6 @@
 <cx-org-form i18nRoot="orgUser">
   <ng-container main *ngIf="form" [formGroup]="form">
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">{{
         'orgUser.title' | cxTranslate
@@ -29,20 +30,24 @@
       ></cx-form-errors>
     </label>
     <label>
-      <span class="label-content required">{{
-        'orgUser.firstName' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgUser.firstName' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
         required
         placeholder="{{ 'orgUser.firstName' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-describedby]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUser.firstName' | cxTranslate }"
         [control]="form.get('firstName')"
       ></cx-form-errors>
@@ -54,20 +59,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUser.lastName' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgUser.lastName' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
         required
         placeholder="{{ 'orgUser.lastName' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-describedby]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUser.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
       ></cx-form-errors>
@@ -79,20 +88,24 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUser.email' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgUser.email' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="email"
         required
         placeholder="{{ 'orgUser.email' | cxTranslate }}"
         formControlName="email"
+        [attr.aria-describedby]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
+        aria-live="off"
         [translationParams]="{ label: 'orgUser.email' | cxTranslate }"
         [control]="form.get('email')"
       ></cx-form-errors>
@@ -150,9 +163,10 @@
     </fieldset>
 
     <label [formGroup]="$any(form.get('orgUnit'))">
-      <span class="label-content required">{{
-        'orgUser.orgUnit' | cxTranslate
-      }}</span>
+      <span class="label-content required">
+        {{ 'orgUser.orgUnit' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"

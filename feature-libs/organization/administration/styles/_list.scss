@@ -90,6 +90,12 @@
       }
     }
   }
+
+  @include forFeature('a11yCroppedFocusRing') {
+    .header h2 button {
+      outline-offset: -2px;
+    }
+  }
   @include forFeature('a11yOrganizationListHeadingOrder') {
     .title {
       h2,
@@ -99,6 +105,7 @@
         button {
           border: none;
           background-color: inherit;
+
           cx-icon {
             pointer-events: none;
             color: var(--cx-color, var(--cx-color-info));
@@ -135,6 +142,16 @@
       // let's make status column smaller
       &.active {
         width: 100px;
+      }
+    }
+  }
+  //allow wrapping for overly long ids
+  @include forFeature('a11yTextSpacingAdjustments') {
+    cx-split-view[active-view='1'] {
+      .uid .text {
+        margin-inline-end: 1rem;
+        white-space: initial;
+        word-break: break-word;
       }
     }
   }
@@ -295,11 +312,45 @@
       margin-inline-start: -40px;
       min-width: 40px;
     }
+    // TODO: (CXSPA-6457) - Remove feature flag next major release
+    @include forFeature('a11yListOversizedFocus') {
+      button.tree-item-toggle {
+        color: var(--cx-color-primary);
+      }
+    }
   }
 
   @include media-breakpoint-down(md) {
     cx-org-toggle-link-cell {
       padding-inline-start: calc(3rem + var(--cx-depth-level) * 1.5rem);
+    }
+  }
+
+  @include forFeature('a11yTextSpacingAdjustments') {
+    .content-wrapper ng-select.ng-select {
+      .ng-value-label {
+        overflow: initial;
+        white-space: normal;
+      }
+      div.ng-select-container {
+        max-height: unset;
+        line-height: 1.3;
+      }
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      white-space: normal;
+      overflow: initial;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      &.ng-option-marked {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
+      }
     }
   }
 }

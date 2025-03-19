@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { OrderHistoryComponent } from '../order-history.component';
 @Component({
   selector: 'cx-my-account-v2-order-history',
   templateUrl: './my-account-v2-order-history.component.html',
+  standalone: false,
 })
 export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {
   protected service = inject(MyAccountV2OrderHistoryService);

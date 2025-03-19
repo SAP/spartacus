@@ -9,7 +9,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -21,6 +20,7 @@ import {
   EventService,
   I18nTestingModule,
   Product,
+  ProductAvailabilityAdapter,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -98,9 +98,12 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
 
+class MockProductAvailabilityAdapter {}
+
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -123,7 +126,6 @@ describe('CompactAddToCartComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
@@ -143,6 +145,10 @@ describe('CompactAddToCartComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
+        },
+        {
+          provide: ProductAvailabilityAdapter,
+          useClass: MockProductAvailabilityAdapter,
         },
         { provide: EventService, useClass: MockEventService },
       ],

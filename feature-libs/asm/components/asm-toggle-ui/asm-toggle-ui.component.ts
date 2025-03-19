@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-asm-toggle-ui',
   templateUrl: './asm-toggle-ui.component.html',
+  standalone: false,
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

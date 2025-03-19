@@ -1,3 +1,4 @@
+@import '../../theme';
 @import '../../mixins';
 
 .cx-message {
@@ -127,5 +128,9 @@
     position: var(--cx-position, absolute);
     right: 20px;
     top: 11px;
+  }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
   }
 }

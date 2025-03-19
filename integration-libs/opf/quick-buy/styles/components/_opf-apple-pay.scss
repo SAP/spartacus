@@ -1,0 +1,11 @@
+%cx-opf-apple-pay {
+  .apple-pay-button {
+    -webkit-appearance: -apple-pay-button;
+    -apple-pay-button-type: buy;
+    -apple-pay-button-style: black;
+    border-radius: var(--cx-buttons-border-radius);
+    margin-top: 10px;
+    height: 48px;
+    cursor: pointer;
+  }
+}

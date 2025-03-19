@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,6 +35,7 @@ import { ConsentManagementComponentService } from '../consent-management-compone
 @Component({
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
+  standalone: false,
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

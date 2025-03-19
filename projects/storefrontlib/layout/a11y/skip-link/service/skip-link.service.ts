@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,16 @@ export class SkipLinkService {
     }
   }
 
-  scrollToTarget(skipLink: SkipLink): void {
+  scrollToTarget(scrollTo: string | SkipLink): void {
+    const skipLink =
+      typeof scrollTo === 'string'
+        ? this.findSkipLinkByKey(scrollTo)
+        : scrollTo;
+
+    if (!skipLink) {
+      return;
+    }
+
     const target =
       skipLink.target instanceof HTMLElement
         ? skipLink.target
@@ -75,6 +84,10 @@ export class SkipLinkService {
     if (!hasTabindex) {
       firstFocusable?.removeAttribute('tabindex');
     }
+  }
+
+  protected findSkipLinkByKey(key: string): SkipLink | undefined {
+    return this.skipLinks$.value.find((skipLink) => skipLink.key === key);
   }
 
   protected getSkipLinkIndexInArray(key: string): number {

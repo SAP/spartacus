@@ -7,7 +7,10 @@ import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -43,6 +46,12 @@ class MockCheckoutDeliveryAddressFacade
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
+}
+
+class MockCheckoutFlowOrchestratorService
+  implements Partial<CheckoutFlowOrchestratorService>
+{
+  getCheckoutFlow = createSpy();
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
@@ -120,6 +129,7 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
+  standalone: false,
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -130,12 +140,14 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
   template: '',
+  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -194,6 +206,10 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
         {
           provide: CheckoutDeliveryModesFacade,
           useClass: MockCheckoutDeliveryModesFacade,
+        },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
         },
       ],
     })

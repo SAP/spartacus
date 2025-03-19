@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,9 +8,11 @@
 // NOT exposing all it to the public API.
 export * from './focus.directive';
 export { FocusConfig, TrapFocus, TrapFocusType } from './keyboard-focus.model';
+export * from './skip-focus.directive';
 export * from './keyboard-focus.module';
 export * from './focus-testing.module';
 export * from './services/index';
+export * from './keyboard-focus.utils';
 
 // export * from './autofocus/index';
 // export * from './base/index';

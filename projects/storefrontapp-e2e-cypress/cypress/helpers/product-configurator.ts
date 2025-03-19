@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -542,6 +542,7 @@ export function completeOrderProcess(
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
   authForm.login(user.email, user.password);
   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
+  login.checkUserIsSignedIn(user);
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();

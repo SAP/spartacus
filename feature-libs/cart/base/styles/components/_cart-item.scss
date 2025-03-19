@@ -96,6 +96,9 @@
       display: block;
       padding: 0 1vw;
       height: 100%;
+      @include forFeature('a11yCroppedFocusRing') {
+        height: unset;
+      }
     }
   }
 

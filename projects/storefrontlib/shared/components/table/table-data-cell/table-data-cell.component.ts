@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import { TableHeaderOutletContext } from '../table.model';
   selector: 'cx-table-data-cell',
   template: `{{ value }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableDataCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

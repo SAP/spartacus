@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-my-account-v2-orders',
   templateUrl: './my-account-v2-orders.component.html',
+  standalone: false,
 })
 export class MyAccountV2OrdersComponent implements OnDestroy {
   protected service = inject(MyAccountV2OrderHistoryService);

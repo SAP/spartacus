@@ -15,11 +15,11 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
+  BreakpointService,
   DirectionMode,
   DirectionService,
   HamburgerMenuService,
   ICON_TYPE,
-  BreakpointService,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -36,8 +36,9 @@ import {
   GROUP_ID_4,
   GROUP_ID_5,
   GROUP_ID_7,
-  PRODUCT_CODE,
+  GROUP_ID_8,
   mockRouterState,
+  PRODUCT_CODE,
   productConfiguration,
   productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
@@ -48,8 +49,8 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
-const mockProductConfiguration: Configurator.Configuration =
-  productConfiguration;
+let mockProductConfiguration: Configurator.Configuration =
+  structuredClone(productConfiguration);
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -130,6 +131,7 @@ const mockRouterStateIssueNavigation: any = {
 };
 
 let productConfiguratorDeltaRenderingEnabled = false;
+
 class MockFeatureConfigService {
   isEnabled(name: string): boolean {
     if (name === 'productConfiguratorDeltaRendering') {
@@ -197,6 +199,7 @@ class MockBreakpointService {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
@@ -205,6 +208,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -218,7 +222,9 @@ class MockConfiguratorStorefrontUtilsService {
   }
 
   scrollToConfigurationElement(): void {}
+
   setFocus(): void {}
+
   focusFirstActiveElement(): void {}
 }
 
@@ -229,15 +235,16 @@ let hamburgerMenuService: HamburgerMenuService;
 let htmlElem: HTMLElement;
 let configuratorUtils: CommonConfiguratorUtilsService;
 let configGroupMenuService: ConfiguratorGroupMenuService;
-let routerStateObservable: Observable<RouterState>;
-let groupVisitedObservable: Observable<boolean>;
-let productConfigurationObservable: Observable<Configurator.Configuration>;
+let routerStateObservable: Observable<RouterState> = NEVER;
+let groupVisitedObservable: Observable<boolean> = NEVER;
+let productConfigurationObservable: Observable<Configurator.Configuration> =
+  NEVER;
 let isConflictGroupType: boolean;
 let directionService: DirectionService;
 let direction: DirectionMode;
 let configUtils: ConfiguratorStorefrontUtilsService;
 let configExpertModeService: ConfiguratorExpertModeService;
-let breakpointObservable: Observable<boolean>;
+let breakpointObservable: Observable<boolean> = NEVER;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -292,12 +299,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-    });
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    groupVisitedObservable = of(false);
-
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
@@ -324,22 +329,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
   });
 
-  it('should create component', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-    expect(component).toBeDefined();
-  });
-
-  it('should get product code as part of product configuration', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-    component.configuration$.subscribe((data: Configurator.Configuration) => {
-      expect(data.productCode).toEqual(PRODUCT_CODE);
-    });
-  });
-
   it('should render ghost view, consisting of 10 elements, if no data is present', () => {
     productConfigurationObservable = NEVER;
     routerStateObservable = of(mockRouterState);
@@ -348,42 +337,44 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
+    productConfigurationObservable = of(
+      structuredClone(mockProductConfiguration)
+    );
     routerStateObservable = of(mockRouterState);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render no groups if configuration is not consistent and issue navigation has not been done although required by the router', () => {
-    productConfigurationObservable = of(inconsistentConfig);
+    productConfigurationObservable = of(structuredClone(inconsistentConfig));
     routerStateObservable = of(mockRouterStateIssueNavigation);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(0);
   });
 
   it('should render no groups if configuration is not complete and issue navigation has not been done although required by the router', () => {
-    productConfigurationObservable = of(incompleteConfig);
+    productConfigurationObservable = of(structuredClone(incompleteConfig));
     routerStateObservable = of(mockRouterStateIssueNavigation);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(0);
   });
 
   it('should render all groups if configuration is not consistent and issue navigation has not been done but also not required by the router', () => {
-    productConfigurationObservable = of(inconsistentConfig);
+    productConfigurationObservable = of(structuredClone(inconsistentConfig));
     routerStateObservable = of(mockRouterState);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render all groups if configuration is not complete and issue navigation has not been done but also not required by the router', () => {
-    productConfigurationObservable = of(incompleteConfig);
+    productConfigurationObservable = of(structuredClone(incompleteConfig));
     routerStateObservable = of(mockRouterState);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
   });
 
   it('should render groups if configuration is not consistent but issues have been checked', () => {
-    productConfigurationObservable = of(incompleteConfig);
+    productConfigurationObservable = of(structuredClone(incompleteConfig));
     routerStateObservable = of(mockRouterState);
     initialize();
     expect(htmlElem.querySelectorAll('.cx-menu-item').length).toBe(5);
@@ -439,54 +430,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
       .subscribe((group) => {
         expect(group).toBe(mockProductConfiguration.groups[0]);
       });
-  });
-
-  describe('navigateUp', () => {
-    it('should navigate up (and not set focus)', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
-      );
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-        mockProductConfiguration.groups[0]
-      );
-      initialize();
-      component.navigateUp();
-      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
-    });
-
-    it('should navigate up and set focus if current group is provided', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
-      );
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-        mockProductConfiguration.groups[0]
-      );
-      initialize();
-
-      component.navigateUp(mockProductConfiguration.groups[0]);
-      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalled();
-    });
-
-    it('should navigate up, parent group null', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
-      );
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
-      initialize();
-      component.navigateUp();
-      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-    });
   });
 
   describe('click', () => {
@@ -795,14 +738,21 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   describe('verify whether the corresponding group status class stands at cx-menu-item element', () => {
-    it("should contain 'WARNING' class despite the group has not been visited", () => {
-      simpleConfig.consistent = false;
-      simpleConfig.groups[0].consistent = false;
-      productConfigurationObservable = of(simpleConfig);
+    let clonedSimpleConfig: Configurator.Configuration;
+
+    beforeEach(() => {
+      clonedSimpleConfig = structuredClone(simpleConfig);
+      productConfigurationObservable = of(clonedSimpleConfig);
       routerStateObservable = of(mockRouterState);
+    });
+
+    it("should contain 'WARNING' class despite the group has not been visited", () => {
+      clonedSimpleConfig.consistent = false;
+      clonedSimpleConfig.groups[0].consistent = false;
       mockGroupVisited = false;
       isConflictGroupType = true;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -811,14 +761,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should contain 'WARNING' class because the group has been visited and has some conflicts", () => {
-      simpleConfig.consistent = false;
-      simpleConfig.groups[0].consistent = false;
-      simpleConfig.groups[0].description = 'Group Name';
-
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.consistent = false;
+      clonedSimpleConfig.groups[0].consistent = false;
+      clonedSimpleConfig.groups[0].description = 'Group Name';
       mockGroupVisited = true;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -837,18 +785,18 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should add correct aria-attributes to conflict group', () => {
-      simpleConfig.consistent = false;
-      simpleConfig.groups[0].consistent = false;
-      simpleConfig.groups[0].description = 'Resolve Conlflicts';
-      simpleConfig.groups[0].groupType =
+      clonedSimpleConfig.consistent = false;
+      clonedSimpleConfig.groups[0].consistent = false;
+      clonedSimpleConfig.groups[0].description = 'Resolve Conlflicts';
+      clonedSimpleConfig.groups[0].groupType =
         Configurator.GroupType.CONFLICT_HEADER_GROUP;
-      simpleConfig.groups[0].subGroups = [{ id: 'subgroup1', subGroups: [] }];
-
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.groups[0].subGroups = [
+        { id: 'subgroup1', subGroups: [] },
+      ];
       mockGroupVisited = true;
       isConflictGroupType = true;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -861,14 +809,13 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should not contain 'WARNING' class despite the group has been visited and has some conflicts but the type is CPQ ", () => {
-      simpleConfig.consistent = false;
-      simpleConfig.groups[0].consistent = false;
-      simpleConfig.owner.configuratorType = typeCPQ;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.consistent = false;
+      clonedSimpleConfig.groups[0].consistent = false;
+      clonedSimpleConfig.owner.configuratorType = typeCPQ;
       mockGroupVisited = true;
       isConflictGroupType = true;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -877,15 +824,14 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should not contain 'COMPLETE' class despite the group is complete but it has not been visited", () => {
-      simpleConfig.complete = true;
-      simpleConfig.groups[0].complete = true;
-      simpleConfig.groups[0].consistent = true;
-      simpleConfig.owner.configuratorType = typeVariant;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = true;
+      clonedSimpleConfig.groups[0].complete = true;
+      clonedSimpleConfig.groups[0].consistent = true;
+      clonedSimpleConfig.owner.configuratorType = typeVariant;
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -894,14 +840,13 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should not contain 'COMPLETE' class despite the group is complete and visited but it has conflicts", () => {
-      simpleConfig.complete = true;
-      simpleConfig.groups[0].complete = true;
-      simpleConfig.groups[0].consistent = false;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = true;
+      clonedSimpleConfig.groups[0].complete = true;
+      clonedSimpleConfig.groups[0].consistent = false;
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -910,14 +855,13 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should contain 'COMPLETE' class because the group is complete and has been visited", () => {
-      simpleConfig.complete = true;
-      simpleConfig.groups[0].complete = true;
-      simpleConfig.groups[0].consistent = true;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = true;
+      clonedSimpleConfig.groups[0].complete = true;
+      clonedSimpleConfig.groups[0].consistent = true;
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -926,15 +870,14 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should not contain 'COMPLETE' class despite the group is complete and has been visited but the type is CPQ", () => {
-      simpleConfig.complete = true;
-      simpleConfig.groups[0].complete = true;
-      simpleConfig.groups[0].consistent = true;
-      simpleConfig.owner.configuratorType = typeCPQ;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = true;
+      clonedSimpleConfig.groups[0].complete = true;
+      clonedSimpleConfig.groups[0].consistent = true;
+      clonedSimpleConfig.owner.configuratorType = typeCPQ;
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -943,13 +886,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should not contain 'ERROR' class despite the group is incomplete but it has not been visited", () => {
-      simpleConfig.complete = false;
-      simpleConfig.groups[0].complete = false;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = false;
+      clonedSimpleConfig.groups[0].complete = false;
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -958,13 +900,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should contain 'ERROR' class because the group is incomplete and has been visited", () => {
-      simpleConfig.complete = false;
-      simpleConfig.groups[0].complete = false;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = false;
+      clonedSimpleConfig.groups[0].complete = false;
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -973,14 +914,13 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it("should contain 'DISABLED' class despite the group is empty", () => {
-      simpleConfig.complete = true;
-      simpleConfig.groups[0].configurable = false;
-      simpleConfig.owner.configuratorType = typeVariant;
-      productConfigurationObservable = of(simpleConfig);
-      routerStateObservable = of(mockRouterState);
+      clonedSimpleConfig.complete = true;
+      clonedSimpleConfig.groups[0].configurable = false;
+      clonedSimpleConfig.owner.configuratorType = typeVariant;
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
+
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -1025,14 +965,21 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   describe('LTR direction', () => {
-    it('should navigate back to parent group', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
-      );
-      productConfigurationObservable = of(mockProductConfiguration);
+    let clonedProductConfiguration: Configurator.Configuration;
+
+    beforeEach(() => {
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      productConfigurationObservable = of(clonedProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockDirection = DirectionMode.LTR;
+      breakpointObservable = of(false);
       initialize();
+    });
+
+    it('should navigate back to parent group', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(clonedProductConfiguration.groups[0])
+      );
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
       spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
 
@@ -1041,12 +988,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       const currentGroup: Configurator.Group =
-        mockProductConfiguration.groups[0];
+        clonedProductConfiguration.groups[0];
 
       component.switchGroupOnArrowPress(
         event,
         0,
-        mockProductConfiguration.groups[1],
+        clonedProductConfiguration.groups[1],
         currentGroup
       );
       expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
@@ -1055,20 +1002,15 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should navigate to subgroups', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockDirection = DirectionMode.LTR;
-      initialize();
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
 
       let event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
       });
 
-      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const group: Configurator.Group = clonedProductConfiguration.groups[2];
       const currentGroup: Configurator.Group =
-        mockProductConfiguration.groups[0];
-
+        clonedProductConfiguration.groups[0];
       component.switchGroupOnArrowPress(event, 0, group, currentGroup);
 
       expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
@@ -1076,14 +1018,21 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   describe('RTL direction', () => {
-    it('should navigate back to parent group', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
-        of(mockProductConfiguration.groups[0])
-      );
-      productConfigurationObservable = of(mockProductConfiguration);
+    let clonedProductConfiguration: Configurator.Configuration;
+
+    beforeEach(() => {
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      productConfigurationObservable = of(clonedProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockDirection = DirectionMode.RTL;
+      breakpointObservable = of(false);
       initialize();
+    });
+
+    it('should navigate back to parent group', () => {
+      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        of(clonedProductConfiguration.groups[0])
+      );
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
       spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
 
@@ -1092,12 +1041,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       const currentGroup: Configurator.Group =
-        mockProductConfiguration.groups[0];
+        clonedProductConfiguration.groups[0];
 
       component.switchGroupOnArrowPress(
         event,
         0,
-        mockProductConfiguration.groups[1],
+        clonedProductConfiguration.groups[1],
         currentGroup
       );
       expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
@@ -1106,19 +1055,15 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should navigate to subgroups', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockDirection = DirectionMode.RTL;
-      initialize();
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
 
       let event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
       });
 
-      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const group: Configurator.Group = clonedProductConfiguration.groups[2];
       const currentGroup: Configurator.Group =
-        mockProductConfiguration.groups[0];
+        clonedProductConfiguration.groups[0];
 
       component.switchGroupOnArrowPress(event, 0, group, currentGroup);
 
@@ -1126,42 +1071,19 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
   });
 
-  describe('setFocusForMainMenu', () => {
-    beforeEach(() => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      initialize();
-    });
-
-    it('should set focus to a group that does not contain any subgroups`', () => {
-      component.setFocusForMainMenu(GROUP_ID_2);
-      expect(configUtils.setFocus).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_2);
-    });
-
-    it('should set focus to a child group if the parent group contains only one subgroup', () => {
-      component.setFocusForMainMenu(GROUP_ID_4);
-      expect(configUtils.setFocus).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
-    });
-
-    it('should set focus to parent group that contains a current selected group', () => {
-      component.setFocusForMainMenu(GROUP_ID_7);
-      expect(configUtils.setFocus).toHaveBeenCalled();
-      expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_5);
-    });
-  });
-
   describe('setFocusForSubGroup', () => {
+    let clonedProductConfiguration: Configurator.Configuration;
+
     beforeEach(() => {
-      productConfigurationObservable = of(mockProductConfiguration);
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      productConfigurationObservable = of(clonedProductConfiguration);
       routerStateObservable = of(mockRouterState);
       initialize();
     });
 
     it('should set focus for back button', () => {
       component.setFocusForSubGroup(
-        mockProductConfiguration.groups[0],
+        clonedProductConfiguration.groups[0],
         'groupId-111'
       );
       expect(configUtils.setFocus).toHaveBeenCalled();
@@ -1170,7 +1092,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
 
     it('should set focus for selected subgroup', () => {
       component.setFocusForSubGroup(
-        mockProductConfiguration.groups[2],
+        clonedProductConfiguration.groups[2],
         GROUP_ID_4
       );
       expect(configUtils.setFocus).toHaveBeenCalled();
@@ -1179,18 +1101,27 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   describe('containsSelectedGroup', () => {
+    let clonedProductConfiguration: Configurator.Configuration;
+
+    beforeEach(() => {
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+
     it('should return `false` because group does not contain any subgroups', () => {
       expect(
         component.containsSelectedGroup(
-          mockProductConfiguration.groups[0],
+          clonedProductConfiguration.groups[0],
           GROUP_ID_5
         )
       ).toBe(false);
     });
+
     it('should return `false` because group does not contain any subgroup with the current group ID', () => {
       expect(
         component.containsSelectedGroup(
-          mockProductConfiguration.groups[2],
+          clonedProductConfiguration.groups[2],
           GROUP_ID_5
         )
       ).toBe(false);
@@ -1199,290 +1130,285 @@ describe('ConfiguratorGroupMenuComponent', () => {
     it('should return `true` because group contains a subgroup with the current group ID', () => {
       expect(
         component.containsSelectedGroup(
-          mockProductConfiguration.groups[2],
+          clonedProductConfiguration.groups[2],
           GROUP_ID_4
+        )
+      ).toBe(true);
+    });
+
+    it('should return `true` because a group with current group ID is part of the sub group hierarchy', () => {
+      expect(
+        component.containsSelectedGroup(
+          clonedProductConfiguration.groups[3], // GROUP_ID_5 is parent of GROUP_ID_7 which in turn is parent of GROUP_ID_8
+          GROUP_ID_8
         )
       ).toBe(true);
     });
   });
 
-  describe('isGroupSelected', () => {
-    it('should return `false` because the current group ID is not equal group ID', () => {
-      expect(component.isGroupSelected('groupId-100', 'groupId-99')).toBe(
-        false
-      );
+  describe('getTabIndex', () => {
+    let clonedProductConfiguration: Configurator.Configuration;
+
+    beforeEach(() => {
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
     });
 
-    it('should return `true` because the current group ID is equal group ID', () => {
-      expect(component.isGroupSelected('groupId-100', 'groupId-100')).toBe(
-        true
-      );
-    });
-  });
-
-  describe('createAriaControls', () => {
-    it('should return empty string because groupID is undefined', () => {
-      expect(component.createAriaControls(undefined)).toBeUndefined();
+    it('should return `0` because current group id matches group itself', () => {
+      expect(
+        component.getTabIndex(clonedProductConfiguration.groups[0], GROUP_ID_1)
+      ).toBe(0);
     });
 
-    it('should return aria-controls string', () => {
-      expect(component.createAriaControls('1234')).toBe('1234-group');
-    });
-  });
-
-  describe('getAriaLabel', () => {
-    it("should return 'configurator.a11y.groupName group:Group Name' if group is an attribute group", () => {
-      const group = {
-        id: GROUP_ID_1,
-        description: 'Group Name',
-        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-        attributes: [],
-        subGroups: [],
-      };
-      expect(component.getAriaLabel(group)).toBe(
-        'configurator.a11y.groupName group:Group Name'
-      );
+    it("should return `-1` because current group id doesn't match group or its children", () => {
+      expect(
+        component.getTabIndex(clonedProductConfiguration.groups[0], GROUP_ID_4)
+      ).toBe(-1);
     });
 
-    it("should return 'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)' if group is conflict header", () => {
-      isConflictGroupType = true;
-      const group = {
-        id: GROUP_ID_1,
-        description: 'Resolve Conflicts',
-        groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
-        attributes: [],
-        subGroups: [{ id: 'subgroup1', subGroups: [] }],
-      };
-      expect(component.getAriaLabel(group)).toBe(
-        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
-      );
+    it('should return `0` because current group id matches a direct child group id', () => {
+      expect(
+        component.getTabIndex(clonedProductConfiguration.groups[2], GROUP_ID_4)
+      ).toBe(0);
     });
 
-    it('should return group description if group is conflict group', () => {
-      isConflictGroupType = true;
-      const group = {
-        id: GROUP_ID_1,
-        description: 'Conflict for xyz',
-        groupType: Configurator.GroupType.CONFLICT_GROUP,
-        attributes: [],
-        subGroups: [],
-      };
-      expect(component.getAriaLabel(group)).toBe('Conflict for xyz');
+    it('should return `0` because current group id matches a in-direct child group id', () => {
+      expect(
+        component.getTabIndex(
+          clonedProductConfiguration.groups[3], // GROUP_ID_5 is parent of GROUP_ID_7 which in turn is parent of GROUP_ID_8
+          GROUP_ID_8
+        )
+      ).toBe(0);
     });
   });
 
   describe('getAriaDescribedby', () => {
-    it('should return appropriate (ICONSUCCESS) aria-describedby for variant configurator if group is complete and consistent', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
+    let clonedProductConfiguration: Configurator.Configuration;
+
+    beforeEach(() => {
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      productConfigurationObservable = of(clonedProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = true;
-      mockProductConfiguration.groups[1].complete = true;
-      mockProductConfiguration.groups[1].consistent = true;
-      mockProductConfiguration.owner.configuratorType = typeVariant;
-      initialize();
-      component
-        .getAriaDescribedby(
-          mockProductConfiguration.groups[1],
-          mockProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONSUCCESS1234-56-7892 inListOfGroups')
-        );
     });
 
-    it('should return appropriate (only inListOfGroups) aria-describedby if group is complete, consistent and type is CPQ', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[1].complete = true;
-      mockProductConfiguration.groups[1].consistent = true;
-      mockProductConfiguration.owner.configuratorType = typeCPQ;
+    it('should return appropriate (ICONSUCCESS) aria-describedby for variant configurator if group is complete and consistent', (done) => {
+      clonedProductConfiguration.groups[1].complete = true;
+      clonedProductConfiguration.groups[1].consistent = true;
+      clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[1],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[1],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(' inListOfGroups')
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONSUCCESS1234-56-7892 inListOfGroups'
+          );
+          done();
+        });
     });
 
-    it('should return appropriate (ICONWARNING) aria-describedby if group is inconsistent and type is variant', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = true;
-      mockProductConfiguration.groups[0].consistent = false;
-      mockProductConfiguration.owner.configuratorType = typeVariant;
+    it('should return appropriate (only inListOfGroups) aria-describedby if group is complete, consistent and type is CPQ', (done) => {
+      clonedProductConfiguration.groups[1].complete = true;
+      clonedProductConfiguration.groups[1].consistent = true;
+      clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[1],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual('ICONWARNING1234-56-7891 inListOfGroups')
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual('inListOfGroups');
+          done();
+        });
     });
 
-    it('should return appropriate (only inListOfGroups) if group is inconsistent and type is CPQ', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = true;
-      mockProductConfiguration.groups[0].consistent = false;
-      mockProductConfiguration.owner.configuratorType = typeCPQ;
+    it('should return appropriate (ICONWARNING) aria-describedby if group is inconsistent and type is variant', (done) => {
+      clonedProductConfiguration.groups[0].complete = true;
+      clonedProductConfiguration.groups[0].consistent = false;
+      clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(' inListOfGroups')
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONWARNING1234-56-7891 inListOfGroups'
+          );
+          done();
+        });
     });
 
-    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is CPQ', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = false;
-      mockProductConfiguration.groups[0].consistent = true;
-      mockProductConfiguration.owner.configuratorType = typeCPQ;
+    it('should return appropriate (only inListOfGroups) if group is inconsistent and type is CPQ', (done) => {
+      clonedProductConfiguration.groups[0].complete = true;
+      clonedProductConfiguration.groups[0].consistent = false;
+      clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual('inListOfGroups');
+          done();
+        });
     });
 
-    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is variant', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = false;
-      mockProductConfiguration.groups[0].consistent = true;
-      mockProductConfiguration.owner.configuratorType = typeVariant;
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is CPQ', (done) => {
+      clonedProductConfiguration.groups[0].complete = false;
+      clonedProductConfiguration.groups[0].consistent = true;
+      clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONERROR1234-56-7891 inListOfGroups'
+          );
+          done();
+        });
     });
 
-    it('should return appropriate (ICONWARNING and ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = false;
-      mockProductConfiguration.groups[0].consistent = false;
-      mockProductConfiguration.owner.configuratorType = typeVariant;
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is variant', (done) => {
+      clonedProductConfiguration.groups[0].complete = false;
+      clonedProductConfiguration.groups[0].consistent = true;
+      clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONERROR1234-56-7891 inListOfGroups'
+          );
+          done();
+        });
+    });
+
+    it('should return appropriate (ICONWARNING and ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', (done) => {
+      clonedProductConfiguration.groups[0].complete = false;
+      clonedProductConfiguration.groups[0].consistent = false;
+      clonedProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+
+      component
+        .getAriaDescribedby(
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
             'ICONWARNING1234-56-7891 ICONERROR1234-56-7891 inListOfGroups'
-          )
-        );
+          );
+          done();
+        });
     });
 
-    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = false;
-      mockProductConfiguration.groups[0].consistent = false;
-      mockProductConfiguration.owner.configuratorType = typeCPQ;
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', (done) => {
+      clonedProductConfiguration.groups[0].complete = false;
+      clonedProductConfiguration.groups[0].consistent = false;
+      clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONERROR1234-56-7891 inListOfGroups'
+          );
+          done();
+        });
     });
 
-    it('should return appropriate (ICONCARET_RIGHT) aria-describedby if group has subgroups', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = true;
-      mockProductConfiguration.groups[0].consistent = true;
-      mockProductConfiguration.groups[0].subGroups = [
+    it('should return appropriate (ICONCARET_RIGHT) aria-describedby if group has subgroups', (done) => {
+      clonedProductConfiguration.owner.configuratorType = 'CONFIGURATOR';
+      clonedProductConfiguration.groups[0].complete = true;
+      clonedProductConfiguration.groups[0].consistent = true;
+      clonedProductConfiguration.groups[0].subGroups = [
         { id: 'subgroup1', subGroups: [] },
       ];
-
+      isConflictGroupType = false;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(
-            ' ICONCARET_RIGHT1234-56-7891 inListOfGroups'
-          )
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONSUCCESS1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
+          );
+          done();
+        });
     });
 
-    it('should return appropriate (ICONCARET_RIGHT and ICONERROR) aria-describedby if group has subgroups', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = false;
-      mockProductConfiguration.groups[0].consistent = false;
-      mockProductConfiguration.groups[0].subGroups = [
+    it('should return appropriate (ICONCARET_RIGHT and ICONERROR) aria-describedby if group has subgroups', (done) => {
+      clonedProductConfiguration.groups[0].groupType = undefined;
+      clonedProductConfiguration.groups[0].complete = false;
+      clonedProductConfiguration.groups[0].consistent = false;
+      clonedProductConfiguration.groups[0].subGroups = [
         { id: 'subgroup1', subGroups: [] },
       ];
-
+      isConflictGroupType = false;
       initialize();
+
       component
         .getAriaDescribedby(
-          mockProductConfiguration.groups[0],
-          mockProductConfiguration
+          clonedProductConfiguration.groups[0],
+          clonedProductConfiguration
         )
         .pipe(take(1))
-        .subscribe((describedby) =>
-          expect(describedby).toEqual(
-            ' ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
-          )
-        );
+        .subscribe((describedby) => {
+          expect(describedby.trim()).toEqual(
+            'ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
+          );
+          done();
+        });
     });
   });
 
   describe('Accessibility', () => {
+    let clonedProductConfiguration: Configurator.Configuration;
+
     beforeEach(() => {
-      productConfigurationObservable = of(mockProductConfiguration);
+      clonedProductConfiguration = structuredClone(mockProductConfiguration);
+      productConfigurationObservable = of(clonedProductConfiguration);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = true;
-      mockProductConfiguration.groups[0].complete = true;
-      mockProductConfiguration.groups[0].consistent = true;
-      mockProductConfiguration.groups[0].subGroups = [
+      clonedProductConfiguration.groups[0].complete = true;
+      clonedProductConfiguration.groups[0].consistent = true;
+      clonedProductConfiguration.groups[0].subGroups = [
         {
           id: 'subgroup1',
           description: 'Description for subgroup1',
@@ -1551,7 +1477,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         0,
         'aria-label',
         'configurator.a11y.groupName group:' +
-          mockProductConfiguration.groups[0].subGroups[0].description
+          clonedProductConfiguration.groups[0].subGroups[0].description
       );
     });
 
@@ -1592,105 +1518,11 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
   });
 
-  describe('getGroupMenuTitle', () => {
-    it('should return only group description as title when expert mode is off', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(false)
-      );
-      initialize();
-
-      expect(
-        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
-      ).toEqual(mockProductConfiguration.groups[0].description);
-    });
-
-    it('should return group description and name as title when expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      initialize();
-
-      const groupMenuTitle =
-        mockProductConfiguration.groups[0].description +
-        ' / [' +
-        mockProductConfiguration.groups[0].name +
-        ']';
-      expect(
-        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
-      ).toEqual(groupMenuTitle);
-    });
-
-    it('should return only conflict header group description as title even if expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      const configForExpMode = productConfigurationWithConflicts;
-      initialize();
-
-      expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
-        configForExpMode.groups[0].description
-      );
-    });
-
-    it('should return only conflict group description as title even if expert mode is on', () => {
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-      const configForExpMode = productConfigurationWithConflicts;
-      initialize();
-
-      expect(
-        component.getGroupMenuTitle(configForExpMode.groups[0].subGroups[0])
-      ).toEqual(configForExpMode.groups[0].subGroups[0].description);
-    });
-  });
-
-  describe('icon tooltip', () => {
-    beforeEach(() => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      initialize();
-    });
-    it('incomplete group should have icon tooltip', () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'cx-icon',
-        'ERROR',
-        0,
-        'title',
-        'configurator.icon.groupIncomplete'
-      );
-    });
-
-    it('complete group should have icon tooltip', () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'cx-icon',
-        'COMPLETE',
-        0,
-        'title',
-        'configurator.icon.groupComplete'
-      );
-    });
-
-    it('conflict group should have icon tooltip', () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'cx-icon',
-        'WARNING',
-        0,
-        'title',
-        'configurator.icon.groupConflict'
-      );
-    });
-  });
-
   describe('displayMenuItem', () => {
     it('should display conflict header menu item', (done) => {
-      let configurationWithConflicts = productConfigurationWithConflicts;
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
 
       productConfigurationObservable = of(configurationWithConflicts);
       routerStateObservable = of(mockRouterState);
@@ -1725,22 +1557,12 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
   });
 
-  describe('isConflictGroupType', () => {
-    it('should know conflict group ', () => {
-      isConflictGroupType = true;
-      expect(
-        component.isConflictGroupType(
-          Configurator.GroupType.CONFLICT_HEADER_GROUP
-        )
-      ).toBe(true);
-    });
-
-    it('should return false for undefined input', () => {
-      expect(component.isConflictGroupType(undefined)).toBe(false);
-    });
-  });
-
   describe('handleFocusLoopInMobileMode', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+    });
+
     it('should not execute focus loop code if tab-key is pressed and we are not in mobile mode', () => {
       breakpointObservable = of(false);
       const event = new KeyboardEvent('keydown', {
@@ -1748,6 +1570,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
       initialize();
+
       component['handleFocusLoopInMobileMode'](event);
       expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
     });
@@ -1759,6 +1582,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
       initialize();
+
       component['handleFocusLoopInMobileMode'](event);
       expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
     });
@@ -1771,6 +1595,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
       spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
       initialize();
+
       component['handleFocusLoopInMobileMode'](event);
       expect(configGroupMenuService.isBackBtnFocused).not.toHaveBeenCalled();
     });
@@ -1785,6 +1610,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         false
       );
       initialize();
+
       component['handleFocusLoopInMobileMode'](event);
       expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
     });
@@ -1799,6 +1625,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         true
       );
       initialize();
+
       component['handleFocusLoopInMobileMode'](event);
       expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(0);
     });
@@ -1813,22 +1640,269 @@ describe('ConfiguratorGroupMenuComponent', () => {
         true
       );
       initialize();
+
       component['handleFocusLoopInMobileMode'](event);
       expect(configUtils.focusFirstActiveElement).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('trackByFn', () => {
-    it('should return group itself, if performance optimization is not active', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
-      expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
-        simpleConfig.groups[0]
+  describe('', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(
+        structuredClone(mockProductConfiguration)
       );
+      routerStateObservable = of(mockRouterState);
+      initialize();
     });
 
-    it('should return group ID, if performance optimization is active', () => {
-      productConfiguratorDeltaRenderingEnabled = true;
-      expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
+    it('should create component', () => {
+      expect(component).toBeDefined();
+    });
+
+    it('should get product code as part of product configuration', () => {
+      component.configuration$.subscribe((data: Configurator.Configuration) => {
+        expect(data.productCode).toEqual(PRODUCT_CODE);
+      });
+    });
+
+    describe('navigateUp', () => {
+      it('should navigate up (and not set focus)', () => {
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(mockProductConfiguration.groups[0])
+        );
+        spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+          mockProductConfiguration.groups[0]
+        );
+        component.navigateUp();
+
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+        expect(configUtils.setFocus).toHaveBeenCalledTimes(0);
+      });
+
+      it('should navigate up and set focus if current group is provided', () => {
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(mockProductConfiguration.groups[0])
+        );
+        spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+          mockProductConfiguration.groups[0]
+        );
+
+        component.navigateUp(mockProductConfiguration.groups[0]);
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+        expect(configUtils.setFocus).toHaveBeenCalled();
+      });
+
+      it('should navigate up, parent group null', () => {
+        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+          of(mockProductConfiguration.groups[0])
+        );
+        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+
+        component.navigateUp();
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      });
+    });
+
+    describe('getGroupMenuTitle', () => {
+      it('should return only group description as title when expert mode is off', () => {
+        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+          of(false)
+        );
+        expect(
+          component.getGroupMenuTitle(mockProductConfiguration.groups[0])
+        ).toEqual(mockProductConfiguration.groups[0].description);
+      });
+
+      it('should return group description and name as title when expert mode is on', () => {
+        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+          of(true)
+        );
+        const groupMenuTitle =
+          mockProductConfiguration.groups[0].description +
+          ' / [' +
+          mockProductConfiguration.groups[0].name +
+          ']';
+        expect(
+          component.getGroupMenuTitle(mockProductConfiguration.groups[0])
+        ).toEqual(groupMenuTitle);
+      });
+
+      it('should return only conflict header group description as title even if expert mode is on', () => {
+        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+          of(true)
+        );
+        const configForExpMode = productConfigurationWithConflicts;
+
+        expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
+          configForExpMode.groups[0].description
+        );
+      });
+
+      it('should return only conflict group description as title even if expert mode is on', () => {
+        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+          of(true)
+        );
+        const configForExpMode = productConfigurationWithConflicts;
+
+        expect(
+          component.getGroupMenuTitle(configForExpMode.groups[0].subGroups[0])
+        ).toEqual(configForExpMode.groups[0].subGroups[0].description);
+      });
+    });
+
+    describe('icon tooltip', () => {
+      it('incomplete group should have icon tooltip', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'cx-icon',
+          'ERROR',
+          0,
+          'title',
+          'configurator.icon.groupIncomplete'
+        );
+      });
+
+      it('complete group should have icon tooltip', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'cx-icon',
+          'COMPLETE',
+          0,
+          'title',
+          'configurator.icon.groupComplete'
+        );
+      });
+
+      it('conflict group should have icon tooltip', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'cx-icon',
+          'WARNING',
+          0,
+          'title',
+          'configurator.icon.groupConflict'
+        );
+      });
+    });
+
+    describe('isConflictGroupType', () => {
+      it('should know conflict group ', () => {
+        isConflictGroupType = true;
+        expect(
+          component.isConflictGroupType(
+            Configurator.GroupType.CONFLICT_HEADER_GROUP
+          )
+        ).toBe(true);
+      });
+
+      it('should return false for undefined input', () => {
+        expect(component.isConflictGroupType(undefined)).toBe(false);
+      });
+    });
+
+    describe('isGroupSelected', () => {
+      it('should return `false` because the current group ID is not equal group ID', () => {
+        expect(component.isGroupSelected('groupId-100', 'groupId-99')).toBe(
+          false
+        );
+      });
+
+      it('should return `true` because the current group ID is equal group ID', () => {
+        expect(component.isGroupSelected('groupId-100', 'groupId-100')).toBe(
+          true
+        );
+      });
+    });
+
+    describe('createAriaControls', () => {
+      it('should return empty string because groupID is undefined', () => {
+        expect(component.createAriaControls(undefined)).toBeUndefined();
+      });
+
+      it('should return aria-controls string', () => {
+        expect(component.createAriaControls('1234')).toBe('1234-group');
+      });
+    });
+
+    describe('getAriaLabel', () => {
+      it("should return 'configurator.a11y.groupName group:Group Name' if group is an attribute group", () => {
+        const group = {
+          id: GROUP_ID_1,
+          description: 'Group Name',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          attributes: [],
+          subGroups: [],
+        };
+        expect(component.getAriaLabel(group)).toBe(
+          'configurator.a11y.groupName group:Group Name'
+        );
+      });
+
+      it("should return 'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)' if group is conflict header", () => {
+        isConflictGroupType = true;
+        const group = {
+          id: GROUP_ID_1,
+          description: 'Resolve Conflicts',
+          groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+          attributes: [],
+          subGroups: [{ id: 'subgroup1', subGroups: [] }],
+        };
+        expect(component.getAriaLabel(group)).toBe(
+          'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
+        );
+      });
+
+      it('should return group description if group is conflict group', () => {
+        isConflictGroupType = true;
+        const group = {
+          id: GROUP_ID_1,
+          description: 'Conflict for xyz',
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          attributes: [],
+          subGroups: [],
+        };
+        expect(component.getAriaLabel(group)).toBe('Conflict for xyz');
+      });
+    });
+
+    describe('setFocusForMainMenu', () => {
+      it('should set focus to a group that does not contain any subgroups`', () => {
+        component.setFocusForMainMenu(GROUP_ID_2);
+        expect(configUtils.setFocus).toHaveBeenCalled();
+        expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_2);
+      });
+
+      it('should set focus to a child group if the parent group contains only one subgroup', () => {
+        component.setFocusForMainMenu(GROUP_ID_4);
+        expect(configUtils.setFocus).toHaveBeenCalled();
+        expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_4);
+      });
+
+      it('should set focus to parent group that contains a current selected group', () => {
+        component.setFocusForMainMenu(GROUP_ID_7);
+        expect(configUtils.setFocus).toHaveBeenCalled();
+        expect(configUtils.setFocus).toHaveBeenCalledWith(GROUP_ID_5);
+      });
+    });
+
+    describe('trackByFn', () => {
+      it('should return group itself, if performance optimization is not active', () => {
+        productConfiguratorDeltaRenderingEnabled = false;
+        expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
+          simpleConfig.groups[0]
+        );
+      });
+
+      it('should return group ID, if performance optimization is active', () => {
+        productConfiguratorDeltaRenderingEnabled = true;
+        expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
+      });
     });
   });
 });

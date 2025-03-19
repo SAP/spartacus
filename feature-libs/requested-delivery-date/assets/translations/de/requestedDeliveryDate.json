@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "Lieferdatum anfragen",
+    "readOnlyTextLabel": "Wunschlieferdatum",
+    "successMessage": "Lieferdatum erfolgreich aktualisiert.",
+    "errorMessage": "Etwas ist schiefgegangen. Das gewünschte Datum konnte nicht aktualisiert werden"
+  }
+}

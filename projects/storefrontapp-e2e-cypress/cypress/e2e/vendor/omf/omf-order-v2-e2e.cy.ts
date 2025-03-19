@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,11 +14,11 @@ import {
   interceptOrdersEndpoint,
   waitForResponse,
 } from '../../../helpers/order-history';
+import { OmfConfig } from '@spartacus/core';
 const omfTester = {
   email: 'keenreviewer14@hybris.com',
   password: 'Welcome@1',
 };
-import { OmfConfig } from '@spartacus/core';
 
 const headerName = 'guid';
 

@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
@@ -8,12 +8,16 @@ import { of } from 'rxjs';
 import { CdcUserConsentAdapter } from './cdc-user-consent.adapter';
 import { CdcConsentsLocalStorageService } from './services/cdc-consents-local-storage.service';
 import { CdcUserConsentService } from './services/cdc-user-consent.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const consentTemplateId = 'xxxx';
 const consentTemplateVersion = 0;
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
-  updateCdcConsent = createSpy();
+  updateCdcUserPreferences = createSpy();
 }
 class MockCdcConsentsLocalStorageService
   implements Partial<CdcConsentsLocalStorageService>
@@ -29,8 +33,8 @@ describe('CdcUserConsentAdapter', () => {
   let httpMock: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, StoreModule.forRoot()],
       declarations: [],
+      imports: [StoreModule.forRoot()],
       providers: [
         {
           provide: CdcUserConsentService,
@@ -40,6 +44,8 @@ describe('CdcUserConsentAdapter', () => {
           provide: CdcConsentsLocalStorageService,
           useClass: MockCdcConsentsLocalStorageService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(CdcUserConsentAdapter);
@@ -55,16 +61,14 @@ describe('CdcUserConsentAdapter', () => {
   describe('giveConsent()', () => {
     it('should update cdc consent', () => {
       storage.checkIfConsentExists = createSpy().and.returnValue(true);
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 0 })
-      );
+      cdcUserConsentService.updateCdcUserPreferences =
+        createSpy().and.returnValue(of({ errorCode: 0 }));
       service
         .giveConsent('current', consentTemplateId, consentTemplateVersion)
         .subscribe();
-      expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
-        true,
-        ['xxxx']
-      );
+      expect(
+        cdcUserConsentService.updateCdcUserPreferences
+      ).toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: true }]);
       httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
@@ -76,25 +80,21 @@ describe('CdcUserConsentAdapter', () => {
     });
     it('should not call CDC SDK', () => {
       storage.checkIfConsentExists = createSpy().and.returnValue(false);
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 0 })
-      );
+      cdcUserConsentService.updateCdcUserPreferences =
+        createSpy().and.returnValue(of({ errorCode: 0 }));
       service.giveConsent('current', 'xxxx', 0).subscribe();
-      expect(cdcUserConsentService.updateCdcConsent).not.toHaveBeenCalledWith(
-        true,
-        ['xxxx']
-      );
+      expect(
+        cdcUserConsentService.updateCdcUserPreferences
+      ).not.toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: true }]);
     });
     it('should not call Commerce API', () => {
       storage.checkIfConsentExists = createSpy().and.returnValue(true);
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 2 })
-      );
+      cdcUserConsentService.updateCdcUserPreferences =
+        createSpy().and.returnValue(of({ errorCode: 2 }));
       service.giveConsent('current', 'xxxx', 0).subscribe();
-      expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
-        true,
-        ['xxxx']
-      );
+      expect(
+        cdcUserConsentService.updateCdcUserPreferences
+      ).toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: true }]);
       httpMock.expectNone((req) => {
         return (
           req.method === 'POST' &&
@@ -108,14 +108,12 @@ describe('CdcUserConsentAdapter', () => {
   describe('withdrawConsent()', () => {
     it('should update cdc consent', () => {
       storage.checkIfConsentExists = createSpy().and.returnValue(true);
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 0 })
-      );
+      cdcUserConsentService.updateCdcUserPreferences =
+        createSpy().and.returnValue(of({ errorCode: 0 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
-      expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
-        false,
-        ['xxxx']
-      );
+      expect(
+        cdcUserConsentService.updateCdcUserPreferences
+      ).toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: false }]);
       httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
@@ -123,25 +121,21 @@ describe('CdcUserConsentAdapter', () => {
     });
     it('should not call CDC SDK', () => {
       storage.checkIfConsentExists = createSpy().and.returnValue(false);
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 0 })
-      );
+      cdcUserConsentService.updateCdcUserPreferences =
+        createSpy().and.returnValue(of({ errorCode: 0 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
-      expect(cdcUserConsentService.updateCdcConsent).not.toHaveBeenCalledWith(
-        false,
-        ['xxxx']
-      );
+      expect(
+        cdcUserConsentService.updateCdcUserPreferences
+      ).not.toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: false }]);
     });
     it('should not call Commerce API', () => {
       storage.checkIfConsentExists = createSpy().and.returnValue(true);
-      cdcUserConsentService.updateCdcConsent = createSpy().and.returnValue(
-        of({ errorCode: 2 })
-      );
+      cdcUserConsentService.updateCdcUserPreferences =
+        createSpy().and.returnValue(of({ errorCode: 2 }));
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
-      expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
-        false,
-        ['xxxx']
-      );
+      expect(
+        cdcUserConsentService.updateCdcUserPreferences
+      ).toHaveBeenCalledWith([{ id: 'xxxx', isConsentGranted: false }]);
       httpMock.expectNone((req) => {
         return req.method === 'DELETE';
       });

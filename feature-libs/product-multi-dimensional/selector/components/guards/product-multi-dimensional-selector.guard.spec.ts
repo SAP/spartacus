@@ -37,12 +37,23 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
   });
 
   describe('canActivate', () => {
-    it('should return false if no product code is provided', () => {
+    it('should return false if no product code is provided and queryParams are empty', () => {
       const route = new ActivatedRouteSnapshot();
       route.params = {};
+      route.queryParams = {};
 
       guard.canActivate(route).subscribe((result) => {
         expect(result).toBe(false);
+      });
+    });
+
+    it('should return true if no product code is provided and is in SmartEdit', () => {
+      const route = new ActivatedRouteSnapshot();
+      route.params = {};
+      route.queryParams = { cmsTicketId: '123' };
+
+      guard.canActivate(route).subscribe((result) => {
+        expect(result).toBe(true);
       });
     });
 

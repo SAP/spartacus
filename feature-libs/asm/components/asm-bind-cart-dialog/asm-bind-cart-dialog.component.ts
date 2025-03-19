@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ export enum BIND_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-bind-cart-dialog',
   templateUrl: './asm-bind-cart-dialog.component.html',
+  standalone: false,
 })
 export class AsmBindCartDialogComponent {
   BIND_CART_ACTION = BIND_CART_DIALOG_ACTION;

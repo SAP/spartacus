@@ -25,7 +25,10 @@
         </div>
         <!-- TABLE -->
         <table id="order-return-table" class="table cx-order-history-table">
-          <thead class="cx-order-history-thead-mobile">
+          <thead
+            *cxFeature="'!a11yTableHeaderReadout'"
+            class="cx-order-history-thead-mobile"
+          >
             <th scope="col">
               {{ 'returnRequestList.returnRequestId' | cxTranslate }}
             </th>
@@ -34,6 +37,25 @@
               {{ 'returnRequestList.date' | cxTranslate }}
             </th>
             <th scope="col">{{ 'returnRequestList.status' | cxTranslate }}</th>
+          </thead>
+          <thead
+            *cxFeature="'a11yTableHeaderReadout'"
+            class="cx-order-history-thead-mobile"
+          >
+            <tr>
+              <th scope="col">
+                {{ 'returnRequestList.returnRequestId' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'returnRequestList.orderId' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'returnRequestList.date' | cxTranslate }}
+              </th>
+              <th scope="col">
+                {{ 'returnRequestList.status' | cxTranslate }}
+              </th>
+            </tr>
           </thead>
           <tbody>
             <tr *ngFor="let return of returnRequests.returnRequests">

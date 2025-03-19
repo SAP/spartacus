@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CmsPickupItemDetails } from '@spartacus/core';
+import { CmsPickupItemDetails, useFeatureStyles } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
 import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -21,6 +21,7 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   selector: 'cx-pick-up-in-store-items-details',
   templateUrl: './pickup-items-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PickUpItemsDetailsComponent implements OnInit {
   @Input() showEdit: boolean;
@@ -32,7 +33,9 @@ export class PickUpItemsDetailsComponent implements OnInit {
   constructor(
     protected component: CmsComponentData<CmsPickupItemDetails>,
     protected deliveryPointsService: DeliveryPointsService
-  ) {}
+  ) {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
   ngOnInit() {
     this.component.data$
       .pipe(

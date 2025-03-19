@@ -30,6 +30,9 @@ cx-product-image-zoom-view {
       .btn:focus,
       .btn:active {
         box-shadow: none;
+        @include forFeature('a11yCroppedFocusRing') {
+          outline-offset: -2px;
+        }
       }
     }
     // TODO: (CXSPA-7492) - Remove feature flag next major release.
@@ -48,7 +51,9 @@ cx-product-image-zoom-view {
         height: calc(90vh - 200px);
         // TODO: (CXSPA-7492) - Remove feature flag next major release.
         @include forFeature('a11yKeyboardAccessibleZoom') {
-          height: unset;
+          &:has(picture) {
+            height: unset;
+          }
         }
       }
 
@@ -139,6 +144,20 @@ cx-product-image-zoom-view {
           font-size: 2rem;
         }
       }
+    }
+  }
+
+  @include cx-highContrastTheme-light {
+    .cx-image-container .cx-zoom-btn .cx-zoom-indicator {
+      color: var(--cx-color-dark);
+    }
+  }
+
+  @include cx-highContrastTheme-dark {
+    .cx-image-container .cx-zoom-btn {
+      background-color: var(--cx-color-dark);
+      color: var(--cx-color-light);
+      --cx-color-visual-focus: #1f3a93;
     }
   }
 }

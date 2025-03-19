@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,6 +59,7 @@ export const TITLE_DE = 'Herr';
 export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
   month: 'long',
 });
+export const EDIT_DE = 'Bearbeiten';
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
 export const PRODUCT_PATH_2 = `/product/${PRODUCT_ID_2}`;

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,11 +17,6 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
-  /**
-   * @deprecated since 6.2
-   */
-  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
-
   constructor(
     protected config: OccConfig,
     protected translation: TranslationService,

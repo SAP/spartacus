@@ -1,12 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, Optional, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { CxDatePipe, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ArrivalSlot,
   ArrivalSlots,
@@ -19,12 +23,17 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-estimated-delivery-date',
   templateUrl: './estimated-delivery-date.component.html',
   providers: [CxDatePipe],
+  standalone: false,
 })
 export class EstimatedDeliveryDateComponent {
   @Optional() protected cartItemContext = inject(CartItemContext);
   protected orderHistoryFacade = inject(OrderHistoryFacade);
   protected translationService = inject(TranslationService);
   protected datePipe = inject(CxDatePipe);
+
+  constructor() {
+    useFeatureStyles('a11yQTY2Quantity');
+  }
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

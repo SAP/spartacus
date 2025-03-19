@@ -12,7 +12,24 @@
       <div
         class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
       >
-        <label>
+        <label
+          *cxFeature="'a11yShowLabelOfSelect'"
+          class="cx-order-approval-form-group-label"
+        >
+          <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
+          <cx-sorting
+            [sortOptions]="orderApprovals.sorts"
+            [sortLabels]="sortLabels$ | async"
+            (sortListEvent)="changeSortCode($event)"
+            [selectedOption]="orderApprovals.pagination.sort"
+            [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+            ariaControls="order-approval-table"
+          ></cx-sorting>
+        </label>
+        <label
+          *cxFeature="'!a11yShowLabelOfSelect'"
+          class="cx-order-approval-form-group-label"
+        >
           <span class="cx-visually-hidden">{{
             'orderHistory.sortOrders' | cxTranslate
           }}</span>
@@ -44,7 +61,10 @@
           'orderApprovalList.orderApprovalList' | cxTranslate
         }}
       </caption>
-      <thead class="cx-order-approval-thead-mobile">
+      <thead
+        *cxFeature="'!a11yTableHeaderReadout'"
+        class="cx-order-approval-thead-mobile"
+      >
         <th scope="col">
           {{ 'orderApprovalList.orderCode' | cxTranslate }}
         </th>
@@ -55,6 +75,23 @@
           {{ 'orderApprovalList.status' | cxTranslate }}
         </th>
         <th scope="col">{{ 'orderApprovalList.total' | cxTranslate }}</th>
+      </thead>
+      <thead
+        *cxFeature="'a11yTableHeaderReadout'"
+        class="cx-order-approval-thead-mobile"
+      >
+        <tr>
+          <th scope="col">
+            {{ 'orderApprovalList.orderCode' | cxTranslate }}
+          </th>
+          <th scope="col">{{ 'orderApprovalList.POCode' | cxTranslate }}</th>
+          <th scope="col">{{ 'orderApprovalList.placedBy' | cxTranslate }}</th>
+          <th scope="col">{{ 'orderApprovalList.date' | cxTranslate }}</th>
+          <th scope="col">
+            {{ 'orderApprovalList.status' | cxTranslate }}
+          </th>
+          <th scope="col">{{ 'orderApprovalList.total' | cxTranslate }}</th>
+        </tr>
       </thead>
       <tbody>
         <tr
@@ -170,7 +207,21 @@
       <div
         class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
       >
-        <label>
+        <label
+          *cxFeature="'a11yShowLabelOfSelect'"
+          class="cx-order-approval-form-group-label"
+        >
+          <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
+          <cx-sorting
+            [sortOptions]="orderApprovals.sorts"
+            [sortLabels]="sortLabels$ | async"
+            (sortListEvent)="changeSortCode($event)"
+            [selectedOption]="orderApprovals.pagination.sort"
+            [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+            ariaControls="order-approval-table"
+          ></cx-sorting>
+        </label>
+        <label *cxFeature="'!a11yShowLabelOfSelect'">
           <span class="cx-visually-hidden">{{
             'orderHistory.sortOrders' | cxTranslate
           }}</span>

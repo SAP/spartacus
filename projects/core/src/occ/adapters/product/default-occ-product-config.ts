@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,10 +22,12 @@ export const defaultOccProductConfig: OccConfig = {
           attributes: 'products/${productCode}?fields=classifications',
           price: 'products/${productCode}?fields=price(formattedValue)',
           stock: 'products/${productCode}?fields=stock(DEFAULT)',
+          unit: 'products/${productCode}?fields=sapUnit',
           list_item:
             'products/${productCode}?fields=code,name,price(formattedValue),images(DEFAULT),baseProduct',
         },
-
+        productAvailabilities:
+          'productAvailabilities?filters=${productCode}:${unitSapCode}',
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
         // productReferences:
@@ -40,6 +42,10 @@ export const defaultOccProductConfig: OccConfig = {
             'products/search?fields=products(code,purchasable,name,summary,price(formattedValue),stock(DEFAULT),images(DEFAULT,galleryIndex),baseProduct)',
           carouselMinimal:
             'products/search?fields=products(code,name,price(formattedValue),images(DEFAULT),baseProduct)',
+        },
+        productSearchByCategory: {
+          default: 'categories/${categoryCode}/products?fields=DEFAULT',
+          code: 'categories/${categoryCode}/products?fields=products(code)',
         },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',

@@ -15,10 +15,11 @@ import { ProductIntroComponent } from './product-intro.component';
 @Component({
   selector: 'cx-star-rating',
   template: '',
+  standalone: false,
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
+  @Input() rating: number;
+  @Input() disabled: boolean;
 }
 
 class MockCurrentProductService {

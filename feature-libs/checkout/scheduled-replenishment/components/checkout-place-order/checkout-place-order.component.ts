@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   selector: 'cx-place-order',
   templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent

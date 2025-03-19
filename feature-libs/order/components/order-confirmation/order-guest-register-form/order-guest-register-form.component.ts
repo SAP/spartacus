@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, inject, Input, OnDestroy } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -14,6 +14,7 @@ import {
   AuthService,
   FeatureConfigService,
   RoutingService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
@@ -22,6 +23,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
+  standalone: false,
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
@@ -30,20 +32,24 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
   protected passwordValidators = this.featureConfigService?.isEnabled(
     'formErrorsDescriptiveMessages'
   )
-    ? this.featureConfigService.isEnabled(
-        'enableConsecutiveCharactersPasswordRequirement'
-      )
-      ? [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]
-      : CustomFormValidators.passwordValidators
+    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+      ? CustomFormValidators.securePasswordValidators
+      : this.featureConfigService.isEnabled(
+            'enableConsecutiveCharactersPasswordRequirement'
+          )
+        ? [
+            ...CustomFormValidators.passwordValidators,
+            CustomFormValidators.noConsecutiveCharacters,
+          ]
+        : CustomFormValidators.passwordValidators
     : [
-        this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-          ? CustomFormValidators.strongPasswordValidator
-          : CustomFormValidators.passwordValidator,
+        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+          ? CustomFormValidators.securePasswordValidator
+          : this.featureConfigService.isEnabled(
+                'enableConsecutiveCharactersPasswordRequirement'
+              )
+            ? CustomFormValidators.strongPasswordValidator
+            : CustomFormValidators.passwordValidator,
       ];
 
   @Input() guid: string;
@@ -68,7 +74,9 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected routingService: RoutingService,
     protected authService: AuthService,
     protected fb: UntypedFormBuilder
-  ) {}
+  ) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+  }
 
   submit() {
     if (this.guestRegisterForm.valid) {

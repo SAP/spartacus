@@ -1,96 +1,108 @@
-<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-  {{ 'paymentForm.payment' | cxTranslate }}
-</h2>
-<ng-container *ngIf="cards$ | async as cards">
-  <ng-container *ngIf="!(isUpdating$ | async); else loading">
-    <div
-      *cxFeature="'!a11yRemoveStatusLoadedRole'"
-      role="status"
-      [attr.aria-label]="'common.loaded' | cxTranslate"
-    ></div>
-    <ng-container
-      *ngIf="
-        cards?.length && !newPaymentFormManuallyOpened;
-        then hasExistingPaymentMethods;
-        else newPaymentForm
-      "
-    >
-    </ng-container>
-  </ng-container>
+<section
+  *ngIf="
+    featureConfigService?.isEnabled('a11yCheckoutStepsLandmarks');
+    else content
+  "
+  [attr.aria-label]="'paymentForm.payment' | cxTranslate"
+>
+  <ng-template [ngTemplateOutlet]="content"></ng-template>
+</section>
 
-  <ng-template #hasExistingPaymentMethods>
-    <p class="cx-checkout-text">
-      {{ 'paymentForm.choosePaymentMethod' | cxTranslate }}
-    </p>
-
-    <div class="cx-checkout-btns cx-checkout-btns-top">
-      <button
-        class="btn btn-block btn-secondary"
-        (click)="showNewPaymentForm()"
-      >
-        {{ 'paymentForm.addNewPayment' | cxTranslate }}
-      </button>
-    </div>
-
-    <div class="cx-checkout-body row">
+<ng-template #content>
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'paymentForm.payment' | cxTranslate }}
+  </h2>
+  <ng-container *ngIf="cards$ | async as cards">
+    <ng-container *ngIf="!(isUpdating$ | async); else loading">
       <div
-        class="cx-payment-card col-md-12 col-lg-6"
-        *ngFor="let card of cards; let i = index"
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <ng-container
+        *ngIf="
+          cards?.length && !newPaymentFormManuallyOpened;
+          then hasExistingPaymentMethods;
+          else newPaymentForm
+        "
       >
-        <div
-          class="cx-payment-card-inner"
-          (click)="selectPaymentMethod(card.paymentMethod)"
+      </ng-container>
+    </ng-container>
+
+    <ng-template #hasExistingPaymentMethods>
+      <p class="cx-checkout-text">
+        {{ 'paymentForm.choosePaymentMethod' | cxTranslate }}
+      </p>
+
+      <div class="cx-checkout-btns cx-checkout-btns-top">
+        <button
+          class="btn btn-block btn-secondary"
+          (click)="showNewPaymentForm()"
         >
-          <cx-card
-            [border]="true"
-            [fitToContainer]="true"
-            [content]="card.content"
-            [index]="i"
-            (sendCard)="selectPaymentMethod(card.paymentMethod)"
-          ></cx-card>
+          {{ 'paymentForm.addNewPayment' | cxTranslate }}
+        </button>
+      </div>
+
+      <div class="cx-checkout-body row">
+        <div
+          class="cx-payment-card col-md-12 col-lg-6"
+          *ngFor="let card of cards; let i = index"
+        >
+          <div
+            class="cx-payment-card-inner"
+            (click)="selectPaymentMethod(card.paymentMethod)"
+          >
+            <cx-card
+              [border]="true"
+              [fitToContainer]="true"
+              [content]="card.content"
+              [index]="i"
+              (sendCard)="selectPaymentMethod(card.paymentMethod)"
+            ></cx-card>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="cx-checkout-btns cx-checkout-btns-bottom">
-      <button
-        class="btn btn-block btn-secondary"
-        (click)="showNewPaymentForm()"
-      >
-        {{ 'paymentForm.addNewPayment' | cxTranslate }}
-      </button>
-    </div>
-
-    <div class="row cx-checkout-btns">
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-secondary" (click)="back()">
-          {{ backBtnText | cxTranslate }}
-        </button>
-      </div>
-      <div class="col-md-12 col-lg-6">
+      <div class="cx-checkout-btns cx-checkout-btns-bottom">
         <button
-          class="btn btn-block btn-primary"
-          [disabled]="!(selectedMethod$ | async)?.id"
-          (click)="next()"
+          class="btn btn-block btn-secondary"
+          (click)="showNewPaymentForm()"
         >
-          {{ 'common.continue' | cxTranslate }}
+          {{ 'paymentForm.addNewPayment' | cxTranslate }}
         </button>
       </div>
-    </div>
-  </ng-template>
 
-  <ng-template #newPaymentForm>
-    <cx-payment-form
-      (setPaymentDetails)="setPaymentDetails($event)"
-      (closeForm)="hideNewPaymentForm()"
-      (goBack)="back()"
-      [paymentMethodsCount]="cards?.length || 0"
-      [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
-      [loading]="isUpdating$ | async"
-      [paymentDetails]="paymentDetails"
-    ></cx-payment-form>
-  </ng-template>
-</ng-container>
+      <div class="row cx-checkout-btns">
+        <div class="col-md-12 col-lg-6">
+          <button class="btn btn-block btn-secondary" (click)="back()">
+            {{ backBtnText | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-block btn-primary"
+            [disabled]="!(selectedMethod$ | async)?.id"
+            (click)="next()"
+          >
+            {{ 'common.continue' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #newPaymentForm>
+      <cx-payment-form
+        (setPaymentDetails)="setPaymentDetails($event)"
+        (closeForm)="hideNewPaymentForm()"
+        (goBack)="back()"
+        [paymentMethodsCount]="cards?.length || 0"
+        [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
+        [loading]="isUpdating$ | async"
+        [paymentDetails]="paymentDetails"
+      ></cx-payment-form>
+    </ng-template>
+  </ng-container>
+</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner">

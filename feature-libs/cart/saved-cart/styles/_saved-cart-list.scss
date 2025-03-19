@@ -149,6 +149,13 @@ cx-saved-cart-list {
         font-weight: $font-weight-normal;
       }
     }
+
+    @include cx-highContrastTheme {
+      border-color: var(--cx-color-dark);
+      tr {
+        border-bottom-color: var(--cx-color-dark);
+      }
+    }
   }
 
   .cx-saved-cart-list-no-saved-carts {

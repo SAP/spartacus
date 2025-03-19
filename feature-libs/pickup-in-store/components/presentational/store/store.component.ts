@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock } from '@spartacus/core';
+import { PointOfServiceStock, useFeatureStyles } from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -16,6 +16,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-store',
   templateUrl: './store.component.html',
+  standalone: false,
 })
 export class StoreComponent implements OnInit {
   /** The details of the store to be displayed */
@@ -28,6 +29,12 @@ export class StoreComponent implements OnInit {
   isInStock: boolean;
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
+
+  constructor() {
+    useFeatureStyles('a11yVisibleFocusOverflows');
+    useFeatureStyles('a11yViewHoursButtonIconContrast');
+    useFeatureStyles('a11yStoreInStockIconContrast');
+  }
 
   ngOnInit(): void {
     this.isInStock = storeHasStock(this.storeDetails);

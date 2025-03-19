@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -52,9 +52,7 @@ context('Product search product type flow', () => {
 
         clickSearchIcon();
 
-        cy.get(
-          'cx-searchbox input[aria-label="Enter product name or SKU"]'
-        ).type(`${category}{enter}`);
+        cy.get('cx-searchbox input').type(`${category}{enter}`);
 
         cy.wait(`@${QUERY_ALIAS.SONY}`)
           .its('response.statusCode')
@@ -63,7 +61,7 @@ context('Product search product type flow', () => {
         assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
         // Filter by brand
-        clickFacet('Brand');
+        clickFacet('Brand', true);
 
         cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`)
           .its('response.statusCode')
@@ -80,7 +78,7 @@ context('Product search product type flow', () => {
         assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
         // Filter by price
-        clickFacet('Price');
+        clickFacet('Price', true);
 
         cy.wait(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`)
           .its('response.statusCode')
@@ -103,7 +101,7 @@ context('Product search product type flow', () => {
         );
 
         // Filter by category
-        clickFacet('Category');
+        clickFacet('Category', true);
 
         cy.wait(`@${QUERY_ALIAS.CATEGORY_FILTER}`)
           .its('response.statusCode')
@@ -125,7 +123,7 @@ context('Product search product type flow', () => {
           `"${category}"`
         );
 
-        clickFacet('Color');
+        clickFacet('Color', true);
 
         cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
           .its('response.statusCode')

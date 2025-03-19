@@ -10,7 +10,6 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '20'
-  AMP_API_TOKEN: ${{ secrets.AMP_API_TOKEN }}
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 concurrency:
@@ -223,16 +222,16 @@ jobs:
     name: SSR Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
-          path: | 
+          path: |
             node_modules
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
@@ -277,7 +276,7 @@ jobs:
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: slackapi/slack-github-action@v1.27.1
         with:
           channel-id: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
           payload: |

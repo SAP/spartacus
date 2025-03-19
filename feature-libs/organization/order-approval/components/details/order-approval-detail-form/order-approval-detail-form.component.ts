@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   selector: 'cx-order-approval-detail-form',
   templateUrl: './order-approval-detail-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;

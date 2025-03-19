@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -121,14 +121,14 @@ export function cancelReplenishmentInHistory() {
     verifyFirstRowReplenishmentIsCancelled();
 
     cy.get(
-      `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-cancel button`
+      `${replenishmentOrderHistorySelector} tbody tr:first .cx-replenishment-order-history-cancel button`
     ).should('not.exist');
   });
 }
 
 export function verifyFirstRowReplenishmentIsCancelled() {
   cy.get(
-    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`
+    `${replenishmentOrderHistorySelector} tbody tr:first .cx-replenishment-order-history-value`
   )
     .eq(4)
     .should('contain', 'Cancelled');
@@ -136,7 +136,7 @@ export function verifyFirstRowReplenishmentIsCancelled() {
 
 export function verifyFirstRowReplenishmentIsNotCancelled() {
   cy.get(
-    `${replenishmentOrderHistorySelector} tr:first .cx-replenishment-order-history-value`
+    `${replenishmentOrderHistorySelector} tbody tr:first .cx-replenishment-order-history-value`
   )
     .eq(4)
     .should('not.contain', 'Cancelled');

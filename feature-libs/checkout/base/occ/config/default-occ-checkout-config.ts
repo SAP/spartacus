@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ export const defaultOccCheckoutConfig: OccConfig = {
           'users/${userId}/carts/${cartId}/payment/sop/response',
         getCheckoutDetails:
           'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)',
+        setBillingAddress: 'users/${userId}/carts/${cartId}/addresses/billing',
       },
     },
   },

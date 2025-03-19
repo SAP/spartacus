@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -166,22 +166,22 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (valueName.includes('>')) {
       minVal = valueName;
       interval.minValueIncluded = false;
-      minVal = minVal.replace('>', '');
+      minVal = minVal.replace(/>/g, '');
     }
     if (valueName.includes('<')) {
       maxVal = valueName;
       interval.maxValueIncluded = false;
-      maxVal = maxVal.replace('<', '');
+      maxVal = maxVal.replace(/</g, '');
     }
     if (valueName.includes('≥')) {
       minVal = valueName;
       interval.minValueIncluded = true;
-      minVal = minVal.replace('≥', '');
+      minVal = minVal.replace(/≥/g, '');
     }
     if (valueName.includes('≤')) {
       maxVal = valueName;
       interval.maxValueIncluded = true;
-      maxVal = maxVal.replace('≤', '');
+      maxVal = maxVal.replace(/≤/g, '');
     }
     if (
       !valueName.includes('>') &&

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   verifyToken: {
     paths: ['login/verify-token'],
+    protected: false,
+    authFlow: true,
+  },
+  verifyTokenForRegistration: {
+    paths: ['register/verify-token'],
     protected: false,
     authFlow: true,
   },

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import { Card, getAddressNumbers } from '@spartacus/storefront';
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
+  standalone: false,
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;
@@ -109,7 +110,7 @@ export class AddressBookComponent implements OnInit {
           const numbers = getAddressNumbers(address, textPhone, textMobile);
 
           return {
-            role: 'region',
+            role: 'application',
             textBold: address.firstName + ' ' + address.lastName,
             text: [
               address.line1,

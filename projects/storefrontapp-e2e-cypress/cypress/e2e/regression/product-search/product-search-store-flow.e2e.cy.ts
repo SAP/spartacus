@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ context('Product search store flow', () => {
   viewportContext(['desktop', 'mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
+
       cy.visit('/');
     });
 
@@ -79,7 +80,7 @@ context('Product search store flow', () => {
         cy.get('cx-add-to-cart:first button').click({ force: true });
         cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
           'contain',
-          'Item(s) added to your cart'
+          'Item Added To Your Cart'
         );
         cy.get('.cx-dialog-header .close').click();
         cy.get('cx-mini-cart .count').should('contain', '1');

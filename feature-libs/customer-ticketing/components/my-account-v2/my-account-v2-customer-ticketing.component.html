@@ -3,6 +3,8 @@
     <!-- HEADER -->
     <div
       class="cx-my-account-customer-ticket-heading"
+      role="heading"
+      aria-level="4"
       [attr.aria-label]="'myAccountV2CustomerTicketing.heading' | cxTranslate"
     >
       {{ 'myAccountV2CustomerTicketing.heading' | cxTranslate }}
@@ -13,7 +15,7 @@
       <a
         id="show-more-requests"
         [attr.aria-label]="
-          'myAccountV2CustomerTicketing.showMore' | cxTranslate
+          'myAccountV2CustomerTicketing.showMoreLabel' | cxTranslate
         "
         class="btn-link cx-action-link"
         [routerLink]="

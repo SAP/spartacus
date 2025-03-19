@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,6 +60,7 @@ export function isIdentifierImported({
       declaration.specifiers.some(
         (specifier) =>
           specifier.type === AST_NODE_TYPES.ImportSpecifier &&
+          specifier.imported.type === AST_NODE_TYPES.Identifier &&
           specifier.imported.name === importedIdentifier
       )
   );

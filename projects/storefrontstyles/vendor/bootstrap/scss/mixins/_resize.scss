@@ -1,0 +1,15 @@
+/*!
+ * Bootstrap v4.6.2 (https://getbootstrap.com/)
+ * Copyright 2011-2022 The Bootstrap Authors
+ * Copyright 2011-2022 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ *
+ * DO NOT MODIFY THIS FILE. It preserves compatibility with Bootstrap 4.6 docs.
+ */
+
+// Resize anything
+
+@mixin resizable($direction) {
+  overflow: auto; // Per CSS3 UI, `resize` only applies when `overflow` isn't `visible`
+  resize: $direction; // Options: horizontal, vertical, both
+}

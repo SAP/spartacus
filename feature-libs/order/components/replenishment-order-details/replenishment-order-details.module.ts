@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  BtnLikeLinkModule,
   CardModule,
   ListNavigationModule,
   PromotionsModule,
@@ -42,6 +43,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     SpinnerModule,
     ListNavigationModule,
     RouterModule,
+    BtnLikeLinkModule,
   ],
   providers: [
     provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,6 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
         date: 1500,
       },
       addRetractOption: false,
-      enableNavigationToConflict: true,
       descriptions: {
         attributeDescriptionLength: 100,
         valueDescriptionLength: 70,

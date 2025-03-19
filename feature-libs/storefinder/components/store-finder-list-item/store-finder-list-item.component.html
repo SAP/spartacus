@@ -50,7 +50,19 @@
       href="{{ getDirections(location) }}"
       target="_blank"
       rel="noopener noreferrer"
+      *cxFeature="'!a11yStyleExternalLinksAsLinks'"
       class="btn btn-sm btn-secondary btn-block cx-button"
+      cxBtnLikeLink
+      (click)="$event.stopPropagation()"
+      [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"
+      >{{ 'storeFinder.getDirections' | cxTranslate }}</a
+    >
+    <a
+      href="{{ getDirections(location) }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      *cxFeature="'a11yStyleExternalLinksAsLinks'"
+      class="cx-button"
       (click)="$event.stopPropagation()"
       [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a

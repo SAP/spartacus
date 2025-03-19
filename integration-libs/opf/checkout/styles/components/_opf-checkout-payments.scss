@@ -1,0 +1,67 @@
+%cx-opf-checkout-payments {
+  .cx-payment-options-list {
+    .form-check {
+      margin-bottom: 0;
+      padding-top: 0.625rem;
+      padding-bottom: 1rem;
+      border-top: 1px solid var(--cx-color-medium);
+      text-transform: capitalize;
+
+      & ~ .form-check {
+        padding-top: 1rem;
+      }
+    }
+
+    input:disabled + .form-check-label {
+      color: var(--cx-color-medium);
+
+      .cx-payment-logo {
+        opacity: 0.3;
+      }
+    }
+
+    input[type='radio'] {
+      border-color: var(--cx-color-text);
+    }
+
+    input[type='radio']:disabled {
+      border-color: var(--cx-color-medium);
+      background-color: var(--cx-color-light);
+    }
+
+    > cx-opf-checkout-terms-and-conditions-alert {
+      display: block;
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    .cx-payment-logo {
+      max-height: 30px;
+      margin: -2px 0 0 4px;
+    }
+  }
+
+  .cx-payment-options-list-pagination {
+    justify-content: flex-end;
+  }
+
+  .cx-payment-info-box {
+    display: flex;
+    margin: 12px 0;
+    padding: 16px;
+    border: 1px solid #d3d6db;
+    border-radius: 10px;
+    background-color: #f1f1f1f1;
+
+    cx-icon {
+      color: var(--cx-color-info);
+    }
+  }
+
+  .cx-payment-info-box-message {
+    text-transform: none;
+    margin: 0;
+    font-weight: 600;
+  }
+}

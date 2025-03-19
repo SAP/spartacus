@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,11 +13,13 @@ import {
   FeaturesConfigModule,
   I18nModule,
   NotAuthGuard,
-  UrlModule,
   provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -35,6 +37,8 @@ import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
     SpinnerModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

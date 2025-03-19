@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,7 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import './a11y-tab.commands';
 import './cart.commands';
-// TODO: Disabled until continuum is fixed for local env.
-// import './continuum.commands';
+import './continuum.commands';
 import './cx-config.commands';
 import './login.commands';
 import './ng-select.commands';

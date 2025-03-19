@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,13 +11,16 @@ import {
   inject,
   Input,
   isDevMode,
+  OnChanges,
   OnInit,
+  Output,
   TemplateRef,
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { disableTabbingForTick } from '../../../layout/a11y';
 import { CarouselService } from './carousel.service';
 
 /**
@@ -39,8 +42,10 @@ import { CarouselService } from './carousel.service';
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnChanges {
+  @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
    */
@@ -92,6 +97,8 @@ export class CarouselComponent implements OnInit {
     protected service: CarouselService
   ) {
     useFeatureStyles('a11yFocusableCarouselControls');
+    useFeatureStyles('a11yAddPaddingToCarouselPanel');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   ngOnInit() {
@@ -99,22 +106,46 @@ export class CarouselComponent implements OnInit {
       this.logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
-      return;
     }
+  }
+  ngOnChanges() {
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
   }
 
   onItemKeydown(event: KeyboardEvent, size: number): void {
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-      event.preventDefault();
-      this.focusNextPrevItem(
-        event.target,
-        event.key === 'ArrowRight' ? 1 : -1,
-        size
-      );
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.focusNextPrevItem(
+          event.target,
+          event.key === 'ArrowRight' ? 1 : -1,
+          size
+        );
+        break;
+      case 'Tab':
+        this.skipTabForCarouselItems();
+        break;
     }
+  }
+
+  /**
+   * Handles Tab key on carousel items. If the carousel items have `ArrowRight`/`ArrowLeft`
+   * navigation enabled, it temporarily disables tab navigation for these items.
+   * The `cxFocusableCarouselItem` selector is used because it identifies carousel
+   * items that have `ArrowRight`/`ArrowLeft` navigation enabled. These items should not
+   * use tab navigation according to a11y requirements.
+   */
+  protected skipTabForCarouselItems(): void {
+    const carouselElements: HTMLElement[] = Array.from(
+      this.el.nativeElement.querySelectorAll('[cxFocusableCarouselItem]')
+    );
+    if (!carouselElements.length) {
+      return;
+    }
+    disableTabbingForTick(carouselElements);
   }
 
   /**
@@ -165,5 +196,12 @@ export class CarouselComponent implements OnInit {
   getSlideNumber(size: number, currentIndex: number): number {
     const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.keybordEvent.next(event);
   }
 }

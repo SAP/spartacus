@@ -1,0 +1,8 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "Jml-",
+    "quantityFull": "Jumlah-",
+    "ETA": "Estimasi tanggal pengiriman:",
+    "estimatedDeliveryDateEntryInfo": "Sejumlah {{ quantity }} item akan dikirim sebelum {{ date }}"
+  }
+}

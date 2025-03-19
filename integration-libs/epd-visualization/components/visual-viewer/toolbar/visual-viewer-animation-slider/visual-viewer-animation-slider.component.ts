@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { VisualViewerAnimationSliderService } from './visual-viewer-animation-sl
   templateUrl: './visual-viewer-animation-slider.component.html',
   providers: [VisualViewerAnimationSliderService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

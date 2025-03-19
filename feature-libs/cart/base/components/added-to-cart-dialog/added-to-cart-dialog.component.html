@@ -13,7 +13,19 @@
       aria-atomic="true"
       class="cx-dialog-header modal-header"
     >
-      <div id="dialogTitle" class="cx-dialog-title modal-title">
+      <div
+        *cxFeature="'a11yUpdatingCartNoNarration'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+        role="none"
+      >
+        {{ 'addToCart.itemAddedToYourCart' | cxTranslate }}
+      </div>
+      <div
+        *cxFeature="'!a11yUpdatingCartNoNarration'"
+        id="dialogTitle"
+        class="cx-dialog-title modal-title"
+      >
         {{
           (loaded$ | async)
             ? (addedEntryWasMerged$ | async)
@@ -25,6 +37,7 @@
       <button
         type="button"
         class="close"
+        title="{{ 'common.close' | cxTranslate }}"
         attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
         (click)="dismissModal('Cross click')"
       >
@@ -109,6 +122,7 @@
                   [routerLink]="{ cxRoute: 'cart' } | cxUrl"
                   (click)="dismissModal('View Cart click')"
                   class="btn btn-primary"
+                  cxBtnLikeLink
                   autofocus
                   >{{ 'addToCart.viewCart' | cxTranslate }}</a
                 >
@@ -117,6 +131,7 @@
                   [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
                   (click)="dismissModal('Proceed To Checkout click')"
                   class="btn btn-secondary"
+                  cxBtnLikeLink
                   >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
                 >
               </ng-container>
@@ -131,7 +146,9 @@
   <ng-template #loading>
     <div class="cx-dialog-body modal-body">
       <div class="cx-dialog-row">
-        <div class="col-sm-12"><cx-spinner></cx-spinner></div>
+        <div class="col-sm-12">
+          <cx-spinner aria-hidden="true"></cx-spinner>
+        </div>
       </div>
     </div>
   </ng-template>
@@ -258,6 +275,7 @@
                   [routerLink]="{ cxRoute: 'cart' } | cxUrl"
                   (click)="dismissModal('View Cart click')"
                   class="btn btn-primary"
+                  cxBtnLikeLink
                   autofocus
                   >{{ 'addToCart.viewCart' | cxTranslate }}</a
                 >
@@ -266,6 +284,7 @@
                   [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
                   (click)="dismissModal('Proceed To Checkout click')"
                   class="btn btn-secondary"
+                  cxBtnLikeLink
                   >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
                 >
               </ng-container>

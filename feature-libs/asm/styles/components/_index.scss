@@ -1,18 +1,18 @@
 @import '@spartacus/styles/scss/core';
 
-@import './_asm-bind-cart-dialog.component.scss';
-@import './_asm-save-cart-dialog.component.scss';
-@import './_asm-switch-customer-dialog.component.scss';
-@import './_asm-main-ui.component.scss';
-@import './_asm-session-timer.component.scss';
-@import './_asm-toggle-ui.component.scss';
-@import './_csagent-login-form.component.scss';
-@import './_customer-emulation.component.scss';
-@import './_customer-selection.component.scss';
-@import './_customer-list.component.scss';
-@import './_asm-bind-cart.component.scss';
-@import './_dot-spinner.component.scss';
-@import './_asm-create-customer-form.component.scss';
+@import './_asm-bind-cart-dialog.component';
+@import './_asm-save-cart-dialog.component';
+@import './_asm-switch-customer-dialog.component';
+@import './_asm-main-ui.component';
+@import './_asm-session-timer.component';
+@import './_asm-toggle-ui.component';
+@import './_csagent-login-form.component';
+@import './_customer-emulation.component';
+@import './_customer-selection.component';
+@import './_customer-list.component';
+@import './_asm-bind-cart.component';
+@import './_dot-spinner.component';
+@import './_asm-create-customer-form.component';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-bind-cart-dialog, cx-asm-save-cart-dialog,

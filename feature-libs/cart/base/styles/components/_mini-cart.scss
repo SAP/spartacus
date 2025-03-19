@@ -51,7 +51,19 @@
     }
   }
 
-  @include cx-highContrastTheme-dark {
+  @include forFeature('a11yMiniCartFocusOnMobile') {
+    @include media-breakpoint-down(md) {
+      a {
+        &:focus {
+          outline-offset: -4px;
+          outline-color: var(--cx-color-inverse);
+          box-shadow: 0 0 0 2px var(--cx-color-visual-focus) inset;
+        }
+      }
+    }
+  }
+
+  @include cx-highContrastTheme {
     a {
       color: var(--cx-color-medium);
     }

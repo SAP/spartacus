@@ -14,11 +14,13 @@
       ></cx-message>
     </div>
   </ng-container>
+  <cx-form-required-legend />
   <p class="cx-import-entries-subtitle">
     {{ 'importEntriesDialog.importProductsNewSavedCartSubtitle' | cxTranslate }}
   </p>
   <p>
     {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
+    <cx-form-required-asterisks />
   </p>
   <label>
     <cx-file-upload
@@ -37,6 +39,7 @@
     <label>
       <span class="cx-import-entries-label label-content">
         {{ 'importEntriesDialog.savedCartName' | cxTranslate }}
+        <cx-form-required-asterisks />
       </span>
       <input
         [maxLength]="nameMaxLength"
@@ -44,8 +47,13 @@
         formControlName="name"
         required
         type="text"
+        [attr.aria-describedby]="'nameError'"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        id="nameError"
+        aria-live="off"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
   </div>
 

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
@@ -8,19 +8,24 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
 
 const ATTR_NAME = 'name of attribute';
-const attr: Cpq.Attribute = {
+const attrBase: Cpq.Attribute = {
   name: ATTR_NAME,
   stdAttrCode: 11,
   pA_ID: 111,
   values: [],
 };
+let attr: Cpq.Attribute;
 
 const GRP_DESCR = 'description of tab';
 const GENERAL_GRP_DESCR = 'General';
+
 const tab: Cpq.Tab = {
   id: 1,
   displayName: GRP_DESCR,
-  attributes: [attr, { stdAttrCode: 12, pA_ID: 122, values: [] }],
+  attributes: [
+    structuredClone(attrBase),
+    { stdAttrCode: 12, pA_ID: 122, values: [] },
+  ],
 };
 
 const PRODUCT_CODE = 'PCODE';
@@ -35,7 +40,7 @@ const INCOMPLETE_MSG = 'incomplete message';
 
 const completeAndConsistentInput: Cpq.Configuration = {
   productSystemId: PRODUCT_CODE,
-  tabs: [tab, { id: 2 }],
+  tabs: [structuredClone(tab), { id: 2 }],
   currencyISOCode: 'USD',
   currencySign: '$',
   responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
@@ -139,7 +144,7 @@ class MockTranslationService {
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorOverviewNormalizer,
@@ -158,7 +163,8 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     serviceUnderTest = TestBed.inject(
       CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
     );
-  });
+    attr = structuredClone(attrBase);
+  }));
 
   it('should be created', () => {
     expect(serviceUnderTest).toBeDefined();
@@ -173,10 +179,13 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   });
 
   it('should set configuration id if provided', () => {
-    expect(
-      serviceUnderTest.convert({ ...input, configurationId: configurationId })
-        .configId
-    ).toBe(configurationId);
+    const inputWithConfigId = {
+      ...structuredClone(input),
+      configurationId: configurationId,
+    };
+    expect(serviceUnderTest.convert(inputWithConfigId).configId).toBe(
+      configurationId
+    );
   });
 
   it('should calculate total number of issues', () => {

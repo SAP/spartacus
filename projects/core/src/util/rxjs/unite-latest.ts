@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,7 @@ export function uniteLatest<R extends Observables>(
 ): Observable<ReturnTypes<R>> {
   return defer(() => {
     let subNo = 0;
-    const trigger = new Observable((subscriber) => {
+    const trigger = new Observable<void>((subscriber) => {
       const action = () => {
         subscriber.next();
         subscriber.complete();

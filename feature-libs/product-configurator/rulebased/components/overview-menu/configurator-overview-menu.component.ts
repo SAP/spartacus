@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-menu',
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   @HostBinding('style.height') height = this.getHeight();

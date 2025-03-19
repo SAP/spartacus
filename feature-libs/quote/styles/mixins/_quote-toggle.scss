@@ -4,6 +4,10 @@
     user-select: none;
     margin-bottom: 1rem;
 
+    @include forFeature('a11yCroppedFocusRing') {
+      width: fit-content;
+    }
+
     cx-icon {
       padding-inline-end: 5px;
     }

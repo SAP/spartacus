@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
   templateUrl: './product-variant-style-icons.component.html',
   styleUrls: ['./product-variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(

@@ -10,6 +10,8 @@
     "placed": "Placed",
     "placedBy": "Placed By",
     "unit": "Unit",
+    "quoteCode": "Quote ID {{id}}",
+    "quoteDetail": "Quote Detail",
     "costCenter": "Cost Center",
     "costCenterAndUnit": "Cost Center / Unit",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -130,7 +132,8 @@
       "AccountOrderHistoryComponent": "ALL ORDERS ({{param}})",
       "OrderReturnRequestListComponent": "RETURNS ({{param}})"
     },
-    "tabPanelContainerRegion": "Group with order history details"
+    "tabPanelContainerRegion": "Group with order history details",
+    "tabPanelContainerRegionGroup": "Group with order history details"
   },
   "returnRequestList": {
     "returnRequestId": "Return #",

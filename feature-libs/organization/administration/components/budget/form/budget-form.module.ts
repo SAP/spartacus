@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
-import { DatePickerModule, FormErrorsModule } from '@spartacus/storefront';
+import {
+  DatePickerModule,
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
 import { BudgetFormComponent } from './budget-form.component';
@@ -28,6 +33,8 @@ import { BudgetFormComponent } from './budget-form.component';
     ItemActiveModule,
     DatePickerModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [BudgetFormComponent],
 })

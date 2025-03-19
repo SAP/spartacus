@@ -1,5 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -77,7 +81,6 @@ describe('Cart effect', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
         StoreModule.forFeature(
@@ -89,7 +92,6 @@ describe('Cart effect', () => {
           fromCartReducers.getMultiCartReducers()
         ),
       ],
-
       providers: [
         {
           provide: CartConnector,
@@ -99,6 +101,8 @@ describe('Cart effect', () => {
         { provide: LoggerService, useClass: MockLoggerService },
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

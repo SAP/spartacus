@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,10 @@ import {
 import { Facet, FacetValue, FeatureConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
-import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import {
+  FocusDirective,
+  disableTabbingForTick,
+} from '../../../../../layout/a11y';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 
@@ -29,6 +32,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;
@@ -81,6 +85,8 @@ export class FacetComponent implements AfterViewInit {
   }
 
   /**
+   * @deprecated: Header will no longer be used in favour of TabComponent headers.
+   *
    * Handles clicking the heading of the facet group, which means toggling
    * the visibility of the group (collapse / expand) and optionally focusing
    * the group.
@@ -136,6 +142,8 @@ export class FacetComponent implements AfterViewInit {
     const targetIndex = this.values.toArray().findIndex((el) => {
       return el.nativeElement === event.target;
     });
+    // TODO: Left and Right arrow keys are disabled when setting a11yTabComponent.
+    // We can remove these in the future.
     switch (event.key) {
       case 'ArrowLeft':
         this.onArrowLeft(event);
@@ -149,16 +157,45 @@ export class FacetComponent implements AfterViewInit {
       case 'ArrowUp':
         this.onArrowUp(event, targetIndex);
         break;
+      case 'Tab':
+        this.onTabNavigation();
+        break;
     }
   }
 
+  /**
+   * If a11yTabComponent is enabled, we temporarily disable tabbing for the facet values.
+   * This is to use proper keyboard navigation keys(ArrowUp/ArrowDown) for navigating through the facet values.
+   */
+  protected onTabNavigation(): void {
+    if (!this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      return;
+    }
+    disableTabbingForTick(this.values.map((el) => el.nativeElement));
+  }
+
+  /**
+   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
+   */
   onArrowRight(event: Event): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      return;
+    }
+
     if (!this.isExpanded) {
       this.toggleGroup(event as UIEvent);
     }
   }
 
+  /**
+   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
+   */
   onArrowLeft(event: Event): void {
+    // Navigate to tab buttons when tab component enabled
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      return;
+    }
+
     if (this.isExpanded) {
       this.toggleGroup(event as UIEvent);
       this.facetHeader.nativeElement.focus();
@@ -166,6 +203,12 @@ export class FacetComponent implements AfterViewInit {
   }
 
   onArrowDown(event: Event, targetIndex: number): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      this.values.get(targetIndex + 1)?.nativeElement.focus();
+      return;
+    }
+
     if (this.isExpanded) {
       event.preventDefault();
       if (event.target === this.facetHeader.nativeElement) {
@@ -177,6 +220,12 @@ export class FacetComponent implements AfterViewInit {
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
+    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
+      event.preventDefault();
+      this.values.get(targetIndex - 1)?.nativeElement.focus();
+      return;
+    }
+
     if (this.isExpanded) {
       event.preventDefault();
       this.values.get(targetIndex - 1)?.nativeElement.focus();

@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Eksportuj do CSV",
+    "exportMessage": "Plik CSV zostanie automatycznie pobrany na urządzenie. Jeśli tak się nie stanie, sprawdź ustawienia przeglądarki.",
+    "columnNames": {
+      "code": "Kod",
+      "quantity": "Ilość",
+      "name": "Nazwa",
+      "price": "Cena"
+    },
+    "exportProductToCsv": "Eksportuj produkt do pliku CSV"
+  },
+  "importEntries": {
+    "importProducts": "Importuj produkty"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Importuj produkty",
+    "importProductsSubtitle": "Dodaj produkty, importując plik .CSV.",
+    "importProductsNewSavedCartSubtitle": "Dodaj produkty, importując plik .CSV i tworząc nowy zapisany koszyk.",
+    "importProductFileDetails": "Plik tekstowy powinien zawierać listę produktów z wymaganymi kolumnami oddzielonymi przecinkami: SKU i ilość.",
+    "selectFile": "Wybierz plik",
+    "selectedSuccessfully": "Plik CSV został wybrany.",
+    "savedCartName": "Zapisana nazwa koszyka",
+    "savedCartDescription": "Zapisany opis koszyka",
+    "optional": "opcjonalne",
+    "charactersLeft": "pozostało znaków: {{count}}",
+    "cancel": "Anuluj",
+    "upload": "Przekaż",
+    "close": "Zamknij",
+    "summary": {
+      "info": "Nie zamykaj ani nie odświeżaj tego okna podczas importowania produktów.",
+      "loadedToCart": "Produkty zostały wczytane do koszyka {{ cartName }}",
+      "loaded": "Produkty zostały wczytane",
+      "loading": "Trwa przetwarzanie produktów... ({{ count }}/{{ total }})",
+      "successes": "Zaimportowano {{ successesCount }} z {{ total }} produktów.",
+      "warning": "Nie zaimportowano całkowicie {{ count }} produktu.",
+      "warning_other": "Nie zaimportowano całkowicie {{ count }} produktów.",
+      "error": "Nie zaimportowano {{ count }} produktu.",
+      "error_other": "Nie zaimportowano {{ count }} produktów.",
+      "messages": {
+        "unknownIdentifier": "SKU produktu \"{{ productCode}}\" nie istnieje.",
+        "lowStock": "Ilość dla {{ productName }}: {{ quantity }} została zmniejszona do {{ quantityAdded }}.",
+        "noStock": "{{ productName }} jest obecnie niedostępny w magazynie.",
+        "unknownError": "Niezidentyfikowany problem z \"{{ productCode }}\".",
+        "limitExceeded": "Nie można dodać \"{{ productCode }}\". Przekroczono limit."
+      },
+      "show": "Pokaż",
+      "hide": "Ukryj"
+    }
+  }
+}

@@ -41,5 +41,6 @@
       "text-align": ["right", "left"]
     },
     "scss/comment-no-loud": true
-  }
+  },
+  "ignoreFiles": ["projects/storefrontstyles/vendor/**/*.scss"]
 }

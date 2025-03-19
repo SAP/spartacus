@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -27,6 +27,10 @@ import {
 } from '@spartacus/user/profile/root';
 import { config, Observable, of, throwError } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const userRegisterFormData: UserSignUp = {
@@ -35,7 +39,13 @@ const userRegisterFormData: UserSignUp = {
   lastName: 'lastName',
   uid: 'uid',
   password: 'password',
-  preferences: {},
+  preferences: {
+    others: {
+      survey: {
+        isConsentGranted: true,
+      },
+    },
+  },
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -84,6 +94,9 @@ class MockCdcConsentManagementService
   implements Partial<CdcConsentManagementComponentService>
 {
   getCdcConsentIDs = createSpy();
+  isConsentMandatory(_id: string): boolean {
+    return true;
+  }
 }
 class MockAnonymousConsentsService
   implements Partial<AnonymousConsentsService>
@@ -124,7 +137,7 @@ describe('CdcRegisterComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: Store, useValue: { dispatch: () => {} } },
@@ -154,6 +167,8 @@ describe('CdcRegisterComponentService', () => {
           useClass: MockAnonymousConsentsService,
         },
         CDCRegisterComponentService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -265,7 +280,13 @@ describe('CdcRegisterComponentService', () => {
             lastName: 'lastName',
             uid: 'uid',
             password: 'password',
-            preferences: {},
+            preferences: {
+              others: {
+                survey: {
+                  isConsentGranted: true,
+                },
+              },
+            },
           });
         },
       });
@@ -391,6 +412,7 @@ describe('CdcRegisterComponentService', () => {
       },
     ]);
     fb.array = createSpy().and.returnValue([]);
+    fb.group = createSpy().and.returnValue({});
     cdcUserRegisterService.generateAdditionalConsentsFormControl();
     expect(
       cdcUserRegisterService.fetchCdcConsentsForRegistration
@@ -398,6 +420,11 @@ describe('CdcRegisterComponentService', () => {
     expect(fb.array).toHaveBeenCalled();
   });
   it('loadAdditionalConsents', () => {
+    spyOn(cdcConsentManagementService, 'isConsentMandatory')
+      .withArgs('consent2.terms2')
+      .and.returnValue(false)
+      .withArgs('consent3.terms3')
+      .and.returnValue(true);
     spyOn(
       cdcUserRegisterService,
       'fetchCdcConsentsForRegistration'
@@ -422,7 +449,7 @@ describe('CdcRegisterComponentService', () => {
           id: 'consent2.terms2',
           description: 'sample consent 2',
         },
-        required: true,
+        required: false,
       },
       {
         template: {

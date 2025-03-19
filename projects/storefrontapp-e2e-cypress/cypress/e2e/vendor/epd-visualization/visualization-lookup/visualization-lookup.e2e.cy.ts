@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,11 @@ describe('in Spare Parts Tab', () => {
     });
 
     beforeEach(() => {
+      cy.cxConfig({
+        features: {
+          a11yTabComponent: false,
+        },
+      } as any);
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

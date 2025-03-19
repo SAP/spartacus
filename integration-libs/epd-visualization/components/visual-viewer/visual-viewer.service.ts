@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -593,11 +593,7 @@ export class VisualViewerService implements OnDestroy {
     this._navigationMode = navigationMode;
     this.executeWhenSceneLoaded(() => {
       if (this.drawerToolbar && this.viewport) {
-        // sap.ui.vk library will have a public API to set the navigation mode in a future UI5 version
-        (this.drawerToolbar as any)._activateGesture(
-          (this.viewport as any).getImplementation(),
-          navigationMode
-        );
+        this.drawerToolbar.setNavigationMode(navigationMode);
       }
     });
   }

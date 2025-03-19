@@ -11,7 +11,12 @@
           [class.disabled]="isDisabled(i)"
         >
           <a
-            [routerLink]="{ cxRoute: step.routeName } | cxUrl"
+            [routerLink]="
+              {
+                cxRoute: step.routeName,
+                params: [params$ | async],
+              } | cxUrl
+            "
             class="cx-link"
             [attr.aria-current]="isActive(i) ? 'step' : null"
             [attr.aria-disabled]="isDisabled(i) ? 'true' : null"

@@ -1,44 +1,63 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   HostBinding,
   HostListener,
+  inject,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
-  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FeatureConfigService,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import {
   FocusConfig,
   KeyboardFocusService,
+  SkipFocusConfig,
 } from '../a11y/keyboard-focus/index';
-import { SkipLinkComponent } from '../a11y/skip-link/index';
+import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
+  standalone: false,
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
+  focusConfig: FocusConfig = { disableMouseFocus: true, trap: false };
+  skipFocusConfig: SkipFocusConfig = {
+    isEnabled: false,
+    activeElementSelectors: ['button.cx-hamburger'],
+  };
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
 
   readonly StorefrontOutlets = StorefrontOutlets;
 
   private featureConfigService = inject(FeatureConfigService);
+  protected destroyRef = inject(DestroyRef);
+  @Optional() protected document = inject(DOCUMENT, {
+    optional: true,
+  });
+  @Optional() protected skipLinkService = inject(SkipLinkService, {
+    optional: true,
+  });
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
@@ -81,15 +100,16 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('a11yImproveContrast');
     useFeatureStyles('cmsBottomHeaderSlotUsingFlexStyles');
+    useFeatureStyles('headerLayoutForSmallerViewports');
+    useFeatureStyles('a11yPdpGridArrangement');
+    useFeatureStyles('a11yKeyboardFocusInSearchBox');
+    useFeatureStyles('a11yNgSelectLayering');
   }
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
       .isNavigating()
-      .subscribe((val) => {
-        this.startNavigating = val === true;
-        this.stopNavigating = val === false;
-      });
+      .subscribe((val) => this.onNavigation(val));
     if (
       this.featureConfigService.isEnabled(
         'a11yMobileFocusOnFirstNavigationItem'
@@ -102,6 +122,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
           }
         })
       );
+    }
+
+    if (this.featureConfigService.isEnabled('a11yHamburgerMenuTrapFocus')) {
+      this.trapFocusOnMenuIfExpanded();
     }
   }
 
@@ -119,9 +143,22 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     this.hamburgerMenuService.toggle(true);
   }
 
+  protected trapFocusOnMenuIfExpanded(): void {
+    this.isExpanded$
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe((isExpanded) => {
+        this.focusConfig = { ...this.focusConfig, trap: isExpanded };
+        this.skipFocusConfig = {
+          ...this.skipFocusConfig,
+          isEnabled: isExpanded,
+        };
+      });
+  }
+
   protected focusOnFirstNavigationItem() {
-    const closestNavigationUi =
-      this.elementRef.nativeElement.querySelector('cx-navigation-ui');
+    const closestNavigationUi = this.elementRef.nativeElement.querySelector(
+      'header cx-navigation-ui'
+    );
     const focusable = closestNavigationUi?.querySelector<HTMLElement>(
       'li:not(.back) button, [tabindex="0"]'
     );
@@ -133,6 +170,20 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.navigateSubscription) {
       this.navigateSubscription.unsubscribe();
+    }
+  }
+
+  protected onNavigation(isNavigating: boolean): void {
+    this.startNavigating = isNavigating === true;
+    this.stopNavigating = isNavigating === false;
+
+    // After clicking a link the focus should move to the first available item in the main content area.
+    if (
+      this.featureConfigService.isEnabled('a11yResetFocusAfterNavigating') &&
+      this.stopNavigating &&
+      this.document?.activeElement !== this.document?.body
+    ) {
+      this.skipLinkService?.scrollToTarget('cx-main');
     }
   }
 }

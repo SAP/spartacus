@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { user, getSampleUser } from '../sample-data/checkout-flow';
+import { user, getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
@@ -111,4 +111,18 @@ export function listenForTokenAuthenticationRequest(): string {
   }).as(aliasName);
 
   return `@${aliasName}`;
+}
+
+/**
+ * If the singed-in was successful, the user should be redirected to the home page.
+ * Thus, this method verifies whether the home page is displayed and
+ * the name of the signed-in user is visible next to the mini cart.
+ *
+ * @param user - logged-in user.
+ */
+export function checkUserIsSignedIn(user: SampleUser) {
+  const homePage = waitForPage('homepage', 'getHomePage');
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+  cy.get(userGreetSelector).should('exist');
+  cy.get(userGreetSelector).should('contain', user.fullName);
 }

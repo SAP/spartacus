@@ -1,0 +1,26 @@
+{
+  "opfCheckout": {
+    "tabs": {
+      "shipping": "Shipping",
+      "deliveryMethod": "Delivery Method",
+      "paymentAndReview": "Payment & Review"
+    },
+    "paymentAndReviewTitle": "Payment and review",
+    "billingAddress": "Billing Address",
+    "paymentOption": "Payment option",
+    "termsAndConditions": "Terms & Conditions",
+    "closeTermsAndConditionsAlert": "Close alert",
+    "itemsToBeShipped": "Items to be shipped",
+    "proceedPayment": "Place Order",
+    "defaultPaymentInfoMessage": "You are about to make a payment. Depending on the option selected, you will either be redirected to a secure external page or complete the process directly within this page",
+    "proceedPaymentButtonLabel": "Place Order, opens external page",
+    "retryPayment": "Retry to Continue",
+    "checkTermsAndConditionsExplicit": "You must agree Terms & Conditions to see available payment options.",
+    "checkTermsAndConditionsImplicit": "By submitting the order, you are agreeing to our Terms & Conditions.",
+    "errors": {
+      "loadActiveConfigurations": "We are unable to load payment options at this time. Please try again later.",
+      "noActiveConfigurations": "There are no payment options available at this time. Please try again later or contact support.",
+      "updateBillingAddress": "The address could not be updated. Please check that the address information is correct and that your device is connected to the internet. If the problem persists, you may need to clear your cart and start the checkout again."
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ export class ScriptLoader {
    * callback: a function to be invoked after the script has been loaded
    * errorCallback: function to be invoked after error during script loading
    * placement: HTML body or head where script will be placed
+   * disableKeyRestriction: disable the custom attributes restriction which requires key to start with 'data-'
    */
   public embedScript(embedOptions: {
     src: string;
@@ -39,6 +40,7 @@ export class ScriptLoader {
     callback?: EventListener;
     errorCallback?: EventListener;
     placement?: ScriptPlacement;
+    disableKeyRestriction?: boolean;
   }): void {
     const {
       src,
@@ -47,6 +49,7 @@ export class ScriptLoader {
       callback,
       errorCallback,
       placement = ScriptPlacement.HEAD,
+      disableKeyRestriction,
     } = embedOptions;
 
     const isSSR = isPlatformServer(this.platformId);
@@ -67,7 +70,10 @@ export class ScriptLoader {
     if (attributes) {
       Object.keys(attributes).forEach((key) => {
         // custom attributes
-        if (key.startsWith('data-')) {
+        if (
+          key.startsWith('data-') ||
+          (disableKeyRestriction && !(key in script))
+        ) {
           script.setAttribute(key, attributes[key as keyof object]);
         } else {
           (script as any)[key] = attributes[key as keyof object];
@@ -90,7 +96,7 @@ export class ScriptLoader {
   /**
    * Indicates if the script is already added to the DOM.
    */
-  protected hasScript(src?: string): boolean {
+  public hasScript(src?: string): boolean {
     return !!this.document.querySelector(`script[src="${src}"]`);
   }
 

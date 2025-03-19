@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,7 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
       useExisting: CurrentCostCenterService,
     },
   ],
+  standalone: false,
 })
 export class CostCenterFormComponent {
   form: UntypedFormGroup | null = this.itemService.getForm();

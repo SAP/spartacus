@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { AtMessageModule, IconModule } from '@spartacus/storefront';
+import {
+  AtMessageModule,
+  BtnLikeLinkModule,
+  IconModule,
+} from '@spartacus/storefront';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({
@@ -26,6 +30,7 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
     UrlModule,
     AtMessageModule,
     FeaturesConfigModule,
+    BtnLikeLinkModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

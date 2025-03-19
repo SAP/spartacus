@@ -615,6 +615,85 @@
       "@spartacus/omf": ["../../integration-libs/omf/public_api"],
       "@spartacus/omf/order": ["../../integration-libs/omf/order/public_api"],
       "@spartacus/omf/root": ["../../integration-libs/omf/root/public_api"],
+      "@spartacus/opf/base/components": [
+        "../../integration-libs/opf/base/components/public_api"
+      ],
+      "@spartacus/opf/base/core": [
+        "../../integration-libs/opf/base/core/public_api"
+      ],
+      "@spartacus/opf/base": ["../../integration-libs/opf/base/public_api"],
+      "@spartacus/opf/base/opf-api": [
+        "../../integration-libs/opf/base/opf-api/public_api"
+      ],
+      "@spartacus/opf/base/root": [
+        "../../integration-libs/opf/base/root/public_api"
+      ],
+      "@spartacus/opf/checkout/assets": [
+        "../../integration-libs/opf/checkout/assets/public_api"
+      ],
+      "@spartacus/opf/checkout/components": [
+        "../../integration-libs/opf/checkout/components/public_api"
+      ],
+      "@spartacus/opf/checkout": [
+        "../../integration-libs/opf/checkout/public_api"
+      ],
+      "@spartacus/opf/checkout/root": [
+        "../../integration-libs/opf/checkout/root/public_api"
+      ],
+      "@spartacus/opf/cta/components": [
+        "../../integration-libs/opf/cta/components/public_api"
+      ],
+      "@spartacus/opf/cta/core": [
+        "../../integration-libs/opf/cta/core/public_api"
+      ],
+      "@spartacus/opf/cta": ["../../integration-libs/opf/cta/public_api"],
+      "@spartacus/opf/cta/opf-api": [
+        "../../integration-libs/opf/cta/opf-api/public_api"
+      ],
+      "@spartacus/opf/cta/root": [
+        "../../integration-libs/opf/cta/root/public_api"
+      ],
+      "@spartacus/opf/global-functions/core": [
+        "../../integration-libs/opf/global-functions/core/public_api"
+      ],
+      "@spartacus/opf/global-functions": [
+        "../../integration-libs/opf/global-functions/public_api"
+      ],
+      "@spartacus/opf/global-functions/root": [
+        "../../integration-libs/opf/global-functions/root/public_api"
+      ],
+      "@spartacus/opf": ["../../integration-libs/opf/public_api"],
+      "@spartacus/opf/order": ["../../integration-libs/opf/order/public_api"],
+      "@spartacus/opf/payment/assets": [
+        "../../integration-libs/opf/payment/assets/public_api"
+      ],
+      "@spartacus/opf/payment/core": [
+        "../../integration-libs/opf/payment/core/public_api"
+      ],
+      "@spartacus/opf/payment": [
+        "../../integration-libs/opf/payment/public_api"
+      ],
+      "@spartacus/opf/payment/opf-api": [
+        "../../integration-libs/opf/payment/opf-api/public_api"
+      ],
+      "@spartacus/opf/payment/root": [
+        "../../integration-libs/opf/payment/root/public_api"
+      ],
+      "@spartacus/opf/quick-buy/components": [
+        "../../integration-libs/opf/quick-buy/components/public_api"
+      ],
+      "@spartacus/opf/quick-buy/core": [
+        "../../integration-libs/opf/quick-buy/core/public_api"
+      ],
+      "@spartacus/opf/quick-buy": [
+        "../../integration-libs/opf/quick-buy/public_api"
+      ],
+      "@spartacus/opf/quick-buy/opf-api": [
+        "../../integration-libs/opf/quick-buy/opf-api/public_api"
+      ],
+      "@spartacus/opf/quick-buy/root": [
+        "../../integration-libs/opf/quick-buy/root/public_api"
+      ],
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/s4-service/assets": [

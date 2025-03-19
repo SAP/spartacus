@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'cx-dp-confirmation-dialog',
   templateUrl: './dp-confirmation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

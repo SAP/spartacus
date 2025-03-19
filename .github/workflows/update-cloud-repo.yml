@@ -9,10 +9,13 @@ on:
         description: 'Enter your npm token'
         required: true
         secret: true
+      repo_url:
+        description: 'Enter the repository URL (default will be used if empty)'
+        required: false
+        secret: true
 
 env:
   CONFIG_DIR: scripts/install
-  REPO_URL: https://${{secrets.GH_TEMPORARY_TOKEN}}@github.com/SAP-samples/cloud-commerce-sample-setup.git
   NPM_REPO_URL: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/
   OCC_BACKEND_URL: OCC_BACKEND_BASE_URL_VALUE
 
@@ -20,8 +23,21 @@ jobs:
   run_script:
     runs-on: ubuntu-latest
     steps:
+      - name: Set REPO_URL
+        run: |
+          if [ -z "${{ inputs.repo_url }}" ]; then
+            REPO_URL="https://${{ secrets.GH_TEMPORARY_TOKEN }}@github.com/SAP-samples/cloud-commerce-sample-setup.git"
+          else
+            REPO_URL="${{ inputs.repo_url }}"
+          fi
+          echo "REPO_URL=$REPO_URL" >> $GITHUB_ENV
+      - name: Extract REPO_NAME from REPO_URL
+        id: extract-repo-name
+        run: |
+          REPO_NAME=$(echo $REPO_URL | sed -E 's|.*/(.*)\.git|\1|')
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Create storefronts
         run: |
           function setup_config_dir() {
@@ -116,8 +132,8 @@ jobs:
       - name: Commit changes
         run: |
           function clone_and_setup_repo() {
-            git clone $REPO_URL
-            cd cloud-commerce-sample-setup
+            git clone ${{ env.REPO_URL }}
+            cd ${{ env.REPO_NAME }}
 
             # Get the current date and time
             timestamp=$(date +%Y%m%d%H%M%S)
@@ -137,7 +153,7 @@ jobs:
             git add .
             git commit -m "Updated content of js-storefront/b2bspastore"
 
-            git push -u $REPO_URL
+            git push -u ${{ env.REPO_URL }}
           }
 
           clone_and_setup_repo
@@ -147,7 +163,7 @@ jobs:
       - name: Create Pull Request
         run: |
           curl -X POST -H "Authorization: token ${{ secrets.GH_TEMPORARY_TOKEN }}" -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/SAP-samples/cloud-commerce-sample-setup/pulls \
+            https://api.github.com/repos/SAP-samples/${{ env.REPO_NAME}}/pulls \
             -d '{
               "title": "Update js-storefronts content",
               "body": "This PR updates the content of the js-storefronts.",

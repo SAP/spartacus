@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import {
 @Component({
   selector: 'cx-configurator-overview-filter-dialog',
   templateUrl: './configurator-overview-filter-dialog.component.html',
+  standalone: false,
 })
 export class ConfiguratorOverviewFilterDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}

@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { CxEvent } from '@spartacus/core';
+import { CdcConsent } from '../consent-management';
 
 /**
  * Indicates the failure during the loading of the user token.
@@ -26,4 +27,5 @@ export class CdcReConsentEvent extends CxEvent {
   consentIds: string[];
   errorMessage: string;
   regToken: string;
+  preferences?: Record<string, CdcConsent>;
 }

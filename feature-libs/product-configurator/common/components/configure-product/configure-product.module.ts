@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  BtnLikeLinkModule,
   IconModule,
   OutletPosition,
   ProductListOutlets,
@@ -37,6 +38,7 @@ import { ConfigureProductComponent } from './configure-product.component';
     I18nModule,
     IconModule,
     FeaturesConfigModule,
+    BtnLikeLinkModule,
   ],
   providers: [
     provideOutlet({

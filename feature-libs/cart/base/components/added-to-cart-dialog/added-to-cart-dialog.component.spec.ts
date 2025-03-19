@@ -12,7 +12,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -101,6 +100,7 @@ const mockOrderEntries: OrderEntry[] = [
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -118,6 +118,7 @@ class MockRoutingService implements Partial<RoutingService> {
 @Component({
   selector: 'cx-cart-item',
   template: '',
+  standalone: false,
 })
 class MockCartItemComponent {
   @Input() compact = false;
@@ -129,6 +130,7 @@ class MockCartItemComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -147,7 +149,6 @@ describe('AddedToCartDialogComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
@@ -250,17 +251,14 @@ describe('AddedToCartDialogComponent', () => {
   it('should display loading placeholder', () => {
     component.loaded$ = of(false);
     fixture.detectChanges();
-    expect(
-      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('addToCart.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
 
-  it('should display quantity', () => {
+  it('should show item added to your cart dialog title message', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('addToCart.itemsAddedToYourCart');
+    ).toEqual('addToCart.itemAddedToYourCart');
   });
 
   it('should display cart item', () => {
@@ -320,29 +318,6 @@ describe('AddedToCartDialogComponent', () => {
       quantity: 50,
       entryNumber: 0,
     });
-  });
-
-  it('should show added dialog title message in case new entry appears in cart', () => {
-    component.entry$ = of(mockOrderEntries[0]);
-    component.loaded$ = of(true);
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([]));
-    fixture.detectChanges();
-    const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
-    expect(dialogTitleEl.textContent).toEqual(
-      ' addToCart.itemsAddedToYourCart '
-    );
-  });
-
-  it('should show increment dialog title message in case no new entry appears in cart', () => {
-    component.entry$ = of(mockOrderEntries[0]);
-    component.loaded$ = of(true);
-    component.addedEntryWasMerged$ = of(true);
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of(mockOrderEntries));
-    fixture.detectChanges();
-    const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
-    expect(dialogTitleEl.textContent).toEqual(
-      ' addToCart.itemsIncrementedInYourCart '
-    );
   });
 
   it('should not show cart entry', () => {

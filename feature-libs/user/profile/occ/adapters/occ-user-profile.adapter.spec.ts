@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -23,6 +23,10 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { OccUserProfileAdapter } from './occ-user-profile.adapter';
 import { Observable, of } from 'rxjs';
 import { CaptchaApiConfig, CaptchaRenderer } from '@spartacus/storefront';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 export const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -99,7 +103,7 @@ describe('OccUserProfileAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccUserProfileAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
@@ -109,6 +113,8 @@ describe('OccUserProfileAdapter', () => {
         },
         { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
         MockCaptchaService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -233,16 +239,15 @@ describe('OccUserProfileAdapter', () => {
         .subscribe((result) => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne((req) => {
-        return (
-          req.method === 'POST' &&
-          req.serializeBody() === `userId=${testUserId}`
-        );
+        return req.method === 'POST' && req.url === '/userRestoreToken';
       });
+
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'userForgotPassword'
+        'userRestoreToken'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.body).toEqual({ loginId: testUserId });
       mockReq.flush('');
     });
   });
@@ -301,18 +306,12 @@ describe('OccUserProfileAdapter', () => {
       const currentPassword = 'Qwe123!';
       const newUserId = 'tester@sap.com';
 
-      let result: Object;
-
       occUserAdapter
         .updateEmail(userId, currentPassword, newUserId)
-        .subscribe((value) => (result = value));
+        .subscribe();
 
       const mockReq = httpMock.expectOne((req) => {
-        return (
-          req.method === 'PUT' &&
-          req.serializeBody() ===
-            `password=${currentPassword}&newLogin=${newUserId}`
-        );
+        return req.method === 'POST' && req.url === '/userUpdateLoginId';
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
@@ -320,9 +319,11 @@ describe('OccUserProfileAdapter', () => {
         { urlParams: { userId } }
       );
       expect(mockReq.cancelled).toBeFalsy();
-
+      expect(mockReq.request.body).toEqual({
+        newLoginId: newUserId,
+        password: currentPassword,
+      });
       mockReq.flush('');
-      expect(result).toEqual('');
     });
   });
 
@@ -332,17 +333,12 @@ describe('OccUserProfileAdapter', () => {
       const oldPassword = 'OldPass123!';
       const newPassword = 'NewPass456!';
 
-      let result: Object;
-
       occUserAdapter
         .updatePassword(userId, oldPassword, newPassword)
-        .subscribe((value) => (result = value));
+        .subscribe();
 
       const mockReq = httpMock.expectOne((req) => {
-        return (
-          req.method === 'PUT' &&
-          req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
-        );
+        return req.method === 'POST' && req.url === '/userUpdatePassword';
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
@@ -351,8 +347,11 @@ describe('OccUserProfileAdapter', () => {
       );
 
       expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.body).toEqual({
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      });
       mockReq.flush('');
-      expect(result).toEqual('');
     });
   });
 

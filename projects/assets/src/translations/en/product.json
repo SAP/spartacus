@@ -2,6 +2,7 @@
   "productDetails": {
     "id": "ID",
     "quantity": "Qty",
+    "quantityFull": "Quantity",
     "productDetails": "Product Details",
     "specification": "Specs",
     "reviews": "Reviews",
@@ -45,7 +46,8 @@
     "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} items available",
     "decreaseOptionsVisibility": "Options were hidden from the active group, tab backward to read them or forward for the next group",
     "increaseOptionsVisibility": "More options were added to the active group, tab backward to read them or forward for the next group",
-    "backToResults": "Back To Results"
+    "backToResults": "Back To Results",
+    "productFacets": "Product Facets"
   },
   "productSummary": {
     "id": "ID",
@@ -74,6 +76,7 @@
     "carouselLabel": "Carousel, {{title}}"
   },
   "addToCart": {
+    "itemAddedToYourCart": "Item Added To Your Cart",
     "itemsAddedToYourCart": "Item(s) added to your cart",
     "itemsIncrementedInYourCart": "This item was already in your cart. The quantity was updated.",
     "items": "items",
@@ -82,6 +85,7 @@
     "viewCart": "view cart",
     "proceedToCheckout": "proceed to checkout",
     "quantity": "Qty",
+    "quantityFull": "Quantity",
     "outOfStock": "Out of stock",
     "inStock": "In stock",
     "selectStyleAndSize": "Select style and size to check stock",

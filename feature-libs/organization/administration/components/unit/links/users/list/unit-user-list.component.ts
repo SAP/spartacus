@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
       useExisting: UnitUserListService,
     },
   ],
+  standalone: false,
 })
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,10 @@ export function signOut() {
 export function verifyGlobalMessageAfterRegistration() {
   const alert = alerts.getSuccessAlert();
 
-  alert.should('contain', 'Please log in with provided credentials.');
+  alert.should(
+    'contain',
+    'Your account has been successfully created! Please log in with provided credentials'
+  );
   cy.location().should((location) => {
     expect(location.pathname).to.match(/\/login$/);
   });

@@ -196,8 +196,8 @@
       "iconIncomplete": "Group has required attributes without selected values.",
       "iconComplete": "Group is complete.",
       "iconSubGroup": "Group has a sub-group.",
-      "next": "Navigate to next group.",
-      "previous": "Navigate to previous group.",
+      "next": "Navigate to next group: {{ group }}",
+      "previous": "Navigate to previous group: {{ group }}",
       "showMoreProductInfo": "Show more information for product {{ product }} or continue to configuration.",
       "showLessProductInfo": "Show less information for product {{ product }} or continue to configuration.",
       "productName": "Product Name",
@@ -232,7 +232,7 @@
       "filterOverviewByGroup": "Filter configuration overview by group {{groupName}}",
       "closeConflictSolverModal": "Close conflict solver modal",
       "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page",
-      "description": "Click to see a description for this value"
+      "description": "Click to see a description for value {{ value }}"
     },
     "variantCarousel": {
       "title": "Pre-configured Versions"

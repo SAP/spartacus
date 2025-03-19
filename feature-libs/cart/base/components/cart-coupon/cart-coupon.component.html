@@ -6,14 +6,12 @@
         '!a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
       "
     >
-      <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-        {{ 'formLegend.required' | cxTranslate }}
-      </p>
+      <cx-form-required-legend />
     </ng-container>
 
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
-      <label class="cx-cart-coupon-title">
-        {{ 'voucher.coupon' | cxTranslate }}
+      <label id="card-coupon-input-label" class="cx-cart-coupon-title">
+        {{ 'voucher.addCoupon' | cxTranslate }}
         <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
         <ng-container
           *cxFeature="
@@ -22,7 +20,8 @@
         >
           <abbr
             *cxFeature="'a11yRequiredAsterisks'"
-            class="text-decoration-none"
+            aria-hidden="true"
+            class="text-decoration-none required-asterisk"
             title="{{ 'common.required' | cxTranslate }}"
             >*</abbr
           >
@@ -37,7 +36,7 @@
           "
         >
           <input
-            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            [attr.aria-labelledby]="'card-coupon-input-label'"
             type="text"
             class="form-control input-coupon-code"
             formControlName="couponCode"
@@ -62,7 +61,8 @@
         >
           <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
           <input
-            [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
+            [attr.aria-labelledby]="'card-coupon-input-label'"
+            [attr.aria-describedby]="'couponCodeError'"
             required="true"
             type="text"
             class="form-control input-coupon-code"
@@ -80,6 +80,8 @@
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
+            id="couponCodeError"
+            aria-live="off"
             [translationParams]="{
               label: 'voucher.placeholder' | cxTranslate,
             }"

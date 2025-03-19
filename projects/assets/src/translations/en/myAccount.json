@@ -63,6 +63,13 @@
     "findProducts": "Find Products",
     "status": "Status:",
     "dialogTitle": "Coupon",
+    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCouponCode": {
+      "label": "Coupon Code",
+      "placeholder": "Enter the coupon code to claim a coupon"
+    },
+    "reset": "RESET",
+    "claim": "CLAIM",
     "claimCustomerCoupon": "You have successfully claimed this coupon.",
     "myCoupons": "My coupons",
     "startDateAsc": "Start Date (ascending)",

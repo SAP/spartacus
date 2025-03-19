@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   Cart,
@@ -12,7 +12,12 @@ import {
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
+import {
+  isNotUndefined,
+  StateUtils,
+  UserIdService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of, timer } from 'rxjs';
 import {
   debounce,
@@ -27,6 +32,8 @@ import { MultiCartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class MultiCartService implements MultiCartFacade {
+  protected windowRef = inject(WindowRef);
+
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userIdService: UserIdService
@@ -85,7 +92,10 @@ export class MultiCartService implements MultiCartFacade {
    * Simple random temp cart id generator
    */
   protected generateTempCartId(): string {
-    const pseudoUuid = Math.random().toString(36).substring(2, 11);
+    const array = new Uint32Array(1);
+    // This will not work in SSR because 'window' is only available in the browser (client-side).
+    this.windowRef.nativeWindow?.crypto.getRandomValues(array);
+    const pseudoUuid = array[0].toString(36).substring(2, 11);
     return `temp-${pseudoUuid}`;
   }
 

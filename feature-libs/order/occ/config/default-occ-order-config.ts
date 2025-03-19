@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ export const defaultOccOrderConfig: OccConfig = {
         /* eslint-disable max-len */
         orderHistory: 'users/${userId}/orders',
         orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        quoteCode: 'users/${userId}/orders/${orderId}?fields=sapQuoteCode',
         consignmentTracking:
           'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
         cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
@@ -37,6 +38,8 @@ export const defaultOccOrderConfig: OccConfig = {
 
         /** placing an order endpoints start **/
         placeOrder: 'users/${userId}/orders?fields=FULL',
+        placePaymentAuthorizedOrder:
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
         /** placing an order endpoints end **/
       },
     },

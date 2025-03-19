@@ -21,6 +21,7 @@
     <button
       *ngIf="!isShowStyleChangesInASM"
       class="cx-asm-reset"
+      [attr.title]="'asm.bindCart.resetCartId' | cxTranslate"
       [attr.aria-label]="'asm.bindCart.resetCartId' | cxTranslate"
       [class.visible]="cartId.value?.length > 0"
       (click)="clearText()"

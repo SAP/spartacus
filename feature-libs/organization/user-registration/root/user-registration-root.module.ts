@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,11 @@ export function defaultOrganizationUserRegistrationComponentsConfig(): CmsConfig
   const config: CmsConfig = {
     featureModules: {
       [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
-        cmsComponents: ['OrganizationUserRegistrationComponent'],
+        cmsComponents: [
+          'OrganizationUserRegistrationComponent',
+          'RegisterB2BCustomerWithOTPComponent',
+          'VerifyOTPForB2BRegistrationComponent',
+        ],
       },
     },
   };

@@ -1,11 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { StaticProvider } from '@angular/core';
-import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
+import {
+  CommonEngineOptions,
+  CommonEngineRenderOptions,
+} from '@angular/ssr/node';
 import { Request, Response } from 'express';
 import { REQUEST, RESPONSE } from '../tokens/express.tokens';
 import { CxCommonEngine } from './cx-common-engine';

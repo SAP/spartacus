@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
+  FeaturesConfigModule,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
@@ -17,6 +18,7 @@ import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-clos
 import {
   FileUploadModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
   IconModule,
   KeyboardFocusModule,
   SpinnerModule,
@@ -34,6 +36,8 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
     FormErrorsModule,
     FileUploadModule,
     SpinnerModule,
+    FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
   ],
   providers: [
     CustomerTicketingCloseComponentService,

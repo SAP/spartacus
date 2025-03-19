@@ -3,6 +3,8 @@
     <div class="cx-navigate-image">
       <button
         class="btn btn-link"
+        [attr.aria-label]="'productImageZoomDialog.previousSlide' | cxTranslate"
+        [attr.title]="'productImageZoomDialog.previousSlide' | cxTranslate"
         *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
         (click)="openImage(previousProduct.container)"
       >
@@ -81,6 +83,8 @@
     <div class="cx-navigate-image">
       <button
         class="btn btn-link"
+        [attr.aria-label]="'productImageZoomDialog.nextSlide' | cxTranslate"
+        [attr.title]="'productImageZoomDialog.nextSlide' | cxTranslate"
         *ngIf="getNextProduct(thumbs) | async as nextProduct"
         (click)="openImage(nextProduct.container)"
       >

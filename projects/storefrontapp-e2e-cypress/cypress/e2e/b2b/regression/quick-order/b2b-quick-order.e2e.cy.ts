@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,24 @@ import * as sampleData from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Quick Order', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
+    beforeEach(() => {
+      clearAllStorage();
+    });
+    describe('Quick Order Page', () => {
+      beforeEach(() => {
+        quickOrder.visitQuickOrderPage();
+      });
+      it('should add product to the list', () => {
+        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+        quickOrder.verifyQuickOrderListQuantity(1);
+      });
+    });
+  });
+});
+
+context('B2B - Quick Order', () => {
+  viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
     });

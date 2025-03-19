@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'cxMediaSources',
+  standalone: false,
 })
 export class MediaSourcesPipe implements PipeTransform {
   transform(sizes: string) {
