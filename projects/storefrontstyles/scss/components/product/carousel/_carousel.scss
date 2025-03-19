@@ -99,6 +99,9 @@
       @include forFeature('a11yFocusableCarouselControls') {
         @include visible-focus();
       }
+      @include forFeature('a11yVisibleFocusOverflows') {
+        z-index: 10;
+      }
     }
     color: var(--cx-color-inverse);
 

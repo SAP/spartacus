@@ -1,4 +1,8 @@
 %cx-configurator-product-title {
+  @include forFeature('a11yWideScreenImprovements') {
+    background-color: var(--cx-color-background);
+    box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+  }
   &:not(:empty) {
     @include media-breakpoint-up(lg) {
       width: 1140px;
@@ -13,6 +17,10 @@
       flex-direction: row;
       justify-content: center;
       background-color: var(--cx-color-background);
+      @include forFeature('a11yWideScreenImprovements') {
+        background-color: unset;
+      }
+
       margin-block-end: 15px;
     }
 
@@ -23,7 +31,12 @@
       padding-inline-end: 0px;
       padding-block-start: 15px;
       padding-block-end: 15px;
-      box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+      @include forFeature('a11yWideScreenImprovements') {
+        box-shadow: unset;
+        justify-content: center;
+        max-width: 1140px;
+        margin: auto;
+      }
 
       .cx-title {
         font-weight: bold;

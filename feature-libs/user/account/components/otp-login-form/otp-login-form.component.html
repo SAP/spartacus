@@ -2,13 +2,11 @@
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <label>
     <span class="label-content">
       {{ 'loginForm.emailAddress.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      <cx-form-required-asterisks />
     </span>
     <input
       required="true"
@@ -28,7 +26,7 @@
   <label>
     <span class="label-content">
       {{ 'loginForm.password.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      <cx-form-required-asterisks />
     </span>
     <input
       required="true"
@@ -59,13 +57,3 @@
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
