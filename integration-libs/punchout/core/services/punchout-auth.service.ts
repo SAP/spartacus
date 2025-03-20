@@ -14,7 +14,8 @@ import {
   GlobalMessageType,
   UserIdService,
 } from '@spartacus/core';
-import { from, map, Observable, of, switchMap, take } from 'rxjs';
+import { PunchoutStoreService } from '@spartacus/punchout/root';
+import { from, map, Observable, of, switchMap, take, tap } from 'rxjs';
 
 const ACCESS_TOKEN = 'access_token';
 const ACCESS_TOKEN_STORED_AT = 'access_token_stored_at';
@@ -26,10 +27,12 @@ export class PunchoutAuthService {
   protected authStorageService = inject(AuthStorageService);
   protected userIdService = inject(UserIdService);
   protected store = inject(Store);
+  protected punchoutStoreService = inject(PunchoutStoreService);
 
   logout(): Observable<boolean> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
+      tap(() => this.punchoutStoreService.clearPunchoutState()),
       switchMap((isLoggedIn) => {
         return isLoggedIn
           ? from(this.authService.coreLogout()).pipe(

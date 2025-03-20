@@ -22,7 +22,7 @@ import { PunchoutDetectionService } from './punchout-detection.service';
   providedIn: 'root',
 })
 export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
-  protected punchoutInitService = inject(PunchoutDetectionService);
+  protected punchoutDetectionService = inject(PunchoutDetectionService);
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
@@ -52,7 +52,7 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
    * To be removed once CXSPA-9608 is closed.
    */
   public handleExpiredRefreshToken(): void {
-    if (!this.punchoutInitService.isPunchoutSessionPage()) {
+    if (!this.punchoutDetectionService.isPunchoutSessionPage()) {
       super.handleExpiredRefreshToken();
     } else {
       this.authService.coreLogout().finally(() => {

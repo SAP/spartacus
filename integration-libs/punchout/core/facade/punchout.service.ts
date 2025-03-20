@@ -12,6 +12,8 @@ import {
   PunchoutFacade,
   PunchoutRequisition,
   PunchoutSession,
+  PunchoutSessionInput,
+  PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
 import {
@@ -32,6 +34,7 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutAuthService = inject(PunchoutAuthService);
   protected commandService = inject(CommandService);
   protected routingService = inject(RoutingService);
+  protected punchoutStoreService = inject(PunchoutStoreService);
 
   /**
    * getPunchoutSession workflow:
@@ -42,51 +45,62 @@ export class PunchoutService implements PunchoutFacade {
    * Redirect to Punchout Error page if error occurs
    */
   protected getPunchoutSessionCommand: Command<
-    { sessionId: string },
+    PunchoutSessionInput,
     PunchoutSession
   > = this.commandService.create((payload) => {
-    if (!payload?.sessionId) {
+    if (!payload?.punchoutSessionId) {
       this.displayErrorPage();
       return throwError(() => new Error('Punchout Session Id missing'));
     }
-    return this.punchoutConnector.getPunchoutSession(payload.sessionId).pipe(
-      map((punchoutSession) => {
-        if (
-          !punchoutSession?.token?.accessToken ||
-          !punchoutSession?.customerId
-        ) {
-          throw new Error('Punchout login info missing');
-        }
-        return punchoutSession;
-      }),
-      switchMap((punchoutSession) => {
-        return forkJoin({
-          punchoutSession: of(punchoutSession),
-          logout: this.punchoutAuthService.logout(),
-        });
-      }),
-      map(({ punchoutSession }) => {
-        if (punchoutSession?.token?.accessToken) {
-          this.punchoutAuthService.loginWithToken(
-            punchoutSession.token.accessToken,
-            punchoutSession.customerId
-          );
-          this.routeToTargetPage(punchoutSession);
-        } else {
-          throw new Error('Punchout Access Token missing');
-        }
+    return this.punchoutConnector
+      .getPunchoutSession(payload.punchoutSessionId)
+      .pipe(
+        map((punchoutSession) => {
+          if (
+            !punchoutSession?.token?.accessToken ||
+            !punchoutSession?.customerId
+          ) {
+            throw new Error('Punchout login info missing');
+          }
+          return punchoutSession;
+        }),
+        switchMap((punchoutSession) => {
+          return forkJoin({
+            punchoutSession: of(punchoutSession),
+            logout: this.punchoutAuthService.logout(),
+          });
+        }),
+        map(({ punchoutSession }) => {
+          if (punchoutSession?.token?.accessToken) {
+            this.punchoutAuthService.loginWithToken(
+              punchoutSession.token.accessToken,
+              punchoutSession.customerId
+            );
 
-        return punchoutSession;
-      }),
-      catchError((error) => {
-        this.displayErrorPage();
-        return throwError(() => new Error(error));
-      })
-    );
+            this.punchoutStoreService.setPunchoutState({
+              punchoutSessionId: payload.punchoutSessionId,
+              punchoutSession: { ...punchoutSession },
+            });
+            if (!payload?.isPageRefresh) {
+              this.routeToTargetPage(punchoutSession);
+            }
+          } else {
+            throw new Error('Punchout Access Token missing');
+          }
+
+          return punchoutSession;
+        }),
+        catchError((error) => {
+          this.displayErrorPage();
+          return throwError(() => new Error(error));
+        })
+      );
   });
 
-  getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
-    return this.getPunchoutSessionCommand.execute({ sessionId });
+  getPunchoutSession(
+    punchoutSessionInput: PunchoutSessionInput
+  ): Observable<PunchoutSession> {
+    return this.getPunchoutSessionCommand.execute(punchoutSessionInput);
   }
 
   getPunchoutSessionRequisition(

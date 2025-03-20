@@ -27,7 +27,7 @@ export class PunchoutSessionComponent implements OnInit {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe((param: Params) => {
       const punchoutSessionId = param?.[PUNCHOUT_SESSION_KEY];
       this.punchoutFacade
-        .getPunchoutSession(punchoutSessionId)
+        .getPunchoutSession({ punchoutSessionId })
         .pipe(take(1))
         .subscribe();
     });

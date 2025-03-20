@@ -8,7 +8,11 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PUNCHOUT_FEATURE } from '../feature-name';
-import { PunchoutRequisition, PunchoutSession } from '../model/punchout.model';
+import {
+  PunchoutRequisition,
+  PunchoutSession,
+  PunchoutSessionInput,
+} from '../model/punchout.model';
 
 export function punchoutFacadeFactory() {
   return facadeFactory({
@@ -27,7 +31,9 @@ export abstract class PunchoutFacade {
    * Abstract method used to get Punchout Session
    * @param sessionId is the sesssion Id given by ARIBA via url param
    */
-  abstract getPunchoutSession(sessionId: string): Observable<PunchoutSession>;
+  abstract getPunchoutSession(
+    punchoutSessionInput: PunchoutSessionInput
+  ): Observable<PunchoutSession>;
 
   /**
    * Abstract method used to get Punchout Session Requisition data

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import {
   AuthHttpHeaderService,
   CmsConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
+import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
@@ -24,8 +25,19 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   return config;
 }
 
+export function opfStatePersistenceFactory(): () => void {
+  const punchoutPersistenceService = inject(PunchoutStatePersistanceService);
+  return () => punchoutPersistenceService.initSync();
+}
+
 @NgModule({
   providers: [
+    provideAppInitializer(() => {
+      const punchoutPersistenceService = inject(
+        PunchoutStatePersistanceService
+      );
+      punchoutPersistenceService.initSync();
+    }),
     provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig),
     {
       provide: AuthHttpHeaderService,
