@@ -26,6 +26,7 @@ import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import '@spartacus/checkout/b2b/root';
 
 @Component({
   selector: 'cx-review-submit',
