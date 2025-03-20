@@ -15,6 +15,7 @@ class MockLocation implements Partial<Location> {
 describe('PunchoutDetectionService', () => {
   let service: PunchoutDetectionService;
   let location: Location;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
