@@ -14,7 +14,7 @@ declare global {
        *
        * @param configPath - Path to the Continuum configuration file
        */
-      a11yContinuumSetup(configPath: string): Chainable<void>;
+      a11yContinuumSetup(configPath?: string): Chainable<void>;
 
       /**
        * Verifies Access Engine is loaded and runs all accessibility tests.
