@@ -19,6 +19,10 @@ export class PunchoutStoreService {
     this.INITIAL_STATE
   );
 
+  getPunchoutSessionId(): string | undefined {
+    return this.punchoutState?.value?.punchoutSessionId;
+  }
+
   getPunchoutState(): Observable<PunchoutState> {
     return this.punchoutState.asObservable();
   }
