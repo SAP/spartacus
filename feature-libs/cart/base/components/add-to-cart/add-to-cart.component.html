@@ -43,7 +43,6 @@
     "
     type="submit"
     [disabled]="disabled || quantity <= 0 || quantity > maxQuantity"
-    [attr.aria-describedby]="productCode + '_header'"
   >
     <span
       *ngIf="

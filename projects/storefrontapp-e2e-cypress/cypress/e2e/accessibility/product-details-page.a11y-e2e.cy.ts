@@ -5,7 +5,7 @@
  */
 
 import * as siteContextSelector from '../../helpers/site-context-selector';
-import { checkA11yConcerns } from './continuum.example-e2e.cy';
+import { checkA11yConcerns } from '../../support/utils/a11y-continuum.utils';
 /**
  * This test checks accessibility concerns on the PDP page using Access Continuum
  */
@@ -29,7 +29,7 @@ context('Product Details Page Accessibility', () => {
     });
 
     // Run accessibility tests but don't fail the test if concerns are found
-    checkA11yConcerns(false);
+    checkA11yConcerns();
   });
 
   describe('PDP with Reviews', () => {
@@ -48,6 +48,6 @@ context('Product Details Page Accessibility', () => {
     });
 
     // Run accessibility tests but don't fail the test if concerns are found
-    checkA11yConcerns(false);
+    checkA11yConcerns();
   });
 });
