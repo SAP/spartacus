@@ -109,7 +109,7 @@
 
       cx-card {
         flex-grow: 1;
-        padding-right: 2rem;
+        padding: 0 2rem 0 0;
       }
     }
 
@@ -162,7 +162,7 @@
 
       cx-card {
         flex-grow: 1;
-        padding-right: 2rem;
+        padding: 0 2rem 0 0;
       }
 
       @include media-breakpoint-down(md) {
@@ -207,25 +207,7 @@
     }
 
     cx-card {
-      padding-right: 2rem;
-    }
-  }
-
-  // Apply to shipping and delivery cards
-  .cx-shipping-and-delivery-info-cards {
-    .cx-review-summary-card {
-      button {
-        @extend %edit-button-styles;
-      }
-    }
-  }
-
-  // Apply to payment and review wrapper
-  .cx-payment-and-review-cards-wrapper {
-    > * {
-      button {
-        @extend %edit-button-styles;
-      }
+      padding: 0 2rem 0 0;
     }
   }
 }
