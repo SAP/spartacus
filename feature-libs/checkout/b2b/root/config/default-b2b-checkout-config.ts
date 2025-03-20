@@ -3,8 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import '../model/augmented-types';
 import {
   CheckoutConfig,
   CheckoutStepType,
