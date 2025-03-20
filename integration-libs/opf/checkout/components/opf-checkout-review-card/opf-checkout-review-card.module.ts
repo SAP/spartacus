@@ -9,18 +9,18 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { CardModule, IconModule } from '@spartacus/storefront';
-import { OpfB2bCheckoutPurchaseOrderNumberComponent } from './opf-b2b-checkout-purchase-order-number.component';
+import { OpfCheckoutReviewCardComponent } from './opf-checkout-review-card.component';
 
 @NgModule({
-  declarations: [OpfB2bCheckoutPurchaseOrderNumberComponent],
   imports: [
     CommonModule,
     RouterModule,
+    I18nModule,
     CardModule,
     IconModule,
-    I18nModule,
     UrlModule,
   ],
-  exports: [OpfB2bCheckoutPurchaseOrderNumberComponent],
+  declarations: [OpfCheckoutReviewCardComponent],
+  exports: [OpfCheckoutReviewCardComponent],
 })
-export class OpfB2bCheckoutPurchaseOrderNumberModule {}
+export class OpfCheckoutReviewCardModule {}

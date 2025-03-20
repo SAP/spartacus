@@ -10,9 +10,7 @@ $opf-checkout-components: (
   cx-opf-checkout-billing-address-form,
   cx-opf-checkout-payment-wrapper,
   cx-opf-checkout-payments,
-  cx-opf-checkout-terms-and-conditions-alert,
-  cx-opf-b2b-checkout-payment-method,
-  cx-opf-b2b-checkout-purchase-order-number,
+  cx-opf-checkout-terms-and-conditions-alert
 ) !default;
 
 // components
@@ -20,4 +18,4 @@ $opf-checkout-components: (
   #{$selector} {
     @extend %#{$selector} !optional;
   }
-} 
+}

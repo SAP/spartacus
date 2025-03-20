@@ -31,8 +31,7 @@ import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
-import { OpfB2bCheckoutPurchaseOrderNumberModule } from '../b2b/opf-b2b-checkout-purchase-order-number/opf-b2b-checkout-purchase-order-number.module';
-import { OpfB2bCheckoutPaymentMethodModule } from '../b2b/opf-b2b-checkout-payment-method/opf-b2b-checkout-payment-method.module';
+import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-checkout-review-card.module';
 
 @NgModule({
   declarations: [OpfCheckoutPaymentAndReviewComponent],
@@ -51,8 +50,7 @@ import { OpfB2bCheckoutPaymentMethodModule } from '../b2b/opf-b2b-checkout-payme
     CardModule,
     OpfCheckoutTermsAndConditionsAlertModule,
     OpfCheckoutPaymentWrapperModule,
-    OpfB2bCheckoutPurchaseOrderNumberModule,
-    OpfB2bCheckoutPaymentMethodModule,
+    OpfCheckoutReviewCardModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

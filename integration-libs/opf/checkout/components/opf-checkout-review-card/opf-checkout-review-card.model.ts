@@ -4,5 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-b2b-checkout-components.module';
-export * from './opf-b2b-checkout-payment-type/index';
+export interface OpfCheckoutReviewCardEditConfig {
+  route?: string;
+  ariaLabelKey?: string;
+}

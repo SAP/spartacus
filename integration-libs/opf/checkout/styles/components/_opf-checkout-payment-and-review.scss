@@ -84,11 +84,33 @@
     .cx-review-summary-card {
       display: flex;
       flex: 1;
+      position: relative;
       border: 1px solid #d3d6db;
       border-radius: 10px;
-      justify-content: space-between;
       padding: 1.75rem;
       background-color: #ffffff;
+
+      button {
+        position: absolute;
+        top: 1.75rem;
+        right: 1.75rem;
+        color: var(--cx-color-primary);
+        outline: none;
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        margin: 0;
+
+        cx-icon {
+          color: inherit;
+        }
+      }
+
+      cx-card {
+        flex-grow: 1;
+        padding-right: 2rem;
+      }
     }
 
     .cx-card-title {
@@ -100,6 +122,110 @@
     display: none;
     @include media-breakpoint-down(md) {
       display: block;
+    }
+  }
+
+  .cx-payment-and-review-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    > * {
+      flex: 1 1 calc(50% - 1rem);
+      min-width: 250px;
+      max-width: 100%;
+      display: block;
+      position: relative;
+      margin-bottom: 0;
+      border: 1px solid var(--cx-color-medium);
+      padding: 1.75rem;
+      border-radius: 10px;
+      background-color: #ffffff;
+
+      button {
+        position: absolute;
+        top: 1.75rem;
+        right: 1.75rem;
+        color: var(--cx-color-primary);
+        outline: none;
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        margin: 0;
+
+        cx-icon {
+          color: inherit;
+        }
+      }
+
+      cx-card {
+        flex-grow: 1;
+        padding-right: 2rem;
+      }
+
+      @include media-breakpoint-down(md) {
+        flex: 1 1 100%;
+        margin-top: 0;
+      }
+
+      .cx-card-body {
+        padding: 0;
+      }
+    }
+
+    > *:last-child:nth-child(odd) {
+      flex: 1 1 100%;
+    }
+  }
+
+  // Common button styles for all edit icons
+  %edit-button-styles {
+    position: absolute;
+    top: 1.75rem;
+    right: 1.75rem;
+    color: var(--cx-color-primary);
+    outline: none;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    margin: 0;
+
+    cx-icon {
+      color: inherit;
+    }
+  }
+
+  // Apply to billing address
+  cx-opf-checkout-billing-address-form {
+    position: relative;
+
+    button {
+      @extend %edit-button-styles;
+    }
+
+    cx-card {
+      padding-right: 2rem;
+    }
+  }
+
+  // Apply to shipping and delivery cards
+  .cx-shipping-and-delivery-info-cards {
+    .cx-review-summary-card {
+      button {
+        @extend %edit-button-styles;
+      }
+    }
+  }
+
+  // Apply to payment and review wrapper
+  .cx-payment-and-review-cards-wrapper {
+    > * {
+      button {
+        @extend %edit-button-styles;
+      }
     }
   }
 }

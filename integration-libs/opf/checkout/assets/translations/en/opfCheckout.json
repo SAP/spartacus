@@ -11,6 +11,7 @@
     "paymentOption": "Payment option",
     "paymentMethod": "Method of Payment",
     "noPaymentMethod": "No payment method selected",
+    "editCardDefaultLabel": "Edit",
     "editPaymentMethod": "Edit payment method",
     "poNumber": "Purchase Order Number",
     "noPoNumber": "None",
