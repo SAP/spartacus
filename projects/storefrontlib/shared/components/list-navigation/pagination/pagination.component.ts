@@ -5,17 +5,12 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
   Optional,
   Output,
-  QueryList,
-  ViewChildren,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -35,10 +30,7 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class PaginationComponent implements AfterViewInit, OnDestroy {
-  @ViewChildren('paginationButton') paginationButtons!: QueryList<ElementRef>;
-
-  private observer: MutationObserver;
+export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
   @Input() pageRoute: string = '.';
 
@@ -50,15 +42,7 @@ export class PaginationComponent implements AfterViewInit, OnDestroy {
    * will omit the page number in routeLink or parameters.
    */
   @Input() defaultPage: number | undefined;
-  @Input() paginationId: string;
-  @Input() focusState: {
-    lastFocusedPageNumber: number | null;
-    lastClickedPaginationId: string | null;
-  };
-  @Output() updateFocusState = new EventEmitter<{
-    paginationId: string;
-    pageNumber: number;
-  }>();
+
   private _pagination: PaginationModel;
   get pagination(): PaginationModel {
     return this._pagination;
@@ -73,7 +57,7 @@ export class PaginationComponent implements AfterViewInit, OnDestroy {
    * If more than one pagination is present on a page, a unique id should be set for each instance.
    * This ensures the focus can be preserved after navigating to a different page.
    */
-  @Input() paginationID: string = 'pagination';
+  @Input() paginationID: String = 'pagination';
 
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
@@ -199,51 +183,7 @@ export class PaginationComponent implements AfterViewInit, OnDestroy {
     return queryParams;
   }
 
-  pageChange(page: PaginationItem, paginationButton: HTMLElement): void {
+  pageChange(page: PaginationItem): void {
     this.viewPageEvent.emit(page.number);
-
-    this.updateFocusState.emit({
-      paginationId: this.paginationId,
-      pageNumber: page.number || 0,
-    });
-
-    paginationButton.focus({ preventScroll: true });
-  }
-
-  private restoreFocus(): void {
-    if (
-      this.focusState.lastClickedPaginationId === this.paginationId &&
-      this.focusState.lastFocusedPageNumber !== null
-    ) {
-      const buttonToFocus = this.paginationButtons.find(
-        (el) =>
-          Number(el.nativeElement.innerText.trim()) ===
-          (this.focusState.lastFocusedPageNumber || 0) + 1
-      );
-
-      if (buttonToFocus) {
-        buttonToFocus.nativeElement.focus();
-        buttonToFocus.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-  }
-
-  ngAfterViewInit(): void {
-    this.observer = new MutationObserver(() => {
-      if (this.focusState.lastClickedPaginationId === this.paginationId) {
-        this.restoreFocus();
-      }
-    });
-
-    this.observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
   }
 }

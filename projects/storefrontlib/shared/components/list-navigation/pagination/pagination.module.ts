@@ -12,7 +12,7 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { KeyboardFocusModule } from '@spartacus/storefront';
+import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus';
 import { defaultPaginationConfig } from './config/index';
 import { PaginationComponent } from './pagination.component';
 
