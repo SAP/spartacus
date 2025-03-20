@@ -12,6 +12,8 @@ import {
   OnInit,
   inject,
   output,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -83,6 +85,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   onPaymentChange = output<OpfActiveConfiguration>();
 
+  @Output() selectedPaymentProviderName = new EventEmitter<string>();
+
   getActiveConfigurations(): Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   > {
@@ -112,6 +116,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
               if (this.isOnlyOnePaymentOptionAvailable) {
                 this.selectedPaymentId = state.data?.value[0]?.id;
+                const providerName = state.data?.value[0]?.displayName;
+                if (providerName) {
+                  this.selectedPaymentProviderName.emit(providerName);
+                }
               }
 
               this.opfMetadataStoreService.updateOpfMetadata({

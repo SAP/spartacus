@@ -4,14 +4,6 @@
   } as explicitTermsAndConditions"
 >
   <div class="cx-payment-and-review-cards-wrapper">
-    <!-- <cx-opf-checkout-review-card
-      *ngIf="paymentMethod$ | async as paymentMethod"
-      [cardContent$]="getPaymentMethodCard(paymentMethod)"
-      [editConfig]="{
-        route: getCheckoutStepUrl(checkoutStepTypePaymentType),
-        ariaLabelKey: 'checkoutReview.editPaymentMethod',
-      }"
-    ></cx-opf-checkout-review-card> -->
     <cx-opf-checkout-review-card
       [cardContent$]="getPoNumberCard(poNumber$ | async)"
       [editConfig]="{
@@ -19,7 +11,15 @@
         ariaLabelKey: 'checkoutReview.editPoNumber',
       }"
     ></cx-opf-checkout-review-card>
-
+    <cx-opf-checkout-review-card
+      [cardContent$]="
+        getPaymentMethodNameCard(selectedPaymentProviderName$ | async)
+      "
+      [editConfig]="{
+        route: getCheckoutStepUrl(checkoutStepTypePaymentType),
+        ariaLabelKey: 'checkoutReview.editPaymentMethod',
+      }"
+    ></cx-opf-checkout-review-card>
     <cx-opf-checkout-review-card
       [cardContent$]="getDeliveryAddressCard(deliveryAddress$ | async)"
       [editConfig]="{
@@ -105,42 +105,11 @@
   <!-- detect for b2b -->
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
+    (selectedPaymentProviderName)="onPaymentProviderSelected($event)"
   ></cx-opf-checkout-payments>
 
-  <!-- CART ITEM SECTION -->
-  <ng-container *ngIf="cart$ | async as cart">
-    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
-      {{
-        'cartItems.cartTotal'
-          | cxTranslate: { count: cart.deliveryItemsQuantity }
-      }}:
-      {{ cart.totalPrice?.formattedValue }}
-    </div>
-    <div
-      class="cx-review-cart-item col-md-12"
-      *ngIf="entries$ | async as entries"
-    >
-      <cx-promotions
-        [promotions]="
-          (cart.appliedOrderPromotions || []).concat(
-            cart.potentialOrderPromotions || []
-          )
-        "
-      ></cx-promotions>
-
-      <div class="cx-items-to-ship-label">
-        {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
-      </div>
-
-      <ng-template
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: entries,
-          readonly: true,
-          promotionLocation: promotionLocation,
-        }"
-      >
-      </ng-template>
-    </div>
-  </ng-container>
+  <cx-opf-checkout-review-cart-details
+    [cart]="cart$ | async"
+    [entries]="entries$ | async"
+  ></cx-opf-checkout-review-cart-details>
 </ng-container>

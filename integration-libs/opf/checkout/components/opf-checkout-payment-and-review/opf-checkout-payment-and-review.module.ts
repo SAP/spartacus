@@ -32,6 +32,7 @@ import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-checkout-review-card.module';
+import { OpfCheckoutReviewCartDetailsModule } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
 
 @NgModule({
   declarations: [OpfCheckoutPaymentAndReviewComponent],
@@ -51,6 +52,7 @@ import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-che
     OpfCheckoutTermsAndConditionsAlertModule,
     OpfCheckoutPaymentWrapperModule,
     OpfCheckoutReviewCardModule,
+    OpfCheckoutReviewCartDetailsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -62,5 +64,6 @@ import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-che
       },
     }),
   ],
+  exports: [OpfCheckoutPaymentAndReviewComponent],
 })
 export class OpfCheckoutPaymentAndReviewModule {}

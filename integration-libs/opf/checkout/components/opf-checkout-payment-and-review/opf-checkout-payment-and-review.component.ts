@@ -24,7 +24,14 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import { Observable, take, map, filter, combineLatest } from 'rxjs';
+import {
+  Observable,
+  take,
+  map,
+  filter,
+  combineLatest,
+  BehaviorSubject,
+} from 'rxjs';
 import { Card } from '@spartacus/storefront';
 
 @Component({
@@ -44,6 +51,10 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected opfBaseFacade = inject(OpfBaseFacade);
 
   protected defaultTermsAndConditionsFieldValue = false;
+
+  protected selectedPaymentProviderName$ = new BehaviorSubject<
+    string | undefined
+  >(undefined);
 
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
     .getCurrentPage()
@@ -107,6 +118,19 @@ export class OpfCheckoutPaymentAndReviewComponent
       map((data) => data?.selectedPaymentOptionId)
     );
 
+  getPaymentMethodNameCard(methodName?: string): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('opfCheckout.paymentMethod'),
+      this.translationService.translate('opfCheckout.noPaymentMethod'),
+    ]).pipe(
+      map(([title, noPaymentMethod]) => ({
+        title,
+        textBold: methodName ?? noPaymentMethod,
+        text: [],
+      }))
+    );
+  }
+
   protected isCmsComponentInPage(cmsComponentUid: string, page: Page): boolean {
     return !!page && JSON.stringify(page).includes(cmsComponentUid);
   }
@@ -119,6 +143,10 @@ export class OpfCheckoutPaymentAndReviewComponent
 
   toggleTermsAndConditions() {
     this.updateTermsAndConditionsState();
+  }
+
+  onPaymentProviderSelected(providerName: string) {
+    this.selectedPaymentProviderName$.next(providerName);
   }
 
   ngOnInit() {
