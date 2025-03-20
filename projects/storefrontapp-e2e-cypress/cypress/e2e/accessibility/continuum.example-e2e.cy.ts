@@ -11,7 +11,7 @@ context('Access Continuum', () => {
   before(() => {
     // Continuum only needs to be set up once per testing context;
     // the page under test can change without having to set up Continuum again
-    cy.a11yContinuumSetup('cypress/continuum.conf.ts');
+    cy.a11yContinuumSetup();
   });
 
   describe('Homepage', () => {

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { select, ActionsSubject } from '@ngrx/store';
+import { Observable, filter, take } from 'rxjs';
 import { ProductSearchPage, Suggestion } from '../../model/index';
 import { SearchConfig } from '../model/index';
 import { ProductActions } from '../store/actions/index';
@@ -17,6 +17,8 @@ import { ProductSearchService } from './product-search.service';
   providedIn: 'root',
 })
 export class SearchboxService extends ProductSearchService {
+  private actionsSubject = inject(ActionsSubject);
+
   /**
    * dispatch the search for the search box
    */
@@ -29,6 +31,24 @@ export class SearchboxService extends ProductSearchService {
         },
         true
       )
+    );
+  }
+
+  /**
+   * Performs search and returns an Observable that emits when the search is completed
+   */
+  searchWithCompletion(
+    query: string,
+    searchConfig?: SearchConfig
+  ): Observable<boolean> {
+    this.search(query, searchConfig);
+    return this.actionsSubject.pipe(
+      filter(
+        (action: any) =>
+          action.type === ProductActions.SEARCH_PRODUCTS_SUCCESS ||
+          action.type === ProductActions.SEARCH_PRODUCTS_FAIL
+      ),
+      take(1)
     );
   }
 
@@ -57,6 +77,24 @@ export class SearchboxService extends ProductSearchService {
         term: query,
         searchConfig: searchConfig,
       })
+    );
+  }
+
+  /**
+   * Performs suggestions search and returns an Observable that emits when the operation is completed
+   */
+  searchSuggestionsWithCompletion(
+    query: string,
+    searchConfig?: SearchConfig
+  ): Observable<boolean> {
+    this.searchSuggestions(query, searchConfig);
+    return this.actionsSubject.pipe(
+      filter(
+        (action: any) =>
+          action.type === ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS ||
+          action.type === ProductActions.GET_PRODUCT_SUGGESTIONS_FAIL
+      ),
+      take(1)
     );
   }
 }
