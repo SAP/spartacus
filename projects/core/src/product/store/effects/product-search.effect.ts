@@ -47,9 +47,8 @@ export class ProductsSearchEffects {
                     this.logger
                   );
                   if (
-                    normalizedError?.details &&
-                    normalizedError.details[0].type ===
-                      'ArrayIndexOutOfBoundsError'
+                    normalizedError?.details?.[0].type ===
+                    'ArrayIndexOutOfBoundsError'
                   ) {
                     this.globalMessageService.add(
                       { key: 'searchBox.queryError' },
