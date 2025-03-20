@@ -22,7 +22,7 @@ case "$param" in
   "b2b")
     export E2E_BASE_SITE="powertools-spa"
     export ENDPOINT_URL_PUBLIC_SPARTACUS=$ENDPOINT_URL_PUBLIC_SPA_POWERTOOLS 
-    export E2ES_TO_RUN="$CYPRESS_B2B_OTP_FOLDER/b2b-otp*.e2e*.cy.ts"
+    export E2ES_TO_RUN="$CYPRESS_B2B_OTP_FOLDER/b2b-otp*e2e*.cy.ts"
     ;;
   "b2c")
     export E2E_BASE_SITE="electronics-spa"
