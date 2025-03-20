@@ -83,7 +83,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  onPaymentChange = output<OpfActiveConfiguration>();
+  paymentChange = output<OpfActiveConfiguration>();
 
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
@@ -198,7 +198,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
-    this.onPaymentChange.emit(payment);
+    this.paymentChange.emit(payment);
   }
 
   getPaginationModel(
