@@ -69,6 +69,11 @@ export class PaginationComponent implements AfterViewInit, OnDestroy {
       this.render(value);
     }
   }
+  /**
+   * If more than one pagination is present on a page, a unique id should be set for each instance.
+   * This ensures the focus can be preserved after navigating to a different page.
+   */
+  @Input() paginationID: String = 'pagination';
 
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
