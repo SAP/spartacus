@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   SecurityContext,
 } from '@angular/core';
@@ -26,6 +27,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
+  sanitizer = inject(DomSanitizer);
+
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
@@ -33,7 +36,6 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
 
   constructor(
     protected cdRef: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
   ) {}
 
   ngAfterViewInit(): void {

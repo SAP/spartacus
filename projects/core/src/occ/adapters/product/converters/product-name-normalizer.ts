@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, SecurityContext } from '@angular/core';
+import { inject, Injectable, SecurityContext } from '@angular/core';
 import { Product } from '../../../../model/product.model';
 import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
@@ -13,9 +13,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
+  sanitizer = inject(DomSanitizer);
+
   constructor(
-    protected config: OccConfig,
-    private sanitizer: DomSanitizer
+    protected config: OccConfig
   ) {}
 
   convert(source: Occ.Product, target?: Product): Product {

@@ -52,7 +52,6 @@ describe('ConfiguratorShowMoreComponent', () => {
     );
   });
 
-  // removed unit testing because now i used sanitized dom and i did unit testing for this
   it('should remove HTML tags from input text', () => {
     sanitizerSpy.sanitize.and.returnValue('Sanitized Text');
 
