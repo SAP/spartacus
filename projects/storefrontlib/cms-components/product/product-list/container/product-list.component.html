@@ -33,11 +33,7 @@
                     [pagination]="model.pagination"
                     queryParam="currentPage"
                     [defaultPage]="0"
-                    paginationId="top"
-                    [focusState]="paginationFocusState"
-                    (updateFocusState)="
-                      setPaginationFocus($event.paginationId, $event.pageNumber)
-                    "
+                    paginationID="product-list-pagination-top"
                   ></cx-pagination>
                 </div>
               </div>
@@ -107,11 +103,7 @@
                     [pagination]="model.pagination"
                     queryParam="currentPage"
                     [defaultPage]="0"
-                    paginationId="bottom"
-                    [focusState]="paginationFocusState"
-                    (updateFocusState)="
-                      setPaginationFocus($event.paginationId, $event.pageNumber)
-                    "
+                    paginationID="product-list-pagination-bottom"
                   ></cx-pagination>
                 </div>
               </div>

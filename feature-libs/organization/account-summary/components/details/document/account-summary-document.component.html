@@ -47,6 +47,7 @@
             <cx-pagination
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"
+              paginationID="account-summary-document-pagination-top"
             ></cx-pagination>
           </div>
         </div>
@@ -254,6 +255,7 @@
             <cx-pagination
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"
+              paginationID="account-summary-document-pagination-bottom"
             ></cx-pagination>
           </div>
         </div>

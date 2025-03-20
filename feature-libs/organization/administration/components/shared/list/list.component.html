@@ -137,11 +137,7 @@
         <cx-pagination
           [pagination]="data.pagination"
           (viewPageEvent)="browse($any(data.pagination), $event)"
-          paginationId="top"
-          [focusState]="paginationFocusState"
-          (updateFocusState)="
-            setPaginationFocus($event.paginationId, $event.pageNumber)
-          "
+          paginationID="list-pagination"
         ></cx-pagination>
       </div>
     </cx-view>

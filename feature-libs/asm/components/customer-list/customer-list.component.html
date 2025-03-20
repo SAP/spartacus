@@ -243,6 +243,7 @@
           <div *ngIf="customerSearchPage$ | async as customerSearchPage">
             <cx-pagination
               [pagination]="customerSearchPage.pagination"
+              paginationID="customer-list-pagination"
               (viewPageEvent)="changePage($event)"
             ></cx-pagination>
           </div>
