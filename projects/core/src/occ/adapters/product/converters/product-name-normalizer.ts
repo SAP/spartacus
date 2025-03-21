@@ -9,7 +9,7 @@ import { Product } from '../../../../model/product.model';
 import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { SanitizeService } from 'projects/core/src/config/services/sanitize.service';
+import { SanitizeService } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {

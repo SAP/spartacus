@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../../config/occ-config';
 import { ProductNameNormalizer } from './product-name-normalizer';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SanitizeService } from 'projects/core/src/config/services/sanitize.service';
+import { SanitizeService } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {

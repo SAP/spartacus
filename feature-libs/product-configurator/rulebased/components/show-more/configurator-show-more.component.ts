@@ -12,7 +12,7 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { SanitizeService } from 'projects/core/src/config/services/sanitize.service';
+import { SanitizeService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-show-more',
