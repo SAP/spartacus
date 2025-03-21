@@ -109,7 +109,7 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
-    service['onRead'](mockPunchoutState);
+    service['onRead'](mockPunchoutState.punchoutSessionId);
 
     expect(punchoutFacade.getPunchoutSession).toHaveBeenCalled();
   });
@@ -121,7 +121,7 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
-    service['onRead'](mockPunchoutState);
+    service['onRead'](mockPunchoutState.punchoutSessionId);
     expect(punchoutFacade.getPunchoutSession).not.toHaveBeenCalled();
   });
 
@@ -132,7 +132,7 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
-    service['onRead']({ ...mockPunchoutState, punchoutSessionId: undefined });
+    service['onRead'](undefined);
     expect(punchoutFacade.getPunchoutSession).not.toHaveBeenCalled();
   });
 
@@ -148,9 +148,7 @@ describe('PunchoutStatePersistenceService', () => {
     );
     service['getPunchoutSessionId']().subscribe({
       next: (response) => {
-        expect(response).toEqual({
-          punchoutSessionId: mockPunchoutState.punchoutSessionId,
-        });
+        expect(response).toEqual(mockPunchoutState.punchoutSessionId);
         done();
       },
     });
@@ -162,9 +160,7 @@ describe('PunchoutStatePersistenceService', () => {
     );
     service['getPunchoutSessionId']().subscribe({
       next: (response) => {
-        expect(response).toEqual({
-          punchoutSessionId: mockPunchoutState.punchoutSessionId,
-        });
+        expect(response).toEqual(mockPunchoutState.punchoutSessionId);
         done();
       },
     });
@@ -189,7 +185,7 @@ describe('PunchoutStatePersistenceService', () => {
     );
     service['getPunchoutSessionId']().subscribe({
       next: (response) => {
-        expect(response).toEqual({});
+        expect(response).toEqual('');
         done();
       },
     });
