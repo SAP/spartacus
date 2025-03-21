@@ -66,10 +66,11 @@ export class ProductLoadingService {
     }
 
     for (const scope of scopes) {
-      if (isValidKey(productCode)) {
-        if (!Object.prototype.hasOwnProperty.call(this.products, productCode)) {
-          this.products[productCode] = {};
-        }
+      if (
+        !Object.prototype.hasOwnProperty.call(this.products, productCode) &&
+        isValidKey(productCode)
+      ) {
+        this.products[productCode] = {};
       }
 
       if (!this.products[productCode][scope]) {
