@@ -60,9 +60,7 @@ describe('ProductNameNormalizer', () => {
 
     const result = service.convert({ name: '<b>Unsafe Name</b>' });
 
-    expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
-      '<b>Unsafe Name</b>'
-    );
+    expect(sanitizerSpy.bypass).toHaveBeenCalledWith('<b>Unsafe Name</b>');
     expect(result.name).toEqual('Sanitized Name'); // Ensure sanitized name is returned
   });
 

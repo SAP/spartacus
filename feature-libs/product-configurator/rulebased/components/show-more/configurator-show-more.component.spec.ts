@@ -56,9 +56,7 @@ describe('ConfiguratorShowMoreComponent', () => {
 
     const result = component.normalize('<b>Sanitized Text</b>');
 
-    expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
-      '<b>Sanitized Text</b>'
-    );
+    expect(sanitizerSpy.bypass).toHaveBeenCalledWith('<b>Sanitized Text</b>');
     expect(result).toEqual('Sanitized Text');
   });
 
