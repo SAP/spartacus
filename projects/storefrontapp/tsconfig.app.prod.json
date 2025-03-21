@@ -340,6 +340,13 @@
       "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/subscription-billing/assets": [
+        "dist/subscription-billing/assets"
+      ],
+      "@spartacus/subscription-billing": ["dist/subscription-billing"],
+      "@spartacus/subscription-billing/root": [
+        "dist/subscription-billing/root"
+      ],
       "@spartacus/tracking": ["dist/tracking"],
       "@spartacus/tracking/personalization/core": [
         "dist/tracking/personalization/core"
