@@ -53,13 +53,13 @@ export class PunchoutStatePersistanceService implements OnDestroy {
    * Used to update state from browser -> state.
    * storage stores minimum data: only punchoutSessionId.
    * Full PunchoutSession object is retrieved by calling punchoutFacade.getPunchoutSession
-   * Note that punchoutState is updated within punchoutFacade.getPunchoutSession, thus no need to do it here.
    */
   protected onRead(state: PunchoutState | undefined) {
     if (
       state?.punchoutSessionId &&
       !this.punchoutDetectionService.isPunchoutSessionPage()
     ) {
+      this.punchoutStoreService.setPunchoutState(state);
       this.punchoutFacade
         .getPunchoutSession({
           punchoutSessionId: state?.punchoutSessionId,
