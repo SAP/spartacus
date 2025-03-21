@@ -15,9 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   sanitizer = inject(DomSanitizer);
 
-  constructor(
-    protected config: OccConfig
-  ) {}
+  constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
     target = target ?? { ...(source as unknown as Partial<Product>) };

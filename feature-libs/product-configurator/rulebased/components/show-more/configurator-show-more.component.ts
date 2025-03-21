@@ -34,9 +34,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   @Input() productName: string;
   @Input() tabIndex = -1;
 
-  constructor(
-    protected cdRef: ChangeDetectorRef,
-  ) {}
+  constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);
