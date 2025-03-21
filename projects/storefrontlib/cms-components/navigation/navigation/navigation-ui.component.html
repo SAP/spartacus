@@ -14,7 +14,11 @@
       </button>
     </li>
 
-    <ng-container *ngFor="let child of node?.children">
+    <!-- SPIKE NEW - use RxFor to cut tasks -->
+    <ng-container
+      *rxFor="let child of node?.children; trackBy: 'title'"
+      rxForStrategy="low"
+    >
       <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
       </ng-container>
     </ng-container>

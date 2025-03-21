@@ -1,1 +1,23 @@
-@import "./prevent-loading-inactive-carousel-images";
+@import './prevent-loading-inactive-carousel-images';
+
+// SPIKE NEW - fix padding on searchbox - to avoid CLS
+// cx-searchbox {
+//   label {
+//     @include media-breakpoint-down(sm) {
+//       padding-top: 0 !important;
+//       padding-bottom: 0 !important;
+//     }
+//   }
+// }
+// header {
+//   .SearchBox {
+//     @include media-breakpoint-down(sm) {
+//       margin-top: 0 !important;
+//       margin-bottom: 0 !important;
+//     }
+//   }
+
+//   @include media-breakpoint-down(sm) {
+//     height: 57px;
+//   }
+// }

@@ -4,10 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { OutletContextData } from '../../outlet/outlet.model';
+import { PageLayoutComponentService } from './page-layout-component.service';
 import { PageLayoutService } from './page-layout.service';
 
 @Component({
@@ -33,6 +40,11 @@ export class PageLayoutComponent {
     switchMap((section) => this.pageLayoutService.getSlots(section))
   );
 
+  // SPIKE NEW - add trackby function
+  trackByFn(_index: number, slot: string) {
+    return slot;
+  }
+
   readonly pageFoldSlot$: Observable<string | undefined> =
     this.templateName$.pipe(
       switchMap((templateName) =>
@@ -40,6 +52,18 @@ export class PageLayoutComponent {
       ),
       distinctUntilChanged()
     );
+
+  protected outletContextData = inject(OutletContextData, {
+    optional: true,
+  });
+  protected pageLayoutComponentService = inject(PageLayoutComponentService);
+
+  shouldRenderSync(): Observable<boolean> {
+    return this.pageLayoutComponentService.shouldRenderSync(
+      this.layoutName$,
+      this.templateName$
+    );
+  }
 
   constructor(protected pageLayoutService: PageLayoutService) {
     useFeatureStyles('a11yOrganizationsBanner');
