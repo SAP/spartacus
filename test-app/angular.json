@@ -99,6 +99,12 @@
             "noSsr": {
               "ssr": false,
               "prerender": false
+            },
+            "prerender": {
+              "prerender": {
+                "discoverRoutes": false,
+                "routesFile": "prerender-routes.txt"
+              }
             }
           },
           "defaultConfiguration": "production"
@@ -111,6 +117,12 @@
             },
             "development": {
               "buildTarget": "test-ng19-performance-improvements:build:development,noSsr"
+            },
+            "ssr-development": {
+              "buildTarget": "test-ng19-performance-improvements:build:development"
+            },
+            "ssr-production": {
+              "buildTarget": "test-ng19-performance-improvements:build:production"
             }
           },
           "defaultConfiguration": "development"
