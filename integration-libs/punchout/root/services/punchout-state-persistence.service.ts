@@ -44,14 +44,11 @@ export class PunchoutStatePersistanceService implements OnDestroy {
       map((punchoutState) => {
         if (punchoutState?.punchoutSessionId) {
           this.hasPunchoutStarted = true;
+          return punchoutState?.punchoutSessionId;
         }
         // With 'undefined' value, no key/value gets modified or created, it keeps the storage cleaned when Punchout is unused.
         // Note that StatePersistenceService does not allow to delete key/value once it has been created.
-        return punchoutState?.punchoutSessionId
-          ? punchoutState?.punchoutSessionId
-          : this.hasPunchoutStarted
-            ? ''
-            : undefined;
+        return this.hasPunchoutStarted ? '' : undefined;
       })
     );
   }
