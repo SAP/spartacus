@@ -11,9 +11,8 @@ import {
   Component,
   inject,
   Input,
-  SecurityContext,
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { SanitizeService } from 'projects/core/src/config/services/sanitize.service';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -27,7 +26,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
-  sanitizer = inject(DomSanitizer);
+  sanitizer = inject(SanitizeService);
 
   @Input() text: string;
   @Input() textSize = 60;
@@ -59,9 +58,6 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   normalize(text: string = ''): string {
-    return (
-      this.sanitizer.sanitize(SecurityContext.HTML, text) ||
-      ''.replace(/<[^>]*>/g, '')
-    );
+    return this.sanitizer.bypass(text).toString() || ''.replace(/<[^>]*>/g, '');
   }
 }

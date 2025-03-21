@@ -3,23 +3,22 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
-import { DomSanitizer } from '@angular/platform-browser';
+import { SanitizeService } from 'projects/core/src/config/services/sanitize.service';
 
 describe('ConfiguratorShowMoreComponent', () => {
   let component: ConfiguratorShowMoreComponent;
   let fixture: ComponentFixture<ConfiguratorShowMoreComponent>;
   let htmlElem: HTMLElement;
-  let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
+  let sanitizerSpy: jasmine.SpyObj<SanitizeService>;
 
   beforeEach(waitForAsync(() => {
-    sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
-      'sanitize',
-      'bypassSecurityTrustHtml',
+    sanitizerSpy = jasmine.createSpyObj<SanitizeService>('SanitizeService', [
+      'bypass',
     ]);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfiguratorShowMoreComponent],
-      providers: [{ provide: DomSanitizer, useValue: sanitizerSpy }],
+      providers: [{ provide: SanitizeService, useValue: sanitizerSpy }],
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {
@@ -53,11 +52,11 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should remove HTML tags from input text', () => {
-    sanitizerSpy.sanitize.and.returnValue('Sanitized Text');
+    sanitizerSpy.bypass.and.returnValue('Sanitized Text');
 
     const result = component.normalize('<b>Sanitized Text</b>');
 
-    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+    expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
       SecurityContext.HTML,
       '<b>Sanitized Text</b>'
     );
@@ -65,7 +64,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should return an empty string when input is null', () => {
-    sanitizerSpy.sanitize.and.returnValue(null);
+    sanitizerSpy.bypass.and.returnValue(null);
 
     const result = component.normalize(null as unknown as string);
 
@@ -73,7 +72,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should return an empty string when input is undefined', () => {
-    sanitizerSpy.sanitize.and.returnValue(undefined);
+    sanitizerSpy.bypass.and.returnValue(undefined);
 
     const result = component.normalize(undefined as unknown as string);
 
@@ -81,7 +80,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should return the same text if there are no HTML elements', () => {
-    sanitizerSpy.sanitize.and.returnValue('Plain Text');
+    sanitizerSpy.bypass.and.returnValue('Plain Text');
 
     const result = component.normalize('Plain Text');
 
@@ -89,7 +88,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should remove script tags to prevent XSS', () => {
-    sanitizerSpy.sanitize.and.returnValue('Safe Content');
+    sanitizerSpy.bypass.and.returnValue('Safe Content');
 
     const result = component.normalize(
       '<script>alert("XSS Attack")</script>Safe Content'
@@ -99,7 +98,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should handle special characters properly', () => {
-    sanitizerSpy.sanitize.and.returnValue('Text & Special Chars ©');
+    sanitizerSpy.bypass.and.returnValue('Text & Special Chars ©');
 
     const result = component.normalize('Text & Special Chars ©');
 
