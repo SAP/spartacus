@@ -63,7 +63,6 @@ export class PunchoutStatePersistanceService implements OnDestroy {
    * Full PunchoutSession object is retrieved by calling punchoutFacade.getPunchoutSession
    */
   protected onRead(state: PunchoutState | undefined) {
-    console.log('onRead', state);
     if (
       state?.punchoutSessionId &&
       !this.punchoutDetectionService.isPunchoutSessionPage()
