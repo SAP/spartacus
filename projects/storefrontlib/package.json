@@ -25,7 +25,8 @@
     "@ngrx/store": "^19.0.1",
     "@spartacus/core": "2211.37.0",
     "ngx-infinite-scroll": "^19.0.0",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "sanitize-html": "^2.14.0"
   },
   "engines": {
     "node": "^22.0.0"

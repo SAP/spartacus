@@ -11,6 +11,7 @@ import {
   Component,
   Input,
 } from '@angular/core';
+import sanitizeHtml from 'sanitize-html';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -54,6 +55,6 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   protected normalize(text: string = ''): string {
-    return text.replace(/<[^>]*>/g, '');
+    return sanitizeHtml(text);
   }
 }

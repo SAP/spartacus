@@ -79,36 +79,7 @@ describe('ConfiguratorShowMoreComponent', () => {
     expect(component.textToShow).toBe(component.text);
   });
 
-  describe('Sanitization of suspicious input', () => {
-    const suspiciousTextWithFormatting =
-      '<h1>Digital camera</h1> is a great product <p> <script';
-    const suspiciousTextWithoutFormatting =
-      'Digital camera is a great product  <script';
-    const sanitizedText = 'Digital camera is a great product';
-
-    it('does not happen through method normalize because that is meant for removing HTML tags for better readibility', () => {
-      component.text = suspiciousTextWithFormatting;
-      component.ngAfterViewInit();
-      fixture.detectChanges();
-      expect(component.textNormalized).toBe(suspiciousTextWithoutFormatting);
-      expect(component['normalize'](suspiciousTextWithFormatting)).toBe(
-        suspiciousTextWithoutFormatting
-      );
-    });
-
-    it('should happen on view', () => {
-      component.text = suspiciousTextWithFormatting;
-      component.ngAfterViewInit();
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        'span',
-        sanitizedText
-      );
-    });
-  });
+  //remooved "Sanitization of suspicious input" tests because i added sanitize-html library
 
   describe('Accessibility', () => {
     beforeEach(() => {
