@@ -170,7 +170,20 @@ describe('PunchoutStatePersistenceService', () => {
     });
   });
 
-  it('should getPunchoutSessionId stores empty object', (done) => {
+  it('should getPunchoutSessionId stores undefined when punchout has not started yet', (done) => {
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of({ ...mockPunchoutState, punchoutSessionId: undefined })
+    );
+    service['getPunchoutSessionId']().subscribe({
+      next: (response) => {
+        expect(response).toEqual(undefined);
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionId stores empty object when punchout has already started', (done) => {
+    service['hasPunchoutStarted'] = true;
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of({ ...mockPunchoutState, punchoutSessionId: undefined })
     );
