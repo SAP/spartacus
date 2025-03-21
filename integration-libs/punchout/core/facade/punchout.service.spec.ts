@@ -163,15 +163,53 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should getPunchoutSession opens home page when no product item', (done) => {
+  it('should getPunchoutSession opens home page when no product item and CREATE Level ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
-      of({ ...mockPunchoutSessionResponse, selectedItem: '' })
+      of({
+        ...mockPunchoutSessionResponse,
+        punchOutOperation: PunchOutOperation.CREATE,
+        selectedItem: '',
+      })
     );
 
     service.getPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith('/');
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSession opens cart page when no product item and EDIT Level ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSession').and.returnValue(
+      of({
+        ...mockPunchoutSessionResponse,
+        selectedItem: '',
+      })
+    );
+
+    service.getPunchoutSession(mockSessionInput).subscribe({
+      next: () => {
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSession opens pdp when selectedItem is present ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSession').and.returnValue(
+      of(mockPunchoutSessionResponse)
+    );
+
+    service.getPunchoutSession(mockSessionInput).subscribe({
+      next: () => {
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'product',
+          params: { code: mockPunchoutSessionResponse.selectedItem },
+        });
         done();
       },
     });

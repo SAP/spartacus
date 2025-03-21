@@ -10,6 +10,7 @@ export const PUNCHOUT_SESSION_ID = 'punchoutSessionId';
 export const PUNCHOUT_SESSION_PAGE_URL = '/punchout/cxml/session';
 export const PUNCHOUT_STORAGE_KEY = 'punchout';
 export const PUNCHOUT_OCC_API_URL_SEGMENT = 'punchout/sessions';
+export const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
 
 export enum PunchOutLevel {
   STORE = 'store',
@@ -19,10 +20,10 @@ export enum PunchOutLevel {
 }
 
 export enum PunchOutOperation {
-  CREATE = 'create',
-  EDIT = 'edit',
-  INSPECT = 'inspect',
-  SOURCE = 'source',
+  CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  INSPECT = 'INSPECT',
+  SOURCE = 'SOURCE',
 }
 
 export interface PunchoutSessionInput {

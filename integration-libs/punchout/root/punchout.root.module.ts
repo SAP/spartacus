@@ -11,6 +11,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
+import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
 
@@ -38,6 +39,7 @@ export function opfStatePersistenceFactory(): () => void {
       );
       punchoutPersistenceService.initSync();
     }),
+    ...interceptors,
     provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig),
     {
       provide: AuthHttpHeaderService,
