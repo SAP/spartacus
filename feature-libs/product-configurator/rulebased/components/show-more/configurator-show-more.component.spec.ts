@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, SecurityContext } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -57,7 +57,6 @@ describe('ConfiguratorShowMoreComponent', () => {
     const result = component.normalize('<b>Sanitized Text</b>');
 
     expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
-      SecurityContext.HTML,
       '<b>Sanitized Text</b>'
     );
     expect(result).toEqual('Sanitized Text');

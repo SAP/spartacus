@@ -2,7 +2,6 @@ import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../../config/occ-config';
 import { ProductNameNormalizer } from './product-name-normalizer';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SecurityContext } from '@angular/core';
 import { SanitizeService } from 'projects/core/src/config/services/sanitize.service';
 
 const MockOccModuleConfig: OccConfig = {
@@ -51,7 +50,6 @@ describe('ProductNameNormalizer', () => {
     });
 
     expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
-      SecurityContext.HTML,
       '<script>alert("XSS")</script>Product'
     );
     expect(result.name).toEqual('Sanitized Name');
@@ -63,7 +61,6 @@ describe('ProductNameNormalizer', () => {
     const result = service.convert({ name: '<b>Unsafe Name</b>' });
 
     expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
-      SecurityContext.HTML,
       '<b>Unsafe Name</b>'
     );
     expect(result.name).toEqual('Sanitized Name'); // Ensure sanitized name is returned
