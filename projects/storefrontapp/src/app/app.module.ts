@@ -120,6 +120,15 @@ if (!environment.production) {
                 },
             },
         }),
+    provideConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductAddToCartComponent: {
+                    data: {
+                        inventoryDisplay: true,
+                    },
+                },
+            },
+        }),
   ],
   bootstrap: [StorefrontComponent],
 })
