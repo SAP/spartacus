@@ -70,10 +70,6 @@ export class ProductLoadingService {
         if (!Object.prototype.hasOwnProperty.call(this.products, productCode)) {
           this.products[productCode] = {};
         }
-      } else {
-        console.error(
-          'Invalid key detected, potential prototype pollution attempt!'
-        );
       }
 
       if (!this.products[productCode][scope]) {
