@@ -17,14 +17,6 @@ declare global {
       a11yContinuumSetup(configPath?: string): Chainable<void>;
 
       /**
-       * Verifies Access Engine is loaded and runs all accessibility tests.
-       * Will load Access Engine if not already loaded.
-       *
-       * @param includeIframe - Whether to include iframes in the accessibility tests (default: false)
-       */
-      a11yContinuumRunAllTests(includeIframe?: boolean): Chainable<void>;
-
-      /**
        * Prints accessibility test results to the Cypress log.
        * For each accessibility concern found:
        * - Highlights the offending element with a magenta border
@@ -38,6 +30,21 @@ declare global {
        * Uses Cypress expect assertion to check if the number of concerns is 0.
        */
       a11YContinuumFailIfConcerns(): Chainable<void>;
+
+      /**
+       * Runs all Continuum accessibility tests.
+       * Can be chained after Cypress commands like `cy.get()` to narrow the scope. This allows for more granular testing and is the preferred approach.
+       * Targeting the entire page should be avoided since it may lead to false positives.
+       * Will load Access Engine if not already loaded.
+       *
+       * @param {boolean} [includeIframe=false] - Whether to include iframes in the accessibility tests. Only applies to not scoped tests. (default: false)
+       *
+       * @example
+       * cy.get('.modal-dialog').a11yRunContinuumTest(); // Runs accessibility tests on the dialog only.
+       * cy.get('cx-tab-panel .active').a11yRunContinuumTest(); // Tests the active tab panel.
+       * cy.a11yRunContinuumTest(true); // Runs accessibility tests on the entire page, including iframes. (Avoid this if possible)
+       */
+      a11yRunContinuumTest(): Chainable<void>;
     }
   }
 
