@@ -51,7 +51,7 @@ describe('ConfiguratorShowMoreComponent', () => {
     );
   });
 
-  it('should remove HTML tags from input text', () => {
+  /* it('should remove HTML tags from input text', () => {
     sanitizerSpy.bypass.and.returnValue('Sanitized Text');
 
     const result = component.normalize('<b>Sanitized Text</b>');
@@ -99,6 +99,46 @@ describe('ConfiguratorShowMoreComponent', () => {
 
     const result = component.normalize('Text & Special Chars ©');
 
+    expect(result).toEqual('Text & Special Chars ©');
+  });*/
+
+  it('should remove HTML tags from input text', () => {
+    sanitizerSpy.bypass.and.returnValue('Sanitized Text' as any); // Fake SafeHtml
+    const result = component.normalize('<b>Sanitized Text</b>');
+    expect(sanitizerSpy.bypass).toHaveBeenCalledWith('<b>Sanitized Text</b>');
+    expect(result).toEqual('Sanitized Text');
+  });
+
+  it('should return an empty string when input is null', () => {
+    sanitizerSpy.bypass.and.returnValue(null);
+    const result = component.normalize(null as unknown as string);
+    expect(result).toEqual('');
+  });
+
+
+  it('should return an empty string when input is undefined', () => {
+    sanitizerSpy.bypass.and.returnValue(undefined);
+    const result = component.normalize(undefined as unknown as string);
+    expect(result).toEqual('');
+  });
+
+  it('should return the same text if there are no HTML elements', () => {
+    sanitizerSpy.bypass.and.returnValue('Plain Text' as any);
+    const result = component.normalize('Plain Text');
+    expect(result).toEqual('Plain Text');
+  });
+
+  it('should remove script tags to prevent XSS', () => {
+    sanitizerSpy.bypass.and.returnValue('Safe Content' as any);
+    const result = component.normalize(
+      '<script>alert("XSS")</script>Safe Content'
+    );
+    expect(result).toEqual('Safe Content');
+  });
+
+  it('should handle special characters properly', () => {
+    sanitizerSpy.bypass.and.returnValue('Text & Special Chars ©' as any);
+    const result = component.normalize('Text & Special Chars ©');
     expect(result).toEqual('Text & Special Chars ©');
   });
 

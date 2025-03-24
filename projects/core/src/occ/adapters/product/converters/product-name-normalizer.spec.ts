@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../../config/occ-config';
 import { ProductNameNormalizer } from './product-name-normalizer';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SanitizeService } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
@@ -28,7 +27,7 @@ describe('ProductNameNormalizer', () => {
       providers: [
         ProductNameNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: DomSanitizer, useValue: sanitizerSpy },
+        { provide: SanitizeService, useValue: sanitizerSpy },
       ],
     });
 
