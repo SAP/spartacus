@@ -115,7 +115,6 @@ describe('ConfiguratorShowMoreComponent', () => {
     expect(result).toEqual('');
   });
 
-
   it('should return an empty string when input is undefined', () => {
     sanitizerSpy.bypass.and.returnValue(undefined);
     const result = component.normalize(undefined as unknown as string);
