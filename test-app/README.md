@@ -32,6 +32,11 @@ Note: Under the hood, `npm run dev:ssr` runs 2 commands via `concurrently`: `npm
 
 Note 2: in subsequent runs of  `npm run dev:ssr` you might see a message immediately `[SERVE] Node Express server listening on http://localhost:4000` (because it can see the previously built SSR app). But after the app is rebuilt for the first time, the SSR server will be restarted with the updated code and you'll see again the message `[SERVE] Node Express server listening on http://localhost:4000`.
 
+## Run prerendering
+
+- see `test-app/prerender-routes.txt` for the list of routes to prerender
+- run `SERVER_REQUEST_ORIGIN=https://example.com && ng build --configuration=production,prerender` (where `https://example.com` is the domain of the test-app where you want to deploy the prerendered app; leave whatever if planning to deploy)
+
 
 ## Dependencies
 

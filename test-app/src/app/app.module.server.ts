@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
-import { provideServer } from '@spartacus/setup/ssr';
+import { PROPAGATE_ERROR_TO_SERVER, provideServer } from '@spartacus/setup/ssr';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 
@@ -15,8 +15,16 @@ import { AppModule } from './app.module';
   bootstrap: [AppComponent],
   providers: [
     ...provideServer({
-      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      // SPIKE UNDO - added temporarily for DX: simpler prerendering configuration and example deployment
+      serverRequestOrigin: process.env['MIKRUS_SITE']
+        ? `https://sparta${process.env['MIKRUS_SITE']}-mikrus.platis.dev`
+        : process.env['SERVER_REQUEST_ORIGIN'],
     }),
+    // SPIKE UNDO - added temporarily for DX: to run Prerendering without errors (fixing locally a known bug Prerendering in Spartacus)
+    {
+      provide: PROPAGATE_ERROR_TO_SERVER,
+      useFactory: () => () => {},
+    },
   ],
 })
 export class AppServerModule {}

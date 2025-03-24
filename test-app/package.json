@@ -43,7 +43,7 @@
     "@spartacus/setup": "~2211.37.0",
     "@spartacus/smartedit": "~2211.37.0",
     "@spartacus/storefinder": "~2211.37.0",
-    "@spartacus/storefront": "~2211.37.0",
+    "@spartacus/storefront": "^2211.37.0",
     "@spartacus/styles": "~2211.37.0",
     "@spartacus/tracking": "~2211.37.0",
     "@spartacus/user": "~2211.37.0",

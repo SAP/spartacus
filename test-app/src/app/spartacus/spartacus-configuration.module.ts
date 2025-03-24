@@ -32,7 +32,11 @@ import {
       },
     }),
     provideConfig(<SiteContextConfig>{
-      context: {},
+      // SPIKE NEW - for testing purposes hardcode baseSite
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: ['electronics-spa'],
+      },
     }),
     provideConfig(<I18nConfig>{
       i18n: {
