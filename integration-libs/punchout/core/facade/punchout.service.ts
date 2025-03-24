@@ -130,7 +130,7 @@ export class PunchoutService implements PunchoutFacade {
       });
       return;
     }
-    if (punchoutSession?.punchOutOperation == PunchOutOperation.EDIT) {
+    if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
       this.routingService.go({ cxRoute: 'cart' });
       return;
     }

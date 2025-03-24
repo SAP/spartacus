@@ -30,14 +30,11 @@ export class PunchoutCartInterceptor implements HttpInterceptor {
     return this.punchoutStoreService.getPunchoutState().pipe(
       take(1),
       switchMap((punchoutState) => {
-        // console.log('Punchoutintercptor: ', punchoutState);
-        // console.log(' request.url: ', request.url);
         if (
           punchoutState?.punchoutSessionId &&
           punchoutState?.punchoutSession?.cartId &&
           request.url.includes(`/carts/${punchoutState.punchoutSession.cartId}`)
         ) {
-          // console.log('in condition');
           request = request.clone({
             headers: request.headers.append(
               PUNCHOUT_SESSION_ID_HEADER_KEY,
