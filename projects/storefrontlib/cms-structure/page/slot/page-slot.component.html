@@ -3,7 +3,8 @@
   [cxOutlet]="position"
   [cxOutletContext]="{ components$: components$ }"
 >
-  <ng-container *ngFor="let component of components">
+  <!-- Component template -->
+  <ng-template #componentTemplate let-component>
     <ng-template
       *ngIf="component.flexType"
       [cxOutlet]="component.flexType"
@@ -13,5 +14,26 @@
     >
       <ng-container [cxComponentWrapper]="component"></ng-container>
     </ng-template>
+  </ng-template>
+
+  <!-- Conditional rendering using either ngFor or rxFor -->
+  <ng-container
+    *ngIf="shouldRenderSync() | async as renderingStrategy; else asyncTemplate"
+  >
+    <ng-container *ngFor="let component of components">
+      <ng-container
+        *ngTemplateOutlet="componentTemplate; context: { $implicit: component }"
+      >
+      </ng-container>
+    </ng-container>
   </ng-container>
+
+  <ng-template #asyncTemplate>
+    <ng-container *rxFor="let component of components">
+      <ng-container
+        *ngTemplateOutlet="componentTemplate; context: { $implicit: component }"
+      >
+      </ng-container>
+    </ng-container>
+  </ng-template>
 </ng-template>

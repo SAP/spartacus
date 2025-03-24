@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { RxFor } from '@rx-angular/template/for';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MediaModule } from '../media/media.module';
@@ -22,6 +23,8 @@ import { FocusableCarouselItemDirective } from './focusable-carousel-item/focusa
     UrlModule,
     I18nModule,
     FeaturesConfigModule,
+    // SPIKE NEW - use RxFor to cut tasks
+    RxFor,
   ],
   declarations: [CarouselComponent, FocusableCarouselItemDirective],
   exports: [CarouselComponent, FocusableCarouselItemDirective],

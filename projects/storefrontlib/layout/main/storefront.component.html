@@ -29,9 +29,12 @@
     <router-outlet></router-outlet>
   </main>
 
-  <ng-template cxOutlet="cx-footer">
-    <footer cxSkipLink="cx-footer" [cxFocus]="{ disableMouseFocus: true }">
-      <cx-page-layout section="footer"></cx-page-layout>
-    </footer>
-  </ng-template>
+  <!-- SPIKE NEW - DIRTY WORKAROUND! use RxLet to defer loading the footer until the main content is loaded -->
+  <ng-container *ngIf="shouldRenderFooter$ | async">
+    <ng-template cxOutlet="cx-footer">
+      <footer cxSkipLink="cx-footer" [cxFocus]="{ disableMouseFocus: true }">
+        <cx-page-layout section="footer"></cx-page-layout>
+      </footer>
+    </ng-template>
+  </ng-container>
 </ng-template>

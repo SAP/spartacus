@@ -6,13 +6,14 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RxFor } from '@rx-angular/template/for';
 import { OutletModule } from '../../outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
 import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
-
 @NgModule({
-  imports: [CommonModule, OutletModule, PageComponentModule],
+  // SPIKE NEW - use RxFor to cut tasks
+  imports: [CommonModule, OutletModule, PageComponentModule, RxFor],
   declarations: [PageSlotComponent],
   exports: [PageSlotComponent],
 })

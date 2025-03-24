@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -22,7 +23,7 @@ import {
   DynamicAttributeService,
   isNotUndefined,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -31,6 +32,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { OutletContextData } from '../../outlet/outlet.model';
+import { PageSlotComponentService } from './page-slot-component.service';
 import { PageSlotService } from './page-slot.service';
 
 /**
@@ -73,13 +76,18 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   /**
    * Indicates that the page slot is the last page slot above the fold.
    */
-  @HostBinding('class.page-fold') @Input() isPageFold = false;
+  // SPIKE NEW - removing temporarily HostBinding to potentially reduce CLS
+  // @HostBinding('class.page-fold')
+  @Input() isPageFold = false;
 
   /**
    * Indicates that the components of the page slot haven't been loaded as long
    * as the isPending state is true.
    */
-  @HostBinding('class.cx-pending') isPending = true;
+
+  // SPIKE NEW - removing temporarily HostBinding to potentially reduce CLS
+  // @HostBinding('class.cx-pending')
+  isPending = true;
 
   /**
    * Indicates that the page slot doesn't contain any components. This is no
@@ -207,5 +215,20 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  // SPIKE NEW - control when to use ngFor and when rxFor
+  protected outletContextData = inject(OutletContextData, {
+    optional: true,
+  });
+  protected pageSlotComponentService = inject(PageSlotComponentService);
+
+  shouldRenderSync(): Observable<boolean> {
+    return this.pageSlotComponentService.shouldRenderSync(
+      this.position ?? '',
+      this.outletContextData?.context?.layoutName$ ?? EMPTY,
+      this.outletContextData?.context?.templateName$ ?? EMPTY,
+      this.outletContextData?.context?.section$ ?? EMPTY
+    );
   }
 }

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './page-slot-component.service';
 export * from './page-slot.component';
 export * from './page-slot.module';
 export * from './page-slot.service';
