@@ -109,7 +109,7 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
-    service['onRead'](mockPunchoutState);
+    service['onRead'](mockPunchoutState.punchoutSessionId);
 
     expect(punchoutFacade.getPunchoutSession).toHaveBeenCalled();
   });
@@ -121,7 +121,7 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
-    service['onRead'](mockPunchoutState);
+    service['onRead'](mockPunchoutState.punchoutSessionId);
     expect(punchoutFacade.getPunchoutSession).not.toHaveBeenCalled();
   });
 
@@ -132,7 +132,7 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
-    service['onRead']({ ...mockPunchoutState, punchoutSessionId: undefined });
+    service['onRead'](undefined);
     expect(punchoutFacade.getPunchoutSession).not.toHaveBeenCalled();
   });
 
@@ -148,9 +148,7 @@ describe('PunchoutStatePersistenceService', () => {
     );
     service['getPunchoutSessionId']().subscribe({
       next: (response) => {
-        expect(response).toEqual({
-          punchoutSessionId: mockPunchoutState.punchoutSessionId,
-        });
+        expect(response).toEqual(mockPunchoutState.punchoutSessionId);
         done();
       },
     });
@@ -162,21 +160,32 @@ describe('PunchoutStatePersistenceService', () => {
     );
     service['getPunchoutSessionId']().subscribe({
       next: (response) => {
-        expect(response).toEqual({
-          punchoutSessionId: mockPunchoutState.punchoutSessionId,
-        });
+        expect(response).toEqual(mockPunchoutState.punchoutSessionId);
         done();
       },
     });
   });
 
-  it('should getPunchoutSessionId stores empty object', (done) => {
+  it('should getPunchoutSessionId stores undefined when punchout has not started yet', (done) => {
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of({ ...mockPunchoutState, punchoutSessionId: undefined })
     );
     service['getPunchoutSessionId']().subscribe({
       next: (response) => {
-        expect(response).toEqual({});
+        expect(response).toEqual(undefined);
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionId stores empty object when punchout has already started', (done) => {
+    service['hasPunchoutStarted'] = true;
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of({ ...mockPunchoutState, punchoutSessionId: undefined })
+    );
+    service['getPunchoutSessionId']().subscribe({
+      next: (response) => {
+        expect(response).toEqual('');
         done();
       },
     });
