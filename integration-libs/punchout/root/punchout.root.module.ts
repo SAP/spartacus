@@ -26,7 +26,7 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   return config;
 }
 
-export function opfStatePersistenceFactory(): () => void {
+export function punchoutStatePersistenceFactory(): () => void {
   const punchoutPersistenceService = inject(PunchoutStatePersistanceService);
   return () => punchoutPersistenceService.initSync();
 }
