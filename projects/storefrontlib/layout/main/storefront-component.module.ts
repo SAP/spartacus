@@ -7,7 +7,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RxLet } from '@rx-angular/template/let';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
 import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { OutletModule } from '../../cms-structure/outlet/outlet.module';
@@ -27,9 +26,6 @@ import { StorefrontComponent } from './storefront.component';
     PageSlotModule,
     KeyboardFocusModule,
     SkipLinkModule,
-
-    // SPIKE NEW - use RxLet to cut tasks
-    RxLet,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
