@@ -16,6 +16,11 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
+   * In Order details page, it shows link to its Quote details page and vice-versa
+   */
+  showOrderQuoteLink?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -96,18 +101,6 @@ export interface FeatureTogglesInterface {
    * ```
    */
   useProductCarouselBatchApi?: boolean;
-
-  /**
-   * In `ConfiguratorAttributeDropDownComponent`, `ConfiguratorAttributeSingleSelectionImageComponent`
-   * and in 'ConfiguratorAttributeMultiSelectionImageComponent' some HTML changes were done
-   * to render read-only attribute with images and a long description at the value level accordingly.
-   *
-   * In `cx-configurator-price`, `cx-configurator-show-more`,`cx-configurator-attribute-drop-down`,
-   * `cx-configurator-attribute-selection-image`, `cx-configurator-attribute-single-selection-bundle-dropdown`,
-   * `cx-configurator-attribute-type` and `cx-configurator-form-group` some styling changes were done
-   * to render read-only attribute with images and a long description at the value level accordingly.
-   */
-  productConfiguratorAttributeTypesV2?: boolean;
 
   /**
    * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
@@ -970,6 +963,25 @@ export interface FeatureTogglesInterface {
   a11yWrapReviewOrderInSection?: boolean;
 
   /**
+   * Improves wide viewport layout issues.
+   * Affects the styles of: Order confirmation page, product configurator.
+   */
+  a11yWideScreenImprovements?: boolean;
+
+  /**
+   * Adjusts line spacing in menus and navigation dropdowns for better readability
+   * across different monitors, text sizes, and zoom levels.
+   * Affects: NavigationUIComponent
+   */
+  a11yOptimizedMenuSpacing?: boolean;
+
+  /**
+   * Fixes layering issues caused by native ng-select styles.
+   * Sets the dropdown's z-index property to be more in line with Spartacus.
+   */
+  a11yNgSelectLayering?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -989,6 +1001,7 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
@@ -1001,9 +1014,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   trendingSearches: false,
   pdfInvoicesSortByInvoiceDate: true,
   useProductCarouselBatchApi: true,
-  productConfiguratorAttributeTypesV2: true,
-  propagateErrorsToServer: false,
-  ssrStrictErrorHandlingForHttpAndNgrx: false,
+  propagateErrorsToServer: true,
+  ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
   a11yRequiredAsterisks: true,
   a11yQuantityOrderTabbing: true,
@@ -1013,7 +1025,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
   a11yViewChangeAssistiveMessage: true,
-  a11yPreventHorizontalScroll: false,
+  a11yPreventHorizontalScroll: true,
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
@@ -1027,12 +1039,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yMobileVisibleFocus: true,
   a11yOrganizationsBanner: true,
   a11yOrganizationListHeadingOrder: true,
-  a11yCartImportConfirmationMessage: false,
+  a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
   a11yReplenishmentOrderFieldset: true,
   a11yListOversizedFocus: true,
   a11yStoreFinderOverflow: true,
-  a11yMobileFocusOnFirstNavigationItem: false,
+  a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
   a11yCartSummaryHeadingOrder: true,
   a11ySearchBoxMobileFocus: true,
@@ -1044,7 +1056,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHideSelectBtnForSelectedAddrOrPayment: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: false,
   a11yFocusableCarouselControls: true,
-  a11yUseTrapTabInsteadOfTrapInDialogs: false,
+  a11yUseTrapTabInsteadOfTrapInDialogs: true,
   cmsGuardsServiceUseGuardsComposer: true,
   cartQuickOrderRemoveListeningToFailEvent: true,
   a11yKeyboardAccessibleZoom: false,
@@ -1063,8 +1075,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yEmptyWishlistHeading: true,
   a11yScreenReaderBloatFix: true,
   a11yUseButtonsForBtnLinks: true,
-  a11yTabComponent: false,
-  a11yCarouselArrowKeysNavigation: false,
+  a11yTabComponent: true,
+  a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: false,
   a11yNotificationsOnConsentChange: true,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
@@ -1085,14 +1097,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
   a11yNgSelectMobileReadout: true,
-  a11yDeliveryMethodFieldset: false,
-  a11yShowMoreReviewsBtnFocus: false,
+  a11yDeliveryMethodFieldset: true,
+  a11yShowMoreReviewsBtnFocus: true,
   a11yQuickOrderAriaControls: true,
   a11yRemoveStatusLoadedRole: true,
   a11yDialogsHeading: true,
-  a11yDialogTriggerRefocus: false,
-  a11yAddToWishlistFocus: false,
-  a11ySearchBoxFocusOnEscape: false,
+  a11yDialogTriggerRefocus: true,
+  a11yAddToWishlistFocus: true,
+  a11ySearchBoxFocusOnEscape: true,
   a11yUpdatingCartNoNarration: false,
   a11yPasswordVisibliltyBtnValueOverflow: false,
   a11yItemCounterFocus: false,
@@ -1127,15 +1139,18 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRegionAssociatedHeaders: false,
   occCartNameAndDescriptionInHttpRequestBody: true,
   cmsBottomHeaderSlotUsingFlexStyles: true,
-  useSiteThemeService: false,
-  enableConsecutiveCharactersPasswordRequirement: false,
-  enablePasswordsCannotMatchInPasswordUpdateForm: false,
-  allPageMetaResolversEnabledInCsr: false,
+  useSiteThemeService: true,
+  enableConsecutiveCharactersPasswordRequirement: true,
+  enablePasswordsCannotMatchInPasswordUpdateForm: true,
+  allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: false,
   a11yHamburgerMenuTrapFocus: false,
   useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: false,
   a11yScrollToTopPositioning: false,
+  a11yWideScreenImprovements: false,
+  a11yOptimizedMenuSpacing: false,
+  a11yNgSelectLayering: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,

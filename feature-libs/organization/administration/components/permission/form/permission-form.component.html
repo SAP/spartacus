@@ -1,12 +1,10 @@
 <cx-org-form i18nRoot="orgPurchaseLimit">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">
         {{ 'orgPurchaseLimit.code' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -38,7 +36,7 @@
     >
       <span class="label-content required">
         {{ 'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -74,7 +72,7 @@
     <label *ngIf="form.get('periodRange')">
       <span class="label-content required">
         {{ 'orgPurchaseLimit.periodRange' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -108,7 +106,7 @@
     >
       <span class="label-content required">
         {{ 'orgPurchaseLimit.currency' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
@@ -141,7 +139,7 @@
     <label *ngIf="form.get('threshold')">
       <span class="label-content required">
         {{ 'orgPurchaseLimit.threshold' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -172,7 +170,7 @@
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">
         {{ 'orgPurchaseLimit.orgUnit' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -204,13 +202,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

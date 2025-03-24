@@ -233,6 +233,6 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
     ),
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
-    avoidCachingErrors: false,
+    avoidCachingErrors: true,
   },
 };

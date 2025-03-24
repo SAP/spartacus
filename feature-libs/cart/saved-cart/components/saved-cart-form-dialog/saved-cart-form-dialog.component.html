@@ -214,9 +214,7 @@
             <p class="cx-saved-cart-form-subtitle">
               {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
             </p>
-            <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-              {{ 'formLegend.required' | cxTranslate }}
-            </p>
+            <cx-form-required-legend />
           </ng-container>
 
           <div class="cx-saved-cart-form-row">
@@ -224,14 +222,8 @@
               <label>
                 <span class="cx-saved-carts-label label-content"
                   >{{ 'savedCartDialog.savedCartName' | cxTranslate }}
-                  <abbr
-                    *cxFeature="'a11yRequiredAsterisks'"
-                    aria-hidden="true"
-                    class="text-decoration-none required-asterisk"
-                    title="{{ 'common.required' | cxTranslate }}"
-                    >*</abbr
-                  ></span
-                >
+                  <cx-form-required-asterisks />
+                </span>
                 <input
                   required="true"
                   [maxLength]="nameMaxLength"
