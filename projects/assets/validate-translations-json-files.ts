@@ -1,5 +1,4 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs-extra';
 
 const TRANSLATIONS_DIR = '../assets/src/translations';
 const MAX_FILE_SIZE = 20 * 1024; // 20 KB limit
@@ -43,13 +42,21 @@ function validateJson(filePath: string) {
           throw new Error(`Translation entry is not a string.`);
         }
 
-        if (NOT_ALLOWED_VALUE_REGEX.test(translation) || NOT_ALLOWED_VALUE_REGEX.test(key) ) {
+        if (
+          NOT_ALLOWED_VALUE_REGEX.test(translation) ||
+          NOT_ALLOWED_VALUE_REGEX.test(key)
+        ) {
           throw new Error(
             `Unallowed char in ${filePath}: ${key} '${translation}'.`
           );
         }
 
-        if (BANNED_KEYS.some((bannedKey) => translation.includes(bannedKey) || key.includes(bannedKey))) {
+        if (
+          BANNED_KEYS.some(
+            (bannedKey) =>
+              translation.includes(bannedKey) || key.includes(bannedKey)
+          )
+        ) {
           throw new Error(
             `Forbidden char in ${filePath}: ${key} '${translation}'.`
           );
@@ -65,7 +72,7 @@ function getJsonFiles(dir: any) {
   const list = fs.readdirSync(dir);
 
   list.forEach((file) => {
-    const filePath = path.join(dir, file);
+    const filePath = `${dir}/${file}`;
     const stat = fs.statSync(filePath);
 
     if (stat && stat.isDirectory()) {
