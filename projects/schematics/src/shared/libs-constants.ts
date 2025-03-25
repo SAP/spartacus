@@ -197,6 +197,9 @@ export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 export const SPARTACUS_SUBSCRIPTION_BILLING = '@spartacus/subscription-billing';
 export const SPARTACUS_SUBSCRIPTION_BILLING_ASSETS = `@spartacus/subscription-billing/assets`;
 export const SPARTACUS_SUBSCRIPTION_BILLING_ROOT = `@spartacus/subscription-billing/root`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_COMPONENTS = `@spartacus/subscription-billing/components`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_CORE = `@spartacus/subscription-billing/core`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_OCC = `@spartacus/subscription-billing/occ`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
 

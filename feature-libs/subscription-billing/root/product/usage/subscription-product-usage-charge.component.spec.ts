@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
 import { Pipe, PipeTransform, signal } from '@angular/core';
-import { TierUsageChargeEntry } from '../../model';
 import { TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { UsageChargeType } from '../../model';
 @Pipe({
   name: 'cxTranslate',
   standalone: false,
@@ -24,28 +24,31 @@ class MockTranslateService implements Partial<TranslationService> {
   }
 }
 
-const mockTierEntries1: TierUsageChargeEntry[] = [
-  { tierStart: 0, tierEnd: 10 },
-  { tierStart: 10, tierEnd: 20 },
-  { tierStart: 20 },
+const mockTierEntries1 = [
+  { tierStart: 0, tierEnd: 10, usageChargeType: UsageChargeType.TIER },
+  { tierStart: 10, tierEnd: 20, usageChargeType: UsageChargeType.TIER },
+  { tierStart: 20, usageChargeType: UsageChargeType.TIER },
 ];
-const mockTierEntries2: TierUsageChargeEntry[] = [
-  { tierStart: 0, tierEnd: 10 },
-  { tierStart: 10, tierEnd: 20 },
-  { tierStart: 20, tierEnd: 30 },
+const mockTierEntries2 = [
+  { tierStart: 0, tierEnd: 10, usageChargeType: UsageChargeType.TIER },
+  { tierStart: 10, tierEnd: 20, usageChargeType: UsageChargeType.TIER },
+  { tierStart: 20, tierEnd: 30, usageChargeType: UsageChargeType.TIER },
 ];
 const mockPerUnit = [
   {
+    usageChargeType: UsageChargeType.BLOCK,
     perUnitUsageChargeEntries: [],
     includedQty: 10,
     usageUnit: { namePlural: 'KGs', name: 'KG' },
   },
   {
+    usageChargeType: UsageChargeType.BLOCK,
     perUnitUsageChargeEntries: [],
     includedQty: 1,
     usageUnit: { namePlural: 'KGs', name: 'KG' },
   },
   {
+    usageChargeType: UsageChargeType.BLOCK,
     perUnitUsageChargeEntries: [],
     usageUnit: { namePlural: 'KGs', name: 'KG' },
   },
@@ -53,14 +56,22 @@ const mockPerUnit = [
 const mockVolume = [
   { tierUsageChargeEntries: mockTierEntries1, overageUsageChargeEntries: [] },
 ];
-const mockPercentage = [{ percentageUsageChargeEntries: [] }];
-const mockTier = [{ tierUsageChargeEntries: mockTierEntries1 }];
+const mockPercentage = [
+  {
+    usageChargeType: UsageChargeType.PERCENTAGE,
+    perUnitUsageChargeEntries: [],
+  },
+];
+const mockTier = [
+  {
+    usageChargeType: UsageChargeType.TIER,
+    tierUsageChargeEntries: mockTierEntries1,
+  },
+];
 
 const mockProduct1 = signal({
   sapPricePlan: {
-    perUnitUsageCharges: mockPerUnit,
-    percentageUsageCharges: mockPercentage,
-    tierUsageCharges: mockTier,
+    perUnitUsageCharges: [...mockPerUnit, ...mockPercentage, ...mockTier],
     volumeUsageCharges: mockVolume,
   },
 });
@@ -71,8 +82,11 @@ describe('SubscriptionProductUsageChargeComponent', () => {
   let fixture: ComponentFixture<SubscriptionProductUsageChargeComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SubscriptionProductUsageChargeComponent],
-      declarations: [MockTranslatePipe],
+      imports: [],
+      declarations: [
+        MockTranslatePipe,
+        SubscriptionProductUsageChargeComponent,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslateService },
       ],

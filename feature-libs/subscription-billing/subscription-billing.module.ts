@@ -5,6 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
+import { SubscriptionBillingComponentsModule } from './components/subscription-billing-components.module';
+import { SubscriptionBillingCoreModule } from './core/subscription-billing-core.module';
+import { SubscriptionBillingRootModule } from './root/subscription-billing-root.module';
 
-@NgModule()
+@NgModule({
+  imports: [
+    SubscriptionBillingComponentsModule,
+    SubscriptionBillingCoreModule,
+    SubscriptionBillingRootModule,
+  ],
+})
 export class SubscriptionBillingModule {}

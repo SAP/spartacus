@@ -28,21 +28,12 @@
           | cxTranslate: { quantity: getIncludedQuantity(usageCharge) }
       }}
     }
-
     @for (
       usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
       track $index
     ) {
       <div class="subscription-usage-charge-entry">
-        {{
-          'subscriptionProduct.perUnitUsage'
-            | cxTranslate
-              : {
-                  price: usageChargeEntry.price?.formattedValue,
-                  usage: usageCharge.usageUnit?.name,
-                }
-        }}
-        @if (usageCharge.blockSize === 1) {
+        <ng-container *ngIf="usageCharge.blockSize === 1">
           {{
             'subscriptionProduct.oneBlockUsage'
               | cxTranslate
@@ -51,8 +42,8 @@
                     usage: usageCharge.usageUnit?.name,
                   }
           }}
-        }
-        @if (usageCharge.blockSize ?? 0 > 1) {
+        </ng-container>
+        <ng-container *ngIf="usageCharge.blockSize ?? 0 > 1">
           {{
             'subscriptionProduct.multiBlockUsage'
               | cxTranslate
@@ -64,7 +55,7 @@
                       usageCharge?.usageUnit?.namePlural,
                   }
           }}
-        }
+        </ng-container>
       </div>
     }
   }
@@ -96,6 +87,7 @@
         }}
       </div>
     }
+
     @for (
       usageChargeEntry of usageCharge.overageUsageChargeEntries;
       track $index
@@ -117,6 +109,7 @@
         }}
       </div>
     }
+
     <div class="subscription-message">
       {{ 'subscriptionProduct.volumeUsageMessage' | cxTranslate }}
     </div>
@@ -148,6 +141,7 @@
         }}
       </div>
     }
+
     @for (
       usageChargeEntry of usageCharge.overageUsageChargeEntries;
       track $index
@@ -169,6 +163,7 @@
         }}
       </div>
     }
+
     <div class="subscription-message">
       {{ 'subscriptionProduct.tierUsageMessage' | cxTranslate }}
     </div>
@@ -177,21 +172,19 @@
 
 <ng-template #showPercentageUsageCharges>
   @for (usageCharge of percentageUsageCharges(); track $index) {
-    @for (
-      usageChargeEntry of usageCharge.percentageUsageChargeEntries;
-      track $index
-    ) {
-      <div class="subscription-usage-charge-entry">
-        {{
-          'subscriptionProduct.percentageUsage'
-            | cxTranslate
-              : {
-                  ratio: usageCharge.ratio,
-                  price: usageChargeEntry.price?.formattedValue,
-                  usage: usageCharge.usageUnit?.name,
-                }
-        }}
-      </div>
-    }
+    <div
+      *ngFor="let usageChargeEntry of usageCharge.perUnitUsageChargeEntries"
+      class="subscription-usage-charge-entry"
+    >
+      {{
+        'subscriptionProduct.percentageUsage'
+          | cxTranslate
+            : {
+                ratio: usageCharge.ratio,
+                price: usageChargeEntry.price?.formattedValue,
+                usage: usageCharge.usageUnit?.name,
+              }
+      }}
+    </div>
   }
 </ng-template>

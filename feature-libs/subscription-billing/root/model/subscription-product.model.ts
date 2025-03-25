@@ -6,6 +6,12 @@
 
 import { Price } from '@spartacus/core';
 
+export enum UsageChargeType {
+  BLOCK = 'block_usage_charge',
+  PERCENTAGE = 'percentage_usage_charge',
+  TIER = 'each_respective_tier',
+}
+
 export interface SubscriptionTerm {
   renewalTerm?: TermType;
   minimumTerm?: TermType;
@@ -35,8 +41,6 @@ export interface PricePlan {
   recurringCharges?: RecurringCharge[];
   perUnitUsageCharges?: PerUnitUsageCharge[];
   volumeUsageCharges?: VolumeUsageCharge[];
-  percentageUsageCharges?: PercentageUsageCharge[];
-  tierUsageCharges?: TierUsageCharge[];
 }
 
 export interface OneTimeCharge {
@@ -51,26 +55,18 @@ export interface RecurringCharge {
 
 export interface PerUnitUsageCharge {
   usageUnit?: UsageUnit;
+  minBlocks?: number;
+  ratio?: string;
+  usageChargeType?: string;
   blockSize?: number;
   includedQty?: number;
   perUnitUsageChargeEntries?: UsageChargeEntry[];
-}
-
-export interface VolumeUsageCharge {
-  usageUnit?: UsageUnit;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
 }
 
-export interface PercentageUsageCharge {
-  ratio?: string;
-  percentageUsageChargeEntries?: UsageChargeEntry[];
+export interface VolumeUsageCharge {
   usageUnit?: UsageUnit;
-}
-
-export interface TierUsageCharge {
-  usageUnit?: UsageUnit;
-  minBlocks?: number;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
 }

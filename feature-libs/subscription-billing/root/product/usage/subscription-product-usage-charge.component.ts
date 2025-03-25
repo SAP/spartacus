@@ -5,26 +5,29 @@
  */
 
 import { Component, computed, input, Signal } from '@angular/core';
-import { I18nModule, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import {
-  PercentageUsageCharge,
   PerUnitUsageCharge,
-  TierUsageCharge,
-  TierUsageChargeEntry,
   VolumeUsageCharge,
-} from '../../model';
+  TierUsageChargeEntry,
+  UsageChargeType,
+} from '../../public_api';
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',
+  standalone: false,
   templateUrl: './subscription-product-usage-charge.component.html',
-  imports: [I18nModule],
 })
 export class SubscriptionProductUsageChargeComponent {
   product: Signal<Product | undefined> = input<Product>();
 
-  perUnitUsageCharges: Signal<PerUnitUsageCharge[]> = computed(
-    () => this.product()?.sapPricePlan?.perUnitUsageCharges ?? []
-  );
+  perUnitUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
+    return (
+      this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
+        (item) => item.usageChargeType === UsageChargeType.BLOCK
+      ) ?? []
+    );
+  });
 
   getIncludedQuantity(charge: PerUnitUsageCharge): string {
     if (charge.includedQty) {
@@ -39,13 +42,21 @@ export class SubscriptionProductUsageChargeComponent {
     return '';
   }
 
-  percentageUsageCharges: Signal<PercentageUsageCharge[]> = computed(
-    () => this.product()?.sapPricePlan?.percentageUsageCharges ?? []
-  );
+  percentageUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
+    return (
+      this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
+        (item) => item.usageChargeType === UsageChargeType.PERCENTAGE
+      ) ?? []
+    );
+  });
 
-  tierUsageCharges: Signal<TierUsageCharge[]> = computed(
-    () => this.product()?.sapPricePlan?.tierUsageCharges ?? []
-  );
+  tierUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
+    return (
+      this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
+        (item) => item.usageChargeType === UsageChargeType.TIER
+      ) ?? []
+    );
+  });
 
   volumeUsageCharges: Signal<VolumeUsageCharge[]> = computed(
     () => this.product()?.sapPricePlan?.volumeUsageCharges ?? []

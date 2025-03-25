@@ -38,7 +38,10 @@ module.exports = {
         __dirname,
         'feature-libs/product-configurator'
       ),
-    '@spartacus/product-multi-dimensional': path.join(__dirname, 'feature-libs/product-multi-dimensional'),
+      '@spartacus/product-multi-dimensional': path.join(
+        __dirname,
+        'feature-libs/product-multi-dimensional'
+      ),
       '@spartacus/storefinder': path.join(
         __dirname,
         'feature-libs/storefinder'
@@ -58,7 +61,7 @@ module.exports = {
       '@spartacus/tracking': path.join(__dirname, 'feature-libs/tracking'),
       '@spartacus/cart': path.join(__dirname, 'feature-libs/cart'),
       '@spartacus/order': path.join(__dirname, 'feature-libs/order'),
-      '@spartacus/quote': path.join( __dirname, 'feature-libs/quote'),
+      '@spartacus/quote': path.join(__dirname, 'feature-libs/quote'),
       '@spartacus/epd-visualization': path.join(
         __dirname,
         'integration-libs/epd-visualization'
@@ -67,13 +70,20 @@ module.exports = {
         __dirname,
         'feature-libs/customer-ticketing'
       ),
+      '@spartacus/subscription-billing': path.join(
+        __dirname,
+        'feature-libs/subscription-billing'
+      ),
       '@spartacus/pickup-in-store': path.join(
         __dirname,
         'feature-libs/pickup-in-store'
       ),
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
       '@spartacus/opf': path.join(__dirname, 'integration-libs/opf'),
-      '@spartacus/s4-service': path.join(__dirname, 'integration-libs/s4-service'),
+      '@spartacus/s4-service': path.join(
+        __dirname,
+        'integration-libs/s4-service'
+      ),
       '@spartacus/omf': path.join(__dirname, 'integration-libs/omf'),
     },
   },

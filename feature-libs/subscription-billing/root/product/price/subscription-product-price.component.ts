@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, computed, inject, Signal } from '@angular/core';
-import { I18nModule, Product, ProductScope } from '@spartacus/core';
-import { SubscriptionProductService } from '../services/subscription-product.service';
+import { Product, ProductScope } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { OneTimeCharge, RecurringCharge } from '../../model';
-import { SubscriptionProductUsageChargeComponent } from '../product-usage/subscription-product-usage-charge.component';
-import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { OneTimeCharge, RecurringCharge } from '../../public_api';
+import { SubscriptionProductService } from '../../../core/facade/subscription-product.service';
+import { Component, inject, Signal, computed } from '@angular/core';
+
 @Component({
   selector: 'cx-subscription-product-price',
+  standalone: false,
   templateUrl: './subscription-product-price.component.html',
-  imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeComponent],
 })
 export class SubscriptionProductPriceComponent {
   protected productService = inject(SubscriptionProductService);
