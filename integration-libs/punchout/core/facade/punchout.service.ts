@@ -6,16 +6,23 @@
 
 import { inject, Injectable } from '@angular/core';
 
-import { Command, CommandService, RoutingService } from '@spartacus/core';
+import {
+  Command,
+  CommandService,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
   PunchoutFacade,
+  PunchOutOperation,
   PunchoutRequisition,
   PunchoutSession,
   PunchoutSessionInput,
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
   forkJoin,
@@ -23,6 +30,8 @@ import {
   Observable,
   of,
   switchMap,
+  take,
+  tap,
   throwError,
 } from 'rxjs';
 import { PunchoutConnector } from '../connectors';
@@ -35,12 +44,15 @@ export class PunchoutService implements PunchoutFacade {
   protected commandService = inject(CommandService);
   protected routingService = inject(RoutingService);
   protected punchoutStoreService = inject(PunchoutStoreService);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
 
   /**
    * getPunchoutSession workflow:
    * Get PunchoutSession from  occ api
    * Logout silently
    * Login silently
+   * Load Cart
    * Route to target page based on punchout session info
    * Redirect to Punchout Error page if error occurs
    */
@@ -58,7 +70,8 @@ export class PunchoutService implements PunchoutFacade {
         map((punchoutSession) => {
           if (
             !punchoutSession?.token?.accessToken ||
-            !punchoutSession?.customerId
+            !punchoutSession?.customerId ||
+            !punchoutSession?.cartId
           ) {
             throw new Error('Punchout login info missing');
           }
@@ -76,7 +89,7 @@ export class PunchoutService implements PunchoutFacade {
               punchoutSession.token.accessToken,
               punchoutSession.customerId
             );
-
+            this.loadCart(punchoutSession.cartId).subscribe();
             this.punchoutStoreService.setPunchoutState({
               punchoutSessionId: payload.punchoutSessionId,
               punchoutSession: { ...punchoutSession },
@@ -115,12 +128,31 @@ export class PunchoutService implements PunchoutFacade {
         cxRoute: 'product',
         params: { code: punchoutSession.selectedItem },
       });
-    } else {
-      this.routingService.go('/');
+      return;
     }
+    if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
+      this.routingService.go({ cxRoute: 'cart' });
+      return;
+    }
+    this.routingService.go('/');
   }
 
   protected displayErrorPage() {
     this.routingService.go(PUNCHOUT_ERROR_PAGE_URL);
+  }
+
+  protected loadCart(cartId: string): Observable<string> {
+    return this.userIdService.takeUserId().pipe(
+      take(1),
+      tap((userId) => {
+        this.multiCartFacade.loadCart({
+          userId,
+          cartId,
+          extraData: {
+            active: true,
+          },
+        });
+      })
+    );
   }
 }
