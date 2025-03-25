@@ -1,4 +1,4 @@
-name: Release pipeline (creates a snapshot from the develop branch or from the input-provided branch)
+name: Release snapshot (creates a snapshot from the develop branch or from the input-provided branch)
 
 on:
   workflow_dispatch:
