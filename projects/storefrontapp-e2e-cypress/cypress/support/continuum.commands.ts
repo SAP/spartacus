@@ -17,7 +17,7 @@ try {
   ModuleManagementStrategy = ContinuumImport.ModuleManagementStrategy;
 } catch (e) {
   console.warn(
-    'Access continuum is not available. Please configure CONTINUUM_REGISTRY_TOKEN env variable, otherwise conitnuum tests will be skipped.'
+    'Access continuum is not available. Please configure CONTINUUM_REGISTRY_TOKEN env variable, otherwise continuum tests will be skipped.'
   );
 }
 
@@ -33,6 +33,9 @@ const LEVEL_ACCESS_API = 'https://sap.levelaccess.net/api/cont/organization';
 const withContinuum = <T extends (...args: any[]) => any>(fn: T): T => {
   return ((...args: Parameters<T>): ReturnType<T> | void => {
     if (!isContinuumAvailable()) {
+      cy.log(
+        '⚠️ Warning: Access Continuum is not available. Skipping accessibility tests.'
+      );
       return;
     }
     return fn(...args);
