@@ -92,6 +92,7 @@ function getJsonFiles(dir: any) {
 }
 
 function validateAllTranslations() {
+  /* eslint-disable-next-line no-console */
   console.log('Validating translation files...');
 
   const filePaths = getJsonFiles(TRANSLATIONS_DIR);
@@ -100,12 +101,14 @@ function validateAllTranslations() {
     validateJson(filePath);
   });
 
+  /* eslint-disable-next-line no-console */
   console.log('✅ All translations passed validation!');
 }
 
 try {
   validateAllTranslations();
 } catch (error) {
+  /* eslint-disable-next-line no-console */
   console.error('❌ Validation failed: ', error);
   process.exit(1); // Exit with error status to stop the build
 }
