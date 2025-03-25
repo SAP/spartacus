@@ -153,30 +153,29 @@ const setUpAccessEngine = () => {
   );
 };
 
-const a11yRunContinuumTest = withContinuum((prevSubject, includeIframe) => {
-  setUpAccessEngine()
-    .then(() => {
-      prevSubject
-        ? Continuum.runAllTestsOnNode(prevSubject.get(0))
-        : Continuum.runAllTests(includeIframe);
-      a11YContinuumPrintResults();
-    })
-    .then(() => {
-      a11YContinuumFailIfConcerns();
-    });
-});
+const a11yRunContinuumTest = withContinuum(
+  (prevSubject, failIfConcerns, includeIframe) => {
+    setUpAccessEngine()
+      .then(() => {
+        prevSubject
+          ? Continuum.runAllTestsOnNode(prevSubject.get(0))
+          : Continuum.runAllTests(includeIframe);
+        a11YContinuumPrintResults();
+      })
+      .then(() => {
+        if (failIfConcerns) {
+          a11YContinuumFailIfConcerns();
+        }
+      });
+  }
+);
 
 Cypress.Commands.add('a11yContinuumSetup', a11yContinuumSetup);
-Cypress.Commands.add('a11YContinuumPrintResults', a11YContinuumPrintResults);
-Cypress.Commands.add(
-  'a11YContinuumFailIfConcerns',
-  a11YContinuumFailIfConcerns
-);
 Cypress.Commands.add(
   'a11yRunContinuumTest',
   {
     prevSubject: 'optional',
   },
-  (prevSubject, includeIframe = false) =>
-    a11yRunContinuumTest(prevSubject, includeIframe)
+  (prevSubject, failIfConcerns = true, includeIframe = false) =>
+    a11yRunContinuumTest(prevSubject, failIfConcerns, includeIframe)
 );

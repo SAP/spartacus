@@ -34,17 +34,22 @@ declare global {
       /**
        * Runs all Continuum accessibility tests.
        * Can be chained after Cypress commands like `cy.get()` to narrow the scope. This allows for more granular testing and is the preferred approach.
-       * Targeting the entire page should be avoided since it may lead to false positives.
+       * Targeting the entire page should be avoided since it may lead to false negatives.
        * Will load Access Engine if not already loaded.
        *
+       * @param {boolean} [failIfConcerns=true] - Wether to fail the test if any a11y concerns are found. (default: true)
        * @param {boolean} [includeIframe=false] - Whether to include iframes in the accessibility tests. Only applies to not scoped tests. (default: false)
        *
        * @example
        * cy.get('.modal-dialog').a11yRunContinuumTest(); // Runs accessibility tests on the dialog only.
        * cy.get('cx-tab-panel .active').a11yRunContinuumTest(); // Tests the active tab panel.
+       * cy.get('selector').a11yRunContinuumTest(false); // The concerns will be logged but the test will not fail.
        * cy.a11yRunContinuumTest(true); // Runs accessibility tests on the entire page, including iframes. (Avoid this if possible)
        */
-      a11yRunContinuumTest(): Chainable<void>;
+      a11yRunContinuumTest(
+        failIfConcerns?: boolean,
+        includeIframe?: boolean
+      ): Chainable<void>;
     }
   }
 
