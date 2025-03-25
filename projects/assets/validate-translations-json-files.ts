@@ -19,7 +19,7 @@ const BANNED_KEYS = [
   'eval',
 ];
 const NOT_ALLOWED_VALUE_REGEX =
-  /^[{\[](?:[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]|".*?")*[}\]]$/u;
+  /^[{\[](?:[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]|"(?:[^"\\]|\\.)*")*[}\]]$/u;
 
 function validateJson(filePath: string) {
   const fileSize = fs.statSync(filePath).size;
