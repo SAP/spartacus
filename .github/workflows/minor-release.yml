@@ -3,9 +3,12 @@ name: Minor Release
 on:
   workflow_dispatch:
     inputs:
+      source_branch:
+        description: 'Branch to release from (e.g., release-2211.20.0). By default, the develop branch is used.'
+        required: false
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
-        required: false
+        required: true
   
 jobs:
   release:
@@ -14,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: develop 
+          ref: ${{ github.event.inputs.source_branch || 'develop' }}
 
       - name: Configure Git
         run: |
