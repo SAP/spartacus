@@ -1086,7 +1086,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
   a11yFormErrorMuteIcon: true,
-  a11yImprovedErrorMessage: true,
+  a11yImprovedErrorMessage: false,
   a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,

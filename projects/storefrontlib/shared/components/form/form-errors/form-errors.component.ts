@@ -14,6 +14,7 @@ import {
   inject,
   HostAttributeToken,
   ElementRef,
+  signal,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import {
@@ -37,27 +38,24 @@ import { map, startWith } from 'rxjs/operators';
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[attr.aria-live]': 'ariaLive()',
+    'aria-atomic': 'true',
+  },
   standalone: false,
 })
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);
 
-  private elementRef = inject(ElementRef);
+  protected elementRef = inject(ElementRef, { optional: true });
+  protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
+    optional: true,
+  });
+  protected ariaLive = signal<string | null>(null);
 
   constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
     useFeatureStyles('a11yFormErrorMuteIcon');
-    if (this.featureConfigService.isEnabled('a11yImprovedErrorMessage')) {
-      const ariaLive = inject(new HostAttributeToken('aria-live'), {
-        optional: true,
-      });
-
-      if (!ariaLive) {
-        // If no aria-live value is set add 'polite' as a default. This is preferred over setting
-        // role='alert' so that screen readers do not interrupt the current task to read this aloud.
-        this.elementRef.nativeElement.setAttribute('aria-live', 'polite');
-      }
-      this.elementRef.nativeElement.setAttribute('aria-atomic', 'true');
-    }
+    this.setAriaLiveAttribute();
   }
 
   _control: UntypedFormControl | AbstractControl;
@@ -116,7 +114,7 @@ export class FormErrorsComponent implements DoCheck {
     if (this.control.touched !== this.previousTouchedState) {
       if (
         this.featureConfigService.isEnabled('a11yImprovedErrorMessage') &&
-        this.elementRef.nativeElement.getAttribute('aria-live') === 'polite'
+        this.elementRef?.nativeElement?.getAttribute('aria-live') === 'polite'
       ) {
         // due to the way we detect changes here, JAWS doesn't always respect
         // aria live `polite`, so we need to move this in the next event-loop queue
@@ -141,6 +139,15 @@ export class FormErrorsComponent implements DoCheck {
   getTranslationParams(errorDetails?: any): object {
     errorDetails = isObject(errorDetails) ? errorDetails : {};
     return { ...errorDetails, ...this.translationParams };
+  }
+
+  setAriaLiveAttribute() {
+    if (!this.featureConfigService.isEnabled('a11yImprovedErrorMessage')) {
+      return;
+    }
+    // If no aria-live value is set add 'polite' as a default. This is preferred over setting
+    // role='alert' so that screen readers do not interrupt the current task to read this aloud.
+    this.ariaLive.set(this.ariaLiveToken ?? 'polite');
   }
 
   @HostBinding('class.control-invalid') get invalid() {
