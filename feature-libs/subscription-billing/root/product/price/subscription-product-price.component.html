@@ -1,4 +1,4 @@
-@if (product(); as product) {
+@if (productDetail(); as product) {
   @if (isCurrentProductSubscription()) {
     <div class="subscription">
       @if (product.sapPricePlan?.name) {
@@ -12,7 +12,7 @@
       }
       <ng-container *ngTemplateOutlet="showTerm"></ng-container>
       <cx-subscription-product-usage-charge
-        [product]="product"
+        [product]="productDetail"
       ></cx-subscription-product-usage-charge>
     </div>
   } @else {

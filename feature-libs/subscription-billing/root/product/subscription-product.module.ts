@@ -5,6 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
+import { SubscriptionProductPriceModule } from '../public_api';
 
-@NgModule()
-export class SubscriptionBillingComponentsModule {}
+@NgModule({
+  imports: [SubscriptionProductPriceModule],
+})
+export class SubscriptionProductModule {}

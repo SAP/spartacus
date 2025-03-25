@@ -8,7 +8,7 @@ import { Product, ProductScope } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OneTimeCharge, RecurringCharge } from '../../public_api';
-import { SubscriptionProductService } from '../../../core/facade/subscription-product.service';
+import { SubscriptionProductService } from '../service/subscription-product.service';
 import { Component, inject, Signal, computed } from '@angular/core';
 
 @Component({
@@ -20,12 +20,12 @@ export class SubscriptionProductPriceComponent {
   protected productService = inject(SubscriptionProductService);
   protected currentProductService = inject(CurrentProductService);
 
-  product: Signal<Product | null | undefined> = toSignal(
+  productDetail: Signal<Product | null | undefined> = toSignal(
     this.currentProductService.getProduct([ProductScope.SUBSCRIPTION])
   );
 
   isCurrentProductSubscription: Signal<boolean> = computed(() => {
-    const product = this.product();
+    const product = this.productDetail();
     if (product !== null && product !== undefined) {
       return this.productService.isSubscription(product);
     } else {
@@ -34,9 +34,9 @@ export class SubscriptionProductPriceComponent {
   });
 
   oneTimeCharges: Signal<OneTimeCharge[]> = computed(
-    () => this.product()?.sapPricePlan?.oneTimeCharges ?? []
+    () => this.productDetail()?.sapPricePlan?.oneTimeCharges ?? []
   );
   recurringCharges: Signal<RecurringCharge[]> = computed(
-    () => this.product()?.sapPricePlan?.recurringCharges ?? []
+    () => this.productDetail()?.sapPricePlan?.recurringCharges ?? []
   );
 }

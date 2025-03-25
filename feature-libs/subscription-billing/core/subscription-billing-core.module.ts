@@ -5,9 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CurrentSubscriptionProductService } from './facade';
+import { CurrentSubscriptionProductService, facadeProviders } from './facade';
 import { CurrentProductService } from '@spartacus/storefront';
-import { facadeProviders } from '@spartacus/pickup-in-store/core';
 import { SubscriptionBillingConnector } from './connector';
 
 @NgModule({

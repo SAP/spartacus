@@ -12,18 +12,13 @@ import {
   ProductDetailOutlets,
   OutletPosition,
 } from '@spartacus/storefront';
-
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import { SubscriptionProductPriceComponent } from './product/price/subscription-product-price.component';
 import { defaultOccSubscriptionBillingConfig } from './occ-config/default-occ-subscription-billing-config';
-import { SubscriptionProductUsageChargeComponent } from './product';
-import { CommonModule } from '@angular/common';
-const components = [
-  SubscriptionProductPriceComponent,
-  SubscriptionProductUsageChargeComponent,
-];
+import { SubscriptionProductModule } from './product';
+
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [SubscriptionProductModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -37,7 +32,5 @@ const components = [
     }),
     provideDefaultConfig(defaultOccSubscriptionBillingConfig),
   ],
-  exports: [...components],
-  declarations: [...components],
 })
 export class SubscriptionBillingRootModule {}

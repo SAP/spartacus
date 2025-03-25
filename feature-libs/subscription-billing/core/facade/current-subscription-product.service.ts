@@ -6,7 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { SubscriptionProductService } from './subscription-product.service';
+import { SubscriptionProductService } from '../../root/product/service/subscription-product.service';
 import { Product } from '@spartacus/core';
 
 @Injectable({

@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, Input, Signal } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
-  VolumeUsageCharge,
   TierUsageChargeEntry,
   UsageChargeType,
-} from '../../public_api';
+  VolumeUsageCharge,
+} from '../../model';
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',
@@ -19,7 +19,7 @@ import {
   templateUrl: './subscription-product-usage-charge.component.html',
 })
 export class SubscriptionProductUsageChargeComponent {
-  product: Signal<Product | undefined> = input<Product>();
+  @Input() product!: Signal<Product | undefined | null>;
 
   perUnitUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
     return (
