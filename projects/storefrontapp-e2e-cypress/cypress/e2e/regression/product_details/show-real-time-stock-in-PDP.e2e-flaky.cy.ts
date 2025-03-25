@@ -6,22 +6,18 @@
 
 import { visitProductPage } from '../../../helpers/coupons/cart-coupon';
 import * as sampleData from '../../../sample-data/inventory-display';
-import { FeaturesConfig } from '@spartacus/core';
+import { inventoryDisplayB2C } from '../../../sample-data/inventory-display';
 
 export const stockSelector = 'cx-add-to-cart .info';
 
-export const GET_PRODUCT_AVAILABILITY_ENDPOINT_ALIAS = 'getProductDetails';
-
-export function interceptProductAvailability(productCode: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/apparel-uk-spa/productAvailabilities?filters=${productCode}:ST`
-  ).as(GET_PRODUCT_AVAILABILITY_ENDPOINT_ALIAS);
-
-  return GET_PRODUCT_AVAILABILITY_ENDPOINT_ALIAS;
+export function interceptProductAvailability() {
+  cy.intercept('GET', '**/productAvailabilities**').as(
+    'getProductAvailability'
+  );
+  return '@getProductAvailability';
 }
 
-export function configureInventoryDisplay(enable: boolean) {
+export function configureInventoryDisplay(enable) {
   cy.cxConfig({
     cmsComponents: {
       ProductAddToCartComponent: {
@@ -33,59 +29,38 @@ export function configureInventoryDisplay(enable: boolean) {
   });
 }
 
-export function assertInventoryDisplay(
-  productCode: string,
-  alias: string,
-  functionality: string,
-  isInventoryDisplayActive: boolean
-) {
-  cy.get(`${alias}`).then((xhr) => {
+export function assertInventoryDisplay(alias, isInventoryDisplayActive) {
+  cy.wait(alias).then((xhr) => {
     const body = xhr.response.body;
-    const code = body.availabilityItems[0]?.productCode;
-    const stock = body.availabilityItems[0]?.unitAvailabilities[0]?.quantity;
-    const status = body.availabilityItems[0]?.unitAvailabilities[0]?.status;
+    expect(body.availabilityItems).to.not.be.undefined;
 
-    expect(code).to.equal(productCode);
+    const availability = body.availabilityItems[0]?.unitAvailabilities[0];
+    const status = availability?.status;
+    const stock = availability?.quantity;
 
     cy.get(stockSelector).then(($ele) => {
       const text = $ele.text().trim();
-
       if (isInventoryDisplayActive) {
-        // Out of stock
-        if (status === 'OUT_OF_STOCK' || functionality === 'OUT_OF_STOCK') {
-          expect(text).to.equal(sampleData.stockOutOfStockLabel);
-        } else {
-          expect(text).to.equal(`${sampleData.stockLabel}`);
-        }
+        expect(text).to.equal(
+          status === 'OUT_OF_STOCK'
+            ? sampleData.stockOutOfStockLabel
+            : `${stock} ${sampleData.stockLabel}`
+        );
       } else {
-        if (status === 'OUT_OF_STOCK' || functionality === 'OUT_OF_STOCK') {
-          expect(text).to.equal(sampleData.stockOutOfStockLabel);
-        } else {
-          expect(text).to.equal(`${sampleData.stockLabel}`);
-        }
+        expect(text).to.equal(
+          status === 'OUT_OF_STOCK'
+            ? sampleData.stockOutOfStockLabel
+            : sampleData.stockLabel
+        );
       }
     });
   });
 }
 
-export function testInventoryDisplay(
-  productCode: string,
-  functionality: string = '',
-  isInventoryDisplayActive: boolean
-) {
-  const productDetailsAlias = interceptProductAvailability(productCode);
+export function testInventoryDisplay(productCode, isInventoryDisplayActive) {
+  const productDetailsAlias = interceptProductAvailability();
   visitProductPage(productCode);
-
-  cy.wait(`@${productDetailsAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
-
-  assertInventoryDisplay(
-    productCode,
-    `@${productDetailsAlias}`,
-    functionality,
-    isInventoryDisplayActive
-  );
+  assertInventoryDisplay(productDetailsAlias, isInventoryDisplayActive);
 }
 
 describe('B2C - Real Time Stock Display - Inventory Display - disabled', () => {
@@ -95,7 +70,13 @@ describe('B2C - Real Time Stock Display - Inventory Display - disabled', () => {
   });
 
   it('should NOT render number of available stock', () => {
-    testInventoryDisplay('M_CR_1015', '', false);
+    testInventoryDisplay(
+      inventoryDisplayB2C.IN_STOCK_WITH_QUANTITY_PRODUCT,
+      false
+    );
+  });
+  it('should show out of stock for product not in stock', () => {
+    testInventoryDisplay(inventoryDisplayB2C.OUT_OF_STOCK_PRODUCT, false);
   });
 });
 
@@ -105,11 +86,12 @@ describe('Inventory Display - active', () => {
   });
 
   it('should render number of available stock', () => {
-    cy.cxConfig({
-      features: {
-        showRealTimeStockInPDP: true,
-      },
-    } as FeaturesConfig);
-    testInventoryDisplay('M_CR_1015', '', true);
+    testInventoryDisplay(
+      inventoryDisplayB2C.IN_STOCK_WITH_QUANTITY_PRODUCT,
+      true
+    );
+  });
+  it('should show out of stock for product not in stock', () => {
+    testInventoryDisplay(inventoryDisplayB2C.OUT_OF_STOCK_PRODUCT, true);
   });
 });
