@@ -9,7 +9,6 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
-  QueryService,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -43,7 +42,6 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutConnector = inject(PunchoutConnector);
   protected punchoutAuthService = inject(PunchoutAuthService);
   protected commandService = inject(CommandService);
-  protected queryService = inject(QueryService);
   protected routingService = inject(RoutingService);
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
@@ -167,7 +165,6 @@ export class PunchoutService implements PunchoutFacade {
       take(1),
       switchMap((punchoutState) => {
         const punchoutSessionId = punchoutState?.punchoutSessionId;
-        console.log('getPunchoutRequisitionQuery', punchoutSessionId);
         return punchoutSessionId
           ? this.punchoutConnector.getPunchoutSessionRequisition(
               punchoutSessionId
@@ -175,7 +172,6 @@ export class PunchoutService implements PunchoutFacade {
           : throwError(() => new Error('Punchout Session Id missing'));
       }),
       catchError((error) => {
-        console.log('flo catchError', error);
         this.displayErrorPage();
         return throwError(() => new Error(error));
       })
@@ -184,9 +180,6 @@ export class PunchoutService implements PunchoutFacade {
 
   protected logoutPunchoutUserCommand: Command<undefined, boolean> =
     this.commandService.create(() => {
-      console.log('logoutPunchoutUserCommand');
-      return this.punchoutAuthService
-        .logout()
-        .pipe(tap(() => console.log('flo2')));
+      return this.punchoutAuthService.logout();
     });
 }
