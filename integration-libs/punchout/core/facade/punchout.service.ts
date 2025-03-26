@@ -19,6 +19,7 @@ import {
   PunchoutRequisition,
   PunchoutSession,
   PunchoutSessionInput,
+  PunchoutState,
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
@@ -114,9 +115,15 @@ export class PunchoutService implements PunchoutFacade {
     undefined,
     PunchoutRequisition
   > = this.commandService.create(() => {
-    return this.punchoutStoreService.getPunchoutState().pipe(
+    return this.punchoutAuthService.isUserLoggedIn().pipe(
+      switchMap((isLoggedIn) => {
+        return isLoggedIn
+          ? this.punchoutStoreService.getPunchoutState()
+          : throwError(() => new Error('User not loggedIn'));
+      }),
+      // return this.punchoutStoreService.getPunchoutState().pipe(
       take(1),
-      switchMap((punchoutState) => {
+      switchMap((punchoutState: PunchoutState) => {
         const punchoutSessionId = punchoutState?.punchoutSessionId;
         return punchoutSessionId
           ? this.punchoutConnector.getPunchoutSessionRequisition(

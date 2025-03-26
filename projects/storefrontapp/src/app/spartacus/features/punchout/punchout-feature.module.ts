@@ -5,12 +5,25 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig } from '@spartacus/core';
+import {
+  punchoutTranslationChunksConfig,
+  punchoutTranslationsEn,
+} from '@spartacus/punchout/assets';
 import { PUNCHOUT_FEATURE, PunchoutRootModule } from '@spartacus/punchout/root';
 
 @NgModule({
   imports: [PunchoutRootModule],
   providers: [
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: {
+          en: punchoutTranslationsEn,
+        },
+        chunks: punchoutTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
     provideConfig({
       featureModules: {
         [PUNCHOUT_FEATURE]: {

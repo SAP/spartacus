@@ -30,8 +30,7 @@ export class PunchoutAuthService {
   protected punchoutStoreService = inject(PunchoutStoreService);
 
   logout(): Observable<boolean> {
-    return this.authService.isUserLoggedIn().pipe(
-      take(1),
+    return this.isUserLoggedIn().pipe(
       tap(() => this.punchoutStoreService.clearPunchoutState()),
       switchMap((isLoggedIn) => {
         return isLoggedIn
@@ -58,5 +57,9 @@ export class PunchoutAuthService {
     this.userIdService.setUserId(userId);
     this.store.dispatch(new AuthActions.Login());
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
+  }
+
+  isUserLoggedIn(): Observable<boolean> {
+    return this.authService.isUserLoggedIn().pipe(take(1));
   }
 }
