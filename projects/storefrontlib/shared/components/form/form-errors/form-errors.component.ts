@@ -38,10 +38,6 @@ import { map, startWith } from 'rxjs/operators';
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[attr.aria-live]': 'ariaLive()',
-    'aria-atomic': 'true',
-  },
   standalone: false,
 })
 export class FormErrorsComponent implements DoCheck {
@@ -167,4 +163,10 @@ export class FormErrorsComponent implements DoCheck {
   )
     ? null
     : 'alert';
+
+  @HostBinding('attr.aria-live') get ariaLiveValue() {
+    return this.ariaLive();
+  }
+
+  @HostBinding('attr.aria-atomic') atomic = true;
 }
