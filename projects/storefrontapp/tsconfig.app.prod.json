@@ -438,6 +438,7 @@
       "@spartacus/opf/quick-buy/root": ["dist/opf/quick-buy/root"],
       "@spartacus/opps": ["dist/opps"],
       "@spartacus/opps/root": ["dist/opps/root"],
+      "@spartacus/punchout/assets": ["dist/punchout/assets"],
       "@spartacus/punchout/components": ["dist/punchout/components"],
       "@spartacus/punchout/core": ["dist/punchout/core"],
       "@spartacus/punchout": ["dist/punchout"],
