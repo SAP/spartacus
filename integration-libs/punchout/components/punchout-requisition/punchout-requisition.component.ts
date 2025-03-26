@@ -34,7 +34,7 @@ export class PunchoutRequisitionComponent implements OnInit {
   protected routingService = inject(RoutingService);
   punchoutFormGroup: FormGroup;
 
-  fb = inject(FormBuilder);
+  protected formBuilder = inject(FormBuilder);
 
   punchoutRequisition$: Observable<PunchoutRequisition | undefined> =
     this.punchoutFacade.getPunchoutSessionRequisition().pipe(
@@ -54,6 +54,12 @@ export class PunchoutRequisitionComponent implements OnInit {
       })
     );
 
+  ngOnInit(): void {
+    this.punchoutFormGroup = this.formBuilder.group({
+      order: [''],
+    });
+  }
+
   protected listenAndSubmitForm(
     req: PunchoutRequisition | undefined
   ): Observable<boolean> {
@@ -61,7 +67,7 @@ export class PunchoutRequisitionComponent implements OnInit {
       filter((value: string) => value === req?.orderAsCXML),
       take(1),
       switchMap(() => {
-        return this.waitNativeFormElementReady();
+        return this.isFormNativeElementAccessible();
       }),
       switchMap(() => {
         return this.punchoutFacade.logoutPunchoutUser();
@@ -70,18 +76,12 @@ export class PunchoutRequisitionComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.punchoutFormGroup = this.fb.group({
-      order: [''],
-    });
-  }
-
-  waitNativeFormElementReady(): Observable<boolean> {
+  protected isFormNativeElementAccessible(): Observable<boolean> {
     // timer(0) wait for next Javascript event loop, this way DOM native elements becomes accessible.
     return timer(0).pipe(
       map(() => {
         if (!this.punchoutFormElement?.nativeElement) {
-          throw () => 'Native Form not accessible';
+          throw new Error('Form native element not accessible');
         } else {
           return true;
         }

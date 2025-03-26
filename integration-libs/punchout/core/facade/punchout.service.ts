@@ -110,6 +110,32 @@ export class PunchoutService implements PunchoutFacade {
       );
   });
 
+  protected getPunchoutRequisitionCommand: Command<
+    undefined,
+    PunchoutRequisition
+  > = this.commandService.create(() => {
+    return this.punchoutStoreService.getPunchoutState().pipe(
+      take(1),
+      switchMap((punchoutState) => {
+        const punchoutSessionId = punchoutState?.punchoutSessionId;
+        return punchoutSessionId
+          ? this.punchoutConnector.getPunchoutSessionRequisition(
+              punchoutSessionId
+            )
+          : throwError(() => new Error('Punchout Session Id missing'));
+      }),
+      catchError((error) => {
+        this.displayErrorPage();
+        return throwError(() => new Error(error));
+      })
+    );
+  });
+
+  protected logoutPunchoutUserCommand: Command<undefined, boolean> =
+    this.commandService.create(() => {
+      return this.punchoutAuthService.logout();
+    });
+
   getPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
@@ -157,29 +183,4 @@ export class PunchoutService implements PunchoutFacade {
       })
     );
   }
-  protected getPunchoutRequisitionCommand: Command<
-    undefined,
-    PunchoutRequisition
-  > = this.commandService.create(() => {
-    return this.punchoutStoreService.getPunchoutState().pipe(
-      take(1),
-      switchMap((punchoutState) => {
-        const punchoutSessionId = punchoutState?.punchoutSessionId;
-        return punchoutSessionId
-          ? this.punchoutConnector.getPunchoutSessionRequisition(
-              punchoutSessionId
-            )
-          : throwError(() => new Error('Punchout Session Id missing'));
-      }),
-      catchError((error) => {
-        this.displayErrorPage();
-        return throwError(() => new Error(error));
-      })
-    );
-  });
-
-  protected logoutPunchoutUserCommand: Command<undefined, boolean> =
-    this.commandService.create(() => {
-      return this.punchoutAuthService.logout();
-    });
 }
