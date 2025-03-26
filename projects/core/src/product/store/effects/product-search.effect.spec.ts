@@ -12,6 +12,7 @@ import { SearchConfig } from '../../model/search-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product-search.effect';
 import createSpy = jasmine.createSpy;
+import { GlobalMessageService } from '@spartacus/core';
 
 const searchResult: ProductSearchPage = { products: [] };
 const suggestionList: Occ.SuggestionList = { suggestions: [] };
@@ -21,6 +22,9 @@ class MockProductSearchConnector {
   getSuggestions = createSpy().and.returnValue(of(suggestionList.suggestions));
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
 describe('ProductSearch Effects', () => {
   let actions$: Observable<Action>;
   let effects: fromEffects.ProductsSearchEffects;
@@ -29,6 +33,7 @@ describe('ProductSearch Effects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
           provide: ProductSearchConnector,
           useClass: MockProductSearchConnector,
