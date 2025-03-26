@@ -26,4 +26,3 @@ export {
 } from './test-config.module';
 export * from './utils/deep-merge';
 export * from './utils/string-template';
-export * from './services/sanitize.service';

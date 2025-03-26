@@ -52,7 +52,9 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should remove HTML tags from input text', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Sanitized Text' as any); // Fake SafeHtml
+    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue(
+      'Sanitized Text' as any
+    ); // Fake SafeHtml
     const result = component.normalize('<b>Sanitized Text</b>');
     expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
       '<b>Sanitized Text</b>'

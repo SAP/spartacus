@@ -32,7 +32,10 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
    * Sanitizes the name so that the name doesn't contain html elements.
    */
   protected normalize(name: string): string {
-    return this.sanitizer.bypassSecurityTrustHtml(name).toString() || ''.replace(/<[^>]*>/g, '');
+    return (
+      this.sanitizer.bypassSecurityTrustHtml(name).toString() ||
+      ''.replace(/<[^>]*>/g, '')
+    );
   }
 
   /**
