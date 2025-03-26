@@ -35,6 +35,6 @@ export class PunchoutButtonsComponent {
   );
 
   submitRequisition(): void {
-    this.routingService.goByUrl(PUNCHOUT_REQUISITION_PAGE_URL);
+    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
   }
 }

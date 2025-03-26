@@ -121,7 +121,6 @@ export class PunchoutService implements PunchoutFacade {
           ? this.punchoutStoreService.getPunchoutState()
           : throwError(() => new Error('User not loggedIn'));
       }),
-      // return this.punchoutStoreService.getPunchoutState().pipe(
       take(1),
       switchMap((punchoutState: PunchoutState) => {
         const punchoutSessionId = punchoutState?.punchoutSessionId;

@@ -45,7 +45,7 @@ export class PunchoutRequisitionComponent implements OnInit {
             this.punchoutFormElement.nativeElement.submit();
           },
           error: () => {
-            this.routingService.goByUrl(PUNCHOUT_ERROR_PAGE_URL);
+            this.routingService.go(PUNCHOUT_ERROR_PAGE_URL);
           },
         });
         this.punchoutFormGroup.setValue({
