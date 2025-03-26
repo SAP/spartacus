@@ -9,6 +9,8 @@ export const enum CheckoutStepType {
   DELIVERY_MODE = 'deliveryMode',
   PAYMENT_DETAILS = 'paymentDetails',
   REVIEW_ORDER = 'reviewOrder',
+  // TODO: Add augmentation from OPF LIB
+  OPF_PAYMENT_AND_REVIEW = 'opfPaymentAndReview',
 }
 
 export const enum CheckoutStepState {

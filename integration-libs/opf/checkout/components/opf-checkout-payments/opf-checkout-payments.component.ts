@@ -11,6 +11,9 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  output,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -50,6 +53,15 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected paginationIndex = 0;
 
   @Input()
+  isHeadingDisplayed? = true;
+
+  @Input()
+  isPaymentRenderBelow? = true;
+
+  @Input()
+  isPaymentInfoMessageEnabled? = true;
+
+  @Input()
   elementsPerPage?: number;
 
   @Input()
@@ -57,6 +69,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Input()
   explicitTermsAndConditions: boolean | null | undefined;
+
+  @Input()
+  onlyPaymentWrapperMode? = false;
 
   selectedPaymentId?: number;
 
@@ -67,6 +82,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   >;
 
   iconTypes = ICON_TYPE;
+
+  paymentChange = output<OpfActiveConfiguration>();
+
+  @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
   getActiveConfigurations(): Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
@@ -86,11 +105,21 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
+              if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
+                state.data.value = state.data.value.filter(
+                  (config) => config.id === this.selectedPaymentId
+                );
+              }
+
               this.isOnlyOnePaymentOptionAvailable =
                 state.data.value.length === 1;
 
               if (this.isOnlyOnePaymentOptionAvailable) {
                 this.selectedPaymentId = state.data?.value[0]?.id;
+                const providerName = state.data?.value[0]?.displayName;
+                if (providerName) {
+                  this.selectedPaymentProviderName.emit(providerName);
+                }
               }
 
               this.opfMetadataStoreService.updateOpfMetadata({
@@ -118,7 +147,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   get isPaymentInfoMessageVisible(): boolean {
-    return Boolean(this.opfConfig?.opf?.paymentOption?.enableInfoMessage);
+    return Boolean(
+      this.opfConfig?.opf?.paymentOption?.enableInfoMessage &&
+        this.isPaymentInfoMessageEnabled
+    );
   }
 
   /**
@@ -166,6 +198,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
+    this.paymentChange.emit(payment);
   }
 
   getPaginationModel(

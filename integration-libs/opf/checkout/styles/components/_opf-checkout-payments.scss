@@ -1,10 +1,12 @@
 %cx-opf-checkout-payments {
   .cx-payment-options-list {
+    margin-top: 10px;
+    margin-bottom: 10px;
     .form-check {
       margin-bottom: 0;
-      padding-top: 0.625rem;
-      padding-bottom: 1rem;
-      border-top: 1px solid var(--cx-color-medium);
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+
       text-transform: capitalize;
 
       & ~ .form-check {

@@ -13,22 +13,22 @@ import {
 } from '@spartacus/opf/base/root';
 import {
   opfCheckoutTranslationChunksConfig,
+  opfCheckoutTranslationsDe,
   opfCheckoutTranslationsEn,
   opfCheckoutTranslationsJa,
-  opfCheckoutTranslationsDe,
   opfCheckoutTranslationsZh,
 } from '@spartacus/opf/checkout/assets';
 import {
-  OPF_CHECKOUT_FEATURE,
-  OpfCheckoutRootModule,
   defaultOpfCheckoutB2bConfig,
   defaultOpfCheckoutConfig,
+  OPF_CHECKOUT_FEATURE,
+  OpfCheckoutRootModule,
 } from '@spartacus/opf/checkout/root';
 import {
   opfPaymentTranslationChunksConfig,
+  opfPaymentTranslationsDe,
   opfPaymentTranslationsEn,
   opfPaymentTranslationsJa,
-  opfPaymentTranslationsDe,
   opfPaymentTranslationsZh,
 } from '@spartacus/opf/payment/assets';
 

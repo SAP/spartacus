@@ -15,6 +15,7 @@ import { defaultOpfCheckoutRoutingConfig } from './config/default-opf-checkout-r
 import { OPF_CHECKOUT_FEATURE } from './feature-name';
 
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
+  'OpfCheckoutPaymentType',
   'OpfCheckoutPaymentAndReview',
 ];
 
