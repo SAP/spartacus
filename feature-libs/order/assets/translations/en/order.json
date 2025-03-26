@@ -10,8 +10,6 @@
     "placed": "Placed",
     "placedBy": "Placed By",
     "unit": "Unit",
-    "quoteCode": "Quote ID {{id}}",
-    "quoteDetail": "Quote Detail",
     "costCenter": "Cost Center",
     "costCenterAndUnit": "Cost Center / Unit",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
