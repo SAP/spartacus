@@ -48,7 +48,7 @@ describe('ProductNameNormalizer', () => {
       name: '<script>alert("XSS")</script>Product',
     });
 
-    expect(sanitizerSpy.bypass).toHaveBeenCalledWith(
+    expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
       '<script>alert("XSS")</script>Product'
     );
     expect(result.name).toEqual('Sanitized Name');
