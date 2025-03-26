@@ -41,11 +41,13 @@ export abstract class PunchoutFacade {
 
   /**
    * Abstract method used to get Punchout Session Requisition data
-   * @param sessionId is the sesssion Id given by ARIBA via url param
    */
   abstract getPunchoutSessionRequisition(): Observable<
     PunchoutRequisition | undefined
   >;
 
+  /**
+   * Abstract method used to logout punchout user
+   */
   abstract logoutPunchoutUser(): Observable<boolean>;
 }

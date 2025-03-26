@@ -111,6 +111,14 @@ export class PunchoutService implements PunchoutFacade {
       );
   });
 
+  /**
+   * getPunchoutRequisition workflow:
+   * Ensure user is logged-in
+   * get punchoutSessionId from PunchoutState
+   * Get PunchoutSessionRequisition from  occ api
+   * Redirect to Punchout Error page if error occurs
+   */
+
   protected getPunchoutRequisitionCommand: Command<
     undefined,
     PunchoutRequisition
