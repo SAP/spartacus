@@ -9,11 +9,11 @@ import { Product } from '../../../../model/product.model';
 import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { SanitizeService } from '@spartacus/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
-  sanitizer = inject(SanitizeService);
+  sanitizer = inject(DomSanitizer);
 
   constructor(protected config: OccConfig) {}
 
@@ -32,7 +32,7 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
    * Sanitizes the name so that the name doesn't contain html elements.
    */
   protected normalize(name: string): string {
-    return this.sanitizer.bypass(name).toString() || ''.replace(/<[^>]*>/g, '');
+    return this.sanitizer.bypassSecurityTrustHtml(name).toString() || ''.replace(/<[^>]*>/g, '');
   }
 
   /**

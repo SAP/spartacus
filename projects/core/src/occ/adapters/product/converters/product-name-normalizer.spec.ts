@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../../config/occ-config';
 import { ProductNameNormalizer } from './product-name-normalizer';
-import { SanitizeService } from '@spartacus/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -17,17 +17,17 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('ProductNameNormalizer', () => {
   let service: ProductNameNormalizer;
-  let sanitizerSpy: jasmine.SpyObj<SanitizeService>;
+  let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
   beforeEach(() => {
-    sanitizerSpy = jasmine.createSpyObj<SanitizeService>('SanitizeService', [
-      'bypass',
+    sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
+      'bypassSecurityTrustHtml',
     ]);
     TestBed.configureTestingModule({
       providers: [
         ProductNameNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: SanitizeService, useValue: sanitizerSpy },
+        { provide: DomSanitizer, useValue: sanitizerSpy },
       ],
     });
 
@@ -42,7 +42,7 @@ describe('ProductNameNormalizer', () => {
   ));
 
   it('should sanitize the name', () => {
-    sanitizerSpy.bypass.and.returnValue('Sanitized Name');
+    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Sanitized Name');
 
     const result = service.convert({
       name: '<script>alert("XSS")</script>Product',
@@ -55,16 +55,18 @@ describe('ProductNameNormalizer', () => {
   });
 
   it('should sanitize the name', () => {
-    sanitizerSpy.bypass.and.returnValue('Sanitized Name');
+    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Sanitized Name');
 
     const result = service.convert({ name: '<b>Unsafe Name</b>' });
 
-    expect(sanitizerSpy.bypass).toHaveBeenCalledWith('<b>Unsafe Name</b>');
+    expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
+      '<b>Unsafe Name</b>'
+    );
     expect(result.name).toEqual('Sanitized Name'); // Ensure sanitized name is returned
   });
 
   it('should handle empty names', () => {
-    sanitizerSpy.bypass.and.returnValue('');
+    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('');
 
     const result = service.convert({ name: '' });
 

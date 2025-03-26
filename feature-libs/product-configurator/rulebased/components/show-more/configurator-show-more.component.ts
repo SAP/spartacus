@@ -12,7 +12,7 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { SanitizeService } from '@spartacus/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -26,7 +26,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
-  sanitizer = inject(SanitizeService);
+  sanitizer = inject(DomSanitizer);
 
   @Input() text: string;
   @Input() textSize = 60;
@@ -58,7 +58,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   normalize(text: string = ''): string {
-    const safeHtml = this.sanitizer.bypass(text);
+    const safeHtml =  this.sanitizer.bypassSecurityTrustHtml(text);
     return safeHtml ? safeHtml.toString().replace(/<[^>]*>/g, '') : '';
   }
 }
