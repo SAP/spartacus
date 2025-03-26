@@ -9,6 +9,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
+  QueryService,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -42,6 +43,7 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutConnector = inject(PunchoutConnector);
   protected punchoutAuthService = inject(PunchoutAuthService);
   protected commandService = inject(CommandService);
+  protected queryService = inject(QueryService);
   protected routingService = inject(RoutingService);
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
@@ -116,10 +118,12 @@ export class PunchoutService implements PunchoutFacade {
     return this.getPunchoutSessionCommand.execute(punchoutSessionInput);
   }
 
-  getPunchoutSessionRequisition(
-    sessionId: string
-  ): Observable<PunchoutRequisition> {
-    return this.punchoutConnector.getPunchoutSessionRequisition(sessionId);
+  getPunchoutSessionRequisition(): Observable<PunchoutRequisition | undefined> {
+    return this.getPunchoutRequisitionCommand.execute(undefined);
+  }
+
+  logoutPunchoutUser(): Observable<boolean> {
+    return this.logoutPunchoutUserCommand.execute(undefined);
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
@@ -155,4 +159,34 @@ export class PunchoutService implements PunchoutFacade {
       })
     );
   }
+  protected getPunchoutRequisitionCommand: Command<
+    undefined,
+    PunchoutRequisition
+  > = this.commandService.create(() => {
+    return this.punchoutStoreService.getPunchoutState().pipe(
+      take(1),
+      switchMap((punchoutState) => {
+        const punchoutSessionId = punchoutState?.punchoutSessionId;
+        console.log('getPunchoutRequisitionQuery', punchoutSessionId);
+        return punchoutSessionId
+          ? this.punchoutConnector.getPunchoutSessionRequisition(
+              punchoutSessionId
+            )
+          : throwError(() => new Error('Punchout Session Id missing'));
+      }),
+      catchError((error) => {
+        console.log('flo catchError', error);
+        this.displayErrorPage();
+        return throwError(() => new Error(error));
+      })
+    );
+  });
+
+  protected logoutPunchoutUserCommand: Command<undefined, boolean> =
+    this.commandService.create(() => {
+      console.log('logoutPunchoutUserCommand');
+      return this.punchoutAuthService
+        .logout()
+        .pipe(tap(() => console.log('flo2')));
+    });
 }

@@ -4,15 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { PunchoutButtonsComponent } from './punchout-buttons/punchout-buttons.component';
 import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
+import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
 
 @NgModule({
-  declarations: [PunchoutSessionComponent, PunchoutErrorComponent],
-  exports: [PunchoutSessionComponent, PunchoutErrorComponent],
-  imports: [],
+  declarations: [
+    PunchoutSessionComponent,
+    PunchoutErrorComponent,
+    PunchoutRequisitionComponent,
+    PunchoutButtonsComponent,
+  ],
+  exports: [
+    PunchoutSessionComponent,
+    PunchoutErrorComponent,
+    PunchoutRequisitionComponent,
+    PunchoutButtonsComponent,
+  ],
+  imports: [CommonModule, ReactiveFormsModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,6 +35,12 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
         },
         PunchoutErrorComponent: {
           component: PunchoutErrorComponent,
+        },
+        PunchoutButtonsComponent: {
+          component: PunchoutButtonsComponent,
+        },
+        PunchoutRequisitionComponent: {
+          component: PunchoutRequisitionComponent,
         },
       },
     }),

@@ -1,0 +1,10 @@
+<ng-container *ngIf="(hasSessionId$ | async) === true">
+  <button
+    type="button"
+    class="btn btn-block btn-secondary"
+    (click)="submitRequisition()"
+  >
+    Return to requisition
+  </button>
+  <button type="button" class="btn btn-block btn-secondary">Cancel</button>
+</ng-container>

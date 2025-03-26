@@ -1,0 +1,14 @@
+<p>Return to Ariba</p>
+<ng-container *ngIf="punchoutRequisition$ | async as pchtReq">
+  <p>Punchout Requisition on progress</p>
+
+  <form
+    *ngIf="pchtReq?.orderAsCXML && pchtReq?.browseFormPostUrl"
+    action="{{ pchtReq.browseFormPostUrl }}"
+    method="POST"
+    [formGroup]="punchoutFormGroup"
+    #punchoutFormElement
+  >
+    <input name="orderAsCXML" formControlName="order" type="hidden" value="" />
+  </form>
+</ng-container>

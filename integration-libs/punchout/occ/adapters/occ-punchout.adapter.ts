@@ -47,7 +47,7 @@ export class OccPunchoutAdapter implements PunchoutAdapter {
   ): Observable<PunchoutRequisition> {
     return this.http
       .get<PunchoutRequisition>(
-        this.occEndpoints.buildUrl('punchoutRequisition', {
+        this.occEndpoints.buildUrl('punchoutSessionRequisition', {
           urlParams: { sessionId },
         })
       )
