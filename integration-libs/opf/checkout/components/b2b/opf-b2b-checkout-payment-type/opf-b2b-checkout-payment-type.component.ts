@@ -9,7 +9,10 @@ import {
   Component,
   ElementRef,
   inject,
+  OnInit,
   ViewChild,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
@@ -31,12 +34,19 @@ import {
   OpfActiveConfiguration,
   OpfBaseFacade,
 } from '@spartacus/opf/base/root';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   filter,
   map,
+  take,
   tap,
 } from 'rxjs/operators';
 
@@ -46,10 +56,12 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OpfB2bCheckoutPaymentTypeComponent {
+export class OpfB2bCheckoutPaymentTypeComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   protected opfBaseService = inject(OpfBaseFacade);
   @ViewChild('poNumber', { static: false })
-  private poNumberInputElement: ElementRef<HTMLInputElement>;
+  protected poNumberInputElement: ElementRef<HTMLInputElement>;
 
   protected busy$ = new BehaviorSubject<boolean>(false);
 
@@ -105,15 +117,18 @@ export class OpfB2bCheckoutPaymentTypeComponent {
         }
         if (availablePaymentTypes.length) {
           this.busy$.next(true);
-          this.checkoutPaymentTypeFacade
-            .setPaymentType(
-              availablePaymentTypes[0].code as string,
-              this.poNumberInputElement?.nativeElement?.value
-            )
-            .subscribe({
-              complete: () => this.onSuccess(),
-              error: () => this.onError(),
-            });
+          this.subscription.add(
+            this.checkoutPaymentTypeFacade
+              .setPaymentType(
+                availablePaymentTypes[0].code as string,
+                this.poNumberInputElement?.nativeElement?.value
+              )
+              .pipe(take(1))
+              .subscribe({
+                complete: () => this.onSuccess(),
+                error: () => this.onError(),
+              })
+          );
           return availablePaymentTypes[0];
         }
         return undefined;
@@ -143,6 +158,9 @@ export class OpfB2bCheckoutPaymentTypeComponent {
       distinctUntilChanged()
     );
 
+  protected subscription: Subscription = new Subscription();
+  protected poNumberValue: string | undefined;
+
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
@@ -150,16 +168,43 @@ export class OpfB2bCheckoutPaymentTypeComponent {
     protected globalMessageService: GlobalMessageService
   ) {}
 
+  ngOnInit(): void {
+    // Store the PO number value from the observable
+    this.subscription.add(
+      this.cartPoNumber$.subscribe((poNumber) => {
+        this.poNumberValue = poNumber;
+        this.updatePoNumberField();
+      })
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.updatePoNumberField();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  protected updatePoNumberField(): void {
+    if (this.poNumberInputElement?.nativeElement && this.poNumberValue) {
+      this.poNumberInputElement.nativeElement.value = this.poNumberValue;
+    }
+  }
+
   changeType(code: string): void {
     this.busy$.next(true);
     this.typeSelected = code;
 
-    this.checkoutPaymentTypeFacade
-      .setPaymentType(code, this.poNumberInputElement?.nativeElement.value)
-      .subscribe({
-        complete: () => this.onSuccess(),
-        error: () => this.onError(),
-      });
+    this.subscription.add(
+      this.checkoutPaymentTypeFacade
+        .setPaymentType(code, this.poNumberInputElement?.nativeElement.value)
+        .pipe(take(1))
+        .subscribe({
+          complete: () => this.onSuccess(),
+          error: () => this.onError(),
+        })
+    );
   }
 
   next(): void {
@@ -175,13 +220,16 @@ export class OpfB2bCheckoutPaymentTypeComponent {
     }
 
     this.busy$.next(true);
-    this.checkoutPaymentTypeFacade
-      .setPaymentType(this.typeSelected, poNumberInput)
-      .subscribe({
-        // we don't call onSuccess here, because it can cause a spinner flickering
-        complete: () => this.checkoutStepService.next(this.activatedRoute),
-        error: () => this.onError(),
-      });
+    this.subscription.add(
+      this.checkoutPaymentTypeFacade
+        .setPaymentType(this.typeSelected, poNumberInput)
+        .pipe(take(1))
+        .subscribe({
+          // we don't call onSuccess here, because it can cause a spinner flickering
+          complete: () => this.checkoutStepService.next(this.activatedRoute),
+          error: () => this.onError(),
+        })
+    );
   }
 
   back(): void {
@@ -196,7 +244,7 @@ export class OpfB2bCheckoutPaymentTypeComponent {
     this.busy$.next(false);
   }
 
-  handlePaymentChange(payment: OpfActiveConfiguration) {
+  handlePaymentChange(payment: OpfActiveConfiguration): void {
     if (payment.merchantId === 'B2B_ACCOUNT') {
       this.changeType(B2BPaymentTypeEnum.ACCOUNT_PAYMENT);
     } else {
