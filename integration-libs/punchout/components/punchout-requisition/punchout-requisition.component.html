@@ -1,7 +1,5 @@
-<p>Return to Ariba</p>
+<p>{{ 'punchout.redirectToProcurementSystem' | cxTranslate }}</p>
 <ng-container *ngIf="punchoutRequisition$ | async as pchtReq">
-  <p>Punchout Requisition on progress</p>
-
   <form
     *ngIf="pchtReq?.orderAsCXML && pchtReq?.browseFormPostUrl"
     action="{{ pchtReq.browseFormPostUrl }}"
