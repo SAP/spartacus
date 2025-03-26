@@ -17,7 +17,7 @@ try {
   ModuleManagementStrategy = ContinuumImport.ModuleManagementStrategy;
 } catch (e) {
   console.warn(
-    'Access continuum is not available. Please configure CONTINUUM_REGISTRY_TOKEN env variable, otherwise conitnuum tests will be skipped.'
+    'Access continuum is not available. Please configure CONTINUUM_REGISTRY_TOKEN env variable, otherwise continuum tests will be skipped.'
   );
 }
 
@@ -33,6 +33,9 @@ const LEVEL_ACCESS_API = 'https://sap.levelaccess.net/api/cont/organization';
 const withContinuum = <T extends (...args: any[]) => any>(fn: T): T => {
   return ((...args: Parameters<T>): ReturnType<T> | void => {
     if (!isContinuumAvailable()) {
+      cy.log(
+        '⚠️ Warning: Access Continuum is not available. Skipping accessibility tests.'
+      );
       return;
     }
     return fn(...args);
@@ -43,46 +46,51 @@ const withContinuum = <T extends (...args: any[]) => any>(fn: T): T => {
 // * the Continuum configuration file (continuum.conf.js) specified by `configFilePath`
 // * Access Engine (AccessEngine.professional.js), the underlying accessibility testing engine Continuum uses
 // Normally code outside the Continuum JavaScript SDK is not required to do this, but Cypress' design essentially forces our hand
-const a11yContinuumSetup = withContinuum((configFilePath: string) => {
-  /**
-   * Prevent showing xhr calls in logs and exposing api token.
-   */
-  const origLog = Cypress.log.bind(Cypress);
-  Cypress.log = function (opts, ...other) {
-    if (opts.displayName >= LEVEL_ACCESS_API || opts.name >= LEVEL_ACCESS_API) {
-      return;
-    }
-    return origLog(opts, ...other);
-  };
+const a11yContinuumSetup = withContinuum(
+  (configFilePath: string = 'cypress/continuum.conf.ts') => {
+    /**
+     * Prevent showing xhr calls in logs and exposing api token.
+     */
+    const origLog = Cypress.log.bind(Cypress);
+    Cypress.log = function (opts, ...other) {
+      if (
+        opts.displayName >= LEVEL_ACCESS_API ||
+        opts.name >= LEVEL_ACCESS_API
+      ) {
+        return;
+      }
+      return origLog(opts, ...other);
+    };
 
-  /**
-   *  Avoid exposing API key in case of error.
-   */
-  Cypress.on('fail', (error) => {
-    if (error.message.includes(LEVEL_ACCESS_API)) {
-      error.message =
-        'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
-    }
-    throw error;
-  });
+    /**
+     *  Avoid exposing API key in case of error.
+     */
+    Cypress.on('fail', (error) => {
+      if (error.message.includes(LEVEL_ACCESS_API)) {
+        error.message =
+          'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
+      }
+      throw error;
+    });
 
-  return cy
-    .readFile(configFilePath)
-    .then((configFileContents) => window.eval(configFileContents))
-    .window()
-    .then((windowUnderTest) =>
-      cy
-        .readFile(accessEngineFilePath)
-        .then((accessEngineFileContents) => {
-          Continuum.accessEngineCode =
-            Continuum.createInjectableAccessEngineCode(
-              accessEngineFileContents
-            );
-          windowUnderTest.eval(Continuum.accessEngineCode);
-        })
-        .then(() => Continuum.setUp(null, configFilePath, windowUnderTest))
-    );
-});
+    return cy
+      .readFile(configFilePath)
+      .then((configFileContents) => window.eval(configFileContents))
+      .window()
+      .then((windowUnderTest) =>
+        cy
+          .readFile(accessEngineFilePath)
+          .then((accessEngineFileContents) => {
+            Continuum.accessEngineCode =
+              Continuum.createInjectableAccessEngineCode(
+                accessEngineFileContents
+              );
+            windowUnderTest.eval(Continuum.accessEngineCode);
+          })
+          .then(() => Continuum.setUp(null, configFilePath, windowUnderTest))
+      );
+  }
+);
 
 // We verify Access Engine is loaded, loading it again only if necessary, before running our accessibility tests using `Continuum.runAllTests`
 const a11yContinuumRunAllTests = withContinuum((includeiframe = false) => {
