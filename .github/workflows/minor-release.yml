@@ -99,4 +99,31 @@ jobs:
           git add .
           git commit -m "Release ${{ env.version }}"
           git push origin "${{ env.RELEASE_BRANCH }}"
-  
+        
+      - name: Tag the release
+        run: |
+          git fetch origin "${{ env.RELEASE_BRANCH }}"
+          git checkout "${{ env.RELEASE_BRANCH }}"
+
+          TAG="${{ env.version }}"
+
+          # Check if tag already exists
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists. Skipping creation."
+          else
+            git tag -a "$TAG" -m "$TAG"
+            git push origin "$TAG"
+            echo "Created and pushed tag: $TAG"
+          fi
+
+      - name: Sync branch to a private repo
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+        run: |
+          echo "Triggering repo-sync.yml with branch: ${{ env.RELEASE_BRANCH }}"
+          
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/repo-sync.yml/dispatches \
+            -d "{\"ref\":\"${{ env.RELEASE_BRANCH }}\",\"inputs\":{\"branch_to_sync\":\"${{ env.RELEASE_BRANCH }}\"}}"
