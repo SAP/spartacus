@@ -19,6 +19,7 @@ import {
   PunchoutRequisition,
   PunchoutSession,
   PunchoutSessionInput,
+  PunchoutState,
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
@@ -110,16 +111,57 @@ export class PunchoutService implements PunchoutFacade {
       );
   });
 
+  /**
+   * getPunchoutRequisition workflow:
+   * Ensure user is logged-in
+   * get punchoutSessionId from PunchoutState
+   * Get PunchoutSessionRequisition from  occ api
+   * Redirect to Punchout Error page if error occurs
+   */
+
+  protected getPunchoutRequisitionCommand: Command<
+    undefined,
+    PunchoutRequisition
+  > = this.commandService.create(() => {
+    return this.punchoutAuthService.isUserLoggedIn().pipe(
+      switchMap((isLoggedIn) => {
+        return isLoggedIn
+          ? this.punchoutStoreService.getPunchoutState()
+          : throwError(() => new Error('User not loggedIn'));
+      }),
+      take(1),
+      switchMap((punchoutState: PunchoutState) => {
+        const punchoutSessionId = punchoutState?.punchoutSessionId;
+        return punchoutSessionId
+          ? this.punchoutConnector.getPunchoutSessionRequisition(
+              punchoutSessionId
+            )
+          : throwError(() => new Error('Punchout Session Id missing'));
+      }),
+      catchError((error) => {
+        this.displayErrorPage();
+        return throwError(() => new Error(error));
+      })
+    );
+  });
+
+  protected logoutPunchoutUserCommand: Command<undefined, boolean> =
+    this.commandService.create(() => {
+      return this.punchoutAuthService.logout();
+    });
+
   getPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
     return this.getPunchoutSessionCommand.execute(punchoutSessionInput);
   }
 
-  getPunchoutSessionRequisition(
-    sessionId: string
-  ): Observable<PunchoutRequisition> {
-    return this.punchoutConnector.getPunchoutSessionRequisition(sessionId);
+  getPunchoutSessionRequisition(): Observable<PunchoutRequisition | undefined> {
+    return this.getPunchoutRequisitionCommand.execute(undefined);
+  }
+
+  logoutPunchoutUser(): Observable<boolean> {
+    return this.logoutPunchoutUserCommand.execute(undefined);
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {

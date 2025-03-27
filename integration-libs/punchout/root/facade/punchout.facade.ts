@@ -18,7 +18,11 @@ export function punchoutFacadeFactory() {
   return facadeFactory({
     facade: PunchoutFacade,
     feature: PUNCHOUT_FEATURE,
-    methods: ['getPunchoutSession', 'getPunchoutSessionRequisition'],
+    methods: [
+      'getPunchoutSession',
+      'getPunchoutSessionRequisition',
+      'logoutPunchoutUser',
+    ],
   });
 }
 
@@ -37,9 +41,13 @@ export abstract class PunchoutFacade {
 
   /**
    * Abstract method used to get Punchout Session Requisition data
-   * @param sessionId is the sesssion Id given by ARIBA via url param
    */
-  abstract getPunchoutSessionRequisition(
-    sessionId: string
-  ): Observable<PunchoutRequisition>;
+  abstract getPunchoutSessionRequisition(): Observable<
+    PunchoutRequisition | undefined
+  >;
+
+  /**
+   * Abstract method used to logout punchout user
+   */
+  abstract logoutPunchoutUser(): Observable<boolean>;
 }

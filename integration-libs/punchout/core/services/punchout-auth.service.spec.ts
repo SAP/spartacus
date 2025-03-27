@@ -116,4 +116,19 @@ describe('PunchoutAuthService', () => {
       },
     });
   });
+
+  it('should isLoggedIn fetch authService isLoggedIn first value only', (done) => {
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false, true, true));
+    let count = 0;
+    service.isUserLoggedIn().subscribe({
+      next: (value) => {
+        expect(value).toEqual(false);
+        count++;
+      },
+      complete: () => {
+        expect(count).toEqual(1);
+        done();
+      },
+    });
+  });
 });

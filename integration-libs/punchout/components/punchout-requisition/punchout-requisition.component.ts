@@ -1,0 +1,97 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
+import {
+  PUNCHOUT_ERROR_PAGE_URL,
+  PunchoutFacade,
+  PunchoutRequisition,
+} from '@spartacus/punchout/root';
+import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
+
+@Component({
+  selector: 'cx-punchout-requsition',
+  templateUrl: './punchout-requisition.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+})
+export class PunchoutRequisitionComponent implements OnInit {
+  @ViewChild('punchoutFormElement')
+  punchoutFormElement!: ElementRef<HTMLFormElement>;
+  protected punchoutFacade = inject(PunchoutFacade);
+  protected routingService = inject(RoutingService);
+  punchoutFormGroup: FormGroup;
+
+  protected formBuilder = inject(FormBuilder);
+
+  readonly FORM_CONTROL_NAME = {
+    ORDER: 'order',
+  } as const;
+
+  punchoutRequisition$: Observable<PunchoutRequisition | undefined> =
+    this.punchoutFacade.getPunchoutSessionRequisition().pipe(
+      take(1),
+      tap((punchoutRequisition) => {
+        this.listenAndSubmitForm(punchoutRequisition).subscribe({
+          next: () => {
+            this.punchoutFormElement.nativeElement.submit();
+          },
+          error: () => {
+            this.routingService.go(PUNCHOUT_ERROR_PAGE_URL);
+          },
+        });
+        this.punchoutFormGroup.setValue({
+          order: punchoutRequisition?.orderAsCXML,
+        });
+      })
+    );
+
+  ngOnInit(): void {
+    this.punchoutFormGroup = this.formBuilder.group({
+      [this.FORM_CONTROL_NAME.ORDER]: [''],
+    });
+  }
+
+  protected listenAndSubmitForm(
+    req: PunchoutRequisition | undefined
+  ): Observable<boolean> {
+    return this.punchoutFormGroup.controls[
+      this.FORM_CONTROL_NAME.ORDER
+    ].valueChanges.pipe(
+      filter((value: string) => value === req?.orderAsCXML),
+      take(1),
+      switchMap(() => {
+        return this.isFormNativeElementAccessible();
+      }),
+      switchMap(() => {
+        return this.punchoutFacade.logoutPunchoutUser();
+      }),
+      take(1)
+    );
+  }
+
+  protected isFormNativeElementAccessible(): Observable<boolean> {
+    // timer(0) wait for next Javascript event loop, this way DOM native elements becomes accessible.
+    return timer(0).pipe(
+      map(() => {
+        if (!this.punchoutFormElement?.nativeElement) {
+          throw new Error('Form native element not accessible');
+        } else {
+          return true;
+        }
+      })
+    );
+  }
+}

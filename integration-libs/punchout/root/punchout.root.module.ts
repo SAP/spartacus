@@ -19,7 +19,12 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [PUNCHOUT_FEATURE]: {
-        cmsComponents: ['PunchoutSessionComponent', 'PunchoutErrorComponent'],
+        cmsComponents: [
+          'PunchoutSessionComponent',
+          'PunchoutErrorComponent',
+          'PunchoutButtonsComponent',
+          'PunchoutRequisitionComponent',
+        ],
       },
     },
   };

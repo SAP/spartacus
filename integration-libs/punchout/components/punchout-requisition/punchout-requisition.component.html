@@ -1,0 +1,17 @@
+<p>{{ 'punchout.redirectToProcurementSystem' | cxTranslate }}</p>
+<ng-container *ngIf="punchoutRequisition$ | async as pchtReq">
+  <form
+    *ngIf="pchtReq?.orderAsCXML && pchtReq?.browseFormPostUrl"
+    action="{{ pchtReq.browseFormPostUrl }}"
+    method="POST"
+    [formGroup]="punchoutFormGroup"
+    #punchoutFormElement
+  >
+    <input
+      name="orderAsCXML"
+      formControlName="{{ FORM_CONTROL_NAME.ORDER }}"
+      type="hidden"
+      value=""
+    />
+  </form>
+</ng-container>

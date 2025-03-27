@@ -809,6 +809,9 @@
       "@spartacus/opps/root": [
         "integration-libs/opps/root/public_api"
       ],
+      "@spartacus/punchout/assets": [
+        "integration-libs/punchout/assets/public_api"
+      ],
       "@spartacus/punchout/components": [
         "integration-libs/punchout/components/public_api"
       ],
