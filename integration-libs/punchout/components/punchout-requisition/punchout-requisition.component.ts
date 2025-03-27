@@ -24,7 +24,7 @@ import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
 @Component({
   selector: 'cx-punchout-requsition',
   templateUrl: './punchout-requisition.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class PunchoutRequisitionComponent implements OnInit {
@@ -35,6 +35,10 @@ export class PunchoutRequisitionComponent implements OnInit {
   punchoutFormGroup: FormGroup;
 
   protected formBuilder = inject(FormBuilder);
+
+  readonly FORM_CONTROL_NAME = {
+    ORDER: 'order',
+  } as const;
 
   punchoutRequisition$: Observable<PunchoutRequisition | undefined> =
     this.punchoutFacade.getPunchoutSessionRequisition().pipe(
@@ -56,14 +60,16 @@ export class PunchoutRequisitionComponent implements OnInit {
 
   ngOnInit(): void {
     this.punchoutFormGroup = this.formBuilder.group({
-      order: [''],
+      [this.FORM_CONTROL_NAME.ORDER]: [''],
     });
   }
 
   protected listenAndSubmitForm(
     req: PunchoutRequisition | undefined
   ): Observable<boolean> {
-    return this.punchoutFormGroup.controls['order'].valueChanges.pipe(
+    return this.punchoutFormGroup.controls[
+      this.FORM_CONTROL_NAME.ORDER
+    ].valueChanges.pipe(
       filter((value: string) => value === req?.orderAsCXML),
       take(1),
       switchMap(() => {

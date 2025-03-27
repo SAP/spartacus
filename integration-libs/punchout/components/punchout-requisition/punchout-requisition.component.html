@@ -7,6 +7,11 @@
     [formGroup]="punchoutFormGroup"
     #punchoutFormElement
   >
-    <input name="orderAsCXML" formControlName="order" type="hidden" value="" />
+    <input
+      name="orderAsCXML"
+      formControlName="{{ FORM_CONTROL_NAME.ORDER }}"
+      type="hidden"
+      value=""
+    />
   </form>
 </ng-container>
