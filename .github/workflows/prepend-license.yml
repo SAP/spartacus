@@ -27,8 +27,12 @@ jobs:
         run: |
           git pull origin ${{ github.event.pull_request.head.ref }}
 
-          if [ -z $(git status --porcelain) ];
-          then
+          echo "Checking GH_PR_TOKEN identity..."
+          curl -H "Authorization: Bearer ${{ secrets.GH_PR_TOKEN }}" \
+          -H "Accept: application/vnd.github+json" \
+          https://api.github.com/user
+
+          if [ -z $(git status --porcelain) ]; then
               echo "No files to commit"
           else
               git commit -am "Add license header"
