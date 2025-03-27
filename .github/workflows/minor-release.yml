@@ -1,10 +1,10 @@
-name: Release snapshot (creates a snapshot from the develop branch or from the input-provided branch)
+name: Release snapshot (creates a snapshot from the develop branch or from the input-provided source)
 
 on:
   workflow_dispatch:
     inputs:
-      source_branch:
-        description: 'Branch to release from (e.g., release-2211.20.0). By default, the develop branch is used.'
+      source:
+        description: 'Source to release from (e.g., release-2211.20.0). By default, the develop branch is used.'
         required: false
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.source_branch || 'develop' }}
+          ref: ${{ github.event.inputs.source || 'develop' }}
 
       - name: Configure Git
         run: |
