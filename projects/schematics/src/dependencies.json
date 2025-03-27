@@ -1,4 +1,5 @@
 {
+  "@spartacus/assets": {},
   "@spartacus/core": {
     "@angular/common": "^19.1.8",
     "@angular/core": "^19.1.8",
