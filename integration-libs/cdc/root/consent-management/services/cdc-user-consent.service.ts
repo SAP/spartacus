@@ -13,9 +13,13 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
-import { CDC_USER_PREFERENCE_SERIALIZER } from '../converters/converter';
+import {
+  CDC_PREFERENCE_SERIALIZER,
+  CDC_USER_PREFERENCE_SERIALIZER,
+} from '../converters/converter';
 import { tap } from 'rxjs/operators';
 import { CdcJsService } from '../../service';
+import { CdcConsent } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentService {
@@ -34,7 +38,9 @@ export class CdcUserConsentService {
    * @param user - If user is not passed, the logged in user id will be fetched and used. If passed, it will be considered.
    * @param regToken - token
    * @returns - returns Observable with error code and status
+   * @deprecated since 2211.38, use method updateCdcUserPreferences instead
    */
+  // CXSPA-9292: remove this method in next major release
   updateCdcConsent(
     isConsentGranted: boolean,
     consentCodes: string[],
@@ -67,6 +73,46 @@ export class CdcUserConsentService {
 
     const currentLanguage = this.getActiveLanguage();
 
+    return this.cdcJsService
+      .setUserConsentPreferences(
+        userId,
+        currentLanguage,
+        serializedPreference,
+        regToken
+      )
+      .pipe(
+        tap({
+          error: (error) => {
+            throwError(error);
+          },
+        })
+      );
+  }
+
+  /**
+   *
+   * @param consentCodes an array of consent ID with status
+   * @param user If user is not passed, the logged in user id will be fetched and used. If passed, it will be considered.
+   * @param regToken token
+   * @returns returns Observable with error code and status
+   */
+  updateCdcUserPreferences(
+    consentCodes: CdcConsent[],
+    user?: string,
+    regToken?: string
+  ): Observable<{ errorCode: number; errorMessage: string }> {
+    const serializedPreference: any = this.converter.convert(
+      consentCodes,
+      CDC_PREFERENCE_SERIALIZER
+    );
+
+    let userId: string = '';
+    if (user === undefined) {
+      userId = this.getUserID() ?? '';
+    } else if (user !== undefined) {
+      userId = user;
+    }
+    const currentLanguage = this.getActiveLanguage();
     return this.cdcJsService
       .setUserConsentPreferences(
         userId,

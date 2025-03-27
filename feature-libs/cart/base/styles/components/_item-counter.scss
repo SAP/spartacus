@@ -129,5 +129,10 @@
       color: var(--cx-color-text);
       background-color: var(--cx-color-background);
     }
+    button {
+      &[aria-disabled='true'] {
+        color: var(--cx-color-secondary);
+      }
+    }
   }
 }
