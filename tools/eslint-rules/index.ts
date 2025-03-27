@@ -34,6 +34,10 @@ import {
   RULE_NAME as ngrxFailActionMustInitializeErrorName,
 } from './rules/ngrx-fail-action-must-initialize-error';
 
+import {
+  rule as noConstEnum,
+  RULE_NAME as noConstEnumName,
+} from './rules/no-const-enum';
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -68,5 +72,6 @@ module.exports = {
     [noNgrxFailActionWithoutErrorActionImplementationName]:
       noNgrxFailActionWithoutErrorActionImplementation,
     [ngrxFailActionMustInitializeErrorName]: ngrxFailActionMustInitializeError,
+    [noConstEnumName]: noConstEnum,
   },
 };
