@@ -152,14 +152,12 @@ export class FormErrorsComponent implements DoCheck {
     ? null
     : 'alert';
 
-  @HostBinding('attr.aria-live') get ariaLiveValue() {
-    if (!this.featureConfigService.isEnabled('a11yImprovedErrorMessage')) {
-      return null;
-    }
-    // If no aria-live value is set add 'polite' as a default. This is preferred over setting
-    // role='alert' so that screen readers do not interrupt the current task to read this aloud.
-    return this.ariaLiveToken ?? 'polite';
-  }
+  @HostBinding('attr.aria-live') ariaLive =
+    !this.featureConfigService.isEnabled('a11yImprovedErrorMessage')
+      ? this.ariaLiveToken
+      : // If no aria-live value is set add 'polite' as a default. This is preferred over setting
+        // role='alert' so that screen readers do not interrupt the current task to read this aloud.
+        (this.ariaLiveToken ?? 'polite');
 
   @HostBinding('attr.aria-atomic') atomic = true;
 }
