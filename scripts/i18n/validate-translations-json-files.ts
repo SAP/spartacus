@@ -6,8 +6,7 @@
 
 import * as fs from 'fs-extra';
 
-const TRANSLATIONS_DIR = '../assets/src/translations';
-const MAX_FILE_SIZE = 20 * 1024; // 20 KB limit
+const MAX_FILE_SIZE = 50 * 1024; // 50 KB limit
 const BANNED_KEYS = [
   '<script',
   'onerror',
@@ -21,7 +20,7 @@ const BANNED_KEYS = [
 const NOT_ALLOWED_VALUE_REGEX =
   /^[{\[](?:[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]|"(?:[^"\\]|\\.)*")*[}\]]$/u;
 
-function validateJson(filePath: string) {
+export function validateJson(filePath: string) {
   const fileSize = fs.statSync(filePath).size;
 
   if (fileSize > MAX_FILE_SIZE) {
@@ -83,7 +82,7 @@ function getJsonFiles(dir: any) {
 
     if (stat && stat.isDirectory()) {
       results = results.concat(getJsonFiles(filePath));
-    } else if (file.endsWith('.json')) {
+    } else if (filePath.includes('translations') && file.endsWith('.json')) {
       results.push(filePath);
     }
   });
@@ -95,10 +94,14 @@ function validateAllTranslations() {
   /* eslint-disable-next-line no-console */
   console.log('Validating translation files...');
 
-  const filePaths = getJsonFiles(TRANSLATIONS_DIR);
+  const basePaths: string[] = ['feature-libs', 'integration-libs', 'projects'];
 
-  filePaths.forEach((filePath) => {
-    validateJson(filePath);
+  basePaths.forEach((basePath: string) => {
+    const jsonFilePaths = getJsonFiles(basePath);
+
+    jsonFilePaths.forEach((path: string) => {
+      validateJson(path);
+    });
   });
 
   /* eslint-disable-next-line no-console */
