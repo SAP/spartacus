@@ -14,7 +14,6 @@ import {
   inject,
   HostAttributeToken,
   ElementRef,
-  signal,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import {
@@ -47,11 +46,9 @@ export class FormErrorsComponent implements DoCheck {
   protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
     optional: true,
   });
-  protected ariaLive = signal<string | null>(null);
 
   constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
     useFeatureStyles('a11yFormErrorMuteIcon');
-    this.setAriaLiveAttribute();
   }
 
   _control: UntypedFormControl | AbstractControl;
@@ -137,15 +134,6 @@ export class FormErrorsComponent implements DoCheck {
     return { ...errorDetails, ...this.translationParams };
   }
 
-  setAriaLiveAttribute() {
-    if (!this.featureConfigService.isEnabled('a11yImprovedErrorMessage')) {
-      return;
-    }
-    // If no aria-live value is set add 'polite' as a default. This is preferred over setting
-    // role='alert' so that screen readers do not interrupt the current task to read this aloud.
-    this.ariaLive.set(this.ariaLiveToken ?? 'polite');
-  }
-
   @HostBinding('class.control-invalid') get invalid() {
     return this.control?.invalid;
   }
@@ -165,7 +153,14 @@ export class FormErrorsComponent implements DoCheck {
     : 'alert';
 
   @HostBinding('attr.aria-live') get ariaLiveValue() {
-    return this.ariaLive();
+    if (!this.featureConfigService.isEnabled(
+      'a11yImprovedErrorMessage'
+    )) {
+      return null;
+    }
+    // If no aria-live value is set add 'polite' as a default. This is preferred over setting
+    // role='alert' so that screen readers do not interrupt the current task to read this aloud.
+    return this.ariaLiveToken ?? 'polite';
   }
 
   @HostBinding('attr.aria-atomic') atomic = true;
