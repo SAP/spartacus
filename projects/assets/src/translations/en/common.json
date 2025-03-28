@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Ask us anything"
     },
-    "closeSearchPanel": "Close"
+    "closeSearchPanel": "Close",
+    "queryError": "Your search query is incorrectly formatted. Please remove special characters like \":\" and try again."
   },
   "sorting": {
     "date": "Date",

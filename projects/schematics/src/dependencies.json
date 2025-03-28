@@ -216,6 +216,7 @@
     "@angular/common": "^19.1.8",
     "@angular/core": "^19.1.8",
     "@angular/forms": "^19.1.8",
+    "@angular/platform-browser": "^19.1.8",
     "@angular/router": "^19.1.8",
     "@ng-select/ng-select": "^14.1.0",
     "@ngrx/effects": "^19.0.1",
