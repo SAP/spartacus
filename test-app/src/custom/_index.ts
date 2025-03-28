@@ -4,18 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
-import {
-  ApplicationInitStatus,
-  inject,
-  Injectable,
-  provideAppInitializer,
-} from '@angular/core';
-import {
-  LOCATION_INITIALIZED_MULTI,
-  provideConfig,
-  WindowRef,
-} from '@spartacus/core';
+import { ApplicationInitStatus, Injectable } from '@angular/core';
+import { LOCATION_INITIALIZED_MULTI, provideConfig } from '@spartacus/core';
 import {
   PageLayoutComponentService,
   PageSlotComponentService,
@@ -111,44 +101,46 @@ export const customProviders = [
   //   fetchpriority="high"
   // />
 
-  provideAppInitializer(() => {
-    const document = inject(DOCUMENT);
-    const windowRef = inject(WindowRef);
-    // run only on the server:
-    if (windowRef.isBrowser()) {
-      return;
-    }
+  // SPIKE - temporarily suppress hardcoded workaround for Homepage, to allow for PDP optimization
 
-    const hardcodedLcpImageUrl =
-      'https://sparta-api.platis.dev/medias/Elec-480x320-HomeSpeed-EN-01-480W.jpg?context=bWFzdGVyfGltYWdlc3wzMzkzMnxpbWFnZS9qcGVnfGFEWXlMMmhtWVM4NE56azNOakV6TXpJMk16WTJMMFZzWldOZk5EZ3dlRE15TUY5SWIyMWxVM0JsWldSZlJVNWZNREZmTkRnd1Z5NXFjR2N8N2FkNDNjZmQ1OGMwNDgyMGQwYTMyNjBkMDZlNDQ5YTAzN2NkM2MyY2M4ZWZmOGQ1NTljOTRjYTQ4MDEyOTgwZA';
+  // provideAppInitializer(() => {
+  //   const document = inject(DOCUMENT);
+  //   const windowRef = inject(WindowRef);
+  //   // run only on the server:
+  //   if (windowRef.isBrowser()) {
+  //     return;
+  //   }
 
-    // SPIKE NEW - ideally for performance of LCP, we'd like to load Media from the same domain as the Storefront domain
-    // to avoid a "performance tax" of making extra DNS lookup and TLS handshake to another Media domain
-    //
-    // This is possible thanks to custom routing rules in Cloudflare (`<whatever-subdomain>.your-domain.com/cdn-cgi/image/...`)
-    // So let's use the same subdomain for Media as the Storefront domain (the current windowRef.location.origin):
-    // For more, see Cloudflare docs: https://developers.cloudflare.com/images/transform-images/transform-via-url/
-    let storefrontDomain = windowRef.location.origin;
+  //   const hardcodedLcpImageUrl =
+  //     'https://sparta-api.platis.dev/medias/Elec-480x320-HomeSpeed-EN-01-480W.jpg?context=bWFzdGVyfGltYWdlc3wzMzkzMnxpbWFnZS9qcGVnfGFEWXlMMmhtWVM4NE56azNOakV6TXpJMk16WTJMMFZzWldOZk5EZ3dlRE15TUY5SWIyMWxVM0JsWldSZlJVNWZNREZmTkRnd1Z5NXFjR2N8N2FkNDNjZmQ1OGMwNDgyMGQwYTMyNjBkMDZlNDQ5YTAzN2NkM2MyY2M4ZWZmOGQ1NTljOTRjYTQ4MDEyOTgwZA';
 
-    const imageOrigin = storefrontDomain?.includes('localhost')
-      ? // for local development, let's use some Cloudflare URL in a hardcoded way, otherwise it won't work - because we don't host images on localhost. Then we'll pay the little price of extra DNS lookup and TLS handshake.
-        'https://sparta-api.platis.dev'
-      : storefrontDomain;
+  //   // SPIKE NEW - ideally for performance of LCP, we'd like to load Media from the same domain as the Storefront domain
+  //   // to avoid a "performance tax" of making extra DNS lookup and TLS handshake to another Media domain
+  //   //
+  //   // This is possible thanks to custom routing rules in Cloudflare (`<whatever-subdomain>.your-domain.com/cdn-cgi/image/...`)
+  //   // So let's use the same subdomain for Media as the Storefront domain (the current windowRef.location.origin):
+  //   // For more, see Cloudflare docs: https://developers.cloudflare.com/images/transform-images/transform-via-url/
+  //   let storefrontDomain = windowRef.location.origin;
 
-    const IMAGE_OPTIMIZER_REVERSE_PROXY_BASE_URL =
-      imageOrigin + '/cdn-cgi/image/format=auto/';
+  //   const imageOrigin = storefrontDomain?.includes('localhost')
+  //     ? // for local development, let's use some Cloudflare URL in a hardcoded way, otherwise it won't work - because we don't host images on localhost. Then we'll pay the little price of extra DNS lookup and TLS handshake.
+  //       'https://sparta-api.platis.dev'
+  //     : storefrontDomain;
 
-    const fullUrl =
-      IMAGE_OPTIMIZER_REVERSE_PROXY_BASE_URL + hardcodedLcpImageUrl;
+  //   const IMAGE_OPTIMIZER_REVERSE_PROXY_BASE_URL =
+  //     imageOrigin + '/cdn-cgi/image/format=auto/';
 
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'preload');
-    link.setAttribute('as', 'image');
-    link.href = fullUrl;
-    link.setAttribute('fetchpriority', 'high');
+  //   const fullUrl =
+  //     IMAGE_OPTIMIZER_REVERSE_PROXY_BASE_URL + hardcodedLcpImageUrl;
 
-    document.head.insertBefore(link, document.head.firstChild);
-  }),
+  //   const link = document.createElement('link');
+  //   link.setAttribute('rel', 'preload');
+  //   link.setAttribute('as', 'image');
+  //   link.href = fullUrl;
+  //   link.setAttribute('fetchpriority', 'high');
+
+  //   document.head.insertBefore(link, document.head.firstChild);
+  // }),
 
   // SPIKE NEW - use rxFor to cut tasks but only in specific slots/layouts
   {
