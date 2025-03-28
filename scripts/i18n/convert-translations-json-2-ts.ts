@@ -145,10 +145,10 @@ function handleExistingJsonFile(
 function stringify(obj: any, indent: string = ''): string {
   if (typeof obj === 'string') {
     if (obj.includes('\n')) {
-      return '`' + obj.replace(/`/g, '\\`') + '`';
+      return '`' + obj.replace(/\\/g, '\\\\').replace(/`/g, '\\`') + '`';
     }
     if (obj.includes("'")) {
-      return `"${obj.replace(/"/g, '\\"')}"`;
+      return `"${obj.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
     }
     return `'${obj}'`;
   } else if (typeof obj !== 'object' || obj === null) {
