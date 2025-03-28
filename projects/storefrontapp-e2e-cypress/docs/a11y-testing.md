@@ -16,51 +16,39 @@ The Access Continuum integration is set up in `cypress/support/continuum.command
 
 1. Create a new test file in `cypress/e2e/accessibility/` with a naming convention that indicates it's an accessibility test (e.g., `*.a11y-e2e.cy.ts`).
 
-2. Import the `checkA11yConcerns` utility function:
+2. Set up the test context and initialize Access Continuum:
 
 ```typescript
-import { checkA11yConcerns } from '../../support/utils/a11y-continuum.utils';
-```
-
-3. Set up the test context and initialize Access Continuum:
-
-```typescript
-context('Page Accessibility', () => {
+describe('Page Accessibility', () => {
   before(() => {
     cy.a11yContinuumSetup();
   });
-
   // Test scenarios go here
 });
 ```
 
-4. Create test scenarios that cover both static and dynamic elements:
+3. Create test scenarios that cover both static and dynamic elements:
 
 ```typescript
 // Basic page test
-describe('Page Scenario', () => {
-  before(() => {
-    cy.visit('/page-url').wait(3000);
-  });
-
-  // Run accessibility tests
-  checkA11yConcerns();
+it('Page Scenario', () => {
+  // Make sure the content to be tested has loaded
+  cy.visit('/page').get('content')
+  // Run accessibility tests for desired elements
+  cy.get('selector').a11yRunContinuumTest();
 });
 
 // Test with dynamic elements
-describe('Modal Dialog Accessibility', () => {
-  before(() => {
+it('Modal Dialog Accessibility', () => {
     cy.visit('/page-with-modal');
-    // Trigger the modal to appear
-    cy.get('.modal-trigger-button').click().wait(1000);
-  });
-
-  // Test accessibility with the modal open
-  checkA11yConcerns();
+    // Trigger the modal to appear and wait for its content
+    cy.get('.modal-trigger-button').click().get('content');
+    // Test only the elements not covered by previous tests
+    cy.get('modal-selector').a11yRunContinuumTest();
 });
 ```
 
-When creating test scenarios, be sure to cover cases where dynamic elements appear on the page, such as:
+When creating test scenarios, be sure to cover cases where elements are not part of the DOM without user interaction, such as:
 - Modal dialogs
 - Dropdown menus
 - Tooltips
@@ -73,18 +61,25 @@ These dynamic elements often introduce accessibility issues that aren't present 
 
 ### Strict vs. Non-Strict Mode
 
-The `checkA11yConcerns` function accepts an optional `strict` parameter (default: `true`):
+The `a11yRunContinuumTest` command accepts an optional `failIfConcerns` argument (default: `true`):
 
-- When `strict` is `true`, the test will fail if any accessibility concerns are found.
-- When `strict` is `false`, the test will report accessibility concerns but won't fail the test.
+- When `failIfConcerns` is `true`, the test will fail if any accessibility concerns are found.
+- When `failIfConcerns` is `false`, the test will report accessibility concerns but won't fail the test.
+
+### Do's and Don'ts
+
+-  Create separate tests for dynamic content. This ensures test isolation and since the Continuum provides results in bulk, it can help pinpoint the problem areas.
+- Always run tests contained within a unique scope. We need to avoid testing elements more than once. Otherwise we will encounter false negatives.
+---
+- Do not use assertions in your Continuum tests. Failures should only be caused by Continuum a11y problems.
+- Do not run the test on the entire website content. Always chain it after a Cypress command that yields a single DOM element containing the desired test subject. 
 
 ## Available Commands
 
 - `cy.a11yContinuumSetup(configPath)`: Initialize Access Continuum with the specified configuration file.
-- `cy.a11yContinuumRunAllTests(includeiframe)`: Run all accessibility tests on the current page.
-- `cy.a11YContinuumPrintResults()`: Print accessibility concerns to the Cypress log.
-- `cy.a11YContinuumFailIfConcerns()`: Fail the test if any accessibility concerns are found.
+- `cy.a11yRunContinuumTest()`:  Run all accessibility tests and log the results. Refer 
+to the JSDoc for more details.
 
 ## Example
 
-See `cypress/e2e/accessibility/cart.a11y-e2e.cy.ts` for an example of how to use Access Continuum for testing the cart page. 
+See `/cypress/e2e/accessibility/continuum.example-e2e.cy.ts` for an example of how to use Access Continuum for testing. 
