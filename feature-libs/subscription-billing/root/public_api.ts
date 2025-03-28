@@ -10,4 +10,3 @@ export * from './model/index';
 export * from './facade/index';
 export * from './product/index';
 export * from './occ-config/default-occ-subscription-billing-config';
-export * from './occ-models/index';

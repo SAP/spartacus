@@ -4,18 +4,32 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { OccEndpoint } from '@spartacus/core';
 import { PricePlan, SubscriptionTerm } from './subscription-product.model';
 import '@spartacus/core';
+
+export interface SubscriptionBillingOccEndpoints {
+  /**
+   * Endpoint for the list of one user's subscriptions
+   *
+   * @member {string}
+   */
+  subscriptionList?: string | OccEndpoint;
+  /**
+   * Endpoint for the details of one user's subscription
+   *
+   * @member {string}
+   */
+  subscriptionDetail?: string | OccEndpoint;
+}
 
 declare module '@spartacus/core' {
   interface Product {
     sapSubscriptionTerm?: SubscriptionTerm;
     sapPricePlan?: PricePlan;
   }
-}
-
-declare module '@spartacus/core' {
   const enum ProductScope {
     SUBSCRIPTION = 'subscription',
   }
+  interface OccEndpoints extends SubscriptionBillingOccEndpoints { }
 }

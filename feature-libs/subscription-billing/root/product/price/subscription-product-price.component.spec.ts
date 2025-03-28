@@ -4,10 +4,11 @@ import { CurrentProductService } from '@spartacus/storefront';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ProductScope, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+
 import {
   OneTimeCharge,
   RecurringCharge,
+  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
 
 class MockSubscriptionProductService {
