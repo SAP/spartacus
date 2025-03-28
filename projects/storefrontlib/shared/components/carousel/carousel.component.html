@@ -35,14 +35,16 @@
     </ng-container>
 
     <div class="slides">
-      <ng-container *ngFor="let _ of items; let i = index">
+      <!-- SPIKE NEW - use RxFor to cut tasks -->
+      <ng-container *rxFor="let _ of items; let i = index">
         <div
           class="slide"
           *ngIf="i % size === 0"
           [class.active]="i === activeSlide"
         >
+          <!-- SPIKE NEW - use RxFor to cut tasks -->
           <ng-container
-            *ngFor="let item of items | slice: i : i + size; let j = index"
+            *rxFor="let item of items | slice: i : i + size; let j = index"
           >
             <div
               *ngIf="item | async as data"
@@ -97,7 +99,8 @@
   </div>
 
   <div *ngIf="!hideIndicators && size < items.length" class="indicators">
-    <ng-container *ngFor="let _ of items; let i = index">
+    <!-- SPIKE NEW - use RxFor to cut tasks -->
+    <ng-container *rxFor="let _ of items; let i = index">
       <!-- TODO: (CXSPA-6904) - Remove feature flag next major release -->
       <ng-container *cxFeature="'a11yFocusableCarouselControls'">
         <button

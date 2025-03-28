@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -11,29 +12,37 @@ import {
   HostBinding,
   HostListener,
   inject,
+  InjectionToken,
   OnDestroy,
   OnInit,
   Optional,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FeatureConfigService,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
-import { Observable, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import {
   FocusConfig,
-  SkipFocusConfig,
   KeyboardFocusService,
+  SkipFocusConfig,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/common';
 
+// SPIKE NEW - DIRTY WORKAROUND! use RxLet to defer loading the footer until the main content is loaded
+export const SPIKE_STOREFRONT_FOOTER_RENDER_DELAY = new InjectionToken<number>(
+  'SPIKE_FOOTER_DELAY',
+  {
+    providedIn: 'root',
+    factory: () => 0,
+  }
+);
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
@@ -105,7 +114,17 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
   }
 
+  // SPIKE NEW - DIRTY WORKAROUND! delay rendering of footer to avoid CLS (footer appearing before its preceding content)
+  protected shouldRenderFooter$ = new BehaviorSubject<boolean>(false);
+  protected spikeStorefrontFooterRenderDelay = inject(
+    SPIKE_STOREFRONT_FOOTER_RENDER_DELAY
+  );
   ngOnInit(): void {
+    // SPIKE NEW - DIRTY WORKAROUND! delay rendering of footer to avoid CLS (footer appearing before its preceding content)
+    setTimeout(() => {
+      this.shouldRenderFooter$.next(true);
+    }, this.spikeStorefrontFooterRenderDelay);
+
     this.navigateSubscription = this.routingService
       .isNavigating()
       .subscribe((val) => this.onNavigation(val));

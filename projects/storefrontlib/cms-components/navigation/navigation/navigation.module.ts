@@ -7,6 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { RxFor } from '@rx-angular/template/for';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -17,7 +18,6 @@ import { GenericLinkModule } from '../../../shared/components/generic-link/gener
 import { IconModule } from '../../misc/icon/icon.module';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +26,8 @@ import { NavigationComponent } from './navigation.component';
     GenericLinkModule,
     I18nModule,
     FeaturesConfigModule,
+    // SPIKE NEW - use RxFor to cut tasks
+    RxFor,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

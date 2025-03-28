@@ -6,13 +6,35 @@
     templateName$: templateName$,
     slots$: slots$,
     section$: section$,
+    layoutName$: layoutName$,
   }"
 >
   <ng-content></ng-content>
 
-  <cx-page-slot
-    *ngFor="let slot of slots$ | async"
-    [position]="slot"
-    [isPageFold]="slot === (pageFoldSlot$ | async)"
-  ></cx-page-slot>
+  <!-- Component template -->
+  <ng-template #slotTemplate let-slot>
+    <cx-page-slot
+      [position]="slot"
+      [isPageFold]="slot === (pageFoldSlot$ | async)"
+    ></cx-page-slot>
+  </ng-template>
+
+  <!-- Conditional rendering using either ngFor or rxFor -->
+  <ng-container *ngIf="shouldRenderSync() | async; else asyncTemplate">
+    <ng-container *ngFor="let slot of slots$ | async; trackBy: trackByFn">
+      <ng-container
+        *ngTemplateOutlet="slotTemplate; context: { $implicit: slot }"
+      >
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #asyncTemplate>
+    <ng-container *rxFor="let slot of slots$ | async; trackBy: trackByFn">
+      <ng-container
+        *ngTemplateOutlet="slotTemplate; context: { $implicit: slot }"
+      >
+      </ng-container>
+    </ng-container>
+  </ng-template>
 </ng-template>
