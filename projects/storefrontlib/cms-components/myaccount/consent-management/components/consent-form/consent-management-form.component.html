@@ -19,6 +19,7 @@
       class="form-check-label"
     >
       {{ consentTemplate?.description }}
+      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
   </label>
   <span
@@ -26,5 +27,18 @@
     class="form-check-label"
   >
     {{ consentTemplate?.description }}
+    <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
   </span>
 </div>
+
+<ng-template #requiredAsterisk>
+  <ng-container *ngIf="showMandatory">
+    <abbr
+      *cxFeature="'a11yRequiredAsterisks'"
+      aria-hidden="true"
+      class="text-decoration-none required-asterisk"
+      title="{{ 'common.required' | cxTranslate }}"
+      >*</abbr
+    >
+  </ng-container>
+</ng-template>

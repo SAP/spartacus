@@ -12,7 +12,7 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { Config, useFeatureStyles } from '@spartacus/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -26,16 +26,14 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
-  protected config = inject(Config);
+  sanitizer = inject(DomSanitizer);
 
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
   @Input() tabIndex = -1;
 
-  constructor(protected cdRef: ChangeDetectorRef) {
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
-  }
+  constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);
@@ -59,7 +57,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  protected normalize(text: string = ''): string {
-    return text.replace(/<[^>]*>/g, '');
+  normalize(text: string = ''): string {
+    const safeHtml = this.sanitizer.bypassSecurityTrustHtml(text);
+    return safeHtml ? safeHtml.toString().replace(/<[^>]*>/g, '') : '';
   }
 }

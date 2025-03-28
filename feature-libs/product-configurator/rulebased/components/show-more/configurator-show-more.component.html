@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="text && config.features?.productConfiguratorAttributeTypesV2"
->
+<ng-container *ngIf="text">
   <span [innerHTML]="textToShow"></span>
 
   <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="{{ tabIndex }}">
