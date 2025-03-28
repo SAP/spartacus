@@ -8,15 +8,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
-  FeatureConfigService,
   InterceptorUtil,
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   Occ,
   OccEndpointsService,
-  OccFieldsService,
-  ScopedDataWithUrl,
   USE_CLIENT_TOKEN,
   normalizeHttpError,
 } from '@spartacus/core';
@@ -45,8 +42,6 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   protected logger = inject(LoggerService);
-  private occFieldsService = inject(OccFieldsService);
-  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected http: HttpClient,
@@ -55,24 +50,9 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   ) {}
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    const url = this.featureConfigService.isEnabled('showOrderQuoteLink')
-      ? (() => {
-          const scopes = ['orderDetail', 'quoteCode'];
-          const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map(
-            (scope) => ({
-              scopedData: { scope, userId, orderCode },
-              url: this.occEndpoints.buildUrl(scope, {
-                urlParams: { userId, orderId: orderCode },
-              }),
-            })
-          );
-          const mergedUrl =
-            this.occFieldsService.getOptimalUrlGroups(scopedDataWithUrls);
-          return Object.keys(mergedUrl)[0];
-        })()
-      : this.occEndpoints.buildUrl('orderDetail', {
-          urlParams: { userId, orderId: orderCode },
-        });
+    const url = this.occEndpoints.buildUrl('orderDetail', {
+      urlParams: { userId, orderId: orderCode },
+    });
 
     let headers = new HttpHeaders();
     if (userId === OCC_USER_ID_ANONYMOUS) {
