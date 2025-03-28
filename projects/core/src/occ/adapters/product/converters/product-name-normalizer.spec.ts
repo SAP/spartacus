@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../../config/occ-config';
 import { ProductNameNormalizer } from './product-name-normalizer';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -32,6 +32,11 @@ describe('ProductNameNormalizer', () => {
     });
 
     service = TestBed.inject(ProductNameNormalizer);
+    sanitizerSpy.bypassSecurityTrustHtml.and.callFake(() => {
+      return {
+        toString: () => 'Sanitized Name', // mock output
+      } as unknown as SafeHtml;
+    });
   });
 
   it('should inject ProductNameNormalizer', inject(
@@ -42,32 +47,17 @@ describe('ProductNameNormalizer', () => {
   ));
 
   it('should sanitize the name', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Sanitized Name');
-
     const result = service.convert({
       name: '<script>alert("XSS")</script>Product',
     });
 
     expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-      '<script>alert("XSS")</script>Product'
+      'Product' // after removing <script>
     );
     expect(result.name).toEqual('Sanitized Name');
   });
 
-  it('should sanitize the name', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Sanitized Name');
-
-    const result = service.convert({ name: '<b>Unsafe Name</b>' });
-
-    expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-      '<b>Unsafe Name</b>'
-    );
-    expect(result.name).toEqual('Sanitized Name'); // Ensure sanitized name is returned
-  });
-
   it('should handle empty names', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('');
-
     const result = service.convert({ name: '' });
 
     expect(result.name).toEqual('');

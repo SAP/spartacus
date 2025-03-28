@@ -58,7 +58,18 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   normalize(text: string = ''): string {
-    const safeHtml = this.sanitizer.bypassSecurityTrustHtml(text);
+    const safeHtml = this.removeScriptTags(text);
     return safeHtml ? safeHtml.toString().replace(/<[^>]*>/g, '') : '';
+  }
+
+  removeScriptTags(html: string) {
+    if (!html) {
+      return this.sanitizer.bypassSecurityTrustHtml('');
+    }
+    const element = new DOMParser().parseFromString(html, 'text/html');
+    Array.from(element.getElementsByTagName('script')).forEach((script) => {
+      html = html.replace(script.outerHTML, '');
+    });
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

@@ -33,9 +33,16 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
    */
   protected normalize(name: string): string {
     return (
-      this.sanitizer.bypassSecurityTrustHtml(name).toString() ||
-      ''.replace(/<[^>]*>/g, '')
+      this.removeScriptTags(name)?.toString() || ''.replace(/<[^>]*>/g, '')
     );
+  }
+
+  protected removeScriptTags(html: string) {
+    const element = new DOMParser().parseFromString(html, 'text/html');
+    Array.from(element.getElementsByTagName('script')).forEach((script) => {
+      html = html.replace(script.outerHTML, '');
+    });
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   /**

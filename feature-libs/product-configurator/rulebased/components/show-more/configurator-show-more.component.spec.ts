@@ -33,6 +33,12 @@ describe('ConfiguratorShowMoreComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
+    sanitizerSpy.bypassSecurityTrustHtml.and.callFake((html: string) => {
+      return {
+        toString: () => html || '',
+      } as any;
+    });
+
     component.text =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
   });
@@ -51,47 +57,39 @@ describe('ConfiguratorShowMoreComponent', () => {
     );
   });
 
-  it('should remove HTML tags from input text', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue(
-      'Sanitized Text' as any
-    ); // Fake SafeHtml
-    const result = component.normalize('<b>Sanitized Text</b>');
+  it('should remove script tags from input text', () => {
+    const input = '<script>alert("XSS")</script><b>Sanitized Text</b>';
+    const result = component.removeScriptTags(input);
+
     expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
       '<b>Sanitized Text</b>'
     );
-    expect(result).toEqual('Sanitized Text');
+    expect(result.toString()).toEqual('<b>Sanitized Text</b>');
   });
 
-  it('should return an empty string when input is null', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue(null);
-    const result = component.normalize(null as unknown as string);
-    expect(result).toEqual('');
+  it('should return empty SafeHtml when input is null', () => {
+    const result = component.removeScriptTags(null as unknown as string);
+    expect(result.toString()).toEqual('');
   });
 
-  it('should return an empty string when input is undefined', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue(undefined);
-    const result = component.normalize(undefined as unknown as string);
-    expect(result).toEqual('');
+  it('should return empty SafeHtml when input is undefined', () => {
+    const result = component.removeScriptTags(undefined as unknown as string);
+    expect(result.toString()).toEqual('');
   });
 
-  it('should return the same text if there are no HTML elements', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Plain Text' as any);
-    const result = component.normalize('Plain Text');
-    expect(result).toEqual('Plain Text');
+  it('should return SafeHtml unchanged if no HTML elements', () => {
+    const result = component.removeScriptTags('Plain Text');
+    expect(result.toString()).toEqual('Plain Text');
   });
 
   it('should remove script tags to prevent XSS', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue('Safe Content' as any);
-    const result = component.normalize(
+    const result = component.removeScriptTags(
       '<script>alert("XSS")</script>Safe Content'
     );
-    expect(result).toEqual('Safe Content');
+    expect(result.toString()).toEqual('Safe Content');
   });
 
   it('should handle special characters properly', () => {
-    sanitizerSpy.bypassSecurityTrustHtml.and.returnValue(
-      'Text & Special Chars ©' as any
-    );
     const result = component.normalize('Text & Special Chars ©');
     expect(result).toEqual('Text & Special Chars ©');
   });
