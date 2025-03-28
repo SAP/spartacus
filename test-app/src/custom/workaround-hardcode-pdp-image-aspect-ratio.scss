@@ -1,0 +1,14 @@
+// Reserve vertical space for the main image on PDP, to prevent CLS on PDP.
+//
+// Warning: If customer has product images with varying aspect ratios,
+//           this is not a valid solution. Instead, in that case <img> elements should have
+//           explicit dimensions (width & height) set via HTML attributes, and this CSS rule
+//           below should be removed.
+//
+// It's an acceptable solution ONLY for customers that have all product images with the same aspect ratio
+// (for example, in our sample data, all product images are square with 1:1 aspect ratio).
+cx-product-images {
+  img {
+    aspect-ratio: 1 / 1;
+  }
+}
