@@ -5,3 +5,5 @@ Spartacus' Open-Payment-Framework (OPF) library integrates the SAP Commerce Open
 It can be added to the existing Spartacus application by running `ng add @spartacus/opf`. For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page](https://sap.github.io/spartacus-docs/schematics/).
 
 For more information, see [Spartacus](https://github.com/SAP/spartacus).
+
+# This is a clone of the develop branch, used for deploying the OPF test instance. PLEASE DO NOT MERGE IT.
