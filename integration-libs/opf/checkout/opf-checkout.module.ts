@@ -6,8 +6,8 @@
 
 import { NgModule } from '@angular/core';
 import {
-  OpfB2bCheckoutComponentsModule,
   OpfCheckoutComponentsModule,
+  OpfB2bCheckoutComponentsModule,
 } from '@spartacus/opf/checkout/components';
 
 @NgModule({

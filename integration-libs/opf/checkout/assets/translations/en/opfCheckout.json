@@ -4,7 +4,8 @@
       "paymentType": "Method of payment",
       "shipping": "Shipping",
       "deliveryMethod": "Delivery Method",
-      "paymentAndReview": "Payment & Review"
+      "paymentAndReview": "Payment & Review",
+      "review": "Review Order"
     },
     "paymentAndReviewTitle": "Payment and review",
     "billingAddress": "Billing Address",

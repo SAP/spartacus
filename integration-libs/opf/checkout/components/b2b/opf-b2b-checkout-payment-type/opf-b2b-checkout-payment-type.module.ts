@@ -26,6 +26,8 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
     CommonModule,
     I18nModule,
     SpinnerModule,
+    FeaturesConfigModule,
+    OpfCheckoutPaymentsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OpfCheckoutPaymentType: {
@@ -34,8 +36,6 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
         },
       },
     }),
-    FeaturesConfigModule,
-    OpfCheckoutPaymentsModule,
   ],
   declarations: [OpfB2bCheckoutPaymentTypeComponent],
   exports: [OpfB2bCheckoutPaymentTypeComponent],
