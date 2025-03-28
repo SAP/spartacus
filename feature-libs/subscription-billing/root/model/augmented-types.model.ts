@@ -28,8 +28,7 @@ declare module '@spartacus/core' {
     sapSubscriptionTerm?: SubscriptionTerm;
     sapPricePlan?: PricePlan;
   }
-  const enum ProductScope {
-    SUBSCRIPTION = 'subscription',
-  }
+}
+declare module '@spartacus/core' {
   interface OccEndpoints extends SubscriptionBillingOccEndpoints { }
 }
