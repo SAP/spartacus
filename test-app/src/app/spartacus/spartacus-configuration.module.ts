@@ -35,7 +35,7 @@ import {
       // SPIKE NEW - for testing purposes hardcode baseSite
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['electronics-spa'],
+        baseSite: ['electronics-spa', 'powertools-spa'],
       },
     }),
     provideConfig(<I18nConfig>{
