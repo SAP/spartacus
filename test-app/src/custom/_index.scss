@@ -1,3 +1,32 @@
 @import './prevent-loading-inactive-carousel-images';
 @import './reserve-horizontal-space-star-rating';
 @import './workaround-hardcode-pdp-image-aspect-ratio';
+
+// SPIKE NEW - make consent banner smaller to not overlay image
+cx-anonymous-consent-management-banner {
+  @include media-breakpoint-down(md) {
+    .anonymous-consent-banner {
+      padding: 0.5rem 0 0 0;
+    }
+
+    .cx-banner-title {
+      font-size: 1rem;
+    }
+
+    .cx-banner-description {
+      font-size: 0.75rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .cx-banner-buttons {
+      margin-top: 0.5rem;
+
+      .btn {
+        font-size: 0.75rem;
+        padding: 0.3rem;
+        border-radius: 0;
+        min-height: auto;
+      }
+    }
+  }
+}
