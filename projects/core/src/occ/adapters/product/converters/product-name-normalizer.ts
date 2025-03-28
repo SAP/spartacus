@@ -4,17 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Product } from '../../../../model/product.model';
 import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
-  sanitizer = inject(DomSanitizer);
-
   constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
@@ -32,10 +29,7 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
    * Sanitizes the name so that the name doesn't contain html elements.
    */
   protected normalize(name: string): string {
-    return (
-      this.sanitizer.bypassSecurityTrustHtml(name).toString() ||
-      ''.replace(/<[^>]*>/g, '')
-    );
+    return name.replace(/<[^>]*>/g, '');
   }
 
   /**
