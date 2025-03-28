@@ -4,11 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LAUNCH_CALLER } from '@spartacus/storefront';
+
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     CDC_RECONSENT = 'CDC_RECONSENT',
   }
 }
+
+(LAUNCH_CALLER as any)['CDC_RECONSENT'] = 'CDC_RECONSENT';
 
 declare module '@spartacus/user/profile/root' {
   export interface UserSignUp {

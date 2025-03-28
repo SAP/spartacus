@@ -9,8 +9,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -23,6 +25,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showHiddenText = false;
   textToShow: string;
   textNormalized: string;
+
+  sanitizer = inject(DomSanitizer);
 
   @Input() text: string;
   @Input() textSize = 60;
@@ -53,7 +57,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  protected normalize(text: string = ''): string {
-    return text.replace(/<[^>]*>/g, '');
+  normalize(text: string = ''): string {
+    const safeHtml = this.sanitizer.bypassSecurityTrustHtml(text);
+    return safeHtml ? safeHtml.toString().replace(/<[^>]*>/g, '') : '';
   }
 }
