@@ -260,5 +260,6 @@
       "defaultConfiguration": "production"
     }
   },
-  "tags": ["type:app"]
+  "tags": ["type:app"],
+  "implicitDependencies": ["*"]
 }
