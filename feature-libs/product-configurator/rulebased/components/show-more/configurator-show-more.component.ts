@@ -58,18 +58,35 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   normalize(text: string = ''): string {
-    const safeHtml = this.removeScriptTags(text);
-    return safeHtml ? safeHtml.toString().replace(/<[^>]*>/g, '') : '';
+    return this.removeScriptTags(text.replace(/<[^>]*>/g, ''));
   }
 
-  removeScriptTags(html: string) {
-    if (!html) {
-      return this.sanitizer.bypassSecurityTrustHtml('');
-    }
-    const element = new DOMParser().parseFromString(html, 'text/html');
-    Array.from(element.getElementsByTagName('script')).forEach((script) => {
-      html = html.replace(script.outerHTML, '');
+  removeScriptTags(html: string): string {
+    if (!html) return '';
+
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    // Remove all <script> tags
+    doc.querySelectorAll('script').forEach((script) => script.remove());
+
+    // Remove other dangerous tags (optional)
+    const blockedTags = ['iframe', 'object', 'embed', 'link', 'style'];
+    blockedTags.forEach((tag) => {
+      doc.querySelectorAll(tag).forEach((el) => el.remove());
     });
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+
+    // Remove inline event handlers
+    doc.querySelectorAll('*').forEach((el) => {
+      Array.from(el.attributes).forEach((attr) => {
+        if (attr.name.startsWith('on')) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+
+    // Decode HTML entities
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = doc.body.innerHTML;
+    return textarea.value;
   }
 }

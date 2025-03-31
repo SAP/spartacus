@@ -4,17 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Product } from '../../../../model/product.model';
 import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
-  sanitizer = inject(DomSanitizer);
-
   constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
@@ -28,21 +25,40 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
     return target as Product;
   }
 
+  removeScriptTags(html: string): string {
+    if (!html) return '';
+
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    // Remove all <script> tags
+    doc.querySelectorAll('script').forEach((script) => script.remove());
+
+    // Remove other dangerous tags (optional)
+    const blockedTags = ['iframe', 'object', 'embed', 'link', 'style'];
+    blockedTags.forEach((tag) => {
+      doc.querySelectorAll(tag).forEach((el) => el.remove());
+    });
+
+    // Remove inline event handlers
+    doc.querySelectorAll('*').forEach((el) => {
+      Array.from(el.attributes).forEach((attr) => {
+        if (attr.name.startsWith('on')) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+
+    // Decode HTML entities
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = doc.body.innerHTML;
+    return textarea.value;
+  }
+
   /**
    * Sanitizes the name so that the name doesn't contain html elements.
    */
   protected normalize(name: string): string {
-    return (
-      this.removeScriptTags(name)?.toString() || ''.replace(/<[^>]*>/g, '')
-    );
-  }
-
-  protected removeScriptTags(html: string) {
-    const element = new DOMParser().parseFromString(html, 'text/html');
-    Array.from(element.getElementsByTagName('script')).forEach((script) => {
-      html = html.replace(script.outerHTML, '');
-    });
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+    return this.removeScriptTags(name.replace(/<[^>]*>/g, ''));
   }
 
   /**

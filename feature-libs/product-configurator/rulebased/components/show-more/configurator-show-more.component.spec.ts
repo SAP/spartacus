@@ -3,22 +3,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
-import { DomSanitizer } from '@angular/platform-browser';
 
 describe('ConfiguratorShowMoreComponent', () => {
   let component: ConfiguratorShowMoreComponent;
   let fixture: ComponentFixture<ConfiguratorShowMoreComponent>;
   let htmlElem: HTMLElement;
-  let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
   beforeEach(waitForAsync(() => {
-    sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
-      'bypassSecurityTrustHtml',
-    ]);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfiguratorShowMoreComponent],
-      providers: [{ provide: DomSanitizer, useValue: sanitizerSpy }],
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {
@@ -32,12 +26,6 @@ describe('ConfiguratorShowMoreComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorShowMoreComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-
-    sanitizerSpy.bypassSecurityTrustHtml.and.callFake((html: string) => {
-      return {
-        toString: () => html || '',
-      } as any;
-    });
 
     component.text =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -61,10 +49,7 @@ describe('ConfiguratorShowMoreComponent', () => {
     const input = '<script>alert("XSS")</script><b>Sanitized Text</b>';
     const result = component.removeScriptTags(input);
 
-    expect(sanitizerSpy.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-      '<b>Sanitized Text</b>'
-    );
-    expect(result.toString()).toEqual('<b>Sanitized Text</b>');
+    expect(result).toEqual('<b>Sanitized Text</b>');
   });
 
   it('should return empty SafeHtml when input is null', () => {
@@ -90,7 +75,7 @@ describe('ConfiguratorShowMoreComponent', () => {
   });
 
   it('should handle special characters properly', () => {
-    const result = component.normalize('Text & Special Chars ©');
+    const result = component.removeScriptTags('Text & Special Chars ©');
     expect(result).toEqual('Text & Special Chars ©');
   });
 
