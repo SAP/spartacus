@@ -80,7 +80,7 @@
               ],
               "outputHashing": "all",
               "sourceMap": {
-                "hidden": false,
+                "hidden": true,
                 "scripts": true,
                 "styles": true,
                 "vendor": true
@@ -90,7 +90,7 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": {
-                "hidden": false,
+                "hidden": true,
                 "scripts": true,
                 "styles": true,
                 "vendor": true
