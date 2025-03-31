@@ -56,23 +56,12 @@ export class ProductLoadingService {
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
-    const isValidKey = (key: string) =>
-      typeof key === 'string' &&
-      !['__proto__', 'constructor', 'prototype'].includes(key);
-
-    isKeyInvalid(productCode);
     if (!this.products[productCode]) {
       this.products[productCode] = {};
     }
+    isKeyInvalid(productCode);
 
     for (const scope of scopes) {
-      if (
-        !Object.prototype.hasOwnProperty.call(this.products, productCode) &&
-        isValidKey(productCode)
-      ) {
-        this.products[productCode] = {};
-      }
-
       if (!this.products[productCode][scope]) {
         this.products[productCode][scope] = this.getProductForScope(
           productCode,
@@ -90,20 +79,18 @@ export class ProductLoadingService {
     }
 
     if (scopes.length > 1) {
-      if (isValidKey(productCode)) {
-        this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
-          scopes.map((scope) => this.products[productCode][scope])
-        ).pipe(
-          map((productParts) =>
-            productParts.every(Boolean)
-              ? deepMerge({}, ...productParts)
-              : undefined
-          ),
-          distinctUntilChanged()
-        );
-      } else {
-        throw new Error('Invalid product code');
-      }
+      this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
+        scopes.map((scope) => this.products[productCode][scope])
+      ).pipe(
+        map((productParts) =>
+          productParts.every(Boolean)
+            ? deepMerge({}, ...productParts)
+            : undefined
+        ),
+        distinctUntilChanged()
+      );
+    } else {
+      throw new Error('Invalid product code');
     }
   }
 
