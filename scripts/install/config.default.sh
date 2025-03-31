@@ -87,6 +87,7 @@ ADD_OPF=false
 ADD_CPQ_QUOTE=false
 ADD_S4_SERVICE=false
 ADD_PRODUCT_MULTI_DIMENSIONAL=false
+ADD_PUNCHOUT=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
