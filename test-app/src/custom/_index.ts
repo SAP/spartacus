@@ -4,14 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isPlatformBrowser } from '@angular/common';
 import { ApplicationInitStatus, Injectable } from '@angular/core';
 import { LOCATION_INITIALIZED_MULTI, provideConfig } from '@spartacus/core';
 import {
+  BREAKPOINT,
+  BreakpointService,
   PageLayoutComponentService,
   PageSlotComponentService,
   SPIKE_STOREFRONT_FOOTER_RENDER_DELAY,
 } from '@spartacus/storefront';
-import { map, Observable, of } from 'rxjs';
+import { distinctUntilChanged, map, Observable, of, shareReplay } from 'rxjs';
 import { lazyLoadMediaImagesByDefault } from './lazy-load-media-images-by-default';
 import { addPreconnectLinkToCdnInSsr } from './preconnect-to-cdn';
 import { useCdnForBackendAndMediaBaseUrl } from './use-cdn-for-backend-and-media-base-url';
@@ -57,6 +60,22 @@ export class CustomPageSlotComponentService extends PageSlotComponentService {
   ): Observable<boolean> {
     return of(true);
   }
+}
+
+/// PDP
+
+// SPIKE NEW - optimize TBT by avoiding frequent browser's work on "Recalculate Style / Layout" when accessing value `event.target.innerWidth`
+@Injectable({ providedIn: 'root' })
+export class CustomBreakpointService extends BreakpointService {
+  override breakpoint$: Observable<BREAKPOINT> = isPlatformBrowser(
+    this.platform
+  )
+    ? this.winRef.resize$.pipe(
+        map((event) => this.getBreakpoint((<Window>event.target).innerWidth)),
+        distinctUntilChanged(),
+        shareReplay({ refCount: true, bufferSize: 1 }) // SAME AS ORIGINAL IMPLEMENTATION BUT WITH SHARE REPLAY!
+      )
+    : of(this.fallbackBreakpoint);
 }
 
 export const customProviders = [
@@ -157,4 +176,6 @@ export const customProviders = [
     provide: SPIKE_STOREFRONT_FOOTER_RENDER_DELAY,
     useValue: 2000,
   },
+
+  { provide: BreakpointService, useExisting: CustomBreakpointService },
 ];

@@ -29,6 +29,7 @@ import {
   USE_STACKED_OUTLETS,
 } from './outlet.model';
 import { OutletService } from './outlet.service';
+import { DeferLoadingStrategy } from '@spartacus/core';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -85,7 +86,15 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
 
-    if (this.cxOutletDefer) {
+    // SPIKE OLD
+    // if (this.cxOutletDefer) {
+
+    // SPIKE NEW - don't execute deferLoading() logic if it's meant to be loaded instantly
+    if (
+      this.cxOutletDefer &&
+      this.cxOutletDefer.deferLoading &&
+      this.cxOutletDefer.deferLoading !== DeferLoadingStrategy.INSTANT
+    ) {
       this.deferLoading();
     } else {
       this.build();

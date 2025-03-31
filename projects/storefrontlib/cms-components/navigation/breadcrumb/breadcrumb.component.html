@@ -7,9 +7,9 @@
         let last = last
       "
     >
+      <!-- SPIKE NEW: don't use [innerHtml], as it's slow and not needed in this case. we need to print a simple string! -->
       <a
         [routerLink]="crumb.link"
-        [innerHTML]="crumb.label"
         [attr.aria-label]="
           last
             ? ('common.breadcrumbsCurrentPage' | cxTranslate) +
@@ -23,7 +23,8 @@
               ('common.of' | cxTranslate) +
               crumbList.length
         "
-      ></a>
+        >{{ crumb.label }}</a
+      >
     </li>
   </ol>
 </nav>
