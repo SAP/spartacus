@@ -105,20 +105,19 @@ describe('FormErrors', () => {
   });
 
   describe('a11y', () => {
-    it('should have `aria` attributes', () => {
+    it('should set a default aria-live attribute', () => {
       fixture.detectChanges();
       const ariaLive =
         fixture.debugElement.nativeElement.getAttribute('aria-live');
-      const ariaAtomic =
-        fixture.debugElement.nativeElement.getAttribute('aria-atomic');
-      expect(ariaAtomic).toBeTruthy();
       expect(ariaLive).toEqual('polite');
     });
 
-    it('should have empty `role` attribute', () => {
+    it('should set aria-live attribute', () => {
+      component.ariaLive = 'assertive';
       fixture.detectChanges();
-      const role = fixture.debugElement.nativeElement.getAttribute('role');
-      expect(role).toBeFalsy();
+      const ariaLive =
+        fixture.debugElement.nativeElement.getAttribute('aria-live');
+      expect(ariaLive).toEqual('assertive');
     });
   });
 
