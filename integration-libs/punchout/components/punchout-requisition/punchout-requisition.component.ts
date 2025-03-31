@@ -53,7 +53,7 @@ export class PunchoutRequisitionComponent implements OnInit {
           },
         });
         this.punchoutFormGroup.setValue({
-          order: punchoutRequisition?.orderAsCXML,
+          [this.FORM_CONTROL_NAME.ORDER]: punchoutRequisition?.orderAsCXML,
         });
       })
     );

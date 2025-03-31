@@ -41,6 +41,7 @@ SPARTACUS_PROJECTS=(
         "dist/opps:integration-libs/opps"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/opf:integration-libs/opf"
+        "dist/punchout:integration-libs/punchout"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/product-multi-dimensional:feature-libs/product-multi-dimensional"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
