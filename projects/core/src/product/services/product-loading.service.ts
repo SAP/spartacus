@@ -56,10 +56,9 @@ export class ProductLoadingService {
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
-    if (!this.products[productCode]) {
-      this.products[productCode] = {};
-    }
-    isKeyInvalid(productCode);
+     if (!this.products[productCode]) {
+       this.products[productCode] = {};
+     }
 
     for (const scope of scopes) {
       if (!this.products[productCode][scope]) {
@@ -92,14 +91,6 @@ export class ProductLoadingService {
     } else {
       throw new Error('Invalid product code');
     }
-  }
-
-  protected isValidKey(key: string) {
-    return (
-      typeof key === 'string' &&
-      /^[a-zA-Z0-9_-]+$/.test(key) && // Allow only alphanumeric, hyphens, underscores
-      !['__proto__', 'constructor', 'prototype'].includes(key)
-    );
   }
 
   protected getScopesIndex(scopes: string[]): string {
