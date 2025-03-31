@@ -3,11 +3,13 @@
   class="cx-product-image-container"
   tabindex="-1"
 >
+  <!-- SPIKE NEW - mark the first item's image as fetch priority high to improve LCP -->
   <cx-media
     class="cx-product-image"
     [container]="product.images?.PRIMARY"
     format="product"
     [alt]="product.summary"
+    [fetchPriority]="productListPosition === 0 ? 'high' : undefined"
   ></cx-media>
 </a>
 <a

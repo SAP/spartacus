@@ -49,19 +49,23 @@
             <ng-container *ngIf="!isInfiniteScroll; else infiniteScroll">
               <ng-container *ngIf="viewMode === ViewModes.Grid">
                 <div class="row">
+                  <!-- SPIKE NEW - mark the first item's image as fetch priority high to improve LCP -->
                   <cx-product-grid-item
-                    *ngFor="let product of model?.products"
+                    *ngFor="let product of model?.products; let i = index"
                     [product]="product"
+                    [productListPosition]="i"
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-product-grid-item>
                 </div>
               </ng-container>
 
               <ng-container *ngIf="viewMode === ViewModes.List">
+                <!-- SPIKE NEW - mark the first item's image as fetch priority high to improve LCP -->
                 <cx-product-list-item
-                  *ngFor="let product of model?.products"
+                  *ngFor="let product of model?.products; let i = index"
                   [product]="product"
                   class="cx-product-search-list"
+                  [productListPosition]="i"
                 ></cx-product-list-item>
               </ng-container>
             </ng-container>

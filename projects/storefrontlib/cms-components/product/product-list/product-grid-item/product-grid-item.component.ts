@@ -37,6 +37,9 @@ export class ProductGridItemComponent implements OnChanges {
   readonly ProductListOutlets = ProductListOutlets;
   @Input() product: any;
 
+  // SPIKE NEW - tell the item which number it is in the list, so we can prioritize the loading of the first item's image
+  @Input() productListPosition: number;
+
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
   ) {}
