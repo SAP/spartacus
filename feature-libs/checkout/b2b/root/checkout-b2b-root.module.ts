@@ -5,6 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
+// Import augmented types first
+import './model/augmented-types';
 import {
   CHECKOUT_BASE_CMS_COMPONENTS,
   CHECKOUT_FEATURE,
