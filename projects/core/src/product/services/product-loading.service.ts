@@ -88,8 +88,6 @@ export class ProductLoadingService {
         ),
         distinctUntilChanged()
       );
-    } else {
-      throw new Error('Invalid product code');
     }
   }
 
