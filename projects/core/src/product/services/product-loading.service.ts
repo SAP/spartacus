@@ -56,9 +56,9 @@ export class ProductLoadingService {
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
-     if (!this.products[productCode]) {
-       this.products[productCode] = {};
-     }
+    if (!this.products[productCode]) {
+      this.products[productCode] = {};
+    }
 
     for (const scope of scopes) {
       if (!this.products[productCode][scope]) {
