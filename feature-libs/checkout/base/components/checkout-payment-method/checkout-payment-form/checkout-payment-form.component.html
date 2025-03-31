@@ -66,14 +66,17 @@
                 'paymentForm.accountHolderName.placeholder' | cxTranslate
               }}"
               formControlName="accountHolderName"
-              [attr.aria-describedby]="'accountHolderNameError'"
+              [attr.aria-invalid]="
+                paymentForm.get('accountHolderName')?.touched &&
+                paymentForm.get('accountHolderName')?.invalid
+              "
+              [attr.aria-errormessage]="'accountHolderNameError'"
             />
 
             <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
               *cxFeature="'formErrorsDescriptiveMessages'"
               id="accountHolderNameError"
-              aria-live="off"
               [translationParams]="{
                 label: 'paymentForm.accountHolderName.label' | cxTranslate,
               }"
@@ -98,14 +101,17 @@
               type="text"
               class="form-control"
               formControlName="cardNumber"
-              [attr.aria-describedby]="'cardNumberError'"
+              [attr.aria-invalid]="
+                paymentForm.get('cardNumber')?.touched &&
+                paymentForm.get('cardNumber')?.invalid
+              "
+              [attr.aria-errormessage]="'cardNumberError'"
             />
 
             <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
               *cxFeature="'formErrorsDescriptiveMessages'"
               id="cardNumberError"
-              aria-live="off"
               [translationParams]="{
                 label: 'paymentForm.cardNumber' | cxTranslate,
               }"
@@ -215,14 +221,17 @@
                 class="form-control"
                 id="cVVNumber"
                 formControlName="cvn"
-                [attr.aria-describedby]="'cvnError'"
+                [attr.aria-invalid]="
+                  paymentForm.get('cvn')?.touched &&
+                  paymentForm.get('cvn')?.invalid
+                "
+                [attr.aria-errormessage]="'cvnError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 id="cvnError"
-                aria-live="off"
                 [translationParams]="{
                   label: 'paymentForm.securityCode' | cxTranslate,
                 }"
@@ -360,14 +369,17 @@
                       'addressForm.firstName.placeholder' | cxTranslate
                     }}"
                     formControlName="firstName"
-                    [attr.aria-describedby]="'firstNameError'"
+                    [attr.aria-invalid]="
+                      billingAddressForm.get('firstName')?.touched &&
+                      billingAddressForm.get('firstName')?.invalid
+                    "
+                    [attr.aria-errormessage]="'firstNameError'"
                   />
 
                   <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
                     id="firstNameError"
-                    aria-live="off"
                     [translationParams]="{
                       label: 'addressForm.firstName.label' | cxTranslate,
                     }"
@@ -394,14 +406,17 @@
                       'addressForm.lastName.placeholder' | cxTranslate
                     }}"
                     formControlName="lastName"
-                    [attr.aria-describedby]="'lastNameError'"
+                    [attr.aria-invalid]="
+                      billingAddressForm.get('lastName')?.touched &&
+                      billingAddressForm.get('lastName')?.invalid
+                    "
+                    [attr.aria-errormessage]="'lastNameError'"
                   />
 
                   <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
                     id="lastNameError"
-                    aria-live="off"
                     [translationParams]="{
                       label: 'addressForm.lastName.label' | cxTranslate,
                     }"
@@ -428,14 +443,17 @@
                       'addressForm.streetAddress' | cxTranslate
                     }}"
                     formControlName="line1"
-                    [attr.aria-describedby]="'line1Error'"
+                    [attr.aria-invalid]="
+                      billingAddressForm.get('line1')?.touched &&
+                      billingAddressForm.get('line1')?.invalid
+                    "
+                    [attr.aria-errormessage]="'line1Error'"
                   />
 
                   <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                   <cx-form-errors
                     *cxFeature="'formErrorsDescriptiveMessages'"
                     id="line1Error"
-                    aria-live="off"
                     [translationParams]="{
                       label: 'addressForm.address1' | cxTranslate,
                     }"
@@ -476,14 +494,17 @@
                         'addressForm.city.placeholder' | cxTranslate
                       }}"
                       formControlName="town"
-                      [attr.aria-describedby]="'townError'"
+                      [attr.aria-invalid]="
+                        billingAddressForm.get('town')?.touched &&
+                        billingAddressForm.get('town')?.invalid
+                      "
+                      [attr.aria-errormessage]="'townError'"
                     />
 
                     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                     <cx-form-errors
                       *cxFeature="'formErrorsDescriptiveMessages'"
                       id="townError"
-                      aria-live="off"
                       [translationParams]="{
                         label: 'addressForm.city.label' | cxTranslate,
                       }"
@@ -510,14 +531,17 @@
                         'addressForm.zipCode.placeholder' | cxTranslate
                       }}"
                       formControlName="postalCode"
-                      [attr.aria-describedby]="'postalCodeError'"
+                      [attr.aria-invalid]="
+                        billingAddressForm.get('postalCode')?.touched &&
+                        billingAddressForm.get('postalCode')?.invalid
+                      "
+                      [attr.aria-errormessage]="'postalCodeError'"
                     />
 
                     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                     <cx-form-errors
                       *cxFeature="'formErrorsDescriptiveMessages'"
                       id="postalCodeError"
-                      aria-live="off"
                       [translationParams]="{
                         label: 'addressForm.zipCode.label' | cxTranslate,
                       }"
