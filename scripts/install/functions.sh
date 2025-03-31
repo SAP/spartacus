@@ -862,6 +862,11 @@ function parseInstallArgs {
                 echo "➖ Added OPF"
                 shift
                 ;;
+            punchout)
+                ADD_PUNCHOUT=true
+                echo "➖ Added Punchout"
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
