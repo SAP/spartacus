@@ -20,14 +20,16 @@
           class="cx-account-summary-document-filter-form-input"
           [type]="type"
           formControlName="from"
-          [attr.aria-describedby]="'fromError'"
+          [attr.aria-invalid]="
+            formGroup.get('from')?.touched && formGroup.get('from')?.invalid
+          "
+          [attr.aria-errormessage]="'fromError'"
         />
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           id="fromError"
-          aria-live="off"
           [translationParams]="{
             label: 'orgAccountSummary.filter.startRange' | cxTranslate,
           }"
@@ -61,14 +63,16 @@
           class="cx-account-summary-document-filter-form-input"
           [type]="type"
           formControlName="to"
-          [attr.aria-describedby]="'toError'"
+          [attr.aria-invalid]="
+            formGroup.get('to')?.touched && formGroup.get('to')?.invalid
+          "
+          [attr.aria-errormessage]="'toError'"
         />
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
           id="toError"
-          aria-live="off"
           [translationParams]="{
             label: 'orgAccountSummary.filter.endRange' | cxTranslate,
           }"
@@ -193,14 +197,17 @@
       <input
         class="cx-account-summary-document-filter-form-input"
         formControlName="documentNumber"
-        [attr.aria-describedby]="'documentNumberError'"
+        [attr.aria-invalid]="
+          filterForm.get('documentNumber')?.touched &&
+          filterForm.get('documentNumber')?.invalid
+        "
+        [attr.aria-errormessage]="'documentNumberError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="documentNumberError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgAccountSummary.filter.documentNumber' | cxTranslate,
         }"
