@@ -62,7 +62,9 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   }
 
   removeScriptTags(html: string): string {
-    if (!html) return '';
+    if (!html) {
+      return '';
+    }
 
     const doc = new DOMParser().parseFromString(html, 'text/html');
 
