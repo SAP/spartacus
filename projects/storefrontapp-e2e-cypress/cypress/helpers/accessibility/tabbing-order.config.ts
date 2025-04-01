@@ -2392,6 +2392,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   asmNotLoggedIn: [
     {
       type: TabbingOrderTypes.LINK,
+      value: 'Help',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: 'Hide ASM',
     },
     {
@@ -2415,6 +2419,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   asmNoSelectedUser: [
     {
       type: TabbingOrderTypes.LINK,
+      value: 'Help',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: 'Customers',
     },
     {
@@ -2434,15 +2442,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.FORM_FIELD,
       value: 'searchOrder',
-    },
-    {
-      type: TabbingOrderTypes.BUTTON,
-      value: 'Start Session',
     },
   ],
   asmWithSelectedUser: [
     {
       type: TabbingOrderTypes.LINK,
+      value: 'Help',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: 'Customers',
     },
     {
@@ -2468,13 +2476,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Start Session',
     },
   ],
-  asmWithCustomerLists: [
+    asmWithCustomerLists: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Create New Customer',
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+      value: 'Current In-Store Customers',
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -2482,12 +2491,84 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: '2',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: '7',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
+  asmWithB2BCustomerLists: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Create New Customer',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+      value: 'My Recent Customer Sessions',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
     },
   ],
   asmWithCreateCustomerForm: [
+    {
+      type: TabbingOrderTypes.SPAN,
+    },
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
@@ -2510,6 +2591,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
   ],
   asmInactiveCartSaveDialog: [
+    {
+      type: TabbingOrderTypes.SPAN,
+    },
     {
       type: TabbingOrderTypes.BUTTON,
       value: '',
