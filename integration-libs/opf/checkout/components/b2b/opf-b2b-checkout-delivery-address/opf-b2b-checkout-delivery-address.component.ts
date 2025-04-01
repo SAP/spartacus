@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BCheckoutDeliveryAddressComponent } from '@spartacus/checkout/b2b/components';
 @Component({
-  selector: 'opf-b2b-checkout-delivery-address',
+  selector: 'cx-opf-b2b-checkout-delivery-address',
   templateUrl: './opf-b2b-checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
