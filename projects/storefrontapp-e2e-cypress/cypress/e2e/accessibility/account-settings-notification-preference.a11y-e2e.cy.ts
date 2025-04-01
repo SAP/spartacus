@@ -25,7 +25,7 @@ export function updateNotificationPreferencesForm({
 const NOTIFICATION_PREFERENCE_URL = '/my-account/notification-preference';
 
 /**
- * This test checks accessibility concerns on the Account Settings Email page using Access Continuum
+ * This test checks accessibility concerns on the Account Settings Notification Preference page using Access Continuum
  */
 describe('Account Settings / Notification Preference Page Accessibility', () => {
   isolateTests();
