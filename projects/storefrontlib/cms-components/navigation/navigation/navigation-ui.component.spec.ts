@@ -367,10 +367,10 @@ describe('Navigation UI Component', () => {
     it('on desktop, display headings for nested nodes instead of dropdown triggers', () => {
       fixture.detectChanges();
       const nestedNodeHeading = fixture.debugElement.query(
-        By.css('#root-1 h4')
+        By.css('#Root-1 h4')
       ).nativeElement;
       const rootTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-controls="root-1"]')
+        By.css('button[aria-controls="Root-1"]')
       ).nativeElement;
 
       expect(nestedNodeHeading.tagName).toEqual('H4');
