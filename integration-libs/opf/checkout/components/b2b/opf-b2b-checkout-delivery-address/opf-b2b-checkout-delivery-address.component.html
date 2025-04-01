@@ -1,7 +1,7 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
   {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
 </h2>
-
+<cx-opf-b2b-checkout-cost-center></cx-opf-b2b-checkout-cost-center>
 <ng-container *ngIf="cards$ | async as cards">
   <ng-container *ngIf="!(isUpdating$ | async); else loading">
     <div
