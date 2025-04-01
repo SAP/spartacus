@@ -47,11 +47,13 @@
         formControlName="name"
         required
         type="text"
-        [attr.aria-describedby]="'nameError'"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
       <cx-form-errors
         id="nameError"
-        aria-live="off"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>
@@ -70,8 +72,15 @@
         class="form-control"
         formControlName="description"
         rows="5"
+        [attr.aria-invalid]="
+          form.get('description')?.touched && form.get('description')?.invalid
+        "
+        [attr.aria-errormessage]="'descriptionError'"
       ></textarea>
-      <cx-form-errors [control]="form.get('description')"></cx-form-errors>
+      <cx-form-errors
+        id="descriptionError"
+        [control]="form.get('description')"
+      ></cx-form-errors>
 
       <p class="cx-import-entries-input-hint">
         {{

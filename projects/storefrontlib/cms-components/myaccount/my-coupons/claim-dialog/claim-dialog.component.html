@@ -41,11 +41,13 @@
               'myCoupons.claimCouponCode.placeholder' | cxTranslate
             }}"
             class="form-control"
-            [attr.aria-describedby]="'couponCodeError'"
+            [attr.aria-invalid]="
+              form.get('couponCode')?.touched && form.get('couponCode')?.invalid
+            "
+            [attr.aria-errormessage]="'couponCodeError'"
           />
           <cx-form-errors
             id="couponCodeError"
-            aria-live="off"
             [translationParams]="{
               label: 'myCoupons.claimCouponCode.label' | cxTranslate,
             }"
