@@ -12,12 +12,10 @@
       }"
     ></cx-opf-checkout-review-card>
     <cx-opf-checkout-review-card
-      [cardContent$]="
-        getPaymentMethodNameCard(selectedPaymentProviderName$ | async)
-      "
+      [cardContent$]="getCostCenterCard(costCenter$ | async)"
       [editConfig]="{
-        route: getCheckoutStepUrl(checkoutStepTypePaymentType),
-        ariaLabelKey: 'checkoutReview.editPaymentMethod',
+        route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
+        ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
       }"
     ></cx-opf-checkout-review-card>
     <cx-opf-checkout-review-card
@@ -86,25 +84,8 @@
     [isExplicit]="explicitTermsAndConditions.value"
   ></cx-opf-checkout-terms-and-conditions-alert>
 
-  <!-- detect if b2c -->
-  <!--
-    <cx-opf-checkout-payments
-      [elementsPerPage]="10"
-      [explicitTermsAndConditions]="explicitTermsAndConditions.value"
-      [disabled]="termsAndConditionInvalid"
-    >
-      <cx-opf-checkout-terms-and-conditions-alert
-        *ngIf="!explicitTermsAndConditions.value"
-        [isDismissible]="true"
-        [isVisible]="termsAndConditionInvalid"
-        [isExplicit]="explicitTermsAndConditions.value"
-      ></cx-opf-checkout-terms-and-conditions-alert>
-    </cx-opf-checkout-payments> -->
-
-  <!-- detect for b2b -->
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
-    (selectedPaymentProviderName)="onPaymentProviderSelected($event)"
   ></cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details

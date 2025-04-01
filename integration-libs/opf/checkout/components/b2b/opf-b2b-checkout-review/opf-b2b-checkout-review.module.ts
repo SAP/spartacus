@@ -20,6 +20,7 @@ import { OpfCheckoutTermsAndConditionsAlertModule } from '../../opf-checkout-ter
 import { OpfCheckoutBillingAddressFormModule } from '../../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 import { OpfCheckoutPaymentsModule } from '../../opf-checkout-payments/opf-checkout-payments.module';
 import { OpfCheckoutReviewCartDetailsModule } from '../../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
+import { CheckoutPlaceOrderModule } from '../../../../../../feature-libs/checkout/base/components/checkout-place-order/checkout-place-order.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { OpfCheckoutReviewCartDetailsModule } from '../../opf-checkout-review-ca
         },
       },
     }),
+    CheckoutPlaceOrderModule,
   ],
   declarations: [OpfB2bCheckoutReviewComponent],
   exports: [OpfB2bCheckoutReviewComponent],
