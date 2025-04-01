@@ -40,12 +40,14 @@
             class="form-control"
             formControlName="subject"
             rows="1"
-            [attr.aria-describedby]="'subjectError'"
+            [attr.aria-invalid]="
+              form.get('subject')?.touched && form.get('subject')?.invalid
+            "
+            [attr.aria-errormessage]="'subjectError'"
           ></textarea>
 
           <cx-form-errors
             id="subjectError"
-            aria-live="off"
             [control]="form.get('subject')"
           ></cx-form-errors>
           <p class="cx-customer-ticket-input-hint">
@@ -93,13 +95,16 @@
             bindLabel="name"
             formControlName="ticketCategory"
             [cxNgSelectA11y]="{}"
-            [attr.aria-describedby]="'ticketCategoryError'"
+            [attr.aria-invalid]="
+              form.get('ticketCategory')?.touched &&
+              form.get('ticketCategory')?.invalid
+            "
+            [attr.aria-errormessage]="'ticketCategoryError'"
           >
           </ng-select>
 
           <cx-form-errors
             id="ticketCategoryError"
-            aria-live="off"
             [control]="form.get('ticketCategory')"
           ></cx-form-errors>
         </label>
@@ -173,12 +178,14 @@
             class="form-control"
             formControlName="message"
             rows="5"
-            [attr.aria-describedby]="'messageError'"
+            [attr.aria-invalid]="
+              form.get('message')?.touched && form.get('message')?.invalid
+            "
+            [attr.aria-errormessage]="'messageError'"
           ></textarea>
 
           <cx-form-errors
             id="messageError"
-            aria-live="off"
             [control]="form.get('message')"
           ></cx-form-errors>
 
