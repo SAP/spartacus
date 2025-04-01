@@ -208,12 +208,12 @@ export class ConfiguratorAttributeNumericInputFieldService {
     interval.maxValueIncluded = true;
     if (minVal.includes('>')) {
       interval.minValueIncluded = false;
-      minVal = minVal.replace(/>/g, '');
+      minVal = minVal.replace('>', '');
     }
 
     if (maxVal.includes('<')) {
       interval.maxValueIncluded = false;
-      maxVal = maxVal.replace(/</g, '');
+      maxVal = maxVal.replace('<', '');
     }
     return { minVal, maxVal };
   }

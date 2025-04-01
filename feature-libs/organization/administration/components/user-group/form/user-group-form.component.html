@@ -13,14 +13,16 @@
         placeholder="{{ 'orgUserGroup.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
-        [attr.aria-describedby]="'nameError'"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
-        aria-live="off"
         [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
         [control]="form.get('name')"
       ></cx-form-errors>
@@ -42,14 +44,16 @@
         required
         placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
         formControlName="uid"
-        [attr.aria-describedby]="'uidError'"
+        [attr.aria-invalid]="
+          form.get('uid')?.touched && form.get('uid')?.invalid
+        "
+        [attr.aria-errormessage]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="uidError"
-        aria-live="off"
         [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
         [control]="form.get('uid')"
       ></cx-form-errors>

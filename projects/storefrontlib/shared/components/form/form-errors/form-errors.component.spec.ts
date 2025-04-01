@@ -104,6 +104,23 @@ describe('FormErrors', () => {
     );
   });
 
+  describe('a11y', () => {
+    it('should set a default aria-live attribute', () => {
+      fixture.detectChanges();
+      const ariaLive =
+        fixture.debugElement.nativeElement.getAttribute('aria-live');
+      expect(ariaLive).toEqual('polite');
+    });
+
+    it('should set aria-live attribute', () => {
+      component.ariaLive = 'assertive';
+      fixture.detectChanges();
+      const ariaLive =
+        fixture.debugElement.nativeElement.getAttribute('aria-live');
+      expect(ariaLive).toEqual('assertive');
+    });
+  });
+
   describe('i18n', () => {
     describe('key', () => {
       it('should use the error key with default prefix', () => {

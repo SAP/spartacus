@@ -16,7 +16,10 @@
       placeholder="{{
         'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
       }}"
-      [attr.aria-describedby]="'emailError'"
+      [attr.aria-invalid]="
+        form.get('email')?.touched && form.get('email')?.invalid
+      "
+      [attr.aria-errormessage]="'emailError'"
       class="form-control"
     />
 
@@ -24,7 +27,6 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       id="emailError"
-      aria-live="off"
       [translationParams]="{
         label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
       }"
@@ -51,7 +53,10 @@
       placeholder="{{
         'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
       }}"
-      [attr.aria-describedby]="'confirmEmailError'"
+      [attr.aria-invalid]="
+        form.get('confirmEmail')?.touched && form.get('confirmEmail')?.invalid
+      "
+      [attr.aria-errormessage]="'confirmEmailError'"
       class="form-control"
     />
 
@@ -59,7 +64,6 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       id="confirmEmailError"
-      aria-live="off"
       [translationParams]="{
         label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
       }"
@@ -95,7 +99,6 @@
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
       id="passwordError"
-      aria-live="off"
       [translationParams]="{
         label: 'updateEmailForm.password.label' | cxTranslate,
       }"
