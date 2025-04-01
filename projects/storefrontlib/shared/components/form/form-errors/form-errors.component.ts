@@ -12,6 +12,8 @@ import {
   HostBinding,
   Input,
   inject,
+  HostAttributeToken,
+  ElementRef,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import {
@@ -39,6 +41,11 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);
+
+  protected elementRef = inject(ElementRef, { optional: true });
+  protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
+    optional: true,
+  });
 
   constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
     useFeatureStyles('a11yFormErrorMuteIcon');
@@ -98,8 +105,20 @@ export class FormErrorsComponent implements DoCheck {
 
   ngDoCheck(): void {
     if (this.control.touched !== this.previousTouchedState) {
-      this.previousTouchedState = this.control.touched;
-      this.ChangeDetectionRef.markForCheck();
+      if (
+        this.featureConfigService.isEnabled('a11yImprovedErrorMessage') &&
+        this.elementRef?.nativeElement?.getAttribute('aria-live') === 'polite'
+      ) {
+        // due to the way we detect changes here, JAWS doesn't always respect
+        // aria live `polite`, so we need to move this in the next event-loop queue
+        setTimeout(() => {
+          this.previousTouchedState = this.control.touched;
+          this.ChangeDetectionRef.markForCheck();
+        });
+      } else {
+        this.previousTouchedState = this.control.touched;
+        this.ChangeDetectionRef.markForCheck();
+      }
     }
   }
   /**
@@ -127,5 +146,18 @@ export class FormErrorsComponent implements DoCheck {
   @HostBinding('class.cx-visually-hidden') get hidden() {
     return !(this.invalid && (this.touched || this.dirty));
   }
-  @HostBinding('attr.role') role = 'alert';
+  @HostBinding('attr.role') role = this.featureConfigService.isEnabled(
+    'a11yImprovedErrorMessage'
+  )
+    ? null
+    : 'alert';
+
+  @HostBinding('attr.aria-live') ariaLive =
+    !this.featureConfigService.isEnabled('a11yImprovedErrorMessage')
+      ? this.ariaLiveToken
+      : // If no aria-live value is set add 'polite' as a default. This is preferred over setting
+        // role='alert' so that screen readers do not interrupt the current task to read this aloud.
+        (this.ariaLiveToken ?? 'polite');
+
+  @HostBinding('attr.aria-atomic') atomic = true;
 }

@@ -13,14 +13,16 @@
         placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
-        [attr.aria-describedby]="'nameError'"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgCostCenter.name' | cxTranslate,
         }"
@@ -43,14 +45,16 @@
         required
         placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
         formControlName="code"
-        [attr.aria-describedby]="'codeError'"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgCostCenter.code' | cxTranslate,
         }"
