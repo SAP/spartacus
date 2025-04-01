@@ -2476,7 +2476,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Start Session',
     },
   ],
-    asmWithCustomerLists: [
+  asmWithCustomerLists: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Create New Customer',
@@ -2538,7 +2538,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.LINK,
     },
-    
+
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
@@ -2559,7 +2559,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
-    
+
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
