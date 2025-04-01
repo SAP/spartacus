@@ -128,33 +128,34 @@
             </button>
           </ng-container>
           <ng-container *cxFeature="'a11yNavigationButtonsAriaFixes'">
-            <button
-              *ngIf="!((isDesktop$ | async) && depth)"
-              [attr.aria-haspopup]="true"
-              [attr.aria-expanded]="false"
-              [attr.aria-label]="getAriaLabelAndControl(node)"
-              [attr.aria-controls]="getAriaLabelAndControl(node)"
-              (click)="toggleOpen($any($event))"
-              (mouseenter)="onMouseEnter($event)"
-              (keydown.space)="onSpace($any($event))"
-              (keydown.enter)="onSpace($any($event))"
-              (keydown.esc)="back()"
-              (keydown.arrowDown)="focusOnNode($any($event))"
-              (focus)="depth || reinitializeMenu()"
-            >
-              <ng-container *ngIf="!node.url">
-                {{ node.title }}
-              </ng-container>
-              <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
-            </button>
             <h4
-              *ngIf="(isDesktop$ | async) && depth"
+              *ngIf="(isDesktop$ | async) && depth; else dropdownHeader"
               (keydown.arrowDown)="focusOnNode($any($event))"
               (keydown.space)="onSpace($any($event))"
               tabindex="0"
             >
               {{ node.title }}
             </h4>
+            <ng-template #dropdownHeader>
+              <button
+                [attr.aria-haspopup]="true"
+                [attr.aria-expanded]="false"
+                [attr.aria-label]="getAriaLabelAndControl(node)"
+                [attr.aria-controls]="getAriaLabelAndControl(node)"
+                (click)="toggleOpen($any($event))"
+                (mouseenter)="onMouseEnter($event)"
+                (keydown.space)="onSpace($any($event))"
+                (keydown.enter)="onSpace($any($event))"
+                (keydown.esc)="back()"
+                (keydown.arrowDown)="focusOnNode($any($event))"
+                (focus)="depth || reinitializeMenu()"
+              >
+                <ng-container *ngIf="!node.url">
+                  {{ node.title }}
+                </ng-container>
+                <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+              </button>
+            </ng-template>
           </ng-container>
         </ng-container>
       </ng-container>
