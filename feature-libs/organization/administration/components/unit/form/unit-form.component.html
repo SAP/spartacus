@@ -13,13 +13,15 @@
         placeholder="{{ 'orgUnit.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
-        [attr.aria-describedby]="'nameError'"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
@@ -43,14 +45,16 @@
         required
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
-        [attr.aria-describedby]="'uidError'"
+        [attr.aria-invalid]="
+          form.get('uid')?.touched && form.get('uid')?.invalid
+        "
+        [attr.aria-errormessage]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="uidError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"
@@ -77,6 +81,10 @@
         bindValue="code"
         appendTo="cx-org-list"
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
         [cxNgSelectA11y]="{}"
       >
       </ng-select>
@@ -90,12 +98,17 @@
         bindValue="code"
         appendTo="cx-org-list"
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       >
       </ng-select>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
         [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
@@ -125,6 +138,10 @@
           appendTo="cx-org-list"
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
           [cxNgSelectA11y]="{}"
+          [attr.aria-invalid]="
+            form.get('uid')?.touched && form.get('uid')?.invalid
+          "
+          [attr.aria-errormessage]="'codeError'"
         >
         </ng-select>
         <ng-select
@@ -138,11 +155,16 @@
           bindValue="id"
           appendTo="cx-org-list"
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+          [attr.aria-invalid]="
+            form.get('uid')?.touched && form.get('uid')?.invalid
+          "
+          [attr.aria-errormessage]="'parentUnitUidError'"
         >
         </ng-select>
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
+          id="parentUnitUidError"
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate,

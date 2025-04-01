@@ -48,14 +48,17 @@
                   'register.firstName.placeholder' | cxTranslate
                 }}"
                 formControlName="firstName"
-                [attr.aria-describedby]="'firstNameError'"
+                [attr.aria-invalid]="
+                  registerForm.get('firstName')?.touched &&
+                  registerForm.get('firstName')?.invalid
+                "
+                [attr.aria-errormessage]="'firstNameError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 id="firstNameError"
-                aria-live="off"
                 [translationParams]="{
                   label: 'register.firstName.label' | cxTranslate,
                 }"
@@ -84,14 +87,17 @@
                   'register.lastName.placeholder' | cxTranslate
                 }}"
                 formControlName="lastName"
-                [attr.aria-describedby]="'lastNameError'"
+                [attr.aria-invalid]="
+                  registerForm.get('lastName')?.touched &&
+                  registerForm.get('lastName')?.invalid
+                "
+                [attr.aria-errormessage]="'lastNameError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 id="lastNameError"
-                aria-live="off"
                 [translationParams]="{
                   label: 'register.lastName.label' | cxTranslate,
                 }"
@@ -120,14 +126,17 @@
                   'register.emailAddress.placeholder' | cxTranslate
                 }}"
                 formControlName="email"
-                [attr.aria-describedby]="'emailError'"
+                [attr.aria-invalid]="
+                  registerForm.get('email')?.touched &&
+                  registerForm.get('email')?.invalid
+                "
+                [attr.aria-errormessage]="'emailError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 id="emailError"
-                aria-live="off"
                 [translationParams]="{
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
@@ -200,7 +209,11 @@
                 [attr.aria-label]="
                   'register.confirmPassword.placeholder' | cxTranslate
                 "
-                [attr.aria-describedby]="'passwordconfError'"
+                [attr.aria-invalid]="
+                  registerForm.get('passwordconf')?.touched &&
+                  registerForm.get('passwordconf')?.invalid
+                "
+                [attr.aria-errormessage]="'passwordconfError'"
                 cxPasswordVisibilitySwitch
               />
 
@@ -208,7 +221,6 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 id="passwordconfError"
-                aria-live="off"
                 [translationParams]="{
                   label: 'register.confirmPassword.label' | cxTranslate,
                 }"
@@ -284,7 +296,11 @@
                   type="checkbox"
                   name="termsandconditions"
                   formControlName="termsandconditions"
-                  [attr.aria-describedby]="'termsandconditionsError'"
+                  [attr.aria-invalid]="
+                    registerForm.get('termsandconditions')?.touched &&
+                    registerForm.get('termsandconditions')?.invalid
+                  "
+                  [attr.aria-errormessage]="'termsandconditionsError'"
                 />
                 <span class="form-check-label">
                   {{ 'register.confirmThatRead' | cxTranslate }}
@@ -302,7 +318,6 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   id="termsandconditionsError"
-                  aria-live="off"
                   [translationParams]="{
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"

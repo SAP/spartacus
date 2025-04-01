@@ -92,14 +92,17 @@
             type="text"
             class="form-control"
             formControlName="title"
-            [attr.aria-describedby]="'titleError'"
+            [attr.aria-invalid]="
+              reviewForm.get('title')?.touched &&
+              reviewForm.get('title')?.invalid
+            "
+            [attr.aria-errormessage]="'titleError'"
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             id="titleError"
-            aria-live="off"
             [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate,
             }"
@@ -123,14 +126,17 @@
             class="form-control"
             rows="3"
             formControlName="comment"
-            [attr.aria-describedby]="'commentError'"
+            [attr.aria-invalid]="
+              reviewForm.get('comment')?.touched &&
+              reviewForm.get('comment')?.invalid
+            "
+            [attr.aria-errormessage]="'commentError'"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             id="commentError"
-            aria-live="off"
             [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate,
             }"
@@ -154,7 +160,11 @@
             type="number"
             formControlName="rating"
             class="rating-input"
-            [attr.aria-describedby]="'ratingError'"
+            [attr.aria-invalid]="
+              reviewForm.get('rating')?.touched &&
+              reviewForm.get('rating')?.invalid
+            "
+            [attr.aria-errormessage]="'ratingError'"
           />
           <cx-star-rating
             tabindex="0"
@@ -167,7 +177,6 @@
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             id="ratingError"
-            aria-live="off"
             [translationParams]="{
               label: 'productReview.rating' | cxTranslate,
             }"
