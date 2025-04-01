@@ -60,6 +60,7 @@ export class MockCaptchaService extends CaptchaService {
     this.label.textContent = '';
     this.container.appendChild(this.spinner);
     this.checkbox.disabled = true;
+    this.checkbox.checked = true;
 
     setTimeout(() => {
       this.container.removeChild(this.spinner);
