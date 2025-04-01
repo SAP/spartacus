@@ -10,6 +10,7 @@ import { PunchoutStoreService } from './punchout-store.service';
 const INITIAL_STATE: PunchoutState = {
   punchoutSessionId: undefined,
   punchoutSession: undefined,
+  cancelRequisition: undefined,
 };
 
 const mockPunchoutSession: PunchoutSession = {

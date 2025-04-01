@@ -13,7 +13,7 @@ export class PunchoutStoreService {
   protected readonly INITIAL_STATE: PunchoutState = Object.freeze({
     punchoutSessionId: undefined,
     punchoutSession: undefined,
-    cancelRequisition: false,
+    cancelRequisition: undefined,
   });
 
   protected punchoutState = new BehaviorSubject<PunchoutState>(

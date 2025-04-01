@@ -71,7 +71,8 @@ describe('PunchoutConnector', () => {
       next: (result) => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
         expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
-          mockSid
+          mockSid,
+          undefined
         );
         done();
       },

@@ -31,6 +31,7 @@ const mockPunchoutSession: PunchoutSession = {
 const mockPunchoutState: PunchoutState = {
   punchoutSessionId: mockSessionId,
   punchoutSession: mockPunchoutSession,
+  cancelRequisition: false,
 };
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -43,6 +44,7 @@ class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
   getPunchoutState = () => of(mockPunchoutState);
   clearState = () => {};
   getPunchoutSessionId = () => mockPunchoutState.punchoutSessionId;
+  updatePunchoutState = () => {};
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -109,11 +111,29 @@ describe('PunchoutButtonsComponent', () => {
     });
   });
 
-  it('should submitRequisition redirect user to Requisition page', () => {
+  it('should submitRequisition redirect user to Requisition page and update state with cancelRequisition false ', () => {
     spyOn(routingService, 'go');
-    component.submitRequisition();
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.returnValue();
+
+    component.submitRequisition(false);
     expect(routingService.go).toHaveBeenCalledWith(
       PUNCHOUT_REQUISITION_PAGE_URL
     );
+    expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
+      cancelRequisition: false,
+    });
+  });
+
+  it('should submitRequisition redirect user to Requisition page and update state with cancelRequisition true ', () => {
+    spyOn(routingService, 'go');
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.returnValue();
+
+    component.submitRequisition(true);
+    expect(routingService.go).toHaveBeenCalledWith(
+      PUNCHOUT_REQUISITION_PAGE_URL
+    );
+    expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
+      cancelRequisition: true,
+    });
   });
 });
