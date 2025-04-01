@@ -211,6 +211,7 @@ describe('Graph utils', () => {
           "Store-Finder",
           "ASM",
           "ASM-Customer-360",
+          "Punchout",
           "cpq-quote",
           "Segment-Refs",
           "s4-service",
