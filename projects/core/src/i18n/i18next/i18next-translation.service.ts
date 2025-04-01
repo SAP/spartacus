@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, inject, Injectable, isDevMode } from '@angular/core';
+import {
+  Inject,
+  inject,
+  Injectable,
+  isDevMode,
+  SecurityContext,
+} from '@angular/core';
 import { i18n, TOptions } from 'i18next';
 import { Observable } from 'rxjs';
 import { LoggerService } from '../../logger';
@@ -12,13 +18,17 @@ import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { TranslationService } from '../translation.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
 
+  protected sanitizer = inject(DomSanitizer);
   protected logger = inject(LoggerService);
+
+  flag = false;
 
   constructor(
     protected config: I18nConfig,
@@ -68,9 +78,18 @@ export class I18nextTranslationService implements TranslationService {
           () => {
             namespacesLoaded = true;
             if (this.i18next.exists(namespacedKeys, options)) {
-              subscriber.next(
-                this.i18next.t(namespacedKeys, options as TOptions)
+              let translatedText = this.i18next.t(
+                namespacedKeys,
+                options as TOptions
               );
+              if (this.flag) {
+                translatedText =
+                  this.sanitizer.sanitize(
+                    SecurityContext.HTML,
+                    translatedText
+                  ) ?? '';
+              }
+              subscriber.next(translatedText);
             } else {
               this.reportMissingKey(chunkNamesByKeys);
               subscriber.next(this.getFallbackValue(namespacedKeys));
