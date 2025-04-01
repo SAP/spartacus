@@ -409,7 +409,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Resores default tabbing order for non flyout navigation.
+   * Restores default tabbing order for non flyout navigation.
    */
   getTabIndex(node: NavigationNode, depth: number): 0 | -1 {
     if (!this.flyout) {
@@ -418,17 +418,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     return depth > 0 && !node?.children ? -1 : 0;
   }
 
-  /**
-   * // Replace spaces with hyphens and convert to lowercase
-   */
-  getSanitizedTitle(title: string | undefined): string | null {
-    return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
-  }
-
-  /**
-   * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
-   */
-  getAriaLabelAndControl(node: NavigationNode): string | null {
-    return this.getSanitizedTitle(node.title) || null;
+  transformIntoValidID(string: string): string | null {
+    return string?.replace(/[^a-zA-Z0-9-_]/g, '-') || null;
   }
 }

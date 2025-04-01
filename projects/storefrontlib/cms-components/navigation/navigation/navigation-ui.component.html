@@ -140,8 +140,8 @@
               <button
                 [attr.aria-haspopup]="true"
                 [attr.aria-expanded]="false"
-                [attr.aria-label]="getAriaLabelAndControl(node)"
-                [attr.aria-controls]="getAriaLabelAndControl(node)"
+                [attr.aria-label]="node.url ? node.title : null"
+                [attr.aria-controls]="transformIntoValidID(node.title)"
                 (click)="toggleOpen($any($event))"
                 (mouseenter)="onMouseEnter($event)"
                 (keydown.space)="onSpace($any($event))"
@@ -173,7 +173,7 @@
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div
-      [id]="getSanitizedTitle(node.title)"
+      [id]="transformIntoValidID(node.title)"
       class="wrapper"
       *ngIf="node.children && node.children.length > 0"
     >
