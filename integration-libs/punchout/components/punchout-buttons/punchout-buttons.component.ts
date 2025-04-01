@@ -34,7 +34,7 @@ export class PunchoutButtonsComponent {
     })
   );
 
-  submitRequisition(cancelRequisition?: boolean): void {
+  submitRequisition(cancelRequisition = false): void {
     this.punchoutStoreService.updatePunchoutState({ cancelRequisition });
     this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
   }
