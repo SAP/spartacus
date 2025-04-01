@@ -10,9 +10,10 @@
 $opf-components-allowlist: cx-opf-payment-method-details,
   cx-opf-checkout-payment-and-review, cx-opf-checkout-payments,
   cx-opf-checkout-billing-address-form, cx-opf-checkout-payment-wrapper,
-  cx-opf-checkout-terms-and-conditions-alert, cx-opf-error-modal,
-  cx-opf-cta-element, cx-opf-google-pay, cx-opf-apple-pay,
-  cx-opf-quick-buy-buttons, cx-opf-b2b-checkout-payment-type !default;
+  cx-opf-checkout-review-card, cx-opf-checkout-terms-and-conditions-alert,
+  cx-opf-error-modal, cx-opf-cta-element, cx-opf-google-pay, cx-opf-apple-pay,
+  cx-opf-quick-buy-buttons, cx-opf-b2b-checkout-payment-type,
+  cx-opf-b2b-checkout-review !default;
 
 $skipComponentStyles: () !default;
 

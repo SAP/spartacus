@@ -3,6 +3,7 @@
 @import './components/opf-checkout-payment-wrapper';
 @import './components/opf-checkout-payments';
 @import './components/opf-checkout-terms-and-conditions-alert';
+@import './components/opf-checkout-review-card';
 @import './components/b2b/index';
 
 $opf-checkout-components: (
@@ -10,7 +11,8 @@ $opf-checkout-components: (
   cx-opf-checkout-billing-address-form,
   cx-opf-checkout-payment-wrapper,
   cx-opf-checkout-payments,
-  cx-opf-checkout-terms-and-conditions-alert
+  cx-opf-checkout-terms-and-conditions-alert,
+  cx-opf-checkout-review-card
 ) !default;
 
 // components

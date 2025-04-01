@@ -30,15 +30,15 @@ const opfB2bCheckoutSteps = [
     type: [CheckoutStepType.DELIVERY_MODE],
   },
   {
-    id: 'opfReviewOrder',
+    id: 'opfPaymentAndReview',
     name: 'opfCheckout.tabs.paymentAndReview',
     routeName: 'opfCheckoutPaymentAndReview',
     type: [CheckoutStepType.PAYMENT_DETAILS],
   },
   {
-    id: 'reviewOrder',
-    name: 'checkoutProgress.reviewOrder',
-    routeName: 'checkoutReviewOrder',
+    id: 'opfReview',
+    name: 'opfCheckout.tabs.review',
+    routeName: 'opfCheckoutReview',
     type: [CheckoutStepType.REVIEW_ORDER],
   },
 ];

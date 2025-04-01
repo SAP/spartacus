@@ -17,6 +17,7 @@ import { OPF_CHECKOUT_FEATURE } from './feature-name';
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
   'OpfCheckoutPaymentType',
   'OpfCheckoutPaymentAndReview',
+  'OpfCheckoutReview',
 ];
 
 export function defaultOpfCheckoutComponentsConfig() {
