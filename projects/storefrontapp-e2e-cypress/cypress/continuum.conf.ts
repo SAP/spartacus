@@ -23,7 +23,7 @@ window.LevelAccess_AccessContinuumConfiguration = {
     password: null,
   },
   accessibilityConcerns: {
-    includePotentialConcerns: false,
+    includePotentialConcerns: true,
     format: 'amp',
   },
   levelAccessPlatform: {

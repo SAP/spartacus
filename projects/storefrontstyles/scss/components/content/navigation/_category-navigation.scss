@@ -3,6 +3,7 @@
   // well as the root category links
   span,
   button:not(cx-generic-link + button),
+  h4,
   cx-navigation-ui > nav > ul > li > cx-generic-link {
     text-transform: uppercase;
     font-weight: 600;

@@ -129,7 +129,7 @@
           </ng-container>
           <ng-container *cxFeature="'a11yNavigationButtonsAriaFixes'">
             <button
-              [attr.role]="(isDesktop$ | async) && depth ? 'heading' : 'button'"
+              *ngIf="!((isDesktop$ | async) && depth)"
               [attr.aria-haspopup]="true"
               [attr.aria-expanded]="false"
               [attr.aria-label]="getAriaLabelAndControl(node)"
@@ -147,6 +147,14 @@
               </ng-container>
               <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
             </button>
+            <h4
+              *ngIf="(isDesktop$ | async) && depth"
+              (keydown.arrowDown)="focusOnNode($any($event))"
+              (keydown.space)="onSpace($any($event))"
+              tabindex="0"
+            >
+              {{ node.title }}
+            </h4>
           </ng-container>
         </ng-container>
       </ng-container>

@@ -288,10 +288,10 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Focuses on the first focusable element in the dropdown
    */
   focusOnNode(event: UIEvent): void {
-    const firstFocusableElement =
-      (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
-      (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
-    firstFocusableElement?.focus();
+    const firstFocusableNode = (<HTMLElement>(
+      event.target
+    ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
+    firstFocusableNode?.focus();
   }
 
   back(): void {

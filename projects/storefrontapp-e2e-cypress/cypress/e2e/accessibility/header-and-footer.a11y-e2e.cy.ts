@@ -16,12 +16,14 @@ describe('Header and Footer Continuum tests', () => {
   context('Header', () => {
     it('Main header body', () => {
       cy.get('@header').get('a').contains('Brands');
+      cy.get('@header').get('nav button[aria-label="brands"]').click();
       cy.get('@header').a11yRunContinuumTest();
     });
 
     it('My Account dropdown', () => {
       cy.requireLoggedIn(standardUser);
       cy.reload();
+      cy.get('@header').get('.accNavComponent button').click();
       cy.get('@header')
         .get('nav[aria-label="My Account"]')
         .a11yRunContinuumTest();
