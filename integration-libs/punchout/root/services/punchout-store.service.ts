@@ -13,6 +13,7 @@ export class PunchoutStoreService {
   protected readonly INITIAL_STATE: PunchoutState = Object.freeze({
     punchoutSessionId: undefined,
     punchoutSession: undefined,
+    cancelRequisition: false,
   });
 
   protected punchoutState = new BehaviorSubject<PunchoutState>(
@@ -29,6 +30,13 @@ export class PunchoutStoreService {
 
   setPunchoutState(payload: Partial<PunchoutState>): void {
     this.punchoutState.next({
+      ...payload,
+    });
+  }
+
+  updatePunchoutState(payload: Partial<PunchoutState>): void {
+    this.punchoutState.next({
+      ...this.punchoutState.value,
       ...payload,
     });
   }

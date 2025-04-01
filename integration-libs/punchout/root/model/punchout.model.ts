@@ -52,4 +52,5 @@ export interface PunchoutRequisition {
 export interface PunchoutState {
   punchoutSession?: PunchoutSession;
   punchoutSessionId?: string;
+  cancelRequisition?: boolean;
 }

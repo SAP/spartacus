@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
@@ -43,13 +47,18 @@ export class OccPunchoutAdapter implements PunchoutAdapter {
   }
 
   getPunchoutSessionRequisition(
-    sessionId: string
+    sessionId: string,
+    discardCartEntries: boolean
   ): Observable<PunchoutRequisition> {
+    const params = discardCartEntries
+      ? new HttpParams().set('discardCartEntries', 'true')
+      : undefined;
     return this.http
       .get<PunchoutRequisition>(
         this.occEndpoints.buildUrl('punchoutSessionRequisition', {
           urlParams: { sessionId },
-        })
+        }),
+        { params }
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {

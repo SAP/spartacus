@@ -1,12 +1,16 @@
 <ng-container *ngIf="(hasSessionId$ | async) === true">
   <button
     type="button"
-    class="btn btn-block btn-secondary"
-    (click)="submitRequisition()"
+    class="btn btn-block btn-primary"
+    (click)="submitRequisition(false)"
   >
     {{ 'punchout.backToRequisition' | cxTranslate }}
   </button>
-  <button type="button" class="btn btn-block btn-secondary">
+  <button
+    type="button"
+    class="btn btn-block btn-primary"
+    (click)="submitRequisition(true)"
+  >
     {{ 'punchout.cancel' | cxTranslate }}
   </button>
 </ng-container>

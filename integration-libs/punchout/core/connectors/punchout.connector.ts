@@ -18,8 +18,12 @@ export class PunchoutConnector {
   }
 
   public getPunchoutSessionRequisition(
-    sessionId: string
+    sessionId: string,
+    discardCartEntries?: boolean
   ): Observable<PunchoutRequisition> {
-    return this.adapter.getPunchoutSessionRequisition(sessionId);
+    return this.adapter.getPunchoutSessionRequisition(
+      sessionId,
+      discardCartEntries
+    );
   }
 }

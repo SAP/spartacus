@@ -19,6 +19,7 @@ export abstract class PunchoutAdapter {
    * @param sessionId is the sesssion Id given by ARIBA via url
    */
   abstract getPunchoutSessionRequisition(
-    sessionId: string
+    sessionId: string,
+    discardCartEntries?: boolean
   ): Observable<PunchoutRequisition>;
 }
