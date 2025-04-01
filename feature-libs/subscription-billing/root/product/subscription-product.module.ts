@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SubscriptionProductPriceModule } from '../public_api';
+import { SubscriptionProductPriceModule } from './price/subscription-product-price.module';
 
 @NgModule({
   imports: [SubscriptionProductPriceModule],

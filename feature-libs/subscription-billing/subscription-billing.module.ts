@@ -13,7 +13,7 @@ import { SubscriptionBillingOccModule } from './occ/subscription-billing-occ.mod
   imports: [
     SubscriptionBillingComponentsModule,
     SubscriptionBillingCoreModule,
-    SubscriptionBillingOccModule
+    SubscriptionBillingOccModule,
   ],
 })
-export class SubscriptionBillingModule { }
+export class SubscriptionBillingModule {}

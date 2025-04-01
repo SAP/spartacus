@@ -30,5 +30,5 @@ declare module '@spartacus/core' {
   }
 }
 declare module '@spartacus/core' {
-  interface OccEndpoints extends SubscriptionBillingOccEndpoints { }
+  interface OccEndpoints extends SubscriptionBillingOccEndpoints {}
 }

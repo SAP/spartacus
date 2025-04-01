@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, computed, inject, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Product, ProductScope } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { OneTimeCharge, RecurringCharge } from '../../public_api';
+import { OneTimeCharge, RecurringCharge } from '../../model';
 import { SubscriptionProductService } from '../service/subscription-product.service';
-import { Component, inject, Signal, computed } from '@angular/core';
 
 @Component({
   selector: 'cx-subscription-product-price',

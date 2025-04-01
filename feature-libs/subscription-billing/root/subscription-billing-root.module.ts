@@ -22,4 +22,4 @@ import { SubscriptionProductModule } from './product';
     provideDefaultConfig(defaultOccSubscriptionBillingConfig),
   ],
 })
-export class SubscriptionBillingRootModule { }
+export class SubscriptionBillingRootModule {}
