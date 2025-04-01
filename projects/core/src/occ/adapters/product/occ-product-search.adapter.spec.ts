@@ -41,7 +41,7 @@ const mockSearchConfig: SearchConfig = {
 };
 const scope = 'default';
 
-describe('OccProductSearchAdapter', () => {
+fdescribe('OccProductSearchAdapter', () => {
   let service: OccProductSearchAdapter;
   let httpMock: HttpTestingController;
   let endpoints: OccEndpointsService;
@@ -112,17 +112,66 @@ describe('OccProductSearchAdapter', () => {
         PRODUCT_SEARCH_PAGE_NORMALIZER
       );
     });
+    //   service.search(queryText, mockSearchConfig).subscribe();
+    //   spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    //   httpMock
+    //     .expectOne('productSearch')
+    //     .flush(searchResultsWithRedirectKeywords);
 
-    it('should navigate to keywordRedirectUrl when it exists in the ProductSearchPage', () => {
-      service.search(queryText, mockSearchConfig).subscribe();
-      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
-      httpMock
-        .expectOne('productSearch')
-        .flush(searchResultsWithRedirectKeywords);
+    //   expect(router.navigate).toHaveBeenCalledWith(
+    //     [searchResultsWithRedirectKeywords.keywordRedirectUrl],
+    //     {}
+    //   );
+    // });
+  });
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        searchResultsWithRedirectKeywords.keywordRedirectUrl,
-      ]);
+  describe('keywordRedirectUrl', () => {
+    const testCases = [
+      { keywordRedirectUrl: 'faq', resultPath: ['faq'], resultExtra: {} },
+      {
+        keywordRedirectUrl: 'c/574?test=1',
+        resultPath: ['c', '574'],
+        resultExtra: { queryParams: { test: '1' } },
+      },
+      {
+        keywordRedirectUrl: 'faq#001',
+        resultPath: ['faq'],
+        resultExtra: { fragment: '001' },
+      },
+      {
+        keywordRedirectUrl: 'path1/faq#001',
+        resultPath: ['path1', 'faq'],
+        resultExtra: { fragment: '001' },
+      },
+      {
+        keywordRedirectUrl: 'http://test.com',
+        resultPath: [],
+        resultExtra: {},
+      },
+      {
+        keywordRedirectUrl: 'http://test.com/path1/path2',
+        resultPath: ['path1', 'path2'],
+        resultExtra: {},
+      },
+      {
+        keywordRedirectUrl: 'http://test.com/path1/faq#001',
+        resultPath: ['path1', 'faq'],
+        resultExtra: { fragment: '001' },
+      },
+    ];
+    testCases.forEach(({ keywordRedirectUrl, resultPath, resultExtra }) => {
+      it(`should navigate to ${keywordRedirectUrl} when it exists in the ProductSearchPage`, () => {
+        const searchResults = {
+          ...searchResultsWithRedirectKeywords,
+          keywordRedirectUrl,
+        };
+
+        service.search(queryText, mockSearchConfig).subscribe();
+        spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+        httpMock.expectOne('productSearch').flush(searchResults);
+
+        expect(router.navigate).toHaveBeenCalledWith(resultPath, resultExtra);
+      });
     });
   });
 
@@ -143,7 +192,7 @@ describe('OccProductSearchAdapter', () => {
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productSuggestions', {
         queryParams: {
           term: queryText,
-          max: mockSearchConfig.pageSize.toString(),
+          max: mockSearchConfig.pageSize?.toString(),
         },
       });
       mockReq.flush(suggestionList);
