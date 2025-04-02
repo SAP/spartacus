@@ -56,18 +56,12 @@ export class ProductLoadingService {
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
+    isKeyInvalid(productCode);
+
     if (!this.products[productCode]) {
       this.products[productCode] = {};
     }
 
-    for (const scope of scopes) {
-      if (!this.products[productCode][scope]) {
-        this.products[productCode][scope] = this.getProductForScope(
-          productCode,
-          scope
-        );
-      }
-    }
     for (const scope of scopes) {
       if (!this.products[productCode][scope]) {
         this.products[productCode][scope] = this.getProductForScope(
