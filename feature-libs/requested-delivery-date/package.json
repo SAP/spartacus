@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/requested-delivery-date",
-  "version": "2211.38.0-1",
+  "version": "2211.40.0",
   "description": "Requested Delivery Date library for Spartacus",
   "keywords": [
     "spartacus",
@@ -29,13 +29,13 @@
     "@angular/common": "^19.1.8",
     "@angular/core": "^19.1.8",
     "@angular/forms": "^19.1.8",
-    "@spartacus/cart": "2211.38.0-1",
-    "@spartacus/checkout": "2211.38.0-1",
-    "@spartacus/core": "2211.38.0-1",
-    "@spartacus/order": "2211.38.0-1",
-    "@spartacus/schematics": "2211.38.0-1",
-    "@spartacus/storefront": "2211.38.0-1",
-    "@spartacus/styles": "2211.38.0-1",
+    "@spartacus/cart": "2211.40.0",
+    "@spartacus/checkout": "2211.40.0",
+    "@spartacus/core": "2211.40.0",
+    "@spartacus/order": "2211.40.0",
+    "@spartacus/schematics": "2211.40.0",
+    "@spartacus/storefront": "2211.40.0",
+    "@spartacus/styles": "2211.40.0",
     "rxjs": "^7.8.2"
   },
   "engines": {
