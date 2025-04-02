@@ -41,7 +41,7 @@ const mockSearchConfig: SearchConfig = {
 };
 const scope = 'default';
 
-fdescribe('OccProductSearchAdapter', () => {
+describe('OccProductSearchAdapter', () => {
   let service: OccProductSearchAdapter;
   let httpMock: HttpTestingController;
   let endpoints: OccEndpointsService;
