@@ -568,11 +568,13 @@ export class CdcJsService implements OnDestroy {
       userDetails.firstName = response.profile.firstName;
       userDetails.lastName = response.profile.lastName;
       userDetails.uid = response.profile.email;
+      const passwordScreen = response.screen;
+
       //logout the user only in case of email update.
       this.getLoggedInUserEmail().subscribe((user) => {
         const currentEmail = user?.uid;
         this.userProfileFacade.update(userDetails).subscribe(() => {
-          if (currentEmail !== userDetails.uid) {
+          if (currentEmail !== userDetails.uid || passwordScreen === 'gigya-change-password-screen') {
             this.logoutUser();
           }
           this.handleProfileUpdateResponse(response);
