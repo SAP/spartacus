@@ -25,7 +25,7 @@ declare global {
   providedIn: 'root',
 })
 export class MockCaptchaService extends CaptchaService {
-  protected retVal = new Subject<string>();
+  protected retVal: Subject<string>;
 
   protected container: HTMLDivElement;
 
