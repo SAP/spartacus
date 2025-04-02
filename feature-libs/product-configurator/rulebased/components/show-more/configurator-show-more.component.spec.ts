@@ -1,18 +1,27 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, SecurityContext } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 describe('ConfiguratorShowMoreComponent', () => {
   let component: ConfiguratorShowMoreComponent;
   let fixture: ComponentFixture<ConfiguratorShowMoreComponent>;
   let htmlElem: HTMLElement;
+  let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
   beforeEach(waitForAsync(() => {
+    sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
+      'sanitize',
+    ]);
+    sanitizerSpy.sanitize.and.callFake(
+      (_context: SecurityContext, value: string) => value
+    );
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfiguratorShowMoreComponent],
+      providers: [{ provide: DomSanitizer, useValue: sanitizerSpy }],
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {
@@ -45,37 +54,60 @@ describe('ConfiguratorShowMoreComponent', () => {
     );
   });
 
-  it('should remove script tags from input text', () => {
-    const input = '<script>alert("XSS")</script><b>Sanitized Text</b>';
-    const result = component.removeScriptTags(input);
-
-    expect(result).toEqual('<b>Sanitized Text</b>');
+  // Testing 'normalize' method
+  it('should sanitize input text by removing HTML tags', () => {
+    const result = component.normalize('<b>Sanitized Text</b>');
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'Sanitized Text'
+    );
+    expect(result).toEqual('Sanitized Text');
   });
 
-  it('should return empty SafeHtml when input is null', () => {
-    const result = component.removeScriptTags(null as unknown as string);
-    expect(result.toString()).toEqual('');
+  it('should return an empty string when input is null', () => {
+    const result = component.normalize(null as unknown as string);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      ''
+    );
+    expect(result).toEqual('');
   });
 
-  it('should return empty SafeHtml when input is undefined', () => {
-    const result = component.removeScriptTags(undefined as unknown as string);
-    expect(result.toString()).toEqual('');
+  it('should return an empty string when input is undefined', () => {
+    const result = component.normalize(undefined as unknown as string);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      ''
+    );
+    expect(result).toEqual('');
   });
 
-  it('should return SafeHtml unchanged if no HTML elements', () => {
-    const result = component.removeScriptTags('Plain Text');
-    expect(result.toString()).toEqual('Plain Text');
+  it('should return the same text if there are no HTML elements', () => {
+    const result = component.normalize('Plain Text');
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'Plain Text'
+    );
+    expect(result).toEqual('Plain Text');
   });
 
   it('should remove script tags to prevent XSS', () => {
-    const result = component.removeScriptTags(
-      '<script>alert("XSS")</script>Safe Content'
+    const input = '<script>alert("XSS")</script>Safe Content';
+    const result = component.normalize(input);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'alert("XSS")Safe Content'
     );
-    expect(result.toString()).toEqual('Safe Content');
+    expect(result).toEqual('alert("XSS")Safe Content');
   });
 
   it('should handle special characters properly', () => {
-    const result = component.removeScriptTags('Text & Special Chars ©');
+    const input = 'Text & Special Chars ©';
+    const result = component.normalize(input);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'Text & Special Chars ©'
+    );
     expect(result).toEqual('Text & Special Chars ©');
   });
 

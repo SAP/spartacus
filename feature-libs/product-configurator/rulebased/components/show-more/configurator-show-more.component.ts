@@ -11,6 +11,7 @@ import {
   Component,
   inject,
   Input,
+  SecurityContext,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -36,7 +37,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    this.textNormalized = this.normalize(this.text);
+    this.textNormalized = this.normalize(this.text) as string;
 
     if (this.textNormalized.length > this.textSize) {
       this.showMore = true;
@@ -57,38 +58,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  normalize(text: string = ''): string {
-    return this.removeScriptTags(text.replace(/<[^>]*>/g, ''));
-  }
-
-  removeScriptTags(html: string): string {
-    if (!html) {
-      return '';
-    }
-
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-
-    // Remove all <script> tags
-    doc.querySelectorAll('script').forEach((script) => script.remove());
-
-    // Remove other dangerous tags (optional)
-    const blockedTags = ['iframe', 'object', 'embed', 'link', 'style'];
-    blockedTags.forEach((tag) => {
-      doc.querySelectorAll(tag).forEach((el) => el.remove());
-    });
-
-    // Remove inline event handlers
-    doc.querySelectorAll('*').forEach((el) => {
-      Array.from(el.attributes).forEach((attr) => {
-        if (attr.name.startsWith('on')) {
-          el.removeAttribute(attr.name);
-        }
-      });
-    });
-
-    // Decode HTML entities
-    const textarea = document.createElement('textarea');
-    textarea.innerHTML = doc.body.innerHTML;
-    return textarea.value;
+  normalize(text: string = ''): string | null {
+    const safeText = (text || '').replace(/<[^>]*>/g, '');
+    return this.sanitizer.sanitize(SecurityContext.HTML, safeText);
   }
 }

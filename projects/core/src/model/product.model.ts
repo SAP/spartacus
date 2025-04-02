@@ -177,7 +177,7 @@ export interface Product {
   images?: Images;
   manufacturer?: string;
   multidimensional?: boolean;
-  name?: string;
+  name?: string | null;
   /**
    * The product slug is used to create pretty URL for links to product detail pages.
    *
