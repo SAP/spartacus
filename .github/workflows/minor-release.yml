@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       source:
-        description: 'Source to release from (e.g., release-2211.20.0). By default, the develop branch is used.'
+        description: 'Source to release from. Could be any branch or tag (e.g., release/2211.20.x, 2211.20.0). By default, the develop branch is used.'
         required: false
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
