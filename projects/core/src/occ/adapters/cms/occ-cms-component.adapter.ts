@@ -7,7 +7,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import {
@@ -51,7 +51,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
             }
           );
         }),
-        this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER),
+        take(1)
       );
     }
     return this.http
@@ -87,7 +88,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
           );
         }),
         map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
+        take(1)
       );
     }
     return this.http
