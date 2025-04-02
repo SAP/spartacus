@@ -128,6 +128,27 @@ describe('OccPunchoutAdapter', () => {
     req.flush(mockPunchoutRequisitionResponse);
   });
 
+  it('should getPunchoutSessionRequisition successfully with discardCartEntries true', (done) => {
+    mockOccEndpointsService.buildUrl.and.returnValue(
+      `/punchout/sessions/${mockSid}/requisition`
+    );
+
+    service.getPunchoutSessionRequisition(mockSid, true).subscribe({
+      next: (result) => {
+        expect(result).toEqual(mockPunchoutRequisitionResponse);
+        done();
+      },
+    });
+    const req = httpMock.expectOne(
+      `/punchout/sessions/${mockSid}/requisition?discardCartEntries=true`
+    );
+    expect(req.request.method).toBe('GET');
+    expect(converter.pipeable).toHaveBeenCalledWith(
+      PUNCHOUT_REQUISITION_NORMALIZER
+    );
+    req.flush(mockPunchoutRequisitionResponse);
+  });
+
   it('should getPunchoutSessionRequisition logs error when failing', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}/requisition`

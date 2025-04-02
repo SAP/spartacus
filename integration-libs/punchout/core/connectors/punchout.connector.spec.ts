@@ -72,7 +72,20 @@ describe('PunchoutConnector', () => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
         expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
           mockSid,
-          undefined
+          false
+        );
+        done();
+      },
+    });
+  });
+
+  it('getPunchoutSessionRequisition should call adapter with discardCartEntries true', (done) => {
+    service.getPunchoutSessionRequisition(mockSid, true).subscribe({
+      next: (result) => {
+        expect(result).toEqual(mockPunchoutRequisitionResponse);
+        expect(adapter.getPunchoutSessionRequisition).toHaveBeenCalledWith(
+          mockSid,
+          true
         );
         done();
       },
