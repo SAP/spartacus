@@ -75,8 +75,6 @@
     </form>
   </div>
 
-  <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
-
   <cx-opf-checkout-terms-and-conditions-alert
     *ngIf="!explicitTermsAndConditions.value"
     [isDismissible]="true"
@@ -86,10 +84,20 @@
 
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
+    [isPaymentInfoMessageEnabled]="false"
+    [explicitTermsAndConditions]="explicitTermsAndConditions.value"
+    [disabled]="termsAndConditionInvalid"
+    [customPaymentTemplate]="placeOrderTemplate"
   ></cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details
     [cart]="cart$ | async"
     [entries]="entries$ | async"
   ></cx-opf-checkout-review-cart-details>
+
+  <ng-template #placeOrderTemplate>
+    <cx-opf-b2b-checkout-place-order
+      [isDisabled]="false"
+    ></cx-opf-b2b-checkout-place-order>
+  </ng-template>
 </ng-container>

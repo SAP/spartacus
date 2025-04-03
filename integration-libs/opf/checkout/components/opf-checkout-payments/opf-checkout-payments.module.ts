@@ -13,8 +13,9 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper';
-import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
+import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
+import { OpfB2bCheckoutPlaceOrderModule } from '../b2b/opf-b2b-checkout-place-order';
 
 @NgModule({
   declarations: [OpfCheckoutPaymentsComponent],
@@ -24,9 +25,10 @@ import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component'
     I18nModule,
     SpinnerModule,
     PaginationModule,
+    IconModule,
     OpfCheckoutPaymentWrapperModule,
     OpfCheckoutTermsAndConditionsAlertModule,
-    IconModule,
+    OpfB2bCheckoutPlaceOrderModule,
   ],
 })
 export class OpfCheckoutPaymentsModule {}

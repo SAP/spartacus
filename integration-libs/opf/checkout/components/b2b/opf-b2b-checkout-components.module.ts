@@ -10,6 +10,7 @@ import { OpfB2bCheckoutPaymentTypeModule } from './opf-b2b-checkout-payment-type
 import { OpfB2bCheckoutReviewModule } from './opf-b2b-checkout-review';
 import { OpfB2bCheckoutDeliveryAddressModule } from './opf-b2b-checkout-delivery-address';
 import { OpfB2bCheckoutCostCenterModule } from './opf-b2b-checkout-cost-center';
+import { OpfB2bCheckoutPlaceOrderModule } from './opf-b2b-checkout-place-order';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { OpfB2bCheckoutCostCenterModule } from './opf-b2b-checkout-cost-center';
     OpfB2bCheckoutReviewModule,
     OpfB2bCheckoutDeliveryAddressModule,
     OpfB2bCheckoutCostCenterModule,
+    OpfB2bCheckoutPlaceOrderModule,
   ],
 })
 export class OpfB2bCheckoutComponentsModule {}

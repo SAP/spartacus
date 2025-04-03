@@ -95,6 +95,19 @@ export class OpfB2bCheckoutReviewComponent
     );
   }
 
+  getCostCenterCard(costCenter?: CostCenter | null): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('opfCheckout.costCenter'),
+      this.translationService.translate('opfCheckout.noCostCenter'),
+    ]).pipe(
+      map(([title, noCostCenter]) => ({
+        title,
+        textBold: costCenter?.name ?? noCostCenter,
+        text: [],
+      }))
+    );
+  }
+
   getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
       this.translationService.translate('opfCheckout.poNumber'),
@@ -104,20 +117,6 @@ export class OpfB2bCheckoutReviewComponent
         return {
           title: textTitle,
           textBold: poNumber ? poNumber : noneTextTitle,
-        };
-      })
-    );
-  }
-
-  getCostCenterCard(costCenter?: CostCenter): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('opfCheckout.costCenter'),
-    ]).pipe(
-      map(([textTitle]) => {
-        return {
-          title: textTitle,
-          textBold: costCenter?.name,
-          text: ['(' + costCenter?.unit?.name + ')'],
         };
       })
     );
