@@ -14,6 +14,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { CheckoutPlaceOrderModule } from '@spartacus/checkout/base/components';
 import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.component';
 import { OpfCheckoutReviewCardModule } from '../../opf-checkout-review-card/opf-checkout-review-card.module';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
@@ -40,6 +41,7 @@ import { OpfCheckoutReviewCartDetailsModule } from '../../opf-checkout-review-ca
         },
       },
     }),
+    CheckoutPlaceOrderModule,
   ],
   declarations: [OpfB2bCheckoutReviewComponent],
   exports: [OpfB2bCheckoutReviewComponent],

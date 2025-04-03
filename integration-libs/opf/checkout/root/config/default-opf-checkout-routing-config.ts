@@ -12,6 +12,9 @@ export const defaultOpfCheckoutRoutingConfig: RoutingConfig = {
       opfCheckoutPaymentType: {
         paths: ['checkout/opf-payment-type'],
       },
+      opfCheckoutDeliveryAddress: {
+        paths: ['checkout/opf-delivery-address'],
+      },
       opfCheckoutPaymentAndReview: {
         paths: ['checkout/opf-payment-and-review'],
       },

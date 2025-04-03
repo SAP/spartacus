@@ -18,9 +18,9 @@ const opfB2bCheckoutSteps = [
     type: [CheckoutStepType.PAYMENT_TYPE],
   },
   {
-    id: 'deliveryAddress',
+    id: 'opfDeliveryAddress',
     name: 'opfCheckout.tabs.shipping',
-    routeName: 'checkoutDeliveryAddress',
+    routeName: 'opfCheckoutDeliveryAddress',
     type: [CheckoutStepType.DELIVERY_ADDRESS],
   },
   {

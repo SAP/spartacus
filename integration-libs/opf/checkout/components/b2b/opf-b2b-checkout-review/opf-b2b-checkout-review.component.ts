@@ -16,22 +16,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
+import {
+  CheckoutCostCenterFacade,
+  CheckoutPaymentTypeFacade,
+} from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
-import { CmsService, Page } from '@spartacus/core';
+import { CmsService, CostCenter, Page } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import {
-  Observable,
-  take,
-  map,
-  filter,
-  combineLatest,
-  BehaviorSubject,
-} from 'rxjs';
+import { Observable, map, filter, combineLatest } from 'rxjs';
 import { Card } from '@spartacus/storefront';
 
 @Component({
@@ -49,12 +45,9 @@ export class OpfB2bCheckoutReviewComponent
   protected cmsService = inject(CmsService);
   protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
   protected opfBaseFacade = inject(OpfBaseFacade);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
 
   protected defaultTermsAndConditionsFieldValue = false;
-
-  protected selectedPaymentProviderName$ = new BehaviorSubject<
-    string | undefined
-  >(undefined);
 
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
     .getCurrentPage()
@@ -95,6 +88,13 @@ export class OpfB2bCheckoutReviewComponent
     );
   }
 
+  get costCenter$(): Observable<CostCenter | undefined> {
+    return this.checkoutCostCenterFacade.getCostCenterState().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
+  }
+
   getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
       this.translationService.translate('opfCheckout.poNumber'),
@@ -109,25 +109,17 @@ export class OpfB2bCheckoutReviewComponent
     );
   }
 
-  getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
-
-  getSelectedPaymentId$ = this.opfMetadataStoreService
-    .getOpfMetadataState()
-    .pipe(
-      take(1),
-      map((data) => data?.selectedPaymentOptionId)
-    );
-
-  getPaymentMethodNameCard(methodName?: string): Observable<Card> {
+  getCostCenterCard(costCenter?: CostCenter): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('opfCheckout.paymentMethod'),
-      this.translationService.translate('opfCheckout.noPaymentMethod'),
+      this.translationService.translate('opfCheckout.costCenter'),
     ]).pipe(
-      map(([title, noPaymentMethod]) => ({
-        title,
-        textBold: methodName ?? noPaymentMethod,
-        text: [],
-      }))
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: costCenter?.name,
+          text: ['(' + costCenter?.unit?.name + ')'],
+        };
+      })
     );
   }
 
@@ -143,10 +135,6 @@ export class OpfB2bCheckoutReviewComponent
 
   toggleTermsAndConditions() {
     this.updateTermsAndConditionsState();
-  }
-
-  onPaymentProviderSelected(providerName: string) {
-    this.selectedPaymentProviderName$.next(providerName);
   }
 
   ngOnInit() {
