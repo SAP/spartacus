@@ -21,6 +21,7 @@
       <div class="cx-info">
         <div *ngIf="item.product?.name" class="cx-name">
           <a
+            [attr.id]="item.product?.code + '_productDescription'"
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
             >{{ item.product?.name }}</a
