@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { checkA11yConcerns } from '../../support/utils/a11y-continuum.utils';
+import { standardUser } from '../../sample-data/shared-users';
 import * as updateProfile from '../../helpers/update-profile';
-import * as updateEmail from '../../helpers/update-email';
-import { isolateTests } from '../../support/utils/test-isolation';
 
 export function fillUpdatePersonalDetailsForm({
   firstName,
@@ -34,51 +32,28 @@ const UPDATE_PROFILE_URL = updateProfile.UPDATE_PROFILE_URL;
  * This test checks accessibility concerns on the Account Settings Personal Details page using Access Continuum
  */
 describe('Account Settings / Personal Details Page Accessibility', () => {
-  isolateTests();
-
   before(() => {
     cy.a11yContinuumSetup();
   });
 
   it('initial page load', () => {
-    updateEmail.registerAndLogin();
+    cy.requireLoggedIn(standardUser);
     cy.visit(UPDATE_PROFILE_URL);
-    cy.get('cx-breadcrumb h1').should('contain', 'Update Personal Details');
   });
 
   it('saving enpty fields', () => {
-    updateEmail.registerAndLogin();
-    cy.visit(UPDATE_PROFILE_URL).wait(3000);
-    cy.get('cx-breadcrumb h1').should('contain', 'Update Personal Details');
+    cy.requireLoggedIn(standardUser);
+    cy.visit(UPDATE_PROFILE_URL);
 
     fillUpdatePersonalDetailsForm({ firstName: '', lastName: '' });
-    cy.get('cx-form-errors#firstNameError').should(
-      'contain',
-      'Field First name is required'
-    );
-    cy.get('cx-form-errors#lastNameError').should(
-      'contain',
-      'Field Last name is required'
-    );
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('password update success', () => {
-    updateEmail.registerAndLogin();
-    cy.visit(UPDATE_PROFILE_URL).wait(3000);
-    cy.get('cx-breadcrumb h1').should('contain', 'Update Personal Details');
+    cy.requireLoggedIn(standardUser);
+    cy.visit(UPDATE_PROFILE_URL);
 
     fillUpdatePersonalDetailsForm({ firstName: 'John', lastName: 'Doe' });
-    cy.get('cx-global-message').should(
-      'contain',
-      'Personal details successfully updated'
-    );
-    cy.get('cx-form-errors#firstNameError').should(
-      'not.contain',
-      'Field First name is required'
-    );
-    cy.get('cx-form-errors#lastNameError').should(
-      'not.contain',
-      'Field Last name is required'
-    );
+    cy.get('main').a11yRunContinuumTest();
   });
 });

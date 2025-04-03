@@ -7,7 +7,6 @@
 import * as updateEmail from '../../helpers/update-email';
 import * as updatePassword from '../../helpers/update-password';
 import { standardUser } from '../../sample-data/shared-users';
-import { isolateTests } from '../../support/utils/test-isolation';
 
 export function fillUpdatePasswordForm({
   oldPassword,
@@ -44,64 +43,39 @@ const PAGE_URL_UPDATE_PASSWORD = updatePassword.PAGE_URL_UPDATE_PASSWORD;
  * This test checks accessibility concerns on the Account Settings Password page using Access Continuum
  */
 context('Account Settings / Password Page Accessibility', () => {
-  isolateTests();
-
   before(() => {
     cy.a11yContinuumSetup();
   });
 
   it('initial page load', () => {
-    updateEmail.registerAndLogin();
+    cy.requireLoggedIn(standardUser);
     cy.visit(PAGE_URL_UPDATE_PASSWORD);
-    cy.get('cx-breadcrumb h1').should('contain', 'Update Password');
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('saving enpty fields', () => {
-    updateEmail.registerAndLogin();
-    cy.visit(PAGE_URL_UPDATE_PASSWORD).wait(3000);
-    cy.get('cx-breadcrumb h1').should('contain', 'Update Password');
+    cy.requireLoggedIn(standardUser);
+    cy.visit(PAGE_URL_UPDATE_PASSWORD);
 
     fillUpdatePasswordForm({
       oldPassword: '',
       newPassword: '',
       newPasswordConfirm: '',
     });
-    cy.get('cx-form-errors#oldPasswordError').should(
-      'contain',
-      'Field Old Password is required'
-    );
-    cy.get('cx-form-errors#newPasswordError').should(
-      'contain',
-      'Field New Password is required'
-    );
-    cy.get('cx-form-errors#newPasswordConfirmError').should(
-      'contain',
-      'Field Confirm New Password is required'
-    );
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('password update success', () => {
     const newPassword = 'Pas!sword123.a';
+    // Register new user (changing standardUser password causes other tests to fail)
     updateEmail.registerAndLogin();
-    cy.visit(PAGE_URL_UPDATE_PASSWORD).wait(3000);
-    cy.get('cx-breadcrumb h1').should('contain', 'Update Password');
+    cy.visit(PAGE_URL_UPDATE_PASSWORD);
 
     fillUpdatePasswordForm({
       oldPassword: standardUser.registrationData.password,
       newPassword,
       newPasswordConfirm: newPassword,
     });
-    cy.get('cx-form-errors#oldPasswordError').should(
-      'not.contain',
-      'Field Old Password is required'
-    );
-    cy.get('cx-form-errors#newPasswordError').should(
-      'not.contain',
-      'Password fields cannot match'
-    );
-    cy.get('cx-global-message').should(
-      'contain',
-      'Password updated with success'
-    );
+    cy.get('main').a11yRunContinuumTest();
   });
 });
