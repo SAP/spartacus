@@ -176,16 +176,14 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       return null;
     }
 
-    const path = urlObj.pathname.split('/').filter(Boolean); // Extract path segments
-    const queryParams: Record<string, string> = {};
-    const fragment = urlObj.hash.slice(1) || undefined; // Extract fragment (without #)
+    const { queryParams, fragment } =
+      this.router?.parseUrl(urlObj.pathname + urlObj.search + urlObj.hash) ??
+      {};
 
-    urlObj.searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
+    const path = urlObj.pathname.split('/').filter(Boolean); // Extract path segments
 
     const navigationExtras: NavigationExtras = {};
-    if (Object.keys(queryParams).length > 0) {
+    if (queryParams) {
       navigationExtras.queryParams = queryParams;
     }
 

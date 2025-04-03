@@ -112,22 +112,15 @@ describe('OccProductSearchAdapter', () => {
         PRODUCT_SEARCH_PAGE_NORMALIZER
       );
     });
-    //   service.search(queryText, mockSearchConfig).subscribe();
-    //   spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
-    //   httpMock
-    //     .expectOne('productSearch')
-    //     .flush(searchResultsWithRedirectKeywords);
-
-    //   expect(router.navigate).toHaveBeenCalledWith(
-    //     [searchResultsWithRedirectKeywords.keywordRedirectUrl],
-    //     {}
-    //   );
-    // });
   });
 
   describe('keywordRedirectUrl', () => {
     const testCases = [
-      { keywordRedirectUrl: 'faq', resultPath: ['faq'], resultExtra: {} },
+      {
+        keywordRedirectUrl: 'faq',
+        resultPath: ['faq'],
+        resultExtra: { queryParams: {} },
+      },
       {
         keywordRedirectUrl: 'c/574?test=1',
         resultPath: ['c', '574'],
@@ -136,27 +129,27 @@ describe('OccProductSearchAdapter', () => {
       {
         keywordRedirectUrl: 'faq#001',
         resultPath: ['faq'],
-        resultExtra: { fragment: '001' },
+        resultExtra: { fragment: '001', queryParams: {} },
       },
       {
         keywordRedirectUrl: 'path1/faq#001',
         resultPath: ['path1', 'faq'],
-        resultExtra: { fragment: '001' },
+        resultExtra: { fragment: '001', queryParams: {} },
       },
       {
         keywordRedirectUrl: 'http://test.com',
         resultPath: [],
-        resultExtra: {},
+        resultExtra: { queryParams: {} },
       },
       {
         keywordRedirectUrl: 'http://test.com/path1/path2',
         resultPath: ['path1', 'path2'],
-        resultExtra: {},
+        resultExtra: { queryParams: {} },
       },
       {
         keywordRedirectUrl: 'http://test.com/path1/faq#001',
         resultPath: ['path1', 'faq'],
-        resultExtra: { fragment: '001' },
+        resultExtra: { fragment: '001', queryParams: {} },
       },
     ];
     testCases.forEach(({ keywordRedirectUrl, resultPath, resultExtra }) => {
