@@ -134,7 +134,8 @@ export class PunchoutService implements PunchoutFacade {
         const punchoutSessionId = punchoutState?.punchoutSessionId;
         return punchoutSessionId
           ? this.punchoutConnector.getPunchoutSessionRequisition(
-              punchoutSessionId
+              punchoutSessionId,
+              punchoutState?.cancelRequisition
             )
           : throwError(() => new Error('Punchout Session Id missing'));
       }),

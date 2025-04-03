@@ -36,6 +36,7 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
 };
 
 const mockSessionId = '123abc';
+
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
@@ -138,7 +139,8 @@ describe('Punchoutservice', () => {
       next: (result) => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
         expect(connector.getPunchoutSessionRequisition).toHaveBeenCalledWith(
-          mockSessionId
+          mockSessionId,
+          undefined
         );
         done();
       },

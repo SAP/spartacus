@@ -28,6 +28,7 @@ import { Observable, throwError } from 'rxjs';
 import { OccPunchoutAdapter } from './occ-punchout.adapter';
 
 const mockSid = 'mockSid';
+const discardCartEntries = false;
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
@@ -111,13 +112,36 @@ describe('OccPunchoutAdapter', () => {
       `/punchout/sessions/${mockSid}/requisition`
     );
 
-    service.getPunchoutSessionRequisition(mockSid).subscribe({
+    service
+      .getPunchoutSessionRequisition(mockSid, discardCartEntries)
+      .subscribe({
+        next: (result) => {
+          expect(result).toEqual(mockPunchoutRequisitionResponse);
+          done();
+        },
+      });
+    const req = httpMock.expectOne(`/punchout/sessions/${mockSid}/requisition`);
+    expect(req.request.method).toBe('GET');
+    expect(converter.pipeable).toHaveBeenCalledWith(
+      PUNCHOUT_REQUISITION_NORMALIZER
+    );
+    req.flush(mockPunchoutRequisitionResponse);
+  });
+
+  it('should getPunchoutSessionRequisition successfully with discardCartEntries true', (done) => {
+    mockOccEndpointsService.buildUrl.and.returnValue(
+      `/punchout/sessions/${mockSid}/requisition`
+    );
+
+    service.getPunchoutSessionRequisition(mockSid, true).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutRequisitionResponse);
         done();
       },
     });
-    const req = httpMock.expectOne(`/punchout/sessions/${mockSid}/requisition`);
+    const req = httpMock.expectOne(
+      `/punchout/sessions/${mockSid}/requisition?discardCartEntries=true`
+    );
     expect(req.request.method).toBe('GET');
     expect(converter.pipeable).toHaveBeenCalledWith(
       PUNCHOUT_REQUISITION_NORMALIZER
@@ -132,12 +156,14 @@ describe('OccPunchoutAdapter', () => {
     const mockError = { status: 500, message: 'Server Error' };
     const result = tryNormalizeHttpError(mockError, mockLogger);
     spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
-    service.getPunchoutSessionRequisition(mockSid).subscribe({
-      error: (error) => {
-        expect(error).toBe(result);
-        done();
-      },
-    });
+    service
+      .getPunchoutSessionRequisition(mockSid, discardCartEntries)
+      .subscribe({
+        error: (error) => {
+          expect(error).toBe(result);
+          done();
+        },
+      });
   });
 
   it('should getPunchoutSession logs error when failing', (done) => {
