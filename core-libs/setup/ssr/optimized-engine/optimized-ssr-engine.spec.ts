@@ -204,7 +204,7 @@ describe('OptimizedSsrEngine', () => {
       renderKeyResolver: 'function getRequestUrl(req) {\\n' +
         '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
         '}',
-      ssrFeatureToggles: { avoidCachingErrors: true, cacheLimitInBytes: false }
+      ssrFeatureToggles: { cacheLimitInBytes: false, avoidCachingErrors: true }
     }
   }
 }",
@@ -1493,8 +1493,8 @@ describe('OptimizedSsrEngine', () => {
       "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
         Boolean(entry.err))",
       "ssrFeatureToggles": {
-        "cacheLimitInBytes": false,
         "avoidCachingErrors": true,
+        "cacheLimitInBytes": false,
       },
       "timeout": 3000,
       "ttl": undefined,
