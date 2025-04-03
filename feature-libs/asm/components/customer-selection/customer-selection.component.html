@@ -175,7 +175,11 @@
         type="text"
         formControlName="searchTerm"
         [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
-        [attr.aria-describedby]="'searchTermError'"
+        [attr.aria-invalid]="
+          customerSelectionForm.get('searchTerm')?.touched &&
+          customerSelectionForm.get('searchTerm')?.invalid
+        "
+        [attr.aria-errormessage]="'searchTermError'"
         placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
         (keydown.arrowdown)="focusFirstItem($event)"
         (keydown.end)="setSelectionEnd($event)"
@@ -185,7 +189,6 @@
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="searchTermError"
-        aria-live="off"
         [translationParams]="{
           label: 'asm.customerSearch.searchTerm.label' | cxTranslate,
         }"

@@ -280,7 +280,7 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
     ),
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
-    avoidCachingErrors: false,
     cacheLimitInBytes: false,
+    avoidCachingErrors: true,
   },
 };
