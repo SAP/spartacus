@@ -321,12 +321,10 @@ export class PunchoutService implements PunchoutFacade {
               this.multiCartFacade.addEntries(
                 state.punchoutSession?.customerId as string,
                 state.punchoutSession?.cartId as string,
-                state.punchoutInitialCart?.entries?.map((e) => {
-                  return {
-                    productCode: e.productCode,
-                    quantity: e.quantity,
-                  };
-                }) as { productCode: string; quantity: number }[]
+                state.punchoutInitialCart?.entries as {
+                  productCode: string;
+                  quantity: number;
+                }[]
               );
             })
           );
