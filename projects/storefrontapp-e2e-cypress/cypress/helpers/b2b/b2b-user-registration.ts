@@ -17,7 +17,7 @@ export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
 export const ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR =
   'cx-user-registration-form';
 
-export const enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
+export enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
   SUCCESS = 'success',
   ERROR = 'error',
 }
@@ -105,6 +105,14 @@ export function verifyTabbingOrder() {
     'cx-page-layout.AccountPageTemplate',
     config.userRegistrationForm
   );
+}
+
+export function verifyTabbingOrderForRegistrationWithOTP() {
+  tabbingOrder('form', config.userRegistrationFormWithOTP);
+}
+
+export function verifyTabbingOrderForOTPVerification() {
+  tabbingOrder('form', config.verificationToken);
 }
 
 export function verifyFormErrors() {

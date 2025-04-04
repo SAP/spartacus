@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/storefront';
 import { QuoteComment } from './quote.model';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
@@ -14,7 +14,10 @@ declare module '@spartacus/cart/base/root' {
 }
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     QUOTE_ACTION_CONFIRMATION = 'QUOTE_ACTION_CONFIRMATION',
   }
 }
+
+(LAUNCH_CALLER as any)['QUOTE_ACTION_CONFIRMATION'] =
+  'QUOTE_ACTION_CONFIRMATION';

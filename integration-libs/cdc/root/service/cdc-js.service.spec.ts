@@ -269,7 +269,7 @@ describe('CdcJsService', () => {
         errorCallback: jasmine.any(Function) as any,
       });
       expect(winRef?.nativeWindow['__gigyaConf']).toEqual({
-        include: 'id_token, missing-required-fields',
+        include: 'id_token, missing-required-fields, preferences',
       });
     });
 

@@ -28,7 +28,7 @@ export function verifyGlobalMessageAfterRegistration() {
 
   alert.should(
     'contain',
-    'Successful Registration: Please log in with provided credentials'
+    'Your account has been successfully created! Please log in with provided credentials'
   );
   cy.location().should((location) => {
     expect(location.pathname).to.match(/\/login$/);

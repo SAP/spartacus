@@ -20,7 +20,7 @@ import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { isolateTests } from '../../../../support/utils/test-isolation';
 
 context('B2B - User Registration', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
     });

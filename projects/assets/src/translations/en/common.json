@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Ask us anything"
     },
-    "closeSearchPanel": "Close"
+    "closeSearchPanel": "Close",
+    "queryError": "Your search query is incorrectly formatted. Please remove special characters like \":\" and try again."
   },
   "sorting": {
     "date": "Date",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "Password cannot have more than 128 characters",
       "cxContainsSpecialCharacters": "Password cannot contain special characters",
       "cxNoConsecutiveCharacters": "Password cannot contain consecutive identical characters",
+      "invalidTokenCodeError": "This code is not valid",
       "date": {
         "required": "Field {{label}} is required",
         "min": "Field {{label}} cannot be before {{min}}",

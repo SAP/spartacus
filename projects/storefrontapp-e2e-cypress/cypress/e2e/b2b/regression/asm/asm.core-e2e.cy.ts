@@ -31,7 +31,7 @@ context('B2B - Assisted Service Module', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
-    it("should fetch cost centers based on the emulated user's role", () => {
+    it("should fetch cost centers based on the emulated user's specific role", () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],

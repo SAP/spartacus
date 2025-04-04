@@ -39,18 +39,14 @@
   <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->
   <ng-template #billingAddress>
     <div [formGroup]="billingAddressForm">
-      <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-        {{ 'formLegend.required' | cxTranslate }}
-      </p>
+      <cx-form-required-legend />
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">
             <label>
               <span class="label-content required">
                 {{ 'addressForm.country' | cxTranslate }}
-                <ng-template
-                  [ngTemplateOutlet]="requiredAsterisk"
-                ></ng-template>
+                <cx-form-required-asterisks />
               </span>
               <ng-select
                 [inputAttrs]="{ required: 'true' }"
@@ -62,6 +58,11 @@
                 placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
                 (change)="countrySelected($event)"
                 formControlName="isocode"
+                [attr.aria-invalid]="
+                  billingAddressForm.get('isocode')?.touched &&
+                  billingAddressForm.get('isocode')?.invalid
+                "
+                [attr.aria-errormessage]="'isocodeError'"
                 id="country-payment-select"
                 [cxNgSelectA11y]="{
                   ariaLabel: 'addressForm.country' | cxTranslate,
@@ -69,6 +70,7 @@
               >
               </ng-select>
               <cx-form-errors
+                id="isocodeError"
                 [control]="billingAddressForm.get('country.isocode')"
               ></cx-form-errors>
             </label>
@@ -79,7 +81,7 @@
         <label>
           <span class="label-content required">
             {{ 'addressForm.firstName.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -89,11 +91,14 @@
               'addressForm.firstName.placeholder' | cxTranslate
             }}"
             formControlName="firstName"
-            [attr.aria-describedby]="'firstNameError'"
+            [attr.aria-invalid]="
+              billingAddressForm.get('firstName')?.touched &&
+              billingAddressForm.get('firstName')?.invalid
+            "
+            [attr.aria-errormessage]="'firstNameError'"
           />
           <cx-form-errors
             id="firstNameError"
-            aria-live="off"
             [control]="billingAddressForm.get('firstName')"
           ></cx-form-errors>
         </label>
@@ -102,7 +107,7 @@
         <label>
           <span class="label-content required">
             {{ 'addressForm.lastName.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -110,11 +115,14 @@
             class="form-control"
             placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
             formControlName="lastName"
-            [attr.aria-describedby]="'lastNameError'"
+            [attr.aria-invalid]="
+              billingAddressForm.get('lastName')?.touched &&
+              billingAddressForm.get('lastName')?.invalid
+            "
+            [attr.aria-errormessage]="'lastNameError'"
           />
           <cx-form-errors
             id="lastNameError"
-            aria-live="off"
             [control]="billingAddressForm.get('lastName')"
           ></cx-form-errors>
         </label>
@@ -123,7 +131,7 @@
         <label>
           <span class="label-content required">
             {{ 'addressForm.address1' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -131,11 +139,14 @@
             class="form-control"
             placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
             formControlName="line1"
-            [attr.aria-describedby]="'line1Error'"
+            [attr.aria-invalid]="
+              billingAddressForm.get('line1')?.touched &&
+              billingAddressForm.get('line1')?.invalid
+            "
+            [attr.aria-errormessage]="'line1Error'"
           />
           <cx-form-errors
             id="line1Error"
-            aria-live="off"
             [control]="billingAddressForm.get('line1')"
           ></cx-form-errors>
         </label>
@@ -158,7 +169,7 @@
           <label>
             <span class="label-content required">
               {{ 'addressForm.city.label' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+              <cx-form-required-asterisks />
             </span>
             <input
               required="true"
@@ -166,11 +177,14 @@
               class="form-control"
               placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
               formControlName="town"
-              [attr.aria-describedby]="'townError'"
+              [attr.aria-invalid]="
+                billingAddressForm.get('town')?.touched &&
+                billingAddressForm.get('town')?.invalid
+              "
+              [attr.aria-errormessage]="'townError'"
             />
             <cx-form-errors
               id="townError"
-              aria-live="off"
               [control]="billingAddressForm.get('town')"
             ></cx-form-errors>
           </label>
@@ -179,7 +193,7 @@
           <label>
             <span class="label-content required">
               {{ 'addressForm.zipCode.label' | cxTranslate }}
-              <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+              <cx-form-required-asterisks />
             </span>
             <input
               required="true"
@@ -189,11 +203,14 @@
                 'addressForm.zipCode.placeholder' | cxTranslate
               }}"
               formControlName="postalCode"
-              [attr.aria-describedby]="'postalCodeError'"
+              [attr.aria-invalid]="
+                billingAddressForm.get('postalCode')?.touched &&
+                billingAddressForm.get('postalCode')?.invalid
+              "
+              [attr.aria-errormessage]="'postalCodeError'"
             />
             <cx-form-errors
               id="postalCodeError"
-              aria-live="off"
               [control]="billingAddressForm.get('postalCode')"
             ></cx-form-errors>
           </label>
@@ -212,6 +229,11 @@
                   [inputAttrs]="{ required: 'true' }"
                   class="region-select"
                   formControlName="isocodeShort"
+                  [attr.aria-invalid]="
+                    billingAddressForm.get('isocodeShort')?.touched &&
+                    billingAddressForm.get('isocodeShort')?.invalid
+                  "
+                  [attr.aria-errormessage]="'isocodeShortError'"
                   [searchable]="true"
                   [clearable]="false"
                   [items]="regions"
@@ -225,6 +247,7 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  id="isocodeShortError"
                   [control]="billingAddressForm.get('region.isocodeShort')"
                 ></cx-form-errors>
               </label>
@@ -235,13 +258,3 @@
     </div>
   </ng-template>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

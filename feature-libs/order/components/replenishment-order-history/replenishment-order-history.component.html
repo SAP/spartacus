@@ -94,37 +94,42 @@
             class="cx-replenishment-order-history-thead-mobile"
           >
             <tr>
-              <th scope="col">
+              <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
                 </span>
               </th>
-              <th scope="col">
+              <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
                 </span>
               </th>
-              <th scope="col">
+              <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.startOn' | cxTranslate }}
                 </span>
               </th>
-              <th scope="col">
+              <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.frequency' | cxTranslate }}
                 </span>
               </th>
-              <th scope="col">
+              <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.nextOrderDate' | cxTranslate }}
                 </span>
               </th>
-              <th scope="col" class="cx-replenishment-order-history-total">
+              <th
+                role="columnheader"
+                scope="col"
+                aria-sort="none"
+                class="cx-replenishment-order-history-total"
+              >
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.total' | cxTranslate }}
                 </span>
               </th>
-              <th scope="col">
+              <th role="columnheader" scope="col" aria-sort="none">
                 <span class="cx-replenishment-order-history-ellipses">
                   {{ 'orderHistory.actions' | cxTranslate }}
                 </span>
@@ -134,8 +139,12 @@
           <tbody>
             <tr
               role="row"
-              *ngFor="let order of replenishmentOrders.replenishmentOrders"
+              *ngFor="
+                let order of replenishmentOrders.replenishmentOrders;
+                let i = index
+              "
               (click)="goToOrderDetail(order)"
+              [attr.aria-rowindex]="i + 1"
             >
               <td class="cx-replenishment-order-history-code" role="cell">
                 <div class="d-md-none cx-replenishment-order-history-label">

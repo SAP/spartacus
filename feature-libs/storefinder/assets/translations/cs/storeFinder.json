@@ -19,6 +19,7 @@
     "fromStoresFound": "z {{ count }} nalezené prodejny",
     "fromStoresFound_other": "z {{ count }} nalezených prodejen",
     "findStore": "Vyhledat prodejnu",
+    "findStoreBy": "Find store by",
     "useMyLocation": "Použít mou polohu",
     "viewAllStores": "Zobrazit všechny prodejny",
     "contactUs": "Kontaktujte nás",

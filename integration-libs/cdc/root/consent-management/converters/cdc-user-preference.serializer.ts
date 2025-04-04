@@ -5,8 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ConsentTemplate, Converter } from '@spartacus/core';
+import { ConsentTemplate, Converter, isKeyInvalid } from '@spartacus/core';
 
+/**
+ * @deprecated since 2211.38, use class CdcPreferenceSerializer instead
+ */
+// CXSPA-9292: remove this service in next major release
 @Injectable({ providedIn: 'root' })
 export class CdcUserPreferenceSerializer
   implements Converter<ConsentTemplate, any>
@@ -42,6 +46,7 @@ export class CdcUserPreferenceSerializer
   private convertToCdcPreference(path: string, value: any): any {
     const target: any = {};
     let consentCode = target;
+    isKeyInvalid(consentCode);
     const list = path.split('.');
     const len = list.length;
     for (let i = 0; i < len - 1; i++) {

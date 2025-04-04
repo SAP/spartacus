@@ -9,6 +9,7 @@
     "recurrencePeriodType_MONTHLY": "月",
     "dayOfMonth": "特定の日にち",
     "startOn": "開始日",
-    "repeatOnDays": "以下の曜日に繰り返し"
+    "repeatOnDays": "以下の曜日に繰り返し",
+    "duration": "期間"
   }
 }
