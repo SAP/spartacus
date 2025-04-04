@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './occ-opf-api-checkout-endpoints.model';
-export * from './opf-checkout.model';
+export * from './opf-cart-user-email-checker.service';
