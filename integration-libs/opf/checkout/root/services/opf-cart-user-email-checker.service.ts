@@ -16,16 +16,15 @@ export class OpfCartUserEmailCheckerService {
   protected opfCheckoutConnector = inject(OpfCheckoutConnector);
 
   /**
-   * Checks if the user associated with a cart has a valid email.
-   * The method considers an email as valid if it is different from `demo@example.com`.
+   * Checks if the user associated with a cart has an email.
    *
    * @param {string} userId - The unique identifier of the user.
    * @param {string} cartId - The unique identifier of the cart.
-   * @returns {Observable<boolean>} - An observable that emits `true` if the user has a valid email, otherwise `false`.
+   * @returns {Observable<boolean>} - An observable that emits `true` if the user has an email assigned, otherwise `false`.
    */
   isCartUserHasEmail(userId: string, cartId: string): Observable<boolean> {
     return this.opfCheckoutConnector
       .getCartUserEmail(userId, cartId)
-      .pipe(map((value) => value.sapCustomerEmail !== 'demo@example.com'));
+      .pipe(map((value) => !!value.sapCustomerEmail));
   }
 }

@@ -26,7 +26,19 @@ describe('OpfCartUserEmailCheckerService', () => {
     ) as jasmine.SpyObj<OpfCheckoutConnector>;
   });
 
-  it('should return true if the user email is not demo@example.com', (done) => {
+  it('should return false if the user email is not assigned', (done) => {
+    opfCheckoutConnector.getCartUserEmail.and.returnValue(
+      of({ sapCustomerEmail: null })
+    );
+    service
+      .isCartUserHasEmail('test-user-id', 'test-cart-id')
+      .subscribe((result) => {
+        expect(result).toBeFalsy();
+        done();
+      });
+  });
+
+  it('should return true if the user email is assigned', (done) => {
     opfCheckoutConnector.getCartUserEmail.and.returnValue(
       of({ sapCustomerEmail: 'user@example.com' })
     );
@@ -34,18 +46,6 @@ describe('OpfCartUserEmailCheckerService', () => {
       .isCartUserHasEmail('test-user-id', 'test-cart-id')
       .subscribe((result) => {
         expect(result).toBeTruthy();
-        done();
-      });
-  });
-
-  it('should return false if the user email is demo@example.com', (done) => {
-    opfCheckoutConnector.getCartUserEmail.and.returnValue(
-      of({ sapCustomerEmail: 'demo@example.com' })
-    );
-    service
-      .isCartUserHasEmail('test-user-id', 'test-cart-id')
-      .subscribe((result) => {
-        expect(result).toBeFalsy();
         done();
       });
   });

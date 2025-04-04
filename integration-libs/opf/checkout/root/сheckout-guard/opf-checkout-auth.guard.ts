@@ -53,15 +53,13 @@ export class OpfCheckoutAuthGuard extends CheckoutAuthGuard {
           this.userIdService.getUserId(),
           this.activeCartFacade.getActiveCartId(),
         ]).pipe(
-          switchMap(([userId, cartId]) => {
-            return this.opfCartUserEmailChecker.isCartUserHasEmail(
-              userId,
-              cartId
-            );
-          }),
-          map((isCartUserHasEmail) => {
-            return isCartUserHasEmail || this.handleGuestUserWithoutEmail();
-          })
+          switchMap(([userId, cartId]) =>
+            this.opfCartUserEmailChecker.isCartUserHasEmail(userId, cartId)
+          ),
+          map(
+            (isCartUserHasEmail) =>
+              isCartUserHasEmail || this.handleGuestUserWithoutEmail()
+          )
         );
       })
     );
