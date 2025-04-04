@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
+  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutOperation,
   PunchoutRequisition,
@@ -23,9 +24,10 @@ import {
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
-import { MultiCartFacade } from '@spartacus/cart/base/root';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
+  filter,
   forkJoin,
   map,
   Observable,
@@ -54,6 +56,7 @@ export class PunchoutService implements PunchoutFacade {
    * Logout silently
    * Login silently
    * Load Cart
+   * store of initial cart entries for EDIT mode
    * Route to target page based on punchout session info
    * Redirect to Punchout Error page if error occurs
    */
@@ -95,6 +98,12 @@ export class PunchoutService implements PunchoutFacade {
               punchoutSessionId: payload.punchoutSessionId,
               punchoutSession: { ...punchoutSession },
             });
+            if (
+              punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
+              punchoutSession?.cartId
+            ) {
+              this.setPunchoutInitialCart(punchoutSession.cartId);
+            }
             if (!payload?.isPageRefresh) {
               this.routeToTargetPage(punchoutSession);
             }
@@ -151,6 +160,59 @@ export class PunchoutService implements PunchoutFacade {
       return this.punchoutAuthService.logout();
     });
 
+  /**
+   * closePunchoutSession workflow:
+   * for EDIT operation:
+   *  - Delete all cart entries
+   *  - Restore initial cart entries
+   *  - do same as 'back to requition' button
+   * for CREATE operation:
+   * - do same Cancel punchout button
+   * for INSPECT opeation:
+   * - do same as 'back to requition' button
+   */
+
+  protected closePunchoutSessionCommand: Command<undefined, boolean> =
+    this.commandService.create(() => {
+      return this.punchoutStoreService.getPunchoutState().pipe(
+        take(1),
+        switchMap((punchoutState) => {
+          if (
+            punchoutState.punchoutSession?.punchOutOperation ===
+            PunchOutOperation.CREATE
+          ) {
+            this.punchoutStoreService.updatePunchoutState({
+              cancelRequisition: true,
+            });
+          } else if (
+            punchoutState.punchoutSession?.punchOutOperation ===
+            PunchOutOperation.EDIT
+          ) {
+            console.log('in EDIT');
+            this.punchoutStoreService.updatePunchoutState({
+              cancelRequisition: false,
+            });
+            return this.revertToInitialCart(punchoutState).pipe(
+              switchMap(() =>
+                this.ensureStableCart(
+                  punchoutState.punchoutSession?.cartId as string
+                )
+              )
+            );
+          }
+          return of(true);
+        }),
+        map(() => {
+          this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+          return true;
+        })
+      );
+    });
+
+  closePunchoutSession(): Observable<boolean> {
+    return this.closePunchoutSessionCommand.execute(undefined);
+  }
+
   getPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
@@ -197,5 +259,98 @@ export class PunchoutService implements PunchoutFacade {
         });
       })
     );
+  }
+
+  protected setPunchoutInitialCart(cartId: string): void {
+    console.log('setPunchoutInitialCart', cartId);
+    this.takeCart(cartId)
+      .pipe(
+        map((cart) => {
+          return cart?.entries?.map((e) => {
+            return {
+              productCode: e.product?.code as string,
+              quantity: e.quantity as number,
+            };
+          }) as { productCode: string; quantity: number }[] | undefined;
+        })
+      )
+      .subscribe({
+        next: (
+          entries: { productCode: string; quantity: number }[] | undefined
+        ) => {
+          console.log('setPunchoutInitialCart1', entries);
+          if (entries?.length) {
+            this.punchoutStoreService.updatePunchoutState({
+              punchoutInitialCart: { entries },
+            });
+          }
+        },
+        error: (error) => {
+          console.log('error,', error);
+        },
+        complete: () => {
+          console.log('setPunchoutInitialcart completed');
+        },
+      });
+  }
+
+  protected revertToInitialCart(state: PunchoutState): Observable<boolean> {
+    console.log('revertToInitialCart in');
+
+    if (!state?.punchoutSession?.cartId) {
+      return of(true);
+    }
+
+    return this.takeCart(state.punchoutSession.cartId).pipe(
+      switchMap((cart) => {
+        cart?.entries?.forEach((entry) => {
+          console.log('entry', entry);
+
+          this.multiCartFacade.removeEntry(
+            state.punchoutSession?.customerId as string,
+            state.punchoutSession?.cartId as string,
+            0
+          );
+        });
+        if (state.punchoutInitialCart?.entries) {
+          return this.ensureStableCart(
+            state.punchoutSession?.cartId as string
+          ).pipe(
+            tap(() => {
+              console.log('revertToInitialCart next');
+              this.multiCartFacade.addEntries(
+                state.punchoutSession?.customerId as string,
+                state.punchoutSession?.cartId as string,
+                state.punchoutInitialCart?.entries?.map((e) => {
+                  return {
+                    productCode: e.productCode,
+                    quantity: e.quantity,
+                  };
+                }) as { productCode: string; quantity: number }[]
+              );
+            })
+          );
+        }
+        return of(true);
+      })
+    );
+  }
+
+  protected takeCart(cartId: string): Observable<Cart> {
+    return this.multiCartFacade.getCart(cartId).pipe(
+      filter((cart) => cart !== undefined),
+      take(1)
+    );
+  }
+
+  protected ensureStableCart(cartId: string): Observable<boolean> {
+    console.log('ensureStableCart');
+    return this.multiCartFacade.isStable(cartId).pipe(
+      tap(() => console.log('isStable1')),
+      filter((stable) => stable),
+      take(1),
+      tap(() => console.log('isStable2'))
+    );
+    //   return of(true);
   }
 }

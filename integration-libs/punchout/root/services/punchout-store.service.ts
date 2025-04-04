@@ -14,6 +14,7 @@ export class PunchoutStoreService {
     punchoutSessionId: undefined,
     punchoutSession: undefined,
     cancelRequisition: undefined,
+    punchoutInitialCart: undefined,
   });
 
   protected punchoutState = new BehaviorSubject<PunchoutState>(

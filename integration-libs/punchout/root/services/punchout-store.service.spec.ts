@@ -11,11 +11,12 @@ const INITIAL_STATE: PunchoutState = {
   punchoutSessionId: undefined,
   punchoutSession: undefined,
   cancelRequisition: undefined,
+  punchoutInitialCart: undefined,
 };
 
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
-  cartId: 'mockCart',
+  cartId: 'mockCaPunchoutLevel',
   punchOutLevel: PunchOutLevel.PRODUCT,
   punchOutOperation: PunchOutOperation.EDIT,
   selectedItem: 'mockItemId',

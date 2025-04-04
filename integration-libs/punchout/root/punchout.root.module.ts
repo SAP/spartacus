@@ -24,6 +24,7 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
           'PunchoutErrorComponent',
           'PunchoutButtonsComponent',
           'PunchoutRequisitionComponent',
+          'PunchoutCloseSessionComponent',
         ],
       },
     },
