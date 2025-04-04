@@ -6,7 +6,7 @@
 
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   OnInit,
   QueryList,
@@ -80,7 +80,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected cdr: ChangeDetectorRef,
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -146,6 +147,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
    * @deprecated This method will be removed.
    */
   ngOnInit(): void {
+    this.cdr.markForCheck();
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
   }
@@ -180,6 +182,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         );
       })
     );
+    this.cdr.detectChanges();
   }
 
   tabCompLoaded(componentRef: any, componentId?: string): void {
