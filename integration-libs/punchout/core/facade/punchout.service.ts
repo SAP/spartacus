@@ -188,7 +188,6 @@ export class PunchoutService implements PunchoutFacade {
             punchoutState.punchoutSession?.punchOutOperation ===
             PunchOutOperation.EDIT
           ) {
-            console.log('in EDIT');
             this.punchoutStoreService.updatePunchoutState({
               cancelRequisition: false,
             });
@@ -262,7 +261,6 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected setPunchoutInitialCart(cartId: string): void {
-    console.log('setPunchoutInitialCart', cartId);
     this.takeCart(cartId)
       .pipe(
         map((cart) => {
@@ -278,34 +276,22 @@ export class PunchoutService implements PunchoutFacade {
         next: (
           entries: { productCode: string; quantity: number }[] | undefined
         ) => {
-          console.log('setPunchoutInitialCart1', entries);
           if (entries?.length) {
             this.punchoutStoreService.updatePunchoutState({
               punchoutInitialCart: { entries },
             });
           }
         },
-        error: (error) => {
-          console.log('error,', error);
-        },
-        complete: () => {
-          console.log('setPunchoutInitialcart completed');
-        },
       });
   }
 
   protected revertToInitialCart(state: PunchoutState): Observable<boolean> {
-    console.log('revertToInitialCart in');
-
     if (!state?.punchoutSession?.cartId) {
       return of(true);
     }
-
     return this.takeCart(state.punchoutSession.cartId).pipe(
       switchMap((cart) => {
         cart?.entries?.forEach((entry) => {
-          console.log('entry', entry);
-
           this.multiCartFacade.removeEntry(
             state.punchoutSession?.customerId as string,
             state.punchoutSession?.cartId as string,
@@ -317,7 +303,6 @@ export class PunchoutService implements PunchoutFacade {
             state.punchoutSession?.cartId as string
           ).pipe(
             tap(() => {
-              console.log('revertToInitialCart next');
               this.multiCartFacade.addEntries(
                 state.punchoutSession?.customerId as string,
                 state.punchoutSession?.cartId as string,
@@ -342,13 +327,9 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected ensureStableCart(cartId: string): Observable<boolean> {
-    console.log('ensureStableCart');
     return this.multiCartFacade.isStable(cartId).pipe(
-      tap(() => console.log('isStable1')),
       filter((stable) => stable),
-      take(1),
-      tap(() => console.log('isStable2'))
+      take(1)
     );
-    //   return of(true);
   }
 }
