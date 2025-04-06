@@ -291,7 +291,7 @@ export class PunchoutService implements PunchoutFacade {
     }
     return this.takeCart(state.punchoutSession.cartId).pipe(
       switchMap((cart) => {
-        cart?.entries?.forEach((entry) => {
+        cart?.entries?.forEach(() => {
           this.multiCartFacade.removeEntry(
             state.punchoutSession?.customerId as string,
             state.punchoutSession?.cartId as string,

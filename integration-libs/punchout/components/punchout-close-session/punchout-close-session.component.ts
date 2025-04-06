@@ -5,10 +5,9 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
-import { AuthService, EventService, RoutingService } from '@spartacus/core';
+import { AuthService } from '@spartacus/core';
 import { PunchoutFacade, PunchoutStoreService } from '@spartacus/punchout/root';
-import { map, Observable, of, Subscription, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'cx-punchout-close-session',
@@ -18,12 +17,7 @@ import { map, Observable, of, Subscription, switchMap } from 'rxjs';
 })
 export class PunchoutCloseSessionComponent {
   protected punchoutStoreService = inject(PunchoutStoreService);
-  protected routingService = inject(RoutingService);
   protected authService = inject(AuthService);
-  protected multiCartFacade = inject(MultiCartFacade);
-  protected activeCartFacade = inject(ActiveCartFacade);
-  protected eventService = inject(EventService);
-  protected subscription = new Subscription();
   protected punchoutFacade = inject(PunchoutFacade);
 
   hasSessionId$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
