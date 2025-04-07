@@ -67,14 +67,16 @@
         type="text"
         placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
         formControlName="firstName"
-        [attr.aria-describedby]="'firstNameError'"
+        [attr.aria-invalid]="
+          form.get('firstName')?.touched && form.get('firstName')?.invalid
+        "
+        [attr.aria-errormessage]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgUnitAddress.firstName' | cxTranslate,
         }"
@@ -97,14 +99,16 @@
         class="form-control"
         placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
         formControlName="lastName"
-        [attr.aria-describedby]="'lastNameError'"
+        [attr.aria-invalid]="
+          form.get('lastName')?.touched && form.get('lastName')?.invalid
+        "
+        [attr.aria-errormessage]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
-        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
       ></cx-form-errors>
@@ -126,14 +130,16 @@
         class="form-control"
         placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
         formControlName="line1"
-        [attr.aria-describedby]="'line1Error'"
+        [attr.aria-invalid]="
+          form.get('line1')?.touched && form.get('line1')?.invalid
+        "
+        [attr.aria-errormessage]="'line1Error'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="line1Error"
-        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
         [control]="form.get('line1')"
       ></cx-form-errors>
@@ -179,14 +185,16 @@
         class="form-control"
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
         formControlName="town"
-        [attr.aria-describedby]="'townError'"
+        [attr.aria-invalid]="
+          form.get('town')?.touched && form.get('town')?.invalid
+        "
+        [attr.aria-errormessage]="'townError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="townError"
-        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
         [control]="form.get('town')"
       ></cx-form-errors>
@@ -208,14 +216,16 @@
         class="form-control"
         placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
         formControlName="postalCode"
-        [attr.aria-describedby]="'postalCodeError'"
+        [attr.aria-invalid]="
+          form.get('postalCode')?.touched && form.get('postalCode')?.invalid
+        "
+        [attr.aria-errormessage]="'postalCodeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="postalCodeError"
-        aria-live="off"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
         [control]="form.get('postalCode')"
       ></cx-form-errors>
