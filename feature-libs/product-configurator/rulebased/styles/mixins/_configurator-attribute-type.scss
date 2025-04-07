@@ -23,11 +23,7 @@
         width: 80%;
         padding-inline-end: 10px;
         line-break: normal;
-
-        @include forFeature('productConfiguratorAttributeTypesV2') {
-          display: flex;
-        }
-
+        display: flex;
         flex-direction: column;
 
         cx-configurator-show-more {

@@ -28,7 +28,7 @@ context('Tabbing order for ASM B2b Customer List', () => {
         },
       });
       asmTabbingOrderWithCustomerList(
-        config.asmWithCustomerLists,
+        config.asmWithB2BCustomerLists,
         'jules.hasson@acme.com'
       );
     });

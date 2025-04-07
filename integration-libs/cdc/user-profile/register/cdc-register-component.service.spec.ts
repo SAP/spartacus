@@ -39,7 +39,13 @@ const userRegisterFormData: UserSignUp = {
   lastName: 'lastName',
   uid: 'uid',
   password: 'password',
-  preferences: {},
+  preferences: {
+    others: {
+      survey: {
+        isConsentGranted: true,
+      },
+    },
+  },
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -88,6 +94,9 @@ class MockCdcConsentManagementService
   implements Partial<CdcConsentManagementComponentService>
 {
   getCdcConsentIDs = createSpy();
+  isConsentMandatory(_id: string): boolean {
+    return true;
+  }
 }
 class MockAnonymousConsentsService
   implements Partial<AnonymousConsentsService>
@@ -271,7 +280,13 @@ describe('CdcRegisterComponentService', () => {
             lastName: 'lastName',
             uid: 'uid',
             password: 'password',
-            preferences: {},
+            preferences: {
+              others: {
+                survey: {
+                  isConsentGranted: true,
+                },
+              },
+            },
           });
         },
       });
@@ -397,6 +412,7 @@ describe('CdcRegisterComponentService', () => {
       },
     ]);
     fb.array = createSpy().and.returnValue([]);
+    fb.group = createSpy().and.returnValue({});
     cdcUserRegisterService.generateAdditionalConsentsFormControl();
     expect(
       cdcUserRegisterService.fetchCdcConsentsForRegistration
@@ -404,6 +420,11 @@ describe('CdcRegisterComponentService', () => {
     expect(fb.array).toHaveBeenCalled();
   });
   it('loadAdditionalConsents', () => {
+    spyOn(cdcConsentManagementService, 'isConsentMandatory')
+      .withArgs('consent2.terms2')
+      .and.returnValue(false)
+      .withArgs('consent3.terms3')
+      .and.returnValue(true);
     spyOn(
       cdcUserRegisterService,
       'fetchCdcConsentsForRegistration'
@@ -428,7 +449,7 @@ describe('CdcRegisterComponentService', () => {
           id: 'consent2.terms2',
           description: 'sample consent 2',
         },
-        required: true,
+        required: false,
       },
       {
         template: {

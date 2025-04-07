@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../../../config/config-tokens';
 import { RoutesConfig } from '../routes-config';
 
-export const enum RouteLoadStrategy {
+export enum RouteLoadStrategy {
   /**
    * Don't reload the data on navigation if it was loaded before
    */

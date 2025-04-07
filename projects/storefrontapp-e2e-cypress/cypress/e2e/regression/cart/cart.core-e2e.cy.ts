@@ -26,7 +26,8 @@ describe('Cart', () => {
         visitHomePage();
       });
 
-      it('should merge carts when user is authenticated', () => {
+      it('should merge carts when user is authenticated, add product and manipulate cart quantity', () => {
+        //should merge carts when user is authenticated:
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
         cart.registerCartRefreshRoute();
@@ -39,9 +40,8 @@ describe('Cart', () => {
         cart.addProductAsAnonymous();
         cart.verifyMergedCartWhenLoggedIn();
         cart.logOutAndNavigateToEmptyCart();
-      });
 
-      it('should add product and manipulate cart quantity', () => {
+        //should add product and manipulate cart quantity:
         cart.manipulateCartQuantity();
       });
     });
@@ -49,11 +49,11 @@ describe('Cart', () => {
 
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
-      it('should be unable to add out of stock products to cart', () => {
+      it('should test adding out of stock products to cart and keep cart on page refresh', () => {
+        //should be unable to add out of stock products to cart:
         cart.outOfStock();
-      });
 
-      it('should keep cart on page refresh', () => {
+        //should keep cart on page refresh:
         cy.visit('/cart');
         cart.addProductAsAnonymous();
         cy.reload();
@@ -121,7 +121,6 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      // will fail right now, as this is not implemented yet
       it('should first try to load cart when adding first entry for logged user', () => {
         cart.loginCartUser();
 
