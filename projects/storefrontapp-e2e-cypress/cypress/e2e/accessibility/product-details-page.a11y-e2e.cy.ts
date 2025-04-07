@@ -5,49 +5,47 @@
  */
 
 import * as siteContextSelector from '../../helpers/site-context-selector';
-import { checkA11yConcerns } from '../../support/utils/a11y-continuum.utils';
+
 /**
  * This test checks accessibility concerns on the PDP page using Access Continuum
  */
-context('Product Details Page Accessibility', () => {
-  before(() => {
-    cy.a11yContinuumSetup('cypress/continuum.conf.ts');
+describe('Product Details Page Accessibility', () => {
+  beforeEach(() => {
+    cy.a11yContinuumSetup();
+    cy.visit(siteContextSelector.PRODUCT_PATH_2);
   });
 
-  describe('PDP with Product Details', () => {
-    before(() => {
-      const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
-      cy.visit(productDetailsPath).wait(3000);
-      cy.get('cx-breadcrumb h1').should(
-        'contain',
-        'Remote Control Tripod VCT-80AV'
-      );
-      cy.get('cx-page-slot[position="Tabs"] cx-tab-panel > div.active').should(
-        'contain',
-        'High-performance tripod with pan handle / remote commander.'
-      );
+  context('PDP main section', () => {
+    it('should pass a11y check', () => {
+      cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(1)')
+        .click()
+        .wait(1000);
+      cy.get('main').a11yRunContinuumTest();
     });
-
-    // Run accessibility tests but don't fail the test if concerns are found
-    checkA11yConcerns();
   });
 
-  describe('PDP with Reviews', () => {
-    before(() => {
-      const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
-      cy.visit(productDetailsPath).wait(3000);
-      cy.get('cx-breadcrumb h1').should(
-        'contain',
-        'Remote Control Tripod VCT-80AV '
-      );
-      cy.get('cx-product-intro > .rating button').click();
-      cy.get('cx-page-slot[position="Tabs"] cx-tab-panel > div.active').should(
-        'contain',
-        'Reviews (6)'
-      );
+  context('PDP with Reviews', () => {
+    it('should pass a11y check', () => {
+      cy.get('cx-product-intro > .rating button').click().wait(1000);
+      cy.get('main').a11yRunContinuumTest();
     });
+  });
 
-    // Run accessibility tests but don't fail the test if concerns are found
-    checkA11yConcerns();
+  context('PDP with Spec', () => {
+    it('should pass a11y check', () => {
+      cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(2)')
+        .click()
+        .wait(1000);
+      cy.get('main').a11yRunContinuumTest();
+    });
+  });
+
+  context('PDP with Shipping', () => {
+    it('should pass a11y check', () => {
+      cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(4)')
+        .click()
+        .wait(1000);
+      cy.get('main').a11yRunContinuumTest();
+    });
   });
 });

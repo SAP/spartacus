@@ -1,4 +1,8 @@
 <ng-container *ngIf="product$ | async as product">
+  <!-- a11y related - below satisfies add-to-cart.component.html button attr.aria-describedby requirement -->
+  <h4 [attr.id]="product.code + '_header'" style="display: none">
+    {{ product.name }}
+  </h4>
   <div class="rating" *ngIf="product?.averageRating">
     <cx-star-rating [rating]="product?.averageRating ?? 0"></cx-star-rating>
 
