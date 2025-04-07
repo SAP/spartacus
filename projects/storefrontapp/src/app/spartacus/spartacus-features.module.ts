@@ -292,7 +292,7 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: false,
+        showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
@@ -449,6 +449,7 @@ if (environment.cpq) {
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        opfEnablePreventingFromCheckoutWithoutEmail: true,
       };
       return appFeatureToggles;
     }),

@@ -57,6 +57,7 @@ export class ProductLoadingService {
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
     isKeyInvalid(productCode);
+
     if (!this.products[productCode]) {
       this.products[productCode] = {};
     }
