@@ -24,14 +24,17 @@ context('Product search', { testIsolation: false }, () => {
     describe('Pagination', () => {
       it('should navigate to the next page and display results', () => {
         productSearchFlow.verifyNextPage(2);
+        productSearchFlow.assertPaginationFocusKeys;
       });
 
       it('should be able navigate to the specified page number and display results', () => {
         productSearchFlow.verifyChoosePage(3);
+        productSearchFlow.assertPaginationFocusKeys;
       });
 
       it('should navigate to the previous page and display results', () => {
         productSearchFlow.verifyPreviousPage(2);
+        productSearchFlow.assertPaginationFocusKeys;
       });
     });
 

@@ -309,3 +309,15 @@ export function assertNumberOfProducts(alias: string, category: string) {
     checkFirstItem(firstProduct);
   });
 }
+
+export function assertPaginationFocusKeys() {
+  cy.get('cx-pagination').each(($pagination) => {
+    cy.wrap($pagination)
+      .find('a.page')
+      .each(($el, index) => {
+        cy.wrap($el)
+          .invoke('attr', 'data-focus-key')
+          .should('match', new RegExp(`${index}$`));
+      });
+  });
+}
