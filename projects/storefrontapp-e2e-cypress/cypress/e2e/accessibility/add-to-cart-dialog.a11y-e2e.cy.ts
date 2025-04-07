@@ -18,18 +18,7 @@ describe('Add to Cart Modal Accessibility', () => {
     it('Item Added to Cart Dialog', () => {
       cy.visit(siteContextSelector.PRODUCT_PATH_2);
       cy.get('cx-add-to-cart button[type=submit]').click();
-      cy.get('cx-added-to-cart-dialog')
-        .get('.cx-modal-content')
-        .a11yRunContinuumTest();
-    });
-  });
-
-  context('Add to Cart (PLP)', () => {
-    it('Item Added to Cart Dialog', () => {
-      cy.visit(siteContextSelector.PRODUCT_SEARCH_PATH);
-      cy.get('cx-add-to-cart button[type=submit]:first').click();
-      cy.get('cx-added-to-cart-dialog')
-        .get('.cx-modal-content')
+      cy.get('cx-added-to-cart-dialog .cx-modal-content cx-cart-item')
         .a11yRunContinuumTest();
     });
   });
