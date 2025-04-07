@@ -24,10 +24,9 @@ import {
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
 
-import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
-  filter,
   forkJoin,
   map,
   Observable,
@@ -100,9 +99,10 @@ export class PunchoutService implements PunchoutFacade {
             });
             if (
               punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
-              punchoutSession?.cartId
+              punchoutSession?.cartId &&
+              !payload?.isPageRefresh
             ) {
-              this.setPunchoutInitialCart(punchoutSession.cartId);
+              this.setPunchoutInitialRequisition();
             }
             if (!payload?.isPageRefresh) {
               this.routeToTargetPage(punchoutSession);
@@ -122,7 +122,7 @@ export class PunchoutService implements PunchoutFacade {
    * getPunchoutRequisition workflow:
    * Ensure user is logged-in
    * get punchoutSessionId from PunchoutState
-   * Get PunchoutSessionRequisition from  occ api
+   * Get PunchoutSessionRequisition from  occ api OR from PunchoutState
    * Redirect to Punchout Error page if error occurs
    */
 
@@ -138,6 +138,15 @@ export class PunchoutService implements PunchoutFacade {
       }),
       take(1),
       switchMap((punchoutState: PunchoutState) => {
+        // scenario where user press 'close punchout session' btn in EDIT Cart mode
+        // initial cart requisition is returned to ARIBA
+        if (
+          punchoutState?.closePunchoutSession &&
+          punchoutState?.punchoutInitialRequisition?.browseFormPostUrl &&
+          punchoutState.punchoutInitialRequisition?.orderAsCXML
+        ) {
+          return of({ ...punchoutState.punchoutInitialRequisition });
+        }
         const punchoutSessionId = punchoutState?.punchoutSessionId;
         return punchoutSessionId
           ? this.punchoutConnector.getPunchoutSessionRequisition(
@@ -161,12 +170,10 @@ export class PunchoutService implements PunchoutFacade {
   /**
    * closePunchoutSession workflow:
    * for EDIT operation:
-   *  - Delete all cart entries
-   *  - Restore initial cart entries
-   *  - do same as 'back to requition' button
+   * - initial Requisition is sent to ARIBA
    * for CREATE operation:
    * - do same Cancel punchout button
-   * for INSPECT opeation:
+   * for INSPECT operation:
    * - do same as 'back to requition' button
    */
 
@@ -174,7 +181,7 @@ export class PunchoutService implements PunchoutFacade {
     this.commandService.create(() => {
       return this.punchoutStoreService.getPunchoutState().pipe(
         take(1),
-        switchMap((punchoutState) => {
+        map((punchoutState) => {
           if (
             punchoutState.punchoutSession?.punchOutOperation ===
             PunchOutOperation.CREATE
@@ -187,19 +194,9 @@ export class PunchoutService implements PunchoutFacade {
             PunchOutOperation.EDIT
           ) {
             this.punchoutStoreService.updatePunchoutState({
-              cancelRequisition: false,
+              closePunchoutSession: true,
             });
-            return this.revertToInitialCart(punchoutState).pipe(
-              switchMap(() =>
-                this.ensureStableCart(
-                  punchoutState.punchoutSession?.cartId as string
-                )
-              )
-            );
           }
-          return of(true);
-        }),
-        map(() => {
           this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
           return true;
         }),
@@ -262,76 +259,17 @@ export class PunchoutService implements PunchoutFacade {
     );
   }
 
-  protected setPunchoutInitialCart(cartId: string): void {
-    this.takeCart(cartId)
-      .pipe(
-        map((cart) => {
-          return cart?.entries?.map((e) => {
-            return {
-              productCode: e.product?.code as string,
-              quantity: e.quantity as number,
-            };
-          }) as { productCode: string; quantity: number }[] | undefined;
-        })
-      )
+  protected setPunchoutInitialRequisition(): void {
+    this.getPunchoutSessionRequisition()
+      .pipe(take(1))
       .subscribe({
-        next: (
-          entries: { productCode: string; quantity: number }[] | undefined
-        ) => {
-          if (entries?.length) {
+        next: (punchoutRequisition) => {
+          if (punchoutRequisition) {
             this.punchoutStoreService.updatePunchoutState({
-              punchoutInitialCart: { entries },
+              punchoutInitialRequisition: { ...punchoutRequisition },
             });
           }
         },
       });
-  }
-
-  protected revertToInitialCart(state: PunchoutState): Observable<boolean> {
-    if (!state?.punchoutSession?.cartId) {
-      return throwError(() => new Error('Punchout Session CartId missing'));
-    }
-    return this.takeCart(state.punchoutSession.cartId).pipe(
-      switchMap((cart) => {
-        cart?.entries?.forEach(() => {
-          this.multiCartFacade.removeEntry(
-            state.punchoutSession?.customerId as string,
-            state.punchoutSession?.cartId as string,
-            0
-          );
-        });
-        if (state.punchoutInitialCart?.entries) {
-          return this.ensureStableCart(
-            state.punchoutSession?.cartId as string
-          ).pipe(
-            tap(() => {
-              this.multiCartFacade.addEntries(
-                state.punchoutSession?.customerId as string,
-                state.punchoutSession?.cartId as string,
-                state.punchoutInitialCart?.entries as {
-                  productCode: string;
-                  quantity: number;
-                }[]
-              );
-            })
-          );
-        }
-        return of(true);
-      })
-    );
-  }
-
-  protected takeCart(cartId: string): Observable<Cart> {
-    return this.multiCartFacade.getCart(cartId).pipe(
-      filter((cart) => cart !== undefined),
-      take(1)
-    );
-  }
-
-  protected ensureStableCart(cartId: string): Observable<boolean> {
-    return this.multiCartFacade.isStable(cartId).pipe(
-      filter((stable) => stable),
-      take(1)
-    );
   }
 }

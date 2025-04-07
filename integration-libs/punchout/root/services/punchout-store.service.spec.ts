@@ -11,7 +11,8 @@ const INITIAL_STATE: PunchoutState = {
   punchoutSessionId: undefined,
   punchoutSession: undefined,
   cancelRequisition: undefined,
-  punchoutInitialCart: undefined,
+  punchoutInitialRequisition: undefined,
+  closePunchoutSession: undefined,
 };
 
 const mockPunchoutSession: PunchoutSession = {

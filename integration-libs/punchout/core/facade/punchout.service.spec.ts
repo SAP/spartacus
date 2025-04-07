@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { CommandService, RoutingService, UserIdService } from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
-  PunchoutInitialCart,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -37,6 +36,11 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
   orderAsCXML: 'mockCXML',
 };
 
+const mockPunchoutInitialRequisition: PunchoutRequisition = {
+  browseFormPostUrl: 'mockInitialFormUrl',
+  orderAsCXML: 'mockInitialCXML',
+};
+
 const mockSessionId = '123abc';
 
 const mockPunchoutSession: PunchoutSession = {
@@ -53,38 +57,10 @@ const mockPunchoutSession: PunchoutSession = {
 const mockPunchoutState: PunchoutState = {
   punchoutSessionId: mockSessionId,
   punchoutSession: mockPunchoutSession,
-  punchoutInitialCart: undefined,
+  punchoutInitialRequisition: undefined,
   cancelRequisition: undefined,
+  closePunchoutSession: undefined,
 };
-
-const mockEntries: OrderEntry[] = [
-  {
-    quantity: 1,
-    product: { name: 'product1', code: 'code1' },
-  },
-  {
-    quantity: 1,
-    product: { name: 'product2', code: 'cod2' },
-  },
-];
-
-const mockStateEntries: { productCode: string; quantity: number }[] = [
-  {
-    quantity: 1,
-    productCode: 'code1',
-  },
-  {
-    quantity: 1,
-    productCode: 'code2',
-  },
-  {
-    quantity: 2,
-    productCode: 'code3',
-  },
-];
-
-const mockInitialCart: PunchoutInitialCart = { entries: mockStateEntries };
-const mockCart = { entries: mockEntries };
 
 class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
   setPunchoutState = () => {};
@@ -118,10 +94,6 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   loadCart = () => {};
-  removeEntry = () => {};
-  addEntries = () => {};
-  getCart = () => of(mockCart);
-  isStable = () => of(true);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -162,7 +134,6 @@ describe('Punchoutservice', () => {
   });
 
   it('should getPunchoutSession calls connector', (done) => {
-    spyOn(multiCartFacade, 'getCart').and.returnValue(of(mockCart));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
     );
@@ -220,7 +191,7 @@ describe('Punchoutservice', () => {
 
   it('should getPunchoutSession stays on page when isPageRefresh is true', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    spyOn(multiCartFacade, 'getCart').and.returnValue(of(mockCart));
+
     spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
       of(mockPunchoutRequisitionResponse)
     );
@@ -281,17 +252,23 @@ describe('Punchoutservice', () => {
 
   it('should getPunchoutSession opens cart page when no product item and EDIT Level ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    spyOn(multiCartFacade, 'getCart').and.returnValue(of(mockCart));
+
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({
         ...mockPunchoutSessionResponse,
         selectedItem: '',
       })
     );
-
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutInitialRequisition)
+    );
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
     service.getPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+        expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
+          punchoutInitialRequisition: { ...mockPunchoutInitialRequisition },
+        });
         done();
       },
     });
@@ -299,7 +276,7 @@ describe('Punchoutservice', () => {
 
   it('should getPunchoutSession opens pdp when selectedItem is present ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    spyOn(multiCartFacade, 'getCart').and.returnValue(of(mockCart));
+
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
     );
@@ -335,7 +312,8 @@ describe('Punchoutservice', () => {
   it('should closePunchoutSession revertToInitialCart in EDIT operation ', (done) => {
     const mockState: PunchoutState = {
       ...mockPunchoutState,
-      punchoutInitialCart: mockInitialCart,
+      punchoutInitialRequisition: mockPunchoutInitialRequisition,
+      closePunchoutSession: true,
       punchoutSession: {
         ...mockPunchoutSession,
         punchOutOperation: PunchOutOperation.EDIT,
@@ -347,26 +325,12 @@ describe('Punchoutservice', () => {
     );
     // spyOn(multiCartFacade, 'deleteCart').and.callThrough();
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
-    spyOn(multiCartFacade, 'addEntries').and.callThrough();
-    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
-    spyOn(multiCartFacade, 'isStable').and.returnValue(of(true));
-    spyOn(multiCartFacade, 'getCart').and.returnValue(of(mockCart));
+    spyOn(connector, 'getPunchoutSessionRequisition').and.callThrough();
 
     service.closePunchoutSession().subscribe({
       next: () => {
         expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalled();
-        expect(multiCartFacade.removeEntry).toHaveBeenCalledTimes(
-          mockCart.entries.length
-        );
-        expect(multiCartFacade.isStable).toHaveBeenCalledTimes(2);
-        expect(multiCartFacade.addEntries).toHaveBeenCalledWith(
-          mockState.punchoutSession?.customerId as string,
-          mockState.punchoutSession?.cartId as string,
-          mockState.punchoutInitialCart?.entries as {
-            productCode: string;
-            quantity: number;
-          }[]
-        );
+        expect(connector.getPunchoutSessionRequisition).not.toHaveBeenCalled();
         done();
       },
     });
@@ -375,7 +339,6 @@ describe('Punchoutservice', () => {
   it('should closePunchoutSession set cancelRequisition in CREATE operation ', (done) => {
     const mockState: PunchoutState = {
       ...mockPunchoutState,
-      punchoutInitialCart: mockInitialCart,
       punchoutSession: {
         ...mockPunchoutSession,
         punchOutOperation: PunchOutOperation.CREATE,
@@ -406,7 +369,6 @@ describe('Punchoutservice', () => {
   it('should closePunchoutSession only go to requisition page in INSPECT operation ', (done) => {
     const mockState: PunchoutState = {
       ...mockPunchoutState,
-      punchoutInitialCart: mockInitialCart,
       punchoutSession: {
         ...mockPunchoutSession,
         punchOutOperation: PunchOutOperation.INSPECT,
@@ -427,31 +389,6 @@ describe('Punchoutservice', () => {
         expect(multiCartFacade.addEntries).not.toHaveBeenCalled();
         expect(multiCartFacade.removeEntry).not.toHaveBeenCalled();
         expect(routingService.go).toHaveBeenCalled();
-        done();
-      },
-    });
-  });
-
-  it('should closePunchoutSession throw error when cartId is missing', (done) => {
-    const mockState: PunchoutState = {
-      ...mockPunchoutState,
-      punchoutInitialCart: mockInitialCart,
-      punchoutSession: {
-        ...mockPunchoutSession,
-        cartId: '',
-      },
-    };
-    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
-      of(mockState)
-    );
-
-    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
-    spyOn(multiCartFacade, 'addEntries').and.callThrough();
-    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
-
-    service.closePunchoutSession().subscribe({
-      error: () => {
         done();
       },
     });

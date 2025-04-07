@@ -53,9 +53,6 @@ export interface PunchoutState {
   punchoutSession?: PunchoutSession;
   punchoutSessionId?: string;
   cancelRequisition?: boolean;
-  punchoutInitialCart?: PunchoutInitialCart;
-}
-
-export interface PunchoutInitialCart {
-  entries?: { productCode: string; quantity: number }[];
+  closePunchoutSession?: boolean;
+  punchoutInitialRequisition?: PunchoutRequisition;
 }
