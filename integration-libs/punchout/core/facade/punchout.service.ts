@@ -138,7 +138,7 @@ export class PunchoutService implements PunchoutFacade {
       }),
       take(1),
       switchMap((punchoutState: PunchoutState) => {
-        // scenario where user press 'close punchout session' btn in EDIT Cart mode
+        // scenario where user pressed 'Close punchout session' button in EDIT Cart mode
         // initial cart requisition is returned to ARIBA
         if (
           punchoutState?.closePunchoutSession &&

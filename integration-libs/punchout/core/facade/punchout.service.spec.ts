@@ -323,7 +323,6 @@ describe('Punchoutservice', () => {
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of(mockState)
     );
-    // spyOn(multiCartFacade, 'deleteCart').and.callThrough();
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
     spyOn(connector, 'getPunchoutSessionRequisition').and.callThrough();
 
