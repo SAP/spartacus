@@ -12,7 +12,7 @@ import {
   AuthService,
   SemanticPathService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 

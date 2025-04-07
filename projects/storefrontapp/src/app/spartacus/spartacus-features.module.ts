@@ -290,13 +290,12 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: false,
+        showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
-        showOrderQuoteLink: false,
         searchBoxV2: false,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
@@ -373,6 +372,7 @@ if (environment.cpq) {
         headerLayoutForSmallerViewports: true,
         a11yStoreFinderAlerts: true,
         a11yFormErrorMuteIcon: true,
+        a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
@@ -447,6 +447,7 @@ if (environment.cpq) {
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        opfEnablePreventingFromCheckoutWithoutEmail: true,
       };
       return appFeatureToggles;
     }),
