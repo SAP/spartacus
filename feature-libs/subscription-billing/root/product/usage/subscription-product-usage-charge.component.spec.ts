@@ -95,15 +95,24 @@ describe('SubscriptionProductUsageChargeComponent', () => {
     component = fixture.componentInstance;
   }));
   it('should be created', () => {
+    Object.defineProperty(component, 'product', {
+      get: () => signal(null),
+    });
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
   it('should return last tier value', () => {
+    Object.defineProperty(component, 'product', {
+      get: () => signal(null),
+    });
     fixture.detectChanges();
     expect(component.getLastTierValue(mockTierEntries1)).toEqual(0);
     expect(component.getLastTierValue(mockTierEntries2)).toEqual(30);
   });
   it('should return included quantity', () => {
+    Object.defineProperty(component, 'product', {
+      get: () => signal(null),
+    });
     fixture.detectChanges();
     expect(component.getIncludedQuantity(mockPerUnit[0])).toEqual('10 KGs');
     expect(component.getIncludedQuantity(mockPerUnit[1])).toEqual('1 KG');
