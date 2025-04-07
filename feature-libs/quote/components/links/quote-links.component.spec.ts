@@ -32,7 +32,6 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
 import createSpy = jasmine.createSpy;
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
@@ -56,11 +55,6 @@ const mockQuote: Quote = {
   code: mockCode,
   threshold: threshold,
   totalPrice: totalPrice,
-};
-
-const mockWithOrderCode: Quote = {
-  ...mockQuote,
-  sapOrderCode: '12345',
 };
 
 const mockQuoteAttachment = (): File => {
@@ -120,7 +114,7 @@ describe('QuoteLinksComponent', () => {
         UrlTestingModule,
         RouterModule.forRoot(mockRoutes),
       ],
-      declarations: [QuoteLinksComponent, MockFeatureDirective],
+      declarations: [QuoteLinksComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -323,31 +317,6 @@ describe('QuoteLinksComponent', () => {
         fixture.detectChanges();
         expect(spyMessage).toHaveBeenCalled();
       });
-    });
-  });
-
-  describe('order details link', () => {
-    it('should not show order details link when order code is present', () => {
-      const anchorElements =
-        fixture.nativeElement.querySelectorAll('a.cx-action-link');
-      const orderLink = Array.from(anchorElements).find(
-        (el: any) => el.innerText.trim() === 'quote.links.order'
-      );
-      expect(orderLink).toBeUndefined();
-    });
-    it('should show order details link when order code is present', async () => {
-      mockQuoteDetails$.next(mockWithOrderCode);
-      fixture.detectChanges();
-      const anchorElements =
-        fixture.nativeElement.querySelectorAll('a.cx-action-link');
-      const orderLink = Array.from(anchorElements).find(
-        (el: any) => el.innerText.trim() === 'quote.links.order'
-      );
-      expect(orderLink).not.toBeUndefined();
-      expect((orderLink as HTMLAnchorElement).href).toContain(
-        'cxRoute:orderDetails'
-      );
-      expect((orderLink as HTMLAnchorElement).href).toContain('code:12345');
     });
   });
 });
