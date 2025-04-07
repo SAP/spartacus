@@ -107,8 +107,6 @@ export class PunchoutService implements PunchoutFacade {
             if (!payload?.isPageRefresh) {
               this.routeToTargetPage(punchoutSession);
             }
-          } else {
-            throw new Error('Punchout Access Token missing');
           }
 
           return punchoutSession;
@@ -204,6 +202,10 @@ export class PunchoutService implements PunchoutFacade {
         map(() => {
           this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
           return true;
+        }),
+        catchError((error) => {
+          this.displayErrorPage();
+          return throwError(() => new Error(error));
         })
       );
     });
@@ -287,7 +289,7 @@ export class PunchoutService implements PunchoutFacade {
 
   protected revertToInitialCart(state: PunchoutState): Observable<boolean> {
     if (!state?.punchoutSession?.cartId) {
-      return of(true);
+      return throwError(() => new Error('Punchout Session CartId missing'));
     }
     return this.takeCart(state.punchoutSession.cartId).pipe(
       switchMap((cart) => {

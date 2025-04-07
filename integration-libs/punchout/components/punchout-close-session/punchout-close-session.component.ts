@@ -20,16 +20,18 @@ export class PunchoutCloseSessionComponent {
   protected authService = inject(AuthService);
   protected punchoutFacade = inject(PunchoutFacade);
 
-  hasSessionId$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
-    switchMap((isLoggedIn) => {
-      return isLoggedIn
-        ? this.punchoutStoreService.getPunchoutState()
-        : of({ punchoutSessionId: undefined });
-    }),
-    map((punchoutState) => {
-      return !!punchoutState.punchoutSessionId;
-    })
-  );
+  isPunchoutSessionactive$: Observable<boolean> = this.authService
+    .isUserLoggedIn()
+    .pipe(
+      switchMap((isLoggedIn) => {
+        return isLoggedIn
+          ? this.punchoutStoreService.getPunchoutState()
+          : of({ punchoutSessionId: undefined });
+      }),
+      map((punchoutState) => {
+        return !!punchoutState.punchoutSessionId;
+      })
+    );
 
   clickCloseSessionButton(): void {
     this.punchoutFacade.closePunchoutSession().subscribe();

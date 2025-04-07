@@ -431,4 +431,29 @@ describe('Punchoutservice', () => {
       },
     });
   });
+
+  it('should closePunchoutSession throw error when cartId is missing', (done) => {
+    const mockState: PunchoutState = {
+      ...mockPunchoutState,
+      punchoutInitialCart: mockInitialCart,
+      punchoutSession: {
+        ...mockPunchoutSession,
+        cartId: '',
+      },
+    };
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockState)
+    );
+
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+    spyOn(multiCartFacade, 'addEntries').and.callThrough();
+    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
+
+    service.closePunchoutSession().subscribe({
+      error: () => {
+        done();
+      },
+    });
+  });
 });
