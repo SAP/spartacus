@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -94,6 +100,7 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
+  standalone: false,
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -105,12 +112,14 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
   template: '',
+  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -546,5 +555,26 @@ describe('CheckoutDeliveryAddressComponent', () => {
       fixture.detectChanges();
       expect(getSpinner()).toBeFalsy();
     });
+  });
+
+  describe('focusCardAfterSelecting', () => {
+    it('should refocus the selected card after updating', fakeAsync(() => {
+      const card = document.createElement('cx-card');
+      const selectButton = document.createElement('button');
+      card.appendChild(selectButton);
+      card.tabIndex = 0;
+      document.body.appendChild(card);
+      selectButton.focus();
+      component['isUpdating$'] = of(false);
+      spyOn(card, 'focus');
+      spyOn(component['focusService'], 'findFirstFocusable').and.returnValue(
+        card
+      );
+
+      component.focusCardAfterSelecting();
+      tick(16); // Wait for requestAnimationFrame
+
+      expect(card.focus).toHaveBeenCalled();
+    }));
   });
 });

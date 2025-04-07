@@ -10,7 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { Config, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -51,6 +51,7 @@ function createValue(
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
@@ -59,6 +60,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -68,6 +70,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -76,6 +79,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -95,10 +99,6 @@ class MockConfigUtilsService {
   }
 }
 
-class MockConfig {
-  features = [{ productConfiguratorAttributeTypesV2: false }];
-}
-
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>[]> {
     return of([]);
@@ -111,8 +111,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
-  let config: Config;
-
   const ownerKey = 'theOwnerKey';
   const name = 'group1@attribute_1_1';
   const groupId = 'theGroupId';
@@ -150,10 +148,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       incomplete: true,
       values,
     };
-    fixture.detectChanges();
-
-    config = TestBed.inject(Config);
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
     return component;
   }
@@ -200,7 +194,6 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
-        { provide: Config, useClass: MockConfig },
       ],
     })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {
@@ -230,21 +223,8 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     );
   });
 
-  it('should not render cx-value-label-pair div in case productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
+  it('should render cx-value-label-pair div', () => {
     createComponentWithData();
-    (component.attribute.values ?? [{ description: '' }])[0].description =
-      'Here is a description at value level';
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-value-label-pair'
-    );
-  });
-
-  it('should render cx-value-label-pair div in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
-    createComponentWithData();
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -253,21 +233,8 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     );
   });
 
-  it('should not render description in case productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
+  it('should render description', () => {
     createComponentWithData();
-    (component.attribute.values ?? [{ description: '' }])[0].description =
-      'Here is a description at value level';
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-show-more'
-    );
-  });
-
-  it('should render description in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
-    createComponentWithData();
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     (component.attribute.values ?? [{ description: '' }])[0].description =
       'Here is a description at value level';
     fixture.detectChanges();

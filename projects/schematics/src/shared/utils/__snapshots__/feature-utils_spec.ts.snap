@@ -3,7 +3,7 @@
 exports[`Feature utils addFeatures should generate feature modules for the given array of features 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from "@spartacus/user/account/assets";
+import { userAccountTranslationChunksConfig, userAccountTranslationsEn } from "@spartacus/user/account/assets";
 import { USER_ACCOUNT_FEATURE, UserAccountRootModule } from "@spartacus/user/account/root";
 
 @NgModule({
@@ -21,7 +21,7 @@ import { USER_ACCOUNT_FEATURE, UserAccountRootModule } from "@spartacus/user/acc
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: userAccountTranslations,
+      resources: { en: userAccountTranslationsEn },
       chunks: userAccountTranslationChunksConfig,
     },
   })
@@ -34,7 +34,7 @@ export class UserFeatureModule { }
 exports[`Feature utils analyzeApplication dependent features check when the dependent feature is eagerly configured should succeed 1`] = `
 "import { NgModule } from '@angular/core';
 import { CheckoutModule } from "@spartacus/checkout/base";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { DigitalPaymentsModule } from "@spartacus/digital-payments";
@@ -47,7 +47,7 @@ import { DigitalPaymentsModule } from "@spartacus/digital-payments";
     ],
     providers: [provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         })]
@@ -75,7 +75,7 @@ export class CheckoutWrapperModule {
 
 exports[`Feature utils analyzeApplication dependent features check when the dependent feature is lazily configured should succeed 2`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -92,7 +92,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         })

@@ -11,6 +11,7 @@ import { Promotion } from '@spartacus/core';
   selector: 'cx-promotions',
   templateUrl: './promotions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PromotionsComponent {
   @Input()

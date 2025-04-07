@@ -40,6 +40,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet-list',
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   protected subscriptions = new Subscription();

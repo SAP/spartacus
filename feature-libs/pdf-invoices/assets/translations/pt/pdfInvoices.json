@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Impossível obter faturas, assegure que a SAP Invoice e a API para faturas estão ativadas.",
+    "invoicesLoadingError": "Algo deu errado. Impossível exibir faturas para o pedido",
+    "invoicesTable": {
+      "header": "Faturas",
+      "label": "Tabela de faturas",
+      "invoiceId": "Nº da fatura",
+      "createdAt": "Data",
+      "netAmount": "Montante líquido",
+      "totalAmount": "Montante total",
+      "attachment": "Baixar fatura",
+      "download": "Baixar",
+      "attachmentDescription": "Baixar PDF para fatura {{id}}.",
+      "noneFound": "Nenhuma fatura encontrada"
+    },
+    "downloadPDFError": "Algo deu errado. Impossível obter PDF de fatura.",
+    "sortBy": "Ordenar por",
+    "sortInvoices": "Ordenar faturas",
+    "sorts": {
+      "byCreatedAtAsc": "Data crescente",
+      "byCreatedAtDesc": "Data decrescente",
+      "byInvoiceIdAsc": "Número da fatura crescente",
+      "byInvoiceIdDesc": "Número da fatura decrescente",
+      "byNetAmountAsc": "Montante líquido crescente",
+      "byNetAmountDesc": "Montante líquido decrescente",
+      "byTotalAmountAsc": "Montante total crescente",
+      "byTotalAmountDesc": "Montante total decrescente"
+    }
+  }
+}

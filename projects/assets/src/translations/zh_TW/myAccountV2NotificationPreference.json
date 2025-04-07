@@ -1,0 +1,9 @@
+{
+  "myAccountV2NotificationPreference": {
+    "header": "通知管道",
+    "message": "選擇您的偏好通知管道",
+    "note": "請注意： ",
+    "noteMessage": "若您已停用所有管道，則將無法再接收通知。",
+    "EMAIL": "電子郵件："
+  }
+}

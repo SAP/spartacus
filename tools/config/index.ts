@@ -19,7 +19,7 @@ import glob from 'glob';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
-import {chalk} from "../chalk";
+import { chalk } from '../chalk';
 
 // ------------ Utilities ------------
 

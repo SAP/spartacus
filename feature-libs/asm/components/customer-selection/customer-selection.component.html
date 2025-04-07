@@ -175,6 +175,11 @@
         type="text"
         formControlName="searchTerm"
         [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
+        [attr.aria-invalid]="
+          customerSelectionForm.get('searchTerm')?.touched &&
+          customerSelectionForm.get('searchTerm')?.invalid
+        "
+        [attr.aria-errormessage]="'searchTermError'"
         placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
         (keydown.arrowdown)="focusFirstItem($event)"
         (keydown.end)="setSelectionEnd($event)"
@@ -183,6 +188,7 @@
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="searchTermError"
         [translationParams]="{
           label: 'asm.customerSearch.searchTerm.label' | cxTranslate,
         }"

@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Nie można uzyskać faktur, upewnij się, że SAP Invoice i API for Invoices są włączone.",
+    "invoicesLoadingError": "Coś poszło nie tak. Nie można wyświetlić faktur dla zamówienia",
+    "invoicesTable": {
+      "header": "Faktury",
+      "label": "Tabela faktur",
+      "invoiceId": "Faktura #",
+      "createdAt": "Data",
+      "netAmount": "Kwota netto",
+      "totalAmount": "Kwota łączna",
+      "attachment": "Pobierz fakturę",
+      "download": "Pobierz",
+      "attachmentDescription": "Pobierz PDF z fakturą {{id}}.",
+      "noneFound": "Nie znaleziono żadnej faktury."
+    },
+    "downloadPDFError": "Coś poszło nie tak. Nie można uzyskać pliku PDF z fakturą.",
+    "sortBy": "Sortuj według",
+    "sortInvoices": "Sortuj faktury",
+    "sorts": {
+      "byCreatedAtAsc": "Daty rosnąco",
+      "byCreatedAtDesc": "Daty malejąco",
+      "byInvoiceIdAsc": "Numery faktur rosnąco",
+      "byInvoiceIdDesc": "Numery faktur malejąco",
+      "byNetAmountAsc": "Kwoty netto rosnąco",
+      "byNetAmountDesc": "Kwoty netto malejąco",
+      "byTotalAmountAsc": "Kwoty łączne rosnąco",
+      "byTotalAmountDesc": "Kwoty łączne malejąco"
+    }
+  }
+}

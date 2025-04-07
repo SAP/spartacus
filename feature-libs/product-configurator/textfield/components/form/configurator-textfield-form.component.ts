@@ -18,6 +18,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 @Component({
   selector: 'cx-configurator-textfield-form',
   templateUrl: './configurator-textfield-form.component.html',
+  standalone: false,
 })
 export class ConfiguratorTextfieldFormComponent {
   configuration$: Observable<ConfiguratorTextfield.Configuration> =

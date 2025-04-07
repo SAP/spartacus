@@ -1,12 +1,10 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="checkoutLoginForm">
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <div class="form-group">
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.emailAddress.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -17,11 +15,17 @@
         placeholder="{{
           'checkoutLogin.emailAddress.placeholder' | cxTranslate
         }}"
+        [attr.aria-invalid]="
+          checkoutLoginForm.get('email')?.touched &&
+          checkoutLoginForm.get('email')?.invalid
+        "
+        [attr.aria-errormessage]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
         [translationParams]="{
           label: 'checkoutLogin.emailAddress.label' | cxTranslate,
         }"
@@ -39,7 +43,7 @@
     <label>
       <span class="label-content">
         {{ 'checkoutLogin.confirmEmail.label' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -50,11 +54,17 @@
         placeholder="{{
           'checkoutLogin.confirmEmail.placeholder' | cxTranslate
         }}"
+        [attr.aria-invalid]="
+          checkoutLoginForm.get('emailConfirmation')?.touched &&
+          checkoutLoginForm.get('emailConfirmation')?.invalid
+        "
+        [attr.aria-errormessage]="'emailConfirmationError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailConfirmationError"
         [translationParams]="{
           label: 'checkoutLogin.confirmEmail.label' | cxTranslate,
         }"
@@ -72,13 +82,3 @@
     {{ 'checkoutLogin.continue' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

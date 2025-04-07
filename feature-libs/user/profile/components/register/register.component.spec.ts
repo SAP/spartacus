@@ -6,7 +6,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -66,6 +65,7 @@ const mockTitlesList: Title[] = [
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -74,6 +74,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -124,6 +125,7 @@ class MockRegisterComponentService
   postRegisterMessage = createSpy();
   getAdditionalConsents = createSpy();
   generateAdditionalConsentsFormControl = createSpy();
+  collectDataFromRegisterForm = createSpy();
 }
 
 class MockSiteAdapter {
@@ -166,7 +168,6 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
@@ -309,19 +310,23 @@ describe('RegisterComponent', () => {
   describe('collectDataFromRegisterForm()', () => {
     it('should return correct register data', () => {
       const form = mockRegisterFormData;
-
-      expect(component.collectDataFromRegisterForm(form)).toEqual({
-        firstName: form.firstName,
-        lastName: form.lastName,
-        uid: form.email_lowercase,
-        password: form.password,
-        titleCode: form.titleCode,
-      });
+      component.collectDataFromRegisterForm(form);
+      expect(
+        registerComponentService.collectDataFromRegisterForm
+      ).toHaveBeenCalledWith(form);
     });
   });
 
   describe('register', () => {
     it('should register with valid form', () => {
+      regComponentService.collectDataFromRegisterForm =
+        createSpy().and.returnValue({
+          firstName: mockRegisterFormData.firstName,
+          lastName: mockRegisterFormData.lastName,
+          uid: mockRegisterFormData.email_lowercase,
+          password: mockRegisterFormData.password,
+          titleCode: mockRegisterFormData.titleCode,
+        });
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
       component.submitForm();

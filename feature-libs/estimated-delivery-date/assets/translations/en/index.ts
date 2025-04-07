@@ -5,7 +5,6 @@
  */
 
 import estimatedDeliveryDate from './estimatedDeliveryDate.json';
-
 export const en = {
   estimatedDeliveryDate,
 };

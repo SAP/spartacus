@@ -1189,10 +1189,7 @@ describe('VisualViewerService', () => {
       ).and.callFake(mockExecuteWhenSceneLoaded);
 
       const mockDrawerToolbar = {
-        _activateGesture: (
-          _viewport: any,
-          _navigationMode: NavigationMode
-        ) => {},
+        setNavigationMode: (_navigationMode: NavigationMode) => {},
       };
 
       const mockViewportImplementation = {};
@@ -1214,9 +1211,9 @@ describe('VisualViewerService', () => {
         'get'
       ).and.returnValue(mockViewport);
 
-      const mockDrawerToolbar_activateGestureSpy = spyOn(
+      const mockDrawerToolbar_setNavigationMode = spyOn(
         mockDrawerToolbar,
-        '_activateGesture'
+        'setNavigationMode'
       );
 
       visualViewerService.navigationMode = NavigationMode.Pan;
@@ -1225,9 +1222,8 @@ describe('VisualViewerService', () => {
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
       expect(getDrawerToolbarPropertySpy).toHaveBeenCalled();
       expect(getViewportPropertySpy).toHaveBeenCalled();
-      expect(mockDrawerToolbar_activateGestureSpy).toHaveBeenCalledTimes(1);
-      expect(mockDrawerToolbar_activateGestureSpy).toHaveBeenCalledWith(
-        mockViewportImplementation,
+      expect(mockDrawerToolbar_setNavigationMode).toHaveBeenCalledTimes(1);
+      expect(mockDrawerToolbar_setNavigationMode).toHaveBeenCalledWith(
         NavigationMode.Pan
       );
     });

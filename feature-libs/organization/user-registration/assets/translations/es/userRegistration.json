@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Tratamiento (opcional)",
+        "placeholder": "Tratamiento"
+      },
+      "firstName": {
+        "label": "Nombre",
+        "placeholder": "Nombre"
+      },
+      "lastName": {
+        "label": "Apellido",
+        "placeholder": "Apellido"
+      },
+      "companyName": {
+        "label": "Nombre de la empresa",
+        "placeholder": "Nombre de la empresa"
+      },
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "Correo electrónico"
+      },
+      "city": {
+        "label": "Ciudad/Pueblo (opcional)",
+        "placeholder": "Seleccionar una ciudad o un pueblo"
+      },
+      "country": {
+        "label": "País (opcional)",
+        "placeholder": "Seleccionar un país"
+      },
+      "state": {
+        "label": "Estado/Provincia (opcional)",
+        "placeholder": "Seleccionar un estado o una provincia"
+      },
+      "postalCode": {
+        "label": "Código postal (opcional)",
+        "placeholder": "Código postal"
+      },
+      "addressLine": {
+        "label": "Dirección (opcional)",
+        "placeholder": "Dirección"
+      },
+      "secondAddressLine": {
+        "label": "Línea de dirección 2 (opcional)",
+        "placeholder": "Línea de dirección 2"
+      },
+      "phoneNumber": {
+        "label": "Número de teléfono (opcional)",
+        "placeholder": "Número de teléfono"
+      },
+      "message": {
+        "label": "Mensaje (opcional)",
+        "placeholder": "Datos de ejemplo para el campo de mensaje: \"Departamento: soporte terrestre; Posición: guardia de seguridad principal; Superior: Steve Jackson; Comentarios: Cree una nueva cuenta para mí\"."
+      }
+    },
+    "messageToApproverTemplate": "Nombre de la empresa: {{companyName}},\n  Número de teléfono: {{phoneNumber}},\n  Dirección: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Mensaje: {{message}}",
+    "successFormSubmitMessage": "¡Gracias por registrarse! Un representante se pondrá en contacto con usted para confirmar su información de acceso.",
+    "formSubmitButtonLabel": "Registrarse",
+    "goToLoginButtonLabel": "¿Ya se registró? Vaya a Iniciar sesión.",
+    "httpHandlers": {
+      "conflict": "Ya existe un usuario con esta dirección de correo electrónico."
+    },
+    "messageToFailedToRegister": "Se produjo un error en el registro. Póngase en contacto con el administrador para recibir asistencia."
+  }
+}

@@ -17,6 +17,7 @@ import {
   selector: 'cx-org-user-details-cell',
   templateUrl: './user-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UserDetailsCellComponent extends CellComponent {
   b2bUserModel: B2BUser;

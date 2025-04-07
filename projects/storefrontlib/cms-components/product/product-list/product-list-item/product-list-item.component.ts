@@ -29,6 +29,7 @@ import { ProductListService } from '../product-list.service';
       useExisting: ProductListItemContextSource,
     },
   ],
+  standalone: false,
 })
 export class ProductListItemComponent implements OnChanges {
   protected productListService = inject(ProductListService);
@@ -41,6 +42,7 @@ export class ProductListItemComponent implements OnChanges {
     protected productListItemContextSource: ProductListItemContextSource
   ) {
     useFeatureStyles('a11yExpandedFocusIndicator');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {

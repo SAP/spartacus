@@ -111,7 +111,7 @@ function add_b2b {
         ng add @spartacus/checkout@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
 
-        ng add @spartacus/product@${SPARTACUS_VERSION} --skip-confirmation
+        ng add @spartacus/product@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/product --skip-confirmation --no-interactive --features "Future-Stock"
     fi
 }
@@ -136,7 +136,7 @@ function add_epd_visualization {
 
 function add_opf {
     if [ "$ADD_OPF" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --opf-google-pay-api-url ${OPF_QUICK_BUY_GOOGLE_PAY_RESOURCE_URL} --skip-confirmation --no-interactive
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive
     fi
 }
 

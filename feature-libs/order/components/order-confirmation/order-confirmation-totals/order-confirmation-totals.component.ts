@@ -6,6 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
+import { useFeatureStyles } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
@@ -13,12 +14,15 @@ import { Observable } from 'rxjs';
   selector: 'cx-order-confirmation-totals',
   templateUrl: './order-confirmation-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
 
-  constructor(protected orderFacade: OrderFacade) {}
+  constructor(protected orderFacade: OrderFacade) {
+    useFeatureStyles('a11yWideScreenImprovements');
+  }
 
   ngOnDestroy() {
     this.orderFacade.clearPlacedOrder();

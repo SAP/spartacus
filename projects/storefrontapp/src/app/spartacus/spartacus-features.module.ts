@@ -67,9 +67,9 @@ import { environment } from '../../environments/environment';
 import { AsmCustomer360FeatureModule } from './features/asm/asm-customer-360-feature.module';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
-import { ImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
-import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
-import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
+import { CartImportExportFeatureModule } from './features/cart/cart-import-export-feature.module';
+import { CartQuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
+import { CartSavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
@@ -95,8 +95,8 @@ import { ProductMultiDimensionalListFeatureModule } from './features/product-mul
 import { ProductMultiDimensionalSelectorFeatureModule } from './features/product-multi-dimensional/product-multi-dimensional-selector-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
-import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
-import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { ProductImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
+import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -105,8 +105,8 @@ import { S4ServiceFeatureModule } from './features/s4-service/s4-service-feature
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
-import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
-import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
+import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
+import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 
 const featureModules = [];
@@ -245,29 +245,29 @@ if (environment.cpq) {
 
     CartBaseFeatureModule,
     WishListFeatureModule,
-    SavedCartFeatureModule,
-    QuickOrderFeatureModule,
-    ImportExportFeatureModule,
+    CartSavedCartFeatureModule,
+    CartQuickOrderFeatureModule,
+    CartImportExportFeatureModule,
 
     OrderFeatureModule,
 
     CheckoutFeatureModule,
 
-    TrackingFeatureModule,
+    PersonalizationFeatureModule,
 
     AsmFeatureModule,
     AsmCustomer360FeatureModule,
 
-    StorefinderFeatureModule,
+    StoreFinderFeatureModule,
 
     QualtricsFeatureModule,
 
     SmartEditFeatureModule,
 
-    VariantsFeatureModule,
+    ProductVariantsFeatureModule,
     ProductMultiDimensionalSelectorFeatureModule,
     ProductMultiDimensionalListFeatureModule,
-    ImageZoomFeatureModule,
+    ProductImageZoomFeatureModule,
 
     QuoteFeatureModule,
     CustomerTicketingFeatureModule,
@@ -290,26 +290,23 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: false,
+        showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
-        showPromotionsInPDP: false,
         searchBoxV2: false,
-        recentSearches: true,
         trendingSearches: false,
         pdfInvoicesSortByInvoiceDate: true,
-        storeFrontLibCardParagraphTruncated: true,
         useProductCarouselBatchApi: true,
-        productConfiguratorAttributeTypesV2: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         productConfiguratorDeltaRendering: true,
         a11yRequiredAsterisks: true,
         a11yQuantityOrderTabbing: true,
         a11yNavigationUiKeyboardControls: true,
+        a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,
         a11yStarRating: true,
@@ -317,6 +314,8 @@ if (environment.cpq) {
         a11yPreventHorizontalScroll: true,
         a11yReorderDialog: true,
         a11yPopoverFocus: true,
+        a11yPopoverHighContrast: true,
+        a11yTabsManualActivation: true,
         a11yScheduleReplenishment: true,
         a11yScrollToTop: true,
         a11ySavedCartsZoom: true,
@@ -373,14 +372,22 @@ if (environment.cpq) {
         headerLayoutForSmallerViewports: true,
         a11yStoreFinderAlerts: true,
         a11yFormErrorMuteIcon: true,
+        a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
         a11yDeliveryModeRadiogroup: true,
-        a11yNgSelectOptionsCount: true,
+        /**
+         * Defaults to false cause ng-select options ariaLabels are working as expected
+         * since Spartacus 2211.33
+         * TODO: CXSPA-9005: Remove this flag and related code in next major release
+         */
+        a11yNgSelectOptionsCount: false,
         a11yNgSelectCloseDropdownOnEscape: true,
+        a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
+        a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
         a11yNgSelectMobileReadout: true,
@@ -416,9 +423,15 @@ if (environment.cpq) {
         a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
+        a11yNavigationButtonsAriaFixes: true,
+        a11yFocusOnCardAfterSelecting: true,
+        a11ySearchableDropdownFirstElementFocus: true,
         a11yHideConsentButtonWhenBannerVisible: true,
+        a11yRepeatingButtonsUniqueLabels: true,
+        a11yHighContrastBorders: true,
+        a11yRegionAssociatedHeaders: true,
         cmsBottomHeaderSlotUsingFlexStyles: true,
-        useSiteThemeService: false,
+        useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         allPageMetaResolversEnabledInCsr: true,
@@ -426,11 +439,15 @@ if (environment.cpq) {
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
         showRealTimeStockInPDP: false,
-        a11yScrollToTopPositioning: false,
+        a11yScrollToTopPositioning: true,
+        a11yWideScreenImprovements: true,
         a11yWrapReviewOrderInSection: true,
+        a11yOptimizedMenuSpacing: true,
+        a11yNgSelectLayering: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        opfEnablePreventingFromCheckoutWithoutEmail: true,
       };
       return appFeatureToggles;
     }),

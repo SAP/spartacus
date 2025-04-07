@@ -19,5 +19,6 @@ import { UserGroupAssignedPermissionsListService } from './user-group-assigned-p
       useExisting: UserGroupAssignedPermissionsListService,
     },
   ],
+  standalone: false,
 })
 export class UserGroupAssignedPermissionListComponent {}

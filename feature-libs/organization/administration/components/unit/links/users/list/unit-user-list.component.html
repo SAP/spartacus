@@ -2,7 +2,7 @@
   <a
     *ngIf="isUpdatingUserAllowed"
     actions
-    class="link"
+    class="link btn btn-link btn-sm"
     routerLink="create"
     [class.disabled]="!(unit$ | async)?.active"
   >

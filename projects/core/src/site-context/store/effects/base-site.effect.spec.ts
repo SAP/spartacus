@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -10,6 +10,10 @@ import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import * as fromEffects from './base-site.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('BaseSite Effects', () => {
   let actions$: Observable<SiteContextActions.BaseSiteAction>;
@@ -21,11 +25,13 @@ describe('BaseSite Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot(), HttpClientTestingModule, BaseOccModule],
+      imports: [ConfigModule.forRoot(), BaseOccModule],
       providers: [
         fromEffects.BaseSiteEffects,
         { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

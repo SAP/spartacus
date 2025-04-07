@@ -28,6 +28,7 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */

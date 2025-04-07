@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { TranslationService, useFeatureStyles } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -20,6 +20,7 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   templateUrl:
     './configurator-attribute-single-selection-bundle-dropdown.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
@@ -46,7 +47,6 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     );
 
     this.group = attributeComponentContext.group.id;
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
   }
 
   ngOnInit() {

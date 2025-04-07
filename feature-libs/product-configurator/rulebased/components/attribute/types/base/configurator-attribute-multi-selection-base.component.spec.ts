@@ -31,6 +31,7 @@ const createTestValue = (
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection',
+  standalone: false,
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
   constructor(

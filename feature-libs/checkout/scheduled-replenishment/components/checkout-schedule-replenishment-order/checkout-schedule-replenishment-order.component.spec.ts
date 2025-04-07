@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   DaysOfWeek,
@@ -39,7 +38,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
+      imports: [I18nTestingModule, IconTestingModule],
       declarations: [CheckoutScheduleReplenishmentOrderComponent],
       providers: [
         {

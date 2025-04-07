@@ -1,7 +1,11 @@
-import { HttpRequest } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
@@ -109,10 +113,12 @@ describe(`OccQuoteAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccQuoteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     classUnderTest = TestBed.inject(OccQuoteAdapter);

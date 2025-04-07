@@ -8,11 +8,14 @@
   (change)="change()"
   [placeholder]="placeholder"
   [pattern]="pattern"
+  [attr.aria-invalid]="!control.untouched && control.invalid"
+  [attr.aria-errormessage]="'controlError'"
 />
 
 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
 <cx-form-errors
   *cxFeature="'formErrorsDescriptiveMessages'"
+  id="controlError"
   [control]="control"
   prefix="formErrors.labeled.date"
   fallbackPrefix="formErrors.date"

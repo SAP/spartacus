@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "リストに戻る",
+    "showForm_APPROVE": "注文の承認...",
+    "showForm_REJECT": "注文の拒否...",
+    "form": {
+      "title_APPROVE": "注文の承認 {{orderCode}} 合計 {{orderTotal}}",
+      "title_REJECT": "注文の拒否 {{orderCode}} 合計 {{orderTotal}}",
+      "submit_APPROVE": "承認",
+      "submit_REJECT": "拒否",
+      "cancel": "キャンセル",
+      "comment_APPROVE": {
+        "label": "コメント (任意、最大 255 文字)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "コメント (最大 255 文字)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "顧客承認詳細",
+      "permission": "権限",
+      "approver": "承認者",
+      "status": "ステータス",
+      "approverComments": "承認者コメント",
+      "noApprovalComments": "なし",
+      "permissionType_B2BBudgetExceededPermission": "選択した原価センタに関連付けられた予算が超過しました",
+      "permissionType_B2BOrderThresholdPermission": "注文の合計が、注文ごとの制限を超過しました",
+      "permissionType_B2BOrderThresholdTimespanPermission": "注文の合計が、時間範囲ごとの制限を超過しました"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "注文番号",
+    "POCode": "発注書番号",
+    "placedBy": "注文実行者",
+    "date": "日付",
+    "status": "ステータス",
+    "total": "合計",
+    "none": "なし",
+    "emptyList": "現時点では承認する注文はありません。",
+    "orderApprovalList": "注文承認リスト"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "このページにアクセスするのに十分な権限がありません。"
+    }
+  }
+}

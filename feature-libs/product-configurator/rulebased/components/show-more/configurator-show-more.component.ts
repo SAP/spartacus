@@ -9,15 +9,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  inject,
   Input,
 } from '@angular/core';
-import { Config, useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-show-more',
   templateUrl: './configurator-show-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;
@@ -25,16 +24,12 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
-  protected config = inject(Config);
-
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
   @Input() tabIndex = -1;
 
-  constructor(protected cdRef: ChangeDetectorRef) {
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
-  }
+  constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);

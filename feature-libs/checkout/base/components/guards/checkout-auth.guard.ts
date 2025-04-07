@@ -5,14 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
   SemanticPathService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
@@ -29,7 +29,7 @@ export class CheckoutAuthGuard {
     protected router: Router
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
       this.activeCartFacade.isGuestCart(),

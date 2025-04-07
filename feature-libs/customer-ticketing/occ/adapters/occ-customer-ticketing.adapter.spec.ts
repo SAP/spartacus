@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -25,6 +25,10 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { take } from 'rxjs/operators';
 import { OccCustomerTicketingAdapter } from './occ-customer-ticketing.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -56,10 +60,12 @@ describe('OccCustomerTicketingAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCustomerTicketingAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(OccCustomerTicketingAdapter);

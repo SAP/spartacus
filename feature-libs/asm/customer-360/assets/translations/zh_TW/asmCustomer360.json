@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "無法載入資訊。請稍後再試一次，或聯絡系統管理員。",
+    "errorMessageHeader": "糟糕！發生錯誤",
+    "applyActionAlter": "無法完成動作，請稍後再試一次。",
+    "header": {
+      "title": "客戶設定檔",
+      "newTitle": "Customer 360°",
+      "subTitle": "{{name}} Customer 360° View",
+      "newSubTitle": "{{name}} 360 View",
+      "activeCartLabel": "{{cartSize}} 個項目已新增至購物車",
+      "recentOrderLabel": "最後一個訂單 {{price}}",
+      "recentTicketLabel": "最後一個記錄單",
+      "signedUpAt": "帳戶建立日期 {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "總計項目數量 {{count}}",
+      "totalPrice": "總價 {{price}}",
+      "showMore": "顯示更多",
+      "showLess": "顯示較少"
+    },
+    "productItem": {
+      "outOfStock": "缺貨",
+      "quantity": "數量：{{count}}",
+      "itemPrice": "項目價格：{{price}}"
+    },
+    "activeCart": {
+      "header": "啟用中購物車",
+      "emptyDescription": "目前沒有啟用中購物車項目",
+      "aria": {
+        "linkLabel": "啟用中購物車 {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "上次儲存的購物車",
+      "emptyDescription": "目前沒有儲存的購物車項目",
+      "aria": {
+        "linkLabel": "上次儲存的購物車 {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "興趣",
+      "emptyDescription": "目其沒有興趣項目"
+    },
+    "profile": {
+      "address": "地址",
+      "billingAddress": "帳單寄送地址",
+      "deliveryAddress": "交貨地址",
+      "phone1": "電話 1",
+      "phone2": "電話 2",
+      "paymentMethodHeader": "儲存的付款方法"
+    },
+    "activity": {
+      "type": "類型",
+      "id": "ID",
+      "description": "說明",
+      "status": "狀態",
+      "created": "已建立",
+      "updated": "已更新",
+      "numberOfCartItems": "購物車包含 {{count}} 個項目",
+      "cart": "購物車",
+      "order": "訂單",
+      "savedCart": "儲存的購物車",
+      "emptyStateText": "目前沒有記錄的客戶活動",
+      "headerText": "一般"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "項目",
+        "dateAndStatus": "日期/狀態",
+        "rating": "評比",
+        "review": "評論"
+      },
+      "header": "產品評論",
+      "emptyDescription": "目前沒有產品評論項目",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "標題",
+        "category": "種類"
+      },
+      "header": "支援記錄單",
+      "emptyDescription": "目前沒有支援記錄單"
+    },
+    "coupons": {
+      "headerText": "優惠券",
+      "emptyDescription": "目前沒有優惠券",
+      "applyButtonText": "套用至購物車",
+      "applied": "已套用優惠券",
+      "removeButtonText": "移除"
+    },
+    "promotions": {
+      "headerText": "促銷",
+      "emptyDescription": "目前沒有促銷",
+      "applied": "已套用促銷",
+      "headerName": "名稱",
+      "headerAction": "動作"
+    },
+    "customerCoupons": {
+      "headerText": "客戶優惠券",
+      "emptyDescription": "目前沒有客戶優惠券",
+      "applyButtonText": "指派給客戶",
+      "removeButtonText": "移除",
+      "availableTab": "可用",
+      "sentTab": "已傳送",
+      "searchBox": "優惠券"
+    },
+    "maps": {
+      "storeClosed": "關閉",
+      "storesFound": "已從 {{ total }} 個商店中找到 {{ initial }} - {{ end }} 個"
+    },
+    "overviewTab": "概觀",
+    "profileTab": "設定檔",
+    "activityTab": "活動",
+    "feedbackTab": "反饋",
+    "promotionsTab": "促銷",
+    "mapsTab": "地圖",
+    "storeLocationsTab": "儲存地點",
+    "aria": {
+      "activeCartCode": "啟用中購物車 {{code}}",
+      "recentOrderCode": "最後一個訂單 {{code}}"
+    },
+    "pagination": "分頁",
+    "page": "第 {{number}} 頁",
+    "emptyCellValue": "---"
+  }
+}

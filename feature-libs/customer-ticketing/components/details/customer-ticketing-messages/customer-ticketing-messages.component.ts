@@ -23,6 +23,7 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
+  standalone: false,
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;

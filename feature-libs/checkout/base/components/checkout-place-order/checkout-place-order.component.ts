@@ -8,7 +8,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  inject,
   OnDestroy,
+  OnInit,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -16,22 +18,30 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
+import {
+  CurrencyService,
+  LanguageService,
+  RoutingService,
+} from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
   templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CheckoutPlaceOrderComponent implements OnDestroy {
+export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
-
+  params$ = new Observable<string[]>();
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
+
+  private currencyService = inject(CurrencyService);
+  private languageService = inject(LanguageService);
 
   get termsAndConditionInvalid(): boolean {
     return this.checkoutSubmitForm.invalid;
@@ -44,6 +54,13 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
+
+  ngOnInit() {
+    this.params$ = combineLatest([
+      this.currencyService.getActive(),
+      this.languageService.getActive(),
+    ]).pipe(map(([currency, language]) => [currency, language]));
+  }
 
   submitForm(): void {
     if (this.checkoutSubmitForm.valid) {

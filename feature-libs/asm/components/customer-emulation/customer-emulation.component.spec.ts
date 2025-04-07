@@ -32,6 +32,7 @@ describe('CustomerEmulationComponent', () => {
   @Component({
     selector: 'cx-asm-bind-cart',
     template: '',
+    standalone: false,
   })
   class MockAsmBindCartComponent {}
 

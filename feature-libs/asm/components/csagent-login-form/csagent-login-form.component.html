@@ -12,11 +12,17 @@
       type="text"
       formControlName="userId"
       [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
+      [attr.aria-invalid]="
+        csAgentLoginForm.get('userId')?.touched &&
+        csAgentLoginForm.get('userId')?.invalid
+      "
+      [attr.aria-errormessage]="'userIdError'"
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="userIdError"
       [translationParams]="{
         label: 'asm.loginForm.userId.label' | cxTranslate,
       }"
@@ -38,12 +44,18 @@
       type="password"
       formControlName="password"
       [attr.aria-label]="'asm.loginForm.password.label' | cxTranslate"
+      [attr.aria-invalid]="
+        csAgentLoginForm.get('password')?.touched &&
+        csAgentLoginForm.get('password')?.invalid
+      "
+      [attr.aria-errormessage]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
 
     <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
       *cxFeature="'formErrorsDescriptiveMessages'"
+      id="passwordError"
       [translationParams]="{
         label: 'asm.loginForm.password.label' | cxTranslate,
       }"

@@ -1,6 +1,5 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from './client-error-handling.service';
@@ -33,7 +32,6 @@ describe('ClientErrorHandlingService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       providers: [
         ClientErrorHandlingService,
         { provide: ClientTokenService, useClass: MockClientTokenService },

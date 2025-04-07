@@ -33,6 +33,7 @@ import { map, skip, take } from 'rxjs/operators';
   selector: 'cx-saved-cart-list',
   templateUrl: './saved-cart-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
@@ -65,6 +66,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('a11ySavedCartsZoom');
     useFeatureStyles('a11yQTY2Quantity');
+    useFeatureStyles('a11yHighContrastBorders');
   }
 
   ngOnInit(): void {

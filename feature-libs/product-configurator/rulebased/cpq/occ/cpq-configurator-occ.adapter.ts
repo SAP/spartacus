@@ -26,10 +26,6 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     return ConfiguratorType.CPQ;
   }
 
-  supportsCpqOverOcc(): boolean {
-    return true;
-  }
-
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {

@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Titre",
+    "titleOptional": "Titre (facultatif)",
+    "defaultTitle": "Titre",
+    "firstName": {
+      "label": "Prénom",
+      "placeholder": "Prénom"
+    },
+    "lastName": {
+      "label": "Nom de famille",
+      "placeholder": "Nom de famille"
+    },
+    "address1": "Adresse 1",
+    "address2": "Adresse 2 (facultatif)",
+    "country": "Pays/Région",
+    "city": {
+      "label": "Ville",
+      "placeholder": "Ville"
+    },
+    "state": "État",
+    "zipCode": {
+      "label": "Code postal",
+      "placeholder": "Code postal"
+    },
+    "phoneNumber": {
+      "label": "Numéro de téléphone (facultatif)",
+      "placeholder": "par exemple (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Numéro de mobile (facultatif)",
+      "placeholder": "par exemple (###) - ### - ####"
+    },
+    "saveAsDefault": "Sauvegarder par défaut",
+    "chooseAddress": "Sélectionner l'adresse",
+    "streetAddress": "Adresse postale",
+    "aptSuite": "Numéro d’appartement",
+    "selectOne": "Sélectionner un…",
+    "setAsDefault": "Définir comme adresse de livraison par défaut",
+    "titleRequired": "Le titre est obligatoire.",
+    "userAddressAddSuccess": "La nouvelle adresse a été ajoutée avec succès !",
+    "userAddressUpdateSuccess": "Adresse mise à jour avec succès !",
+    "userAddressDeleteSuccess": "Adresse supprimée avec succès !",
+    "invalidAddress": "Adresse non valide"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Ajouter une nouvelle adresse de livraison",
+    "editDeliveryAddress": "Modifier l'adresse de livraison",
+    "areYouSureToDeleteAddress": "Voulez-vous vraiment supprimer cette adresse ?",
+    "addNewAddress": "Ajouter une nouvelle adresse",
+    "addAddress": "Ajouter une adresse",
+    "updateAddress": "Mettre à jour l'adresse",
+    "backToAddressList": "Retour à la liste des adresses",
+    "defaultDeliveryAddress": "Adresse de livraison par défaut",
+    "additionalDeliveryAddress": "Adresse de livraison supplémentaire {{number}}"
+  },
+  "addressCard": {
+    "default": "PAR DÉFAUT",
+    "selected": "Sélectionnée",
+    "selectedAddress": "Adresse sélectionnée",
+    "setAsDefault": "Définir par défaut",
+    "shipTo": "Adresse d'expédition",
+    "billTo": "Adresse de facturation",
+    "phoneNumber": "T",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Vérifiez votre adresse",
+    "ensureAccuracySuggestChange": "Pour garantir l'exactitude de la livraison, nous suggérons la modification sélectionnée ci-dessous.",
+    "chooseAddressToUse": "Veuillez sélectionner l'adresse que vous souhaitez utiliser :",
+    "suggestedAddress": "Adresse suggérée",
+    "enteredAddress": "Adresse saisie",
+    "editAddress": "Modifier l'adresse",
+    "saveAddress": "Enregistrer l'adresse"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "L'adresse {{ streetAddress }} a bien été définie par défaut."
+  }
+}

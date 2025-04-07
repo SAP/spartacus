@@ -140,5 +140,38 @@ describe('Spartacus CDS schematics: ng-add', () => {
         });
       });
     });
+
+    describe('with sciEnabled option set to true', () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...cdsFeatureOptions,
+            profileTagConfigUrl: 'profile-tag-config-url.com',
+            profileTagLoadUrl: 'profile-tag-load-url.com',
+            sciEnabled: true,
+          },
+          appTree
+        );
+      });
+
+      describe('general setup', () => {
+        it('should create the feature module', async () => {
+          const module = appTree.readContent(cdsFeatureModulePath);
+          expect(module).toMatchSnapshot();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
+          );
+          expect(trackingPersonalizationFeatureModule).toBeFalsy();
+        });
+      });
+    });
   });
 });

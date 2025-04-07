@@ -23,6 +23,7 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   selector: 'cx-unit-level-order-overview',
   templateUrl: './unit-level-order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(

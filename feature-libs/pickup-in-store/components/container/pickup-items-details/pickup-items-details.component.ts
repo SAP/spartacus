@@ -21,6 +21,7 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   selector: 'cx-pick-up-in-store-items-details',
   templateUrl: './pickup-items-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PickUpItemsDetailsComponent implements OnInit {
   @Input() showEdit: boolean;

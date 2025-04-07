@@ -22,6 +22,7 @@ export interface SpartacusCdsOptions extends LibraryOptions {
   baseUrl?: string;
   profileTagLoadUrl?: string;
   profileTagConfigUrl?: string;
+  sciEnabled?: boolean;
 }
 
 export const CDS_FOLDER_NAME = 'cds';
@@ -69,7 +70,13 @@ function buildCdsConfig(
         tenant: '${options.tenant || 'TENANT_PLACEHOLDER'}',
         baseUrl: '${options.baseUrl || 'BASE_URL_PLACEHOLDER'}',
         endpoints: {
-          strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+          strategyProducts: '${
+            options.sciEnabled
+              ? '/strategy/v1/sites/${baseSite}/strategies/${strategyId}/products'
+              : '/strategy/${tenant}/strategies/${strategyId}/products'
+          }',
+          searchIntelligence:
+            '/search-intelligence/v1/sites/\${cdsSiteId}/trendingSearches',
         },
         merchandising: {
           defaultCarouselViewportThreshold: 80,
@@ -100,6 +107,7 @@ function buildCdsConfig(
                   'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
                 }',
               allowInsecureCookies: true,
+              sciEnabled: ${options.sciEnabled}
             },
           },
         }`,

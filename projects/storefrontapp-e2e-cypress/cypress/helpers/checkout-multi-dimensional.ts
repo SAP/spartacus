@@ -131,24 +131,24 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
     );
     guestCheckout.createAccountFromGuest(multiDUser.password);
 
-    const deliveryAddressPage = checkout.waitForPage(
-      '/checkout/delivery-address',
-      'getDeliveryAddressPage'
-    );
-
     searchForProduct(multiDBaseProduct.code);
 
     goToMultiDProductFromPLP();
 
     selectVariant('Blue');
 
+    cy.intercept(
+      'GET',
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts?fields*`
+    ).as('carts');
+
     checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
       multiDProduct
     );
 
-    cy.wait(`@${deliveryAddressPage}`)
-      .its('response.statusCode')
-      .should('eq', 200);
+    cy.wait('@carts').its('response.statusCode').should('eq', 200);
 
     cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     cy.get('cx-mini-cart .count').contains('1');

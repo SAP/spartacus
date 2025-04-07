@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Nom :",
+      "description": "Description :",
+      "validity": "Ce devis est valable jusqu'au {{ expirationTime }}",
+      "option": {
+        "yes": "Oui",
+        "no": "Non"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale d'envoi du devis"
+          },
+          "title": "Envoyer la demande de devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment envoyer cette demande de devis ?",
+          "successMessage": "La demande de devis a été envoyée avec succès."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale d'annulation du devis"
+          },
+          "title": "Annuler la demande de devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment annuler cette demande de devis ?",
+          "successMessage": "Demande de devis annulée"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de modification du devis"
+          },
+          "title": "Confirmer la modification du devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment modifier ce devis approuvé ?",
+          "warningNote": "Ce devis a été approuvé. La modification de ce devis empêchera sa validation tant que les modifications n'auront pas été approuvées."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale d'annulation du devis"
+          },
+          "title": "Annuler le devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment annuler ce devis ?",
+          "successMessage": "Devis annulé"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de validation du devis"
+          },
+          "title": "Valider le devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment accepter et valider ce devis ?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de modification du devis"
+          },
+          "title": "Confirmer la modification du devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment modifier ce devis expiré ?",
+          "warningNote": "Ce devis a expiré. La modification de ce devis empêchera sa validation tant que les modifications n'auront pas été approuvées."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de recréation du devis"
+          },
+          "title": "Recréer la demande de devis{{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment recréer cette demande de devis ?",
+          "warningNote": "Ce devis a expiré. Le fait de le recréer générera une nouvelle demande de devis avec le même contenu, qui pourra être modifiée et soumise à approbation par la suite."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale d'envoi du devis"
+          },
+          "title": "Envoyer le devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment envoyer ce devis ?",
+          "warningNote": "Selon la valeur totale du devis, une approbation supplémentaire peut être nécessaire avant que l'acheteur puisse valider ce devis.",
+          "successMessage": "Devis envoyé avec succès"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale d'approbation du devis"
+          },
+          "title": "Approuver le devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment approuver ce devis ?",
+          "successMessage": "Devis approuvé avec succès"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de refus du devis"
+          },
+          "title": "Refuser le devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment refuser ce devis ?",
+          "successMessage": "Devis refusé"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de recréation de devis"
+          },
+          "title": "Recréer la demande de devis{{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment recréer cette demande de devis ?",
+          "warningNote": "Votre panier actuel sera converti en panier sauvegardé."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Fermer la boîte de dialogue modale de modification du devis"
+          },
+          "title": "Modifier le devis {{ code }} ?",
+          "confirmNote": "Voulez-vous vraiment modifier ce devis ?",
+          "warningNote": "Votre panier actuel sera converti en panier sauvegardé."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Cadre pour contact/commentaire",
+      "title": "Contact",
+      "invalidComment": "Saisie non valide - Veuillez ressaisir du texte...",
+      "allProducts": "Tous les produits"
+    },
+    "commons": {
+      "requestQuote": "Demander un devis",
+      "cart": "Panier",
+      "minRequestInitiationNote": "Un sous-total minimum de ${{minValue}} est requis pour envoyer un devis. ",
+      "savedActiveCart": "Votre panier actif a été converti en panier sauvegardé {{ code }}."
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Informations d'en-tête pour l'annulation de la modification du devis",
+          "save": "Informations d'en-tête pour la sauvegarde du devis"
+        }
+      },
+      "overview": {
+        "regionTitle": "Synthèse des détails du devis",
+        "id": "ID du devis",
+        "status": "Statut",
+        "information": "Informations sur le devis",
+        "name": "Nom",
+        "description": "Description",
+        "charactersLeft": "Caractères restants : {{count}}",
+        "priceAndExpiry": "Prix et expiration",
+        "estimatedTotal": "Total estimé",
+        "total": "Total",
+        "expirationTime": "Date d'expiration",
+        "a11y": {
+          "edit": "Informations d'en-tête pour la modification du devis"
+        },
+        "createdAndUpdated": "Créé et mis à jour",
+        "createdDate": "Créé",
+        "lastUpdatedDate": "Dernière mise à jour"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Vos entrées comportent des erreurs. Veuillez vérifier votre panier.",
+      "quoteCartIssue": "Impossible de modifier les entrées du panier. Veuillez passer à la validation.",
+      "absoluteDiscountIssue": "Sélectionnez une remise qui ne dépasse pas la valeur totale.",
+      "expirationDateIssue": "Sélectionnez une date d'expiration dans le futur.",
+      "threshold": {
+        "underThresholdError": "Le prix total du devis demandé n'atteint pas le seuil minimum."
+      },
+      "expired": "Ce devis a expiré. Vous devez renvoyer votre demande de devis pour recevoir un autre devis du fournisseur.",
+      "downloadPDFError": "Une erreur s'est produite. Impossible d'obtenir le document PDF de la proposition."
+    },
+    "items": {
+      "regionTitle": "Articles du panier"
+    },
+    "links": {
+      "newCart": "Nouveau panier",
+      "quotes": "Devis",
+      "download": "Télécharger la proposition",
+      "a11y": {
+        "newCart": "Créez un nouveau panier vide et naviguez vers celui-ci.",
+        "quotes": "Naviguez vers la liste des résultats de la recherche de devis.",
+        "download": "Commencer par télécharger une proposition de devis."
+      }
+    },
+    "list": {
+      "regionTitle": "Synthèse de la liste des devis",
+      "title": "Liste des devis",
+      "name": "Nom",
+      "updated": "Mis à jour",
+      "sortBy": "Trier par",
+      "sortQuotes": "Trier les devis",
+      "empty": "Nous n'avons pas de devis pour ce compte.",
+      "quoteId": "ID du devis",
+      "status": "Statut",
+      "clickableRow": "Cliquez sur la ligne pour plus de détails concernant le devis."
+    },
+    "states": {
+      "BUYER_DRAFT": "Version préliminaire",
+      "BUYER_SUBMITTED": "Envoyé",
+      "BUYER_ACCEPTED": "Accepté",
+      "BUYER_APPROVED": "Approuvé",
+      "BUYER_REJECTED": "Refusé",
+      "BUYER_OFFER": "Devis du fournisseur",
+      "BUYER_ORDERED": "Commandé",
+      "SELLER_DRAFT": "Version préliminaire",
+      "SELLER_REQUEST": "Demandé",
+      "SELLER_SUBMITTED": "Envoyé",
+      "SELLERAPPROVER_DRAFT": "Version préliminaire",
+      "SELLERAPPROVER_PENDING": "En attente d'approbation",
+      "SELLERAPPROVER_APPROVED": "Approuvé",
+      "SELLERAPPROVER_REJECTED": "Refusé",
+      "CREATED": "Créé",
+      "CANCELLED": "Annulé",
+      "EXPIRED": "Expiré"
+    },
+    "summary": {
+      "regionTitle": "Synthèse de la commande",
+      "actions": {
+        "APPROVE": "Approuver le devis",
+        "CANCEL": "Annuler le devis",
+        "CHECKOUT": "Accepter et valider",
+        "EDIT": "Modifier le devis",
+        "REJECT": "Refuser le devis",
+        "REQUOTE": "Demander un nouveau devis",
+        "SAVE": "Sauvegarder le devis",
+        "SUBMIT": "Envoyer le devis",
+        "VIEW": "Afficher le devis"
+      },
+      "prices": {
+        "title": "Synthèse de la commande",
+        "subtotal": "Sous-total",
+        "productDiscount": "Remise sur l'article",
+        "orderDiscount": "Remise sur commande",
+        "quoteDiscount": "Remise sur devis",
+        "total": "Total",
+        "hint": "Aucune taxe n'est incluse dans le montant total"
+      },
+      "sellerEdit": {
+        "discount": "Remise",
+        "apply": "Appliquer",
+        "expiryDate": "Date d'expiration",
+        "discountValidationText": "Saisissez un pourcentage de remise valide.",
+        "a11y": {
+          "apply": "Cliquez pour appliquer à ce devis la valeur de remise saisie .",
+          "discount": "Saisissez une valeur de remise en pourcentage à appliquer à ce devis.",
+          "expiryDate": "Saisissez une date d'expiration pour ce devis."
+        }
+      }
+    }
+  }
+}

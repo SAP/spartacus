@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AddOrderEntriesContext,
   GetOrderEntriesContext,
@@ -52,6 +51,7 @@ class MockContextService implements Partial<ContextService> {
 @Component({
   selector: 'cx-import-order-entries',
   template: '',
+  standalone: false,
 })
 export class MockImportOrderEntriesComponent {
   @ViewChild('open') element: ElementRef;
@@ -63,6 +63,7 @@ export class MockImportOrderEntriesComponent {
 @Component({
   selector: 'cx-export-order-entries',
   template: '',
+  standalone: false,
 })
 export class MockExportOrderEntriesComponent {
   @Input()
@@ -75,7 +76,7 @@ describe('ImportExportComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PageComponentModule],
+      imports: [PageComponentModule],
       providers: [{ provide: ContextService, useClass: MockContextService }],
       declarations: [
         ImportExportOrderEntriesComponent,

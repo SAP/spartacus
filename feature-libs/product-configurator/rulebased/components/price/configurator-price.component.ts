@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useFeatureStyles } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -20,13 +19,12 @@ export interface ConfiguratorPriceComponentOptions {
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
-  constructor(protected directionService: DirectionService) {
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
-  }
+  constructor(protected directionService: DirectionService) {}
 
   protected isRTLDirection(): boolean {
     return this.directionService.getDirection() === DirectionMode.RTL;

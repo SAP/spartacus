@@ -19,6 +19,7 @@ import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.serv
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductFacetNavigationComponent {
   iconTypes = ICON_TYPE;

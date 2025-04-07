@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-asm-toggle-ui',
   templateUrl: './asm-toggle-ui.component.html',
+  standalone: false,
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

@@ -23,6 +23,7 @@ import { BaseItem } from '../organization.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [MessageService],
+  standalone: false,
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

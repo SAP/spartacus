@@ -5,7 +5,6 @@
  */
 
 import savedCart from './savedCart.json';
-
 export const en = {
   savedCart,
 };

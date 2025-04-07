@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -27,7 +26,7 @@ describe('FormErrors', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [
         FeatureConfigService,
         {
@@ -103,6 +102,23 @@ describe('FormErrors', () => {
     expect(renderedErrors[1].innerText).toEqual(
       'formErrors.labeled.required,formErrors.required'
     );
+  });
+
+  describe('a11y', () => {
+    it('should set a default aria-live attribute', () => {
+      fixture.detectChanges();
+      const ariaLive =
+        fixture.debugElement.nativeElement.getAttribute('aria-live');
+      expect(ariaLive).toEqual('polite');
+    });
+
+    it('should set aria-live attribute', () => {
+      component.ariaLive = 'assertive';
+      fixture.detectChanges();
+      const ariaLive =
+        fixture.debugElement.nativeElement.getAttribute('aria-live');
+      expect(ariaLive).toEqual('assertive');
+    });
   });
 
   describe('i18n', () => {

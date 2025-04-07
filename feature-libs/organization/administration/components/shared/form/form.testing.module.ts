@@ -12,6 +12,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-org-form',
   template: '<ng-content></ng-content>',
+  standalone: false,
 })
 class MockFormComponent {
   @Input() i18nRoot;

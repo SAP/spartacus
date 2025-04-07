@@ -42,6 +42,7 @@ import { CarouselService } from './carousel.service';
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CarouselComponent implements OnInit, OnChanges {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
@@ -97,6 +98,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   ) {
     useFeatureStyles('a11yFocusableCarouselControls');
     useFeatureStyles('a11yAddPaddingToCarouselPanel');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   ngOnInit() {

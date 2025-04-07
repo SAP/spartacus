@@ -59,6 +59,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
@@ -481,6 +482,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     ];
     // Focus on first index moving to last
     if (results.length) {
+      if (
+        this.featureConfigService?.isEnabled(
+          'a11ySearchableDropdownFirstElementFocus'
+        )
+      ) {
+        this.winRef.document
+          .querySelector('header')
+          ?.classList.remove('mouse-focus');
+      }
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {

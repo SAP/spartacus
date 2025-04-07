@@ -5,3 +5,5 @@ feature-libs/smartedit/assets/webApplicationInjector.js
 coverage
 
 /.nx/cache
+/.nx/workspace-data
+projects/storefrontstyles/vendor/**/*.scss

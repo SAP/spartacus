@@ -37,6 +37,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
+  standalone: false,
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;

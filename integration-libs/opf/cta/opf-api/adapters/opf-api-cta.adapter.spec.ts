@@ -5,8 +5,8 @@
  */
 
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, LoggerService } from '@spartacus/core';
@@ -24,6 +24,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { OpfApiCtaAdapter } from './opf-api-cta.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const mockCtaScriptsRequest: OpfCtaScriptsRequest = {
   paymentAccountIds: [123],
@@ -84,7 +88,7 @@ describe('OpfApiCtaAdapter', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OpfApiCtaAdapter,
         { provide: OpfConfig, useValue: mockOpfConfig },
@@ -95,6 +99,8 @@ describe('OpfApiCtaAdapter', () => {
           useClass: MockOpfMetadataStatePersistanceService,
         },
         LoggerService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

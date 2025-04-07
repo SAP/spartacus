@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "参数文件完成",
+      "description": "我们仍需要以下项的许可"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "参数文件详细信息已成功更新",
+    "profileUpdateFailure": "无法更新参数文件详细信息"
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "名称：",
+      "description": "描述：",
+      "validity": "此报价在 {{ expirationTime }} 之前有效",
+      "option": {
+        "yes": "是",
+        "no": "否"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "关闭提交报价模式"
+          },
+          "title": "提交报价请求 {{ code }}？",
+          "confirmNote": "是否确定要提交此报价请求？",
+          "successMessage": "报价请求已成功提交"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "关闭取消报价模式"
+          },
+          "title": "取消报价请求 {{ code }}？",
+          "confirmNote": "是否确定要取消此报价请求？",
+          "successMessage": "报价请求已取消"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "关闭编辑报价模式"
+          },
+          "title": "确认编辑报价 {{ code }}？",
+          "confirmNote": "是否确定要编辑此已获批准的报价？",
+          "warningNote": "此报价已获批准。在新编辑获得批准前，编辑此报价将阻止结账。"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "关闭取消报价模式"
+          },
+          "title": "取消报价 {{ code }}？",
+          "confirmNote": "是否确定要取消此报价？",
+          "successMessage": "报价已取消"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "关闭报价结账模式"
+          },
+          "title": "对报价 {{ code }} 进行结账？",
+          "confirmNote": "是否确定要接受此报价并进行结账？"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "关闭编辑报价模式"
+          },
+          "title": "确认编辑报价 {{ code }}？",
+          "confirmNote": "是否确定要编辑此已过期报价？",
+          "warningNote": "此报价已过期。在新编辑获得批准前，编辑此报价将阻止结账。"
+        },
+        "requote": {
+          "a11y": {
+            "close": "关闭重新报价模式"
+          },
+          "title": "重新创建报价请求 {{ code }}？",
+          "confirmNote": "是否确定要重新创建此报价请求？",
+          "warningNote": "此报价已过期。为其重新报价将创建一个内容相同的新报价请求，之后可对其进行编辑并提交以供审批。"
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "关闭提交报价模式"
+          },
+          "title": "提交报价 {{ code }}？",
+          "confirmNote": "是否确定要提交此报价？",
+          "warningNote": "根据报价的总计值，可能需要先进行附加审批，然后买方才能对此报价进行结账。",
+          "successMessage": "报价已成功提交"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "关闭批准报价模式"
+          },
+          "title": "批准报价 {{ code }}？",
+          "confirmNote": "是否确定要批准此报价？",
+          "successMessage": "报价已成功批准"
+        },
+        "reject": {
+          "a11y": {
+            "close": "关闭拒绝报价模式"
+          },
+          "title": "拒绝报价 {{ code }}？",
+          "confirmNote": "是否确定要拒绝此报价？",
+          "successMessage": "报价已拒绝"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "关闭重新报价模式"
+          },
+          "title": "重新创建报价请求 {{ code }}？",
+          "confirmNote": "是否确定要重新创建此报价请求？",
+          "warningNote": "您的当前购物车将转换为已保存购物车。"
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "关闭编辑报价模式"
+          },
+          "title": "编辑报价 {{ code }}？",
+          "confirmNote": "是否确定要编辑此报价？",
+          "warningNote": "您的当前购物车将转换为已保存购物车。"
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "联系人/评论框",
+      "title": "联系人",
+      "invalidComment": "输入无效 - 请重新输入...",
+      "allProducts": "所有产品"
+    },
+    "commons": {
+      "requestQuote": "请求报价",
+      "cart": "购物车",
+      "minRequestInitiationNote": "提交报价要求最低小计为 {{minValue}} 美元。 ",
+      "savedActiveCart": "您的已激活购物车转换为已保存购物车 {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "取消编辑报价抬头信息",
+          "save": "保存报价抬头信息"
+        }
+      },
+      "overview": {
+        "regionTitle": "报价详细信息摘要",
+        "id": "报价标识",
+        "status": "状态",
+        "information": "报价信息",
+        "name": "名称",
+        "description": "描述",
+        "charactersLeft": "剩余字符：{{count}}",
+        "priceAndExpiry": "价格和过期日期",
+        "estimatedTotal": "估算总额",
+        "total": "总计",
+        "expirationTime": "过期日期",
+        "a11y": {
+          "edit": "编辑报价抬头信息"
+        },
+        "createdAndUpdated": "已创建和已更新",
+        "createdDate": "已创建",
+        "lastUpdatedDate": "上次更新"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "您的条目存在问题。请检查您的购物车。",
+      "quoteCartIssue": "无法对购物车条目进行更改。继续结账",
+      "absoluteDiscountIssue": "选择不超过总值的折扣",
+      "expirationDateIssue": "选择未来过期日期",
+      "threshold": {
+        "underThresholdError": "所请求报价的总价格未达到最低阈值"
+      },
+      "expired": "此报价已过期。您必须重新提交报价请求才能接收其他供应商报价。",
+      "downloadPDFError": "出错了。无法获取提案文档 PDF。"
+    },
+    "items": {
+      "regionTitle": "购物车项目"
+    },
+    "links": {
+      "newCart": "新购物车",
+      "quotes": "报价",
+      "download": "下载提案",
+      "a11y": {
+        "newCart": "创建新的空购物车并导航到此购物车。",
+        "quotes": "导航到报价搜索结果列表。",
+        "download": "开始下载报价提案"
+      }
+    },
+    "list": {
+      "regionTitle": "报价列表摘要",
+      "title": "报价列表",
+      "name": "名称",
+      "updated": "已更新",
+      "sortBy": "排序依据",
+      "sortQuotes": "对报价进行排序",
+      "empty": "我们没有此帐户的报价记录。",
+      "quoteId": "报价标识",
+      "status": "状态",
+      "clickableRow": "单击行即可获得更多报价详细信息"
+    },
+    "states": {
+      "BUYER_DRAFT": "草稿",
+      "BUYER_SUBMITTED": "已提交",
+      "BUYER_ACCEPTED": "已接受",
+      "BUYER_APPROVED": "已批准",
+      "BUYER_REJECTED": "已拒绝",
+      "BUYER_OFFER": "供应商报价",
+      "BUYER_ORDERED": "已订购",
+      "SELLER_DRAFT": "草稿",
+      "SELLER_REQUEST": "已请求",
+      "SELLER_SUBMITTED": "已提交",
+      "SELLERAPPROVER_DRAFT": "草稿",
+      "SELLERAPPROVER_PENDING": "待审批",
+      "SELLERAPPROVER_APPROVED": "已批准",
+      "SELLERAPPROVER_REJECTED": "已拒绝",
+      "CREATED": "已创建",
+      "CANCELLED": "已取消",
+      "EXPIRED": "已过期"
+    },
+    "summary": {
+      "regionTitle": "订单摘要",
+      "actions": {
+        "APPROVE": "批准报价",
+        "CANCEL": "取消报价",
+        "CHECKOUT": "接受并结账",
+        "EDIT": "编辑报价",
+        "REJECT": "拒绝报价",
+        "REQUOTE": "请求新报价",
+        "SAVE": "保存报价",
+        "SUBMIT": "提交报价",
+        "VIEW": "查看报价"
+      },
+      "prices": {
+        "title": "订单摘要",
+        "subtotal": "小计",
+        "productDiscount": "项目折扣",
+        "orderDiscount": "订单折扣",
+        "quoteDiscount": "报价折扣",
+        "total": "总计",
+        "hint": "总计中不含税"
+      },
+      "sellerEdit": {
+        "discount": "折扣",
+        "apply": "应用",
+        "expiryDate": "过期日期",
+        "discountValidationText": "输入有效的百分比折扣",
+        "a11y": {
+          "apply": "单击以将输入的折扣值应用到此报价",
+          "discount": "输入要应用到此报价的百分比折扣值",
+          "expiryDate": "输入此报价的过期日期"
+        }
+      }
+    }
+  }
+}

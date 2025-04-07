@@ -14,6 +14,7 @@ import { PageLayoutService } from './page-layout.service';
   selector: 'cx-page-layout',
   templateUrl: './page-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PageLayoutComponent {
   @Input() set section(value: string) {

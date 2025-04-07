@@ -1,8 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { lastValueFrom, of } from 'rxjs';
 import { ScopedDataWithUrl } from './occ-fields.service';
 import { OccRequestsOptimizerService } from './occ-requests-optimizer.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('OccRequestsOptimizerService', () => {
   let service: OccRequestsOptimizerService;
@@ -19,7 +23,11 @@ describe('OccRequestsOptimizerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(OccRequestsOptimizerService);
   });

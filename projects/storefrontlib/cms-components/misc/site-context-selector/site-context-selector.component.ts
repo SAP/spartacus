@@ -24,6 +24,7 @@ import { SiteContextType } from './site-context.model';
   selector: 'cx-site-context-selector',
   templateUrl: './site-context-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SiteContextSelectorComponent {
   /**
@@ -41,6 +42,7 @@ export class SiteContextSelectorComponent {
 
   constructor(private componentService: SiteContextComponentService) {
     useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
+    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   get items$(): Observable<any> {

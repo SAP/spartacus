@@ -52,9 +52,6 @@
     "heading": "Items to be Picked Up",
     "storeItemHeading": "Pick Up Store Address"
   },
-  "cartItems": {
-    "item": "Item"
-  },
   "cardActions": {
     "getDirections": "Get Directions, this link opens in a new window"
   },

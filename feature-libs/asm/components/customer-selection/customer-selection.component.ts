@@ -44,6 +44,7 @@ import { debounceTime } from 'rxjs/operators';
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
+  standalone: false,
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: UntypedFormGroup;

@@ -1,5 +1,11 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -19,7 +25,7 @@ import {
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
@@ -27,6 +33,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -146,6 +153,7 @@ const mockAddress: Address = {
 @Component({
   selector: 'cx-payment-form',
   template: '',
+  standalone: false,
 })
 class MockPaymentFormComponent {
   @Input()
@@ -161,6 +169,7 @@ class MockPaymentFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -666,6 +675,27 @@ describe('CheckoutPaymentMethodComponent', () => {
           ).role
         ).toEqual('button');
       });
+    });
+
+    describe('focusCardAfterSelecting', () => {
+      it('should refocus the selected card after updating', fakeAsync(() => {
+        const card = document.createElement('cx-card');
+        const selectButton = document.createElement('button');
+        card.appendChild(selectButton);
+        card.tabIndex = 0;
+        document.body.appendChild(card);
+        selectButton.focus();
+        component['isUpdating$'] = of(false);
+        spyOn(card, 'focus');
+        spyOn(component['focusService'], 'findFirstFocusable').and.returnValue(
+          card
+        );
+
+        component.focusCardAfterSelecting();
+        tick(16); // Wait for requestAnimationFrame
+
+        expect(card.focus).toHaveBeenCalled();
+      }));
     });
   });
 });

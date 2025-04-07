@@ -17,6 +17,7 @@ export const DELETE_QUOTE_ITEM = '@DELETE_QUOTE_ITEM';
 export const ADD_QUOTE_COMMENT = '@ADD_QUOTE_COMMENT';
 export const PERFORM_QUOTE_ACTION = '@PERFORM_QUOTE_ACTION';
 export const STATUS_SUBMITTED = 'Submitted';
+export const STATUS_ORDERED = 'Ordered';
 export const STATUS_REQUESTED = 'Requested';
 export const STATUS_CANCELED = 'Cancelled';
 export const STATUS_DRAFT = 'Draft';
@@ -110,6 +111,21 @@ export function checkQuoteStatusInQuoteList(status: string) {
           cy.get('.cx-status').contains('.cx-status', status);
         });
     });
+  });
+}
+
+/**
+ * Open the first quote of a certain status in the quote list.
+ *
+ * @param status - Quote status
+ */
+export function openQuoteInQuoteList(status: string) {
+  log(
+    'Open the first quote of a certain status in the quote list',
+    openQuoteInQuoteList.name
+  );
+  cy.get(listComponentSelector).within(() => {
+    cy.get('tr').contains('.cx-status', status).click();
   });
 }
 
@@ -1148,7 +1164,7 @@ function clickCancelQuoteBtn(editMode: boolean) {
  */
 export function goToQuoteListPage(): void {
   log('Go to the quote list page', goToQuoteListPage.name);
-  const location = `${SHOP_NAME}/en/USD/my-account/quotes`;
+  const location = `${Cypress.env('BASE_SITE')}/en/USD/my-account/quotes`;
   cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     checkQuoteListDisplayed();
@@ -1591,6 +1607,19 @@ export function createNewCart() {
     .click()
     .then(() => {
       cy.get('.CartPageTemplate');
+    });
+}
+/**
+ * Click on order detail link within a quote.
+ */
+export function goToOrderDetail() {
+  log('Click on order detail link within a quote', goToOrderDetail.name);
+  cy.get('.cx-action-link')
+    .contains('Order Detail')
+    .click()
+    .then(() => {
+      cy.url().should('include', `/my-account/order/`);
+      cy.get('cx-order-overview').should('be.visible');
     });
 }
 /**

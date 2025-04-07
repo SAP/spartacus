@@ -18,6 +18,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent

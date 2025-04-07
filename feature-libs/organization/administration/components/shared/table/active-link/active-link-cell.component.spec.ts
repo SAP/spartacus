@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { ActiveLinkCellComponent } from '..';
@@ -20,7 +19,7 @@ describe('ActiveLinkCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActiveLinkCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule],
+      imports: [UrlTestingModule],
       providers: [
         {
           provide: OutletContextData,

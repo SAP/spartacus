@@ -78,6 +78,7 @@ export function orderEntryWithRequiredFields(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
+  standalone: false,
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   // TODO: Remove element reference once 'a11yDialogTriggerRefocus' feature flag is removed.

@@ -12,6 +12,7 @@ import { UnitTreeService } from '../services/unit-tree.service';
   selector: 'cx-org-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitListComponent {
   constructor(

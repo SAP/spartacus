@@ -1,13 +1,11 @@
 <cx-org-form i18nRoot="orgCostCenter">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required"
-        >{{ 'orgCostCenter.name' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgCostCenter.name' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -15,11 +13,16 @@
         placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
         [translationParams]="{
           label: 'orgCostCenter.name' | cxTranslate,
         }"
@@ -34,20 +37,24 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgCostCenter.code' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgCostCenter.code' | cxTranslate }}<cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
         formControlName="code"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
         [translationParams]="{
           label: 'orgCostCenter.code' | cxTranslate,
         }"
@@ -63,8 +70,8 @@
     <label formGroupName="currency">
       <span class="label-content required"
         >{{ 'orgCostCenter.currency' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        }}<cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
@@ -96,9 +103,8 @@
 
     <label [formGroup]="$any(form.get('unit'))">
       <span class="label-content required"
-        >{{ 'orgCostCenter.unit' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgCostCenter.unit' | cxTranslate }}<cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
@@ -129,13 +135,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

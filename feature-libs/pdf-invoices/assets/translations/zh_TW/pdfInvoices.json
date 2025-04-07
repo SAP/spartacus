@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "無法取得發票，請確保已啟用 SAP 發票和發票 API。",
+    "invoicesLoadingError": "發生錯誤，無法顯示訂單的發票",
+    "invoicesTable": {
+      "header": "發票",
+      "label": "發票表格",
+      "invoiceId": "發票號碼",
+      "createdAt": "日期",
+      "netAmount": "淨額",
+      "totalAmount": "總金額",
+      "attachment": "下載發票",
+      "download": "下載",
+      "attachmentDescription": "下載發票 {{id}} 的 PDF。",
+      "noneFound": "找不到發票"
+    },
+    "downloadPDFError": "發生錯誤。無法取得發票 PDF。",
+    "sortBy": "排序依據",
+    "sortInvoices": "排序發票",
+    "sorts": {
+      "byCreatedAtAsc": "日期 (升冪)",
+      "byCreatedAtDesc": "日期 (降冪)",
+      "byInvoiceIdAsc": "發票號碼 (升冪)",
+      "byInvoiceIdDesc": "發票號碼 (降冪)",
+      "byNetAmountAsc": "淨額 (升冪)",
+      "byNetAmountDesc": "淨額 (降冪)",
+      "byTotalAmountAsc": "總金額 (升冪)",
+      "byTotalAmountDesc": "總金額 (降冪)"
+    }
+  }
+}

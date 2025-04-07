@@ -6,14 +6,12 @@
   "
 >
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label formGroupName="country">
       <span class="label-content required"
-        >{{ 'orgUnitAddress.country' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUnitAddress.country' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         class="country-select"
@@ -60,20 +58,25 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgUnitAddress.firstName' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUnitAddress.firstName' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
         type="text"
         placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-invalid]="
+          form.get('firstName')?.touched && form.get('firstName')?.invalid
+        "
+        [attr.aria-errormessage]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
         [translationParams]="{
           label: 'orgUnitAddress.firstName' | cxTranslate,
         }"
@@ -87,20 +90,25 @@
     </label>
     <label>
       <span class="label-content required"
-        >{{ 'orgUnitAddress.lastName' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUnitAddress.lastName' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-invalid]="
+          form.get('lastName')?.touched && form.get('lastName')?.invalid
+        "
+        [attr.aria-errormessage]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
       ></cx-form-errors>
@@ -113,20 +121,25 @@
 
     <label class="full-width">
       <span class="label-content required"
-        >{{ 'orgUnitAddress.address1' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUnitAddress.address1' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
         formControlName="line1"
+        [attr.aria-invalid]="
+          form.get('line1')?.touched && form.get('line1')?.invalid
+        "
+        [attr.aria-errormessage]="'line1Error'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="line1Error"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
         [control]="form.get('line1')"
       ></cx-form-errors>
@@ -163,20 +176,25 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgUnitAddress.city' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUnitAddress.city' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
         formControlName="town"
+        [attr.aria-invalid]="
+          form.get('town')?.touched && form.get('town')?.invalid
+        "
+        [attr.aria-errormessage]="'townError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="townError"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
         [control]="form.get('town')"
       ></cx-form-errors>
@@ -189,20 +207,25 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgUnitAddress.zipCode' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUnitAddress.zipCode' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
         formControlName="postalCode"
+        [attr.aria-invalid]="
+          form.get('postalCode')?.touched && form.get('postalCode')?.invalid
+        "
+        [attr.aria-errormessage]="'postalCodeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="postalCodeError"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
         [control]="form.get('postalCode')"
       ></cx-form-errors>
@@ -222,9 +245,9 @@
         *ngIf="regions.length > 0"
       >
         <span class="label-content required"
-          >{{ 'orgUnitAddress.state' | cxTranslate
-          }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-        ></span>
+          >{{ 'orgUnitAddress.state' | cxTranslate }}
+          <cx-form-required-asterisks />
+        </span>
         <ng-select
           [inputAttrs]="{ required: 'true' }"
           class="region-select"
@@ -254,13 +277,3 @@
     </ng-container>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

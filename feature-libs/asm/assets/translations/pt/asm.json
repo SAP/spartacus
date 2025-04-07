@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Modo de serviço assistido",
+    "logout": "Encerrar sessão",
+    "hideUi": "Fechar ASM",
+    "helpPortalUrl": "Ajuda",
+    "customers": "Clientes",
+    "asmCustomer360Button": "Visão 360º do cliente",
+    "asmCustomer360ViewButton": "Cliente 360º",
+    "createCustomerSuccessfullyAlert": "O conta do cliente foi criada e a sessão do cliente foi iniciada.",
+    "saveInactiveCartAlertInfo": "O carrinho identificado é um carrinho inativo. Para efetuar outras ações nesse carrinho, grave-o primeiro.",
+    "activeCartAlertInfo": "O carrinho identificado é um carrinho ativo.",
+    "startCustomerEmulationAlertInfo": "A emulação do cliente foi iniciada. Todas as ações que você efetuar refletirão os efeitos na conta do cliente.",
+    "toggleUi": {
+      "collapse": "Ocultar ASM",
+      "expand": "Mostrar ASM"
+    },
+    "loginForm": {
+      "submit": "Iniciar sessão",
+      "userId": {
+        "label": "ID ou e-mail do agente"
+      },
+      "password": {
+        "label": "Senha"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "Nome/endereço de e-mail do cliente"
+      },
+      "searchCustomer": {
+        "label": "Pesquisar por nome ou endereço de e-mail"
+      },
+      "searchOrder": {
+        "label": "Pesquisar por ID do pedido completo"
+      },
+      "submit": "Iniciar sessão",
+      "startEmulation": "Iniciar emulação",
+      "noMatch": "Nenhum cliente encontrado.",
+      "noMatchResult": "Não é possível encontrar essa conta.",
+      "noCustomerMatchResult": "Nenhum cliente correspondente encontrado.",
+      "noOrderMatchResult": "Pesquisar por ID do pedido completo.",
+      "createCustomer": "Criar novo cliente",
+      "customer": "Cliente",
+      "orderID": "ID do pedido"
+    },
+    "createCustomerForm": {
+      "title": "Criar novo cliente",
+      "createAccount": "Criar",
+      "cancel": "Cancelar",
+      "firstName": {
+        "label": "Nome",
+        "placeholder": "Nome"
+      },
+      "lastName": {
+        "label": "Sobrenome",
+        "placeholder": "Sobrenome"
+      },
+      "emailAddress": {
+        "label": "Endereço de e-mail",
+        "placeholder": "Endereço de e-mail"
+      },
+      "createAccountAlert": "A sessão do cliente é iniciada assim que você criar a conta do cliente.",
+      "validationErrors": {
+        "firstName": "Insira um nome válido.",
+        "lastName": "Insira um sobrenome válido.",
+        "emailAddress": "Insira um endereço de e-mail válido."
+      },
+      "badRequestDuplicatedEmail": "Insira um endereço de e-mail diferente, uma vez que {{ emailAddress }} já existe."
+    },
+    "customerList": {
+      "title": "Lista de clientes",
+      "description": "Selecione um cliente a partir de uma das várias listas fornecidas.",
+      "createCustomer": "Criar novo cliente",
+      "cancel": "Cancelar",
+      "tableHeader": {
+        "customer": "Cliente",
+        "customerName": "Nome do cliente",
+        "name": "Nome",
+        "email": "E-mail",
+        "emailId": "E-mail/ID",
+        "phone": "Telefone",
+        "account": "Conta",
+        "cart": "Carrinho",
+        "order": "Pedido",
+        "view": "Visão 360º",
+        "activeCart": "Carrinho ativo",
+        "viewActiveCart": "Visualizar carrinho ativo",
+        "orders": "Pedidos",
+        "viewOrders": "Visualizar pedidos",
+        "customer360": "Cliente 360º",
+        "viewCustomer360": "Visualizar cliente 360º"
+      },
+      "tableSort": {
+        "sortBy": "Ordenar por",
+        "byName": "Nome (crescente)",
+        "byNameAsc": "Nome (crescente)",
+        "byNameDesc": "Nome (decrescente)",
+        "byDateAsc": "Data (crescente)",
+        "byDateDesc": "Data (decrescente)",
+        "byOrderDateAsc": "Data do pedido (crescente)",
+        "byOrderDateDesc": "Data do pedido (decrescente)",
+        "byUnit": "Conta (crescente)",
+        "byUnitDesc": "Conta (decrescente)"
+      },
+      "page": {
+        "page": "Página {{count}}",
+        "previous": "Anterior",
+        "next": "Seguinte"
+      },
+      "noOfCustomers": "{{count}} clientes",
+      "oneCustomer": "1 cliente",
+      "noCustomers": "Atualmente não existem clientes nesta lista de clientes.",
+      "noLists": "Atualmente não existem listas de clientes disponíveis. Contate seu administrador do sistema.",
+      "listsError": "Não foi possível recuperar as listas de clientes. Tente novamente mais tarde.",
+      "searchBox": "Pesquisar",
+      "enterSearchBox": "Insira o nome ou e-mail do cliente"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "Advertência",
+        "body": "Clicar em \"Mudar cliente\" terminará a emulação de \"{{ customerA }}\" e iniciará a de \"{{ customerB }}\". Todas as modificações não gravadas para \"{{ customerA }}\" serão perdidas.",
+        "actions": {
+          "switch": "Mudar cliente"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "Gravar para mais tarde",
+      "dialog": {
+        "saveInfo": "Grave o carrinho antes de efetuar outras ações.",
+        "disableInfo": "Não é possível gravar o carrinho, uma vez que está vazio.",
+        "title": "Gravar carrinho",
+        "row": {
+          "id": "ID",
+          "qty": "Qtd",
+          "qtyFull": "Quantidade",
+          "total": "Total"
+        },
+        "actions": {
+          "save": "Gravar para mais tarde"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "Número do carrinho",
+      "bindCartToCustomer": "Atribuir carrinho ao cliente",
+      "success": "O carrinho foi atribuído com êxito",
+      "assignCartId": "Atribuir um ID de carrinho ao cliente",
+      "enterCartId": "Inserir ID de carrinho",
+      "resetCartId": "Redefinir",
+      "dialog": {
+        "title": "Atribuir carrinho anônimo",
+        "body": "Pretende substituir o carrinho ativo atual pelo carrinho anônimo? Se você substituir o carrinho ativo atual, ele será gravado como um carrinho gravado.",
+        "actions": {
+          "replace": "Substituir carrinho"
+        }
+      }
+    },
+    "csagentTokenExpired": "Sua sessão de agente de suporte ao cliente expirou.",
+    "endSession": "Terminar sessão",
+    "endEmulation": "Terminar emulação",
+    "agentSessionTimer": {
+      "label": "Timeout da sessão",
+      "minutes": "min",
+      "reset": "Redefinir"
+    },
+    "auth": {
+      "agentLoggedInError": "Não é possível fazer login como usuário quando existe uma sessão ativa do agente de suporte ao cliente. Emule o usuário ou faça logout do agente de suporte ao cliente."
+    },
+    "error": {
+      "noCustomerId": "Nenhum customerId encontrado para o usuário selecionado. A sessão não pode ser iniciada."
+    }
+  }
+}

@@ -30,6 +30,7 @@ import { MediaService } from '../../../shared/components/media/media.service';
   selector: 'cx-video',
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;

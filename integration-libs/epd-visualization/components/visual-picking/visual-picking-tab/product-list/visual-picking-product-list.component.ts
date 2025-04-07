@@ -20,6 +20,7 @@ import { VisualPickingProductListService } from './visual-picking-product-list.s
   templateUrl: './visual-picking-product-list.component.html',
   providers: [VisualPickingProductListService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VisualPickingProductListComponent implements OnInit {
   constructor(

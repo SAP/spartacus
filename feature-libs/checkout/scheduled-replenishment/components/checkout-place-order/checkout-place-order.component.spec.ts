@@ -1,24 +1,25 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CurrencyService,
   GlobalMessageService,
   I18nTestingModule,
+  LanguageService,
   RoutingService,
 } from '@spartacus/core';
 import {
   DaysOfWeek,
-  OrderFacade,
   ORDER_TYPE,
+  OrderFacade,
   recurrencePeriod,
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import {
   AtMessageModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
@@ -74,6 +75,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform = createSpy();
@@ -91,13 +93,14 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
   beforeEach(waitForAsync(() => {
+    const mockCurrencyService = {
+      getActive: () => of('USD'),
+    };
+    const mockLanguageService = {
+      getActive: () => of('en'),
+    };
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        AtMessageModule,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
       declarations: [
         MockUrlPipe,
         CheckoutScheduledReplenishmentPlaceOrderComponent,
@@ -118,6 +121,8 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           provide: GlobalMessageService,
           useValue: {},
         },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
       ],
     }).compileComponents();
   }));

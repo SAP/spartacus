@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "암호 분실",
+    "signIn": "로그인",
+    "register": "등록",
+    "dontHaveAccount": "계정이 없습니까?",
+    "guestCheckout": "게스트 체크아웃",
+    "emailAddress": {
+      "label": "이메일 주소",
+      "placeholder": "이메일 주소 입력"
+    },
+    "password": {
+      "label": "암호",
+      "placeholder": "암호 입력"
+    },
+    "wrongEmailFormat": "올바른 이메일 형식이 아닙니다."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "{{target}}에 인증 코드를 보냈습니다. 확인하고 코드를 입력하십시오.",
+    "needInputCredentials": "계속하려면 자격 증명을 입력하십시오.",
+    "sendRateLime": "{{waitTime}}초 후",
+    "resend": "다시 보내기",
+    "verificationCode": {
+      "label": "인증 코드",
+      "placeholder": "인증 코드 입력"
+    },
+    "noReceiveCode": "코드를 받지 못하셨습니까?",
+    "verify": "인증",
+    "back": "뒤로",
+    "tokenInputHint": "새 코드를 요청할 수 있습니다. 요청을 다시 보낼 수 있을 때까지 남아 있는 시간(초)를 나타내는 타이머가 시작됩니다."
+  },
+  "verificationTokenDialog": {
+    "title": "코드를 받지 못했습니다",
+    "noReceiveCode": "코드를 받지 못했으면 다음과 같은 사유가 있을 수 있습니다.",
+    "contentLine1": "1. 이메일을 아직 받지 못했습니다.",
+    "contentLine2": "2. 받은 이메일이 스팸함에 있습니다.",
+    "contentLine3": "3. 입력한 이메일 주소나 암호가 잘못되었습니다.",
+    "close": "닫기"
+  },
+  "miniLogin": {
+    "userGreeting": "안녕하세요, {{name}}님",
+    "signInRegister": "로그인/등록"
+  },
+  "myAccountV2User": {
+    "signOut": "로그아웃"
+  }
+}

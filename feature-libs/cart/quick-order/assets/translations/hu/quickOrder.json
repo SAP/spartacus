@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}) {{ product }} hozzáadva a kosárhoz",
+    "entryWasAdded": "{{ product }} hozzáadva a kosárhoz",
+    "noResults": "Nem találtunk termékeket",
+    "stockLevelReached": "Elérte a maximális készletszintet",
+    "title": "Gyorsrendelés",
+    "productCodePlaceholder": "Azonosító megadása",
+    "entryProductCode": "Termékazonosító megadása a gyorsrendeléshez",
+    "quantity": "Gyorsrendelés mennyisége",
+    "addToCart": "Termék hozzáadása a gyorsrendeléshez",
+    "add": "Hozzáadás",
+    "product": "Termék",
+    "products": "Termékek",
+    "productCodeLabel": "Termékazonosító",
+    "quantityLabel": "Menny.",
+    "quantityFullLabel": "Mennyiség"
+  },
+  "quickOrderForm": {
+    "placeholder": "Termék nevének vagy cikkszámának megadása",
+    "searchBoxLabel": "Termék nevének vagy cikkszámának megadása a gyorsrendeléshez. Rendelésenként legfeljebb {{ limit }} terméket adhat meg.",
+    "listLimitReached": "Elérte a termékkorlátot.",
+    "id": "Azonosító: {{ id }}",
+    "noResults": "Nem találtunk eredményt a keresésre",
+    "addProduct": "Termék hozzáadása: {{ product }}",
+    "initialDescription": "Ha rendelkezésre állnak automatikus kitöltési eredmények, akkor a fel és le nyilakkal áttekintheti őket, az Enter billentyűvel pedig kiválaszthatja a megfelelőt.",
+    "productsResults": "{{ count }} termék elérhető.",
+    "quickOrderSearch": "Termék keresése a gyorsrendeléshez"
+  },
+  "quickOrderList": {
+    "addToCart": "Kosárba",
+    "emptyList": "Üres lista",
+    "header": "Termékek/cikkszámok hozzáadása",
+    "subHeader": "Egyszerre legfeljebb {{ limit }} érvényes cikkszámot adhat hozzá.",
+    "errorProceedingToCart": "Hiba a kosárba lépés során.",
+    "warningProceedingToCart": "Figyelmeztetés a kosárba lépés során.",
+    "successfullyAddedToCart": "Sikeresen hozzáadva a kosárhoz.",
+    "errors": {
+      "productIsOutOfStock": "A(z) {{ name }} (#{{code}}) nincs készleten.",
+      "reviewErrors": "Tekintse át ezeket a hibákat.",
+      "listIsFull": "A lista megtelt, a folytatáshoz adja hozzá ezt a(z) {{ count }} terméket a kosárhoz.",
+      "nonPurchasableError": "A(z) {{ name }} termék nem vásárolható meg",
+      "outOfStockErrorFound": "{{count}}, készleten nem megtalálható termék nem lett hozzáadva.",
+      "outOfStockErrorFound_other": "{{count}}, készleten nem megtalálható termék nem lett hozzáadva."
+    },
+    "warnings": {
+      "productWasReduced": "A(z) {{ name }} (#{{code}}) mennyisége a következőre csökkent: {{ quantityAdded}}.",
+      "reviewWarnings": "Ellenőrizze ezeket a figyelmeztetéseket.",
+      "reduceWarningFound": "{{count}} termék mennyisége csökkent.",
+      "reduceWarningFound_other": "{{count}} termék mennyisége csökkent."
+    },
+    "successes": {
+      "productAddedToCart": "A(z) {{ name }} (#{{code}}) hozzáadva a kosárhoz.",
+      "addedToCartFound": "{{ count }} termék hozzáadva a kosárhoz.",
+      "addedToCartFound_other": "{{ count }} termék hozzáadva a kosárhoz."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "Adja hozzá a termékeket a listához, mielőtt hozzáadná őket a kosárhoz."
+    },
+    "undo": "MÉGSE",
+    "revokeUndo": "A(z) „{{name}}” termék törlése visszavonva.",
+    "productWasDeleted": "A(z) „{{ name }}” termék lomtárba helyezve."
+  },
+  "quickOrderTable": {
+    "product": "Termék",
+    "id": "Azonosító",
+    "price": "Ár",
+    "quantity": "MENNY.",
+    "quantityFull": "Mennyiség",
+    "itemPrice": "Tétel ára",
+    "qty": "Menny.",
+    "actions": "Műveletek",
+    "inStock": "Készleten",
+    "lowStock": "Kevés van készleten",
+    "outOfStock": "Nincs készleten",
+    "listCleared": "Gyorsrendelési lista törölve",
+    "addedtoCart": "Gyorsrendelési lista hozzáadva a kosárhoz",
+    "caption": "Gyorsrendelési tartalmak."
+  }
+}

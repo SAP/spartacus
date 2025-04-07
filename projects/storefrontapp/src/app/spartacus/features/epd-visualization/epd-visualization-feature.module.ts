@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   epdVisualizationTranslationChunksConfig,
-  epdVisualizationTranslations,
+  epdVisualizationTranslationsEn,
+  epdVisualizationTranslationsJa,
+  epdVisualizationTranslationsDe,
+  epdVisualizationTranslationsZh,
 } from '@spartacus/epd-visualization/assets';
 import {
   EpdVisualizationConfig,
@@ -24,7 +27,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
     },
 
     ui5: {
-      bootstrapUrl: 'https://ui5.sap.com/1.108/resources/sap-ui-core.js',
+      bootstrapUrl: 'https://ui5.sap.com/1.120/resources/sap-ui-core.js',
     },
   },
 };
@@ -34,7 +37,12 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: epdVisualizationTranslations,
+        resources: {
+          en: epdVisualizationTranslationsEn,
+          ja: epdVisualizationTranslationsJa,
+          de: epdVisualizationTranslationsDe,
+          zh: epdVisualizationTranslationsZh,
+        },
         chunks: epdVisualizationTranslationChunksConfig,
         fallbackLang: 'en',
       },

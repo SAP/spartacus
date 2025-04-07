@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "Kezdőlap"
+        },
+        "zoomButton": {
+          "label": "Nagyítás"
+        },
+        "panButton": {
+          "label": "Pásztázás"
+        },
+        "rotateButton": {
+          "label": "Forgatás"
+        },
+        "isolateButton": {
+          "label": "Izolálás"
+        },
+        "playButton": {
+          "label": "Lejátszás"
+        },
+        "pauseButton": {
+          "label": "Szünet"
+        },
+        "hotspotsButton": {
+          "label": "Gócpontok",
+          "show": "Megjelenítés",
+          "hide": "Elrejtés"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "Animációs csúszka",
+          "role": "Csúszka"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "Nem találhatók pótalkatrészek ehhez a termékhez."
+      },
+      "visualPickingProductList": {
+        "description": "Leírás",
+        "itemPrice": "Ár",
+        "outOfStock": "Nincs készleten",
+        "id": "Azonosító"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "Szűrés név vagy azonosító szerint"
+        },
+        "searchButton": {
+          "label": "keresés"
+        },
+        "resetButton": {
+          "label": "alaphelyzet"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "Nem található egyező vizualizáció",
+        "multipleMatchingVisualsFound": "Több egyező vizualizáció található",
+        "unexpectedLoadError": "Hiba történt a vizualizáció betöltésekor"
+      }
+    }
+  }
+}

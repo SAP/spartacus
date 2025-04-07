@@ -5,7 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import {
+  Product,
+  ProductScope,
+  ProductService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -14,13 +19,14 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-product-title',
   templateUrl: './configurator-product-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorProductTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;
@@ -79,7 +85,9 @@ export class ConfiguratorProductTitleComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService,
     protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
+  ) {
+    useFeatureStyles('a11yWideScreenImprovements');
+  }
 
   triggerDetails(): void {
     this.showMore = !this.showMore;

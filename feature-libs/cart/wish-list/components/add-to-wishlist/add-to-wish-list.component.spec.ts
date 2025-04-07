@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
@@ -86,6 +85,7 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockIconComponent {
   @Input() type;
@@ -93,6 +93,7 @@ class MockIconComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -106,6 +107,7 @@ class MockFeatureConfigService {
 
 @Directive({
   selector: '[cxAtMessage]',
+  standalone: false,
 })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -119,7 +121,7 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         AddToWishListComponent,
         MockIconComponent,

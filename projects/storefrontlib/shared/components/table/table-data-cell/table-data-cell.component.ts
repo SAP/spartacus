@@ -12,6 +12,7 @@ import { TableHeaderOutletContext } from '../table.model';
   selector: 'cx-table-data-cell',
   template: `{{ value }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableDataCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

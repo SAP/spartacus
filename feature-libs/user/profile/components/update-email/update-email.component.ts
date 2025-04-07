@@ -15,6 +15,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   templateUrl: './update-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form' },
+  standalone: false,
 })
 export class UpdateEmailComponent {
   constructor(protected service: UpdateEmailComponentService) {

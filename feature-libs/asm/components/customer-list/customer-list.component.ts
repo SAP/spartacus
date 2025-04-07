@@ -25,6 +25,7 @@ import {
   TranslationService,
   User,
   OccConfig,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -41,6 +42,7 @@ import { CustomerListAction } from './customer-list.model';
 @Component({
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
+  standalone: false,
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
   protected DEFAULT_PAGE_SIZE = 5;
@@ -106,6 +108,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmCustomerListFacade: AsmCustomerListFacade,
     protected occConfig?: OccConfig
   ) {
+    useFeatureStyles('a11yShowLabelOfSelect');
     this.breakpoint$ = this.getBreakpoint();
   }
 

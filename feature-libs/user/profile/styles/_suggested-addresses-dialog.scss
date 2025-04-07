@@ -1,12 +1,6 @@
 %cx-suggested-addresses-dialog {
   .cx-suggested-addresses-dialog {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-    @extend .modal-lg;
-
     .cx-suggested-addresses-container {
-      @extend .modal-content;
-
       .cx-suggested-addresses-header {
         display: flex;
         justify-content: space-between;
@@ -14,10 +8,6 @@
         .cx-suggested-addresses-title {
           @include type('3');
         }
-      }
-
-      .cx-suggested-addresses-body {
-        @extend .modal-body;
       }
 
       .cx-suggested-addresses-footer {

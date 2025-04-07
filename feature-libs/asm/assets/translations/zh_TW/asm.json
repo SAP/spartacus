@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "輔助服務模式",
+    "logout": "登出",
+    "hideUi": "關閉 ASM",
+    "helpPortalUrl": "輔助說明",
+    "customers": "客戶",
+    "asmCustomer360Button": "Customer 360 檢視",
+    "asmCustomer360ViewButton": "Customer 360°",
+    "createCustomerSuccessfullyAlert": "已建立客戶帳戶並已開始客戶工作階段。",
+    "saveInactiveCartAlertInfo": "識別的購物車是未啟用的購物車。若要對此購物車進行進一步動作，請先儲存。",
+    "activeCartAlertInfo": "識別的購物車是啟用中購物車。",
+    "startCustomerEmulationAlertInfo": "客戶模擬已開始。您所做的動作將對客戶帳戶產生影響。",
+    "toggleUi": {
+      "collapse": "隱藏 ASM",
+      "expand": "顯示 ASM"
+    },
+    "loginForm": {
+      "submit": "登入",
+      "userId": {
+        "label": "代理人 ID 或電子郵件"
+      },
+      "password": {
+        "label": "密碼"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "客戶名稱/電子郵件地址"
+      },
+      "searchCustomer": {
+        "label": "按名稱或電子郵件地址搜尋"
+      },
+      "searchOrder": {
+        "label": "按完整訂單 ID 搜尋"
+      },
+      "submit": "開始工作階段",
+      "startEmulation": "開始模擬",
+      "noMatch": "找不到客戶。",
+      "noMatchResult": "找不到此帳戶。",
+      "noCustomerMatchResult": "找不到相符的客戶。",
+      "noOrderMatchResult": "按完整訂單 ID 搜尋。",
+      "createCustomer": "建立新客戶",
+      "customer": "客戶",
+      "orderID": "訂單 ID"
+    },
+    "createCustomerForm": {
+      "title": "建立新客戶",
+      "createAccount": "建立",
+      "cancel": "取消",
+      "firstName": {
+        "label": "名字",
+        "placeholder": "名字"
+      },
+      "lastName": {
+        "label": "姓氏",
+        "placeholder": "姓氏"
+      },
+      "emailAddress": {
+        "label": "電子郵件地址",
+        "placeholder": "電子郵件地址"
+      },
+      "createAccountAlert": "建立客戶帳戶後，便會開始客戶工作階段。",
+      "validationErrors": {
+        "firstName": "輸入有效的名字。",
+        "lastName": "輸入有效的姓氏。",
+        "emailAddress": "輸入有效的電子郵件地址"
+      },
+      "badRequestDuplicatedEmail": "由於 {{ emailAddress }} 已存在，請輸入不同的電子郵件地址。"
+    },
+    "customerList": {
+      "title": "客戶清單",
+      "description": "從多個所提供清單之一選擇客戶。",
+      "createCustomer": "建立新客戶",
+      "cancel": "取消",
+      "tableHeader": {
+        "customer": "客戶",
+        "customerName": "客戶名稱",
+        "name": "名稱",
+        "email": "電子郵件",
+        "emailId": "電子郵件/ID",
+        "phone": "電話",
+        "account": "帳戶",
+        "cart": "購物車",
+        "order": "訂單",
+        "view": "360 檢視",
+        "activeCart": "啟用中購物車",
+        "viewActiveCart": "檢視啟用中購物車",
+        "orders": "訂單",
+        "viewOrders": "檢視訂單",
+        "customer360": "Customer 360°",
+        "viewCustomer360": "檢視 Customer 360°"
+      },
+      "tableSort": {
+        "sortBy": "排序依據",
+        "byName": "名稱 (升冪)",
+        "byNameAsc": "名稱 (升冪)",
+        "byNameDesc": "名稱 (降冪)",
+        "byDateAsc": "日期 (升冪)",
+        "byDateDesc": "日期 (降冪)",
+        "byOrderDateAsc": "訂單日期 (升冪)",
+        "byOrderDateDesc": "訂單日期 (降冪)",
+        "byUnit": "帳戶 (升冪)",
+        "byUnitDesc": "帳戶 (降冪)"
+      },
+      "page": {
+        "page": "第 {{count}} 頁",
+        "previous": "上一頁",
+        "next": "下一頁"
+      },
+      "noOfCustomers": "{{count}} 個客戶",
+      "oneCustomer": "1 個客戶",
+      "noCustomers": "客戶清單中目前沒有客戶。",
+      "noLists": "目前沒有可用的客戶清單。請聯絡系統管理員。",
+      "listsError": "無法檢索客戶清單。請稍後再試一次。",
+      "searchBox": "搜尋",
+      "enterSearchBox": "輸入客戶名稱或電子郵件"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "警告",
+        "body": "按一下「切換客戶」 將結束「{{ customerA }}」的模擬，並開始「{{ customerB }}」的模擬。「{{ customerA }}」的任何未儲存更改將遺失。",
+        "actions": {
+          "switch": "切換客戶"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "儲存以供稍後使用",
+      "dialog": {
+        "saveInfo": "進行進一步動作前，先儲存購物車。",
+        "disableInfo": "由於購物車為空，因此無法儲存。",
+        "title": "儲存購物車",
+        "row": {
+          "id": "ID",
+          "qty": "數量",
+          "qtyFull": "數量",
+          "total": "總計"
+        },
+        "actions": {
+          "save": "儲存以供稍後使用"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "購物車號碼",
+      "bindCartToCustomer": "將購物車指派給客戶",
+      "success": "已成功指派購物車",
+      "assignCartId": "將購物車 ID 指派給客戶",
+      "enterCartId": "輸入購物車 ID",
+      "resetCartId": "重設",
+      "dialog": {
+        "title": "指派匿名購物車",
+        "body": "您要將目前啟用中購物車取代為匿名購物車嗎？如果您取代目前啟用中購物車，則會儲存為儲存的購物車。",
+        "actions": {
+          "replace": "取代購物車"
+        }
+      }
+    },
+    "csagentTokenExpired": "您的客戶支援代理人工作階段已到期。",
+    "endSession": "結束工作階段",
+    "endEmulation": "結束模擬",
+    "agentSessionTimer": {
+      "label": "工作階段逾時",
+      "minutes": "分",
+      "reset": "重設"
+    },
+    "auth": {
+      "agentLoggedInError": "當有啟用中 CS 代理人工作階段時，無法以使用者身分登入。請模擬使用者或登出 CS 代理人。"
+    },
+    "error": {
+      "noCustomerId": "找不到所選使用者的 customerId。無法開始工作階段。"
+    }
+  }
+}

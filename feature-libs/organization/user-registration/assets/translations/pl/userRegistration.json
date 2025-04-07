@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Tytuł (opcjonalny)",
+        "placeholder": "Tytuł"
+      },
+      "firstName": {
+        "label": "Imię",
+        "placeholder": "Imię"
+      },
+      "lastName": {
+        "label": "Nazwisko",
+        "placeholder": "Nazwisko"
+      },
+      "companyName": {
+        "label": "Nazwa firmy",
+        "placeholder": "Nazwa firmy"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "E-mail"
+      },
+      "city": {
+        "label": "Miejscowość (opcjonalna)",
+        "placeholder": "Wybierz miejscowość"
+      },
+      "country": {
+        "label": "Kraj (opcjonalny)",
+        "placeholder": "Wybierz kraj"
+      },
+      "state": {
+        "label": "Stan/województwo (opcjonalny)",
+        "placeholder": "Wybierz stan/województwo"
+      },
+      "postalCode": {
+        "label": "Kod pocztowy (opcjonalny)",
+        "placeholder": "Kod pocztowy"
+      },
+      "addressLine": {
+        "label": "Adres (opcjonalny)",
+        "placeholder": "Adres"
+      },
+      "secondAddressLine": {
+        "label": "Adres - wiersz 2 (opcjonalna)",
+        "placeholder": "Adres - wiersz 2"
+      },
+      "phoneNumber": {
+        "label": "Numer telefonu (opcjonalny)",
+        "placeholder": "Numer telefonu"
+      },
+      "message": {
+        "label": "Wiadomość (opcjonalna)",
+        "placeholder": "Przykładowe dane pola wiadomości: \"Dział: Wsparcie naziemne; Stanowisko: Główny strażnik; Przełożony: Steve Jackson; Uwagi: Utwórz dla mnie nowe konto\"."
+      }
+    },
+    "messageToApproverTemplate": "Nazwa firmy: {{companyName}},\n  Numer telefonu: {{phoneNumber}},\n  Adres: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Wiadomość: {{message}}",
+    "successFormSubmitMessage": "Dziękujemy za rejestrację! Wkrótce skontaktuje się z Tobą nasz przedstawiciel, aby potwierdzić Twoje dane dostępowe.",
+    "formSubmitButtonLabel": "Zarejestruj się",
+    "goToLoginButtonLabel": "Masz już konto? Przejdź do Zaloguj się",
+    "httpHandlers": {
+      "conflict": "Użytkownik z tym adresem e-mail już istnieje."
+    },
+    "messageToFailedToRegister": "Rejestracja nie powiodła się. Skontaktuj się z administratorem, aby uzyskać dalszą pomoc."
+  }
+}
