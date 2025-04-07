@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { viewportContext } from '../../helpers/viewport-context';
+
 describe('Product Search Page', () => {
   beforeEach(() => {
     cy.a11yContinuumSetup();
@@ -31,8 +33,18 @@ describe('Product Search Page', () => {
   });
 
   it('Facets', () => {
-    cy.visit('/search/canon?query=canon:relevance:availableInStores:Chiba');
+    cy.visit('/search/camera?query=camera:relevance:availableInStores:Chiba');
     cy.get('cx-active-facets a');
     cy.get('cx-product-facet-navigation').a11yRunContinuumTest();
+  });
+
+  viewportContext(['mobile'], () => {
+    it('Facets Modal', () => {
+      cy.visit('/search/camera?query=camera:relevance:availableInStores:Chiba');
+      cy.get('cx-active-facets a');
+      cy.get('cx-product-facet-navigation .dialog-trigger').click();
+      cy.get('cx-facet-list .value');
+      cy.get('.dialog.active').a11yRunContinuumTest();
+    });
   });
 });
