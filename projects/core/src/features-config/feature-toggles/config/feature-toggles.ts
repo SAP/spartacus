@@ -16,11 +16,6 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In Order details page, it shows link to its Quote details page and vice-versa
-   */
-  showOrderQuoteLink?: boolean;
-
-  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -562,6 +557,12 @@ export interface FeatureTogglesInterface {
   a11yFormErrorMuteIcon?: boolean;
 
   /**
+   * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
+   *  together with aria-live="atomic"
+   */
+  a11yImprovedErrorMessage?: boolean;
+
+  /**
    * `MessageComponent` gets focused after a message with an action is rendered.
    */
   a11yCxMessageFocus?: boolean;
@@ -998,10 +999,17 @@ export interface FeatureTogglesInterface {
    * as well as enforcing both a minimum and maximum password length.
    */
   enableSecurePasswordValidation?: boolean;
+
+  /**
+   * When enabled, checks before accessing checkout
+   * if user has email assigned to the current cart.
+   * If not - redirects user to `/opf-checkout-email` page.
+   * After providing email user will be redirected back to checkout.
+   */
+  opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
@@ -1086,6 +1094,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
   a11yFormErrorMuteIcon: true,
+  a11yImprovedErrorMessage: false,
   a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
@@ -1154,4 +1163,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  opfEnablePreventingFromCheckoutWithoutEmail: false,
 };
