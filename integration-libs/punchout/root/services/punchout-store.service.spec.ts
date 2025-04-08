@@ -17,7 +17,7 @@ const INITIAL_STATE: PunchoutState = {
 
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
-  cartId: 'mockCaPunchoutLevel',
+  cartId: 'mockCartId',
   punchOutLevel: PunchOutLevel.PRODUCT,
   punchOutOperation: PunchOutOperation.EDIT,
   selectedItem: 'mockItemId',
@@ -56,9 +56,11 @@ describe('PunchoutStoreService', () => {
   it('should return the current PunchoutStoreService as an observable', (done) => {
     service['punchoutState'].next(mockPunchoutState);
 
-    service.getPunchoutState().subscribe((state) => {
-      expect(state).toEqual(mockPunchoutState);
-      done();
+    service.getPunchoutState().subscribe({
+      next: (state) => {
+        expect(state).toEqual(mockPunchoutState);
+        done();
+      },
     });
   });
 

@@ -55,7 +55,7 @@ export class PunchoutService implements PunchoutFacade {
    * Logout silently
    * Login silently
    * Load Cart
-   * store of initial cart entries for EDIT mode
+   * Only for EDIT mode: Fetch Requisition to store initial cart in CXML format.
    * Route to target page based on punchout session info
    * Redirect to Punchout Error page if error occurs
    */
@@ -99,8 +99,7 @@ export class PunchoutService implements PunchoutFacade {
             });
             if (
               punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
-              punchoutSession?.cartId &&
-              !payload?.isPageRefresh
+              punchoutSession?.cartId
             ) {
               this.setPunchoutInitialRequisition();
             }
@@ -169,12 +168,12 @@ export class PunchoutService implements PunchoutFacade {
 
   /**
    * closePunchoutSession workflow:
-   * for EDIT operation:
-   * - initial Requisition is sent to ARIBA
-   * for CREATE operation:
-   * - do same Cancel punchout button
-   * for INSPECT operation:
-   * - do same as 'back to requition' button
+   * For EDIT operation:
+   * - Initial cart snapshot gets sent in CXML, driven by closePunchoutSession flag.
+   * For CREATE operation:
+   * - Empty cart gets sent in CXML, driven by cancelRequisition flag.
+   * For INSPECT operation:
+   * - Current cart gets sent in CXML.
    */
 
   protected closePunchoutSessionCommand: Command<undefined, boolean> =

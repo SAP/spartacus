@@ -20,7 +20,7 @@ export class PunchoutCloseSessionComponent {
   protected authService = inject(AuthService);
   protected punchoutFacade = inject(PunchoutFacade);
 
-  isPunchoutSessionactive$: Observable<boolean> = this.authService
+  isPunchoutSessionActive$: Observable<boolean> = this.authService
     .isUserLoggedIn()
     .pipe(
       switchMap((isLoggedIn) => {
