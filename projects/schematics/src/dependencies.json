@@ -47,7 +47,6 @@
   },
   "@spartacus/styles": {
     "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
     "@ng-select/ng-select": "^14.1.0"
   },
   "@spartacus/setup": {
@@ -486,7 +485,6 @@
     "@angular/service-worker": "^19.1.8",
     "@angular/ssr": "^19.1.9",
     "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
     "@ng-select/ng-select": "^14.1.0",
     "@ngrx/effects": "^19.0.1",
     "@ngrx/operators": "^19.0.1",
