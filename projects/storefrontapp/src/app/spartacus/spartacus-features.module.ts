@@ -174,7 +174,6 @@ if (environment.cpq) {
     LogoutModule, // will be come part of auth package
     LoginRouteModule, // will be come part of auth package
 
-    // Basic Cms Components
     HamburgerMenuModule,
     SiteContextSelectorModule,
     LinkModule,
