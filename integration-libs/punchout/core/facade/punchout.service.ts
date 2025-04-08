@@ -99,7 +99,8 @@ export class PunchoutService implements PunchoutFacade {
             });
             if (
               punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
-              punchoutSession?.cartId
+              punchoutSession?.cartId &&
+              !payload?.isPageRefresh
             ) {
               this.setPunchoutInitialRequisition();
             }
