@@ -191,7 +191,6 @@ describe('Punchoutservice', () => {
 
   it('should getPunchoutSession stays on page when isPageRefresh is true', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-
     spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
       of(mockPunchoutRequisitionResponse)
     );
@@ -252,7 +251,6 @@ describe('Punchoutservice', () => {
 
   it('should getPunchoutSession opens cart page when no product item and EDIT Level ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({
         ...mockPunchoutSessionResponse,
@@ -276,7 +274,6 @@ describe('Punchoutservice', () => {
 
   it('should getPunchoutSession opens pdp when selectedItem is present ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
     );
