@@ -29,5 +29,13 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
         cy.get('main').a11yRunContinuumTest();
       });
     });
+
+    context('Cancel order', () => {
+      it('Page loaded', () => {
+        cy.get('cx-order-details-actions .btn-secondary').eq(1).click();
+
+        cy.get('main').a11yRunContinuumTest();
+      });
+    });
   });
 });
