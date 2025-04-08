@@ -78,7 +78,7 @@ export const fontawesomeIconConfig: IconConfig = {
     resources: [
       {
         type: IconResourceType.LINK,
-        url: '',
+        url: 'https://use.fontawesome.com/releases/v6.7.2/css/all.css',
       },
     ],
   },
