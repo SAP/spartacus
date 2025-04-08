@@ -13,7 +13,6 @@
     (click)="pageChange(item)"
     [attr.aria-label]="getAriaLabel$(item) | async"
     [attr.title]="getAriaLabel$(item) | async"
-    [attr.data-focus-key]="paginationID + i.toString()"
     [cxFocus]="{ key: paginationID + i.toString() }"
   >
     {{ item.label }}

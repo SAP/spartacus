@@ -310,14 +310,10 @@ export function assertNumberOfProducts(alias: string, category: string) {
   });
 }
 
-export function assertPaginationFocusKeys() {
-  cy.get('cx-pagination').each(($pagination) => {
-    cy.wrap($pagination)
-      .find('a.page')
-      .each(($el, index) => {
-        cy.wrap($el)
-          .invoke('attr', 'data-focus-key')
-          .should('match', new RegExp(`${index}$`));
-      });
-  });
+export function assertPaginationFocusBehavior(expectedLabel: string): void {
+  cy.focused()
+    .invoke('text')
+    .then((text) => {
+      expect(text.replace(/\u00a0/g, '').trim()).to.equal(expectedLabel);
+    });
 }
