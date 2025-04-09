@@ -31,7 +31,7 @@ export abstract class SubscriptionBillingFacade {
     sort?: string
   ): Observable<QueryState<SubscriptionList | undefined>>;
   abstract getSubscriptionList(
-    pageSize: number,
+    pageSize?: number,
     currentPage?: number,
     sort?: string
   ): Observable<SubscriptionList | undefined>;

@@ -9,5 +9,10 @@ export abstract class SubscriptionBillingAdapter {
     userId: string,
     subscriptionCode: string
   ): Observable<SubscriptionDetail>;
-  abstract getSubscriptionList(userId: string): Observable<SubscriptionList>;
+  abstract getSubscriptionList(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<SubscriptionList>;
 }

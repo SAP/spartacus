@@ -10,10 +10,6 @@ export const defaultOccSubscriptionBillingConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        product: {
-          subscription:
-            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm',
-        },
         subscriptionList: 'users/${userId}/subscriptions',
         subscriptionDetail: 'users/${userId}/subscriptions/${code}',
       },

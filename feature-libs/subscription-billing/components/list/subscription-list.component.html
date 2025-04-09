@@ -1,0 +1,141 @@
+@if (subscriptions(); as list) {
+  <h2 class="cx-subscription-list-title-text">
+    {{ 'subscriptionList.title' | cxTranslate }}
+    ({{ list.pagination?.totalResults || 0 }})
+  </h2>
+  @if (list.subscriptions?.length ?? 0 > 0) {
+    <div class="cx-subscription-list-sort top">
+      <label class="cx-subscription-list-form-group form-group">
+        <span>
+          {{ 'subscriptionList.sortSubtitle' | cxTranslate }}
+        </span>
+        <cx-sorting
+          [sortOptions]="list.sorts"
+          [sortLabels]="sortLabels() ?? null"
+          (sortListEvent)="changeSortCode($event)"
+          [selectedOption]="list.pagination?.sort"
+          placeholder="{{ 'subscriptionList.sortSubtitle' | cxTranslate }}"
+          [ariaLabel]="'subscriptionList.sortOrders' | cxTranslate"
+          ariaControls="subscription-list-table"
+        ></cx-sorting>
+      </label>
+    </div>
+    <table
+      id="subscription-list-table"
+      class="table cx-subscription-list-table"
+      aria-hidden="true"
+    >
+      <thead class="cx-subscription-list-thead-mobile">
+        <tr>
+          <th scope="col">{{ 'subscriptionList.id' | cxTranslate }}</th>
+          <th scope="col">
+            {{ 'subscriptionList.productCode' | cxTranslate }}
+          </th>
+          <th scope="col">{{ 'subscriptionList.startDate' | cxTranslate }}</th>
+          <th scope="col">{{ 'subscriptionList.endDate' | cxTranslate }}</th>
+          <th scope="col">{{ 'subscriptionList.status' | cxTranslate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (subscription of list.subscriptions; track $index) {
+          <tr>
+            <td class="cx-subscription-list-data cx-subscription-list-id">
+              <div class="cx-subscription-list-label">
+                {{ 'subscriptionList.id' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'subscriptionDetails',
+                    params: { id: subscription.id },
+                  } | cxUrl
+                "
+                class="cx-subscription-list-value"
+              >
+                {{ subscription.id }}
+              </a>
+            </td>
+            <td class="cx-subscription-list-data cx-subscription-list-id">
+              <div class="cx-subscription-list-label">
+                {{ 'subscriptionList.productCode' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'product',
+                    params: { code: subscription.productCode },
+                  } | cxUrl
+                "
+                class="cx-subscription-list-value"
+              >
+                {{ subscription.productCode }}
+              </a>
+            </td>
+            <td class="cx-subscription-list-data">
+              <div class="cx-subscription-list-label">
+                {{ 'subscriptionList.startDate' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'subscriptionDetails',
+                    params: { id: subscription.id },
+                  } | cxUrl
+                "
+                class="cx-subscription-list-value"
+              >
+                {{ subscription.startDate | cxDate }}
+              </a>
+            </td>
+            <td class="cx-subscription-list-data">
+              <div class="cx-subscription-list-label">
+                {{ 'subscriptionList.endDate' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'subscriptionDetails',
+                    params: { id: subscription.id },
+                  } | cxUrl
+                "
+                class="cx-subscription-list-value"
+              >
+                {{ subscription.endDate | cxDate }}
+              </a>
+            </td>
+            <td class="cx-subscription-list-data">
+              <div class="cx-subscription-list-label">
+                {{ 'subscriptionList.status' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'subscriptionDetails',
+                    params: { id: subscription.id },
+                  } | cxUrl
+                "
+                class="cx-subscription-list-value"
+              >
+                {{ subscription.subscriptionStatus }}
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div class="cx-subscription-list-sort bottom">
+      @if (list.pagination?.totalPages ?? 0 > 1) {
+        <cx-pagination
+          [pagination]="list.pagination"
+          (viewPageEvent)="pageChange($event)"
+        ></cx-pagination>
+      }
+    </div>
+  } @else {
+    <div class="text-center">
+      <h3>{{ 'subscriptionList.noSubscriptions' | cxTranslate }}</h3>
+    </div>
+  }
+} @else {
+  <cx-spinner></cx-spinner>
+}

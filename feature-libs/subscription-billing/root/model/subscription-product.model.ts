@@ -5,6 +5,7 @@
  */
 
 import { Price } from '@spartacus/core';
+import '@spartacus/core';
 
 export enum UsageChargeType {
   BLOCK = 'block_usage_charge',
@@ -89,4 +90,11 @@ export interface UsageUnit {
   id?: string;
   name?: string;
   namePlural?: string;
+}
+
+declare module '@spartacus/core' {
+  interface Product {
+    sapSubscriptionTerm?: SubscriptionTerm;
+    sapPricePlan?: PricePlan;
+  }
 }

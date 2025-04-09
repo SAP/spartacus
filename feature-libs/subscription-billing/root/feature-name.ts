@@ -5,3 +5,4 @@
  */
 
 export const SUBSCRIPTION_BILLING_FEATURE = 'Subscription-Billing';
+export const SUBSCRIPTION_BILLING_CORE_FEATURE = 'subscriptionBillingCore';

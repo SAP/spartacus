@@ -7,7 +7,8 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { mock_pdp } from './mock';
+import { mock_pdp } from './mock_pdp';
+import { mock_list } from './mock_list';
 
 @Injectable()
 export class MockResponseInterceptor implements HttpInterceptor {
@@ -22,6 +23,12 @@ export class MockResponseInterceptor implements HttpInterceptor {
       req.url.includes('sapPricePlan,sapSubscriptionTerm')
     ) {
       const mockResponse = mock_pdp;
+
+      // Return the mocked response
+      return of(new HttpResponse({ status: 200, body: mockResponse }));
+    }
+    else if (req.url.includes('/subscriptions')) {
+      const mockResponse = mock_list;
 
       // Return the mocked response
       return of(new HttpResponse({ status: 200, body: mockResponse }));

@@ -1,9 +1,10 @@
 @import '@spartacus/styles/scss/core';
 @import './product/subscription-product-price';
 @import './product/subscription-product-usage-charge';
+@import './list/subscription-list';
 
 $subscription-billing-components-allowlist: cx-subscription-product-price,
-  cx-subscription-product-usage-charge !default;
+  cx-subscription-product-usage-charge, cx-subscription-list !default;
 
 $skipComponentStyles: () !default;
 

@@ -5,11 +5,18 @@
  */
 
 import { NgModule } from '@angular/core';
+import { defaultOccSubscriptionBillingConfig } from './config/default-occ-subscription-billing-config';
+import { provideDefaultConfig } from '@spartacus/core';
+import { SubscriptionBillingAdapter } from '../core/connector';
+import { OccSubscriptionBillingAdapter } from './adapters';
 
 @NgModule({
-  imports: [],
   providers: [
-    //provideDefaultConfig(defaultOccSubscriptionBillingConfig)
+    provideDefaultConfig(defaultOccSubscriptionBillingConfig),
+    {
+      provide: SubscriptionBillingAdapter,
+      useClass: OccSubscriptionBillingAdapter,
+    },
   ],
 })
-export class SubscriptionBillingOccModule {}
+export class SubscriptionBillingOccModule { }

@@ -15,7 +15,12 @@ export class SubscriptionBillingConnector {
   ): Observable<SubscriptionDetail> {
     return this.adapter.getSubscriptionDetail(userId, subscriptionCode);
   }
-  public getSubscriptionList(userId: string): Observable<SubscriptionList> {
-    return this.adapter.getSubscriptionList(userId);
+  public getSubscriptionList(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<SubscriptionList> {
+    return this.adapter.getSubscriptionList(userId, pageSize, currentPage, sort);
   }
 }

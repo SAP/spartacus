@@ -6,11 +6,25 @@
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MockResponseInterceptor } from './interceptor/mock-response.interceptor';
-import { provideDefaultConfig } from '@spartacus/core';
-import { defaultOccSubscriptionBillingConfig } from './occ-config/default-occ-subscription-billing-config';
+import { MockResponseInterceptor } from './mock-interceptor/mock-response.interceptor';
+import { CmsConfig, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { defaultOccSubscriptionProductConfig } from './config/default-occ-subscription-product-config';
 import { SubscriptionProductModule } from './product';
-
+import { SUBSCRIPTION_BILLING_CORE_FEATURE, SUBSCRIPTION_BILLING_FEATURE } from './feature-name';
+import { defaultSubscriptionBillingRoutingConfig } from './config/default-subscription-billing-routing-config';
+export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
+    featureModules: {
+      [SUBSCRIPTION_BILLING_FEATURE]: {
+        cmsComponents: [
+          'SubscriptionHistoryComponent',
+        ],
+      },
+      [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,
+    },
+  };
+  return config;
+}
 @NgModule({
   imports: [SubscriptionProductModule],
   providers: [
@@ -19,7 +33,9 @@ import { SubscriptionProductModule } from './product';
       useClass: MockResponseInterceptor,
       multi: true,
     },
-    provideDefaultConfig(defaultOccSubscriptionBillingConfig),
+    provideDefaultConfig(defaultOccSubscriptionProductConfig),
+    provideDefaultConfigFactory(defaultSubscriptionBillingComponentsConfig),
+    provideDefaultConfig(defaultSubscriptionBillingRoutingConfig),
   ],
 })
-export class SubscriptionBillingRootModule {}
+export class SubscriptionBillingRootModule { }
