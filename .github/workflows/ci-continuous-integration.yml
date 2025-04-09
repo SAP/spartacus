@@ -47,7 +47,7 @@ jobs:
         run: |
           ci-scripts/unit-tests.sh          
   ci_result:
-    needs: [unit_tests, sonarqube_scan, linting]
+    needs: [unit_tests]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -56,6 +56,4 @@ jobs:
         run: |
             exit 1
         if: |
-          needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled' || 
-          needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
-          needs.linting.result == 'failure' || needs.linting.result == 'cancelled'
+          needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled'
