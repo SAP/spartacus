@@ -29,7 +29,7 @@ export class PunchoutNavigationGuardService {
     { id: PUNCHOUT_ERROR_PAGE_URL, type: PageType.CONTENT_PAGE },
     { id: PUNCHOUT_REQUISITION_PAGE_URL, type: PageType.CONTENT_PAGE },
   ];
-  protected pagesWhitelistForEdit: PageContext[] = [
+  protected pagesAllowListForEdit: PageContext[] = [
     { id: '__HOMEPAGE__', type: PageType.CONTENT_PAGE },
     { id: '/my-account/quick-order', type: PageType.CONTENT_PAGE },
     { id: '/contact', type: PageType.CONTENT_PAGE },
@@ -38,7 +38,7 @@ export class PunchoutNavigationGuardService {
     { id: '*', type: PageType.PRODUCT_PAGE },
     ...this.punchoutPages,
   ];
-  protected pagesWhitelistForInspect: PageContext[] = [
+  protected pagesAllowListForInspect: PageContext[] = [
     { id: PUNCHOUT_INSPECT_PAGE_URL, type: PageType.CONTENT_PAGE },
     ...this.punchoutPages,
   ];
@@ -57,14 +57,14 @@ export class PunchoutNavigationGuardService {
         filter((isActive) => isActive),
         switchMap(() => this.routingService.getPageContext()),
         filter((incomingPageContext: PageContext) => {
-          const pagesWhitelist =
+          const pagesAllowList =
             punchoutOperation === PunchOutOperation.INSPECT
-              ? this.pagesWhitelistForInspect
-              : this.pagesWhitelistForEdit;
+              ? this.pagesAllowListForInspect
+              : this.pagesAllowListForEdit;
           return (
             isPunchoutSessionActive &&
             !!incomingPageContext?.type &&
-            pagesWhitelist.findIndex((pc: PageContext) => {
+            pagesAllowList.findIndex((pc: PageContext) => {
               return (
                 pc.type === incomingPageContext.type &&
                 (pc.id === '*' || pc.id === incomingPageContext.id)
