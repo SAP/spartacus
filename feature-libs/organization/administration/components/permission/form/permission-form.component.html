@@ -12,14 +12,16 @@
         required
         placeholder="{{ 'orgPurchaseLimit.code' | cxTranslate }}"
         formControlName="code"
-        [attr.aria-describedby]="'codeError'"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
-        aria-live="off"
         [translationParams]="{ label: 'orgPurchaseLimit.code' | cxTranslate }"
         [control]="form.get('code')"
       ></cx-form-errors>
@@ -147,14 +149,16 @@
         required
         placeholder="{{ 'orgPurchaseLimit.threshold' | cxTranslate }}"
         formControlName="threshold"
-        [attr.aria-describedby]="'thresholdError'"
+        [attr.aria-invalid]="
+          form.get('threshold')?.touched && form.get('threshold')?.invalid
+        "
+        [attr.aria-errormessage]="'thresholdError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="thresholdError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgPurchaseLimit.threshold' | cxTranslate,
         }"
