@@ -1,17 +1,14 @@
 name: E2E Tests
 
-#on:
-#  schedule:
-    # Runs every Sunday at midnight
- #   - cron: "0 0 * * 0"
- # workflow_dispatch:
+on:
+  schedule:
+    # Runs at 10:51 on the 9th of April annually
+    - cron: "51 10 9 4 *"
 
-env:
-  SLACK_CHANNEL_ID: ''
-  SLACK_BOT_TOKEN: ''
 
 jobs:
-  e2e-tests:
+  e2e-tests-2:
+    name: CI - E2E Tests v2
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
@@ -119,4 +116,15 @@ jobs:
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' &&
           github.ref_name == github.event.repository.default_branch
+  ci_result:
+    needs: [e2e-tests-2]
+    name: CI - Result
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Aggregate Required Job Results
+        run: |
+            exit 1
+        if: |
+          needs.e2e-tests-2.result == 'failure' || needs.e2e-tests-2.result == 'cancelled'
 
