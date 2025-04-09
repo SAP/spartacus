@@ -2,11 +2,23 @@ name: E2E Tests
 
 on:
   push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  e2e-tests-2:
-    name: CI - E2E Tests v2
+  e2e-tests:
     runs-on: ubuntu-latest
+    # This matrix runs each script in parallel
+    strategy:
+      matrix:
+        script: [
+          'e2e:run',
+          'e2e:run:b2b',
+          'e2e:run:ci:ssr',
+          'e2e:run:ci:core',
+          'e2e:run:ci:asm'
+        ]
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
@@ -14,14 +26,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run standard E2E
-        run: npm run e2e:run
+      - name: Run E2E script
+        run: npm run ${{ matrix.script }}
 
-      - name: Run B2B E2E
-        run: npm run e2e:run:b2b
-
-      - name: Run SSR E2E
-        run: npm run e2e:run:ci:ssr
+  # If you want a final aggregator job waiting for all e2e tests to finish
+  aggregator:
+    needs: [e2e-tests]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Aggregated result
+        run: |
+          echo "All parallel E2E jobs completed!"
+          if [ '${{ needs.e2e-tests.result }}' = 'failure' ]; then
+            echo "One or more E2E scripts failed."
+            exit 1
+          else
+            echo "All E2E scripts succeeded."
 
   send_slack_message:
     # Now we reference 'e2e-tests-2' instead of 'build_conclusion'
