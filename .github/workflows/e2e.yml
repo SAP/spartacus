@@ -1,22 +1,15 @@
-on:
-  push:
-    branches:
-      - develop
-      - develop-*
-      - release/*
-  workflow_dispatch:
-    # empty as it is used only to manually trigger the workflow
+name: E2E Tests
+
+#on:
+#  schedule:
+    # Runs every Sunday at midnight
+ #   - cron: "0 0 * * 0"
+ # workflow_dispatch:
 
 env:
-  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '20'
-  CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
+  SLACK_CHANNEL_ID: ''
+  SLACK_BOT_TOKEN: ''
 
-concurrency:
-  group: ci-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
-name: Spartacus build pipeline
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
@@ -35,6 +28,25 @@ jobs:
 
       - name: Run SSR E2E
         run: npm run e2e:run:ci:ssr
+
+      - name: Notify success on Slack
+        if: success()
+        uses: slackapi/slack-github-action@v1
+        with:
+          channel-id: ${{ env.SLACK_CHANNEL_ID }}
+          text: E2E tests passed
+        env:
+          SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
+
+      - name: Notify failure on Slack
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          channel-id: ${{ env.SLACK_CHANNEL_ID }}
+          text: E2E tests failed
+        env:
+          SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
+
   send_slack_message:
     needs: build_conclusion
     name: Slack message for failed CI build in Spartacus
@@ -107,3 +119,4 @@ jobs:
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' &&
           github.ref_name == github.event.repository.default_branch
+
