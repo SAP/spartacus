@@ -62,4 +62,17 @@ export class PunchoutAuthService {
   isUserLoggedIn(): Observable<boolean> {
     return this.authService.isUserLoggedIn().pipe(take(1));
   }
+
+  isPunchoutSessionActive(): Observable<boolean> {
+    return this.authService.isUserLoggedIn().pipe(
+      switchMap((isLoggedIn) => {
+        return isLoggedIn
+          ? this.punchoutStoreService.getPunchoutState()
+          : of({ punchoutSessionId: undefined });
+      }),
+      map((punchoutState) => {
+        return !!punchoutState.punchoutSessionId;
+      })
+    );
+  }
 }

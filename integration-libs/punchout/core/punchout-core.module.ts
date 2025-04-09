@@ -7,10 +7,18 @@
 import { NgModule } from '@angular/core';
 import { PunchoutConnector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
-import { PunchoutAuthService } from './services';
+import {
+  PunchoutAuthService,
+  PunchoutNavigationGuardService,
+} from './services';
 
 @NgModule({
   imports: [],
-  providers: [...facadeProviders, PunchoutConnector, PunchoutAuthService],
+  providers: [
+    ...facadeProviders,
+    PunchoutConnector,
+    PunchoutAuthService,
+    PunchoutNavigationGuardService,
+  ],
 })
 export class PunchoutCoreModule {}

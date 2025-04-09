@@ -9,6 +9,7 @@ export const PUNCHOUT_ERROR_PAGE_URL = '/punchout/cxml/error';
 export const PUNCHOUT_SESSION_ID = 'punchoutSessionId';
 export const PUNCHOUT_SESSION_PAGE_URL = '/punchout/cxml/session';
 export const PUNCHOUT_REQUISITION_PAGE_URL = '/punchout/cxml/requisition';
+export const PUNCHOUT_INSPECT_PAGE_URL = '/punchout/cxml/inspect';
 export const PUNCHOUT_STORAGE_KEY = 'punchout';
 export const PUNCHOUT_OCC_API_URL_SEGMENT = 'punchout/sessions';
 export const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
@@ -17,7 +18,7 @@ export enum PunchOutLevel {
   STORE = 'store',
   PRODUCT = 'product',
   AISLE = 'aisle',
-  SHAELF = 'shelf',
+  SHELF = 'shelf',
 }
 
 export enum PunchOutOperation {
@@ -53,4 +54,6 @@ export interface PunchoutState {
   punchoutSession?: PunchoutSession;
   punchoutSessionId?: string;
   cancelRequisition?: boolean;
+  closePunchoutSession?: boolean;
+  punchoutInitialRequisition?: PunchoutRequisition;
 }

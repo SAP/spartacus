@@ -5,3 +5,4 @@
  */
 
 export * from './punchout-auth.service';
+export * from './punchout-navigation-guard.service';

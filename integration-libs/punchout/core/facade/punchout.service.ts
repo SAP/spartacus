@@ -36,7 +36,10 @@ import {
   throwError,
 } from 'rxjs';
 import { PunchoutConnector } from '../connectors';
-import { PunchoutAuthService } from '../services';
+import {
+  PunchoutAuthService,
+  PunchoutNavigationGuardService,
+} from '../services';
 
 @Injectable()
 export class PunchoutService implements PunchoutFacade {
@@ -47,6 +50,9 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
+  protected punchoutNavigationGuardService = inject(
+    PunchoutNavigationGuardService
+  );
 
   /**
    * getPunchoutSession workflow:
@@ -98,6 +104,10 @@ export class PunchoutService implements PunchoutFacade {
             if (!payload?.isPageRefresh) {
               this.routeToTargetPage(punchoutSession);
             }
+
+            this.punchoutNavigationGuardService.start(
+              punchoutSession.punchOutOperation
+            );
           } else {
             throw new Error('Punchout Access Token missing');
           }
@@ -148,6 +158,7 @@ export class PunchoutService implements PunchoutFacade {
 
   protected logoutPunchoutUserCommand: Command<undefined, boolean> =
     this.commandService.create(() => {
+      this.punchoutNavigationGuardService.stop();
       return this.punchoutAuthService.logout();
     });
 
