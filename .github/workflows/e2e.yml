@@ -46,7 +46,7 @@ jobs:
 
   send_slack_message:
     # Now we reference 'e2e-tests-2' instead of 'build_conclusion'
-    needs: [e2e-tests-2]
+    needs: [e2e-tests]
     name: Slack message for failed CI build in Spartacus
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -114,12 +114,12 @@ jobs:
               ]
             }
         if: >
-          (needs.e2e-tests-2.result == 'failure') &&
+          (needs.e2e-tests.result == 'failure') &&
           (github.event_name == 'push') &&
           (github.ref_name == github.event.repository.default_branch)
 
   ci_result:
-    needs: [e2e-tests-2]
+    needs: [e2e-tests]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -127,5 +127,5 @@ jobs:
       - name: Aggregate Required Job Results
         run: exit 1
         if: >
-          needs.e2e-tests-2.result == 'failure' ||
-          needs.e2e-tests-2.result == 'cancelled'
+          needs.e2e-tests.result == 'failure' ||
+          needs.e2e-tests.result == 'cancelled'
