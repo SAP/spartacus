@@ -25,10 +25,4 @@ export class TabPanelComponent {
    * Defaults to "Tab" mode.
    */
   @Input() mode: TAB_MODE = TAB_MODE.TAB;
-
-  get ariaLabelledby() {
-    return this.tab.id !== null && this.tab.id !== undefined
-      ? `section-${this.tab.id}`
-      : null;
-  }
 }

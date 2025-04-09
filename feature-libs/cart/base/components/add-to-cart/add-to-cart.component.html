@@ -43,7 +43,11 @@
     "
     type="submit"
     [disabled]="disabled || quantity <= 0 || quantity > maxQuantity"
-    [attr.aria-describedby]="productCode + '_header'"
+    [attr.aria-label]="
+      product?.name
+        ? product?.name + ' ' + ('addToCart.addToCart' | cxTranslate)
+        : ('addToCart.addToCart' | cxTranslate)
+    "
   >
     <span
       *ngIf="

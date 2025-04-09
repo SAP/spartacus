@@ -15,37 +15,32 @@ describe('Product Details Page Accessibility', () => {
     cy.visit(siteContextSelector.PRODUCT_PATH_2);
   });
 
-  context('PDP main section', () => {
-    it('should pass a11y check', () => {
-      cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(1)')
-        .click()
-        .wait(1000);
-      cy.get('main').a11yRunContinuumTest();
-    });
+  it('PDP with Product Details', () => {
+    cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(1)').click();
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-product-details-tab .container'
+    );
+    cy.get('main').a11yRunContinuumTest();
   });
 
-  context('PDP with Reviews', () => {
-    it('should pass a11y check', () => {
-      cy.get('cx-product-intro > .rating button').click().wait(1000);
-      cy.get('main').a11yRunContinuumTest();
-    });
+  it('PDP with Reviews', () => {
+    cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(3)').click();
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .header'
+    ).a11yRunContinuumTest();
   });
 
-  context('PDP with Spec', () => {
-    it('should pass a11y check', () => {
-      cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(2)')
-        .click()
-        .wait(1000);
-      cy.get('main').a11yRunContinuumTest();
-    });
+  it('PDP with Spec', () => {
+    cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(2)').click();
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-product-attributes .container'
+    ).a11yRunContinuumTest();
   });
 
-  context('PDP with Shipping', () => {
-    it('should pass a11y check', () => {
-      cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(4)')
-        .click()
-        .wait(1000);
-      cy.get('main').a11yRunContinuumTest();
-    });
+  it('PDP with Shipping', () => {
+    cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(4)').click();
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-paragraph'
+    ).a11yRunContinuumTest();
   });
 });
