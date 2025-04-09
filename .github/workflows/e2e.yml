@@ -1,12 +1,5 @@
 name: E2E Tests
 
-on:
-  pull_request:
-  schedule:
-    # Runs at 10:51 on the 9th of April annually
-    - cron: "51 10 9 4 *"
-
-
 jobs:
   e2e-tests-2:
     name: CI - E2E Tests v2
@@ -26,24 +19,6 @@ jobs:
 
       - name: Run SSR E2E
         run: npm run e2e:run:ci:ssr
-
-      - name: Notify success on Slack
-        if: success()
-        uses: slackapi/slack-github-action@v1
-        with:
-          channel-id: ${{ env.SLACK_CHANNEL_ID }}
-          text: E2E tests passed
-        env:
-          SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
-
-      - name: Notify failure on Slack
-        if: failure()
-        uses: slackapi/slack-github-action@v1
-        with:
-          channel-id: ${{ env.SLACK_CHANNEL_ID }}
-          text: E2E tests failed
-        env:
-          SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
 
   send_slack_message:
     needs: build_conclusion
