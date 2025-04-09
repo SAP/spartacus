@@ -22,7 +22,7 @@ context('Product search', { testIsolation: false }, () => {
     });
 
     describe('Pagination', () => {
-      it('should navigate to the next page and display results', () => {
+      it('should test pagination and display results', () => {
         cy.log('NAVIGATE TO NEXT PAGE AND DISPLAY RESULTS:');
         productSearchFlow.verifyNextPage(2);
 
