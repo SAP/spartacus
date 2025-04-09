@@ -6,7 +6,8 @@
 
 import {
   AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   QueryList,
@@ -91,27 +92,29 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }),
     switchMap((data) =>
       combineLatest(
-        (data?.components ?? '').split(' ').map((component) =>
-          this.cmsService.getComponentData<any>(component).pipe(
-            distinctUntilChanged(),
-            map((tab) => {
-              if (!tab) {
-                return undefined;
-              }
+        (data?.components ?? '').split(' ').map((component) => {
+            debugger;
+            return this.cmsService.getComponentData<any>(component).pipe(
+              distinctUntilChanged(),
+              map((tab) => {
+                if (!tab) {
+                  return undefined;
+                }
 
-              if (!tab.flexType) {
-                tab = {
+                if (!tab.flexType) {
+                  tab = {
+                    ...tab,
+                    flexType: tab.typeCode,
+                  };
+                }
+
+                return {
                   ...tab,
-                  flexType: tab.typeCode,
+                  title: `${data.uid}.tabs.${tab.uid}`,
                 };
-              }
-
-              return {
-                ...tab,
-                title: `${data.uid}.tabs.${tab.uid}`,
-              };
-            })
-          )
+              })
+            );
+          }
         )
       ).pipe(
         // Update tablist label with name from CMS
