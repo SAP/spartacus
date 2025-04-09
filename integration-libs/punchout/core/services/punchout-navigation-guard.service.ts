@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HOME_PAGE_CONTEXT,
   PageContext,
   PageType,
   RoutingService,
@@ -36,7 +37,7 @@ export class PunchoutNavigationGuardService {
     { id: PUNCHOUT_REQUISITION_PAGE_URL, type: PageType.CONTENT_PAGE },
   ];
   protected pagesAllowListForEdit: PageContext[] = [
-    { id: '__HOMEPAGE__', type: PageType.CONTENT_PAGE },
+    { id: HOME_PAGE_CONTEXT, type: PageType.CONTENT_PAGE },
     { id: '/my-account/quick-order', type: PageType.CONTENT_PAGE },
     { id: '/contact', type: PageType.CONTENT_PAGE },
     { id: '/cart', type: PageType.CONTENT_PAGE },
