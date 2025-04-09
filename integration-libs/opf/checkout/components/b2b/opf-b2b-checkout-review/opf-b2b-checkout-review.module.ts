@@ -21,6 +21,7 @@ import { OpfCheckoutTermsAndConditionsAlertModule } from '../../opf-checkout-ter
 import { OpfCheckoutBillingAddressFormModule } from '../../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 import { OpfCheckoutPaymentsModule } from '../../opf-checkout-payments/opf-checkout-payments.module';
 import { OpfCheckoutReviewCartDetailsModule } from '../../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
+import { OpfB2bCheckoutPlaceOrderModule } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.module';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { OpfCheckoutReviewCartDetailsModule } from '../../opf-checkout-review-ca
     OpfCheckoutBillingAddressFormModule,
     OpfCheckoutPaymentsModule,
     OpfCheckoutReviewCartDetailsModule,
+    OpfB2bCheckoutPlaceOrderModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OpfCheckoutReview: {

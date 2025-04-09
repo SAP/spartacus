@@ -14,6 +14,7 @@ import {
   output,
   Output,
   EventEmitter,
+  TemplateRef,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -56,6 +57,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   isHeadingDisplayed? = true;
 
   @Input()
+  headingTranslationKey?: string;
+
+  @Input()
   isPaymentRenderBelow? = true;
 
   @Input()
@@ -72,6 +76,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Input()
   onlyPaymentWrapperMode? = false;
+
+  @Input()
+  customPaymentTemplate?: TemplateRef<any>;
 
   selectedPaymentId?: number;
 
