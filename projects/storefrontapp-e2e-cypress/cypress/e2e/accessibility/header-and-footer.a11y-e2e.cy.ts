@@ -7,30 +7,17 @@
 import { viewportContext } from '../../helpers/viewport-context';
 import { standardUser } from '../../sample-data/shared-users';
 
-describe('Header and Footer Continuum tests', () => {
+describe('Header and Footer Continuum tests', { testIsolation: false }, () => {
   beforeEach(() => {
     cy.a11yContinuumSetup();
-    cy.visit('/');
-  });
-  context('Header', () => {
-    it('Main header body', () => {
-      cy.get('header').get('a').contains('Brands');
-      cy.get('header').get('nav button[aria-label="Brands"]').click();
-      cy.get('header').a11yRunContinuumTest();
-    });
-
-    it('My Account dropdown', () => {
-      cy.requireLoggedIn(standardUser);
-      cy.reload();
-      cy.get('header').get('.accNavComponent button').click();
-      cy.get('header')
-        .get('nav[aria-label="My Account"]')
-        .a11yRunContinuumTest();
-    });
+    cy.clearLocalStorage();
+    cy.clearCookies();
   });
 
   context('Footer', () => {
     it('Main footer body', () => {
+      cy.visit('/');
+      cy.get('footer a');
       cy.get('footer').a11yRunContinuumTest();
     });
 
@@ -38,22 +25,39 @@ describe('Header and Footer Continuum tests', () => {
       cy.get('footer').get('button').contains(' Consent Management').click();
       cy.get('.modal-dialog').contains(' Select all ').click();
       cy.get('.modal-dialog').a11yRunContinuumTest();
+      cy.get('.close').first().click();
     });
   });
 
-  viewportContext(['mobile'], () => {
-    it('Hamburger menu', () => {
-      cy.get('cx-hamburger-menu button').click();
-      cy.get('a').contains('Brands');
+  context('Header', () => {
+    it('Main header body', () => {
+      cy.get('header').get('nav button[aria-label="Brands"]').click();
+      cy.get('header').get('a').contains('Canon');
       cy.get('header').a11yRunContinuumTest();
+    });
 
-      cy.get('button[aria-label="Brands"]').click();
-      cy.get('button').contains('Cameras');
-      cy.get('nav[aria-label="Category menu"]').a11yRunContinuumTest();
+    it('My Account dropdown', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.reload();
+      cy.get('header').get('.accNavComponent button').click();
+      cy.get('nav a').contains(' Order History ');
+      cy.get('nav[aria-label="My Account"]').a11yRunContinuumTest();
+    });
 
-      cy.get('button').contains('Cameras').click();
-      cy.get('a').contains('Canon');
-      cy.get('nav[aria-label="Category menu"]').a11yRunContinuumTest();
+    viewportContext(['mobile'], () => {
+      it('Hamburger menu', () => {
+        cy.get('cx-hamburger-menu button').click();
+        cy.get('a').contains('Brands');
+        cy.get('header').a11yRunContinuumTest();
+
+        cy.get('button[aria-label="Brands"]').click();
+        cy.get('button').contains('Cameras');
+        cy.get('nav[aria-label="Category menu"]').a11yRunContinuumTest();
+
+        cy.get('button').contains('Cameras').click();
+        cy.get('a').contains('Canon');
+        cy.get('nav[aria-label="Category menu"]').a11yRunContinuumTest();
+      });
     });
   });
 });

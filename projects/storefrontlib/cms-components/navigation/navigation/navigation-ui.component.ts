@@ -119,6 +119,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       })
     );
     useFeatureStyles('a11yOptimizedMenuSpacing');
+    useFeatureStyles('a11yNavigationButtonsAriaFixes');
   }
 
   /**
@@ -288,10 +289,20 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Focuses on the first focusable element in the dropdown
    */
   focusOnNode(event: UIEvent): void {
-    const firstFocusableNode = (<HTMLElement>(
-      event.target
-    ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
-    firstFocusableNode?.focus();
+    if (
+      this.featureConfigService?.isEnabled('a11yNavigationButtonsAriaFixes')
+    ) {
+      const firstFocusableNode = (<HTMLElement>(
+        event.target
+      ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
+      firstFocusableNode?.focus();
+    } else {
+      const firstFocusableElement =
+        (<HTMLElement>event.target).nextElementSibling?.querySelector(
+          'button'
+        ) || (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
+      firstFocusableElement?.focus();
+    }
   }
 
   back(): void {
