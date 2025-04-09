@@ -57,7 +57,7 @@ export namespace CommonConfigurator {
 /**
  * Possible configurator types
  */
-export const enum ConfiguratorType {
+export enum ConfiguratorType {
   CPQ = 'CLOUDCPQCONFIGURATOR',
   VARIANT = 'CPQCONFIGURATOR',
   TEXTFIELD = 'TEXTFIELD',

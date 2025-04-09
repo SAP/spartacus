@@ -37,12 +37,14 @@
             class="form-control"
             formControlName="message"
             rows="5"
-            [attr.aria-describedby]="'messageError'"
+            [attr.aria-invalid]="
+              form.get('message')?.touched && form.get('message')?.invalid
+            "
+            [attr.aria-errormessage]="'messageError'"
           ></textarea>
 
           <cx-form-errors
             id="messageError"
-            aria-live="off"
             [control]="form.get('message')"
           ></cx-form-errors>
 
