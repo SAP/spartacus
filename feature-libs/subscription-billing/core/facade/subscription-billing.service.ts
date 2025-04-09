@@ -5,7 +5,6 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { TicketList } from '@spartacus/customer-ticketing/root';
 import {
   SubscriptionBillingFacade,
   SubscriptionList,
@@ -44,7 +43,7 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
     currentPage: number,
     sort: string
   ): Query<SubscriptionList | undefined> {
-    return this.queryService.create<TicketList | undefined>(
+    return this.queryService.create<SubscriptionList | undefined>(
       () =>
         this.customerTicketingListPreConditions().pipe(
           switchMap((customerId) =>
