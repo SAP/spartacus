@@ -15,7 +15,7 @@ window.LevelAccess_AccessContinuumConfiguration = {
     1471 /* WCAG 2.0 Level A & AA Baseline */, 1001235 /* WCAG SAP Standards */,
     2127 /* WCAG 2.2 Level A */, 2128 /* WCAG 2.2 Level AA */,
   ],
-  includePotentialAccessibilityConcerns: true,
+  includePotentialAccessibilityConcerns: false,
   proxy: {
     host: null,
     port: null,
