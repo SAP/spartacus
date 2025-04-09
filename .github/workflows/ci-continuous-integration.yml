@@ -20,34 +20,25 @@ concurrency:
 
 name: Continuous Integration
 jobs:
-  unit_tests:
-    name: CI - Unit tests
+  e2e-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
         run: npm ci
-      - name: Run unit tests
-        run: |
-          ci-scripts/unit-tests.sh          
+
+      - name: Run standard E2E
+        run: npm run e2e:run
+
+      - name: Run B2B E2E
+        run: npm run e2e:run:b2b
+
+      - name: Run SSR E2E
+        run: npm run e2e:run:ci:ssr          
   ci_result:
-    needs: [unit_tests]
+    needs: [e2e-tests]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -56,4 +47,4 @@ jobs:
         run: |
             exit 1
         if: |
-          needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled'
+          needs.e2e-tests.result == 'failure' || needs.e2e-tests.result == 'cancelled'
