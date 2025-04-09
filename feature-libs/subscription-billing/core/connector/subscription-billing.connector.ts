@@ -21,6 +21,11 @@ export class SubscriptionBillingConnector {
     currentPage?: number,
     sort?: string
   ): Observable<SubscriptionList> {
-    return this.adapter.getSubscriptionList(userId, pageSize, currentPage, sort);
+    return this.adapter.getSubscriptionList(
+      userId,
+      pageSize,
+      currentPage,
+      sort
+    );
   }
 }

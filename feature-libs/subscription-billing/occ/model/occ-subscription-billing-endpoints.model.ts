@@ -23,4 +23,3 @@
 //     subscriptionDetail?: string | OccEndpoint;
 //   }
 // }
-

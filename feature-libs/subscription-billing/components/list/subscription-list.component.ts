@@ -1,9 +1,17 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
-import { I18nModule, RoutingService, TranslationService, UrlModule } from '@spartacus/core';
+import {
+  I18nModule,
+  RoutingService,
+  TranslationService,
+  UrlModule,
+} from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
-import { SubscriptionBillingFacade, SubscriptionList } from '@spartacus/subscription-billing/root';
+import {
+  SubscriptionBillingFacade,
+  SubscriptionList,
+} from '@spartacus/subscription-billing/root';
 import { combineLatest, map } from 'rxjs';
 
 @Component({

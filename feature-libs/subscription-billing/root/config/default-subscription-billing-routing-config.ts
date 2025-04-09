@@ -7,15 +7,15 @@
 import { RoutingConfig } from '@spartacus/core';
 
 export const defaultSubscriptionBillingRoutingConfig: RoutingConfig = {
-    routing: {
-        routes: {
-            subscriptions: {
-                paths: ['my-account/subscriptions'],
-            },
-            subscriptionDetails: {
-                paths: ['my-account/subscription/:id'],
-                paramsMapping: { id: 'id' },
-            },
-        },
+  routing: {
+    routes: {
+      subscriptions: {
+        paths: ['my-account/subscriptions'],
+      },
+      subscriptionDetails: {
+        paths: ['my-account/subscription/:id'],
+        paramsMapping: { id: 'id' },
+      },
     },
+  },
 };

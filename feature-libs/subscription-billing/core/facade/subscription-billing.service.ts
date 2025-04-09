@@ -6,7 +6,10 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { TicketList } from '@spartacus/customer-ticketing/root';
-import { SubscriptionBillingFacade, SubscriptionList } from '@spartacus/subscription-billing/root';
+import {
+  SubscriptionBillingFacade,
+  SubscriptionList,
+} from '@spartacus/subscription-billing/root';
 import { Observable, Subscription, EMPTY, map, switchMap, take } from 'rxjs';
 import { SubscriptionBillingConnector } from '../connector';
 

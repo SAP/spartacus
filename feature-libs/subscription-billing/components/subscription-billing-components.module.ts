@@ -9,16 +9,16 @@ import { SubscriptionListComponent } from './list/subscription-list.component';
 import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
 
 @NgModule({
-    imports: [SubscriptionListComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                SubscriptionHistoryComponent: {
-                    component: SubscriptionListComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
+  imports: [SubscriptionListComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        SubscriptionHistoryComponent: {
+          component: SubscriptionListComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
 })
-export class SubscriptionBillingComponentsModule { }
+export class SubscriptionBillingComponentsModule {}

@@ -26,8 +26,7 @@ export class MockResponseInterceptor implements HttpInterceptor {
 
       // Return the mocked response
       return of(new HttpResponse({ status: 200, body: mockResponse }));
-    }
-    else if (req.url.includes('/subscriptions')) {
+    } else if (req.url.includes('/subscriptions')) {
       const mockResponse = mock_list;
 
       // Return the mocked response

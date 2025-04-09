@@ -19,4 +19,4 @@ import { OccSubscriptionBillingAdapter } from './adapters';
     },
   ],
 })
-export class SubscriptionBillingOccModule { }
+export class SubscriptionBillingOccModule {}
