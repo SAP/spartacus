@@ -1,6 +1,7 @@
 name: E2E Tests
 
 on:
+  pull_request:
   schedule:
     # Runs at 10:51 on the 9th of April annually
     - cron: "51 10 9 4 *"
