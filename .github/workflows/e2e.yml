@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-all-e2e:
-    name: Parallel E2E
+    name: Parallel E2E Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
