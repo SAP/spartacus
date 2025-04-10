@@ -71,6 +71,12 @@ export abstract class AuthConfig {
      * Config for angular-oauth-oidc library.
      */
     OAuthLibConfig?: AuthLibConfig;
+
+    customLoginPage?: {
+      enabled: boolean;
+
+      loginForm?: string;
+    };
   };
 }
 

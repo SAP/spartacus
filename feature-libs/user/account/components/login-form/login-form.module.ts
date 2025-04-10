@@ -58,6 +58,17 @@ import { LoginFormComponent } from './login-form.component';
             },
           ],
         },
+        OAuthLoginComponent: {
+          component: LoginFormComponent,
+          guards: [NotAuthGuard],
+          providers: [
+            {
+              provide: LoginFormComponentService,
+              useClass: LoginFormComponentService,
+              deps: [AuthService, GlobalMessageService, WindowRef],
+            },
+          ],
+        },
       },
     }),
   ],

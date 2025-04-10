@@ -144,7 +144,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isBaseSitesRequest = this.isBaseSitesRequest(request);
-    const isOccUrl = this.isOccUrl(request.url);
+    const isOccUrl = this.isOccUrl(request.url) && false;
     if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
       return request.clone({
         setHeaders: {

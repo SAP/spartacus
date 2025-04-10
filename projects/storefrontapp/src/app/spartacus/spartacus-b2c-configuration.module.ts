@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
+import { AuthConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
@@ -50,6 +50,14 @@ const baseSite = environment.epdVisualization
       cart: {
         selectiveCart: {
           enabled: true,
+        },
+      },
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        customLoginPage: {
+          enabled: true,
+          loginForm: '/authserver/login', // TODO: Does this need to be absolute?
         },
       },
     }),

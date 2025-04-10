@@ -78,6 +78,7 @@ export class AuthStatePersistenceService implements OnDestroy {
         if (token) {
           token = { ...token };
           // To minimize risk of user account hijacking we don't persist user refresh_token
+          // console.log('not deleting refresh token');
           delete token.refresh_token;
         }
         return { token, userId, redirectUrl };

@@ -993,6 +993,14 @@ export interface FeatureTogglesInterface {
    * as well as enforcing both a minimum and maximum password length.
    */
   enableSecurePasswordValidation?: boolean;
+
+  /**
+   * When enabled, configures the default oAuth configuration to
+   * use authorization code flow with PKCE to confirm with
+   * the updated Authorization Server requirements for public clients.
+   * This results in a more secure default login configuration.
+   */
+  enableOAuth2_1?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1148,4 +1156,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  enableOAuth2_1: false,
 };

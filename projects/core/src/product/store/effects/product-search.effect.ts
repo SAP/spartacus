@@ -8,15 +8,15 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
-import { LoggerService } from '../../../logger';
-import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
-import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
-import { ProductActions } from '../actions/index';
-import { HttpErrorModel } from '../../../model';
 import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message';
+import { LoggerService } from '../../../logger';
+import { HttpErrorModel } from '../../../model';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
+import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductsSearchEffects {
@@ -47,7 +47,7 @@ export class ProductsSearchEffects {
                     this.logger
                   );
                   if (
-                    normalizedError?.details?.[0].type ===
+                    normalizedError.details?.[0].type ===
                     'ArrayIndexOutOfBoundsError'
                   ) {
                     this.globalMessageService.add(

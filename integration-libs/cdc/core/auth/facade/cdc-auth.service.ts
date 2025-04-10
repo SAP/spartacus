@@ -34,7 +34,9 @@ export class CdcAuthService implements CdcAuthFacade {
     protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService
-  ) {}
+  ) {
+    console.log('CDCin');
+  }
 
   /**
    * Loads a new user token using custom oauth flow
@@ -52,6 +54,7 @@ export class CdcAuthService implements CdcAuthFacade {
     idToken: string,
     baseSite: string
   ): void {
+    console.log('CDC - login');
     this.store.dispatch(
       new CdcAuthActions.LoadCdcUserToken({
         UID: UID,
@@ -78,6 +81,7 @@ export class CdcAuthService implements CdcAuthFacade {
    * @param token
    */
   loginWithToken(token: Partial<AuthToken> & { expires_in?: number }): void {
+    console.log('CDC - loginWithToken');
     let stream$ = of(true);
     if (this.isAsmAuthStorageService(this.authStorageService)) {
       stream$ = combineLatest([
