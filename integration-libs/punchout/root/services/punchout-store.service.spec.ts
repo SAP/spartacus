@@ -11,11 +11,13 @@ const INITIAL_STATE: PunchoutState = {
   punchoutSessionId: undefined,
   punchoutSession: undefined,
   cancelRequisition: undefined,
+  punchoutInitialRequisition: undefined,
+  closePunchoutSession: undefined,
 };
 
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
-  cartId: 'mockCart',
+  cartId: 'mockCartId',
   punchOutLevel: PunchOutLevel.PRODUCT,
   punchOutOperation: PunchOutOperation.EDIT,
   selectedItem: 'mockItemId',
@@ -54,9 +56,11 @@ describe('PunchoutStoreService', () => {
   it('should return the current PunchoutStoreService as an observable', (done) => {
     service['punchoutState'].next(mockPunchoutState);
 
-    service.getPunchoutState().subscribe((state) => {
-      expect(state).toEqual(mockPunchoutState);
-      done();
+    service.getPunchoutState().subscribe({
+      next: (state) => {
+        expect(state).toEqual(mockPunchoutState);
+        done();
+      },
     });
   });
 

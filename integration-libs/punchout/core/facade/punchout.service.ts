@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
+  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutOperation,
   PunchoutRequisition,
@@ -54,6 +55,7 @@ export class PunchoutService implements PunchoutFacade {
    * Logout silently
    * Login silently
    * Load Cart
+   * Only for EDIT mode: Fetch Requisition to store initial cart in CXML format.
    * Route to target page based on punchout session info
    * Redirect to Punchout Error page if error occurs
    */
@@ -95,11 +97,16 @@ export class PunchoutService implements PunchoutFacade {
               punchoutSessionId: payload.punchoutSessionId,
               punchoutSession: { ...punchoutSession },
             });
+            if (
+              punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
+              punchoutSession?.cartId &&
+              !payload?.isPageRefresh
+            ) {
+              this.setPunchoutInitialRequisition();
+            }
             if (!payload?.isPageRefresh) {
               this.routeToTargetPage(punchoutSession);
             }
-          } else {
-            throw new Error('Punchout Access Token missing');
           }
 
           return punchoutSession;
@@ -115,7 +122,7 @@ export class PunchoutService implements PunchoutFacade {
    * getPunchoutRequisition workflow:
    * Ensure user is logged-in
    * get punchoutSessionId from PunchoutState
-   * Get PunchoutSessionRequisition from  occ api
+   * Get PunchoutSessionRequisition from  occ api OR from PunchoutState
    * Redirect to Punchout Error page if error occurs
    */
 
@@ -131,6 +138,15 @@ export class PunchoutService implements PunchoutFacade {
       }),
       take(1),
       switchMap((punchoutState: PunchoutState) => {
+        // scenario where user pressed 'Close punchout session' button in EDIT Cart mode
+        // initial cart requisition is returned to ARIBA
+        if (
+          punchoutState?.closePunchoutSession &&
+          punchoutState?.punchoutInitialRequisition?.browseFormPostUrl &&
+          punchoutState.punchoutInitialRequisition?.orderAsCXML
+        ) {
+          return of({ ...punchoutState.punchoutInitialRequisition });
+        }
         const punchoutSessionId = punchoutState?.punchoutSessionId;
         return punchoutSessionId
           ? this.punchoutConnector.getPunchoutSessionRequisition(
@@ -150,6 +166,50 @@ export class PunchoutService implements PunchoutFacade {
     this.commandService.create(() => {
       return this.punchoutAuthService.logout();
     });
+
+  /**
+   * closePunchoutSession workflow:
+   * For EDIT operation:
+   * - Initial cart snapshot gets sent in CXML, driven by closePunchoutSession flag.
+   * For CREATE operation:
+   * - Empty cart gets sent in CXML, driven by cancelRequisition flag.
+   * For INSPECT operation:
+   * - Current cart gets sent in CXML.
+   */
+
+  protected closePunchoutSessionCommand: Command<undefined, boolean> =
+    this.commandService.create(() => {
+      return this.punchoutStoreService.getPunchoutState().pipe(
+        take(1),
+        map((punchoutState) => {
+          if (
+            punchoutState.punchoutSession?.punchOutOperation ===
+            PunchOutOperation.CREATE
+          ) {
+            this.punchoutStoreService.updatePunchoutState({
+              cancelRequisition: true,
+            });
+          } else if (
+            punchoutState.punchoutSession?.punchOutOperation ===
+            PunchOutOperation.EDIT
+          ) {
+            this.punchoutStoreService.updatePunchoutState({
+              closePunchoutSession: true,
+            });
+          }
+          this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+          return true;
+        }),
+        catchError((error) => {
+          this.displayErrorPage();
+          return throwError(() => new Error(error));
+        })
+      );
+    });
+
+  closePunchoutSession(): Observable<boolean> {
+    return this.closePunchoutSessionCommand.execute(undefined);
+  }
 
   getPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
@@ -197,5 +257,19 @@ export class PunchoutService implements PunchoutFacade {
         });
       })
     );
+  }
+
+  protected setPunchoutInitialRequisition(): void {
+    this.getPunchoutSessionRequisition()
+      .pipe(take(1))
+      .subscribe({
+        next: (punchoutRequisition) => {
+          if (punchoutRequisition) {
+            this.punchoutStoreService.updatePunchoutState({
+              punchoutInitialRequisition: { ...punchoutRequisition },
+            });
+          }
+        },
+      });
   }
 }

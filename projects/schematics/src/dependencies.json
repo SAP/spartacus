@@ -447,6 +447,7 @@
     "@spartacus/cart": "2211.38.0-1",
     "@spartacus/core": "2211.38.0-1",
     "@spartacus/schematics": "2211.38.0-1",
+    "@spartacus/styles": "2211.38.0-1",
     "rxjs": "^7.8.2"
   },
   "@spartacus/s4-service": {

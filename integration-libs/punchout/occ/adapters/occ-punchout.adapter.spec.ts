@@ -31,7 +31,7 @@ const mockSid = 'mockSid';
 const discardCartEntries = false;
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
-  cartId: 'mockCart',
+  cartId: 'mockCartId',
   punchOutLevel: PunchOutLevel.PRODUCT,
   punchOutOperation: PunchOutOperation.EDIT,
   selectedItem: 'mockItemId',

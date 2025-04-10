@@ -53,4 +53,6 @@ export interface PunchoutState {
   punchoutSession?: PunchoutSession;
   punchoutSessionId?: string;
   cancelRequisition?: boolean;
+  closePunchoutSession?: boolean;
+  punchoutInitialRequisition?: PunchoutRequisition;
 }
