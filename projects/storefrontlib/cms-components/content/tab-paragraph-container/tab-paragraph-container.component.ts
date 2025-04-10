@@ -92,8 +92,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }),
     switchMap((data) =>
       combineLatest(
-        (data?.components ?? '').split(' ').map((component) => {
-          return this.cmsService.getComponentData<any>(component).pipe(
+        (data?.components ?? '').split(' ').map((component) =>
+           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map((tab) => {
               if (!tab) {
@@ -112,8 +112,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
                 title: `${data.uid}.tabs.${tab.uid}`,
               };
             })
-          );
-        })
+          )
+        )
       ).pipe(
         // Update tablist label with name from CMS
         tap(() => {
