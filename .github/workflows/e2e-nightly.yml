@@ -65,7 +65,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh
   send_slack_message:
-    needs: [run-all-e2e]
+    needs: [b2c_e2e_tests]
     name: Slack message for failed CI build in Spartacus
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -133,12 +133,12 @@ jobs:
               ]
             }
         if: >
-          (needs.run-all-e2e.result == 'failure') &&
+          (needs.b2c_e2e_tests.result == 'failure') &&
           (github.event_name == 'push') &&
           (github.ref_name == github.event.repository.default_branch)
 
   ci_result:
-    needs: [run-all-e2e]
+    needs: [b2c_e2e_tests]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -146,5 +146,5 @@ jobs:
       - name: Aggregate Required Job Results
         run: exit 1
         if: >
-          needs.run-all-e2e.result == 'failure' ||
-          needs.run-all-e2e.result == 'cancelled'
+          needs.b2c_e2e_tests.result == 'failure' ||
+          needs.b2c_e2e_tests.result == 'cancelled'
