@@ -1,13 +1,12 @@
 name: E2E Tests
 on:
-  push:
-    #schedule:
-    # Runs every Monday at 00:00
-    #- cron: "0 0 * * 1"
-   # branches:
-    #  - develop
-    #  - develop-*
-    #  - release/*
+  schedule:
+  # Runs every Monday at 00:00
+  - cron: "0 0 * * 1"
+  branches:
+    - develop
+    - develop-*
+    - release/*
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
