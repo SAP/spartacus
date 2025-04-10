@@ -126,7 +126,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
       fixture.detectChanges();
     });
     it('should return per unit usage charges', () => {
-      expect(component.perUnitUsageCharges()).toEqual([]);
+      expect(component.blockUsageCharges()).toEqual([]);
     });
     it('should return volumne usage charges', () => {
       expect(component.volumeUsageCharges()).toEqual([]);
@@ -146,7 +146,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
       fixture.detectChanges();
     });
     it('should return per unit usage charges', () => {
-      expect(component.perUnitUsageCharges()).toEqual(mockPerUnit);
+      expect(component.blockUsageCharges()).toEqual(mockPerUnit);
     });
     it('should return volumne usage charges', () => {
       expect(component.volumeUsageCharges()).toEqual(mockVolume);
@@ -166,7 +166,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
       fixture.detectChanges();
     });
     it('should return per unit usage charges', () => {
-      expect(component.perUnitUsageCharges()).toEqual([]);
+      expect(component.blockUsageCharges()).toEqual([]);
     });
     it('should return volumne usage charges', () => {
       expect(component.volumeUsageCharges()).toEqual([]);

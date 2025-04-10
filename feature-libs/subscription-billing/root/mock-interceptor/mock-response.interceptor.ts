@@ -7,22 +7,23 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { mock_pdp } from './mock_pdp';
+import { mock_pdp_block } from './mock_pdp';
 import { mock_list } from './mock_list';
 
 @Injectable()
 export class MockResponseInterceptor implements HttpInterceptor {
   //http://localhost:4200/electronics-spa/en/USD/product/898503/1v
+  //http://localhost:4200/powertools-spa/en/USD/product/Mobile_2020_Plan_cpq
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // Check if the request URL matches the pattern and contains required query parameters
     if (
-      req.url.includes('898503') &&
+      req.url.includes('Mobile_2020_Plan_cpq') &&
       req.url.includes('sapPricePlan,sapSubscriptionTerm')
     ) {
-      const mockResponse = mock_pdp;
+      const mockResponse = mock_pdp_block;
 
       // Return the mocked response
       return of(new HttpResponse({ status: 200, body: mockResponse }));

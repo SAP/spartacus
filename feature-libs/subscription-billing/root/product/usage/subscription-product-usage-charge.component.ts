@@ -21,7 +21,7 @@ import {
 export class SubscriptionProductUsageChargeComponent {
   @Input() product!: Signal<Product | undefined | null>;
 
-  perUnitUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
+  blockUsageCharges: Signal<PerUnitUsageCharge[]> = computed(() => {
     return (
       this.product()?.sapPricePlan?.perUnitUsageCharges?.filter(
         (item) => item.usageChargeType === UsageChargeType.BLOCK

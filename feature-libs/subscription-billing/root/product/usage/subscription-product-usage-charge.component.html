@@ -15,18 +15,20 @@
     <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
   }
 
-  @if (perUnitUsageCharges().length > 0) {
-    <ng-container *ngTemplateOutlet="showPerUnitUsageCharges"></ng-container>
+  @if (blockUsageCharges().length > 0) {
+    <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
   }
 </div>
 
-<ng-template #showPerUnitUsageCharges>
-  @for (usageCharge of perUnitUsageCharges(); track $index) {
+<ng-template #showBlockUsageCharges>
+  @for (usageCharge of blockUsageCharges(); track $index) {
     @if (usageCharge.includedQty ?? 0 > 0) {
-      {{
-        'subscriptionProduct.includedQuantity'
-          | cxTranslate: { quantity: getIncludedQuantity(usageCharge) }
-      }}
+      <div>
+        {{
+          'subscriptionProduct.includedQuantity'
+            | cxTranslate: { quantity: getIncludedQuantity(usageCharge) }
+        }}
+      </div>
     }
     @for (
       usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
