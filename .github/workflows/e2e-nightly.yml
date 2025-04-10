@@ -1,7 +1,22 @@
 name: E2E Tests
-
 on:
   push:
+    #schedule:
+    # Runs every Monday at 00:00
+    #- cron: "0 0 * * 1"
+   # branches:
+    #  - develop
+    #  - develop-*
+    #  - release/*
+
+env:
+  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  NODE_VERSION: '20'
+  CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   no_retries:
