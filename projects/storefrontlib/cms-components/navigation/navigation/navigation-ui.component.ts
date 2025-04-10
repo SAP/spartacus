@@ -429,6 +429,22 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     return depth > 0 && !node?.children ? -1 : 0;
   }
 
+  // TODO: Delete deprecated methods once `a11yNavigationButtonsAriaFixes` feature flag is removed.
+  /**
+   * Replace spaces with hyphens and convert to lowercase
+   * @deprecated
+   */
+  getSanitizedTitle(title: string | undefined): string | null {
+    return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
+  }
+  /**
+   * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
+   * @deprecated
+   */
+  getAriaLabelAndControl(node: NavigationNode): string | null {
+    return this.getSanitizedTitle(node.title) || null;
+  }
+
   transformIntoValidID(string: string): string | null {
     return string?.replace(/[^a-zA-Z0-9-_]/g, '-') || null;
   }
