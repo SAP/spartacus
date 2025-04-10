@@ -447,6 +447,7 @@ if (environment.cpq) {
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        opfEnablePreventingFromCheckoutWithoutEmail: true,
       };
       return appFeatureToggles;
     }),
