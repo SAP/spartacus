@@ -93,7 +93,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     switchMap((data) =>
       combineLatest(
         (data?.components ?? '').split(' ').map((component) =>
-           this.cmsService.getComponentData<any>(component).pipe(
+          this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map((tab) => {
               if (!tab) {
