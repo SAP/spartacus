@@ -64,20 +64,6 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh
-
-  aggregator:
-    needs: [run-all-e2e]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Aggregated result
-        run: |
-          echo "All parallel E2E jobs completed!"
-          if [ '${{ needs.run-all-e2e.result }}' = 'failure' ]; then
-            echo "One or more E2E scripts failed."
-            exit 1
-          else
-            echo "All E2E scripts succeeded."
   send_slack_message:
     needs: [run-all-e2e]
     name: Slack message for failed CI build in Spartacus
