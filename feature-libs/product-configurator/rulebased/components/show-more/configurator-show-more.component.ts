@@ -9,8 +9,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
+  SecurityContext,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -24,6 +27,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
+  sanitizer = inject(DomSanitizer);
+
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
@@ -32,7 +37,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    this.textNormalized = this.normalize(this.text);
+    this.textNormalized = this.normalize(this.text) as string;
 
     if (this.textNormalized.length > this.textSize) {
       this.showMore = true;
@@ -53,7 +58,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  protected normalize(text: string = ''): string {
-    return text.replace(/<[^>]*>/g, '');
+  normalize(text: string = ''): string | null {
+    const safeText = (text || '').replace(/<[^>]*>/g, '');
+    return this.sanitizer.sanitize(SecurityContext.HTML, safeText);
   }
 }

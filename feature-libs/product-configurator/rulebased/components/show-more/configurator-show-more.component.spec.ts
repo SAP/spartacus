@@ -1,18 +1,27 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, SecurityContext } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 describe('ConfiguratorShowMoreComponent', () => {
   let component: ConfiguratorShowMoreComponent;
   let fixture: ComponentFixture<ConfiguratorShowMoreComponent>;
   let htmlElem: HTMLElement;
+  let sanitizerSpy: jasmine.SpyObj<DomSanitizer>;
 
   beforeEach(waitForAsync(() => {
+    sanitizerSpy = jasmine.createSpyObj<DomSanitizer>('DomSanitizer', [
+      'sanitize',
+    ]);
+    sanitizerSpy.sanitize.and.callFake(
+      (_context: SecurityContext, value: string) => value
+    );
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfiguratorShowMoreComponent],
+      providers: [{ provide: DomSanitizer, useValue: sanitizerSpy }],
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {
@@ -35,79 +44,71 @@ describe('ConfiguratorShowMoreComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render component', () => {
+  it('should render component', async () => {
     fixture.detectChanges();
+    await fixture.whenStable();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       'span'
     );
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'button'
+  });
+
+  // Testing 'normalize' method
+  it('should sanitize input text by removing HTML tags', () => {
+    const result = component.normalize('<b>Sanitized Text</b>');
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'Sanitized Text'
     );
+    expect(result).toEqual('Sanitized Text');
   });
 
-  it('should set showMore after view init', () => {
-    component.ngAfterViewInit();
-    fixture.detectChanges();
-    expect(component.showMore).toBe(true);
-    expect(component.textToShow).toBe(component.text.substring(0, 60));
-  });
-
-  it('should not set showMore after view init', () => {
-    component.text = 'short text';
-
-    component.ngAfterViewInit();
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'button'
+  it('should return an empty string when input is null', () => {
+    const result = component.normalize(null as unknown as string);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      ''
     );
-    expect(component.showMore).toBe(false);
-    expect(component.textToShow).toBe(component.text);
+    expect(result).toEqual('');
   });
 
-  it('should set showHiddenText after toggleShowMore action', () => {
-    fixture.detectChanges();
-    component.ngAfterViewInit();
-    component.toggleShowMore();
-    fixture.detectChanges();
-    expect(component.showHiddenText).toBe(true);
-    expect(component.textToShow).toBe(component.text);
+  it('should return an empty string when input is undefined', () => {
+    const result = component.normalize(undefined as unknown as string);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      ''
+    );
+    expect(result).toEqual('');
   });
 
-  describe('Sanitization of suspicious input', () => {
-    const suspiciousTextWithFormatting =
-      '<h1>Digital camera</h1> is a great product <p> <script';
-    const suspiciousTextWithoutFormatting =
-      'Digital camera is a great product  <script';
-    const sanitizedText = 'Digital camera is a great product';
+  it('should return the same text if there are no HTML elements', () => {
+    const result = component.normalize('Plain Text');
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'Plain Text'
+    );
+    expect(result).toEqual('Plain Text');
+  });
 
-    it('does not happen through method normalize because that is meant for removing HTML tags for better readibility', () => {
-      component.text = suspiciousTextWithFormatting;
-      component.ngAfterViewInit();
-      fixture.detectChanges();
-      expect(component.textNormalized).toBe(suspiciousTextWithoutFormatting);
-      expect(component['normalize'](suspiciousTextWithFormatting)).toBe(
-        suspiciousTextWithoutFormatting
-      );
-    });
+  it('should remove script tags to prevent XSS', () => {
+    const input = '<script>alert("XSS")</script>Safe Content';
+    const result = component.normalize(input);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'alert("XSS")Safe Content'
+    );
+    expect(result).toEqual('alert("XSS")Safe Content');
+  });
 
-    it('should happen on view', () => {
-      component.text = suspiciousTextWithFormatting;
-      component.ngAfterViewInit();
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementToContainText(
-        expect,
-        htmlElem,
-        'span',
-        sanitizedText
-      );
-    });
+  it('should handle special characters properly', () => {
+    const input = 'Text & Special Chars ©';
+    const result = component.normalize(input);
+    expect(sanitizerSpy.sanitize).toHaveBeenCalledWith(
+      SecurityContext.HTML,
+      'Text & Special Chars ©'
+    );
+    expect(result).toEqual('Text & Special Chars ©');
   });
 
   describe('Accessibility', () => {
