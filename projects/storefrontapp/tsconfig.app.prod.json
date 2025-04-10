@@ -429,6 +429,7 @@
       "@spartacus/opf/payment/assets": ["dist/opf/payment/assets"],
       "@spartacus/opf/payment/core": ["dist/opf/payment/core"],
       "@spartacus/opf/payment": ["dist/opf/payment"],
+      "@spartacus/opf/payment/occ": ["dist/opf/payment/occ"],
       "@spartacus/opf/payment/opf-api": ["dist/opf/payment/opf-api"],
       "@spartacus/opf/payment/root": ["dist/opf/payment/root"],
       "@spartacus/opf/quick-buy/components": ["dist/opf/quick-buy/components"],
