@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { PunchoutButtonsComponent } from './punchout-buttons/punchout-buttons.component';
+import { PunchoutCloseSessionComponent } from './punchout-close-session/punchout-close-session.component';
 import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
@@ -19,12 +20,14 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutErrorComponent,
     PunchoutRequisitionComponent,
     PunchoutButtonsComponent,
+    PunchoutCloseSessionComponent,
   ],
   exports: [
     PunchoutSessionComponent,
     PunchoutErrorComponent,
     PunchoutRequisitionComponent,
     PunchoutButtonsComponent,
+    PunchoutCloseSessionComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, I18nModule],
   providers: [
@@ -41,6 +44,9 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
         },
         PunchoutRequisitionComponent: {
           component: PunchoutRequisitionComponent,
+        },
+        PunchoutCloseSessionComponent: {
+          component: PunchoutCloseSessionComponent,
         },
       },
     }),

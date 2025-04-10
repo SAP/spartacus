@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { CommandService, RoutingService } from '@spartacus/core';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
+import { CommandService, RoutingService, UserIdService } from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
   PunchOutLevel,
@@ -35,6 +36,11 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
   orderAsCXML: 'mockCXML',
 };
 
+const mockPunchoutInitialRequisition: PunchoutRequisition = {
+  browseFormPostUrl: 'mockInitialFormUrl',
+  orderAsCXML: 'mockInitialCXML',
+};
+
 const mockSessionId = '123abc';
 
 const mockPunchoutSession: PunchoutSession = {
@@ -51,6 +57,9 @@ const mockPunchoutSession: PunchoutSession = {
 const mockPunchoutState: PunchoutState = {
   punchoutSessionId: mockSessionId,
   punchoutSession: mockPunchoutSession,
+  punchoutInitialRequisition: undefined,
+  cancelRequisition: undefined,
+  closePunchoutSession: undefined,
 };
 
 class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
@@ -83,12 +92,21 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  loadCart = () => {};
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId = () => of(mockPunchoutSession.customerId);
+}
+
 describe('Punchoutservice', () => {
   let service: PunchoutService;
   let connector: PunchoutConnector;
   let routingService: RoutingService;
   let punchoutStoreService: PunchoutStoreService;
   let punchoutAuthService: PunchoutAuthService;
+  let multiCartFacade: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,6 +117,8 @@ describe('Punchoutservice', () => {
         { provide: CommandService, useValue: commandServiceMock },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: MockPunchoutStoreService, useClass: PunchoutStoreService },
+        { provide: MockMultiCartFacade, useClass: MultiCartFacade },
+        { provide: MockUserIdService, useClass: UserIdService },
       ],
     });
     service = TestBed.inject(PunchoutService);
@@ -106,6 +126,7 @@ describe('Punchoutservice', () => {
     routingService = TestBed.inject(RoutingService);
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
     punchoutAuthService = TestBed.inject(PunchoutAuthService);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
   });
 
   it('should be created', () => {
@@ -236,10 +257,16 @@ describe('Punchoutservice', () => {
         selectedItem: '',
       })
     );
-
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutInitialRequisition)
+    );
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
     service.getPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+        expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
+          punchoutInitialRequisition: { ...mockPunchoutInitialRequisition },
+        });
         done();
       },
     });
@@ -274,6 +301,90 @@ describe('Punchoutservice', () => {
       next: (result) => {
         expect(result).toEqual(true);
         expect(punchoutAuthService.logout).toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
+  it('should closePunchoutSession revertToInitialCart in EDIT operation ', (done) => {
+    const mockState: PunchoutState = {
+      ...mockPunchoutState,
+      punchoutInitialRequisition: mockPunchoutInitialRequisition,
+      closePunchoutSession: true,
+      punchoutSession: {
+        ...mockPunchoutSession,
+        punchOutOperation: PunchOutOperation.EDIT,
+      },
+    };
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockState)
+    );
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+    spyOn(connector, 'getPunchoutSessionRequisition').and.callThrough();
+
+    service.closePunchoutSession().subscribe({
+      next: () => {
+        expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalled();
+        expect(connector.getPunchoutSessionRequisition).not.toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
+  it('should closePunchoutSession set cancelRequisition in CREATE operation ', (done) => {
+    const mockState: PunchoutState = {
+      ...mockPunchoutState,
+      punchoutSession: {
+        ...mockPunchoutSession,
+        punchOutOperation: PunchOutOperation.CREATE,
+      },
+    };
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockState)
+    );
+
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+    spyOn(multiCartFacade, 'addEntries').and.callThrough();
+    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
+
+    service.closePunchoutSession().subscribe({
+      next: () => {
+        expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
+          cancelRequisition: true,
+        });
+        expect(multiCartFacade.addEntries).not.toHaveBeenCalled();
+        expect(multiCartFacade.removeEntry).not.toHaveBeenCalled();
+        expect(routingService.go).toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
+  it('should closePunchoutSession only go to requisition page in INSPECT operation ', (done) => {
+    const mockState: PunchoutState = {
+      ...mockPunchoutState,
+      punchoutSession: {
+        ...mockPunchoutSession,
+        punchOutOperation: PunchOutOperation.INSPECT,
+      },
+    };
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockState)
+    );
+
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+    spyOn(multiCartFacade, 'addEntries').and.callThrough();
+    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
+
+    service.closePunchoutSession().subscribe({
+      next: () => {
+        expect(punchoutStoreService.updatePunchoutState).not.toHaveBeenCalled();
+        expect(multiCartFacade.addEntries).not.toHaveBeenCalled();
+        expect(multiCartFacade.removeEntry).not.toHaveBeenCalled();
+        expect(routingService.go).toHaveBeenCalled();
         done();
       },
     });

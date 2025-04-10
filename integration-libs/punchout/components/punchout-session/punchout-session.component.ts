@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PUNCHOUT_SESSION_KEY, PunchoutFacade } from '@spartacus/punchout/root';
-import { take } from 'rxjs';
+import { switchMap, take } from 'rxjs';
 @Component({
   selector: 'cx-punchout-session',
   template: `<p>Punchout session loading</p> `,
@@ -24,12 +24,16 @@ export class PunchoutSessionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.pipe(take(1)).subscribe((param: Params) => {
-      const punchoutSessionId = param?.[PUNCHOUT_SESSION_KEY];
-      this.punchoutFacade
-        .getPunchoutSession({ punchoutSessionId })
-        .pipe(take(1))
-        .subscribe();
-    });
+    this.activatedRoute.queryParams
+      .pipe(
+        take(1),
+        switchMap((param: Params) =>
+          this.punchoutFacade.getPunchoutSession({
+            punchoutSessionId: param?.[PUNCHOUT_SESSION_KEY],
+          })
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 }

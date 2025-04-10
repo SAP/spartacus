@@ -22,6 +22,7 @@ export function punchoutFacadeFactory() {
       'getPunchoutSession',
       'getPunchoutSessionRequisition',
       'logoutPunchoutUser',
+      'closePunchoutSession',
     ],
   });
 }
@@ -50,4 +51,9 @@ export abstract class PunchoutFacade {
    * Abstract method used to logout punchout user
    */
   abstract logoutPunchoutUser(): Observable<boolean>;
+
+  /**
+   * Abstract method used to close punchout session
+   */
+  abstract closePunchoutSession(): Observable<boolean>;
 }
