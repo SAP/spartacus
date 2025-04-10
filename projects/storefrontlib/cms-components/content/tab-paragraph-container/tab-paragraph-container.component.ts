@@ -82,7 +82,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef,
-    protected cdr: ChangeDetectorRef,
+    protected cdr: ChangeDetectorRef
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -93,29 +93,27 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     switchMap((data) =>
       combineLatest(
         (data?.components ?? '').split(' ').map((component) => {
-            debugger;
-            return this.cmsService.getComponentData<any>(component).pipe(
-              distinctUntilChanged(),
-              map((tab) => {
-                if (!tab) {
-                  return undefined;
-                }
+          return this.cmsService.getComponentData<any>(component).pipe(
+            distinctUntilChanged(),
+            map((tab) => {
+              if (!tab) {
+                return undefined;
+              }
 
-                if (!tab.flexType) {
-                  tab = {
-                    ...tab,
-                    flexType: tab.typeCode,
-                  };
-                }
-
-                return {
+              if (!tab.flexType) {
+                tab = {
                   ...tab,
-                  title: `${data.uid}.tabs.${tab.uid}`,
+                  flexType: tab.typeCode,
                 };
-              })
-            );
-          }
-        )
+              }
+
+              return {
+                ...tab,
+                title: `${data.uid}.tabs.${tab.uid}`,
+              };
+            })
+          );
+        })
       ).pipe(
         // Update tablist label with name from CMS
         tap(() => {
