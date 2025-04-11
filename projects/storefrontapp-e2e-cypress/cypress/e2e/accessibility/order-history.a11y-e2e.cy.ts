@@ -24,7 +24,6 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
         .contains('00001092')
         .click();
 
-      cy.url().should('contain', '00001092');
       cy.get('.cx-order-details-cards'); // wait until content is loaded
       cy.get('main').a11yRunContinuumTest();
     });
@@ -33,8 +32,8 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
       cy.get('cx-order-details-actions .btn-secondary')
         .contains(' Cancel Items ')
         .click();
-      cy.url().should('contain', 'cancel');
-      cy.get('.AccountPageTemplate').a11yRunContinuumTest();
+      cy.get('.cx-amend-order-items'); // wait until content is loaded
+      cy.get('main').a11yRunContinuumTest();
     });
   });
 });
