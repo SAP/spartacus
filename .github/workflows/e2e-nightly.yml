@@ -39,6 +39,9 @@ jobs:
   e2e_tests:
     name: Run All E2E Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3, 4, 5]
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
