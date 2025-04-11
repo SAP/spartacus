@@ -134,7 +134,6 @@
   class="results"
   id="results"
   (click)="close($any($event), true)"
-  role="listbox"
   [class.no-headers]="
     !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
     !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
@@ -173,7 +172,7 @@
         !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
       "
     >
-      <li *ngFor="let suggestion of result.suggestions">
+      <li *ngFor="let suggestion of result.suggestions" role="option">
         <a
           role="option"
           [innerHTML]="
@@ -252,7 +251,7 @@
       role="listbox"
       [class.hidden]="hasSearchBoxV2"
     >
-      <li *ngFor="let product of result.products">
+      <li *ngFor="let product of result.products" role="option">
         <a
           role="option"
           [routerLink]="
