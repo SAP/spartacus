@@ -46,11 +46,11 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: |
-          npm ci
-          # If needed:
-          # npm ci --prefix ./projects/storefrontapp-e2e-cypress
+      - name: Install root deps
+        run: npm ci
+
+      - name: Install e2e subfolder deps
+        run: npm ci --prefix ./projects/storefrontapp-e2e-cypress
 
       - name: Run vendors e2e in parallel
         env:
