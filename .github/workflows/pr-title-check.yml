@@ -19,7 +19,7 @@ jobs:
           REGEX='^(docs|feat|fix|perf|refactor|style|test|chore)(\([^)]*\))?:\ .+'
 
           if [[ ! "$PR_TITLE" =~ $REGEX ]]; then
-            echo `# 🚨 PR Title Validation Failed 🚨  
+          const commentBody = `# 🚨 PR Title Validation Failed 🚨  
               
             Your pull request title does not follow the required format. Please update it to match the expected pattern:  
 
@@ -42,6 +42,8 @@ jobs:
             ✅ \`docs: Update API documentation\`  
 
             ❌ **Merge is blocked until the PR title is corrected.**`;
+
+            echo commentBody
             exit 1
           fi
 
