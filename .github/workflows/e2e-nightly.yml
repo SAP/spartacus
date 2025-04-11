@@ -37,6 +37,7 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
   e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: Run All E2E Tests
     runs-on: ubuntu-latest
     strategy:
