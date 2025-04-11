@@ -11,6 +11,7 @@ import { PunchoutFacade } from '../facade';
 import { PUNCHOUT_STORAGE_KEY } from '../model';
 import { PunchoutDetectionService } from './punchout-detection.service';
 import { PunchoutStoreService } from './punchout-store.service';
+
 @Injectable({ providedIn: 'root' })
 export class PunchoutStatePersistanceService implements OnDestroy {
   protected statePersistenceService = inject(StatePersistenceService);
@@ -19,6 +20,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected subscription = new Subscription();
   protected hasPunchoutStarted = false;
+
   /**
    * Initializes the synchronization between state and browser storage.
    * Through getPunchoutSessionId(), storage is updated everytime PunchoutState is modified.
@@ -32,6 +34,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
       })
     );
   }
+
   /**
    * Gets and transforms state into the form that should
    * be saved in storage.
@@ -49,6 +52,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
       })
     );
   }
+
   /**
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
@@ -70,6 +74,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
         .subscribe();
     }
   }
+
   ngOnDestroy(): void {
     this.hasPunchoutStarted = false;
     this.subscription.unsubscribe();
