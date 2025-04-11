@@ -95,7 +95,7 @@ export class OpfPaymentVerificationService {
                   OpfPaymentVerificationUrlInput.OPF_PAYMENT_SESSION_ID
               ),
               afterRedirectScriptFlag: this.findInParamsMap(
-                OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_FLAG,
+                OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG,
                 paramsMap
               ),
             });

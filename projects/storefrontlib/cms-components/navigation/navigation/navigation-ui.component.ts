@@ -19,7 +19,11 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  useFeatureStyles,
+  WindowRef,
+} from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -55,6 +59,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
   @Input() resetMenuOnClose: boolean | undefined;
+
+  /**
+   * Include non intractable node titles within the tabbing order.
+   */
+  @Input() focusableNodeTitles: boolean = false;
 
   @Input() navAriaLabel: string | null | undefined;
   /**
@@ -109,6 +118,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+    useFeatureStyles('a11yOptimizedMenuSpacing');
+    useFeatureStyles('a11yNavigationButtonsAriaFixes');
   }
 
   /**
@@ -278,10 +289,20 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Focuses on the first focusable element in the dropdown
    */
   focusOnNode(event: UIEvent): void {
-    const firstFocusableElement =
-      (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
-      (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
-    firstFocusableElement?.focus();
+    if (
+      this.featureConfigService?.isEnabled('a11yNavigationButtonsAriaFixes')
+    ) {
+      const firstFocusableNode = (<HTMLElement>(
+        event.target
+      ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
+      firstFocusableNode?.focus();
+    } else {
+      const firstFocusableElement =
+        (<HTMLElement>event.target).nextElementSibling?.querySelector(
+          'button'
+        ) || (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
+      firstFocusableElement?.focus();
+    }
   }
 
   back(): void {
@@ -327,7 +348,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   getColumnCount(length: number): number {
-    return Math.round(length / (this.wrapAfter || length));
+    if (!this.wrapAfter || length <= 0) {
+      return 1;
+    }
+
+    let subSectionColumns = Math.floor(length / this.wrapAfter);
+
+    if (subSectionColumns >= 1 && length % this.wrapAfter > 0) {
+      subSectionColumns += 1;
+    }
+
+    return subSectionColumns;
   }
 
   focusAfterPreviousClicked(event: MouseEvent) {
@@ -389,7 +420,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Resores default tabbing order for non flyout navigation.
+   * Restores default tabbing order for non flyout navigation.
    */
   getTabIndex(node: NavigationNode, depth: number): 0 | -1 {
     if (!this.flyout) {
@@ -398,17 +429,23 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     return depth > 0 && !node?.children ? -1 : 0;
   }
 
+  // TODO: Delete deprecated methods once `a11yNavigationButtonsAriaFixes` feature flag is removed.
   /**
-   * // Replace spaces with hyphens and convert to lowercase
+   * Replace spaces with hyphens and convert to lowercase
+   * @deprecated
    */
   getSanitizedTitle(title: string | undefined): string | null {
     return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
   }
-
   /**
    * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
+   * @deprecated
    */
   getAriaLabelAndControl(node: NavigationNode): string | null {
     return this.getSanitizedTitle(node.title) || null;
+  }
+
+  transformIntoValidID(string: string): string | null {
+    return string?.replace(/[^a-zA-Z0-9-_]/g, '-') || null;
   }
 }

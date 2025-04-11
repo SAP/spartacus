@@ -59,7 +59,7 @@ export interface OpfPaymentErrorDetails {
   moreInfo?: string | OpfPaymentErrorMoreInfo;
 }
 
-export const enum OpfPaymentErrorType {
+export enum OpfPaymentErrorType {
   EXPIRED = 'EXPIRED',
   INSUFFICIENT_FUNDS = 'INSUFFICIENT_FUNDS',
   CREDIT_LIMIT = 'CREDIT_LIMIT',

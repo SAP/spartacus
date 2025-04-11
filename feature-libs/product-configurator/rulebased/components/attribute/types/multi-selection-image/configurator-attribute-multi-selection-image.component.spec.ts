@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Config, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -47,10 +47,6 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
-class MockConfig {
-  features = [{ productConfiguratorAttributeTypesV2: false }];
-}
-
 class MockConfiguratorStorefrontUtilsService {
   assembleValuesForMultiSelectAttributes(): void {}
 
@@ -77,7 +73,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
-  let config: Config;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(waitForAsync(() => {
@@ -124,7 +119,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-        { provide: Config, useClass: MockConfig },
       ],
     })
       .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
@@ -199,8 +193,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
-    config = TestBed.inject(Config);
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
     fixture.detectChanges();
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
@@ -219,7 +211,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   });
 
   it('should render 2 info icons at value level when value has a description', () => {
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectNumberOfElements(
       expect,
@@ -230,7 +221,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   });
 
   it('should render popover with description at value level after clicking on info icon', () => {
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     const infoButton = fixture.debugElement.query(
       By.css('button[ng-reflect-cx-popover]')
@@ -279,23 +269,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   });
 
   describe('select multi images', () => {
-    it('should call service for update when productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
-      spyOn(
-        configuratorStorefrontUtilsService,
-        'assembleValuesForMultiSelectAttributes'
-      ).and.returnValue(component.attribute.values);
-      component.onSelect(0);
-      expect(
-        component['configuratorCommonsService'].updateConfiguration
-      ).toHaveBeenCalled();
-    });
-
-    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE and productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
-      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -324,8 +298,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   });
 
   describe('label styling', () => {
-    it('should set cursor to default in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
-      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    it('should set cursor to default', () => {
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
@@ -380,7 +353,6 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
-      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

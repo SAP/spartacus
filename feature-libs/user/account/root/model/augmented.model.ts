@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     ACCOUNT_VERIFICATION_TOKEN = 'ACCOUNT_VERIFICATION_TOKEN',
   }
 }
+
+(LAUNCH_CALLER as any)['ACCOUNT_VERIFICATION_TOKEN'] =
+  'ACCOUNT_VERIFICATION_TOKEN';

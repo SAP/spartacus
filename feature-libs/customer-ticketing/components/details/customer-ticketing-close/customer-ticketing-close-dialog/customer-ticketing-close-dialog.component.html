@@ -30,20 +30,22 @@
         <label>
           <span class="cx-customer-ticket-label label-content">
             {{ 'customerTicketing.message' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <textarea
             required="true"
             [maxLength]="inputCharactersLimit"
             class="form-control"
             formControlName="message"
-            [attr.aria-describedby]="'messageError'"
+            [attr.aria-invalid]="
+              form.get('message')?.touched && form.get('message')?.invalid
+            "
+            [attr.aria-errormessage]="'messageError'"
             rows="5"
           ></textarea>
 
           <cx-form-errors
             id="messageError"
-            aria-live="off"
             [control]="form.get('message')"
           ></cx-form-errors>
 
@@ -71,12 +73,3 @@
     <cx-spinner *ngIf="isDataLoading$ | async" class="overlay"></cx-spinner>
   </form>
 </div>
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

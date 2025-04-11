@@ -84,20 +84,6 @@ const commands = [
 ] as const;
 type Command = (typeof commands)[number];
 
-const isVoiceNotifyEnabled = process.argv.includes('--voice-notify');
-if (isVoiceNotifyEnabled) {
-  console.log('Voice notifications enabled');
-}
-function voiceAlert(message: string): void {
-  if (isVoiceNotifyEnabled) {
-    try {
-      execSync(`say "${message}"`);
-    } catch (error) {
-      console.warn('Voice notification failed:', error);
-    }
-  }
-}
-
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 const verdaccioRegistryUrl = 'http://localhost:4873/';
 const originalRegistryUrl = execSync('npm config get @spartacus:registry')
@@ -135,54 +121,204 @@ function beforeExit(): void {
   }
 }
 
-function publishLibs(): void {
+/**
+ * Object describing the result of publishing a package
+ */
+type PackagePublishingResult = {
+  packageName: string;
+  stdout: string;
+  stderr: string;
+  error?: any;
+};
+
+/**
+ * Get list of package.json files to publish
+ */
+function getPackageJsonFiles(): string[] {
+  const sourceFiles = [
+    'projects/storefrontstyles/package.json',
+    'projects/schematics/package.json',
+  ];
+  const distFiles = glob.sync(`dist/!(node_modules)/package.json`);
+  return [...sourceFiles, ...distFiles];
+}
+
+/**
+ * Publish a single package to Verdaccio
+ */
+function publishPackage(packagePath: string): Promise<PackagePublishingResult> {
+  return new Promise((resolve, reject) => {
+    const packageJsonContent = JSON.parse(
+      fs.readFileSync(packagePath, 'utf-8')
+    );
+    const directory = path.dirname(packagePath);
+    const command = `cd ${directory} && npm publish --registry=${verdaccioRegistryUrl} --no-git-tag-version --color always`;
+    exec(command, {}, (error, stdout, stderr) => {
+      if (error) {
+        reject({
+          packageName: packageJsonContent.name,
+          stdout,
+          stderr,
+          error: `Command failed: ${error.cmd}`,
+        });
+      } else {
+        resolve({
+          packageName: packageJsonContent.name,
+          stdout,
+          stderr,
+        });
+      }
+    });
+  });
+}
+
+/**
+ * Display final results of publishing packages
+ */
+function printAllPackagesPublishingResults({
+  successful,
+  failed,
+}: {
+  successful: PackagePublishingResult[];
+  failed: PackagePublishingResult[];
+}): void {
+  console.log('\n=== Publishing All Packages Results ===');
+
+  if (successful.length > 0) {
+    console.log(
+      chalk.green(`\n✅ Successfully published ${successful.length} packages:`)
+    );
+    successful.forEach(printPackagePublishingResult);
+  }
+
+  if (failed.length > 0) {
+    console.log(chalk.red(`\n❌ Failed to publish ${failed.length} packages:`));
+    failed.forEach(printPackagePublishingResult);
+    console.log(
+      chalk.red(
+        `\n🚨 ${failed.length} packages could not be published. Please check the errors and logs above.`
+      )
+    );
+    throw new Error(); // reject the result promise
+  } else {
+    console.log(chalk.green('\n🎉 All packages published successfully!'));
+  }
+}
+
+/**
+ * Show a result of publishing a single package
+ *
+ * @example
+ * ================================
+ * ❌/✅ package name
+ * ================================
+ * stdout
+ * stderr
+ * (ERROR: error message)
+ */
+function printPackagePublishingResult(result: PackagePublishingResult): void {
+  const separator = '='.repeat(50);
+  const icon = result.error ? '❌' : '✅';
+  const chalkColor = result.error ? chalk.red : chalk.green;
+  console.log(
+    chalkColor(
+      chalk.bold(`\n${separator}\n${icon} ${result.packageName}\n${separator}`)
+    )
+  );
+
+  if (result.stdout) {
+    console.log(result.stdout);
+  }
+  if (result.stderr) {
+    console.log(result.stderr);
+  }
+  if (result.error) {
+    console.error(chalk.red(`ERROR:\n${result.error}`));
+  }
+}
+
+/**
+ * Show progress of publishing packages
+ *
+ * @example
+ * [1/n] ❌/✅ package name 1
+ * [2/n] ❌/✅ package name 2
+ * ...
+ */
+function printPackagesPublishingProgress(
+  result: PackagePublishingResult,
+  current: number,
+  total: number
+): void {
+  const icon = result.error ? '❌' : '✅';
+  console.log(`\n[${current}/${total}] ${icon} ${result.packageName}`);
+}
+
+/**
+ * Publish all packages to Verdaccio
+ */
+async function publishAllPackages(): Promise<void> {
   //Since migration to NPM, packages will be published with version that has been set in package.json files
   //and before each subsequent release Verdaccio will be cleaned up so that there is no conflict due to the version of existing packages.
   //Because of the strategy used by NPM to resolve peer dependencies, any upgrade of a package's version would also require upgrading the version of that package in all places where it is used as a peer dependency.
   //This in turn would cause too much noise
 
   //clear Verdaccio storage
-  execSync('rm -rf ./scripts/install/storage');
+  execSync('rm -rf ./scripts/install/storage', { stdio: 'ignore' });
 
-  // Packages released from it's source directory
-  const files = [
-    'projects/storefrontstyles/package.json',
-    'projects/schematics/package.json',
-  ];
-  const distFiles = glob.sync(`dist/!(node_modules)/package.json`);
+  const allFiles = getPackageJsonFiles();
+  console.log(
+    chalk.green(
+      `\n⏳ Publishing ${allFiles.length} packages in parallel (please wait)...\n`
+    )
+  );
 
-  [...files, ...distFiles].forEach((packagePath) => {
-    const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
+  /** Number of packages published, successfully or not */
+  let completedCount = 0;
 
-    // Publish package
-    const dir = path.dirname(packagePath);
-    console.log(`\nPublishing ${content.name}`);
-    execSync(
-      `cd ${dir} && npm publish --registry=${verdaccioRegistryUrl} --no-git-tag-version`,
-      { stdio: 'inherit' }
-    );
-  });
+  // Run all publish operations in parallel and display progress
+  const results = await Promise.allSettled(
+    allFiles.map((packagePath) =>
+      publishPackage(packagePath).then((result) => {
+        printPackagesPublishingProgress(
+          result,
+          ++completedCount,
+          allFiles.length
+        );
+        return result;
+      })
+    )
+  );
+
+  const successful = results
+    .filter((result) => result.status === 'fulfilled')
+    .map((result) => result.value);
+  const failed = results
+    .filter((result) => result.status === 'rejected')
+    .map((result) => result.reason);
+
+  printAllPackagesPublishingResults({ successful, failed });
 }
 
 function buildLibs(): void {
   execSync('npm run build:libs', { stdio: 'inherit' });
 }
 
-function buildSchematics(
+async function buildSchematics(
   options: { publish: boolean } = { publish: false }
-): void {
+): Promise<void> {
   execSync('npm run build:schematics', { stdio: 'inherit' });
   if (options.publish) {
-    publishLibs();
+    await publishAllPackages();
   }
 }
 
-function buildSchematicsAndPublish(buildCmd: string): void {
-  buildSchematics();
+async function buildSchematicsAndPublish(buildCmd: string): Promise<void> {
+  await buildSchematics();
   execSync(buildCmd, {
     stdio: 'inherit',
   });
-  publishLibs();
+  await publishAllPackages();
 }
 
 function testAllSchematics(): void {
@@ -214,15 +350,59 @@ function testAllSchematics(): void {
   }
 }
 
+const isVoiceNotifyEnabled = process.argv.includes('--voice-notify');
+if (isVoiceNotifyEnabled) {
+  console.log('Voice notifications enabled');
+}
+
+/**
+ * Notify the user by voice message
+ */
+function notify(message: string): void {
+  if (!isVoiceNotifyEnabled) return;
+  try {
+    execSync(`say "${message}"`);
+  } catch (error) {
+    console.warn('Voice notification failed:', error);
+  }
+}
+
+/**
+ * Run task and notify the user when it's completed
+ */
+async function notifyOnComplete<T>({
+  taskName,
+  task,
+}: {
+  taskName: string;
+  task: (() => T) | (() => Promise<T>);
+}): Promise<unknown> {
+  try {
+    const maybePromiseResult = task();
+    const result = await (maybePromiseResult instanceof Promise
+      ? maybePromiseResult
+      : Promise.resolve(maybePromiseResult));
+    notify(`${taskName} completed`);
+    return result;
+  } catch (error) {
+    notify(`${taskName} failed`);
+    return error;
+  }
+}
+
 async function executeCommand(command: Command): Promise<void> {
   switch (command) {
     case 'publish':
-      publishLibs();
-      voiceAlert('Publishing completed');
+      await notifyOnComplete({
+        taskName: 'Publishing',
+        task: () => publishAllPackages(),
+      });
       break;
     case 'build projects/schematics':
-      buildSchematics({ publish: true });
-      voiceAlert('Schematics build completed');
+      await notifyOnComplete({
+        taskName: 'Schematics build',
+        task: () => buildSchematics({ publish: true }),
+      });
       break;
     case 'build asm/schematics':
     case 'build cart/schematics':
@@ -255,16 +435,22 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build customer-ticketing/schematics':
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
-      buildSchematicsAndPublish(`npm run build:${lib}`);
-      voiceAlert(`Schematics build of lib ${lib} completed`);
+      await notifyOnComplete({
+        taskName: `Schematics of ${lib} build`,
+        task: () => buildSchematicsAndPublish(`npm run build:${lib}`),
+      });
       break;
     case 'build all libs':
-      buildLibs();
-      voiceAlert('All libraries build completed');
+      await notifyOnComplete({
+        taskName: 'All libraries build',
+        task: () => buildLibs(),
+      });
       break;
     case 'test all schematics':
-      testAllSchematics();
-      voiceAlert('All schematics tests completed');
+      await notifyOnComplete({
+        taskName: 'All schematics tests',
+        task: () => testAllSchematics(),
+      });
       break;
     case 'exit':
       beforeExit();
@@ -285,7 +471,7 @@ async function program(): Promise<void> {
         choices: [...commands],
       });
 
-      executeCommand(response.command);
+      await executeCommand(response.command);
     }
   } catch (e) {
     console.error(e);
