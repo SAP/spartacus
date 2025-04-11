@@ -19,31 +19,7 @@ jobs:
           REGEX='^(docs|feat|fix|perf|refactor|style|test|chore)(\([^)]*\))?:\ .+'
 
           if [[ ! "$PR_TITLE" =~ $REGEX ]]; then
-          const commentBody = `# 🚨 PR Title Validation Failed 🚨  
-              
-            Your pull request title does not follow the required format. Please update it to match the expected pattern:  
-
-            **Expected format:**  
-            \`<type>: <subject>\`
-
-            ## **Allowed Types**
-            - **docs:** Changes to documentation only
-            - **feat:** New feature work
-            - **fix:** Bug fixes
-            - **perf:** Code improvements for performance
-            - **refactor:** Code changes that are not bug fixes or features
-            - **style:** Code style changes (e.g., whitespace, formatting)
-            - **test:** Adding or updating tests
-            - **chore:** Build, CI, scripts, configs, etc.
-
-            ## **Example of a valid PR title**
-            ✅ \`feat: Add user authentication\`  
-            ✅ \`fix: Resolve checkout bug\`  
-            ✅ \`docs: Update API documentation\`  
-
-            ❌ **Merge is blocked until the PR title is corrected.**`;
-
-            echo commentBody
+            echo "❌ PR title is invalid. Example of a valid title: \`feat: Add user authentication\` or \`chore(deps): update dependency babel-loader to v10\`"
             exit 1
           fi
 
