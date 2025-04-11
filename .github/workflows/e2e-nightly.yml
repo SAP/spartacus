@@ -43,24 +43,39 @@ jobs:
       matrix:
         containers: [1, 2, 3, 4, 5]
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v2
+       - name: Forcefully fail build if e2e job is retried
+         uses: actions/github-script@v7
+         with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
+         if: ${{ github.run_attempt > 1 }}
+       - uses: actions/checkout@v4
+       - name: Setup node
+         uses: actions/setup-node@v4
+         with:
+          node-version: ${{ env.NODE_VERSION }}
+       - name: Cache node_modules
+         id: cache-node-modules
+         uses: actions/cache@v4
+         with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+       - name: Run e2es
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16
-
-      - name: Install dependencies
-        run: |
+       - name: Install dependencies
+         run: |
           npm ci
           npm ci --prefix ./projects/storefrontapp-e2e-cypress
 
-      - name: Run E2E
-        env:
-          SPA_ENV: ci,b2b,b2c,vendor,cx_ccv2,cx_mcs
-          BUILD_NUMBER: ci-build-number-${{ github.run_id }}
-        run: |
+       - name: Run E2E
+         env:
+           SPA_ENV: ci,b2b,b2c,vendor,cx_ccv2,cx_mcs
+           BUILD_NUMBER: ci-build-number-${{ github.run_id }}
+         run: |
           chmod +x ci-scripts/e2e-cypress.sh
           ci-scripts/e2e-cypress.sh
   build_conclusion:
