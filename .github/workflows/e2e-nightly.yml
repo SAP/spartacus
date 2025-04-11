@@ -52,11 +52,11 @@ jobs:
           # If needed:
           # npm ci --prefix ./projects/storefrontapp-e2e-cypress
 
-      - name: Run b2c,all in parallel
+      - name: Run vendors e2e in parallel
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           BUILD_NUMBER: ci-build-number-${{ github.run_id }}
-        run: cy:run:ci:vendor
+        run: e2e:run:ci:vendor
   build_conclusion:
     needs: [no_retries, e2e-vendors]
     name: Build Conclusion
