@@ -19,7 +19,7 @@ jobs:
           REGEX='^(docs|feat|fix|perf|refactor|style|test|chore)(\([^)]*\))?:\ .+'
 
           if [[ ! "$PR_TITLE" =~ $REGEX ]]; then
-            echo "❌ PR title is invalid. Example of a valid title: \`feat: Add user authentication\`, \`chore(deps): update dependency babel-loader to v10\. Allowed prefixes: docs, feat, fix, perf, refactor, style, test, chore"`"
+            echo "❌ PR title is invalid. Example of a valid title: \`feat: Add user authentication\`, \`chore(deps): update dependency babel-loader to v10\.` Allowed prefixes: docs, feat, fix, perf, refactor, style, test, chore"
             exit 1
           fi
 
