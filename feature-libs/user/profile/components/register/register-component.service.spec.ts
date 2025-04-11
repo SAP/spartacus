@@ -10,6 +10,18 @@ import { of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 
 import createSpy = jasmine.createSpy;
+const mockRegisterFormData: any = {
+  titleCode: 'Mr',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'JohnDoe@thebest.john.intheworld.com',
+  email_lowercase: 'johndoe@thebest.john.intheworld.com',
+  termsandconditions: true,
+  password: 'strongPass$!123',
+  passwordconf: 'strongPass$!123',
+  newsletter: true,
+  captcha: true,
+};
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
   getTitles = createSpy().and.returnValue(of([]));
@@ -97,5 +109,15 @@ describe('RegisterComponentService', () => {
   it('getAdditionalConsents', () => {
     let result = service.getAdditionalConsents();
     expect(result).toEqual([]);
+  });
+  it('collectDataFromRegisterForm()', () => {
+    const form = mockRegisterFormData;
+    expect(service.collectDataFromRegisterForm(form)).toEqual({
+      firstName: form.firstName,
+      lastName: form.lastName,
+      uid: form.email_lowercase,
+      password: form.password,
+      titleCode: form.titleCode,
+    });
   });
 });

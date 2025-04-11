@@ -1,0 +1,75 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="checkoutLoginForm">
+  <p class="form-legend">
+    {{ 'formLegend.required' | cxTranslate }}
+  </p>
+  <div class="form-group">
+    <label>
+      <span class="label-content">
+        {{ 'checkoutLogin.emailAddress.label' | cxTranslate }}
+        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      </span>
+      <input
+        required="true"
+        type="email"
+        name="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="{{
+          'checkoutLogin.emailAddress.placeholder' | cxTranslate
+        }}"
+        [attr.aria-describedby]="'emailError'"
+      />
+
+      <cx-form-errors
+        id="emailError"
+        aria-live="off"
+        [translationParams]="{
+          label: 'checkoutLogin.emailAddress.label' | cxTranslate,
+        }"
+        [control]="checkoutLoginForm.get('email')"
+      ></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content">
+        {{ 'checkoutLogin.confirmEmail.label' | cxTranslate }}
+        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      </span>
+      <input
+        required="true"
+        type="email"
+        name="emailConfirmation"
+        class="form-control"
+        formControlName="emailConfirmation"
+        placeholder="{{
+          'checkoutLogin.confirmEmail.placeholder' | cxTranslate
+        }}"
+        [attr.aria-describedby]="'emailConfirmationError'"
+      />
+
+      <cx-form-errors
+        id="emailConfirmationError"
+        aria-live="off"
+        [translationParams]="{
+          label: 'checkoutLogin.confirmEmail.label' | cxTranslate,
+        }"
+        [control]="checkoutLoginForm.get('emailConfirmation')"
+      ></cx-form-errors>
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-block btn-primary">
+    {{ 'checkoutLogin.continue' | cxTranslate }}
+  </button>
+</form>
+
+<ng-template #requiredAsterisk>
+  <abbr
+    class="text-decoration-none required-asterisk"
+    aria-hidden="true"
+    title="{{ 'common.required' | cxTranslate }}"
+    >*</abbr
+  >
+</ng-template>

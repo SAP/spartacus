@@ -37,3 +37,20 @@ export function getStubbedUnitLevelOrderDetails() {
     { body: unitLevelOrder }
   );
 }
+
+export function goToQuoteDetail() {
+  cy.get('div[id="quote-container"]').within(() => {
+    let quoteID = '';
+    cy.get('.cx-card-title')
+      .contains('Quote ID')
+      .then((element) => {
+        quoteID = element.text().replace('Quote ID ', '').trim();
+      });
+    cy.get('.cx-card-actions')
+      .contains('Quote Detail')
+      .click()
+      .then(() => {
+        cy.url().should('include', `/my-account/quote/${quoteID}`);
+      });
+  });
+}

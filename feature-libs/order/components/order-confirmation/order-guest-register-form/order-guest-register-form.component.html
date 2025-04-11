@@ -9,14 +9,12 @@
     </p>
 
     <form (ngSubmit)="submit()" [formGroup]="guestRegisterForm">
-      <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-        {{ 'formLegend.required' | cxTranslate }}
-      </p>
+      <cx-form-required-legend />
       <div class="form-group">
         <label>
           <span class="label-content">
             {{ 'register.password.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -26,7 +24,11 @@
             placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
             formControlName="password"
             [attr.aria-label]="'register.password.placeholder' | cxTranslate"
-            [attr.aria-describedby]="'passwordError'"
+            [attr.aria-invalid]="
+              guestRegisterForm.get('password')?.touched &&
+              guestRegisterForm.get('password')?.invalid
+            "
+            [attr.aria-errormessage]="'passwordError'"
             cxPasswordVisibilitySwitch
           />
 
@@ -34,7 +36,6 @@
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             id="passwordError"
-            aria-live="off"
             [translationParams]="{
               label: 'register.password.label' | cxTranslate,
             }"
@@ -52,7 +53,7 @@
         <label>
           <span class="label-content">
             {{ 'register.confirmPassword.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </span>
           <input
             required="true"
@@ -66,7 +67,11 @@
             [attr.aria-label]="
               'register.confirmPassword.placeholder' | cxTranslate
             "
-            [attr.aria-describedby]="'passwordconfError'"
+            [attr.aria-invalid]="
+              guestRegisterForm.get('passwordconf')?.touched &&
+              guestRegisterForm.get('passwordconf')?.invalid
+            "
+            [attr.aria-errormessage]="'passwordconfError'"
             cxPasswordVisibilitySwitch
           />
 
@@ -74,7 +79,6 @@
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             id="passwordconfError"
-            aria-live="off"
             [translationParams]="{
               label: 'register.confirmPassword.label' | cxTranslate,
             }"
@@ -94,13 +98,3 @@
     </form>
   </div>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

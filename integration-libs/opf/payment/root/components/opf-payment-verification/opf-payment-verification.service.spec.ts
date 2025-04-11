@@ -24,6 +24,7 @@ import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
+  OpfPaymentVerificationUrlInput,
 } from '../../model';
 
 import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
@@ -139,7 +140,10 @@ describe('OpfPaymentVerificationService', () => {
             cxRoute: 'paymentVerificationResult',
           },
         },
-        queryParams: of({ opfAfterRedirectFlag: 'true' }),
+        queryParams: of({
+          [OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG]:
+            'true',
+        }),
       } as unknown as ActivatedRoute;
 
       const mockOpfMetadata: OpfMetadataModel = {
@@ -157,7 +161,10 @@ describe('OpfPaymentVerificationService', () => {
       service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
         expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
         expect(result.paramsMap).toEqual([
-          { key: 'opfAfterRedirectFlag', value: 'true' },
+          {
+            key: OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG,
+            value: 'true',
+          },
         ]);
         expect(result.afterRedirectScriptFlag).toEqual('true');
         done();

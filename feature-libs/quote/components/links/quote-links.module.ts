@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -18,13 +17,7 @@ import {
 import { QuoteLinksComponent } from './quote-links.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    RouterModule,
-    UrlModule,
-    FeaturesConfigModule,
-  ],
+  imports: [CommonModule, I18nModule, RouterModule, UrlModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

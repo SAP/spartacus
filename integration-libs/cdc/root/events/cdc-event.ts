@@ -5,6 +5,7 @@
  */
 
 import { CxEvent } from '@spartacus/core';
+import { CdcConsent } from '../consent-management';
 
 /**
  * Indicates the failure during the loading of the user token.
@@ -26,4 +27,5 @@ export class CdcReConsentEvent extends CxEvent {
   consentIds: string[];
   errorMessage: string;
   regToken: string;
+  preferences?: Record<string, CdcConsent>;
 }

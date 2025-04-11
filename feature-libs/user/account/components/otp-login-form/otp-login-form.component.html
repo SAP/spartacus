@@ -2,13 +2,11 @@
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <label>
     <span class="label-content">
       {{ 'loginForm.emailAddress.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      <cx-form-required-asterisks />
     </span>
     <input
       required="true"
@@ -16,11 +14,13 @@
       class="form-control"
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
-      [attr.aria-describedby]="'userIdError'"
+      [attr.aria-invalid]="
+        form.get('userId')?.touched && form.get('userId')?.invalid
+      "
+      [attr.aria-errormessage]="'userIdError'"
     />
     <cx-form-errors
       id="userIdError"
-      aria-live="off"
       [control]="form.get('userId')"
     ></cx-form-errors>
   </label>
@@ -28,7 +28,7 @@
   <label>
     <span class="label-content">
       {{ 'loginForm.password.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      <cx-form-required-asterisks />
     </span>
     <input
       required="true"
@@ -37,12 +37,14 @@
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
-      [attr.aria-describedby]="'passwordError'"
+      [attr.aria-invalid]="
+        form.get('password')?.touched && form.get('password')?.invalid
+      "
+      [attr.aria-errormessage]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
     <cx-form-errors
       id="passwordError"
-      aria-live="off"
       [control]="form.get('password')"
     ></cx-form-errors>
   </label>
@@ -59,13 +61,3 @@
     {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
