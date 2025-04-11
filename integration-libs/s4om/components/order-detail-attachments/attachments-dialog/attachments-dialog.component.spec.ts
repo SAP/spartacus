@@ -16,7 +16,7 @@ import {
   S4OMOrderAttachmentsPreviewMimeTypesConfig,
 } from '../../config/order-attachments-mime-types.config';
 import { By } from '@angular/platform-browser';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import createSpy = jasmine.createSpy;
 
 const orderCode = '00001004';
@@ -59,6 +59,17 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog() {
   }
 }
+
+const countHiddenElementsFn = (debugElements: DebugElement[]) => {
+  let result = 0;
+  for (let i = 0; i < debugElements.length; i++) {
+    if (debugElements[i].nativeElement.classList.contains('hidden')) {
+      result++;
+    }
+  }
+
+  return result;
+};
 
 describe('AttachmentsDialogComponent', () => {
   let component: AttachmentsDialogComponent;
@@ -433,12 +444,12 @@ describe('AttachmentsDialogComponent', () => {
 
       fixture.detectChanges();
       let inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
-      expect(inlineSpinnerEls.length).toBe(0);
+      expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(3);
 
       component.openOrderAttachment(attachmentId, 'mock name');
       fixture.detectChanges();
       inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
-      expect(inlineSpinnerEls.length).toBe(1);
+      expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(2);
 
       // duplicated attachment id should not display duplicated spinners
       component.openOrderAttachment(attachmentId2, 'mock name');
@@ -446,12 +457,12 @@ describe('AttachmentsDialogComponent', () => {
       component.openOrderAttachment(attachmentId2, 'mock name');
       fixture.detectChanges();
       inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
-      expect(inlineSpinnerEls.length).toBe(2);
+      expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(1);
 
       tick(1000);
       fixture.detectChanges();
       inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
-      expect(inlineSpinnerEls.length).toBe(0);
+      expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(3);
     }));
 
     it('should close modal when cancel is clicked', () => {
