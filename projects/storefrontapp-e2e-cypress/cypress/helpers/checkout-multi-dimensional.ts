@@ -153,6 +153,21 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
     cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     cy.get('cx-mini-cart .count').contains('1');
 
+    const cartPage = checkout.waitForPage('/cart', 'getCartPage');
+
+    cy.get('cx-mini-cart').click();
+    cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+    cy.get('cx-mini-cart .count').contains('1');
+
+    cy.get('button.btn-primary').click();
+    cy.get('cx-mini-cart .count').contains('1');
+    cy.wait(500);
+
+    const homePage = checkout.waitForPage('homepage', 'getHomePage');
+    cy.get('cx-page-slot.SiteLogo').click();
+    cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+    cy.get('cx-mini-cart .count').contains('1');
+
     checkout.signOut();
 
     const loginPage = checkout.waitForPage('/login', 'getLoginPage');
@@ -175,7 +190,6 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     cy.get('cx-mini-cart .count').contains('1');
 
-    const cartPage = checkout.waitForPage('/cart', 'getCartPage');
     cy.get('cx-mini-cart').click();
     cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
