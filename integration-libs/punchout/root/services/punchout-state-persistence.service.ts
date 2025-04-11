@@ -8,11 +8,7 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { StatePersistenceService } from '@spartacus/core';
 import { map, Observable, Subscription, take } from 'rxjs';
 import { PunchoutFacade } from '../facade';
-import {
-  PUNCHOUT_STORAGE_KEY,
-  PunchOutOperation,
-  punchoutStorageInfo,
-} from '../model';
+import { PUNCHOUT_STORAGE_KEY } from '../model';
 import { PunchoutDetectionService } from './punchout-detection.service';
 import { PunchoutStoreService } from './punchout-store.service';
 @Injectable({ providedIn: 'root' })
@@ -25,13 +21,13 @@ export class PunchoutStatePersistanceService implements OnDestroy {
   protected hasPunchoutStarted = false;
   /**
    * Initializes the synchronization between state and browser storage.
-   * Through getPunchoutStorageInfo(), storage is updated everytime PunchoutState is modified.
+   * Through getPunchoutSessionId(), storage is updated everytime PunchoutState is modified.
    */
   public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: PUNCHOUT_STORAGE_KEY,
-        state$: this.getPunchoutStorageInfo(),
+        state$: this.getPunchoutSessionId(),
         onRead: (state) => this.onRead(state),
       })
     );
@@ -40,51 +36,31 @@ export class PunchoutStatePersistanceService implements OnDestroy {
    * Gets and transforms state into the form that should
    * be saved in storage.
    */
-  protected getPunchoutStorageInfo(): Observable<
-    punchoutStorageInfo | undefined
-  > {
+  protected getPunchoutSessionId(): Observable<string | undefined> {
     return this.punchoutStoreService.getPunchoutState().pipe(
       map((punchoutState) => {
-        if (
-          punchoutState?.punchoutSessionId &&
-          punchoutState?.punchoutSession?.punchOutOperation
-        ) {
+        if (punchoutState?.punchoutSessionId) {
           this.hasPunchoutStarted = true;
-          return {
-            punchoutSessionId: punchoutState?.punchoutSessionId,
-            punchOutOperation: punchoutState.punchoutSession.punchOutOperation,
-          };
+          return punchoutState?.punchoutSessionId;
         }
         // With 'undefined' value, no key/value gets modified or created, it keeps the storage cleaned when Punchout is unused.
         // Note that StatePersistenceService does not allow to delete key/value once it has been created.
-        return this.hasPunchoutStarted
-          ? { punchoutSessionId: '', punchOutOperation: '' }
-          : undefined;
+        return this.hasPunchoutStarted ? '' : undefined;
       })
     );
   }
   /**
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
-   * storage stores minimum data: punchoutSessionId and punchOutOperation.
+   * storage stores minimum data: only punchoutSessionId.
    * Full PunchoutSession object is retrieved by calling punchoutFacade.getPunchoutSession
    */
-  protected onRead(punchoutStorageInfo: punchoutStorageInfo | undefined) {
-    if (!punchoutStorageInfo) {
-      return;
-    }
-    const { punchoutSessionId, punchOutOperation } = punchoutStorageInfo;
+  protected onRead(punchoutSessionId: string | undefined) {
     if (
       punchoutSessionId &&
-      punchOutOperation &&
       !this.punchoutDetectionService.isPunchoutSessionPage()
     ) {
-      this.punchoutStoreService.setPunchoutState({
-        punchoutSessionId,
-        punchoutSession: {
-          punchOutOperation: punchOutOperation as PunchOutOperation,
-        },
-      });
+      this.punchoutStoreService.setPunchoutState({ punchoutSessionId });
       this.punchoutFacade
         .getPunchoutSession({
           punchoutSessionId,

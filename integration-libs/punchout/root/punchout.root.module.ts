@@ -10,8 +10,8 @@ import {
   CmsConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { PunchoutNavigationModule } from '../guards/punchout-navigation.module';
 import { PUNCHOUT_FEATURE } from './feature-name';
+import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';

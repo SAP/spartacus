@@ -18,7 +18,7 @@ export enum PunchOutLevel {
   STORE = 'store',
   PRODUCT = 'product',
   AISLE = 'aisle',
-  SHAELF = 'shelf',
+  SHELF = 'shelf',
 }
 
 export enum PunchOutOperation {
@@ -59,13 +59,9 @@ export interface PunchoutState {
 
 export type PunchoutNavigationGuardConfig = {
   [key in PunchOutOperation]: {
-    urls?: string[];
-    cxRoutes?: string[];
-    homePage?: boolean;
+    allowedUrls?: string[];
+    allowedCxRoutes?: string[];
+    allowHomePage?: boolean;
+    redirectPage: string;
   };
 };
-
-export interface punchoutStorageInfo {
-  punchoutSessionId: string;
-  punchOutOperation: string;
-}
