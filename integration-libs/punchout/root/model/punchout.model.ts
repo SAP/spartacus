@@ -33,11 +33,11 @@ export interface PunchoutSessionInput {
 }
 
 export interface PunchoutSession {
-  customerId?: string;
-  cartId?: string;
-  punchOutLevel?: PunchOutLevel;
-  punchOutOperation?: PunchOutOperation;
-  selectedItem?: string;
+  customerId: string;
+  cartId: string;
+  punchOutLevel: PunchOutLevel;
+  punchOutOperation: PunchOutOperation;
+  selectedItem: string;
   token?: {
     accessToken: string;
     tokenType: string;
