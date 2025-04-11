@@ -173,6 +173,8 @@ context('Assisted Service Module', () => {
         'have.length.at.least',
         1
       );
+      cy.get('cx-page-slot cx-breadcrumb h1')
+        .should('contain', 'Brands');
 
       navigateToCategory('Streetwear', 'streetwear', true);
       cy.get('cx-product-list').should('exist');
@@ -180,9 +182,14 @@ context('Assisted Service Module', () => {
         'have.length.at.least',
         1
       );
+      cy.get('cx-page-slot cx-breadcrumb h1')
+        .should('contain', 'Streetwear');
 
       navigateToCategory('Snow', 'snow', true);
-      cy.get('cx-product-list').should('exist');
+      cy.get('cx-page-slot cx-banner cx-generic-link').should(
+        'have.length.at.least',
+        1
+      );
     });
   });
 });
