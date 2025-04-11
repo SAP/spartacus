@@ -5,5 +5,6 @@
  */
 
 export * from './schedule-line.model';
+export * from './s4om-order-attachments.model';
 // Imported for side effects (module augmentation)
 import './augmented-core.model';

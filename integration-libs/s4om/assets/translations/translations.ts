@@ -8,6 +8,7 @@ import { TranslationChunksConfig } from '@spartacus/core';
 
 export const s4omTranslationChunksConfig: TranslationChunksConfig = {
   s4omScheduleLines: ['s4omScheduleLines'],
+  s4omOrder: ['s4omOrder'],
 };
 
 export { cs as s4omTranslationsCs } from './cs/index';

@@ -228,6 +228,8 @@ export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
 export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
+export const SPARTACUS_S4OM_ORDER = `@spartacus/s4om/order`;
+
 
 export const SPARTACUS_OPF = `@spartacus/opf`;
 export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;

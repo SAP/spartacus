@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   s4omTranslationChunksConfig,
   s4omTranslationsEn,
@@ -13,11 +13,21 @@ import {
   s4omTranslationsDe,
   s4omTranslationsZh,
 } from '@spartacus/s4om/assets';
-import { S4omRootModule } from '@spartacus/s4om/root';
+import { S4OM_FEATURE, S4omRootModule } from '@spartacus/s4om/root';
 
 @NgModule({
   imports: [S4omRootModule],
   providers: [
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [S4OM_FEATURE]: {
+          module: () =>
+            import('./s4om-wrapper.module').then(
+              (m) => m.S4OMWrapperModule
+            ),
+        },
+      },
+    }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: {
