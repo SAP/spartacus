@@ -71,7 +71,8 @@ jobs:
           SPA_ENV: ci,b2b,b2c,vendor,cx_ccv2,cx_mcs
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh
+          chmod +x ci-scripts/e2e-run-all.sh
+          ci-scripts/e2e-run-all.sh
   build_conclusion:
     needs: [no_retries, e2e_tests]
     name: Build Conclusion
