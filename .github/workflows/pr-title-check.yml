@@ -16,31 +16,7 @@ jobs:
           echo "Checking PR title: $PR_TITLE"
 
           if [[ ! "$PR_TITLE" =~ ^(docs|feat|fix|perf|refactor|style|test|chore)(\([^)]*\))?:\ .+ ]]; then
-            echo "# 🚨 PR Title Validation Failed 🚨  
-
-          Your pull request title does not follow the required format. Please update it to match the expected pattern:  
-
-          **Expected format:**  
-          \`<type>: <subject>\`
-
-          ## **Allowed Types**
-          - **docs:** Changes to documentation only
-          - **feat:** New feature work
-          - **fix:** Bug fixes
-          - **perf:** Code improvements for performance
-          - **refactor:** Code changes that are not bug fixes or features
-          - **style:** Code style changes (e.g., whitespace, formatting)
-          - **test:** Adding or updating tests
-          - **chore:** Build, CI, scripts, configs, etc.
-
-          **Note**: Only **feat:** and **fix:** will be listed in the auto-generated Spartacus changelog.
-
-          ## **Example of a valid PR title**
-          ✅ \`feat: Add user authentication\`  
-          ✅ \`fix: Resolve checkout bug\`  
-          ✅ \`docs: Update API documentation\`  
-
-          ❌ **Merge is blocked until the PR title is corrected.**"
+            echo "❌ PR title is invalid."
             exit 1
           fi
 
@@ -74,8 +50,6 @@ jobs:
             - **style:** Code style changes (e.g., whitespace, formatting)
             - **test:** Adding or updating tests
             - **chore:** Build, CI, scripts, configs, etc.
-
-            **Note**: Only **feat:** and **fix:** will be listed in the auto-generated Spartacus changelog.
 
             ## **Example of a valid PR title**
             ✅ \`feat: Add user authentication\`  
