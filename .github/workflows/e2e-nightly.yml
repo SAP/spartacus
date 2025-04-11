@@ -56,7 +56,7 @@ jobs:
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           BUILD_NUMBER: ci-build-number-${{ github.run_id }}
-        run: e2e:run:ci:vendor
+        run: npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor
   build_conclusion:
     needs: [no_retries, e2e-vendors]
     name: Build Conclusion
