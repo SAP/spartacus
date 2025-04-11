@@ -4,11 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pagination } from 'projects/core/src/model/unused.model';
-
 export interface OrderAttachments {
   attachments?: OrderAttachment[];
-  pagination?: Pagination;
 }
 
 export interface OrderAttachment {

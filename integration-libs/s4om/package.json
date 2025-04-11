@@ -25,6 +25,7 @@
     "@angular/core": "^19.1.8",
     "@spartacus/cart": "2211.38.0-1",
     "@spartacus/core": "2211.38.0-1",
+    "@spartacus/order": "2211.38.0-1",
     "@spartacus/pdf-invoices": "2211.38.0-1",
     "@spartacus/requested-delivery-date": "2211.38.0-1",
     "@spartacus/schematics": "2211.38.0-1",
