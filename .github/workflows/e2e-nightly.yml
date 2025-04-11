@@ -36,26 +36,36 @@ jobs:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
-  e2e-vendors:
-    name: E2E for vendors
+  e2e_vendors:
+    needs: [no_retries, validate_e2e_execution]
+    name: E2E Vendors Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: [1, 2, 3]
+        containers: [1, 2, 3, 4]
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v2
-
-      - name: Install root deps
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Package installation
         run: npm ci
-
-      - name: Install e2e subfolder deps
-        run: npm ci --prefix ./projects/storefrontapp-e2e-cypress
-
-      - name: Run vendors e2e in parallel
-        run: npm run e2e:run:ci:vendor
+      - name: Build SSR Server
+        run: npm run build:libs && npm run build && npm run build:ssr:local-http-backend
+      - name: Run E2E vendors tests
+        run: npm run e2e:run:ci:vendor --verbose
   build_conclusion:
-    needs: [no_retries, e2e-vendors]
+    needs: [no_retries, e2e_vendors]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -67,7 +77,7 @@ jobs:
             core.setFailed('Build failed')
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
-          needs.e2e-vendors.result == 'failure' || needs.e2e-vendors.result == 'cancelled'
+          needs.e2e_vendors.result == 'failure' || needs.e2e_vendors.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
     name: Slack message for failed CI build in Spartacus
