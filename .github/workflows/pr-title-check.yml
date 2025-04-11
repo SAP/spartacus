@@ -6,6 +6,7 @@ on:
 
 jobs:
   check-pr-title:
+    name: PR - Check PR title
     runs-on: ubuntu-latest
     steps:
       - name: Validate PR title
@@ -13,7 +14,7 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          echo "Checking PR title: $PR_TITLE"
+          echo "Checking PR title: ${PR_TITLE}"
 
           REGEX='^(docs|feat|fix|perf|refactor|style|test|chore)(\([^)]*\))?:\ .+'
 
