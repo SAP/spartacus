@@ -45,6 +45,12 @@ jobs:
         container: [1, 2, 3]
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Install root deps
+        run: npm ci
+
+      - name: Install e2e subfolder deps
+        run: npm ci --prefix ./projects/storefrontapp-e2e-cypress
+
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v7
         with:
