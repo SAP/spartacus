@@ -32,6 +32,15 @@ import {
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+interface CustomerSearchParams {
+  /**
+   * Supported parameters for searching
+   */
+  query?: string;
+  orderId?: string;
+  customerListId?: string;
+}
+
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
   private activeBaseSite: string;
@@ -91,6 +100,8 @@ export class OccAsmAdapter implements AsmAdapter {
       this.activeBaseSite
     );
 
+    const searchBody: CustomerSearchParams = {};
+
     if (options.sort !== undefined) {
       params = params.set('sort', options.sort);
     } else {
@@ -100,10 +111,10 @@ export class OccAsmAdapter implements AsmAdapter {
     }
 
     if (options.query !== undefined) {
-      params = params.set('query', options.query);
+      searchBody.query = options.query;
     }
     if (options.orderId !== undefined) {
-      params = params.set('orderId', options.orderId);
+      searchBody.orderId = options.orderId;
     }
 
     if (options.pageSize !== undefined) {
@@ -115,7 +126,7 @@ export class OccAsmAdapter implements AsmAdapter {
     }
 
     if (options.customerListId !== undefined) {
-      params = params.set('customerListId', options.customerListId);
+      searchBody.customerListId = options.customerListId;
     }
 
     const url = this.occEndpointsService.buildUrl(
@@ -127,12 +138,14 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
-      catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
-      }),
-      this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
-    );
+    return this.http
+      .post<CustomerSearchPage>(url, searchBody, { headers, params })
+      .pipe(
+        catchError((error) => {
+          throw normalizeHttpError(error, this.logger);
+        }),
+        this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
+      );
   }
 
   bindCart({ cartId, customerId }: BindCartParams): Observable<unknown> {

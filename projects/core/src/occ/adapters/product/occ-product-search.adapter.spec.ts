@@ -112,17 +112,59 @@ describe('OccProductSearchAdapter', () => {
         PRODUCT_SEARCH_PAGE_NORMALIZER
       );
     });
+  });
 
-    it('should navigate to keywordRedirectUrl when it exists in the ProductSearchPage', () => {
-      service.search(queryText, mockSearchConfig).subscribe();
-      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
-      httpMock
-        .expectOne('productSearch')
-        .flush(searchResultsWithRedirectKeywords);
+  describe('keywordRedirectUrl', () => {
+    const testCases = [
+      {
+        keywordRedirectUrl: 'faq',
+        resultPath: ['faq'],
+        resultExtra: { queryParams: {} },
+      },
+      {
+        keywordRedirectUrl: 'c/574?test=1',
+        resultPath: ['c', '574'],
+        resultExtra: { queryParams: { test: '1' } },
+      },
+      {
+        keywordRedirectUrl: 'faq#001',
+        resultPath: ['faq'],
+        resultExtra: { fragment: '001', queryParams: {} },
+      },
+      {
+        keywordRedirectUrl: 'path1/faq#001',
+        resultPath: ['path1', 'faq'],
+        resultExtra: { fragment: '001', queryParams: {} },
+      },
+      {
+        keywordRedirectUrl: 'http://test.com',
+        resultPath: [],
+        resultExtra: { queryParams: {} },
+      },
+      {
+        keywordRedirectUrl: 'http://test.com/path1/path2',
+        resultPath: ['path1', 'path2'],
+        resultExtra: { queryParams: {} },
+      },
+      {
+        keywordRedirectUrl: 'http://test.com/path1/faq#001',
+        resultPath: ['path1', 'faq'],
+        resultExtra: { fragment: '001', queryParams: {} },
+      },
+    ];
+    testCases.forEach(({ keywordRedirectUrl, resultPath, resultExtra }) => {
+      it(`should navigate to ${keywordRedirectUrl} when it exists in the ProductSearchPage`, () => {
+        const searchResults = {
+          ...searchResultsWithRedirectKeywords,
+          keywordRedirectUrl,
+        };
 
-      expect(router.navigate).toHaveBeenCalledWith([
-        searchResultsWithRedirectKeywords.keywordRedirectUrl,
-      ]);
+        service.search(queryText, mockSearchConfig).subscribe();
+        spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+        httpMock.expectOne('productSearch').flush(searchResults);
+
+        expect(router.navigate).toHaveBeenCalledWith(resultPath, resultExtra);
+      });
     });
   });
 
@@ -143,7 +185,7 @@ describe('OccProductSearchAdapter', () => {
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productSuggestions', {
         queryParams: {
           term: queryText,
-          max: mockSearchConfig.pageSize.toString(),
+          max: mockSearchConfig.pageSize?.toString(),
         },
       });
       mockReq.flush(suggestionList);
