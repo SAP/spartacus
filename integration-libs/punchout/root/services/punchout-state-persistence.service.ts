@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { StatePersistenceService } from '@spartacus/core';
 import { map, Observable, Subscription, take } from 'rxjs';
