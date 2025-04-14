@@ -109,9 +109,11 @@ if [[ "${SSR}" = true ]]; then
 
         if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
             echo "Running Cypress end to end tests for pull request"
+
             npm run e2e:run:ci:ssr
         else
             echo "Running core Cypress end to end tests for pull requests"
+
             npm run e2e:run:ci:core:ssr
         fi
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
@@ -128,7 +130,6 @@ if [[ "${SSR}" = true ]]; then
         echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci:ssr
     fi
-
 else
     npm run start:pwa &
 
@@ -140,18 +141,10 @@ else
 
         if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
             echo "Running full Cypress end-to-end tests for epic branch"
-            if [ "$SUITE" == ":vendor" ]; then
-              npm run e2e:run:ci:vendor
-            else
-              npm run e2e:run:ci"${SUITE}"
-            fi
+            npm run e2e:run:ci"${SUITE}"
         else
             echo "Running core Cypress end-to-end tests for pull requests"
-            if [ "$SUITE" == ":vendor" ]; then
-              npm run e2e:run:ci:vendor
-            else
-              npm run e2e:run:ci:core"${SUITE}"
-            fi
+            npm run e2e:run:ci:core"${SUITE}"
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
@@ -159,34 +152,16 @@ else
 
         if is_bot_commit; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            if [ "$SUITE" == ":vendor" ]; then
-              npm run e2e:run:ci:vendor
-            else
-              npm run e2e:run:ci:core"${SUITE}"
-            fi
+            npm run e2e:run:ci:core"${SUITE}"
         else
             echo "Running full Cypress end-to-end tests"
-            if [ "$SUITE" == ":vendor" ]; then
-              npm run e2e:run:ci:vendor
-            else
-              npm run e2e:run:ci"${SUITE}"
-            fi
+            npm run e2e:run:ci"${SUITE}"
         fi
-
-    elif [ "${GITHUB_EVENT_NAME}" == "schedule" ]; then
-        echo "Running scheduled E2E tests"
-        if [ "$SUITE" == ":vendor" ]; then
-          npm run e2e:run:ci:vendor
-        else
-          npm run e2e:run:ci"${SUITE}"
-        fi
-
     else
         echo "Running full Cypress end-to-end tests"
-        if [ "$SUITE" == ":vendor" ]; then
-          npm run e2e:run:ci:vendor
-        else
-          npm run e2e:run:ci"${SUITE}"
-        fi
+        npm run e2e:run:ci"${SUITE}"
     fi
 fi
+
+if [ "${GITHUB_EVENT_NAME}" == "schedule" ] then 
+  npm run e2e:run:ci:vendor

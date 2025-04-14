@@ -3,11 +3,11 @@ name: Daily E2E Vendors Tests
 on:
   push:
 
-#on:
-#  schedule:
-    # Runs every day at 10:00 (UTC)
- #   - cron: "0 10 * * *"
-#  workflow_dispatch:
+on:
+  schedule:
+     Runs every day at 10:00 (UTC)
+    - cron: "0 10 * * *"
+  workflow_dispatch:
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
