@@ -4,29 +4,32 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { checkA11yConcerns } from '../../support/utils/a11y-continuum.utils';
-
-context('Login Page Accessibility', () => {
-  before(() => {
+describe('Login Page Accessibility', () => {
+  beforeEach(() => {
     cy.a11yContinuumSetup();
+    cy.visit('/login');
+    cy.get('cx-login').should('exist');
   });
 
-  describe('Initial Load', () => {
-    before(() => {
-      cy.visit('/login');
-    });
-
-    checkA11yConcerns();
+  it('should pass a11y on initial form', () => {
+    cy.get('form').a11yRunContinuumTest();
   });
 
-  describe('Submit Invalid Login', () => {
-    before(() => {
-      cy.visit('/login');
-      cy.get('input[formControlName="userId"]').type('invalid@email');
-      cy.get('input[formControlName="password"]').type('wrongpass');
-      cy.get('form').submit();
-    });
+  it('should show validation errors and pass a11y', () => {
+    cy.get('form button[type="submit"]').click();
+    cy.get('form').a11yRunContinuumTest();
+  });
 
-    checkA11yConcerns();
+  it('should pass a11y on forgot password link', () => {
+    cy.get('a.btn-link')
+      .contains(/forgot password/i)
+      .scrollIntoView()
+      .a11yRunContinuumTest();
+  });
+
+  it('should pass a11y on submit button', () => {
+    cy.get('form button[type="submit"]')
+      .scrollIntoView()
+      .a11yRunContinuumTest();
   });
 });
