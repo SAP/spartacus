@@ -161,6 +161,7 @@ else
         fi
     elif [ "${GITHUB_EVENT_NAME}" == "schedule" ] then 
         npm run e2e:run:ci:vendor
+        fi
     else
         echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci"${SUITE}"
