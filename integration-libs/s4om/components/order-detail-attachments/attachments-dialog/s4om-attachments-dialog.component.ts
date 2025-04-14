@@ -103,7 +103,7 @@ export class S4omAttachmentsDialogComponent {
     link.href = blobUrl;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    link.download = fileName as string;
+    link.download = fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -127,7 +127,8 @@ export class S4omAttachmentsDialogComponent {
   }
 
   addErrorMessage(attachmentId: string): void {
-    this.erroredAttachments.push(`${attachmentId}_${this.errorCounter++}`);
+    this.erroredAttachments.push(`${attachmentId}_${this.errorCounter}`);
+    this.errorCounter++;
     this.cd.detectChanges();
   }
 

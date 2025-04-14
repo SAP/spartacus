@@ -36,14 +36,13 @@
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
       @for (errorId of erroredAttachments; track errorId) {
-        <div class="cx-dialog-message attachment-error" aria-live="assertive" aria-atomic="true">
-          <cx-message
-            [text]="'s4omOrder.attachments.dialog.downloadError' | cxTranslate"
-            [type]="globalMessageType.MSG_TYPE_ERROR"
-            (closeMessage)="closeErrorMessage(errorId)"
-          >
-          </cx-message>
-        </div>
+        <cx-message
+          [text]="'s4omOrder.attachments.dialog.downloadError' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_ERROR"
+          (closeMessage)="closeErrorMessage(errorId)"
+          class="cx-dialog-message attachment-error"
+        >
+        </cx-message>
       }
       @if (attachments$ | async; as attachments) {
         @if (!(error$ | async)) {
@@ -85,25 +84,23 @@
                 </tr>
               }
             } @empty {
-              <div class="cx-dialog-message info-message" aria-live="assertive" aria-atomic="true">
-                <cx-message
-                  [text]="'s4omOrder.attachments.dialog.empty' | cxTranslate"
-                  [type]="globalMessageType.MSG_TYPE_INFO"
-                  [isVisibleCloseButton]="false"
-                >
-                </cx-message>
-              </div>
+              <cx-message
+                [text]="'s4omOrder.attachments.dialog.empty' | cxTranslate"
+                [type]="globalMessageType.MSG_TYPE_INFO"
+                [isVisibleCloseButton]="false"
+                class="cx-dialog-message info-message"
+              >
+              </cx-message>
             }
           </table>
         } @else {
-          <div class="cx-dialog-message error-message" aria-live="assertive" aria-atomic="true">
-            <cx-message
-              [text]="'s4omOrder.attachments.dialog.error' | cxTranslate"
-              [type]="globalMessageType.MSG_TYPE_ERROR"
-              [isVisibleCloseButton]="false"
-            >
-            </cx-message>
-          </div>
+          <cx-message
+            [text]="'s4omOrder.attachments.dialog.error' | cxTranslate"
+            [type]="globalMessageType.MSG_TYPE_ERROR"
+            [isVisibleCloseButton]="false"
+            class="cx-dialog-message error-message"
+          >
+          </cx-message>
         }
       } @else {
         <div class="cx-spinner">

@@ -6,7 +6,6 @@
 
 import '@spartacus/cart/base/root';
 import { ScheduleLine } from './schedule-line.model';
-
 import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
