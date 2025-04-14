@@ -67,9 +67,20 @@ $caretSize: 7px;
   @include cx-highContrastTheme {
     select {
       color: var(--cx-color-text);
+      option {
+        color: var(--cx-color-medium);
+      }
     }
     cx-icon {
       color: var(--cx-color-text);
+    }
+  }
+
+  @include cx-highContrastTheme-light {
+    select {
+      option {
+        color: var(--cx-color-dark);
+      }
     }
   }
 }

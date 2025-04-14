@@ -312,16 +312,17 @@ describe('Navigation UI Component', () => {
       spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
       spyOn(navigationComponent, 'reinitializeMenu').and.callThrough();
       spyOn(hamburgerMenuService, 'toggle').and.stub();
+      navigationComponent.isDesktop$ = of(false);
       fixture.detectChanges();
 
       element
         .query(By.css('nav > ul > li:nth-child(2) > button'))
         .nativeElement.click();
       element
-        .query(By.css('button[aria-controls="child-1"]'))
+        .query(By.css('button[aria-controls="Child-1"]'))
         .nativeElement.click();
       element
-        .query(By.css('button[aria-controls="sub-child-1"]'))
+        .query(By.css('button[aria-controls="Sub-child-1"]'))
         .nativeElement.click();
 
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
@@ -363,17 +364,17 @@ describe('Navigation UI Component', () => {
       });
     });
 
-    it('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
+    it('on desktop, display headings for nested nodes instead of dropdown triggers', () => {
       fixture.detectChanges();
-      const nestedTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-controls="child-1"]')
+      const nestedNodeHeading = fixture.debugElement.query(
+        By.css('#Root-1 h4')
       ).nativeElement;
       const rootTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-controls="root-1"]')
+        By.css('button[aria-controls="Root-1"]')
       ).nativeElement;
 
-      expect(nestedTriggerButton.getAttribute('role')).toEqual('heading');
-      expect(rootTriggerButton.getAttribute('role')).toEqual('button');
+      expect(nestedNodeHeading.tagName).toEqual('H4');
+      expect(rootTriggerButton.tagName).toEqual('BUTTON');
     });
   });
 
@@ -386,7 +387,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(navigationComponent, 'toggleOpen');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-controls="sub-child-1"]')
+        By.css('nav button[aria-expanded="false"')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -400,7 +401,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-controls="sub-child-1"]')
+        By.css('[depth="2"] h4')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -421,7 +422,7 @@ describe('Navigation UI Component', () => {
       });
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-controls="sub-child-1"]')
+        By.css('[depth="2"] h4')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
       Object.defineProperty(arrowDownEvent, 'target', {
@@ -466,27 +467,19 @@ describe('Navigation UI Component', () => {
     }));
   });
 
-  describe('trigger buttions ariaLabel/title', () => {
-    it('should have the ariaLabel and title set', () => {
-      const rootNode = mockNode.children?.[0];
-      const childNode = rootNode?.children?.[0];
-      const rootTitle = rootNode?.title;
-      const childTitle = childNode?.title;
-      const sanitizedRootTitle =
-        navigationComponent.getSanitizedTitle(rootTitle);
-      const sanitizedChildTitle =
-        navigationComponent.getSanitizedTitle(childTitle);
+  describe('transformIntoValidID', () => {
+    it('should replace invalid characters and provide a valid ID', () => {
+      const invalidIDs = [
+        { input: 'Invalid ID', expected: 'Invalid-ID' },
+        { input: 'Inv@lid$Char!', expected: 'Inv-lid-Char-' },
+        { input: 'ValidId', expected: 'ValidId' },
+      ];
 
-      fixture.detectChanges();
-      const nestedTriggerButton = fixture.debugElement.query(
-        By.css(`button[aria-label="${sanitizedRootTitle}"]`)
-      ).nativeElement;
-      const rootTriggerButton = fixture.debugElement.query(
-        By.css(`button[aria-label="${sanitizedChildTitle}"]`)
-      ).nativeElement;
-
-      expect(nestedTriggerButton).toBeDefined();
-      expect(rootTriggerButton).toBeDefined();
+      invalidIDs.forEach(({ input, expected }) => {
+        expect(navigationComponent.transformIntoValidID(input)).toEqual(
+          expected
+        );
+      });
     });
   });
 });
