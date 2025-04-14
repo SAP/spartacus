@@ -7,7 +7,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { mock_pdp_block } from './mock_pdp';
+import { mock_pdp_block, mock_cart_block } from './mock_pdp';
 import { mock_list } from './mock_list';
 
 @Injectable()
@@ -29,6 +29,11 @@ export class MockResponseInterceptor implements HttpInterceptor {
       return of(new HttpResponse({ status: 200, body: mockResponse }));
     } else if (req.url.includes('/subscriptions')) {
       const mockResponse = mock_list;
+
+      // Return the mocked response
+      return of(new HttpResponse({ status: 200, body: mockResponse }));
+    } else if (req.url.includes('/carts')) {
+      const mockResponse = mock_cart_block;
 
       // Return the mocked response
       return of(new HttpResponse({ status: 200, body: mockResponse }));

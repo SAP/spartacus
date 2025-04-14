@@ -366,3 +366,383 @@ export const mock_pdp_block = {
   },
   sapSubscriptionTerm: term,
 };
+
+export const mock_cart_vol = {
+  appliedOrderPromotions: [],
+  appliedProductPromotions: [],
+  appliedVouchers: [],
+  code: "0005000000",
+  deliveryItemsQuantity: 1,
+  entries: [
+      {
+          basePrice: {
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          cancellableQuantity: 0,
+          configurationInfos: [],
+          cpqDiscounts: [],
+          entryNumber: 0,
+          product: {
+              baseOptions: [],
+              categories: [],
+              code: "Mobile_2020_Plan_cpq",
+              configurable: false,
+              name: "Mobile 2020 Plan",
+              price: {},
+              productTypes: "SUBSCRIPTION",
+              purchasable: true,
+              sapPricePlan: { ...mock_pdp_vol.sapPricePlan },
+              sapSubscriptionTerm: term,
+              stock: {
+                  isValueRounded: false,
+                  stockLevelStatus: "inStock"
+              },
+              url: "/c/Mobile-2020-Plan/p/Mobile_2020_Plan_cpq"
+          },
+          quantity: 1,
+          returnableQuantity: 0,
+          statusSummaryList: [],
+          totalPrice: {
+              currencyIso: "USD",
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          updateable: true
+      }
+  ],
+  guid: "fb9d3ce6-422e-42a2-87a1-347b3be80a1a",
+  net: true,
+  paymentType: {
+      code: "CARD",
+      displayName: "Card Payment"
+  },
+  pickupItemsQuantity: 0,
+  potentialOrderPromotions: [],
+  potentialProductPromotions: [],
+  productDiscounts: {
+      formattedValue: "USD0.00"
+  },
+  subTotal: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalDiscounts: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalItems: 1,
+  totalPrice: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalPriceWithTax: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalTax: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalUnitCount: 1,
+  type: "cartWsDTO",
+  user: {
+      name: "James Weber",
+      uid: "james.weber@harvestlive.inc"
+  }
+};
+
+export const mock_cart_percentage = {
+  appliedOrderPromotions: [],
+  appliedProductPromotions: [],
+  appliedVouchers: [],
+  code: "0005000000",
+  deliveryItemsQuantity: 1,
+  entries: [
+      {
+          basePrice: {
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          cancellableQuantity: 0,
+          configurationInfos: [],
+          cpqDiscounts: [],
+          entryNumber: 0,
+          product: {
+              baseOptions: [],
+              categories: [],
+              code: "Mobile_2020_Plan_cpq",
+              configurable: false,
+              name: "Mobile 2020 Plan",
+              price: {},
+              productTypes: "SUBSCRIPTION",
+              purchasable: true,
+              sapPricePlan: { ...mock_pdp_percentage.sapPricePlan },
+              sapSubscriptionTerm: term,
+              stock: {
+                  isValueRounded: false,
+                  stockLevelStatus: "inStock"
+              },
+              url: "/c/Mobile-2020-Plan/p/Mobile_2020_Plan_cpq"
+          },
+          quantity: 1,
+          returnableQuantity: 0,
+          statusSummaryList: [],
+          totalPrice: {
+              currencyIso: "USD",
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          updateable: true
+      }
+  ],
+  guid: "fb9d3ce6-422e-42a2-87a1-347b3be80a1a",
+  net: true,
+  paymentType: {
+      code: "CARD",
+      displayName: "Card Payment"
+  },
+  pickupItemsQuantity: 0,
+  potentialOrderPromotions: [],
+  potentialProductPromotions: [],
+  productDiscounts: {
+      formattedValue: "USD0.00"
+  },
+  subTotal: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalDiscounts: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalItems: 1,
+  totalPrice: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalPriceWithTax: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalTax: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalUnitCount: 1,
+  type: "cartWsDTO",
+  user: {
+      name: "James Weber",
+      uid: "james.weber@harvestlive.inc"
+  }
+};
+
+export const mock_cart_tier = {
+  appliedOrderPromotions: [],
+  appliedProductPromotions: [],
+  appliedVouchers: [],
+  code: "0005000000",
+  deliveryItemsQuantity: 1,
+  entries: [
+      {
+          basePrice: {
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          cancellableQuantity: 0,
+          configurationInfos: [],
+          cpqDiscounts: [],
+          entryNumber: 0,
+          product: {
+              baseOptions: [],
+              categories: [],
+              code: "Mobile_2020_Plan_cpq",
+              configurable: false,
+              name: "Mobile 2020 Plan",
+              price: {},
+              productTypes: "SUBSCRIPTION",
+              purchasable: true,
+              sapPricePlan: { ...mock_pdp_tier.sapPricePlan },
+              sapSubscriptionTerm: term,
+              stock: {
+                  isValueRounded: false,
+                  stockLevelStatus: "inStock"
+              },
+              url: "/c/Mobile-2020-Plan/p/Mobile_2020_Plan_cpq"
+          },
+          quantity: 1,
+          returnableQuantity: 0,
+          statusSummaryList: [],
+          totalPrice: {
+              currencyIso: "USD",
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          updateable: true
+      }
+  ],
+  guid: "fb9d3ce6-422e-42a2-87a1-347b3be80a1a",
+  net: true,
+  paymentType: {
+      code: "CARD",
+      displayName: "Card Payment"
+  },
+  pickupItemsQuantity: 0,
+  potentialOrderPromotions: [],
+  potentialProductPromotions: [],
+  productDiscounts: {
+      formattedValue: "USD0.00"
+  },
+  subTotal: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalDiscounts: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalItems: 1,
+  totalPrice: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalPriceWithTax: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalTax: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalUnitCount: 1,
+  type: "cartWsDTO",
+  user: {
+      name: "James Weber",
+      uid: "james.weber@harvestlive.inc"
+  }
+};
+
+export const mock_cart_block = {
+  appliedOrderPromotions: [],
+  appliedProductPromotions: [],
+  appliedVouchers: [],
+  code: "0005000000",
+  deliveryItemsQuantity: 1,
+  entries: [
+      {
+          basePrice: {
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          cancellableQuantity: 0,
+          configurationInfos: [],
+          cpqDiscounts: [],
+          entryNumber: 0,
+          product: {
+              baseOptions: [],
+              categories: [],
+              code: "Mobile_2020_Plan_cpq",
+              configurable: false,
+              name: "Mobile 2020 Plan",
+              price: {},
+              productTypes: "SUBSCRIPTION",
+              purchasable: true,
+              sapPricePlan: { ...mock_pdp_block.sapPricePlan },
+              sapSubscriptionTerm: term,
+              stock: {
+                  isValueRounded: false,
+                  stockLevelStatus: "inStock"
+              },
+              url: "/c/Mobile-2020-Plan/p/Mobile_2020_Plan_cpq"
+          },
+          quantity: 1,
+          returnableQuantity: 0,
+          statusSummaryList: [],
+          totalPrice: {
+              currencyIso: "USD",
+              formattedValue: "USD10.00",
+              value: 10.0
+          },
+          updateable: true
+      }
+  ],
+  guid: "fb9d3ce6-422e-42a2-87a1-347b3be80a1a",
+  net: true,
+  paymentType: {
+      code: "CARD",
+      displayName: "Card Payment"
+  },
+  pickupItemsQuantity: 0,
+  potentialOrderPromotions: [],
+  potentialProductPromotions: [],
+  productDiscounts: {
+      formattedValue: "USD0.00"
+  },
+  subTotal: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalDiscounts: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalItems: 1,
+  totalPrice: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalPriceWithTax: {
+      currencyIso: "USD",
+      formattedValue: "USD10.00",
+      priceType: "BUY",
+      value: 10.0
+  },
+  totalTax: {
+      currencyIso: "USD",
+      formattedValue: "USD0.00",
+      priceType: "BUY",
+      value: 0.0
+  },
+  totalUnitCount: 1,
+  type: "cartWsDTO",
+  user: {
+      name: "James Weber",
+      uid: "james.weber@harvestlive.inc"
+  }
+};
