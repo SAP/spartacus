@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './order-attachments.adapter';
-export * from './order-attachments.connector';
+export * from './s4om-order-attachments.adapter';
+export * from './s4om-order-attachments-connector.service';

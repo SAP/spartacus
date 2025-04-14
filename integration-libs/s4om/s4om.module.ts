@@ -5,13 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
-import { S4omComponentsModule } from './components';
-import { S4omOrderCoreModule } from './core';
-import { S4omOrderOccModule } from './occ';
+import { S4omComponentsModule } from './components/s4om-components.module';
+import { S4omCoreModule } from './core/s4om-core.module';
+import { S4omOccModule } from './occ/s4om-occ.module';
+
 
 @NgModule({
-  declarations: [],
-  imports: [S4omComponentsModule, S4omOrderCoreModule, S4omOrderOccModule],
+  imports: [S4omComponentsModule, S4omCoreModule, S4omOccModule],
 })
 export class S4omModule {
 }

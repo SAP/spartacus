@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface OrderAttachments {
-  attachments?: OrderAttachment[];
+export interface S4omOrderAttachments {
+  attachments?: S4omOrderAttachment[];
 }
 
-export interface OrderAttachment {
+export interface S4omOrderAttachment {
   attachmentId?: string;
   fileName?: string;
 }

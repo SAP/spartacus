@@ -17,13 +17,13 @@ import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { OccOrderAttachmentsAdapter } from './occ-order-attachments.adapter';
-import { OrderAttachments } from '@spartacus/s4om/root';
+import { OccS4omOrderAttachmentsAdapter } from './occ-s4om-order-attachments-adapter.service';
+import { S4omOrderAttachments } from '@spartacus/s4om/root';
 
 const userId = '123';
 const orderId = '00001004';
 const attachmentId = 'a_123';
-const attachmentsData: OrderAttachments = {
+const attachmentsData: S4omOrderAttachments = {
   attachments: [
     {
       attachmentId: attachmentId,
@@ -34,7 +34,7 @@ const attachmentsData: OrderAttachments = {
 const blobData: Blob = new Blob(['mock content'], { type: 'application/pdf' });
 
 describe('OccOrderAttachmentsAdapter', () => {
-  let adapter: OccOrderAttachmentsAdapter;
+  let adapter: OccS4omOrderAttachmentsAdapter;
   let httpMock: HttpTestingController;
   let occEndpointsService: OccEndpointsService;
 
@@ -43,7 +43,7 @@ describe('OccOrderAttachmentsAdapter', () => {
       imports: [],
       providers: [
         LoggerService,
-        OccOrderAttachmentsAdapter,
+        OccS4omOrderAttachmentsAdapter,
         {
           provide: OccConfig,
           useValue: mockOccModuleConfig,
@@ -57,7 +57,7 @@ describe('OccOrderAttachmentsAdapter', () => {
       ],
     });
 
-    adapter = TestBed.inject(OccOrderAttachmentsAdapter);
+    adapter = TestBed.inject(OccS4omOrderAttachmentsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
@@ -82,7 +82,7 @@ describe('OccOrderAttachmentsAdapter', () => {
   }));
 
   it('should fetch order attachment blob for logged in user\'s', waitForAsync(() => {
-    const subscription = adapter.getOrderAttachment(userId, orderId, attachmentId).subscribe();
+    const subscription = adapter.downloadOrderAttachment(userId, orderId, attachmentId).subscribe();
     const request = httpMock.expectOne((req: HttpRequest<any>) => {
       return req.method === 'GET';
     }, `GET order attachment data`);

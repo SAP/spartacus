@@ -22,8 +22,8 @@ import { S4OM_FEATURE, S4omRootModule } from '@spartacus/s4om/root';
       featureModules: {
         [S4OM_FEATURE]: {
           module: () =>
-            import('./s4om-wrapper.module').then(
-              (m) => m.S4OMWrapperModule
+            import('@spartacus/s4om').then(
+              (m) => m.S4omModule,
             ),
         },
       },
@@ -42,4 +42,5 @@ import { S4OM_FEATURE, S4omRootModule } from '@spartacus/s4om/root';
     }),
   ],
 })
-export class S4OMFeatureModule {}
+export class S4OMFeatureModule {
+}

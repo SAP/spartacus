@@ -5,34 +5,19 @@
  */
 
 import { NgModule } from '@angular/core';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { OrderDetailAttachmentsComponent } from './order-detail-attachments/order-detail-attachments.component';
-import { AttachmentsDialogComponent } from './order-detail-attachments/attachments-dialog/attachments-dialog.component';
-import { defaultOrderAttachmentsLayoutConfig } from './config/order-attachments-layout.config';
-import { defaultOrderCmsConfig } from './config/order-attachments-cms.config';
-import { IconModule, KeyboardFocusModule, MessageComponentModule, SpinnerModule } from '@spartacus/storefront';
-import { CommonModule } from '@angular/common';
-
-const moduleComponents = [
-  OrderDetailAttachmentsComponent,
-  AttachmentsDialogComponent,
-];
+import { S4omOrderAttachmentsModule } from './order-detail-attachments/s4om-order-attachments.module';
+import { provideDefaultConfig } from '@spartacus/core';
+import { defaultS4omCmsConfig } from './default-s4om-cms.config';
+import { defaultS4omLayoutConfig } from './default-s4om-layout.config';
 
 @NgModule({
   imports: [
-    CommonModule,
-    IconModule,
-    I18nModule,
-    SpinnerModule,
-    MessageComponentModule,
-    KeyboardFocusModule,
+    S4omOrderAttachmentsModule,
   ],
   providers: [
-    provideDefaultConfig(defaultOrderCmsConfig),
-    provideDefaultConfig(defaultOrderAttachmentsLayoutConfig),
+    provideDefaultConfig(defaultS4omCmsConfig),
+    provideDefaultConfig(defaultS4omLayoutConfig),
   ],
-  declarations: [...moduleComponents],
-  exports: [...moduleComponents],
 })
 export class S4omComponentsModule {
 }

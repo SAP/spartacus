@@ -13,13 +13,13 @@ import { ScheduleLinesComponent } from './components/schedule-lines/schedule-lin
 import { ScheduleLinesModule } from './components/schedule-lines/schedule-lines.module';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { S4OM_FEATURE } from './feature-name';
-import { DEFAULT_MIME_TYPE_CONFIG, S4OM_ORDER_ATTACHMENTS_PREVIEW_MIME_TYPES } from '../components';
+import { defaultS4omConfig } from './config';
 
 export const defaultS4OMComponentsConfig: CmsConfig = {
   featureModules: {
     [S4OM_FEATURE]: {
       cmsComponents: [
-        'AccountOrderDetailsOrderAttachmentsComponent',
+        'S4omOrderAttachmentsComponent',
       ],
     },
   },
@@ -33,15 +33,12 @@ export const defaultS4OMComponentsConfig: CmsConfig = {
   ],
   providers: [
     provideDefaultConfig(defaultS4OMComponentsConfig),
+    provideDefaultConfig(defaultS4omConfig),
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,
       component: ScheduleLinesComponent,
     }),
-    {
-      provide: S4OM_ORDER_ATTACHMENTS_PREVIEW_MIME_TYPES,
-      useValue: DEFAULT_MIME_TYPE_CONFIG
-    }
   ],
 })
 export class S4omRootModule {}
