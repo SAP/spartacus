@@ -23,9 +23,14 @@ export abstract class S4omOrderAttachmentsFacade {
   /**
    * Get all order attachments
    */
-  abstract getOrderAttachments(orderId: string): Observable<S4omOrderAttachments>;
+  abstract getOrderAttachments(
+    orderId: string
+  ): Observable<S4omOrderAttachments>;
   /**
    * Get order attachment
    */
-  abstract downloadOrderAttachment(orderId: string, attachmentId: string): Observable<Blob>;
+  abstract downloadOrderAttachment(
+    orderId: string,
+    attachmentId: string
+  ): Observable<Blob>;
 }

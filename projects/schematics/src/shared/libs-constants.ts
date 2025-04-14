@@ -232,7 +232,6 @@ export const SPARTACUS_S4OM_CORE = `@spartacus/s4om/core`;
 export const SPARTACUS_S4OM_OCC = `@spartacus/s4om/occ`;
 export const SPARTACUS_S4OM_COMPONENTS = `@spartacus/s4om/components`;
 
-
 export const SPARTACUS_OPF = `@spartacus/opf`;
 export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;
 export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;

@@ -50,9 +50,11 @@ describe('S4omOrderDetailAttachmentsComponent', () => {
 
   it('should return correct order ', () => {
     expect(component.order$).toBeDefined();
-    component.order$.subscribe((order) => {
-      expect(order).toEqual(orderData);
-    }).unsubscribe();
+    component.order$
+      .subscribe((order) => {
+        expect(order).toEqual(orderData);
+      })
+      .unsubscribe();
     expect(orderDetailsService.getOrderDetails).toHaveBeenCalled();
   });
 
@@ -83,6 +85,8 @@ describe('S4omOrderDetailAttachmentsComponent', () => {
 
     const buttonEl = fixture.debugElement.query(By.css('button')).nativeElement;
     buttonEl.click();
-    expect(component.onOrderAttachmentsClick).toHaveBeenCalledWith(orderData.code);
+    expect(component.onOrderAttachmentsClick).toHaveBeenCalledWith(
+      orderData.code
+    );
   });
 });

@@ -11,13 +11,10 @@ import { defaultS4omCmsConfig } from './default-s4om-cms.config';
 import { defaultS4omLayoutConfig } from './default-s4om-layout.config';
 
 @NgModule({
-  imports: [
-    S4omOrderAttachmentsModule,
-  ],
+  imports: [S4omOrderAttachmentsModule],
   providers: [
     provideDefaultConfig(defaultS4omCmsConfig),
     provideDefaultConfig(defaultS4omLayoutConfig),
   ],
 })
-export class S4omComponentsModule {
-}
+export class S4omComponentsModule {}

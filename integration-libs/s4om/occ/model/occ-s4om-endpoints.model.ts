@@ -18,6 +18,5 @@ export interface S4omOccEndpoints {
 }
 
 declare module '@spartacus/core' {
-  interface OccEndpoints extends S4omOccEndpoints {
-  }
+  interface OccEndpoints extends S4omOccEndpoints {}
 }

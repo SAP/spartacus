@@ -21,10 +21,7 @@ import { S4OM_FEATURE, S4omRootModule } from '@spartacus/s4om/root';
     provideConfig(<CmsConfig>{
       featureModules: {
         [S4OM_FEATURE]: {
-          module: () =>
-            import('@spartacus/s4om').then(
-              (m) => m.S4omModule,
-            ),
+          module: () => import('@spartacus/s4om').then((m) => m.S4omModule),
         },
       },
     }),
@@ -42,5 +39,4 @@ import { S4OM_FEATURE, S4omRootModule } from '@spartacus/s4om/root';
     }),
   ],
 })
-export class S4OMFeatureModule {
-}
+export class S4OMFeatureModule {}

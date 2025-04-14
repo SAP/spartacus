@@ -15,12 +15,16 @@ export class S4omOrderAttachmentsConnector {
 
   public getOrderAttachments(
     userId: string,
-    orderId: string,
+    orderId: string
   ): Observable<S4omOrderAttachments> {
     return this.adapter.getOrderAttachments(userId, orderId);
   }
 
-  public downloadOrderAttachment(userId: string, orderId: string, attachmentId: string): Observable<Blob> {
+  public downloadOrderAttachment(
+    userId: string,
+    orderId: string,
+    attachmentId: string
+  ): Observable<Blob> {
     return this.adapter.downloadOrderAttachment(userId, orderId, attachmentId);
   }
 }

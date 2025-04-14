@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
@@ -18,17 +22,21 @@ import { S4omOrderAttachmentsAdapter } from '../../core/connector';
 import { S4omOrderAttachments } from '../../root/model';
 
 @Injectable()
-export class OccS4omOrderAttachmentsAdapter implements S4omOrderAttachmentsAdapter {
+export class OccS4omOrderAttachmentsAdapter
+  implements S4omOrderAttachmentsAdapter
+{
   protected logger = inject(LoggerService);
 
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-  ) {
-  }
+    protected converter: ConverterService
+  ) {}
 
-  getOrderAttachments(userId: string, orderId: string): Observable<S4omOrderAttachments> {
+  getOrderAttachments(
+    userId: string,
+    orderId: string
+  ): Observable<S4omOrderAttachments> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
@@ -36,17 +44,24 @@ export class OccS4omOrderAttachmentsAdapter implements S4omOrderAttachmentsAdapt
       .pipe(
         catchError((error) => {
           throw tryNormalizeHttpError(error, this.logger);
-        }),
+        })
       );
   }
 
-  downloadOrderAttachment(userId: string, orderId: string, attachmentId: string): Observable<Blob> {
+  downloadOrderAttachment(
+    userId: string,
+    orderId: string,
+    attachmentId: string
+  ): Observable<Blob> {
     const options = {
       responseType: 'blob' as 'json',
     };
 
     return this.http
-      .get<Blob>(this.getDownloadOrderAttachmentUrl(userId, orderId, attachmentId), options)
+      .get<Blob>(
+        this.getDownloadOrderAttachmentUrl(userId, orderId, attachmentId),
+        options
+      )
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw tryNormalizeHttpError(error, this.logger);
@@ -63,12 +78,16 @@ export class OccS4omOrderAttachmentsAdapter implements S4omOrderAttachmentsAdapt
     });
   }
 
-  protected getDownloadOrderAttachmentUrl(userId: string, orderId: string, attachmentId: string) {
+  protected getDownloadOrderAttachmentUrl(
+    userId: string,
+    orderId: string,
+    attachmentId: string
+  ) {
     return this.occEndpoints.buildUrl('downloadOrderAttachment', {
       urlParams: {
         userId,
         orderId,
-        attachmentId
+        attachmentId,
       },
     });
   }

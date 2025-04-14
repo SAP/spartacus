@@ -18,6 +18,5 @@ export abstract class S4omConfig {
 }
 
 declare module '@spartacus/core' {
-  interface Config extends S4omConfig {
-  }
+  interface Config extends S4omConfig {}
 }

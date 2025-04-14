@@ -9,5 +9,5 @@ import s4omOrder from './s4omOrder.json';
 
 export const en = {
   s4omScheduleLines,
-  s4omOrder
+  s4omOrder,
 };

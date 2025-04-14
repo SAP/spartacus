@@ -7,12 +7,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, DestroyRef, inject,
+  Component,
+  DestroyRef,
+  inject,
 } from '@angular/core';
-import {
-  GlobalMessageType,
-  TranslationService,
-} from '@spartacus/core';
+import { GlobalMessageType, TranslationService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -49,19 +48,21 @@ export class S4omAttachmentsDialogComponent {
   };
 
   orderCode$: Observable<string> = this.launchDialogService.data$.pipe(
-    map(data => data.orderCode),
+    map((data) => data.orderCode)
   );
   attachments$: Observable<S4omOrderAttachment[]> = this.orderCode$.pipe(
-    switchMap((orderId) => this.orderAttachmentsFacade.getOrderAttachments(orderId)),
+    switchMap((orderId) =>
+      this.orderAttachmentsFacade.getOrderAttachments(orderId)
+    ),
     map((attachments) => attachments.attachments ?? []),
     catchError(() => {
       this.error$.next(true);
       return of([]);
     }),
-    share(),
+    share()
   );
   attachmentsCount$: Observable<number> = this.attachments$.pipe(
-    map(attachments => attachments.length),
+    map((attachments) => attachments.length)
   );
   error$ = new BehaviorSubject(false);
 
@@ -70,26 +71,36 @@ export class S4omAttachmentsDialogComponent {
   errorCounter = 0;
 
   openOrderAttachment(attachmentId: string, fileName?: string): void {
-    this.orderCode$.pipe(
-      filter(() => !this.loadingAttachments.includes(attachmentId)),
-      tap(() => this.setAttachmentLoadingState(attachmentId, true)),
-      switchMap((orderId) => this.orderAttachmentsFacade.downloadOrderAttachment(orderId, attachmentId)),
-      tap((blob) => {
-        if (blob.type && this.config.s4om?.previewMimeTypes.includes(blob.type.split(';')[0])) {
-          this.previewFile(blob);
-          return;
-        }
+    this.orderCode$
+      .pipe(
+        filter(() => !this.loadingAttachments.includes(attachmentId)),
+        tap(() => this.setAttachmentLoadingState(attachmentId, true)),
+        switchMap((orderId) =>
+          this.orderAttachmentsFacade.downloadOrderAttachment(
+            orderId,
+            attachmentId
+          )
+        ),
+        tap((blob) => {
+          if (
+            blob.type &&
+            this.config.s4om?.previewMimeTypes.includes(blob.type.split(';')[0])
+          ) {
+            this.previewFile(blob);
+            return;
+          }
 
-        this.downloadFile(blob, fileName as string);
-      }),
-      tap(() => this.setAttachmentLoadingState(attachmentId, false)),
-      catchError(() => {
-        this.setAttachmentLoadingState(attachmentId, false);
-        this.addErrorMessage(attachmentId);
-        return EMPTY;
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+          this.downloadFile(blob, fileName as string);
+        }),
+        tap(() => this.setAttachmentLoadingState(attachmentId, false)),
+        catchError(() => {
+          this.setAttachmentLoadingState(attachmentId, false);
+          this.addErrorMessage(attachmentId);
+          return EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   previewFile(blob: Blob): void {
@@ -109,10 +120,17 @@ export class S4omAttachmentsDialogComponent {
     document.body.removeChild(link);
   }
 
-  onMouseDown(event: MouseEvent, attachmentId: string, fileName?: string): void {
+  onMouseDown(
+    event: MouseEvent,
+    attachmentId: string,
+    fileName?: string
+  ): void {
     const leftMouseButton = 0;
     const middleMouseButton = 1;
-    if (event.button === leftMouseButton || event.button === middleMouseButton) {
+    if (
+      event.button === leftMouseButton ||
+      event.button === middleMouseButton
+    ) {
       this.openOrderAttachment(attachmentId, fileName);
     }
   }
@@ -121,7 +139,9 @@ export class S4omAttachmentsDialogComponent {
     if (state) {
       this.loadingAttachments.push(attachmentId);
     } else {
-      this.loadingAttachments = this.loadingAttachments.filter(id => id !== attachmentId);
+      this.loadingAttachments = this.loadingAttachments.filter(
+        (id) => id !== attachmentId
+      );
     }
     this.cd.detectChanges();
   }
@@ -133,7 +153,9 @@ export class S4omAttachmentsDialogComponent {
   }
 
   closeErrorMessage(attachmentId: string): void {
-    this.erroredAttachments = this.erroredAttachments.filter(id => id !== attachmentId);
+    this.erroredAttachments = this.erroredAttachments.filter(
+      (id) => id !== attachmentId
+    );
   }
 
   close(reason: string): void {

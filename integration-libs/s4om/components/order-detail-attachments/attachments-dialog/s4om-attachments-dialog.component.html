@@ -9,27 +9,29 @@
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div id="dialogTitle" class="cx-dialog-title modal-title">
-            <span>
-              {{ 's4omOrder.attachments.dialog.title' | cxTranslate }}
-            </span>
+        <span>
+          {{ 's4omOrder.attachments.dialog.title' | cxTranslate }}
+        </span>
         @if (attachmentsCount$ | async; as attachmentsCount) {
           @if (attachmentsCount > 0) {
             <span class="attachments-counter">
-                {{ '(' + attachmentsCount + ')' }}
-              </span>
+              {{ '(' + attachmentsCount + ')' }}
+            </span>
           }
         }
       </div>
       <button
         type="button"
         class="close"
-        attr.aria-label="{{ 's4omOrder.attachments.dialog.closeModal' | cxTranslate }}"
+        attr.aria-label="{{
+          's4omOrder.attachments.dialog.closeModal' | cxTranslate
+        }}"
         title="{{ 's4omOrder.attachments.dialog.closeModal' | cxTranslate }}"
         (click)="close('Close dialog')"
       >
-          <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-          </span>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
       </button>
     </div>
 
@@ -52,18 +54,43 @@
                 <tr class="order-attachment-row">
                   <td>
                     <a
-                      attr.aria-label="{{ 's4omOrder.attachments.dialog.preview' | cxTranslate }}"
-                      title="{{ 's4omOrder.attachments.dialog.preview' | cxTranslate }}"
-                      [ngClass]="{'disabled': loadingAttachments.includes(attachment.attachmentId)}"
-                      (mousedown)="onMouseDown($event, attachment.attachmentId, attachment.fileName)"
-                      (keydown.enter)="openOrderAttachment(attachment.attachmentId, attachment.fileName)"
+                      attr.aria-label="{{
+                        's4omOrder.attachments.dialog.preview' | cxTranslate
+                      }}"
+                      title="{{
+                        's4omOrder.attachments.dialog.preview' | cxTranslate
+                      }}"
+                      [ngClass]="{
+                        disabled: loadingAttachments.includes(
+                          attachment.attachmentId
+                        ),
+                      }"
+                      (mousedown)="
+                        onMouseDown(
+                          $event,
+                          attachment.attachmentId,
+                          attachment.fileName
+                        )
+                      "
+                      (keydown.enter)="
+                        openOrderAttachment(
+                          attachment.attachmentId,
+                          attachment.fileName
+                        )
+                      "
                     >
                       {{ attachment.fileName }}
                     </a>
                   </td>
                   <td>
-                    <div class="inline-spinner"
-                         [ngClass]="{hidden: !loadingAttachments.includes(attachment.attachmentId)}">
+                    <div
+                      class="inline-spinner"
+                      [ngClass]="{
+                        hidden: !loadingAttachments.includes(
+                          attachment.attachmentId
+                        ),
+                      }"
+                    >
                       <cx-spinner></cx-spinner>
                     </div>
                   </td>
@@ -72,11 +99,29 @@
                       tabindex="0"
                       role="button"
                       class="file-icon"
-                      attr.aria-label="{{ 's4omOrder.attachments.dialog.preview' | cxTranslate }}"
-                      title="{{ 's4omOrder.attachments.dialog.preview' | cxTranslate }}"
-                      [ngClass]="{'disabled': loadingAttachments.includes(attachment.attachmentId)}"
-                      (click)="openOrderAttachment(attachment.attachmentId, attachment.fileName)"
-                      (keydown.enter)="openOrderAttachment(attachment.attachmentId, attachment.fileName)"
+                      attr.aria-label="{{
+                        's4omOrder.attachments.dialog.preview' | cxTranslate
+                      }}"
+                      title="{{
+                        's4omOrder.attachments.dialog.preview' | cxTranslate
+                      }}"
+                      [ngClass]="{
+                        disabled: loadingAttachments.includes(
+                          attachment.attachmentId
+                        ),
+                      }"
+                      (click)="
+                        openOrderAttachment(
+                          attachment.attachmentId,
+                          attachment.fileName
+                        )
+                      "
+                      (keydown.enter)="
+                        openOrderAttachment(
+                          attachment.attachmentId,
+                          attachment.fileName
+                        )
+                      "
                     >
                       <cx-icon [type]="iconTypes.FILE"></cx-icon>
                     </a>

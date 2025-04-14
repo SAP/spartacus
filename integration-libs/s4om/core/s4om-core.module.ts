@@ -5,7 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { S4omOrderAttachmentsFacade, S4omOrderAttachmentsService } from './facade';
+import {
+  S4omOrderAttachmentsFacade,
+  S4omOrderAttachmentsService,
+} from './facade';
 import { S4omOrderAttachmentsConnector } from './connector';
 
 @NgModule({
@@ -18,5 +21,4 @@ import { S4omOrderAttachmentsConnector } from './connector';
     },
   ],
 })
-export class S4omCoreModule {
-}
+export class S4omCoreModule {}

@@ -5,9 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  UserIdService,
-} from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { Observable, switchMap, take } from 'rxjs';
 import { S4omOrderAttachmentsFacade } from './s4om-order-attachments-facade.service';
 import { S4omOrderAttachments } from '../../root/model';
@@ -21,15 +19,25 @@ export class S4omOrderAttachmentsService implements S4omOrderAttachmentsFacade {
   getOrderAttachments(orderId: string): Observable<S4omOrderAttachments> {
     return this.userIdService.takeUserId().pipe(
       take(1),
-      switchMap(userId => this.orderAttachmentsConnector.getOrderAttachments(userId, orderId)),
+      switchMap((userId) =>
+        this.orderAttachmentsConnector.getOrderAttachments(userId, orderId)
+      )
     );
   }
 
-  downloadOrderAttachment(orderId: string, attachmentId: string): Observable<Blob> {
+  downloadOrderAttachment(
+    orderId: string,
+    attachmentId: string
+  ): Observable<Blob> {
     return this.userIdService.takeUserId().pipe(
       take(1),
-      switchMap(userId => this.orderAttachmentsConnector.downloadOrderAttachment(userId, orderId, attachmentId)),
+      switchMap((userId) =>
+        this.orderAttachmentsConnector.downloadOrderAttachment(
+          userId,
+          orderId,
+          attachmentId
+        )
+      )
     );
   }
-
 }

@@ -19,5 +19,4 @@ import { S4omOrderAttachmentsAdapter } from '../core/connector';
     },
   ],
 })
-export class S4omOccModule {
-}
+export class S4omOccModule {}

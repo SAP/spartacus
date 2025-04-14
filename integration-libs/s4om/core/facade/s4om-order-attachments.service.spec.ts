@@ -24,7 +24,9 @@ const attachmentsData: S4omOrderAttachments = {
 };
 const blobData: Blob = new Blob(['mock content'], { type: 'application/pdf' });
 
-class MockOrderAttachmentsConnector implements Partial<S4omOrderAttachmentsConnector> {
+class MockOrderAttachmentsConnector
+  implements Partial<S4omOrderAttachmentsConnector>
+{
   getOrderAttachments() {
     return of(attachmentsData);
   }
@@ -46,7 +48,6 @@ describe('OrderAttachmentsService', () => {
   let userIdService: UserIdService;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       providers: [
         S4omOrderAttachmentsService,
@@ -77,20 +78,24 @@ describe('OrderAttachmentsService', () => {
   });
 
   it('should getOrderAttachments call connector', (done) => {
-    service.getOrderAttachments(orderCode).subscribe((result) => {
+    service
+      .getOrderAttachments(orderCode)
+      .subscribe((result) => {
         expect(result).toEqual(attachmentsData);
         done();
-      },
-    ).unsubscribe();
+      })
+      .unsubscribe();
     expect(connector.getOrderAttachments).toHaveBeenCalled();
   });
 
   it('should getOrderAttachment call connector', (done) => {
-    service.downloadOrderAttachment(orderCode, attachmentId).subscribe((result) => {
+    service
+      .downloadOrderAttachment(orderCode, attachmentId)
+      .subscribe((result) => {
         expect(result).toEqual(blobData);
         done();
-      }
-    ).unsubscribe();
+      })
+      .unsubscribe();
     expect(connector.downloadOrderAttachment).toHaveBeenCalled();
   });
 });

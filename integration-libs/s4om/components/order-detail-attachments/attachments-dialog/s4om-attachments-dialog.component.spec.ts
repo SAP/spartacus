@@ -1,4 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { delay, Observable, of, switchMap, throwError, timer } from 'rxjs';
 import {
   IconModule,
@@ -40,7 +45,9 @@ const attachmentsData: S4omOrderAttachments = {
 const pdfMimeType = 'application/pdf';
 const pngMimeType = 'image/png';
 const configuredMimeTypeBlob = new Blob(['mock data'], { type: pdfMimeType });
-const notConfiguredMimeTypeBlob = new Blob(['mock data'], { type: pngMimeType });
+const notConfiguredMimeTypeBlob = new Blob(['mock data'], {
+  type: pngMimeType,
+});
 const mockUrl = 'blob:http://localhost/mock-url';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -48,8 +55,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     return of({ orderCode });
   }
 
-  closeDialog() {
-  }
+  closeDialog() {}
 }
 
 const countHiddenElementsFn = (debugElements: DebugElement[]) => {
@@ -70,8 +76,10 @@ describe('AttachmentsDialogComponent', () => {
   let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
-    const orderAttachmentsFacadeSpy =
-      jasmine.createSpyObj('OrderAttachmentsFacade', ['getOrderAttachments', 'downloadOrderAttachment']);
+    const orderAttachmentsFacadeSpy = jasmine.createSpyObj(
+      'OrderAttachmentsFacade',
+      ['getOrderAttachments', 'downloadOrderAttachment']
+    );
 
     TestBed.configureTestingModule({
       imports: [
@@ -100,7 +108,9 @@ describe('AttachmentsDialogComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(S4omAttachmentsDialogComponent);
     component = fixture.componentInstance;
-    orderAttachmentsFacade = TestBed.inject(S4omOrderAttachmentsFacade) as jasmine.SpyObj<S4omOrderAttachmentsFacade>;
+    orderAttachmentsFacade = TestBed.inject(
+      S4omOrderAttachmentsFacade
+    ) as jasmine.SpyObj<S4omOrderAttachmentsFacade>;
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
@@ -119,26 +129,34 @@ describe('AttachmentsDialogComponent', () => {
   describe('Observables initialization', () => {
     it('should return correct order code', (done) => {
       expect(component.orderCode$).toBeDefined();
-      component.orderCode$.subscribe((value) => {
-        expect(value).toEqual(orderCode);
-        done();
-      }).unsubscribe();
+      component.orderCode$
+        .subscribe((value) => {
+          expect(value).toEqual(orderCode);
+          done();
+        })
+        .unsubscribe();
     });
 
     it('should return attachments array', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of(attachmentsData));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of(attachmentsData)
+      );
       component.orderCode$ = of(attachmentId);
 
       expect(component.attachments$).toBeDefined();
-      component.attachments$.subscribe((attachments) => {
-        expect(attachments).toEqual(attachmentsData.attachments);
-        done();
-      }).unsubscribe();
+      component.attachments$
+        .subscribe((attachments) => {
+          expect(attachments).toEqual(attachmentsData.attachments);
+          done();
+        })
+        .unsubscribe();
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
 
     it('should return correct attachments count', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of(attachmentsData));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of(attachmentsData)
+      );
 
       expect(component.attachmentsCount$).toBeDefined();
       component.attachmentsCount$.subscribe((count) => {
@@ -148,18 +166,24 @@ describe('AttachmentsDialogComponent', () => {
     });
 
     it('should return empty attachment array on error', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(throwError(() => 'mockError'));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        throwError(() => 'mockError')
+      );
       component.orderCode$ = of(attachmentId);
 
-      component.attachments$.subscribe((attachments) => {
-        expect(attachments).toEqual([]);
-        done();
-      }).unsubscribe();
+      component.attachments$
+        .subscribe((attachments) => {
+          expect(attachments).toEqual([]);
+          done();
+        })
+        .unsubscribe();
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
 
     it('should emit true from error$ when attachment fetch fails', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(throwError(() => 'mockError'));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        throwError(() => 'mockError')
+      );
       expect(component.error$).toBeDefined();
       expect(component.error$.value).toBe(false);
 
@@ -169,19 +193,24 @@ describe('AttachmentsDialogComponent', () => {
       expect(component.error$.value).toBe(true);
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
-
   });
 
   describe('Attachments handling', () => {
     it('should openOrderAttachment correctly update loadingAttachments array', fakeAsync(() => {
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(of(configuredMimeTypeBlob).pipe(delay(1000)));
+      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+        of(configuredMimeTypeBlob).pipe(delay(1000))
+      );
       spyOn(component, 'previewFile').and.stub();
       spyOn(component, 'downloadFile').and.stub();
 
       component.loadingAttachments = ['mock-id', 'mock-id2'];
       component.openOrderAttachment(attachmentId);
 
-      expect(component.loadingAttachments).toEqual(['mock-id', 'mock-id2', attachmentId]);
+      expect(component.loadingAttachments).toEqual([
+        'mock-id',
+        'mock-id2',
+        attachmentId,
+      ]);
       tick(1000);
       expect(component.loadingAttachments).toEqual(['mock-id', 'mock-id2']);
     }));
@@ -189,8 +218,9 @@ describe('AttachmentsDialogComponent', () => {
     it('should openOrderAttachment correctly update loadingAttachments array on error', fakeAsync(() => {
       orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
         timer(1000).pipe(
-          switchMap(() => throwError(() => new Error('mock error'))),
-        ));
+          switchMap(() => throwError(() => new Error('mock error')))
+        )
+      );
       spyOn(component, 'previewFile').and.stub();
       spyOn(component, 'downloadFile').and.stub();
       spyOn(component, 'addErrorMessage').and.stub();
@@ -198,13 +228,22 @@ describe('AttachmentsDialogComponent', () => {
       component.loadingAttachments = [attachmentId, attachmentId2];
       component.openOrderAttachment(attachmentId3);
 
-      expect(component.loadingAttachments).toEqual([attachmentId, attachmentId2, attachmentId3]);
+      expect(component.loadingAttachments).toEqual([
+        attachmentId,
+        attachmentId2,
+        attachmentId3,
+      ]);
       tick(1000);
-      expect(component.loadingAttachments).toEqual([attachmentId, attachmentId2]);
+      expect(component.loadingAttachments).toEqual([
+        attachmentId,
+        attachmentId2,
+      ]);
     }));
 
     it('should preview attachments if mime type is configured', () => {
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(of(configuredMimeTypeBlob));
+      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+        of(configuredMimeTypeBlob)
+      );
       spyOn(component, 'previewFile').and.stub();
       spyOn(component, 'downloadFile').and.stub();
 
@@ -216,7 +255,9 @@ describe('AttachmentsDialogComponent', () => {
     it('should download attachments if mime type is NOT configured', () => {
       spyOn(component, 'previewFile').and.stub();
       spyOn(component, 'downloadFile').and.stub();
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(of(notConfiguredMimeTypeBlob));
+      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+        of(notConfiguredMimeTypeBlob)
+      );
 
       component.openOrderAttachment(attachmentId, 'mock file name');
       expect(component.previewFile).not.toHaveBeenCalled();
@@ -233,7 +274,7 @@ describe('AttachmentsDialogComponent', () => {
       expect(window.open).toHaveBeenCalled();
     });
 
-    it('should downloadFile create and click on \'a\' element', () => {
+    it("should downloadFile create and click on 'a' element", () => {
       spyOn(URL, 'createObjectURL').and.returnValue(mockUrl);
       spyOn(document['body'], 'appendChild').and.stub();
       spyOn(document['body'], 'removeChild').and.stub();
@@ -323,21 +364,31 @@ describe('AttachmentsDialogComponent', () => {
     });
 
     it('should correctly display attachment counter', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of(attachmentsData));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of(attachmentsData)
+      );
       fixture.detectChanges();
-      let spinnerEl = fixture.debugElement.query(By.css('.attachments-counter')).nativeElement;
+      let spinnerEl = fixture.debugElement.query(
+        By.css('.attachments-counter')
+      ).nativeElement;
       expect(spinnerEl.innerHTML.trim()).toBe('(3)');
     });
 
     it('should not display attachment counter if attachments empty', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of({ attachments: [] }));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of({ attachments: [] })
+      );
       fixture.detectChanges();
-      let spinnerEls = fixture.debugElement.queryAll(By.css('.attachments-counter'));
+      let spinnerEls = fixture.debugElement.queryAll(
+        By.css('.attachments-counter')
+      );
       expect(spinnerEls.length).toBe(0);
     });
 
     it('should display only spinner on attachments load', fakeAsync(() => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of(attachmentsData).pipe(delay(100)));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of(attachmentsData).pipe(delay(100))
+      );
       fixture.detectChanges();
 
       let spinnerEls = fixture.debugElement.queryAll(By.css('.cx-spinner'));
@@ -355,21 +406,31 @@ describe('AttachmentsDialogComponent', () => {
     }));
 
     it('should display message strip on attachments fetch error', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(throwError(() => 'mockError'));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        throwError(() => 'mockError')
+      );
       fixture.detectChanges();
 
-      let errorMessagesEls = fixture.debugElement.queryAll(By.css('.error-message'));
+      let errorMessagesEls = fixture.debugElement.queryAll(
+        By.css('.error-message')
+      );
       let tableEls = fixture.debugElement.queryAll(By.css('.table'));
       expect(errorMessagesEls.length).toBe(1);
       expect(tableEls.length).toBe(0);
     });
 
     it('should display message strip when attachments array is empty', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of({ attachments: [] }));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of({ attachments: [] })
+      );
       fixture.detectChanges();
 
-      let infoMessageEls = fixture.debugElement.queryAll(By.css('.info-message'));
-      let attachmentRowEls = fixture.debugElement.queryAll(By.css('.order-attachment-row'));
+      let infoMessageEls = fixture.debugElement.queryAll(
+        By.css('.info-message')
+      );
+      let attachmentRowEls = fixture.debugElement.queryAll(
+        By.css('.order-attachment-row')
+      );
       expect(infoMessageEls.length).toBe(1);
       expect(attachmentRowEls.length).toBe(0);
     });
@@ -378,37 +439,53 @@ describe('AttachmentsDialogComponent', () => {
       let attachmentErrorMessageEls;
 
       fixture.detectChanges();
-      attachmentErrorMessageEls = fixture.debugElement.queryAll(By.css('.attachment-error'));
+      attachmentErrorMessageEls = fixture.debugElement.queryAll(
+        By.css('.attachment-error')
+      );
       expect(attachmentErrorMessageEls.length).toBe(0);
 
       component.addErrorMessage(attachmentId);
       fixture.detectChanges();
-      attachmentErrorMessageEls = fixture.debugElement.queryAll(By.css('.attachment-error'));
+      attachmentErrorMessageEls = fixture.debugElement.queryAll(
+        By.css('.attachment-error')
+      );
       expect(attachmentErrorMessageEls.length).toBe(1);
 
       component.addErrorMessage(attachmentId);
       fixture.detectChanges();
-      attachmentErrorMessageEls = fixture.debugElement.queryAll(By.css('.attachment-error'));
+      attachmentErrorMessageEls = fixture.debugElement.queryAll(
+        By.css('.attachment-error')
+      );
       expect(attachmentErrorMessageEls.length).toBe(2);
 
       component.errorCounter--; //adjust counter to make duplicated entry
       component.addErrorMessage(attachmentId);
       fixture.detectChanges();
-      attachmentErrorMessageEls = fixture.debugElement.queryAll(By.css('.attachment-error'));
+      attachmentErrorMessageEls = fixture.debugElement.queryAll(
+        By.css('.attachment-error')
+      );
       expect(attachmentErrorMessageEls.length).toBe(3);
     });
 
     it('should correctly display inline spinners on order attachments fetch', fakeAsync(() => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(of(attachmentsData));
-      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(of(configuredMimeTypeBlob).pipe(delay(1000)));
+      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+        of(attachmentsData)
+      );
+      orderAttachmentsFacade.downloadOrderAttachment.and.returnValue(
+        of(configuredMimeTypeBlob).pipe(delay(1000))
+      );
 
       fixture.detectChanges();
-      let inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
+      let inlineSpinnerEls = fixture.debugElement.queryAll(
+        By.css('.inline-spinner')
+      );
       expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(3);
 
       component.openOrderAttachment(attachmentId, 'mock name');
       fixture.detectChanges();
-      inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
+      inlineSpinnerEls = fixture.debugElement.queryAll(
+        By.css('.inline-spinner')
+      );
       expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(2);
 
       // duplicated attachment id should not display duplicated spinners
@@ -416,12 +493,16 @@ describe('AttachmentsDialogComponent', () => {
       tick(50);
       component.openOrderAttachment(attachmentId2, 'mock name');
       fixture.detectChanges();
-      inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
+      inlineSpinnerEls = fixture.debugElement.queryAll(
+        By.css('.inline-spinner')
+      );
       expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(1);
 
       tick(1000);
       fixture.detectChanges();
-      inlineSpinnerEls = fixture.debugElement.queryAll(By.css('.inline-spinner'));
+      inlineSpinnerEls = fixture.debugElement.queryAll(
+        By.css('.inline-spinner')
+      );
       expect(countHiddenElementsFn(inlineSpinnerEls)).toBe(3);
     }));
 
@@ -429,10 +510,11 @@ describe('AttachmentsDialogComponent', () => {
       spyOn(component, 'close').and.stub();
 
       fixture.detectChanges();
-      const cancelButtonEl = fixture.debugElement.query(By.css('.cancel-button')).nativeElement;
+      const cancelButtonEl = fixture.debugElement.query(
+        By.css('.cancel-button')
+      ).nativeElement;
       cancelButtonEl.click();
       expect(component.close).toHaveBeenCalled();
     });
-
   });
 });

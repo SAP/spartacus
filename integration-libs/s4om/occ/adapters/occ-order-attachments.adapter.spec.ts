@@ -8,11 +8,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  LoggerService,
-  OccConfig,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { LoggerService, OccConfig, OccEndpointsService } from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
@@ -68,27 +64,31 @@ describe('OccOrderAttachmentsAdapter', () => {
   });
 
   it('should fetch array of order attachments for logged in user', waitForAsync(() => {
-    const subscription = adapter.getOrderAttachments(userId, orderId).subscribe();
+    const subscription = adapter
+      .getOrderAttachments(userId, orderId)
+      .subscribe();
     const request = httpMock.expectOne((req: HttpRequest<any>) => {
       return req.method === 'GET';
     }, `GET order attachments`);
     expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'orderAttachments',
-      { urlParams: { userId, orderId } },
+      { urlParams: { userId, orderId } }
     );
     request.flush(attachmentsData);
     httpMock.verify();
     subscription.unsubscribe();
   }));
 
-  it('should fetch order attachment blob for logged in user\'s', waitForAsync(() => {
-    const subscription = adapter.downloadOrderAttachment(userId, orderId, attachmentId).subscribe();
+  it("should fetch order attachment blob for logged in user's", waitForAsync(() => {
+    const subscription = adapter
+      .downloadOrderAttachment(userId, orderId, attachmentId)
+      .subscribe();
     const request = httpMock.expectOne((req: HttpRequest<any>) => {
       return req.method === 'GET';
     }, `GET order attachment data`);
     expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'downloadOrderAttachment',
-      { urlParams: { userId, orderId, attachmentId } },
+      { urlParams: { userId, orderId, attachmentId } }
     );
     request.flush(blobData);
     httpMock.verify();

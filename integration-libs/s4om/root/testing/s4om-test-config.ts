@@ -9,9 +9,7 @@ import { S4omConfig } from '../config';
 export function getTestConfig(): S4omConfig {
   return {
     s4om: {
-      previewMimeTypes: [
-        'application/pdf',
-      ],
+      previewMimeTypes: ['application/pdf'],
     },
   };
 }

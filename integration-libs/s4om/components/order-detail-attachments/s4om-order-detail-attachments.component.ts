@@ -40,14 +40,11 @@ export class S4omOrderDetailAttachmentsComponent {
       LAUNCH_CALLER.S4OM_ORDER_ATTACHMENTS,
       this.element,
       this.vcr,
-      { orderCode },
+      { orderCode }
     );
 
     if (dialog) {
-      dialog.pipe(
-        take(1),
-        takeUntilDestroyed(this.destroyRef),
-      ).subscribe();
+      dialog.pipe(take(1), takeUntilDestroyed(this.destroyRef)).subscribe();
     }
   }
 }

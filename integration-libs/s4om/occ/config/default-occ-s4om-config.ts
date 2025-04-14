@@ -12,7 +12,8 @@ export const defaultOccS4omConfig: OccConfig = {
     occ: {
       endpoints: {
         orderAttachments: 'users/${userId}/orders/${orderId}/attachments',
-        downloadOrderAttachment: 'users/${userId}/orders/${orderId}/attachments/${attachmentId}/download',
+        downloadOrderAttachment:
+          'users/${userId}/orders/${orderId}/attachments/${attachmentId}/download',
       } as S4omOccEndpoints,
     },
   },

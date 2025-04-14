@@ -6,7 +6,12 @@
 
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { IconModule, KeyboardFocusModule, MessageComponentModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  KeyboardFocusModule,
+  MessageComponentModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { CommonModule } from '@angular/common';
 import { S4omOrderDetailAttachmentsComponent } from './s4om-order-detail-attachments.component';
 import { S4omAttachmentsDialogComponent } from './attachments-dialog/s4om-attachments-dialog.component';
@@ -28,5 +33,4 @@ const moduleComponents = [
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
 })
-export class S4omOrderAttachmentsModule {
-}
+export class S4omOrderAttachmentsModule {}

@@ -18,9 +18,7 @@ import { defaultS4omConfig } from './config';
 export const defaultS4OMComponentsConfig: CmsConfig = {
   featureModules: {
     [S4OM_FEATURE]: {
-      cmsComponents: [
-        'S4omOrderAttachmentsComponent',
-      ],
+      cmsComponents: ['S4omOrderAttachmentsComponent'],
     },
   },
 };
