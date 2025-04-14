@@ -48,6 +48,14 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   }
 
   /**
+   * Returns true if the application is running in dev mode.
+   * It is used to determine if the log should be printed in a human readable format.
+   */
+  protected isDevMode(): boolean {
+    return isDevMode();
+  }
+
+  /**
    * Converts a message and an ExpressServerLoggerContext object into a single JSON string containing both pieces of information, which can be used for logging purposes.
    *
    * In prod mode, it prints a single line stringified JSON that can be easily parsed by
@@ -66,7 +74,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   ): string {
     const logObject = { message, context: this.mapContext(context) };
 
-    if (isDevMode()) {
+    if (this.isDevMode()) {
       // In dev mode, we want a *human-readable* string representation of the log object
       // that can be printed in the console.
       return formatWithOptions(getLoggerInspectOptions(), logObject);

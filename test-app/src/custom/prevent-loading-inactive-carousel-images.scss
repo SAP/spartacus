@@ -1,0 +1,16 @@
+cx-carousel {
+  .carousel-panel {
+    .slides {
+      .slide {
+        &:not(.active) {
+          // SPIKE NEW: prevent loading images for slides that are not visible
+          // otherwise browser thinks they all are in viewport and loads them with
+          // (computed) high priority
+          // TODO: changing to "display:none" break the animation of new slides entering
+          // so we need to find a better solution
+          display: none;
+        }
+      }
+    }
+  }
+}

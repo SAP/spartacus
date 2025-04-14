@@ -85,6 +85,13 @@ export class MediaComponent implements OnChanges {
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
+   * Hints the browser about the priority of the image.
+   *
+   * By the way, when set to 'high', it causes using `loading="eager"` under the hood.
+   */
+  @Input() fetchPriority?: 'low' | 'auto' | 'high';
+
+  /**
    * Works only when `useExtendedMediaComponentConfiguration` toggle is true
    *
    * @default img
@@ -209,5 +216,19 @@ export class MediaComponent implements OnChanges {
     this.isInitialized = true;
     this.isMissing = true;
     this.loaded.emit(false);
+  }
+
+  /**
+   * If the media has a high fetch priority, we load the image eagerly,
+   * no matter what the explicit loading strategy is.
+   *
+   * It's for convenience to not set explicitly `loading="eager"`,
+   * when we already know that the image has a high fetch priority.
+   */
+  protected get effectiveLoadingStrategy(): ImageLoadingStrategy | null {
+    if (this.fetchPriority === 'high') {
+      return ImageLoadingStrategy.EAGER;
+    }
+    return this.loading ?? this.loadingStrategy;
   }
 }

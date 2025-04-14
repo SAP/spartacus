@@ -57,10 +57,12 @@ export class TranslationChunkService {
         }.${key}'.`
       );
     });
-    this.logger.warn(
-      `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
-        '\n'
-      )}`
-    );
+
+    // SPIKE TODO UNCOMMENT - removed noise in logs:
+    // this.logger.warn(
+    //   `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
+    //     '\n'
+    //   )}`
+    // );
   }
 }
