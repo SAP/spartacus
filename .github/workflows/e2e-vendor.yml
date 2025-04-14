@@ -2,9 +2,9 @@ name: Daily E2E Vendors Tests
 
 on:
   push:
-  schedule:
-     Runs every day at 10:00 (UTC)
-    - cron: "0 10 * * *"
+  #schedule:
+  #   Runs every day at 10:00 (UTC)
+ #   - cron: "0 10 * * *"
   workflow_dispatch:
 
 env:
