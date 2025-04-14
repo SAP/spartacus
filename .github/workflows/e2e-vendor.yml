@@ -5,8 +5,8 @@ on:
 
 #on:
 #  schedule:
-    # Runs every day at 08:00 (UTC)
- #   - cron: "0 8 * * *"
+    # Runs every day at 10:00 (UTC)
+ #   - cron: "0 10 * * *"
 #  workflow_dispatch:
 
 env:
