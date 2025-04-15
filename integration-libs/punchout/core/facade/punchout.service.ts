@@ -9,6 +9,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
+  QueryService,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -48,6 +49,14 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
+  protected queryService = inject(QueryService);
+  protected currentSessionObj: {
+    punchoutSession?: PunchoutSession;
+    punchoutSessionId?: string;
+  } = {
+    punchoutSession: undefined,
+    punchoutSessionId: undefined,
+  };
 
   /**
    * getPunchoutSession workflow:
@@ -67,55 +76,57 @@ export class PunchoutService implements PunchoutFacade {
       this.displayErrorPage();
       return throwError(() => new Error('Punchout Session Id missing'));
     }
-    return this.punchoutConnector
-      .getPunchoutSession(payload.punchoutSessionId)
-      .pipe(
-        map((punchoutSession) => {
-          if (
-            !punchoutSession?.token?.accessToken ||
-            !punchoutSession?.customerId ||
-            !punchoutSession?.cartId
-          ) {
-            throw new Error('Punchout login info missing');
-          }
-          return punchoutSession;
-        }),
-        switchMap((punchoutSession) => {
-          return forkJoin({
-            punchoutSession: of(punchoutSession),
-            logout: this.punchoutAuthService.logout(),
+    // const getLatestPunchoutSession = (punchoutSessionId: string) =>
+    //   this.punchoutStoreService.getPunchoutState().pipe(
+    //     take(1),
+    //     switchMap((punchoutState: PunchoutState) => {
+    //       if (punchoutState?.punchoutSession?.token?.accessToken) {
+    //         return of(punchoutState.punchoutSession);
+    //       }
+    //       return this.requestPunchoutSession(punchoutSessionId);
+    //     })
+    //   );
+    console.log('CALLED from command', payload.punchoutSessionId);
+    return this.requestPunchoutSession(payload.punchoutSessionId).pipe(
+      switchMap((punchouSession) => {
+        //    let punchouSession = state.data;
+        return forkJoin({
+          punchoutSession: of(punchouSession as PunchoutSession),
+          logout: this.punchoutAuthService.logout(),
+        });
+      }),
+      // filter(({ logout }) => logout == true),
+      map(({ punchoutSession, logout }) => {
+        console.log('logout', logout);
+        if (punchoutSession?.token?.accessToken) {
+          this.punchoutAuthService.loginWithToken(
+            punchoutSession.token.accessToken,
+            punchoutSession.customerId
+          );
+          this.loadCart(punchoutSession.cartId).subscribe();
+          this.punchoutStoreService.setPunchoutState({
+            punchoutSessionId: payload.punchoutSessionId,
+            punchoutSession: { ...punchoutSession },
           });
-        }),
-        map(({ punchoutSession }) => {
-          if (punchoutSession?.token?.accessToken) {
-            this.punchoutAuthService.loginWithToken(
-              punchoutSession.token.accessToken,
-              punchoutSession.customerId
-            );
-            this.loadCart(punchoutSession.cartId).subscribe();
-            this.punchoutStoreService.setPunchoutState({
-              punchoutSessionId: payload.punchoutSessionId,
-              punchoutSession: { ...punchoutSession },
-            });
-            if (
-              punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
-              punchoutSession?.cartId &&
-              !payload?.isPageRefresh
-            ) {
-              this.setPunchoutInitialRequisition();
-            }
-            if (!payload?.isPageRefresh) {
-              this.routeToTargetPage(punchoutSession);
-            }
+          if (
+            punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
+            punchoutSession?.cartId &&
+            !payload?.isPageRefresh
+          ) {
+            this.setPunchoutInitialRequisition();
           }
+          if (!payload?.isPageRefresh) {
+            this.routeToTargetPage(punchoutSession);
+          }
+        }
 
-          return punchoutSession;
-        }),
-        catchError((error) => {
-          this.displayErrorPage();
-          return throwError(() => new Error(error));
-        })
-      );
+        return punchoutSession;
+      }),
+      catchError((error) => {
+        this.displayErrorPage();
+        return throwError(() => new Error(error));
+      })
+    );
   });
 
   /**
@@ -223,6 +234,92 @@ export class PunchoutService implements PunchoutFacade {
 
   logoutPunchoutUser(): Observable<boolean> {
     return this.logoutPunchoutUserCommand.execute(undefined);
+  }
+
+  protected punchoutSessionQuery = (punchoutSessionId: string) =>
+    this.queryService.create<PunchoutSession>(() =>
+      this.punchoutConnector.getPunchoutSession(punchoutSessionId)
+    );
+  // .pipe(
+  //   map((punchoutSession) => {
+  //     if (
+  //       !punchoutSession?.token?.accessToken ||
+  //       !punchoutSession?.customerId ||
+  //       !punchoutSession?.cartId
+  //     ) {
+  //       throw new Error('Punchout login info missing');
+  //     }
+  //     return punchoutSession;
+  //   })
+  // );
+
+  /**
+   * Request Punchout session via occ api and return response.
+   * @param punchoutSessionId
+   * @returns
+   */
+
+  requestPunchoutSession(
+    punchoutSessionId: string
+  ): Observable<PunchoutSession> {
+    console.log('requestPunchoutSession', punchoutSessionId);
+    console.log(
+      'currentSessionObj',
+      this.punchoutStoreService.getLocalSessionState()
+    );
+
+    if (
+      punchoutSessionId ===
+        this.punchoutStoreService.getLocalSessionState().punchoutSessionId &&
+      !!this.punchoutStoreService.getLocalSessionState()?.punchoutSession
+    ) {
+      console.log(
+        'in here',
+        this.punchoutStoreService.getLocalSessionState().punchoutSession
+      );
+      return of(
+        this.punchoutStoreService.getLocalSessionState()
+          .punchoutSession as PunchoutSession
+      );
+    }
+    console.log('CONNECTOR CALL');
+    return this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+      tap((punchoutSession) => {
+        console.log('flo10', punchoutSession);
+        this.punchoutStoreService.setLocalSessionState({
+          punchoutSessionId,
+          punchoutSession,
+        });
+        console.log('flo12', this.currentSessionObj);
+      })
+    );
+    // return this.punchoutSessionQuery(punchoutSessionId)
+    //   .getState()
+    //   .pipe(
+    //     tap((val) => console.log('val', val)),
+    //     filter((state) => !state.loading && !state.error),
+    //     tap((val) => console.log('val2', val)),
+    //     map((state) => state.data as PunchoutSession)
+    //   );
+
+    // this.currentSessionId = punchoutSessionId;
+    // return punchoutSessionQuery.get();
+    // return this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+    //   map((punchoutSession) => {
+    //     if (
+    //       !punchoutSession?.token?.accessToken ||
+    //       !punchoutSession?.customerId ||
+    //       !punchoutSession?.cartId
+    //     ) {
+    //       throw new Error('Punchout login info missing');
+    //     }
+    //     this.punchoutStoreService.setPunchoutState({
+    //       punchoutSessionId: punchoutSessionId,
+    //       punchoutSession: { ...punchoutSession },
+    //     });
+    //     return punchoutSession;
+    //   })
+    // );
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
