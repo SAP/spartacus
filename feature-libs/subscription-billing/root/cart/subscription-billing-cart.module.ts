@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { SubscriptionBillingCartItemPriceHeadingComponent } from './cart-item-price-heading/subscription-billing-cart-item-price-heading.component';
 import { SubscriptionBillingCartItemPriceBodyComponent } from './cart-item-price-body/subscription-billing-cart-item-price-body.component';
 // import { SubscriptionBillingCartChargesComponent } from './components/subscription-billing-cart-charges/subscription-billing-cart-charges.component';
-// import { SubscriptionBillingCartChargesButtonComponent } from './components/subscription-billing-cart-charges-button/subscription-billing-cart-charges-button.component';
+import { SubscriptionBillingCartChargesButtonComponent } from './cart-charges-button/subscription-billing-cart-charges-button.component';
 import { CommonModule } from '@angular/common';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
@@ -18,6 +18,7 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 let components = [
   SubscriptionBillingCartItemPriceHeadingComponent,
   SubscriptionBillingCartItemPriceBodyComponent,
+  SubscriptionBillingCartChargesButtonComponent
 ];
 
 @NgModule({
@@ -35,12 +36,12 @@ let components = [
       position: OutletPosition.AFTER,
       component: SubscriptionBillingCartItemPriceBodyComponent,
     }),
-    /* provideOutlet({
+    provideOutlet({
       id: CartOutlets.SUBSCRIPTION_ITEM_CHARGES_BUTTON,
       position: OutletPosition.AFTER,
       component: SubscriptionBillingCartChargesButtonComponent,
     }),
-    provideDefaultConfig(subscriptionBillingCartLayoutConfig), */
+    /* provideDefaultConfig(subscriptionBillingCartLayoutConfig), */
   ],
 })
 export class SubscriptionBillingCartModule {

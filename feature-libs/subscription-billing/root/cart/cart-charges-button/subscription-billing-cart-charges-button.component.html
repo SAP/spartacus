@@ -1,0 +1,12 @@
+  @if (context(); as contextData) {
+    @if (contextData.items.product.productTypes === 'SUBSCRIPTION') {
+      <button
+      #subscriptionChargesDialogTriggerEl
+      type="button"
+      class="btn btn-tertiary"
+      (click)="onViewCharges(contextData.items)"
+    >
+      {{ 'subscriptionCart.chargesButtonLabel' | cxTranslate }}
+    </button>
+    }
+  }

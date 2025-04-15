@@ -207,6 +207,15 @@
     >
       {{ 'common.remove' | cxTranslate }}
     </button>
+
+    
+    <ng-template
+      role="cell"
+      [cxOutlet]="CartOutlets.SUBSCRIPTION_ITEM_CHARGES_BUTTON"
+      [cxOutletContext]="{
+        items: item,
+      }"
+    ></ng-template>
   </td>
 </ng-template>
 <ng-template #total>
