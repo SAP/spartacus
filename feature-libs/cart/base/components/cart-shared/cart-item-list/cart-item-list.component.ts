@@ -315,6 +315,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     );
   }
 
+  containsSubscriptions(): boolean {
+    let subscriptionProducts = this.items.filter(
+      (item) => item.product?.productTypes === 'SUBSCRIPTION'
+    );
+    return subscriptionProducts.length > 0;
+  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

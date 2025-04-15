@@ -1,0 +1,16 @@
+@if (context(); as contextData) {
+  @if (contextData.items.product.productTypes === 'SUBSCRIPTION') {
+    <div class="cx-value">
+      {{
+        contextData.items.product.sapPricePlan.recurringCharges[0].price
+          .formattedValue
+      }} 
+      {{ contextData.items.product.sapSubscriptionTerm.billingPlan.billingTime.name }}
+    </div>
+  } @else {
+    <div class="cx-mobile-header">
+      {{ 'cartItems.total' | cxTranslate }}
+    </div>
+    <div class="cx-value">{{ contextData.items.totalPrice.formattedValue }}</div>
+  }
+}

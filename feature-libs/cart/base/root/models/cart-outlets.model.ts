@@ -24,4 +24,6 @@ export enum CartOutlets {
   CPQ_QUOTE_MODULE = 'cx-cpq-quote',
   CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
   CPQ_QUOTE = 'cx-cpq-quote-offer',
+  SUBSCRIPTION_ITEM_PRICE_HEADING = 'cx-subscription-billing-cart-item-price-heading',
+  SUBSCRIPTION_ITEM_PRICE_BODY = 'cx-subscription-billing-cart-item-price-body',
 }

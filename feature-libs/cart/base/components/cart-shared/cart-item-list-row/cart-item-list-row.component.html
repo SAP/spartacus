@@ -99,6 +99,19 @@
     }"
   ></ng-template>
 
+  <!-- subscription item price -->
+  @if (item.product?.productTypes === 'SUBSCRIPTION') {
+    <td role="cell" class="cx-center">
+      <ng-template
+        role="cell"
+        [cxOutlet]="CartOutlets.SUBSCRIPTION_ITEM_PRICE_BODY"
+        [cxOutletContext]="{
+          items: item,
+        }"
+      ></ng-template>
+    </td>    
+  }
+
   <!-- Item Quantity -->
   <td role="cell" class="cx-quantity">
     <div
@@ -118,13 +131,17 @@
       {{ 'cartItems.quantity' | cxTranslate }}
     </div>
     <div class="cx-value" [class.readonly-value]="readonly">
-      <cx-item-counter
-        [control]="quantityControl"
-        [readonly]="!item.updateable || readonly || options.isSaveForLater"
-        [max]="item.product?.stock?.stockLevel"
-        [allowZero]="true"
-      >
-      </cx-item-counter>
+      @if (item.product?.productTypes === 'SUBSCRIPTION') {
+        <span>{{ quantityControl.value }}</span>
+      } @else {
+        <cx-item-counter
+          [control]="quantityControl"
+          [readonly]="!item.updateable || readonly || options.isSaveForLater"
+          [max]="item.product?.stock?.stockLevel"
+          [allowZero]="true"
+        >
+        </cx-item-counter>
+      }
     </div>
   </td>
   <!-- Total -->

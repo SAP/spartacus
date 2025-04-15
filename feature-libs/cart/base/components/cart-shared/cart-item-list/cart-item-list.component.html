@@ -15,6 +15,17 @@
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
       ></ng-template>
+
+      @if (containsSubscriptions()) {
+        <th role="columnheader">
+          <ng-template
+            role="columnheader"
+            [cxOutlet]="CartOutlets.SUBSCRIPTION_ITEM_PRICE_HEADING"
+            [cxOutletContext]="items"
+          ></ng-template>
+        </th>
+      }
+      
       <th
         *cxFeature="'a11yQTY2Quantity'"
         role="columnheader"
