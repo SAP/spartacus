@@ -101,7 +101,7 @@
   ></ng-template>
 
   <!-- subscription item price -->
-  @if (item.product?.productTypes === 'SUBSCRIPTION') {
+  @if (containsSubscriptions()) {
     <td role="cell" class="cx-center">
       <ng-template
         role="cell"
