@@ -562,7 +562,6 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-
   onProfileUpdateEventHandler(
     response?: any,
     isPasswordReset: boolean = false
