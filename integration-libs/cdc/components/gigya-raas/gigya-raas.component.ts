@@ -85,7 +85,6 @@ export class GigyaRaasComponent implements OnInit {
       ...(this.isLoginScreenSet(data)
         ? { sessionExpiration: this.getSessionExpirationValue() }
         : {
-
           onSubmit: (event: { formModel: Record<string, unknown> }) => {
             const formData = event.formModel;
             this.shouldLogout = !!formData?.newPassword;
