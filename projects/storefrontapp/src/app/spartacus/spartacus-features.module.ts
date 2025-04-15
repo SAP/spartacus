@@ -298,7 +298,6 @@ if (environment.cpq) {
         showDownloadProposalButton: false,
         searchBoxV2: false,
         trendingSearches: false,
-        pdfInvoicesSortByInvoiceDate: true,
         useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
