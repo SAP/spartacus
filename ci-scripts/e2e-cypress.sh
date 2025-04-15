@@ -159,7 +159,7 @@ else
             echo "Running full Cypress end-to-end tests"
             npm run e2e:run:ci"${SUITE}"
         fi
-    elif [ "${GITHUB_EVENT_NAME}" == "schedule" ] then 
+    elif [ "${GITHUB_EVENT_NAME}" == "schedule" ]; then 
         npm run e2e:run:ci:vendor
         fi
     else
