@@ -5,7 +5,7 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { S4omAttachmentsDialogComponent } from './order-detail-attachments/attachments-dialog/s4om-attachments-dialog.component';
+import { S4omAttachmentsDialogComponent } from './order-attachments/attachments-dialog/s4om-attachments-dialog.component';
 
 export const defaultS4omLayoutConfig: LayoutConfig = {
   launch: {

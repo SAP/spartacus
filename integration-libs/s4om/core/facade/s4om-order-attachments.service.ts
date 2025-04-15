@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { UserIdService } from '@spartacus/core';
 import { Observable, switchMap, take } from 'rxjs';
-import { S4omOrderAttachmentsFacade } from './s4om-order-attachments-facade.service';
+import { S4omOrderAttachmentsFacade } from './s4om-order-attachments-facade';
 import { S4omOrderAttachments } from '../../root/model';
 import { S4omOrderAttachmentsConnector } from '../connector';
 

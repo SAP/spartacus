@@ -5,4 +5,4 @@
  */
 
 export * from './s4om-order-attachments.adapter';
-export * from './s4om-order-attachments-connector.service';
+export * from './s4om-order-attachments-connector';

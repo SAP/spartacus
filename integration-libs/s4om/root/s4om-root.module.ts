@@ -15,7 +15,7 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { S4OM_FEATURE } from './feature-name';
 import { defaultS4omConfig } from './config';
 
-export const defaultS4OMComponentsConfig: CmsConfig = {
+export const defaultS4omComponentsConfig: CmsConfig = {
   featureModules: {
     [S4OM_FEATURE]: {
       cmsComponents: ['S4omOrderAttachmentsComponent'],
@@ -30,7 +30,7 @@ export const defaultS4OMComponentsConfig: CmsConfig = {
     PDFInvoicesComponentsModule, //Adding dependency with PDF Invoices so that the library gets installed along with S4OM
   ],
   providers: [
-    provideDefaultConfig(defaultS4OMComponentsConfig),
+    provideDefaultConfig(defaultS4omComponentsConfig),
     provideDefaultConfig(defaultS4omConfig),
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,

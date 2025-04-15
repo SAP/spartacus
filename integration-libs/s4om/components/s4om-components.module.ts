@@ -5,15 +5,24 @@
  */
 
 import { NgModule } from '@angular/core';
-import { S4omOrderAttachmentsModule } from './order-detail-attachments/s4om-order-attachments.module';
-import { provideDefaultConfig } from '@spartacus/core';
-import { defaultS4omCmsConfig } from './default-s4om-cms.config';
+import { S4omOrderAttachmentsModule } from './order-attachments/s4om-order-attachments.module';
+import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultS4omLayoutConfig } from './default-s4om-layout.config';
+import {
+  S4omOrderAttachmentsComponent
+} from './order-attachments/s4om-order-attachments.component';
 
 @NgModule({
   imports: [S4omOrderAttachmentsModule],
   providers: [
-    provideDefaultConfig(defaultS4omCmsConfig),
+    provideDefaultConfig(<CmsConfig> {
+      cmsComponents: {
+        S4omOrderAttachmentsComponent: {
+          component: S4omOrderAttachmentsComponent,
+          guards: [AuthGuard],
+        },
+      }
+    }),
     provideDefaultConfig(defaultS4omLayoutConfig),
   ],
 })

@@ -8,11 +8,11 @@ import { OccEndpoint } from '@spartacus/core';
 
 export interface S4omOccEndpoints {
   /**
-   * Endpoint for the user's one order attachments list
+   * Get order attachments
    */
   orderAttachments?: string | OccEndpoint;
   /**
-   * Endpoint for download of user's order attachment
+   * Download order attachment blob
    */
   downloadOrderAttachment?: string | OccEndpoint;
 }

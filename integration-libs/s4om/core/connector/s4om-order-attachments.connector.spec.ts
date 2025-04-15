@@ -8,7 +8,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { S4omOrderAttachments } from '@spartacus/s4om/root';
 import { S4omOrderAttachmentsAdapter } from './s4om-order-attachments.adapter';
-import { S4omOrderAttachmentsConnector } from './s4om-order-attachments-connector.service';
+import { S4omOrderAttachmentsConnector } from './s4om-order-attachments-connector';
 
 const userId = '123';
 const orderCode = '00001004';
