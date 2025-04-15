@@ -446,6 +446,7 @@ if (environment.cpq) {
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        enableOAuth2_1: true,
       };
       return appFeatureToggles;
     }),

@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inject } from '@angular/core';
+import { FeatureToggles } from '@spartacus/core';
 import { AuthConfig } from './auth-config';
 
-export const defaultAuthConfig: AuthConfig = {
+const defaultAuthConfig: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
     client_secret: 'secret',
@@ -24,3 +26,29 @@ export const defaultAuthConfig: AuthConfig = {
     },
   },
 };
+
+export function defaultAuthConfigProvider(): AuthConfig {
+  const { enableOAuth2_1 } = inject(FeatureToggles);
+
+  if (enableOAuth2_1) {
+    return {
+      authentication: {
+        ...defaultAuthConfig.authentication,
+
+        // TODO: endpoints will likely change to old paths
+        tokenEndpoint: '/authserver/oauth2/token',
+        revokeEndpoint: '/authserver/oauth2/revoke',
+        loginUrl: '/authserver/oauth2/authorize',
+
+        OAuthLibConfig: {
+          ...defaultAuthConfig.authentication?.OAuthLibConfig,
+          disablePKCE: false, // PKCE required
+          responseType: 'code', // only 'code' supported
+          redirectUri: 'http://localhost:4200/oauth-callback', // must be absolute.  TODO: need validator?
+        },
+      },
+    };
+  } else {
+    return defaultAuthConfig;
+  }
+}
