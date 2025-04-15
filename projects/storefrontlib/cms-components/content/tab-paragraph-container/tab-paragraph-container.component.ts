@@ -9,6 +9,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
   QueryList,
   TemplateRef,
@@ -44,6 +45,7 @@ const defaultTabConfig = {
   standalone: false,
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
+  protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   /**
    * @deprecated This method will be removed.
    */
@@ -81,8 +83,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef: WindowRef,
-    protected cdr: ChangeDetectorRef
+    protected winRef: WindowRef
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
