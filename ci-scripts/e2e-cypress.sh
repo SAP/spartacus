@@ -148,20 +148,24 @@ else
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-        echo "Running Cypress end-to-end tests for push event"
-        #only for tests is below line
-         npm run e2e:run:ci:vendor
+    echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
-            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core"${SUITE}"
-        else
-            echo "Running full Cypress end-to-end tests"
-            npm run e2e:run:ci"${SUITE}"
-        fi
+    # If the suite is vendor, run vendor tests; otherwise do the usual logic
+    if [ "$SUITE" == ":vendor" ]; then
+      echo "Forcing vendor E2E tests on push"
+      npm run e2e:run:ci:vendor
+    else
+      if is_bot_commit; then
+          echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+          npm run e2e:run:ci:core"${SUITE}"
+      else
+          echo "Running full Cypress end-to-end tests"
+          npm run e2e:run:ci"${SUITE}"
+      fi
+    fi
 
-    elif [ "${GITHUB_EVENT_NAME}" == "schedule" ]; then 
-        npm run e2e:run:ci:vendor
+    #elif [ "${GITHUB_EVENT_NAME}" == "schedule" ]; then 
+    #    npm run e2e:run:ci:vendor
 
     else
         echo "Running full Cypress end-to-end tests"
