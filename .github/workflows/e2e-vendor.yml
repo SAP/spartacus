@@ -12,7 +12,6 @@ env:
 
 jobs:
   vendor_e2e_tests:
-    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for vendor
     runs-on: ubuntu-latest
     strategy:
