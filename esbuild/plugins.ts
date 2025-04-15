@@ -22,6 +22,7 @@ const resolveEnvPlugin: Plugin = {
   name: 'resolve-env-plugin',
   setup(build) {
     const config = build.initialOptions;
+    config.logLevel = 'error';
     config.define = {
       ...config.define,
       'buildProcess.env': JSON.stringify(env),
@@ -29,4 +30,32 @@ const resolveEnvPlugin: Plugin = {
   },
 };
 
-export default [resolveEnvPlugin];
+export const filterWarningsPlugin = (): Plugin => ({
+  name: 'filter-warnings',
+  setup(build) {
+    build.onEnd((result) => {
+      if (result.warnings.length > 0) {
+        const filteredWarnings = result.warnings.filter(
+          (warning) =>
+            !(
+              warning.text.includes('no side effects') ||
+              warning.text.includes('[ignored-bare-import]') ||
+              warning.text.includes('is not ESM')
+            )
+        );
+
+        if(build.initialOptions.logLevel === 'warning') {
+          for (const w of filteredWarnings) {
+            console.warn(`[esbuild] ${w.text}`);
+          }
+        }
+
+        // Replace the original warnings (optional)
+        result.warnings = filteredWarnings;
+      }
+    });
+  },
+});
+
+export default [resolveEnvPlugin, filterWarningsPlugin()];
+

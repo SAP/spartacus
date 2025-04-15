@@ -8,9 +8,15 @@
   "targets": {
     "build": {
       "executor": "@angular-builders/custom-esbuild:application",
+      "logLevel": "error",
       "options": {
         "plugins": ["./esbuild/plugins.ts"],
         "aot": true,
+        "allowedCommonJsDependencies": [
+          "whatwg-url",
+          "encoding",
+          "cross-fetch"
+        ],
         "outputPath": "dist/storefrontapp",
         "index": "projects/storefrontapp/src/index.html",
         "browser": "projects/storefrontapp/src/main.ts",
