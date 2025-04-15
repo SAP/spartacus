@@ -230,6 +230,7 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });
     });
+
     it('should contain promotion list (CXSPA-3932)', () => {
       cy.get('cx-asm-customer-360-promotion')
         .scrollIntoView()
