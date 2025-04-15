@@ -72,7 +72,6 @@ export class GigyaRaasComponent implements OnInit {
    * @param lang - language
    */
   showScreenSet(data: GigyaRaasComponentData, lang: string) {
-
     (this.winRef.nativeWindow as { [key: string]: any })?.[
       'gigya'
     ]?.accounts?.showScreenSet({
@@ -85,17 +84,17 @@ export class GigyaRaasComponent implements OnInit {
       ...(this.isLoginScreenSet(data)
         ? { sessionExpiration: this.getSessionExpirationValue() }
         : {
-          onSubmit: (event: { formModel: Record<string, unknown> }) => {
-            const formData = event.formModel;
-            this.shouldLogout = !!formData?.newPassword;
-          },
-          onAfterSubmit: (...params: any[]) => {
-            this.zone.run(() => {
-              // 🔹 Push the boolean directly
-              params.push({ passwordReset: this.shouldLogout });
-              this.cdcJSService.onProfileUpdateEventHandler(...params);
-            });
-          },
+            onSubmit: (event: { formModel: Record<string, unknown> }) => {
+              const formData = event.formModel;
+              this.shouldLogout = !!formData?.newPassword;
+            },
+            onAfterSubmit: (...params: any[]) => {
+              this.zone.run(() => {
+                // 🔹 Push the boolean directly
+                params.push({ passwordReset: this.shouldLogout });
+                this.cdcJSService.onProfileUpdateEventHandler(...params);
+              });
+            },
           }),
     });
   }
