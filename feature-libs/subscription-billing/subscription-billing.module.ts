@@ -5,10 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SubscriptionBillingComponentsModule } from './components/subscription-billing-components.module';
-import { SubscriptionBillingCoreModule } from './core/subscription-billing-core.module';
-import { SubscriptionBillingOccModule } from './occ/subscription-billing-occ.module';
-
+import { SubscriptionBillingComponentsModule } from '@spartacus/subscription-billing/components';
+import { SubscriptionBillingCoreModule } from '@spartacus/subscription-billing/core';
+import { SubscriptionBillingOccModule } from '@spartacus/subscription-billing/occ';
 @NgModule({
   imports: [
     SubscriptionBillingComponentsModule,

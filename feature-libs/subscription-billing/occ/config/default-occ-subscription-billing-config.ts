@@ -5,13 +5,22 @@
  */
 
 import { OccConfig } from '@spartacus/core';
+import { SubscriptionBillingOccEndpoints } from '../model';
+
+const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
+  subscriptionList: 'users/${userId}/subscriptions',
+  subscriptionDetail: 'users/${userId}/subscriptions/${code}',
+};
 
 export const defaultOccSubscriptionBillingConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        subscriptionList: 'users/${userId}/subscriptions',
-        subscriptionDetail: 'users/${userId}/subscriptions/${code}',
+        ...subscriptionBillingEndpoints,
+        product: {
+          subscription:
+            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm',
+        },
       },
     },
   },

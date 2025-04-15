@@ -8,5 +8,3 @@ export * from './subscription-billing-root.module';
 export * from './feature-name';
 export * from './model/index';
 export * from './facade/index';
-export * from './product/index';
-export * from './config/default-occ-subscription-product-config';

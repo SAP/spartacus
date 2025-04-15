@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const SUBSCRIPTION_BILLING_FEATURE = 'Subscription-Billing';
+export const SUBSCRIPTION_BILLING_FEATURE = 'subscriptionBilling';
 export const SUBSCRIPTION_BILLING_CORE_FEATURE = 'subscriptionBillingCore';

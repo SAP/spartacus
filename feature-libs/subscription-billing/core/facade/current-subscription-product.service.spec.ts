@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { CurrentSubscriptionProductService } from './current-subscription-product.service';
-import { SubscriptionProductService } from '../../root/product/service/subscription-product.service';
+import { SubscriptionProductService } from './subscription-product.service';
 import { StoreModule } from '@ngrx/store';
 class MockSubscriptionProductService {
   isSubscription(_product: any): boolean {

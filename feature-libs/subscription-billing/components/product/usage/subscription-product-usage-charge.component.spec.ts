@@ -3,7 +3,7 @@ import { SubscriptionProductUsageChargeComponent } from './subscription-product-
 import { Pipe, PipeTransform, signal } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { UsageChargeType } from '../../model';
+import { UsageChargeType } from '../../../root/model';
 @Pipe({
   name: 'cxTranslate',
   standalone: false,

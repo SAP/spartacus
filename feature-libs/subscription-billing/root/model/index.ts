@@ -5,5 +5,4 @@
  */
 
 export * from './subscription-product.model';
-export * from './subscription.model';
-export * from './occ-subscription-billing-endpoints.model';
+export * from './subscription-billing.model';

@@ -6,6 +6,7 @@ on:
 
 jobs:
   check-pr-title:
+    name: PR - Check PR title
     runs-on: ubuntu-latest
     steps:
       - name: Validate PR title
@@ -13,10 +14,12 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          echo "Checking PR title: $PR_TITLE"
+          echo "Checking PR title: ${PR_TITLE}"
 
-          if [[ ! "$PR_TITLE" =~ ^(docs|feat|fix|perf|refactor|style|test|chore):\ .+ ]]; then
-            echo "❌ PR title is invalid."
+          REGEX='^(docs|feat|fix|perf|refactor|style|test|chore)(\([^)]*\))?:\ .+'
+
+          if [[ ! "$PR_TITLE" =~ $REGEX ]]; then
+            echo "❌ PR title is invalid. Example of a valid title: \`feat: Add user authentication\`, \`chore(deps): update dependency babel-loader to v10\`. Allowed prefixes: docs, feat, fix, perf, refactor, style, test, chore"
             exit 1
           fi
 

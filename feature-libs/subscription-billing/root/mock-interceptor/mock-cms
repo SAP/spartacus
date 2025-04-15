@@ -1,4 +1,4 @@
-$contentCatalog=electronics-spaContentCatalog
+$contentCatalog=powertools-spaContentCatalog
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
 $lang=en
 
@@ -38,3 +38,14 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 ;;BodyContent-subscription-list;BodyContent;subscription-list;BodyContentSlot-subscription-list
 
 
+# content related to product details
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+;;ProductSummarySlot;Summary for product details;ProductImagesComponent,ProductIntroComponent,ProductSummaryComponent,SubscriptionProductPriceComponent,FutureStockComponent,ProductMultiDimensionalSelector,BulkPricingTableComponent,AddToCart,ConfigureProductComponent
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+;;ProductImagesComponent;ProductImagesComponent;ProductImagesComponent
+;;ProductIntroComponent;ProductIntroComponent;ProductIntroComponent
+;;ProductSummaryComponent;ProductSummaryComponent;ProductSummaryComponent
+;;SubscriptionProductPriceComponent;SubscriptionProductPriceComponent;SubscriptionProductPriceComponent
+;;BulkPricingTableComponent;BulkPricingTableComponent;BulkPricingTableComponent
+;;FutureStockComponent;FutureStockComponent;FutureStockComponent
