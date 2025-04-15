@@ -8,6 +8,7 @@ import {
 } from '@spartacus/storefront';
 import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 import { SubscriptionProductUsageChargeModule } from '../usage/subscription-product-usage-charge.module';
+import { CartOutlets } from '@spartacus/cart/base/root';
 
 @NgModule({
   imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeModule],
@@ -15,6 +16,11 @@ import { SubscriptionProductUsageChargeModule } from '../usage/subscription-prod
     provideOutlet({
       id: ProductDetailOutlets.PRICE,
       position: OutletPosition.REPLACE,
+      component: SubscriptionProductPriceComponent,
+    }),
+    provideOutlet({
+      id: CartOutlets.SUBSCRIPTION_ORDER_CONFIRMATION,
+      position: OutletPosition.AFTER,
       component: SubscriptionProductPriceComponent,
     }),
   ],

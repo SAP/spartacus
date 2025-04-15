@@ -24,4 +24,6 @@ export enum CartOutlets {
   CPQ_QUOTE_MODULE = 'cx-cpq-quote',
   CPQ_QUOTE_HEADING = 'cx-cpq-quote-heading',
   CPQ_QUOTE = 'cx-cpq-quote-offer',
+  SUBSCRIPTION_ORDER_CONFIRMATION = 'cx-subscription-order-confirmation',
+  SUBSCRIPTION_ORDER_REDIRECT = 'cx-subscription-order-confirmation-sizeplan',
 }

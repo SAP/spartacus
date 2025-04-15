@@ -19,6 +19,7 @@ import {
   SUBSCRIPTION_BILLING_FEATURE,
 } from './feature-name';
 import { defaultSubscriptionBillingRoutingConfig } from './config/default-subscription-billing-routing-config';
+import { SubscriptionOrderModule } from './order-confirmation';
 export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
@@ -31,7 +32,7 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   return config;
 }
 @NgModule({
-  imports: [SubscriptionProductModule],
+  imports: [SubscriptionProductModule, SubscriptionOrderModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

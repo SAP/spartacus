@@ -24,5 +24,8 @@
     "status": "Status",
     "noSubscriptions": "You don't have any subscriptions",
     "sortOrders": "Sort orders"
+  },
+  "orderConfirmation": {
+    "manageSubscription": "Manage Subscription"
   }
 }

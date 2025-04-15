@@ -92,7 +92,8 @@ export class BannerComponent {
     }
 
     // assuming all media formats share the same alt text
-    return 'url' in img ? img.altText : Object.values(img)[0]?.altText;
+    // return 'url' in img ? img.altText : Object.values(img)[0]?.altText;
+    return 'url';
   }
 
   getLinkAriaLabel(data: CmsBannerComponent): string | undefined {

@@ -29,14 +29,23 @@
         <div *ngIf="item.product?.code" class="cx-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
+        <ng-template
+          *ngIf="item?.product?.productTypes === 'SUBSCRIPTION'"
+          role="cell"
+          [cxOutlet]="CartOutlets.SUBSCRIPTION_ORDER_CONFIRMATION"
+          [cxOutletContext]="{
+            items: item,
+          }"
+        >
+        </ng-template>
         <!-- Item Price -->
         <ng-container *ngIf="isFlagQuote">
           <div *ngIf="item.basePrice" class="cx-price">
             <div *ngIf="item.basePrice" class="cx-value">
               {{ item.basePrice?.formattedValue }}
             </div>
-          </div></ng-container
-        >
+          </div>
+        </ng-container>
         <ng-template
           role="columnheader"
           [cxOutlet]="CartOutlets.CPQ_QUOTE"
@@ -197,5 +206,21 @@
       {{ 'cartItems.total' | cxTranslate }}
     </div>
     <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+    <div
+      *ngIf="
+        (!readonly || options.isSaveForLater || options.displayAddToCart) &&
+        item.updateable
+      "
+    >
+      <ng-template
+        *ngIf="item?.product?.productTypes === 'SUBSCRIPTION'"
+        role="cell"
+        [cxOutlet]="CartOutlets.SUBSCRIPTION_ORDER_REDIRECT"
+        [cxOutletContext]="{
+          items: item,
+          mode: 'redirect',
+        }"
+      ></ng-template>
+    </div>
   </td>
 </ng-template>

@@ -1,0 +1,22 @@
+<ng-container *ngIf="mode() !== 'redirect'">
+  @if (orderEntry$()) {
+    @if (isCurrentProductSubscription()) {
+      @for (charge of recurringCharges(); track charge) {
+        <div class="subscription-recurringcharge">
+          {{ billingTimeName() }} {{ charge.price?.formattedValue }}
+        </div>
+      }
+    }
+  }
+</ng-container>
+<ng-container *ngIf="mode() === 'redirect'">
+  <a
+    class="cx-manage-subscription"
+    [routerLink]="
+      { cxRoute: 'product', params: orderEntry$()?.product } | cxUrl
+    "
+    tabindex="0"
+  >
+    {{ 'orderConfirmation.manageSubscription' | cxTranslate }}
+  </a>
+</ng-container>
