@@ -142,6 +142,10 @@
                 [attr.aria-expanded]="false"
                 [attr.aria-label]="node.url ? node.title : null"
                 [attr.aria-controls]="transformIntoValidID(node.title)"
+                [attr.title]="
+                  'navigation.menuButonTitle'
+                    | cxTranslate: { title: node.title }
+                "
                 (click)="toggleOpen($any($event))"
                 (mouseenter)="onMouseEnter($event)"
                 (keydown.space)="onSpace($any($event))"
