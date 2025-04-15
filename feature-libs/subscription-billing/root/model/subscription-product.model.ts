@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Price } from '@spartacus/core';
-import '@spartacus/core';
+import { Price, ProductScope } from '@spartacus/core';
 
 export enum UsageChargeType {
   BLOCK = 'block_usage_charge',
@@ -98,3 +97,10 @@ declare module '@spartacus/core' {
     sapPricePlan?: PricePlan;
   }
 }
+
+declare module '@spartacus/core' {
+  enum ProductScope {
+    SUBSCRIPTION = 'subscription',
+  }
+}
+(ProductScope as any)['SUBSCRIPTION'] = 'subscription';

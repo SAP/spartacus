@@ -8,8 +8,8 @@ import { Observable, of } from 'rxjs';
 import {
   OneTimeCharge,
   RecurringCharge,
-  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 
 class MockSubscriptionProductService {
   isSubscription(_product: any) {

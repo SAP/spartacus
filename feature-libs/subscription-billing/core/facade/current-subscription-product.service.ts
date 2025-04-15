@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Product } from '@spartacus/core';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
+import { SubscriptionProductService } from './subscription-product.service';
 
 @Injectable({
   providedIn: 'root',

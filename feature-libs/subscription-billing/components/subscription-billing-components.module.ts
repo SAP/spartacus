@@ -7,15 +7,24 @@
 import { NgModule } from '@angular/core';
 import { SubscriptionListComponent } from './list/subscription-list.component';
 import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
+import { SubscriptionProductPriceComponent } from './product/price/subscription-product-price.component';
+import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
 
 @NgModule({
-  imports: [SubscriptionListComponent],
+  imports: [
+    SubscriptionListComponent,
+    SubscriptionProductPriceComponent,
+    SubscriptionProductUsageChargeComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         SubscriptionHistoryComponent: {
           component: SubscriptionListComponent,
           guards: [AuthGuard],
+        },
+        SubscriptionProductPriceComponent: {
+          component: SubscriptionProductPriceComponent,
         },
       },
     }),

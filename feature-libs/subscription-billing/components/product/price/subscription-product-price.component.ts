@@ -6,15 +6,21 @@
 
 import { Component, computed, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Product, ProductScope } from '@spartacus/core';
+import { I18nModule, Product, ProductScope } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { OneTimeCharge, RecurringCharge } from '../../model';
-import { SubscriptionProductService } from '../service/subscription-product.service';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import {
+  OneTimeCharge,
+  RecurringCharge,
+} from '@spartacus/subscription-billing/root';
+import { CommonModule } from '@angular/common';
+import { SubscriptionProductUsageChargeComponent } from '../usage/subscription-product-usage-charge.component';
 
 @Component({
   selector: 'cx-subscription-product-price',
-  standalone: false,
+  standalone: true,
   templateUrl: './subscription-product-price.component.html',
+  imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeComponent],
 })
 export class SubscriptionProductPriceComponent {
   protected productService = inject(SubscriptionProductService);

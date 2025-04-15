@@ -12,33 +12,34 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { defaultOccSubscriptionProductConfig } from './config/default-occ-subscription-product-config';
-import { SubscriptionProductModule } from './product';
 import {
   SUBSCRIPTION_BILLING_CORE_FEATURE,
   SUBSCRIPTION_BILLING_FEATURE,
 } from './feature-name';
 import { defaultSubscriptionBillingRoutingConfig } from './config/default-subscription-billing-routing-config';
+
 export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [SUBSCRIPTION_BILLING_FEATURE]: {
-        cmsComponents: ['SubscriptionHistoryComponent'],
+        cmsComponents: [
+          'SubscriptionHistoryComponent',
+          'SubscriptionProductPriceComponent',
+        ],
       },
       [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,
     },
   };
   return config;
 }
+
 @NgModule({
-  imports: [SubscriptionProductModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MockResponseInterceptor,
       multi: true,
     },
-    provideDefaultConfig(defaultOccSubscriptionProductConfig),
     provideDefaultConfigFactory(defaultSubscriptionBillingComponentsConfig),
     provideDefaultConfig(defaultSubscriptionBillingRoutingConfig),
   ],

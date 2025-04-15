@@ -4,19 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CommonModule } from '@angular/common';
 import { Component, computed, Input, Signal } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { I18nModule, Product } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
-  TierUsageChargeEntry,
   UsageChargeType,
   VolumeUsageCharge,
-} from '../../model';
+  TierUsageChargeEntry,
+} from '@spartacus/subscription-billing/root';
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',
-  standalone: false,
+  standalone: true,
   templateUrl: './subscription-product-usage-charge.component.html',
+  imports: [CommonModule, I18nModule],
 })
 export class SubscriptionProductUsageChargeComponent {
   @Input() product!: Signal<Product | undefined | null>;
