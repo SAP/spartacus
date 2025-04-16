@@ -188,13 +188,6 @@ export interface FeatureTogglesInterface {
   a11yFacetKeyboardNavigation?: boolean;
 
   /**
-   * Allows users to navigate through the list of units using the arrow keys.
-   * Enables keyboard controls inside 'ToggleLinkCellComponent' and
-   * adjusts 'ListComponent' styles to accomodate.
-   */
-  a11yUnitsListKeyboardControls?: boolean;
-
-  /**
    * Adds label to the `SearchBoxComponent` search input
    */
   a11ySearchboxLabel?: boolean;
@@ -915,7 +908,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderSearchListKeyboardNavigation: false,
   a11ySearchBoxMobileFocus: true,
   a11yFacetKeyboardNavigation: true,
-  a11yUnitsListKeyboardControls: true,
   a11yCartItemsLinksStyles: true,
   a11yStyleExternalLinksAsLinks: false,
   a11ySearchboxLabel: false,
