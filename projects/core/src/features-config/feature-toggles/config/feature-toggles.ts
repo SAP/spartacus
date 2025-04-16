@@ -353,15 +353,6 @@ export interface FeatureTogglesInterface {
   cmsGuardsServiceUseGuardsComposer?: boolean;
 
   /**
-   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
-   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
-   *
-   * It avoids showing an unnecessary duplicated error message on the failure
-   * of adding to the cart.
-   */
-  cartQuickOrderRemoveListeningToFailEvent?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -1059,7 +1050,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   cmsGuardsServiceUseGuardsComposer: true,
-  cartQuickOrderRemoveListeningToFailEvent: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
   a11yVisibleFocusOverflows: true,
