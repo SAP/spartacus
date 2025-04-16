@@ -156,11 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Stops dropdown options labels from truncating inside 'ProductListComponent'.
-   */
-  a11ySortingOptionsTruncation?: boolean;
-
-  /**
    * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
    * Modifies dialog styles to stop the focus indicator from expanding when 'close' button is focused.
    */
@@ -962,7 +957,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11ySortingOptionsTruncation: true,
   a11yExpandedFocusIndicator: true,
   a11yCheckoutDeliveryFocus: true,
   a11yMobileVisibleFocus: true,
