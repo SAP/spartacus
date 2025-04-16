@@ -146,11 +146,6 @@ export interface FeatureTogglesInterface {
   a11yPreventHorizontalScroll?: boolean;
 
   /**
-   * Element containing the 'PopoverDirective' will be refocused after the popover is closed.
-   */
-  a11yPopoverFocus?: boolean;
-
-  /**
    * Fix popover appearance when a High Contrast Theme is applied.
    */
   a11yPopoverHighContrast?: boolean;
@@ -981,7 +976,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
-  a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
   a11yScheduleReplenishment: true,
