@@ -80,6 +80,10 @@
 
 <ng-template #totalHeader>
   <th role="columnheader" scope="col" class="cx-item-list-total">
-    {{ 'cartItems.total' | cxTranslate }}
+      @if (containsSubscriptions()) {
+        {{ 'Payable Now' }}
+      } @else {
+        {{ 'cartItems.total' | cxTranslate }}
+      }
   </th>
 </ng-template>
