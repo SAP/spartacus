@@ -306,7 +306,6 @@ if (environment.cpq) {
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
         a11yPreventHorizontalScroll: true,
-        a11yReorderDialog: true,
         a11yPopoverFocus: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,

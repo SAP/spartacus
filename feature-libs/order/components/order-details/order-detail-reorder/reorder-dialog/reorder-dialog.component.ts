@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Optional,
   inject,
 } from '@angular/core';
 import {
@@ -17,11 +16,7 @@ import {
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  FeatureConfigService,
-  OCC_CART_ID_CURRENT,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { OCC_CART_ID_CURRENT, useFeatureStyles } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
@@ -52,15 +47,8 @@ export class ReorderDialogComponent {
   showDecisionPrompt$ = new BehaviorSubject(true);
   data$ = this.launchDialogService.data$;
 
-  // TODO: (CXSPA-6585) - Remove FeatureConfigService and make depenencies required
-  @Optional() selectFocusUtility = inject(SelectFocusUtility, {
-    optional: true,
-  });
-
-  @Optional() elementRef = inject(ElementRef, { optional: true });
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  selectFocusUtility = inject(SelectFocusUtility);
+  elementRef = inject(ElementRef, { optional: true });
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -84,10 +72,6 @@ export class ReorderDialogComponent {
   }
 
   recaptureFocus(): void {
-    // TODO: (CXSPA-6585) - Remove feature flag next major release
-    if (!this.featureConfigService?.isEnabled('a11yReorderDialog')) {
-      return;
-    }
     this.selectFocusUtility
       ?.findFirstFocusable(this.elementRef?.nativeElement)
       ?.focus();

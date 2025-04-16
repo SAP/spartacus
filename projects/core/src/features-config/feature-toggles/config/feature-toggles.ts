@@ -146,11 +146,6 @@ export interface FeatureTogglesInterface {
   a11yPreventHorizontalScroll?: boolean;
 
   /**
-   * Refocuses inside of 'ReorderDialogComponent' after its content updates.
-   */
-  a11yReorderDialog?: boolean;
-
-  /**
    * Element containing the 'PopoverDirective' will be refocused after the popover is closed.
    */
   a11yPopoverFocus?: boolean;
@@ -986,7 +981,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
-  a11yReorderDialog: true,
   a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
