@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   AtMessageModule,
   IconModule,
@@ -43,7 +43,6 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     RouterModule,
     UrlModule,
     AddToCartModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideOutlet({

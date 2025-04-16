@@ -312,7 +312,6 @@ if (environment.cpq) {
         a11yAnonymousConsentMessageInDialog: true,
         a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11yCartSummaryHeadingOrder: true,
         a11ySearchBoxMobileFocus: true,
         a11yFacetKeyboardNavigation: true,
         a11yUnitsListKeyboardControls: true,

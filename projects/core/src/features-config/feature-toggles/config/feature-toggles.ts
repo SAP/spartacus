@@ -177,11 +177,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Corrects heading order inside 'OrderSummaryComponent' template.
-   */
-  a11yCartSummaryHeadingOrder?: boolean;
-
-  /**
    * Improves focus behaviour of 'SearchBoxComponent'.
    * On mobile, search box will no longer open on focus.
    */
@@ -918,7 +913,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: false,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
-  a11yCartSummaryHeadingOrder: true,
   a11ySearchBoxMobileFocus: true,
   a11yFacetKeyboardNavigation: true,
   a11yUnitsListKeyboardControls: true,
