@@ -315,7 +315,6 @@ if (environment.cpq) {
         a11ySearchBoxMobileFocus: true,
         a11yFacetKeyboardNavigation: true,
         a11ySearchboxLabel: true,
-        a11yCartItemsLinksStyles: true,
         a11yStyleExternalLinksAsLinks: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
