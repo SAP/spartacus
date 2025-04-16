@@ -215,11 +215,6 @@ export interface FeatureTogglesInterface {
   a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
 
   /**
-   * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
-   */
-  a11yFocusableCarouselControls?: boolean;
-
-  /**
    * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
    * Components:
    * - `PickupOptionDialogComponent`
@@ -905,7 +900,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySearchboxLabel: false,
   a11yHideSelectBtnForSelectedAddrOrPayment: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: false,
-  a11yFocusableCarouselControls: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   cmsGuardsServiceUseGuardsComposer: true,
   a11yKeyboardAccessibleZoom: false,

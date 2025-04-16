@@ -318,7 +318,6 @@ if (environment.cpq) {
         a11yStyleExternalLinksAsLinks: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-        a11yFocusableCarouselControls: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
         cmsGuardsServiceUseGuardsComposer: true,
         a11yKeyboardAccessibleZoom: true,
