@@ -73,43 +73,24 @@
   }
 }
 
-// TODO: (CXSPA-6624) - Remove feature flag + redundant code
 %organizationTitle {
-  .title {
-    cx-popover {
-      text-transform: initial;
-    }
-    h3 {
-      button {
-        border: none;
-        background-color: inherit;
-        cx-icon {
-          pointer-events: none;
-          color: var(--cx-color, var(--cx-color-info));
-        }
-      }
-    }
-  }
-
   @include forFeature('a11yCroppedFocusRing') {
     .header h2 button {
       outline-offset: -2px;
     }
   }
-  @include forFeature('a11yOrganizationListHeadingOrder') {
-    .title {
-      h2,
-      h3 {
-        @include type('3', 'normal');
-        text-transform: uppercase;
-        button {
-          border: none;
-          background-color: inherit;
+  .title {
+    h2,
+    h3 {
+      @include type('3', 'normal');
+      text-transform: uppercase;
+      button {
+        border: none;
+        background-color: inherit;
 
-          cx-icon {
-            pointer-events: none;
-            color: var(--cx-color, var(--cx-color-info));
-          }
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
         }
       }
     }

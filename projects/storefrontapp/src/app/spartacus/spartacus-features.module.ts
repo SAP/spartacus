@@ -308,7 +308,6 @@ if (environment.cpq) {
         a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yOrganizationListHeadingOrder: true,
         a11yCartImportConfirmationMessage: true,
         a11yAnonymousConsentMessageInDialog: true,
         a11yReplenishmentOrderFieldset: true,

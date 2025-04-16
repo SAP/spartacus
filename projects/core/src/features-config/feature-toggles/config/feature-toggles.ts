@@ -156,11 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Corrects heading order inside 'ListComponent' template.
-   */
-  a11yOrganizationListHeadingOrder?: boolean;
-
-  /**
    * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
    * confirmation message is displayed and read out
    */
@@ -935,7 +930,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yOrganizationListHeadingOrder: true,
   a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
   a11yReplenishmentOrderFieldset: true,
