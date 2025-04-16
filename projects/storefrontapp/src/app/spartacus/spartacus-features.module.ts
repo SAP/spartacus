@@ -303,7 +303,6 @@ if (environment.cpq) {
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         productConfiguratorDeltaRendering: true,
-        a11yNavigationUiKeyboardControls: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
         a11yOrderConfirmationHeadingOrder: true,

@@ -131,11 +131,6 @@ export interface FeatureTogglesInterface {
   productConfiguratorDeltaRendering?: boolean;
 
   /**
-   * Improves keyboard navigation inside of 'NavigationUIComponent'.
-   */
-  a11yNavigationUiKeyboardControls?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -1005,7 +1000,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
-  a11yNavigationUiKeyboardControls: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
   a11yOrderConfirmationHeadingOrder: true,
