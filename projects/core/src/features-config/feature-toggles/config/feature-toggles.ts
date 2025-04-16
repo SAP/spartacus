@@ -156,12 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * When 'ScrollToTopComponent' is trigged with a keyboard, focus remains on the
-   * button and preserves the user's context.
-   */
-  a11yScrollToTop?: boolean;
-
-  /**
    * Fixes 'cx-saved-cart-list-label' dissapering on 200% zoom in 'SavedCartListComponent'.
    */
   a11ySavedCartsZoom?: boolean;
@@ -973,7 +967,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yScrollToTop: true,
   a11ySavedCartsZoom: true,
   a11ySortingOptionsTruncation: true,
   a11yExpandedFocusIndicator: true,

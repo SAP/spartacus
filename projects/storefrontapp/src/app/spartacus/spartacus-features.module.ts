@@ -308,7 +308,6 @@ if (environment.cpq) {
         a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yScrollToTop: true,
         a11ySavedCartsZoom: true,
         a11ySortingOptionsTruncation: true,
         a11yExpandedFocusIndicator: true,
