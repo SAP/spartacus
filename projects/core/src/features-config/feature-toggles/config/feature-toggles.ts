@@ -167,12 +167,6 @@ export interface FeatureTogglesInterface {
   a11yAnonymousConsentMessageInDialog?: boolean;
 
   /**
-   * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
-   * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
-   */
-  a11yStoreFinderOverflow?: boolean;
-
-  /**
    * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
    */
   a11yMobileFocusOnFirstNavigationItem?: boolean;
@@ -922,7 +916,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabsManualActivation: false,
   a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
-  a11yStoreFinderOverflow: true,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
   a11yCartSummaryHeadingOrder: true,

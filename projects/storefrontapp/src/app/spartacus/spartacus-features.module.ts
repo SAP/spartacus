@@ -310,7 +310,6 @@ if (environment.cpq) {
         a11yTabsManualActivation: true,
         a11yCartImportConfirmationMessage: true,
         a11yAnonymousConsentMessageInDialog: true,
-        a11yStoreFinderOverflow: true,
         a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
         a11yCartSummaryHeadingOrder: true,
