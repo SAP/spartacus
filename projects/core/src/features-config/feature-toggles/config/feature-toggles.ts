@@ -72,12 +72,6 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
-   * Previously the sorting was done by the date of creating an invoice entry.
-   */
-  pdfInvoicesSortByInvoiceDate?: boolean;
-
-  /**
    * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
    *
    * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
@@ -1011,7 +1005,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: true,
   searchBoxV2: false,
   trendingSearches: false,
-  pdfInvoicesSortByInvoiceDate: true,
   useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
