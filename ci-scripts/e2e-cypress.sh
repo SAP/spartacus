@@ -132,29 +132,29 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        echo "Running Cypress end-to-end tests for pull request"
+#    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+ #       echo "Running Cypress end-to-end tests for pull request"
 
-        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-            echo "Running full Cypress end-to-end tests for epic branch"
-            npm run e2e:run:ci"${SUITE}"
-        else
-            echo "Running core Cypress end-to-end tests for pull requests"
-            npm run e2e:run:ci:core"${SUITE}"
-        fi
+#        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+ #           echo "Running full Cypress end-to-end tests for epic branch"
+  #          npm run e2e:run:ci"${SUITE}"
+   #     else
+    #        echo "Running core Cypress end-to-end tests for pull requests"
+     #       npm run e2e:run:ci:core"${SUITE}"
+      #  fi
 
-    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-        echo "Running Cypress end-to-end tests for push event"
+#    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+ #       echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
-            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core"${SUITE}"
-        else
-            echo "Running full Cypress end-to-end tests"
-            npm run e2e:run:ci"${SUITE}"
-        fi
-    else
-        echo "Running full Cypress end-to-end tests"
+  #      if is_bot_commit; then
+   #         echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+    #        npm run e2e:run:ci:core"${SUITE}"
+     #   else
+      #      echo "Running full Cypress end-to-end tests"
+       #     npm run e2e:run:ci"${SUITE}"
+        #fi
+   # else
+     #   echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci"${SUITE}"
-    fi
+    #fi
 fi
