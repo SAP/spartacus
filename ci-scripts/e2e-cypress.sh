@@ -155,6 +155,7 @@ else
       echo "Forcing vendor E2E tests on push"
       #npm run e2e:run:ci:vendor:b2c
       npm run e2e:run:ci:cdp
+      npm run e2e:run:ci:cdc-b2b
     else
       if is_bot_commit; then
           echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
