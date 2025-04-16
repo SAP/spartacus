@@ -167,11 +167,6 @@ export interface FeatureTogglesInterface {
   a11yAnonymousConsentMessageInDialog?: boolean;
 
   /**
-   * Changes 'order days' check list into a fieldset inside of 'CheckoutScheduleReplenishmentOrderComponent'.
-   */
-  a11yReplenishmentOrderFieldset?: boolean;
-
-  /**
    * Corrects oversized focus indicator from list items inside 'ListComponent'.
    */
   a11yListOversizedFocus?: boolean;
@@ -932,7 +927,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabsManualActivation: false,
   a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
-  a11yReplenishmentOrderFieldset: true,
   a11yListOversizedFocus: true,
   a11yStoreFinderOverflow: true,
   a11yMobileFocusOnFirstNavigationItem: true,

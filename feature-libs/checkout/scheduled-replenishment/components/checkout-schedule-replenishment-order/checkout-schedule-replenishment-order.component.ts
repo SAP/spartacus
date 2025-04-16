@@ -10,7 +10,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
@@ -50,9 +49,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
 
   constructor(
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {
-    useFeatureStyles('a11yReplenishmentOrderFieldset');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
