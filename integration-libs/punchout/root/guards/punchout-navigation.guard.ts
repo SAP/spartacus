@@ -13,7 +13,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { map, Observable, of, switchMap, take } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
@@ -174,7 +174,8 @@ export class PunchoutNavigationGuard {
           return punchoutSession?.punchOutOperation;
         }
         return undefined;
-      })
+      }),
+      catchError(() => of(undefined))
     );
   }
 }
