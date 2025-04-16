@@ -156,11 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Fixes 'cx-saved-cart-list-label' dissapering on 200% zoom in 'SavedCartListComponent'.
-   */
-  a11ySavedCartsZoom?: boolean;
-
-  /**
    * Stops dropdown options labels from truncating inside 'ProductListComponent'.
    */
   a11ySortingOptionsTruncation?: boolean;
@@ -967,7 +962,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11ySavedCartsZoom: true,
   a11ySortingOptionsTruncation: true,
   a11yExpandedFocusIndicator: true,
   a11yCheckoutDeliveryFocus: true,
