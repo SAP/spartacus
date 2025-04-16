@@ -1,0 +1,39 @@
+<div
+  class="cx-modal-container"
+  role="dialog"
+  [cxFocus]="focusConfig"
+  (esc)="onDialogClose('Escape pressed')"
+  aria-labelledby="dialogTitle"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      class="cx-dialog-header modal-header"
+    >
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
+        <h3>Charge Details</h3>
+      </div>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{ 'addToCart.closeModal' | cxTranslate }}"
+        (click)="onDialogClose('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- <cx-subscription-product-price></cx-subscription-product-price> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

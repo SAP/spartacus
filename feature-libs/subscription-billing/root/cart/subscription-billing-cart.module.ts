@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SubscriptionBillingCartItemPriceHeadingComponent } from './cart-item-price-heading/subscription-billing-cart-item-price-heading.component';
 import { SubscriptionBillingCartItemPriceBodyComponent } from './cart-item-price-body/subscription-billing-cart-item-price-body.component';
-// import { SubscriptionBillingCartChargesComponent } from './components/subscription-billing-cart-charges/subscription-billing-cart-charges.component';
+import { SubscriptionBillingCartChargesComponent } from './cart-charges/subscription-billing-cart-charges.component';
 import { SubscriptionBillingCartChargesButtonComponent } from './cart-charges-button/subscription-billing-cart-charges-button.component';
 import { CommonModule } from '@angular/common';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -12,18 +12,31 @@ import {
   provideOutlet,
 } from '@spartacus/storefront';
 import { CartOutlets } from '@spartacus/cart/base/root';
-// import { subscriptionBillingCartLayoutConfig } from './subscription-billing-cart-layout.config';
-// import { ViewSubscriptionChargesEventListener } from './view-subscription-charges-event.listener';
+import { subscriptionBillingCartLayoutConfig } from './subscription-billing-cart-layout.config';
+import { ViewSubscriptionChargesEventListener } from './view-subscription-charges-event.listener';
+/* import {
+  SubscriptionProductPriceComponent,
+  SubscriptionProductUsageChargeComponent,
+} from '@spartacus/subscription-billing/components'; */
 
 let components = [
   SubscriptionBillingCartItemPriceHeadingComponent,
   SubscriptionBillingCartItemPriceBodyComponent,
-  SubscriptionBillingCartChargesButtonComponent
+  SubscriptionBillingCartChargesButtonComponent,
+  SubscriptionBillingCartChargesComponent,
 ];
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, IconModule, KeyboardFocusModule],
-  declarations: [...components ],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    // SubscriptionProductPriceComponent,
+    // SubscriptionProductUsageChargeComponent,
+  ],
+  declarations: [...components],
   exports: [...components],
   providers: [
     provideOutlet({
@@ -41,11 +54,13 @@ let components = [
       position: OutletPosition.AFTER,
       component: SubscriptionBillingCartChargesButtonComponent,
     }),
-    /* provideDefaultConfig(subscriptionBillingCartLayoutConfig), */
+    provideDefaultConfig(subscriptionBillingCartLayoutConfig),
   ],
 })
 export class SubscriptionBillingCartModule {
-  /* constructor(_viewSubscriptionChargesEventListener: ViewSubscriptionChargesEventListener) {
+  constructor(
+    _viewSubscriptionChargesEventListener: ViewSubscriptionChargesEventListener
+  ) {
     // Intentional empty constructor
-  } */
+  }
 }
