@@ -131,12 +131,6 @@ export interface FeatureTogglesInterface {
   productConfiguratorDeltaRendering?: boolean;
 
   /**
-   * In `QuantityCounterComponent` the numeric input is no longer made focused
-   * after an increment/decrement button is clicked.
-   */
-  a11yQuantityOrderTabbing?: boolean;
-
-  /**
    * Improves keyboard navigation inside of 'NavigationUIComponent'.
    */
   a11yNavigationUiKeyboardControls?: boolean;
@@ -1011,7 +1005,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
-  a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
