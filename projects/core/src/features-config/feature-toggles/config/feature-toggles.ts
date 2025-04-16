@@ -141,13 +141,6 @@ export interface FeatureTogglesInterface {
   a11yNavMenuExpandStateReadout?: boolean;
 
   /**
-   * Improves accessibility of 'StarRatingComponent' i.e.
-   * Provides a clear rating value to screen readers.
-   * Includes information on whether it is interactive.
-   */
-  a11yStarRating?: boolean;
-
-  /**
    * 'ViewComponent' will trigger an assistive message after active view changes.
    */
   a11yViewChangeAssistiveMessage?: boolean;
@@ -997,7 +990,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorDeltaRendering: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
-  a11yStarRating: true,
   a11yViewChangeAssistiveMessage: true,
   a11yPreventHorizontalScroll: true,
   a11yReorderDialog: true,

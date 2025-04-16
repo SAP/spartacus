@@ -305,7 +305,6 @@ if (environment.cpq) {
         productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
-        a11yStarRating: true,
         a11yViewChangeAssistiveMessage: true,
         a11yPreventHorizontalScroll: true,
         a11yReorderDialog: true,
