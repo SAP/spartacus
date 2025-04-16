@@ -308,7 +308,6 @@ if (environment.cpq) {
         a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yCheckoutDeliveryFocus: true,
         a11yMobileVisibleFocus: true,
         a11yOrganizationsBanner: true,
         a11yOrganizationListHeadingOrder: true,

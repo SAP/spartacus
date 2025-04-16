@@ -156,11 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Fixes 'CheckoutDeliveryModeComponent' losing focus after delivery methods update.
-   */
-  a11yCheckoutDeliveryFocus?: boolean;
-
-  /**
    * Prevents the focus indicator of 'VisibleFocusDirective' from overflowing on mobile/while zoomed.
    */
   a11yMobileVisibleFocus?: boolean;
@@ -951,7 +946,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yCheckoutDeliveryFocus: true,
   a11yMobileVisibleFocus: true,
   a11yOrganizationsBanner: true,
   a11yOrganizationListHeadingOrder: true,
