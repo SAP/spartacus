@@ -156,11 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Prevents the focus indicator of 'VisibleFocusDirective' from overflowing on mobile/while zoomed.
-   */
-  a11yMobileVisibleFocus?: boolean;
-
-  /**
    * Improves screen reader readout of 'BannerComponent' on organization page.
    * The anchor tag will no longer contain unnecessary text that would otherwise be read out.
    */
@@ -946,7 +941,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yMobileVisibleFocus: true,
   a11yOrganizationsBanner: true,
   a11yOrganizationListHeadingOrder: true,
   a11yCartImportConfirmationMessage: true,
