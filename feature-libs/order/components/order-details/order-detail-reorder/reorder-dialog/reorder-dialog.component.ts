@@ -16,7 +16,7 @@ import {
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT, useFeatureStyles } from '@spartacus/core';
+import { OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
@@ -54,9 +54,7 @@ export class ReorderDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected reorderOrderFacade: ReorderOrderFacade,
     protected multiCartFacade: MultiCartFacade
-  ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
-  }
+  ) {}
 
   createCartFromOrder(orderCode: string): void {
     this.showDecisionPrompt$.next(false);

@@ -156,12 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
-   * Modifies dialog styles to stop the focus indicator from expanding when 'close' button is focused.
-   */
-  a11yExpandedFocusIndicator?: boolean;
-
-  /**
    * Fixes 'CheckoutDeliveryModeComponent' losing focus after delivery methods update.
    */
   a11yCheckoutDeliveryFocus?: boolean;
@@ -957,7 +951,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yExpandedFocusIndicator: true,
   a11yCheckoutDeliveryFocus: true,
   a11yMobileVisibleFocus: true,
   a11yOrganizationsBanner: true,
