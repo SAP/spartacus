@@ -141,11 +141,6 @@ export interface FeatureTogglesInterface {
   a11yNavMenuExpandStateReadout?: boolean;
 
   /**
-   * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
-   */
-  a11yOrderConfirmationHeadingOrder?: boolean;
-
-  /**
    * Improves accessibility of 'StarRatingComponent' i.e.
    * Provides a clear rating value to screen readers.
    * Includes information on whether it is interactive.
@@ -1002,7 +997,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorDeltaRendering: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
-  a11yOrderConfirmationHeadingOrder: true,
   a11yStarRating: true,
   a11yViewChangeAssistiveMessage: true,
   a11yPreventHorizontalScroll: true,
