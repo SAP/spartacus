@@ -197,6 +197,22 @@ export class PunchoutService implements PunchoutFacade {
       );
     });
 
+  /**
+   * Request Punchout session calling occ api.
+   * @param punchoutSessionId
+   * @returns
+   */
+
+  protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
+    this.commandService.create(
+      (punchoutSessionId: string) => {
+        return this.punchoutConnector.getPunchoutSession(punchoutSessionId);
+      },
+      {
+        strategy: CommandStrategy.Queue,
+      }
+    );
+
   closePunchoutSession(): Observable<boolean> {
     return this.closePunchoutSessionCommand.execute(undefined);
   }
@@ -214,22 +230,6 @@ export class PunchoutService implements PunchoutFacade {
   logoutPunchoutUser(): Observable<boolean> {
     return this.logoutPunchoutUserCommand.execute(undefined);
   }
-
-  protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
-    this.commandService.create(
-      (punchoutSessionId: string) => {
-        return this.punchoutConnector.getPunchoutSession(punchoutSessionId);
-      },
-      {
-        strategy: CommandStrategy.Queue,
-      }
-    );
-
-  /**
-   * Request Punchout session via occ api and return response.
-   * @param punchoutSessionId
-   * @returns
-   */
 
   requestPunchoutSession(
     punchoutSessionId: string
