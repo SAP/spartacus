@@ -131,11 +131,6 @@ export interface FeatureTogglesInterface {
   productConfiguratorDeltaRendering?: boolean;
 
   /**
-   * Adds asterisks to required form fields in all components existing before v2211.20
-   */
-  a11yRequiredAsterisks?: boolean;
-
-  /**
    * In `QuantityCounterComponent` the numeric input is no longer made focused
    * after an increment/decrement button is clicked.
    */
@@ -1016,7 +1011,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
-  a11yRequiredAsterisks: true,
   a11yQuantityOrderTabbing: true,
   a11yNavigationUiKeyboardControls: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
