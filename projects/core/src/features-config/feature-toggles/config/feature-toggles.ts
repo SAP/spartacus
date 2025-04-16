@@ -156,12 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Improves screen reader readout of 'BannerComponent' on organization page.
-   * The anchor tag will no longer contain unnecessary text that would otherwise be read out.
-   */
-  a11yOrganizationsBanner?: boolean;
-
-  /**
    * Corrects heading order inside 'ListComponent' template.
    */
   a11yOrganizationListHeadingOrder?: boolean;
@@ -941,7 +935,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yOrganizationsBanner: true,
   a11yOrganizationListHeadingOrder: true,
   a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
