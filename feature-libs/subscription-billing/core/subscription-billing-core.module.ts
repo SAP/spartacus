@@ -5,19 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CurrentSubscriptionProductService, facadeProviders } from './facade';
-import { CurrentProductService } from '@spartacus/storefront';
+import { facadeProviders } from './facade';
 import { SubscriptionBillingConnector } from './connector';
 
 @NgModule({
   imports: [],
-  providers: [
-    ...facadeProviders,
-    SubscriptionBillingConnector,
-    {
-      provide: CurrentProductService,
-      useExisting: CurrentSubscriptionProductService,
-    },
-  ],
+  providers: [...facadeProviders, SubscriptionBillingConnector],
 })
 export class SubscriptionBillingCoreModule {}
