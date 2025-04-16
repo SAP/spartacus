@@ -10,6 +10,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  signal,
 } from '@angular/core';
 import { GlobalMessageType, TranslationService } from '@spartacus/core';
 import {
@@ -17,11 +18,11 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of, share } from 'rxjs';
+import { EMPTY, Observable, of, share } from 'rxjs';
 import { catchError, map, switchMap, tap, filter } from 'rxjs/operators';
 import { S4omOrderAttachment } from '../../../root/model';
 import { S4omOrderAttachmentsFacade } from '../../../core/facade';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { S4omConfig } from '../../../root/config';
 
 @Component({
@@ -56,16 +57,16 @@ export class S4omAttachmentsDialogComponent {
     ),
     map((attachments) => attachments.attachments ?? []),
     catchError(() => {
-      this.error$.next(true);
+      this.loadError.set(true);
       return of([]);
     }),
     share()
   );
-  attachmentsCount$: Observable<number> = this.attachments$.pipe(
-    map((attachments) => attachments.length)
+  loadError = signal(false);
+  attachmentsCount = toSignal(
+    this.attachments$.pipe(map((attachments) => attachments.length)),
+    { initialValue: 0 }
   );
-  error$ = new BehaviorSubject(false);
-
   loadingAttachments: string[] = [];
   erroredAttachments: string[] = [];
   errorCounter = 0;

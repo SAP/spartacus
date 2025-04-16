@@ -106,12 +106,15 @@ describe('AttachmentsDialogComponent', () => {
         },
       ],
     }).compileComponents();
-    fixture = TestBed.createComponent(S4omAttachmentsDialogComponent);
-    component = fixture.componentInstance;
     orderAttachmentsFacade = TestBed.inject(
       S4omOrderAttachmentsFacade
     ) as jasmine.SpyObj<S4omOrderAttachmentsFacade>;
     launchDialogService = TestBed.inject(LaunchDialogService);
+    orderAttachmentsFacade.getOrderAttachments.and.returnValue(
+      of(attachmentsData)
+    );
+    fixture = TestBed.createComponent(S4omAttachmentsDialogComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {
@@ -153,16 +156,8 @@ describe('AttachmentsDialogComponent', () => {
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
 
-    it('should return correct attachments count', (done) => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
-        of(attachmentsData)
-      );
-
-      expect(component.attachmentsCount$).toBeDefined();
-      component.attachmentsCount$.subscribe((count) => {
-        expect(count).toBe(3);
-        done();
-      });
+    it('should return correct attachments count', () => {
+      expect(component.attachmentsCount()).toBe(3);
     });
 
     it('should return empty attachment array on error', (done) => {
@@ -180,17 +175,16 @@ describe('AttachmentsDialogComponent', () => {
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
 
-    it('should emit true from error$ when attachment fetch fails', (done) => {
+    it('should error return true if attachment fetch fails', (done) => {
       orderAttachmentsFacade.getOrderAttachments.and.returnValue(
         throwError(() => 'mockError')
       );
-      expect(component.error$).toBeDefined();
-      expect(component.error$.value).toBe(false);
+      expect(component.loadError()).toBe(false);
 
       component.orderCode$ = of(attachmentId);
       component.attachments$.subscribe(() => done()).unsubscribe();
 
-      expect(component.error$.value).toBe(true);
+      expect(component.loadError()).toBe(true);
       expect(orderAttachmentsFacade.getOrderAttachments).toHaveBeenCalled();
     });
   });
@@ -364,9 +358,6 @@ describe('AttachmentsDialogComponent', () => {
     });
 
     it('should correctly display attachment counter', () => {
-      orderAttachmentsFacade.getOrderAttachments.and.returnValue(
-        of(attachmentsData)
-      );
       fixture.detectChanges();
       let spinnerEl = fixture.debugElement.query(
         By.css('.attachments-counter')
@@ -378,6 +369,8 @@ describe('AttachmentsDialogComponent', () => {
       orderAttachmentsFacade.getOrderAttachments.and.returnValue(
         of({ attachments: [] })
       );
+      fixture = TestBed.createComponent(S4omAttachmentsDialogComponent);
+      component = fixture.componentInstance;
       fixture.detectChanges();
       let spinnerEls = fixture.debugElement.queryAll(
         By.css('.attachments-counter')
@@ -423,6 +416,8 @@ describe('AttachmentsDialogComponent', () => {
       orderAttachmentsFacade.getOrderAttachments.and.returnValue(
         of({ attachments: [] })
       );
+      fixture = TestBed.createComponent(S4omAttachmentsDialogComponent);
+      component = fixture.componentInstance;
       fixture.detectChanges();
 
       let infoMessageEls = fixture.debugElement.queryAll(

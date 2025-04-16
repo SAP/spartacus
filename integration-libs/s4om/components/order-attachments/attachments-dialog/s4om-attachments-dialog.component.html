@@ -12,13 +12,9 @@
         <span>
           {{ 's4omOrder.attachments.dialog.title' | cxTranslate }}
         </span>
-        @if (attachmentsCount$ | async; as attachmentsCount) {
-          @if (attachmentsCount > 0) {
-            <span class="attachments-counter">
-              {{ '(' + attachmentsCount + ')' }}
-            </span>
-          }
-        }
+        <span *ngIf="attachmentsCount() as count" class="attachments-counter">
+          {{ '(' + count + ')' }}
+        </span>
       </div>
       <button
         type="button"
@@ -37,21 +33,23 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
-      @for (errorId of erroredAttachments; track errorId) {
-        <cx-message
-          [text]="'s4omOrder.attachments.dialog.downloadError' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_ERROR"
-          (closeMessage)="closeErrorMessage(errorId)"
-          class="cx-dialog-message attachment-error"
-        >
-        </cx-message>
-      }
-      @if (attachments$ | async; as attachments) {
-        @if (!(error$ | async)) {
-          <table class="table">
-            @for (attachment of attachments; track attachment.attachmentId) {
-              @if (attachment.attachmentId) {
-                <tr class="order-attachment-row">
+      <cx-message
+        *ngFor="let errorId of erroredAttachments"
+        [text]="'s4omOrder.attachments.dialog.downloadError' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_ERROR"
+        (closeMessage)="closeErrorMessage(errorId)"
+        class="cx-dialog-message attachment-error"
+      >
+      </cx-message>
+      <ng-container *ngIf="attachments$ | async as attachments; else loading">
+        <ng-container *ngIf="!loadError(); else error">
+          <ng-container *ngIf="attachmentsCount(); else empty">
+            <table class="table">
+              <ng-container *ngFor="let attachment of attachments">
+                <tr
+                  *ngIf="attachment.attachmentId"
+                  class="order-attachment-row"
+                >
                   <td>
                     <a
                       attr.aria-label="{{
@@ -127,31 +125,11 @@
                     </a>
                   </td>
                 </tr>
-              }
-            } @empty {
-              <cx-message
-                [text]="'s4omOrder.attachments.dialog.empty' | cxTranslate"
-                [type]="globalMessageType.MSG_TYPE_INFO"
-                [isVisibleCloseButton]="false"
-                class="cx-dialog-message info-message"
-              >
-              </cx-message>
-            }
-          </table>
-        } @else {
-          <cx-message
-            [text]="'s4omOrder.attachments.dialog.error' | cxTranslate"
-            [type]="globalMessageType.MSG_TYPE_ERROR"
-            [isVisibleCloseButton]="false"
-            class="cx-dialog-message error-message"
-          >
-          </cx-message>
-        }
-      } @else {
-        <div class="cx-spinner">
-          <cx-spinner></cx-spinner>
-        </div>
-      }
+              </ng-container>
+            </table>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
 
     <!-- Modal Footer -->
@@ -167,3 +145,27 @@
     </div>
   </div>
 </div>
+
+<ng-template #error>
+  <cx-message
+    [text]="'s4omOrder.attachments.dialog.error' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    [isVisibleCloseButton]="false"
+    class="cx-dialog-message error-message"
+  >
+  </cx-message>
+</ng-template>
+<ng-template #empty>
+  <cx-message
+    [text]="'s4omOrder.attachments.dialog.empty' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_INFO"
+    [isVisibleCloseButton]="false"
+    class="cx-dialog-message info-message"
+  >
+  </cx-message>
+</ng-template>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
