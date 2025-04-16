@@ -167,11 +167,6 @@ export interface FeatureTogglesInterface {
   a11yAnonymousConsentMessageInDialog?: boolean;
 
   /**
-   * Corrects oversized focus indicator from list items inside 'ListComponent'.
-   */
-  a11yListOversizedFocus?: boolean;
-
-  /**
    * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
    * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
    */
@@ -927,7 +922,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabsManualActivation: false,
   a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
-  a11yListOversizedFocus: true,
   a11yStoreFinderOverflow: true,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
