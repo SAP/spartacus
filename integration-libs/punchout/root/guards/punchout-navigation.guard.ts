@@ -13,7 +13,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { map, Observable, of, switchMap, take } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
@@ -91,10 +91,8 @@ export class PunchoutNavigationGuard {
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    console.log('flo route', route);
     return this.getPunchoutOperation().pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
-        console.log('punchoutOperation', punchoutOperation);
         const canActivate =
           !punchoutOperation ||
           this.findByCxRoute(
@@ -121,8 +119,7 @@ export class PunchoutNavigationGuard {
           );
         }
         return canActivate;
-      }),
-      tap((res) => console.log('flo res', res))
+      })
     );
   }
 
@@ -152,72 +149,27 @@ export class PunchoutNavigationGuard {
   }
 
   protected getPunchoutOperation(): Observable<PunchOutOperation | undefined> {
-    // let isFullState = false;
-    //let localSessionId: string = '';
-    console.log('flo0');
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {
-          return this.punchoutStoreService.getPunchoutState().pipe(take(1));
+          return this.punchoutStoreService.getPunchoutState();
         }
         return of(undefined);
       }),
-      // switchMap((sessionId: string | undefined) => {
-      //   console.log('flo1', sessionId);
-      //   //   localSessionId = sessionId ?? '';
-      //   if (sessionId) {
-      //     return this.punchoutStoreService.getPunchoutState().pipe(
-      //       tap((ps) => console.log('before skip', ps))
-      //       // skip(1),
-      //       // tap((ps) => console.log('after skip', ps))
-      //     );
-      //     // .pipe(
-      //     //   filter((state) => {
-      //     //     if (!state?.punchoutSessionId && localSessionId) {
-      //     //       return false;
-      //     //     }
-      //     //     return true;
-      //     //   })
-      //     // );
-      //   }
-      //   return of(undefined);
-      // }),
-      // filter((state) => {
-      //   if (!state?.punchoutSessionId && localSessionId) {
-      //     return false;
-      //   }
-      //   return true;
-      // }),
-      // map((punchoutState: PunchoutState | undefined) => {
-      //   console.log('flo state', punchoutState);
-      //   if (punchoutState?.punchoutSession?.punchOutOperation) {
-      //     return punchoutState.punchoutSession.punchOutOperation;
-      //   }
-      //   return undefined;
-      // })
+      take(1),
       switchMap((punchoutState: PunchoutState | undefined) => {
-        //  console.log('isLoggedIn', isLoggedIn);
-        console.log('punchoutState1', punchoutState);
-        if (
-          punchoutState?.punchoutSessionId &&
-          !punchoutState.punchoutSession?.punchOutOperation
-        ) {
-          console.log('IN CONDITION', punchoutState);
-          return this.punchoutFacade.requestPunchoutSession(
-            punchoutState.punchoutSessionId
-          );
+        if (punchoutState?.punchoutSessionId) {
+          return punchoutState?.punchoutSession?.punchOutOperation
+            ? of(punchoutState.punchoutSession)
+            : this.punchoutFacade.requestPunchoutSession(
+                punchoutState.punchoutSessionId
+              );
         }
-        if (
-          punchoutState?.punchoutSessionId &&
-          punchoutState?.punchoutSession?.punchOutOperation
-        ) {
-          return of(punchoutState.punchoutSession);
-        }
+
         return of(undefined);
       }),
       map((punchoutSession: PunchoutSession | undefined) => {
-        console.log('IN CONDITION2', punchoutSession);
         if (punchoutSession?.punchOutOperation) {
           return punchoutSession?.punchOutOperation;
         }

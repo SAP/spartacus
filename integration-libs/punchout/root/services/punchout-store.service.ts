@@ -29,24 +29,6 @@ export class PunchoutStoreService {
   protected punchoutState = new BehaviorSubject<PunchoutState>(
     this.INITIAL_STATE
   );
-  protected localPunchoutSessionState = new BehaviorSubject<{
-    punchoutSession?: PunchoutSession;
-    punchoutSessionId?: string;
-  }>(this.INITIAL_LOCAL_STATE);
-
-  getLocalSessionState(): {
-    punchoutSession?: PunchoutSession;
-    punchoutSessionId?: string;
-  } {
-    return this.localPunchoutSessionState.value;
-  }
-  setLocalSessionState(newSessionState: {
-    punchoutSession?: PunchoutSession;
-    punchoutSessionId?: string;
-  }) {
-    console.log('floooooooooo setLocalSessionState');
-    this.localPunchoutSessionState.next(newSessionState);
-  }
 
   getPunchoutSessionId(): string | undefined {
     return this.punchoutState?.value?.punchoutSessionId;
