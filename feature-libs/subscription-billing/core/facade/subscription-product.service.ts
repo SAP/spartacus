@@ -4,14 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubscriptionProductService {
+  protected currentProductService = inject(CurrentProductService);
+  protected productService = inject(ProductService);
   isSubscription(product: Product): boolean {
     return product.sapSubscriptionTerm && product.sapPricePlan ? true : false;
+  }
+
+  getSubscriptionData(
+    productCode?: string
+  ): Observable<Product | null | undefined> {
+    return productCode
+      ? this.productService.get(productCode, [ProductScope.SUBSCRIPTION])
+      : this.currentProductService.getProduct([ProductScope.SUBSCRIPTION]);
   }
 }

@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject, Input, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { I18nModule, Product, ProductScope } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+import { I18nModule, Product } from '@spartacus/core';
 import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 import {
   OneTimeCharge,
@@ -23,11 +22,11 @@ import { SubscriptionProductUsageChargeComponent } from '../usage/subscription-p
   imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeComponent],
 })
 export class SubscriptionProductPriceComponent {
+  @Input() productCode?: string;
   protected productService = inject(SubscriptionProductService);
-  protected currentProductService = inject(CurrentProductService);
 
   productDetail: Signal<Product | null | undefined> = toSignal(
-    this.currentProductService.getProduct([ProductScope.SUBSCRIPTION])
+    this.productService.getSubscriptionData(this.productCode)
   );
 
   isCurrentProductSubscription: Signal<boolean> = computed(() => {

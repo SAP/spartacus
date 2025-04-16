@@ -55,8 +55,4 @@ export class CurrentProductService {
       .getRouterState()
       .pipe(map((state) => state.state.params['productCode']));
   }
-
-  showItemCounter(_product: Product): boolean {
-    return true;
-  }
 }

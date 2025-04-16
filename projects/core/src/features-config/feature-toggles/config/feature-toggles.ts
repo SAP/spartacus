@@ -72,12 +72,6 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
-   * Previously the sorting was done by the date of creating an invoice entry.
-   */
-  pdfInvoicesSortByInvoiceDate?: boolean;
-
-  /**
    * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
    *
    * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
@@ -357,15 +351,6 @@ export interface FeatureTogglesInterface {
    * calling its own deprecated method `canActivateGuard()`.
    */
   cmsGuardsServiceUseGuardsComposer?: boolean;
-
-  /**
-   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
-   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
-   *
-   * It avoids showing an unnecessary duplicated error message on the failure
-   * of adding to the cart.
-   */
-  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
@@ -1020,7 +1005,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDownloadProposalButton: true,
   searchBoxV2: false,
   trendingSearches: false,
-  pdfInvoicesSortByInvoiceDate: true,
   useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
@@ -1066,7 +1050,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusableCarouselControls: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   cmsGuardsServiceUseGuardsComposer: true,
-  cartQuickOrderRemoveListeningToFailEvent: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
   a11yVisibleFocusOverflows: true,
