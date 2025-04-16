@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PunchoutSession, PunchoutState } from '../model';
+import { PunchoutState } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class PunchoutStoreService {
@@ -17,14 +17,6 @@ export class PunchoutStoreService {
     punchoutInitialRequisition: undefined,
     closePunchoutSession: undefined,
   });
-
-  protected readonly INITIAL_LOCAL_STATE: {
-    punchoutSession?: PunchoutSession;
-    punchoutSessionId?: string;
-  } = {
-    punchoutSession: undefined,
-    punchoutSessionId: undefined,
-  };
 
   protected punchoutState = new BehaviorSubject<PunchoutState>(
     this.INITIAL_STATE
