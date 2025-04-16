@@ -156,11 +156,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
-   */
-  a11yScheduleReplenishment?: boolean;
-
-  /**
    * When 'ScrollToTopComponent' is trigged with a keyboard, focus remains on the
    * button and preserves the user's context.
    */
@@ -978,7 +973,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yScheduleReplenishment: true,
   a11yScrollToTop: true,
   a11ySavedCartsZoom: true,
   a11ySortingOptionsTruncation: true,
