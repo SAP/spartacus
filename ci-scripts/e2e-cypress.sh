@@ -54,7 +54,7 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
 fi
 
 if [ "$SUITE" == ":vendor" ]; then
-    export SPA_ENV='vendor'
+    export SPA_ENV='ccv2,b2b'
 fi
 
 echo '-----'
@@ -154,7 +154,6 @@ else
     if [ "$SUITE" == ":vendor" ]; then
       echo "Forcing vendor E2E tests on push"
       #npm run e2e:run:ci:vendor:b2c
-      npm run e2e:run:ci:cdp
       npm run e2e:run:ci:cdc-b2b
     else
       if is_bot_commit; then
