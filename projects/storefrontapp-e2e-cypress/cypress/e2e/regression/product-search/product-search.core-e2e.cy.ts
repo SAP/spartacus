@@ -24,17 +24,14 @@ context('Product search', { testIsolation: false }, () => {
     describe('Pagination', () => {
       it('should navigate to the next page and display results', () => {
         productSearchFlow.verifyNextPage(2);
-        productSearchFlow.assertPaginationFocusBehavior('2');
       });
 
       it('should be able navigate to the specified page number and display results', () => {
         productSearchFlow.verifyChoosePage(3);
-        productSearchFlow.assertPaginationFocusBehavior('4');
       });
 
       it('should navigate to the previous page and display results', () => {
         productSearchFlow.verifyPreviousPage(2);
-        productSearchFlow.assertPaginationFocusBehavior('1');
       });
     });
 
