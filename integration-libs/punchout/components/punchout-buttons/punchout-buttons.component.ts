@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { AuthService, RoutingService } from '@spartacus/core';
 import {
   PUNCHOUT_REQUISITION_PAGE_URL,
@@ -19,6 +24,8 @@ import { map, Observable, of, switchMap } from 'rxjs';
   standalone: false,
 })
 export class PunchoutButtonsComponent {
+  @Input() removeCancelButton = false;
+
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected routingService = inject(RoutingService);
   protected authService = inject(AuthService);
