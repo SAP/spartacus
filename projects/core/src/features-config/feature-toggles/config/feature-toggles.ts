@@ -141,11 +141,6 @@ export interface FeatureTogglesInterface {
   a11yNavMenuExpandStateReadout?: boolean;
 
   /**
-   * 'ViewComponent' will trigger an assistive message after active view changes.
-   */
-  a11yViewChangeAssistiveMessage?: boolean;
-
-  /**
    * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
    */
   a11yPreventHorizontalScroll?: boolean;
@@ -990,7 +985,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorDeltaRendering: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
-  a11yViewChangeAssistiveMessage: true,
   a11yPreventHorizontalScroll: true,
   a11yReorderDialog: true,
   a11yPopoverFocus: true,
