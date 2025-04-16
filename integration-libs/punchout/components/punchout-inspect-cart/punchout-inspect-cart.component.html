@@ -1,0 +1,162 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <ng-container *ngIf="entries$ | async as entries">
+    <!-- <cx-cart-item-list
+      [readonly]="true"
+      [items]="entries"
+      [cartIsLoading]="!(cartLoaded$ | async)"
+      [options]="{
+        isSaveForLater: false,
+      }"
+    ></cx-cart-item-list> -->
+    <h2>
+      {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+    </h2>
+
+    <table role="table">
+      <caption class="cx-visually-hidden">
+        {{
+          'cartItems.caption' | cxTranslate
+        }}
+      </caption>
+      <thead>
+        <tr role="row" class="cx-item-list-header">
+          <th role="columnheader" scope="col" class="cx-item-list-desc">
+            {{ 'cartItems.item' | cxTranslate }}
+          </th>
+
+          <th
+            *cxFeature="'a11yQTY2Quantity'"
+            role="columnheader"
+            scope="col"
+            class="cx-item-list-qty"
+          >
+            {{ 'cartItems.quantityFull' | cxTranslate }}
+          </th>
+          <th
+            *cxFeature="'!a11yQTY2Quantity'"
+            role="columnheader"
+            scope="col"
+            class="cx-item-list-qty"
+          ></th>
+          <th role="columnheader" scope="col" class="cx-item-list-total">
+            {{ 'cartItems.total' | cxTranslate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="cx-item-list-items">
+        <ng-container *ngFor="let item of cart.entries; let i = index">
+          <!-- <tr
+          cx-cart-item-list-row
+          role="row"
+          class="cx-item-list-row"
+          [item]="item"
+          [quantityControl]="control.get('quantity')"
+          [readonly]="true"
+          [promotionLocation]="promotionLocation"
+          [options]="options"
+          [attr.aria-rowindex]="i + 1"
+        ></tr> -->
+          <tr>
+            <td role="cell">
+              <div class="cx-table-item-container">
+                <!-- Item Image -->
+
+                <cx-media
+                  [container]="item.product?.images?.PRIMARY"
+                  format="cartIcon"
+                ></cx-media>
+                <div class="cx-info">
+                  <div *ngIf="item.product?.name" class="cx-name">
+                    {{ item.product?.name }}
+                  </div>
+                  <div *ngIf="item.product?.code" class="cx-code">
+                    {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
+                  </div>
+                  <!-- Item Price -->
+
+                  <div *ngIf="item.basePrice" class="cx-price">
+                    <div *ngIf="item.basePrice" class="cx-value">
+                      {{ item.basePrice?.formattedValue }}
+                    </div>
+                  </div>
+                </div>
+                <!-- <ng-template
+                role="columnheader"
+                [cxOutlet]="CartOutlets.CPQ_QUOTE"
+                [cxOutletContext]="{
+                  items: item,
+                }"
+              ></ng-template> -->
+              </div>
+              <!-- Variants -->
+              <ng-container *ngIf="item.product?.baseOptions?.length">
+                <div
+                  *ngFor="
+                    let variant of item.product?.baseOptions[0]?.selected
+                      ?.variantOptionQualifiers
+                  "
+                  class="cx-property"
+                >
+                  <!-- cx-mobile-header -->
+                  <div class="cx-label" *ngIf="variant.name && variant.value">
+                    {{ variant.name }}: {{ variant.value }}
+                  </div>
+                </div>
+              </ng-container>
+            </td>
+            <!-- Mobile Item Price -->
+            <td
+              role="cell"
+              *ngIf="item.basePrice"
+              class="cx-price cx-mobile-only"
+            >
+              <div class="cx-mobile-header">
+                {{ 'cartItems.itemPrice' | cxTranslate }}
+              </div>
+              <div *ngIf="item.basePrice" class="cx-value">
+                {{ item.basePrice?.formattedValue }}
+              </div>
+            </td>
+            <!-- item price with discount
+            <ng-template
+              role="cell"
+              [cxOutlet]="CartOutlets.CPQ_QUOTE_MODULE"
+              [cxOutletContext]="{
+                items: item,
+              }"
+            ></ng-template> -->
+            <!-- Item Quantity -->
+            <td role="cell" class="cx-quantity">
+              <div
+                *cxFeature="'a11yQTY2Quantity'"
+                class="cx-mobile-header"
+                placement="left"
+                title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+              >
+                {{ 'cartItems.quantityFull' | cxTranslate }}
+              </div>
+              <div
+                *cxFeature="'!a11yQTY2Quantity'"
+                class="cx-mobile-header"
+                placement="left"
+                title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+              >
+                {{ 'cartItems.quantity' | cxTranslate }}
+              </div>
+              <div class="cx-value" [class.readonly-value]="true">
+                {{ item.quantity }}
+              </div>
+            </td>
+            <td role="cell" *ngIf="item.totalPrice" class="cx-total">
+              <div class="cx-mobile-header">
+                {{ 'cartItems.total' | cxTranslate }}
+              </div>
+              <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-container>
+<cx-punchout-buttons></cx-punchout-buttons>

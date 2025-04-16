@@ -1,8 +1,10 @@
 @import '@spartacus/styles/scss/core';
 @import 'styles/punchout-close-session';
 @import 'styles/punchout-buttons';
+@import 'styles/punchout-inspect-cart';
 
-$punchout-components-allowlist: cx-punchout-close-session, cx-punchout-buttons !default;
+$punchout-components-allowlist: cx-punchout-close-session, cx-punchout-buttons,
+  cx-punchout-inspect-cart !default;
 
 $skipComponentStyles: () !default;
 
