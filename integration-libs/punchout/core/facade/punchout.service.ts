@@ -206,7 +206,20 @@ export class PunchoutService implements PunchoutFacade {
   protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
     this.commandService.create(
       (punchoutSessionId: string) => {
-        return this.punchoutConnector.getPunchoutSession(punchoutSessionId);
+        return this.punchoutConnector
+          .getPunchoutSession(punchoutSessionId)
+          .pipe(
+            map((punchoutSession) => {
+              if (
+                !punchoutSession?.token?.accessToken ||
+                !punchoutSession?.customerId ||
+                !punchoutSession?.cartId
+              ) {
+                throw new Error('Punchout login info missing');
+              }
+              return punchoutSession;
+            })
+          );
       },
       {
         strategy: CommandStrategy.Queue,
