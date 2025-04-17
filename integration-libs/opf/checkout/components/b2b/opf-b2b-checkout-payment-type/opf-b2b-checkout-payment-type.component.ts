@@ -66,7 +66,6 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
 
   protected busy$ = new BehaviorSubject<boolean>(false);
-  protected opfPaymentFacade = inject(OpfPaymentFacade);
 
   typeSelected?: string;
   paymentTypesError = false;

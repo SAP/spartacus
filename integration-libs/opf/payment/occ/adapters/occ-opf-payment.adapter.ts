@@ -13,7 +13,7 @@ import {
   OccEndpointsService,
   backOff,
   isJaloError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OpfPaymentOccAdapter } from '@spartacus/opf/payment/core';
 import { Observable } from 'rxjs';
@@ -54,7 +54,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentOccAdapter {
       })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
