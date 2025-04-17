@@ -5,13 +5,21 @@
  */
 
 import { viewportContext } from '../../helpers/viewport-context';
+import { doPlaceOrder } from '../../helpers/order-history';
 
 describe('Order History Page accessibility', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.a11yContinuumSetup();
-      cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
-      cy.visit('/my-account/orders');
+      cy.requireLoggedIn();
+      doPlaceOrder().then((orderData: any) => {
+        cy.waitForOrderToBePlacedRequest(
+          undefined,
+          undefined,
+          orderData.body.code
+        );
+        cy.visit('/my-account/orders');
+      });
     });
 
     it('Order list', () => {
@@ -21,7 +29,7 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
 
     it('Order details', () => {
       cy.get('.cx-order-history-code > .cx-order-history-value')
-        .contains('00001092')
+        .first()
         .click();
 
       cy.get('.cx-order-details-cards'); // wait until content is loaded

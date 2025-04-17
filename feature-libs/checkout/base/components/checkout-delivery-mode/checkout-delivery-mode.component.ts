@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Optional,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -18,11 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -47,10 +38,6 @@ export class CheckoutDeliveryModeComponent {
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
 
   readonly CartOutlets = CartOutlets;
-
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   isSetDeliveryModeHttpError$ =
     this.isSetDeliveryModeHttpErrorSub.asObservable();
@@ -126,15 +113,12 @@ export class CheckoutDeliveryModeComponent {
       error: () => this.onError(),
     });
 
-    // TODO: (CXSPA-6599) - Remove feature flag next major release
-    if (this.featureConfigService?.isEnabled('a11yCheckoutDeliveryFocus')) {
-      const isTriggeredByKeyboard = (<MouseEvent>event)?.screenX === 0;
-      if (isTriggeredByKeyboard) {
-        this.restoreFocus(lastFocusedId, code);
-        return;
-      }
-      this.mode.setValue({ deliveryModeId: code });
+    const isTriggeredByKeyboard = (<MouseEvent>event)?.screenX === 0;
+    if (isTriggeredByKeyboard) {
+      this.restoreFocus(lastFocusedId, code);
+      return;
     }
+    this.mode.setValue({ deliveryModeId: code });
   }
 
   next(): void {
