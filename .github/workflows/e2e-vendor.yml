@@ -46,7 +46,7 @@ jobs:
           SPA_ENV: vendor
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s vendor
+          ci-scripts/e2e-cypress.sh
   build_conclusion:
     needs: [vendor_e2e_tests]
     name: Build Conclusion
