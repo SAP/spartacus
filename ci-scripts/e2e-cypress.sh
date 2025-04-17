@@ -131,7 +131,7 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
-    #npm run start:pwa &
+    npm run start:pwa &
 
     echo '-----'
     echo "Running Cypress end to end tests"
