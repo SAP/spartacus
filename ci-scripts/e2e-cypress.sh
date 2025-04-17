@@ -54,7 +54,7 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
 fi
 
 if [ "$SUITE" == ":vendor" ]; then
-    export SPA_ENV='b2b'
+    export SPA_ENV='ccv2,b2c'
 fi
 
 echo '-----'
@@ -148,7 +148,7 @@ else
             npm run e2e:run:ci:core"${SUITE}"
         fi
 
-    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+    elif [ "${GITHUB_EVENT_NAME}" == "push" || "$SUITE" == ":vendor"  ]; then
         echo "Running Cypress end-to-end tests for push event"
 
         if is_bot_commit; then

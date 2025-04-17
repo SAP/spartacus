@@ -14,7 +14,7 @@ env:
 
 jobs:
   b2c_e2e_tests:
-    name: E2E tests for B2C
+    name: E2E vendor tests for B2C
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,9 +47,9 @@ jobs:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh
+          ci-scripts/e2e-cypress.sh -s vendor
   b2b_e2e_tests:
-    name: E2E tests for B2B
+    name: E2E vendor tests for B2B
     runs-on: ubuntu-latest
     strategy:
       matrix:
