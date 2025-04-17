@@ -54,7 +54,7 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
 fi
 
 if [ "$SUITE" == ":vendor" ]; then
-    export SPA_ENV='ccv2,b2b'
+    export SPA_ENV='b2b'
 fi
 
 echo '-----'
@@ -131,7 +131,7 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
-    npm run start:pwa &
+    #npm run start:pwa &
 
     echo '-----'
     echo "Running Cypress end to end tests"
@@ -154,6 +154,7 @@ else
     if [ "$SUITE" == ":vendor" ]; then
       echo "Forcing vendor E2E tests on push"
       #npm run e2e:run:ci:vendor:b2c
+      #npm run e2e:run:ci:cdc-b2b
       npm run e2e:run:ci:cdc-b2b
     else
       if is_bot_commit; then
