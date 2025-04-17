@@ -40,11 +40,11 @@ export function defaultAuthConfigProvider(): AuthConfig {
         revokeEndpoint: '/authserver/oauth2/revoke',
         loginUrl: '/authserver/oauth2/authorize',
 
+        client_secret: undefined,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
-          disablePKCE: false, // PKCE required
-          responseType: 'code', // only 'code' supported
-          redirectUri: 'http://localhost:4200/oauth-callback', // must be absolute.  TODO: need validator?
+          disablePKCE: false,
+          responseType: 'code',
         },
       },
     };
