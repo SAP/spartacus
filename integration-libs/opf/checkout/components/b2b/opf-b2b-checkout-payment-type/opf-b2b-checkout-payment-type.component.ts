@@ -34,7 +34,6 @@ import {
   OpfActiveConfiguration,
   OpfBaseFacade,
 } from '@spartacus/opf/base/root';
-import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 
 import {
   BehaviorSubject,
