@@ -31,7 +31,7 @@ export class GigyaRaasComponent implements OnInit {
   language$: Observable<string>;
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
-  private shouldLogout = false;
+  private isPasswordReset = false;
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
     private baseSiteService: BaseSiteService,
@@ -86,12 +86,11 @@ export class GigyaRaasComponent implements OnInit {
         : {
             onSubmit: (event: { formModel: Record<string, unknown> }) => {
               const formData = event.formModel;
-              this.shouldLogout = !!formData?.newPassword;
+              this.isPasswordReset = !!formData?.newPassword;
             },
             onAfterSubmit: (...params: any[]) => {
               this.zone.run(() => {
-                // 🔹 Push the boolean directly
-                params.push({ passwordReset: this.shouldLogout });
+                params.push({ passwordReset: this.isPasswordReset });
                 this.cdcJSService.onProfileUpdateEventHandler(...params);
               });
             },
