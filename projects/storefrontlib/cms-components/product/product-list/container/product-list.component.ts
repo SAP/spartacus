@@ -40,7 +40,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService,
     public scrollConfig: ViewConfig
   ) {
-    useFeatureStyles('a11ySortingOptionsTruncation');
     useFeatureStyles('a11yTruncatedTextForResponsiveView');
   }
 
