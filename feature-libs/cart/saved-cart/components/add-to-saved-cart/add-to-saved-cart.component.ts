@@ -45,7 +45,6 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yUseButtonsForBtnLinks');
   }
 
