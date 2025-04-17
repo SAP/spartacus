@@ -130,6 +130,7 @@ if [[ "${SSR}" = true ]]; then
         echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci:ssr
     fi
+
 else
     npm run start:pwa &
 
@@ -148,27 +149,15 @@ else
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-    echo "Running Cypress end-to-end tests for push event"
+        echo "Running Cypress end-to-end tests for push event"
 
-    # If the suite is vendor, run vendor tests; otherwise do the usual logic
-    if [ "$SUITE" == ":vendor" ]; then
-      echo "Forcing vendor E2E tests on push"
-      #npm run e2e:run:ci:vendor:b2c
-      #npm run e2e:run:ci:cdc-b2b
-      npm run e2e:run:ci:cdc-b2b
-    else
-      if is_bot_commit; then
-          echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-          npm run e2e:run:ci:core"${SUITE}"
-      else
-          echo "Running full Cypress end-to-end tests"
-          npm run e2e:run:ci"${SUITE}"
-      fi
-    fi
-
-    #elif [ "${GITHUB_EVENT_NAME}" == "schedule" ]; then 
-    #    npm run e2e:run:ci:vendor
-
+        if is_bot_commit; then
+            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+            npm run e2e:run:ci:core"${SUITE}"
+        else
+            echo "Running full Cypress end-to-end tests"
+            npm run e2e:run:ci"${SUITE}"
+        fi
     else
         echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci"${SUITE}"

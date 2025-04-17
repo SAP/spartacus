@@ -13,12 +13,13 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
-  vendor_e2e_tests:
-    name: E2E tests for vendor
+  b2c_e2e_tests:
+    name: E2E tests for B2C
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        containers: [1, 2, 3]
+        containers: [1, 2, 3, 4, 5]
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v7
@@ -43,7 +44,7 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
-          SPA_ENV: vendor
+          SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh
