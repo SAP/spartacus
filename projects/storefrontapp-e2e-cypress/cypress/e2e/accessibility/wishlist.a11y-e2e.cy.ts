@@ -10,6 +10,12 @@ describe('Wishlist page accessibility', { testIsolation: false }, () => {
     cy.requireLoggedIn();
   });
 
+  it('Empty page', () => {
+    cy.visit('my-account/wishlist');
+    cy.get('.cx-empty-wish-list');
+    cy.get('main').a11yRunContinuumTest();
+  });
+
   it('Page with items', () => {
     cy.visit('/');
     cy.get('cx-product-carousel-item').first().click();
@@ -17,11 +23,5 @@ describe('Wishlist page accessibility', { testIsolation: false }, () => {
     cy.visit('my-account/wishlist');
     cy.get('cx-wish-list table');
     cy.get('main').a11yRunContinuumTest();
-  });
-
-  it('Add to card', () => {
-    cy.get('cx-add-to-cart button').click();
-    cy.get('cx-added-to-cart-dialog .cx-info-container');
-    cy.get('cx-added-to-cart-dialog').a11yRunContinuumTest();
   });
 });
