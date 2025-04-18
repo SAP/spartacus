@@ -137,16 +137,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
         run: |
-          echo "Creating pull request from ${{ env.RELEASE_BRANCH }} to ${{ env.SOURCE_BRANCH }}..."
+          echo "Creating pull request from ${{ env.RELEASE_BRANCH }} to ${{ github.event.inputs.source }}..."
 
           # Check if a PR already exists
-          existing_pr=$(gh pr list --head "${{ env.RELEASE_BRANCH }}" --base "${{ env.SOURCE_BRANCH }}" --json number --jq '.[].number')
+          existing_pr=$(gh pr list --head "${{ env.RELEASE_BRANCH }}" --base "${{ github.event.inputs.source }}" --json number --jq '.[].number')
           if [[ -n "$existing_pr" ]]; then
             echo "PR already exists: #$existing_pr"
           else
             gh pr create \
               --head "${{ env.RELEASE_BRANCH }}" \
-              --base "${{ env.SOURCE_BRANCH }}" \
+              --base "${{ github.event.inputs.source }}" \
               --title "chore(release): ${{ env.version }}" \
               --body "Automated PR to merge release changes back into the source branch."
           fi
