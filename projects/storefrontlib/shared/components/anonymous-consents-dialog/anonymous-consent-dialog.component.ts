@@ -81,7 +81,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
       }
     }
     useFeatureStyles('a11yUseButtonsForBtnLinks');
-    useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yAnonymousConsentMessageInDialog');
   }
 

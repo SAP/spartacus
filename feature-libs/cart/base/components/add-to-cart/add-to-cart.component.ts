@@ -102,10 +102,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    // TODO: (CXSPA-6034) Remove Feature flag next major release
-    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
-      return;
-    }
     const eventTarget = event.target as HTMLElement;
     const isQuantityInput =
       eventTarget.ariaLabel === 'Quantity' && eventTarget.tagName === 'INPUT';

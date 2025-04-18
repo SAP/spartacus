@@ -9,7 +9,7 @@
       <div class="header">
         <div aria-live="polite" class="title">
           <!-- TODO: (CXSPA-6624) - Remove feature flag next major release -->
-          <h2 *cxFeature="'a11yOrganizationListHeadingOrder'">
+          <h2>
             <span
               *cxFeature="'a11yRegionAssociatedHeaders'"
               id="{{ viewType + '_title' }}"
@@ -47,32 +47,6 @@
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
             </button>
           </h2>
-
-          <h3 *cxFeature="'!a11yOrganizationListHeadingOrder'">
-            {{
-              viewType + '.header' | cxTranslate: { count: getListCount(data) }
-            }}
-            <button
-              [cxPopover]="listHint"
-              [cxPopoverOptions]="{
-                placement: 'auto',
-                class: 'hint-popover',
-                displayCloseButton: true,
-              }"
-              [attr.aria-label]="
-                'organization.information'
-                  | cxTranslate
-                    : { title: viewType + '.groupName' | cxTranslate }
-              "
-              [attr.title]="
-                'organization.information'
-                  | cxTranslate
-                    : { title: viewType + '.groupName' | cxTranslate }
-              "
-            >
-              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
-            </button>
-          </h3>
         </div>
 
         <div class="actions">
