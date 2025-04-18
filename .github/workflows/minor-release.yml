@@ -12,7 +12,8 @@ on:
       create_pr:
         description: 'Create a PR from the release branch to the source branch?'
         required: false
-        default: 'false'
+        type: 'boolean'
+        default: false
 jobs:
   release:
     runs-on: ubuntu-latest
