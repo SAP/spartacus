@@ -35,6 +35,7 @@
             <cx-pagination
               [pagination]="replenishmentOrders.pagination"
               (viewPageEvent)="pageChange($event)"
+              paginationID="pagination-top"
             ></cx-pagination>
           </div>
         </div>
@@ -274,6 +275,7 @@
               [pagination]="replenishmentOrders.pagination"
               (viewPageEvent)="pageChange($event)"
               *ngIf="replenishmentOrders.pagination.totalPages > 1"
+              paginationID="pagination-bottom"
             ></cx-pagination>
           </div>
         </div>
