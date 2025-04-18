@@ -1,8 +1,9 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
+import { FocusConfig } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
@@ -18,6 +19,14 @@ const mockActivatedRoute = {
   },
 };
 
+@Directive({
+  selector: '[cxFocus]',
+  standalone: true,
+})
+export class MockFocusDirective {
+  @Input('cxFocus') config: FocusConfig;
+}
+
 describe('PaginationComponent', () => {
   let component: PaginationComponent;
   let fixture: ComponentFixture<PaginationComponent>;
@@ -25,7 +34,7 @@ describe('PaginationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, MockFocusDirective],
       declarations: [PaginationComponent, MockFeatureDirective],
       providers: [
         {
@@ -230,6 +239,43 @@ describe('PaginationComponent', () => {
         fixture.detectChanges();
         const el = debugEl.queryAll(By.css('a'));
         expect(el.length).toEqual(0);
+      });
+    });
+  });
+
+  describe('focus behavior', () => {
+    it('should maintain focus on the selected pagination item after click', () => {
+      component.pagination = {
+        currentPage: 1,
+        totalPages: 5,
+      };
+      fixture.detectChanges();
+
+      const pageItems = debugEl.queryAll(By.css('a.page'));
+      const secondPageItem = pageItems[1].nativeElement;
+
+      // Simulate focus manually
+      secondPageItem.focus();
+      fixture.detectChanges();
+
+      expect(document.activeElement).toBe(secondPageItem);
+    });
+
+    it('should assign correct cxFocus key for each pagination item', () => {
+      component.pagination = {
+        currentPage: 0,
+        totalPages: 3,
+      };
+      component.paginationID = 'pagination';
+      fixture.detectChanges();
+
+      const pageLinks = debugEl.queryAll(By.css('a.page'));
+
+      expect(pageLinks.length).toBe(3);
+
+      pageLinks.forEach((el, index) => {
+        const directiveInstance = el.injector.get(MockFocusDirective);
+        expect(directiveInstance.config?.key).toBe(`pagination${index}`);
       });
     });
   });
