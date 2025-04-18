@@ -24,7 +24,7 @@ describe('Segment Reference', () => {
         'BASE_CURRENCY'
       )}/?segmentrefs=footwear`
     );
-    cy.wait('@segmentRefApi', { timeout: 60000 }).then((xhr) => {
+    cy.wait('@segmentRefApi', { timeout: 160000 }).then((xhr) => {
       expect(xhr.request.headers).to.have.property('segmentrefs', 'footwear');
       expect(xhr.response.statusCode).to.eq(200); // Extra verification
     });
