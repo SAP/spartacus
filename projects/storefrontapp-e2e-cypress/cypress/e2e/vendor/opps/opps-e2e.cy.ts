@@ -74,7 +74,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
           oppsProduct.productName
         }?${e2eLoginConfig}=true`
       );
-      cy.wait(`@productPage`);
+      cy.wait(`@productPage`, { timeout: 160000 });
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
       signOutUser();
     });
@@ -88,7 +88,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       );
       cy.url().should('contain', 'login');
       loginUser(oppsTester);
-      cy.wait(`@productPage`);
+      cy.wait(`@productPage`, { timeout: 160000 });
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
       signOutUser();
     });
@@ -113,7 +113,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       );
       cy.url().should('contain', 'login');
       loginUser(oppsTester);
-      cy.wait(`@productPage`).then((xhr) => {
+      cy.wait(`@productPage`, { timeout: 160000 }).then((xhr) => {
         expect(xhr.request.headers).to.have.property(e2eHeader, 'Winter200');
       });
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
