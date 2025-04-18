@@ -20,6 +20,11 @@ import {
 import { Observable } from 'rxjs';
 import { OpfPaymentAdapter } from './opf-payment.adapter';
 
+/**
+ * This connector acts as between Storefront and the OPF Commerce Cloud Adapter.
+ * It provides a set of methods to initiate and manage payment sessions, submit payment requests,
+ * and handle redirects or verification flows required by the OPF payment process.
+ */
 @Injectable()
 export class OpfPaymentConnector {
   protected adapter = inject(OpfPaymentAdapter);

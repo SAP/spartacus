@@ -34,6 +34,7 @@ import {
   OpfActiveConfiguration,
   OpfBaseFacade,
 } from '@spartacus/opf/base/root';
+
 import {
   BehaviorSubject,
   combineLatest,
