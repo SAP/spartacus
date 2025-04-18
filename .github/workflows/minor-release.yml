@@ -148,5 +148,5 @@ jobs:
               --head "${{ env.RELEASE_BRANCH }}" \
               --base "${{ env.SOURCE_BRANCH }}" \
               --title "chore(release): ${{ env.version }}" \
-              --body "Automated PR to merge release changes back into the source branch." \
+              --body "Automated PR to merge release changes back into the source branch."
           fi
