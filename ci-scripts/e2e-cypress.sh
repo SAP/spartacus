@@ -148,7 +148,7 @@ else
             npm run e2e:run:ci:core"${SUITE}"
         fi
 
-    elif [ "${GITHUB_EVENT_NAME}" == "push" || "$SUITE" == ":vendor"  ]; then
+    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
         echo "Running Cypress end-to-end tests for push event"
 
         if is_bot_commit; then

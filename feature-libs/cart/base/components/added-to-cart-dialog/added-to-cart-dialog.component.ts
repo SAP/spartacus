@@ -94,7 +94,6 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected el: ElementRef
   ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yPreventHorizontalScroll');
     useFeatureStyles('a11yUpdatingCartNoNarration');
   }

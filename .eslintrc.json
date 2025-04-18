@@ -78,7 +78,6 @@
           "error",
           {
             "allow": [],
-            "allowCircularSelfDependency": true,
             "depConstraints": [
               {
                 "sourceTag": "*",
