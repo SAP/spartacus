@@ -85,52 +85,52 @@ jobs:
       - name: Package installation
         run: npm ci
         
-      - name: Run Config Update
-        run: |
-          if ! npm run config:update; then
-            echo "Error: The configuration file is not up to date. Regenerating dependencies..."
-            npm run generate:deps
-            npm run config:update
-          fi
-          npm run generate:deps
+      # - name: Run Config Update
+      #   run: |
+      #     if ! npm run config:update; then
+      #       echo "Error: The configuration file is not up to date. Regenerating dependencies..."
+      #       npm run generate:deps
+      #       npm run config:update
+      #     fi
+      #     npm run generate:deps
 
-      - name: Run Schematics Tests
-        run: |
-          npm run test:all-schematics
+      # - name: Run Schematics Tests
+      #   run: |
+      #     npm run test:all-schematics
 
-      - name: Push Changes
-        run: |
-          git add .
-          git commit -m "Release ${{ env.version }}"
-          git push origin "${{ env.RELEASE_BRANCH }}"
+      # - name: Push Changes
+      #   run: |
+      #     git add .
+      #     git commit -m "Release ${{ env.version }}"
+      #     git push origin "${{ env.RELEASE_BRANCH }}"
         
-      - name: Tag the release
-        run: |
-          git fetch origin "${{ env.RELEASE_BRANCH }}"
-          git checkout "${{ env.RELEASE_BRANCH }}"
+      # - name: Tag the release
+      #   run: |
+      #     git fetch origin "${{ env.RELEASE_BRANCH }}"
+      #     git checkout "${{ env.RELEASE_BRANCH }}"
 
-          TAG="${{ env.version }}"
+      #     TAG="${{ env.version }}"
 
-          # Check if tag already exists
-          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists. Skipping creation."
-          else
-            git tag -a "$TAG" -m "$TAG"
-            git push origin "$TAG"
-            echo "Created and pushed tag: $TAG"
-          fi
+      #     # Check if tag already exists
+      #     if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+      #       echo "Tag $TAG already exists. Skipping creation."
+      #     else
+      #       git tag -a "$TAG" -m "$TAG"
+      #       git push origin "$TAG"
+      #       echo "Created and pushed tag: $TAG"
+      #     fi
 
-      - name: Sync branch to a private repo
-        env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
-        run: |
-          echo "Triggering repo-sync.yml with branch: ${{ env.RELEASE_BRANCH }}"
+      # - name: Sync branch to a private repo
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+      #   run: |
+      #     echo "Triggering repo-sync.yml with branch: ${{ env.RELEASE_BRANCH }}"
           
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/repo-sync.yml/dispatches \
-            -d "{\"ref\":\"${{ env.RELEASE_BRANCH }}\",\"inputs\":{\"branch_to_sync\":\"${{ env.RELEASE_BRANCH }}\"}}"
+      #     curl -X POST \
+      #       -H "Accept: application/vnd.github+json" \
+      #       -H "Authorization: Bearer $GH_TOKEN" \
+      #       https://api.github.com/repos/${{ github.repository }}/actions/workflows/repo-sync.yml/dispatches \
+      #       -d "{\"ref\":\"${{ env.RELEASE_BRANCH }}\",\"inputs\":{\"branch_to_sync\":\"${{ env.RELEASE_BRANCH }}\"}}"
 
       - name: Create Pull Request to develop
         if: ${{ github.event.inputs.create_pr == 'true' }}
@@ -149,5 +149,4 @@ jobs:
               --base "${{ env.SOURCE_BRANCH }}" \
               --title "chore(release): ${{ env.version }}" \
               --body "Automated PR to merge release changes back into the source branch." \
-            echo "Pull request created."
           fi
