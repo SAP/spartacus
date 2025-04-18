@@ -98,11 +98,11 @@ jobs:
       #   run: |
       #     npm run test:all-schematics
 
-      # - name: Push Changes
-      #   run: |
-      #     git add .
-      #     git commit -m "Release ${{ env.version }}"
-      #     git push origin "${{ env.RELEASE_BRANCH }}"
+      - name: Push Changes
+        run: |
+          git add .
+          git commit -m "Release ${{ env.version }}"
+          git push origin "${{ env.RELEASE_BRANCH }}"
         
       # - name: Tag the release
       #   run: |
