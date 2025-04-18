@@ -21,7 +21,6 @@ describe('CDC', () => {
         req.continue();
       });
       cy.visit('/login');
-      cy.wait('@js');
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
         cdc.b2cConsentTestUser.password
@@ -56,7 +55,6 @@ describe('CDC', () => {
         }
       );
       cy.visit('/login');
-      cy.wait('@js');
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
         cdc.b2cConsentTestUser.password
@@ -73,7 +71,6 @@ describe('CDC', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
-      cy.wait('@js');
     });
 
     it('should register and redirect to home page (CXSPA-3016)', () => {
@@ -86,7 +83,6 @@ describe('CDC', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
-      cy.wait('@js');
     });
 
     it('should register and redirect to home page (CXSPA-3016)', () => {
@@ -105,7 +101,6 @@ describe('CDC', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
-      cy.wait('@js');
     });
 
     it('should login and redirect to home page (CXSPA-3016)', () => {
@@ -118,7 +113,6 @@ describe('CDC', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
-      cy.wait('@js'); 
     });
 
     it('should login and redirect to home page (CXSPA-3016)', () => {
@@ -131,7 +125,7 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
-      cy.wait('@js'); 
+      
       cdc.loginUser(cdc.user.email, cdc.user.password);
       cy.selectUserMenuOption({
         option: 'Profile Details',
@@ -218,7 +212,7 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
-      cy.wait('@js'); 
+      
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Password',
@@ -284,7 +278,7 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
-      cy.wait('@js'); 
+      
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Consent Management',
@@ -314,7 +308,6 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
-      cy.wait('@js'); 
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Address Book',
@@ -363,7 +356,6 @@ describe('CDC', () => {
 
   after(() => {
     cy.visit('/logout');
-    cy.wait('@js'); 
     cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
