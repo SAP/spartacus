@@ -24,10 +24,10 @@ import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderFacade } from '@spartacus/storefinder/root';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';
@@ -67,7 +67,7 @@ export class MyPreferredStoreComponent implements OnInit {
     private preferredStoreFacade: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
-    protected storeFinderService: StoreFinderFacade,
+    protected storeFinderService: StoreFinderService,
     protected cmsService: CmsService
   ) {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
@@ -87,7 +87,8 @@ export class MyPreferredStoreComponent implements OnInit {
       ),
       tap((store: PointOfService) => {
         this.pointOfService = store;
-      })
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
 
     useFeatureStyles('a11yViewHoursButtonIconContrast');
@@ -95,71 +96,75 @@ export class MyPreferredStoreComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (
-      this.featureConfigService.isEnabled('a11yImproveButtonsInCardComponent')
-    ) {
-      this.cmsService
-        .getCurrentPage()
-        .pipe(
-          filter<Page>(Boolean),
-          take(1),
-          map((cmsPage) => {
-            this.isStoreFinder = cmsPage.pageId === 'storefinderPage';
-            return this.isStoreFinder;
-          })
-        )
-        .subscribe((isStoreFinder) => {
-          const link = this.storeFinderService.getDirections(
-            this.pointOfService
-          );
-          if (isStoreFinder) {
-            this.content = {
-              header: '',
-              actions: [
-                {
-                  link,
-                  name: GET_DIRECTIONS_NAME,
-                  ariaLabel: 'cardActions.getDirections',
-                  target: '_blank',
-                },
-              ],
-            };
+    this.preferredStore$
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          if (
+            this.featureConfigService.isEnabled(
+              'a11yImproveButtonsInCardComponent'
+            )
+          ) {
+            return this.cmsService.getCurrentPage().pipe(
+              filter<Page>(Boolean),
+              take(1),
+              map((cmsPage) => {
+                this.isStoreFinder = cmsPage.pageId === 'storefinderPage';
+                return this.isStoreFinder;
+              }),
+              tap((isStoreFinder) => {
+                const link = this.storeFinderService.getDirections(
+                  this.pointOfService
+                );
+                if (isStoreFinder) {
+                  this.content = {
+                    header: '',
+                    actions: [
+                      {
+                        link,
+                        name: GET_DIRECTIONS_NAME,
+                        ariaLabel: 'cardActions.getDirections',
+                        target: '_blank',
+                      },
+                    ],
+                  };
+                } else {
+                  this.content = {
+                    ...this.content,
+                    actions: [
+                      {
+                        link,
+                        name: GET_DIRECTIONS_NAME,
+                        ariaLabel: 'cardActions.getDirections',
+                        target: '_blank',
+                      },
+                      { event: 'edit', name: 'Change Store' },
+                    ],
+                  };
+                }
+                this.cdr?.detectChanges();
+              })
+            );
           } else {
-            this.content = {
-              ...this.content,
-              actions: [
-                {
-                  link,
-                  name: GET_DIRECTIONS_NAME,
-                  ariaLabel: 'cardActions.getDirections',
-                  target: '_blank',
-                },
-                { event: 'edit', name: 'Change Store' },
-              ],
-            };
+            return this.cmsService.getCurrentPage().pipe(
+              filter<Page>(Boolean),
+              take(1),
+              tap(
+                (cmsPage) =>
+                  (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
+              ),
+              filter(() => this.isStoreFinder),
+              tap(() => {
+                this.content = {
+                  header: '',
+                  actions: [{ event: 'send', name: GET_DIRECTIONS_NAME }],
+                };
+              })
+            );
           }
-          this.cdr?.detectChanges();
-        });
-    } else {
-      this.cmsService
-        .getCurrentPage()
-        .pipe(
-          filter<Page>(Boolean),
-          take(1),
-          tap(
-            (cmsPage) =>
-              (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
-          ),
-          filter(() => this.isStoreFinder),
-          tap(() => {
-            this.content = {
-              header: '',
-              actions: [{ event: 'send', name: GET_DIRECTIONS_NAME }],
-            };
-          })
-        )
-        .subscribe();
-    }
+        })
+      )
+      .subscribe();
   }
 
   /**
