@@ -70,7 +70,7 @@ export class SceneNodeToProductLookupService {
       .getNodes(
         sceneId,
         undefined,
-        ['hotspot', 'usageIds'],
+        ['hotspot', `usageId.'${this.productUsageId.name}'`],
         undefined, // add $filter when usageId filtering available in backend
         '*'
       )

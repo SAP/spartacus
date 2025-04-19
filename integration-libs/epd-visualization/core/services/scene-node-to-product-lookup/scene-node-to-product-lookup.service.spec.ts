@@ -136,7 +136,7 @@ const validateGetNodesParameters = (
   if (expand) {
     expect(expand.length).toBe(2);
     expect(expand[0]).toBe('hotspot');
-    expect(expand[1]).toBe('usageIds');
+    expect(expand[1]).toBe('usageId.\'CommerceCloud-SparePart\'');
   }
   expect(filter).toBeUndefined();
   expect(contentType).toBe('*');
