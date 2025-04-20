@@ -541,7 +541,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return Boolean(
       cartUser &&
         (cartUser.name === OCC_USER_ID_GUEST ||
-          isEmail(cartUser.uid?.split('|').slice(1).join('|')))
+          isEmail(cartUser.uid?.split('|').slice(1)[0]))
     );
   }
 
