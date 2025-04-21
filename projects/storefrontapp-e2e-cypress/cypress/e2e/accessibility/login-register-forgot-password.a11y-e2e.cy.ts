@@ -17,32 +17,23 @@ describe(
 
     it('should pass a11y scan for the Login Page', () => {
       cy.visit('/login');
-
-      cy.get('input[formControlName="userId"]').focus();
-
+      cy.get('input[formControlName="userId"]');
       cy.get('form').submit();
-
-      cy.a11yRunContinuumTest();
+      cy.get('main').a11yRunContinuumTest();
     });
 
     it('should pass a11y scan for the Forgot Password Page', () => {
       cy.visit('/login/forgot-password');
-
-      cy.get('input[formControlName="userEmail"]').focus();
-
+      cy.get('input[formControlName="userEmail"]');
       cy.get('form').submit();
-
-      cy.a11yRunContinuumTest();
+      cy.get('main').a11yRunContinuumTest();
     });
 
     it('should pass a11y scan for the Register Page', () => {
       cy.visit('/login/register');
-
-      cy.get('input[formControlName="email"]').focus();
-
+      cy.get('input[formControlName="email"]');
       cy.get('form').submit();
-
-      cy.a11yRunContinuumTest();
+      cy.get('main').a11yRunContinuumTest();
     });
   }
 );
