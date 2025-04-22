@@ -87,8 +87,22 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
+  check_peer_dependencies:
+    name: CI - Check peerDependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # So we can diff against remote branches
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Run peerDependencies check
+        run: |
+          bash ci-scripts/check-peer-deps.sh $NX_BASE     
   ci_result:
-    needs: [unit_tests, sonarqube_scan, linting]
+    needs: [unit_tests, sonarqube_scan, linting, check_peer_dependencies]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
