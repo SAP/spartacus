@@ -150,9 +150,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService
   ) {}
-  useExtractedBillingAddressComponent: boolean = this.featureConfig.isEnabled(
-    'useExtractedBillingAddressComponent'
-  );
 
   ngOnInit(): void {
     if (this.paymentDetails) {
@@ -341,15 +338,12 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   next(): void {
-    const sameAsDeliveryAddress = this.useExtractedBillingAddressComponent
-      ? this.billingAddressService.isBillingAddressSameAsDeliveryAddress()
-      : this.sameAsDeliveryAddress;
-    const isBillingAddressFormValid = this.useExtractedBillingAddressComponent
-      ? this.billingAddressService.isBillingAddressFormValid()
-      : this.billingAddressForm.valid;
-    const billingAddressFormvalue = this.useExtractedBillingAddressComponent
-      ? this.billingAddressService.getBillingAddress()
-      : this.billingAddressForm.value;
+    const sameAsDeliveryAddress =
+      this.billingAddressService.isBillingAddressSameAsDeliveryAddress();
+    const isBillingAddressFormValid =
+      this.billingAddressService.isBillingAddressFormValid();
+    const billingAddressFormvalue =
+      this.billingAddressService.getBillingAddress();
 
     if (this.paymentForm.valid) {
       if (sameAsDeliveryAddress) {
@@ -364,9 +358,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
             billingAddress: billingAddressFormvalue,
           });
         } else {
-          this.useExtractedBillingAddressComponent
-            ? this.billingAddressService.markAllAsTouched()
-            : this.billingAddressForm.markAllAsTouched();
+          this.billingAddressService.markAllAsTouched();
         }
       }
     } else {
@@ -377,9 +369,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
       );
 
       if (!sameAsDeliveryAddress) {
-        this.useExtractedBillingAddressComponent
-          ? this.billingAddressService.markAllAsTouched()
-          : this.billingAddressForm.markAllAsTouched();
+        this.billingAddressService.markAllAsTouched();
       }
     }
   }
