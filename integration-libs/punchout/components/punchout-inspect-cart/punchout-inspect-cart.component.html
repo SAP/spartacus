@@ -1,52 +1,54 @@
-<ng-container *ngIf="cart$ | async as cart">
-  <ng-container *ngIf="entries$ | async as entries">
-    <h2>
-      {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
-    </h2>
+<ng-container *ngIf="cartLoaded$ | async">
+  <ng-container *ngIf="cart$ | async as cart">
+    <ng-container *ngIf="entries$ | async as entries">
+      <h2>
+        {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+      </h2>
 
-    <table role="table">
-      <caption class="cx-visually-hidden">
-        {{
-          'cartItems.caption' | cxTranslate
-        }}
-      </caption>
-      <thead>
-        <tr role="row" class="cx-item-list-header">
-          <th role="columnheader" scope="col" class="cx-item-list-desc">
-            {{ 'cartItems.item' | cxTranslate }}
-          </th>
+      <table role="table">
+        <caption class="cx-visually-hidden">
+          {{
+            'cartItems.caption' | cxTranslate
+          }}
+        </caption>
+        <thead>
+          <tr role="row" class="cx-item-list-header">
+            <th role="columnheader" scope="col" class="cx-item-list-desc">
+              {{ 'cartItems.item' | cxTranslate }}
+            </th>
 
-          <th
-            *cxFeature="'a11yQTY2Quantity'"
-            role="columnheader"
-            scope="col"
-            class="cx-item-list-qty"
-          >
-            {{ 'cartItems.quantityFull' | cxTranslate }}
-          </th>
-          <th
-            *cxFeature="'!a11yQTY2Quantity'"
-            role="columnheader"
-            scope="col"
-            class="cx-item-list-qty"
-          ></th>
-          <th role="columnheader" scope="col" class="cx-item-list-total">
-            {{ 'cartItems.total' | cxTranslate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody class="cx-item-list-items">
-        <ng-container *ngFor="let item of cart.entries; let i = index">
-          <tr
-            cx-punchout-inspect-cart-row
-            role="row"
-            class="cx-item-list-row"
-            [item]="item"
-            [attr.aria-rowindex]="i + 1"
-          ></tr>
-        </ng-container>
-      </tbody>
-    </table>
+            <th
+              *cxFeature="'a11yQTY2Quantity'"
+              role="columnheader"
+              scope="col"
+              class="cx-item-list-qty"
+            >
+              {{ 'cartItems.quantityFull' | cxTranslate }}
+            </th>
+            <th
+              *cxFeature="'!a11yQTY2Quantity'"
+              role="columnheader"
+              scope="col"
+              class="cx-item-list-qty"
+            ></th>
+            <th role="columnheader" scope="col" class="cx-item-list-total">
+              {{ 'cartItems.total' | cxTranslate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="cx-item-list-items">
+          <ng-container *ngFor="let item of cart.entries; let i = index">
+            <tr
+              cx-punchout-inspect-cart-row
+              role="row"
+              class="cx-item-list-row"
+              [item]="item"
+              [attr.aria-rowindex]="i + 1"
+            ></tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </ng-container>
   </ng-container>
+  <cx-punchout-buttons [removeCancelButton]="true"></cx-punchout-buttons>
 </ng-container>
-<cx-punchout-buttons [removeCancelButton]="true"></cx-punchout-buttons>
