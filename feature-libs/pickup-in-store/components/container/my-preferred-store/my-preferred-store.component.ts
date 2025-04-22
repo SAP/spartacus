@@ -56,7 +56,7 @@ const defaultContent: PreferredStoreContent = {
 })
 export class MyPreferredStoreComponent implements OnInit {
   preferredStore$: Observable<PointOfService>;
-  content?: PreferredStoreContent;
+  content: PreferredStoreContent | null;
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
   pointOfService: PointOfService;
