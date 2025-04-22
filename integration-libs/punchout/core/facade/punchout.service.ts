@@ -9,7 +9,6 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
-  CommandStrategy,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -217,36 +216,31 @@ export class PunchoutService implements PunchoutFacade {
    */
 
   protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
-    this.commandService.create(
-      (punchoutSessionId: string) => {
-        return punchoutSessionId ===
-          this.punchoutSessionRequest?.punchoutSessionId &&
-          this.punchoutSessionRequest?.punchoutSession
-          ? of(this.punchoutSessionRequest.punchoutSession)
-          : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
-              map((punchoutSession) => {
-                if (
-                  !punchoutSession?.token?.accessToken ||
-                  !punchoutSession?.customerId ||
-                  !punchoutSession?.cartId
-                ) {
-                  throw new Error('Punchout login info missing');
-                }
-                this.punchoutSessionRequest = {
-                  punchoutSession: {
-                    ...punchoutSession,
-                    token: { ...punchoutSession.token },
-                  },
-                  punchoutSessionId,
-                };
-                return punchoutSession;
-              })
-            );
-      },
-      {
-        strategy: CommandStrategy.Queue,
-      }
-    );
+    this.commandService.create((punchoutSessionId: string) => {
+      return punchoutSessionId ===
+        this.punchoutSessionRequest?.punchoutSessionId &&
+        this.punchoutSessionRequest?.punchoutSession
+        ? of(this.punchoutSessionRequest.punchoutSession)
+        : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+            map((punchoutSession) => {
+              if (
+                !punchoutSession?.token?.accessToken ||
+                !punchoutSession?.customerId ||
+                !punchoutSession?.cartId
+              ) {
+                throw new Error('Punchout login info missing');
+              }
+              this.punchoutSessionRequest = {
+                punchoutSession: {
+                  ...punchoutSession,
+                  token: { ...punchoutSession.token },
+                },
+                punchoutSessionId,
+              };
+              return punchoutSession;
+            })
+          );
+    });
 
   closePunchoutSession(): Observable<boolean> {
     return this.closePunchoutSessionCommand.execute(undefined);
