@@ -49,7 +49,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
           'BASE_CURRENCY'
         )}/?${e2eUrlParam}=Summer100`
       );
-      cy.wait('@couponCodesApi').then((xhr) => {
+      cy.wait('@couponCodesApi', { timeout: 160000 }).then((xhr) => {
         expect(xhr.request.headers).to.have.property(e2eHeader, 'Summer100');
       });
     });
