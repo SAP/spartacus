@@ -29,6 +29,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     cy.restoreLocalStorage();
     Cypress.env('BASE_SITE', APPAREL_BASESITE);
     Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
+
     cy.cxConfig({
       opps: {
         couponcodes: {
@@ -44,7 +45,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
   });
 
   describe('OPPS Coupon Codes', () => {
-    it('should fetch appropriate banner customization based on coupon codes', () => {
+    it('should fetch banner customization based on coupon code', () => {
       cy.intercept('GET', '**/cms/pages**').as('couponCodesApi');
 
       cy.visit(
@@ -53,9 +54,10 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
         )}/?${e2eUrlParam}=Summer100`
       );
 
-      cy.wait('@couponCodesApi', { timeout: 460000 }).then((xhr) => {
-        expect(xhr.request.headers).to.have.property(e2eHeader, 'Summer100');
-      });
+      // Check if the route is hit
+      cy.wait('@couponCodesApi', { timeout: 60000 })
+        .its('request.headers')
+        .should('have.property', e2eHeader, 'Summer100');
     });
   });
 
@@ -66,8 +68,9 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       );
     });
 
-    it('should continue to PDP if user is already logged in', () => {
+    it('should allow PDP if user already logged in', () => {
       cy.visit('/login');
+      cy.get('cx-login-form form').should('exist');
       loginUser(oppsTester);
 
       cy.visit(
@@ -82,16 +85,15 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       signOutUser();
     });
 
-    it('should redirect to login if not logged in, then show PDP after login', () => {
+    it('should redirect to login then show PDP after login', () => {
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
         )}/product/${oppsProduct.productID}/${oppsProduct.productName}?${e2eLoginConfig}=true`
       );
 
-      cy.url().should('contain', 'login');
-      //cy.get('cx-login-form form').should('exist');
-
+      cy.url().should('include', '/login');
+      cy.get('cx-login-form form').should('exist');
       loginUser(oppsTester);
 
       cy.wait('@productPage', { timeout: 60000 });
@@ -101,28 +103,27 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     });
   });
 
-  describe('OPPS Coupon Codes & Login Required Together', () => {
+  describe('OPPS Coupon Codes & Login Together', () => {
     beforeEach(() => {
       cy.intercept('GET', '**/cms/pages?pageType=ProductPage**').as(
         'productPage'
       );
     });
 
-    it('should fetch appropriate customization & login if not logged in', () => {
+    it('should login and fetch customization', () => {
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
         )}/product/${oppsProduct.productID}/${oppsProduct.productName}?${e2eUrlParam}=Winter200&${e2eLoginConfig}=true`
       );
 
-      cy.url().should('contain', 'login');
-      //cy.get('cx-login-form form').should('exist');
-
+      cy.url().should('include', '/login');
+      cy.get('cx-login-form form').should('exist');
       loginUser(oppsTester);
 
-      cy.wait('@productPage', { timeout: 60000 }).then((xhr) => {
-        expect(xhr.request.headers).to.have.property(e2eHeader, 'Winter200');
-      });
+      cy.wait('@productPage', { timeout: 60000 })
+        .its('request.headers')
+        .should('have.property', e2eHeader, 'Winter200');
 
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
 
