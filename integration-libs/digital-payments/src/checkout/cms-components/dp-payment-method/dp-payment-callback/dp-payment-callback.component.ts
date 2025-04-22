@@ -38,7 +38,7 @@ export class DpPaymentCallbackComponent implements OnInit {
     protected dpStorageService: DpLocalStorageService,
     protected globalMsgService: GlobalMessageService,
     protected route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const dpResponse = this.route.snapshot.queryParamMap.get(
