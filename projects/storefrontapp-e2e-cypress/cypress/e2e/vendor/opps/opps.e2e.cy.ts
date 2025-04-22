@@ -5,7 +5,6 @@
  */
 
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
-import { interceptGet } from '../../../support/utils/intercept';
 import { OppsConfig } from '@spartacus/core';
 
 const APPAREL_BASESITE = 'apparel-uk-spa';
