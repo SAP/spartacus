@@ -17,7 +17,6 @@ import {
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
@@ -90,7 +89,7 @@ describe('MyPreferredStoreComponent', () => {
           useClass: MockPickupLocationsSearchService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: StoreFinderFacade, useClass: MockStoreFinderService },
+        { provide: StoreFinderService, useClass: MockStoreFinderService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],

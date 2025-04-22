@@ -22,6 +22,7 @@
       }"
     >
       <cx-card
+        *ngIf="preferredStore$ | async as preferredStore"
         [border]="!isStoreFinder"
         [fitToContainer]="true"
         [content]="content"
@@ -31,7 +32,7 @@
         <div label_container_bottom>
           <div class="info-location">
             <cx-store-address
-              [storeDetails]="preferredStore$ | async"
+              [storeDetails]="preferredStore"
             ></cx-store-address>
           </div>
           <div *ngIf="!isStoreFinder">
@@ -54,7 +55,7 @@
           <div class="store-hours" *ngIf="!isStoreFinder">
             <cx-store-schedule
               *ngIf="openHoursOpen"
-              [storeDetails]="preferredStore$ | async"
+              [storeDetails]="preferredStore"
             ></cx-store-schedule>
           </div>
         </div>
