@@ -1,0 +1,78 @@
+<ng-container *ngIf="item?.product">
+  <td role="cell">
+    <div class="cx-table-item-container">
+      <!-- Item Image -->
+
+      <cx-media
+        [container]="item.product?.images?.PRIMARY"
+        format="cartIcon"
+      ></cx-media>
+      <div class="cx-info">
+        <div *ngIf="item.product?.name" class="cx-name">
+          {{ item.product?.name }}
+        </div>
+        <div *ngIf="item.product?.code" class="cx-code">
+          {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
+        </div>
+        <!-- Item Price -->
+
+        <div *ngIf="item.basePrice" class="cx-price">
+          <div *ngIf="item.basePrice" class="cx-value">
+            {{ item.basePrice.formattedValue }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Variants -->
+    <ng-container *ngIf="item.product?.baseOptions?.length">
+      <div
+        *ngFor="
+          let variant of item.product?.baseOptions?.[0]?.selected
+            ?.variantOptionQualifiers
+        "
+        class="cx-property"
+      >
+        <!-- cx-mobile-header -->
+        <div class="cx-label" *ngIf="variant.name && variant.value">
+          {{ variant.name }}: {{ variant.value }}
+        </div>
+      </div>
+    </ng-container>
+  </td>
+  <!-- Mobile Item Price -->
+  <td role="cell" *ngIf="item.basePrice" class="cx-price cx-mobile-only">
+    <div class="cx-mobile-header">
+      {{ 'cartItems.itemPrice' | cxTranslate }}
+    </div>
+    <div *ngIf="item.basePrice" class="cx-value">
+      {{ item.basePrice.formattedValue }}
+    </div>
+  </td>
+  <td role="cell" class="cx-quantity">
+    <div
+      *cxFeature="'a11yQTY2Quantity'"
+      class="cx-mobile-header"
+      placement="left"
+      title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+    >
+      {{ 'cartItems.quantityFull' | cxTranslate }}
+    </div>
+    <div
+      *cxFeature="'!a11yQTY2Quantity'"
+      class="cx-mobile-header"
+      placement="left"
+      title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+    >
+      {{ 'cartItems.quantity' | cxTranslate }}
+    </div>
+    <div class="cx-value" [class.readonly-value]="true">
+      {{ item.quantity }}
+    </div>
+  </td>
+  <td role="cell" *ngIf="item.totalPrice" class="cx-total">
+    <div class="cx-mobile-header">
+      {{ 'cartItems.total' | cxTranslate }}
+    </div>
+    <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+  </td>
+</ng-container>

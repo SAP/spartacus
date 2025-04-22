@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
+  PUNCHOUT_INSPECT_PAGE_URL,
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutOperation,
@@ -235,6 +236,10 @@ export class PunchoutService implements PunchoutFacade {
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
       this.routingService.go({ cxRoute: 'cart' });
+      return;
+    }
+    if (punchoutSession?.punchOutOperation === PunchOutOperation.INSPECT) {
+      this.routingService.goByUrl(PUNCHOUT_INSPECT_PAGE_URL);
       return;
     }
     this.routingService.go('/');

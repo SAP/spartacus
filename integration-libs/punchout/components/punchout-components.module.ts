@@ -18,6 +18,7 @@ import { MediaModule } from '@spartacus/storefront';
 import { PunchoutButtonsComponent } from './punchout-buttons/punchout-buttons.component';
 import { PunchoutCloseSessionComponent } from './punchout-close-session/punchout-close-session.component';
 import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
+import { PunchoutInspectCartRowComponent } from './punchout-inspect-cart/punchout-inspect-cart-row/punchout-inspect-cart-row.component';
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart/punchout-inspect-cart.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
@@ -30,6 +31,7 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
     PunchoutInspectCartComponent,
+    PunchoutInspectCartRowComponent,
   ],
   exports: [
     PunchoutSessionComponent,
@@ -38,6 +40,7 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
     PunchoutInspectCartComponent,
+    PunchoutInspectCartRowComponent,
   ],
   imports: [
     CommonModule,
