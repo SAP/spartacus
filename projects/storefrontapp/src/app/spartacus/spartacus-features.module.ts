@@ -294,7 +294,6 @@ if (environment.cpq) {
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
         showDownloadProposalButton: false,
         searchBoxV2: false,
         trendingSearches: false,

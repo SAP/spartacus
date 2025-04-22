@@ -47,11 +47,7 @@ export class DpPaymentCallbackComponent implements OnInit {
       DP_CARD_REGISTRATION_STATUS
     );
     if (dpResponse?.toLowerCase() === 'successful') {
-      if (this.featureConfig.isEnabled('showBillingAddressInDigitalPayments')) {
-        this.showBillingAddressForm = true;
-      } else {
-        this.fetchPaymentDetails();
-      }
+      this.showBillingAddressForm = true;
     } else {
       this.globalMsgService.add(
         { key: 'dpPaymentForm.cancelledOrFailed' },
