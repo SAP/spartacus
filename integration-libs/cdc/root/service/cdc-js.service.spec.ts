@@ -1056,20 +1056,20 @@ describe('CdcJsService', () => {
       const response = {
         profile: {
           firstName: 'firstName',
-          lastName: 'lastName',
-          email: 'email@mail.com', //email updated
+          lastName: 'lastName'
         },
         response: {
           errorCode: 0,
         },
         screen: 'gigya-change-password-screen',
       };
+      const isPasswordReset = true;
       userProfileFacade.get = createSpy().and.returnValue(
         of({ uid: newEmail })
       );
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
       spyOn(authService, 'logout');
-      service.onProfileUpdateEventHandler(response);
+      service.onProfileUpdateEventHandler(response,isPasswordReset);
 
       expect(authService.logout).toHaveBeenCalled();
       expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
