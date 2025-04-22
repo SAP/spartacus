@@ -53,7 +53,7 @@ export class PunchoutService implements PunchoutFacade {
    * punchoutSession ajax request will always return same response during a punchout session.
    * To avoid multiple server calls, input (punchoutSessionId) and output (punchoutSession) values are stored into punchoutSessionRequest.
    */
-  protected punchoutSessionRequest: {
+  protected readonly punchoutSessionRequest: {
     punchoutSession?: PunchoutSession;
     punchoutSessionId?: string;
   } = {
