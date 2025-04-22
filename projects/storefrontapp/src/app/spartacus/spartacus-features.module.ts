@@ -295,7 +295,6 @@ if (environment.cpq) {
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
-        showDownloadProposalButton: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -427,4 +426,4 @@ if (environment.cpq) {
     }),
   ],
 })
-export class SpartacusFeaturesModule {}
+export class SpartacusFeaturesModule { }
