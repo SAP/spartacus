@@ -41,11 +41,6 @@ export interface FeatureTogglesInterface {
   useExtractedBillingAddressComponent?: boolean;
 
   /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
-
-  /**
    * In `QuoteLinksComponent` it shows the download button.
    * API for this button is available in commerce 2211.16 and above
    */
@@ -870,7 +865,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
   useExtractedBillingAddressComponent: true,
-  showBillingAddressInDigitalPayments: true,
   showDownloadProposalButton: true,
   searchBoxV2: false,
   trendingSearches: false,

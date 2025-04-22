@@ -28,11 +28,6 @@ import { fillBillingAddress } from '../../../helpers/checkout-forms';
 
 describe('checkout using digital-payments with billing address', () => {
   beforeEach(() => {
-    cy.cxConfig({
-      features: {
-        showBillingAddressInDigitalPayments: true,
-      },
-    } as FeaturesConfig);
     Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     Cypress.env('BASE_CURRENCY', ELECTRONICS_CURRENCY);
   });
