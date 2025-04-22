@@ -40,6 +40,14 @@ interface PreferredStoreContent {
   >;
 }
 
+const defaultContent: PreferredStoreContent = {
+  header: 'My Store',
+  actions: [
+    { event: 'send', name: GET_DIRECTIONS_NAME },
+    { event: 'edit', name: CHANGE_STORE_NAME },
+  ],
+};
+
 @Component({
   selector: 'cx-my-preferred-store',
   templateUrl: 'my-preferred-store.component.html',
@@ -48,13 +56,7 @@ interface PreferredStoreContent {
 })
 export class MyPreferredStoreComponent implements OnInit {
   preferredStore$: Observable<PointOfService>;
-  content: PreferredStoreContent = {
-    header: 'My Store',
-    actions: [
-      { event: 'send', name: GET_DIRECTIONS_NAME },
-      { event: 'edit', name: CHANGE_STORE_NAME },
-    ],
-  };
+  content?: PreferredStoreContent;
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
   pointOfService: PointOfService;
@@ -130,7 +132,7 @@ export class MyPreferredStoreComponent implements OnInit {
                   };
                 } else {
                   this.content = {
-                    ...this.content,
+                    ...defaultContent,
                     actions: [
                       {
                         link,
