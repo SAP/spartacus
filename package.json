@@ -125,7 +125,9 @@
     "prerender:cds:dev": "env-cmd --no-override -e dev,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender --routes-file projects/storefrontapp/prerender.txt"
   },
   "overrides": {
-    "axios": "1.8.4"
+    "axios": "1.8.4",
+    "eazy-logger": "4.1.0",
+    "http-proxy-middleware": "3.0.4"
   },
   "private": false,
   "dependencies": {
