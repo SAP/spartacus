@@ -138,6 +138,9 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
+  /**
+   * @deprecated This propery is obsolete since 2211.41
+   */
   protected featureConfig = inject(FeatureConfigService);
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   constructor(

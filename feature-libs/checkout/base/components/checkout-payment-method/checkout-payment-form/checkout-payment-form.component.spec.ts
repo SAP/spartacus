@@ -12,7 +12,6 @@ import {
   AddressValidation,
   CardType,
   Country,
-  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
@@ -163,11 +162,7 @@ class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy().and.returnValue(of([]));
   verifyAddress = createSpy().and.returnValue(of({}));
 }
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
+
 class MockCheckoutBillingAddressFormService
   implements Partial<CheckoutBillingAddressFormService>
 {
@@ -235,7 +230,6 @@ describe('CheckoutPaymentFormComponent', () => {
           provide: CheckoutBillingAddressFormService,
           useClass: MockCheckoutBillingAddressFormService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(CheckoutPaymentFormComponent, {
