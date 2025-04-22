@@ -70,7 +70,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
 
     it('should allow PDP if user already logged in', () => {
       cy.visit('/login');
-      cy.get('cx-login-form form').should('exist');
+      cy.get('cx-page-slot').should('exist');
       loginUser(oppsTester);
 
       cy.visit(
@@ -93,7 +93,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       );
 
       cy.url().should('include', '/login');
-      cy.get('cx-login-form form').should('exist');
+      cy.get('cx-page-slot').should('exist');
       loginUser(oppsTester);
 
       cy.wait('@productPage', { timeout: 60000 });
@@ -118,7 +118,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       );
 
       cy.url().should('include', '/login');
-      cy.get('cx-login-form form').should('exist');
+      cy.get('cx-page-slot').should('exist');
       loginUser(oppsTester);
 
       cy.wait('@productPage', { timeout: 60000 })
