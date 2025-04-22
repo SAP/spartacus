@@ -51,6 +51,18 @@ export class PunchoutService implements PunchoutFacade {
   protected userIdService = inject(UserIdService);
 
   /**
+   * punchoutSession ajax request will always return same response during a punchout session.
+   * To avoid multiple server calls, input (punchoutSessionId) and output (punchoutSession) values are stored into punchoutSessionRequest.
+   */
+  protected punchoutSessionRequest: {
+    punchoutSession?: PunchoutSession;
+    punchoutSessionId?: string;
+  } = {
+    punchoutSession: undefined,
+    punchoutSessionId: undefined,
+  };
+
+  /**
    * getPunchoutSession workflow:
    * Get PunchoutSession from  occ api
    * Logout silently
@@ -199,6 +211,7 @@ export class PunchoutService implements PunchoutFacade {
 
   /**
    * Request Punchout session calling occ api.
+   * Returns cached value if server request has been already made.
    * @param punchoutSessionId
    * @returns
    */
@@ -206,20 +219,29 @@ export class PunchoutService implements PunchoutFacade {
   protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
     this.commandService.create(
       (punchoutSessionId: string) => {
-        return this.punchoutConnector
-          .getPunchoutSession(punchoutSessionId)
-          .pipe(
-            map((punchoutSession) => {
-              if (
-                !punchoutSession?.token?.accessToken ||
-                !punchoutSession?.customerId ||
-                !punchoutSession?.cartId
-              ) {
-                throw new Error('Punchout login info missing');
-              }
-              return punchoutSession;
-            })
-          );
+        return punchoutSessionId ===
+          this.punchoutSessionRequest?.punchoutSessionId &&
+          this.punchoutSessionRequest?.punchoutSession
+          ? of(this.punchoutSessionRequest.punchoutSession)
+          : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+              map((punchoutSession) => {
+                if (
+                  !punchoutSession?.token?.accessToken ||
+                  !punchoutSession?.customerId ||
+                  !punchoutSession?.cartId
+                ) {
+                  throw new Error('Punchout login info missing');
+                }
+                this.punchoutSessionRequest = {
+                  punchoutSession: {
+                    ...punchoutSession,
+                    token: { ...punchoutSession.token },
+                  },
+                  punchoutSessionId,
+                };
+                return punchoutSession;
+              })
+            );
       },
       {
         strategy: CommandStrategy.Queue,
