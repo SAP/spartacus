@@ -8,15 +8,13 @@ import { Injectable } from '@angular/core';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
+  UsageId,
   UsageIdConfig,
+  UsageIdDefinition,
 } from '@spartacus/epd-visualization/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import {
-  Metadatum,
-  NodesResponse,
-  TreeNode,
-} from '../../connectors/scene/nodes-response';
+import { NodesResponse, TreeNode } from '../../connectors/scene/nodes-response';
 import { SceneConnector } from '../../connectors/scene/scene.connector';
 
 export interface NodeIdProductCodes {
@@ -35,10 +33,10 @@ export class SceneNodeToProductLookupService {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
     const usageIdConfig = epdVisualization.usageIds as UsageIdConfig;
-    this.usageId = usageIdConfig.productUsageId;
+    this.productUsageId = usageIdConfig.productUsageId;
   }
 
-  private usageId;
+  private productUsageId: UsageIdDefinition;
 
   /**
    * Called to populate the maps with the data for the given scene.
@@ -72,25 +70,25 @@ export class SceneNodeToProductLookupService {
       .getNodes(
         sceneId,
         undefined,
-        [
-          'hotspot',
-          `metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}`,
-        ],
-        [
-          `metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}`,
-        ],
+        ['hotspot', `usageId.'${this.productUsageId.name}'`],
+        undefined, // add $filter when usageId filtering available in backend
         '*'
       )
       .pipe(
         map((data: NodesResponse) => {
           return (data.nodes as TreeNode[])
-            .filter((node: TreeNode) => node.metadata && node.metadata.length)
+            .filter(
+              (node) =>
+                node.usageIds &&
+                node.usageIds.filter((u) => u.name === this.productUsageId.name)
+                  .length > 0
+            )
             .map((node: TreeNode) => {
               return <NodeIdProductCodes>{
                 nodeId: node.sid,
-                productCodes: (node.metadata as Metadatum[]).map(
-                  (metadata: any) => metadata.value
-                ),
+                productCodes: (node.usageIds as UsageId[])
+                  .filter((u) => u.name === this.productUsageId.name)
+                  .map((u) => u.keys[0].value),
               };
             });
         })
