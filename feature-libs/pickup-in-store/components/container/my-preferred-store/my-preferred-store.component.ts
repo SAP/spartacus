@@ -27,7 +27,15 @@ import {
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  shareReplay,
+  concatMap,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';
@@ -82,11 +90,12 @@ export class MyPreferredStoreComponent implements OnInit {
           preferredStoreName as string
         )
       ),
-      switchMap((preferredStoreName) =>
+      concatMap((preferredStoreName) =>
         this.pickupLocationsSearchService.getStoreDetails(
           preferredStoreName as string
         )
       ),
+      filter((store) => !!store),
       tap((store: PointOfService) => {
         this.pointOfService = store;
       }),
