@@ -93,14 +93,44 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # So we can diff against remote branches
+          fetch-depth: 0
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Run peerDependencies check
         run: |
-          bash ci-scripts/check-peer-deps.sh $NX_BASE     
+          bash ci-scripts/check-peer-deps.sh $NX_BASE   
+      - name: Collect peer dependency changes
+        id: collect-peer-deps
+        run: |
+          if [ -s peer-deps-result.txt ]; then
+            echo "output<<EOF" >> $GITHUB_OUTPUT
+            echo "### ❗ peerDependencies changes detected:" >> $GITHUB_OUTPUT
+            cat peer-deps-result.txt >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "output=No peerDependencies changes detected" >> $GITHUB_OUTPUT
+          fi
+      - name: Post PR comment
+        if: ${{ github.event_name == 'pull_request' && steps.collect-peer-deps.outputs.output != 'No peerDependencies changes detected' }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const body = process.env.CHANGES;
+
+            github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body
+            });
+        env:
+          CHANGES: ${{ steps.collect-peer-deps.outputs.output }}  
   ci_result:
     needs: [unit_tests, sonarqube_scan, linting, check_peer_dependencies]
     name: CI - Result

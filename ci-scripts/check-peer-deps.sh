@@ -32,6 +32,13 @@ for file in $changed_files; do
     if [ -n "$changed_lines" ]; then
         echo "❌ peerDependencies changed in $file"
         echo "$changed_lines"
+
+        {
+            echo "❌ peerDependencies changed in $file"
+            echo "$changed_lines"
+            echo ""
+        } >>"$result_file"
+
         failed=1
     else
         echo "✔️ No change in peerDependencies in $file"
