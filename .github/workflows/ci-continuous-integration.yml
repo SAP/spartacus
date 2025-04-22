@@ -112,25 +112,7 @@ jobs:
           else
             echo "output=No peerDependencies changes detected" >> $GITHUB_OUTPUT
           fi
-      - name: Post PR comment
-        if: ${{ github.event_name == 'pull_request' && steps.collect-peer-deps.outputs.output != 'No peerDependencies changes detected' }}
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const issue_number = context.payload.pull_request.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const body = process.env.CHANGES;
-
-            github.rest.issues.createComment({
-              issue_number,
-              owner,
-              repo,
-              body
-            });
-        env:
-          CHANGES: ${{ steps.collect-peer-deps.outputs.output }}  
+            
   ci_result:
     needs: [unit_tests, sonarqube_scan, linting, check_peer_dependencies]
     name: CI - Result
