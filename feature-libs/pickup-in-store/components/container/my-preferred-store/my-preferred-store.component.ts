@@ -22,6 +22,7 @@ import {
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
+  PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { GeolocationService } from '@spartacus/storefinder/core';
@@ -32,10 +33,10 @@ import {
   filter,
   map,
   shareReplay,
-  concatMap,
   switchMap,
   take,
   tap,
+  distinctUntilChanged,
 } from 'rxjs/operators';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
@@ -49,14 +50,6 @@ interface PreferredStoreContent {
   >;
 }
 
-const defaultContent: PreferredStoreContent = {
-  header: 'My Store',
-  actions: [
-    { event: 'send', name: GET_DIRECTIONS_NAME },
-    { event: 'edit', name: CHANGE_STORE_NAME },
-  ],
-};
-
 @Component({
   selector: 'cx-my-preferred-store',
   templateUrl: 'my-preferred-store.component.html',
@@ -66,6 +59,14 @@ const defaultContent: PreferredStoreContent = {
 export class MyPreferredStoreComponent implements OnInit {
   preferredStore$: Observable<PointOfService>;
   content: PreferredStoreContent | null;
+  defaultContent: PreferredStoreContent = {
+    header: 'My Store',
+    actions: [
+      { event: 'send', name: GET_DIRECTIONS_NAME },
+      { event: 'edit', name: CHANGE_STORE_NAME },
+    ],
+  };
+
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
   pointOfService: PointOfService;
@@ -82,43 +83,62 @@ export class MyPreferredStoreComponent implements OnInit {
     protected cmsService: CmsService,
     @Optional() protected geolocationService: GeolocationService
   ) {
-    this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
-      filter(
-        (preferredStore) => preferredStore !== null && 'name' in preferredStore
-      ),
-      map((preferredStore) => preferredStore.name),
-      tap((preferredStoreName) =>
-        this.pickupLocationsSearchService.loadStoreDetails(
-          preferredStoreName as string
-        )
-      ),
-      concatMap((preferredStoreName) =>
-        this.pickupLocationsSearchService.getStoreDetails(
-          preferredStoreName as string
-        )
-      ),
-      filter((store) => Boolean(store)),
-      tap((store: PointOfService) => {
-        this.pointOfService = store;
-      }),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
-
+    if (!this.featureConfigService.isEnabled('storeFinderFacadeCleanup')) {
+      this.preferredStore$ = this.preferredStoreFacade
+        .getPreferredStore$()
+        .pipe(
+          filter((preferredStore) => preferredStore !== null),
+          map((preferredStore) => preferredStore as PointOfServiceNames),
+          filter((preferredStore) => !!preferredStore.name),
+          map((preferredStore) => preferredStore.name),
+          tap((preferredStoreName) =>
+            this.pickupLocationsSearchService.loadStoreDetails(
+              preferredStoreName as string
+            )
+          ),
+          switchMap((preferredStoreName) =>
+            this.pickupLocationsSearchService.getStoreDetails(
+              preferredStoreName as string
+            )
+          ),
+          tap((store: PointOfService) => {
+            this.pointOfService = store;
+          })
+        );
+    }
     useFeatureStyles('a11yViewHoursButtonIconContrast');
     useFeatureStyles('a11yImproveButtonsInCardComponent');
   }
 
   ngOnInit(): void {
-    this.preferredStore$
-      .pipe(
-        filter(Boolean),
-        switchMap(() => {
-          if (
-            this.featureConfigService.isEnabled(
-              'a11yImproveButtonsInCardComponent'
+    if (this.featureConfigService.isEnabled('storeFinderFacadeCleanup')) {
+      this.preferredStore$ = this.preferredStoreFacade
+        .getPreferredStore$()
+        .pipe(
+          filter(
+            (preferredStore) =>
+              preferredStore !== null && 'name' in preferredStore
+          ),
+          map((preferredStore) => preferredStore.name),
+          tap((a) => console.log(1, a)),
+          distinctUntilChanged(),
+          switchMap((preferredStoreName) =>
+            this.pickupLocationsSearchService.loadAndGetStoreDetails(
+              preferredStoreName as string
             )
-          ) {
-            return this.cmsService.getCurrentPage().pipe(
+          ),
+          tap((a) => console.log(2, a)),
+          tap((store: PointOfService) => {
+            this.pointOfService = store;
+          }),
+          shareReplay({ bufferSize: 1, refCount: true })
+        );
+
+      this.preferredStore$
+        .pipe(
+          tap((a) => console.log(3, a)),
+          switchMap(() =>
+            this.cmsService.getCurrentPage().pipe(
               filter<Page>(Boolean),
               take(1),
               map((cmsPage) => {
@@ -126,11 +146,9 @@ export class MyPreferredStoreComponent implements OnInit {
                 return this.isStoreFinder;
               }),
               tap((isStoreFinder) => {
-                const link = this.featureConfigService.isEnabled(
-                  'storeFinderFacadeCleanup'
-                )
-                  ? this.geolocationService.getDirections(this.pointOfService)
-                  : this.storeFinderService.getDirections(this.pointOfService);
+                const link = this.geolocationService.getDirections(
+                  this.pointOfService
+                );
                 if (isStoreFinder) {
                   this.content = {
                     header: '',
@@ -145,7 +163,7 @@ export class MyPreferredStoreComponent implements OnInit {
                   };
                 } else {
                   this.content = {
-                    ...defaultContent,
+                    ...this.defaultContent,
                     actions: [
                       {
                         link,
@@ -159,27 +177,75 @@ export class MyPreferredStoreComponent implements OnInit {
                 }
                 this.cdr?.detectChanges();
               })
-            );
+            )
+          )
+        )
+        .subscribe();
+    } else if (
+      this.featureConfigService.isEnabled('a11yImproveButtonsInCardComponent')
+    ) {
+      this.cmsService
+        .getCurrentPage()
+        .pipe(
+          filter<Page>(Boolean),
+          take(1),
+          map((cmsPage) => {
+            this.isStoreFinder = cmsPage.pageId === 'storefinderPage';
+            return this.isStoreFinder;
+          })
+        )
+        .subscribe((isStoreFinder) => {
+          const link = this.storeFinderService.getDirections(
+            this.pointOfService
+          );
+          if (isStoreFinder) {
+            this.content = {
+              header: '',
+              actions: [
+                {
+                  link,
+                  name: GET_DIRECTIONS_NAME,
+                  ariaLabel: 'cardActions.getDirections',
+                  target: '_blank',
+                },
+              ],
+            };
           } else {
-            return this.cmsService.getCurrentPage().pipe(
-              filter<Page>(Boolean),
-              take(1),
-              tap(
-                (cmsPage) =>
-                  (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
-              ),
-              filter(() => this.isStoreFinder),
-              tap(() => {
-                this.content = {
-                  header: '',
-                  actions: [{ event: 'send', name: GET_DIRECTIONS_NAME }],
-                };
-              })
-            );
+            this.content = {
+              ...this.defaultContent,
+              actions: [
+                {
+                  link,
+                  name: GET_DIRECTIONS_NAME,
+                  ariaLabel: 'cardActions.getDirections',
+                  target: '_blank',
+                },
+                { event: 'edit', name: 'Change Store' },
+              ],
+            };
           }
-        })
-      )
-      .subscribe();
+          this.cdr?.detectChanges();
+        });
+    } else {
+      this.cmsService
+        .getCurrentPage()
+        .pipe(
+          filter<Page>(Boolean),
+          take(1),
+          tap(
+            (cmsPage) =>
+              (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
+          ),
+          filter(() => this.isStoreFinder),
+          tap(() => {
+            this.content = {
+              header: '',
+              actions: [{ event: 'send', name: GET_DIRECTIONS_NAME }],
+            };
+          })
+        )
+        .subscribe();
+    }
   }
 
   /**
