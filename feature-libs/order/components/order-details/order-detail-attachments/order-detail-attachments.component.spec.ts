@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { OrderDetailAttachmentsComponent } from './order-detail-attachments.component';
 import { Order } from '@spartacus/order/root';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { By } from '@angular/platform-browser';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { I18nTestingModule } from '@spartacus/core';
+import { OrderDetailAttachmentsComponent } from './order-detail-attachments.component';
 
 const orderData: Order = {
   code: '00001004',
@@ -17,27 +17,29 @@ class MockOrderDetailsService {
   }
 }
 
-describe('OrderAttachmentsComponent', () => {
+describe('OrderDetailAttachmentsComponent', () => {
   let component: OrderDetailAttachmentsComponent;
   let fixture: ComponentFixture<OrderDetailAttachmentsComponent>;
   let orderDetailsService: OrderDetailsService;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [OrderDetailAttachmentsComponent],
       providers: [
         {
-          provide: OrderDetailsService,
-          useClass: MockOrderDetailsService,
-        },
-        {
           provide: LaunchDialogService,
           useValue: {},
         },
+        {
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
+        },
       ],
     }).compileComponents();
+  }));
 
+  beforeEach(() => {
     orderDetailsService = TestBed.inject(OrderDetailsService);
     spyOn(orderDetailsService, 'getOrderDetails').and.callThrough();
     fixture = TestBed.createComponent(OrderDetailAttachmentsComponent);

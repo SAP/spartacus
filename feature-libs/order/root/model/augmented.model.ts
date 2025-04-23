@@ -12,7 +12,6 @@ declare module '@spartacus/storefront' {
     REORDER = 'REORDER',
     DOWNLOAD_ORDER_INVOICES = 'DOWNLOAD_ORDER_INVOICES',
     ORDER_ATTACHMENTS = 'ORDER_ATTACHMENTS',
-
   }
 }
 

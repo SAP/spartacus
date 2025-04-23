@@ -3,6 +3,7 @@ import {
   fakeAsync,
   TestBed,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { delay, Observable, of, switchMap, throwError, timer } from 'rxjs';
 import {
@@ -17,7 +18,10 @@ import { OrderDetailAttachmentsDialogComponent } from './order-detail-attachment
 import { By } from '@angular/platform-browser';
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import createSpy = jasmine.createSpy;
-import { OrderAttachments, OrderAttachmentsFacade } from '@spartacus/order/root';
+import {
+  OrderAttachments,
+  OrderAttachmentsFacade,
+} from '@spartacus/order/root';
 import { OrderDetailAttachmentsConfig } from '../../../../root/config/order-detail-attachments-config';
 
 const orderCode = '00001004';
@@ -53,7 +57,7 @@ const mockConfig: OrderDetailAttachmentsConfig = {
   orderDetailAttachments: {
     previewMimeTypes: ['application/pdf'],
   },
-}
+};
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> | undefined {
@@ -74,13 +78,13 @@ const countHiddenElementsFn = (debugElements: DebugElement[]) => {
   return result;
 };
 
-describe('AttachmentsDialogComponent', () => {
+describe('OrderDetailAttachmentsDialogComponent', () => {
   let component: OrderDetailAttachmentsDialogComponent;
   let fixture: ComponentFixture<OrderDetailAttachmentsDialogComponent>;
   let orderAttachmentsFacade: jasmine.SpyObj<OrderAttachmentsFacade>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     const orderAttachmentsFacadeSpy = jasmine.createSpyObj(
       'OrderAttachmentsFacade',
       ['getOrderAttachments', 'downloadOrderAttachment']
@@ -111,6 +115,9 @@ describe('AttachmentsDialogComponent', () => {
         },
       ],
     }).compileComponents();
+  }));
+
+  beforeEach(() => {
     orderAttachmentsFacade = TestBed.inject(
       OrderAttachmentsFacade
     ) as jasmine.SpyObj<OrderAttachmentsFacade>;

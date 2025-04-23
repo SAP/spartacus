@@ -6,8 +6,10 @@
 
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { OrderAttachmentsAdapter } from './order-attachments.adapter';
-import { OrderAttachmentsConnector } from './order-attachments-connector.service';
+import {
+  OrderAttachmentsAdapter,
+  OrderAttachmentsConnector,
+} from '@spartacus/order/core';
 import { OrderAttachments } from '@spartacus/order/root';
 
 const userId = '123';
@@ -23,9 +25,7 @@ const attachmentsData: OrderAttachments = {
 };
 const blobData: Blob = new Blob(['mock content'], { type: 'application/pdf' });
 
-class MockOrderAttachmentsAdapter
-  implements Partial<OrderAttachmentsAdapter>
-{
+class MockOrderAttachmentsAdapter implements Partial<OrderAttachmentsAdapter> {
   getOrderAttachments() {
     return of(attachmentsData);
   }

@@ -16,25 +16,20 @@ import { facadeFactory } from '@spartacus/core';
     facadeFactory({
       facade: OrderAttachmentsFacade,
       feature: ORDER_CORE_FEATURE,
-      methods: [
-        'getOrderAttachments',
-        'downloadOrderAttachment',
-      ],
+      methods: ['getOrderAttachments', 'downloadOrderAttachment'],
     }),
 })
 export abstract class OrderAttachmentsFacade {
   /**
    * Get all order attachments
    */
-  abstract getOrderAttachments(
-    orderId: string,
-  ): Observable<OrderAttachments>;
+  abstract getOrderAttachments(orderId: string): Observable<OrderAttachments>;
 
   /**
    * Get order attachment
    */
   abstract downloadOrderAttachment(
     orderId: string,
-    attachmentId: string,
+    attachmentId: string
   ): Observable<Blob>;
 }

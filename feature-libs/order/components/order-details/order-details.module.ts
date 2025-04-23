@@ -53,12 +53,8 @@ import { OrderOverviewComponent } from './order-overview/order-overview.componen
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 import { OrderOverviewComponentService } from './order-overview/order-overview-component.service';
 import { OrderDetailAttachmentsComponent } from './order-detail-attachments/order-detail-attachments.component';
-import {
-  OrderDetailAttachmentsDialogComponent
-} from './order-detail-attachments/attachments-dialog/order-detail-attachments-dialog.component';
-import {
-  defaultOrderDetailAttachmentsDialogLayoutConfig
-} from './order-detail-attachments/default-order-detail-attachments-dialog-layout.config';
+import { OrderDetailAttachmentsDialogComponent } from './order-detail-attachments/attachments-dialog/order-detail-attachments-dialog.component';
+import { defaultOrderDetailAttachmentsDialogLayoutConfig } from './order-detail-attachments/default-order-detail-attachments-dialog-layout.config';
 
 function registerOrderOutletFactory(): () => void {
   const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);

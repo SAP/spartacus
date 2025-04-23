@@ -14,7 +14,7 @@ import {
   mockOccModuleConfig,
 } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OrderAttachments } from '@spartacus/order/root';
-import { OccOrderAttachmentsAdapter } from './occ-order-attachments-adapter';
+import { OccOrderAttachmentsAdapter } from '@spartacus/order/occ';
 
 const userId = '123';
 const orderId = '00001004';

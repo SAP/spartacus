@@ -6,26 +6,28 @@
 
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { S4omOrderAttachments } from '@spartacus/s4om/root';
-import { OrderAttachmentsService } from './order-attachments.service';
-import { S4omOrderAttachmentsConnector } from '../connector';
+import {
+  OrderAttachmentsConnector,
+  OrderAttachmentsService,
+} from '@spartacus/order/core';
 import { UserIdService } from '@spartacus/core';
+import { OrderAttachments } from '@spartacus/order/root';
 
 const userId = '123';
 const orderCode = '00001004';
 const attachmentId = 'a_123';
-const attachmentsData: S4omOrderAttachments = {
-  attachments: [
+const attachmentsData: OrderAttachments = {
+  sapAttachments: [
     {
-      attachmentId: attachmentId,
-      fileName: 'a123',
+      sapAttachmentId: attachmentId,
+      sapFileName: 'a123',
     },
   ],
 };
 const blobData: Blob = new Blob(['mock content'], { type: 'application/pdf' });
 
 class MockOrderAttachmentsConnector
-  implements Partial<S4omOrderAttachmentsConnector>
+  implements Partial<OrderAttachmentsConnector>
 {
   getOrderAttachments() {
     return of(attachmentsData);
@@ -44,7 +46,7 @@ class MockUserIdService implements Partial<UserIdService> {
 
 describe('OrderAttachmentsService', () => {
   let service: OrderAttachmentsService;
-  let connector: S4omOrderAttachmentsConnector;
+  let connector: OrderAttachmentsConnector;
   let userIdService: UserIdService;
 
   beforeEach(() => {
@@ -52,7 +54,7 @@ describe('OrderAttachmentsService', () => {
       providers: [
         OrderAttachmentsService,
         {
-          provide: S4omOrderAttachmentsConnector,
+          provide: OrderAttachmentsConnector,
           useClass: MockOrderAttachmentsConnector,
         },
         {
@@ -63,7 +65,7 @@ describe('OrderAttachmentsService', () => {
     });
 
     service = TestBed.inject(OrderAttachmentsService);
-    connector = TestBed.inject(S4omOrderAttachmentsConnector);
+    connector = TestBed.inject(OrderAttachmentsConnector);
     userIdService = TestBed.inject(UserIdService);
   });
 

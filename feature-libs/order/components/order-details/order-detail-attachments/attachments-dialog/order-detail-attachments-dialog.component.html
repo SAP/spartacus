@@ -19,9 +19,7 @@
       <button
         type="button"
         class="close"
-        attr.aria-label="{{
-          'attachments.dialog.closeModal' | cxTranslate
-        }}"
+        attr.aria-label="{{ 'attachments.dialog.closeModal' | cxTranslate }}"
         title="{{ 'attachments.dialog.closeModal' | cxTranslate }}"
         (click)="close('Close dialog')"
       >
@@ -55,9 +53,7 @@
                       attr.aria-label="{{
                         'attachments.dialog.preview' | cxTranslate
                       }}"
-                      title="{{
-                        'attachments.dialog.preview' | cxTranslate
-                      }}"
+                      title="{{ 'attachments.dialog.preview' | cxTranslate }}"
                       [ngClass]="{
                         disabled: loadingAttachments.includes(
                           attachment.sapAttachmentId
@@ -100,9 +96,7 @@
                       attr.aria-label="{{
                         'attachments.dialog.preview' | cxTranslate
                       }}"
-                      title="{{
-                        'attachments.dialog.preview' | cxTranslate
-                      }}"
+                      title="{{ 'attachments.dialog.preview' | cxTranslate }}"
                       [ngClass]="{
                         disabled: loadingAttachments.includes(
                           attachment.sapAttachmentId

@@ -22,9 +22,7 @@ import { OrderAttachments } from '../../root/model';
 import { OrderAttachmentsAdapter } from '../../core/connectors';
 
 @Injectable()
-export class OccOrderAttachmentsAdapter
-  implements OrderAttachmentsAdapter
-{
+export class OccOrderAttachmentsAdapter implements OrderAttachmentsAdapter {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);

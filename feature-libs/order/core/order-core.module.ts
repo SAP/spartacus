@@ -23,7 +23,7 @@ import { OrderAttachmentsConnector } from './connectors';
     OrderConnector,
     ScheduledReplenishmentOrderConnector,
     ReorderOrderConnector,
-    OrderAttachmentsConnector
+    OrderAttachmentsConnector,
   ],
 })
 export class OrderCoreModule {}

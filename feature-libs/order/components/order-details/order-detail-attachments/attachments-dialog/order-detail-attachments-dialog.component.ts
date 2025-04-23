@@ -85,7 +85,9 @@ export class OrderDetailAttachmentsDialogComponent {
         tap((blob) => {
           if (
             blob.type &&
-            this.config.orderDetailAttachments?.previewMimeTypes.includes(blob.type.split(';')[0])
+            this.config.orderDetailAttachments?.previewMimeTypes.includes(
+              blob.type.split(';')[0]
+            )
           ) {
             this.previewFile(blob);
             return;
