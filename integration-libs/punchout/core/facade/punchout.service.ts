@@ -51,15 +51,9 @@ export class PunchoutService implements PunchoutFacade {
 
   /**
    * punchoutSession ajax request will always return same response during a punchout session.
-   * To avoid multiple server calls, input (punchoutSessionId) and output (punchoutSession) values are stored into punchoutSessionRequest.
+   * To avoid multiple server calls, punchoutSession OCC API response  is stored into cachedPunchoutSessionResponse.
    */
-  protected readonly punchoutSessionRequest: {
-    punchoutSession?: PunchoutSession;
-    punchoutSessionId?: string;
-  } = {
-    punchoutSession: undefined,
-    punchoutSessionId: undefined,
-  };
+  protected cachedPunchoutSessionResponse?: PunchoutSession;
 
   /**
    * getPunchoutSession workflow:
@@ -81,9 +75,9 @@ export class PunchoutService implements PunchoutFacade {
     }
 
     return this.requestPunchoutSession(payload.punchoutSessionId).pipe(
-      switchMap((punchouSession) => {
+      switchMap((punchoutSession) => {
         return forkJoin({
-          punchoutSession: of(punchouSession),
+          punchoutSession: of(punchoutSession),
           logout: this.punchoutAuthService.logout(),
         });
       }),
@@ -217,10 +211,8 @@ export class PunchoutService implements PunchoutFacade {
 
   protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
     this.commandService.create((punchoutSessionId: string) => {
-      return punchoutSessionId ===
-        this.punchoutSessionRequest?.punchoutSessionId &&
-        this.punchoutSessionRequest?.punchoutSession
-        ? of(this.punchoutSessionRequest.punchoutSession)
+      return this.cachedPunchoutSessionResponse
+        ? of(this.cachedPunchoutSessionResponse)
         : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
             map((punchoutSession) => {
               if (
@@ -230,12 +222,9 @@ export class PunchoutService implements PunchoutFacade {
               ) {
                 throw new Error('Punchout login info missing');
               }
-              this.punchoutSessionRequest = {
-                punchoutSession: {
-                  ...punchoutSession,
-                  token: { ...punchoutSession.token },
-                },
-                punchoutSessionId,
+              this.cachedPunchoutSessionResponse = {
+                ...punchoutSession,
+                token: { ...punchoutSession.token },
               };
               return punchoutSession;
             })

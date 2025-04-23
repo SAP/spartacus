@@ -61,7 +61,6 @@ export type PunchoutNavigationGuardConfig = {
   [key in PunchOutOperation]: {
     allowedUrls?: string[];
     allowedCxRoutes?: string[];
-    allowHomePage?: boolean;
     redirectPage: string;
   };
 };

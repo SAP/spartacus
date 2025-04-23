@@ -68,21 +68,13 @@ export class PunchoutNavigationGuard {
         redirectPage: PUNCHOUT_INSPECT_PAGE_URL,
       },
       [PunchOutOperation.EDIT]: {
-        allowedUrls: [
-          ...this.allowedUrlsForAll,
-          ...this.allowedCxRoutesForEdit,
-        ],
+        allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
         allowedCxRoutes: [...this.allowedCxRoutesForEdit],
-        allowHomePage: true,
         redirectPage: this.HOME_PAGE_URL,
       },
       [PunchOutOperation.CREATE]: {
-        allowedUrls: [
-          ...this.allowedUrlsForAll,
-          ...this.allowedCxRoutesForEdit,
-        ],
+        allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
         allowedCxRoutes: [...this.allowedCxRoutesForEdit],
-        allowHomePage: true,
         redirectPage: this.HOME_PAGE_URL,
       },
     };
@@ -95,18 +87,8 @@ export class PunchoutNavigationGuard {
       map((punchoutOperation: PunchOutOperation | undefined) => {
         const canActivate =
           !punchoutOperation ||
-          this.findByCxRoute(
-            route,
-            this.punchoutNavigationGuardConfig[punchoutOperation]
-              .allowedCxRoutes
-          ) ||
-          this.findByUrls(
-            route,
-            this.punchoutNavigationGuardConfig[punchoutOperation].allowedUrls
-          ) ||
-          (!!this.punchoutNavigationGuardConfig[punchoutOperation]
-            ?.allowHomePage &&
-            this.findHomePage(route));
+          this.isAllowedCxRoute(route, punchoutOperation) ||
+          this.isAllowedUrls(route, punchoutOperation);
         if (!canActivate) {
           this.globalMessageService.add(
             {
@@ -123,28 +105,37 @@ export class PunchoutNavigationGuard {
     );
   }
 
-  protected findHomePage(route: CmsActivatedRouteSnapshot): boolean {
-    return route?.url?.length === 0;
-  }
-
-  protected findByUrls(
+  protected isAllowedUrls(
     route: CmsActivatedRouteSnapshot,
-    urls?: string[]
+    punchoutOperation: PunchOutOperation
   ): boolean {
+    let isHomePageAllowed = false;
+    const urls =
+      this.punchoutNavigationGuardConfig?.[punchoutOperation]?.allowedUrls;
     if (!urls) {
       return false;
     }
+    if (urls.includes(this.HOME_PAGE_URL)) {
+      isHomePageAllowed = route?.url?.length === 0;
+    }
     const relativeUrl = `/${route.url.map((u) => u.path).join('/')}`;
-    return urls.some((url) => relativeUrl.includes(url));
+    return (
+      urls
+        .filter((url) => url !== this.HOME_PAGE_URL)
+        .some((url) => relativeUrl.includes(url)) || isHomePageAllowed
+    );
   }
 
-  protected findByCxRoute(
+  protected isAllowedCxRoute(
     route: CmsActivatedRouteSnapshot,
-    cxRoutes?: string[]
+    punchoutOperation: PunchOutOperation
   ) {
+    const cxRoutes =
+      this.punchoutNavigationGuardConfig?.[punchoutOperation]?.allowedCxRoutes;
     if (!cxRoutes) {
       return false;
     }
+
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
