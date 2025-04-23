@@ -422,6 +422,7 @@ if (environment.cpq) {
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
+        storeFinderFacadeCleanup: true,
       };
       return appFeatureToggles;
     }),

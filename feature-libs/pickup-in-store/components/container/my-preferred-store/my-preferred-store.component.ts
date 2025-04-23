@@ -10,6 +10,7 @@ import {
   Component,
   inject,
   OnInit,
+  Optional,
 } from '@angular/core';
 import {
   CmsService,
@@ -21,10 +22,12 @@ import {
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
-  PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import {
+  GeolocationService,
+  StoreFinderService,
+} from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -78,12 +81,13 @@ export class MyPreferredStoreComponent implements OnInit {
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
     protected storeFinderService: StoreFinderService,
-    protected cmsService: CmsService
+    protected cmsService: CmsService,
+    @Optional() protected geolocationService: GeolocationService
   ) {
     this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
-      filter((preferredStore) => preferredStore !== null),
-      map((preferredStore) => preferredStore as PointOfServiceNames),
-      filter((preferredStore) => !!preferredStore.name),
+      filter(
+        (preferredStore) => preferredStore !== null && 'name' in preferredStore
+      ),
       map((preferredStore) => preferredStore.name),
       tap((preferredStoreName) =>
         this.pickupLocationsSearchService.loadStoreDetails(
@@ -95,7 +99,7 @@ export class MyPreferredStoreComponent implements OnInit {
           preferredStoreName as string
         )
       ),
-      filter((store) => !!store),
+      filter((store) => Boolean(store)),
       tap((store: PointOfService) => {
         this.pointOfService = store;
       }),
@@ -124,9 +128,11 @@ export class MyPreferredStoreComponent implements OnInit {
                 return this.isStoreFinder;
               }),
               tap((isStoreFinder) => {
-                const link = this.storeFinderService.getDirections(
-                  this.pointOfService
-                );
+                const link = this.featureConfigService.isEnabled(
+                  'storeFinderFacadeCleanup'
+                )
+                  ? this.geolocationService.getDirections(this.pointOfService)
+                  : this.storeFinderService.getDirections(this.pointOfService);
                 if (isStoreFinder) {
                   this.content = {
                     header: '',
@@ -191,9 +197,11 @@ export class MyPreferredStoreComponent implements OnInit {
   }
 
   getDirectionsToStore(): void {
-    const linkToDirections: string = this.storeFinderService.getDirections(
-      this.pointOfService
-    );
+    const linkToDirections = this.featureConfigService.isEnabled(
+      'storeFinderFacadeCleanup'
+    )
+      ? this.geolocationService.getDirections(this.pointOfService)
+      : this.storeFinderService.getDirections(this.pointOfService);
     window.open(linkToDirections, '_blank', 'noopener,noreferrer');
   }
 }

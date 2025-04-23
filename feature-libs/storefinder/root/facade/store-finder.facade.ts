@@ -59,8 +59,17 @@ export abstract class StoreFinderFacade {
   abstract viewAllStores(): void;
   abstract viewStoreById(storeId: string): void;
   abstract callFindStoresAction(routeParams: { [key: string]: string }): void;
+  /**
+   * @deprecated Please use geolocation service instead,
+   */
   abstract getStoreLatitude(location: PointOfService): number | undefined;
+  /**
+   * @deprecated Please use geolocation service instead,
+   */
   abstract getStoreLongitude(location: PointOfService): number | undefined;
+  /**
+   * @deprecated Please use geolocation service instead,
+   */
   abstract getDirections(location: PointOfService): string;
   abstract getFindStoreEntityById(): Observable<StoreEntities>;
 }

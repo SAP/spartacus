@@ -5,3 +5,4 @@
  */
 
 export * from './google-map-renderer.service';
+export * from './geolocation.service';
