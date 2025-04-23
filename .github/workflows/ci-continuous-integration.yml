@@ -130,7 +130,7 @@ jobs:
 
             ${commentHeader}
 
-            Your pull request includes modifications to `peerDependencies` in the following file(s):
+            Your pull request includes modifications to peerDependencies in the following file(s):
 
             \`\`\`diff
             ${diff}
@@ -138,20 +138,20 @@ jobs:
 
             ⚠️ Please note: Changes to peerDependencies are restricted and only permitted during framework update releases, as they may introduce breaking changes for customer's applications.;
 
-            // Get all existing comments
+            # Get all existing comments
             const { data: comments } = await github.rest.issues.listComments({
               issue_number,
               owner,
               repo
             });
 
-            // Find the old comment by this bot with the same tag
+            # Find the old comment by this bot with the same tag
             const existingComment = comments.find(comment =>
               comment.user.login === botUser &&
               comment.body.includes(commentHeader)
             );
 
-            // Delete the old one if exists
+            # Delete the old one if exists
             if (existingComment) {
               await github.rest.issues.deleteComment({
                 comment_id: existingComment.id,
@@ -160,7 +160,7 @@ jobs:
               });
             }
 
-            // Post the new comment
+            # Post the new comment
             await github.rest.issues.createComment({
               issue_number,
               owner,
