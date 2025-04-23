@@ -120,14 +120,12 @@ export class MyPreferredStoreComponent implements OnInit {
               preferredStore !== null && 'name' in preferredStore
           ),
           map((preferredStore) => preferredStore.name),
-          tap((a) => console.log(1, a)),
           distinctUntilChanged(),
           switchMap((preferredStoreName) =>
             this.pickupLocationsSearchService.loadAndGetStoreDetails(
               preferredStoreName as string
             )
           ),
-          tap((a) => console.log(2, a)),
           tap((store: PointOfService) => {
             this.pointOfService = store;
           }),
@@ -136,7 +134,6 @@ export class MyPreferredStoreComponent implements OnInit {
 
       this.preferredStore$
         .pipe(
-          tap((a) => console.log(3, a)),
           switchMap(() =>
             this.cmsService.getCurrentPage().pipe(
               filter<Page>(Boolean),

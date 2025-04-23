@@ -119,7 +119,6 @@ export class PickupLocationsSearchService
   loadAndGetStoreDetails(name: string): Observable<PointOfService> {
     return this.getStoreDetails(name).pipe(
       tap((details) => {
-        console.log('details', details);
         if (!details) {
           this.loadStoreDetails(name);
         }
