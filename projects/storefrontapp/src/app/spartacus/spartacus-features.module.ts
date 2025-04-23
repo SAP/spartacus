@@ -296,7 +296,7 @@ if (environment.cpq) {
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: true,
         showDownloadProposalButton: true,
-        showPromotionsInPDP: false,
+        showPromotionsInPDP: true,
         searchBoxV2: false,
         recentSearches: true,
         trendingSearches: false,
