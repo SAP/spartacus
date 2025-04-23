@@ -127,15 +127,15 @@ jobs:
 
             const body = `
 
+            🚨 Changes in peerDependencies detected. 🚨
+
+            Your PR introduced changes in the peerDependencies in the following files:
+
             \`\`\`diff
             ${diff}
             \`\`\`
 
-            Dummy text
-
-            ---
-
-            ⚠️ This check blocks the PR merge.`;
+            Changes in peerDependencies are allowed only during framework update release because they can break customers applications.`;
 
                   await github.rest.issues.createComment({
                     issue_number,
