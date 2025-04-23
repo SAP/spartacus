@@ -124,25 +124,49 @@ jobs:
             const repo = context.repo.repo;
 
             const diff = fs.readFileSync('peer-deps-result.txt', 'utf8');
+            const commentHeader = "🚨 **peerDependencies Change Detected** 🚨";
 
             const body = `
 
-            🚨 Changes in peerDependencies detected. 🚨
+            ${commentHeader}
 
-            Your PR introduced changes in the peerDependencies in the following files:
+            Your pull request includes modifications to `peerDependencies` in the following file(s):
 
             \`\`\`diff
             ${diff}
             \`\`\`
 
-            Changes in peerDependencies are allowed only during framework update release because they can break customers applications.`;
+            ⚠️ Please note: Changes to peerDependencies are restricted and only permitted during framework update releases, as they may introduce breaking changes for customer's applications.;
 
-                  await github.rest.issues.createComment({
-                    issue_number,
-                    owner,
-                    repo,
-                    body
-                  });
+            // Get all existing comments
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number,
+              owner,
+              repo
+            });
+
+            // Find the old comment by this bot with the same tag
+            const existingComment = comments.find(comment =>
+              comment.user.login === botUser &&
+              comment.body.includes(commentHeader)
+            );
+
+            // Delete the old one if exists
+            if (existingComment) {
+              await github.rest.issues.deleteComment({
+                comment_id: existingComment.id,
+                owner,
+                repo
+              });
+            }
+
+            // Post the new comment
+            await github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body
+            });
             
   ci_result:
     needs: [unit_tests, sonarqube_scan, linting, check_peer_dependencies]
