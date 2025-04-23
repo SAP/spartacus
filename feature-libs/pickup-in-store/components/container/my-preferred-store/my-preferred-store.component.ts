@@ -41,6 +41,7 @@ import {
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';
+const GET_DIRECTIONS_ARIA = 'cardActions.getDirections';
 
 interface PreferredStoreContent {
   header: string;
@@ -153,7 +154,7 @@ export class MyPreferredStoreComponent implements OnInit {
                       {
                         link,
                         name: GET_DIRECTIONS_NAME,
-                        ariaLabel: 'cardActions.getDirections',
+                        ariaLabel: GET_DIRECTIONS_ARIA,
                         target: '_blank',
                       },
                     ],
@@ -165,10 +166,10 @@ export class MyPreferredStoreComponent implements OnInit {
                       {
                         link,
                         name: GET_DIRECTIONS_NAME,
-                        ariaLabel: 'cardActions.getDirections',
+                        ariaLabel: GET_DIRECTIONS_ARIA,
                         target: '_blank',
                       },
-                      { event: 'edit', name: 'Change Store' },
+                      { event: 'edit', name: CHANGE_STORE_NAME },
                     ],
                   };
                 }
@@ -202,7 +203,7 @@ export class MyPreferredStoreComponent implements OnInit {
                 {
                   link,
                   name: GET_DIRECTIONS_NAME,
-                  ariaLabel: 'cardActions.getDirections',
+                  ariaLabel: GET_DIRECTIONS_ARIA,
                   target: '_blank',
                 },
               ],
@@ -214,10 +215,10 @@ export class MyPreferredStoreComponent implements OnInit {
                 {
                   link,
                   name: GET_DIRECTIONS_NAME,
-                  ariaLabel: 'cardActions.getDirections',
+                  ariaLabel: GET_DIRECTIONS_ARIA,
                   target: '_blank',
                 },
-                { event: 'edit', name: 'Change Store' },
+                { event: 'edit', name: CHANGE_STORE_NAME },
               ],
             };
           }
