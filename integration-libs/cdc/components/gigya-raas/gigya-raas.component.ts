@@ -31,7 +31,7 @@ export class GigyaRaasComponent implements OnInit {
   language$: Observable<string>;
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
-  private isPasswordReset = false;
+  protected isPasswordReset = false;
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
     private baseSiteService: BaseSiteService,
