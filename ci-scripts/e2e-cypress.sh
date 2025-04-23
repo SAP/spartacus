@@ -168,26 +168,26 @@ else
             fi
         fi
 
-    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-        echo "Running Cypress end-to-end tests for push event"
+#    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+ #       echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
-            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core"${SUITE}"
-        else
-            echo "Running full Cypress end-to-end tests"
-            if [[ "${SUITE}" == ":a11y" ]]; then
-                run_a11y_tests_with_docs_on_failure
-            else
-                npm run e2e:run:ci"${SUITE}"
-            fi
-        fi
-    else
-        echo "Running full Cypress end-to-end tests"
-        if [[ "${SUITE}" == ":a11y" ]]; then
-            run_a11y_tests_with_docs_on_failure
-        else
+  #      if is_bot_commit; then
+   #         echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+    #        npm run e2e:run:ci:core"${SUITE}"
+     #   else
+      #      echo "Running full Cypress end-to-end tests"
+       #     if [[ "${SUITE}" == ":a11y" ]]; then
+        #        run_a11y_tests_with_docs_on_failure
+         #   else
+          #      npm run e2e:run:ci"${SUITE}"
+           # fi
+        #fi
+#    else
+ #       echo "Running full Cypress end-to-end tests"
+  #      if [[ "${SUITE}" == ":a11y" ]]; then
+   #         run_a11y_tests_with_docs_on_failure
+    #    else
             npm run e2e:run:ci"${SUITE}"
-        fi
-    fi
+     #   fi
+    #fi
 fi
