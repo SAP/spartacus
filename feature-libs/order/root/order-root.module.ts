@@ -23,7 +23,7 @@ import {
   OrderConfirmationOrderEntriesContextToken,
   OrderDetailsOrderEntriesContextToken,
 } from './tokens/context';
-import { defaultOrderDetailAttachmentsConfig } from './config/default-order-detail-attachments-config';
+import { defaultOrderAttachmentsConfig } from './config/default-order-attachments-config';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -66,7 +66,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReplenishmentConfirmationItemsComponent',
           'ReplenishmentConfirmationTotalsComponent',
           'MyAccountViewOrderComponent',
-          'AccountOrderDetailsAttachmentsComponent',
+          'OrderAttachmentsComponent',
         ],
         dependencies: [CART_BASE_FEATURE],
       },
@@ -172,7 +172,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultOrderComponentsConfig),
     provideDefaultConfig(defaultOrderRoutingConfig),
-    provideDefaultConfig(defaultOrderDetailAttachmentsConfig),
+    provideDefaultConfig(defaultOrderAttachmentsConfig),
   ],
 })
 export class OrderRootModule {}

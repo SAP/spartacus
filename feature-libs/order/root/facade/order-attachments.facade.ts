@@ -26,7 +26,7 @@ export abstract class OrderAttachmentsFacade {
   abstract getOrderAttachments(orderId: string): Observable<OrderAttachments>;
 
   /**
-   * Get order attachment
+   * Download order attachment blob
    */
   abstract downloadOrderAttachment(
     orderId: string,

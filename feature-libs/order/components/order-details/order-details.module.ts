@@ -52,9 +52,8 @@ import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-t
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 import { OrderOverviewComponentService } from './order-overview/order-overview-component.service';
-import { OrderDetailAttachmentsComponent } from './order-detail-attachments/order-detail-attachments.component';
-import { OrderDetailAttachmentsDialogComponent } from './order-detail-attachments/attachments-dialog/order-detail-attachments-dialog.component';
-import { defaultOrderDetailAttachmentsDialogLayoutConfig } from './order-detail-attachments/default-order-detail-attachments-dialog-layout.config';
+import { OrderAttachmentsComponent, OrderAttachmentsDialogComponent } from './order-attachments';
+import { defaultOrderAttachmentsDialogLayoutConfig } from './order-attachments/default-order-attachments-dialog-layout.config';
 
 function registerOrderOutletFactory(): () => void {
   const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);
@@ -97,8 +96,8 @@ const moduleComponents = [
   ReorderDialogComponent,
   MyAccountV2OrderDetailsActionsComponent,
   MyAccountV2ConsignmentTrackingComponent,
-  OrderDetailAttachmentsComponent,
-  OrderDetailAttachmentsDialogComponent,
+  OrderAttachmentsComponent,
+  OrderAttachmentsDialogComponent,
 ];
 
 @NgModule({
@@ -162,8 +161,8 @@ const moduleComponents = [
           component: OrderDetailReorderComponent,
           guards: [AuthGuard],
         },
-        AccountOrderDetailsAttachmentsComponent: {
-          component: OrderDetailAttachmentsComponent,
+        OrderAttachmentsComponent: {
+          component: OrderAttachmentsComponent,
           guards: [AuthGuard],
         },
       },
@@ -173,7 +172,7 @@ const moduleComponents = [
     }),
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
-    provideDefaultConfig(defaultOrderDetailAttachmentsDialogLayoutConfig),
+    provideDefaultConfig(defaultOrderAttachmentsDialogLayoutConfig),
     provideDefaultConfigFactory(() =>
       inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),

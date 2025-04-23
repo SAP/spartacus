@@ -41,11 +41,11 @@ export const defaultOccOrderConfig: OccConfig = {
           'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
         /** placing an order endpoints end **/
 
-        /** order attachments start **/
+        /** order attachments endpoints start **/
         orderAttachments: 'users/${userId}/orders/${orderId}/attachments',
         downloadOrderAttachment:
           'users/${userId}/orders/${orderId}/attachments/${attachmentId}/download',
-        /** order attachments end **/
+        /** order attachments endpoints end **/
       },
     },
   },

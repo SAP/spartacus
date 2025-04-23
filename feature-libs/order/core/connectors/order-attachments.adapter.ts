@@ -9,7 +9,7 @@ import { OrderAttachments } from '../../root/model';
 
 export abstract class OrderAttachmentsAdapter {
   /**
-   * Abstract method used to reorder an order.
+   * Abstract method used to fetch order attachments.
    *
    * @param userId The `userId` for given user
    * @param orderId The `orderId` of an existing order
