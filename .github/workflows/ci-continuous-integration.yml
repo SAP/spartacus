@@ -137,7 +137,7 @@ jobs:
             const repo = context.repo.repo;
             const botUser = context.actor;
 
-            const commentHeader = "🚨 **peerDependencies Change Detected** 🚨";
+            const commentHeader = "🚨 ** PeerDependencies Change Detected ** 🚨";
 
             const body = `
               ${commentHeader}
@@ -148,38 +148,9 @@ jobs:
               ${diff}
               \`\`\`
 
-              > ⚠️ Please note: Changes to peerDependencies are **restricted** and only permitted during **framework update releases**, as they may introduce breaking changes for consuming applications.
-
-              If this change is intentional and part of a framework update, please ensure it is clearly documented in the release notes. Otherwise, consider reverting the changes to maintain compatibility for integrators.
+              Please note: Changes to peerDependencies are **restricted** and only permitted during **framework update releases**, as they may introduce breaking changes for customer's applications.
               `;
 
-            // Get all existing comments
-            const { data: comments } = await github.rest.issues.listComments({
-              issue_number,
-              owner,
-              repo
-            });
-
-            // Find the old comment by this bot with the same tag
-            const existingComment = comments.find(comment =>
-              comment.user.login === botUser &&
-              comment.body.includes(commentHeader)
-            );
-
-            console.log(existingComment);
-            
-            // Delete the old one if exists
-            if (existingComment) {
-              console.log('Find existing comment, deleting it');
-
-              await github.rest.issues.deleteComment({
-                comment_id: existingComment.id,
-                owner,
-                repo
-              });
-            }
-
-            // Post the new comment
             await github.rest.issues.createComment({
               issue_number,
               owner,
