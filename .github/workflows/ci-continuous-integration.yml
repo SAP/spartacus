@@ -119,7 +119,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const path = 'peer-deps-result.txt';
+                const path = 'peer-deps-result.txt';
 
             if (!fs.existsSync(path)) {
               console.log("No peer-deps result file found. Skipping comment.");
@@ -166,8 +166,12 @@ jobs:
               comment.body.includes(commentHeader)
             );
 
+            console.log(existingComment);
+            
             // Delete the old one if exists
             if (existingComment) {
+              console.log('Find existing comment, deleting it');
+
               await github.rest.issues.deleteComment({
                 comment_id: existingComment.id,
                 owner,
