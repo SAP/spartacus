@@ -1056,7 +1056,7 @@ describe('CdcJsService', () => {
       const response = {
         profile: {
           firstName: 'firstName',
-          lastName: 'lastName'
+          lastName: 'lastName',
         },
         response: {
           errorCode: 0,
@@ -1069,7 +1069,7 @@ describe('CdcJsService', () => {
       );
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
       spyOn(authService, 'logout');
-      service.onProfileUpdateEventHandler(response,isPasswordReset);
+      service.onProfileUpdateEventHandler(response, isPasswordReset);
 
       expect(authService.logout).toHaveBeenCalled();
       expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
