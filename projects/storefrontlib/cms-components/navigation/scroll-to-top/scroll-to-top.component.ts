@@ -11,13 +11,10 @@ import {
   HostBinding,
   HostListener,
   OnInit,
-  Optional,
   ViewChild,
-  inject,
 } from '@angular/core';
 import {
   CmsScrollToTopComponent,
-  FeatureConfigService,
   ScrollBehavior,
   WindowRef,
 } from '@spartacus/core';
@@ -46,11 +43,6 @@ export class ScrollToTopComponent implements OnInit {
   @ViewChild('button')
   button: ElementRef;
 
-  //TODO: (CXSPA-6522) - remove feature flag next major release.
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
-
   constructor(
     protected winRef: WindowRef,
     protected componentData: CmsComponentData<CmsScrollToTopComponent>,
@@ -69,28 +61,16 @@ export class ScrollToTopComponent implements OnInit {
   /**
    * Scroll back to the top of the page, and recognize if triggerd by keyboard.
    */
-  //TODO: (CXSPA-6522) - remove feature flag next major release.
   scrollToTop(event?: MouseEvent): void {
     this.window?.scrollTo({
       top: 0,
       behavior: this.scrollBehavior,
     });
-
-    if (this.featureConfigService?.isEnabled('a11yScrollToTop')) {
-      this.triggedByKeypress = event?.detail === 0;
-    } else {
-      // Focus first focusable element within the html body
-      this.selectFocusUtility
-        .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
-        ?.focus();
-    }
+    this.triggedByKeypress = event?.detail === 0;
   }
-  //TODO: (CXSPA-6522) - remove feature flag next major release.
+
   onFocusOut(): void {
-    if (
-      this.display &&
-      this.featureConfigService?.isEnabled('a11yScrollToTop')
-    ) {
+    if (this.display) {
       this.switchDisplay();
     }
   }
@@ -98,11 +78,7 @@ export class ScrollToTopComponent implements OnInit {
   /**
    * After scrolling to top, pressing Tab should focus first focusable element within body.
    */
-  //TODO: (CXSPA-6522) - remove feature flag next major release.
   protected onTab(event: Event): void {
-    if (!this.featureConfigService?.isEnabled('a11yScrollToTop')) {
-      return;
-    }
     const tabEvent = event as KeyboardEvent;
     const scrollToTopHasFocus =
       document.activeElement === this.button.nativeElement;
