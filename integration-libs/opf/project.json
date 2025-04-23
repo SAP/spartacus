@@ -38,8 +38,7 @@
       "options": {
         "lintFilePatterns": [
           "integration-libs/opf/**/*.ts",
-          "integration-libs/opf/**/*.html",
-          "!integration-libs/opf/**/*.d.ts"
+          "integration-libs/opf/**/*.html"
         ]
       }
     }

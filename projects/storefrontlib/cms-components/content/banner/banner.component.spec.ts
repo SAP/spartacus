@@ -99,7 +99,7 @@ describe('BannerComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '6.3', a11yOrganizationsBanner: true },
+            features: { level: '6.3' },
           },
         },
       ],

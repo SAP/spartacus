@@ -41,7 +41,6 @@ export class ProductListItemComponent implements OnChanges {
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
   ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
