@@ -130,16 +130,19 @@ export function previousPage(): void {
 export function verifyNextPage(pageNumber: number): void {
   nextPage();
   cy.get(pageLinkSelector).should('contain', pageNumber);
+  assertPaginationFocusBehaviorAfterClick(pageNumber);
 }
 
 export function verifyChoosePage(pageNumber: number): void {
   choosePage(pageNumber);
   cy.get(pageLinkSelector).should('contain', pageNumber);
+  assertPaginationFocusBehaviorAfterClick(pageNumber);
 }
 
 export function verifyPreviousPage(pageNumber: number): void {
   previousPage();
   cy.get(pageLinkSelector).should('contain', pageNumber);
+  assertPaginationFocusBehaviorAfterClick(pageNumber);
 }
 
 export function viewMode() {
@@ -308,4 +311,15 @@ export function assertNumberOfProducts(alias: string, category: string) {
 
     checkFirstItem(firstProduct);
   });
+}
+
+export function assertPaginationFocusBehaviorAfterClick(
+  pageNumber: number
+): void {
+  cy.focused()
+    .invoke('text')
+    .then((text) => {
+      const actual = parseInt(text.replace(/\u00a0/g, '').trim(), 10);
+      expect([pageNumber - 1, pageNumber, pageNumber + 1]).to.include(actual);
+    });
 }
