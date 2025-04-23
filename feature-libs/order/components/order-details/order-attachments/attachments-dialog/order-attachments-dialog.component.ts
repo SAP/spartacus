@@ -23,7 +23,7 @@ import { catchError, map, switchMap, tap, filter } from 'rxjs/operators';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { OrderAttachmentsFacade } from '../../../../root/facade';
 import { OrderAttachment } from '@spartacus/order/root';
-import { OrderAttachmentsConfig } from '../../../../root/config/order-attachments-config.service';
+import { OrderAttachmentsConfig } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-attachments-dialog',

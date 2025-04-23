@@ -32,7 +32,7 @@ import { OccReorderOrderAdapter } from './adapters/occ-reorder-order.adapter';
 import { OccReplenishmentOrderHistoryAdapter } from './adapters/occ-replenishment-order-history.adapter';
 import { OccScheduledReplenishmentOrderAdapter } from './adapters/occ-scheduled-replenishment-order.adapter';
 import { defaultOccOrderConfig } from './config/default-occ-order-config';
-import { OccOrderAttachmentsAdapter } from './adapters/occ-order-attachments-adapter';
+import { OccOrderAttachmentsAdapter } from './adapters/occ-order-attachments.adapter';
 import { OrderAttachmentsAdapter } from '../core/connectors/order-attachments.adapter';
 
 @NgModule({

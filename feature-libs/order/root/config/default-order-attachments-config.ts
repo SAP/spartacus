@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderAttachmentsConfig } from './order-attachments-config.service';
+import { OrderAttachmentsConfig } from './order-attachments-config';
 
 export const defaultOrderAttachmentsConfig: OrderAttachmentsConfig =
   {

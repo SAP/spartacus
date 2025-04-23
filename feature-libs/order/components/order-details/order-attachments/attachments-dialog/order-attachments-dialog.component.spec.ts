@@ -22,7 +22,7 @@ import {
   OrderAttachments,
   OrderAttachmentsFacade,
 } from '@spartacus/order/root';
-import { OrderAttachmentsConfig } from '../../../../root/config/order-attachments-config.service';
+import { OrderAttachmentsConfig } from '@spartacus/order/root';
 
 const orderCode = '00001004';
 
