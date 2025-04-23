@@ -5,32 +5,36 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { S4omOrderAttachments } from '../../root/model';
-import { S4OM_FEATURE } from '../../root/feature-name';
+import { ORDER_CORE_FEATURE } from '../feature-name';
+import { OrderAttachments } from '../model';
+import { facadeFactory } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: S4omOrderAttachmentsFacade,
-      feature: S4OM_FEATURE,
-      methods: ['getOrderAttachments', 'downloadOrderAttachment'],
+      facade: OrderAttachmentsFacade,
+      feature: ORDER_CORE_FEATURE,
+      methods: [
+        'getOrderAttachments',
+        'downloadOrderAttachment',
+      ],
     }),
 })
-export abstract class S4omOrderAttachmentsFacade {
+export abstract class OrderAttachmentsFacade {
   /**
    * Get all order attachments
    */
   abstract getOrderAttachments(
-    orderId: string
-  ): Observable<S4omOrderAttachments>;
+    orderId: string,
+  ): Observable<OrderAttachments>;
+
   /**
    * Get order attachment
    */
   abstract downloadOrderAttachment(
     orderId: string,
-    attachmentId: string
+    attachmentId: string,
   ): Observable<Blob>;
 }

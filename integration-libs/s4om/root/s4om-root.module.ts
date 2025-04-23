@@ -11,17 +11,6 @@ import { RequestedDeliveryDateComponentsModule } from '@spartacus/requested-deli
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { ScheduleLinesComponent } from './components/schedule-lines/schedule-lines.component';
 import { ScheduleLinesModule } from './components/schedule-lines/schedule-lines.module';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { S4OM_FEATURE } from './feature-name';
-import { defaultS4omConfig } from './config';
-
-export const defaultS4omComponentsConfig: CmsConfig = {
-  featureModules: {
-    [S4OM_FEATURE]: {
-      cmsComponents: ['S4omOrderAttachmentsComponent'],
-    },
-  },
-};
 
 @NgModule({
   imports: [
@@ -30,8 +19,6 @@ export const defaultS4omComponentsConfig: CmsConfig = {
     PDFInvoicesComponentsModule, //Adding dependency with PDF Invoices so that the library gets installed along with S4OM
   ],
   providers: [
-    provideDefaultConfig(defaultS4omComponentsConfig),
-    provideDefaultConfig(defaultS4omConfig),
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,
