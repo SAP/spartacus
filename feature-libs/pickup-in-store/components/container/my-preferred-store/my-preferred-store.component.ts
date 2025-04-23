@@ -24,10 +24,8 @@ import {
   PickupLocationsSearchFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import {
-  GeolocationService,
-  StoreFinderService,
-} from '@spartacus/storefinder/core';
+import { GeolocationService } from '@spartacus/storefinder/core';
+import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -80,7 +78,7 @@ export class MyPreferredStoreComponent implements OnInit {
     private preferredStoreFacade: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
-    protected storeFinderService: StoreFinderService,
+    protected storeFinderService: StoreFinderFacade,
     protected cmsService: CmsService,
     @Optional() protected geolocationService: GeolocationService
   ) {

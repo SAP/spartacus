@@ -16,7 +16,8 @@ import {
   PickupLocationsSearchFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderFacade } from '@spartacus/storefinder/root';
+import { GeolocationService } from '@spartacus/storefinder/core';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
@@ -43,7 +44,7 @@ class MockCmsService {
   refreshComponent() {}
 }
 
-export class MockStoreFinderService implements Partial<StoreFinderService> {
+export class MockGeolocationService implements Partial<GeolocationService> {
   getStoreLatitude(): number {
     return 1;
   }
@@ -51,6 +52,7 @@ export class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoreLongitude(): number {
     return 1;
   }
+
   getDirections(): string {
     const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
     const latitude = this.getStoreLatitude();
@@ -89,7 +91,8 @@ describe('MyPreferredStoreComponent', () => {
           useClass: MockPickupLocationsSearchService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: StoreFinderFacade, useClass: MockGeolocationService },
+        { provide: GeolocationService, useClass: MockGeolocationService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
