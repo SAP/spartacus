@@ -19,7 +19,7 @@ import { provideDefaultConfigFactory } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
 import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
-import { defaultAuthConfigProvider } from './config/default-auth-config';
+import { defaultAuthConfigFactory } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
@@ -83,7 +83,7 @@ export class UserAuthModule {
     return {
       ngModule: UserAuthModule,
       providers: [
-        provideDefaultConfigFactory(defaultAuthConfigProvider),
+        provideDefaultConfigFactory(defaultAuthConfigFactory),
         provideConfigValidator(baseUrlConfigValidator),
         ...interceptors,
         {

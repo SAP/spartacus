@@ -27,10 +27,10 @@ const defaultAuthConfig: AuthConfig = {
   },
 };
 
-export function defaultAuthConfigProvider(): AuthConfig {
-  const { enableOAuth2_1 } = inject(FeatureToggles);
+export function defaultAuthConfigFactory(): AuthConfig {
+  const { authorizationCodeFlowDefault } = inject(FeatureToggles);
 
-  if (enableOAuth2_1) {
+  if (authorizationCodeFlowDefault) {
     return {
       authentication: {
         ...defaultAuthConfig.authentication,

@@ -996,11 +996,13 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, configures the default oAuth configuration to
-   * use authorization code flow with PKCE to conform with
-   * the updated Authorization Server requirements for public clients.
-   * This results in a more secure default login configuration.
+   * use authorization code flow with PKCE.  This results in a more secure default
+   * authorization configuration.
+   *
+   * NOTE: This flag must be enabled for CCv2 version 2211.40.0 or higher.
    */
-  enableOAuth2_1?: boolean;
+  // TODO: update note to appropriate version and verbiage
+  authorizationCodeFlowDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -1156,5 +1158,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
-  enableOAuth2_1: false,
+  authorizationCodeFlowDefault: false,
 };
