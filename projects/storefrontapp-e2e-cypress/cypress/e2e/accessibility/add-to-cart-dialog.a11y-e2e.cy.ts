@@ -19,7 +19,7 @@ describe('Add to Cart Modal Accessibility', () => {
       cy.visit(siteContextSelector.PRODUCT_PATH_2);
       cy.get('cx-add-to-cart button[type=submit]').click();
       cy.get('cx-added-to-cart-dialog .cx-modal-content cx-cart-item');
-      cy.get('cx-added-to-cart-dialog').a11yRunContinuumTest()
+      cy.get('cx-added-to-cart-dialog').a11yRunContinuumTest();
     });
   });
 });
