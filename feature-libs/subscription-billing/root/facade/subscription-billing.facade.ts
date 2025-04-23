@@ -11,19 +11,19 @@ import { facadeFactory, QueryState } from '@spartacus/core';
       facade: SubscriptionBillingFacade,
       feature: SUBSCRIPTION_BILLING_FEATURE,
       methods: [
-        'getSubscriptionDetailState',
-        'getSubscriptionDetail',
+        'getSubscriptionByCodeState',
+        'getSubscriptionByCode',
         'getSubscriptionListState',
         'getSubscriptionList',
       ],
     }),
 })
 export abstract class SubscriptionBillingFacade {
-  abstract getSubscriptionDetailState(): Observable<
+  abstract getSubscriptionByCodeState(): Observable<
     QueryState<Subscription | undefined>
   >;
 
-  abstract getSubscriptionDetail(): Observable<Subscription | undefined>;
+  abstract getSubscriptionByCode(): Observable<Subscription | undefined>;
 
   abstract getSubscriptionListState(
     pageSize: number,

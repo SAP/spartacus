@@ -9,11 +9,11 @@ import {
 @Injectable()
 export class SubscriptionBillingConnector {
   protected adapter = inject(SubscriptionBillingAdapter);
-  public getSubscriptionDetail(
+  public getSubscriptionByCode(
     userId: string,
     subscriptionCode: string
   ): Observable<SubscriptionDetail> {
-    return this.adapter.getSubscriptionDetail(userId, subscriptionCode);
+    return this.adapter.getSubscriptionByCode(userId, subscriptionCode);
   }
   public getSubscriptionList(
     userId: string,

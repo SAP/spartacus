@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
@@ -24,6 +25,7 @@ import { combineLatest, map } from 'rxjs';
     ListNavigationModule,
     RouterModule,
     SpinnerModule,
+    CommonModule,
   ],
 })
 export class SubscriptionListComponent {

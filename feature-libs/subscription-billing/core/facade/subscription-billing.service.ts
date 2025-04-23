@@ -17,17 +17,17 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
   protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
-  getSubscriptionDetailState(): Observable<
+  getSubscriptionByCodeState(): Observable<
     QueryState<Subscription | undefined>
   > {
     return EMPTY;
   }
 
-  getSubscriptionDetail(): Observable<Subscription | undefined> {
+  getSubscriptionByCode(): Observable<Subscription | undefined> {
     return EMPTY;
   }
 
-  protected customerTicketingListPreConditions(): Observable<string> {
+  protected subscriptionListPreConditions(): Observable<string> {
     return this.userIdService.getUserId().pipe(
       take(1),
       map((userId) => {
@@ -45,7 +45,7 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   ): Query<SubscriptionList | undefined> {
     return this.queryService.create<SubscriptionList | undefined>(
       () =>
-        this.customerTicketingListPreConditions().pipe(
+        this.subscriptionListPreConditions().pipe(
           switchMap((customerId) =>
             this.subscriptionBillingConnector.getSubscriptionList(
               customerId,

@@ -18,11 +18,12 @@
     "id": "Subscription ID",
     "title": "All Subscriptions",
     "sortSubtitle": "Sort By",
-    "productCode": "Product",
-    "startDate": "Start Date",
-    "endDate": "End Date",
-    "status": "Status",
+    "productCode": "Product: {{ value }}",
+    "startDate": "Start Date: {{ date }}",
+    "endDate": "End Date: {{ date }}",
+    "status": "Status: {{ value }}",
     "noSubscriptions": "You don't have any subscriptions",
-    "sortOrders": "Sort orders"
+    "sortOrders": "Sort orders",
+    "manageSubscription": "Manage Subscription"
   }
 }

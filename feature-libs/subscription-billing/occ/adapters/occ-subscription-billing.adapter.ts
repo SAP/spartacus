@@ -10,20 +10,29 @@ import {
   SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 
 @Injectable()
 export class OccSubscriptionBillingAdapter
-  implements SubscriptionBillingAdapter
-{
+  implements SubscriptionBillingAdapter {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);
-  getSubscriptionDetail(
-    _userId: string,
-    _subscriptionCode: string
+  getSubscriptionByCode(
+    userId: string,
+    subscriptionCode: string
   ): Observable<SubscriptionDetail> {
-    return of({});
+    const url = this.occEndpoints.buildUrl('subscriptionByCode', {
+      urlParams: {
+        userId,
+        subscriptionCode,
+      },
+    });
+    return this.http.get<SubscriptionDetail>(url).pipe(
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      })
+    );
   }
 
   getSubscriptionList(

@@ -18,9 +18,9 @@ export interface SubscriptionBillingOccEndpoints {
    *
    * @member {string}
    */
-  subscriptionDetail?: string | OccEndpoint;
+  subscriptionByCode?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
-  interface OccEndpoints extends SubscriptionBillingOccEndpoints {}
+  interface OccEndpoints extends SubscriptionBillingOccEndpoints { }
 }
