@@ -137,7 +137,7 @@ jobs:
             const repo = context.repo.repo;
             const botUser = context.actor;
 
-            const commentHeader = "🚨 ** PeerDependencies Change Detected ** 🚨";
+            const commentHeader = "🚨 **PeerDependencies Change Detected** 🚨";
 
             const body = `
               ${commentHeader}
