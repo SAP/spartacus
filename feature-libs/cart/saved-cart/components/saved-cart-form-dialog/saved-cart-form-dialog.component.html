@@ -228,7 +228,10 @@
                   required="true"
                   [maxLength]="nameMaxLength"
                   class="form-control"
-                  [attr.aria-describedby]="'nameError'"
+                  [attr.aria-invalid]="
+                    form.get('name')?.touched && form.get('name')?.invalid
+                  "
+                  [attr.aria-errormessage]="'nameError'"
                   formControlName="name"
                   required
                   type="text"
@@ -238,7 +241,6 @@
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
                   id="nameError"
-                  aria-live="off"
                   [translationParams]="{
                     label: 'savedCartDialog.savedCartName' | cxTranslate,
                   }"
@@ -264,7 +266,11 @@
               <textarea
                 [maxLength]="descriptionMaxLength"
                 class="form-control"
-                [attr.aria-describedby]="'descriptionError'"
+                [attr.aria-invalid]="
+                  form.get('description')?.touched &&
+                  form.get('description')?.invalid
+                "
+                [attr.aria-errormessage]="'descriptionError'"
                 formControlName="description"
                 rows="5"
               ></textarea>
@@ -273,7 +279,6 @@
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
                 id="descriptionError"
-                aria-live="off"
                 [translationParams]="{
                   label: 'savedCartDialog.savedCartDescription' | cxTranslate,
                 }"

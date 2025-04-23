@@ -10,7 +10,6 @@ import {
   HostBinding,
   HostListener,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { BaseFocusService } from '../base';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
@@ -35,7 +34,6 @@ export class VisibleFocusDirective extends BaseFocusDirective {
     protected service: BaseFocusService
   ) {
     super(elementRef, service);
-    useFeatureStyles('a11yMobileVisibleFocus');
   }
 
   protected defaultConfig: VisibleFocusConfig = {

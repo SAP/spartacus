@@ -20,6 +20,8 @@ export const defaultOpfCheckoutRoutingConfig: RoutingConfig = {
       },
       opfCheckoutReview: {
         paths: ['checkout/opf-review'],
+      opfCheckoutEmail: {
+        paths: ['opf-checkout-email'],
       },
     },
   },
