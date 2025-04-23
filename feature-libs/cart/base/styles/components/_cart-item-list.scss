@@ -74,15 +74,9 @@
   }
 
   .cx-link {
-    text-decoration: none;
-    color: var(--cx-color-text);
     font-weight: var(--cx-font-weight-bold);
-
-    // TODO: (CXSPA-6903) - Remove feature flag next major release
-    @include forFeature('a11yCartItemsLinksStyles') {
-      text-decoration: underline;
-      color: var(--cx-color-primary);
-    }
+    text-decoration: underline;
+    color: var(--cx-color-primary);
   }
 
   .cx-total {

@@ -11,7 +11,6 @@ import {
   HostListener,
   OnDestroy,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 
@@ -44,9 +43,7 @@ export class ClearCartDialogComponent implements OnDestroy {
   constructor(
     protected el: ElementRef,
     protected clearCartDialogComponentService: ClearCartDialogComponentService
-  ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
-  }
+  ) {}
 
   clearCart(): void {
     this.isClearing = true;
