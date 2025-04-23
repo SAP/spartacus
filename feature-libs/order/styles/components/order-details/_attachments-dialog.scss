@@ -6,13 +6,14 @@
 
       button.close {
         @include type('4');
-        margin-bottom: -1rem;
+        padding-right: 1rem;
       }
     }
 
     .cx-dialog-body {
       min-height: 12rem;
       max-height: 38rem;
+      padding-right: 16px;
       overflow-y: auto;
 
       .cx-dialog-message {
@@ -45,7 +46,7 @@
           }
 
           td {
-            padding: 1rem 1.5rem 1rem 1rem;
+            padding: 1rem 1rem 1rem 1rem;
 
             .file-icon {
               color: var(--cx-color-primary);
