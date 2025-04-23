@@ -6,23 +6,22 @@
 
 import { OrderAttachmentsConfig } from './order-attachments-config';
 
-export const defaultOrderAttachmentsConfig: OrderAttachmentsConfig =
-  {
-    orderAttachments: {
-      previewMimeTypes: [
-        'text/plain',
-        'application/json',
-        'application/xml',
-        'application/xhtml+xml',
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/bmp',
-        'image/svg+xml',
-        'image/webp',
-        'image/x-icon',
-        'image/tiff',
-        'application/pdf',
-      ],
-    },
-  };
+export const defaultOrderAttachmentsConfig: OrderAttachmentsConfig = {
+  orderAttachments: {
+    previewMimeTypes: [
+      'text/plain',
+      'application/json',
+      'application/xml',
+      'application/xhtml+xml',
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/bmp',
+      'image/svg+xml',
+      'image/webp',
+      'image/x-icon',
+      'image/tiff',
+      'application/pdf',
+    ],
+  },
+};

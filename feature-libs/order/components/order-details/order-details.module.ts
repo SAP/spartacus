@@ -52,7 +52,10 @@ import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-t
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 import { OrderOverviewComponentService } from './order-overview/order-overview-component.service';
-import { OrderAttachmentsComponent, OrderAttachmentsDialogComponent } from './order-attachments';
+import {
+  OrderAttachmentsComponent,
+  OrderAttachmentsDialogComponent,
+} from './order-attachments';
 import { defaultOrderAttachmentsDialogLayoutConfig } from './order-attachments/default-order-attachments-dialog-layout.config';
 
 function registerOrderOutletFactory(): () => void {
