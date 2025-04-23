@@ -16,6 +16,8 @@ fi
 echo "📦 Changed package.json files:"
 echo "$changed_files"
 
+result_file="peer-deps-result.txt"
+
 failed=0
 
 for file in $changed_files; do
