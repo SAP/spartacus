@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# Origin is passed as an argument to the script, defaulting to 'develop' if not provided.
 BASE_BRANCH=${1:-develop}
-
-echo "🔍 Checking for changes in peerDependencies compared to $BASE_BRANCH..."
 
 git fetch origin "$BASE_BRANCH:$BASE_BRANCH"
 
+echo "🔍 Checking for changes in peerDependencies compared to $BASE_BRANCH..."
+
+# Variable holds the list of changed package.json files
+# between the current branch and the base branch.
 changed_files=$(git diff --name-only "$BASE_BRANCH" HEAD -- '**/package.json')
 
+# If no package.json files have changed, exit the script.
 if [ -z "$changed_files" ]; then
     echo "✅ No package.json files changed."
     exit 0
@@ -16,6 +20,8 @@ fi
 echo "📦 Changed package.json files:"
 echo "$changed_files"
 
+# Create a temporary file to store changed peerDependencies in diff format.
+# This file is used to post PR comment later.
 result_file="peer-deps-result.txt"
 
 failed=0

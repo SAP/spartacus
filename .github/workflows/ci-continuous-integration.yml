@@ -131,7 +131,7 @@ jobs:
             ${diff}
             \`\`\`
 
-            Please double-check if these changes are intentional. If yes, you're good! If not, consider reverting them.
+            Dummy text
 
             ---
 
