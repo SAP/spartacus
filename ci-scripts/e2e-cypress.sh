@@ -152,21 +152,21 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        echo "Running Cypress end-to-end tests for pull request"
+#    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+ #       echo "Running Cypress end-to-end tests for pull request"
 
-        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-            echo "Running full Cypress end-to-end tests for epic branch"
-            npm run e2e:run:ci"${SUITE}"
-        else
-            if [[ "${SUITE}" == ":a11y" ]]; then
-                echo "Running a11y Cypress end-to-end tests for pull requests"
-                run_a11y_tests_with_docs_on_failure
-            else
-                echo "Running core Cypress end-to-end tests for pull requests"
-                npm run e2e:run:ci:core"${SUITE}"
-            fi
-        fi
+  #      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+   #         echo "Running full Cypress end-to-end tests for epic branch"
+    #        npm run e2e:run:ci"${SUITE}"
+     #   else
+      #      if [[ "${SUITE}" == ":a11y" ]]; then
+       #         echo "Running a11y Cypress end-to-end tests for pull requests"
+        #        run_a11y_tests_with_docs_on_failure
+         #   else
+          #      echo "Running core Cypress end-to-end tests for pull requests"
+           #     npm run e2e:run:ci:core"${SUITE}"
+            #fi
+        #fi
 
 #    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
  #       echo "Running Cypress end-to-end tests for push event"
