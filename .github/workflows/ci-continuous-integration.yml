@@ -100,7 +100,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Run peerDependencies check
         run: |
-          bash ci-scripts/check-peer-deps.sh $NX_BASE   
+          echo "🔍 Target branch: ${{ github.event.pull_request.base.ref }}"
+          bash ci-scripts/check-peer-deps.sh ${{ github.event.pull_request.base.ref }}
       - name: Collect peer dependency changes
         id: collect-peer-deps
         run: |

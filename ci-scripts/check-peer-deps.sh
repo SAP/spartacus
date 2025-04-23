@@ -1,10 +1,10 @@
 #!/bin/bash
 
-BASE_BRANCH=${1:-origin/develop}
+BASE_BRANCH=${1:-develop}
 
 echo "🔍 Checking for changes in peerDependencies compared to $BASE_BRANCH..."
 
-git fetch origin "$BASE_BRANCH"
+git fetch origin "$BASE_BRANCH:$BASE_BRANCH"
 
 changed_files=$(git diff --name-only "$BASE_BRANCH" HEAD -- '**/package.json')
 
