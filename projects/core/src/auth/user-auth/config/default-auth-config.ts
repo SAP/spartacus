@@ -35,7 +35,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
       authentication: {
         ...defaultAuthConfig.authentication,
 
-        // TODO: endpoints will likely change to old paths
+        // CXSPA-9984: Endpoints may change
         tokenEndpoint: '/authserver/oauth2/token',
         revokeEndpoint: '/authserver/oauth2/revoke',
         loginUrl: '/authserver/oauth2/authorize',

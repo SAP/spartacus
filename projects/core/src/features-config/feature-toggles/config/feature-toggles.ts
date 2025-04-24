@@ -995,13 +995,15 @@ export interface FeatureTogglesInterface {
   enableSecurePasswordValidation?: boolean;
 
   /**
-   * When enabled, configures the default oAuth configuration to
-   * use authorization code flow with PKCE.  This results in a more secure default
-   * authorization configuration.
+   * When enabled, sets the default oAuth configuration to use authorization
+   * code flow with PKCE.  This results in a more secure authorization scheme
+   * as the default configuration.
    *
-   * NOTE: This flag must be enabled for CCv2 version 2211.40.0 or higher.
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization
+   * Server running the September 2025 update or higher.  The CCv2 Authorization
+   * Server only supports Authorization Code flow for public clients from
+   * that version and onwards.
    */
-  // TODO: update note to appropriate version and verbiage
   authorizationCodeFlowDefault?: boolean;
 }
 
