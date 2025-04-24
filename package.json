@@ -176,7 +176,7 @@
     "@angular/compiler-cli": "^19.0.3",
     "@angular/language-service": "^19.0.3",
     "@babel/runtime": "^7.26.10",
-    "@ngrx/store-devtools": "^19.0.1",
+    "@ngrx/store-devtools": "^19.0.0",
     "@nx/angular": "^20.4.6",
     "@nx/devkit": "^20.4.6",
     "@nx/eslint-plugin": "^20.4.6",
