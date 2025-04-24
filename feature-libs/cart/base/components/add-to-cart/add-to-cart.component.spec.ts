@@ -123,7 +123,7 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
 
-fdescribe('AddToCartComponent', () => {
+describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let activeCartFacade: ActiveCartFacade;
