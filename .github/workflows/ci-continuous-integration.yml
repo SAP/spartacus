@@ -149,6 +149,7 @@ jobs:
               \`\`\`
 
               Please note: Changes to peerDependencies are **restricted** and only permitted during **framework update releases**, as they may introduce breaking changes for customer's applications.
+              If you believe this change is necessary, please reach out to the Asterix team for further assistance.
               `;
 
             await github.rest.issues.createComment({
