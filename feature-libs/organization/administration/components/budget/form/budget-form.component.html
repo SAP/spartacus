@@ -13,14 +13,16 @@
         placeholder="{{ 'orgBudget.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
-        [attr.aria-describedby]="'nameError'"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.name' | cxTranslate,
         }"
@@ -44,14 +46,16 @@
         required
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
-        [attr.aria-describedby]="'codeError'"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.code' | cxTranslate,
         }"
@@ -110,6 +114,10 @@
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
+        [attr.aria-invalid]="
+          form.get('isocode')?.touched && form.get('isocode')?.invalid
+        "
+        [attr.aria-errormessage]="'isocodeError'"
         [searchable]="false"
         [clearable]="false"
         [items]="currencies$ | async"
@@ -124,6 +132,7 @@
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="isocodeError"
         [translationParams]="{
           label: 'orgBudget.currency' | cxTranslate,
         }"
@@ -147,14 +156,16 @@
         placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
         formControlName="budget"
         min="0"
-        [attr.aria-describedby]="'budgetError'"
+        [attr.aria-invalid]="
+          form.get('budget')?.touched && form.get('budget')?.invalid
+        "
+        [attr.aria-errormessage]="'budgetError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="budgetError"
-        aria-live="off"
         [translationParams]="{
           label: 'orgBudget.amount' | cxTranslate,
         }"
@@ -178,6 +189,10 @@
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
+        [attr.aria-invalid]="
+          form.get('uid')?.touched && form.get('uid')?.invalid
+        "
+        [attr.aria-errormessage]="'uidError'"
         [searchable]="true"
         [clearable]="false"
         [items]="units"
@@ -192,6 +207,7 @@
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
         [translationParams]="{
           label: 'orgBudget.businessUnits' | cxTranslate,
         }"

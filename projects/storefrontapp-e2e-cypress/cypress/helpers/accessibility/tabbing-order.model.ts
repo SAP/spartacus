@@ -33,6 +33,7 @@ export enum TabbingOrderTypes {
   CX_MEDIA = 'cxMedia',
   CX_ICON = 'cxIcon',
   H3 = 'h3',
+  SPAN = 'SPAN',
   CX_PRODUCT_VIEW = 'cxProductView',
   INDEX_OF_ELEMENT = 'indexOfElement',
   TEXT_AREA = 'textarea',
