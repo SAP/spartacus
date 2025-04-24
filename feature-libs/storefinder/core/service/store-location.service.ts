@@ -10,7 +10,7 @@ import { PointOfService } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class GeolocationService {
+export class StoreLocationService {
   /**
    * Returns store latitude
    * @param location store location

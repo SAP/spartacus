@@ -863,7 +863,7 @@ export interface FeatureTogglesInterface {
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 
   /**
-   * When enabled, it uses the GeolocationService for getDirections, getStoreLatitude,
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
    * and getStoreLongitude instead of StorefinderService / Facade (deprecated)
    * The logic behind it stays the same
    */

@@ -24,7 +24,7 @@ import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { GeolocationService } from '@spartacus/storefinder/core';
+import { StoreLocationService } from '@spartacus/storefinder/core';
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -57,7 +57,8 @@ interface PreferredStoreContent {
   standalone: false,
 })
 export class MyPreferredStoreComponent implements OnInit {
-  protected geolocationService: GeolocationService = inject(GeolocationService);
+  protected storeLocationService: StoreLocationService =
+    inject(StoreLocationService);
   preferredStore$: Observable<PointOfService>;
   content: PreferredStoreContent | null;
   defaultContent: PreferredStoreContent = {
@@ -143,7 +144,7 @@ export class MyPreferredStoreComponent implements OnInit {
                 return this.isStoreFinder;
               }),
               tap((isStoreFinder) => {
-                const link = this.geolocationService.getDirections(
+                const link = this.storeLocationService.getDirections(
                   this.pointOfService
                 );
                 if (isStoreFinder) {
@@ -261,7 +262,7 @@ export class MyPreferredStoreComponent implements OnInit {
     const linkToDirections = this.featureConfigService.isEnabled(
       'storeFinderFacadeCleanup'
     )
-      ? this.geolocationService.getDirections(this.pointOfService)
+      ? this.storeLocationService.getDirections(this.pointOfService)
       : this.storeFinderService.getDirections(this.pointOfService);
     window.open(linkToDirections, '_blank', 'noopener,noreferrer');
   }

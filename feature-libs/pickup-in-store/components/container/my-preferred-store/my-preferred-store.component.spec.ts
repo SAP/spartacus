@@ -18,7 +18,7 @@ import {
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
-import { GeolocationService } from '@spartacus/storefinder/core';
+import { StoreLocationService } from '@spartacus/storefinder/core';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
@@ -45,7 +45,7 @@ class MockCmsService {
   refreshComponent() {}
 }
 
-export class MockGeolocationService implements Partial<GeolocationService> {
+export class MockStoreLocationService implements Partial<StoreLocationService> {
   getStoreLatitude(): number {
     return 1;
   }
@@ -214,8 +214,8 @@ describe('MyPreferredStoreComponent', () => {
           useClass: MockPickupLocationsSearchService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: StoreFinderFacade, useClass: MockGeolocationService },
-        { provide: GeolocationService, useClass: MockGeolocationService },
+        { provide: StoreFinderFacade, useClass: MockStoreLocationService },
+        { provide: StoreLocationService, useClass: MockStoreLocationService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
@@ -244,7 +244,7 @@ describe('MyPreferredStoreComponent', () => {
   });
 
   it('should toggleOpenHours', () => {
-    const initialValue = !!component.openHoursOpen;
+    const initialValue = component.openHoursOpen;
     component.toggleOpenHours();
     expect(component.openHoursOpen).toEqual(!initialValue);
   });
@@ -303,5 +303,6 @@ describe('MyPreferredStoreComponent', () => {
     ).and.returnValue(of(mockStore));
     spyOn(featureConfigService, 'isEnabled').and.returnValues(false, true);
     component.ngOnInit();
+    expect(fixture.debugElement.nativeElement).toBeDefined();
   });
 });

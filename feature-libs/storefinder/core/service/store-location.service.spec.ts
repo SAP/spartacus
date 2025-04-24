@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { PointOfService } from '@spartacus/core';
-import { GeolocationService } from './geolocation.service';
+import { StoreLocationService } from './store-location.service';
 
 const location: PointOfService = {
   geoPoint: {
@@ -9,20 +9,20 @@ const location: PointOfService = {
   },
 };
 
-describe('GeolocationService', () => {
-  let service: GeolocationService;
+describe('StoreLocationService', () => {
+  let service: StoreLocationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GeolocationService],
+      providers: [StoreLocationService],
     });
-    service = TestBed.inject(GeolocationService);
+    service = TestBed.inject(StoreLocationService);
   });
 
-  it('should inject GeolocationService', inject(
-    [GeolocationService],
-    (geolocationService: GeolocationService) => {
-      expect(geolocationService).toBeTruthy();
+  it('should inject StoreLocationService', inject(
+    [StoreLocationService],
+    (storeLocationService: StoreLocationService) => {
+      expect(storeLocationService).toBeTruthy();
     }
   ));
 
