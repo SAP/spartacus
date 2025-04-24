@@ -31,7 +31,273 @@
     <div class="cx-dialog-body modal-body">
       <div class="row">
         <div class="col-sm-12">
-          <cx-subscription-product-price [productCode]="orderData.product?.code"></cx-subscription-product-price>
+          <!-- <cx-subscription-product-price [productCode]="orderData.product?.code"></cx-subscription-product-price> -->
+          @if (productDetail(); as product) {
+            @if (isCurrentProductSubscription()) {
+              <div class="subscription">
+                @if (product.sapPricePlan?.name) {
+                  <div class="subscription-name">{{ product.sapPricePlan?.name }}:</div>
+                }
+                @if (oneTimeCharges().length > 0) {
+                  <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
+                }
+                @if (recurringCharges().length > 0) {
+                  <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
+                }
+                <ng-container *ngTemplateOutlet="showTerm"></ng-container>
+                <!-- <cx-subscription-product-usage-charge
+                  [product]="productDetail"
+                ></cx-subscription-product-usage-charge> -->
+
+
+                <div class="subscription-usage-charge">
+                  <div class="subscription-usage-charge-name">
+                    {{ 'subscriptionProduct.usageCharges' | cxTranslate }}:
+                  </div>
+                
+                  @if (tierUsageCharges().length > 0) {
+                    <ng-container *ngTemplateOutlet="showTierUsageCharges"></ng-container>
+                  }
+                
+                  @if (volumeUsageCharges().length > 0) {
+                    <ng-container *ngTemplateOutlet="showVolumeUsageCharges"></ng-container>
+                  }
+                
+                  @if (percentageUsageCharges().length > 0) {
+                    <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
+                  }
+                
+                  @if (blockUsageCharges().length > 0) {
+                    <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
+                  }
+                </div>
+                
+                <ng-template #showBlockUsageCharges>
+                  @for (usageCharge of blockUsageCharges(); track $index) {
+                    @if (usageCharge.includedQty ?? 0 > 0) {
+                      <div>
+                        {{
+                          'subscriptionProduct.includedQuantity'
+                            | cxTranslate: { quantity: getIncludedQuantity(usageCharge) }
+                        }}
+                      </div>
+                    }
+                    @for (
+                      usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
+                      track $index
+                    ) {
+                      <div class="subscription-usage-charge-entry">
+                        <ng-container *ngIf="usageCharge.blockSize === 1">
+                          {{
+                            'subscriptionProduct.oneBlockUsage'
+                              | cxTranslate
+                                : {
+                                    price: usageChargeEntry.price?.formattedValue,
+                                    usage: usageCharge.usageUnit?.name,
+                                  }
+                          }}
+                        </ng-container>
+                        <ng-container *ngIf="usageCharge.blockSize ?? 0 > 1">
+                          {{
+                            'subscriptionProduct.multiBlockUsage'
+                              | cxTranslate
+                                : {
+                                    price: usageChargeEntry.price?.formattedValue,
+                                    block:
+                                      usageCharge.blockSize +
+                                      ' ' +
+                                      usageCharge?.usageUnit?.namePlural,
+                                  }
+                          }}
+                        </ng-container>
+                      </div>
+                    }
+                  }
+                </ng-template>
+                
+                <ng-template #showVolumeUsageCharges>
+                  @for (usageCharge of volumeUsageCharges(); track $index) {
+                    @for (
+                      usageChargeEntry of usageCharge.tierUsageChargeEntries;
+                      track $index
+                    ) {
+                      <div class="subscription-usage-charge-entry">
+                        {{
+                          'subscriptionProduct.volumeUsage'
+                            | cxTranslate
+                              : {
+                                  from:
+                                    usageChargeEntry.tierStart +
+                                    ' ' +
+                                    usageCharge.usageUnit?.name,
+                                  to:
+                                    usageChargeEntry.tierEnd +
+                                    ' ' +
+                                    usageCharge.usageUnit?.name,
+                                  fixed: usageChargeEntry.fixedPrice?.formattedValue,
+                                  price: usageChargeEntry.price?.formattedValue,
+                                  usage: usageCharge.usageUnit?.name,
+                                }
+                        }}
+                      </div>
+                    }
+                
+                    @for (
+                      usageChargeEntry of usageCharge.overageUsageChargeEntries;
+                      track $index
+                    ) {
+                      <div class="subscription-usage-charge-entry">
+                        {{
+                          'subscriptionProduct.volumeOverageUsage'
+                            | cxTranslate
+                              : {
+                                  from:
+                                    getLastTierValue(usageCharge.tierUsageChargeEntries ?? []) +
+                                    1 +
+                                    ' ' +
+                                    usageCharge.usageUnit?.name,
+                                  fixed: usageChargeEntry.fixedPrice?.formattedValue,
+                                  price: usageChargeEntry.price?.formattedValue,
+                                  usage: usageCharge.usageUnit?.name,
+                                }
+                        }}
+                      </div>
+                    }
+                
+                    <div class="subscription-message">
+                      {{ 'subscriptionProduct.volumeUsageMessage' | cxTranslate }}
+                    </div>
+                  }
+                </ng-template>
+                
+                <ng-template #showTierUsageCharges>
+                  @for (usageCharge of tierUsageCharges(); track $index) {
+                    @for (
+                      usageChargeEntry of usageCharge.tierUsageChargeEntries;
+                      track $index
+                    ) {
+                      <div class="subscription-usage-charge-entry">
+                        {{
+                          'subscriptionProduct.tierUsage'
+                            | cxTranslate
+                              : {
+                                  from:
+                                    usageChargeEntry.tierStart +
+                                    ' ' +
+                                    usageCharge.usageUnit?.name,
+                                  to:
+                                    usageChargeEntry.tierEnd +
+                                    ' ' +
+                                    usageCharge.usageUnit?.name,
+                                  price: usageChargeEntry.price?.formattedValue,
+                                  usage: usageCharge.usageUnit?.name,
+                                }
+                        }}
+                      </div>
+                    }
+                
+                    @for (
+                      usageChargeEntry of usageCharge.overageUsageChargeEntries;
+                      track $index
+                    ) {
+                      <div class="subscription-usage-charge-entry">
+                        {{
+                          'subscriptionProduct.tierOverageUsage'
+                            | cxTranslate
+                              : {
+                                  from:
+                                    getLastTierValue(
+                                      usageCharge?.tierUsageChargeEntries || []
+                                    ) +
+                                    1 +
+                                    (usageCharge?.usageUnit?.name || ''),
+                                  price: usageChargeEntry.price?.formattedValue,
+                                  usage: usageCharge.usageUnit?.name,
+                                }
+                        }}
+                      </div>
+                    }
+                
+                    <div class="subscription-message">
+                      {{ 'subscriptionProduct.tierUsageMessage' | cxTranslate }}
+                    </div>
+                  }
+                </ng-template>
+                
+                <ng-template #showPercentageUsageCharges>
+                  @for (usageCharge of percentageUsageCharges(); track $index) {
+                    <div
+                      *ngFor="let usageChargeEntry of usageCharge.perUnitUsageChargeEntries"
+                      class="subscription-usage-charge-entry"
+                    >
+                      {{
+                        'subscriptionProduct.percentageUsage'
+                          | cxTranslate
+                            : {
+                                ratio: usageCharge.ratio,
+                                price: usageChargeEntry.price?.formattedValue,
+                                usage: usageCharge.usageUnit?.name,
+                              }
+                      }}
+                    </div>
+                  }
+                </ng-template>
+                
+
+              </div>
+            } @else {
+              <div
+                [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate"
+                class="price"
+              >
+                {{ product.price?.formattedValue }}
+              </div>
+            }
+            <ng-template #showOneTimeCharges>
+              @for (charge of oneTimeCharges(); track $index) {
+                <div class="subscription-onetimecharge">
+                  {{ charge.billingTime?.name }}: {{ charge.price?.formattedValue }}
+                </div>
+              }
+            </ng-template>
+          
+            <ng-template #showRecurringCharges>
+              @for (charge of recurringCharges(); track $index) {
+                <div class="subscription-recurringcharge">
+                  {{ product.sapSubscriptionTerm?.billingPlan?.billingTime?.name }}:
+                  {{ charge.price?.formattedValue }}
+                </div>
+              }
+            </ng-template>
+          
+            <ng-template #showTerm>
+              <div class="subscription-minimumterm">
+                {{
+                  'subscriptionProduct.minimumTerm'
+                    | cxTranslate
+                      : {
+                          term:
+                            product.sapSubscriptionTerm?.minimumTerm?.value +
+                            ' ' +
+                            product.sapSubscriptionTerm?.minimumTerm?.frequency?.name,
+                        }
+                }}
+              </div>
+              <div class="subscription-renewalterm">
+                {{
+                  'subscriptionProduct.renewalTerm'
+                    | cxTranslate
+                      : {
+                          term:
+                            product.sapSubscriptionTerm?.renewalTerm?.value +
+                            ' ' +
+                            product.sapSubscriptionTerm?.renewalTerm?.frequency?.name,
+                        }
+                }}
+              </div>
+            </ng-template>
+          }
+          
         </div>
       </div>
     </div>

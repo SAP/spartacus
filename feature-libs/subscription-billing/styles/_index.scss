@@ -2,9 +2,10 @@
 @import './product/subscription-product-price';
 @import './product/subscription-product-usage-charge';
 @import './list/subscription-list';
+@import './cart/subscription-billing-cart-charges';
 
 $subscription-billing-components-allowlist: cx-subscription-product-price,
-  cx-subscription-product-usage-charge, cx-subscription-list !default;
+  cx-subscription-product-usage-charge, cx-subscription-list, cx-subscription-billing-cart-charges !default;
 
 $skipComponentStyles: () !default;
 

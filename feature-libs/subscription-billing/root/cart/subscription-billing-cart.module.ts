@@ -14,10 +14,10 @@ import {
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { subscriptionBillingCartLayoutConfig } from './subscription-billing-cart-layout.config';
 import { ViewSubscriptionChargesEventListener } from './view-subscription-charges-event.listener';
-import {
+/* import {
   SubscriptionProductPriceComponent,
   SubscriptionProductUsageChargeComponent,
-} from '@spartacus/subscription-billing/components';
+} from '@spartacus/subscription-billing/components'; */
 
 let components = [
   SubscriptionBillingCartItemPriceHeadingComponent,
@@ -33,8 +33,8 @@ let components = [
     I18nModule,
     IconModule,
     KeyboardFocusModule,
-    SubscriptionProductPriceComponent,
-    SubscriptionProductUsageChargeComponent,
+    // SubscriptionProductPriceComponent,
+    // SubscriptionProductUsageChargeComponent,
   ],
   declarations: [...components],
   exports: [...components],
