@@ -10,7 +10,6 @@ import {
   Component,
   inject,
   OnInit,
-  Optional,
 } from '@angular/core';
 import {
   CmsService,
@@ -58,6 +57,7 @@ interface PreferredStoreContent {
   standalone: false,
 })
 export class MyPreferredStoreComponent implements OnInit {
+  protected geolocationService: GeolocationService = inject(GeolocationService);
   preferredStore$: Observable<PointOfService>;
   content: PreferredStoreContent | null;
   defaultContent: PreferredStoreContent = {
@@ -81,8 +81,7 @@ export class MyPreferredStoreComponent implements OnInit {
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
     protected storeFinderService: StoreFinderFacade,
-    protected cmsService: CmsService,
-    @Optional() protected geolocationService: GeolocationService
+    protected cmsService: CmsService
   ) {
     if (!this.featureConfigService.isEnabled('storeFinderFacadeCleanup')) {
       this.preferredStore$ = this.preferredStoreFacade

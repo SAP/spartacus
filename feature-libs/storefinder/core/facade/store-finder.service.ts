@@ -228,7 +228,7 @@ export class StoreFinderService implements OnDestroy {
   }
 
   /**
-   * @deprecated Please use geolocation service instead,
+   * @deprecated Please use GeolocationService instead,
    * Returns store latitude
    * @param location store location
    */
@@ -237,7 +237,7 @@ export class StoreFinderService implements OnDestroy {
   }
 
   /**
-   * @deprecated Please use geolocation service instead,
+   * @deprecated Please use GeolocationService instead,
    * Returns store longitude
    * @param location store location
    */
@@ -246,7 +246,7 @@ export class StoreFinderService implements OnDestroy {
   }
 
   /**
-   * @deprecated Please use geolocation service instead,
+   * @deprecated Please use GeolocationService instead,
    * Generates a link leading to the directions of the given store location
    * @param location store location
    * @returns URL for directions to the store
