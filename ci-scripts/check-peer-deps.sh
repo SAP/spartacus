@@ -30,6 +30,12 @@ for file in $changed_files; do
     echo ""
     echo "🔧 Checking file: $file"
 
+    # Check if file exists on base branch; skip if it doesn't
+    if ! git ls-tree -r "$BASE_BRANCH" --name-only | grep -qx "$file"; then
+        echo "Skipping new file: $file (doesn't exist on $BASE_BRANCH)"
+        continue
+    fi
+
     git show "$BASE_BRANCH":"$file" 2>/dev/null | awk '/"peerDependencies": ?{/,/}/' >/tmp/base-peer-deps.txt
     awk '/"peerDependencies": ?{/,/}/' "$file" >/tmp/current-peer-deps.txt
 
