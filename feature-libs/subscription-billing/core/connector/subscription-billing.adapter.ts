@@ -5,7 +5,7 @@ import {
 import { Observable } from 'rxjs';
 
 export abstract class SubscriptionBillingAdapter {
-  abstract getSubscriptionDetail(
+  abstract getSubscriptionByCode(
     userId: string,
     subscriptionCode: string
   ): Observable<SubscriptionDetail>;

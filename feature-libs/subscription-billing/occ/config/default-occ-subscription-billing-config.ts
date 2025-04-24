@@ -9,7 +9,7 @@ import { SubscriptionBillingOccEndpoints } from '../model';
 
 const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   subscriptionList: 'users/${userId}/subscriptions',
-  subscriptionDetail: 'users/${userId}/subscriptions/${code}',
+  subscriptionByCode: 'users/${userId}/subscriptions/${code}',
 };
 
 export const defaultOccSubscriptionBillingConfig: OccConfig = {
