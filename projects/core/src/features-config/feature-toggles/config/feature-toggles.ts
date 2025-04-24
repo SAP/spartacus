@@ -864,8 +864,9 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
-   * and getStoreLongitude instead of StorefinderService / Facade (deprecated)
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
    * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
    */
   storeFinderFacadeCleanup?: boolean;
 }
