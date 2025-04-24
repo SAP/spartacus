@@ -105,6 +105,8 @@ export namespace Configurator {
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
     newConfiguration?: boolean;
+    pricingMerged?: boolean;
+    timestamp?: number;
     isPricingAsync?: boolean;
   }
 

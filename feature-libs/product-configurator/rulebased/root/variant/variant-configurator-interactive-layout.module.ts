@@ -46,6 +46,7 @@ import { LayoutConfig } from '@spartacus/storefront';
           lg: {
             slots: [
               'VariantConfigHeader',
+              'VariantConfigChat',
               'VariantConfigMenu',
               'VariantConfigContent',
               'VariantConfigBottombar',
@@ -55,6 +56,7 @@ import { LayoutConfig } from '@spartacus/storefront';
 
           slots: [
             'VariantConfigHeader',
+            'VariantConfigChat',
             'VariantConfigContent',
             'VariantConfigBottombar',
             'VariantConfigVariantCarousel',

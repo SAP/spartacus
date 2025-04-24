@@ -6,6 +6,7 @@
 
 export * from './add-to-cart-button/index';
 export * from './attribute/index';
+export * from './chat/index';
 export * from './config/index';
 export * from './configurator-conflict-and-error-messages/index';
 export * from './conflict-description/index';
