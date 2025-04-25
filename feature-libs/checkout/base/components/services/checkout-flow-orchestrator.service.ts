@@ -33,6 +33,7 @@ export class CheckoutFlowOrchestratorService {
   }
 
   getCheckoutFlow(): CheckoutFlow | undefined {
+    //this.paymentProviderName = 'Mockup';
     if (this.paymentProviderName) {
       const flow =
         this.checkoutConfig.checkout?.flows?.[this.paymentProviderName];

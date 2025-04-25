@@ -1,32 +1,30 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
   {{ 'checkoutB2B.methodOfPayment.paymentType' | cxTranslate }}
 </h2>
-<ng-container
-  *ngIf="(typeSelected$ | async) && !(isUpdating$ | async); else loading"
->
-  <ng-container>
-    <div
-      *cxFeature="'!a11yRemoveStatusLoadedRole'"
-      role="status"
-      [attr.aria-label]="'common.loaded' | cxTranslate"
-    ></div>
-    <div class="row">
-      <div class="col-md-12 col-lg-6">
-        <label>
-          <span class="label-content">{{
-            'checkoutB2B.poNumber' | cxTranslate
-          }}</span>
-          <input
-            #poNumber
-            class="form-control"
-            formControlName="poNumber"
-            type="text"
-            placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
-          />
-        </label>
-      </div>
-    </div>
 
+<ng-container>
+  <div
+    *cxFeature="'!a11yRemoveStatusLoadedRole'"
+    role="status"
+    [attr.aria-label]="'common.loaded' | cxTranslate"
+  ></div>
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <label>
+        <span class="label-content">{{
+          'checkoutB2B.poNumber' | cxTranslate
+        }}</span>
+        <input
+          #poNumber
+          class="form-control"
+          formControlName="poNumber"
+          type="text"
+          placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
+        />
+      </label>
+    </div>
+  </div>
+  <ng-container *ngIf="!(isUpdating$ | async); else loading">
     <cx-opf-checkout-payments
       [isHeadingDisplayed]="false"
       [isPaymentRenderBelow]="false"
@@ -49,7 +47,7 @@
   </ng-container>
 </ng-container>
 <ng-template #loading>
-  <div class="cx-spinner" *ngIf="!paymentTypesError">
+  <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>

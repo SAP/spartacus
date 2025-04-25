@@ -12,13 +12,17 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { OpfApiCheckoutAdapter } from './adapters/opf-api-checkout.adapter';
-import { OpfCheckoutAuthGuard } from './checkout-guard';
+import {
+  OpfCheckoutAuthGuard,
+  OpfCheckoutB2bStepsSetGuard,
+} from './checkout-guard';
 import { defaultOccOpfCheckoutConfig } from './config';
 import { defaultOpfCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfCheckoutRoutingConfig } from './config/default-opf-checkout-routing-config';
 import { OpfCheckoutAdapter, OpfCheckoutConnector } from './connectors';
 import { OPF_CHECKOUT_FEATURE } from './feature-name';
 import { OpfCartUserEmailCheckerService } from './services';
+import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
   'OpfCheckoutPaymentType',
@@ -44,6 +48,10 @@ export function defaultOpfCheckoutComponentsConfig() {
     {
       provide: CheckoutAuthGuard,
       useClass: OpfCheckoutAuthGuard,
+    },
+    {
+      provide: CheckoutB2BStepsSetGuard,
+      useClass: OpfCheckoutB2bStepsSetGuard,
     },
     {
       provide: OpfCheckoutAdapter,

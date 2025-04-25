@@ -15,41 +15,22 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import {
-  getLastValueSync,
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-  isNotUndefined,
-  OccHttpErrorType,
-} from '@spartacus/core';
+import { GlobalMessageService, UserIdService } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
-  OpfBaseFacade,
+  OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  map,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription, take } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-type',
@@ -60,117 +41,110 @@ import {
 export class OpfB2bCheckoutPaymentTypeComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  protected opfBaseService = inject(OpfBaseFacade);
+  protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected userIdService = inject(UserIdService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
 
-  protected busy$ = new BehaviorSubject<boolean>(false);
+  protected isUpdating$ = new BehaviorSubject<boolean>(false);
 
-  typeSelected?: string;
-  paymentTypesError = false;
-
-  isUpdating$ = combineLatest([
-    this.busy$,
-    this.checkoutPaymentTypeFacade
-      .getSelectedPaymentTypeState()
-      .pipe(map((state) => state.loading)),
-  ]).pipe(
-    map(([busy, loading]) => busy || loading),
-    distinctUntilChanged()
-  );
-
-  paymentTypes$: Observable<OpfActiveConfiguration[]> =
-    this.checkoutPaymentTypeFacade.getPaymentTypes().pipe(
-      tap(() => (this.paymentTypesError = false)),
-      catchError((error: HttpErrorModel) => {
-        if (
-          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
-        ) {
-          this.globalMessageService.add(
-            { key: 'httpHandlers.forbidden' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.paymentTypesError = true;
-        }
-        return of([]);
-      })
-    );
-
-  typeSelected$: Observable<PaymentType> = combineLatest([
-    this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data)
-    ),
-    this.paymentTypes$,
-  ]).pipe(
-    map(
-      ([selectedPaymentType, availablePaymentTypes]: [
-        PaymentType | undefined,
-        PaymentType[],
-      ]) => {
-        if (
-          selectedPaymentType &&
-          availablePaymentTypes.find((availablePaymentType) => {
-            return availablePaymentType.code === selectedPaymentType.code;
-          })
-        ) {
-          return selectedPaymentType;
-        }
-        if (availablePaymentTypes.length) {
-          this.busy$.next(true);
-          this.subscription.add(
-            this.checkoutPaymentTypeFacade
-              .setPaymentType(
-                availablePaymentTypes[0].code as string,
-                this.poNumberInputElement?.nativeElement?.value
-              )
-              .pipe(take(1))
-              .subscribe({
-                complete: () => this.onSuccess(),
-                error: () => this.onError(),
-              })
-          );
-          return availablePaymentTypes[0];
-        }
-        return undefined;
-      }
-    ),
-    filter(isNotUndefined),
-    distinctUntilChanged(),
-    tap((selected) => {
-      this.typeSelected = selected?.code;
-      this.checkoutStepService.disableEnableStep(
-        CheckoutStepType.PAYMENT_DETAILS,
-        selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
-      );
-      this.checkoutStepService.disableEnableStep(
-        CheckoutStepType.REVIEW_ORDER,
-        selected?.code === B2BPaymentTypeEnum.CARD_PAYMENT
-      );
-    })
-  );
-
-  cartPoNumber$: Observable<string> = this.checkoutPaymentTypeFacade
-    .getPurchaseOrderNumberState()
-    .pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data),
-      filter(isNotUndefined),
-      distinctUntilChanged()
-    );
+  cartPoNumber$: Observable<string | undefined>;
 
   protected subscription: Subscription = new Subscription();
   protected poNumberValue: string | undefined;
+  protected selectedPaymentOption: string | undefined = undefined;
 
-  constructor(
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  protected updatePoNumberField(): void {
+    if (this.poNumberInputElement?.nativeElement && this.poNumberValue) {
+      this.poNumberInputElement.nativeElement.value = this.poNumberValue;
+    }
+  }
+
+  protected adaptCheckoutSteps(paymentType: string | undefined) {
+    if (paymentType) {
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.PAYMENT_DETAILS,
+        paymentType === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+      );
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.REVIEW_ORDER,
+        paymentType !== B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+      );
+    }
+  }
+
+  getCartPoNumber(): Observable<string | undefined> {
+    return this.activeCartFacade.getActive().pipe(
+      take(1),
+      map((cart) => cart.purchaseOrderNumber)
+    );
+  }
+
+  next(): void {
+    const poNumberInput = this.poNumberInputElement?.nativeElement.value;
+    if (this.selectedPaymentOption) {
+      this.isUpdating$.next(true);
+
+      this.checkoutPaymentTypeFacade
+        .setPaymentType(this.selectedPaymentOption, poNumberInput)
+        .subscribe({
+          complete: () => {
+            this.activeCartFacade.reloadActiveCart();
+            this.checkoutStepService.next(this.activatedRoute);
+            this.isUpdating$.next(false);
+          },
+        });
+    }
+  }
+
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  getSelectedPaymentOption(): Observable<string | undefined> {
+    return this.opfMetadataStoreService.getOpfMetadataState().pipe(
+      take(1),
+      map((state) => state.selectedPaymentOptionId?.toString())
+    );
+  }
+
+  setPaymentOption(paymentOption: string, poNumber?: string) {
+    return this.checkoutPaymentTypeFacade
+      .setPaymentType(paymentOption, poNumber)
+      .pipe(take(1));
+  }
+
+  handlePaymentChange(payment: OpfActiveConfiguration): void {
+    this.selectedPaymentOption = payment?.id?.toString();
+    this.adaptCheckoutSteps(payment?.paymentType);
+    if (this.selectedPaymentOption) {
+      this.isUpdating$.next(true);
+      this.setPaymentOption(
+        this.selectedPaymentOption,
+        this.poNumberInputElement?.nativeElement.value
+      ).subscribe({
+        complete: () => {
+          this.activeCartFacade.reloadActiveCart();
+          this.isUpdating$.next(false);
+        },
+      });
+    }
+  }
 
   ngOnInit(): void {
-    // Store the PO number value from the observable
+    this.cartPoNumber$ = this.getCartPoNumber();
+
+    this.getSelectedPaymentOption().subscribe(
+      (selectedOption) => (this.selectedPaymentOption = selectedOption)
+    );
+
     this.subscription.add(
       this.cartPoNumber$.subscribe((poNumber) => {
         this.poNumberValue = poNumber;
@@ -185,71 +159,5 @@ export class OpfB2bCheckoutPaymentTypeComponent
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  protected updatePoNumberField(): void {
-    if (this.poNumberInputElement?.nativeElement && this.poNumberValue) {
-      this.poNumberInputElement.nativeElement.value = this.poNumberValue;
-    }
-  }
-
-  changeType(code: string): void {
-    this.busy$.next(true);
-    this.typeSelected = code;
-
-    this.subscription.add(
-      this.checkoutPaymentTypeFacade
-        .setPaymentType(code, this.poNumberInputElement?.nativeElement.value)
-        .pipe(take(1))
-        .subscribe({
-          complete: () => this.onSuccess(),
-          error: () => this.onError(),
-        })
-    );
-  }
-
-  next(): void {
-    if (!this.typeSelected) {
-      return;
-    }
-
-    const poNumberInput = this.poNumberInputElement?.nativeElement.value;
-    // if the PO number didn't change
-    if (poNumberInput === getLastValueSync(this.cartPoNumber$)) {
-      this.checkoutStepService.next(this.activatedRoute);
-      return;
-    }
-
-    this.busy$.next(true);
-    this.subscription.add(
-      this.checkoutPaymentTypeFacade
-        .setPaymentType(this.typeSelected, poNumberInput)
-        .pipe(take(1))
-        .subscribe({
-          // we don't call onSuccess here, because it can cause a spinner flickering
-          complete: () => this.checkoutStepService.next(this.activatedRoute),
-          error: () => this.onError(),
-        })
-    );
-  }
-
-  back(): void {
-    this.checkoutStepService.back(this.activatedRoute);
-  }
-
-  protected onSuccess(): void {
-    this.busy$.next(false);
-  }
-
-  protected onError(): void {
-    this.busy$.next(false);
-  }
-
-  handlePaymentChange(payment: OpfActiveConfiguration): void {
-    if (payment.merchantId === 'B2B_ACCOUNT') {
-      this.changeType(B2BPaymentTypeEnum.ACCOUNT_PAYMENT);
-    } else {
-      this.changeType(B2BPaymentTypeEnum.CARD_PAYMENT);
-    }
   }
 }

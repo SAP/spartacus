@@ -9,8 +9,13 @@ import {
   OpfCheckoutComponentsModule,
   OpfB2bCheckoutComponentsModule,
 } from '@spartacus/opf/checkout/components';
+import { OpfCheckoutCoreModule } from '@spartacus/opf/checkout/core';
 
 @NgModule({
-  imports: [OpfCheckoutComponentsModule, OpfB2bCheckoutComponentsModule],
+  imports: [
+    OpfCheckoutCoreModule,
+    OpfCheckoutComponentsModule,
+    OpfB2bCheckoutComponentsModule,
+  ],
 })
 export class OpfCheckoutModule {}
