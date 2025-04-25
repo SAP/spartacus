@@ -46,6 +46,7 @@ jobs:
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+          TERM: xterm
         run: |
           pkill -f Xvfb || true
           ci-scripts/e2e-cypress.sh -s vendor
