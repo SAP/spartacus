@@ -7,6 +7,7 @@
     {{ 'punchout.backToRequisition' | cxTranslate }}
   </button>
   <button
+    *ngIf="!removeCancelButton"
     type="button"
     class="btn btn-block btn-primary"
     (click)="submitRequisition(true)"

@@ -56,6 +56,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input() readonly: boolean = false;
 
+  @Input() disableLink: boolean = false;
+
   @Input() hasHeader: boolean = true;
 
   @Input() options: CartItemComponentOptions = {

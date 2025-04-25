@@ -7,10 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CartSharedModule } from '@spartacus/cart/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { PunchoutButtonsComponent } from './punchout-buttons/punchout-buttons.component';
 import { PunchoutCloseSessionComponent } from './punchout-close-session/punchout-close-session.component';
 import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
+import { PunchoutInspectCartComponent } from './punchout-inspect-cart/punchout-inspect-cart.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
 
@@ -21,6 +23,7 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutRequisitionComponent,
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
+    PunchoutInspectCartComponent,
   ],
   exports: [
     PunchoutSessionComponent,
@@ -28,8 +31,9 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutRequisitionComponent,
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
+    PunchoutInspectCartComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, I18nModule],
+  imports: [CommonModule, ReactiveFormsModule, I18nModule, CartSharedModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -47,6 +51,9 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
         },
         PunchoutCloseSessionComponent: {
           component: PunchoutCloseSessionComponent,
+        },
+        PunchoutInspectCartComponent: {
+          component: PunchoutInspectCartComponent,
         },
       },
     }),
