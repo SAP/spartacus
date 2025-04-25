@@ -5,7 +5,6 @@
         <cx-cart-item-list
           [readonly]="true"
           [items]="entries"
-          [cartIsLoading]="!(cartLoaded$ | async)"
           [options]="{
             isSaveForLater: false,
             disableItemLink: true,

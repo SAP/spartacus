@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService } from '@spartacus/core';
 import { filter, Observable } from 'rxjs';
@@ -21,23 +16,15 @@ import { PunchoutComponentsService } from '../punchout-components.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class PunchoutInspectCartComponent implements OnInit {
-  cart$: Observable<Cart>;
-  entries$: Observable<OrderEntry[]>;
-  cartLoaded$: Observable<boolean>;
-
+export class PunchoutInspectCartComponent {
   protected activeCartService = inject(ActiveCartFacade);
   protected authService = inject(AuthService);
   protected punchoutComponentsService = inject(PunchoutComponentsService);
 
   isPunchoutSessionActive$: Observable<boolean> =
     this.punchoutComponentsService.isPunchoutSessionActive();
-
-  ngOnInit() {
-    this.cart$ = this.activeCartService.getActive();
-
-    this.entries$ = this.activeCartService
-      .getEntries()
-      .pipe(filter((entries) => entries.length > 0));
-  }
+  cart$: Observable<Cart> = this.activeCartService.getActive();
+  entries$: Observable<OrderEntry[]> = this.activeCartService
+    .getEntries()
+    .pipe(filter((entries) => entries.length > 0));
 }
