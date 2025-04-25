@@ -1,7 +1,7 @@
 <ng-container *ngIf="cartLoaded$ | async">
   <ng-container *ngIf="cart$ | async as cart">
     <ng-container *ngIf="entries$ | async as entries">
-      <div class="punchoutLeftSection">
+      <div class="punchoutStartSection">
         <cx-cart-item-list
           [readonly]="true"
           [items]="entries"
@@ -12,7 +12,7 @@
           }"
         ></cx-cart-item-list>
       </div>
-      <div class="punchoutRightSection">
+      <div class="punchoutEndSection">
         <cx-order-summary [cart]="cart"></cx-order-summary>
 
         <cx-punchout-buttons [removeCancelButton]="true"></cx-punchout-buttons>

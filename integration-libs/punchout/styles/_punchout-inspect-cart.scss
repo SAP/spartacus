@@ -13,7 +13,7 @@
     min-width: auto;
   }
 
-  .punchoutLeftSection {
+  .punchoutStartSection {
     flex: 1;
     padding-inline-end: 1.5rem;
     @include media-breakpoint-down(md) {
@@ -21,7 +21,7 @@
     }
   }
 
-  .punchoutRightSection {
+  .punchoutEndSection {
     flex: 0 0 30%;
   }
 }
