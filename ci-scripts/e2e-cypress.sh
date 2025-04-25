@@ -57,10 +57,6 @@ if [ "$SUITE" == ":vendor" ]; then
     export SPA_ENV='ccv2,b2c'
 fi
 
-if [ "$SUITE" == ":vendor:b2b" ]; then
-    export SPA_ENV='ccv2,b2b'
-fi
-
 echo '-----'
 echo "Building Spartacus libraries"
 

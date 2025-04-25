@@ -13,8 +13,8 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
-  b2c_e2e_tests:
-    name: E2E vendor tests for B2C
+  vendor_e2e_tests:
+    name: E2E vendor tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -48,43 +48,8 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s vendor
-  b2b_e2e_tests:
-    name: E2E vendor tests for B2B
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        containers: [1, 2, 3, 4]
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
-    steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
-      - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Run e2es
-        env:
-          SPA_ENV: ci,b2b
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh -s vendor:b2b
   build_conclusion:
-    needs: [b2c_e2e_tests, b2b_e2e_tests]
+    needs: [vendor_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -96,4 +61,4 @@ jobs:
             core.setFailed('Build failed')
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
-          needs.vendor_e2e_tests.result == 'failure' || needs.vendor_e2e_tests.result == 'cancelled'
+          needs.vendor_e2e_tests.result == 'failure' || needs.vendor_e2e_testss.result == 'cancelled'
