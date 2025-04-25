@@ -12,7 +12,8 @@ import {
 } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService } from '@spartacus/core';
-import { combineLatest, filter, map, Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
+import { PunchoutComponentsService } from '../punchout-components.service';
 
 @Component({
   selector: 'cx-punchout-inspect-cart',
@@ -27,6 +28,10 @@ export class PunchoutInspectCartComponent implements OnInit {
 
   protected activeCartService = inject(ActiveCartFacade);
   protected authService = inject(AuthService);
+  protected punchoutComponentsService = inject(PunchoutComponentsService);
+
+  isPunchoutSessionActive$: Observable<boolean> =
+    this.punchoutComponentsService.isPunchoutSessionActive();
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
@@ -34,10 +39,5 @@ export class PunchoutInspectCartComponent implements OnInit {
     this.entries$ = this.activeCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
-
-    this.cartLoaded$ = combineLatest([
-      this.activeCartService.isStable(),
-      this.authService.isUserLoggedIn(),
-    ]).pipe(map(([cartLoaded, loggedIn]) => loggedIn && cartLoaded));
   }
 }
