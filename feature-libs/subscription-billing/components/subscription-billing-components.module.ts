@@ -9,6 +9,7 @@ import { SubscriptionListComponent } from './list/subscription-list.component';
 import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
 import { SubscriptionProductPriceComponent } from './product/price/subscription-product-price.component';
 import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
+import { SubscriptionDetailsComponent } from './details/subscription-details.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,10 @@ import { SubscriptionProductUsageChargeComponent } from './product/usage/subscri
         },
         SubscriptionProductPriceComponent: {
           component: SubscriptionProductPriceComponent,
+        },
+        SubscriptionDetailsComponent: {
+          component: SubscriptionDetailsComponent,
+          guards: [AuthGuard],
         },
       },
     }),

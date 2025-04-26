@@ -17,6 +17,7 @@ import {
   SUBSCRIPTION_BILLING_FEATURE,
 } from './feature-name';
 import { defaultSubscriptionBillingRoutingConfig } from './config/default-subscription-billing-routing-config';
+import { SubscriptionBillingEventModule } from './events';
 
 export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -25,6 +26,7 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
         cmsComponents: [
           'SubscriptionHistoryComponent',
           'SubscriptionProductPriceComponent',
+          'SubscriptionDetailsComponent',
         ],
       },
       [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,
@@ -34,6 +36,7 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
+  imports: [SubscriptionBillingEventModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

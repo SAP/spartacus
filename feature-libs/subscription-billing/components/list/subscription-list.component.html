@@ -149,7 +149,7 @@
           <div class="cx-subscription-list-item-body">
             <div class="cx-subscription-list-item-column-1">
               <div>
-                {{ 'subscriptionList.productCode' | cxTranslate }}
+                {{ 'subscriptionList.product' | cxTranslate }}
                 <a
                   [routerLink]="
                     {
@@ -158,7 +158,7 @@
                     } | cxUrl
                   "
                 >
-                  {{ subscription.productCode }}
+                  {{ subscription.name }}
                 </a>
               </div>
               <div>
@@ -182,7 +182,7 @@
                   [routerLink]="
                     {
                       cxRoute: 'subscriptionDetails',
-                      params: { id: subscription.id },
+                      params: { susbcriptionId: subscription.id },
                     } | cxUrl
                   "
                 >

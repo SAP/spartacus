@@ -14,7 +14,8 @@ import { catchError, Observable } from 'rxjs';
 
 @Injectable()
 export class OccSubscriptionBillingAdapter
-  implements SubscriptionBillingAdapter {
+  implements SubscriptionBillingAdapter
+{
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);

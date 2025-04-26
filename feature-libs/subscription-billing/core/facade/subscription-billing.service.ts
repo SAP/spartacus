@@ -1,15 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import {
   Query,
+  QueryNotifier,
   QueryService,
   QueryState,
+  RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import {
+  GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
+  SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { Observable, Subscription, EMPTY, map, switchMap, take } from 'rxjs';
+import { Observable, map, switchMap, take, combineLatest } from 'rxjs';
 import { SubscriptionBillingConnector } from '../connector';
 
 @Injectable()
@@ -17,14 +21,46 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
   protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
-  getSubscriptionByCodeState(): Observable<
-    QueryState<Subscription | undefined>
-  > {
-    return EMPTY;
+  protected routingService = inject(RoutingService);
+
+  protected getSubscriptionByCodeReloadEvents(): QueryNotifier[] {
+    return [GetSubscriptionByCodeReloadEvent];
+  }
+  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
+    return this.routingService.getRouterState().pipe(
+      map((route) => {
+        const guidPattern = /\/subscription\/([^/?#]+)/;
+        const match = route.state.url.match(guidPattern);
+        return match ? match[1] : undefined;
+      })
+    );
   }
 
-  getSubscriptionByCode(): Observable<Subscription | undefined> {
-    return EMPTY;
+  protected getSubscriptionByCodeQuery$: Query<SubscriptionDetail | undefined> =
+    this.queryService.create<SubscriptionDetail | undefined>(
+      () =>
+        this.subscriptionDetailsPreConditions().pipe(
+          switchMap(([customerId, subscriptionCode]) =>
+            this.subscriptionBillingConnector.getSubscriptionByCode(
+              customerId,
+              subscriptionCode
+            )
+          )
+        ),
+      {
+        reloadOn: this.getSubscriptionByCodeReloadEvents(),
+        // resetOn: this.getTicketQueryResetEvents(),
+      }
+    );
+
+  getSubscriptionByCodeState(): Observable<
+    QueryState<SubscriptionDetail | undefined>
+  > {
+    return this.getSubscriptionByCodeQuery$.getState();
+  }
+
+  getSubscriptionByCode(): Observable<SubscriptionDetail | undefined> {
+    return this.getSubscriptionByCodeState().pipe(map((state) => state.data));
   }
 
   protected subscriptionListPreConditions(): Observable<string> {
@@ -35,6 +71,20 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
           throw new Error('Subscriptions list pre conditions not met');
         }
         return userId;
+      })
+    );
+  }
+  protected subscriptionDetailsPreConditions(): Observable<[string, string]> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      this.getSubscriptionCodeFromRoute(),
+    ]).pipe(
+      take(1),
+      map(([userId, subscriptionCode]) => {
+        if (!userId || !subscriptionCode) {
+          throw new Error('Subscription details pre conditions not met');
+        }
+        return [userId, subscriptionCode];
       })
     );
   }
