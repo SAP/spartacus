@@ -109,6 +109,7 @@
                   {{ 'addToCart.viewCart' | cxTranslate }}
                 </button>
                 <button
+                  *ngIf="!disableProceedToCheckoutButton"
                   [class.disabled]="form.dirty"
                   (click)="onAction('checkout')"
                   class="btn btn-secondary"
@@ -127,6 +128,7 @@
                   >{{ 'addToCart.viewCart' | cxTranslate }}</a
                 >
                 <a
+                  *ngIf="!disableProceedToCheckoutButton"
                   [class.disabled]="form.dirty"
                   [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
                   (click)="dismissModal('Proceed To Checkout click')"
@@ -262,6 +264,7 @@
                   {{ 'addToCart.viewCart' | cxTranslate }}
                 </button>
                 <button
+                  *ngIf="!disableProceedToCheckoutButton"
                   [class.disabled]="form.dirty"
                   (click)="onAction('checkout')"
                   class="btn btn-secondary"
@@ -280,6 +283,7 @@
                   >{{ 'addToCart.viewCart' | cxTranslate }}</a
                 >
                 <a
+                  *ngIf="!disableProceedToCheckoutButton"
                   [class.disabled]="form.dirty"
                   [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
                   (click)="dismissModal('Proceed To Checkout click')"

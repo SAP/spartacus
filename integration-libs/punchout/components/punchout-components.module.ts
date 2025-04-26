@@ -13,6 +13,7 @@ import { PunchoutCloseSessionComponent } from './punchout-close-session/punchout
 import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
+import { PunchoutAddedToCartDialogModule } from './punchout-added-to-cart';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,12 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, I18nModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    PunchoutAddedToCartDialogModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
