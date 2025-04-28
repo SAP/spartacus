@@ -13,5 +13,10 @@ export const subscriptionBillingTranslations: TranslationResources = {
 
 export const subscriptionBillingTranslationChunksConfig: TranslationChunksConfig =
   {
-    subscriptionBilling: ['subscriptionProduct', 'subscriptionList', 'subscriptionCart'],
+    subscriptionBilling: [
+      'subscriptionProduct',
+      'subscriptionList',
+      'subscriptionDetails',
+      'subscriptionCart',
+    ],
   };

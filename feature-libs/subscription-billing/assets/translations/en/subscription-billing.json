@@ -18,7 +18,7 @@
     "id": "Subscription ID",
     "title": "All Subscriptions",
     "sortSubtitle": "Sort By",
-    "productCode": "Product: {{ value }}",
+    "product": "Product: {{ value }}",
     "startDate": "Start Date: {{ date }}",
     "endDate": "End Date: {{ date }}",
     "status": "Status: {{ value }}",
@@ -29,5 +29,16 @@
   "subscriptionCart": {
     "priceHeading": "Subscription",
     "chargesButtonLabel": "View Charges"
+  },
+  "subscriptionDetails": {
+    "id": "Subscription ID",
+    "product": "Product",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "status": "Status",
+    "cancelSubscription": "Cancel Subscription",
+    "extendSubscription": "Extend Subscription",
+    "reSubscribe": "Re-subscribe",
+    "back": "View All Subscriptions"
   }
 }

@@ -1,6 +1,6 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
-import { SubscriptionList } from '../model';
+import { SubscriptionDetail, SubscriptionList } from '../model';
 import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 
@@ -15,15 +15,18 @@ import { facadeFactory, QueryState } from '@spartacus/core';
         'getSubscriptionByCode',
         'getSubscriptionListState',
         'getSubscriptionList',
+        'getSubscriptionCodeFromRoute',
       ],
     }),
 })
 export abstract class SubscriptionBillingFacade {
   abstract getSubscriptionByCodeState(): Observable<
-    QueryState<Subscription | undefined>
+    QueryState<SubscriptionDetail | undefined>
   >;
 
-  abstract getSubscriptionByCode(): Observable<Subscription | undefined>;
+  abstract getSubscriptionByCode(
+    code?: string
+  ): Observable<SubscriptionDetail | undefined>;
 
   abstract getSubscriptionListState(
     pageSize: number,
@@ -35,4 +38,5 @@ export abstract class SubscriptionBillingFacade {
     currentPage?: number,
     sort?: string
   ): Observable<SubscriptionList | undefined>;
+  abstract getSubscriptionCodeFromRoute(): Observable<string | undefined>;
 }

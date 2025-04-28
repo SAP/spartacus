@@ -4,7 +4,6 @@ export interface SubscriptionItem {
   id?: string;
   name?: string;
   productCode?: string;
-  productUrl?: string;
   startDate?: string;
   endDate?: string;
   subscriptionStatus?: string;
@@ -12,10 +11,19 @@ export interface SubscriptionItem {
 export interface SubscriptionDetail {
   id?: string;
   name?: string;
-  // to be filled more
+  productCode?: string;
+  subscriptionStatus?: string;
+  startDate?: string;
+  endDate?: string;
+  orderCode?: string;
 }
 export interface SubscriptionList {
   subscriptions?: SubscriptionItem[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
+}
+
+export enum SubscriptionStatus {
+  cancelled = 'CANCELLED',
+  active = 'ACTIVE',
 }
