@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CartUiEventAddToCart } from '@spartacus/cart/base/root';
 import { LAUNCH_CALLER } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
@@ -16,10 +16,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class PunchoutAddedToCartDialogEventListener
-  extends AddedToCartDialogEventListener
-  implements OnDestroy
-{
+export class PunchoutAddedToCartDialogEventListener extends AddedToCartDialogEventListener {
   /**
    * Opens modal based on CartUiEventAddToCart.
    * @param event Signals that a product has been added to the cart.
