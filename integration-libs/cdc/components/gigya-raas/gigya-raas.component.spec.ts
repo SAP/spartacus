@@ -177,7 +177,6 @@ describe('GigyaRaasComponent', () => {
         startScreen: 'startScreen',
         lang: 'en',
         containerID: 'containerID',
-        onSubmit: jasmine.any(Function),
         onAfterSubmit: jasmine.any(Function),
       });
     });
@@ -215,7 +214,6 @@ describe('GigyaRaasComponent', () => {
         screenSet: 'screenSet',
         startScreen: 'startScreen',
         lang: 'en',
-        onSubmit: jasmine.any(Function),
         onAfterSubmit: jasmine.any(Function),
       });
     });

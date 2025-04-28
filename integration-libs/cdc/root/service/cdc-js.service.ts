@@ -562,10 +562,7 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  onProfileUpdateEventHandler(
-    response?: any,
-    isPasswordReset: boolean = false
-  ) {
+  onProfileUpdateEventHandler(response?: any) {
     if (response) {
       const userDetails: User = {};
       userDetails.firstName = response.profile.firstName;
@@ -575,7 +572,7 @@ export class CdcJsService implements OnDestroy {
       this.getLoggedInUserEmail().subscribe((user) => {
         const currentEmail = user?.uid;
         this.userProfileFacade.update(userDetails).subscribe(() => {
-          if (currentEmail !== userDetails.uid || isPasswordReset) {
+          if (currentEmail !== userDetails.uid) {
             this.logoutUser();
           }
           this.handleProfileUpdateResponse(response);
