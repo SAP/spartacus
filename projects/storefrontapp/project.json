@@ -36,8 +36,7 @@
           }
         ],
         "styles": [
-          "projects/storefrontapp/src/styles.scss",
-          "projects/storefrontapp/src/styles/lib-asm.scss"
+          "projects/storefrontapp/src/styles.scss"
         ],
         "stylePreprocessorOptions": {
           "includePaths": [
