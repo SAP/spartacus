@@ -1,13 +1,18 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "ES2022",
     "outDir": "../../out-tsc/app",
     "strict": false, // TODO: Fix strict errors and remove this option
     "target": "ES2022",
+    "module": "ES2022",
     "skipLibCheck": true // Needed due to @sapui5/ts-types-esm dependency (used by @spartacus/epd-visualization)
   },
-  "files": ["src/main.ts", "src/environments/models/build.process.env.d.ts"],
+  "files": [
+    "src/main.ts",
+    "src/main.server.ts",
+    "src/server.ts",
+    "src/environments/models/build.process.env.d.ts"
+  ],
   "include": ["projects/storefrontapp/src/**/*.d.ts"],
   "angularCompilerOptions": {
     "strictTemplates": false

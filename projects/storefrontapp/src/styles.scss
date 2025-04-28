@@ -1,25 +1,25 @@
 @import 'styles-config';
 
 // ORDER IMPORTANT: Spartacus core first
-@import '@spartacus/styles/scss/core';
+@import 'storefrontstyles/scss/core';
 
 // ORDER IMPORTANT: Bootstrap next
 
-@import '@spartacus/styles/vendor/bootstrap/scss/reboot';
-@import '@spartacus/styles/vendor/bootstrap/scss/type';
-@import '@spartacus/styles/vendor/bootstrap/scss/grid';
-@import '@spartacus/styles/vendor/bootstrap/scss/utilities';
-@import '@spartacus/styles/vendor/bootstrap/scss/transitions';
-@import '@spartacus/styles/vendor/bootstrap/scss/dropdown';
-@import '@spartacus/styles/vendor/bootstrap/scss/card';
-@import '@spartacus/styles/vendor/bootstrap/scss/nav';
-@import '@spartacus/styles/vendor/bootstrap/scss/buttons';
-@import '@spartacus/styles/vendor/bootstrap/scss/forms';
-@import '@spartacus/styles/vendor/bootstrap/scss/custom-forms';
-@import '@spartacus/styles/vendor/bootstrap/scss/modal';
-@import '@spartacus/styles/vendor/bootstrap/scss/close';
-@import '@spartacus/styles/vendor/bootstrap/scss/alert';
-@import '@spartacus/styles/vendor/bootstrap/scss/tooltip';
+@import 'storefrontstyles/vendor/bootstrap/scss/reboot';
+@import 'storefrontstyles/vendor/bootstrap/scss/type';
+@import 'storefrontstyles/vendor/bootstrap/scss/grid';
+@import 'storefrontstyles/vendor/bootstrap/scss/utilities';
+@import 'storefrontstyles/vendor/bootstrap/scss/transitions';
+@import 'storefrontstyles/vendor/bootstrap/scss/dropdown';
+@import 'storefrontstyles/vendor/bootstrap/scss/card';
+@import 'storefrontstyles/vendor/bootstrap/scss/nav';
+@import 'storefrontstyles/vendor/bootstrap/scss/buttons';
+@import 'storefrontstyles/vendor/bootstrap/scss/forms';
+@import 'storefrontstyles/vendor/bootstrap/scss/custom-forms';
+@import 'storefrontstyles/vendor/bootstrap/scss/modal';
+@import 'storefrontstyles/vendor/bootstrap/scss/close';
+@import 'storefrontstyles/vendor/bootstrap/scss/alert';
+@import 'storefrontstyles/vendor/bootstrap/scss/tooltip';
 
 // ORDER IMPORTANT: Spartacus styles last
-@import '@spartacus/styles';
+@import 'storefrontstyles';

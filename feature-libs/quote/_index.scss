@@ -1,5 +1,5 @@
-@import '@spartacus/styles/scss/core';
-@import '@spartacus/styles/scss/app';
+@import 'storefrontstyles/scss/core';
+@import 'storefrontstyles/scss/app';
 
 @mixin visible-focus {
   outline-style: solid;

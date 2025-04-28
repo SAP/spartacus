@@ -15,7 +15,7 @@ $CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
 
 // Applies styles activated when a specific feature flag is enabled in the Spartacus global config.
 //
-// IMPORTANT: Please mind to call `useFeatureStyles(feature)` from `@spartacus/core`
+// IMPORTANT: Please mind to call `useFeatureStyles(feature)` from `core`
 //            in the constructor of your styled component.
 //            Otherwise the feature-flagged styles MIGHT NOT be activated
 //            EVEN if the flag is enabled in the Spartacus configuration!

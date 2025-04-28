@@ -4,7 +4,7 @@
 // we load variables through the theme import.  */
 @import '../theme';
 
-@import '@spartacus/styles/vendor/bootstrap/scss/_mixins';
+@import 'storefrontstyles/vendor/bootstrap/scss/_mixins';
 
 @import './mixins/reset';
 @import './mixins/weight';

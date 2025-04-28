@@ -1,7 +1,7 @@
 $cx-color-link-primary: #1672b7;
 
-@import '@spartacus/styles/scss/core';
-@import '@spartacus/styles/scss/cxbase/blocks/modal';
-@import '@spartacus/styles/scss/misc/table';
+@import 'storefrontstyles/scss/core';
+@import 'storefrontstyles/scss/cxbase/blocks/modal';
+@import 'storefrontstyles/scss/misc/table';
 
 @import './styles/index';

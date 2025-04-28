@@ -1,6 +1,6 @@
-@import '@spartacus/styles/scss/core';
-@import '@spartacus/styles/scss/cxbase/blocks/modal';
-@import '@spartacus/styles/scss/misc/table';
+@import 'storefrontstyles/scss/core';
+@import 'storefrontstyles/scss/cxbase/blocks/modal';
+@import 'storefrontstyles/scss/misc/table';
 
 @mixin visible-focus {
   outline-style: solid;
