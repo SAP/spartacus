@@ -1,0 +1,30 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { AuthService } from '@spartacus/core';
+import { filter, Observable } from 'rxjs';
+import { PunchoutComponentsService } from '../punchout-components.service';
+
+@Component({
+  selector: 'cx-punchout-inspect-cart',
+  templateUrl: './punchout-inspect-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+})
+export class PunchoutInspectCartComponent {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected authService = inject(AuthService);
+  protected punchoutComponentsService = inject(PunchoutComponentsService);
+
+  isPunchoutSessionActive$: Observable<boolean> =
+    this.punchoutComponentsService.isPunchoutSessionActive();
+  cart$: Observable<Cart> = this.activeCartService.getActive();
+  entries$: Observable<OrderEntry[]> = this.activeCartService
+    .getEntries()
+    .pipe(filter((entries) => entries.length > 0));
+}
