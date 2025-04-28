@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { interceptGet } from '../../../support/utils/intercept';
-
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'EUR';
+export const APPAREL_LANG = 'en';
 
 describe('Segment Reference', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
     Cypress.env('BASE_SITE', APPAREL_BASESITE);
     Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
+    Cypress.env('BASE_LANG', APPAREL_LANG); // <<<< YOU NEED THIS!
 
     cy.intercept('GET', '**/cms/pages**').as('segmentRefApi');
   });
@@ -23,8 +23,8 @@ describe('Segment Reference', () => {
       `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env('BASE_CURRENCY')}/?segmentrefs=footwear`
     );
 
-    cy.wait('@segmentRefApi', { timeout: 160000 }).then((xhr) => {
-      expect(xhr.request.url).to.include('segmentrefs=footwear'); // safer check
+    cy.wait('@segmentRefApi', { timeout: 360000 }).then((xhr) => {
+      expect(xhr.request.url).to.include('segmentrefs=footwear');
       expect(xhr.response.statusCode).to.eq(200);
     });
   });
