@@ -25,6 +25,7 @@ export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
           'PunchoutButtonsComponent',
           'PunchoutRequisitionComponent',
           'PunchoutCloseSessionComponent',
+          'PunchoutInspectCartComponent',
         ],
       },
     },

@@ -1,10 +1,16 @@
 @import '@spartacus/styles/scss/core';
 @import 'styles/punchout-close-session';
 @import 'styles/punchout-buttons';
+@import 'styles/punchout-inspect-cart';
+@import 'styles/punchout-template';
 
-$punchout-components-allowlist: cx-punchout-close-session, cx-punchout-buttons !default;
+$punchout-components-allowlist: cx-punchout-close-session, cx-punchout-buttons,
+  cx-punchout-inspect-cart, cx-punchout !default;
 
 $skipComponentStyles: () !default;
+
+$page-template-allowlist: PunchoutTemplate;
+$page-template-blocklist: () !default;
 
 @each $selector in $punchout-components-allowlist {
   #{$selector} {
@@ -20,6 +26,14 @@ body {
   @each $selector in $punchout-components-allowlist {
     @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector}__body !optional;
+    }
+  }
+}
+
+@each $selector in $page-template-allowlist {
+  cx-page-layout.#{$selector} {
+    @if (index($page-template-blocklist, $selector) == null) {
+      @extend %#{$selector} !optional;
     }
   }
 }

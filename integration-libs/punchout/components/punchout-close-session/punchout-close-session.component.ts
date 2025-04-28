@@ -5,9 +5,9 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthService } from '@spartacus/core';
-import { PunchoutFacade, PunchoutStoreService } from '@spartacus/punchout/root';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { PunchoutFacade } from '@spartacus/punchout/root';
+import { Observable } from 'rxjs';
+import { PunchoutComponentsService } from '../punchout-components.service';
 
 @Component({
   selector: 'cx-punchout-close-session',
@@ -16,22 +16,11 @@ import { map, Observable, of, switchMap } from 'rxjs';
   standalone: false,
 })
 export class PunchoutCloseSessionComponent {
-  protected punchoutStoreService = inject(PunchoutStoreService);
-  protected authService = inject(AuthService);
   protected punchoutFacade = inject(PunchoutFacade);
+  protected punchoutComponentsService = inject(PunchoutComponentsService);
 
-  isPunchoutSessionActive$: Observable<boolean> = this.authService
-    .isUserLoggedIn()
-    .pipe(
-      switchMap((isLoggedIn) => {
-        return isLoggedIn
-          ? this.punchoutStoreService.getPunchoutState()
-          : of({ punchoutSessionId: undefined });
-      }),
-      map((punchoutState) => {
-        return !!punchoutState.punchoutSessionId;
-      })
-    );
+  isPunchoutSessionActive$: Observable<boolean> =
+    this.punchoutComponentsService.isPunchoutSessionActive();
 
   clickCloseSessionButton(): void {
     this.punchoutFacade.closePunchoutSession().subscribe();

@@ -1,0 +1,24 @@
+@import '@spartacus/styles/scss/misc/table';
+%PunchoutTemplate {
+  cx-punchout-inspect-cart {
+    padding: 1.5rem;
+  }
+
+  .SiteContext {
+    padding-inline-start: 1.5rem;
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: var(--cx-color-background);
+    justify-content: flex-start;
+
+    @include media-breakpoint-down(sm) {
+      padding-inline-end: 0%;
+      flex: 0 0 auto;
+    }
+
+    cx-site-context-selector {
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+  }
+}
