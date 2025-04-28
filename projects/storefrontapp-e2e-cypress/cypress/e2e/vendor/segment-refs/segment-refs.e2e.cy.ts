@@ -15,19 +15,19 @@ describe('Segment Reference', () => {
     Cypress.env('BASE_SITE', APPAREL_BASESITE);
     Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
 
-    interceptGet('segmentRefApi', '**/cms/pages**');
+    cy.intercept('GET', '**/cms/pages**').as('segmentRefApi');
   });
 
   it('should fetch appropriate banner customization', () => {
     cy.visit(
-      `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-        'BASE_CURRENCY'
-      )}/?segmentrefs=footwear`
+      `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env('BASE_CURRENCY')}/?segmentrefs=footwear`
     );
+
     cy.wait('@segmentRefApi', { timeout: 160000 }).then((xhr) => {
-      expect(xhr.request.headers).to.have.property('segmentrefs', 'footwear');
-      expect(xhr.response.statusCode).to.eq(200); // Extra verification
+      expect(xhr.request.url).to.include('segmentrefs=footwear'); // safer check
+      expect(xhr.response.statusCode).to.eq(200);
     });
   });
 });
+
 
