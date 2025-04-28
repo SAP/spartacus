@@ -39,7 +39,7 @@
     "@spartacus/storefront": "2211.39.0",
     "@spartacus/styles": "2211.39.0",
     "@spartacus/user": "2211.39.0",
-    "rxjs": "^7.9.0"
+    "rxjs": "^7.8.0"
   },
   "engines": {
     "node": "^22.0.0"
