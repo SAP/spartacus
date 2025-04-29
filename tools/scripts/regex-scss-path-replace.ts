@@ -108,7 +108,6 @@ const processScssFiles = async (directory: string, isReverse: boolean|undefined 
       await processScssFiles(filePath, isReverse);
     } else if (file.isFile() && path.extname(file.name) === '.scss') {
       // Process SCSS file
-      console.log(file.name);
       const content = await fs.readFile(filePath, 'utf8');
       const updatedContent = !isReverse ? replaceContent(
         content,
@@ -124,7 +123,6 @@ const processScssFiles = async (directory: string, isReverse: boolean|undefined 
   }
 };
 
-console.log(process.argv[0], process.argv[1]);
 const directoryArg = process.argv[2] || './dist';
 const isReverseArg = process.argv[3];
 const booleanValue = isReverseArg !== undefined && isReverseArg.toLowerCase() === "true";
