@@ -29,7 +29,8 @@ export class PunchoutComponentsService {
       }),
       map((punchoutState) => {
         return !!punchoutState.punchoutSessionId;
-      })
+      }),
+      tap(this.updateClass)
     );
   }
 
@@ -46,10 +47,8 @@ export class PunchoutComponentsService {
   }
 
   init(rootComponent) {
-    console.log('init');
+    console.log('init', rootComponent);
     this.rootElement = rootComponent.location.nativeElement;
-    this.isPunchoutSessionActive()
-      .pipe(take(1), tap(this.updateClass))
-      .subscribe();
+    this.isPunchoutSessionActive().pipe(take(1)).subscribe();
   }
 }
