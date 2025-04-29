@@ -93,7 +93,7 @@ describe('PunchoutAuthService', () => {
     spyOn(userIdService, 'setUserId');
     spyOn(globalMessageService, 'remove');
 
-    service.logout().subscribe({
+    service.silentLogout().subscribe({
       next: (value) => {
         expect(value).toEqual(true);
         expect(authService.coreLogout).toHaveBeenCalled();
@@ -108,7 +108,7 @@ describe('PunchoutAuthService', () => {
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userIdService, 'setUserId');
 
-    service.logout().subscribe({
+    service.silentLogout().subscribe({
       next: (value) => {
         expect(value).toEqual(false);
         expect(authService.coreLogout).not.toHaveBeenCalled();

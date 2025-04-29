@@ -75,7 +75,9 @@ class MockPunchoutConnector implements Partial<PunchoutConnector> {
 }
 
 class MockPunchoutAuthService implements Partial<PunchoutAuthService> {
-  logout = createSpy('PunchoutAuthService.logout').and.callFake(() => of(true));
+  silentLogout = createSpy('PunchoutAuthService.logout').and.callFake(() =>
+    of(true)
+  );
   loginWithToken = createSpy('PunchoutAuthService.loginWithToken').and.callFake(
     () => {}
   );
@@ -300,7 +302,7 @@ describe('Punchoutservice', () => {
     service.logoutPunchoutUser().subscribe({
       next: (result) => {
         expect(result).toEqual(true);
-        expect(punchoutAuthService.logout).toHaveBeenCalled();
+        expect(punchoutAuthService.silentLogout).toHaveBeenCalled();
         done();
       },
     });

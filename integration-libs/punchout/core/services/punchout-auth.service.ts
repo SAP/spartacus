@@ -8,45 +8,38 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
+  AuthRedirectService,
   AuthService,
   AuthStorageService,
   GlobalMessageService,
   GlobalMessageType,
+  OCC_USER_ID_CURRENT,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { PunchoutStoreService } from '@spartacus/punchout/root';
+import {
+  PunchoutDetectionService,
+  PunchoutStoreService,
+} from '@spartacus/punchout/root';
 import { from, map, Observable, of, switchMap, take, tap } from 'rxjs';
 
 const ACCESS_TOKEN = 'access_token';
 const ACCESS_TOKEN_STORED_AT = 'access_token_stored_at';
+const TOKEN_TYPE = 'token_type';
 
 @Injectable()
 export class PunchoutAuthService {
   protected authService = inject(AuthService);
   protected globalMessageService = inject(GlobalMessageService);
   protected authStorageService = inject(AuthStorageService);
+  protected authRedirectService = inject(AuthRedirectService);
   protected userIdService = inject(UserIdService);
   protected store = inject(Store);
   protected punchoutStoreService = inject(PunchoutStoreService);
+  protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected routingService = inject(RoutingService);
 
-  isSameAccessToken(punchoutToken: string | undefined): Observable<boolean> {
-    if (!punchoutToken) {
-      return of(false);
-    }
-    return this.authStorageService.getToken().pipe(
-      take(1),
-      map((token) => {
-        console.log('storedAccessToken', token?.access_token);
-        console.log('punchoutToken', punchoutToken);
-        const storedAccessToken = token?.access_token;
-        return storedAccessToken === punchoutToken;
-      })
-    );
-  }
-
-  logout(): Observable<boolean> {
+  silentLogout(): Observable<boolean> {
     return this.isUserLoggedIn().pipe(
       tap(() => this.punchoutStoreService.clearPunchoutState()),
       switchMap((isLoggedIn) => {
@@ -71,7 +64,9 @@ export class PunchoutAuthService {
       ACCESS_TOKEN_STORED_AT,
       Date.now().toString()
     );
-    this.userIdService.setUserId(userId);
+    this.authStorageService.setItem(TOKEN_TYPE, 'Bearer');
+    console.log('userId', userId);
+    this.userIdService.setUserId(OCC_USER_ID_CURRENT);
     this.store.dispatch(new AuthActions.Login());
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
   }
@@ -80,7 +75,17 @@ export class PunchoutAuthService {
     return this.authService.isUserLoggedIn().pipe(take(1));
   }
 
-  routeToLogout() {
+  endPunchoutSession() {
+    this.punchoutStoreService.clearPunchoutState();
+    this.globalMessageService.add(
+      { key: 'httpHandlers.unauthorized.common' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+
+    if (this.punchoutDetectionService.isPunchoutSessionPage()) {
+      this.authRedirectService.setRedirectUrl('/');
+    }
+
     this.authService.coreLogout().finally(() => {
       this.routingService.go({ cxRoute: 'login' });
     });

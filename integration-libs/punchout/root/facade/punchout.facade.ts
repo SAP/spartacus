@@ -51,8 +51,9 @@ export abstract class PunchoutFacade {
 
   /**
    * Abstract method used to logout punchout user
+   * @param endSession set to true means punchout session is ended with flow: logout, clear punchout state and redirect to login page
    */
-  abstract logoutPunchoutUser(): Observable<boolean>;
+  abstract logoutPunchoutUser(endSession?: boolean): Observable<boolean>;
 
   /**
    * Abstract method used to close punchout session

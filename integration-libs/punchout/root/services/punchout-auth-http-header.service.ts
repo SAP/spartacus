@@ -20,7 +20,6 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
   PUNCHOUT_OCC_API_URL_SEGMENT,
   PUNCHOUT_SESSION_KEY,
   PUNCHOUT_SESSION_PAGE_URL,
@@ -64,11 +63,18 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
    * To be removed once CXSPA-9608 is closed.
    */
   public handleExpiredRefreshToken(): void {
-    if (
-      this.punchoutDetectionService.isPunchoutSessionPage() ||
-      !!this.punchoutStoreService.getPunchoutSessionId()
-    ) {
-      this.silentLogout();
+    if (this.punchoutDetectionService.isPunchoutSessionPage()) {
+      this.authRedirectService.setRedirectUrl('/');
+      this.authService.coreLogout().finally(() => {
+        this.routingService.go({ cxRoute: 'login' });
+
+        this.globalMessageService.add(
+          {
+            key: 'httpHandlers.sessionExpired',
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
     } else {
       super.handleExpiredRefreshToken();
     }
@@ -105,11 +111,10 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   }
 
   protected goToPunchoutPage(): void {
-    const punchoutSessionId = this.punchoutStoreService.getPunchoutSessionId();
     this.routingService.goByUrl(
-      punchoutSessionId
-        ? this.buildPunchoutSessionUrl(punchoutSessionId)
-        : PUNCHOUT_ERROR_PAGE_URL
+      this.buildPunchoutSessionUrl(
+        this.punchoutStoreService.getPunchoutSessionId() ?? ''
+      )
     );
   }
 }

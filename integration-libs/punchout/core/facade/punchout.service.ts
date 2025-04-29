@@ -10,7 +10,6 @@ import {
   Command,
   CommandService,
   GlobalMessageService,
-  GlobalMessageType,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -28,7 +27,6 @@ import {
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
-  forkJoin,
   map,
   Observable,
   of,
@@ -72,18 +70,13 @@ export class PunchoutService implements PunchoutFacade {
     PunchoutSession
   > = this.commandService.create((payload) => {
     if (!payload?.punchoutSessionId) {
-      this.displayErrorPage();
+      this.punchoutAuthService.endPunchoutSession();
       return throwError(() => new Error('Punchout Session Id missing'));
     }
 
-    return this.requestPunchoutSession(payload.punchoutSessionId).pipe(
-      switchMap((punchoutSession) => {
-        return forkJoin({
-          punchoutSession: of(punchoutSession),
-          logout: this.punchoutAuthService.logout(),
-        });
-      }),
-      map(({ punchoutSession }) => {
+    return this.punchoutAuthService.silentLogout().pipe(
+      switchMap(() => this.requestPunchoutSession(payload.punchoutSessionId)),
+      map((punchoutSession) => {
         if (punchoutSession?.token?.accessToken) {
           this.punchoutAuthService.loginWithToken(
             punchoutSession.token.accessToken,
@@ -109,7 +102,7 @@ export class PunchoutService implements PunchoutFacade {
         return punchoutSession;
       }),
       catchError((error) => {
-        this.displayErrorPage();
+        this.punchoutAuthService.endPunchoutSession();
         return throwError(() => new Error(error));
       })
     );
@@ -153,15 +146,19 @@ export class PunchoutService implements PunchoutFacade {
           : throwError(() => new Error('Punchout Session Id missing'));
       }),
       catchError((error) => {
-        this.displayErrorPage();
+        this.punchoutAuthService.endPunchoutSession();
         return throwError(() => new Error(error));
       })
     );
   });
 
-  protected logoutPunchoutUserCommand: Command<undefined, boolean> =
-    this.commandService.create(() => {
-      return this.punchoutAuthService.logout();
+  protected logoutPunchoutUserCommand: Command<boolean, boolean> =
+    this.commandService.create((endSession: boolean) => {
+      return endSession
+        ? of(true).pipe(
+            tap(() => this.punchoutAuthService.endPunchoutSession())
+          )
+        : this.punchoutAuthService.silentLogout();
     });
 
   /**
@@ -198,7 +195,7 @@ export class PunchoutService implements PunchoutFacade {
           return true;
         }),
         catchError((error) => {
-          this.displayErrorPage();
+          this.punchoutAuthService.endPunchoutSession();
           return throwError(() => new Error(error));
         })
       );
@@ -247,8 +244,8 @@ export class PunchoutService implements PunchoutFacade {
     return this.getPunchoutRequisitionCommand.execute(undefined);
   }
 
-  logoutPunchoutUser(): Observable<boolean> {
-    return this.logoutPunchoutUserCommand.execute(undefined);
+  logoutPunchoutUser(endSession = false): Observable<boolean> {
+    return this.logoutPunchoutUserCommand.execute(endSession);
   }
 
   requestPunchoutSession(
@@ -270,15 +267,6 @@ export class PunchoutService implements PunchoutFacade {
       return;
     }
     this.routingService.go('/');
-  }
-
-  protected displayErrorPage() {
-    this.punchoutStoreService.clearPunchoutState();
-    this.globalMessageService.add(
-      { key: 'punchout.backToRequisition' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-    this.punchoutAuthService.routeToLogout();
   }
 
   protected loadCart(cartId: string): Observable<string> {
