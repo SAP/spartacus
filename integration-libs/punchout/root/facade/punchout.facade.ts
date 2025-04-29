@@ -23,6 +23,7 @@ export function punchoutFacadeFactory() {
       'getPunchoutSessionRequisition',
       'logoutPunchoutUser',
       'closePunchoutSession',
+      'requestPunchoutSession',
     ],
   });
 }
@@ -33,7 +34,8 @@ export function punchoutFacadeFactory() {
 })
 export abstract class PunchoutFacade {
   /**
-   * Abstract method used to get Punchout Session
+   * Abstract method used to get Punchout Session, worflow:
+   * occ api request, logout previous user, login punchout user, load cart
    * @param sessionId is the sesssion Id given by ARIBA via url param
    */
   abstract getPunchoutSession(
@@ -56,4 +58,12 @@ export abstract class PunchoutFacade {
    * Abstract method used to close punchout session
    */
   abstract closePunchoutSession(): Observable<boolean>;
+
+  /**
+   * Abstract method used to get Punchout Session response from cx-server
+   * @param sessionId is the sesssion Id given by ARIBA via url param
+   */
+  abstract requestPunchoutSession(
+    punchoutSessionId: string
+  ): Observable<PunchoutSession>;
 }
