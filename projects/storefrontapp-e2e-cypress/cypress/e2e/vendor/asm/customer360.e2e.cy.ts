@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as checkout from '../../../../helpers/checkout-flow';
+import * as checkout from '../../../helpers/checkout-flow';
 import {
   addProductToCart,
   waitForProductPage,
-} from '../../../../helpers/checkout-flow';
-import * as asmCustomer360 from '../../../../helpers/customer360';
-import { waitForPage } from '../../../../helpers/navigation';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+} from '../../../helpers/checkout-flow';
+import * as asmCustomer360 from '../../../helpers/customer360';
+import { waitForPage } from '../../../helpers/navigation';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
   interceptDelete,
   interceptPost,
-} from '../../../../support/utils/intercept';
+} from '../../../support/utils/intercept';
 
 context('Assisted Service Module', () => {
   before(() => {
