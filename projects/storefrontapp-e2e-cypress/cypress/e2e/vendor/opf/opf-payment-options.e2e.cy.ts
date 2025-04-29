@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from '../../../../helpers/checkout-flow';
-import { fillShippingAddress } from '../../../../helpers/checkout-forms';
+import { waitForPage } from '../../../helpers/checkout-flow';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import {
   proceedToCheckoutWithFirstProductFromSearch,
   verifyDeliveryMethod,
-} from '../../../../helpers/opf';
-import { viewportContext } from '../../../../helpers/viewport-context';
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
+} from '../../../helpers/opf';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 const user = getSampleUser();
 
