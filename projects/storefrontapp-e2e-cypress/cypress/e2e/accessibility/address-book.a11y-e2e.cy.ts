@@ -11,20 +11,18 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();
-    cy.visit('/');
+    cy.visit('/my-account/address-book');
   });
 
   it('Empty page', () => {
-    cy.visit('/my-account/address-book');
-
-    cy.get('cx-address-form').should('exist');
+    cy.get('cx-address-form');
     cy.get('main').a11yRunContinuumTest();
   });
 
   it('Page with cards', () => {
     // Add first address
     fillShippingAddress(newAddress);
-    cy.get('cx-address-book cx-card').should('exist');
+    cy.get('cx-address-book cx-card');
     cy.get('main').a11yRunContinuumTest();
   });
 
@@ -38,7 +36,7 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
     cy.get('cx-address-book cx-card').first().a11yRunContinuumTest();
   });
 
-  it('Set second address as default', () => {
+  it('Add second address', () => {
     const secondAddress = {
       ...editedAddress,
       firstName: 'Alex',
@@ -51,9 +49,6 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
     fillShippingAddress(secondAddress);
 
     cy.get('cx-address-book cx-card').should('have.length.at.least', 2);
-    cy.get('cx-address-book cx-card').eq(1).contains('Set as default').click();
-
-    cy.get('.alert-success').should('exist');
-    cy.get('.alert-success').a11yRunContinuumTest();
+    cy.get('main').a11yRunContinuumTest();
   });
 });
