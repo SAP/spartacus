@@ -15,7 +15,6 @@ import {
 import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
-import { OpfB2bCheckoutPlaceOrderModule } from '../b2b/opf-b2b-checkout-place-order';
 
 @NgModule({
   declarations: [OpfCheckoutPaymentsComponent],
@@ -28,7 +27,6 @@ import { OpfB2bCheckoutPlaceOrderModule } from '../b2b/opf-b2b-checkout-place-or
     IconModule,
     OpfCheckoutPaymentWrapperModule,
     OpfCheckoutTermsAndConditionsAlertModule,
-    OpfB2bCheckoutPlaceOrderModule,
   ],
 })
 export class OpfCheckoutPaymentsModule {}

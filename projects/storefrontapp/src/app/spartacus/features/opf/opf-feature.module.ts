@@ -19,7 +19,6 @@ import {
   opfCheckoutTranslationsZh,
 } from '@spartacus/opf/checkout/assets';
 import {
-  defaultOpfCheckoutB2bConfig,
   defaultOpfCheckoutConfig,
   OPF_CHECKOUT_FEATURE,
   OpfCheckoutRootModule,
@@ -46,10 +45,15 @@ import {
   OpfQuickBuyRootModule,
 } from '@spartacus/opf/quick-buy/root';
 import { environment } from '../../../../environments/environment';
+import {
+  defaultOpfB2bCheckoutConfig,
+  OPF_B2B_CHECKOUT_FEATURE,
+  OpfB2bCheckoutRootModule,
+} from '@spartacus/opf/b2b-checkout/root';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
-  extensionProviders.push(provideConfig(defaultOpfCheckoutB2bConfig));
+  extensionProviders.push(provideConfig(defaultOpfB2bCheckoutConfig));
 } else {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }
@@ -59,6 +63,7 @@ if (environment.b2b) {
     OpfBaseRootModule,
     OpfPaymentRootModule,
     OpfCheckoutRootModule,
+    OpfB2bCheckoutRootModule,
     OpfCtaRootModule,
     OpfGlobalFunctionsRootModule,
     OpfQuickBuyRootModule,
@@ -77,6 +82,12 @@ if (environment.b2b) {
         [OPF_CHECKOUT_FEATURE]: {
           module: () =>
             import('@spartacus/opf/checkout').then((m) => m.OpfCheckoutModule),
+        },
+        [OPF_B2B_CHECKOUT_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/b2b-checkout').then(
+              (m) => m.OpfB2bCheckoutModule
+            ),
         },
         [OPF_CTA_FEATURE]: {
           module: () =>
@@ -122,7 +133,7 @@ if (environment.b2b) {
       opf: {
         opfBaseUrl:
           'https://cp96avkh5f-integrati2-s1.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront/',
-        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+        commerceCloudPublicKey: 'A1XtvJflow62RieQAElw1/hNRnIWqtfCsBR8kVKUAXk=',
       },
     }),
     ...extensionProviders,

@@ -28,7 +28,7 @@ const opfCheckoutSteps = [
     id: 'opfPaymentAndReview',
     name: 'opfCheckout.tabs.paymentAndReview',
     routeName: 'opfCheckoutPaymentAndReview',
-    type: [CheckoutStepType.PAYMENT_TYPE],
+    type: [CheckoutStepType.PAYMENT_DETAILS],
     nameMultiLine: false,
   },
 ];

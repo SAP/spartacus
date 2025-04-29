@@ -6,4 +6,3 @@
  */
 
 export * from './opf-checkout-auth.guard';
-export * from './opf-checkout-b2b-steps-set.guard';

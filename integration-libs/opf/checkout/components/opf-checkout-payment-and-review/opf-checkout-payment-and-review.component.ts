@@ -15,7 +15,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CmsService, Page } from '@spartacus/core';
@@ -24,15 +23,7 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import {
-  Observable,
-  take,
-  map,
-  filter,
-  combineLatest,
-  BehaviorSubject,
-} from 'rxjs';
-import { Card } from '@spartacus/storefront';
+import { Observable, take, map, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -53,7 +44,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected defaultTermsAndConditionsFieldValue = false;
 
   protected selectedPaymentProviderName$ = new BehaviorSubject<
-    string | undefined
+    string | null | undefined
   >(undefined);
 
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
@@ -82,33 +73,6 @@ export class OpfCheckoutPaymentAndReviewComponent
     return Boolean(this.checkoutSubmitForm.get('termsAndConditions')?.value);
   }
 
-  get paymentType$(): Observable<PaymentType | undefined> {
-    return this.activeCartFacade
-      .getActive()
-      .pipe(map((cart: Cart) => cart.paymentType));
-  }
-
-  get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
-      filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
-    );
-  }
-
-  getPoNumberCard(poNumber?: string | null): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('opfCheckout.poNumber'),
-      this.translationService.translate('opfCheckout.noPoNumber'),
-    ]).pipe(
-      map(([textTitle, noneTextTitle]) => {
-        return {
-          title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
-        };
-      })
-    );
-  }
-
   getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
 
   getSelectedPaymentId$ = this.opfMetadataStoreService
@@ -117,19 +81,6 @@ export class OpfCheckoutPaymentAndReviewComponent
       take(1),
       map((data) => data?.selectedPaymentOptionId)
     );
-
-  getPaymentMethodNameCard(methodName?: string): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('opfCheckout.paymentMethod'),
-      this.translationService.translate('opfCheckout.noPaymentMethod'),
-    ]).pipe(
-      map(([title, noPaymentMethod]) => ({
-        title,
-        textBold: methodName ?? noPaymentMethod,
-        text: [],
-      }))
-    );
-  }
 
   protected isCmsComponentInPage(cmsComponentUid: string, page: Page): boolean {
     return !!page && JSON.stringify(page).includes(cmsComponentUid);
