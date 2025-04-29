@@ -473,6 +473,7 @@
     "rxjs": "^7.8.0"
   },
   "storefrontapp": {
+    "@angular-builders/custom-esbuild": "^19.1.0",
     "@angular/animations": "^19.0.3",
     "@angular/common": "^19.0.3",
     "@angular/compiler": "^19.0.3",

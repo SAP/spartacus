@@ -152,9 +152,6 @@ function publishPackage(packagePath: string): Promise<PackagePublishingResult> {
       fs.readFileSync(packagePath, 'utf-8')
     );
     const directory = path.dirname(packagePath);
-    if(packagePath.includes('storefrontstyles')){
-      execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./projects/storefrontstyles");
-    }
     const command = `cd ${directory} && npm publish --registry=${verdaccioRegistryUrl} --no-git-tag-version --color always`;
     exec(command, {}, (error, stdout, stderr) => {
       if (error) {
@@ -278,6 +275,9 @@ async function publishAllPackages(): Promise<void> {
 
   /** Number of packages published, successfully or not */
   let completedCount = 0;
+  /** Transform storefrontstyles and dist to use symbolic paths before publish */
+  execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./dist");
+  execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./projects/storefrontstyles");
 
   // Run all publish operations in parallel and display progress
   const results = await Promise.allSettled(
@@ -292,6 +292,9 @@ async function publishAllPackages(): Promise<void> {
       })
     )
   );
+
+  /** Transform storefrontstyles back to its original state before publish */
+  execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./projects/storefrontstyles true");
 
   const successful = results
     .filter((result) => result.status === 'fulfilled')

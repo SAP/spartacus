@@ -15,11 +15,11 @@
  *   `@import 'projects/schematics/index';` becomes `@import '@spartacus/schematics';`.
  */
 export const pathsMapping = [
+  { key: ' cart/base/styles/components/cart-item-list', value: '@spartacus/cart/base/styles/components/cart-item-list' },
   { key: 'storefrontstyles', value: '@spartacus/styles' },
+  { key: 'projects/schematics/index', value: '@spartacus/schematics' },
   { key: 'core-libs', value: '@spartacus' },
   { key: 'feature-libs', value: '@spartacus' },
-  { key: 'projects/schematics/index', value: '@spartacus/schematics' },
-  { key: ' cart/base/styles/components/cart-item-list', value: '@spartacus/cart/base/styles/components/cart-item-list' },
 ];
 
 /**
