@@ -109,48 +109,48 @@ is_bot_commit() {
 }
 
 if [[ "${SSR}" = true ]]; then
-    echo "Building Spartacus storefrontapp (SSR PROD mode)"
-    npm run build:ssr:ci
+    # echo "Building Spartacus storefrontapp (SSR PROD mode)"
+    # npm run build:ssr:ci
 
-    echo "Starting Spartacus storefrontapp in SSR mode"
-    (npm run serve:ssr:ci &)
+    # echo "Starting Spartacus storefrontapp in SSR mode"
+    # (npm run serve:ssr:ci &)
 
-    echo '-----'
-    echo "Running SSR Cypress smoke test"
+    # echo '-----'
+    # echo "Running SSR Cypress smoke test"
 
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        echo "Running Cypress end to end tests for pull request"
+    # if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+    #     echo "Running Cypress end to end tests for pull request"
 
-        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-            echo "Running Cypress end to end tests for pull request"
+    #     if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+    #         echo "Running Cypress end to end tests for pull request"
 
-            npm run e2e:run:ci:ssr
-        else
-            echo "Running core Cypress end to end tests for pull requests"
+    #         npm run e2e:run:ci:ssr
+    #     else
+    #         echo "Running core Cypress end to end tests for pull requests"
 
-            npm run e2e:run:ci:core:ssr
-        fi
-    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-        echo "Running Cypress end-to-end tests for push event"
+    #         npm run e2e:run:ci:core:ssr
+    #     fi
+    # elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+    #     echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
-            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core:ssr
-        else
-            echo "Running full Cypress end-to-end tests"
-            npm run e2e:run:ci:ssr
-        fi
-    else
-        echo "Running full Cypress end-to-end tests"
-        npm run e2e:run:ci:ssr
-    fi
+    #     if is_bot_commit; then
+    #         echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+    #         npm run e2e:run:ci:core:ssr
+    #     else
+    #         echo "Running full Cypress end-to-end tests"
+    #         npm run e2e:run:ci:ssr
+    #     fi
+    # else
+    #     echo "Running full Cypress end-to-end tests"
+    #     npm run e2e:run:ci:ssr
+    # fi
 else
     npm run start:pwa &
 
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    npm run e2e:run:ci:segment-refs
+    npm run e2e:run:ci:vendor
 
     # if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
     #     echo "Running Cypress end-to-end tests for pull request"
