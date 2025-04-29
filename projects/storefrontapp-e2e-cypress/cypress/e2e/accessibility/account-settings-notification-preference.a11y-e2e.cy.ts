@@ -11,7 +11,7 @@ const NOTIFICATION_PREFERENCE_URL = '/my-account/notification-preference';
 /**
  * This test checks accessibility concerns on the Account Settings Notification Preference page using Access Continuum
  */
-describe('Account Settings / Notification Preference Page Accessibility', () => {
+describe('Account Settings / Notification Preference Page Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn(standardUser);

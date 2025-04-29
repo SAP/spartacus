@@ -42,7 +42,7 @@ const PAGE_URL_UPDATE_PASSWORD = updatePassword.PAGE_URL_UPDATE_PASSWORD;
 /**
  * This test checks accessibility concerns on the Account Settings Password page using Access Continuum
  */
-context('Account Settings / Password Page Accessibility', () => {
+context('Account Settings / Password Page Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
   });

@@ -11,7 +11,7 @@ const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 /**
  * This test checks accessibility concerns on the Account Settings Close Account page using Access Continuum
  */
-describe('Account Settings / Close Account Page Accessibility', () => {
+describe('Account Settings / Close Account Page Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
   });

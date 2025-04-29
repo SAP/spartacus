@@ -31,7 +31,7 @@ const UPDATE_PROFILE_URL = updateProfile.UPDATE_PROFILE_URL;
 /**
  * This test checks accessibility concerns on the Account Settings Personal Details page using Access Continuum
  */
-describe('Account Settings / Personal Details Page Accessibility', () => {
+describe('Account Settings / Personal Details Page Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
   });

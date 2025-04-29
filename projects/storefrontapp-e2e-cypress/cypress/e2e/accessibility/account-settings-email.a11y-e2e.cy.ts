@@ -40,7 +40,7 @@ const UPDATE_EMAIL_URL = updateEmail.UPDATE_EMAIL_URL;
 /**
  * This test checks accessibility concerns on the Account Settings Email page using Access Continuum
  */
-describe('Account Settings / Email Page Accessibility', () => {
+describe('Account Settings / Email Page Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
   });
