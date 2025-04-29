@@ -63,7 +63,7 @@ jobs:
           SPA_ENV: opf
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress-vendor.sh --opf      
+          ci-scripts/e2e-cypress-vendor.sh -s opf      
   # b2c_ssr_e2e_tests:
   #   needs: [no_retries, validate_e2e_execution]
   #   name: E2E tests for SSR B2C
@@ -134,6 +134,7 @@ jobs:
   #       run: |
   #         ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
+    # needs: [ b2c_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
