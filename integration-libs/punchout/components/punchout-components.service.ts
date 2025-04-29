@@ -8,7 +8,7 @@ import { inject, Injectable, RendererFactory2 } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { PunchoutStoreService } from '@spartacus/punchout/root';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PunchoutComponentsService {
@@ -29,20 +29,27 @@ export class PunchoutComponentsService {
       }),
       map((punchoutState) => {
         return !!punchoutState.punchoutSessionId;
-      }),
-      tap(this.updateClass)
+      })
     );
   }
 
   protected updateClass(punchoutActive: boolean) {
+    console.log(punchoutActive, this.rootElement);
     if (!this.rootElement) {
       return;
     }
-
     if (punchoutActive) {
       this.renderer.addClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
     } else {
       this.renderer.removeClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
     }
+  }
+
+  init(rootComponent) {
+    console.log('init');
+    this.rootElement = rootComponent.location.nativeElement;
+    this.isPunchoutSessionActive()
+      .pipe(take(1), tap(this.updateClass))
+      .subscribe();
   }
 }

@@ -5,7 +5,13 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import {
+  APP_BOOTSTRAP_LISTENER,
+  ComponentRef,
+  inject,
+  ModuleWithProviders,
+  NgModule,
+} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartSharedModule } from '@spartacus/cart/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
@@ -16,7 +22,6 @@ import { PunchoutErrorComponent } from './punchout-error/punchout-error.componen
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart/punchout-inspect-cart.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
-import { PunchoutAddedToCartDialogModule } from './punchout-added-to-cart';
 
 @NgModule({
   declarations: [
@@ -35,13 +40,7 @@ import { PunchoutAddedToCartDialogModule } from './punchout-added-to-cart';
     PunchoutCloseSessionComponent,
     PunchoutInspectCartComponent,
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    CartSharedModule,
-    PunchoutAddedToCartDialogModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, I18nModule, CartSharedModule],
   providers: [
     PunchoutComponentsService,
     provideDefaultConfig(<CmsConfig>{
@@ -68,4 +67,21 @@ import { PunchoutAddedToCartDialogModule } from './punchout-added-to-cart';
     }),
   ],
 })
-export class PunchoutComponentsModule {}
+export class PunchoutComponentsModule {
+  static forRoot(): ModuleWithProviders<PunchoutComponentsModule> {
+    return {
+      ngModule: PunchoutComponentsModule,
+      providers: [
+        {
+          provide: APP_BOOTSTRAP_LISTENER,
+          multi: true,
+          useFactory: (): ((compRef: ComponentRef<any>) => void) => {
+            const punchoutComponentsService = inject(PunchoutComponentsService);
+            return (compRef: ComponentRef<any>) =>
+              punchoutComponentsService.init(compRef);
+          },
+        },
+      ],
+    };
+  }
+}
