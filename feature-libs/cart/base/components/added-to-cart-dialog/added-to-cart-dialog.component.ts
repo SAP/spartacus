@@ -67,6 +67,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
 
   quantity = 0;
   pickupStoreName: string | undefined;
+
   form: UntypedFormGroup = new UntypedFormGroup({});
 
   focusConfig: FocusConfig = {

@@ -6,8 +6,10 @@
 
 import { CommonModule } from '@angular/common';
 import {
-  // APP_BOOTSTRAP_LISTENER,
-
+  APP_BOOTSTRAP_LISTENER,
+  ComponentRef,
+  inject,
+  ModuleWithProviders,
   NgModule,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
