@@ -10,7 +10,7 @@
 // The Sparta buttons use uppercase type but future themes may want normal case
 // so a variable was created to make this available for other themes.
 @import 'functions';
-@import '@spartacus/styles/vendor/bootstrap/scss/variables';
+@import 'storefrontstyles/vendor/bootstrap/scss/variables';
 
 $background: $white !default;
 $inverse: $white !default;
