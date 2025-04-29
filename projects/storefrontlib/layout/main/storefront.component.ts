@@ -60,9 +60,7 @@ export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
   @Optional() protected skipLinkService = inject(SkipLinkService, {
     optional: true,
   });
-  @Optional() protected rootDomService = inject(RootDomService, {
-    optional: true,
-  });
+  protected rootDomService = inject(RootDomService);
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
@@ -134,7 +132,7 @@ export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.rootDomService?.setRootElement(this.elementRef.nativeElement);
+    this.rootDomService.setRootElement(this.elementRef.nativeElement);
   }
 
   collapseMenuIfClickOutside(event: any): void {
