@@ -134,12 +134,7 @@ export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.document) {
-      const el = this.document?.querySelector('cx-storefront') as HTMLElement;
-      if (el) {
-        this.rootDomService?.setRootElement(el);
-      }
-    }
+    this.rootDomService?.setRootElement(this.elementRef.nativeElement);
   }
 
   collapseMenuIfClickOutside(event: any): void {
