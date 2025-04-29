@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as alerts from '../../../../../helpers/global-message';
-import * as cdc from '../../../../../helpers/vendor/cdc/cdc';
+import * as alerts from '../../../../helpers/global-message';
+import * as cdc from '../../../../helpers/vendor/cdc/cdc';
 const requiredFieldMessage = 'Field is required';
 const message = 'New address was added successfully!';
 

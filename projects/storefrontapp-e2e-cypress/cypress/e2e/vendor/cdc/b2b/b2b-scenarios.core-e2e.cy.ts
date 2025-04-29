@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { loginUser } from '../../../../../helpers/checkout-flow';
-import * as alerts from '../../../../../helpers/global-message';
-import * as cdc from '../../../../../helpers/vendor/cdc/cdc';
-import { waitForCmsComponentsToLoad } from '../../../../../helpers/vendor/cdc/cdc';
-import * as b2bCheckout from '../../../../../sample-data/b2b-checkout';
+import { loginUser } from '../../../../helpers/checkout-flow';
+import * as alerts from '../../../../helpers/global-message';
+import * as cdc from '../../../../helpers/vendor/cdc/cdc';
+import { waitForCmsComponentsToLoad } from '../../../../helpers/vendor/cdc/cdc';
+import * as b2bCheckout from '../../../../sample-data/b2b-checkout';
 
 describe('CDC B2B scenarios', () => {
   before(() => {
