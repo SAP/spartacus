@@ -1,14 +1,13 @@
 /**
  * This script is responsible for processing SCSS files and updating their `@import` statements
  * based on predefined mappings and rules. It supports both forward and reverse transformations
- * of import paths. Reverse transformation only necessary for the project storefrontstyles that
- * gets modified during publish.
+ * of import paths.
  *
  * Key Features:
  * - **Forward Transformation**: Updates SCSS `@import` statements to use the correct paths
  *   based on the `pathsMapping` and `appendSpartacusPath` arrays.
  * - **Reverse Transformation**: Reverts the updated SCSS `@import` statements back to their
- *   original paths using the `pathsMapping` array. (Only for storefrontstyles project)
+ *   original paths using the `pathsMapping` array.
  * - **Recursive Directory Processing**: Processes all SCSS files in a given directory and its
  *   subdirectories.
  *
@@ -53,23 +52,24 @@ export const replaceContent = (
   appendSpartacusPath: string[]
 ) => {
   let updatedContent = content;
+
   // Replace paths based on pathsMapping
   updatedContent = pathsMapping.reduce((content, { key, value }) => {
-    const regex = new RegExp(`@import ['"]([^'"]*${key}[^'"]*)['"]`, 'ig');
-    return content.replace(regex, (_match, group) => {
-      return `@import '${group.replace(key, value)}'`;
+    const regex = new RegExp(`@(import|use) ['"]([^'"]*${key}[^'"]*)['"]`, 'ig');
+    return content.replace(regex, (_match, directive, group) => {
+      return `@${directive} '${group.replace(key, value)}'`;
     });
   }, updatedContent);
 
   // Add @spartacus prefix for paths in appendSpartacusPath
   const spartacusRegex = new RegExp(
-    `@import ['"](${appendSpartacusPath.join('|')})/([^'"]*)['"]`,
+    `@(import|use) ['"](${appendSpartacusPath.join('|')})/([^'"]*)['"]`,
     'ig'
   );
   updatedContent = updatedContent.replace(
     spartacusRegex,
-    (_match, group1, group2) => {
-      return `@import '@spartacus/${group1}/${group2}'`;
+    (_match, directive, group1, group2) => {
+      return `@${directive} '@spartacus/${group1}/${group2}'`;
     }
   );
 
@@ -89,9 +89,9 @@ export const reverseReplaceContent = (
 
   // Reverse paths based on pathsMapping
   updatedContent = pathsMapping.reduce((content, { key, value }) => {
-    const regex = new RegExp(`@import ['"]([^'"]*${value}[^'"]*)['"]`, 'ig');
-    return content.replace(regex, (_match, group) => {
-      return `@import '${group.replace(value, key)}'`;
+    const regex = new RegExp(`@(import|use) ['"]([^'"]*${value}[^'"]*)['"]`, 'ig');
+    return content.replace(regex, (_match, directive, group) => {
+      return `@${directive} '${group.replace(value, key)}'`;
     });
   }, updatedContent);
 

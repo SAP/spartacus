@@ -10,22 +10,28 @@ describe('replaceContent', () => {
 
   const appendSpartacusPath = ['asm', 'cart', 'checkout'];
 
-  it('should partially replace paths based on pathsMapping', () => {
+  it('should partially replace paths based on pathsMapping for @import', () => {
     const content = `@import 'feature-libs/asm/styles';\n@import 'storefrontstyles/asm/styles';`;
     const result = replaceContent(content, pathsMapping, appendSpartacusPath);
     expect(result).toBe(`@import '@spartacus/asm/styles';\n@import '@spartacus/styles/asm/styles';`);
   });
 
-  it('should fully replace paths based on pathsMapping', () => {
+  it('should partially replace paths based on pathsMapping for @use', () => {
+    const content = `@use 'feature-libs/asm/styles';\n@use 'storefrontstyles/asm/styles';`;
+    const result = replaceContent(content, pathsMapping, appendSpartacusPath);
+    expect(result).toBe(`@use '@spartacus/asm/styles';\n@use '@spartacus/styles/asm/styles';`);
+  });
+
+  it('should fully replace paths based on pathsMapping for @import', () => {
     const content = `@import 'projects/schematics/index';`;
     const result = replaceContent(content, pathsMapping, appendSpartacusPath);
     expect(result).toBe(`@import '@spartacus/schematics';`);
   });
 
-  it('should add @spartacus prefix for paths in appendSpartacusPath', () => {
-    const content = `@import 'asm/styles';`;
+  it('should add @spartacus prefix for paths in appendSpartacusPath for @use', () => {
+    const content = `@use 'asm/styles';`;
     const result = replaceContent(content, pathsMapping, appendSpartacusPath);
-    expect(result).toBe(`@import '@spartacus/asm/styles';`);
+    expect(result).toBe(`@use '@spartacus/asm/styles';`);
   });
 
   it('should not modify unrelated paths', () => {
@@ -42,21 +48,27 @@ describe('reverseReplaceContent', () => {
     { key: 'feature-libs', value: '@spartacus' },
   ];
 
-  it('should reverse partially replaced paths based on pathsMapping', () => {
-    const content = `@import '@spartacus/asm/styles';\n@import '@spartacus/styles/asm/styles';\n@import '@spartacus/styles/vendor/bootstrap/scss/functions';`;
+  it('should reverse partially replaced paths based on pathsMapping for @import', () => {
+    const content = `@import '@spartacus/asm/styles';\n@import '@spartacus/styles/asm/styles';`;
     const result = reverseReplaceContent(content, pathsMapping);
-    expect(result).toBe(`@import 'feature-libs/asm/styles';\n@import 'storefrontstyles/asm/styles';\n@import 'storefrontstyles/vendor/bootstrap/scss/functions';`);
+    expect(result).toBe(`@import 'feature-libs/asm/styles';\n@import 'storefrontstyles/asm/styles';`);
   });
 
-  it('should reverse fully replaced paths based on pathsMapping', () => {
+  it('should reverse partially replaced paths based on pathsMapping for @use', () => {
+    const content = `@use '@spartacus/asm/styles';\n@use '@spartacus/styles/asm/styles';`;
+    const result = reverseReplaceContent(content, pathsMapping);
+    expect(result).toBe(`@use 'feature-libs/asm/styles';\n@use 'storefrontstyles/asm/styles';`);
+  });
+
+  it('should reverse fully replaced paths based on pathsMapping for @import', () => {
     const content = `@import '@spartacus/schematics';`;
     const result = reverseReplaceContent(content, pathsMapping);
     expect(result).toBe(`@import 'projects/schematics/index';`);
   });
 
   it('should not modify unrelated paths', () => {
-    const content = `@import 'unrelated/path';`;
+    const content = `@use 'unrelated/path';`;
     const result = reverseReplaceContent(content, pathsMapping);
-    expect(result).toBe(`@import 'unrelated/path';`);
+    expect(result).toBe(`@use 'unrelated/path';`);
   });
 });
