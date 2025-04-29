@@ -15,7 +15,6 @@ concurrency:
 name: Spartacus build pipeline
 jobs:
   b2c_e2e_tests:
-    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     strategy:
