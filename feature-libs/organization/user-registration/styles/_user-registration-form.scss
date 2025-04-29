@@ -1,5 +1,5 @@
 .cx-organization-user-register-button {
-  @import 'storefrontstyles/scss/cxbase/mixins';
+  @import 'storefrontstyles/scss/cxbase/mixins';  //@spartacus/styles/scss/cxbase/mixins
   a {
     &:focus {
       @include visible-focus();
