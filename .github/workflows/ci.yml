@@ -17,9 +17,6 @@ jobs:
   b2c_e2e_tests:
     name: E2E tests for B2C
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        containers: [1, 2, 3, 4, 5]
     steps:
       - name: Setup node
         uses: actions/setup-node@v4
