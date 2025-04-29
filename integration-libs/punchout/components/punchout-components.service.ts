@@ -4,15 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, RendererFactory2 } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { PunchoutStoreService } from '@spartacus/punchout/root';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PunchoutComponentsService {
+  private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected authService = inject(AuthService);
+
+  protected readonly CSS_FEATURE_FLAG_CLASS = 'cxPunchoutSessionActive';
+  protected renderer = this.rendererFactory.createRenderer(null, null);
+  protected rootElement: HTMLElement | undefined;
 
   isPunchoutSessionActive(): Observable<boolean> {
     return this.authService.isUserLoggedIn().pipe(
@@ -23,7 +29,20 @@ export class PunchoutComponentsService {
       }),
       map((punchoutState) => {
         return !!punchoutState.punchoutSessionId;
-      })
+      }),
+      tap(this.updateClass)
     );
+  }
+
+  protected updateClass(punchoutActive: boolean) {
+    if (!this.rootElement) {
+      return;
+    }
+
+    if (punchoutActive) {
+      this.renderer.addClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
+    } else {
+      this.renderer.removeClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
+    }
   }
 }
