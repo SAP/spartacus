@@ -9,11 +9,12 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutOperation,
@@ -48,6 +49,7 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   /**
    * getPunchoutSession workflow:
@@ -241,7 +243,12 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected displayErrorPage() {
-    this.routingService.go(PUNCHOUT_ERROR_PAGE_URL);
+    this.punchoutStoreService.clearPunchoutState();
+    this.globalMessageService.add(
+      { key: 'punchout.backToRequisition' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    this.punchoutAuthService.routeToLogout();
   }
 
   protected loadCart(cartId: string): Observable<string> {

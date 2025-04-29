@@ -12,6 +12,7 @@ import {
   AuthStorageService,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { PunchoutStoreService } from '@spartacus/punchout/root';
@@ -28,6 +29,22 @@ export class PunchoutAuthService {
   protected userIdService = inject(UserIdService);
   protected store = inject(Store);
   protected punchoutStoreService = inject(PunchoutStoreService);
+  protected routingService = inject(RoutingService);
+
+  isSameAccessToken(punchoutToken: string | undefined): Observable<boolean> {
+    if (!punchoutToken) {
+      return of(false);
+    }
+    return this.authStorageService.getToken().pipe(
+      take(1),
+      map((token) => {
+        console.log('storedAccessToken', token?.access_token);
+        console.log('punchoutToken', punchoutToken);
+        const storedAccessToken = token?.access_token;
+        return storedAccessToken === punchoutToken;
+      })
+    );
+  }
 
   logout(): Observable<boolean> {
     return this.isUserLoggedIn().pipe(
@@ -61,5 +78,11 @@ export class PunchoutAuthService {
 
   isUserLoggedIn(): Observable<boolean> {
     return this.authService.isUserLoggedIn().pipe(take(1));
+  }
+
+  routeToLogout() {
+    this.authService.coreLogout().finally(() => {
+      this.routingService.go({ cxRoute: 'login' });
+    });
   }
 }
