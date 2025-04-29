@@ -22,3 +22,11 @@
     }
   }
 }
+
+cx-storefront.cxPunchoutSessionActive {
+  > cx-added-to-cart-dialog {
+    div.cx-dialog-buttons > button.btn-secondary {
+      display: none;
+    }
+  }
+}
