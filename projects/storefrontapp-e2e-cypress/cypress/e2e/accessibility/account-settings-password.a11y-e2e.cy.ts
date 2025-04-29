@@ -42,40 +42,44 @@ const PAGE_URL_UPDATE_PASSWORD = updatePassword.PAGE_URL_UPDATE_PASSWORD;
 /**
  * This test checks accessibility concerns on the Account Settings Password page using Access Continuum
  */
-context('Account Settings / Password Page Accessibility', { testIsolation: false }, () => {
-  before(() => {
-    cy.a11yContinuumSetup();
-  });
-
-  it('initial page load', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(PAGE_URL_UPDATE_PASSWORD);
-    cy.get('main').a11yRunContinuumTest();
-  });
-
-  it('saving enpty fields', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(PAGE_URL_UPDATE_PASSWORD);
-
-    fillUpdatePasswordForm({
-      oldPassword: '',
-      newPassword: '',
-      newPasswordConfirm: '',
+context(
+  'Account Settings / Password Page Accessibility',
+  { testIsolation: false },
+  () => {
+    before(() => {
+      cy.a11yContinuumSetup();
     });
-    cy.get('main').a11yRunContinuumTest();
-  });
 
-  it('password update success', () => {
-    const newPassword = 'Pas!sword123.a';
-    // Register new user (changing standardUser password causes other tests to fail)
-    updateEmail.registerAndLogin();
-    cy.visit(PAGE_URL_UPDATE_PASSWORD);
-
-    fillUpdatePasswordForm({
-      oldPassword: standardUser.registrationData.password,
-      newPassword,
-      newPasswordConfirm: newPassword,
+    it('initial page load', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(PAGE_URL_UPDATE_PASSWORD);
+      cy.get('main').a11yRunContinuumTest();
     });
-    cy.get('main').a11yRunContinuumTest();
-  });
-});
+
+    it('saving enpty fields', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(PAGE_URL_UPDATE_PASSWORD);
+
+      fillUpdatePasswordForm({
+        oldPassword: '',
+        newPassword: '',
+        newPasswordConfirm: '',
+      });
+      cy.get('main').a11yRunContinuumTest();
+    });
+
+    it('password update success', () => {
+      const newPassword = 'Pas!sword123.a';
+      // Register new user (changing standardUser password causes other tests to fail)
+      updateEmail.registerAndLogin();
+      cy.visit(PAGE_URL_UPDATE_PASSWORD);
+
+      fillUpdatePasswordForm({
+        oldPassword: standardUser.registrationData.password,
+        newPassword,
+        newPasswordConfirm: newPassword,
+      });
+      cy.get('main').a11yRunContinuumTest();
+    });
+  }
+);

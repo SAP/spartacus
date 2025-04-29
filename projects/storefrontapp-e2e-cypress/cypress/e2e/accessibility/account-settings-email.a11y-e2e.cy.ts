@@ -40,35 +40,39 @@ const UPDATE_EMAIL_URL = updateEmail.UPDATE_EMAIL_URL;
 /**
  * This test checks accessibility concerns on the Account Settings Email page using Access Continuum
  */
-describe('Account Settings / Email Page Accessibility', { testIsolation: false }, () => {
-  before(() => {
-    cy.a11yContinuumSetup();
-  });
-
-  it('initial page load', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(UPDATE_EMAIL_URL);
-    cy.get('main').a11yRunContinuumTest();
-  });
-
-  it('saving enpty fields', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(UPDATE_EMAIL_URL);
-
-    fillUpdateEmailForm({ email: '', confirmEmail: '', password: '' });
-    cy.get('main').a11yRunContinuumTest();
-  });
-
-  it('email update success', () => {
-    const newEmail = generateMail(randomString(), true);
-    cy.requireLoggedIn(standardUser);
-    cy.visit(UPDATE_EMAIL_URL);
-
-    fillUpdateEmailForm({
-      email: newEmail,
-      confirmEmail: newEmail,
-      password: standardUser.registrationData.password,
+describe(
+  'Account Settings / Email Page Accessibility',
+  { testIsolation: false },
+  () => {
+    before(() => {
+      cy.a11yContinuumSetup();
     });
-    cy.get('main').a11yRunContinuumTest();
-  });
-});
+
+    it('initial page load', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(UPDATE_EMAIL_URL);
+      cy.get('main').a11yRunContinuumTest();
+    });
+
+    it('saving enpty fields', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(UPDATE_EMAIL_URL);
+
+      fillUpdateEmailForm({ email: '', confirmEmail: '', password: '' });
+      cy.get('main').a11yRunContinuumTest();
+    });
+
+    it('email update success', () => {
+      const newEmail = generateMail(randomString(), true);
+      cy.requireLoggedIn(standardUser);
+      cy.visit(UPDATE_EMAIL_URL);
+
+      fillUpdateEmailForm({
+        email: newEmail,
+        confirmEmail: newEmail,
+        password: standardUser.registrationData.password,
+      });
+      cy.get('main').a11yRunContinuumTest();
+    });
+  }
+);

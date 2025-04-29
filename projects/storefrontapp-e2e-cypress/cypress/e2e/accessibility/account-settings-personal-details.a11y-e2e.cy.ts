@@ -31,31 +31,35 @@ const UPDATE_PROFILE_URL = updateProfile.UPDATE_PROFILE_URL;
 /**
  * This test checks accessibility concerns on the Account Settings Personal Details page using Access Continuum
  */
-describe('Account Settings / Personal Details Page Accessibility', { testIsolation: false }, () => {
-  before(() => {
-    cy.a11yContinuumSetup();
-  });
+describe(
+  'Account Settings / Personal Details Page Accessibility',
+  { testIsolation: false },
+  () => {
+    before(() => {
+      cy.a11yContinuumSetup();
+    });
 
-  it('initial page load', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(UPDATE_PROFILE_URL);
+    it('initial page load', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(UPDATE_PROFILE_URL);
 
-    cy.get('main').a11yRunContinuumTest();
-  });
+      cy.get('main').a11yRunContinuumTest();
+    });
 
-  it('saving enpty fields', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(UPDATE_PROFILE_URL);
+    it('saving enpty fields', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(UPDATE_PROFILE_URL);
 
-    fillUpdatePersonalDetailsForm({ firstName: '', lastName: '' });
-    cy.get('main').a11yRunContinuumTest();
-  });
+      fillUpdatePersonalDetailsForm({ firstName: '', lastName: '' });
+      cy.get('main').a11yRunContinuumTest();
+    });
 
-  it('password update success', () => {
-    cy.requireLoggedIn(standardUser);
-    cy.visit(UPDATE_PROFILE_URL);
+    it('password update success', () => {
+      cy.requireLoggedIn(standardUser);
+      cy.visit(UPDATE_PROFILE_URL);
 
-    fillUpdatePersonalDetailsForm({ firstName: 'John', lastName: 'Doe' });
-    cy.get('main').a11yRunContinuumTest();
-  });
-});
+      fillUpdatePersonalDetailsForm({ firstName: 'John', lastName: 'Doe' });
+      cy.get('main').a11yRunContinuumTest();
+    });
+  }
+);

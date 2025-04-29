@@ -11,17 +11,21 @@ const NOTIFICATION_PREFERENCE_URL = '/my-account/notification-preference';
 /**
  * This test checks accessibility concerns on the Account Settings Notification Preference page using Access Continuum
  */
-describe('Account Settings / Notification Preference Page Accessibility', { testIsolation: false }, () => {
-  before(() => {
-    cy.a11yContinuumSetup();
-    cy.requireLoggedIn(standardUser);
-    cy.visit(NOTIFICATION_PREFERENCE_URL);
-    cy.get('cx-notification-preference input.form-check-input').as(
-      'notificationPrefCheckbox'
-    );
-  });
+describe(
+  'Account Settings / Notification Preference Page Accessibility',
+  { testIsolation: false },
+  () => {
+    before(() => {
+      cy.a11yContinuumSetup();
+      cy.requireLoggedIn(standardUser);
+      cy.visit(NOTIFICATION_PREFERENCE_URL);
+      cy.get('cx-notification-preference input.form-check-input').as(
+        'notificationPrefCheckbox'
+      );
+    });
 
-  it('initial page load', () => {
-    cy.get('main').a11yRunContinuumTest();
-  });
-});
+    it('initial page load', () => {
+      cy.get('main').a11yRunContinuumTest();
+    });
+  }
+);
