@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { CartUiEventAddToCart } from '@spartacus/cart/base/root';
-import { LAUNCH_CALLER } from '@spartacus/storefront';
-import { take } from 'rxjs/operators';
+import { inject, Injectable } from '@angular/core';
 import {
   AddedToCartDialogComponentData,
   AddedToCartDialogEventListener,
 } from '@spartacus/cart/base/components';
+import { CartUiEventAddToCart } from '@spartacus/cart/base/root';
+import { getLastValueSync } from '@spartacus/core';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
+import { PunchoutDetectionService } from './punchout-detection.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,9 @@ export class PunchoutAddedToCartDialogEventListener extends AddedToCartDialogEve
    * Opens modal based on CartUiEventAddToCart.
    * @param event Signals that a product has been added to the cart.
    */
+
+  protected punchoutDetectionService = inject(PunchoutDetectionService);
+
   protected openModal(event: CartUiEventAddToCart): void {
     const addToCartData: AddedToCartDialogComponentData = {
       productCode: event.productCode,
@@ -28,7 +33,9 @@ export class PunchoutAddedToCartDialogEventListener extends AddedToCartDialogEve
       numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
       pickupStoreName: event.pickupStoreName,
       addingEntryResult$: this.createCompletionObservable(),
-      disableProceedToCheckoutButton: true,
+      disableProceedToCheckoutButton: getLastValueSync(
+        this.punchoutDetectionService.isPunchoutSessionActive()
+      ),
     };
 
     const dialog = this.launchDialogService.openDialog(

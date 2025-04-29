@@ -16,7 +16,6 @@ import { PunchoutErrorComponent } from './punchout-error/punchout-error.componen
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart/punchout-inspect-cart.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
-import { PunchoutAddedToCartDialogModule } from './punchout-added-to-cart';
 
 @NgModule({
   declarations: [
@@ -35,13 +34,7 @@ import { PunchoutAddedToCartDialogModule } from './punchout-added-to-cart';
     PunchoutCloseSessionComponent,
     PunchoutInspectCartComponent,
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    CartSharedModule,
-    PunchoutAddedToCartDialogModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, I18nModule, CartSharedModule],
   providers: [
     PunchoutComponentsService,
     provideDefaultConfig(<CmsConfig>{
