@@ -39,6 +39,8 @@ describe('Account Settings / Personal Details Page Accessibility', () => {
   it('initial page load', () => {
     cy.requireLoggedIn(standardUser);
     cy.visit(UPDATE_PROFILE_URL);
+    
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('saving enpty fields', () => {
