@@ -7,3 +7,4 @@
 export * from './storefront-outlets.model';
 export * from './storefront.component';
 export * from './storefront-component.module';
+export * from './root-dom-service';

@@ -6,6 +6,7 @@
 
 import { DOCUMENT } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -33,13 +34,14 @@ import {
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
+import { RootDomService } from './root-dom-service';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
   standalone: false,
 })
-export class StorefrontComponent implements OnInit, OnDestroy {
+export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
   navigateSubscription: Subscription;
   focusConfig: FocusConfig = { disableMouseFocus: true, trap: false };
   skipFocusConfig: SkipFocusConfig = {
@@ -58,7 +60,9 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @Optional() protected skipLinkService = inject(SkipLinkService, {
     optional: true,
   });
-
+  @Optional() protected rootDomService = inject(RootDomService, {
+    optional: true,
+  });
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
@@ -126,6 +130,15 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
     if (this.featureConfigService.isEnabled('a11yHamburgerMenuTrapFocus')) {
       this.trapFocusOnMenuIfExpanded();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.document) {
+      const el = this.document?.querySelector('cx-storefront') as HTMLElement;
+      if (el) {
+        this.rootDomService?.setRootElement(el);
+      }
     }
   }
 

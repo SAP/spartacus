@@ -5,13 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import {
-  APP_BOOTSTRAP_LISTENER,
-  ComponentRef,
-  inject,
-  ModuleWithProviders,
-  NgModule,
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartSharedModule } from '@spartacus/cart/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
@@ -67,21 +61,4 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     }),
   ],
 })
-export class PunchoutComponentsModule {
-  static forRoot(): ModuleWithProviders<PunchoutComponentsModule> {
-    return {
-      ngModule: PunchoutComponentsModule,
-      providers: [
-        {
-          provide: APP_BOOTSTRAP_LISTENER,
-          multi: true,
-          useFactory: (): ((compRef: ComponentRef<any>) => void) => {
-            const punchoutComponentsService = inject(PunchoutComponentsService);
-            return (compRef: ComponentRef<any>) =>
-              punchoutComponentsService.init(compRef);
-          },
-        },
-      ],
-    };
-  }
-}
+export class PunchoutComponentsModule {}
