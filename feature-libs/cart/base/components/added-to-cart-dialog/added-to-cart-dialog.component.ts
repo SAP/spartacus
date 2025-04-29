@@ -42,6 +42,7 @@ export interface AddedToCartDialogComponentData {
   quantity: number;
   numberOfEntriesBeforeAdd: number;
   pickupStoreName?: string;
+  disableProceedToCheckoutButton?: boolean;
   /**
    * Observable emitting the result of adding an item to cart. It emits either
    * {@link CartAddEntrySuccessEvent} or {@link CartAddEntryFailEvent)
@@ -67,7 +68,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
 
   quantity = 0;
   pickupStoreName: string | undefined;
-
+  disableProceedToCheckoutButton: boolean | undefined;
   form: UntypedFormGroup = new UntypedFormGroup({});
 
   focusConfig: FocusConfig = {
@@ -108,7 +109,8 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
             dialogData.quantity,
             dialogData.numberOfEntriesBeforeAdd,
             dialogData.pickupStoreName,
-            dialogData.addingEntryResult$
+            dialogData.addingEntryResult$,
+            dialogData.disableProceedToCheckoutButton
           );
         }
       )
@@ -164,7 +166,8 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     pickupStoreName?: string,
     addingEntryResult$?: Observable<
       CartAddEntrySuccessEvent | CartAddEntryFailEvent
-    >
+    >,
+    disableProceedToCheckoutButton?: boolean
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
@@ -194,6 +197,8 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
       numberOfEntriesBeforeAdd
     );
+
+    this.disableProceedToCheckoutButton = disableProceedToCheckoutButton;
   }
   /**
    * Determines if the added entry was merged with an existing one.
