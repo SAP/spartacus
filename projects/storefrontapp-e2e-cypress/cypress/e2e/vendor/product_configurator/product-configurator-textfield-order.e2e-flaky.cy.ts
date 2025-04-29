@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as configuration from '../../../../helpers/product-configurator';
+import * as configuration from '../../../helpers/product-configurator';
 
 const testProduct = '1934793';
 

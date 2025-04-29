@@ -1,9 +1,9 @@
-import { clickAllowAllFromBanner } from '../../../../helpers/anonymous-consents';
-import * as configuration from '../../../../helpers/product-configurator';
-import * as configurationOv from '../../../../helpers/product-configurator-overview';
-import * as configurationOvVc from '../../../../helpers/product-configurator-overview-vc';
-import * as restartDialog from '../../../../helpers/product-configurator-restart-dialog';
-import * as configurationVc from '../../../../helpers/product-configurator-vc';
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as configuration from '../../../helpers/product-configurator';
+import * as configurationOv from '../../../helpers/product-configurator-overview';
+import * as configurationOvVc from '../../../helpers/product-configurator-overview-vc';
+import * as restartDialog from '../../../helpers/product-configurator-restart-dialog';
+import * as configurationVc from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';

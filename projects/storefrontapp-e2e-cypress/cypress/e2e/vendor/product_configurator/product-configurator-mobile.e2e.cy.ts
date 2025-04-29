@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clickAllowAllFromBanner } from '../../../../helpers/anonymous-consents';
-import * as configuration from '../../../../helpers/product-configurator';
-import * as configurationVc from '../../../../helpers/product-configurator-vc';
-import { viewportContext } from '../../../../helpers/viewport-context';
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as configuration from '../../../helpers/product-configurator';
+import * as configurationVc from '../../../helpers/product-configurator-vc';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';

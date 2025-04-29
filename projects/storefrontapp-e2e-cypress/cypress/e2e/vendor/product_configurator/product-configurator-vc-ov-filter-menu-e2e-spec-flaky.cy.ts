@@ -1,7 +1,7 @@
-import { clickAllowAllFromBanner } from '../../../../helpers/anonymous-consents';
-import * as configurationOverview from '../../../../helpers/product-configurator-overview';
-import * as configurationOverviewVc from '../../../../helpers/product-configurator-overview-vc';
-import * as configurationVc from '../../../../helpers/product-configurator-vc';
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as configurationOverview from '../../../helpers/product-configurator-overview';
+import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
+import * as configurationVc from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';

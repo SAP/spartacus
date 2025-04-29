@@ -1,5 +1,5 @@
-import * as configuration from '../../../../helpers/product-configurator';
-import * as configurationVc from '../../../../helpers/product-configurator-vc';
+import * as configuration from '../../../helpers/product-configurator';
+import * as configurationVc from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
