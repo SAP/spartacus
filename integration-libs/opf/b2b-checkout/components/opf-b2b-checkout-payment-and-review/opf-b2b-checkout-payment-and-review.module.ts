@@ -9,14 +9,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  CartNotEmptyGuard,
-  CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
-import {
   CmsConfig,
   I18nModule,
-  UrlModule,
   provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import {
   CardModule,
@@ -34,9 +30,10 @@ import {
   OpfCheckoutReviewCartDetailsModule,
   OpfCheckoutTermsAndConditionsAlertModule,
 } from '@spartacus/opf/checkout/components';
+import { CartNotEmptyGuard } from '@spartacus/checkout/base/components';
+import { CheckoutAuthGuard } from '@spartacus/checkout/base/components';
 
 @NgModule({
-  declarations: [OpfB2bCheckoutPaymentAndReviewComponent],
   imports: [
     CommonModule,
     I18nModule,
@@ -65,6 +62,7 @@ import {
       },
     }),
   ],
+  declarations: [OpfB2bCheckoutPaymentAndReviewComponent],
   exports: [OpfB2bCheckoutPaymentAndReviewComponent],
 })
 export class OpfB2bCheckoutPaymentAndReviewModule {}

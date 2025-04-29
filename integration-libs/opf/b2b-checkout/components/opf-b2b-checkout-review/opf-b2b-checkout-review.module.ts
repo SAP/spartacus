@@ -10,8 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CheckoutPlaceOrderModule } from '@spartacus/checkout/base/components';
@@ -23,6 +23,7 @@ import {
   OpfCheckoutPaymentsModule,
   OpfCheckoutReviewCartDetailsModule,
 } from '@spartacus/opf/checkout/components';
+
 import { OpfB2bCheckoutPlaceOrderModule } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.module';
 
 @NgModule({
@@ -38,16 +39,18 @@ import { OpfB2bCheckoutPlaceOrderModule } from '../opf-b2b-checkout-place-order/
     OpfCheckoutPaymentsModule,
     OpfCheckoutReviewCartDetailsModule,
     OpfB2bCheckoutPlaceOrderModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    CheckoutPlaceOrderModule,
+  ],
+  declarations: [OpfB2bCheckoutReviewComponent],
+  exports: [OpfB2bCheckoutReviewComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OpfCheckoutReview: {
           component: OpfB2bCheckoutReviewComponent,
         },
       },
     }),
-    CheckoutPlaceOrderModule,
   ],
-  declarations: [OpfB2bCheckoutReviewComponent],
-  exports: [OpfB2bCheckoutReviewComponent],
 })
 export class OpfB2bCheckoutReviewModule {}

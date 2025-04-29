@@ -15,21 +15,21 @@ const opfCheckoutSteps = [
     name: 'opfCheckout.tabs.shipping',
     routeName: 'checkoutDeliveryAddress',
     type: [CheckoutStepType.DELIVERY_ADDRESS],
-    nameMultiLine: false,
+    nameMultiLine: true,
   },
   {
     id: 'deliveryMode',
     name: 'opfCheckout.tabs.deliveryMethod',
     routeName: 'checkoutDeliveryMode',
     type: [CheckoutStepType.DELIVERY_MODE],
-    nameMultiLine: false,
+    nameMultiLine: true,
   },
   {
     id: 'opfPaymentAndReview',
     name: 'opfCheckout.tabs.paymentAndReview',
     routeName: 'opfCheckoutPaymentAndReview',
     type: [CheckoutStepType.PAYMENT_DETAILS],
-    nameMultiLine: false,
+    nameMultiLine: true,
   },
 ];
 
