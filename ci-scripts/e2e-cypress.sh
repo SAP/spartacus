@@ -109,6 +109,7 @@ is_bot_commit() {
 }
 
 if [[ "${SSR}" = true ]]; then
+    echo "Skipping SSR tests"
     # echo "Building Spartacus storefrontapp (SSR PROD mode)"
     # npm run build:ssr:ci
 
