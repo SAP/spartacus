@@ -18,6 +18,7 @@ jobs:
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -37,8 +38,7 @@ jobs:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ls
-          # bash ci-scripts/e2e-cypress.sh
+          ci-scripts/e2e-cypress-vendor.sh
   # b2c_ssr_e2e_tests:
   #   needs: [no_retries, validate_e2e_execution]
   #   name: E2E tests for SSR B2C
