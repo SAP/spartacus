@@ -6,6 +6,17 @@
   "prefix": "cx",
   "targets": {
     "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run qualtrics:build-only && ts-node tools/scripts/regex-scss-path-replace.ts dist/qualtrics"
+      },
+      "configurations": {
+        "production": {
+          "command": "nx run qualtrics:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/qualtrics"
+        }
+      }
+    },
+    "build-only": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
         "tsConfig": "feature-libs/qualtrics/tsconfig.lib.json",

@@ -136,7 +136,6 @@ type PackagePublishingResult = {
  */
 function getPackageJsonFiles(): string[] {
   const sourceFiles = [
-    'projects/storefrontstyles/package.json',
     'projects/schematics/package.json',
   ];
   const distFiles = glob.sync(`dist/!(node_modules)/package.json`);
@@ -275,9 +274,6 @@ async function publishAllPackages(): Promise<void> {
 
   /** Number of packages published, successfully or not */
   let completedCount = 0;
-  /** Transform storefrontstyles and dist to use symbolic paths before publish */
-  execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./dist");
-  execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./projects/storefrontstyles");
 
   // Run all publish operations in parallel and display progress
   const results = await Promise.allSettled(
@@ -292,9 +288,6 @@ async function publishAllPackages(): Promise<void> {
       })
     )
   );
-
-  /** Transform storefrontstyles back to its original state before publish */
-  execSync("ts-node tools/scripts/regex-scss-path-replace.ts ./projects/storefrontstyles true");
 
   const successful = results
     .filter((result) => result.status === 'fulfilled')

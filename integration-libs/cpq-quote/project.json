@@ -6,6 +6,17 @@
   "prefix": "cx",
   "targets": {
     "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run cpq-quote:build-only && ts-node tools/scripts/regex-scss-path-replace.ts dist/cpq-quote"
+      },
+      "configurations": {
+        "production": {
+          "command": "nx run cpq-quote:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/cpq-quote"
+        }
+      }
+    },
+    "build-only": {
       "executor": "./tools/build-lib:augmented-types",
       "options": {
         "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.json",
