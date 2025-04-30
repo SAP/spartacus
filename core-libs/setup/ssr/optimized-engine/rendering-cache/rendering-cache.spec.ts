@@ -1,10 +1,10 @@
 /// <reference types="jest" />
 
-import { RenderingCache } from './rendering-cache';
 import {
   defaultSsrOptimizationOptions,
   SsrOptimizationOptions,
-} from './ssr-optimization-options';
+} from '../ssr-optimization-options';
+import { RenderingCache } from './rendering-cache';
 
 const options: SsrOptimizationOptions = {
   shouldCacheRenderingResult:
@@ -23,7 +23,7 @@ describe('RenderingCache', () => {
     beforeEach(() => {
       renderingCache = new RenderingCache({
         ...options,
-        cacheSizeBytesApproximation: 3000,
+        cacheSizeBytes: 3000,
         ssrFeatureToggles: {
           cacheLimitInBytes: true,
         },

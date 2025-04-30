@@ -7,9 +7,17 @@
 import { Request } from 'express';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
-import { RenderingEntry } from './rendering-cache.model';
+import { RenderingEntry } from './rendering-cache/rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
+
+/**
+ * Custom strategy for calculating the size of a cache entry.
+ * It's needed to keep track of the used cache size.
+ */
+export interface CacheEntrySizeCalculator {
+  calculateSize(entry: RenderingEntry): number;
+}
 
 export interface SsrOptimizationOptions {
   /**
@@ -27,8 +35,6 @@ export interface SsrOptimizationOptions {
   cache?: boolean;
 
   /**
-   * @deprecated since v2211.29
-   *
    * Limit the cache size
    *
    * Specified number of entries that will be kept in cache, allows to keep
@@ -39,6 +45,8 @@ export interface SsrOptimizationOptions {
    * to be served with next request.
    *
    * Default value is set to 3000.
+   *
+   * @deprecated since <TODO PUT VERSION HERE>. it will be removed together with the feature toggle `ssrFeatureToggles.cacheLimitInBytes`.
    */
   cacheSize?: number;
 
@@ -65,7 +73,16 @@ export interface SsrOptimizationOptions {
    *            but not other unknown properties, so it's prone to under-estimation.
    *            Note: it's not recommended to cache errors anyway.
    */
-  cacheSizeBytesApproximation?: number;
+  cacheSizeBytes?: number;
+
+  /**
+   * Custom strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size.
+   *
+   * Note: it's taken into account only when `ssrFeatureToggles.cacheLimitInBytes` is set to true.
+   *
+   * By default it uses the `{@link DefaultCacheEntrySizeCalculator}` implementation.
+   */
+  cacheEntrySizeCalculator?: CacheEntrySizeCalculator;
 
   /**
    * Limit number of concurrent rendering
@@ -269,7 +286,7 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheSizeBytesApproximation: convertToBytes(1, 'GB'),
+  cacheSizeBytes: convertToBytes(1, 'GB'),
   ttl: undefined,
   concurrency: 10,
   timeout: 3_000,
