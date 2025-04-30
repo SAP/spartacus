@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, NgModule, provideAppInitializer } from '@angular/core';
+import {
+  APP_BOOTSTRAP_LISTENER,
+  ComponentRef,
+  inject,
+  ModuleWithProviders,
+  NgModule,
+  provideAppInitializer,
+} from '@angular/core';
 import {
   AuthHttpHeaderService,
   CmsConfig,
@@ -14,6 +21,7 @@ import { PUNCHOUT_FEATURE } from './feature-name';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
+import { PunchoutComponentsService } from '@spartacus/punchout/components';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -54,4 +62,21 @@ export function punchoutStatePersistenceFactory(): () => void {
     },
   ],
 })
-export class PunchoutRootModule {}
+export class PunchoutRootModule {
+  static forRoot(): ModuleWithProviders<PunchoutRootModule> {
+    return {
+      ngModule: PunchoutRootModule,
+      providers: [
+        {
+          provide: APP_BOOTSTRAP_LISTENER,
+          multi: true,
+          useFactory: (): ((compRef: ComponentRef<any>) => void) => {
+            const punchoutComponentsService = inject(PunchoutComponentsService);
+            return (compRef: ComponentRef<any>) =>
+              punchoutComponentsService.init(compRef);
+          },
+        },
+      ],
+    };
+  }
+}

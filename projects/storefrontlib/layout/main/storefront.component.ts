@@ -6,7 +6,7 @@
 
 import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit,
+  // AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -34,14 +34,14 @@ import {
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
-import { RootDomService } from './root-dom-service';
+// import { RootDomService } from './root-dom-service';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
   standalone: false,
 })
-export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
+export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
   focusConfig: FocusConfig = { disableMouseFocus: true, trap: false };
   skipFocusConfig: SkipFocusConfig = {
@@ -60,7 +60,7 @@ export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
   @Optional() protected skipLinkService = inject(SkipLinkService, {
     optional: true,
   });
-  protected rootDomService = inject(RootDomService);
+  // protected rootDomService = inject(RootDomService);
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
@@ -131,9 +131,9 @@ export class StorefrontComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.rootDomService.setRootElement(this.elementRef.nativeElement);
-  }
+  // ngAfterViewInit(): void {
+  //   this.rootDomService.setRootElement(this.elementRef.nativeElement);
+  // }
 
   collapseMenuIfClickOutside(event: any): void {
     const element = event.target;

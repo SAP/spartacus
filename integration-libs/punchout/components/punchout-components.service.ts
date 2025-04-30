@@ -8,30 +8,18 @@ import { inject, Injectable, RendererFactory2 } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { PunchoutStoreService } from '@spartacus/punchout/root';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { RootDomService } from '@spartacus/storefront';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PunchoutComponentsService {
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected authService = inject(AuthService);
-  protected rootDomService = inject(RootDomService);
 
   protected readonly CSS_FEATURE_FLAG_CLASS = 'cxPunchoutSessionActive';
   protected renderer = this.rendererFactory.createRenderer(null, null);
   protected rootElement: HTMLElement | undefined;
 
-  constructor() {
-    this.rootDomService
-      .getRootElement()
-      .pipe(
-        tap((el) => (this.rootElement = el)),
-        withLatestFrom(this.isPunchoutSessionActive()),
-        tap(([_root, isActive]) => this.updateClass(isActive))
-      )
-      .subscribe();
-  }
   isPunchoutSessionActive(): Observable<boolean> {
     return this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
@@ -41,7 +29,8 @@ export class PunchoutComponentsService {
       }),
       map((punchoutState) => {
         return !!punchoutState.punchoutSessionId;
-      })
+      }),
+      tap(this.updateClass)
     );
   }
 
@@ -55,5 +44,10 @@ export class PunchoutComponentsService {
     } else {
       this.renderer.removeClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
     }
+  }
+
+  init(rootComponent) {
+    console.log('init', rootComponent);
+    this.rootElement = rootComponent.location.nativeElement;
   }
 }
