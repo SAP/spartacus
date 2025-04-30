@@ -54,7 +54,11 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
 fi
 
 if [ "$SUITE" == ":vendor" ]; then
-    export SPA_ENV='ccv2,b2c'
+    export SPA_ENV='b2c'
+fi
+
+if [ "$SUITE" == ":vendor:b2b" ]; then
+    export SPA_ENV='b2b'
 fi
 
 echo '-----'
