@@ -485,7 +485,7 @@ describe('CustomerListComponent', () => {
       (
         asmCustomerListFacade.customerListCustomersSearch as jasmine.Spy
       ).calls.reset();
-      Object.assign(component, { page: 1, maxPage: 1, loaded: true });
+      Object.assign(component, { currentPage: 1, maxPage: 1, loaded: true });
 
       component.goToNextPage();
 
@@ -504,7 +504,7 @@ describe('CustomerListComponent', () => {
         sort: 'byNameAsc',
       };
       resultsPageController.next(mockCustomerSearchPage2);
-      Object.assign(component, { page: 1, maxPage: 1, loaded: true });
+      Object.assign(component, { currentPage: 1, maxPage: 1, loaded: true });
 
       component.goToPreviousPage();
 
