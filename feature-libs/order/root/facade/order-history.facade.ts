@@ -36,7 +36,6 @@ export function orderHistoryFacadeFactory() {
       'getCancelOrderSuccess',
       'resetCancelOrderProcessState',
       'getOrderDetailsLoading',
-      'getQueryParams',
     ],
     async: true,
   });
