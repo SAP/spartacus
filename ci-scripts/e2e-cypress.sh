@@ -167,11 +167,11 @@ if [ "$SUITE" == ":opf" ]; then
 elif [ "$SUITE" == ":cdc" ]; then
     echo "Running Cypress end to end tests for CDC"
 
-    npm run e2e:run:ci:cdc
+    npm run e2e:run:ci:cdc-v2
 elif [ "$SUITE" == ":cdc-b2b" ]; then
     echo "Running Cypress end to end tests for CDC B2B"
 
-    npm run e2e:run:ci:cdc-b2b
+    npm run e2e:run:ci:cdc-b2b-v2
 else
     echo "Running vendor cypress tests"
 
