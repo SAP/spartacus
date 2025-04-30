@@ -14,7 +14,7 @@
         "production": {
           "command": "nx run order:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/order"
         },
-        "development":{
+        "development": {
           "command": "nx run order:build-only:development && ts-node tools/scripts/regex-scss-path-replace.ts dist/order"
         }
       }

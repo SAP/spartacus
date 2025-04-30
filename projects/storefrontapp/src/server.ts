@@ -35,7 +35,7 @@ export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
-   const indexHtml = join(serverDistFolder, 'index.server.html');
+  const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
