@@ -33,7 +33,9 @@
     "zoomOut": "Zoom out",
     "selected": "Selected",
     "expand": "Expand",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "readMore": "Read More",
+    "readLess": "Read Less"
   },
   "pageMetaResolver": {
     "category": {

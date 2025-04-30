@@ -35,7 +35,7 @@
             {{ review.alias ? review.alias : review.principal?.name }}
           </div>
           <div class="date">{{ review.date | cxDate }}</div>
-          <div class="text">{{ review.comment }}</div>
+          <cx-read-more class="text" [text]="review.comment!"></cx-read-more>
         </div>
         <div *ngIf="reviews.length > initialMaxListItems">
           <button
