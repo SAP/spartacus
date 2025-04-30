@@ -53,14 +53,6 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
 fi
 
-if [ "$SUITE" == ":vendor" ]; then
-    export SPA_ENV='b2c'
-fi
-
-if [ "$SUITE" == ":vendor:b2b" ]; then
-    export SPA_ENV='b2b'
-fi
-
 echo '-----'
 echo "Building Spartacus libraries"
 
@@ -166,4 +158,22 @@ else
         echo "Running full Cypress end-to-end tests"
         npm run e2e:run:ci"${SUITE}"
     fi
+fi
+
+if [ "$SUITE" == ":opf" ]; then
+    echo "Running Cypress end to end tests for pull request"
+
+    npm run e2e:run:ci:opf
+elif [ "$SUITE" == ":cdc" ]; then
+    echo "Running Cypress end to end tests for CDC"
+
+    npm run e2e:run:ci:cdc
+elif [ "$SUITE" == ":cdc-b2b" ]; then
+    echo "Running Cypress end to end tests for CDC B2B"
+
+    npm run e2e:run:ci:cdc-b2b
+else
+    echo "Running vendor cypress tests"
+
+    npm run e2e:run:ci:vendor
 fi

@@ -37,7 +37,7 @@ jobs:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress-vendor.sh
+          ci-scripts/e2e-cypress.sh
   opf_e2e_tests:
     name: E2E tests for OPF
     runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
           SPA_ENV: opf
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress-vendor.sh -s opf
+          ci-scripts/e2e-cypress.sh -s opf
   cdc_b2c_e2e_tests:
     name: E2E tests for CDC B2C
     runs-on: ubuntu-latest
@@ -87,7 +87,7 @@ jobs:
           SPA_ENV: cdc,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress-vendor.sh -s cdc
+          ci-scripts/e2e-cypress.sh -s cdc
   cdc_b2b_e2e_tests:
     name: E2E tests for CDC B2B
     runs-on: ubuntu-latest
@@ -112,7 +112,7 @@ jobs:
           SPA_ENV: cdc,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress-vendor.sh -s cdc-b2b
+          ci-scripts/e2e-cypress.sh -s cdc-b2b
   build_conclusion:
     needs: [b2c_e2e_tests, opf_e2e_tests, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests]
     name: Build Conclusion
