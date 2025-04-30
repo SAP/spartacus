@@ -424,7 +424,7 @@ describe('CustomerListComponent', () => {
           mockCustomer3,
         ],
         pagination: {
-          page: 0,
+          currentPage: 0,
           pageSize: 5,
           sort: 'byNameAsc',
         },
@@ -432,7 +432,7 @@ describe('CustomerListComponent', () => {
       mockCustomerSearchPage2 = {
         ...mockCustomerSearchPage,
         pagination: {
-          page: 1,
+          currentPage: 1,
           pageSize: 5,
           sort: 'byNameAsc',
         },
