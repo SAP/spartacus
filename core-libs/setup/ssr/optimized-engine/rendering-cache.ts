@@ -5,11 +5,33 @@
  */
 
 import { RenderingEntry } from './rendering-cache.model';
-import { SsrOptimizationOptions } from './ssr-optimization-options';
+// import { SsrOptimizationOptions } from './ssr-optimization-options';
+
+// SPIKE TEMPORARY:
+
+interface SsrOptimizationOptions {
+  cacheSizeBytesApproximation?: number;
+  shouldCacheRenderingResult?: (args: {
+    options: SsrOptimizationOptions;
+    entry: RenderingEntry;
+  }) => boolean;
+  ttl?: number;
+  ssrFeatureToggles?: {
+    cacheLimitInBytes?: boolean;
+  };
+  cache?: boolean;
+  cacheSize?: number;
+}
 
 export class RenderingCache {
   protected renders = new Map<string, RenderingEntry>();
-  protected usedCacheSize = 0;
+
+  /**
+   * The rough approximate size of the cache in bytes.
+   *
+   * CAUTION: It's not guaranteed to be exact memory actually used by the NodeJS engine.
+   */
+  protected usedBytesApproximation = 0;
 
   constructor(private options?: SsrOptimizationOptions) {}
 
@@ -89,37 +111,68 @@ export class RenderingCache {
     return Date.now() - (this.renders.get(key)?.time ?? 0) < this.options?.ttl;
   }
 
-  getEntrySize(entry: any): number {
-    let objStr = '';
+  /**
+   * Rough approximation of the bytes size of an error object.
+   *
+   * CAUTION: It's not guaranteed to be exact memory actually used by the NodeJS engine.
+   *
+   * Note: it's not recommended to cache error objects.
+   *
+   *
+   * The error object doesn't have to be an instance of Error.
+   * - For Error instance having string properties `name`, `message` and `stack`,
+   *   this function will return just a sum of bytes of these strings using utf-8 encoding.
+   * - it won't iterate over other properties
+   *
+   * Therefore the result size can be UNDERESTIMATED!
+   */
+  private getErrorBytesApproximation(error: any): number {
+    let size = 0;
 
-    if (!this.options?.ssrFeatureToggles?.avoidCachingErrors) {
-      if (entry.err) {
-        if (entry.err.name) {
-          objStr += entry.err.name;
-        }
-
-        if (entry.err.message) {
-          objStr += entry.err.message;
-        }
-
-        if (entry.err.stack) {
-          objStr += entry.err.stack;
-        }
-      }
+    if (error?.name) {
+      size += this.getStringBytesApproximation(error.name);
+    }
+    if (error?.message) {
+      size += this.getStringBytesApproximation(error.message);
+    }
+    if (error?.stack) {
+      size += this.getStringBytesApproximation(error.stack);
     }
 
+    // For simplicity of the implementation, we don't iterate over error properties
+    // Please note it's not recommended to cache errors anyway
+
+    return size;
+  }
+
+  /**
+   * Rough approximation of the bytes size of a string using utf-8 encoding in V8 engine.
+   *
+   * We assume
+   */
+  getStringBytesApproximation(str: string): number {
+    return Buffer.byteLength(str, 'utf8');
+  }
+
+  getEntrySize(entry: RenderingEntry): number {
+    let totalSize = 0;
+
+    // Calculate HTML size
     if (entry.html) {
-      objStr += entry.html;
+      return this.getStringBytesApproximation(entry.html);
     }
 
-    const propSize = 10;
-    const estimatedPropSize = 5 * propSize;
+    // Note: it's not recommended to cache errors
+    //       the following is just a rough approximation prone to under-estimation
+    if (entry.err) {
+      return this.getErrorBytesApproximation(entry.err);
+    }
 
-    return Buffer.byteLength(objStr, 'utf8') + estimatedPropSize;
+    return totalSize;
   }
 
   protected getUsedCacheSize() {
-    return this.usedCacheSize;
+    return this.usedBytesApproximation;
   }
 
   protected tryToCacheTheEntry(
@@ -128,29 +181,31 @@ export class RenderingCache {
     entry: RenderingEntry
   ) {
     if (
-      this.options?.cacheLimit &&
-      entrySize + this.usedCacheSize <= this.options.cacheLimit
+      this.options?.cacheSizeBytesApproximation &&
+      entrySize + this.usedBytesApproximation <=
+        this.options.cacheSizeBytesApproximation
     ) {
-      entry.size = entrySize;
+      entry._bytesSizeApproximation = entrySize;
       this.renders.set(key, entry);
-      this.usedCacheSize += entrySize;
+      this.usedBytesApproximation += entrySize;
     }
   }
 
   protected tryRemoveOldestCacheEntries(entrySize: number): void {
-    if (this.options?.cacheLimit) {
+    if (this.options?.cacheSizeBytesApproximation) {
       while (
-        this.usedCacheSize + entrySize > this.options?.cacheLimit &&
-        this.usedCacheSize > 0
+        this.usedBytesApproximation + entrySize >
+          this.options?.cacheSizeBytesApproximation &&
+        this.usedBytesApproximation > 0
       ) {
         const oldestKey = this.renders.keys().next().value;
         if (oldestKey !== undefined) {
           const oldestEntry = this.renders.get(oldestKey);
-          const oldestEntrySize = oldestEntry?.size ?? 0;
+          const oldestEntrySize = oldestEntry?._bytesSizeApproximation ?? 0;
           this.renders.delete(oldestKey);
-          this.usedCacheSize = Math.max(
+          this.usedBytesApproximation = Math.max(
             0,
-            this.usedCacheSize - oldestEntrySize
+            this.usedBytesApproximation - oldestEntrySize
           );
         } else {
           break; // Prevent infinite loop if cache is empty

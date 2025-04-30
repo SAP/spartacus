@@ -27,8 +27,7 @@ export interface SsrOptimizationOptions {
   cache?: boolean;
 
   /**
-   *
-   * @deprecated since ?
+   * @deprecated since v2211.29
    *
    * Limit the cache size
    *
@@ -44,18 +43,29 @@ export interface SsrOptimizationOptions {
   cacheSize?: number;
 
   /**
-   * Limits the cache size in bytes.
+   * Limits the cache size approximately in bytes.
    *
-   * Specifies the maximum memory (in bytes) allocated for caching,
+   * Specifies the maximum approximate memory (in bytes) allocated for cached entries,
    * helping to keep memory usage under control.
    *
-   * The default value is set to 3GB.
+   * The default value is set to 1GB.
    *
    * You can use the provided function `convertToBytes` to adjust this limit as needed:
    *
-   * `cacheLimit: convertToBytes(3, 'GB')`
+   * `cacheSizeBytesApproximation: convertToBytes(1, 'GB')`
+   *
+   * IMPORTANT: Your server should have much more memory than the configured `cacheSizeBytesApproximation`,
+   *            because the approximate size of the rendered HTML may not match the actual memory usage of the NodeJS engine.
+   *            Moreover, the NodeJS engine needs memory also for other operations, such as the Angular Server-Side Rendering itself.
+   *
+   * CAUTION: It's not guaranteed to match the memory actually used by the NodeJS engine.
+   *          It's only an approximation using utf-8 encoding for strings:
+   *          - for successful renders it approximates the size of the rendered HTML
+   *          - for errors it sums the approximate size of the 3 string properties: `name`, `message` and `stack`,
+   *            but not other unknown properties, so it's prone to under-estimation.
+   *            Note: it's not recommended to cache errors anyway.
    */
-  cacheLimit?: number;
+  cacheSizeBytesApproximation?: number;
 
   /**
    * Limit number of concurrent rendering
@@ -192,11 +202,8 @@ export interface SsrOptimizationOptions {
     avoidCachingErrors?: boolean;
 
     /**
-     * Determines if cache size should be managed in bytes rather than entries.
-     *
-     * If `true`, cache size will be calculated in bytes. This allows for more granular
-     * control of memory usage and helps ensure that the cache size does not exceed a given
-     * memory limit.
+     * When true, the cache size will be managed in bytes - via `cacheApproximateBytesLimit` SsrOptimizationOptions.
+     * When false, the cache size will be managed in number of entries - via deprecated `cacheSize` SsrOptimizationOptions.
      */
     cacheLimitInBytes?: boolean;
   };
@@ -262,7 +269,7 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheLimit: convertToBytes(3, 'GB'),
+  cacheSizeBytesApproximation: convertToBytes(1, 'GB'),
   ttl: undefined,
   concurrency: 10,
   timeout: 3_000,

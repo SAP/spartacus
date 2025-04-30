@@ -23,7 +23,7 @@ describe('RenderingCache', () => {
     beforeEach(() => {
       renderingCache = new RenderingCache({
         ...options,
-        cacheLimit: 3000,
+        cacheSizeBytesApproximation: 3000,
         ssrFeatureToggles: {
           cacheLimitInBytes: true,
         },
