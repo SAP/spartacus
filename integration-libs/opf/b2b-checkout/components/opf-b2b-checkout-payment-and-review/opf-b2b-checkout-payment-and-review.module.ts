@@ -30,8 +30,10 @@ import {
   OpfCheckoutReviewCartDetailsModule,
   OpfCheckoutTermsAndConditionsAlertModule,
 } from '@spartacus/opf/checkout/components';
-import { CartNotEmptyGuard } from '@spartacus/checkout/base/components';
-import { CheckoutAuthGuard } from '@spartacus/checkout/base/components';
+import {
+  CartNotEmptyGuard,
+  CheckoutAuthGuard,
+} from '@spartacus/checkout/base/components';
 
 @NgModule({
   imports: [

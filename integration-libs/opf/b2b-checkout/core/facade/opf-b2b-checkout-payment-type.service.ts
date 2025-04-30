@@ -34,10 +34,10 @@ export class OpfB2bCheckoutPaymentTypeService
 {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
 
-  protected setPaymentTypeCommand: Command<
-    { paymentTypeCode: string; purchaseOrderNumber?: string },
-    unknown
-  > = this.commandService.create<{
+  protected setPaymentTypeCommand: Command<{
+    paymentTypeCode: string;
+    purchaseOrderNumber?: string;
+  }> = this.commandService.create<{
     paymentTypeCode: string;
     purchaseOrderNumber?: string;
   }>(
