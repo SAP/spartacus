@@ -127,7 +127,6 @@
   },
   "private": false,
   "dependencies": {
-    "@angular-builders/custom-esbuild": "^19.1.0",
     "@angular/animations": "^19.0.3",
     "@angular/common": "^19.0.3",
     "@angular/compiler": "^19.0.3",
@@ -164,6 +163,7 @@
     "zone.js": "0.15.0"
   },
   "devDependencies": {
+    "@angular-builders/custom-esbuild": "^19.1.0",
     "@angular-builders/custom-webpack": "19.0.0",
     "@angular-devkit/build-angular": "^19.0.4",
     "@angular-devkit/core": "^19.0.4",
