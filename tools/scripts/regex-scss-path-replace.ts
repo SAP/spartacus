@@ -62,14 +62,17 @@ export const replaceContent = (
   }, updatedContent);
 
   // Add @spartacus prefix for paths in appendSpartacusPath
-  const spartacusRegex = new RegExp(
-    `@(import|use) ['"](${appendSpartacusPath.join('|')})/([^'"]*)['"]`,
-    'ig'
-  );
   updatedContent = updatedContent.replace(
-    spartacusRegex,
+    new RegExp(
+      `@(import|use) ['"](${appendSpartacusPath.join('|')})(/[^'"]*)?['"]`,
+      'ig'
+    ),
     (_match, directive, group1, group2) => {
-      return `@${directive} '@spartacus/${group1}/${group2}'`;
+      if (group2) {
+        return `@${directive} '@spartacus/${group1}${group2}'`;
+      } else {
+        return `@${directive} '@spartacus/${group1}'`;
+      }
     }
   );
 
