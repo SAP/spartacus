@@ -5,23 +5,7 @@
  */
 
 import { RenderingEntry } from './rendering-cache.model';
-// import { SsrOptimizationOptions } from './ssr-optimization-options';
-
-// SPIKE TEMPORARY:
-
-interface SsrOptimizationOptions {
-  cacheSizeBytesApproximation?: number;
-  shouldCacheRenderingResult?: (args: {
-    options: SsrOptimizationOptions;
-    entry: RenderingEntry;
-  }) => boolean;
-  ttl?: number;
-  ssrFeatureToggles?: {
-    cacheLimitInBytes?: boolean;
-  };
-  cache?: boolean;
-  cacheSize?: number;
-}
+import { SsrOptimizationOptions } from './ssr-optimization-options';
 
 export class RenderingCache {
   protected renders = new Map<string, RenderingEntry>();
@@ -52,41 +36,38 @@ export class RenderingCache {
       entry,
     });
 
-    let entrySize = 0;
+    if (!shouldCache) {
+      return;
+    }
+
+    this.renders.delete(key);
 
     if (this.options?.ttl) {
       entry.time = Date.now();
     }
 
     if (this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
-      if (!shouldCache) {
-        return;
-      }
-
+      let entrySize = 0;
       if (html || err) {
         entrySize = this.getEntrySize(entry);
       }
 
-      this.renders.delete(key);
       this.tryRemoveOldestCacheEntries(entrySize);
-
       this.tryToCacheTheEntry(entrySize, key, entry);
       return;
     }
 
-    if (this.options?.cacheSize) {
-      this.renders.delete(key);
-      if (this.renders.size >= this.options.cacheSize) {
-        const oldestKey = this.renders.keys().next().value;
-        if (oldestKey !== undefined) {
-          this.renders.delete(oldestKey);
-        }
+    if (
+      this.options?.cacheSize &&
+      this.renders.size >= this.options.cacheSize
+    ) {
+      const oldestKey = this.renders.keys().next().value;
+      if (oldestKey !== undefined) {
+        this.renders.delete(oldestKey);
       }
     }
 
-    if (shouldCache) {
-      this.renders.set(key, entry);
-    }
+    this.renders.set(key, entry);
   }
 
   get(key: string): RenderingEntry | undefined {
