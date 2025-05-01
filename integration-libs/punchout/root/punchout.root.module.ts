@@ -8,7 +8,6 @@ import {
   APP_BOOTSTRAP_LISTENER,
   ComponentRef,
   inject,
-  ModuleWithProviders,
   NgModule,
   provideAppInitializer,
 } from '@angular/core';
@@ -21,7 +20,7 @@ import { PUNCHOUT_FEATURE } from './feature-name';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
-import { PunchoutComponentsService } from '@spartacus/punchout/components';
+import { PunchoutComponentsService } from '../components/punchout-components.service';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -60,23 +59,16 @@ export function punchoutStatePersistenceFactory(): () => void {
       provide: AuthHttpHeaderService,
       useExisting: PunchoutAuthHttpHeaderService,
     },
+    PunchoutComponentsService,
+    {
+      provide: APP_BOOTSTRAP_LISTENER,
+      multi: true,
+      useFactory: (): ((compRef: ComponentRef<any>) => void) => {
+        const punchoutComponentsService = inject(PunchoutComponentsService);
+        return (compRef: ComponentRef<any>) =>
+          punchoutComponentsService.init(compRef);
+      },
+    },
   ],
 })
-export class PunchoutRootModule {
-  static forRoot(): ModuleWithProviders<PunchoutRootModule> {
-    return {
-      ngModule: PunchoutRootModule,
-      providers: [
-        {
-          provide: APP_BOOTSTRAP_LISTENER,
-          multi: true,
-          useFactory: (): ((compRef: ComponentRef<any>) => void) => {
-            const punchoutComponentsService = inject(PunchoutComponentsService);
-            return (compRef: ComponentRef<any>) =>
-              punchoutComponentsService.init(compRef);
-          },
-        },
-      ],
-    };
-  }
-}
+export class PunchoutRootModule {}

@@ -11,7 +11,6 @@ import { CartSharedModule } from '@spartacus/cart/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { PunchoutButtonsComponent } from './punchout-buttons/punchout-buttons.component';
 import { PunchoutCloseSessionComponent } from './punchout-close-session/punchout-close-session.component';
-import { PunchoutComponentsService } from './punchout-components.service';
 import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart/punchout-inspect-cart.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
@@ -36,7 +35,7 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
   ],
   imports: [CommonModule, ReactiveFormsModule, I18nModule, CartSharedModule],
   providers: [
-    PunchoutComponentsService,
+    // PunchoutComponentsService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         PunchoutSessionComponent: {

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, RendererFactory2 } from '@angular/core';
+import {
+  ComponentRef,
+  inject,
+  Injectable,
+  RendererFactory2,
+} from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { PunchoutStoreService } from '@spartacus/punchout/root';
 import { Observable, of } from 'rxjs';
@@ -46,7 +51,7 @@ export class PunchoutComponentsService {
     }
   }
 
-  init(rootComponent) {
+  init(rootComponent: ComponentRef<any>) {
     console.log('init', rootComponent);
     this.rootElement = rootComponent.location.nativeElement;
   }
