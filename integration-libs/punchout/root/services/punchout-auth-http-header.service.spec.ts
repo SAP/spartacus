@@ -11,15 +11,12 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { PunchoutFacade } from '../facade';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
-  PUNCHOUT_OCC_API_URL_SEGMENT,
   PUNCHOUT_SESSION_KEY,
-  PUNCHOUT_SESSION_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutSession,
-  PunchoutState,
 } from '../model';
 import { PunchoutAuthHttpHeaderService } from './punchout-auth-http-header.service';
 import { PunchoutDetectionService } from './punchout-detection.service';
@@ -37,10 +34,7 @@ const mockPunchoutSession: PunchoutSession = {
     tokenType: 'Bearer',
   },
 };
-const mockPunchoutState: PunchoutState = {
-  punchoutSessionId: mockSessionId,
-  punchoutSession: mockPunchoutSession,
-};
+
 class MockPunchoutDetectionService
   implements Partial<PunchoutDetectionService>
 {
@@ -49,6 +43,9 @@ class MockPunchoutDetectionService
   }
   getPunchoutSessionId(): string | undefined {
     return mockSessionId;
+  }
+  isPunchoutSession(): boolean | undefined {
+    return false;
   }
 }
 
@@ -88,13 +85,12 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  setRedirectUrl = jasmine.createSpy('setRedirectUrl');
 }
 
-class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
-  setPunchoutState = () => {};
-  getPunchoutState = () => of(mockPunchoutState);
-  clearState = () => {};
-  getPunchoutSessionId = () => mockPunchoutState.punchoutSessionId;
+class MockPunchoutFacade implements Partial<PunchoutFacade> {
+  getPunchoutSession = () => of(mockPunchoutSession);
+  logoutPunchoutUser = () => of(true);
 }
 
 describe('PunchoutAuthHttpHeaderService', () => {
@@ -104,11 +100,12 @@ describe('PunchoutAuthHttpHeaderService', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
   let punchoutStoreService: PunchoutStoreService;
+  let punchoutfacade: PunchoutFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        { provide: PunchoutStoreService, useClass: MockPunchoutStoreService },
+        { provide: PunchoutFacade, useClass: MockPunchoutFacade },
         {
           provide: PunchoutDetectionService,
           useClass: MockPunchoutDetectionService,
@@ -131,6 +128,7 @@ describe('PunchoutAuthHttpHeaderService', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
+    punchoutfacade = TestBed.inject(PunchoutFacade);
   });
 
   it('should be created', () => {
@@ -157,36 +155,13 @@ describe('PunchoutAuthHttpHeaderService', () => {
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       true
     );
-    spyOn(globalMessageService, 'remove').and.callThrough();
+    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
+    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
 
     service.handleExpiredRefreshToken();
     await Promise.resolve();
 
-    expect(authService.coreLogout).toHaveBeenCalled();
-    expect(globalMessageService.remove).toHaveBeenCalled();
-  });
-
-  it('should handleExpiredAccessToken redirect to punchout session page', async () => {
-    const initialToken: AuthToken = {
-      access_token: `old_token`,
-      access_token_stored_at: '123',
-      refresh_token: 'ref_token',
-    };
-    const handler = (a: any) => of(a);
-    spyOn(routingService, 'goByUrl').and.callThrough();
-
-    await service.handleExpiredAccessToken(
-      new HttpRequest(
-        'GET',
-        `some-server/${PUNCHOUT_OCC_API_URL_SEGMENT}/sessions?${PUNCHOUT_SESSION_KEY}${mockSessionId}`
-      ),
-      { handle: handler } as HttpHandler,
-      initialToken
-    );
-
-    expect(routingService.goByUrl).toHaveBeenCalledWith(
-      `${PUNCHOUT_SESSION_PAGE_URL}?${PUNCHOUT_SESSION_KEY}=${mockSessionId}`
-    );
+    expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalled();
   });
 
   it('should handleExpiredAccessToken without occ punchout request not redirect to any page', async () => {
@@ -211,27 +186,27 @@ describe('PunchoutAuthHttpHeaderService', () => {
     expect(routingService.goByUrl).not.toHaveBeenCalled();
   });
 
-  it('should handleExpiredAccessToken without sessionId redirects to error page', async () => {
+  it('should handleExpiredAccessToken in active punchout session to call logout', async () => {
     const initialToken: AuthToken = {
       access_token: `old_token`,
       access_token_stored_at: '123',
       refresh_token: 'ref_token',
     };
     const handler = (a: any) => of(a);
-    spyOn(routingService, 'goByUrl').and.callThrough();
-    spyOn(punchoutStoreService, 'getPunchoutSessionId').and.returnValue('');
+
+    spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
+      true
+    );
+    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
+    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
 
     await service.handleExpiredAccessToken(
-      new HttpRequest(
-        'GET',
-        `some-server/${PUNCHOUT_OCC_API_URL_SEGMENT}/sessions?${PUNCHOUT_SESSION_KEY}${mockSessionId}`
-      ),
+      new HttpRequest('GET', `some-server`),
       { handle: handler } as HttpHandler,
       initialToken
     );
 
-    expect(routingService.goByUrl).toHaveBeenCalledWith(
-      PUNCHOUT_ERROR_PAGE_URL
-    );
+    // navigate with empty sessionId then punchout facade will take care of error handling
+    expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalled();
   });
 });

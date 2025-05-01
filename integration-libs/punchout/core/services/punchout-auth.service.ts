@@ -57,7 +57,7 @@ export class PunchoutAuthService {
     );
   }
 
-  loginWithToken(accessToken: string, userId: string): void {
+  loginWithToken(accessToken: string): void {
     // Code mostly based on auth lib we use and the way it handles token properties
     this.authStorageService.setItem(ACCESS_TOKEN, accessToken);
     this.authStorageService.setItem(
@@ -65,7 +65,6 @@ export class PunchoutAuthService {
       Date.now().toString()
     );
     this.authStorageService.setItem(TOKEN_TYPE, 'Bearer');
-    console.log('userId', userId);
     this.userIdService.setUserId(OCC_USER_ID_CURRENT);
     this.store.dispatch(new AuthActions.Login());
     this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
@@ -75,7 +74,7 @@ export class PunchoutAuthService {
     return this.authService.isUserLoggedIn().pipe(take(1));
   }
 
-  endPunchoutSession() {
+  endPunchoutSession(): void {
     this.punchoutStoreService.clearPunchoutState();
     this.globalMessageService.add(
       { key: 'httpHandlers.unauthorized.common' },

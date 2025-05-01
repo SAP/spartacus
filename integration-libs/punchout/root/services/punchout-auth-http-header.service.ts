@@ -13,26 +13,20 @@ import {
   AuthStorageService,
   AuthToken,
   GlobalMessageService,
-  GlobalMessageType,
   OAuthLibWrapperService,
   OccEndpointsService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  PUNCHOUT_OCC_API_URL_SEGMENT,
-  PUNCHOUT_SESSION_KEY,
-  PUNCHOUT_SESSION_PAGE_URL,
-} from '../model';
+import { PunchoutFacade } from '../facade';
 import { PunchoutDetectionService } from './punchout-detection.service';
-import { PunchoutStoreService } from './punchout-store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
-  protected punchoutStoreService = inject(PunchoutStoreService);
+  protected punchoutFacade = inject(PunchoutFacade);
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
@@ -56,25 +50,16 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   /**
    * @override
    *
-   * On backend errors indicating expired `refresh_token`, we need to silently logout
-   * by revoking invalid token and preventing Login page redirection.
-   * This rule is applied on punchout instance: punchoutSessionId in storage or browser on PunchoutSession page
+   * On backend errors indicating expired `refresh_token`, punchout session gets ended, user is redirected to login page
    * It is a workaround to address CXSPA-9608 - Public pages not displayed when token is invalid.
    * To be removed once CXSPA-9608 is closed.
    */
   public handleExpiredRefreshToken(): void {
-    if (this.punchoutDetectionService.isPunchoutSessionPage()) {
-      this.authRedirectService.setRedirectUrl('/');
-      this.authService.coreLogout().finally(() => {
-        this.routingService.go({ cxRoute: 'login' });
-
-        this.globalMessageService.add(
-          {
-            key: 'httpHandlers.sessionExpired',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
+    if (
+      this.punchoutDetectionService.isPunchoutSession() ||
+      this.punchoutDetectionService.isPunchoutSessionPage()
+    ) {
+      this.punchoutFacade.logoutPunchoutUser(true).subscribe();
     } else {
       super.handleExpiredRefreshToken();
     }
@@ -83,38 +68,19 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   /**
    * @override
    * Refreshes access_token and then retries the call with the new token.
-   * When url is a Punchout OCC call, redirect to PunchoutSession page to refresh the auth token.
+   * When punchout session exists,  punchout session gets ended, user is redirected to login page
    */
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler,
     initialToken: AuthToken | undefined
   ): Observable<HttpEvent<AuthToken>> {
-    if (this.isPunchoutOccApiRequest(request)) {
-      this.goToPunchoutPage();
+    if (
+      this.punchoutDetectionService.isPunchoutSession() ||
+      this.punchoutDetectionService.isPunchoutSessionPage()
+    ) {
+      this.punchoutFacade.logoutPunchoutUser(true).subscribe();
     }
     return super.handleExpiredAccessToken(request, next, initialToken);
-  }
-
-  protected silentLogout(): void {
-    this.authService.coreLogout().finally(() => {
-      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
-    });
-  }
-
-  protected isPunchoutOccApiRequest(request: HttpRequest<any>): boolean {
-    return request.url.includes(PUNCHOUT_OCC_API_URL_SEGMENT);
-  }
-
-  protected buildPunchoutSessionUrl(punchoutSessionId: string): string {
-    return `${PUNCHOUT_SESSION_PAGE_URL}?${PUNCHOUT_SESSION_KEY}=${punchoutSessionId}`;
-  }
-
-  protected goToPunchoutPage(): void {
-    this.routingService.goByUrl(
-      this.buildPunchoutSessionUrl(
-        this.punchoutStoreService.getPunchoutSessionId() ?? ''
-      )
-    );
   }
 }

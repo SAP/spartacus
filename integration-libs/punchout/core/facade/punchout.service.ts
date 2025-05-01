@@ -9,7 +9,6 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
-  GlobalMessageService,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -47,7 +46,6 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
-  protected globalMessageService = inject(GlobalMessageService);
 
   /**
    * punchoutSession ajax request will always return same response during a punchout session.
@@ -57,8 +55,8 @@ export class PunchoutService implements PunchoutFacade {
 
   /**
    * getPunchoutSession workflow:
-   * Get PunchoutSession from  occ api
    * Logout silently
+   * Get PunchoutSession from  occ api
    * Login silently
    * Load Cart
    * Only for EDIT mode: Fetch Requisition to store initial cart in CXML format.
@@ -79,8 +77,7 @@ export class PunchoutService implements PunchoutFacade {
       map((punchoutSession) => {
         if (punchoutSession?.token?.accessToken) {
           this.punchoutAuthService.loginWithToken(
-            punchoutSession.token.accessToken,
-            punchoutSession.customerId
+            punchoutSession.token.accessToken
           );
           this.loadCart(punchoutSession.cartId).subscribe();
           this.punchoutStoreService.setPunchoutState({

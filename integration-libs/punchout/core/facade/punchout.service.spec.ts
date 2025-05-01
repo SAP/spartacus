@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { CommandService, RoutingService, UserIdService } from '@spartacus/core';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -82,6 +81,9 @@ class MockPunchoutAuthService implements Partial<PunchoutAuthService> {
     () => {}
   );
   isUserLoggedIn = () => of(true);
+  endPunchoutSession = createSpy(
+    'PunchoutAuthService.loginWithToken'
+  ).and.callFake(() => {});
 }
 
 const commandServiceMock = {
@@ -174,7 +176,7 @@ describe('Punchoutservice', () => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     service.getPunchoutSession({ punchoutSessionId: '' }).subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
         done();
       },
     });
@@ -185,7 +187,7 @@ describe('Punchoutservice', () => {
     spyOn(punchoutAuthService, 'isUserLoggedIn').and.returnValue(of(false));
     service.getPunchoutSessionRequisition().subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
         done();
       },
     });
@@ -213,7 +215,7 @@ describe('Punchoutservice', () => {
     );
     service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
         done();
       },
     });
@@ -227,7 +229,7 @@ describe('Punchoutservice', () => {
 
     service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
         done();
       },
     });
