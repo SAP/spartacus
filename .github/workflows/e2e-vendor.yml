@@ -114,7 +114,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s segment-refs
   build_conclusion:
-    needs: [b2c_e2e_tests, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests]
+    needs: [cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
