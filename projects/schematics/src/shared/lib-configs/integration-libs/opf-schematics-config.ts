@@ -236,8 +236,8 @@ export const OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     importPath: SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
   },
   lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_OPF_CHECKOUT_ROOT,
-    namedImports: [OPF_CHECKOUT_FEATURE_NAME_CONSTANT],
+    moduleSpecifier: SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
+    namedImports: [OPF_B2B_CHECKOUT_FEATURE_NAME_CONSTANT],
   },
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
