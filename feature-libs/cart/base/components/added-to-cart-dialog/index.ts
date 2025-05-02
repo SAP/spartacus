@@ -7,4 +7,3 @@
 export * from './added-to-cart-dialog-event.listener';
 export * from './added-to-cart-dialog.component';
 export * from './added-to-cart-dialog.module';
-export * from './default-added-to-cart-layout.config';

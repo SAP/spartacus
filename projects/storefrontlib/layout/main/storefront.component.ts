@@ -6,7 +6,6 @@
 
 import { DOCUMENT } from '@angular/common';
 import {
-  // AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -34,7 +33,6 @@ import {
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
-// import { RootDomService } from './root-dom-service';
 
 @Component({
   selector: 'cx-storefront',
@@ -60,7 +58,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @Optional() protected skipLinkService = inject(SkipLinkService, {
     optional: true,
   });
-  // protected rootDomService = inject(RootDomService);
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
@@ -130,10 +127,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       this.trapFocusOnMenuIfExpanded();
     }
   }
-
-  // ngAfterViewInit(): void {
-  //   this.rootDomService.setRootElement(this.elementRef.nativeElement);
-  // }
 
   collapseMenuIfClickOutside(event: any): void {
     const element = event.target;

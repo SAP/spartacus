@@ -35,7 +35,6 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
   ],
   imports: [CommonModule, ReactiveFormsModule, I18nModule, CartSharedModule],
   providers: [
-    // PunchoutComponentsService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         PunchoutSessionComponent: {
