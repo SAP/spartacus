@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import {
   PUNCHOUT_ERROR_PAGE_URL,
-  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutOperation,
   PunchoutRequisition,
@@ -192,7 +191,6 @@ export class PunchoutService implements PunchoutFacade {
               closePunchoutSession: true,
             });
           }
-          this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
           return true;
         }),
         catchError((error) => {

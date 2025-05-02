@@ -340,7 +340,6 @@ describe('Punchoutservice', () => {
         punchOutOperation: PunchOutOperation.CREATE,
       },
     };
-    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of(mockState)
     );
@@ -356,7 +355,6 @@ describe('Punchoutservice', () => {
         });
         expect(multiCartFacade.addEntries).not.toHaveBeenCalled();
         expect(multiCartFacade.removeEntry).not.toHaveBeenCalled();
-        expect(routingService.go).toHaveBeenCalled();
         done();
       },
     });
@@ -370,7 +368,6 @@ describe('Punchoutservice', () => {
         punchOutOperation: PunchOutOperation.INSPECT,
       },
     };
-    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of(mockState)
     );
@@ -384,7 +381,6 @@ describe('Punchoutservice', () => {
         expect(punchoutStoreService.updatePunchoutState).not.toHaveBeenCalled();
         expect(multiCartFacade.addEntries).not.toHaveBeenCalled();
         expect(multiCartFacade.removeEntry).not.toHaveBeenCalled();
-        expect(routingService.go).toHaveBeenCalled();
         done();
       },
     });
