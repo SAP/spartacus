@@ -21,7 +21,7 @@ export class PunchoutComponentsService {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected authService = inject(AuthService);
 
-  protected readonly CSS_FEATURE_FLAG_CLASS = 'cxPunchoutSessionActive';
+  protected readonly CSS_PUNCHOUT_SESSION_CLASS = 'cxPunchoutSessionActive';
   protected renderer = this.rendererFactory.createRenderer(null, null);
   protected rootElement: HTMLElement | undefined;
 
@@ -35,24 +35,25 @@ export class PunchoutComponentsService {
       map((punchoutState) => {
         return !!punchoutState.punchoutSessionId;
       }),
-      tap(this.updateClass)
+      tap((punchoutActive) => this.updateClass(punchoutActive))
     );
   }
 
   protected updateClass(punchoutActive: boolean) {
-    console.log(punchoutActive, this.rootElement);
     if (!this.rootElement) {
       return;
     }
     if (punchoutActive) {
-      this.renderer.addClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
+      this.renderer.addClass(this.rootElement, this.CSS_PUNCHOUT_SESSION_CLASS);
     } else {
-      this.renderer.removeClass(this.rootElement, this.CSS_FEATURE_FLAG_CLASS);
+      this.renderer.removeClass(
+        this.rootElement,
+        this.CSS_PUNCHOUT_SESSION_CLASS
+      );
     }
   }
 
   init(rootComponent: ComponentRef<any>) {
-    console.log('init', rootComponent);
     this.rootElement = rootComponent.location.nativeElement;
   }
 }
