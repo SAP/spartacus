@@ -213,7 +213,7 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s epd-visualization
-   cds_e2e_tests:
+  cds_e2e_tests:
     name: E2E tests for cds
     runs-on: ubuntu-latest
     steps:
