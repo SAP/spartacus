@@ -12,6 +12,7 @@
     type="button"
     class="btn btn-block btn-primary"
     (click)="submitRequisition(true)"
+    [disabled]="closeSessionTriggered"
   >
     {{ 'punchout.cancel' | cxTranslate }}
   </button>
