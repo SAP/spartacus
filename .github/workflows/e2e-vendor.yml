@@ -112,7 +112,7 @@ jobs:
           SPA_ENV: segment-refs,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s segment-refs
+          ci-scripts/e2e-cypress.sh -s segment-refs-v2
   digital_payments_e2e_tests:
     name: E2E tests for digital payments
     runs-on: ubuntu-latest

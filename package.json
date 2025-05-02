@@ -86,6 +86,7 @@
     "e2e:run:ci:cdc-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc-b2b",
     "e2e:run:ci:cdc-b2b-v2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc-b2b-v2",
     "e2e:run:ci:segment-refs": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:segment-refs",
+    "e2e:run:ci:segment-refs-v2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:segment-refs-v2",
     "e2e:run:ci:opps": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:opps",
     "e2e:run:ci:opps-v2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:opps-v2",
     "e2e:run:ci:my-account-v2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:my-account-v2",
