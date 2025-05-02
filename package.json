@@ -75,6 +75,7 @@
     "e2e:run:ci:cdc": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc",
     "e2e:run:ci:cdc-v2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc-v2",
     "e2e:run:ci:cdp": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdp",
+    "e2e:run:ci:cdp-v2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdp-v2",
     "e2e:run:ci:digital-payments": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:digital-payments",
     "e2e:run:ci:s4-service": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:s4-service",
     "e2e:run:ci:epd-visualization": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:epd-visualization",

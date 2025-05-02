@@ -159,21 +159,3 @@ else
         npm run e2e:run:ci"${SUITE}"
     fi
 fi
-
-if [ "$SUITE" == ":opf" ]; then
-    echo "Running Cypress end to end tests for pull request"
-
-    npm run e2e:run:ci:opf
-elif [ "$SUITE" == ":cdc" ]; then
-    echo "Running Cypress end to end tests for CDC"
-
-    npm run e2e:run:ci:cdc-v2
-elif [ "$SUITE" == ":cdc-b2b" ]; then
-    echo "Running Cypress end to end tests for CDC B2B"
-
-    npm run e2e:run:ci:cdc-b2b-v2
-else
-    echo "Running vendor cypress tests"
-
-    npm run e2e:run:ci:vendor
-fi
