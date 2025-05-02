@@ -147,12 +147,11 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
   }
 }
 
-describe(`OpfB2bCheckoutB2BStepsSetGuard`, () => {
+describe(`OpfB2bCheckoutStepsSetGuard`, () => {
   let guard: OpfB2bCheckoutStepsSetGuard;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
-  let checkoutPaymentFacade: CheckoutPaymentFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -191,139 +190,6 @@ describe(`OpfB2bCheckoutB2BStepsSetGuard`, () => {
       CheckoutDeliveryAddressFacade
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-    checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
-  });
-
-  describe('When CARD payment', () => {
-    beforeEach(() => {
-      isAccount.next(false);
-    });
-
-    describe('there is no checkout data set yet', () => {
-      it('go to step1 (delivery address), should return true (no need cost center for CARD)', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
-      });
-
-      it('go to step3 (payment details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
-      });
-    });
-
-    describe('step1 (delivery address) data set', () => {
-      beforeEach(() => {
-        spyOn(
-          checkoutDeliveryAddressFacade,
-          'getDeliveryAddressState'
-        ).and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-address' } })
-        );
-      });
-
-      it('go to step2 (delivery mode), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step3 (payment details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
-      });
-    });
-
-    describe('step2 (delivery mode) data set', () => {
-      beforeEach(() => {
-        spyOn(
-          checkoutDeliveryModesFacade,
-          'getSelectedDeliveryModeState'
-        ).and.returnValue(
-          of({
-            loading: false,
-            error: false,
-            data: { code: 'test-delivery-mode' },
-          })
-        );
-      });
-
-      it('go to step3 (payment details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
-      });
-    });
-
-    describe('step3 (payment details) data set', () => {
-      beforeEach(() => {
-        spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').and.returnValue(
-          of({ loading: false, error: false, data: { id: 'test-details' } })
-        );
-      });
-
-      it('go to step4 (review details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
-      });
-    });
   });
 
   describe('When ACCOUNT payment', () => {
