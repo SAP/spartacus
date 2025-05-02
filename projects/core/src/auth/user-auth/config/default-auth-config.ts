@@ -5,7 +5,7 @@
  */
 
 import { inject } from '@angular/core';
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureToggles } from '../../../features-config';
 import { AuthConfig } from './auth-config';
 
 const defaultAuthConfig: AuthConfig = {
