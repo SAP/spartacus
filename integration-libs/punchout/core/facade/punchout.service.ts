@@ -50,6 +50,12 @@ export class PunchoutService implements PunchoutFacade {
   protected userIdService = inject(UserIdService);
 
   /**
+   * punchoutSession ajax request will always return same response during a punchout session.
+   * To avoid multiple server calls, punchoutSession OCC API response  is stored into cachedPunchoutSessionResponse.
+   */
+  protected cachedPunchoutSessionResponse?: PunchoutSession;
+
+  /**
    * getPunchoutSession workflow:
    * Get PunchoutSession from  occ api
    * Logout silently
@@ -67,55 +73,44 @@ export class PunchoutService implements PunchoutFacade {
       this.displayErrorPage();
       return throwError(() => new Error('Punchout Session Id missing'));
     }
-    return this.punchoutConnector
-      .getPunchoutSession(payload.punchoutSessionId)
-      .pipe(
-        map((punchoutSession) => {
-          if (
-            !punchoutSession?.token?.accessToken ||
-            !punchoutSession?.customerId ||
-            !punchoutSession?.cartId
-          ) {
-            throw new Error('Punchout login info missing');
-          }
-          return punchoutSession;
-        }),
-        switchMap((punchoutSession) => {
-          return forkJoin({
-            punchoutSession: of(punchoutSession),
-            logout: this.punchoutAuthService.logout(),
-          });
-        }),
-        map(({ punchoutSession }) => {
-          if (punchoutSession?.token?.accessToken) {
-            this.punchoutAuthService.loginWithToken(
-              punchoutSession.token.accessToken,
-              punchoutSession.customerId
-            );
-            this.loadCart(punchoutSession.cartId).subscribe();
-            this.punchoutStoreService.setPunchoutState({
-              punchoutSessionId: payload.punchoutSessionId,
-              punchoutSession: { ...punchoutSession },
-            });
-            if (
-              punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
-              punchoutSession?.cartId &&
-              !payload?.isPageRefresh
-            ) {
-              this.setPunchoutInitialRequisition();
-            }
-            if (!payload?.isPageRefresh) {
-              this.routeToTargetPage(punchoutSession);
-            }
-          }
 
-          return punchoutSession;
-        }),
-        catchError((error) => {
-          this.displayErrorPage();
-          return throwError(() => new Error(error));
-        })
-      );
+    return this.requestPunchoutSession(payload.punchoutSessionId).pipe(
+      switchMap((punchoutSession) => {
+        return forkJoin({
+          punchoutSession: of(punchoutSession),
+          logout: this.punchoutAuthService.logout(),
+        });
+      }),
+      map(({ punchoutSession }) => {
+        if (punchoutSession?.token?.accessToken) {
+          this.punchoutAuthService.loginWithToken(
+            punchoutSession.token.accessToken,
+            punchoutSession.customerId
+          );
+          this.loadCart(punchoutSession.cartId).subscribe();
+          this.punchoutStoreService.setPunchoutState({
+            punchoutSessionId: payload.punchoutSessionId,
+            punchoutSession: { ...punchoutSession },
+          });
+          if (
+            punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
+            punchoutSession?.cartId &&
+            !payload?.isPageRefresh
+          ) {
+            this.setPunchoutInitialRequisition();
+          }
+          if (!payload?.isPageRefresh) {
+            this.routeToTargetPage(punchoutSession);
+          }
+        }
+
+        return punchoutSession;
+      }),
+      catchError((error) => {
+        this.displayErrorPage();
+        return throwError(() => new Error(error));
+      })
+    );
   });
 
   /**
@@ -207,6 +202,35 @@ export class PunchoutService implements PunchoutFacade {
       );
     });
 
+  /**
+   * Request Punchout session calling occ api.
+   * Returns cached value if server request has been already made.
+   * @param punchoutSessionId
+   * @returns
+   */
+
+  protected requestPunchoutSessionCommand: Command<string, PunchoutSession> =
+    this.commandService.create((punchoutSessionId: string) => {
+      return this.cachedPunchoutSessionResponse
+        ? of(this.cachedPunchoutSessionResponse)
+        : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+            map((punchoutSession) => {
+              if (
+                !punchoutSession?.token?.accessToken ||
+                !punchoutSession?.customerId ||
+                !punchoutSession?.cartId
+              ) {
+                throw new Error('Punchout login info missing');
+              }
+              this.cachedPunchoutSessionResponse = {
+                ...punchoutSession,
+                token: { ...punchoutSession.token },
+              };
+              return punchoutSession;
+            })
+          );
+    });
+
   closePunchoutSession(): Observable<boolean> {
     return this.closePunchoutSessionCommand.execute(undefined);
   }
@@ -223,6 +247,12 @@ export class PunchoutService implements PunchoutFacade {
 
   logoutPunchoutUser(): Observable<boolean> {
     return this.logoutPunchoutUserCommand.execute(undefined);
+  }
+
+  requestPunchoutSession(
+    punchoutSessionId: string
+  ): Observable<PunchoutSession> {
+    return this.requestPunchoutSessionCommand.execute(punchoutSessionId);
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {

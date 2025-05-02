@@ -17,6 +17,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
+import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
@@ -46,6 +47,7 @@ export function punchoutStatePersistenceFactory(): () => void {
 }
 
 @NgModule({
+  imports: [PunchoutNavigationModule],
   providers: [
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
