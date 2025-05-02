@@ -163,7 +163,7 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s opps-v2
-  s4-service_e2e_tests:
+  s4_service_e2e_tests:
     name: E2E tests for s4 service
     runs-on: ubuntu-latest
     steps:
@@ -188,8 +188,33 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s s4-service-v2
+  epd_visualization_e2e_tests:
+    name: E2E tests for epd visualization
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: epd-visualization,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s epd-visualization
   build_conclusion:
-    needs: [cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4-service_e2e_tests]
+    needs: [cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -207,4 +232,5 @@ jobs:
           needs.segment_refs_e2e_tests.result == 'failure' || needs.segment_refs_e2e_tests.result == 'cancelled' ||
           needs.digital_payments_e2e_tests.result == 'failure' || needs.digital_payments_e2e_tests.result == 'cancelled' ||
           needs.opps_e2e_tests.result == 'failure' || needs.opps_e2e_tests.result == 'cancelled' ||
-          needs.s4-service_e2e_tests.result == 'failure' || needs.s4-service_e2e_tests.result == 'cancelled'
+          needs.s4_service_e2e_tests.result == 'failure' || needs.s4_service_e2e_tests.result == 'cancelled' ||
+          needs.epd_visualization_e2e_tests.result == 'failure' || needs.epd_visualization_e2e_tests.result == 'cancelled'
