@@ -187,7 +187,7 @@ describe('Punchoutservice', () => {
     spyOn(punchoutAuthService, 'isUserLoggedIn').and.returnValue(of(false));
     service.getPunchoutSessionRequisition().subscribe({
       error: () => {
-        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
@@ -215,7 +215,7 @@ describe('Punchoutservice', () => {
     );
     service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
-        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
@@ -229,7 +229,7 @@ describe('Punchoutservice', () => {
 
     service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
-        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
