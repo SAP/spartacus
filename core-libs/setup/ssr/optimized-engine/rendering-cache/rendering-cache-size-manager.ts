@@ -145,16 +145,16 @@ export class RenderingCacheSizeManager {
   }
 
   /**
-   * Adds the entry size to the used cache size.
+   * Tracks the memory usage of the entry.
    */
-  addEntrySize(entrySize: number): void {
+  trackEntrySize(entrySize: number): void {
     this.usedSize += entrySize;
   }
 
   /**
-   * Removes the entry size from the used cache size.
+   * Un-tracks the memory usage of the entry.
    */
-  removeEntrySize(entrySize: number): void {
+  untrackEntrySize(entrySize: number): void {
     // we don't expect negative used size but adding Math.max(0, ...) as a safe guard
     this.usedSize = Math.max(0, this.usedSize - entrySize);
   }

@@ -20,10 +20,10 @@ export interface RenderingEntry {
    *
    * CAUTION: It's not guaranteed to be exact memory actually used by the NodeJS engine.
    *          It's only a best effort approximation using utf-8 encoding for strings:
-   *          - for successful renders it approximates the size of the rendered HTML string
+   *          - for successful renders it approximates the size of the rendered HTML string, assuming 2 bytes per character
    *          - for errors it sums the approximate size of the 3 string properties: `name`, `message` and `stack`,
-   *            but not other unknown properties, so it's prone to under-estimation.
-   *            Note: it's not recommended to cache errors anyway.
+   *            but not other unknown properties, so it's prone to under-estimation!
+   *            Note: it's not recommended to cache errors.
    */
   _size?: number;
 }

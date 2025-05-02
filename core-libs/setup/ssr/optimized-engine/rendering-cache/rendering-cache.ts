@@ -15,8 +15,8 @@ export class RenderingCache {
 
   // Don't use directly, use `sizeManager` getter instead.
   private _sizeManager: RenderingCacheSizeManager;
-
-  protected get sizeManager(): RenderingCacheSizeManager {
+  private get sizeManager(): RenderingCacheSizeManager {
+    // Log an error if attempting to use the size manager when `ssrFeatureToggles.cacheLimitInBytes` is false
     if (!this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
       this.options?.logger?.error?.(
         'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.cacheLimitInBytes` is false!',
@@ -43,7 +43,7 @@ export class RenderingCache {
    *
    * If needed, removes oldest entries until there's enough space for the new entry.
    */
-  protected storeUsingBytesLimit(key: string, entry: RenderingEntry): void {
+  private storeUsingBytesLimit(key: string, entry: RenderingEntry): void {
     const entrySize = this.sizeManager.calculateEntrySize(entry);
 
     if (this.sizeManager.isEntryTooLarge(entrySize)) {
@@ -52,17 +52,15 @@ export class RenderingCache {
 
     this.clearOldestEntriesForSize(entrySize);
 
-    if (this.sizeManager.hasEnoughSpace(entrySize)) {
-      entry._size = entrySize;
-      this.renders.set(key, entry);
-      this.sizeManager.addEntrySize(entrySize);
-    }
+    entry._size = entrySize;
+    this.renders.set(key, entry);
+    this.sizeManager.trackEntrySize(entrySize);
   }
 
   /**
-   * Evicts oldest entries until there's enough space for the new entry.
+   * Clear oldest entries until there's enough space for the new entry.
    */
-  protected clearOldestEntriesForSize(requiredSize: number): void {
+  private clearOldestEntriesForSize(requiredSize: number): void {
     while (
       !this.sizeManager.hasEnoughSpace(requiredSize) &&
       this.renders.size > 0
@@ -86,7 +84,7 @@ export class RenderingCache {
    *
    * @deprecated since <TODO PUT VERSION HERE> it will be removed together with the feature toggle `ssrFeatureToggles.cacheLimitInBytes`.
    */
-  protected storeUsingEntriesLimit(key: string, entry: RenderingEntry): void {
+  private storeUsingEntriesLimit(key: string, entry: RenderingEntry): void {
     if (
       this.options?.cacheSize &&
       this.renders.size >= this.options.cacheSize
@@ -138,7 +136,7 @@ export class RenderingCache {
 
     // Use the size manager only when `ssrFeatureToggles.cacheLimitInBytes` is set to true.
     if (this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
-      this.sizeManager.removeEntrySize(entry?._size ?? 0);
+      this.sizeManager.untrackEntrySize(entry?._size ?? 0);
     }
   }
 
