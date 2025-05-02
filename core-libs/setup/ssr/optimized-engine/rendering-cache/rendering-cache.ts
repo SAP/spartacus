@@ -16,10 +16,10 @@ export class RenderingCache {
   // Don't use directly, use `sizeManager` getter instead.
   private _sizeManager: RenderingCacheSizeManager;
   private get sizeManager(): RenderingCacheSizeManager {
-    // Log an error if attempting to use the size manager when `ssrFeatureToggles.cacheLimitInBytes` is false
-    if (!this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
+    // Log an error if attempting to use the size manager when `ssrFeatureToggles.limitCacheByMemory` is false
+    if (!this.options?.ssrFeatureToggles?.limitCacheByMemory) {
       this.options?.logger?.error?.(
-        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.cacheLimitInBytes` is false!',
+        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.limitCacheByMemory` is false!',
         {}
       );
     }
@@ -82,7 +82,8 @@ export class RenderingCache {
    *
    * If needed, removes oldest entry when number of entries limit is reached.
    *
-   * @deprecated since <TODO PUT VERSION HERE> it will be removed together with the feature toggle `ssrFeatureToggles.cacheLimitInBytes`.
+   * @deprecated since v2211.40 - use `storeUsingBytesLimit` method instead.
+   *             This method will be removed together with the feature toggle `ssrFeatureToggles.limitCacheByMemory`.
    */
   private storeUsingEntriesLimit(key: string, entry: RenderingEntry): void {
     if (
@@ -100,7 +101,7 @@ export class RenderingCache {
   /**
    * Store the entry, respecting the cache limit.
    *
-   * Depending on the `ssrFeatureToggles.cacheLimitInBytes` option,
+   * Depending on the `ssrFeatureToggles.limitCacheByMemory` option,
    * it will respect either the bytes limit (`options.cacheSizeBytes`) or the entries number limit (`options.cacheSize`).
    */
   store(key: string, err?: Error | null, html?: string) {
@@ -119,7 +120,7 @@ export class RenderingCache {
 
     this.renders.delete(key);
 
-    if (this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
+    if (this.options?.ssrFeatureToggles?.limitCacheByMemory) {
       this.storeUsingBytesLimit(key, entry);
     } else {
       this.storeUsingEntriesLimit(key, entry);
@@ -134,8 +135,8 @@ export class RenderingCache {
     const entry = this.renders.get(key);
     this.renders.delete(key);
 
-    // Use the size manager only when `ssrFeatureToggles.cacheLimitInBytes` is set to true.
-    if (this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
+    // Use the size manager only when `ssrFeatureToggles.limitCacheByMemory` is set to true.
+    if (this.options?.ssrFeatureToggles?.limitCacheByMemory) {
       this.sizeManager.untrackEntrySize(entry?._size ?? 0);
     }
   }

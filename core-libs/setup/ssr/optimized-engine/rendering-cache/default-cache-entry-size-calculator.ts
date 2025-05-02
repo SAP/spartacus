@@ -12,7 +12,7 @@ import { RenderingEntry } from './rendering-cache.model';
  *
  * For HTML string, it assumes each character is 2 bytes (utf-8 encoding).
  *
- * For error object, it assumes sums sizes of the `name`, `message` and `stack` string properties.
+ * For error object, it sums sizes of the `name`, `message` and `stack` string properties.
  *
  * CAUTION: the error object can be potentially anything and can have more properties (not necessarily strings),
  *          so it's just an approximation and it's prone to under-estimation!
@@ -47,13 +47,6 @@ export class DefaultCacheEntrySizeCalculator
    * - name
    * - message
    * - stack
-   *
-   * It assumes each character is 2 bytes (utf-8 encoding).
-   *
-   * CAUTION: the error object can be anything and can have more properties (not necessarily strings),
-   *          so it's just an approximation and it's prone to under-estimation!
-   *
-   * Note: it's not recommended to cache error objects.
    */
   protected calculateErrorSize(error: any): number {
     let size = 0;

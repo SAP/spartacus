@@ -16,7 +16,7 @@ export interface RenderingEntry {
   /**
    * Rough approximate size of the entry in bytes.
    *
-   * Note: it's used only when `ssrFeatureToggles.cacheLimitInBytes` is set to true.
+   * Note: it's used only when `ssrFeatureToggles.limitCacheByMemory` is set to true.
    *
    * CAUTION: It's not guaranteed to be exact memory actually used by the NodeJS engine.
    *          It's only a best effort approximation using utf-8 encoding for strings:

@@ -18,16 +18,16 @@ export class RenderingCacheSizeManager {
   private usedSize = 0;
 
   protected readonly CACHE_SIZE_LIMIT: number =
-    this.options?.cacheSizeBytes ?? 0;
+    this.options?.cacheSizeMemory ?? 0;
 
   constructor(private options?: SsrOptimizationOptions) {
     this.validateOptions();
   }
 
   private validateOptions(): void {
-    if (!this.options?.ssrFeatureToggles?.cacheLimitInBytes) {
+    if (!this.options?.ssrFeatureToggles?.limitCacheByMemory) {
       this.options?.logger?.error?.(
-        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.cacheLimitInBytes` is false!',
+        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.limitCacheByMemory` is false!',
         {}
       );
     }
@@ -41,8 +41,8 @@ export class RenderingCacheSizeManager {
       );
     }
     if (
-      typeof this.options?.cacheSizeBytes !== 'number' ||
-      this.options?.cacheSizeBytes <= 0
+      typeof this.options?.cacheSizeMemory !== 'number' ||
+      this.options?.cacheSizeMemory <= 0
     ) {
       this.options?.logger?.error?.(
         'No cache size limit provided in `options.cacheSizeBytes`!',

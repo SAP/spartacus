@@ -7,10 +7,10 @@
 import { Request } from 'express';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
+import { DefaultCacheEntrySizeCalculator } from './rendering-cache/default-cache-entry-size-calculator';
 import { RenderingEntry } from './rendering-cache/rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
-import { DefaultCacheEntrySizeCalculator } from './rendering-cache/default-cache-entry-size-calculator';
 
 /**
  * Custom strategy for calculating the size of a cache entry.
@@ -47,41 +47,40 @@ export interface SsrOptimizationOptions {
    *
    * Default value is set to 3000.
    *
-   * @deprecated since <TODO PUT VERSION HERE>. it will be removed together with the feature toggle `ssrFeatureToggles.cacheLimitInBytes`.
+   * @deprecated since v2211.40. Use `cacheSizeBytes` option instead.
+   *             The `cacheSize` option will be removed eventually together with the feature toggle `ssrFeatureToggles.limitCacheByMemory`.
    */
   cacheSize?: number;
 
   /**
-   * Limits the cache size approximately in bytes.
+   * Limits the cache size memory in bytes.
    *
-   * Specifies the maximum approximate memory (in bytes) allocated for cached entries,
+   * Specifies the maximum memory (in bytes) allocated for cached entries,
    * helping to keep memory usage under control.
    *
-   * The default value is set to 1GB.
+   * The default value is set to 300MB.
    *
-   * You can use the provided function `convertToBytes` to adjust this limit as needed:
+   * You can use the util function `convertToBytes()` from `@spartacus/setup/ssr` to adjust this limit as needed:
    *
-   * `cacheSizeBytesApproximation: convertToBytes(1, 'GB')`
+   * `cacheSizeMemory: convertToBytes(300, 'MB')`
    *
-   * IMPORTANT: Your server should have much more memory than the configured `cacheSizeBytesApproximation`,
-   *            because the approximate size of the rendered HTML may not match the actual memory usage of the NodeJS engine.
-   *            Moreover, the NodeJS engine needs memory also for other operations, such as the Angular Server-Side Rendering itself.
+   * IMPORTANT: Your server should have much more available memory than the configured `cacheSizeMemory`,
+   *            because the NodeJS process needs memory also for other operations, such as creating instances
+   *            of the Angular applications for each incoming requests. Each application instance is destroyed
+   *            by Angular SSR engine and its memory is released by NodeJS garbage collector. The more parallel
+   *            requests are processed (which can be limited with the `concurrency` option), the more operational memory
+   *            is needed for the Angular Rendering purposes.
    *
-   * CAUTION: It's not guaranteed to match the memory actually used by the NodeJS engine.
-   *          It's only an approximation using utf-8 encoding for strings:
-   *          - for successful renders it approximates the size of the rendered HTML
-   *          - for errors it sums the approximate size of the 3 string properties: `name`, `message` and `stack`,
-   *            but not other unknown properties, so it's prone to under-estimation.
-   *            Note: it's not recommended to cache errors anyway.
+   * Note: for calculating the size of the cache entry, the `cacheEntrySizeCalculator` option is used.
    */
-  cacheSizeBytes?: number;
+  cacheSizeMemory?: number;
 
   /**
-   * Custom strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size.
+   * Strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size.
    *
-   * Note: it's taken into account only when `ssrFeatureToggles.cacheLimitInBytes` is set to true.
+   * Note: This config option is used only when the `ssrFeatureToggles.limitCacheByMemory` is set to true.
    *
-   * By default it uses the `{@link DefaultCacheEntrySizeCalculator}` implementation.
+   * For details on how the entries' size is calculated by default, see the docs of the `{@link DefaultCacheEntrySizeCalculator}`.
    */
   cacheEntrySizeCalculator?: CacheEntrySizeCalculator;
 
@@ -220,10 +219,10 @@ export interface SsrOptimizationOptions {
     avoidCachingErrors?: boolean;
 
     /**
-     * When true, the cache size will be managed in bytes - via `cacheApproximateBytesLimit` SsrOptimizationOptions.
-     * When false, the cache size will be managed in number of entries - via deprecated `cacheSize` SsrOptimizationOptions.
+     * When true, the cache size will be limited by memory defined via the `cacheSizeMemory` option.
+     * When false, the cache size will be limited by number of entries defined via the deprecated `cacheSize` option.
      */
-    cacheLimitInBytes?: boolean;
+    limitCacheByMemory?: boolean;
   };
 }
 
@@ -287,7 +286,7 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheSizeBytes: convertToBytes(300, 'MB'),
+  cacheSizeMemory: convertToBytes(300, 'MB'),
   cacheEntrySizeCalculator: new DefaultCacheEntrySizeCalculator(),
   ttl: undefined,
   concurrency: 10,
@@ -307,6 +306,6 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     avoidCachingErrors: true,
-    cacheLimitInBytes: false,
+    limitCacheByMemory: false,
   },
 };
