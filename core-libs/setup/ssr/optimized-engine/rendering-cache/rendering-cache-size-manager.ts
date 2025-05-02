@@ -14,6 +14,8 @@ import { RenderingEntry } from './rendering-cache.model';
 export class RenderingCacheSizeManager {
   /**
    * The total size of the used cache in bytes.
+   *
+   * Note: it won't exceed the MAX_SAFE_INTEGER value.
    */
   private usedSize = 0;
 
@@ -36,7 +38,7 @@ export class RenderingCacheSizeManager {
       'function'
     ) {
       this.options?.logger?.error?.(
-        'No cache entry size calculator provided in `options.cacheEntrySizeCalculator`!',
+        'Invalid SSR config `options.cacheEntrySizeCalculator`! It should be an object with the `calculateSize()` method.',
         {}
       );
     }
@@ -45,7 +47,7 @@ export class RenderingCacheSizeManager {
       this.options?.cacheSizeMemory <= 0
     ) {
       this.options?.logger?.error?.(
-        'No cache size limit provided in `options.cacheSizeBytes`!',
+        'Invalid SSR config `options.cacheSizeMemory`! It should be a number greater than 0.',
         {}
       );
     }
@@ -59,31 +61,50 @@ export class RenderingCacheSizeManager {
   }
 
   /**
-   * Returns true if there's enough space for the given entry size.
+   * Tells whether there's enough space for the given entry size.
    */
   hasEnoughSpace(entrySize: number): boolean {
     return entrySize <= this.CACHE_SIZE_LIMIT - this.usedSize;
   }
 
   /**
-   * Returns true if the entry is too large to ever fit in the cache.
+   * Tells whether the entry is too large to ever fit in the cache
+   * (i.e. this single entry is larger than the total possible cache size).
    */
   isEntryTooLarge(entrySize: number): boolean {
     return entrySize > this.CACHE_SIZE_LIMIT;
   }
 
   /**
-   * Tracks the memory usage of the entry.
+   * Adds the size of the entry to the total tracked used size.
    */
   trackEntrySize(entrySize: number): void {
     this.usedSize += entrySize;
+
+    // This should never happen. MAX_SAFE_INTEGER is 7.9 Petabytes, but in reality NodeJS pods have only some Gigabytes of memory.
+    // It's a safe guard in case of some bug.
+    if (this.usedSize > Number.MAX_SAFE_INTEGER) {
+      this.options?.logger?.error?.(
+        'RenderingCacheSizeManager: the used size is greater than the MAX_SAFE_INTEGER value! This should never happen!',
+        {}
+      );
+      this.usedSize = Number.MAX_SAFE_INTEGER;
+    }
   }
 
   /**
-   * Un-tracks the memory usage of the entry.
+   * Subtracts the size of the entry from the total tracked used size.
    */
   untrackEntrySize(entrySize: number): void {
-    // we don't expect negative used size but adding Math.max(0, ...) as a safe guard
-    this.usedSize = Math.max(0, this.usedSize - entrySize);
+    this.usedSize = this.usedSize - entrySize;
+
+    // This should never happen. It's a safe guard in case of some bug.
+    if (this.usedSize < 0) {
+      this.options?.logger?.error?.(
+        'RenderingCacheSizeManager: the used size is negative! This should never happen!',
+        {}
+      );
+      this.usedSize = 0; // clear the used size to avoid negative values
+    }
   }
 }
