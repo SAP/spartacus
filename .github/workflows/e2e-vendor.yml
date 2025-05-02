@@ -13,31 +13,6 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
-  b2c_e2e_tests:
-    name: E2E tests for B2C
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Run e2es
-        env:
-          SPA_ENV: ci,b2c
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh
   cdc_b2c_e2e_tests:
     name: E2E tests for CDC B2C
     runs-on: ubuntu-latest
@@ -113,8 +88,33 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s cdp-v2
+  segment_refs_e2e_tests:
+    name: E2E tests for segemnt refs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: cds,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s segment-refs
   build_conclusion:
-    needs: [b2c_e2e_tests, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests]
+    needs: [b2c_e2e_tests, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -126,7 +126,7 @@ jobs:
             core.setFailed('Build failed')
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
-          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
-          needs.opf_e2e_tests.result == 'failure' || needs.opf_e2e_tests.result == 'cancelled' ||
           needs.cdc_b2c_e2e_tests.result == 'failure' || needs.cdc_b2c_e2e_tests.result == 'cancelled' ||
-          needs.cdc_b2b_e2e_tests.result == 'failure' || needs.cdc_b2b_e2e_tests.result == 'cancelled'
+          needs.cdc_b2b_e2e_tests.result == 'failure' || needs.cdc_b2b_e2e_tests.result == 'cancelled' ||
+          needs.cdp_b2c_e2e_tests.result == 'failure' || needs.cdp_b2c_e2e_tests.result == 'cancelled' ||
+          needs.segment_refs_e2e_tests.result == 'failure' || needs.segment_refs_e2e_tests.result == 'cancelled'
