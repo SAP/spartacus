@@ -125,7 +125,6 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
-      
       cdc.loginUser(cdc.user.email, cdc.user.password);
       cy.selectUserMenuOption({
         option: 'Profile Details',
@@ -212,7 +211,6 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
-      
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Password',
@@ -278,7 +276,6 @@ describe('CDC', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
-      
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Consent Management',

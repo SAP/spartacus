@@ -5,6 +5,7 @@
  */
 
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
+import { interceptGet } from '../../../support/utils/intercept';
 import { OppsConfig } from '@spartacus/core';
 
 const APPAREL_BASESITE = 'apparel-uk-spa';
@@ -13,12 +14,10 @@ const e2eLoginConfig = 'loginRequiredE2E';
 const e2eHeader = 'couponcodes';
 const e2eUrlParam = 'coupon-e2e';
 const infoContainer = 'cx-product-intro';
-
 const oppsProduct = {
   productID: '300515172',
   productName: 'lenus-belt-kelly-uni',
 };
-
 const oppsTester = {
   email: 'tester@opps.com',
   password: 'Password123.',
@@ -29,7 +28,6 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
     cy.restoreLocalStorage();
     Cypress.env('BASE_SITE', APPAREL_BASESITE);
     Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
-
     cy.cxConfig({
       opps: {
         couponcodes: {
@@ -43,90 +41,82 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       },
     } as OppsConfig);
   });
-
   describe('OPPS Coupon Codes', () => {
-    it('should fetch banner customization based on coupon code', () => {
-      cy.intercept('GET', '**/cms/pages**').as('couponCodesApi');
-
+    it('should fetch appropriate banner customization based on coupon codes', () => {
+      interceptGet('couponCodesApi', '/cms/pages*');
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
         )}/?${e2eUrlParam}=Summer100`
       );
-
-      // Check if the route is hit
-      cy.wait('@couponCodesApi', { timeout: 60000 })
-        .its('request.headers')
-        .should('have.property', e2eHeader, 'Summer100');
+      cy.wait('@couponCodesApi').then((xhr) => {
+        expect(xhr.request.headers).to.have.property(e2eHeader, 'Summer100');
+      });
     });
   });
 
   describe('OPPS Login Required', () => {
     beforeEach(() => {
-      cy.intercept('GET', '**/cms/pages?pageType=ProductPage**').as(
-        'productPage'
-      );
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/cms/pages?pageType=ProductPage**`,
+      }).as('productPage');
     });
-
-    it('should allow PDP if user already logged in', () => {
+    it('should continue to PDP if user is already logged in', () => {
       cy.visit('/login');
-      cy.get('cx-page-slot').should('exist');
       loginUser(oppsTester);
-
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
-        )}/product/${oppsProduct.productID}/${oppsProduct.productName}?${e2eLoginConfig}=true`
+        )}/product/${oppsProduct.productID}/${
+          oppsProduct.productName
+        }?${e2eLoginConfig}=true`
       );
-
-      cy.wait('@productPage', { timeout: 60000 });
+      cy.wait(`@productPage`);
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
-
       signOutUser();
     });
-
-    it('should redirect to login then show PDP after login', () => {
+    it('should redirect to login page if user is not logged in, and once user logs in, show PDP', () => {
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
-        )}/product/${oppsProduct.productID}/${oppsProduct.productName}?${e2eLoginConfig}=true`
+        )}/product/${oppsProduct.productID}/${
+          oppsProduct.productName
+        }?${e2eLoginConfig}=true`
       );
-
-      cy.url().should('include', '/login');
-      cy.get('cx-page-slot').should('exist');
+      cy.url().should('contain', 'login');
       loginUser(oppsTester);
-
-      cy.wait('@productPage', { timeout: 60000 });
+      cy.wait(`@productPage`);
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
-
       signOutUser();
     });
   });
 
-  describe('OPPS Coupon Codes & Login Together', () => {
+  describe('OPPS Coupon Codes & Login Required Together', () => {
     beforeEach(() => {
-      cy.intercept('GET', '**/cms/pages?pageType=ProductPage**').as(
-        'productPage'
-      );
+      cy.intercept({
+        method: 'GET',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/cms/pages?pageType=ProductPage**`,
+      }).as('productPage');
     });
-
-    it('should login and fetch customization', () => {
+    it('should fetch appropriate banner customization based on coupon codes & show login page if user is not logged in', () => {
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
-        )}/product/${oppsProduct.productID}/${oppsProduct.productName}?${e2eUrlParam}=Winter200&${e2eLoginConfig}=true`
+        )}/product/${oppsProduct.productID}/${
+          oppsProduct.productName
+        }?${e2eUrlParam}=Winter200&${e2eLoginConfig}=true&test=12`
       );
-
-      cy.url().should('include', '/login');
-      cy.get('cx-page-slot').should('exist');
+      cy.url().should('contain', 'login');
       loginUser(oppsTester);
-
-      cy.wait('@productPage', { timeout: 60000 })
-        .its('request.headers')
-        .should('have.property', e2eHeader, 'Winter200');
-
+      cy.wait(`@productPage`).then((xhr) => {
+        expect(xhr.request.headers).to.have.property(e2eHeader, 'Winter200');
+      });
       cy.get(`${infoContainer} .code`).should('contain', oppsProduct.productID);
-
       signOutUser();
     });
   });

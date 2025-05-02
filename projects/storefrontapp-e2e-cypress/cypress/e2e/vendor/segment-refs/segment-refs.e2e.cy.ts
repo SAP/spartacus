@@ -26,5 +26,3 @@ describe('Segment Reference', () => {
     });
   });
 });
-
-
