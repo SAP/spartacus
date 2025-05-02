@@ -10,6 +10,7 @@ import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import { RenderingEntry } from './rendering-cache/rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
+import { DefaultCacheEntrySizeCalculator } from './rendering-cache/default-cache-entry-size-calculator';
 
 /**
  * Custom strategy for calculating the size of a cache entry.
@@ -286,7 +287,8 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheSizeBytes: convertToBytes(1, 'GB'),
+  cacheSizeBytes: convertToBytes(300, 'MB'),
+  cacheEntrySizeCalculator: new DefaultCacheEntrySizeCalculator(),
   ttl: undefined,
   concurrency: 10,
   timeout: 3_000,
@@ -304,7 +306,7 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
     ),
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
-    cacheLimitInBytes: false,
     avoidCachingErrors: true,
+    cacheLimitInBytes: false,
   },
 };
