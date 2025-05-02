@@ -11,8 +11,7 @@ export interface FacadeDescriptor<T extends object> {
   /**
    * Facade class
    */
-  facade: AbstractType<T>;
-  // facade: AbstractType<StrictlyAllowedFacade<T>>;
+  facade: AbstractType<StrictlyAllowedFacade<T>>;
   /**
    * Feature name that should be used to resolve facade
    */
