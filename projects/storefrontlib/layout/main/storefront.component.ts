@@ -58,6 +58,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @Optional() protected skipLinkService = inject(SkipLinkService, {
     optional: true,
   });
+
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
