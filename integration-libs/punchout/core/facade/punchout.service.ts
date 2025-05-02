@@ -161,7 +161,7 @@ export class PunchoutService implements PunchoutFacade {
    * endUserSession workflow:
    * clear punchout state,logout, redirect to login page, display message
    */
-  protected endUserSessionCommand: Command<void, unknown> =
+  protected endPunchoutSessionCommand: Command<void> =
     this.commandService.create<void>(() =>
       of(true).pipe(
         tap(() => {
@@ -258,7 +258,7 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   endPunchoutSession(): Observable<unknown> {
-    return this.endUserSessionCommand.execute(undefined);
+    return this.endPunchoutSessionCommand.execute();
   }
 
   requestPunchoutSession(
