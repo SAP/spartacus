@@ -154,7 +154,7 @@ export class PunchoutService implements PunchoutFacade {
    * clear punchout state
    * silent logout, meaning no notification displayed and redirection.
    */
-  protected logoutPunchoutUserCommand: Command<boolean, boolean> =
+  protected logoutPunchoutUserCommand: Command<void, boolean> =
     this.commandService.create(() => this.punchoutAuthService.silentLogout());
 
   /**
@@ -163,7 +163,11 @@ export class PunchoutService implements PunchoutFacade {
    */
   protected endUserSessionCommand: Command<void, unknown> =
     this.commandService.create<void>(() =>
-      of().pipe(tap(() => this.punchoutAuthService.endPunchoutSession()))
+      of(true).pipe(
+        tap(() => {
+          this.punchoutAuthService.endPunchoutSession();
+        })
+      )
     );
 
   /**
@@ -249,8 +253,8 @@ export class PunchoutService implements PunchoutFacade {
     return this.getPunchoutRequisitionCommand.execute(undefined);
   }
 
-  logoutPunchoutUser(endSession = false): Observable<boolean> {
-    return this.logoutPunchoutUserCommand.execute(endSession);
+  logoutPunchoutUser(): Observable<boolean> {
+    return this.logoutPunchoutUserCommand.execute();
   }
 
   endPunchoutSession(): Observable<unknown> {

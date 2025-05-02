@@ -91,6 +91,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
 class MockPunchoutFacade implements Partial<PunchoutFacade> {
   getPunchoutSession = () => of(mockPunchoutSession);
   logoutPunchoutUser = () => of(true);
+  endPunchoutSession = () => of();
 }
 
 describe('PunchoutAuthHttpHeaderService', () => {
@@ -156,12 +157,12 @@ describe('PunchoutAuthHttpHeaderService', () => {
       true
     );
     spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
+    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
 
     service.handleExpiredRefreshToken();
     await Promise.resolve();
 
-    expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalled();
+    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalled();
   });
 
   it('should handleExpiredAccessToken without occ punchout request not redirect to any page', async () => {
@@ -198,7 +199,7 @@ describe('PunchoutAuthHttpHeaderService', () => {
       true
     );
     spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(true);
-    spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
+    spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
 
     await service.handleExpiredAccessToken(
       new HttpRequest('GET', `some-server`),
@@ -207,6 +208,6 @@ describe('PunchoutAuthHttpHeaderService', () => {
     );
 
     // navigate with empty sessionId then punchout facade will take care of error handling
-    expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalled();
+    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalled();
   });
 });
