@@ -149,14 +149,22 @@ export class PunchoutService implements PunchoutFacade {
     );
   });
 
+  /**
+   * logoutPunchoutUser workflow:
+   * clear punchout state
+   * silent logout, meaning no notification displayed and redirection.
+   */
   protected logoutPunchoutUserCommand: Command<boolean, boolean> =
-    this.commandService.create((endSession: boolean) => {
-      return endSession
-        ? of(true).pipe(
-            tap(() => this.punchoutAuthService.endPunchoutSession())
-          )
-        : this.punchoutAuthService.silentLogout();
-    });
+    this.commandService.create(() => this.punchoutAuthService.silentLogout());
+
+  /**
+   * endUserSession workflow:
+   * clear punchout state,logout, redirect to login page, display message
+   */
+  protected endUserSessionCommand: Command<void, unknown> =
+    this.commandService.create<void>(() =>
+      of().pipe(tap(() => this.punchoutAuthService.endPunchoutSession()))
+    );
 
   /**
    * closePunchoutSession workflow:
@@ -243,6 +251,10 @@ export class PunchoutService implements PunchoutFacade {
 
   logoutPunchoutUser(endSession = false): Observable<boolean> {
     return this.logoutPunchoutUserCommand.execute(endSession);
+  }
+
+  endPunchoutSession(): Observable<unknown> {
+    return this.endUserSessionCommand.execute(undefined);
   }
 
   requestPunchoutSession(

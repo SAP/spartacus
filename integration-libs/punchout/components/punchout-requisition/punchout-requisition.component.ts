@@ -45,7 +45,7 @@ export class PunchoutRequisitionComponent implements OnInit {
             this.punchoutFormElement.nativeElement.submit();
           },
           error: () => {
-            this.punchoutFacade.logoutPunchoutUser(true);
+            this.punchoutFacade.endPunchoutSession();
           },
         });
         this.punchoutFormGroup.setValue({

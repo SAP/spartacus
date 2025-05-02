@@ -59,7 +59,7 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
       this.punchoutDetectionService.isPunchoutSession() ||
       this.punchoutDetectionService.isPunchoutSessionPage()
     ) {
-      this.punchoutFacade.logoutPunchoutUser(true).subscribe();
+      this.punchoutFacade.endPunchoutSession().subscribe();
     } else {
       super.handleExpiredRefreshToken();
     }
@@ -79,7 +79,7 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
       this.punchoutDetectionService.isPunchoutSession() ||
       this.punchoutDetectionService.isPunchoutSessionPage()
     ) {
-      this.punchoutFacade.logoutPunchoutUser(true).subscribe();
+      this.punchoutFacade.endPunchoutSession().subscribe();
     }
     return super.handleExpiredAccessToken(request, next, initialToken);
   }
