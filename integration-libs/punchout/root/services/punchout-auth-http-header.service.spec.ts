@@ -162,7 +162,7 @@ describe('PunchoutAuthHttpHeaderService', () => {
     service.handleExpiredRefreshToken();
     await Promise.resolve();
 
-    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalled();
+    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();
   });
 
   it('should handleExpiredAccessToken without occ punchout request not redirect to any page', async () => {
@@ -208,6 +208,6 @@ describe('PunchoutAuthHttpHeaderService', () => {
     );
 
     // navigate with empty sessionId then punchout facade will take care of error handling
-    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalled();
+    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();
   });
 });

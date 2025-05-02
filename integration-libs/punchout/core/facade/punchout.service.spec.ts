@@ -314,7 +314,7 @@ describe('Punchoutservice', () => {
   it('should endPunchoutSession calls punchoutAuthService endPunchoutSession method', (done) => {
     service.endPunchoutSession().subscribe({
       next: () => {
-        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
