@@ -5,6 +5,7 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -15,22 +16,21 @@ import {
   OnInit,
   Optional,
   Output,
-  Renderer2,
-  ViewChild,
-  inject,
-  AfterViewInit,
-  ViewChildren,
   QueryList,
+  Renderer2,
   TemplateRef,
+  ViewChild,
+  ViewChildren,
+  inject,
 } from '@angular/core';
 import { Facet, FeatureConfigService, useFeatureStyles } from '@spartacus/core';
-import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/tab.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
   FocusConfig,
   KeyboardFocusService,
 } from '../../../../../layout/a11y/keyboard-focus/index';
+import { TAB_MODE, Tab, TabConfig } from '../../../../content/tab/tab.model';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
@@ -137,6 +137,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
         header: facet.name,
         content: this.facetsRef?.get(i),
         disableBorderFocus: true,
+        id: i,
       }));
 
       this.tabs$.next(tabs);

@@ -121,8 +121,8 @@ export class OccAsmAdapter implements AsmAdapter {
       params = params.set('pageSize', options.pageSize.toString());
     }
 
-    if (options.currentPage !== undefined) {
-      params = params.set('currentPage', options.currentPage.toString());
+    if (options.page !== undefined) {
+      params = params.set('page', options.page.toString());
     }
 
     if (options.customerListId !== undefined) {
