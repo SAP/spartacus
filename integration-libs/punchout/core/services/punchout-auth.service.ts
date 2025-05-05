@@ -39,9 +39,13 @@ export class PunchoutAuthService {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected routingService = inject(RoutingService);
 
-  silentLogout(): Observable<boolean> {
+  silentLogout(isPageRefresh = false): Observable<boolean> {
     return this.isUserLoggedIn().pipe(
-      tap(() => this.punchoutStoreService.clearPunchoutState()),
+      tap(() => {
+        if (!isPageRefresh) {
+          this.punchoutStoreService.clearPunchoutState();
+        }
+      }),
       switchMap((isLoggedIn) => {
         return isLoggedIn
           ? from(this.authService.coreLogout()).pipe(
