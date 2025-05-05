@@ -5,12 +5,17 @@
  */
 
 import { OccConfig } from '@spartacus/core';
+import { OrderOccEndpoints } from '@spartacus/order/occ';
+
+const orderEndpoints: OrderOccEndpoints = {
+  placePaymentAuthorizedOrder: 'orgUsers/${userId}/orders?fields=FULL',
+};
 
 export const defaultOpfB2bCheckoutOccEndpointsConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        placePaymentAuthorizedOrder: 'orgUsers/${userId}/orders?fields=FULL',
+        ...orderEndpoints,
       },
     },
   },
