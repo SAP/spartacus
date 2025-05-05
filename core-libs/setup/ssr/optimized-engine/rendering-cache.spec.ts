@@ -1,10 +1,10 @@
 /// <reference types="jest" />
 
+import { RenderingCache } from './rendering-cache';
 import {
   defaultSsrOptimizationOptions,
   SsrOptimizationOptions,
-} from '../ssr-optimization-options';
-import { RenderingCache } from './rendering-cache';
+} from './ssr-optimization-options';
 
 const options: SsrOptimizationOptions = {
   shouldCacheRenderingResult:
@@ -19,13 +19,12 @@ describe('RenderingCache', () => {
   });
 
   describe('Handling of cache size limit in bytes', () => {
-    const propSize = 10 * 5; // err html size time rendering
     beforeEach(() => {
       renderingCache = new RenderingCache({
         ...options,
         cacheSizeMemory: 3000,
         ssrFeatureToggles: {
-          cacheLimitInBytes: true,
+          limitCacheByMemory: true,
         },
       });
     });
@@ -45,7 +44,7 @@ describe('RenderingCache', () => {
         size: 133,
       });
 
-      expect(renderingCache['getUsedCacheSize']()).toBeGreaterThan(0);
+      expect(renderingCache['sizeManager']['usedSize']).toBeGreaterThan(0);
     });
 
     it('should remove oldest entry when cache size exceeds limit', () => {
@@ -58,9 +57,7 @@ describe('RenderingCache', () => {
 
       expect(renderingCache.get('a')).toBeUndefined();
       expect(renderingCache.get('b')).toBeDefined();
-      expect(renderingCache['getUsedCacheSize']()).toBe(
-        expectedCacheSize + propSize
-      );
+      expect(renderingCache['sizeManager']['usedSize']).toBe(expectedCacheSize);
     });
 
     it('should handle multiple removals if needed', () => {
@@ -76,9 +73,7 @@ describe('RenderingCache', () => {
       expect(renderingCache.get('d')).toBeUndefined();
       expect(renderingCache.get('o')).toBeUndefined();
       expect(renderingCache.get('g')).toBeDefined();
-      expect(renderingCache['getUsedCacheSize']()).toBe(
-        expectedCacheSize + propSize
-      );
+      expect(renderingCache['sizeManager']['usedSize']).toBe(expectedCacheSize);
     });
 
     it('should not remove entries if cache size is within limit', () => {
@@ -92,14 +87,14 @@ describe('RenderingCache', () => {
     });
 
     it('should not enter infinite loop when cache is empty and should not cache the entry', () => {
-      expect(renderingCache['getUsedCacheSize']()).toBe(0);
+      expect(renderingCache['sizeManager']['usedSize']).toBe(0);
 
       const bigHtml = 'x'.repeat(4000);
 
       renderingCache.store('largeEntry', null, bigHtml);
 
       expect(renderingCache.get('largeEntry')).toBeUndefined();
-      expect(renderingCache['getUsedCacheSize']()).toBe(0);
+      expect(renderingCache['sizeManager']['usedSize']).toBe(0);
     });
   });
 

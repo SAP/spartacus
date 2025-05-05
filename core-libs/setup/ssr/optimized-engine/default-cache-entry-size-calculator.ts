@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CacheEntrySizeCalculator } from '../ssr-optimization-options';
 import { RenderingEntry } from './rendering-cache.model';
+import { CacheEntrySizeCalculator } from './ssr-optimization-options';
 
 /**
  * Default implementation of the cache entry size calculator.
