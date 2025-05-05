@@ -12,3 +12,4 @@ export * from './opf-checkout-payment-wrapper/index';
 export * from './opf-checkout-billing-address-form/index';
 export * from './opf-checkout-review-card/index';
 export * from './opf-checkout-review-cart-details/index';
+export * from './opf-checkout-email-update/index';

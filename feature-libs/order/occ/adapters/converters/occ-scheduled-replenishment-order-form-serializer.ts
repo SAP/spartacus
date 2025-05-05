@@ -12,8 +12,7 @@ import { ScheduleReplenishmentForm } from '@spartacus/order/root';
   providedIn: 'root',
 })
 export class OccScheduledReplenishmentOrderFormSerializer
-  implements
-    Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm>
+  implements Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm>
 {
   convert(
     source: Occ.ScheduleReplenishmentForm,
