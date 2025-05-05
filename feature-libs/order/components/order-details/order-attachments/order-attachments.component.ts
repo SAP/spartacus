@@ -13,12 +13,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { OrderDetailsService } from '@spartacus/order/components';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Order } from '@spartacus/order/root';
+import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-attachments',
