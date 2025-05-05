@@ -175,7 +175,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     const options: CustomerSearchOptions = {
       customerListId: this.selectedUserGroupId,
       pageSize: this.pageSize,
-      currentPage: page,
+      page: page,
       sort: this.sortCode,
     };
     if (this.searchBox?.value) {
@@ -192,7 +192,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
         pageSize: this.pageSize,
-        currentPage: this.currentPage,
+        page: this.currentPage,
       };
       if (this.sortCode) {
         options.sort = this.sortCode;

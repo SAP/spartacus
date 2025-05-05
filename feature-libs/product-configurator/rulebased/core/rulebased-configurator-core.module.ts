@@ -11,6 +11,7 @@ import { RulebasedConfiguratorConnector } from './connectors/rulebased-configura
 import { ConfiguratorRouterModule } from './facade/routing/configurator-router.module';
 import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator-state.module';
 import { ConfiguratorLogoutEventListener } from './events/configurator-logout-event.listener';
+import { ConfiguratorLanguageSetEventListener } from './events/configurator-language-set-event.listener';
 
 /**
  * Exposes the rulebased configurator core entities.
@@ -25,7 +26,8 @@ import { ConfiguratorLogoutEventListener } from './events/configurator-logout-ev
 })
 export class RulebasedConfiguratorCoreModule {
   constructor(
-    _configuratorLogoutEventListener: ConfiguratorLogoutEventListener
+    _configuratorLogoutEventListener: ConfiguratorLogoutEventListener,
+    _configuratorLanguageSetEventListener: ConfiguratorLanguageSetEventListener
   ) {
     // Intentional empty constructor
   }

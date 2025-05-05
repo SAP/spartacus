@@ -214,8 +214,8 @@ describe('GigyaRaasComponent', () => {
       expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
         screenSet: 'screenSet',
         startScreen: 'startScreen',
-        lang: 'en',
         onSubmit: jasmine.any(Function),
+        lang: 'en',
         onAfterSubmit: jasmine.any(Function),
       });
     });

@@ -5,3 +5,4 @@
  */
 
 export * from './configurator-logout-event.listener';
+export * from './configurator-language-set-event.listener';
