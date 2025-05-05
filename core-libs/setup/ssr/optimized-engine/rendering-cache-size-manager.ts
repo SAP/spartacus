@@ -14,11 +14,13 @@ import { SsrOptimizationOptions } from './ssr-optimization-options';
 export class RenderingCacheSizeManager {
   /**
    * The total size of the used cache in bytes.
-   *
-   * Note: it won't exceed the MAX_SAFE_INTEGER value.
+   * This value will change as we add or remove entries from the cache.
    */
   private usedSize = 0;
 
+  /**
+   * The maximum size of the cache in bytes, configured in the SSR options.
+   */
   protected readonly CACHE_SIZE_LIMIT: number =
     this.options?.cacheSizeMemory ?? 0;
 
@@ -26,6 +28,10 @@ export class RenderingCacheSizeManager {
     this.validateOptions();
   }
 
+  /**
+   * Validates the `SsrOptimizationOptions` needed for this class to work properly.
+   * In case of invalid options, it will log an error using the configured logger.
+   */
   private validateOptions(): void {
     if (!this.options?.ssrFeatureToggles?.limitCacheByMemory) {
       this.options?.logger?.error?.(
