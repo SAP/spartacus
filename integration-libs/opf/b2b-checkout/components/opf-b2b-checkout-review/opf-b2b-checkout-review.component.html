@@ -36,6 +36,14 @@
     ></cx-opf-checkout-review-card>
   </div>
 
+  <cx-opf-checkout-terms-and-conditions-alert
+    *ngIf="!explicitTermsAndConditions.value"
+    [isDismissible]="true"
+    [isVisible]="termsAndConditionInvalid"
+    [isExplicit]="explicitTermsAndConditions.value"
+    [ngClass]="['for-mobile']"
+  ></cx-opf-checkout-terms-and-conditions-alert>
+
   <div
     *ngIf="explicitTermsAndConditions.value"
     class="cx-opf-terms-and-conditions"
@@ -77,20 +85,21 @@
     </form>
   </div>
 
-  <cx-opf-checkout-terms-and-conditions-alert
-    *ngIf="!explicitTermsAndConditions.value"
-    [isDismissible]="true"
-    [isVisible]="termsAndConditionInvalid"
-    [isExplicit]="explicitTermsAndConditions.value"
-  ></cx-opf-checkout-terms-and-conditions-alert>
-
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
     [isPaymentInfoMessageEnabled]="false"
     [explicitTermsAndConditions]="explicitTermsAndConditions.value"
     [disabled]="termsAndConditionInvalid"
     [customPaymentTemplate]="placeOrderTemplate"
-  ></cx-opf-checkout-payments>
+  >
+    <cx-opf-checkout-terms-and-conditions-alert
+      *ngIf="!explicitTermsAndConditions.value"
+      [isDismissible]="true"
+      [isVisible]="termsAndConditionInvalid"
+      [isExplicit]="explicitTermsAndConditions.value"
+      [ngClass]="['for-desktop']"
+    ></cx-opf-checkout-terms-and-conditions-alert>
+  </cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details
     [cart]="cart$ | async"

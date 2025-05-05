@@ -117,13 +117,6 @@
     }
   }
 
-  > section > cx-opf-checkout-terms-and-conditions-alert {
-    display: none;
-    @include media-breakpoint-down(md) {
-      display: block;
-    }
-  }
-
   .cx-opf-review-card-wrapper {
     display: flex;
     flex-wrap: wrap;

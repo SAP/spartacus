@@ -23,18 +23,20 @@
     ></cx-opf-checkout-review-card>
   </div>
 
+  <cx-opf-checkout-terms-and-conditions-alert
+    *ngIf="!explicitTermsAndConditions.value"
+    [isVisible]="termsAndConditionInvalid"
+    [isExplicit]="explicitTermsAndConditions.value"
+    [isDismissible]="false"
+    [ngClass]="['for-mobile']"
+  ></cx-opf-checkout-terms-and-conditions-alert>
+
   <div
     *ngIf="explicitTermsAndConditions.value"
     class="cx-opf-terms-and-conditions"
     [attr.aria-label]="'opfCheckout.termsAndConditions' | cxTranslate"
   >
     <h3>{{ 'opfCheckout.termsAndConditions' | cxTranslate }}</h3>
-
-    <cx-opf-checkout-terms-and-conditions-alert
-      [isVisible]="termsAndConditionInvalid"
-      [isExplicit]="explicitTermsAndConditions.value"
-      [isDismissible]="false"
-    ></cx-opf-checkout-terms-and-conditions-alert>
 
     <form
       class="cx-place-order-form form-check"
@@ -76,6 +78,7 @@
       [isDismissible]="true"
       [isVisible]="termsAndConditionInvalid"
       [isExplicit]="explicitTermsAndConditions.value"
+      [ngClass]="['for-desktop']"
     ></cx-opf-checkout-terms-and-conditions-alert>
   </cx-opf-checkout-payments>
 

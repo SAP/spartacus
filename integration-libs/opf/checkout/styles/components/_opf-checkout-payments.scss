@@ -30,13 +30,6 @@
       background-color: var(--cx-color-light);
     }
 
-    > cx-opf-checkout-terms-and-conditions-alert {
-      display: block;
-      @include media-breakpoint-down(md) {
-        display: none;
-      }
-    }
-
     .cx-payment-logo {
       max-height: 30px;
       margin: -2px 0 0 4px;

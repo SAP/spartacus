@@ -16,17 +16,12 @@
     padding-top: 20px;
   }
 
-  .cx-payment-type-label {
-    margin: 0 auto 0 0.75rem;
-
-    .cx-payment-type {
-      &:hover {
-        cursor: pointer;
+  cx-opf-checkout-payments {
+    .cx-payment-options-list {
+      .form-check {
+        padding-bottom: 0.625rem;
+        border-top: none;
       }
     }
-  }
-
-  @include cx-highContrastTheme {
-    border-color: var(--cx-color-dark);
   }
 }
