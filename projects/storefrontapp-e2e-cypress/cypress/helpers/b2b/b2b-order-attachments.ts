@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as sampleData from '../../sample-data/b2b-order-attachments';
 import { POWERTOOLS_BASESITE } from '../../sample-data/b2b-checkout';
 
