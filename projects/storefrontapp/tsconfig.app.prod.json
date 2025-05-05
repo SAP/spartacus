@@ -56,7 +56,6 @@
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
       "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
-      "@spartacus/styles/scss/core": ["storefrontstyles/scss/core"],
       "@spartacus/cart/wish-list/components/add-to-wishlist": [
         "dist/cart/wish-list/components/add-to-wishlist"
       ],
