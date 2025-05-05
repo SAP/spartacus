@@ -837,6 +837,18 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * Introduces read more directive for presenting elements with long text.
+   * Affects: ProductReviewsComponent
+   */
+  readMoreDirective?: boolean;
+  
+  /**
+   * Introduces characters left for product review form elements.
+   * Affects: ProductReviewsComponent
+   */
+  productReviewCharactersLeft?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -988,6 +1000,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
+  readMoreDirective: false,
+  productReviewCharactersLeft: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,

@@ -9,6 +9,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Input,
   ViewChild,
 } from '@angular/core';
@@ -18,6 +19,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  FeatureConfigService,
   isNotNullable,
   Product,
   ProductReviewService,
@@ -47,17 +49,17 @@ export class ProductReviewsComponent {
   @Input() inputCharactersForReviewTitle = 255;
   @Input() inputCharactersForReviewComment = 2200;
   @Input() inputCharactersForReviewerName = 64;
-
   isWritingReview = false;
-
+  
   // TODO: configurable
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: UntypedFormGroup;
-
+  private featureConfigService = inject(FeatureConfigService);
+  
   product$: Observable<Product | null> =
-    this.currentProductService.getProduct();
-
+  this.currentProductService.getProduct();
+  
   reviews$: Observable<Review[]> = this.product$.pipe(
     filter(isNotNullable),
     map((p) => p.code ?? ''),
@@ -154,9 +156,14 @@ export class ProductReviewsComponent {
   }
 
   private resetReviewForm(): void {
+    const isProductReviewCharactersLeftEnabled = this.featureConfigService.isEnabled(
+      'productReviewCharactersLeft'
+    )
     this.reviewForm = this.fb.group({
       title: [
         '',
+        !isProductReviewCharactersLeftEnabled
+        ? Validators.required :
         [
           Validators.required,
           Validators.maxLength(this.inputCharactersForReviewTitle),
@@ -164,13 +171,15 @@ export class ProductReviewsComponent {
       ],
       comment: [
         '',
+        !isProductReviewCharactersLeftEnabled ?
+        Validators.required :
         [
           Validators.required,
           Validators.maxLength(this.inputCharactersForReviewComment),
         ],
       ],
       rating: [null, Validators.required],
-      reviewerName: [
+      reviewerName: !isProductReviewCharactersLeftEnabled ? '' : [
         '',
         Validators.maxLength(this.inputCharactersForReviewerName),
       ],

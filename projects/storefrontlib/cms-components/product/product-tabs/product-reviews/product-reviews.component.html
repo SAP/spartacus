@@ -35,7 +35,8 @@
             {{ review.alias ? review.alias : review.principal?.name }}
           </div>
           <div class="date">{{ review.date | cxDate }}</div>
-          <cx-read-more class="text" [text]="review.comment!"></cx-read-more>
+          <div *cxFeature="'!readMoreDirective'" class="text">{{ review.comment }}</div>
+          <cx-read-more *cxFeature="'readMoreDirective'" class="text" [text]="review.comment!"></cx-read-more>
         </div>
         <div *ngIf="reviews.length > initialMaxListItems">
           <button
@@ -115,7 +116,7 @@
             [control]="reviewForm.get('title')"
           ></cx-form-errors>
 
-          <p class="cx-customer-ticket-input-hint">
+          <p *cxFeature="'productReviewCharactersLeft'" class="cx-customer-ticket-input-hint">
             {{
               'productReview.charactersLeft'
                 | cxTranslate: { count: reviewTitleCharacterLeft }
@@ -157,7 +158,7 @@
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
 
-          <p class="cx-customer-ticket-input-hint">
+          <p *cxFeature="'productReviewCharactersLeft'" class="cx-customer-ticket-input-hint">
             {{
               'productReview.charactersLeft'
                 | cxTranslate: { count: reviewCommentCharacterLeft }
@@ -230,7 +231,7 @@
             *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('reviewerName')"
           ></cx-form-errors>
-          <p class="cx-customer-ticket-input-hint">
+          <p *cxFeature="'productReviewCharactersLeft'" class="cx-customer-ticket-input-hint">
             {{
               'productReview.charactersLeft'
                 | cxTranslate: { count: reviewerNameCharacterLeft }
