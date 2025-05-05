@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { CommandService, RoutingService, UserIdService } from '@spartacus/core';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -75,11 +74,16 @@ class MockPunchoutConnector implements Partial<PunchoutConnector> {
 }
 
 class MockPunchoutAuthService implements Partial<PunchoutAuthService> {
-  logout = createSpy('PunchoutAuthService.logout').and.callFake(() => of(true));
+  silentLogout = createSpy('PunchoutAuthService.logout').and.callFake(() =>
+    of(true)
+  );
   loginWithToken = createSpy('PunchoutAuthService.loginWithToken').and.callFake(
     () => {}
   );
   isUserLoggedIn = () => of(true);
+  endPunchoutSession = createSpy(
+    'PunchoutAuthService.endPunchoutSession'
+  ).and.callFake(() => {});
 }
 
 const commandServiceMock = {
@@ -168,22 +172,22 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should getPunchoutSessionRequisition with empty param opens error page', (done) => {
+  it('should getPunchoutSessionRequisition with empty param ends punchout session', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     service.getPunchoutSession({ punchoutSessionId: '' }).subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
   });
 
-  it('should getPunchoutSessionRequisition without logged-in user opens error page', (done) => {
+  it('should getPunchoutSessionRequisition without logged-in user ends punchout session', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(punchoutAuthService, 'isUserLoggedIn').and.returnValue(of(false));
     service.getPunchoutSessionRequisition().subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
@@ -204,20 +208,20 @@ describe('Punchoutservice', () => {
       });
   });
 
-  it('should getPunchoutSession opens error page when request failed', (done) => {
+  it('should getPunchoutSession ends punchout session when request failed', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({ ...mockPunchoutSessionResponse, token: undefined })
     );
     service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
   });
 
-  it('should getPunchoutSession opens error page when no auth token', (done) => {
+  it('should getPunchoutSession ends punchout session when no auth token', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({ ...mockPunchoutSessionResponse, token: undefined })
@@ -225,7 +229,7 @@ describe('Punchoutservice', () => {
 
     service.getPunchoutSession(mockSessionInput).subscribe({
       error: () => {
-        expect(routingService.go).toHaveBeenCalledWith(PUNCHOUT_ERROR_PAGE_URL);
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });
@@ -289,7 +293,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should logoutPunchoutUser calls punchoutAuthService logout method', (done) => {
+  it('should logoutPunchoutUser calls punchoutAuthService silentLogout method', (done) => {
     spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
       of(mockPunchoutRequisitionResponse)
     );
@@ -300,7 +304,17 @@ describe('Punchoutservice', () => {
     service.logoutPunchoutUser().subscribe({
       next: (result) => {
         expect(result).toEqual(true);
-        expect(punchoutAuthService.logout).toHaveBeenCalled();
+        expect(punchoutAuthService.silentLogout).toHaveBeenCalled();
+        expect(punchoutAuthService.endPunchoutSession).not.toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
+  it('should endPunchoutSession calls punchoutAuthService endPunchoutSession method', (done) => {
+    service.endPunchoutSession().subscribe({
+      next: () => {
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
       },
     });

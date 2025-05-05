@@ -4,13 +4,13 @@ import {
   AuthService,
   AuthStorageService,
   GlobalMessageService,
+  OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PunchoutAuthService } from './punchout-auth.service';
 
 const MOCK_TOKEN = 'abc';
-const MOCK_USER_ID = 'testUser';
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove() {
@@ -76,12 +76,12 @@ describe('PunchoutAuthService', () => {
     spyOn(globalMessageService, 'remove');
     spyOn(store, 'dispatch');
 
-    service.loginWithToken(MOCK_TOKEN, MOCK_USER_ID);
+    service.loginWithToken(MOCK_TOKEN);
     expect(authStorageService.setItem).toHaveBeenCalledWith(
       'access_token',
       MOCK_TOKEN
     );
-    expect(userIdService.setUserId).toHaveBeenCalledWith(MOCK_USER_ID);
+    expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
     expect(globalMessageService.remove).toHaveBeenCalled();
     expect(store.dispatch).toHaveBeenCalled();
     done();
@@ -93,7 +93,7 @@ describe('PunchoutAuthService', () => {
     spyOn(userIdService, 'setUserId');
     spyOn(globalMessageService, 'remove');
 
-    service.logout().subscribe({
+    service.silentLogout().subscribe({
       next: (value) => {
         expect(value).toEqual(true);
         expect(authService.coreLogout).toHaveBeenCalled();
@@ -108,7 +108,7 @@ describe('PunchoutAuthService', () => {
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userIdService, 'setUserId');
 
-    service.logout().subscribe({
+    service.silentLogout().subscribe({
       next: (value) => {
         expect(value).toEqual(false);
         expect(authService.coreLogout).not.toHaveBeenCalled();

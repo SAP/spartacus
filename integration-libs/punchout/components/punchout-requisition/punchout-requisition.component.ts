@@ -14,11 +14,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import {
-  PUNCHOUT_ERROR_PAGE_URL,
-  PunchoutFacade,
-  PunchoutRequisition,
-} from '@spartacus/punchout/root';
+import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
 
 @Component({
@@ -49,7 +45,7 @@ export class PunchoutRequisitionComponent implements OnInit {
             this.punchoutFormElement.nativeElement.submit();
           },
           error: () => {
-            this.routingService.go(PUNCHOUT_ERROR_PAGE_URL);
+            this.punchoutFacade.endPunchoutSession();
           },
         });
         this.punchoutFormGroup.setValue({

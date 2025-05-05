@@ -5,12 +5,14 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { PUNCHOUT_SESSION_PAGE_URL } from '../model';
+import { PunchoutStoreService } from './punchout-store.service';
 
 @Injectable({ providedIn: 'root' })
 export class PunchoutDetectionService {
   protected location = inject(Location);
+  protected punchoutStoreService = inject(PunchoutStoreService);
 
   /**
    * Check if browser url is the punchout initial session page.
@@ -23,5 +25,8 @@ export class PunchoutDetectionService {
       urlSections.length > 1 &&
       urlSections[0].includes(PUNCHOUT_SESSION_PAGE_URL)
     );
+  }
+  isPunchoutSession(): boolean | undefined {
+    return !!this.punchoutStoreService.getPunchoutSessionId();
   }
 }
