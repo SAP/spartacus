@@ -21,10 +21,7 @@ import { OPF_CHECKOUT_FEATURE } from './feature-name';
 import { OpfCartUserEmailCheckerService } from './services';
 
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
-  'OpfCheckoutPaymentType',
-  'OpfCheckoutDeliveryAddress',
   'OpfCheckoutPaymentAndReview',
-  'OpfCheckoutReview',
   'OpfCheckoutEmailUpdateComponent',
 ];
 

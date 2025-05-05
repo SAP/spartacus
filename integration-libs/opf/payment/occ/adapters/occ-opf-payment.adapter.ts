@@ -32,26 +32,20 @@ export class OccOpfPaymentAdapter implements OpfPaymentOccAdapter {
     sapPaymentOptionId: string,
     purchaseOrderNumber?: string
   ): Observable<Cart> {
-    const payload: {
-      sapPaymentOptionId: string;
-      purchaseOrderNumber?: string;
-    } = {
-      sapPaymentOptionId,
-    };
-
-    if (purchaseOrderNumber) {
-      payload.purchaseOrderNumber = purchaseOrderNumber;
-    }
-
     const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
     const headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http
-      .put(this.getSetCartPaymentOptionEndpoint(userId, cartId), payload, {
-        headers,
-      })
+      .put<Cart>(
+        this.getSetCartPaymentOptionEndpoint(userId, cartId),
+        JSON.stringify({
+          sapPaymentOptionId: sapPaymentOptionId,
+          purchaseOrderNumber: purchaseOrderNumber,
+        }),
+        { headers }
+      )
       .pipe(
         catchError((error) => {
           throw tryNormalizeHttpError(error, this.logger);
@@ -66,7 +60,13 @@ export class OccOpfPaymentAdapter implements OpfPaymentOccAdapter {
     cartId: string
   ): string {
     return this.occEndpoints.buildUrl('setCartPaymentOption', {
-      urlParams: { userId, cartId },
+      urlParams: {
+        userId,
+        cartId,
+      },
+      queryParams: {
+        fields: 'DEFAULT',
+      },
     });
   }
 }

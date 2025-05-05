@@ -16,7 +16,7 @@ import { OpfCheckoutReviewCardEditConfig } from './opf-checkout-review-card.mode
   standalone: false,
 })
 export class OpfCheckoutReviewCardComponent {
-  @Input() cardContent$: Observable<Card | null>;
+  @Input() cardContent$: Observable<Card | null | undefined>;
   @Input() editConfig: OpfCheckoutReviewCardEditConfig;
 
   iconTypes = ICON_TYPE;

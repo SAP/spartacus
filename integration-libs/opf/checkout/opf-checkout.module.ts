@@ -5,12 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  OpfCheckoutComponentsModule,
-  OpfB2bCheckoutComponentsModule,
-} from '@spartacus/opf/checkout/components';
+import { OpfCheckoutComponentsModule } from '@spartacus/opf/checkout/components';
 
 @NgModule({
-  imports: [OpfCheckoutComponentsModule, OpfB2bCheckoutComponentsModule],
+  imports: [OpfCheckoutComponentsModule],
 })
 export class OpfCheckoutModule {}

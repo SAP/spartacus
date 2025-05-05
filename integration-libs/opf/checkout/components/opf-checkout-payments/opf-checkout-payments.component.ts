@@ -80,6 +80,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   customPaymentTemplate?: TemplateRef<any>;
 
+  @Input()
+  hideOnlyOnePaymentProviderLabel? = false;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;

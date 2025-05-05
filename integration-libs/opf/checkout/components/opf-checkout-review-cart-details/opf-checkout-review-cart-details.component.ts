@@ -16,9 +16,9 @@ import { CartOutlets } from '@spartacus/cart/base/root';
   standalone: false,
 })
 export class OpfCheckoutReviewCartDetailsComponent {
-  @Input() cart: Cart | undefined;
+  @Input() cart: Cart | null;
 
-  @Input() entries: any[] | undefined;
+  @Input() entries: any[] | null;
 
   readonly promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 
