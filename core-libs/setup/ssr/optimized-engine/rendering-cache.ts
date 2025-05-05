@@ -109,6 +109,10 @@ export class RenderingCache {
     if (this.options?.ttl) {
       entry.time = Date.now();
     }
+
+    // Remove old entry for the key. The entry may exist for the key, because we've previously called `setAsRendering()` for it:
+    this.renders.delete(key);
+
     if (
       !this.options?.shouldCacheRenderingResult?.({
         options: this.options,
@@ -117,8 +121,6 @@ export class RenderingCache {
     ) {
       return;
     }
-
-    this.renders.delete(key);
 
     if (this.options?.ssrFeatureToggles?.limitCacheByMemory) {
       this.storeUsingBytesLimit(key, entry);
