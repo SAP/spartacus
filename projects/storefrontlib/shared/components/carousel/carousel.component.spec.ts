@@ -10,7 +10,6 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
-import { MockFeatureDirective } from '../../test/mock-feature-directive';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 
@@ -63,7 +62,6 @@ describe('Carousel Component', () => {
         CarouselComponent,
         MockCxIconComponent,
         MockTemplateComponent,
-        MockFeatureDirective,
       ],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
     }).compileComponents();
