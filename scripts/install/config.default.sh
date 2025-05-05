@@ -46,12 +46,12 @@ SPARTACUS_PROJECTS=(
         "dist/pickup-in-store:feature-libs/pickup-in-store"
         "dist/pdf-invoices:feature-libs/pdf-invoices"
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
-        "projects/storefrontstyles:projects/storefrontstyles"
+        "dist/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop' 
+BRANCH='develop'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
