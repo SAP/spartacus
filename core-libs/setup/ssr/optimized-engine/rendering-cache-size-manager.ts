@@ -69,7 +69,7 @@ export class RenderingCacheSizeManager {
   /**
    * Tells whether there's enough space for the given entry size.
    */
-  hasEnoughSpace(entrySize: number): boolean {
+  hasSpaceForEntrySize(entrySize: number): boolean {
     return entrySize <= this.CACHE_SIZE_LIMIT - this.usedSize;
   }
 
@@ -77,7 +77,7 @@ export class RenderingCacheSizeManager {
    * Tells whether the entry is too large to ever fit in the cache
    * (i.e. this single entry is larger than the total possible cache size).
    */
-  isEntryTooLarge(entrySize: number): boolean {
+  isEntryLargerThanCacheLimit(entrySize: number): boolean {
     return entrySize > this.CACHE_SIZE_LIMIT;
   }
 

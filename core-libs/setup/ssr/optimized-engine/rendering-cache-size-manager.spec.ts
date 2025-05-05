@@ -89,37 +89,43 @@ describe('RenderingCacheSizeManager', () => {
     });
   });
 
-  describe('hasEnoughSpace', () => {
+  describe('hasSpaceForEntrySize', () => {
     it('should return true when there is enough space', () => {
       renderingCacheSizeManager.trackEntrySize(800);
-      expect(renderingCacheSizeManager.hasEnoughSpace(200)).toBe(true);
+      expect(renderingCacheSizeManager.hasSpaceForEntrySize(200)).toBe(true);
     });
 
     it('should return false when there is not enough space', () => {
       renderingCacheSizeManager.trackEntrySize(800);
-      expect(renderingCacheSizeManager.hasEnoughSpace(201)).toBe(false);
+      expect(renderingCacheSizeManager.hasSpaceForEntrySize(201)).toBe(false);
     });
   });
 
-  describe('isEntryTooLarge', () => {
+  describe('isEntryLargerThanCacheLimit', () => {
     it('should return true when entry size exceeds cache limit', () => {
-      expect(renderingCacheSizeManager.isEntryTooLarge(1500)).toBe(true);
+      expect(renderingCacheSizeManager.isEntryLargerThanCacheLimit(1500)).toBe(
+        true
+      );
     });
 
     it('should return false when entry size is exactly the cache limit', () => {
-      expect(renderingCacheSizeManager.isEntryTooLarge(1000)).toBe(false);
+      expect(renderingCacheSizeManager.isEntryLargerThanCacheLimit(1000)).toBe(
+        false
+      );
     });
 
     it('should return false when entry size is within cache limit', () => {
-      expect(renderingCacheSizeManager.isEntryTooLarge(500)).toBe(false);
+      expect(renderingCacheSizeManager.isEntryLargerThanCacheLimit(500)).toBe(
+        false
+      );
     });
   });
 
   describe('trackEntrySize', () => {
     it('should track entry size correctly', () => {
       renderingCacheSizeManager.trackEntrySize(500);
-      expect(renderingCacheSizeManager.hasEnoughSpace(400)).toBe(true);
-      expect(renderingCacheSizeManager.hasEnoughSpace(600)).toBe(false);
+      expect(renderingCacheSizeManager.hasSpaceForEntrySize(400)).toBe(true);
+      expect(renderingCacheSizeManager.hasSpaceForEntrySize(600)).toBe(false);
     });
 
     it('should handle MAX_SAFE_INTEGER overflow', () => {
@@ -135,9 +141,9 @@ describe('RenderingCacheSizeManager', () => {
   describe('untrackEntrySize', () => {
     it('should untrack entry size correctly', () => {
       renderingCacheSizeManager.trackEntrySize(500);
-      expect(renderingCacheSizeManager.hasEnoughSpace(800)).toBe(false);
+      expect(renderingCacheSizeManager.hasSpaceForEntrySize(800)).toBe(false);
       renderingCacheSizeManager.untrackEntrySize(300);
-      expect(renderingCacheSizeManager.hasEnoughSpace(800)).toBe(true);
+      expect(renderingCacheSizeManager.hasSpaceForEntrySize(800)).toBe(true);
     });
 
     it('should handle negative size', () => {

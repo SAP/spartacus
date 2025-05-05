@@ -71,7 +71,7 @@ export class RenderingCache {
   private storeUsingMemoryLimit(key: string, entry: RenderingEntry): void {
     const entrySize = this.sizeManager.calculateEntrySize(entry);
 
-    if (this.sizeManager.isEntryTooLarge(entrySize)) {
+    if (this.sizeManager.isEntryLargerThanCacheLimit(entrySize)) {
       return;
     }
 
@@ -87,13 +87,13 @@ export class RenderingCache {
    */
   private clearOldestEntriesForSize(requiredSize: number): void {
     while (
-      !this.sizeManager.hasEnoughSpace(requiredSize) &&
+      !this.sizeManager.hasSpaceForEntrySize(requiredSize) &&
       this.renders.size > 0
     ) {
       const oldestKey = this.renders.keys().next().value;
       if (oldestKey === undefined) {
         // Still not enough space, but no more entries to clear.
-        // In practice this case should never happen, because initially we checked `isEntryTooLarge` -
+        // In practice this case should never happen, because initially we checked `isEntryLargerThanCacheLimit` -
         // we validated whether the new entry's size is not bigger than the total cache size limit.
         break;
       }
