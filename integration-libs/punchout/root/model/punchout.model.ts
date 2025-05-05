@@ -5,7 +5,6 @@
  */
 
 export const PUNCHOUT_SESSION_KEY = 'sid';
-export const PUNCHOUT_ERROR_PAGE_URL = '/punchout/cxml/error';
 export const PUNCHOUT_SESSION_ID = 'punchoutSessionId';
 export const PUNCHOUT_SESSION_PAGE_URL = '/punchout/cxml/session';
 export const PUNCHOUT_REQUISITION_PAGE_URL = '/punchout/cxml/requisition';
