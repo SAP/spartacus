@@ -90,6 +90,7 @@
     [onlyPaymentWrapperMode]="true"
     [explicitTermsAndConditions]="explicitTermsAndConditions.value"
     (selectedPaymentProviderName)="onPaymentProviderSelected($event)"
+    [hideOnlyOnePaymentProviderLabel]="true"
   >
     <cx-opf-checkout-terms-and-conditions-alert
       *ngIf="!explicitTermsAndConditions.value"

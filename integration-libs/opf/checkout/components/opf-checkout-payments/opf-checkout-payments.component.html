@@ -13,7 +13,12 @@
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
           <ng-container>
-            <ng-container *ngIf="isOnlyOnePaymentOptionAvailable">
+            <ng-container
+              *ngIf="
+                isOnlyOnePaymentOptionAvailable &&
+                !hideOnlyOnePaymentProviderLabel
+              "
+            >
               {{ configuration.displayName }}
             </ng-container>
             <ng-container *ngIf="!isOnlyOnePaymentOptionAvailable">
