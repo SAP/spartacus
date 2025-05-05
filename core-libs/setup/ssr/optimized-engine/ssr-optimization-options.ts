@@ -7,6 +7,7 @@
 import { Request } from 'express';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
+import { convertToBytes } from './convert-to-bytes';
 import { DefaultCacheEntrySizeCalculator } from './default-cache-entry-size-calculator';
 import { RenderingEntry } from './rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
@@ -238,26 +239,6 @@ export enum RenderingStrategy {
 type DeepRequired<T> = {
   [P in keyof T]-?: DeepRequired<T[P]>;
 };
-
-/**
- * Converts a given size (KB, MB, GB) to its equivalent value in bytes.
- *
- * @param limit - The numerical value representing the cache size.
- * @param unit - The unit of measurement ('KB', 'MB', 'GB').
- * @returns The corresponding cache size in bytes.
- */
-export function convertToBytes(
-  limit: number,
-  unit: 'KB' | 'MB' | 'GB'
-): number {
-  const unitMap: Record<string, number> = {
-    KB: 1024,
-    MB: 1024 * 1024,
-    GB: 1024 * 1024 * 1024,
-  };
-
-  return limit * unitMap[unit];
-}
 
 /**
  * Returns the full url for the given SSR Request.
