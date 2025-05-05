@@ -13,17 +13,10 @@ export class RenderingCache {
 
   constructor(private options?: SsrOptimizationOptions) {}
 
-  // Don't use directly, use `sizeManager` getter instead.
+  // Don't use directly, but use `sizeManager` getter instead
+  // The `sizeManager` should be used only when `ssrFeatureToggles.limitCacheByMemory` is set to true
   private _sizeManager: RenderingCacheSizeManager;
   private get sizeManager(): RenderingCacheSizeManager {
-    // Log an error if attempting to use the size manager when `ssrFeatureToggles.limitCacheByMemory` is false
-    if (!this.options?.ssrFeatureToggles?.limitCacheByMemory) {
-      this.options?.logger?.error?.(
-        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.limitCacheByMemory` is false!',
-        {}
-      );
-    }
-    // initialize the size manager when needed for the first time
     if (!this._sizeManager) {
       this._sizeManager = new RenderingCacheSizeManager(this.options);
     }
@@ -36,6 +29,38 @@ export class RenderingCache {
 
   isRendering(key: string): boolean {
     return !!this.renders.get(key)?.rendering;
+  }
+
+  /**
+   * Store the entry, respecting the cache limit.
+   *
+   * Depending on the `ssrFeatureToggles.limitCacheByMemory` option,
+   * it will respect either the bytes limit (`options.cacheSizeBytes`) or the entries number limit (`options.cacheSize`).
+   */
+  store(key: string, err?: Error | null, html?: string) {
+    const entry: RenderingEntry = { err, html };
+    if (this.options?.ttl) {
+      entry.time = Date.now();
+    }
+
+    // Remove old entry for the key. The entry may exist for the key, because we've previously called `setAsRendering()` for it:
+    this.renders.delete(key);
+
+    if (
+      !this.options?.shouldCacheRenderingResult?.({
+        options: this.options,
+        entry,
+      })
+    ) {
+      return;
+    }
+
+    // Use the size manager only when `ssrFeatureToggles.limitCacheByMemory` is set to true:
+    if (this.options?.ssrFeatureToggles?.limitCacheByMemory) {
+      this.storeUsingMemoryLimit(key, entry);
+    } else {
+      this.storeUsingEntriesLimit(key, entry);
+    }
   }
 
   /**
@@ -96,38 +121,6 @@ export class RenderingCache {
       }
     }
     this.renders.set(key, entry);
-  }
-
-  /**
-   * Store the entry, respecting the cache limit.
-   *
-   * Depending on the `ssrFeatureToggles.limitCacheByMemory` option,
-   * it will respect either the bytes limit (`options.cacheSizeBytes`) or the entries number limit (`options.cacheSize`).
-   */
-  store(key: string, err?: Error | null, html?: string) {
-    const entry: RenderingEntry = { err, html };
-    if (this.options?.ttl) {
-      entry.time = Date.now();
-    }
-
-    // Remove old entry for the key. The entry may exist for the key, because we've previously called `setAsRendering()` for it:
-    this.renders.delete(key);
-
-    if (
-      !this.options?.shouldCacheRenderingResult?.({
-        options: this.options,
-        entry,
-      })
-    ) {
-      return;
-    }
-
-    // Use the size manager only when `ssrFeatureToggles.limitCacheByMemory` is set to true:
-    if (this.options?.ssrFeatureToggles?.limitCacheByMemory) {
-      this.storeUsingMemoryLimit(key, entry);
-    } else {
-      this.storeUsingEntriesLimit(key, entry);
-    }
   }
 
   get(key: string): RenderingEntry | undefined {
