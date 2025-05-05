@@ -9,6 +9,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Input,
   ViewChild,
 } from '@angular/core';
 import {
@@ -42,6 +43,10 @@ export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
+
+  @Input() inputCharactersForReviewTitle = 255;
+  @Input() inputCharactersForReviewComment = 2200;
+  @Input() inputCharactersForReviewerName = 64;
 
   isWritingReview = false;
 
@@ -127,12 +132,48 @@ export class ProductReviewsComponent {
     }
   }
 
+  get reviewTitleCharacterLeft(): number {
+    return (
+      this.inputCharactersForReviewTitle -
+      (this.reviewForm.get('title')?.value?.length || 0)
+    );
+  }
+
+  get reviewCommentCharacterLeft(): number {
+    return (
+      this.inputCharactersForReviewComment -
+      (this.reviewForm.get('comment')?.value?.length || 0)
+    );
+  }
+
+  get reviewerNameCharacterLeft(): number {
+    return (
+      this.inputCharactersForReviewerName -
+      (this.reviewForm.get('reviewerName')?.value?.length || 0)
+    );
+  }
+
   private resetReviewForm(): void {
     this.reviewForm = this.fb.group({
-      title: ['', Validators.required],
-      comment: ['', Validators.required],
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(this.inputCharactersForReviewTitle),
+        ],
+      ],
+      comment: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(this.inputCharactersForReviewComment),
+        ],
+      ],
       rating: [null, Validators.required],
-      reviewerName: '',
+      reviewerName: [
+        '',
+        Validators.maxLength(this.inputCharactersForReviewerName),
+      ],
     });
   }
 }

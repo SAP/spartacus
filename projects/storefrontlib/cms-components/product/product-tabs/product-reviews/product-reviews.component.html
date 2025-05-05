@@ -97,6 +97,7 @@
               reviewForm.get('title')?.invalid
             "
             [attr.aria-errormessage]="'titleError'"
+            [maxLength]="inputCharactersForReviewTitle"
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -113,6 +114,13 @@
             *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('title')"
           ></cx-form-errors>
+
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'productReview.charactersLeft'
+                | cxTranslate: { count: reviewTitleCharacterLeft }
+            }}
+          </p>
         </label>
       </div>
       <div class="form-group">
@@ -131,6 +139,7 @@
               reviewForm.get('comment')?.invalid
             "
             [attr.aria-errormessage]="'commentError'"
+            [maxLength]="inputCharactersForReviewComment"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -147,6 +156,13 @@
             *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
+
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'productReview.charactersLeft'
+                | cxTranslate: { count: reviewCommentCharacterLeft }
+            }}
+          </p>
         </label>
       </div>
       <div class="form-group">
@@ -198,7 +214,28 @@
             type="text"
             class="form-control"
             formControlName="reviewerName"
+            [maxLength]="inputCharactersForReviewerName"
           />
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            id="titleError"
+            [translationParams]="{
+              label: 'productReview.reviewerName' | cxTranslate,
+            }"
+            [control]="reviewForm.get('reviewerName')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('reviewerName')"
+          ></cx-form-errors>
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'productReview.charactersLeft'
+                | cxTranslate: { count: reviewerNameCharacterLeft }
+            }}
+          </p>
         </label>
       </div>
       <div class="form-group row">
