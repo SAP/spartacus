@@ -43,7 +43,7 @@ export class RenderingCache {
    *
    * If needed, removes oldest entries until there's enough space for the new entry.
    */
-  private storeUsingBytesLimit(key: string, entry: RenderingEntry): void {
+  private storeUsingMemoryLimit(key: string, entry: RenderingEntry): void {
     const entrySize = this.sizeManager.calculateEntrySize(entry);
 
     if (this.sizeManager.isEntryTooLarge(entrySize)) {
@@ -122,8 +122,9 @@ export class RenderingCache {
       return;
     }
 
+    // Use the size manager only when `ssrFeatureToggles.limitCacheByMemory` is set to true:
     if (this.options?.ssrFeatureToggles?.limitCacheByMemory) {
-      this.storeUsingBytesLimit(key, entry);
+      this.storeUsingMemoryLimit(key, entry);
     } else {
       this.storeUsingEntriesLimit(key, entry);
     }
