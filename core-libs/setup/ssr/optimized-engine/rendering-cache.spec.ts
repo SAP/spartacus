@@ -11,6 +11,7 @@ const options: SsrOptimizationOptions = {
     defaultSsrOptimizationOptions.shouldCacheRenderingResult,
   cacheEntrySizeCalculator:
     defaultSsrOptimizationOptions.cacheEntrySizeCalculator,
+  logger: defaultSsrOptimizationOptions.logger,
 };
 
 describe('RenderingCache', () => {
