@@ -16,7 +16,6 @@ describe('ReadMoreComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReadMoreComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create the component', () => {
@@ -30,10 +29,11 @@ describe('ReadMoreComponent', () => {
     component.maxLength = 10;
     fixture.detectChanges();
 
-    const displayedText =
-      fixture.nativeElement.querySelector('ng-container').textContent;
+    const displayedText = fixture.nativeElement.textContent;
 
-    expect(displayedText.trim()).toBe(longText.slice(0, component.maxLength));
+    expect(displayedText.trim()).toBe(
+      longText.slice(0, component.maxLength).trim()
+    );
   });
 
   it('should display full text when expanded', () => {
@@ -44,10 +44,9 @@ describe('ReadMoreComponent', () => {
     component.isCollapsed = false; // Manually setting to test expanded state
     fixture.detectChanges();
 
-    const displayedText =
-      fixture.nativeElement.querySelector('ng-container').textContent;
+    const displayedText = fixture.nativeElement.textContent;
 
-    expect(displayedText.trim()).toBe(longText);
+    expect(displayedText.trim()).toBe(longText.trim());
   });
 
   it('should toggle isCollapsed when button is clicked', () => {
@@ -55,6 +54,7 @@ describe('ReadMoreComponent', () => {
       'This is a long text that exceeds the maximum length threshold.';
     component.text = longText;
     component.maxLength = 10;
+    component.showReadMore = true;
     fixture.detectChanges();
 
     expect(component.isCollapsed).toBe(true);
@@ -86,6 +86,7 @@ describe('ReadMoreComponent', () => {
       'This is a long text that exceeds the maximum length threshold.';
     component.text = longText;
     component.maxLength = 10;
+    component.showReadMore = true;
     fixture.detectChanges();
 
     const button = fixture.debugElement.query(By.css('button.btn-link'));
