@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * This script is responsible for processing SCSS files and updating their `@import` statements
  * based on predefined mappings and rules. It supports both forward and reverse transformations
