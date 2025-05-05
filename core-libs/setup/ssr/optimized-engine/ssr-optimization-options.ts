@@ -80,7 +80,7 @@ export interface SsrOptimizationOptions {
    *
    * Note: This config option is used only when the `ssrFeatureToggles.limitCacheByMemory` is set to true.
    *
-   * For details on how the entries' size is calculated by default, see the docs of the `{@link DefaultCacheEntrySizeCalculator}`.
+   * For details on how the entries' size is calculated by default, see the docs of the {@link DefaultCacheEntrySizeCalculator}.
    */
   cacheEntrySizeCalculator?: CacheEntrySizeCalculator;
 
