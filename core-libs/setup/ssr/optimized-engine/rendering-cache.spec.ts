@@ -9,6 +9,8 @@ import {
 const options: SsrOptimizationOptions = {
   shouldCacheRenderingResult:
     defaultSsrOptimizationOptions.shouldCacheRenderingResult,
+  cacheEntrySizeCalculator:
+    defaultSsrOptimizationOptions.cacheEntrySizeCalculator,
 };
 
 describe('RenderingCache', () => {
@@ -25,23 +27,44 @@ describe('RenderingCache', () => {
         cacheSizeMemory: 3000,
         ssrFeatureToggles: {
           limitCacheByMemory: true,
+          avoidCachingErrors: false,
         },
       });
     });
 
-    it('should return stored values and measure size', () => {
+    it('should return stored html value and measure size', () => {
+      // 72 chars:
       const testHtml =
         '<html><head><title>Test</title></head><body><h1>Hello</h1></body></html>';
-      const testErr: Error = { name: 'err', message: 'test err' };
+      renderingCache.store('test', undefined, testHtml);
 
-      renderingCache.store('test', testErr, testHtml);
+      const storedEntry = renderingCache.get('test');
+
+      expect(storedEntry).toEqual({
+        err: undefined,
+        html: testHtml,
+        _size: 144, // 72 chars, each character is assumed to be 2 bytes
+      });
+
+      expect(renderingCache['sizeManager']['usedSize']).toBeGreaterThan(0);
+    });
+
+    it('should return stored error and measure approximate size', () => {
+      const testErr: Error = {
+        name: 'test name', // 9 chars
+        message: 'test message', // 12 chars
+        stack: 'test stack trace', // 16 chars
+      };
+      // total: 37 chars
+
+      renderingCache.store('test', testErr, undefined);
 
       const storedEntry = renderingCache.get('test');
 
       expect(storedEntry).toEqual({
         err: testErr,
-        html: testHtml,
-        size: 133,
+        html: undefined,
+        _size: 74, // 37 chars, each character is assumed to be 2 bytes
       });
 
       expect(renderingCache['sizeManager']['usedSize']).toBeGreaterThan(0);
