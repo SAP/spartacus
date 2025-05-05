@@ -841,7 +841,7 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   readMoreDirective?: boolean;
-  
+
   /**
    * Introduces characters left for product review form elements.
    * Affects: ProductReviewsComponent

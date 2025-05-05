@@ -50,16 +50,16 @@ export class ProductReviewsComponent {
   @Input() inputCharactersForReviewComment = 2200;
   @Input() inputCharactersForReviewerName = 64;
   isWritingReview = false;
-  
+
   // TODO: configurable
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: UntypedFormGroup;
   private featureConfigService = inject(FeatureConfigService);
-  
+
   product$: Observable<Product | null> =
-  this.currentProductService.getProduct();
-  
+    this.currentProductService.getProduct();
+
   reviews$: Observable<Review[]> = this.product$.pipe(
     filter(isNotNullable),
     map((p) => p.code ?? ''),
@@ -156,33 +156,31 @@ export class ProductReviewsComponent {
   }
 
   private resetReviewForm(): void {
-    const isProductReviewCharactersLeftEnabled = this.featureConfigService.isEnabled(
-      'productReviewCharactersLeft'
-    )
+    const isProductReviewCharactersLeftEnabled =
+      this.featureConfigService.isEnabled('productReviewCharactersLeft');
     this.reviewForm = this.fb.group({
       title: [
         '',
         !isProductReviewCharactersLeftEnabled
-        ? Validators.required :
-        [
-          Validators.required,
-          Validators.maxLength(this.inputCharactersForReviewTitle),
-        ],
+          ? Validators.required
+          : [
+              Validators.required,
+              Validators.maxLength(this.inputCharactersForReviewTitle),
+            ],
       ],
       comment: [
         '',
-        !isProductReviewCharactersLeftEnabled ?
-        Validators.required :
-        [
-          Validators.required,
-          Validators.maxLength(this.inputCharactersForReviewComment),
-        ],
+        !isProductReviewCharactersLeftEnabled
+          ? Validators.required
+          : [
+              Validators.required,
+              Validators.maxLength(this.inputCharactersForReviewComment),
+            ],
       ],
       rating: [null, Validators.required],
-      reviewerName: !isProductReviewCharactersLeftEnabled ? '' : [
-        '',
-        Validators.maxLength(this.inputCharactersForReviewerName),
-      ],
+      reviewerName: !isProductReviewCharactersLeftEnabled
+        ? ''
+        : ['', Validators.maxLength(this.inputCharactersForReviewerName)],
     });
   }
 }
