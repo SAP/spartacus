@@ -12,8 +12,9 @@ import {
 } from '@spartacus/core';
 import { OPF_B2B_CHECKOUT_FEATURE } from './feature-name';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
-import { defaultOpfB2bCheckoutConfig } from './config/default-opf-b2b-checkout-config';
 import { OpfB2bCheckoutStepsSetGuard } from './guards';
+import { defaultOpfB2bCheckoutConfig } from './config/default-opf-b2b-checkout-config';
+import { defaultOpfB2bCheckoutOccEndpointsConfig } from './config/default-opf-b2b-checkout-occ-endpoints-config';
 
 export const OPF_B2B_CHECKOUT_CMS_COMPONENTS: string[] = [
   'OpfCheckoutPaymentType',
@@ -40,6 +41,7 @@ export function defaultOpfB2bCheckoutComponentsConfig() {
       useClass: OpfB2bCheckoutStepsSetGuard,
     },
     provideDefaultConfig(defaultOpfB2bCheckoutConfig),
+    provideDefaultConfig(defaultOpfB2bCheckoutOccEndpointsConfig),
     provideDefaultConfigFactory(defaultOpfB2bCheckoutComponentsConfig),
   ],
 })

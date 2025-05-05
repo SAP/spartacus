@@ -47,13 +47,17 @@ import {
 import { environment } from '../../../../environments/environment';
 import {
   defaultOpfB2bCheckoutConfig,
+  defaultOpfB2bCheckoutOccEndpointsConfig,
   OPF_B2B_CHECKOUT_FEATURE,
   OpfB2bCheckoutRootModule,
 } from '@spartacus/opf/b2b-checkout/root';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
-  extensionProviders.push(provideConfig(defaultOpfB2bCheckoutConfig));
+  extensionProviders.push(
+    provideConfig(defaultOpfB2bCheckoutConfig),
+    provideConfig(defaultOpfB2bCheckoutOccEndpointsConfig)
+  );
 } else {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }

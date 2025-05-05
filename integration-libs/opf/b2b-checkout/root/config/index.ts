@@ -5,3 +5,4 @@
  */
 
 export * from './default-opf-b2b-checkout-config';
+export * from './default-opf-b2b-checkout-occ-endpoints-config';
