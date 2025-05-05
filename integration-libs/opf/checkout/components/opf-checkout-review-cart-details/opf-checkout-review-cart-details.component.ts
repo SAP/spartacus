@@ -5,9 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { PromotionLocation } from '@spartacus/cart/base/root';
-import { CartOutlets } from '@spartacus/cart/base/root';
+import {
+  PromotionLocation,
+  CartOutlets,
+  Cart,
+} from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',

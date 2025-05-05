@@ -97,6 +97,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
+  protected isStateEmpty(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ) {
+    return !state?.loading && !Boolean(state?.data?.value?.length);
+  }
+
   getActiveConfigurations(): Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   > {
@@ -110,7 +116,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
           (state: QueryState<OpfActiveConfigurationsResponse | undefined>) => {
             if (state.error) {
               this.displayError('loadActiveConfigurations');
-            } else if (!state.loading && !Boolean(state.data?.value?.length)) {
+            } else if (this.isStateEmpty(state)) {
               this.displayError('noActiveConfigurations');
             }
 
