@@ -12,7 +12,12 @@ const resolveEnvPlugin: Plugin = {
   setup(build) {
     const env: Record<string, string | boolean | undefined> = {};
     Object.keys(process.env).forEach((key) => {
-      env[key] = process.env[key] === 'true' ? true : process.env[key] === 'false' ? false : process.env[key];
+      if (process.env[key] === 'true') {
+        env[key] = true;
+      } else if (process.env[key] === 'false'){
+        env[key] = false;
+      }
+      env[key]=process.env[key];
     });
     build.initialOptions.bundle= true;
 
@@ -22,7 +27,6 @@ const resolveEnvPlugin: Plugin = {
     };
   },
 };
-
 
 // Filter Warnings Plugin
 const filterWarningsPlugin = (): Plugin => ({
