@@ -147,7 +147,6 @@ describe('Ticketing', () => {
       customerTicketing.verifyTicketSubjectAndMessageDoNotExceedCharacterLimit();
     });
 
-    //what's the use case behind this test? sounds like backend related issue if a ticket is saved in such way - should be included in backend tests rather than the frontend ones
     it('should not be able to see created ticket in other stores (CXSPA-470)', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Entering a subject',
