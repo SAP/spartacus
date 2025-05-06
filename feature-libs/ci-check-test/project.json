@@ -1,0 +1,47 @@
+{
+  "name": "ci-check-test",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/ci-check-test",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "feature-libs/ci-check-test/tsconfig.lib.json",
+        "project": "feature-libs/ci-check-test/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/ci-check-test/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/ci-check-test/test.ts",
+        "tsConfig": "feature-libs/ci-check-test/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/ci-check-test/karma.conf.js"
+      }
+    },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/ci-check-test"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/ci-check-test/**/*.ts",
+          "feature-libs/ci-check-test/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}

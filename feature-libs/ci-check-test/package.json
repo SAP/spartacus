@@ -1,15 +1,15 @@
 {
-  "name": "@spartacus/user",
+  "name": "@spartacus/ci-check-test",
   "version": "2211.38.1",
-  "description": "User feature library for Spartacus",
+  "description": "Store finder feature library for Spartacus",
   "keywords": [
     "spartacus",
     "framework",
     "storefront",
-    "user"
+    "ci-check-test"
   ],
   "homepage": "https://github.com/SAP/spartacus",
-  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/user",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/ci-check-test",
   "license": "Apache-2.0",
   "exports": {
     ".": {
@@ -30,8 +30,8 @@
     "@angular/core": "^19.0.3",
     "@angular/forms": "^19.0.3",
     "@angular/router": "^19.0.3",
-    "@ng-select/ng-select": "^14.1.0",
-    "@ngrx/store": "^19.7.0",
+    "@ngrx/effects": "^19.0.0",
+    "@ngrx/store": "^19.0.0",
     "@spartacus/core": "2211.38.1",
     "@spartacus/schematics": "2211.38.1",
     "@spartacus/storefront": "2211.38.1",
