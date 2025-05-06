@@ -1,7 +1,6 @@
 name: E2E vendor tests
 
 on:
-  push:
   schedule:
      #Runs every day at 10:00 (UTC)
     - cron: "0 10 * * *"
