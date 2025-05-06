@@ -31,7 +31,7 @@ describe('Product Details Page Accessibility', { testIsolation: false }, () => {
     cy.get(
       'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .review'
     );
-    cy.get('main').a11yRunContinuumTest();
+    cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
   });
 
   it('PDP with Spec', () => {
@@ -39,12 +39,12 @@ describe('Product Details Page Accessibility', { testIsolation: false }, () => {
     cy.get(
       'cx-tab-panel [role="tabpanel"].active cx-product-attributes .container'
     );
-    cy.get('main').a11yRunContinuumTest();
+    cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
   });
 
   it('PDP with Shipping', () => {
     cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(4)').click();
     cy.get('cx-tab-panel [role="tabpanel"].active cx-paragraph');
-    cy.get('main').a11yRunContinuumTest();
+    cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
   });
 });
