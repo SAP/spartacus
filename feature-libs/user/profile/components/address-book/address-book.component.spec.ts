@@ -333,9 +333,9 @@ describe('AddressBookComponent', () => {
   describe('addAddressSubmit', () => {
     it('should call addUserAddress on the service and hide the form', () => {
       component.addAddressSubmit(mockAddress);
-      expect(
-        addressBookComponentService.addUserAddress
-      ).toHaveBeenCalledWith(mockAddress);
+      expect(addressBookComponentService.addUserAddress).toHaveBeenCalledWith(
+        mockAddress
+      );
       expect(component.showAddAddressForm).toBeFalse();
     });
   });

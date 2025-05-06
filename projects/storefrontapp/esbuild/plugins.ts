@@ -14,12 +14,12 @@ const resolveEnvPlugin: Plugin = {
     Object.keys(process.env).forEach((key) => {
       if (process.env[key] === 'true') {
         env[key] = true;
-      } else if (process.env[key] === 'false'){
+      } else if (process.env[key] === 'false') {
         env[key] = false;
       }
-      env[key]=process.env[key];
+      env[key] = process.env[key];
     });
-    build.initialOptions.bundle= true;
+    build.initialOptions.bundle = true;
 
     build.initialOptions.define = {
       ...build.initialOptions.define,
@@ -44,7 +44,4 @@ const filterWarningsPlugin = (): Plugin => ({
 });
 
 // Export Plugins
-export default [
-  resolveEnvPlugin,
-  filterWarningsPlugin()
-];
+export default [resolveEnvPlugin, filterWarningsPlugin()];
