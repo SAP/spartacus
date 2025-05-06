@@ -88,175 +88,96 @@ describe('CmsGuardsService', () => {
       service = TestBed.inject(CmsGuardsService);
       featureConfig = TestBed.inject(FeatureConfigService);
     });
-    describe('feature toggle cmsGuardsServiceUseGuardsComposer is false', () => {
-      beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-      });
-      it('should resolve to true if not guards are defined', () => {
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => (result = res));
-        expect(result).toEqual(true);
-      });
-      it('should resolve to true if all guards resolve to true', () => {
-        guards.push(PositiveGuard, PositiveGuardObservable);
 
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => (result = res));
-        expect(result).toEqual(true);
-        expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
+    it('should resolve to true if not guards are defined', (done) => {
+      let result;
+      service
+        .cmsPageCanActivate(
+          [],
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
-        );
-      });
-      it('should resolve to false if any guard resolve to false', () => {
-        guards.push(PositiveGuard, NegativeGuard, PositiveGuardObservable);
+        )
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
+          expect(result).toEqual(true);
+          done();
+        });
+    });
+    it('should resolve to true if all guards resolve to true', (done) => {
+      guards.push(PositiveGuard, PositiveGuardObservable);
 
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => (result = res));
-        expect(result).toEqual(false);
-      });
+      let result;
+      service
+        .cmsPageCanActivate(
+          [],
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
 
-      it('should resolve to UrlTree if any guard resolve to UrlTree', () => {
-        guards.push(PositiveGuard, UrlTreeGuard);
-
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => (result = res));
-        expect(result).toEqual(mockUrlTree);
-      });
-      it('should throw error if some guard is not CanActivate', () => {
-        guards.push(PositiveGuard, NotGuard, PositiveGuardObservable);
-
-        expect(() => {
-          service.cmsPageCanActivate(
-            [],
+          expect(result).toEqual(true);
+          expect(
+            TestBed.inject(PositiveGuard).canActivate
+          ).toHaveBeenCalledWith(
             mockActivatedRouteSnapshot,
             mockRouterStateSnapshot
           );
-        }).toThrowError('Invalid CanActivate guard in cmsMapping');
-      });
+          done();
+        });
     });
-    describe('feature toggle cmsGuardsServiceUseGuardsComposer is true', () => {
-      beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-      });
-      it('should resolve to true if not guards are defined', (done) => {
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => {
-            result = res;
-            expect(result).toEqual(true);
-            done();
-          });
-      });
-      it('should resolve to true if all guards resolve to true', (done) => {
-        guards.push(PositiveGuard, PositiveGuardObservable);
+    it('should resolve to false if any guard resolve to false', (done) => {
+      guards.push(PositiveGuard, NegativeGuard, PositiveGuardObservable);
 
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => {
-            result = res;
+      let result;
+      service
+        .cmsPageCanActivate(
+          [],
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
+          expect(result).toEqual(false);
+          done();
+        });
+    });
 
-            expect(result).toEqual(true);
-            expect(
-              TestBed.inject(PositiveGuard).canActivate
-            ).toHaveBeenCalledWith(
-              mockActivatedRouteSnapshot,
-              mockRouterStateSnapshot
-            );
-            done();
-          });
-      });
-      it('should resolve to false if any guard resolve to false', (done) => {
-        guards.push(PositiveGuard, NegativeGuard, PositiveGuardObservable);
+    it('should resolve to UrlTree if any guard resolve to UrlTree', (done) => {
+      guards.push(PositiveGuard, UrlTreeGuard);
 
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => {
-            result = res;
-            expect(result).toEqual(false);
-            done();
-          });
-      });
-
-      it('should resolve to UrlTree if any guard resolve to UrlTree', (done) => {
-        guards.push(PositiveGuard, UrlTreeGuard);
-
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => {
-            result = res;
-            expect(result).toEqual(mockUrlTree);
-            done();
-          });
-      });
-      it('should continue processing remaining guards if some guard is not CanActivate', (done) => {
-        guards.push(PositiveGuard, NotGuard, PositiveGuardObservable);
-        let result;
-        service
-          .cmsPageCanActivate(
-            [],
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          )
-          .pipe(take(1))
-          .subscribe((res) => {
-            result = res;
-            expect(result).toEqual(true);
-            done();
-          });
-      });
+      let result;
+      service
+        .cmsPageCanActivate(
+          [],
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
+          expect(result).toEqual(mockUrlTree);
+          done();
+        });
+    });
+    it('should continue processing remaining guards if some guard is not CanActivate', (done) => {
+      guards.push(PositiveGuard, NotGuard, PositiveGuardObservable);
+      let result;
+      service
+        .cmsPageCanActivate(
+          [],
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
+          expect(result).toEqual(true);
+          done();
+        });
     });
   });
 
