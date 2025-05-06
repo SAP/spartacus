@@ -103,28 +103,6 @@ describe('Ticketing', () => {
       customerTicketing.verifyTicketDoesNotExist(testTicketDetails);
     });
 
-    //why do we support empty attachments? is there any use case behind this scenario? it doesn't make sense to me
-    it.skip('should be able to create a ticket with an empty attachment (CXSPA-470)', () => {
-      const testTicketDetails: customerTicketing.TestTicketDetails = {
-        subject: 'Testing uploading attachment',
-        message: 'Has the file been uploaded',
-        ticketCategory: {
-          id: customerTicketing.TestCategory.complaint.toUpperCase(),
-          name: customerTicketing.TestCategory.complaint,
-        },
-        filename: 'emptyFile.doc',
-      };
-      customerTicketing.loginRegisteredUser();
-      customerTicketing.visitElectronicTicketListingPage();
-      customerTicketing.openCreateTicketPopup();
-      customerTicketing.fillTicketDetails(testTicketDetails);
-      customerTicketing.addFileSelect(testTicketDetails.filename);
-      customerTicketing.clickSubmit();
-      customerTicketing.verifyGlobalMessage();
-      customerTicketing.verifyCreatedTicketDetails(testTicketDetails);
-      customerTicketing.verifyFileAttachedToMessage(testTicketDetails.filename);
-    });
-
     it('should not create tickets when cancelling or closing the modal (CXSPA-470)', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Cancelling a ticketing creation',
@@ -170,7 +148,7 @@ describe('Ticketing', () => {
     });
 
     //what's the use case behind this test? sounds like backend related issue if a ticket is saved in such way - should be included in backend tests rather than the frontend ones
-    it.skip('should not be able to see created ticket in other stores (CXSPA-470)', () => {
+    it('should not be able to see created ticket in other stores (CXSPA-470)', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Entering a subject',
         message: 'Typing a message',
