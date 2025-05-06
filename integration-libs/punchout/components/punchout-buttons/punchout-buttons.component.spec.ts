@@ -15,6 +15,7 @@ import {
 } from '@spartacus/punchout/root';
 import { Observable, of, take } from 'rxjs';
 import { PunchoutButtonsComponent } from './punchout-buttons.component';
+import { By } from '@angular/platform-browser';
 
 const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
@@ -135,5 +136,30 @@ describe('PunchoutButtonsComponent', () => {
     expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
       cancelRequisition: true,
     });
+  });
+
+  it('should display the "Cancel" button when removeCancelButton is false', () => {
+    component.removeCancelButton = false;
+    component.hasSessionId$ = of(true);
+    fixture.detectChanges();
+
+    const cancelButton = fixture.debugElement.query(
+      By.css('button:nth-child(2)')
+    );
+    expect(cancelButton).toBeTruthy();
+    expect(cancelButton.nativeElement.textContent.trim()).toContain(
+      'punchout.cancel'
+    );
+  });
+
+  it('should not display the "Cancel" button when removeCancelButton is true', () => {
+    component.removeCancelButton = true;
+    component.hasSessionId$ = of(true);
+    fixture.detectChanges();
+
+    const cancelButton = fixture.debugElement.query(
+      By.css('button:nth-child(2)')
+    );
+    expect(cancelButton).toBeNull();
   });
 });
