@@ -13,7 +13,7 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
-import { GlobalMessageType} from '@spartacus/core';
+import { GlobalMessageType } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
