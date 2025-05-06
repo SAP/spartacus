@@ -10,7 +10,7 @@
     "paymentAndReviewTitle": "Payment and review",
     "billingAddress": "Billing Address",
     "paymentOption": "Payment option",
-    "paymentMethod": "Method of Payment",
+    "paymentMethod": "Payment method",
     "noPaymentMethod": "No payment method selected",
     "editCardDefaultLabel": "Edit",
     "editPaymentMethod": "Edit payment method",

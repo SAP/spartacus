@@ -25,6 +25,9 @@
     </div>
   </div>
   <ng-container *ngIf="!(isUpdating$ | async); else loading">
+    <span class="cx-payment-method-label">{{
+      'opfCheckout.paymentMethod' | cxTranslate
+    }}</span>
     <cx-opf-checkout-payments
       [isHeadingDisplayed]="false"
       [isPaymentRenderBelow]="false"

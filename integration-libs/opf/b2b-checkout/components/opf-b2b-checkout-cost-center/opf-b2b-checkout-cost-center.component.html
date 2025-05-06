@@ -1,6 +1,6 @@
 <ng-container *ngIf="isAccountPayment">
   <div class="row">
-    <div class="col-md-12 col-xl-10">
+    <div class="col-md-12">
       <ng-container *ngIf="costCenters$ | async as costCenters">
         <div *ngIf="costCenters.length !== 0">
           <label>
@@ -19,11 +19,11 @@
                 {{ costCenter.name }}
               </option>
             </select>
-            <span class="label-content">{{
-              'checkoutB2B.availableLabel' | cxTranslate
-            }}</span>
           </label>
         </div>
+        <span class="cx-cost-center-description">{{
+          'checkoutB2B.availableLabel' | cxTranslate
+        }}</span>
       </ng-container>
     </div>
   </div>
