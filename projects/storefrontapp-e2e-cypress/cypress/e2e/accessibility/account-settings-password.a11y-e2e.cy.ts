@@ -53,6 +53,7 @@ context(
     it('initial page load', () => {
       cy.requireLoggedIn(standardUser);
       cy.visit(PAGE_URL_UPDATE_PASSWORD);
+      cy.get('cx-update-password form button.btn-primary');
       cy.get('main').a11yRunContinuumTest();
     });
 

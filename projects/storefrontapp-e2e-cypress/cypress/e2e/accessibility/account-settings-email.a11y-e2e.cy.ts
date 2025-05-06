@@ -51,6 +51,7 @@ describe(
     it('initial page load', () => {
       cy.requireLoggedIn(standardUser);
       cy.visit(UPDATE_EMAIL_URL);
+      cy.get('cx-update-email form button.btn-primary');
       cy.get('main').a11yRunContinuumTest();
     });
 

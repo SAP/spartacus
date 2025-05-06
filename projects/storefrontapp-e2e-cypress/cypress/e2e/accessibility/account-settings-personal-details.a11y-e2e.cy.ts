@@ -42,7 +42,7 @@ describe(
     it('initial page load', () => {
       cy.requireLoggedIn(standardUser);
       cy.visit(UPDATE_PROFILE_URL);
-
+      cy.get('cx-update-profile form button.btn-primary');
       cy.get('main').a11yRunContinuumTest();
     });
 
