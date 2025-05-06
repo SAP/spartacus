@@ -11,7 +11,7 @@
       "logLevel": "error",
       "options": {
         "baseHref": "./",
-        "plugins": ["./esbuild/plugins.ts"],
+        "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
         "allowedCommonJsDependencies": [
           "whatwg-url",
