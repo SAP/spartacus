@@ -2,9 +2,9 @@ name: E2E vendor tests
 
 on:
   push:
-  #schedule:
-  #   Runs every day at 10:00 (UTC)
- #   - cron: "0 10 * * *"
+  schedule:
+     #Runs every day at 10:00 (UTC)
+    - cron: "0 10 * * *"
   workflow_dispatch:
 
 env:
@@ -13,6 +13,16 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
+  no_retries:
+    name: Verify re-run of all jobs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forcefully fail build if jobs are all retried
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
+        if: ${{ github.run_attempt > 1 }}
   cdc_b2c_e2e_tests:
     name: E2E tests for CDC B2C
     runs-on: ubuntu-latest
@@ -37,7 +47,7 @@ jobs:
           SPA_ENV: cdc,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s cdc-v2
+          ci-scripts/e2e-cypress.sh -s vendor:cdc
   cdc_b2b_e2e_tests:
     name: E2E tests for CDC B2B
     runs-on: ubuntu-latest
@@ -62,7 +72,7 @@ jobs:
           SPA_ENV: cdc,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s cdc-b2b-v2
+          ci-scripts/e2e-cypress.sh -s vendor:cdc-b2b
   cdp_b2c_e2e_tests:
     name: E2E tests for CDP
     runs-on: ubuntu-latest
@@ -87,7 +97,7 @@ jobs:
           SPA_ENV: cdp,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s cdp-v2
+          ci-scripts/e2e-cypress.sh -s vendor:cdp
   segment_refs_e2e_tests:
     name: E2E tests for segment refs
     runs-on: ubuntu-latest
@@ -112,7 +122,7 @@ jobs:
           SPA_ENV: segment-refs,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s segment-refs-v2
+          ci-scripts/e2e-cypress.sh -s vendor:segment-refs
   digital_payments_e2e_tests:
     name: E2E tests for digital payments
     runs-on: ubuntu-latest
@@ -137,7 +147,7 @@ jobs:
           SPA_ENV: digital-payments,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s digital-payments-v2
+          ci-scripts/e2e-cypress.sh -s vendor:digital-payments
   opps_e2e_tests:
     name: E2E tests for opps
     runs-on: ubuntu-latest
@@ -162,7 +172,7 @@ jobs:
           SPA_ENV: opps,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s opps-v2
+          ci-scripts/e2e-cypress.sh -s vendor:opps
   s4_service_e2e_tests:
     name: E2E tests for s4 service
     runs-on: ubuntu-latest
@@ -187,7 +197,7 @@ jobs:
           SPA_ENV: s4-service,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s s4-service-v2
+          ci-scripts/e2e-cypress.sh -s vendor:s4-service
   epd_visualization_e2e_tests:
     name: E2E tests for epd visualization
     runs-on: ubuntu-latest
@@ -329,7 +339,5 @@ jobs:
               ]
             }
         if: |
-          needs.build_conclusion.result == 'failure' &&
-          github.event_name == 'push' &&
-          github.ref_name == github.event.repository.default_branch
+          needs.build_conclusion.result == 'failure'
 
