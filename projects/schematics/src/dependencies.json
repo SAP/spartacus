@@ -473,7 +473,6 @@
     "rxjs": "^7.8.0"
   },
   "storefrontapp": {
-    "@angular-builders/custom-esbuild": "^19.1.0",
     "@angular/animations": "^19.0.3",
     "@angular/common": "^19.0.3",
     "@angular/compiler": "^19.0.3",
@@ -496,7 +495,6 @@
     "@types/applepayjs": "^14.0.3",
     "@types/google.maps": "^3.54.0",
     "@types/googlepay": "^0.7.4",
-    "angular-builders": "^1.0.0",
     "angular-oauth2-oidc": "19.0.0",
     "comment-json": "^4.2.3",
     "express": "^4.21.2",
