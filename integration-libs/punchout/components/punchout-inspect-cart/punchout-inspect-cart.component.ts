@@ -7,8 +7,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService } from '@spartacus/core';
+import { PunchoutComponentsService } from '@spartacus/punchout/root';
 import { filter, Observable } from 'rxjs';
-import { PunchoutComponentsService } from '../punchout-components.service';
 
 @Component({
   selector: 'cx-punchout-inspect-cart',

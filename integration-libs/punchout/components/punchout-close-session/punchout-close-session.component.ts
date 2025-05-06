@@ -5,9 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { PunchoutFacade } from '@spartacus/punchout/root';
+import {
+  PunchoutComponentsService,
+  PunchoutFacade,
+} from '@spartacus/punchout/root';
 import { Observable } from 'rxjs';
-import { PunchoutComponentsService } from '../punchout-components.service';
 
 @Component({
   selector: 'cx-punchout-close-session',

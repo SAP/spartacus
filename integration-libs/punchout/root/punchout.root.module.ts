@@ -21,7 +21,7 @@ import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
-import { PunchoutComponentsService } from '../components/punchout-components.service';
+import { PunchoutComponentsService } from './services/punchout-components.service';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {

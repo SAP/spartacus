@@ -11,9 +11,10 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { AuthService } from '@spartacus/core';
-import { PunchoutStoreService } from '@spartacus/punchout/root';
+
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { PunchoutStoreService } from './punchout-store.service';
 
 @Injectable()
 export class PunchoutComponentsService {

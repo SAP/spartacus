@@ -6,12 +6,16 @@
 
 import {
   PUNCHOUT_FEATURE_NAME,
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_MIXINS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_PUNCHOUT,
   SPARTACUS_PUNCHOUT_ASSETS,
   SPARTACUS_PUNCHOUT_ROOT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
 
+export const PUNCHOUT_SCSS_FILE_NAME = 'punchout.scss';
 export const PUNCHOUT_FOLDER_NAME = 'punchout';
 export const PUNCHOUT_MODULE_NAME = 'Punchout';
 export const PUNCHOUT_MODULE = 'PunchoutModule';
@@ -45,5 +49,14 @@ export const PUNCHOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     resources: PUNCHOUT_TRANSLATIONS,
     chunks: PUNCHOUT_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_PUNCHOUT_ASSETS,
+  },
+  styles: {
+    scssFileName: PUNCHOUT_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_PUNCHOUT,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };

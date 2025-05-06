@@ -5,6 +5,7 @@
  */
 
 export * from './punchout-auth-http-header.service';
+export * from './punchout-components.service';
 export * from './punchout-detection.service';
 export * from './punchout-state-persistence.service';
 export * from './punchout-store.service';
