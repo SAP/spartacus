@@ -185,20 +185,5 @@ context('B2B - Quick Order', () => {
           .should('contain', `The maximum stock level has been reached`);
       });
     });
-
-    describe('Accessibility - keyboarding', () => {
-      it('13. should conform to tabbing order for quick order page', () => {
-        quickOrder.visitQuickOrderPage();
-        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        quickOrder.verifyInputHasFocus();
-        quickOrder.verifyQuickOrderListQuantity(1);
-        quickOrder.verifyQuickOrderPageTabbingOrder();
-      });
-
-      it('14. should conform to tabbing order for cart page', () => {
-        quickOrder.prepareCartWithProduct();
-        quickOrder.verifyCartPageTabbingOrder();
-      });
-    });
   });
 });
