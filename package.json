@@ -252,6 +252,7 @@
     "webpack-cli": "^5.0.0"
   },
   "overrides": {
-    "vite": "5.4.19"
+    "vite": "~6.1.6",
+    "@vitejs/plugin-basic-ssl": "1.2.0"
   }
 }
