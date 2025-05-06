@@ -12,17 +12,17 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
@@ -207,7 +207,5 @@ export class ConfiguratorTabBarComponent {
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
-    useFeatureStyles('a11yMobileVisibleFocus');
-  }
+  ) {}
 }

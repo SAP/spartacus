@@ -37,6 +37,7 @@
             <cx-pagination
               [pagination]="quotesState.data.pagination"
               (viewPageEvent)="changePage($event)"
+              paginationID="pagination-top"
             ></cx-pagination>
           </ng-container>
         </div>
@@ -132,6 +133,7 @@
             <cx-pagination
               [pagination]="quotesState.data.pagination"
               (viewPageEvent)="changePage($event)"
+              paginationID="pagination-bottom"
             ></cx-pagination>
           </div>
         </ng-container>
