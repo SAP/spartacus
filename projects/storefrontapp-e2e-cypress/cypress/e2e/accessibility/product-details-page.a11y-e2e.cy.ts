@@ -9,7 +9,7 @@ import * as siteContextSelector from '../../helpers/site-context-selector';
 /**
  * This test checks accessibility concerns on the PDP page using Access Continuum
  */
-describe('Product Details Page Accessibility', () => {
+describe('Product Details Page Accessibility', { testIsolation: false }, () => {
   beforeEach(() => {
     cy.a11yContinuumSetup();
     cy.visit(siteContextSelector.PRODUCT_PATH_2);
@@ -27,20 +27,24 @@ describe('Product Details Page Accessibility', () => {
     cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(3)').click();
     cy.get(
       'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .header'
-    ).a11yRunContinuumTest();
+    );
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .review'
+    );
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('PDP with Spec', () => {
     cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(2)').click();
     cy.get(
       'cx-tab-panel [role="tabpanel"].active cx-product-attributes .container'
-    ).a11yRunContinuumTest();
+    );
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('PDP with Shipping', () => {
     cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(4)').click();
-    cy.get(
-      'cx-tab-panel [role="tabpanel"].active cx-paragraph'
-    ).a11yRunContinuumTest();
+    cy.get('cx-tab-panel [role="tabpanel"].active cx-paragraph');
+    cy.get('main').a11yRunContinuumTest();
   });
 });
