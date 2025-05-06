@@ -19,7 +19,6 @@
           "
         >
           <abbr
-            *cxFeature="'a11yRequiredAsterisks'"
             aria-hidden="true"
             class="text-decoration-none required-asterisk"
             title="{{ 'common.required' | cxTranslate }}"
@@ -62,7 +61,11 @@
           <!-- TODO: (CXSPA-7479) Remove feature flags next major -->
           <input
             [attr.aria-labelledby]="'card-coupon-input-label'"
-            [attr.aria-describedby]="'couponCodeError'"
+            [attr.aria-invalid]="
+              couponForm.get('couponCode')?.touched &&
+              couponForm.get('couponCode')?.invalid
+            "
+            [attr.aria-errormessage]="'couponCodeError'"
             required="true"
             type="text"
             class="form-control input-coupon-code"
@@ -81,7 +84,6 @@
           <cx-form-errors
             *cxFeature="'formErrorsDescriptiveMessages'"
             id="couponCodeError"
-            aria-live="off"
             [translationParams]="{
               label: 'voucher.placeholder' | cxTranslate,
             }"
