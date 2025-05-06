@@ -10,11 +10,12 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { AuthService, RoutingService } from '@spartacus/core';
 import {
-  PUNCHOUT_REQUISITION_PAGE_URL,
-  PunchoutStoreService,
-} from '@spartacus/punchout/root';
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
+import { PunchoutStoreService } from '@spartacus/punchout/root';
 import { map, Observable, of, switchMap } from 'rxjs';
 
 @Component({
@@ -27,8 +28,9 @@ export class PunchoutButtonsComponent {
   @Input() removeCancelButton = false;
 
   protected punchoutStoreService = inject(PunchoutStoreService);
-  protected routingService = inject(RoutingService);
   protected authService = inject(AuthService);
+  protected messageService = inject(GlobalMessageService);
+  protected closeSessionTriggered = false;
 
   hasSessionId$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
     switchMap((isLoggedIn) => {
@@ -43,6 +45,7 @@ export class PunchoutButtonsComponent {
 
   submitRequisition(cancelRequisition = false): void {
     this.punchoutStoreService.updatePunchoutState({ cancelRequisition });
-    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+    this.messageService.add('keyToDo', GlobalMessageType.MSG_TYPE_INFO);
+    this.closeSessionTriggered = true;
   }
 }

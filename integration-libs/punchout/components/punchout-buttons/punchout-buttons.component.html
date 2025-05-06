@@ -3,6 +3,7 @@
     type="button"
     class="btn btn-block btn-primary"
     (click)="submitRequisition(false)"
+    [disabled]="closeSessionTriggered"
   >
     {{ 'punchout.backToRequisition' | cxTranslate }}
   </button>
@@ -11,7 +12,9 @@
     type="button"
     class="btn btn-block btn-primary"
     (click)="submitRequisition(true)"
+    [disabled]="closeSessionTriggered"
   >
     {{ 'punchout.cancel' | cxTranslate }}
   </button>
 </ng-container>
+<cx-punchout-requsition *ngIf="closeSessionTriggered" />

@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
-  RoutingService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutSession,
@@ -15,6 +15,7 @@ import {
 } from '@spartacus/punchout/root';
 import { Observable, of, take } from 'rxjs';
 import { PunchoutButtonsComponent } from './punchout-buttons.component';
+import createSpy = jasmine.createSpy;
 
 const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
@@ -34,9 +35,8 @@ const mockPunchoutState: PunchoutState = {
   cancelRequisition: false,
 };
 
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-  goByUrl = () => Promise.resolve(true);
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
@@ -60,7 +60,7 @@ describe('PunchoutButtonsComponent', () => {
   let component: PunchoutButtonsComponent;
   let fixture: ComponentFixture<PunchoutButtonsComponent>;
   let punchoutStoreService: PunchoutStoreService;
-  let routingService: RoutingService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,15 +68,15 @@ describe('PunchoutButtonsComponent', () => {
       declarations: [PunchoutButtonsComponent],
       providers: [
         { provide: PunchoutStoreService, useClass: MockPunchoutStoreService },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
     fixture = TestBed.createComponent(PunchoutButtonsComponent);
     component = fixture.componentInstance;
 
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
-    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -91,7 +91,6 @@ describe('PunchoutButtonsComponent', () => {
       next: (result) => {
         expect(result).toEqual(true);
         expect(punchoutStoreService.getPunchoutState).toHaveBeenCalled();
-
         done();
       },
     });
@@ -112,12 +111,12 @@ describe('PunchoutButtonsComponent', () => {
   });
 
   it('should submitRequisition redirect user to Requisition page and update state with cancelRequisition false ', () => {
-    spyOn(routingService, 'go');
     spyOn(punchoutStoreService, 'updatePunchoutState').and.returnValue();
 
     component.submitRequisition(false);
-    expect(routingService.go).toHaveBeenCalledWith(
-      PUNCHOUT_REQUISITION_PAGE_URL
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'keyToDo',
+      GlobalMessageType.MSG_TYPE_INFO
     );
     expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
       cancelRequisition: false,
@@ -125,12 +124,12 @@ describe('PunchoutButtonsComponent', () => {
   });
 
   it('should submitRequisition redirect user to Requisition page and update state with cancelRequisition true ', () => {
-    spyOn(routingService, 'go');
     spyOn(punchoutStoreService, 'updatePunchoutState').and.returnValue();
 
     component.submitRequisition(true);
-    expect(routingService.go).toHaveBeenCalledWith(
-      PUNCHOUT_REQUISITION_PAGE_URL
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'keyToDo',
+      GlobalMessageType.MSG_TYPE_INFO
     );
     expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
       cancelRequisition: true,
