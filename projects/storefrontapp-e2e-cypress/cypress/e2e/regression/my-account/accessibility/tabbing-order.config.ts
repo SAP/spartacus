@@ -18,6 +18,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   myAccountV2EmailEdit: [
     {
+      type: TabbingOrderTypes.SPAN,
+    },
+    {
       type: TabbingOrderTypes.BUTTON,
     },
     {

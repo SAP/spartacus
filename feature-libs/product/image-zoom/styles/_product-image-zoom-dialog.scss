@@ -35,10 +35,7 @@ cx-product-image-zoom-dialog {
 
         @include forFeature('a11yCloseProductImageBtnFocus') {
           .close {
-            outline-offset: -4px;
-            @include forFeature('a11yExpandedFocusIndicator') {
-              outline-offset: unset;
-            }
+            outline-offset: unset;
           }
         }
 
