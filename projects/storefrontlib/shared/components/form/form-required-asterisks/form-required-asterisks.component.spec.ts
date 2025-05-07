@@ -1,13 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { I18nTestingModule } from '@spartacus/core';
 import { FormRequiredAsterisksComponent } from './form-required-asterisks.component';
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
 
 describe('FormRequiredAsterisksComponent', () => {
   let component: FormRequiredAsterisksComponent;
@@ -16,14 +9,6 @@ describe('FormRequiredAsterisksComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, FormRequiredAsterisksComponent],
-      providers: [
-        FeatureConfigService,
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-      declarations: [MockFeatureDirective],
     }).compileComponents();
   }));
 

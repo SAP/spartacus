@@ -10,6 +10,6 @@ export interface UsageId {
 }
 
 export interface UsageIdKey {
-  name: String;
-  value: String;
+  name: string;
+  value: string;
 }

@@ -18,6 +18,7 @@ export interface CustomerSearchOptions {
   pageSize?: number;
   customerListId?: string;
   currentPage?: number;
+  page?: number;
   sort?: string;
 }
 
