@@ -15,6 +15,7 @@ import {
 import {
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
+  PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
   PunchoutSession,
@@ -268,6 +269,13 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
+    console.log('xxxxx', punchoutSession.punchOutLevel, PunchOutLevel.STORE);
+    if (punchoutSession.punchOutLevel === PunchOutLevel.STORE) {
+      this.routingService.go({
+        cxRoute: 'home',
+      });
+      return;
+    }
     if (punchoutSession?.selectedItem) {
       this.routingService.go({
         cxRoute: 'product',
