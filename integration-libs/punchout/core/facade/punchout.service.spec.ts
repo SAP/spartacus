@@ -253,6 +253,27 @@ describe('Punchoutservice', () => {
     });
   });
 
+  it('should getPunchoutSession opens PUNCHOUT_INSPECT_PAGE_URL page when no product item and INSPECT Level ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSession').and.returnValue(
+      of({
+        ...mockPunchoutSessionResponse,
+        punchOutOperation: PunchOutOperation.INSPECT,
+        selectedItem: '',
+      })
+    );
+
+    service.getPunchoutSession(mockSessionInput).subscribe({
+      next: () => {
+        expect(routingService.go).toHaveBeenCalledWith(
+          '/punchout/cxml/inspect'
+        );
+
+        done();
+      },
+    });
+  });
+
   it('should getPunchoutSession opens cart page when no product item and EDIT Level ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
