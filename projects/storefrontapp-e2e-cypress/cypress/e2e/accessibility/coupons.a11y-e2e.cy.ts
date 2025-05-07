@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as myCoupons from '../../helpers/coupons/my-coupons';
 import { PRODUCT_PATH_2 } from '../../helpers/site-context-selector';
 
