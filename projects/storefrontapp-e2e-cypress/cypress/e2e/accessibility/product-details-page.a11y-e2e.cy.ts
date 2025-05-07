@@ -4,15 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as siteContextSelector from '../../helpers/site-context-selector';
-
 /**
  * This test checks accessibility concerns on the PDP page using Access Continuum
  */
 describe('Product Details Page Accessibility', { testIsolation: false }, () => {
-  beforeEach(() => {
+  before(() => {
     cy.a11yContinuumSetup();
-    cy.visit(siteContextSelector.PRODUCT_PATH_2);
+    cy.visit(`/product/1382080`);
   });
 
   it('PDP with Product Details', () => {
@@ -26,11 +24,18 @@ describe('Product Details Page Accessibility', { testIsolation: false }, () => {
   it('PDP with Reviews', () => {
     cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(3)').click();
     cy.get(
-      'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .header'
-    );
-    cy.get(
       'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .review'
     );
+    cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
+  });
+
+  it('PDP write a Review Form', () => {
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .header button.btn-primary'
+    ).click();
+    cy.get(
+      'cx-page-slot[position="Tabs"] cx-tab cx-product-reviews .container form button[type="submit"]'
+    ).click();
     cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
   });
 
@@ -45,17 +50,6 @@ describe('Product Details Page Accessibility', { testIsolation: false }, () => {
   it('PDP with Shipping', () => {
     cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(4)').click();
     cy.get('cx-tab-panel [role="tabpanel"].active cx-paragraph');
-    cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
-  });
-
-  it('PDP write a Review Form', () => {
-    cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(3)').click();
-    cy.get(
-      'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .header button.btn-primary'
-    ).click();
-    cy.get(
-      'cx-page-slot[position="Tabs"] cx-tab cx-product-reviews .container form button[type="submit"]'
-    ).click();
     cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
   });
 
