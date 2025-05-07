@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
-    "node": "^20.0.0"
+    "node": "^22.0.0"
   },
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
@@ -164,7 +164,6 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^19.1.0",
-    "@angular-builders/custom-webpack": "19.0.1",
     "@angular-devkit/build-angular": "^19.0.4",
     "@angular-devkit/core": "^19.0.4",
     "@angular-devkit/schematics": "^19.0.4",
@@ -184,7 +183,6 @@
     "@nx/devkit": "^20.4.6",
     "@nx/eslint-plugin": "^20.4.6",
     "@nx/jest": "^20.4.6",
-    "@nx/vite": "^20.8.0",
     "@nx/workspace": "^20.4.6",
     "@sapui5/ts-types-esm": "1.120.1",
     "@schematics/angular": "^19.0.4",
@@ -254,5 +252,8 @@
     "typescript": "^5.6.3",
     "webpack": "~5.98.0",
     "webpack-cli": "^5.0.0"
+  },
+  "overrides": {
+    "vite": "5.4.19"
   }
 }
