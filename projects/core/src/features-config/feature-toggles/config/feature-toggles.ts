@@ -46,12 +46,6 @@ export interface FeatureTogglesInterface {
   showBillingAddressInDigitalPayments?: boolean;
 
   /**
-   * In `QuoteLinksComponent` it shows the download button.
-   * API for this button is available in commerce 2211.16 and above
-   */
-  showDownloadProposalButton?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -890,7 +884,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   shouldHideAddToCartForUnpurchasableProducts: true,
   useExtractedBillingAddressComponent: true,
   showBillingAddressInDigitalPayments: true,
-  showDownloadProposalButton: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
