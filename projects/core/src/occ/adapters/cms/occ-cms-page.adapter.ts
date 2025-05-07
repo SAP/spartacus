@@ -19,7 +19,7 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config';
 
 export interface OccCmsPageRequest {
@@ -64,7 +64,8 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
 
           return this.http.get(endpoint, { headers: this.headers });
         }),
-        this.converter.pipeable(CMS_PAGE_NORMALIZER)
+        this.converter.pipeable(CMS_PAGE_NORMALIZER),
+        take(1)
       );
     }
     const endpoint = !pageContext.type

@@ -14,11 +14,13 @@
       class="form-control"
       formControlName="userId"
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
-      [attr.aria-describedby]="'userIdError'"
+      [attr.aria-invalid]="
+        form.get('userId')?.touched && form.get('userId')?.invalid
+      "
+      [attr.aria-errormessage]="'userIdError'"
     />
     <cx-form-errors
       id="userIdError"
-      aria-live="off"
       [control]="form.get('userId')"
     ></cx-form-errors>
   </label>
@@ -35,12 +37,14 @@
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
-      [attr.aria-describedby]="'passwordError'"
+      [attr.aria-invalid]="
+        form.get('password')?.touched && form.get('password')?.invalid
+      "
+      [attr.aria-errormessage]="'passwordError'"
       cxPasswordVisibilitySwitch
     />
     <cx-form-errors
       id="passwordError"
-      aria-live="off"
       [control]="form.get('password')"
     ></cx-form-errors>
   </label>

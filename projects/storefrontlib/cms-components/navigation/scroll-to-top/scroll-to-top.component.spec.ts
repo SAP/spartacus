@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsScrollToTopComponent,
-  FeatureConfigService,
   I18nTestingModule,
   ScrollBehavior,
 } from '@spartacus/core';
@@ -21,12 +20,6 @@ const mockData: CmsScrollToTopComponent = {
 const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockData),
 };
-//TODO: (CXSPA-6522) - remove feature flag next major release.
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
 
 describe('ScrollToTopComponent', () => {
   let component: ScrollToTopComponent;
@@ -43,10 +36,6 @@ describe('ScrollToTopComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
