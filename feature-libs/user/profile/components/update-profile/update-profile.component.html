@@ -125,7 +125,11 @@
 
   <!-- TODO: (CXSPA-7252) - Remove feature flag next major release -->
   <ng-container *cxFeature="'a11yUseButtonsForBtnLinks'">
-    <button class="btn btn-block btn-secondary" (click)="navigateTo('home')">
+    <button
+      type="button"
+      class="btn btn-block btn-secondary"
+      (click)="navigateTo('home')"
+    >
       {{ 'common.cancel' | cxTranslate }}
     </button>
   </ng-container>

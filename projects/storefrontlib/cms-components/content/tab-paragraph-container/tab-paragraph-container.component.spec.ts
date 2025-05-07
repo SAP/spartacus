@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  CmsComponent,
   CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
@@ -8,7 +9,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
@@ -48,17 +49,21 @@ const mockComponentData: CMSTabParagraphContainer = {
   uid: 'TabPanelContainer',
 };
 
-const mockTabComponentData1 = {
+interface MockCmsComponent extends CmsComponent {
+  flexType: string;
+}
+
+const mockTabComponentData1: MockCmsComponent = {
   uid: 'ProductDetailsTabComponent',
   flexType: 'ProductDetailsTabComponent',
 };
 
-const mockTabComponentData2 = {
+const mockTabComponentData2: MockCmsComponent = {
   uid: 'ProductSpecsTabComponent',
   flexType: 'ProductSpecsTabComponent',
 };
 
-const mockTabComponentData3 = {
+const mockTabComponentData3: MockCmsComponent = {
   uid: 'ProductReviewsTabComponent',
   flexType: 'ProductReviewsTabComponent',
 };
@@ -116,7 +121,7 @@ describe('TabParagraphContainerComponent', () => {
       of(mockTabComponentData2),
       of(mockTabComponentData3)
     );
-    let childComponents: any[];
+    let childComponents: any[] = [];
     component.components$
       .subscribe((components) => (childComponents = components))
       .unsubscribe();
@@ -157,16 +162,24 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should be able to get tab title parameters from children', () => {
-    spyOn(cmsService, 'getComponentData').and.returnValues(
-      of(mockTabComponentData1),
-      of(mockTabComponentData2),
-      of(mockTabComponentData3)
+    spyOn(cmsService, 'getComponentData').and.callFake(
+      <MockCmsComponent>(uid: string): Observable<MockCmsComponent> => {
+        switch (uid) {
+          case 'ProductDetailsTabComponent':
+            return of(mockTabComponentData1) as Observable<MockCmsComponent>;
+          case 'ProductSpecsTabComponent':
+            return of(mockTabComponentData2) as Observable<MockCmsComponent>;
+          case 'ProductReviewsTabComponent':
+            return of(mockTabComponentData3) as Observable<MockCmsComponent>;
+          default:
+            return throwError(() => `Tab id ${uid}`);
+        }
+      }
     );
-    fixture.detectChanges();
 
     let childCompFixture: ComponentFixture<TestComponent>;
     childCompFixture = TestBed.createComponent(TestComponent);
-
+    fixture.detectChanges();
     component.children.first['cmpRef'] = childCompFixture.componentRef;
     component.ngAfterViewInit();
 
