@@ -46,12 +46,6 @@ export interface FeatureTogglesInterface {
   showBillingAddressInDigitalPayments?: boolean;
 
   /**
-   * In `QuoteLinksComponent` it shows the download button.
-   * API for this button is available in commerce 2211.16 and above
-   */
-  showDownloadProposalButton?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -831,6 +825,13 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * The optional `aria-controls` attribute will override on the NgSelect implementation.
+   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
+   * This change ensures we can still use a custom id if preferable.
+   */
+  a11yNgSelectAriaControls?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -877,9 +878,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   shouldHideAddToCartForUnpurchasableProducts: true,
   useExtractedBillingAddressComponent: true,
   showBillingAddressInDigitalPayments: true,
-  showDownloadProposalButton: true,
-  searchBoxV2: false,
-  trendingSearches: false,
+  searchBoxV2: true,
+  trendingSearches: true,
   useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
@@ -895,16 +895,16 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderSearchListKeyboardNavigation: false,
   a11ySearchBoxMobileFocus: true,
   a11yFacetKeyboardNavigation: true,
-  a11yStyleExternalLinksAsLinks: false,
-  a11ySearchboxLabel: false,
+  a11yStyleExternalLinksAsLinks: true,
+  a11ySearchboxLabel: true,
   a11yHideSelectBtnForSelectedAddrOrPayment: true,
-  a11ySelectLabelWithContextForSelectedAddrOrPayment: false,
+  a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
   a11yVisibleFocusOverflows: true,
   a11yTruncatedTextForResponsiveView: true,
-  a11yTruncatedTextStoreFinder: false,
+  a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
@@ -918,12 +918,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseButtonsForBtnLinks: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
-  a11yPickupOptionsTabs: false,
+  a11yPickupOptionsTabs: true,
   a11yNotificationsOnConsentChange: true,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
   a11yFacetsDialogFocusHandling: true,
   a11yResetFocusAfterNavigating: false,
-  headerLayoutForSmallerViewports: false,
+  headerLayoutForSmallerViewports: true,
   a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
   a11yFormErrorMuteIcon: true,
@@ -933,7 +933,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatedPageTitleFix: true,
   a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
-  a11yNgSelectCloseDropdownOnEscape: false,
+  a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: true,
@@ -947,28 +947,28 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
-  a11yUpdatingCartNoNarration: false,
-  a11yPasswordVisibliltyBtnValueOverflow: false,
-  a11yItemCounterFocus: false,
-  a11yScrollToReviewByShowReview: false,
-  a11yViewHoursButtonIconContrast: false,
-  a11yStoreInStockIconContrast: false,
-  a11yCheckoutStepsLandmarks: false,
-  a11yQTY2Quantity: false,
-  a11yImproveButtonsInCardComponent: false,
+  a11yUpdatingCartNoNarration: true,
+  a11yPasswordVisibliltyBtnValueOverflow: true,
+  a11yItemCounterFocus: true,
+  a11yScrollToReviewByShowReview: true,
+  a11yViewHoursButtonIconContrast: true,
+  a11yStoreInStockIconContrast: true,
+  a11yCheckoutStepsLandmarks: true,
+  a11yQTY2Quantity: true,
+  a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: false,
-  a11yWrapReviewOrderInSection: false,
-  a11yApprovalProcessWithNoClearable: false,
-  a11yPostRegisterSuccessMessage: false,
-  a11yDeleteButton2First: false,
-  a11yShowLabelOfSelect: false,
-  a11yShowDownArrowOnFocusedSelectMenu: false,
-  a11yCroppedFocusRing: false,
-  a11yTextSpacingAdjustments: false,
-  a11yTableHeaderReadout: false,
-  a11ySearchboxAssistiveMessage: false,
+  a11yWrapReviewOrderInSection: true,
+  a11yApprovalProcessWithNoClearable: true,
+  a11yPostRegisterSuccessMessage: true,
+  a11yDeleteButton2First: true,
+  a11yShowLabelOfSelect: true,
+  a11yShowDownArrowOnFocusedSelectMenu: true,
+  a11yCroppedFocusRing: true,
+  a11yTextSpacingAdjustments: true,
+  a11yTableHeaderReadout: true,
+  a11ySearchboxAssistiveMessage: true,
   updateConsentGivenInOnChanges: false,
-  a11yDifferentiateFocusedAndSelected: false,
+  a11yDifferentiateFocusedAndSelected: true,
   a11yQuickOrderSearchBoxRefocusOnClose: false,
   a11yKeyboardFocusInSearchBox: false,
   a11yAddPaddingToCarouselPanel: false,
@@ -985,14 +985,15 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
-  a11yPdpGridArrangement: false,
+  a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: false,
-  useExtendedMediaComponentConfiguration: false,
-  showRealTimeStockInPDP: false,
+  useExtendedMediaComponentConfiguration: true,
+  showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: false,
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
+  a11yNgSelectAriaControls: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
