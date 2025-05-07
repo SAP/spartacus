@@ -45,9 +45,8 @@ describe('Coupons Accessibility', { testIsolation: false }, () => {
 
     describe('Cart Coupon', () => {
       before(() => {
-        cy.visit(PRODUCT_PATH_2);
-        cy.get('cx-add-to-cart button[type=submit]').click();
-        cy.get('cx-added-to-cart-dialog .cx-modal-content cx-cart-item');
+        const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+        cy.addToCart('779841', 1, auth.token.access_token);
       });
 
       it('add coupon', () => {
