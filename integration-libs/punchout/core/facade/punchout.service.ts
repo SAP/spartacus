@@ -270,7 +270,6 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
-    console.log('xxxxx', punchoutSession?.punchOutLevel, PunchOutLevel.STORE);
     if (
       (punchoutSession?.punchOutOperation === PunchOutOperation.CREATE ||
         punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) &&
