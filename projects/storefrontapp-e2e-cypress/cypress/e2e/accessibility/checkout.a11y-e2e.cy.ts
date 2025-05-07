@@ -53,17 +53,13 @@ describe('Checkout Accessibility', { testIsolation: false }, () => {
     });
 
     it('shipping address form with errors', () => {
-      fillShippingAddress(null);
-      cy.get('cx-delivery-address').a11yRunContinuumTest();
-    });
-
-    it('shipping address form with correct data', () => {
-      fillShippingAddress(user, false);
-      cy.get('cx-delivery-address').a11yRunContinuumTest();
       cy.get('button.btn-primary').click();
+      cy.get('cx-delivery-address').a11yRunContinuumTest();
     });
 
     it('delivery methods', () => {
+      fillShippingAddress(user, false);
+      cy.get('button.btn-primary').click();
       cy.contains(
         'cx-delivery-mode',
         'Standard Delivery'
@@ -89,17 +85,13 @@ describe('Checkout Accessibility', { testIsolation: false }, () => {
     });
 
     it('payment form with errors', () => {
-      fillPaymentDetails(null);
-      cy.get('cx-payment-form').a11yRunContinuumTest();
-    });
-
-    it('payment form with correct data', () => {
-      fillPaymentDetails(user, undefined, false);
-      cy.get('cx-payment-form').a11yRunContinuumTest();
       cy.get('button.btn-primary').click();
+      cy.get('cx-payment-form').a11yRunContinuumTest();
     });
 
     it('review order', () => {
+      fillPaymentDetails(user, undefined, false);
+      cy.get('button.btn-primary').click();
       cy.get('section[aria-label="Review Order"]').a11yRunContinuumTest();
       cy.get('cx-place-order').a11yRunContinuumTest();
     });
