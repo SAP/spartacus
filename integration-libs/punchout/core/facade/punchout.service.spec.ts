@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { CommandService, RoutingService, UserIdService } from '@spartacus/core';
 import {
+  PUNCHOUT_INSPECT_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -248,6 +249,27 @@ describe('Punchoutservice', () => {
     service.getPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith('/');
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSession opens PUNCHOUT_INSPECT_PAGE_URL page when no product item and INSPECT Level ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSession').and.returnValue(
+      of({
+        ...mockPunchoutSessionResponse,
+        punchOutOperation: PunchOutOperation.INSPECT,
+        selectedItem: '',
+      })
+    );
+
+    service.getPunchoutSession(mockSessionInput).subscribe({
+      next: () => {
+        expect(routingService.go).toHaveBeenCalledWith(
+          PUNCHOUT_INSPECT_PAGE_URL
+        );
+
         done();
       },
     });
