@@ -7,7 +7,6 @@
 import { Request } from 'express';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
-import { convertToBytes } from './convert-to-bytes';
 import { DefaultCacheEntrySizeCalculator } from './default-cache-entry-size-calculator';
 import { RenderingEntry } from './rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
@@ -59,11 +58,7 @@ export interface SsrOptimizationOptions {
    * Specifies the maximum memory (in bytes) allocated for cached entries,
    * helping to keep memory usage under control.
    *
-   * The default value is set to 300 MB.
-   *
-   * You can use the util function `convertToBytes()` from `@spartacus/setup/ssr` to adjust this limit as needed:
-   *
-   * `cacheSizeMemory: convertToBytes(300, 'MB')`
+   * The default value is set to 300 MB (using IEC standard, 300 000 000 bytes).
    *
    * IMPORTANT: Your server should have much more available memory than the configured `cacheSizeMemory`,
    *            because the NodeJS process needs a lot of operational memory also for the rendering activities,
@@ -267,7 +262,7 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheSizeMemory: convertToBytes(300, 'MB'),
+  cacheSizeMemory: 300_000_000,
   cacheEntrySizeCalculator: new DefaultCacheEntrySizeCalculator(),
   ttl: undefined,
   concurrency: 10,
