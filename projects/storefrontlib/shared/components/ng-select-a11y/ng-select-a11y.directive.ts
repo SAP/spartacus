@@ -115,6 +115,19 @@ export class NgSelectA11yDirective implements AfterViewInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
         this.renderer.setAttribute(inputCombobox, 'aria-expanded', state);
+        if (
+          ariaControls &&
+          this.featureConfigService.isEnabled('a11yNgSelectAriaControls')
+        ) {
+          // Delay execution to come after the ng-select's own 'aria-controls' logic
+          setTimeout(() => {
+            this.renderer.setAttribute(
+              inputCombobox,
+              'aria-controls',
+              ariaControls
+            );
+          });
+        }
       });
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
