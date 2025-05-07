@@ -5,7 +5,7 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -107,6 +107,7 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
         { provide: UserIdService, useValue: {} },
         { provide: GlobalMessageService, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
+        FormBuilder,
       ],
     }).compileComponents();
 
@@ -152,13 +153,16 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
     spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.returnValue(of({}));
     spyOn(activeCartFacade, 'reloadActiveCart');
 
-    // Set required state
-    component['selectedPaymentOption'] = '1';
-    component['poNumberInputElement'] = {
-      nativeElement: {
-        value: 'PO123',
-      },
-    } as any;
+    const payment: OpfActiveConfiguration = {
+      id: 1,
+      paymentType: B2BPaymentTypeEnum.ACCOUNT_PAYMENT,
+      providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+      displayName: 'Test Payment',
+      description: 'Test Description',
+    };
+
+    component.handlePaymentChange(payment);
+    fixture.detectChanges();
 
     component.next();
 

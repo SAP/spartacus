@@ -28,6 +28,7 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { BehaviorSubject, Observable, Subscription, take } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -49,17 +50,25 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected activatedRoute = inject(ActivatedRoute);
   protected globalMessageService = inject(GlobalMessageService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected fb = inject(FormBuilder);
 
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
 
   protected isUpdating$ = new BehaviorSubject<boolean>(false);
+  protected form: FormGroup;
 
   cartPoNumber$: Observable<string | undefined>;
 
   protected subscription: Subscription = new Subscription();
   protected poNumberValue: string | undefined;
   protected selectedPaymentOption: string | undefined = undefined;
+
+  constructor() {
+    this.form = this.fb.group({
+      poNumber: [''],
+    });
+  }
 
   protected updatePoNumberField(): void {
     if (this.poNumberInputElement?.nativeElement && this.poNumberValue) {
@@ -88,7 +97,7 @@ export class OpfB2bCheckoutPaymentTypeComponent
   }
 
   next(): void {
-    const poNumberInput = this.poNumberInputElement?.nativeElement.value;
+    const poNumberInput = this.form.get('poNumber')?.value;
     if (this.selectedPaymentOption) {
       this.isUpdating$.next(true);
 
@@ -128,7 +137,7 @@ export class OpfB2bCheckoutPaymentTypeComponent
       this.isUpdating$.next(true);
       this.setPaymentOption(
         this.selectedPaymentOption,
-        this.poNumberInputElement?.nativeElement.value
+        this.form.get('poNumber')?.value
       ).subscribe({
         complete: () => {
           this.activeCartFacade.reloadActiveCart();
@@ -148,13 +157,15 @@ export class OpfB2bCheckoutPaymentTypeComponent
     this.subscription.add(
       this.cartPoNumber$.subscribe((poNumber) => {
         this.poNumberValue = poNumber;
-        this.updatePoNumberField();
+        this.form.patchValue({ poNumber });
       })
     );
   }
 
   ngAfterViewInit(): void {
-    this.updatePoNumberField();
+    if (this.poNumberValue) {
+      this.form.patchValue({ poNumber: this.poNumberValue });
+    }
   }
 
   ngOnDestroy(): void {

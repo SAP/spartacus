@@ -6,6 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CartValidationGuard } from '@spartacus/cart/base/core';
 import {
   CartNotEmptyGuard,
@@ -28,6 +29,7 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
     SpinnerModule,
     FeaturesConfigModule,
     OpfCheckoutPaymentsModule,
+    ReactiveFormsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OpfCheckoutPaymentType: {
