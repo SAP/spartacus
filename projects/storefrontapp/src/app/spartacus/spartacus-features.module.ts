@@ -317,7 +317,6 @@ if (environment.cpq) {
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
-        cmsGuardsServiceUseGuardsComposer: true,
         a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
