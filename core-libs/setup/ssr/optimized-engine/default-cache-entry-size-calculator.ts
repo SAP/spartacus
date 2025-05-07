@@ -10,14 +10,14 @@ import { CacheEntrySizeCalculator } from './ssr-optimization-options';
 /**
  * Default implementation of the cache entry size calculator.
  *
- * For HTML string, it assumes each character is 2 bytes (utf-8 encoding).
+ * For HTML string, it returns the size of the string in bytes, assuming 2 bytes per each character
+ * (an upper-bound estimation assuming V8 is using `SeqTwoByteString` for string cache entries).
  *
- * For error object, it sums sizes of the `name`, `message` and `stack` string properties.
+ * For error object, it only roughly approximates the size - it sums sizes of the `name`, `message` and `stack` string properties.
  *
  * CAUTION: the error object can be potentially anything and can have more properties (not necessarily strings),
- *          so it's just an approximation and it's prone to under-estimation!
- *
- * Note: it's not recommended to cache error objects.
+ *          so it's prone to under-estimation!
+ *          It's not recommended to cache error objects.
  */
 export class DefaultCacheEntrySizeCalculator
   implements CacheEntrySizeCalculator
@@ -35,8 +35,6 @@ export class DefaultCacheEntrySizeCalculator
 
   /**
    * Calculates the size of the rendered HTML.
-   *
-   * It assumes each character is 2 bytes (utf-8 encoding).
    */
   protected calculateHtmlSize(html: string): number {
     return this.getStringSize(html);
@@ -60,11 +58,16 @@ export class DefaultCacheEntrySizeCalculator
   }
 
   /**
-   * Returns the size of the string in bytes.
+   * Returns string size in bytes for NodeJS V8 engine.
+   * Uses 2 bytes per character as an upper-bound estimate.
    *
-   * It assumes each character is 2 bytes (utf-8 encoding).
+   * V8 can use either one or two bytes per character, but for Spartacus SSR
+   * it consistently uses two-byte strings (`SeqTwoByteString`)
+   * which was verified through heap snapshots and memory measurements.
+   *
+   * For more on V8's `SeqTwoByteString`, see https://github.com/v8/v8/blob/c865b8257a/src/objects/string.h#L921-L923
    */
   protected getStringSize(str: string): number {
-    return 2 * Buffer.byteLength(str, 'utf8');
+    return 2 * str.length;
   }
 }

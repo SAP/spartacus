@@ -59,29 +59,29 @@ export interface SsrOptimizationOptions {
    * Specifies the maximum memory (in bytes) allocated for cached entries,
    * helping to keep memory usage under control.
    *
-   * The default value is set to 300MB.
+   * The default value is set to 300 MB.
    *
    * You can use the util function `convertToBytes()` from `@spartacus/setup/ssr` to adjust this limit as needed:
    *
    * `cacheSizeMemory: convertToBytes(300, 'MB')`
    *
    * IMPORTANT: Your server should have much more available memory than the configured `cacheSizeMemory`,
-   *            because the NodeJS process needs memory also for other operations, such as creating instances
-   *            of the Angular applications for each incoming requests. Each application instance is destroyed
-   *            by Angular SSR engine and its memory is released by NodeJS garbage collector. The more parallel
-   *            requests are processed (which can be limited with the `concurrency` option), the more operational memory
-   *            is needed for the Angular Rendering purposes.
+   *            because the NodeJS process needs a lot of operational memory also for the rendering activities,
+   *            such as creating instances of the Angular applications for each incoming requests.
+   *            The more parallel requests are allowed (which can be limited with the `concurrency` option),
+   *            the more operational memory is needed.
    *
    * Note: for calculating the size of the cache entry, the `cacheEntrySizeCalculator` option is used.
    */
   cacheSizeMemory?: number;
 
   /**
-   * Strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size.
+   * Strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size,
+   * so the oldest entries can be removed when the cache size memory limit is reached.
    *
    * Note: This config option is used only when the `ssrFeatureToggles.limitCacheByMemory` is set to true.
    *
-   * For details on how the entries' size is calculated by default, see the docs of the {@link DefaultCacheEntrySizeCalculator}.
+   * For details on how each entry's size is calculated by default, see {@link DefaultCacheEntrySizeCalculator}.
    */
   cacheEntrySizeCalculator?: CacheEntrySizeCalculator;
 

@@ -16,14 +16,7 @@ export interface RenderingEntry {
   /**
    * Approximate size of the entry in bytes.
    *
-   * Note: it's used only when `ssrFeatureToggles.limitCacheByMemory` is set to true.
-   *
-   * CAUTION: It's not guaranteed to be exact memory actually used by the NodeJS engine.
-   *          It's only a best effort approximation using utf-8 encoding for strings:
-   *          - for successful renders it approximates the size of the rendered HTML string, assuming 2 bytes per character
-   *          - for errors it sums the approximate size of the 3 string properties: `name`, `message` and `stack`,
-   *            but not other unknown properties, so it's prone to under-estimation!
-   *            Note: it's not recommended to cache errors.
+   * It's used only when `ssrFeatureToggles.limitCacheByMemory` is set to true.
    */
   _size?: number;
 }
