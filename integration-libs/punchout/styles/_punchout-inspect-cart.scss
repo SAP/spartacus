@@ -24,4 +24,15 @@
   .punchoutEndSection {
     flex: 0 0 30%;
   }
+
+  cx-cart-item-list {
+    a {
+      pointer-events: none;
+      cursor: pointer;
+      &.cx-link {
+        text-decoration: none;
+        color: var(--cx-color-text);
+      }
+    }
+  }
 }
