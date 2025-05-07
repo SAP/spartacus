@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart.component';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService } from '@spartacus/core';
-import { PunchoutComponentsService } from '../punchout-components.service';
 import { of } from 'rxjs';
+import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive() {
@@ -32,8 +32,8 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockPunchoutComponentsService
-  implements Partial<PunchoutComponentsService>
+class MockPunchoutUiRestrictionService
+  implements Partial<PunchoutUiRestrictionService>
 {
   isPunchoutSessionActive() {
     return of(true);
@@ -45,12 +45,12 @@ describe('PunchoutInspectCartComponent', () => {
   let fixture: ComponentFixture<PunchoutInspectCartComponent>;
   let mockActiveCartFacade: MockActiveCartFacade;
   let mockAuthService: MockAuthService;
-  let mockPunchoutComponentsService: MockPunchoutComponentsService;
+  let mockPunchoutUiRestrictionService: MockPunchoutUiRestrictionService;
 
   beforeEach(async () => {
     mockActiveCartFacade = new MockActiveCartFacade();
     mockAuthService = new MockAuthService();
-    mockPunchoutComponentsService = new MockPunchoutComponentsService();
+    mockPunchoutUiRestrictionService = new MockPunchoutUiRestrictionService();
 
     await TestBed.configureTestingModule({
       declarations: [PunchoutInspectCartComponent],
@@ -59,8 +59,8 @@ describe('PunchoutInspectCartComponent', () => {
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },
         {
-          provide: PunchoutComponentsService,
-          useValue: mockPunchoutComponentsService,
+          provide: PunchoutUiRestrictionService,
+          useValue: mockPunchoutUiRestrictionService,
         },
       ],
     }).compileComponents();

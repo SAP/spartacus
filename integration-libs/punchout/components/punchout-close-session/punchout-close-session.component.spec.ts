@@ -1,20 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PunchoutCloseSessionComponent } from './punchout-close-session.component';
-import { PunchoutFacade } from '@spartacus/punchout/root';
-import { PunchoutComponentsService } from '../punchout-components.service';
+import {
+  PunchoutFacade,
+  PunchoutUiRestrictionService,
+} from '@spartacus/punchout/root';
 import { of } from 'rxjs';
 
 describe('PunchoutCloseSessionComponent', () => {
   let component: PunchoutCloseSessionComponent;
   let fixture: ComponentFixture<PunchoutCloseSessionComponent>;
   let mockPunchoutFacade: jasmine.SpyObj<PunchoutFacade>;
-  let mockPunchoutComponentsService: jasmine.SpyObj<PunchoutComponentsService>;
+  let mockPunchoutUiRestrictionService: jasmine.SpyObj<PunchoutUiRestrictionService>;
 
   beforeEach(async () => {
     mockPunchoutFacade = jasmine.createSpyObj('PunchoutFacade', [
       'closePunchoutSession',
     ]);
-    mockPunchoutComponentsService = jasmine.createSpyObj(
+    mockPunchoutUiRestrictionService = jasmine.createSpyObj(
       'PunchoutComponentsService',
       ['isPunchoutSessionActive']
     );
@@ -24,8 +26,8 @@ describe('PunchoutCloseSessionComponent', () => {
       providers: [
         { provide: PunchoutFacade, useValue: mockPunchoutFacade },
         {
-          provide: PunchoutComponentsService,
-          useValue: mockPunchoutComponentsService,
+          provide: PunchoutUiRestrictionService,
+          useValue: mockPunchoutUiRestrictionService,
         },
       ],
     }).compileComponents();
@@ -40,7 +42,7 @@ describe('PunchoutCloseSessionComponent', () => {
 
   it('should expose isPunchoutSessionActive$ observable from service', () => {
     const expected$ = of(true);
-    mockPunchoutComponentsService.isPunchoutSessionActive.and.returnValue(
+    mockPunchoutUiRestrictionService.isPunchoutSessionActive.and.returnValue(
       expected$
     );
 
@@ -52,7 +54,7 @@ describe('PunchoutCloseSessionComponent', () => {
     });
 
     expect(
-      mockPunchoutComponentsService.isPunchoutSessionActive
+      mockPunchoutUiRestrictionService.isPunchoutSessionActive
     ).toHaveBeenCalled();
   });
 
