@@ -11,12 +11,12 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { AuthService } from '@spartacus/core';
-import { PunchoutStoreService } from '@spartacus/punchout/root';
+import { PunchoutStoreService } from './punchout-store.service';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
-export class PunchoutComponentsService {
+export class PunchoutUiRestrictionService {
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected authService = inject(AuthService);

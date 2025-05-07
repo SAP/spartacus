@@ -7,7 +7,6 @@
 export * from './punchout-buttons/punchout-buttons.component';
 export * from './punchout-close-session/punchout-close-session.component';
 export * from './punchout-components.module';
-export * from './punchout-components.service';
 export * from './punchout-error/punchout-error.component';
 export * from './punchout-inspect-cart/punchout-inspect-cart.component';
 export * from './punchout-requisition/punchout-requisition.component';

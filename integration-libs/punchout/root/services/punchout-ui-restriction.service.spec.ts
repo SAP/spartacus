@@ -1,12 +1,14 @@
 import { ComponentRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from '@spartacus/core';
-import { PunchoutStoreService } from '@spartacus/punchout/root';
+import {
+  PunchoutStoreService,
+  PunchoutUiRestrictionService,
+} from '@spartacus/punchout/root';
 import { of } from 'rxjs';
-import { PunchoutComponentsService } from './punchout-components.service';
 
-describe('PunchoutComponentsService', () => {
-  let service: PunchoutComponentsService;
+describe('PunchoutUiRestrictionService', () => {
+  let service: PunchoutUiRestrictionService;
   let mockAuthService: jasmine.SpyObj<AuthService>;
   let mockPunchoutStoreService: jasmine.SpyObj<PunchoutStoreService>;
   let mockRendererFactory: jasmine.SpyObj<RendererFactory2>;
@@ -36,14 +38,14 @@ describe('PunchoutComponentsService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        PunchoutComponentsService,
+        PunchoutUiRestrictionService,
         { provide: AuthService, useValue: mockAuthService },
         { provide: PunchoutStoreService, useValue: mockPunchoutStoreService },
         { provide: RendererFactory2, useValue: mockRendererFactory },
       ],
     });
 
-    service = TestBed.inject(PunchoutComponentsService);
+    service = TestBed.inject(PunchoutUiRestrictionService);
   });
 
   it('should be created', () => {
