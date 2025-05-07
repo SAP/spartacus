@@ -4,8 +4,9 @@
 @import 'styles/punchout-inspect-cart';
 @import 'styles/punchout-template';
 
-$punchout-components-allowlist: cx-punchout-close-session, cx-punchout-buttons,
-  cx-punchout-inspect-cart, cx-punchout !default;
+$punchout-components-allowlist:
+  cx-punchout-close-session, cx-punchout-buttons, cx-punchout-inspect-cart,
+  cx-punchout !default;
 
 $skipComponentStyles: () !default;
 

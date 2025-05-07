@@ -13,8 +13,10 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  PUNCHOUT_INSPECT_PAGE_URL,
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
+  PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
   PunchoutSession,
@@ -268,7 +270,12 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
-    if (punchoutSession?.selectedItem) {
+    if (
+      (punchoutSession?.punchOutOperation === PunchOutOperation.CREATE ||
+        punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) &&
+      punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
+      punchoutSession?.selectedItem
+    ) {
       this.routingService.go({
         cxRoute: 'product',
         params: { code: punchoutSession.selectedItem },
@@ -277,6 +284,10 @@ export class PunchoutService implements PunchoutFacade {
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
       this.routingService.go({ cxRoute: 'cart' });
+      return;
+    }
+    if (punchoutSession?.punchOutOperation === PunchOutOperation.INSPECT) {
+      this.routingService.go(PUNCHOUT_INSPECT_PAGE_URL);
       return;
     }
     this.routingService.go('/');

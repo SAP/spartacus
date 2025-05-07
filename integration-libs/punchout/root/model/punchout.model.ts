@@ -14,10 +14,10 @@ export const PUNCHOUT_OCC_API_URL_SEGMENT = 'punchout/sessions';
 export const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
 
 export enum PunchOutLevel {
-  STORE = 'store',
-  PRODUCT = 'product',
-  AISLE = 'aisle',
-  SHELF = 'shelf',
+  STORE = 'STORE',
+  PRODUCT = 'PRODUCT',
+  AISLE = 'AISLE',
+  SHELF = 'SHELF',
 }
 
 export enum PunchOutOperation {
