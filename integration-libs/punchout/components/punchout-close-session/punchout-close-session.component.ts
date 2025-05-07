@@ -5,9 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { PunchoutFacade } from '@spartacus/punchout/root';
+import {
+  PunchoutFacade,
+  PunchoutUiRestrictionService,
+} from '@spartacus/punchout/root';
 import { Observable } from 'rxjs';
-import { PunchoutComponentsService } from '../punchout-components.service';
 
 @Component({
   selector: 'cx-punchout-close-session',
@@ -17,7 +19,7 @@ import { PunchoutComponentsService } from '../punchout-components.service';
 })
 export class PunchoutCloseSessionComponent {
   protected punchoutFacade = inject(PunchoutFacade);
-  protected punchoutComponentsService = inject(PunchoutComponentsService);
+  protected punchoutComponentsService = inject(PunchoutUiRestrictionService);
 
   isPunchoutSessionActive$: Observable<boolean> =
     this.punchoutComponentsService.isPunchoutSessionActive();

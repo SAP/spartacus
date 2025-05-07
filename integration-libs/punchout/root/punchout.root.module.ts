@@ -21,7 +21,7 @@ import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
-import { PunchoutComponentsService } from '../components/punchout-components.service';
+import { PunchoutUiRestrictionService } from './services/punchout-ui-restriction.service';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -61,12 +61,12 @@ export function punchoutStatePersistenceFactory(): () => void {
       provide: AuthHttpHeaderService,
       useExisting: PunchoutAuthHttpHeaderService,
     },
-    PunchoutComponentsService,
+    PunchoutUiRestrictionService,
     {
       provide: APP_BOOTSTRAP_LISTENER,
       multi: true,
       useFactory: (): ((compRef: ComponentRef<any>) => void) => {
-        const punchoutComponentsService = inject(PunchoutComponentsService);
+        const punchoutComponentsService = inject(PunchoutUiRestrictionService);
         return (compRef: ComponentRef<any>) =>
           punchoutComponentsService.init(compRef);
       },
