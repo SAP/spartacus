@@ -13,6 +13,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  PUNCHOUT_INSPECT_PAGE_URL,
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutLevel,
@@ -269,14 +270,13 @@ export class PunchoutService implements PunchoutFacade {
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
-    console.log('xxxxx', punchoutSession.punchOutLevel, PunchOutLevel.STORE);
-    if (punchoutSession.punchOutLevel === PunchOutLevel.STORE) {
-      this.routingService.go({
-        cxRoute: 'home',
-      });
-      return;
-    }
-    if (punchoutSession?.selectedItem) {
+    console.log('xxxxx', punchoutSession?.punchOutLevel, PunchOutLevel.STORE);
+    if (
+      (punchoutSession?.punchOutOperation === PunchOutOperation.CREATE ||
+        punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) &&
+      punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
+      punchoutSession?.selectedItem
+    ) {
       this.routingService.go({
         cxRoute: 'product',
         params: { code: punchoutSession.selectedItem },
@@ -285,6 +285,10 @@ export class PunchoutService implements PunchoutFacade {
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
       this.routingService.go({ cxRoute: 'cart' });
+      return;
+    }
+    if (punchoutSession?.punchOutOperation === PunchOutOperation.INSPECT) {
+      this.routingService.go(PUNCHOUT_INSPECT_PAGE_URL);
       return;
     }
     this.routingService.go('/');
