@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { ConfigModule, FeatureConfigService } from '@spartacus/core';
+import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
@@ -14,7 +14,6 @@ describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
   let guards: any[];
   const mockUrlTree = new UrlTree();
-  let featureConfig: FeatureConfigService;
 
   class MockCmsComponentsService implements Partial<CmsComponentsService> {
     getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
@@ -51,12 +50,6 @@ describe('CmsGuardsService', () => {
   const mockRouterStateSnapshot: RouterStateSnapshot =
     'RouterStateSnapshot' as any;
 
-  class MockFeatureConfigService implements Partial<FeatureConfigService> {
-    isEnabled(_feature: string) {
-      return true;
-    }
-  }
-
   beforeEach(() => {
     guards = [];
     TestBed.configureTestingModule({
@@ -65,10 +58,6 @@ describe('CmsGuardsService', () => {
         {
           provide: CmsComponentsService,
           useClass: MockCmsComponentsService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         PositiveGuard,
         PositiveGuardObservable,
@@ -86,7 +75,6 @@ describe('CmsGuardsService', () => {
   describe('cmsPageCanActivate', () => {
     beforeEach(() => {
       service = TestBed.inject(CmsGuardsService);
-      featureConfig = TestBed.inject(FeatureConfigService);
     });
 
     it('should resolve to true if not guards are defined', (done) => {

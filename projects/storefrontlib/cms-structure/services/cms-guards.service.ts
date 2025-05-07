@@ -32,6 +32,9 @@ export class CmsGuardsService {
     protected unifiedInjector: UnifiedInjector
   ) {}
 
+  /**
+   * @deprecated since 2211.41 - not needed anymore
+   */
   protected featureConfigService = inject(FeatureConfigService);
   protected guardsComposer = inject(GuardsComposer);
 
