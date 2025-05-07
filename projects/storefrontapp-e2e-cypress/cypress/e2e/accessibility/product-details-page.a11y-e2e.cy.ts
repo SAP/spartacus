@@ -47,4 +47,23 @@ describe('Product Details Page Accessibility', { testIsolation: false }, () => {
     cy.get('cx-tab-panel [role="tabpanel"].active cx-paragraph');
     cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
   });
+
+  it('PDP write a Review Form', () => {
+    cy.get('cx-page-slot[position="Tabs"] .tab button:nth-child(3)').click();
+    cy.get(
+      'cx-tab-panel [role="tabpanel"].active cx-product-reviews .container .header button.btn-primary'
+    ).click();
+    cy.get(
+      'cx-page-slot[position="Tabs"] cx-tab cx-product-reviews .container form button[type="submit"]'
+    ).click();
+    cy.get('cx-page-slot[position="Tabs"] cx-tab').a11yRunContinuumTest();
+  });
+
+  it('PDP image zoom', () => {
+    cy.get('cx-product-image-zoom-trigger').click();
+    cy.get(
+      'cx-product-image-zoom-dialog .modal-body cx-product-image-zoom-view button.cx-zoom-btn'
+    );
+    cy.get('cx-product-image-zoom-dialog').a11yRunContinuumTest();
+  });
 });
