@@ -4,20 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
-import { Cart, PaymentType } from '@spartacus/cart/base/root';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
-import { CmsService } from '@spartacus/core';
-import {
-  OpfBaseFacade,
-  OpfMetadataStoreService,
-} from '@spartacus/opf/base/root';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { Observable, take, map, filter, combineLatest } from 'rxjs';
 import { Card } from '@spartacus/storefront';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -33,19 +21,11 @@ export class OpfB2bCheckoutPaymentAndReviewComponent
   extends OpfCheckoutPaymentAndReviewComponent
   implements OnInit
 {
-  protected fb = inject(UntypedFormBuilder);
-  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
-  protected cmsService = inject(CmsService);
-  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
-  protected opfBaseFacade = inject(OpfBaseFacade);
-
   checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
 
-  get paymentType$(): Observable<PaymentType | undefined> {
-    return this.activeCartFacade
-      .getActive()
-      .pipe(map((cart: Cart) => cart.paymentType));
-  }
+  paymentType$ = this.activeCartFacade
+    .getActive()
+    .pipe(map((cart: Cart) => cart.paymentType));
 
   get poNumber$(): Observable<string | undefined> {
     return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
