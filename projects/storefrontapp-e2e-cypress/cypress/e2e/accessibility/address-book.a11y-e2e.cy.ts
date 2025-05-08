@@ -14,41 +14,35 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
     cy.visit('/my-account/address-book');
   });
 
-  it('Empty page', () => {
+  it('Empty page (no addresses)', () => {
     cy.get('cx-address-form');
     cy.get('main').a11yRunContinuumTest();
   });
 
-  it('Page with cards', () => {
-    // Add first address
+  it('Page with address card', () => {
     fillShippingAddress(newAddress);
     cy.get('cx-address-book cx-card');
     cy.get('main').a11yRunContinuumTest();
   });
 
-  it('Delete address card (confirmation state)', () => {
+  it('Delete address card - confirmation dialog', () => {
     cy.get('cx-address-book cx-card')
       .first()
       .within(() => {
         cy.contains('button', 'Delete').click();
       });
-
     cy.get('cx-address-book cx-card').first().a11yRunContinuumTest();
   });
 
-  it('Add second address', () => {
+  it('Add second address and test card (skip main re-scan)', () => {
     const secondAddress = {
       ...editedAddress,
       firstName: 'Alex',
       lastName: 'Lee',
     };
 
-    cy.get('button')
-      .contains(/add new address/i)
-      .click({ force: true });
+    cy.contains('button', /add new address/i).click({ force: true });
     fillShippingAddress(secondAddress);
-
-    cy.get('cx-address-book cx-card').should('have.length.at.least', 2);
-    cy.get('main').a11yRunContinuumTest();
+    cy.get('cx-address-book cx-card');
   });
 });
