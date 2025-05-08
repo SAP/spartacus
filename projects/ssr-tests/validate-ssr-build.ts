@@ -90,13 +90,6 @@ ${BUILD_COMMAND_ADVICE}`
   }
 
   const fileContents = fs.readFileSync(SSR_APP_PATH, 'utf8');
-/*  if (!fileContents.includes(USING_PROXY_BACKEND_MARKER)) {
-    throw new Error(
-      `
-SSR app is not using a local backend proxy as a base OCC url.
-${BUILD_COMMAND_ADVICE}`
-    );
-  }*/
 
   if (fileContents.includes(USING_DEV_MODE_MARKER)) {
     throw new Error(
