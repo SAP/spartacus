@@ -27,10 +27,10 @@ const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
  * @usageNotes
  * Add to the root module providers:
  * ```
- * useAuthorizationCodeFlowByDefaultProvider(true)
+ * provideAuthorizationCodeFlowByDefault()
  * ```
  */
-export function useAuthorizationCodeFlowByDefaultProvider(
+export function provideAuthorizationCodeFlowByDefault(
   enable = true
 ): ValueProvider {
   return {

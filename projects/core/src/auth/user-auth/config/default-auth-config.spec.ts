@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthConfig } from './auth-config';
 import {
   defaultAuthConfigFactory,
-  useAuthorizationCodeFlowByDefaultProvider,
+  provideAuthorizationCodeFlowByDefault,
 } from './default-auth-config';
 
 const expectedAuthorizationCodeDefault: AuthConfig = {
@@ -57,7 +57,7 @@ describe('defaultAuthConfigFactory', () => {
   describe('with useAuthorizationCodeFlowByDefaultProvider', () => {
     it('should provide the authorization code default configuration', () => {
       TestBed.configureTestingModule({
-        providers: [useAuthorizationCodeFlowByDefaultProvider()],
+        providers: [provideAuthorizationCodeFlowByDefault()],
       });
 
       const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
@@ -67,7 +67,7 @@ describe('defaultAuthConfigFactory', () => {
 
     it('should provide the resource owner default configuration when the provider is disabled', () => {
       TestBed.configureTestingModule({
-        providers: [useAuthorizationCodeFlowByDefaultProvider(false)],
+        providers: [provideAuthorizationCodeFlowByDefault(false)],
       });
 
       const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
