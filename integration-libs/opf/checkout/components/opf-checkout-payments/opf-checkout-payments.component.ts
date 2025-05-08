@@ -11,7 +11,6 @@ import {
   OnDestroy,
   OnInit,
   inject,
-  output,
   Output,
   EventEmitter,
   TemplateRef,
@@ -93,7 +92,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  paymentChange = output<OpfActiveConfiguration>();
+  @Output() paymentChange = new EventEmitter<OpfActiveConfiguration>();
 
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
