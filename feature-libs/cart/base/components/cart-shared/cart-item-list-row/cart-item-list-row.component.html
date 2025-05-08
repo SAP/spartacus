@@ -28,7 +28,6 @@
         <div *ngIf="item.product?.name" class="cx-name">
           <a
             *ngIf="!options.disableItemLink"
-            [attr.id]="item.product?.code + '_header'"
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
             >{{ item.product?.name }}</a

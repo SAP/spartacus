@@ -70,7 +70,7 @@
       <button
         *ngIf="i % size === 0"
         (click)="$event.stopPropagation(); activeSlide = i"
-        [attr.aria-selected]="i === activeSlide"
+        [attr.aria-current]="i === activeSlide"
         [attr.aria-disabled]="i === activeSlide"
         [attr.aria-label]="
           'carousel.slideNumber'
