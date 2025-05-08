@@ -1,10 +1,28 @@
 @import '@spartacus/styles/scss/misc/table';
 %PunchoutTemplate {
+  display: flex;
+  flex-direction: column;
+
+  .SiteLogin {
+    order: 1;
+
+    cx-login {
+      align-items: flex-end;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .BodyContent {
+    order: 3;
+  }
+
   cx-punchout-inspect-cart {
     padding: 1.5rem;
   }
 
   .SiteContext {
+    order: 2;
     padding-inline-start: 1.5rem;
     display: flex;
     flex-wrap: nowrap;
