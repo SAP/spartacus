@@ -31,7 +31,7 @@ export class GigyaRaasComponent implements OnInit {
   language$: Observable<string>;
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
-
+  protected isPasswordReset = false;
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
     private baseSiteService: BaseSiteService,
@@ -84,10 +84,15 @@ export class GigyaRaasComponent implements OnInit {
       ...(this.isLoginScreenSet(data)
         ? { sessionExpiration: this.getSessionExpirationValue() }
         : {
+            onSubmit: (event: { formModel: Record<string, unknown> }) => {
+              const formData = event.formModel;
+              this.isPasswordReset = !!formData?.newPassword;
+            },
             onAfterSubmit: (...params: any[]) => {
-              this.zone.run(() =>
-                this.cdcJSService.onProfileUpdateEventHandler(...params)
-              );
+              this.zone.run(() => {
+                params.push({ passwordReset: this.isPasswordReset });
+                this.cdcJSService.onProfileUpdateEventHandler(...params);
+              });
             },
           }),
     });
