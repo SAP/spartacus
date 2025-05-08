@@ -210,12 +210,6 @@ export interface FeatureTogglesInterface {
   a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
 
   /**
-   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
-   * calling its own deprecated method `canActivateGuard()`.
-   */
-  cmsGuardsServiceUseGuardsComposer?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -906,7 +900,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHideSelectBtnForSelectedAddrOrPayment: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
-  cmsGuardsServiceUseGuardsComposer: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
   a11yVisibleFocusOverflows: true,
