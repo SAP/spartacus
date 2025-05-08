@@ -425,7 +425,6 @@ if (environment.cpq) {
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
-        authorizationCodeFlowDefault: false,
       };
       return appFeatureToggles;
     }),
