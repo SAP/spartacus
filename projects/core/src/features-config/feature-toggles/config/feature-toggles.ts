@@ -210,12 +210,6 @@ export interface FeatureTogglesInterface {
   a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
 
   /**
-   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
-   * calling its own deprecated method `canActivateGuard()`.
-   */
-  cmsGuardsServiceUseGuardsComposer?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -831,6 +825,13 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * The optional `aria-controls` attribute will override on the NgSelect implementation.
+   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
+   * This change ensures we can still use a custom id if preferable.
+   */
+  a11yNgSelectAriaControls?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -899,7 +900,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHideSelectBtnForSelectedAddrOrPayment: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
-  cmsGuardsServiceUseGuardsComposer: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
   a11yVisibleFocusOverflows: true,
@@ -993,7 +993,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
-  enableSecurePasswordValidation: true,
+  a11yNgSelectAriaControls: false,
+  enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
