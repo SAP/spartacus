@@ -6,12 +6,14 @@
 
 import { DpLocalStorageService } from '../../../facade/dp-local-storage.service';
 import {
+  ExternalRoutesGuard,
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
 import { DpCheckoutPaymentService } from '../../../facade';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 @Component({
   selector: 'cx-dp-payment-form',
@@ -21,6 +23,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class DpPaymentFormComponent implements OnInit {
   @Output()
   closeForm = new EventEmitter<any>();
+  protected externalRoutesGuard = inject(ExternalRoutesGuard);
 
   constructor(
     private dpPaymentService: DpCheckoutPaymentService,
@@ -33,7 +36,7 @@ export class DpPaymentFormComponent implements OnInit {
     this.dpPaymentService.getCardRegistrationDetails().subscribe((request) => {
       if (request?.url) {
         this.dpStorageService.syncCardRegistrationState(request);
-        this.redirect(request.url);
+        this.externalRoutesGuard.canActivate({} as ActivatedRouteSnapshot, request as RouterStateSnapshot);
       } else if (request) {
         this.globalMsgService.add(
           { key: 'dpPaymentForm.error.redirect' },
@@ -44,6 +47,9 @@ export class DpPaymentFormComponent implements OnInit {
     });
   }
 
+  /**
+   * @deprecated since 2211.40
+   */
   redirect(url: string) {
     const window = this.winRef.nativeWindow;
 
