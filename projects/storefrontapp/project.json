@@ -172,6 +172,25 @@
         "noSsr": {
           "ssr": false,
           "prerender": false
+        },
+        "prerender": {
+          "ssr": true,
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "serviceWorker": false,
+          "prerender": {
+            "discoverRoutes": false,
+            "routesFile": "projects/storefrontapp/prerender.txt"
+          },
+          "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json",
+          "fileReplacements": [
+            {
+              "replace": "projects/storefrontapp/src/environments/environment.ts",
+              "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+            }
+          ]
         }
       }
     },
