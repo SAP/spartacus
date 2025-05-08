@@ -36,7 +36,10 @@ export class DpPaymentFormComponent implements OnInit {
     this.dpPaymentService.getCardRegistrationDetails().subscribe((request) => {
       if (request?.url) {
         this.dpStorageService.syncCardRegistrationState(request);
-        this.externalRoutesGuard.canActivate({} as ActivatedRouteSnapshot, request as RouterStateSnapshot);
+        this.externalRoutesGuard.canActivate(
+          {} as ActivatedRouteSnapshot,
+          request as RouterStateSnapshot
+        );
       } else if (request) {
         this.globalMsgService.add(
           { key: 'dpPaymentForm.error.redirect' },
