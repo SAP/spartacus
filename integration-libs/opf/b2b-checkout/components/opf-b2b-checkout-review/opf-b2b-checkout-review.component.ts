@@ -84,19 +84,15 @@ export class OpfB2bCheckoutReviewComponent
       .pipe(map((cart: Cart) => cart.paymentType));
   }
 
-  get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
-      filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
-    );
-  }
+  poNumber$ = this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
+    filter((state) => !state.loading && !state.error),
+    map((state) => state.data)
+  );
 
-  get costCenter$(): Observable<CostCenter | undefined> {
-    return this.checkoutCostCenterFacade.getCostCenterState().pipe(
-      filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
-    );
-  }
+  costCenter$ = this.checkoutCostCenterFacade.getCostCenterState().pipe(
+    filter((state) => !state.loading && !state.error),
+    map((state) => state.data)
+  );
 
   getCostCenterCard(costCenter?: CostCenter | null): Observable<Card> {
     return combineLatest([

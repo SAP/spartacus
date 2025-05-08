@@ -13,6 +13,7 @@ import {
   EventService,
   QueryService,
   UserIdService,
+  provideConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentTypeService } from './opf-b2b-checkout-payment-type.service';
@@ -71,6 +72,11 @@ describe('OpfB2bCheckoutPaymentTypeService', () => {
         { provide: EventService, useClass: MockEventService },
         { provide: CheckoutQueryFacade, useClass: MockCheckoutQueryFacade },
         { provide: OpfPaymentFacade, useClass: MockOpfPaymentFacade },
+        provideConfig({
+          features: {
+            cartBaseCore: true,
+          },
+        }),
       ],
     });
 

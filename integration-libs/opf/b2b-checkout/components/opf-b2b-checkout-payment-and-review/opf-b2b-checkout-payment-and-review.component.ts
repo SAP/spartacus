@@ -27,12 +27,10 @@ export class OpfB2bCheckoutPaymentAndReviewComponent
     .getActive()
     .pipe(map((cart: Cart) => cart.paymentType));
 
-  get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
-      filter((state) => !state.loading && !state.error),
-      map((state) => state.data)
-    );
-  }
+  poNumber$ = this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
+    filter((state) => !state.loading && !state.error),
+    map((state) => state.data)
+  );
 
   getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
