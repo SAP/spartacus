@@ -4,11 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
-import { FeatureToggles } from '../../../features-config';
 import { AuthConfig } from './auth-config';
 
-const defaultAuthConfig: AuthConfig = {
+export const defaultAuthConfig: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
     client_secret: 'secret',
@@ -26,29 +24,3 @@ const defaultAuthConfig: AuthConfig = {
     },
   },
 };
-
-export function defaultAuthConfigFactory(): AuthConfig {
-  const { authorizationCodeFlowDefault } = inject(FeatureToggles);
-
-  if (authorizationCodeFlowDefault) {
-    return {
-      authentication: {
-        ...defaultAuthConfig.authentication,
-
-        // CXSPA-9984: Endpoints may change
-        tokenEndpoint: '/authserver/oauth2/token',
-        revokeEndpoint: '/authserver/oauth2/revoke',
-        loginUrl: '/authserver/oauth2/authorize',
-
-        client_secret: undefined,
-        OAuthLibConfig: {
-          ...defaultAuthConfig.authentication?.OAuthLibConfig,
-          disablePKCE: false,
-          responseType: 'code',
-        },
-      },
-    };
-  } else {
-    return defaultAuthConfig;
-  }
-}
