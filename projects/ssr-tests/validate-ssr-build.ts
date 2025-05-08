@@ -40,11 +40,6 @@ import * as path from 'path';
 const SSR_PORT = 4000;
 
 /**
- * String that always appears in the `main.js` file of the SSR app when built with a local backend proxy.
- */
-//const USING_PROXY_BACKEND_MARKER = `CX_BASE_URL:"http://localhost:9002"`;
-
-/**
  * String that always appears in the `main.js` file of the SSR app when built in dev mode.
  */
 const USING_DEV_MODE_MARKER = `ngDevMode`;
