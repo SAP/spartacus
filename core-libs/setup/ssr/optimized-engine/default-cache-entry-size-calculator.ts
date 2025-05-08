@@ -62,7 +62,7 @@ export class DefaultCacheEntrySizeCalculator
    * Uses 2 bytes per character as an upper-bound estimate.
    *
    * V8 can use either one or two bytes per character, but for Spartacus SSR
-   * it consistently uses two-byte strings (`SeqTwoByteString`)
+   * it consistently uses two-byte-per-character strings (`SeqTwoByteString`)
    * which was verified through heap snapshots and memory measurements.
    *
    * For more on V8's `SeqTwoByteString`, see https://github.com/v8/v8/blob/c865b8257a/src/objects/string.h#L921-L923
