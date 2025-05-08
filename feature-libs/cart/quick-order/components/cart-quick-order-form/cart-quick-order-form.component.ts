@@ -19,7 +19,6 @@ import {
 import {
   ActiveCartFacade,
   Cart,
-  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
@@ -81,11 +80,6 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     const quantity = this.quickOrderForm.get('quantity')?.value;
 
     this.watchAddEntrySuccessEvent();
-    if (
-      !this.featureConfig.isEnabled('cartQuickOrderRemoveListeningToFailEvent')
-    ) {
-      this.watchAddEntryFailEvent();
-    }
 
     if (productCode && quantity) {
       this.activeCartService.addEntry(productCode, quantity);
@@ -160,32 +154,6 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
             messageType
           );
           this.resetForm();
-        })
-    );
-  }
-
-  /**
-   * @deprecated since 2211.24
-   *
-   * This method is no longer needed since BadRequestHandler.handleUnknownIdentifierError was introduced.
-   * If this method is used an unnecessary duplicated error message will appear in the UI.
-   * Therefore this method will be removed.
-   *
-   * You can enable the Feature Toggle 'cartQuickOrderRemoveListenToFailEvent'
-   * to stop calling this method by default.
-   */
-  protected watchAddEntryFailEvent(): void {
-    this.cartEventsSubscription.add(
-      this.eventService
-        .get(CartAddEntryFailEvent)
-        .pipe(first())
-        .subscribe(() => {
-          this.globalMessageService.add(
-            {
-              key: 'quickOrderCartForm.noResults',
-            },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
         })
     );
   }

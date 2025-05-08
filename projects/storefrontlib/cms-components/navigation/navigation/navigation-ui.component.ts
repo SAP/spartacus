@@ -119,6 +119,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       })
     );
     useFeatureStyles('a11yOptimizedMenuSpacing');
+    useFeatureStyles('a11yNavigationButtonsAriaFixes');
   }
 
   /**
@@ -149,20 +150,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       typeof navNode.url === 'string' &&
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
-      // TODO: (CXSPA-5919) Remove feature flag next major release
-      if (
-        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-      ) {
-        this.reinitializeMenu();
-      } else {
-        this.elemRef.nativeElement
-          .querySelectorAll('li.is-open:not(.back), li.is-opened')
-          .forEach((el: any) => {
-            this.renderer.removeClass(el, 'is-open');
-            this.renderer.removeClass(el, 'is-opened');
-          });
-        this.reinitializeMenu();
-      }
+      this.reinitializeMenu();
       this.hamburgerMenuService.toggle();
     }
   }
@@ -171,44 +159,29 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitializeMenu(): void {
-    const a11yKeyboardControlsEnabled = this.featureConfigService?.isEnabled(
-      'a11yNavigationUiKeyboardControls'
-    );
     const a11yNavMenuExpandStateReadout = this.featureConfigService?.isEnabled(
       'a11yNavMenuExpandStateReadout'
     );
-    // TODO: (CXSPA-5919) Remove feature flag next major release
-    if (a11yKeyboardControlsEnabled || a11yNavMenuExpandStateReadout) {
-      const listItems = this.elemRef.nativeElement.querySelectorAll(
-        'li.is-open:not(.back), li.is-opened'
-      );
+    const listItems = this.elemRef.nativeElement.querySelectorAll(
+      'li.is-open:not(.back), li.is-opened'
+    );
 
-      if (a11yNavMenuExpandStateReadout) {
-        listItems.forEach((el: HTMLElement) => {
-          Array.from(el.children)
-            .filter((childNode) => childNode?.tagName === 'BUTTON')
-            .forEach((childNode) => {
-              this.renderer.setAttribute(
-                childNode,
-                ARIA_EXPANDED_ATTR,
-                'false'
-              );
-            });
-        });
-      }
-      if (a11yKeyboardControlsEnabled) {
-        listItems.forEach((el: HTMLElement) => {
-          this.renderer.removeClass(el, 'is-open');
-          this.renderer.removeClass(el, 'is-opened');
-        });
-        this.clear();
-        this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
-        this.updateClasses();
-      }
-    } else if (this.openNodes?.length > 0) {
-      this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
-      this.clear();
+    if (a11yNavMenuExpandStateReadout) {
+      listItems.forEach((el: HTMLElement) => {
+        Array.from(el.children)
+          .filter((childNode) => childNode?.tagName === 'BUTTON')
+          .forEach((childNode) => {
+            this.renderer.setAttribute(childNode, ARIA_EXPANDED_ATTR, 'false');
+          });
+      });
     }
+    listItems.forEach((el: HTMLElement) => {
+      this.renderer.removeClass(el, 'is-open');
+      this.renderer.removeClass(el, 'is-opened');
+    });
+    this.clear();
+    this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+    this.updateClasses();
   }
 
   protected ariaCollapseNodes(): void {
@@ -288,10 +261,20 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Focuses on the first focusable element in the dropdown
    */
   focusOnNode(event: UIEvent): void {
-    const firstFocusableElement =
-      (<HTMLElement>event.target).nextElementSibling?.querySelector('button') ||
-      (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
-    firstFocusableElement?.focus();
+    if (
+      this.featureConfigService?.isEnabled('a11yNavigationButtonsAriaFixes')
+    ) {
+      const firstFocusableNode = (<HTMLElement>(
+        event.target
+      ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
+      firstFocusableNode?.focus();
+    } else {
+      const firstFocusableElement =
+        (<HTMLElement>event.target).nextElementSibling?.querySelector(
+          'button'
+        ) || (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
+      firstFocusableElement?.focus();
+    }
   }
 
   back(): void {
@@ -300,18 +283,12 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.openNodes[this.openNodes.length - 1],
         'is-open'
       );
-      if (
-        this.featureConfigService?.isEnabled('a11yNavigationUiKeyboardControls')
-      ) {
-        const removedNode = this.openNodes.pop();
-        setTimeout(() => {
-          (
-            removedNode?.querySelector('[aria-haspopup="true"]') as HTMLElement
-          ).focus();
-        }, 0);
-      } else {
-        this.openNodes.pop();
-      }
+      const removedNode = this.openNodes.pop();
+      setTimeout(() => {
+        (
+          removedNode?.querySelector('[aria-haspopup="true"]') as HTMLElement
+        ).focus();
+      }, 0);
       this.updateClasses();
     }
   }
@@ -409,7 +386,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Resores default tabbing order for non flyout navigation.
+   * Restores default tabbing order for non flyout navigation.
    */
   getTabIndex(node: NavigationNode, depth: number): 0 | -1 {
     if (!this.flyout) {
@@ -418,17 +395,23 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     return depth > 0 && !node?.children ? -1 : 0;
   }
 
+  // TODO: Delete deprecated methods once `a11yNavigationButtonsAriaFixes` feature flag is removed.
   /**
-   * // Replace spaces with hyphens and convert to lowercase
+   * Replace spaces with hyphens and convert to lowercase
+   * @deprecated
    */
   getSanitizedTitle(title: string | undefined): string | null {
     return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
   }
-
   /**
    * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
+   * @deprecated
    */
   getAriaLabelAndControl(node: NavigationNode): string | null {
     return this.getSanitizedTitle(node.title) || null;
+  }
+
+  transformIntoValidID(string: string): string | null {
+    return string?.replace(/[^a-zA-Z0-9-_]/g, '-') || null;
   }
 }
