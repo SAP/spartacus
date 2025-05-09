@@ -297,13 +297,6 @@ export interface FeatureTogglesInterface {
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
 
   /**
-   * In `FacetListComponent` dialog view focus will be moved to the first facet
-   * after single-select facet selection.
-   * New "Back To Results" button is added
-   */
-  a11yFacetsDialogFocusHandling?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
@@ -849,7 +842,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPickupOptionsTabs: true,
   a11yNotificationsOnConsentChange: true,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
-  a11yFacetsDialogFocusHandling: true,
   a11yResetFocusAfterNavigating: false,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderAlerts: true,
