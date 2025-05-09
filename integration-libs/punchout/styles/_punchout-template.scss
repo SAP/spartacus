@@ -1,8 +1,5 @@
 @import '@spartacus/styles/scss/misc/table';
 %PunchoutTemplate {
-  display: flex;
-  flex-direction: column;
-
   .SiteLogin {
     @include media-breakpoint-up('lg') {
       padding: 0.5rem 1rem;
