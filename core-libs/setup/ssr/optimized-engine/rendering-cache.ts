@@ -144,7 +144,9 @@ export class RenderingCache {
   }
 
   isFresh(key: string): boolean {
-    if (!this.options?.ttl) return true;
+    if (!this.options?.ttl) {
+      return true;
+    }
     return Date.now() - (this.renders.get(key)?.time ?? 0) < this.options?.ttl;
   }
 }
