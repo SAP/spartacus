@@ -236,11 +236,6 @@ export interface FeatureTogglesInterface {
   a11yPreventSRFocusOnHiddenElements?: boolean;
 
   /**
-   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
-   */
-  a11yMyAccountLinkOutline?: boolean;
-
-  /**
    * Improve colour contrast in the demonstration theme Santorini
    * to comply with accessibility standards. On activation, colour
    * assignations for all UI elements will change and previous keyboard
@@ -866,7 +861,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: true,
-  a11yMyAccountLinkOutline: true,
   a11yCloseProductImageBtnFocus: true,
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
