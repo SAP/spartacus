@@ -253,12 +253,6 @@ export interface FeatureTogglesInterface {
   a11yNotificationPreferenceFieldset?: boolean;
 
   /**
-   * Modifies the template of 'WishListComponent'.
-   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
-   */
-  a11yEmptyWishlistHeading?: boolean;
-
-  /**
    * Removes the `tabindex` attribute from the `StorefrontComponent`.
    * This helps to reduce the screen reader bloat.
    */
@@ -857,7 +851,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventSRFocusOnHiddenElements: true,
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
-  a11yEmptyWishlistHeading: true,
   a11yScreenReaderBloatFix: true,
   a11yUseButtonsForBtnLinks: true,
   a11yTabComponent: true,
