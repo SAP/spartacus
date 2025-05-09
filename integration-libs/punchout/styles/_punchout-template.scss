@@ -4,7 +4,6 @@
   flex-direction: column;
 
   .SiteLogin {
-    order: 1;
     @include media-breakpoint-up('lg') {
       padding: 0.5rem 1rem;
     }
@@ -16,16 +15,11 @@
     }
   }
 
-  .BodyContent {
-    order: 3;
-  }
-
   cx-punchout-inspect-cart {
     padding: 1.5rem;
   }
 
   .SiteContext {
-    order: 2;
     padding-inline-start: 1.5rem;
     display: flex;
     flex-wrap: nowrap;
