@@ -165,12 +165,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Improves focus behaviour of 'SearchBoxComponent'.
-   * On mobile, search box will no longer open on focus.
-   */
-  a11ySearchBoxMobileFocus?: boolean;
-
-  /**
    * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
    */
   a11yFacetKeyboardNavigation?: boolean;
@@ -893,7 +887,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: false,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
-  a11ySearchBoxMobileFocus: true,
   a11yFacetKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
