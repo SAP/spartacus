@@ -30,7 +30,6 @@ import {
   SampleProduct,
   SampleUser,
 } from '../../sample-data/checkout-flow';
-import { myCompanyAdminUser } from '../../sample-data/shared-users';
 import { login } from '../../support/utils/login';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import { TabbingOrderConfig } from '../accessibility/tabbing-order.model';
@@ -46,10 +45,7 @@ export function loginB2bUser() {
   let adminToken;
   let user = getSampleUser();
 
-  login(
-    myCompanyAdminUser.registrationData.email,
-    myCompanyAdminUser.registrationData.password
-  )
+  login('william.hunter@rustic-hw.com', 'pw4all')
     .then((result) => {
       expect(result.status).to.eq(200);
       adminToken = result?.body?.access_token;

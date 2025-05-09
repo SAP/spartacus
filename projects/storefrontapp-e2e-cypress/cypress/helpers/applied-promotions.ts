@@ -1,10 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { interceptGet } from '../support/utils/intercept';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
@@ -39,14 +32,9 @@ export function checkForAppliedPromotions() {
 }
 
 export function addProductToCart() {
-  interceptGet(
-    'cart_refresh',
-    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
-  );
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
-  cy.wait(`@cart_refresh`);
 }
 
 export function goToCartDetailsView() {

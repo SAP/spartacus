@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import {
   b2bAccountShipToUser,
   b2bProduct,

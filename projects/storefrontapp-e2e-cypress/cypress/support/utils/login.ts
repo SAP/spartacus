@@ -14,8 +14,8 @@ export const config = {
     'BASE_CURRENCY'
   )}`,
   client: {
-    client_id: Cypress.env('CLIENT_ID'),
-    client_secret: Cypress.env('CLIENT_SECRET'),
+    client_id: 'mobile_android',
+    client_secret: 'secret',
   },
 };
 
@@ -24,6 +24,7 @@ export function login(
   password: string,
   failOnStatusCode: boolean = true
 ) {
+  console.log('login', uid, password);
   return cy.request({
     method: 'POST',
     url: config.tokenUrl,
@@ -32,6 +33,7 @@ export function login(
       grant_type: 'password',
       username: uid,
       password,
+      scope: '',
     },
     form: true,
     failOnStatusCode,
