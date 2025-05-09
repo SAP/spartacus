@@ -203,15 +203,6 @@ export interface FeatureTogglesInterface {
   a11yOrganizationLinkableCells?: boolean;
 
   /**
-   * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Includes style changes for:
-   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
-   * `CarouselComponent`, `ProductListItemComponent`
-   */
-  a11yVisibleFocusOverflows?: boolean;
-
-  /**
    * When enabled then on mobile(320px) responsive view:
    * 1. `ProductListComponent` - grid view button is aligned correctly
    * 2. `QuickOrderFormComponent` - search combobox options are not truncated
@@ -880,7 +871,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
-  a11yVisibleFocusOverflows: true,
   a11yTruncatedTextForResponsiveView: true,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,

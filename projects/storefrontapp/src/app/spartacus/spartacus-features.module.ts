@@ -317,7 +317,6 @@ if (environment.cpq) {
         a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
-        a11yVisibleFocusOverflows: true,
         a11yTruncatedTextForResponsiveView: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
