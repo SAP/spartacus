@@ -312,7 +312,6 @@ if (environment.cpq) {
         a11yQuickOrderSearchListKeyboardNavigation: false,
         a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
-        a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
         a11yKeyboardAccessibleZoom: true,

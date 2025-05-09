@@ -177,14 +177,6 @@ export interface FeatureTogglesInterface {
   a11yStyleExternalLinksAsLinks?: boolean;
 
   /**
-   * If enabled, the "Select this address/payment" button
-   * will not be displayed in `CheckoutPaymentMethodComponent`
-   * and `CheckoutDeliveryAddressComponent` when the address
-   * or payment method is already selected.
-   */
-  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
-
-  /**
    * If enabled, the "Checkout Shipping address/Payment" views
    * will have a more a11y friendly selected label, including the context
    * indicating weather the user is on a selected Address or Payment regsion.
@@ -884,7 +876,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yQuickOrderSearchListKeyboardNavigation: false,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
-  a11yHideSelectBtnForSelectedAddrOrPayment: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
