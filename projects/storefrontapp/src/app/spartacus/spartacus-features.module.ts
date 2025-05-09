@@ -324,7 +324,6 @@ if (environment.cpq) {
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
         a11yScreenReaderBloatFix: true,
-        a11yUseButtonsForBtnLinks: true,
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,

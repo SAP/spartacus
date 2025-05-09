@@ -259,14 +259,6 @@ export interface FeatureTogglesInterface {
   a11yScreenReaderBloatFix?: boolean;
 
   /**
-   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
-   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`,
-   * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
-   */
-  a11yUseButtonsForBtnLinks?: boolean;
-
-  /**
    * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
    * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
    * and responsive in tab and accordion stles.
@@ -852,7 +844,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
   a11yScreenReaderBloatFix: true,
-  a11yUseButtonsForBtnLinks: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
