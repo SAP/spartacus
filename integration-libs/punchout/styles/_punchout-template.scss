@@ -1,5 +1,17 @@
 @import '@spartacus/styles/scss/misc/table';
 %PunchoutTemplate {
+  .SiteLogin {
+    @include media-breakpoint-up('lg') {
+      padding: 0.5rem 1rem;
+    }
+
+    cx-login {
+      align-items: flex-end;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
   cx-punchout-inspect-cart {
     padding: 1.5rem;
   }
