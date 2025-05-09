@@ -34,7 +34,7 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
     cy.get('cx-address-book cx-card').first().a11yRunContinuumTest();
   });
 
-  it('Add second address and test card (skip main re-scan)', () => {
+  it('Add second address and test card', () => {
     const secondAddress = {
       ...editedAddress,
       firstName: 'Alex',
@@ -43,6 +43,6 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
 
     cy.contains('button', /add new address/i).click({ force: true });
     fillShippingAddress(secondAddress);
-    cy.get('cx-address-book cx-card');
+    cy.get('cx-address-book cx-card').a11yRunContinuumTest();
   });
 });
