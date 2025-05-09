@@ -86,4 +86,14 @@ describe('Order attachments', { testIsolation: false }, () => {
   it('should download all attachments using both links and buttons', () => {
     downloadAllAttachmentsTwice();
   });
+
+  it('should close modal both ways', () => {
+    openAttachmentList(sampleData.ORDER_CODE.NO_ATTACHMENTS);
+    cy.get('div.cx-dialog-footer.modal-footer button').click();
+    cy.get('cx-order-attachments-dialog').should('not.exist');
+
+    openAttachmentList(sampleData.ORDER_CODE.NO_ATTACHMENTS);
+    cy.get('div.cx-dialog-header.modal-header button.close').click();
+    cy.get('cx-order-attachments-dialog').should('not.exist');
+  });
 });

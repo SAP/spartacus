@@ -523,5 +523,16 @@ describe('OrderAttachmentsDialogComponent', () => {
       cancelButtonEl.click();
       expect(component.close).toHaveBeenCalled();
     });
+
+    it('should close modal when \'x\' is clicked', () => {
+      spyOn(component, 'close').and.stub();
+
+      fixture.detectChanges();
+      const cancelButtonEl = fixture.debugElement.query(
+        By.css('div.cx-dialog-header button.close')
+      ).nativeElement;
+      cancelButtonEl.click();
+      expect(component.close).toHaveBeenCalled();
+    });
   });
 });
