@@ -10,7 +10,6 @@
       "executor": "@angular-builders/custom-esbuild:application",
       "logLevel": "error",
       "options": {
-        "baseHref": "./",
         "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
         "allowedCommonJsDependencies": [
