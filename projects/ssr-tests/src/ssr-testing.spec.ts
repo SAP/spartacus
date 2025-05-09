@@ -39,6 +39,95 @@ describe('SSR E2E', () => {
             `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
           );
         });
+
+        it('should receive response with 404 when page does not exist', async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+          });
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH + 'not-existing-page',
+          });
+          expect(response.statusCode).toEqual(404);
+        });
+
+        it('should receive response with status 404 if HTTP error occurred when calling cms/pages API URL', async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            responseInterceptor: ({ res, req, body }) => {
+              if (req.url?.includes('cms/pages')) {
+                res.statusCode = 404;
+              }
+              res.end(body);
+            },
+          });
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(404);
+        });
+
+        it.skip('should receive response with status 500 if HTTP error occurred when calling other than cms/pages API URL', async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            responseInterceptor: ({ res, req, body }) => {
+              if (req.url?.includes('cms/pages')) {
+                res.statusCode = 404;
+              }
+              res.end(body);
+            },
+          });
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(500);
+        });
+      });
+
+      describe('With long SSR request timeout', () => {
+        beforeEach(async () => {
+          // The SSR in the following tests might take longer than the default SSR request timeout.
+          // So to avoid getting a "CSR fallback" response, we're increasing the SSR request timeout to 20 seconds.
+          await SsrUtils.startSsrServer({ timeout: 20_000 });
+        });
+
+        it('should receive response with status 500 if HTTP call to backend timeouted', async () => {
+          /**
+           * We're configuring a custom time limit for the Backend API calls in Spartacus.
+           * This is to speed up the test. Otherwise, we would need to delay the call to /languages
+           * for 20 seconds (which is the default Backend Timeout in Spartacus) to get an error.
+           */
+          const BACKEND_TIMEOUT_TIME_LIMIT = 4000;
+          const API_DELAY = BACKEND_TIMEOUT_TIME_LIMIT + 1;
+
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            responseInterceptor: ({ res, req, body }) => {
+              // Delay the response from Backend API, but only for for the /languages endpoint.
+              // We want Spartacus to consider this Backend API request as Timeouted (therefore failed).
+              if (req.url?.includes('languages')) {
+                setTimeout(() => res.end(body), API_DELAY);
+              } else {
+                res.end(body);
+              }
+            },
+          });
+
+          const response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+            testConfig: {
+              backend: { timeout: { server: BACKEND_TIMEOUT_TIME_LIMIT } },
+            },
+          });
+
+          expect(response.statusCode).toEqual(500);
+
+          const logsMessages = LogUtils.getLogsMessages();
+          expect(logsMessages.join('\n')).toMatch(
+            new RegExp(
+              `Error: Request to URL '[^']*\/languages' exceeded expected time of ${BACKEND_TIMEOUT_TIME_LIMIT}ms and was aborted`
+            )
+          );
+        });
       });
     });
 
@@ -71,6 +160,36 @@ describe('SSR E2E', () => {
           expect(response.statusCode).toEqual(200);
           const logsMessages2 = LogUtils.getLogsMessages();
           expect(logsMessages2).toContain(
+            `Render from cache (${REQUEST_PATH})`
+          );
+        },
+        2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
+      );
+
+      it(
+        'should render for the next request if previous render failed',
+        async () => {
+          backendProxy = await ProxyUtils.startBackendProxyServer({
+            target: BACKEND_BASE_URL,
+            responseInterceptor: ({ res, req, body }) => {
+              if (req.url?.includes('cms/pages')) {
+                res.statusCode = 404;
+              }
+              res.end(body);
+            },
+          });
+          let response: HttpUtils.SsrResponse;
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(404);
+
+          response = await HttpUtils.sendRequestToSsrServer({
+            path: REQUEST_PATH,
+          });
+          expect(response.statusCode).toEqual(404);
+          const logsMessages = LogUtils.getLogsMessages();
+          expect(logsMessages).not.toContain(
             `Render from cache (${REQUEST_PATH})`
           );
         },
