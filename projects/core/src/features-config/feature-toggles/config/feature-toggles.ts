@@ -165,11 +165,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
-   */
-  a11yFacetKeyboardNavigation?: boolean;
-
-  /**
    * Adds label to the `SearchBoxComponent` search input
    */
   a11ySearchboxLabel?: boolean;
@@ -887,7 +882,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: false,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
-  a11yFacetKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
   a11yHideSelectBtnForSelectedAddrOrPayment: true,

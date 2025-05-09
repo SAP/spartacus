@@ -310,7 +310,6 @@ if (environment.cpq) {
         a11yAnonymousConsentMessageInDialog: true,
         a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11yFacetKeyboardNavigation: true,
         a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
