@@ -14,7 +14,6 @@
       <div *ngIf="cartEntry.product?.name" class="cx-name">
         <a
           class="cx-link"
-          [attr.id]="cartEntry.product?.code + '_header'"
           [routerLink]="
             { cxRoute: 'product', params: cartEntry.product } | cxUrl
           "
