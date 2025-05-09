@@ -276,7 +276,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Closes the type-ahead searchBox.
    */
-  close(force?: boolean): void {
+  close(force: boolean = false): void {
     // Use timeout to detect changes
     setTimeout(() => {
       if ((!this.ignoreCloseEvent && !this.isSearchBoxFocused()) || force) {
