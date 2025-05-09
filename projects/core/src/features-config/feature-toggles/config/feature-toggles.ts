@@ -214,12 +214,6 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextUnitLevelOrderHistory?: boolean;
 
   /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
-
-  /**
    * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
    */
   a11ySemanticPaginationLabel?: boolean;
@@ -861,7 +855,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: true,
-  a11yCloseProductImageBtnFocus: true,
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
   a11yEmptyWishlistHeading: true,
