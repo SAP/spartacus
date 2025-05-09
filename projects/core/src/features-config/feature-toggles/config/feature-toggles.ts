@@ -203,16 +203,6 @@ export interface FeatureTogglesInterface {
   a11yOrganizationLinkableCells?: boolean;
 
   /**
-   * When enabled then on mobile(320px) responsive view:
-   * 1. `ProductListComponent` - grid view button is aligned correctly
-   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
-   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
-   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
-   * 5. 'UnitLevelOrderHistoryComponent' - sorting dropdown options will not be truncated
-   */
-  a11yTruncatedTextForResponsiveView?: boolean;
-
-  /**
    * `StoreFinderListItemComponent` street name is not truncated
    */
   a11yTruncatedTextStoreFinder?: boolean;
@@ -871,7 +861,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
-  a11yTruncatedTextForResponsiveView: true,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11ySemanticPaginationLabel: true,
