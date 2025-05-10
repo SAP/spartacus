@@ -524,7 +524,7 @@ describe('OrderAttachmentsDialogComponent', () => {
       expect(component.close).toHaveBeenCalled();
     });
 
-    it('should close modal when \'x\' is clicked', () => {
+    it("should close modal when 'x' is clicked", () => {
       spyOn(component, 'close').and.stub();
 
       fixture.detectChanges();

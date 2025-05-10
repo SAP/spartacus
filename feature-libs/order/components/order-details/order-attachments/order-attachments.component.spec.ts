@@ -62,7 +62,9 @@ describe('OrderAttachmentsComponent', () => {
 
   it('should render content if order is present', () => {
     fixture.detectChanges();
-    const contentEls = fixture.debugElement.queryAll(By.css('div.row div button'));
+    const contentEls = fixture.debugElement.queryAll(
+      By.css('div.row div button')
+    );
     expect(contentEls.length).toBe(1);
   });
 
@@ -70,14 +72,18 @@ describe('OrderAttachmentsComponent', () => {
     // @ts-ignore
     component.order$ = of(undefined);
     fixture.detectChanges();
-    const contentEls = fixture.debugElement.queryAll(By.css('div.row div button'));
+    const contentEls = fixture.debugElement.queryAll(
+      By.css('div.row div button')
+    );
     expect(contentEls.length).toBe(0);
   });
 
   it('should not render content if order code is missing', () => {
     component.order$ = of({} as Order);
     fixture.detectChanges();
-    const contentEls = fixture.debugElement.queryAll(By.css('div.row div button'));
+    const contentEls = fixture.debugElement.queryAll(
+      By.css('div.row div button')
+    );
     expect(contentEls.length).toBe(0);
   });
 
