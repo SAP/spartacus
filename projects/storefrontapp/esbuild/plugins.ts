@@ -12,14 +12,15 @@ const resolveEnvPlugin: Plugin = {
   setup(build) {
     const env: Record<string, string | boolean | undefined> = {};
     Object.keys(process.env).forEach((key) => {
-      if (process.env[key] === 'true') {
-        env[key] = true;
-      } else if (process.env[key] === 'false') {
-        env[key] = false;
-      } else env[key] = process.env[key];
+      if(key.startsWith('CX_')) {
+        if (process.env[key] === 'true') {
+          env[key] = true;
+        } else if (process.env[key] === 'false') {
+          env[key] = false;
+        } else env[key] = process.env[key];
+      }
     });
-    build.initialOptions.bundle = true;
-
+    console.log('env=', env);
     build.initialOptions.define = {
       ...build.initialOptions.define,
       'buildProcess.env': JSON.stringify(env),
