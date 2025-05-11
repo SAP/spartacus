@@ -20,7 +20,6 @@ const resolveEnvPlugin: Plugin = {
         } else env[key] = process.env[key];
       }
     });
-    console.log('env=', env);
     build.initialOptions.define = {
       ...build.initialOptions.define,
       'buildProcess.env': JSON.stringify(env),
