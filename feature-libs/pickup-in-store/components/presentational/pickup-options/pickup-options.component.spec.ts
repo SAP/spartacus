@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
-import { Observable } from 'rxjs';
-import { PickupOptionsComponent } from './pickup-options.component';
 import { TAB_MODE, Tab, TabConfig, TabModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { By } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
+import { PickupOptionsComponent } from './pickup-options.component';
 import { PickupOptionsTabs } from './pickup-options.model';
 
 @Component({
@@ -184,7 +184,7 @@ describe('PickupOptionsComponent', () => {
         fixture.detectChanges();
 
         const selectStoreButton =
-          fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+          fixture.debugElement.nativeElement.querySelector('button');
         selectStoreButton.click();
 
         expect(component.onPickupLocationChange).toHaveBeenCalled();
@@ -196,7 +196,7 @@ describe('PickupOptionsComponent', () => {
         fixture.detectChanges();
 
         const changeStoreButton =
-          fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+          fixture.debugElement.nativeElement.querySelector('button');
         changeStoreButton.click();
 
         expect(component.onPickupLocationChange).toHaveBeenCalled();
