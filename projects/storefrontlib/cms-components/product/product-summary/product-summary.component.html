@@ -19,6 +19,9 @@
     [cxOutlet]="outlets.SUMMARY"
     [cxOutletContext]="{ product: product }"
   >
+    <span class="cx-visually-hidden" [id]="product?.code + '_header'">{{
+      product?.name
+    }}</span>
     <p [innerHTML]="product?.summary" class="summary"></p>
   </ng-template>
 
