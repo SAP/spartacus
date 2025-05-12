@@ -21,8 +21,6 @@ export function getEpdVisualizationDefaultConfig(): EpdVisualizationConfig {
         },
         productUsageId: {
           name: 'CommerceCloud-SparePart',
-          source: 'CommerceCloud',
-          category: 'SpareParts',
           keyName: 'ProductCode',
         },
       },
