@@ -15,7 +15,9 @@ import {
 import { I18nModule } from '@spartacus/core';
 
 /**
- * Renders cx-read-more.
+ * Wraps the provided input text in a Read More / Read Less component, truncating input to maxLength
+ * and adding "Read More" link. Clicking "Read More" reveals full text with a "Read Less"
+ * option to collapse it back.
  */
 @Component({
   selector: 'cx-read-more',
@@ -25,11 +27,15 @@ import { I18nModule } from '@spartacus/core';
   imports: [CommonModule, I18nModule],
 })
 export class ReadMoreComponent implements OnChanges {
+  // Read More label translation key
   @Input() readMoreTranslation?: string = 'common.readMore';
+  // Read Less label translation key
   @Input() readLessTranslation?: string = 'common.readLess';
+  // Text length that, when exceeded, triggers truncation and adds a Read More link.
   @Input() maxLength = 360;
-
+  // Text to be rendered (decorated with Read More/Read Less links)
   @Input() text: string = '';
+
   showReadMore: boolean = false;
   isCollapsed: boolean = true;
 
