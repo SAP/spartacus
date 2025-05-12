@@ -148,6 +148,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.subscription.add(
         product$.pipe(filter(isNotNullable)).subscribe((product) => {
           this.productCode = product.code ?? '';
+          this.product = product;
           this.setStockInfo(product);
         })
       );
