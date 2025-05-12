@@ -5,8 +5,6 @@
  */
 
 import * as myCoupons from '../../helpers/coupons/my-coupons';
-import { PRODUCT_PATH_2 } from '../../helpers/site-context-selector';
-
 import { viewportContext } from '../../helpers/viewport-context';
 
 describe('Coupons Accessibility', { testIsolation: false }, () => {

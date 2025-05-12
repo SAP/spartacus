@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -34,7 +33,6 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     IconModule,
     SpinnerModule,
     KeyboardFocusModule,
-    FeaturesConfigModule,
     BtnLikeLinkModule,
   ],
   providers: [
