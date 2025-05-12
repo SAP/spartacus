@@ -46,9 +46,9 @@ export class ProductReviewsComponent {
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
 
-  @Input() inputCharactersForReviewTitle = 255;
-  @Input() inputCharactersForReviewComment = 2200;
-  @Input() inputCharactersForReviewerName = 64;
+  @Input() maxLengthReviewTitle = 255;
+  @Input() maxLengthReviewComment = 2200;
+  @Input() maxLengthReviewerName = 64;
   isWritingReview = false;
 
   // TODO: configurable
@@ -134,27 +134,6 @@ export class ProductReviewsComponent {
     }
   }
 
-  get reviewTitleCharacterLeft(): number {
-    return (
-      this.inputCharactersForReviewTitle -
-      (this.reviewForm.get('title')?.value?.length || 0)
-    );
-  }
-
-  get reviewCommentCharacterLeft(): number {
-    return (
-      this.inputCharactersForReviewComment -
-      (this.reviewForm.get('comment')?.value?.length || 0)
-    );
-  }
-
-  get reviewerNameCharacterLeft(): number {
-    return (
-      this.inputCharactersForReviewerName -
-      (this.reviewForm.get('reviewerName')?.value?.length || 0)
-    );
-  }
-
   private resetReviewForm(): void {
     const isProductReviewCharactersLeftEnabled =
       this.featureConfigService.isEnabled('productReviewCharactersLeft');
@@ -165,7 +144,7 @@ export class ProductReviewsComponent {
           ? Validators.required
           : [
               Validators.required,
-              Validators.maxLength(this.inputCharactersForReviewTitle),
+              Validators.maxLength(this.maxLengthReviewTitle),
             ],
       ],
       comment: [
@@ -174,13 +153,13 @@ export class ProductReviewsComponent {
           ? Validators.required
           : [
               Validators.required,
-              Validators.maxLength(this.inputCharactersForReviewComment),
+              Validators.maxLength(this.maxLengthReviewComment),
             ],
       ],
       rating: [null, Validators.required],
       reviewerName: !isProductReviewCharactersLeftEnabled
         ? ''
-        : ['', Validators.maxLength(this.inputCharactersForReviewerName)],
+        : ['', Validators.maxLength(this.maxLengthReviewerName)],
     });
   }
 }

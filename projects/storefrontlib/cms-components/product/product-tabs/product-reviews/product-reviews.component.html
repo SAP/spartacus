@@ -94,6 +94,7 @@
             <cx-form-required-asterisks />
           </span>
           <input
+            *cxFeature="'!productReviewCharactersLeft'"
             required="true"
             #titleInput
             type="text"
@@ -104,7 +105,20 @@
               reviewForm.get('title')?.invalid
             "
             [attr.aria-errormessage]="'titleError'"
-            [maxLength]="inputCharactersForReviewTitle"
+          />
+          <input
+            *cxFeature="'productReviewCharactersLeft'"
+            required="true"
+            #titleInput
+            type="text"
+            class="form-control"
+            formControlName="title"
+            [attr.aria-invalid]="
+              reviewForm.get('title')?.touched &&
+              reviewForm.get('title')?.invalid
+            "
+            [attr.aria-errormessage]="'titleError'"
+            [maxLength]="maxLengthReviewTitle"
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -124,11 +138,16 @@
 
           <p
             *cxFeature="'productReviewCharactersLeft'"
-            class="cx-customer-ticket-input-hint"
+            class="cx-customer-ticket-input-hint text-right"
           >
             {{
               'productReview.charactersLeft'
-                | cxTranslate: { count: reviewTitleCharacterLeft }
+                | cxTranslate
+                  : {
+                      count:
+                        maxLengthReviewTitle -
+                        (reviewForm.get('title')?.value?.length || 0),
+                    }
             }}
           </p>
         </label>
@@ -140,6 +159,7 @@
             <cx-form-required-asterisks />
           </span>
           <textarea
+            *cxFeature="'!productReviewCharactersLeft'"
             required="true"
             class="form-control"
             rows="3"
@@ -149,7 +169,19 @@
               reviewForm.get('comment')?.invalid
             "
             [attr.aria-errormessage]="'commentError'"
-            [maxLength]="inputCharactersForReviewComment"
+          ></textarea>
+          <textarea
+            *cxFeature="'productReviewCharactersLeft'"
+            required="true"
+            class="form-control"
+            rows="3"
+            formControlName="comment"
+            [attr.aria-invalid]="
+              reviewForm.get('comment')?.touched &&
+              reviewForm.get('comment')?.invalid
+            "
+            [attr.aria-errormessage]="'commentError'"
+            [maxLength]="maxLengthReviewComment"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -169,11 +201,16 @@
 
           <p
             *cxFeature="'productReviewCharactersLeft'"
-            class="cx-customer-ticket-input-hint"
+            class="cx-customer-ticket-input-hint text-right"
           >
             {{
               'productReview.charactersLeft'
-                | cxTranslate: { count: reviewCommentCharacterLeft }
+                | cxTranslate
+                  : {
+                      count:
+                        maxLengthReviewComment -
+                        (reviewForm.get('comment')?.value?.length || 0),
+                    }
             }}
           </p>
         </label>
@@ -224,10 +261,17 @@
             >{{ 'productReview.reviewerName' | cxTranslate }}
           </span>
           <input
+            *cxFeature="'!productReviewCharactersLeft'"
             type="text"
             class="form-control"
             formControlName="reviewerName"
-            [maxLength]="inputCharactersForReviewerName"
+          />
+          <input
+            *cxFeature="'productReviewCharactersLeft'"
+            type="text"
+            class="form-control"
+            formControlName="reviewerName"
+            [maxLength]="maxLengthReviewerName"
           />
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
@@ -245,11 +289,16 @@
           ></cx-form-errors>
           <p
             *cxFeature="'productReviewCharactersLeft'"
-            class="cx-customer-ticket-input-hint"
+            class="cx-customer-ticket-input-hint text-right"
           >
             {{
               'productReview.charactersLeft'
-                | cxTranslate: { count: reviewerNameCharacterLeft }
+                | cxTranslate
+                  : {
+                      count:
+                        maxLengthReviewerName -
+                        (reviewForm.get('reviewerName')?.value?.length ?? 0),
+                    }
             }}
           </p>
         </label>
