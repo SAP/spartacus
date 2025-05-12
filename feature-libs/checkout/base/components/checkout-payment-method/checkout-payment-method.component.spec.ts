@@ -422,47 +422,7 @@ describe('CheckoutPaymentMethodComponent', () => {
       expect(getContinueButton().nativeElement.disabled).toBeFalsy();
     });
 
-    it('should display credit card info correctly', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-      const selectedPaymentMethod: PaymentDetails = {
-        id: 'selected payment method',
-        accountHolderName: 'Name',
-        cardNumber: '123456789',
-        cardType: {
-          code: 'Visa',
-          name: 'Visa',
-        },
-        expiryMonth: '01',
-        expiryYear: '2022',
-        cvn: '123',
-        defaultPayment: true,
-      };
-
-      expect(
-        component['createCard'](
-          selectedPaymentMethod,
-          {
-            textDefaultPaymentMethod: '✓ DEFAULT',
-            textExpires: 'Expires',
-            textUseThisPayment: 'Use this payment',
-            textSelected: 'Selected',
-          },
-          selectedPaymentMethod
-        )
-      ).toEqual({
-        role: 'application',
-        title: '✓ DEFAULT',
-        textBold: 'Name',
-        text: ['123456789', 'Expires'],
-        img: 'CREDIT_CARD',
-        actions: [{ name: 'Use this payment', event: 'send' }],
-        header: 'Selected',
-        label: 'paymentCard.defaultPaymentLabel',
-      });
-    });
-
     it('should not add select action for selected card', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
       const selectedPaymentMethod: PaymentDetails = {
         id: 'selected payment method',
         accountHolderName: 'Name',
