@@ -15,6 +15,7 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
+  provideAuthorizationCodeFlowByDefault,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -286,6 +287,7 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
+    provideAuthorizationCodeFlowByDefault(false),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -295,7 +297,6 @@ if (environment.cpq) {
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
-        showDownloadProposalButton: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -318,7 +319,6 @@ if (environment.cpq) {
         a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
-        cmsGuardsServiceUseGuardsComposer: true,
         a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
@@ -418,11 +418,11 @@ if (environment.cpq) {
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        a11yNgSelectAriaControls: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
-        authorizationCodeFlowDefault: false,
       };
       return appFeatureToggles;
     }),
