@@ -48,8 +48,8 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
    * @override
    *
    * On backend errors indicating expired `refresh_token`, 2 punchout use cases:
-   * - When initializing punchout session, previous user gets silently logout, punchoutfacade can then create punchout session.
-   * - When punchout session is already running, punchout session gets ended.
+   * - When initializing punchout session, previous token gets silently revoked, punchoutFacade can then create punchout session.
+   * - When punchout session already exists, punchout session gets ended.
    * It is a workaround to address CXSPA-9608 - Public pages not displayed when token is invalid.
    * To be removed once CXSPA-9608 is closed.
    */
