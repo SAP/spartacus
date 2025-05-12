@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { waitForPage } from '../../helpers/navigation';
 
 describe('Homepage Accessibility', { testIsolation: false }, () => {
