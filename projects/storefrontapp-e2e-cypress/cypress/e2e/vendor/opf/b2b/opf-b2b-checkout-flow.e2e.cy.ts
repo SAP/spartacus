@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { interceptPutDeliveryModeEndpoint } from '../../../../helpers/b2b/b2b-checkout';
 import { waitForPage } from '../../../../helpers/checkout-flow';
 import { waitForProductPage } from '../../../../helpers/checkout-flow';
