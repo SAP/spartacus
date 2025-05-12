@@ -4,20 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   AuthHttpHeaderService,
   AuthRedirectService,
   AuthService,
   AuthStorageService,
-  AuthToken,
   GlobalMessageService,
   OAuthLibWrapperService,
   OccEndpointsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import { PunchoutDetectionService } from './punchout-detection.service';
 
@@ -50,37 +47,21 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   /**
    * @override
    *
-   * On backend errors indicating expired `refresh_token`, punchout session gets ended, user is redirected to login page
+   * On backend errors indicating expired `refresh_token`, 2 punchout use cases:
+   * - When initializing punchout session, previous user gets silently logout, punchoutfacade can then create punchout session.
+   * - When punchout session is already running, punchout session gets ended.
    * It is a workaround to address CXSPA-9608 - Public pages not displayed when token is invalid.
    * To be removed once CXSPA-9608 is closed.
    */
   public handleExpiredRefreshToken(): void {
-    if (
-      this.punchoutDetectionService.isPunchoutSession() ||
-      this.punchoutDetectionService.isPunchoutSessionPage()
-    ) {
-      this.punchoutFacade.endPunchoutSession().subscribe();
-    } else {
-      super.handleExpiredRefreshToken();
+    if (this.punchoutDetectionService.isPunchoutSessionPage()) {
+      this.punchoutFacade.logoutPunchoutUser().subscribe();
+      return;
     }
-  }
-
-  /**
-   * @override
-   * Refreshes access_token and then retries the call with the new token.
-   * When punchout session exists,  punchout session gets ended, user is redirected to login page
-   */
-  public handleExpiredAccessToken(
-    request: HttpRequest<any>,
-    next: HttpHandler,
-    initialToken: AuthToken | undefined
-  ): Observable<HttpEvent<AuthToken>> {
-    if (
-      this.punchoutDetectionService.isPunchoutSession() ||
-      this.punchoutDetectionService.isPunchoutSessionPage()
-    ) {
+    if (this.punchoutDetectionService.isPunchoutSession()) {
       this.punchoutFacade.endPunchoutSession().subscribe();
+      return;
     }
-    return super.handleExpiredAccessToken(request, next, initialToken);
+    super.handleExpiredRefreshToken();
   }
 }
