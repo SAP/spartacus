@@ -460,6 +460,12 @@
       "@spartacus/omf": ["../../dist/omf"],
       "@spartacus/omf/order": ["../../dist/omf/order"],
       "@spartacus/omf/root": ["../../dist/omf/root"],
+      "@spartacus/opf/b2b-checkout/components": [
+        "../../dist/opf/b2b-checkout/components"
+      ],
+      "@spartacus/opf/b2b-checkout/core": ["../../dist/opf/b2b-checkout/core"],
+      "@spartacus/opf/b2b-checkout": ["../../dist/opf/b2b-checkout"],
+      "@spartacus/opf/b2b-checkout/root": ["../../dist/opf/b2b-checkout/root"],
       "@spartacus/opf/base/components": ["../../dist/opf/base/components"],
       "@spartacus/opf/base/core": ["../../dist/opf/base/core"],
       "@spartacus/opf/base": ["../../dist/opf/base"],
@@ -488,6 +494,7 @@
       "@spartacus/opf/payment/assets": ["../../dist/opf/payment/assets"],
       "@spartacus/opf/payment/core": ["../../dist/opf/payment/core"],
       "@spartacus/opf/payment": ["../../dist/opf/payment"],
+      "@spartacus/opf/payment/occ": ["../../dist/opf/payment/occ"],
       "@spartacus/opf/payment/opf-api": ["../../dist/opf/payment/opf-api"],
       "@spartacus/opf/payment/root": ["../../dist/opf/payment/root"],
       "@spartacus/opf/quick-buy/components": [
