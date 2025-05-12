@@ -7,7 +7,6 @@ import {
 import { Router, RouterModule, Routes } from '@angular/router';
 import {
   EventService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -92,12 +91,6 @@ class MockFileDownloadService {
   download(_url: string, _fileName?: string): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
-}
-
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
@@ -133,10 +126,6 @@ describe('QuoteLinksComponent', () => {
         {
           provide: FileDownloadService,
           useClass: MockFileDownloadService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         {
           provide: GlobalMessageService,

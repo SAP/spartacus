@@ -44,14 +44,17 @@
           'userRegistrationForm.fields.firstName.placeholder' | cxTranslate
         }}"
         formControlName="firstName"
-        [attr.aria-describedby]="'firstNameError'"
+        [attr.aria-invalid]="
+          registerForm.get('firstName')?.touched &&
+          registerForm.get('firstName')?.invalid
+        "
+        [attr.aria-errormessage]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.firstName.label' | cxTranslate,
         }"
@@ -78,14 +81,17 @@
           'userRegistrationForm.fields.lastName.placeholder' | cxTranslate
         }}"
         formControlName="lastName"
-        [attr.aria-describedby]="'lastNameError'"
+        [attr.aria-invalid]="
+          registerForm.get('lastName')?.touched &&
+          registerForm.get('lastName')?.invalid
+        "
+        [attr.aria-errormessage]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.lastName.label' | cxTranslate,
         }"
@@ -112,12 +118,15 @@
           'userRegistrationForm.fields.companyName.placeholder' | cxTranslate
         }}"
         formControlName="companyName"
-        [attr.aria-describedby]="'companyNameError'"
+        [attr.aria-invalid]="
+          registerForm.get('companyName')?.touched &&
+          registerForm.get('companyName')?.invalid
+        "
+        [attr.aria-errormessage]="'companyNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="companyNameError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.companyName.label' | cxTranslate,
         }"
@@ -143,14 +152,17 @@
           'userRegistrationForm.fields.email.placeholder' | cxTranslate
         }}"
         formControlName="email"
-        [attr.aria-describedby]="'emailError'"
+        [attr.aria-invalid]="
+          registerForm.get('email')?.touched &&
+          registerForm.get('email')?.invalid
+        "
+        [attr.aria-errormessage]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="emailError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.email.label' | cxTranslate,
         }"
@@ -217,14 +229,17 @@
           'userRegistrationForm.fields.addressLine.placeholder' | cxTranslate
         }}"
         formControlName="line1"
-        [attr.aria-describedby]="'line1Error'"
+        [attr.aria-invalid]="
+          registerForm.get('line1')?.touched &&
+          registerForm.get('line1')?.invalid
+        "
+        [attr.aria-errormessage]="'line1Error'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="line1Error"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate,
         }"
@@ -249,11 +264,14 @@
             | cxTranslate
         }}"
         formControlName="line2"
-        [attr.aria-describedby]="'line2Error'"
+        [attr.aria-invalid]="
+          registerForm.get('line2')?.touched &&
+          registerForm.get('line2')?.invalid
+        "
+        [attr.aria-errormessage]="'line2Error'"
       />
       <cx-form-errors
         id="line2Error"
-        aria-live="off"
         [control]="registerForm.get('line2')"
       ></cx-form-errors>
     </label>
@@ -269,11 +287,13 @@
           'userRegistrationForm.fields.city.label' | cxTranslate
         }}"
         formControlName="town"
-        [attr.aria-describedby]="'townError'"
+        [attr.aria-invalid]="
+          registerForm.get('town')?.touched && registerForm.get('town')?.invalid
+        "
+        [attr.aria-errormessage]="'townError'"
       />
       <cx-form-errors
         id="townError"
-        aria-live="off"
         [control]="registerForm.get('town')"
       ></cx-form-errors>
     </label>
@@ -289,14 +309,17 @@
           'userRegistrationForm.fields.postalCode.placeholder' | cxTranslate
         }}"
         formControlName="postalCode"
-        [attr.aria-describedby]="'postalCodeError'"
+        [attr.aria-invalid]="
+          registerForm.get('postalCode')?.touched &&
+          registerForm.get('postalCode')?.invalid
+        "
+        [attr.aria-errormessage]="'postalCodeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="postalCodeError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate,
         }"
@@ -359,14 +382,17 @@
           'userRegistrationForm.fields.phoneNumber.placeholder' | cxTranslate
         }}"
         formControlName="phoneNumber"
-        [attr.aria-describedby]="'phoneNumberError'"
+        [attr.aria-invalid]="
+          registerForm.get('phoneNumber')?.touched &&
+          registerForm.get('phoneNumber')?.invalid
+        "
+        [attr.aria-errormessage]="'phoneNumberError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="phoneNumberError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate,
         }"
@@ -390,14 +416,17 @@
           'userRegistrationForm.fields.message.placeholder' | cxTranslate
         }}"
         rows="5"
-        [attr.aria-describedby]="'messageError'"
+        [attr.aria-invalid]="
+          registerForm.get('message')?.touched &&
+          registerForm.get('message')?.invalid
+        "
+        [attr.aria-errormessage]="'messageError'"
       ></textarea>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
         id="messageError"
-        aria-live="off"
         [translationParams]="{
           label: 'userRegistrationForm.fields.message.label' | cxTranslate,
         }"

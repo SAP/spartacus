@@ -6,10 +6,7 @@ import {
 import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { Observable, of } from 'rxjs';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
-import {
-  MetadatumValueType,
-  NodesResponse,
-} from '../../connectors/scene/nodes-response';
+import { NodesResponse } from '../../connectors/scene/nodes-response';
 import { SceneAdapter } from '../../connectors/scene/scene.adapter';
 import { SceneNodeToProductLookupService } from './scene-node-to-product-lookup.service';
 
@@ -37,37 +34,43 @@ const nodesResponseOneProductCodePerSceneNode: NodesResponse = {
   nodes: [
     {
       sid: 'sceneNode1',
-      metadata: [
+      usageIds: [
         {
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          tag: 'ProductCode',
-          value: 'productCode1',
-          valueType: MetadatumValueType.string,
+          name: 'CommerceCloud-SparePart',
+          keys: [
+            {
+              name: 'ProductCode',
+              value: 'productCode1',
+            },
+          ],
         },
       ],
     },
     {
       sid: 'sceneNode2',
-      metadata: [
+      usageIds: [
         {
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          tag: 'ProductCode',
-          value: 'productCode2',
-          valueType: MetadatumValueType.string,
+          name: 'CommerceCloud-SparePart',
+          keys: [
+            {
+              name: 'ProductCode',
+              value: 'productCode2',
+            },
+          ],
         },
       ],
     },
     {
       sid: 'sceneNode3',
-      metadata: [
+      usageIds: [
         {
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          tag: 'ProductCode',
-          value: 'productCode3',
-          valueType: MetadatumValueType.string,
+          name: 'CommerceCloud-SparePart',
+          keys: [
+            {
+              name: 'ProductCode',
+              value: 'productCode3',
+            },
+          ],
         },
       ],
     },
@@ -78,37 +81,43 @@ const nodesResponseMultipleProductCodesPerSceneNode: NodesResponse = {
   nodes: [
     {
       sid: 'sceneNode1',
-      metadata: [
+      usageIds: [
         {
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          tag: 'ProductCode',
-          value: 'productCodeA',
-          valueType: MetadatumValueType.string,
+          name: 'CommerceCloud-SparePart',
+          keys: [
+            {
+              name: 'ProductCode',
+              value: 'productCodeA',
+            },
+          ],
         },
       ],
     },
     {
       sid: 'sceneNode2',
-      metadata: [
+      usageIds: [
         {
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          tag: 'ProductCode',
-          value: 'productCodeA',
-          valueType: MetadatumValueType.string,
+          name: 'CommerceCloud-SparePart',
+          keys: [
+            {
+              name: 'ProductCode',
+              value: 'productCodeA',
+            },
+          ],
         },
       ],
     },
     {
       sid: 'sceneNode3',
-      metadata: [
+      usageIds: [
         {
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          tag: 'ProductCode',
-          value: 'productCodeB',
-          valueType: MetadatumValueType.string,
+          name: 'CommerceCloud-SparePart',
+          keys: [
+            {
+              name: 'ProductCode',
+              value: 'productCodeB',
+            },
+          ],
         },
       ],
     },
@@ -127,13 +136,9 @@ const validateGetNodesParameters = (
   if (expand) {
     expect(expand.length).toBe(2);
     expect(expand[0]).toBe('hotspot');
-    expect(expand[1]).toBe('metadata[CommerceCloud].SpareParts.ProductCode');
+    expect(expand[1]).toBe("usageId.'CommerceCloud-SparePart'");
   }
-  expect(filter).toBeTruthy();
-  if (filter) {
-    expect(filter.length).toBe(1);
-    expect(filter[0]).toBe('metadata[CommerceCloud].SpareParts.ProductCode');
-  }
+  expect(filter).toBeUndefined();
   expect(contentType).toBe('*');
 };
 

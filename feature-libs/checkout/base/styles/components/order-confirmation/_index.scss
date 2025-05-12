@@ -3,9 +3,9 @@
 @import './order-confirmation-totals';
 @import './guest-register-form';
 
-$order-confirmation-allowlist: cx-guest-register-form,
-  cx-order-confirmation-items, cx-order-confirmation-thank-you-message,
-  cx-order-confirmation-totals !default;
+$order-confirmation-allowlist:
+  cx-guest-register-form, cx-order-confirmation-items,
+  cx-order-confirmation-thank-you-message, cx-order-confirmation-totals !default;
 
 $skipComponentStyles: () !default;
 
