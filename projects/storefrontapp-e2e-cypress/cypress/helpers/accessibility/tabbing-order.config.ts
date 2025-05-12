@@ -2522,14 +2522,19 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
     {
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.LINK,
+      value: '1',
     },
     {
       type: TabbingOrderTypes.LINK,
       value: '2',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: ' ··· ',
     },
     {
       type: TabbingOrderTypes.LINK,
@@ -2538,7 +2543,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.LINK,
     },
-
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',

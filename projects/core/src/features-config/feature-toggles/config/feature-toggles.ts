@@ -786,18 +786,6 @@ export interface FeatureTogglesInterface {
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
-
-  /**
-   * When enabled, sets the default oAuth configuration to use authorization
-   * code flow with PKCE.  This results in a more secure authorization scheme
-   * as the default configuration.
-   *
-   * NOTE: This flag should only be enabled when used with a CCv2 Authorization
-   * Server running the September 2025 update or higher.  The CCv2 Authorization
-   * Server only supports Authorization Code flow for public clients from
-   * that version and onwards.
-   */
-  authorizationCodeFlowDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -918,5 +906,4 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
-  authorizationCodeFlowDefault: false,
 };
