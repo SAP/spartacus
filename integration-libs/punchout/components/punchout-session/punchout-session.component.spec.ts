@@ -1,8 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { PUNCHOUT_SESSION_KEY, PunchoutFacade } from '@spartacus/punchout/root';
-import { of } from 'rxjs';
+import {
+  PUNCHOUT_SESSION_KEY,
+  PunchoutFacade,
+  PunchOutLevel,
+  PunchOutOperation,
+  PunchoutSession,
+} from '@spartacus/punchout/root';
+import { of, throwError } from 'rxjs';
 import { PunchoutSessionComponent } from './punchout-session.component';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 class mockActivatedRoute implements Partial<ActivatedRoute> {
   queryParams = of({ [PUNCHOUT_SESSION_KEY]: '123abc' });
@@ -12,28 +19,88 @@ describe('PunchoutSessionComponent', () => {
   let component: PunchoutSessionComponent;
   let fixture: ComponentFixture<PunchoutSessionComponent>;
   let punchoutFacadeMock: jasmine.SpyObj<PunchoutFacade>;
+  let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
+
+  const mockPunchoutSession: PunchoutSession = {
+    customerId: 'test@test.com',
+    cartId: 'mockCart',
+    punchOutLevel: PunchOutLevel.PRODUCT,
+    punchOutOperation: PunchOutOperation.EDIT,
+    selectedItem: 'mockItemId',
+    token: {
+      accessToken: 'mockToken',
+      tokenType: 'Bearer',
+    },
+  };
 
   beforeEach(() => {
     punchoutFacadeMock = jasmine.createSpyObj('PunchoutFacade', [
       'getPunchoutSession',
+    ]);
+    globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
+      'add',
+      'remove',
     ]);
     TestBed.configureTestingModule({
       declarations: [PunchoutSessionComponent],
       providers: [
         { provide: ActivatedRoute, useClass: mockActivatedRoute },
         { provide: PunchoutFacade, useValue: punchoutFacadeMock },
+        { provide: GlobalMessageService, useValue: globalMessageServiceMock },
       ],
     });
     fixture = TestBed.createComponent(PunchoutSessionComponent);
     component = fixture.componentInstance;
-    punchoutFacadeMock.getPunchoutSession.and.returnValue(of());
+    punchoutFacadeMock.getPunchoutSession.and.returnValue(
+      of(mockPunchoutSession)
+    );
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should call punchoutFacade ', () => {
+
+  it('should call getPunchoutSession on ngOnInit', () => {
     component.ngOnInit();
-    expect(punchoutFacadeMock.getPunchoutSession).toHaveBeenCalled();
+    expect(punchoutFacadeMock.getPunchoutSession).toHaveBeenCalledWith({
+      punchoutSessionId: '123abc',
+    });
+    expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
+      { key: 'punchout.initiatingUserSession' },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+  });
+
+  it('should add an error message if getPunchoutSession fails', () => {
+    punchoutFacadeMock.getPunchoutSession.and.returnValue(
+      throwError(() => new Error('Test error'))
+    );
+
+    component.ngOnInit();
+
+    expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
+      'Test error',
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should add a default error message if getPunchoutSession fails without a message', () => {
+    punchoutFacadeMock.getPunchoutSession.and.returnValue(
+      throwError(() => new Error())
+    );
+
+    component.ngOnInit();
+
+    expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
+      { key: 'punchout.failToInitiateUserSession' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should remove confirmation messages on completion', () => {
+    component.ngOnInit();
+    expect(globalMessageServiceMock.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   });
 });

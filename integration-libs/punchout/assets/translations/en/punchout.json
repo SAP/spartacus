@@ -3,6 +3,8 @@
     "backToRequisition": "Back to requisition",
     "cancel": "Cancel",
     "redirectToProcurementSystem": "Return to Procurement System",
-    "closeSession": "Close Session"
+    "closeSession": "Close Session",
+    "initiatingUserSession": "Initiating user session",
+    "failToInitiateUserSession": "Failed to initiate user session"
   }
 }
