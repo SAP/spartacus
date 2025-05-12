@@ -23,15 +23,10 @@
   #account-nav {
     @include media-breakpoint-up(lg) {
       nav > ul > li > button {
-        padding-top: 4px;
         padding-bottom: 0;
-
-        // TODO: (CXSPA-7205) - Remove feature flag next major release
-        @include forFeature('a11yMyAccountLinkOutline') {
-          padding-top: 0;
-          margin-top: 4px;
-          outline-offset: 1px;
-        }
+        padding-top: 0;
+        margin-top: 4px;
+        outline-offset: 1px;
       }
     }
   }
