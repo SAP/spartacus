@@ -2,7 +2,7 @@
   <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
   {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
 </div>
-<ng-container *ngIf="!config.features?.readDomainValuesOnDemand">
+<ng-container *ngIf="!config.features?.enableReadDomainValuesOnDemand">
   <label
     id="{{ createAttributeUiKey('label', attribute.name) }}"
     [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
@@ -20,7 +20,7 @@
     ></label
   >
 </ng-container>
-<ng-container *ngIf="config.features?.readDomainValuesOnDemand">
+<ng-container *ngIf="config.features?.enableReadDomainValuesOnDemand">
   <div class="cx-header-label-container">
     <label
       id="{{ createAttributeUiKey('label', attribute.name) }}"

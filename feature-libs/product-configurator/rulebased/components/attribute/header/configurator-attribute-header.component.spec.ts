@@ -94,7 +94,7 @@ class MockConfiguratorGroupsService {
 }
 
 class MockConfig {
-  features = [{ readDomainValuesOnDemand: false }];
+  features = [{ enableReadDomainValuesOnDemand: false }];
 }
 
 describe('ConfigAttributeHeaderComponent', () => {
@@ -200,7 +200,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
     featuresConfig = TestBed.inject(Config);
-    (featuresConfig.features ?? {}).readDomainValuesOnDemand = false;
+    (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = false;
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -340,9 +340,9 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-configurator-show-options'
       );
     });
-    it('should render "Show Options" button if domainOnDemand is true in case readDomainValuesOnDemand feature flag is enabled', () => {
+    it('should render "Show Options" button if domainOnDemand is true in case enableReadDomainValuesOnDemand feature flag is enabled', () => {
       component.attribute.domainOnDemand = true;
-      (featuresConfig.features ?? {}).readDomainValuesOnDemand = true;
+      (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
