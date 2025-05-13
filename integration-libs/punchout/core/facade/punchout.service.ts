@@ -278,7 +278,7 @@ export class PunchoutService implements PunchoutFacade {
     ) {
       this.routingService.go({
         cxRoute: 'product',
-        params: { code: punchoutSession.selectedItem },
+        params: { code: punchoutSession.selectedItem, name: '' },
       });
       return;
     }
