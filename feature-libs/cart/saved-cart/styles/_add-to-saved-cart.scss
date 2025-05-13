@@ -8,42 +8,17 @@ cx-add-to-saved-cart {
 
     .cx-action-link {
       &:nth-child(n + 2) {
-        margin-inline-end: 0;
-
-        @include forFeature('a11yUseButtonsForBtnLinks') {
-          display: flex;
-          align-items: start;
-        }
+        position: relative;
+        margin-inline-start: 1rem;
+        display: flex;
+        align-items: start;
 
         &:before {
-          content: '|';
-          @include forFeature('a11yExpandedFocusIndicator') {
-            content: '|' / '';
-          }
-
+          content: '|' / '';
           color: var(--cx-color-light);
-          display: inline-block;
           text-decoration: none;
-          margin-inline-start: 0.313rem;
-          margin-inline-end: 0.313rem;
-        }
-      }
-    }
-
-    // TODO: (CXSPA-5709) Remove feature flag next major
-    @include forFeature('a11yExpandedFocusIndicator') {
-      .cx-action-link {
-        &:nth-child(n + 2) {
-          margin-inline-end: unset;
-          position: relative;
-          margin-inline-start: 1rem;
-          &:before {
-            display: unset;
-            position: absolute;
-            left: -0.75rem;
-            margin-inline-start: unset;
-            margin-inline-end: unset;
-          }
+          position: absolute;
+          left: -0.75rem;
         }
       }
     }

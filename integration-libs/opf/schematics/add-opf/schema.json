@@ -26,6 +26,7 @@
       "uniqueItems": true,
       "default": [
         "OPF-Checkout",
+        "OPF-B2B-Checkout",
         "OPF-Base",
         "OPF-Payment",
         "OPF-Cta",
@@ -35,6 +36,7 @@
       "items": {
         "enum": [
           "OPF-Checkout",
+          "OPF-B2B-Checkout",
           "OPF-Base",
           "OPF-Payment",
           "OPF-Cta",
@@ -50,6 +52,11 @@
           {
             "value": "OPF-Checkout",
             "label": "OPF Checkout",
+            "checked": true
+          },
+          {
+            "value": "OPF-B2B-Checkout",
+            "label": "OPF B2B Checkout",
             "checked": true
           },
           {

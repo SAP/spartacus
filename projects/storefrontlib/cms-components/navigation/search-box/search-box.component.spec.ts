@@ -1,17 +1,17 @@
 import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
-import {
   Component,
   Directive,
   Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -24,13 +24,15 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { OutletDirective } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import {
   BehaviorSubject,
+  delay,
   EMPTY,
   Observable,
-  ReplaySubject,
   of,
-  delay,
+  ReplaySubject,
 } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -40,8 +42,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchResults } from './search-box.model';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { OutletDirective } from '@spartacus/storefront';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
@@ -348,13 +348,11 @@ describe('SearchBoxComponent', () => {
       searchBoxComponent.search('laptop');
 
       // Simulate selecting a suggestion
-      const suggestionEvent = new KeyboardEvent('keydown', { code: 'Enter' });
       searchBoxComponent.dispatchSuggestionEvent(mockEventData);
 
       // Simulate pressing Enter
-      searchBoxComponent.launchSearchResult(suggestionEvent, 'laptop');
+      searchBoxComponent.launchSearchResult('laptop');
       expect(searchBoxComponent.launchSearchResult).toHaveBeenCalledWith(
-        suggestionEvent,
         'laptop'
       );
     });

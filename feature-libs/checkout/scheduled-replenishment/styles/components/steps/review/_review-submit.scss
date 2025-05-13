@@ -13,10 +13,7 @@
   }
 
   .cx-order-replenishment-header {
-    //TODO: (CXSPA-6306) - Remove feature flag next major release
-    @include forFeature('a11yScheduleReplenishment') {
-      @include type(5);
-    }
+    @include type(5);
     margin-inline-end: 14px;
     margin-bottom: 0;
   }
@@ -103,10 +100,7 @@
         }
 
         .cx-repeat-days {
-          //TODO: (CXSPA-6446) Remove feature flag next major release
-          @include forFeature('a11yReplenishmentOrderFieldset') {
-            font-size: inherit;
-          }
+          font-size: inherit;
           flex: 0 100%;
           margin-bottom: 14px;
           align-self: start;
