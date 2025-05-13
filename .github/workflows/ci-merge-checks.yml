@@ -154,7 +154,7 @@ jobs:
           ci-scripts/e2e-cypress.sh -s b2b
   a11y_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: MC - E2E A11Y
+    name: MC - E2E A11Y (B2C & B2B)
     runs-on: ubuntu-latest
     strategy:
       matrix:
