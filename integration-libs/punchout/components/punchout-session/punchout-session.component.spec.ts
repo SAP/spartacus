@@ -7,7 +7,7 @@ import {
   PunchOutOperation,
   PunchoutSession,
 } from '@spartacus/punchout/root';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { PunchoutSessionComponent } from './punchout-session.component';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
@@ -71,36 +71,10 @@ describe('PunchoutSessionComponent', () => {
     );
   });
 
-  it('should add an error message if getPunchoutSession fails', () => {
-    punchoutFacadeMock.getPunchoutSession.and.returnValue(
-      throwError(() => new Error('Test error'))
-    );
-
-    component.ngOnInit();
-
-    expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
-      'Test error',
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  });
-
-  it('should add a default error message if getPunchoutSession fails without a message', () => {
-    punchoutFacadeMock.getPunchoutSession.and.returnValue(
-      throwError(() => new Error())
-    );
-
-    component.ngOnInit();
-
-    expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
-      { key: 'punchout.failToInitiateUserSession' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  });
-
   it('should remove confirmation messages on completion', () => {
     component.ngOnInit();
     expect(globalMessageServiceMock.remove).toHaveBeenCalledWith(
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_INFO
     );
   });
 });

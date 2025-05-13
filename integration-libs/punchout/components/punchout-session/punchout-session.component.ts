@@ -43,18 +43,8 @@ export class PunchoutSessionComponent implements OnInit {
         take(1)
       )
       .subscribe({
-        error: (error) => {
-          this.globalMessageService.add(
-            error.message
-              ? error.message
-              : { key: 'punchout.failToInitiateUserSession' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
         complete: () => {
-          this.globalMessageService.remove(
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_INFO);
         },
       });
   }
