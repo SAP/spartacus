@@ -22,7 +22,8 @@ describe('Variants Accessibility test', { testIsolation: false }, () => {
       .first()
       .scrollIntoView()
       .click();
-    cy.get('cx-product-summary .price');
-    cy.get('main').a11yRunContinuumTest();
+    cy.get(
+      'cx-product-variants-container .variant-section'
+    ).a11yRunContinuumTest();
   });
 });
