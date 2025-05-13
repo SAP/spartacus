@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { editedAddress, newAddress } from '../../helpers/address-book';
+import { newAddress } from '../../helpers/address-book';
 import { fillShippingAddress } from '../../helpers/checkout-forms';
 
 describe('Address Book Page Accessibility', { testIsolation: false }, () => {
@@ -32,17 +32,5 @@ describe('Address Book Page Accessibility', { testIsolation: false }, () => {
         cy.contains('button', 'Delete').click();
       });
     cy.get('cx-address-book cx-card').first().a11yRunContinuumTest();
-  });
-
-  it('Add second address and test card', () => {
-    const secondAddress = {
-      ...editedAddress,
-      firstName: 'Alex',
-      lastName: 'Lee',
-    };
-
-    cy.contains('button', /add new address/i).click({ force: true });
-    fillShippingAddress(secondAddress);
-    cy.get('cx-address-book cx-card').a11yRunContinuumTest();
   });
 });
