@@ -308,7 +308,7 @@ describe('Punchoutservice', () => {
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'product',
-          params: { code: mockPunchoutSessionResponse.selectedItem },
+          params: { code: mockPunchoutSessionResponse.selectedItem, name: '' },
         });
         done();
       },
