@@ -82,7 +82,6 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor() {
-    useFeatureStyles('a11yVisibleFocusOverflows');
     useFeatureStyles('a11yItemCounterFocus');
   }
 
