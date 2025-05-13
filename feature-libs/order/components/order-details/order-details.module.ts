@@ -164,7 +164,7 @@ const moduleComponents = [
           component: OrderDetailReorderComponent,
           guards: [AuthGuard],
         },
-        OrderAttachmentsComponent: {
+        AccountOrderAttachmentsComponent: {
           component: OrderAttachmentsComponent,
           guards: [AuthGuard],
         },
