@@ -58,7 +58,7 @@ export interface SsrOptimizationOptions {
    * Specifies the maximum memory (in bytes) allocated for cached entries,
    * helping to keep memory usage under control.
    *
-   * The default value is set to 300 MB (meaning 300 000 000 in International System of Units).
+   * The default value is set to 800 MB (meaning 800 000 000 in International System of Units).
    *
    * IMPORTANT: Your server should have much more available memory than the configured `cacheSizeMemory`,
    *            because the NodeJS process needs a lot of operational memory also for the rendering activities,
@@ -262,7 +262,7 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
-  cacheSizeMemory: 300_000_000,
+  cacheSizeMemory: 800_000_000,
   cacheEntrySizeCalculator: new DefaultCacheEntrySizeCalculator(),
   ttl: undefined,
   concurrency: 10,
