@@ -7,8 +7,8 @@
     "node": "^22.0.0"
   },
   "scripts": {
-    "build:analyze": "npm run build -- --stats-json && npx --yes webpack-bundle-analyzer dist/storefrontapp/stats.json",
-    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:build:noSsr",
+    "build:analyze": "npm run build -- --stats-json && npx esbuild-visualizer --metadata ./dist/storefrontapp/stats.json",
+    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:build",
     "build:core": "nx build core --configuration production",
     "build:storefrontlib": "nx build storefrontlib --configuration production",
     "build:asm": "npm --prefix feature-libs/asm run build:schematics && nx build asm --configuration production",
@@ -122,9 +122,9 @@
     "prerender:cds": "env-cmd --no-override -e cds nx run storefrontapp:build:prerender",
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "nx test cds --code-coverage",
-    "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:server:production",
+    "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:production",
     "dev:cds:ssr": "env-cmd --no-override -e dev,b2c,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
-    "prerender:cds:dev": "env-cmd --no-override -e dev,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender"
+    "prerender:cds:dev": "env-cmd --no-override -e dev,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:build:prerender"
   },
   "private": false,
   "dependencies": {
@@ -234,6 +234,7 @@
     "karma-jasmine-html-reporter": "^2.0.0",
     "karma-junit-reporter": "^2.0.1",
     "ng-packagr": "^19.2.2",
+    "nodemon": "^3.1.10",
     "nx": "^20.4.6",
     "parse5": "^7.2.1",
     "postcss": "^8.4.31",

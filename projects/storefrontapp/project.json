@@ -132,11 +132,6 @@
             "silenceDeprecations": ["import"]
           }
         },
-        "server": "projects/storefrontapp/src/main.server.ts",
-        "prerender": false,
-        "ssr": {
-          "entry": "projects/storefrontapp/src/server.ts"
-        },
         "scripts": []
       },
       "configurations": {
@@ -153,6 +148,11 @@
               "with": "projects/storefrontapp/src/environments/environment.prod.ts"
             }
           ],
+          "server": "projects/storefrontapp/src/main.server.ts",
+          "prerender": false,
+          "ssr": {
+            "entry": "projects/storefrontapp/src/server.ts"
+          },
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -168,12 +168,7 @@
           "sourceMap": true,
           "namedChunks": true
         },
-        "noSsr": {
-          "ssr": false,
-          "prerender": false
-        },
         "prerender": {
-          "ssr": true,
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -182,14 +177,7 @@
           "prerender": {
             "discoverRoutes": false,
             "routesFile": "projects/storefrontapp/prerender.txt"
-          },
-          "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json",
-          "fileReplacements": [
-            {
-              "replace": "projects/storefrontapp/src/environments/environment.ts",
-              "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-            }
-          ]
+          }
         }
       }
     },
@@ -204,6 +192,19 @@
         }
       },
       "defaultConfiguration": "development"
+    },
+    "serve-ssr": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx run storefrontapp:build:production --watch"
+          },
+          {
+            "command": "sh -c 'while [ ! -f dist/storefrontapp/server/server.mjs ]; do sleep 1; done; nodemon dist/storefrontapp/server/server.mjs --watch dist/storefrontapp/server/server.mjs --signal SIGTERM --verbose'"
+          }
+        ]
+      }
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
