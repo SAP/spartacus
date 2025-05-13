@@ -237,6 +237,9 @@ export const SPARTACUS_OPF_CHECKOUT = `@spartacus/opf/checkout`;
 export const SPARTACUS_OPF_CHECKOUT_ROOT = `@spartacus/opf/checkout/root`;
 export const SPARTACUS_OPF_CHECKOUT_ASSETS = `@spartacus/opf/checkout/assets`;
 
+export const SPARTACUS_OPF_B2B_CHECKOUT = `@spartacus/opf/b2b-checkout`;
+export const SPARTACUS_OPF_B2B_CHECKOUT_ROOT = `@spartacus/opf/b2b-checkout/root`;
+
 export const SPARTACUS_OPF_PAYMENT = `@spartacus/opf/payment`;
 export const SPARTACUS_OPF_PAYMENT_ROOT = `@spartacus/opf/payment/root`;
 export const SPARTACUS_OPF_PAYMENT_ASSETS = `@spartacus/opf/payment/assets`;
@@ -369,6 +372,7 @@ export const OMF_FEATURE_NAME = 'OMF';
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
 export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
+export const OPF_B2B_CHECKOUT_FEATURE_NAME = 'OPF-B2B-Checkout';
 export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
 export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
 export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';

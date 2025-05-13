@@ -30,7 +30,6 @@ export class SiteThemeSwitcherComponent {
 
   constructor() {
     useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
-    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   protected themeSwitcherComponentService = inject(
