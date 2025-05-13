@@ -1,13 +1,24 @@
 {
   "opfCheckout": {
     "tabs": {
-      "shipping": "Shipping",
+      "paymentType": "Method of payment",
+      "shipping": "Shipping Address",
       "deliveryMethod": "Delivery Method",
-      "paymentAndReview": "Payment & Review"
+      "paymentAndReview": "Payment & Review",
+      "review": "Review Order"
     },
     "paymentAndReviewTitle": "Payment and review",
     "billingAddress": "Billing Address",
     "paymentOption": "Payment option",
+    "paymentMethod": "Payment method",
+    "noPaymentMethod": "No payment method selected",
+    "editCardDefaultLabel": "Edit",
+    "editPaymentMethod": "Edit payment method",
+    "poNumber": "Purchase Order Number",
+    "noPoNumber": "None",
+    "editPoNumber": "Edit purchase order number",
+    "costCenter": "Cost Center",
+    "editCostCenter": "Edit Cost Center",
     "termsAndConditions": "Terms & Conditions",
     "closeTermsAndConditionsAlert": "Close alert",
     "itemsToBeShipped": "Items to be shipped",

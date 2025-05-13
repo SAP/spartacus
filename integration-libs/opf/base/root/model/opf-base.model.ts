@@ -14,9 +14,11 @@ export interface OpfActiveConfiguration {
   id?: number;
   merchantId?: string;
   providerType?: OpfPaymentProviderType;
+  paymentType?: string;
   displayName?: string;
   acquirerCountryCode?: string;
   logoUrl?: string;
+  code?: string;
 }
 
 export interface OpfActiveConfigurationsPagination {
