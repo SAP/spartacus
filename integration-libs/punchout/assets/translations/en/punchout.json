@@ -4,7 +4,6 @@
     "cancel": "Cancel",
     "redirectToProcurementSystem": "Return to Procurement System",
     "closeSession": "Close Session",
-    "initiatingUserSession": "Initiating user session",
-    "failToInitiateUserSession": "Failed to initiate user session"
+    "initiatingUserSession": "Initiating user session"
   }
 }
