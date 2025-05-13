@@ -36,7 +36,7 @@ run_a11y_tests_with_docs_on_failure() {
     # B2B a11y tests
     echo "Running a11y tests for B2B site"
     local ORIGINAL_SPA_ENV=$SPA_ENV
-    export SPA_ENV=ci,b2b
+    export SPA_ENV='ci,b2b'
     if npm run e2e:run:ci:a11y:b2b; then
         B2B_RESULT=0
     else
