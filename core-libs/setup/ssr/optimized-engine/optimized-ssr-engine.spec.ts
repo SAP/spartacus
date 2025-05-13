@@ -190,7 +190,7 @@ describe('OptimizedSsrEngine', () => {
     options: {
       cache: false,
       cacheSize: 3000,
-      cacheSizeMemory: 300000000,
+      cacheSizeMemory: 800000000,
       cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
       ttl: undefined,
       concurrency: 10,
@@ -1475,7 +1475,7 @@ describe('OptimizedSsrEngine', () => {
       "cache": false,
       "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
       "cacheSize": 3000,
-      "cacheSizeMemory": 300000000,
+      "cacheSizeMemory": 800000000,
       "concurrency": 10,
       "forcedSsrTimeout": 60000,
       "logger": "MockExpressServerLogger",
