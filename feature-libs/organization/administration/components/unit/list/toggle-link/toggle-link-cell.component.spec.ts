@@ -5,11 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureConfigService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -37,10 +33,6 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockFeatureConfigService {
-  isEnabled = () => true;
-}
-
 describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
   let unitTreeService: UnitTreeService;
@@ -62,10 +54,6 @@ describe('ToggleLinkCellComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

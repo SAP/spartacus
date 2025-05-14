@@ -16,8 +16,10 @@ import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
+import { OpfPaymentOccConnector } from '../connectors/opf-payment-occ.connector';
 import { OpfPaymentHostedFieldsService } from '../services/opf-payment-hosted-fields.service';
 
 @Injectable()
@@ -25,6 +27,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
   protected queryService = inject(QueryService);
   protected commandService = inject(CommandService);
   protected opfPaymentConnector = inject(OpfPaymentConnector);
+  protected opfPaymentOccConnector = inject(OpfPaymentOccConnector);
   protected opfPaymentHostedFieldsService = inject(
     OpfPaymentHostedFieldsService
   );
@@ -84,6 +87,23 @@ export class OpfPaymentService implements OpfPaymentFacade {
     this.opfPaymentConnector.initiatePayment(payload.paymentConfig)
   );
 
+  protected setCartPaymentOptionCommand: Command<
+    {
+      userId: string;
+      cartId: string;
+      sapPaymentOptionId: string;
+      purchaseOrderNumber?: string;
+    },
+    Cart
+  > = this.commandService.create((payload) =>
+    this.opfPaymentOccConnector.setCartPaymentOption(
+      payload.userId,
+      payload.cartId,
+      payload.sapPaymentOptionId,
+      payload.purchaseOrderNumber
+    )
+  );
+
   verifyPayment(
     paymentSessionId: string,
     paymentVerificationPayload: OpfPaymentVerificationPayload
@@ -114,5 +134,19 @@ export class OpfPaymentService implements OpfPaymentFacade {
     paymentConfig: OpfPaymentInitiationConfig
   ): Observable<OpfPaymentSessionData> {
     return this.initiatePaymentCommand.execute({ paymentConfig });
+  }
+
+  setCartPaymentOption(
+    userId: string,
+    cartId: string,
+    sapPaymentOptionId: string,
+    purchaseOrderNumber?: string
+  ): Observable<Cart> {
+    return this.setCartPaymentOptionCommand.execute({
+      userId,
+      cartId,
+      sapPaymentOptionId,
+      purchaseOrderNumber,
+    });
   }
 }

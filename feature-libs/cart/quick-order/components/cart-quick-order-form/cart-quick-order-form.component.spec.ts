@@ -4,7 +4,6 @@ import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartFacade,
   Cart,
-  CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
@@ -29,13 +28,6 @@ const mockCart: Cart = {
 const mockUserId = 'test-user';
 const mockCartId = '123456789';
 
-const mockCartAddEntryFailEvent: CartAddEntryFailEvent = {
-  cartCode: mockCartId,
-  cartId: mockCartId,
-  productCode: '123456789',
-  quantity: 1,
-  userId: mockUserId,
-};
 const mockCartAddEntrySuccessEvent: CartAddEntrySuccessEvent = {
   cartCode: mockCartId,
   cartId: mockCartId,
@@ -212,7 +204,7 @@ describe('CartQuickOrderFormComponent', () => {
   });
 
   describe('global error message', () => {
-    it('should not show global error message on add entry fail event in case cartQuickOrderRemoveListeningToFailEvent is enabled', () => {
+    it('should not show global error message on add entry fail event', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
@@ -220,24 +212,6 @@ describe('CartQuickOrderFormComponent', () => {
 
       component.applyQuickOrder();
       expect(globalMessageService.add).not.toHaveBeenCalled();
-    });
-
-    it('should show global error message on add entry fail event in case cartQuickOrderRemoveListeningToFailEvent is disabled', () => {
-      spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(eventService, 'get').and.callThrough();
-      component.ngOnInit();
-      component.quickOrderForm.controls['productCode'].setValue('test');
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-
-      component.applyQuickOrder();
-      addEntryCartEvent$.next(mockCartAddEntryFailEvent);
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'quickOrderCartForm.noResults',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
     });
   });
 });

@@ -98,7 +98,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   protected notify(item: T | undefined, action: string) {
-    this.messageService.add({
+    this.messageService?.add({
       message: {
         key: `${this.i18nRoot}.messages.${action}`,
         params: {

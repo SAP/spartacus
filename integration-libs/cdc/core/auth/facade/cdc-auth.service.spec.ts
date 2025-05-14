@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import {
   AuthActions,

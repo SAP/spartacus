@@ -12,13 +12,13 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { OpfApiCheckoutAdapter } from './adapters/opf-api-checkout.adapter';
+import { OpfCheckoutAuthGuard } from './checkout-guard';
 import { defaultOccOpfCheckoutConfig } from './config';
 import { defaultOpfCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfCheckoutRoutingConfig } from './config/default-opf-checkout-routing-config';
 import { OpfCheckoutAdapter, OpfCheckoutConnector } from './connectors';
 import { OPF_CHECKOUT_FEATURE } from './feature-name';
 import { OpfCartUserEmailCheckerService } from './services';
-import { OpfCheckoutAuthGuard } from './сheckout-guard/opf-checkout-auth.guard';
 
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
   'OpfCheckoutPaymentAndReview',
