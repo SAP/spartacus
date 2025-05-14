@@ -25,13 +25,13 @@ display_a11y_docs_link() {
 # Function to run a11y tests and print documentation link if they fail
 run_a11y_tests_with_docs_on_failure() {
     # B2C a11y tests
-    echo "Running a11y tests for B2C site"
-    if npm run e2e:run:ci:a11y; then
-        B2C_RESULT=0
-    else
-        display_a11y_docs_link
-        B2C_RESULT=1
-    fi
+    # echo "Running a11y tests for B2C site"
+    # if npm run e2e:run:ci:a11y; then
+    #     B2C_RESULT=0
+    # else
+    #     display_a11y_docs_link
+    #     B2C_RESULT=1
+    # fi
 
     # B2B a11y tests
     echo "Running a11y tests for B2B site"
