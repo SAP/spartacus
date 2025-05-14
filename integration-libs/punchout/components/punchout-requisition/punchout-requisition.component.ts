@@ -61,12 +61,6 @@ export class PunchoutRequisitionComponent implements OnInit, OnDestroy {
     );
 
   ngOnInit(): void {
-    this.globalMessageService.add(
-      {
-        key: 'punchout.redirectToProcurementSystem',
-      },
-      GlobalMessageType.MSG_TYPE_INFO
-    );
     this.punchoutFormGroup = this.formBuilder.group({
       [this.FORM_CONTROL_NAME.ORDER]: [''],
     });

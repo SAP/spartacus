@@ -25,6 +25,7 @@ export function punchoutFacadeFactory() {
       'closePunchoutSession',
       'requestPunchoutSession',
       'endPunchoutSession',
+      'submitRequisition',
     ],
   });
 }
@@ -73,4 +74,6 @@ export abstract class PunchoutFacade {
   abstract requestPunchoutSession(
     punchoutSessionId: string
   ): Observable<PunchoutSession>;
+
+  abstract submitRequisition(cancelRequisition: boolean): void;
 }

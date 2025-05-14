@@ -9,6 +9,8 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -48,6 +50,7 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   /**
    * punchoutSession ajax request will always return same response during a punchout session.
@@ -132,6 +135,12 @@ export class PunchoutService implements PunchoutFacade {
           punchoutState?.closePunchoutSession === undefined &&
           punchoutState?.cancelRequisition === undefined
         ) {
+          this.globalMessageService.add(
+            {
+              key: 'organization.notification.noSufficientPermissions',
+            },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
           this.routingService.go({ cxRoute: 'home' });
           return of();
         }
@@ -210,6 +219,12 @@ export class PunchoutService implements PunchoutFacade {
               closePunchoutSession: true,
             });
           }
+          this.globalMessageService.add(
+            {
+              key: 'punchout.redirectToProcurementSystem',
+            },
+            GlobalMessageType.MSG_TYPE_INFO
+          );
           this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
           return true;
         }),
@@ -275,6 +290,17 @@ export class PunchoutService implements PunchoutFacade {
     punchoutSessionId: string
   ): Observable<PunchoutSession> {
     return this.requestPunchoutSessionCommand.execute(punchoutSessionId);
+  }
+
+  submitRequisition(cancelRequisition: boolean): void {
+    this.punchoutStoreService.updatePunchoutState({ cancelRequisition });
+    this.globalMessageService.add(
+      {
+        key: 'punchout.redirectToProcurementSystem',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {

@@ -10,10 +10,8 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
 import {
-  PUNCHOUT_REQUISITION_PAGE_URL,
-  PunchoutStoreService,
+  PunchoutFacade,
   PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
 import { Observable } from 'rxjs';
@@ -28,14 +26,12 @@ export class PunchoutButtonsComponent {
   @Input() removeCancelButton = false;
 
   protected punchoutUiRestrictionService = inject(PunchoutUiRestrictionService);
-  protected punchoutStoreService = inject(PunchoutStoreService);
-  protected routingService = inject(RoutingService);
+  protected punchoutFacade = inject(PunchoutFacade);
 
   isPunchoutSessionActive$: Observable<boolean> =
     this.punchoutUiRestrictionService.isPunchoutSessionActive();
 
   submitRequisition(cancelRequisition = false): void {
-    this.punchoutStoreService.updatePunchoutState({ cancelRequisition });
-    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+    this.punchoutFacade.submitRequisition(cancelRequisition);
   }
 }

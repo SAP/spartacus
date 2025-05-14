@@ -80,16 +80,12 @@ describe('PunchoutRequisitionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form group and globalMessageService on ngOnInit', () => {
+  it('should initialize the form group on ngOnInit', () => {
     component.ngOnInit();
     expect(component.punchoutFormGroup).toBeTruthy();
     expect(
       component.punchoutFormGroup.get(component.FORM_CONTROL_NAME.ORDER)
     ).toBeTruthy();
-    expect(globalMessageServiceMock.add).toHaveBeenCalledWith(
-      { key: 'punchout.redirectToProcurementSystem' },
-      GlobalMessageType.MSG_TYPE_INFO
-    );
   });
 
   it('should call getPunchoutSessionRequisition on ngOnInit', () => {

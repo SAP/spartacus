@@ -1,8 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
-import { CommandService, RoutingService, UserIdService } from '@spartacus/core';
+import {
+  CommandService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import {
   PUNCHOUT_INSPECT_PAGE_URL,
+  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -67,6 +74,7 @@ class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
   getPunchoutState = () => of(mockPunchoutState);
   clearState = () => {};
   getPunchoutSessionId = () => mockPunchoutState.punchoutSessionId;
+  updatePunchoutState = () => undefined;
 }
 
 class MockPunchoutConnector implements Partial<PunchoutConnector> {
@@ -98,11 +106,17 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  loadCart = () => {};
+  loadCart = createSpy();
+  addEntries = createSpy();
+  removeEntry = createSpy();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId = () => of(mockPunchoutSession.customerId);
+}
+
+class MockGlobalMessageService {
+  add = createSpy();
 }
 
 describe('Punchoutservice', () => {
@@ -112,6 +126,7 @@ describe('Punchoutservice', () => {
   let punchoutStoreService: PunchoutStoreService;
   let punchoutAuthService: PunchoutAuthService;
   let multiCartFacade: MultiCartFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -121,9 +136,10 @@ describe('Punchoutservice', () => {
         { provide: PunchoutAuthService, useClass: MockPunchoutAuthService },
         { provide: CommandService, useValue: commandServiceMock },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: MockPunchoutStoreService, useClass: PunchoutStoreService },
-        { provide: MockMultiCartFacade, useClass: MultiCartFacade },
-        { provide: MockUserIdService, useClass: UserIdService },
+        { provide: PunchoutStoreService, useClass: MockPunchoutStoreService },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
+        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
     service = TestBed.inject(PunchoutService);
@@ -132,6 +148,7 @@ describe('Punchoutservice', () => {
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
     punchoutAuthService = TestBed.inject(PunchoutAuthService);
     multiCartFacade = TestBed.inject(MultiCartFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {
@@ -311,6 +328,12 @@ describe('Punchoutservice', () => {
     spyOn(routingService, 'go').and.stub();
     service.getPunchoutSession(mockSessionInput).subscribe({
       next: () => {
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.noSufficientPermissions',
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'home',
         });
@@ -401,10 +424,7 @@ describe('Punchoutservice', () => {
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of(mockState)
     );
-
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
-    spyOn(multiCartFacade, 'addEntries').and.callThrough();
-    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
 
     service.closePunchoutSession().subscribe({
       next: () => {
@@ -431,10 +451,7 @@ describe('Punchoutservice', () => {
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of(mockState)
     );
-
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
-    spyOn(multiCartFacade, 'addEntries').and.callThrough();
-    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
 
     service.closePunchoutSession().subscribe({
       next: () => {
@@ -445,5 +462,25 @@ describe('Punchoutservice', () => {
         done();
       },
     });
+  });
+
+  it('should submitRequisition call submitRequisition', () => {
+    spyOn(routingService, 'go').and.callThrough();
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+
+    service.submitRequisition(true);
+
+    expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
+      cancelRequisition: true,
+    });
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'punchout.redirectToProcurementSystem',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+    expect(routingService.go).toHaveBeenCalledWith(
+      PUNCHOUT_REQUISITION_PAGE_URL
+    );
   });
 });
