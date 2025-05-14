@@ -59,7 +59,7 @@ const mockPunchoutState: PunchoutState = {
   punchoutSession: mockPunchoutSession,
   punchoutInitialRequisition: undefined,
   cancelRequisition: undefined,
-  closePunchoutSession: undefined,
+  closePunchoutSession: false,
 };
 
 class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
@@ -276,6 +276,9 @@ describe('Punchoutservice', () => {
   });
 
   it('should getPunchoutSession opens cart page when no product item and EDIT Level ', (done) => {
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockPunchoutState)
+    );
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({
@@ -292,6 +295,24 @@ describe('Punchoutservice', () => {
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
         expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
           punchoutInitialRequisition: { ...mockPunchoutInitialRequisition },
+        });
+        done();
+      },
+    });
+  });
+
+  it('should redirect to home page if requisition page was open manually', (done) => {
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of({
+        cancelRequisition: undefined,
+        closePunchoutSession: undefined,
+      })
+    );
+    spyOn(routingService, 'go').and.stub();
+    service.getPunchoutSession(mockSessionInput).subscribe({
+      next: () => {
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'home',
         });
         done();
       },
