@@ -5,12 +5,15 @@
 @import './order-detail-billing';
 @import './reorder-dialog';
 @import './my-account-v2-order-details';
+@import './order-attachments';
+@import './attachments-dialog';
 
 $order-details-allowlist:
   cx-order-details-items, cx-order-overview, cx-order-details-actions,
   cx-order-details-reorder, cx-order-detail-billing,
   cx-my-account-v2-consignment-tracking, cx-my-account-v2-download-invoices,
-  cx-my-account-v2-order-details-actions !default;
+  cx-my-account-v2-order-details-actions, cx-order-attachments,
+  cx-order-attachments-dialog !default;
 
 $skipComponentStyles: () !default;
 
