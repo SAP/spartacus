@@ -6,6 +6,7 @@
 
 import {
   APP_BOOTSTRAP_LISTENER,
+  APP_INITIALIZER,
   ComponentRef,
   inject,
   NgModule,
@@ -15,6 +16,7 @@ import {
   AuthHttpHeaderService,
   CmsConfig,
   provideDefaultConfigFactory,
+  // RoutingService,
   WindowRef,
 } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
@@ -23,11 +25,10 @@ import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
 import { PunchoutUiRestrictionService } from './services/punchout-ui-restriction.service';
+import { NavigationStart, Router } from '@angular/router';
 // import { Router } from '@angular/router';
-// import { NavigationStart, Router } from '@angular/router';
-// import { Router } from '@angular/router';
-// import { Location } from '@angular/common';
-// import { filter, tap } from 'rxjs/operators';
+import { Location } from '@angular/common';
+import { filter, tap } from 'rxjs/operators';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -54,30 +55,70 @@ export function punchoutStatePersistenceFactory(): () => void {
 
 export function backButtonGuardFactory(): () => void {
   const winRef = inject(WindowRef);
+  const router = inject(Router);
+  const location = inject(Location);
+  const nativeWindow = winRef.nativeWindow;
 
   return () => {
-    const nativeWindow = winRef.nativeWindow;
+    router.events
+      .pipe(
+        tap((event: NavigationStart) => {
+          if (
+            event instanceof NavigationStart &&
+            event.navigationTrigger === 'popstate'
+          ) {
+            nativeWindow?.history.pushState(
+              null,
+              '',
+              nativeWindow?.location.href
+            );
 
-    if (!nativeWindow) {
-      return;
-    }
+            console.log(
+              event.restoredState?.navigationId,
+              winRef.document?.referrer
+            );
+          }
+        }),
+        filter(
+          (event: NavigationStart) =>
+            event instanceof NavigationStart &&
+            event.navigationTrigger === 'popstate' &&
+            event.restoredState?.navigationId <= 1
+          // winRef.document?.referrer === ''
+        )
+      )
+      .subscribe((event) => {
+        console.log(
+          'filtered',
+          event.restoredState?.navigationId,
+          winRef.document?.referrer
+        );
+        router.navigateByUrl(router.url);
+        location.go(router.url);
+        history.forward();
+      });
 
-    // // Push multiple states to history to prevent going back beyond current page
-    // nativeWindow.history.pushState(null, '', nativeWindow.location.href);
-    nativeWindow.history.pushState(null, '', nativeWindow.location.href);
-    //
-    nativeWindow.addEventListener('popstate', (_event) => {
-      //   // Push state again to prevent back navigation
-      nativeWindow.history.pushState(null, '', nativeWindow.location.href);
-      //   alert('Back navigation is disabled on this page.');
-    });
-
-    // Optional: Warn user on page unload (close/refresh)
-    nativeWindow.addEventListener('beforeunload', (event) => {
+    nativeWindow?.addEventListener('beforeunload', (event) => {
       event.preventDefault();
-      event.returnValue = ''; // Chrome requires returnValue to be set
     });
   };
+
+  // return () => {
+  //   // // Push multiple states to history to prevent going back beyond current page
+  //   // nativeWindow.history.pushState(null, '', nativeWindow.location.href);
+  //   //
+  //   nativeWindow?.addEventListener('popstate', (_event) => {
+  //     //   // Push state again to prevent back navigation
+  //     nativeWindow?.history.pushState(null, '', nativeWindow?.location.href);
+  //     //   alert('Back navigation is disabled on this page.');
+  //   });
+  //
+  //   // Optional: Warn user on page unload (close/refresh)
+  //   nativeWindow?.addEventListener('beforeunload', (event) => {
+  //     event.preventDefault();
+  //     event.returnValue = ''; // Chrome requires returnValue to be set
+  //   });
+  // };
 
   // const router = inject(Router);
   // const location = inject(Location);
@@ -181,7 +222,8 @@ export function backButtonGuardFactory(): () => void {
       },
     },
     {
-      provide: APP_BOOTSTRAP_LISTENER,
+      // provide: APP_BOOTSTRAP_LISTENER,
+      provide: APP_INITIALIZER,
       multi: true,
       useFactory: backButtonGuardFactory,
     },
