@@ -13,7 +13,32 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
+  no_retries:
+    name: Verify re-run of all jobs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forcefully fail build if jobs are all retried
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
+        if: ${{ github.run_attempt > 1 }}
+  validate_e2e_execution:
+    name: Validate pull_request files
+    runs-on: ubuntu-latest
+    outputs:
+      SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine whether to run e2es
+        id: save-e2e-output-result
+        run: |
+          source ci-scripts/validate-e2e-execution.sh
+          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   cdc_b2c_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for CDC B2C
     runs-on: ubuntu-latest
     steps:
@@ -39,6 +64,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:cdc
   cdc_b2b_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for CDC B2B
     runs-on: ubuntu-latest
     steps:
@@ -64,6 +90,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:cdc-b2b
   cdp_b2c_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for CDP
     runs-on: ubuntu-latest
     steps:
@@ -89,6 +116,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:cdp
   segment_refs_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for segment refs
     runs-on: ubuntu-latest
     steps:
@@ -114,6 +142,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:segment-refs
   digital_payments_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for digital payments
     runs-on: ubuntu-latest
     steps:
@@ -139,6 +168,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:digital-payments
   opps_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for opps
     runs-on: ubuntu-latest
     steps:
@@ -164,6 +194,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:opps
   s4_service_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for s4 service
     runs-on: ubuntu-latest
     steps:
@@ -189,6 +220,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:s4-service
   epd_visualization_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for epd visualization
     runs-on: ubuntu-latest
     steps:
@@ -214,6 +246,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s epd-visualization
   cds_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for cds
     runs-on: ubuntu-latest
     steps:
@@ -239,6 +272,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s cds
   asm_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for asm
     runs-on: ubuntu-latest
     steps:
@@ -264,6 +298,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s asm
   product_configurator_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for product configurator
     runs-on: ubuntu-latest
     steps:
@@ -289,6 +324,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s product-configuration
   pdf_invoices_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for pdf invoices
     runs-on: ubuntu-latest
     steps:
@@ -314,6 +350,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:pdf-invoices
   cpq_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for cpq
     runs-on: ubuntu-latest
     steps:
@@ -339,6 +376,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:cpq
   omf_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for omf
     runs-on: ubuntu-latest
     steps:
@@ -364,6 +402,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:omf
   opf_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for opf
     runs-on: ubuntu-latest
     steps:
@@ -389,6 +428,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:opf
   s4om_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for s4om
     runs-on: ubuntu-latest
     steps:
@@ -414,6 +454,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:s4om
   estimated_delivery_date_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for estimated delivery date
     runs-on: ubuntu-latest
     steps:
@@ -439,6 +480,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:estimated-delivery-date
   pickup_in_store_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for pickup in store
     runs-on: ubuntu-latest
     steps:
@@ -464,6 +506,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:pickup-in-store
   requested_delivery_date_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for requested delivery date
     runs-on: ubuntu-latest
     steps:
@@ -489,7 +532,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:requested-delivery-date
   build_conclusion:
-    needs: [cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests, cds_e2e_tests, asm_e2e_tests, product_configurator_e2e_tests, pdf_invoices_e2e_tests, cpq_e2e_tests, omf_e2e_tests, opf_e2e_tests, s4om_e2e_tests, estimated_delivery_date_e2e_tests, pickup_in_store_e2e_tests, requested-delivery-date_e2e_tests]
+    needs: [no_retries, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests, cds_e2e_tests, asm_e2e_tests, product_configurator_e2e_tests, pdf_invoices_e2e_tests, cpq_e2e_tests, omf_e2e_tests, opf_e2e_tests, s4om_e2e_tests, estimated_delivery_date_e2e_tests, pickup_in_store_e2e_tests, requested-delivery-date_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -500,6 +543,7 @@ jobs:
           script: |
             core.setFailed('Build failed')
         if: |
+          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
           needs.cdc_b2c_e2e_tests.result == 'failure' || needs.cdc_b2c_e2e_tests.result == 'cancelled' ||
           needs.cdc_b2b_e2e_tests.result == 'failure' || needs.cdc_b2b_e2e_tests.result == 'cancelled' ||
           needs.cdp_b2c_e2e_tests.result == 'failure' || needs.cdp_b2c_e2e_tests.result == 'cancelled' ||
