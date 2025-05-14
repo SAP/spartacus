@@ -11,6 +11,7 @@ export * from './model/index';
 export * from './order-root.module';
 export * from './tokens/index';
 export * from './utils/index';
+export * from './config/index';
 
 /** AUGMENTABLE_TYPES_START */
 export { Order } from './model/order.model';
