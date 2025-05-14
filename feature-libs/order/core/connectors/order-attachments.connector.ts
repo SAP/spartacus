@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderAttachmentsAdapter } from './order-attachments.adapter';
-import { OrderAttachments } from '../../root/model';
+import { OrderAttachments } from '@spartacus/order/root';
 
 @Injectable()
 export class OrderAttachmentsConnector {

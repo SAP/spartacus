@@ -5,7 +5,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { OrderAttachments } from '../../root/model';
+import { OrderAttachments } from '@spartacus/order/root';
 
 export abstract class OrderAttachmentsAdapter {
   /**

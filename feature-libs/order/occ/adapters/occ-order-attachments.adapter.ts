@@ -18,8 +18,8 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { OrderAttachments } from '../../root/model';
-import { OrderAttachmentsAdapter } from '../../core/connectors';
+import { OrderAttachments } from '@spartacus/order/root';
+import { OrderAttachmentsAdapter } from '@spartacus/order/core';
 
 @Injectable()
 export class OccOrderAttachmentsAdapter implements OrderAttachmentsAdapter {

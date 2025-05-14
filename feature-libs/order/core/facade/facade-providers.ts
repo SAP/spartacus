@@ -21,7 +21,7 @@ import { ReorderOrderService } from './reorder-order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 import { OrderAttachmentsService } from './order-attachments.service';
-import { OrderAttachmentsFacade } from '../../root/facade';
+import { OrderAttachmentsFacade } from '@spartacus/order/root';
 
 export const facadeProviders: Provider[] = [
   OrderReturnRequestService,
