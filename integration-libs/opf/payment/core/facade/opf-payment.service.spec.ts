@@ -14,9 +14,10 @@ import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '../../root/model';
-import { OpfPaymentConnector } from '../connectors';
+import { OpfPaymentConnector, OpfPaymentOccConnector } from '../connectors';
 import { OpfPaymentHostedFieldsService } from '../services';
 import { OpfPaymentService } from './opf-payment.service';
+import { Cart } from '@spartacus/cart/base/root';
 
 class MockPaymentConnector implements Partial<OpfPaymentConnector> {
   verifyPayment(
@@ -31,6 +32,17 @@ class MockPaymentConnector implements Partial<OpfPaymentConnector> {
     _paymentSessionId: string
   ): Observable<OpfPaymentAfterRedirectScriptResponse> {
     return of({ afterRedirectScript: {} });
+  }
+}
+
+class MockPaymentOccConnector implements Partial<OpfPaymentOccConnector> {
+  setCartPaymentOption(
+    _userId: string,
+    _cartId: string,
+    _sapPaymentOptionId: string,
+    _purchaseOrderNumber?: string
+  ): Observable<Cart> {
+    return of({}) as Observable<Cart>;
   }
 }
 
@@ -73,6 +85,10 @@ describe('OpfPaymentService', () => {
         {
           provide: OpfPaymentConnector,
           useClass: MockPaymentConnector,
+        },
+        {
+          provide: OpfPaymentOccConnector,
+          useClass: MockPaymentOccConnector,
         },
         {
           provide: OpfPaymentHostedFieldsService,

@@ -5,5 +5,4 @@
  */
 
 export * from './default-occ-opf-checkout-config';
-export * from './default-opf-checkout-b2b-config';
 export * from './default-opf-checkout-config';
