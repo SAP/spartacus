@@ -218,6 +218,7 @@ export const OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     featureName: OPF_B2B_CHECKOUT_FEATURE_NAME,
     mainScope: SPARTACUS_OPF,
     featureScope: SPARTACUS_OPF_B2B_CHECKOUT,
+    b2b: true,
   },
   folderName: OPF_FOLDER_NAME,
   moduleName: OPF_MODULE_NAME,
