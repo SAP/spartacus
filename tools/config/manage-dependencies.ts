@@ -58,24 +58,6 @@ function readJsonFile(path: string): any {
   return JSON.parse(fs.readFileSync(path, 'utf-8'));
 }
 
-// const sccsAddDependency = [
-//   {path:'storefrontstyles', library: '@spartacus/styles'},
-//   {path:'cart', library: '@spartacus/cart'},
-//   {path:'checkout',library: '@spartacus/checkout'},
-// ];
-
-// /**
-//  * Checks if the given pathParam matches any path in the sccsAddDependency array
-//  * and returns the corresponding library value.
-//  *
-//  * @param pathParam - The path to check.
-//  * @returns The library value if a match is found, otherwise undefined is returned.
-//  */
-// function scssDependencyCheck(pathParam: string): string | undefined {
-//   const match = sccsAddDependency.find((entry) => pathParam.startsWith(entry.path));
-//   return match ? match.library : undefined;
-// }
-
 /**
  * Stringify and safe json file content
  *
@@ -213,12 +195,6 @@ export function manageDependencies(
           if (node.type === 'atrule' && node.name === 'import') {
             const path = node.params.replace(/['"]+/g, '');
             imports.add(path);
-
-            // const replacedDependency = scssDependencyCheck(path);
-            // if (replacedDependency !== undefined)
-            //   imports.add(replacedDependency);
-            // else
-            //   imports.add(path);
           }
         });
         imports.forEach((val) => {
