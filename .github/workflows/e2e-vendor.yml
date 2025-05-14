@@ -13,16 +13,6 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
-  no_retries:
-    name: Verify re-run of all jobs
-    runs-on: ubuntu-latest
-    steps:
-      - name: Forcefully fail build if jobs are all retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
   cdc_b2c_e2e_tests:
     name: E2E tests for CDC B2C
     runs-on: ubuntu-latest
@@ -248,7 +238,7 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s cds
-   asm_e2e_tests:
+  asm_e2e_tests:
     name: E2E tests for asm
     runs-on: ubuntu-latest
     steps:
@@ -298,8 +288,208 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s product-configuration
+  pdf_invoices_e2e_tests:
+    name: E2E tests for pdf invoices
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:pdf-invoices
+  cpq_e2e_tests:
+    name: E2E tests for cpq
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:cpq
+  omf_e2e_tests:
+    name: E2E tests for omf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:omf
+  opf_e2e_tests:
+    name: E2E tests for opf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:opf
+  s4om_e2e_tests:
+    name: E2E tests for s4om
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:s4om
+  estimated_delivery_date_e2e_tests:
+    name: E2E tests for estimated delivery date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:estimated-delivery-date
+  pickup_in_store_e2e_tests:
+    name: E2E tests for pickup in store
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:pickup-in-store
+  requested_delivery_date_e2e_tests:
+    name: E2E tests for requested delivery date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh -s vendor:requested-delivery-date
   build_conclusion:
-    needs: [cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests, cds_e2e_tests, asm_e2e_tests, product_configurator_e2e_tests]
+    needs: [cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests, cds_e2e_tests, asm_e2e_tests, product_configurator_e2e_tests, pdf_invoices_e2e_tests, cpq_e2e_tests, omf_e2e_tests, opf_e2e_tests, s4om_e2e_tests, estimated_delivery_date_e2e_tests, pickup_in_store_e2e_tests, requested-delivery-date_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -310,7 +500,6 @@ jobs:
           script: |
             core.setFailed('Build failed')
         if: |
-          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
           needs.cdc_b2c_e2e_tests.result == 'failure' || needs.cdc_b2c_e2e_tests.result == 'cancelled' ||
           needs.cdc_b2b_e2e_tests.result == 'failure' || needs.cdc_b2b_e2e_tests.result == 'cancelled' ||
           needs.cdp_b2c_e2e_tests.result == 'failure' || needs.cdp_b2c_e2e_tests.result == 'cancelled' ||
@@ -321,7 +510,15 @@ jobs:
           needs.epd_visualization_e2e_tests.result == 'failure' || needs.epd_visualization_e2e_tests.result == 'cancelled' ||
           needs.cds_e2e_tests.result == 'failure' || needs.cds_e2e_tests.result == 'cancelled' ||
           needs.asm_e2e_tests.result == 'failure' || needs.asm_e2e_tests.result == 'cancelled' ||
-          needs.product_configurator_e2e_tests.result == 'failure' || needs.product_configurator_e2e_tests.result == 'cancelled'
+          needs.product_configurator_e2e_tests.result == 'failure' || needs.product_configurator_e2e_tests.result == 'cancelled' ||
+          needs.pdf_invoices_e2e_tests.result == 'failure' || needs.pdf_invoices_e2e_tests.result == 'cancelled' ||
+          needs.cpq_e2e_tests.result == 'failure' || needs.cpq_e2e_tests.result == 'cancelled' ||
+          needs.omf_e2e_tests.result == 'failure' || needs.omf_e2e_tests.result == 'cancelled' ||
+          needs.opf_e2e_tests.result == 'failure' || needs.opf_e2e_tests.result == 'cancelled' ||
+          needs.s4om_e2e_tests.result == 'failure' || needs.s4om_e2e_tests.result == 'cancelled' ||
+          needs.estimated_delivery_date_e2e_tests.result == 'failure' || needs.estimated_delivery_date_e2e_tests.result == 'cancelled' ||
+          needs.pickup_in_store_e2e_tests.result == 'failure' || needs.pickup_in_store_e2e_tests.result == 'cancelled' ||
+          needs.requested_delivery_date_e2e_tests.result == 'failure' || needs.requested_delivery_date_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
     name: Slack message for failed CI build in Spartacus
@@ -347,7 +544,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":nuclear-bomb: :fireduck: *Vendor E2E Tests Failed on ${{ github.ref_name }}*"
+                    "text": ":nuclear-bomb: :fireduck: *Vendor E2E Tests Failed*"
                   }
                 },
                 {
