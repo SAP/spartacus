@@ -6,17 +6,6 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx run pdf-invoices:build-only && ts-node tools/scripts/regex-scss-path-replace.ts dist/pdf-invoices"
-      },
-      "configurations": {
-        "production": {
-          "command": "nx run pdf-invoices:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/pdf-invoices"
-        }
-      }
-    },
-    "build-only": {
       "executor": "./tools/build-lib:augmented-types",
       "options": {
         "tsConfig": "feature-libs/pdf-invoices/tsconfig.lib.json",

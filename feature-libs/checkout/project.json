@@ -6,17 +6,6 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx run checkout:build-only && ts-node tools/scripts/regex-scss-path-replace.ts dist/checkout"
-      },
-      "configurations": {
-        "production": {
-          "command": "nx run checkout:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/checkout"
-        }
-      }
-    },
-    "build-only": {
       "executor": "./tools/build-lib:augmented-types",
       "options": {
         "tsConfig": "feature-libs/checkout/tsconfig.lib.json",

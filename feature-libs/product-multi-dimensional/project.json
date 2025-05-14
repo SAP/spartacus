@@ -6,17 +6,6 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx run product-multi-dimensional:build-only && ts-node tools/scripts/regex-scss-path-replace.ts dist/product-multi-dimensional"
-      },
-      "configurations": {
-        "production": {
-          "command": "nx run product-multi-dimensional:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/product-multi-dimensional"
-        }
-      }
-    },
-    "build-only": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
         "tsConfig": "feature-libs/product-multi-dimensional/tsconfig.lib.json",
