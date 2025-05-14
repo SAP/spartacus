@@ -5,22 +5,27 @@
  */
 
 describe('Applied Promotions Accessibility', { testIsolation: false }, () => {
+  const ProductCode = '266685';
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();
   });
 
-  it('should display applied promotions on cart page', () => {
-    cy.visit('/product/1382080');
-
+  it('should show promotions in Add to Cart modal', () => {
+    cy.visit(`/product/${ProductCode}`);
     cy.get('cx-add-to-cart')
       .findByText(/Add To Cart/i)
       .click();
 
-    cy.get('cx-added-to-cart-dialog').should('be.visible');
-    cy.get('cx-added-to-cart-dialog button.close').click({ force: true });
+    cy.get('cx-added-to-cart-dialog .cx-promotions').a11yRunContinuumTest();
 
+    cy.get('cx-added-to-cart-dialog button.close').click({ force: true });
+  });
+
+  it('should show promotions on Cart page', () => {
     cy.get('cx-mini-cart').click();
+
+    cy.get('.cart-details-wrapper').should('exist');
 
     cy.get('.cx-promotions').a11yRunContinuumTest();
   });
