@@ -532,7 +532,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s vendor:requested-delivery-date
   build_conclusion:
-    needs: [no_retries, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests, cds_e2e_tests, asm_e2e_tests, product_configurator_e2e_tests, pdf_invoices_e2e_tests, cpq_e2e_tests, omf_e2e_tests, opf_e2e_tests, s4om_e2e_tests, estimated_delivery_date_e2e_tests, pickup_in_store_e2e_tests, requested-delivery-date_e2e_tests]
+    needs: [no_retries, cdc_b2c_e2e_tests, cdc_b2b_e2e_tests, cdp_b2c_e2e_tests, segment_refs_e2e_tests, digital_payments_e2e_tests, opps_e2e_tests, s4_service_e2e_tests, epd_visualization_e2e_tests, cds_e2e_tests, asm_e2e_tests, product_configurator_e2e_tests, pdf_invoices_e2e_tests, cpq_e2e_tests, omf_e2e_tests, opf_e2e_tests, s4om_e2e_tests, estimated_delivery_date_e2e_tests, pickup_in_store_e2e_tests, requested_delivery_date_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
