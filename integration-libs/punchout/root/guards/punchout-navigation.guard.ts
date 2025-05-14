@@ -20,7 +20,7 @@ import {
   PUNCHOUT_REQUISITION_PAGE_URL,
   PUNCHOUT_SESSION_PAGE_URL,
   PunchoutNavigationGuardConfig,
-  PunchOutOperation,
+  PunchoutOperation,
   PunchoutSession,
   PunchoutState,
 } from '../model';
@@ -61,16 +61,16 @@ export class PunchoutNavigationGuard {
 
   protected readonly punchoutNavigationGuardConfig: PunchoutNavigationGuardConfig =
     {
-      [PunchOutOperation.INSPECT]: {
+      [PunchoutOperation.INSPECT]: {
         allowedUrls: [...this.allowedUrlsForAll, ...this.allowedUrlsForInspect],
         redirectPage: PUNCHOUT_INSPECT_PAGE_URL,
       },
-      [PunchOutOperation.EDIT]: {
+      [PunchoutOperation.EDIT]: {
         allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
         allowedCxRoutes: [...this.allowedCxRoutesForEdit],
         redirectPage: this.HOME_PAGE_URL,
       },
-      [PunchOutOperation.CREATE]: {
+      [PunchoutOperation.CREATE]: {
         allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
         allowedCxRoutes: [...this.allowedCxRoutesForEdit],
         redirectPage: this.HOME_PAGE_URL,
@@ -82,7 +82,7 @@ export class PunchoutNavigationGuard {
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
     return this.getPunchoutOperation().pipe(
-      map((punchoutOperation: PunchOutOperation | undefined) => {
+      map((punchoutOperation: PunchoutOperation | undefined) => {
         const canActivate =
           !punchoutOperation ||
           this.isAllowedCxRoute(route, punchoutOperation) ||
@@ -105,7 +105,7 @@ export class PunchoutNavigationGuard {
 
   protected isAllowedUrls(
     route: CmsActivatedRouteSnapshot,
-    punchoutOperation: PunchOutOperation
+    punchoutOperation: PunchoutOperation
   ): boolean {
     let isHomePageAllowed = false;
     const urls =
@@ -126,7 +126,7 @@ export class PunchoutNavigationGuard {
 
   protected isAllowedCxRoute(
     route: CmsActivatedRouteSnapshot,
-    punchoutOperation: PunchOutOperation
+    punchoutOperation: PunchoutOperation
   ) {
     const cxRoutes =
       this.punchoutNavigationGuardConfig?.[punchoutOperation]?.allowedCxRoutes;
@@ -137,7 +137,7 @@ export class PunchoutNavigationGuard {
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
-  protected getPunchoutOperation(): Observable<PunchOutOperation | undefined> {
+  protected getPunchoutOperation(): Observable<PunchoutOperation | undefined> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isLoggedIn) => {
@@ -149,7 +149,7 @@ export class PunchoutNavigationGuard {
       take(1),
       switchMap((punchoutState: PunchoutState | undefined) => {
         if (punchoutState?.punchoutSessionId) {
-          return punchoutState?.punchoutSession?.punchOutOperation
+          return punchoutState?.punchoutSession?.punchoutOperation
             ? of(punchoutState.punchoutSession)
             : this.punchoutFacade.requestPunchoutSession(
                 punchoutState.punchoutSessionId
@@ -159,8 +159,8 @@ export class PunchoutNavigationGuard {
         return of(undefined);
       }),
       map((punchoutSession: PunchoutSession | undefined) => {
-        if (punchoutSession?.punchOutOperation) {
-          return punchoutSession?.punchOutOperation;
+        if (punchoutSession?.punchoutOperation) {
+          return punchoutSession?.punchoutOperation;
         }
         return undefined;
       }),

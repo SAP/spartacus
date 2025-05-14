@@ -7,8 +7,8 @@ import {
 } from '@spartacus/core';
 import {
   PUNCHOUT_REQUISITION_PAGE_URL,
-  PunchOutLevel,
-  PunchOutOperation,
+  PunchoutLevel,
+  PunchoutOperation,
   PunchoutSession,
   PunchoutState,
   PunchoutStoreService,
@@ -21,8 +21,8 @@ const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
-  punchOutLevel: PunchOutLevel.PRODUCT,
-  punchOutOperation: PunchOutOperation.EDIT,
+  punchoutLevel: PunchoutLevel.PRODUCT,
+  punchoutOperation: PunchoutOperation.EDIT,
   selectedItem: 'mockItemId',
   token: {
     accessToken: 'mockToken',

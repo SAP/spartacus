@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 import { PunchoutFacade } from '../facade';
-import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
+import { PunchoutOperation, PunchoutSession, PunchoutState } from '../model';
 import {
   PunchoutStatePersistanceService,
   PunchoutStoreService,
@@ -90,7 +90,7 @@ describe('PunchoutNavigationGuard', () => {
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
       punchoutSession: {
-        punchOutOperation: PunchOutOperation.EDIT,
+        punchoutOperation: PunchoutOperation.EDIT,
       } as PunchoutSession,
     };
     punchoutStoreService.getPunchoutState.and.returnValue(of(state));
@@ -109,7 +109,7 @@ describe('PunchoutNavigationGuard', () => {
     const state: PunchoutState = {
       punchoutSessionId: 'session123',
       punchoutSession: {
-        punchOutOperation: PunchOutOperation.INSPECT,
+        punchoutOperation: PunchoutOperation.INSPECT,
       } as PunchoutSession,
     };
     punchoutStoreService.getPunchoutState.and.returnValue(of(state));
@@ -145,7 +145,7 @@ describe('PunchoutNavigationGuard', () => {
     };
     punchoutStoreService.getPunchoutState.and.returnValue(of(state));
     punchoutFacade.requestPunchoutSession.and.returnValue(
-      of({ punchOutOperation: PunchOutOperation.EDIT } as PunchoutSession)
+      of({ punchoutOperation: PunchoutOperation.EDIT } as PunchoutSession)
     );
 
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {

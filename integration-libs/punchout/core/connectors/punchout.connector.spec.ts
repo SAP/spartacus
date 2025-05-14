@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  PunchOutLevel,
-  PunchOutOperation,
+  PunchoutLevel,
+  PunchoutOperation,
   PunchoutRequisition,
   PunchoutSession,
 } from '@spartacus/punchout/root';
@@ -14,8 +14,8 @@ const mockSid = 'mockSid';
 const mockPunchoutSessionResponse: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
-  punchOutLevel: PunchOutLevel.PRODUCT,
-  punchOutOperation: PunchOutOperation.EDIT,
+  punchoutLevel: PunchoutLevel.PRODUCT,
+  punchoutOperation: PunchoutOperation.EDIT,
   selectedItem: 'mockItemId',
   token: {
     accessToken: 'mockToken',
@@ -29,7 +29,7 @@ const mockPunchoutRequisitionResponse: PunchoutRequisition = {
 };
 
 class MockPunchoutAdapter implements PunchoutAdapter {
-  getPunchoutSession = createSpy('getPunchoutSession').and.callFake(() =>
+  initPunchoutSession = createSpy('initPunchoutSession').and.callFake(() =>
     of(mockPunchoutSessionResponse)
   );
   getPunchoutSessionRequisition = createSpy(
@@ -56,11 +56,11 @@ describe('PunchoutConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getPunchoutSession should call adapter', (done) => {
-    service.getPunchoutSession(mockSid).subscribe({
+  it('initPunchoutSession should call adapter', (done) => {
+    service.initPunchoutSession(mockSid).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutSessionResponse);
-        expect(adapter.getPunchoutSession).toHaveBeenCalledWith(mockSid);
+        expect(adapter.initPunchoutSession).toHaveBeenCalledWith(mockSid);
         done();
       },
     });

@@ -13,14 +13,14 @@ export const PUNCHOUT_STORAGE_KEY = 'punchout';
 export const PUNCHOUT_OCC_API_URL_SEGMENT = 'punchout/sessions';
 export const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
 
-export enum PunchOutLevel {
+export enum PunchoutLevel {
   STORE = 'STORE',
   PRODUCT = 'PRODUCT',
   AISLE = 'AISLE',
   SHELF = 'SHELF',
 }
 
-export enum PunchOutOperation {
+export enum PunchoutOperation {
   CREATE = 'CREATE',
   EDIT = 'EDIT',
   INSPECT = 'INSPECT',
@@ -34,8 +34,8 @@ export interface PunchoutSessionInput {
 export interface PunchoutSession {
   customerId: string;
   cartId: string;
-  punchOutLevel: PunchOutLevel;
-  punchOutOperation: PunchOutOperation;
+  punchoutLevel: PunchoutLevel;
+  punchoutOperation: PunchoutOperation;
   selectedItem: string;
   token?: {
     accessToken: string;
@@ -57,7 +57,7 @@ export interface PunchoutState {
 }
 
 export type PunchoutNavigationGuardConfig = {
-  [key in PunchOutOperation]: {
+  [key in PunchoutOperation]: {
     allowedUrls?: string[];
     allowedCxRoutes?: string[];
     redirectPage: string;

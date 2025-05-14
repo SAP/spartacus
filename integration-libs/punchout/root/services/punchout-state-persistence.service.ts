@@ -66,7 +66,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
     ) {
       this.punchoutStoreService.setPunchoutState({ punchoutSessionId });
       this.punchoutFacade
-        .getPunchoutSession({
+        .initPunchoutSession({
           punchoutSessionId,
           isPageRefresh: true,
         })

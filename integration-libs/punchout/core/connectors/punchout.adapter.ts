@@ -12,7 +12,7 @@ export abstract class PunchoutAdapter {
    * Abstract method used to get Punchout Session
    * @param sessionId is the sesssion Id given by ARIBA via url
    */
-  abstract getPunchoutSession(sessionId: string): Observable<PunchoutSession>;
+  abstract initPunchoutSession(sessionId: string): Observable<PunchoutSession>;
 
   /**
    * Abstract method used to get Punchout Session Requisition data

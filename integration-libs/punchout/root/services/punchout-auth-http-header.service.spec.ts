@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PunchoutFacade } from '../facade';
-import { PunchOutLevel, PunchOutOperation, PunchoutSession } from '../model';
+import { PunchoutLevel, PunchoutOperation, PunchoutSession } from '../model';
 import { PunchoutAuthHttpHeaderService } from './punchout-auth-http-header.service';
 import { PunchoutDetectionService } from './punchout-detection.service';
 import { PunchoutStoreService } from './punchout-store.service';
@@ -20,8 +20,8 @@ const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
-  punchOutLevel: PunchOutLevel.PRODUCT,
-  punchOutOperation: PunchOutOperation.EDIT,
+  punchoutLevel: PunchoutLevel.PRODUCT,
+  punchoutOperation: PunchoutOperation.EDIT,
   selectedItem: 'mockItemId',
   token: {
     accessToken: 'mockToken',

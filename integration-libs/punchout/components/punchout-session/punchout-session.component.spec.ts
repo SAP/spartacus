@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import {
   PUNCHOUT_SESSION_KEY,
   PunchoutFacade,
-  PunchOutLevel,
-  PunchOutOperation,
+  PunchoutLevel,
+  PunchoutOperation,
   PunchoutSession,
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
@@ -24,8 +24,8 @@ describe('PunchoutSessionComponent', () => {
   const mockPunchoutSession: PunchoutSession = {
     customerId: 'test@test.com',
     cartId: 'mockCart',
-    punchOutLevel: PunchOutLevel.PRODUCT,
-    punchOutOperation: PunchOutOperation.EDIT,
+    punchoutLevel: PunchoutLevel.PRODUCT,
+    punchoutOperation: PunchoutOperation.EDIT,
     selectedItem: 'mockItemId',
     token: {
       accessToken: 'mockToken',
@@ -35,7 +35,7 @@ describe('PunchoutSessionComponent', () => {
 
   beforeEach(() => {
     punchoutFacadeMock = jasmine.createSpyObj('PunchoutFacade', [
-      'getPunchoutSession',
+      'initPunchoutSession',
     ]);
     globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
       'add',
@@ -51,7 +51,7 @@ describe('PunchoutSessionComponent', () => {
     });
     fixture = TestBed.createComponent(PunchoutSessionComponent);
     component = fixture.componentInstance;
-    punchoutFacadeMock.getPunchoutSession.and.returnValue(
+    punchoutFacadeMock.initPunchoutSession.and.returnValue(
       of(mockPunchoutSession)
     );
   });
@@ -60,9 +60,9 @@ describe('PunchoutSessionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getPunchoutSession on ngOnInit', () => {
+  it('should call initPunchoutSession on ngOnInit', () => {
     component.ngOnInit();
-    expect(punchoutFacadeMock.getPunchoutSession).toHaveBeenCalledWith({
+    expect(punchoutFacadeMock.initPunchoutSession).toHaveBeenCalledWith({
       punchoutSessionId: '123abc',
     });
     expect(globalMessageServiceMock.add).toHaveBeenCalledWith(

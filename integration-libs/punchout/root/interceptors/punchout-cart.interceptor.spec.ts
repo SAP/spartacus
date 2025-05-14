@@ -13,8 +13,8 @@ import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
 import {
   PUNCHOUT_SESSION_ID_HEADER_KEY,
-  PunchOutLevel,
-  PunchOutOperation,
+  PunchoutLevel,
+  PunchoutOperation,
   PunchoutSession,
   PunchoutState,
 } from '../model';
@@ -25,8 +25,8 @@ const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',
   cartId: 'mockCart',
-  punchOutLevel: PunchOutLevel.PRODUCT,
-  punchOutOperation: PunchOutOperation.EDIT,
+  punchoutLevel: PunchoutLevel.PRODUCT,
+  punchoutOperation: PunchoutOperation.EDIT,
   selectedItem: 'mockItemId',
   token: {
     accessToken: 'mockToken',

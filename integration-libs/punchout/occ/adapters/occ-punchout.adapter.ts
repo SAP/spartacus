@@ -31,7 +31,7 @@ export class OccPunchoutAdapter implements PunchoutAdapter {
   protected logger = inject(LoggerService);
   protected converter = inject(ConverterService);
 
-  getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
+  initPunchoutSession(sessionId: string): Observable<PunchoutSession> {
     return this.http
       .get<PunchoutSession>(
         this.occEndpoints.buildUrl('punchoutSession', {

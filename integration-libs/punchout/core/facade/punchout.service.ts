@@ -16,8 +16,8 @@ import {
   PUNCHOUT_INSPECT_PAGE_URL,
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
-  PunchOutLevel,
-  PunchOutOperation,
+  PunchoutLevel,
+  PunchoutOperation,
   PunchoutRequisition,
   PunchoutSession,
   PunchoutSessionInput,
@@ -87,7 +87,7 @@ export class PunchoutService implements PunchoutFacade {
             punchoutSession: { ...punchoutSession },
           });
           if (
-            punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
+            punchoutSession.punchoutOperation === PunchoutOperation.EDIT &&
             punchoutSession?.cartId &&
             !payload?.isPageRefresh
           ) {
@@ -188,15 +188,15 @@ export class PunchoutService implements PunchoutFacade {
         take(1),
         map((punchoutState) => {
           if (
-            punchoutState.punchoutSession?.punchOutOperation ===
-            PunchOutOperation.CREATE
+            punchoutState.punchoutSession?.punchoutOperation ===
+            PunchoutOperation.CREATE
           ) {
             this.punchoutStoreService.updatePunchoutState({
               cancelRequisition: true,
             });
           } else if (
-            punchoutState.punchoutSession?.punchOutOperation ===
-            PunchOutOperation.EDIT
+            punchoutState.punchoutSession?.punchoutOperation ===
+            PunchoutOperation.EDIT
           ) {
             this.punchoutStoreService.updatePunchoutState({
               closePunchoutSession: true,
@@ -223,7 +223,7 @@ export class PunchoutService implements PunchoutFacade {
     this.commandService.create((punchoutSessionId: string) => {
       return this.cachedPunchoutSessionResponse
         ? of(this.cachedPunchoutSessionResponse)
-        : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+        : this.punchoutConnector.initPunchoutSession(punchoutSessionId).pipe(
             map((punchoutSession) => {
               if (
                 !punchoutSession?.token?.accessToken ||
@@ -245,7 +245,7 @@ export class PunchoutService implements PunchoutFacade {
     return this.closePunchoutSessionCommand.execute(undefined);
   }
 
-  getPunchoutSession(
+  initPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
     return this.getPunchoutSessionCommand.execute(punchoutSessionInput);
@@ -271,9 +271,9 @@ export class PunchoutService implements PunchoutFacade {
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
     if (
-      (punchoutSession?.punchOutOperation === PunchOutOperation.CREATE ||
-        punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) &&
-      punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
+      (punchoutSession?.punchoutOperation === PunchoutOperation.CREATE ||
+        punchoutSession?.punchoutOperation === PunchoutOperation.EDIT) &&
+      punchoutSession?.punchoutLevel === PunchoutLevel.PRODUCT &&
       punchoutSession?.selectedItem
     ) {
       this.routingService.go({
@@ -282,11 +282,11 @@ export class PunchoutService implements PunchoutFacade {
       });
       return;
     }
-    if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
+    if (punchoutSession?.punchoutOperation === PunchoutOperation.EDIT) {
       this.routingService.go({ cxRoute: 'cart' });
       return;
     }
-    if (punchoutSession?.punchOutOperation === PunchOutOperation.INSPECT) {
+    if (punchoutSession?.punchoutOperation === PunchoutOperation.INSPECT) {
       this.routingService.go(PUNCHOUT_INSPECT_PAGE_URL);
       return;
     }

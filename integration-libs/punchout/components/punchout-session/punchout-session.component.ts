@@ -36,7 +36,7 @@ export class PunchoutSessionComponent implements OnInit {
             },
             GlobalMessageType.MSG_TYPE_INFO
           );
-          return this.punchoutFacade.getPunchoutSession({
+          return this.punchoutFacade.initPunchoutSession({
             punchoutSessionId: param?.[PUNCHOUT_SESSION_KEY],
           });
         }),
