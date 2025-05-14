@@ -44,11 +44,12 @@ export class RulebasedConfiguratorConnector {
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    attributeKey?: string
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
       configurationOwner.configuratorType
-    ).readConfiguration(configId, groupId, configurationOwner);
+    ).readConfiguration(configId, groupId, configurationOwner, attributeKey);
   }
 
   updateConfiguration(
