@@ -169,14 +169,11 @@
           "sourceMap": false,
           "namedChunks": false,
           "serviceWorker": false,
+          "server": "projects/storefrontapp/src/main.server.ts",
           "prerender": {
             "discoverRoutes": false,
             "routesFile": "projects/storefrontapp/prerender.txt"
           }
-        },
-        "noSsr": {
-          "ssr": false,
-          "prerender": false
         }
       }
     },
@@ -319,12 +316,6 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "./projects",
-            "./projects/storefrontstyles/scss",
-            "./feature-libs",
-            "./integration-libs"
-          ],
           "sass": {
             "silenceDeprecations": ["import"]
           }
