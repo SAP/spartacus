@@ -7,9 +7,11 @@
 import { inject, Injectable } from '@angular/core';
 import { UserIdService } from '@spartacus/core';
 import { Observable, switchMap, take } from 'rxjs';
-import { OrderAttachmentsFacade } from '@spartacus/order/root';
+import {
+  OrderAttachmentsFacade,
+  OrderAttachments,
+} from '@spartacus/order/root';
 import { OrderAttachmentsConnector } from '../connectors';
-import { OrderAttachments } from '@spartacus/order/root';
 
 @Injectable()
 export class OrderAttachmentsService implements OrderAttachmentsFacade {
