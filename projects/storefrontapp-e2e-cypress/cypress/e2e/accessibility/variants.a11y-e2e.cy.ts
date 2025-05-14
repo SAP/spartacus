@@ -8,20 +8,11 @@ import { configureProductWithVariants } from '../../helpers/variants/apparel-che
 
 describe('Variants Accessibility test', { testIsolation: false }, () => {
   before(() => {
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-    });
     configureProductWithVariants();
     cy.a11yContinuumSetup();
-    cy.requireLoggedIn();
-    cy.visit('/');
+    cy.visit('/p/300785814');
   });
-
   it('Product Details', () => {
-    cy.get('.Section4 cx-banner cx-generic-link a')
-      .first()
-      .scrollIntoView()
-      .click();
     cy.get(
       'cx-product-variants-container .variant-section'
     ).a11yRunContinuumTest();
