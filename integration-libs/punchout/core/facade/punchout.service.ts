@@ -127,6 +127,14 @@ export class PunchoutService implements PunchoutFacade {
       }),
       take(1),
       switchMap((punchoutState: PunchoutState) => {
+        // prevent manual navigation to requisition page
+        if (
+          punchoutState?.closePunchoutSession === undefined &&
+          punchoutState?.cancelRequisition === undefined
+        ) {
+          this.routingService.go({ cxRoute: 'home' });
+          return of();
+        }
         // scenario where user pressed 'Close punchout session' button in EDIT Cart mode
         // initial cart requisition is returned to ARIBA
         if (
