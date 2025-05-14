@@ -79,6 +79,7 @@
     "e2e:run:ci:s4-service": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:s4-service",
     "e2e:run:ci:vendor:s4-service": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:s4-service",
     "e2e:run:ci:epd-visualization": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:epd-visualization",
+    "e2e:run:ci:vendor:epd-visualization": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:epd-visualization",
     "e2e:run:ci:asm": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:asm",
     "e2e:run:ci:ccv2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",

@@ -212,7 +212,7 @@ jobs:
           SPA_ENV: epd-visualization,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s epd-visualization
+          ci-scripts/e2e-cypress.sh -s vendor:epd-visualization
   cds_e2e_tests:
     name: E2E tests for cds
     runs-on: ubuntu-latest
