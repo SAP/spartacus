@@ -6,7 +6,6 @@
 
 import {
   APP_BOOTSTRAP_LISTENER,
-  APP_INITIALIZER,
   ComponentRef,
   inject,
   NgModule,
@@ -16,7 +15,6 @@ import {
   AuthHttpHeaderService,
   CmsConfig,
   provideDefaultConfigFactory,
-  // RoutingService,
   WindowRef,
 } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
@@ -26,7 +24,6 @@ import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
 import { PunchoutUiRestrictionService } from './services/punchout-ui-restriction.service';
 import { NavigationStart, Router } from '@angular/router';
-// import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { filter, tap } from 'rxjs/operators';
 
@@ -58,6 +55,8 @@ export function backButtonGuardFactory(): () => void {
   const router = inject(Router);
   const location = inject(Location);
   const nativeWindow = winRef.nativeWindow;
+
+  nativeWindow?.history.pushState(null, '', nativeWindow?.location.href);
 
   return () => {
     router.events
@@ -222,8 +221,7 @@ export function backButtonGuardFactory(): () => void {
       },
     },
     {
-      // provide: APP_BOOTSTRAP_LISTENER,
-      provide: APP_INITIALIZER,
+      provide: APP_BOOTSTRAP_LISTENER,
       multi: true,
       useFactory: backButtonGuardFactory,
     },
