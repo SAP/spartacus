@@ -10,12 +10,13 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutStoreService,
+  PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-punchout-buttons',
@@ -26,20 +27,12 @@ import { map, Observable, of, switchMap } from 'rxjs';
 export class PunchoutButtonsComponent {
   @Input() removeCancelButton = false;
 
+  protected punchoutUiRestrictionService = inject(PunchoutUiRestrictionService);
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected routingService = inject(RoutingService);
-  protected authService = inject(AuthService);
 
-  hasSessionId$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
-    switchMap((isLoggedIn) => {
-      return isLoggedIn
-        ? this.punchoutStoreService.getPunchoutState()
-        : of({ punchoutSessionId: undefined });
-    }),
-    map((punchoutState) => {
-      return !!punchoutState.punchoutSessionId;
-    })
-  );
+  isPunchoutSessionActive$: Observable<boolean> =
+    this.punchoutUiRestrictionService.isPunchoutSessionActive();
 
   submitRequisition(cancelRequisition = false): void {
     this.punchoutStoreService.updatePunchoutState({ cancelRequisition });

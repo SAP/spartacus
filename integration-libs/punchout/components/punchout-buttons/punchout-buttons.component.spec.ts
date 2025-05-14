@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  AuthService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   PUNCHOUT_REQUISITION_PAGE_URL,
   PunchOutLevel,
@@ -12,10 +8,12 @@ import {
   PunchoutSession,
   PunchoutState,
   PunchoutStoreService,
+  PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
-import { Observable, of, take } from 'rxjs';
+import { of } from 'rxjs';
 import { PunchoutButtonsComponent } from './punchout-buttons.component';
 import { By } from '@angular/platform-browser';
+import { take } from 'rxjs/operators';
 
 const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
@@ -48,13 +46,10 @@ class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
   updatePunchoutState = () => {};
 }
 
-class MockAuthService implements Partial<AuthService> {
-  isUserLoggedIn(): Observable<boolean> {
-    return of(true);
-  }
-  coreLogout(): Promise<void> {
-    return Promise.resolve();
-  }
+class MockPunchoutUiRestrictionService
+  implements Partial<PunchoutUiRestrictionService>
+{
+  isPunchoutSessionActive = jasmine.createSpy().and.returnValue(of(true));
 }
 
 describe('PunchoutButtonsComponent', () => {
@@ -62,6 +57,7 @@ describe('PunchoutButtonsComponent', () => {
   let fixture: ComponentFixture<PunchoutButtonsComponent>;
   let punchoutStoreService: PunchoutStoreService;
   let routingService: RoutingService;
+  let mockPunchoutUiRestrictionService: PunchoutUiRestrictionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,8 +65,11 @@ describe('PunchoutButtonsComponent', () => {
       declarations: [PunchoutButtonsComponent],
       providers: [
         { provide: PunchoutStoreService, useClass: MockPunchoutStoreService },
+        {
+          provide: PunchoutUiRestrictionService,
+          useClass: MockPunchoutUiRestrictionService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: AuthService, useClass: MockAuthService },
       ],
     });
     fixture = TestBed.createComponent(PunchoutButtonsComponent);
@@ -78,38 +77,23 @@ describe('PunchoutButtonsComponent', () => {
 
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
     routingService = TestBed.inject(RoutingService);
+    mockPunchoutUiRestrictionService = TestBed.inject(
+      PunchoutUiRestrictionService
+    );
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should call getPunchoutState ', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
-      of(mockPunchoutState)
-    );
 
-    component.hasSessionId$.pipe(take(1)).subscribe({
-      next: (result) => {
-        expect(result).toEqual(true);
-        expect(punchoutStoreService.getPunchoutState).toHaveBeenCalled();
-
-        done();
-      },
+  it('should expose isPunchoutSessionActive$ observable from service', () => {
+    component.isPunchoutSessionActive$.pipe(take(1)).subscribe((value) => {
+      expect(value).toBe(true);
     });
-  });
 
-  it('should return false when no sessionId', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
-      of({ ...mockPunchoutState, punchoutSessionId: undefined })
-    );
-
-    component.hasSessionId$.pipe(take(1)).subscribe({
-      next: (result) => {
-        expect(result).toEqual(false);
-        expect(punchoutStoreService.getPunchoutState).toHaveBeenCalled();
-        done();
-      },
-    });
+    expect(
+      mockPunchoutUiRestrictionService.isPunchoutSessionActive
+    ).toHaveBeenCalled();
   });
 
   it('should submitRequisition redirect user to Requisition page and update state with cancelRequisition false ', () => {
@@ -140,7 +124,6 @@ describe('PunchoutButtonsComponent', () => {
 
   it('should display the "Cancel" button when removeCancelButton is false', () => {
     component.removeCancelButton = false;
-    component.hasSessionId$ = of(true);
     fixture.detectChanges();
 
     const cancelButton = fixture.debugElement.query(
@@ -154,7 +137,6 @@ describe('PunchoutButtonsComponent', () => {
 
   it('should not display the "Cancel" button when removeCancelButton is true', () => {
     component.removeCancelButton = true;
-    component.hasSessionId$ = of(true);
     fixture.detectChanges();
 
     const cancelButton = fixture.debugElement.query(

@@ -19,10 +19,10 @@ import { Observable } from 'rxjs';
 })
 export class PunchoutCloseSessionComponent {
   protected punchoutFacade = inject(PunchoutFacade);
-  protected punchoutComponentsService = inject(PunchoutUiRestrictionService);
+  protected punchoutUiRestrictionService = inject(PunchoutUiRestrictionService);
 
   isPunchoutSessionActive$: Observable<boolean> =
-    this.punchoutComponentsService.isPunchoutSessionActive();
+    this.punchoutUiRestrictionService.isPunchoutSessionActive();
 
   clickCloseSessionButton(): void {
     this.punchoutFacade.closePunchoutSession().subscribe();
