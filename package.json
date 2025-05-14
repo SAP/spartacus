@@ -3,6 +3,16 @@
   "version": "0.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
+  "workspaces": [
+    "projects/assets",
+    "projects/core",
+    "projects/schematics",
+    "projects/storefrontlib",
+    "projects/storefrontstyles",
+    "feature-libs/*",
+    "integration-libs/*",
+    "core-libs/*"
+  ],
   "engines": {
     "node": "^22.0.0"
   },

@@ -3,12 +3,6 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "projects/storefrontstyles",
   "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "cp -r projects/storefrontstyles dist/storefrontstyles && ts-node tools/scripts/regex-scss-path-replace.ts dist/storefrontstyles"
-      }
-    },
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {

@@ -1,4 +1,6 @@
-@import 'cart/base/styles/components/cart-item-list'; //@spartacus/cart/base/styles/components/cart-item-list
+@import '@spartacus/cart/base/styles/components/cart-item-list';
+// @import '@spartacus/cart/base';
+
 @import './amend-order-actions';
 @import './amend-order-items';
 @import './order-history';

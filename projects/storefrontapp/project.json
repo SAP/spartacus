@@ -10,6 +10,8 @@
       "executor": "@angular-builders/custom-esbuild:application",
       "logLevel": "error",
       "options": {
+        "preserveSymlinks": true,
+
         "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
         "allowedCommonJsDependencies": [
@@ -122,12 +124,6 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "./projects",
-            "./projects/storefrontstyles/scss",
-            "./feature-libs",
-            "./integration-libs"
-          ],
           "sass": {
             "silenceDeprecations": ["import"]
           }
@@ -178,6 +174,10 @@
             "discoverRoutes": false,
             "routesFile": "projects/storefrontapp/prerender.txt"
           }
+        },
+        "noSsr": {
+          "ssr": false,
+          "prerender": false
         }
       }
     },
