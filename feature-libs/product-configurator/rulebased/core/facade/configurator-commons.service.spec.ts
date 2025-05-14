@@ -39,27 +39,30 @@ const GROUP_NAME = 'Software';
 const GROUP_NAME_2 = 'Hardware';
 
 const ATTRIBUTE_NAME_1 = 'Attribute_1';
+const ATTRIBUTE_KEY_1 = 'Attr_key_1';
 const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 
 const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
 
+const attribute1: Configurator.Attribute = {
+  key: ATTRIBUTE_KEY_1,
+  name: ATTRIBUTE_NAME_1,
+  uiType: Configurator.UiType.STRING,
+  userInput: 'input',
+};
+
+const attribute2: Configurator.Attribute = {
+  name: ATTRIBUTE_NAME_2,
+  uiType: Configurator.UiType.DROPDOWN,
+  userInput: undefined,
+};
+
 const group1: Configurator.Group = {
   ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
   name: GROUP_NAME,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-  attributes: [
-    {
-      name: ATTRIBUTE_NAME_1,
-      uiType: Configurator.UiType.STRING,
-      userInput: 'input',
-    },
-    {
-      name: ATTRIBUTE_NAME_2,
-      uiType: Configurator.UiType.DROPDOWN,
-      userInput: undefined,
-    },
-  ],
+  attributes: [attribute1, attribute2],
 };
 
 const group2: Configurator.Group = {
@@ -240,6 +243,7 @@ describe('ConfiguratorCommonsService', () => {
       configuratorUtilsService,
       'createConfigurationExtract'
     ).and.callThrough();
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create service', () => {
@@ -247,7 +251,6 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   it('should call matching action on removeConfiguration', () => {
-    spyOn(store, 'dispatch').and.callThrough();
     serviceUnderTest.removeConfiguration(productConfiguration.owner);
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.RemoveConfiguration({
@@ -433,7 +436,6 @@ describe('ConfiguratorCommonsService', () => {
           )
       );
 
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
         .subscribe(() => {
@@ -466,7 +468,6 @@ describe('ConfiguratorCommonsService', () => {
         () => () => of(productConfigurationLoaderStateWithOv)
       );
 
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
         .subscribe(() => {
@@ -480,7 +481,6 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
         () => () => of(productConfigurationLoaderStateWithOv)
       );
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
         .subscribe((configuration) => {
@@ -493,7 +493,6 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('updateConfigurationOverview', () => {
     it('should fire the corresponding action', () => {
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.updateConfigurationOverview(productConfiguration);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.UpdateConfigurationOverview(
@@ -586,7 +585,6 @@ describe('ConfiguratorCommonsService', () => {
         x: productConfigurationLoaderState,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
@@ -609,7 +607,6 @@ describe('ConfiguratorCommonsService', () => {
         x: productConfigurationLoaderState,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
         OWNER_PRODUCT,
@@ -634,7 +631,6 @@ describe('ConfiguratorCommonsService', () => {
         x: productConfigurationLoaderState,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
@@ -653,7 +649,6 @@ describe('ConfiguratorCommonsService', () => {
         x: productConfigurationLoaderState,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.callThrough();
 
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
@@ -694,7 +689,6 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('removeProductBoundConfigurations', () => {
     it('should call matching action on removeProductBoundConfigurations', () => {
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.removeProductBoundConfigurations();
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.RemoveProductBoundConfigurations()
@@ -704,7 +698,6 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('dismissConflictSolverDialog', () => {
     it('should call matching action', () => {
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.dismissConflictSolverDialog(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.DissmissConflictDialoge(OWNER_PRODUCT.key)
@@ -714,7 +707,6 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('checkConflictSolverDialog', () => {
     it('should call matching action', () => {
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.checkConflictSolverDialog(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.CheckConflictDialoge(OWNER_PRODUCT.key)
@@ -724,7 +716,6 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('forceNewConfiguration', () => {
     it('should call create action', () => {
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.CreateConfiguration({
@@ -736,11 +727,47 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should remove configuration from state', () => {
-      spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.RemoveConfiguration({
           ownerKey: OWNER_PRODUCT.key,
+        })
+      );
+    });
+  });
+
+  describe('readAttributeDomain', () => {
+    it('should read attribute domain with attribute key', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfiguration)
+      );
+      serviceUnderTest.readAttributeDomain(
+        productConfiguration.owner,
+        group1,
+        attribute1
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ReadAttributeDomain({
+          configuration: productConfiguration,
+          groupId: GROUP_ID_1,
+          attributeKey: ATTRIBUTE_KEY_1,
+        })
+      );
+    });
+    it('should read attribute domain with attribute name if key is not available', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfiguration)
+      );
+      serviceUnderTest.readAttributeDomain(
+        productConfiguration.owner,
+        group1,
+        attribute2
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ReadAttributeDomain({
+          configuration: productConfiguration,
+          groupId: GROUP_ID_1,
+          attributeKey: ATTRIBUTE_NAME_2,
         })
       );
     });
