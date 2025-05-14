@@ -1,4 +1,3 @@
-<p>{{ 'punchout.redirectToProcurementSystem' | cxTranslate }}</p>
 <ng-container *ngIf="punchoutRequisition$ | async as pchtReq">
   <form
     *ngIf="pchtReq?.orderAsCXML && pchtReq?.browseFormPostUrl"
