@@ -293,9 +293,6 @@ describe('Punchoutservice', () => {
   });
 
   it('should getPunchoutSession opens cart page when no product item and EDIT Level ', (done) => {
-    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
-      of(mockPunchoutState)
-    );
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({
