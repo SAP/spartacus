@@ -6,6 +6,7 @@
   </ng-container>
   <div
     class="cx-group-attribute"
+    id="{{ createAttributeUiKey('group-attribute', attribute.name) }}"
     [class.cx-hidden]="!attribute.visible"
     *ngFor="
       let attribute of group.attributes;
