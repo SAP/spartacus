@@ -1,4 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
+import { firstValueFrom } from '@angular-devkit/schematics/node_modules/rxjs'; // we'll be able to `import from 'rxjs'` only after we bump `@angular-devkit/schematics`, because typings of rxjs@7.8.1 are not compatible with rxjs@7.8.2
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
@@ -6,7 +7,6 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { CDS_CONFIG, UTF_8 } from '../constants';
 import {

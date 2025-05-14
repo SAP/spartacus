@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 
+import { firstValueFrom } from '@angular-devkit/schematics/node_modules/rxjs'; // we'll be able to `import from 'rxjs'` only after we bump `@angular-devkit/schematics`, because typings of rxjs@7.8.1 are not compatible with rxjs@7.8.2
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -9,7 +10,6 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import { firstValueFrom } from 'rxjs';
 import { spartacusFeaturesModulePath } from '../../../shared/utils/test-utils';
 import { scaffoldAppStructure } from './scaffold-app-structure';
 
