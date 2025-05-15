@@ -51,7 +51,13 @@ run_a11y_tests_with_docs_on_failure() {
     export SPA_ENV='ci,b2b'
     echo "SPA_ENV: $SPA_ENV"
 
-    npm run build
+    # Clear NX cache to force rebuild
+    echo "Clearing NX cache to force rebuild with B2B config"
+    npx nx reset
+
+    # Force rebuild with skip-nx-cache flag
+    echo "Building Spartacus storefrontapp with B2B configuration"
+    npm run build -- --skip-nx-cache
 
     echo "Starting B2B server"
     npm run start:pwa &
