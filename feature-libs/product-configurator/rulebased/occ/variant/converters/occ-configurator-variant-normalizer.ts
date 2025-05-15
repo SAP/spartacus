@@ -148,6 +148,7 @@ export class OccConfiguratorVariantNormalizer
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
       description: sourceAttribute.longText,
+      domainOnDemand: sourceAttribute.domainOnDemand,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -255,7 +256,9 @@ export class OccConfiguratorVariantNormalizer
     if (!isRetractBlocked) {
       if (
         this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
-        (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting)
+        (this.isSourceAttributeTypeReadOnly(sourceAttribute) &&
+          isConflicting &&
+          !sourceAttribute.domainOnDemand)
       ) {
         const attributeType = this.convertAttributeType(sourceAttribute);
         if (
