@@ -6,7 +6,6 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { AuthService } from '@spartacus/core';
 import { filter, Observable } from 'rxjs';
 import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
 
@@ -18,7 +17,6 @@ import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
 })
 export class PunchoutInspectCartComponent {
   protected activeCartService = inject(ActiveCartFacade);
-  protected authService = inject(AuthService);
   protected punchoutComponentsService = inject(PunchoutUiRestrictionService);
 
   isPunchoutSessionActive$: Observable<boolean> =

@@ -9,6 +9,8 @@ import { inject, Injectable } from '@angular/core';
 import {
   Command,
   CommandService,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -48,6 +50,7 @@ export class PunchoutService implements PunchoutFacade {
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   /**
    * punchoutSession ajax request will always return same response during a punchout session.
@@ -127,6 +130,20 @@ export class PunchoutService implements PunchoutFacade {
       }),
       take(1),
       switchMap((punchoutState: PunchoutState) => {
+        // prevent manual navigation to requisition page
+        if (
+          punchoutState?.closePunchoutSession === undefined &&
+          punchoutState?.cancelRequisition === undefined
+        ) {
+          this.globalMessageService.add(
+            {
+              key: 'organization.notification.noSufficientPermissions',
+            },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
+          this.routingService.go({ cxRoute: 'home' });
+          return of();
+        }
         // scenario where user pressed 'Close punchout session' button in EDIT Cart mode
         // initial cart requisition is returned to ARIBA
         if (
@@ -202,7 +219,7 @@ export class PunchoutService implements PunchoutFacade {
               closePunchoutSession: true,
             });
           }
-          this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+          this.openRequisitionPage();
           return true;
         }),
         catchError((error) => {
@@ -269,6 +286,11 @@ export class PunchoutService implements PunchoutFacade {
     return this.requestPunchoutSessionCommand.execute(punchoutSessionId);
   }
 
+  submitRequisition(cancelRequisition: boolean): void {
+    this.punchoutStoreService.updatePunchoutState({ cancelRequisition });
+    this.openRequisitionPage();
+  }
+
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
     if (
       (punchoutSession?.punchOutOperation === PunchOutOperation.CREATE ||
@@ -320,5 +342,15 @@ export class PunchoutService implements PunchoutFacade {
           }
         },
       });
+  }
+
+  protected openRequisitionPage(): void {
+    this.globalMessageService.add(
+      {
+        key: 'punchout.redirectToProcurementSystem',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
   }
 }
