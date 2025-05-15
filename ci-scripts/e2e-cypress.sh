@@ -36,15 +36,30 @@ run_a11y_tests_with_docs_on_failure() {
     # Stop the current server
     echo "Stopping current server"
     kill $SERVER_PID || true
+
+    # Wait for the process to fully terminate
+    echo "Waiting for server process to terminate..."
     wait $SERVER_PID 2>/dev/null || true
+    sleep 5  # Add a short delay to ensure port is released
+
+    # Make sure port 4200 is available by checking and killing any process using it
+    echo "Ensuring port 4200 is available..."
+    lsof -i:4200 -t | xargs kill -9 2>/dev/null || true
+    sleep 2  # Wait a bit more after force kill
 
     echo "Setting up B2B environment"
     export SPA_ENV='ci,b2b'
     echo "SPA_ENV: $SPA_ENV"
 
     npm run build
+
+    echo "Starting B2B server"
     npm run start:pwa &
     B2B_SERVER_PID=$!
+
+    # Wait for server to start
+    echo "Waiting for B2B server to start..."
+    sleep 10
 
     echo "Running a11y tests for B2B site"
     if npm run e2e:run:ci:a11y:b2b; then
@@ -53,6 +68,11 @@ run_a11y_tests_with_docs_on_failure() {
         display_a11y_docs_link
         B2B_RESULT=1
     fi
+
+    # Kill B2B server
+    echo "Stopping B2B server"
+    kill $B2B_SERVER_PID || true
+    wait $B2B_SERVER_PID 2>/dev/null || true
 
     # Return failure if either test failed
     if [[ $B2C_RESULT -eq 0 && $B2B_RESULT -eq 0 ]]; then
@@ -129,6 +149,7 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
+echo "SPA_ENV: $SPA_ENV"
 npm run build
 
 is_bot_commit() {
@@ -181,8 +202,13 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
+    echo "Starting application server"
     npm run start:pwa &
     SERVER_PID=$!
+
+    # Wait for server to start
+    echo "Waiting for server to start..."
+    sleep 10
 
     echo '-----'
     echo "Running Cypress end to end tests"
