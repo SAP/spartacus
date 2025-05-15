@@ -11,6 +11,7 @@ const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
   'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
   {
     factory: () => false,
+    providedIn: 'root',
   }
 );
 
