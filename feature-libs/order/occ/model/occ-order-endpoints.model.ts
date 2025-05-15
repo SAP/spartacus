@@ -85,6 +85,14 @@ export interface OrderOccEndpoints {
    * Endpoint to create a new cart from an existing order
    */
   reorder?: string | OccEndpoint;
+  /**
+   * Get order attachments
+   */
+  orderAttachments?: string | OccEndpoint;
+  /**
+   * Download order attachment blob
+   */
+  downloadOrderAttachment?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
