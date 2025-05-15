@@ -33,9 +33,20 @@ run_a11y_tests_with_docs_on_failure() {
         B2C_RESULT=1
     fi
 
-    # B2B a11y tests
-    echo "in e2e cypress logs"
+    # Stop the current server
+    echo "Stopping current server"
+    kill $SERVER_PID || true
+    wait $SERVER_PID 2>/dev/null || true
+
+    echo "Setting up B2B environment"
+    export SPA_ENV='ci,b2b'
     echo "SPA_ENV: $SPA_ENV"
+
+    npm run build
+    npm run start:pwa &
+    B2B_SERVER_PID=$!
+
+    echo "Running a11y tests for B2B site"
     if npm run e2e:run:ci:a11y:b2b; then
         B2B_RESULT=0
     else
@@ -90,6 +101,10 @@ fi
 
 if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
+fi
+
+if [ "$SUITE" == ":a11y" ]; then
+    export SPA_ENV='ci,b2c'
 fi
 
 echo '-----'
@@ -167,6 +182,7 @@ if [[ "${SSR}" = true ]]; then
     fi
 else
     npm run start:pwa &
+    SERVER_PID=$!
 
     echo '-----'
     echo "Running Cypress end to end tests"
@@ -176,7 +192,11 @@ else
 
         if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
             echo "Running full Cypress end-to-end tests for epic branch"
-            npm run e2e:run:ci"${SUITE}"
+            if [[ "${SUITE}" == ":a11y" ]]; then
+                run_a11y_tests_with_docs_on_failure
+            else
+                npm run e2e:run:ci"${SUITE}"
+            fi
         else
             if [[ "${SUITE}" == ":a11y" ]]; then
                 echo "Running a11y Cypress end-to-end tests for pull requests"
@@ -192,7 +212,7 @@ else
 
         if is_bot_commit; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core"${SUITE}"
+                npm run e2e:run:ci:core"${SUITE}"
         else
             echo "Running full Cypress end-to-end tests"
             if [[ "${SUITE}" == ":a11y" ]]; then
