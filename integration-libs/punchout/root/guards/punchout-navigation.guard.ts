@@ -81,6 +81,9 @@ export class PunchoutNavigationGuard {
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
+    if (route.data.cxRoute === 'logout') {
+      this.handleWarning();
+    }
     return this.getPunchoutOperation().pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
         const canActivate =
@@ -88,12 +91,7 @@ export class PunchoutNavigationGuard {
           this.isAllowedCxRoute(route, punchoutOperation) ||
           this.isAllowedUrls(route, punchoutOperation);
         if (!canActivate) {
-          this.globalMessageService.add(
-            {
-              key: 'organization.notification.noSufficientPermissions',
-            },
-            GlobalMessageType.MSG_TYPE_WARNING
-          );
+          this.handleWarning();
           this.routingService.goByUrl(
             this.punchoutNavigationGuardConfig[punchoutOperation].redirectPage
           );
@@ -165,6 +163,15 @@ export class PunchoutNavigationGuard {
         return undefined;
       }),
       catchError(() => of(undefined))
+    );
+  }
+
+  protected handleWarning() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.noSufficientPermissions',
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
     );
   }
 }
