@@ -96,8 +96,8 @@ ${BUILD_COMMAND_ADVICE}`
   for (const file of serverFiles) {
     const filePath = path.join(serverDistDir, file);
     if (fs.statSync(filePath).isFile()) {
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      if (fileContents.includes(USING_PROXY_BACKEND_MARKER)) {
+      const distFileContents = fs.readFileSync(filePath, 'utf8');
+      if (distFileContents.includes(USING_PROXY_BACKEND_MARKER)) {
         foundProxyBackendMarker = true;
         break;
       }
