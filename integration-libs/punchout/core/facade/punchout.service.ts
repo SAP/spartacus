@@ -219,13 +219,7 @@ export class PunchoutService implements PunchoutFacade {
               closePunchoutSession: true,
             });
           }
-          this.globalMessageService.add(
-            {
-              key: 'punchout.redirectToProcurementSystem',
-            },
-            GlobalMessageType.MSG_TYPE_INFO
-          );
-          this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+          this.openRequisitionPage();
           return true;
         }),
         catchError((error) => {
@@ -294,13 +288,7 @@ export class PunchoutService implements PunchoutFacade {
 
   submitRequisition(cancelRequisition: boolean): void {
     this.punchoutStoreService.updatePunchoutState({ cancelRequisition });
-    this.globalMessageService.add(
-      {
-        key: 'punchout.redirectToProcurementSystem',
-      },
-      GlobalMessageType.MSG_TYPE_INFO
-    );
-    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+    this.openRequisitionPage();
   }
 
   protected routeToTargetPage(punchoutSession: PunchoutSession) {
@@ -354,5 +342,15 @@ export class PunchoutService implements PunchoutFacade {
           }
         },
       });
+  }
+
+  protected openRequisitionPage(): void {
+    this.globalMessageService.add(
+      {
+        key: 'punchout.redirectToProcurementSystem',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
   }
 }
