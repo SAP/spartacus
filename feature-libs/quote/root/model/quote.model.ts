@@ -33,6 +33,7 @@ export interface OccQuote {
   totalPriceWithTax?: Price;
   updatedTime?: Date;
   version?: number;
+  sapOrderCode?: string;
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
