@@ -510,6 +510,14 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
+  describe('createAttributeUiKey', () => {
+    it('should generate attribute key', () => {
+      expect(classUnderTest.createAttributeUiKey('prefix', 'attributeId')).toBe(
+        'cx-configurator--prefix--attributeId'
+      );
+    });
+  });
+
   describe('createGroupId', () => {
     it('should return empty string because group ID is undefined', () => {
       expect(classUnderTest.createGroupId(undefined)).toBeUndefined();
