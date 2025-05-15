@@ -9,16 +9,10 @@ import {
   Component,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
 
@@ -28,16 +22,13 @@ import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class PunchoutRequisitionComponent implements OnInit, OnDestroy {
-  @ViewChild('punchoutFormElement')
-  punchoutFormElement!: ElementRef<HTMLFormElement>;
+export class PunchoutRequisitionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);
-  protected routingService = inject(RoutingService);
-  protected globalMessageService = inject(GlobalMessageService);
-  punchoutFormGroup: FormGroup;
-
   protected formBuilder = inject(FormBuilder);
 
+  @ViewChild('punchoutFormElement')
+  punchoutFormElement!: ElementRef<HTMLFormElement>;
+  punchoutFormGroup: FormGroup;
   readonly FORM_CONTROL_NAME = {
     ORDER: 'order',
   } as const;
@@ -64,10 +55,6 @@ export class PunchoutRequisitionComponent implements OnInit, OnDestroy {
     this.punchoutFormGroup = this.formBuilder.group({
       [this.FORM_CONTROL_NAME.ORDER]: [''],
     });
-  }
-
-  ngOnDestroy(): void {
-    this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_INFO);
   }
 
   protected listenAndSubmitForm(

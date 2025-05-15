@@ -7,11 +7,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { of, throwError } from 'rxjs';
 import { PunchoutRequisitionComponent } from './punchout-requisition.component';
@@ -23,12 +18,11 @@ import { PunchoutRequisitionComponent } from './punchout-requisition.component';
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
+
 describe('PunchoutRequisitionComponent', () => {
   let component: PunchoutRequisitionComponent;
   let fixture: ComponentFixture<PunchoutRequisitionComponent>;
   let mockPunchoutFacade: jasmine.SpyObj<PunchoutFacade>;
-  let mockRoutingService: jasmine.SpyObj<RoutingService>;
-  let globalMessageServiceMock: jasmine.SpyObj<GlobalMessageService>;
 
   const mockRequisition: PunchoutRequisition = {
     orderAsCXML: '<Order></Order>',
@@ -52,18 +46,11 @@ describe('PunchoutRequisitionComponent', () => {
     );
     mockPunchoutFacade.endPunchoutSession.and.returnValue(of(true)); // Mock the method
 
-    mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
-    globalMessageServiceMock = jasmine.createSpyObj('GlobalMessageService', [
-      'add',
-      'remove',
-    ]);
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [PunchoutRequisitionComponent, MockTranslatePipe],
       providers: [
         { provide: PunchoutFacade, useValue: mockPunchoutFacade },
-        { provide: RoutingService, useValue: mockRoutingService },
-        { provide: GlobalMessageService, useValue: globalMessageServiceMock },
         FormBuilder,
       ],
     }).compileComponents();
@@ -146,11 +133,4 @@ describe('PunchoutRequisitionComponent', () => {
 
     expect(mockPunchoutFacade.endPunchoutSession).toHaveBeenCalled();
   }));
-
-  it('should call globalMessageService on ngOnDestroy', () => {
-    component.ngOnDestroy();
-    expect(globalMessageServiceMock.remove).toHaveBeenCalledWith(
-      GlobalMessageType.MSG_TYPE_INFO
-    );
-  });
 });
