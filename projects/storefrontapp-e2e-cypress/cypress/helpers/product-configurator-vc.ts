@@ -250,7 +250,7 @@ export function checkImageSelected(
 export function checkConflictDetectedMsgDisplayed(attributeName: string): void {
   const parent = cy.get(conflictDetectedMsgSelector).parent();
   const attributeId = configuration.getAttributeLabelId(attributeName);
-  parent.within(()=> {
+  parent.within(() => {
     cy.get(`#${attributeId}`).should('be.visible');
   });
 }
