@@ -11,7 +11,7 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { Config, LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -45,6 +45,7 @@ export class ConfiguratorAttributeHeaderComponent
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
   protected logger = inject(LoggerService);
+  protected config = inject(Config);
 
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,

@@ -31,7 +31,7 @@ $configurator-rulebased-components: cx-configurator-template,
   cx-configurator-overview-notification-banner,
   cx-configuration-conflict-and-error-messages, cx-configurator-variant-carousel,
   cx-configurator-conflict-solver-dialog, cx-configurator-restart-dialog,
-  cx-configurator-exit-button !default;
+  cx-configurator-exit-button, cx-configurator-show-options !default;
 
 $configurator-rulebased-pages: VariantConfigurationTemplate,
   VariantConfigurationOverviewTemplate, CpqConfigurationTemplate,
