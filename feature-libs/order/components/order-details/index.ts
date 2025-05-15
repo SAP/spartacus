@@ -15,3 +15,4 @@ export * from './my-account-v2-order-consignments.service';
 export * from './order-overview/order-overview.component';
 export * from './order-overview/order-overview-component.service';
 export * from './my-account-v2/index';
+export * from './order-attachments/index';

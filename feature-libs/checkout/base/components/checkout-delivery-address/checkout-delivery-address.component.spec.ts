@@ -339,7 +339,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     it('should not add select action for selected card', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
       const card = component.getCardContent(
         mockAddress1,
         mockAddress1,
@@ -349,22 +348,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         'P',
         'M'
       );
-      expect(featureConfig.isEnabled).toHaveBeenCalled();
       expect(card.actions?.length).toBe(0);
-    });
-
-    it('should add select action for selected card if feature flag is disabled', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-      const card = component.getCardContent(
-        mockAddress1,
-        mockAddress1,
-        'default',
-        'shipTo',
-        'selected',
-        'P',
-        'M'
-      );
-      expect(card.actions?.length).toBe(1);
     });
 
     describe('role', () => {
