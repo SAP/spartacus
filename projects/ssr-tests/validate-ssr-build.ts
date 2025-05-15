@@ -45,6 +45,11 @@ const SSR_PORT = 4000;
 const USING_DEV_MODE_MARKER = `ngDevMode`;
 
 /**
+ * String that always appears in the `main.js` file of the SSR app when built with a local backend proxy.
+ */
+const USING_PROXY_BACKEND_MARKER = `CX_BASE_URL:"http://localhost:9002"`;
+
+/**
  * Path to the `main.js` file of the built SSR app.
  */
 const SSR_APP_PATH = path.join(
@@ -84,8 +89,29 @@ ${BUILD_COMMAND_ADVICE}`
     );
   }
 
-  const fileContents = fs.readFileSync(SSR_APP_PATH, 'utf8');
+  // Search for the marker in every file inside dist/storefrontapp/server
+  const serverDistDir = path.join(__dirname, '../../dist/storefrontapp/server');
+  const serverFiles = fs.readdirSync(serverDistDir);
+  let foundProxyBackendMarker = false;
+  for (const file of serverFiles) {
+    const filePath = path.join(serverDistDir, file);
+    if (fs.statSync(filePath).isFile()) {
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      if (fileContents.includes(USING_PROXY_BACKEND_MARKER)) {
+        foundProxyBackendMarker = true;
+        break;
+      }
+    }
+  }
+  if (!foundProxyBackendMarker) {
+    throw new Error(
+      `
+SSR app is not using a local backend proxy as a base OCC url.
+${BUILD_COMMAND_ADVICE}`
+    );
+  }
 
+  const fileContents = fs.readFileSync(SSR_APP_PATH, 'utf8');
   if (fileContents.includes(USING_DEV_MODE_MARKER)) {
     throw new Error(
       `
