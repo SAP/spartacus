@@ -30,18 +30,20 @@ export class DpPaymentFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dpPaymentService.getCardRegistrationDetails().subscribe((dpPaymentRequest) => {
-      if (dpPaymentRequest?.url) {
-        this.dpStorageService.syncCardRegistrationState(dpPaymentRequest);
-        this.redirect(dpPaymentRequest.url);
-      } else if (dpPaymentRequest) {
-        this.globalMsgService.add(
-          { key: 'dpPaymentForm.error.redirect' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.closeForm.emit();
-      }
-    });
+    this.dpPaymentService
+      .getCardRegistrationDetails()
+      .subscribe((dpPaymentRequest) => {
+        if (dpPaymentRequest?.url) {
+          this.dpStorageService.syncCardRegistrationState(dpPaymentRequest);
+          this.redirect(dpPaymentRequest.url);
+        } else if (dpPaymentRequest) {
+          this.globalMsgService.add(
+            { key: 'dpPaymentForm.error.redirect' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.closeForm.emit();
+        }
+      });
   }
 
   redirect(url: string) {
