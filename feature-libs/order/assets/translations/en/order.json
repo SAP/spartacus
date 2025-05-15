@@ -190,5 +190,16 @@
       "cancel": "Cancel",
       "continue": "Continue"
     }
+  },
+  "attachments": {
+    "button": "View Order Attachments",
+    "dialog": {
+      "title": "Attachments",
+      "preview": "Preview file",
+      "closeModal": "Close Modal",
+      "error": "An error has occurred. Refresh the page or try again later.",
+      "empty": "Documents are unavailable. You can view the documents here once they are added.",
+      "downloadError": "An error occured while fetching documents. Refresh the page or try again later."
+    }
   }
 }

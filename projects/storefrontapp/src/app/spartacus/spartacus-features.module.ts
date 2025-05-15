@@ -413,6 +413,7 @@ if (environment.cpq) {
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
       };
       return appFeatureToggles;

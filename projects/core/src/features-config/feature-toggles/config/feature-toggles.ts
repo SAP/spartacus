@@ -785,6 +785,15 @@ export interface FeatureTogglesInterface {
   enableSecurePasswordValidation?: boolean;
 
   /**
+   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
+   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
+   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
+   * on demand by clicking on `Show Options` button in case the back-end signals
+   * that domain values are not yet present.
+   */
+  enableReadDomainValuesOnDemand?: boolean;
+
+  /**
    * When enabled, checks before accessing checkout
    * if user has email assigned to the current cart.
    * If not - redirects user to `/opf-checkout-email` page.
@@ -911,5 +920,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
 };
