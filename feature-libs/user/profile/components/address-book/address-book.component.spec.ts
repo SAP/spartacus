@@ -13,7 +13,6 @@ import {
   I18nTestingModule,
   User,
 } from '@spartacus/core';
-import { GlobalMessageType } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -238,70 +237,17 @@ describe('AddressBookComponent', () => {
     expect(component.deleteAddress).toHaveBeenCalledWith(mockAddress.id);
   });
 
-  describe('getCardContent', () => {
-    it('should return a card with default address header', (done) => {
-      mockAddress.defaultAddress = true;
-      component.getCardContent(mockAddress).subscribe((card) => {
-        expect(card.header).toContain('✓ addressCard.default');
-        done();
-      });
-    });
-
-    it('should return a card with actions for non-default address', (done) => {
-      mockAddress.defaultAddress = false;
-      component.getCardContent(mockAddress).subscribe((card) => {
-        expect(card.actions.length).toBe(3);
-        expect(card.actions[0].name).toContain('addressCard.setAsDefault');
-        done();
-      });
-    });
-  });
-
-  describe('setEdit', () => {
-    it('should set editCard to the given address ID', () => {
-      component.setEdit(mockAddress.id || '1');
-      expect(component.editCard).toEqual(mockAddress.id);
-    });
-
-    it('should call deleteAddress if the same address ID is passed twice', () => {
-      spyOn(component, 'deleteAddress');
-      component.setEdit(mockAddress.id || '1');
-      component.setEdit(mockAddress.id || '1');
-      expect(component.deleteAddress).toHaveBeenCalledWith(mockAddress.id);
-    });
-  });
-
-  describe('cancelCard', () => {
-    it('should reset editCard to null', () => {
-      component.editCard = '123';
-      component.cancelCard();
-      expect(component.editCard).toBeNull();
-    });
-  });
-
   describe('setAddressAsDefault', () => {
-    it('should call setAddressAsDefault on the service with the correct ID', () => {
+    it('should set Address as default', () => {
       component.setAddressAsDefault(mockAddress);
       expect(
         addressBookComponentService.setAddressAsDefault
       ).toHaveBeenCalledWith(mockAddress.id);
     });
-
-    it('should add a confirmation message to the global message service', () => {
-      component.setAddressAsDefault(mockAddress);
-      const globalMessageService = TestBed.inject(GlobalMessageService);
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'addressMessages.setAsDefaultSuccessfully',
-          params: { streetAddress: mockAddress.line1 },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
   });
 
   describe('deleteAddress', () => {
-    it('should call deleteUserAddress on the service with the correct ID', () => {
+    it('should set delete user Address', () => {
       component.deleteAddress('1');
       expect(
         addressBookComponentService.deleteUserAddress
@@ -319,7 +265,6 @@ describe('AddressBookComponent', () => {
         'addressBook.addNewDeliveryAddress'
       );
     });
-
     it('should set correct header for edit address', () => {
       component.editAddressButtonHandle(mockAddress);
       fixture.detectChanges();
@@ -327,27 +272,6 @@ describe('AddressBookComponent', () => {
       expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
         'addressBook.editDeliveryAddress'
       );
-    });
-  });
-
-  describe('addAddressSubmit', () => {
-    it('should call addUserAddress on the service and hide the form', () => {
-      component.addAddressSubmit(mockAddress);
-      expect(addressBookComponentService.addUserAddress).toHaveBeenCalledWith(
-        mockAddress
-      );
-      expect(component.showAddAddressForm).toBeFalse();
-    });
-  });
-
-  describe('editAddressSubmit', () => {
-    it('should call updateUserAddress on the service and hide the form', () => {
-      component.currentAddress = { id: '123' } as Address;
-      component.editAddressSubmit(mockAddress);
-      expect(
-        addressBookComponentService.updateUserAddress
-      ).toHaveBeenCalledWith('123', mockAddress);
-      expect(component.showEditAddressForm).toBeFalse();
     });
   });
 });

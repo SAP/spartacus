@@ -136,6 +136,7 @@ type PackagePublishingResult = {
  */
 function getPackageJsonFiles(): string[] {
   const sourceFiles = [
+    'projects/storefrontstyles/package.json',
     'projects/schematics/package.json',
   ];
   const distFiles = glob.sync(`dist/!(node_modules)/package.json`);

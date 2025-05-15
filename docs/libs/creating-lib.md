@@ -201,8 +201,8 @@ Use the following template:
   "keywords": ["spartacus", "framework", "storefront", "TODO:"],
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "publishConfig": {

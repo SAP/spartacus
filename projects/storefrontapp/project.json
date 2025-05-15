@@ -10,6 +10,7 @@
       "executor": "@angular-builders/custom-esbuild:application",
       "logLevel": "error",
       "options": {
+        "preserveSymlinks": true,
         "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
         "allowedCommonJsDependencies": [
@@ -122,12 +123,6 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "./projects",
-            "./projects/storefrontstyles/scss",
-            "./feature-libs",
-            "./integration-libs"
-          ],
           "sass": {
             "silenceDeprecations": ["import"]
           }
@@ -174,6 +169,7 @@
           "sourceMap": false,
           "namedChunks": false,
           "serviceWorker": false,
+          "server": "projects/storefrontapp/src/main.server.ts",
           "prerender": {
             "discoverRoutes": false,
             "routesFile": "projects/storefrontapp/prerender.txt"
@@ -185,10 +181,10 @@
       "executor": "@angular-builders/custom-esbuild:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "storefrontapp:build:production,noSsr"
+          "buildTarget": "storefrontapp:build:production"
         },
         "development": {
-          "buildTarget": "storefrontapp:build:development,noSsr"
+          "buildTarget": "storefrontapp:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -320,12 +316,6 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "./projects",
-            "./projects/storefrontstyles/scss",
-            "./feature-libs",
-            "./integration-libs"
-          ],
           "sass": {
             "silenceDeprecations": ["import"]
           }

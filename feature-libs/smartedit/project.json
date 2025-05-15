@@ -6,17 +6,6 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx run smartedit:build-only && ts-node tools/scripts/regex-scss-path-replace.ts dist/smartedit"
-      },
-      "configurations": {
-        "production": {
-          "command": "nx run smartedit:build-only:production && ts-node tools/scripts/regex-scss-path-replace.ts dist/smartedit"
-        }
-      }
-    },
-    "build-only": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
         "tsConfig": "feature-libs/smartedit/tsconfig.lib.json",
