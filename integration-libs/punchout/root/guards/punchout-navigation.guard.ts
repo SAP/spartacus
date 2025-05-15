@@ -81,10 +81,8 @@ export class PunchoutNavigationGuard {
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    if (route.data.cxRoute === 'logout') {
-      this.handleWarning();
-    }
-    return this.getPunchoutOperation().pipe(
+    const cxRoute = route.data.cxRoute;
+    return this.getPunchoutOperation(cxRoute).pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
         const canActivate =
           !punchoutOperation ||
@@ -135,7 +133,9 @@ export class PunchoutNavigationGuard {
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
-  protected getPunchoutOperation(): Observable<PunchOutOperation | undefined> {
+  protected getPunchoutOperation(
+    cxRoute: string
+  ): Observable<PunchOutOperation | undefined> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isLoggedIn) => {
@@ -147,6 +147,9 @@ export class PunchoutNavigationGuard {
       take(1),
       switchMap((punchoutState: PunchoutState | undefined) => {
         if (punchoutState?.punchoutSessionId) {
+          if (cxRoute === 'logout') {
+            this.handleWarning();
+          }
           return punchoutState?.punchoutSession?.punchOutOperation
             ? of(punchoutState.punchoutSession)
             : this.punchoutFacade.requestPunchoutSession(
