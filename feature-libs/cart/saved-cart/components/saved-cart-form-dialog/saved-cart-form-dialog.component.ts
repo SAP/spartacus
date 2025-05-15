@@ -100,7 +100,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
     useFeatureStyles('a11yQTY2Quantity');
   }
 

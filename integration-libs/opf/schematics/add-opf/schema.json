@@ -57,7 +57,7 @@
           {
             "value": "OPF-B2B-Checkout",
             "label": "OPF B2B Checkout",
-            "checked": true
+            "checked": false
           },
           {
             "value": "OPF-Base",
