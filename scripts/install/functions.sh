@@ -144,6 +144,12 @@ function add_opf {
     fi
 }
 
+function add_punchout {
+    if [ "$ADD_PUNCHOUT" = true ] ; then
+        ng add @spartacus/punchout@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_product_configurator {
     ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     ng add @spartacus/product-configurator --skip-confirmation --no-interactive --features "Textfield-Configurator" --features "VC-Configurator"
@@ -236,6 +242,7 @@ function add_spartacus_csr {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -266,6 +273,7 @@ function add_spartacus_ssr {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -294,6 +302,7 @@ function add_spartacus_ssr_pwa {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -855,6 +864,11 @@ function parseInstallArgs {
             opf)
                 ADD_OPF=true
                 echo "➖ Added OPF"
+                shift
+                ;;
+            punchout)
+                ADD_PUNCHOUT=true
+                echo "➖ Added Punchout"
                 shift
                 ;;
             -*|--*)
