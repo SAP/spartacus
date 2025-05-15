@@ -134,12 +134,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.breakpointService?.isDown(BREAKPOINT.sm);
   }
 
-  // TODO: (CXSPA-6929) - Remove getter next major release.
-  /** Temporary getter, not ment for public use */
-  get a11ySearchBoxMobileFocusEnabled(): boolean {
-    return this.isEnabledFeature('a11ySearchBoxMobileFocus') || false;
-  }
-
   // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
   @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
 
@@ -254,19 +248,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    // TODO: (CXSPA-6929) - Remove feature flag next major release
-    if (this.a11ySearchBoxMobileFocusEnabled) {
-      if (!this.searchBoxActive) {
-        this.searchBoxComponentService.toggleBodyClass(
-          SEARCHBOX_IS_ACTIVE,
-          true
-        );
-        this.searchBoxActive = true;
-        this.searchInputEl?.nativeElement.focus();
-      }
-    } else {
+    if (!this.searchBoxActive) {
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
       this.searchBoxActive = true;
+      this.searchInputEl?.nativeElement.focus();
     }
   }
 
@@ -291,11 +276,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Closes the type-ahead searchBox.
    */
-  close(event: UIEvent, force?: boolean): void {
+  close(force: boolean = false): void {
     // Use timeout to detect changes
     setTimeout(() => {
       if ((!this.ignoreCloseEvent && !this.isSearchBoxFocused()) || force) {
-        this.blurSearchBox(event);
+        this.blurSearchBox();
       }
     });
   }
@@ -305,19 +290,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchBoxActive = false;
   }
 
-  protected blurSearchBox(event: UIEvent): void {
+  protected blurSearchBox(): void {
     this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    // TODO: (CXSPA-6929) - Remove feature flag next major release
-    if (this.a11ySearchBoxMobileFocusEnabled) {
-      this.changeDetecorRef?.detectChanges();
-      this.searchButton?.nativeElement.focus();
-    } else {
-      if (event && event.target) {
-        (<HTMLElement>event.target).blur();
-      }
-    }
+    this.changeDetecorRef?.detectChanges();
+    this.searchButton?.nativeElement.focus();
   }
 
   // Check if focus is on searchbox or result list elements
@@ -348,7 +326,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * */
   avoidReopen(event: UIEvent): void {
     if (this.searchBoxComponentService.hasBodyClass(SEARCHBOX_IS_ACTIVE)) {
-      this.close(event);
+      this.close();
       event.preventDefault();
     }
   }
@@ -433,7 +411,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       switch (event.code) {
         case 'Escape':
         case 'Enter':
-          this.close(event, true);
+          this.close(true);
           return;
         case 'ArrowUp':
           this.focusPreviousChild(event);
@@ -451,7 +429,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           return;
       }
     } else if (event.type === 'blur') {
-      this.close(event);
+      this.close();
     }
   }
 
@@ -606,11 +584,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    *
    * TODO: if there's a single product match, we could open the PDP.
    */
-  launchSearchResult(event: UIEvent, query: string): void {
+  launchSearchResult(query: string): void {
     if (!query || query.trim().length === 0) {
       return;
     }
-    this.close(event);
+    this.close();
     this.searchBoxComponentService.launchSearchPage(query);
   }
 

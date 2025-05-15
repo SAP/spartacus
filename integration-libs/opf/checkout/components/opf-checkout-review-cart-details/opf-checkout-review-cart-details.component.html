@@ -1,0 +1,29 @@
+<div class="cx-review-cart-total d-none d-lg-block d-xl-block">
+  {{
+    'cartItems.cartTotal' | cxTranslate: { count: cart?.deliveryItemsQuantity }
+  }}:
+  {{ cart?.totalPrice?.formattedValue }}
+</div>
+<div class="cx-review-cart-item col-md-12">
+  <cx-promotions
+    [promotions]="
+      (cart?.appliedOrderPromotions || []).concat(
+        cart?.potentialOrderPromotions || []
+      )
+    "
+  ></cx-promotions>
+
+  <div class="cx-items-to-ship-label">
+    {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
+  </div>
+
+  <ng-template
+    [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: entries,
+      readonly: true,
+      promotionLocation: promotionLocation,
+    }"
+  >
+  </ng-template>
+</div>

@@ -14,7 +14,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService, useFeatureStyles } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
@@ -44,9 +44,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {
-    useFeatureStyles('a11yUseButtonsForBtnLinks');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.cart$ = combineLatest([
