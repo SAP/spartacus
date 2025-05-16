@@ -11,6 +11,7 @@ const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
   'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
   {
     factory: () => false,
+    providedIn: 'root',
   }
 );
 
@@ -39,7 +40,7 @@ export function provideAuthorizationCodeFlowByDefault(
   };
 }
 
-const defaultAuthConfig: AuthConfig = {
+export const defaultAuthConfig: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
     client_secret: 'secret',
