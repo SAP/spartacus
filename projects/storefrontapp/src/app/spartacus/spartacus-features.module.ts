@@ -297,7 +297,6 @@ if (environment.cpq) {
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        useExtractedBillingAddressComponent: false,
         showOrderQuoteLink: false,
         showBillingAddressInDigitalPayments: false,
         searchBoxV2: false,
