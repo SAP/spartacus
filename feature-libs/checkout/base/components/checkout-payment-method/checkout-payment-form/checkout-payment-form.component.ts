@@ -93,6 +93,10 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected translationService: TranslationService
   ) {}
+  /**
+   * @deprecated  This property is obsolete since 2211.41
+   */
+  useExtractedBillingAddressComponent: boolean = true;
 
   ngOnInit(): void {
     if (this.paymentDetails) {
