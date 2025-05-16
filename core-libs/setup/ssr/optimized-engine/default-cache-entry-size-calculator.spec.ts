@@ -39,5 +39,10 @@ describe('DefaultCacheEntrySizeCalculator', () => {
       const entry: RenderingEntry = { err: error };
       expect(calculator.calculateSize(entry)).toBe(8); // 4 chars * 2 bytes
     });
+
+    it('should handle empty error object', () => {
+      const entry: RenderingEntry = { err: {} };
+      expect(calculator.calculateSize(entry)).toBe(0); // no expected properties
+    });
   });
 });
