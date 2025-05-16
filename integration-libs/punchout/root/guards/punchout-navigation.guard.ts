@@ -148,6 +148,7 @@ export class PunchoutNavigationGuard {
       take(1),
       switchMap((punchoutState: PunchoutState | undefined) => {
         if (punchoutState?.punchoutSessionId) {
+          //handle race condition with logout guard, it needs to be assessed before punchout session is requested
           if (cxRoute === this.LOGOUT_CX_ROUTE) {
             this.handleWarning();
           }
