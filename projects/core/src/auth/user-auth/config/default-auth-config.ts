@@ -4,7 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inject, InjectionToken, ValueProvider } from '@angular/core';
 import { AuthConfig } from './auth-config';
+
+const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
+  'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
+  {
+    factory: () => false,
+    providedIn: 'root',
+  }
+);
+
+/**
+ * When enabled, sets the default oAuth configuration to use authorization
+ * code flow with PKCE. This results in a more secure authorization scheme
+ * as the default configuration.
+ *
+ * NOTE: This flag should only be enabled when used with a CCv2 Authorization
+ * Server running the September 2025 update or higher. The CCv2 Authorization
+ * Server only supports Authorization Code flow for public clients from
+ * that version and onwards.
+ *
+ * @usageNotes
+ * Add to the root module providers:
+ * ```
+ * provideAuthorizationCodeFlowByDefault()
+ * ```
+ */
+export function provideAuthorizationCodeFlowByDefault(
+  enable = true
+): ValueProvider {
+  return {
+    provide: USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
+    useValue: enable,
+  };
+}
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
@@ -24,3 +58,32 @@ export const defaultAuthConfig: AuthConfig = {
     },
   },
 };
+
+export function defaultAuthConfigFactory(): AuthConfig {
+  const useAuthorizationCodeFlowByDefault = inject(
+    USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT
+  );
+
+  if (useAuthorizationCodeFlowByDefault) {
+    const config = {
+      authentication: {
+        ...defaultAuthConfig.authentication,
+
+        // CXSPA-9984: Endpoints may change
+        tokenEndpoint: '/authserver/oauth2/token',
+        revokeEndpoint: '/authserver/oauth2/revoke',
+        loginUrl: '/authserver/oauth2/authorize',
+
+        OAuthLibConfig: {
+          ...defaultAuthConfig.authentication?.OAuthLibConfig,
+          disablePKCE: false,
+          responseType: 'code',
+        },
+      },
+    };
+    delete config.authentication.client_secret;
+    return config;
+  } else {
+    return defaultAuthConfig;
+  }
+}

@@ -38,7 +38,6 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected unitOrdersFacade: UnitOrderFacade,
     protected translation: TranslationService
   ) {
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
     useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
   }
 
