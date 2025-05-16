@@ -107,7 +107,7 @@ export class RenderingCache {
    *
    * If needed, removes oldest entry when number of entries limit is reached.
    *
-   * @deprecated since v2211.41 - use `storeUsingBytesLimit` method instead.
+   * @deprecated since v2211.42 - use `storeUsingBytesLimit` method instead.
    *             This method will be removed together with the feature toggle `ssrFeatureToggles.limitCacheByMemory`.
    */
   private storeUsingEntriesLimit(key: string, entry: RenderingEntry): void {
