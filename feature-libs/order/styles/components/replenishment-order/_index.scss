@@ -1,6 +1,7 @@
 @import './replenishment-order-cancellation';
 
-$replenishment-order-allowlist: cx-replenishment-order-cancellation,
+$replenishment-order-allowlist:
+  cx-replenishment-order-cancellation,
   cx-replenishment-order-cancellation-dialog !default;
 
 $skipComponentStyles: () !default;
