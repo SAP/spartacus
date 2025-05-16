@@ -15,9 +15,9 @@ describe('DefaultCacheEntrySizeCalculator', () => {
     });
 
     it('should calculate HTML size correctly', () => {
-      const entry: RenderingEntry = { html: 'test' }; // 4 chars
-      // Each character is assumed to be 2 bytes
-      expect(calculator.calculateSize(entry)).toBe(8); // 4 chars * 2 bytes
+      const entry: RenderingEntry = { html: 'test' };
+      const expectedSize = 2 * entry.html.length;
+      expect(calculator.calculateSize(entry)).toBe(expectedSize);
     });
 
     it('should calculate error size correctly', () => {
@@ -25,19 +25,18 @@ describe('DefaultCacheEntrySizeCalculator', () => {
 
       const error = new CustomError('test message');
       const entry: RenderingEntry = { err: error };
-      // Size of name + message + stack
       const expectedSize =
         2 *
-        (Buffer.byteLength(error.name, 'utf8') +
-          Buffer.byteLength(error.message, 'utf8') +
-          Buffer.byteLength(error.stack || '', 'utf8'));
+        (error.name.length + error.message.length + (error.stack || '').length);
       expect(calculator.calculateSize(entry)).toBe(expectedSize);
     });
 
     it('should handle error with missing properties', () => {
-      const error = { message: 'test' }; // 4 chars
+      const error = { message: 'test' };
       const entry: RenderingEntry = { err: error };
-      expect(calculator.calculateSize(entry)).toBe(8); // 4 chars * 2 bytes
+
+      const expectedSize = 2 * error.message.length;
+      expect(calculator.calculateSize(entry)).toBe(expectedSize);
     });
 
     it('should handle empty error object', () => {
