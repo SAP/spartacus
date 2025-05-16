@@ -60,9 +60,7 @@ const mockActivatedRoute = {
 
 const emptyActivatedRoute = {
   snapshot: {
-    queryParamMap: convertToParamMap({
-      'x-card-registration-status': 'NOTSUCCESSFUL',
-    }),
+    queryParamMap: convertToParamMap({}),
   },
 };
 
