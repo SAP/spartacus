@@ -53,6 +53,7 @@ export class PunchoutNavigationGuard {
     'quickOrder',
     'product',
     'cart',
+    'search',
   ];
   protected readonly allowedUrlsForInspect: string[] = [
     PUNCHOUT_INSPECT_PAGE_URL,
