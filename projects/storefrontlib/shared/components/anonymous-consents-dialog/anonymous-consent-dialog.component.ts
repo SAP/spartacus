@@ -80,7 +80,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         this.requiredConsents = this.config.anonymousConsents.requiredConsents;
       }
     }
-    useFeatureStyles('a11yUseButtonsForBtnLinks');
     useFeatureStyles('a11yAnonymousConsentMessageInDialog');
   }
 
