@@ -14,7 +14,7 @@ env:
 
 jobs:
   vendor_e2e_tests:
-    name: Run ${{ matrix.test_name }
+    name: Run ${{ matrix.test_name }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
