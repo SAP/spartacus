@@ -1,4 +1,4 @@
-name: E2E tests
+name: E2E vendor tests
 
 on:
   push:
@@ -14,7 +14,7 @@ env:
 
 jobs:
   vendor_e2e_tests:
-    name: E2E tests for vendor
+    name: Run ${{ matrix.test_name }
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -22,42 +22,61 @@ jobs:
         include:
           - suite: vendor:cdc
             spa_env: cdc,b2c
+            test_name: E2E tests for cdc, b2c
           - suite: vendor:cdc-b2b
             spa_env: cdc,b2b
+            test_name: E2E tests for cdc, b2b
           - suite: vendor:cdp
             spa_env: cdp,b2c
+            test_name: E2E tests for cdp
           - suite: vendor:segment-refs
             spa_env: segment-refs,b2c
+            test_name: E2E tests for segment refs
           - suite: vendor:digital-payments
             spa_env: digital-payments,b2c
+            test_name: E2E tests for digital payments
           - suite: vendor:opps
             spa_env: opps,b2c
+            test_name: E2E tests for opps
           - suite: vendor:s4-service
             spa_env: s4-service,b2b
+            test_name: E2E tests for s4 service
           - suite: epd-visualization
             spa_env: epd-visualization,b2c
+            test_name: E2E tests for epd visualization
           - suite: cds
             spa_env: cds,b2c
+            test_name: E2E tests for cds
           - suite: asm
             spa_env: asm,b2c
+            test_name: E2E tests for asm
           - suite: product-configuration
             spa_env: b2c
+            test_name: E2E tests for product configuration
           - suite: vendor:pdf-invoices
             spa_env: pdf-invoices,b2b
+            test_name: E2E tests for pdf invoices
           - suite: vendor:cpq
             spa_env: cpq,b2b
+            test_name: E2E tests for cpq
           - suite: vendor:omf
             spa_env: omf,b2c
+            test_name: E2E tests for omf
           - suite: vendor:opf
             spa_env: opf,b2c
+            test_name: E2E tests for opf
           - suite: vendor:s4om
             spa_env: s4om,b2b
+            test_name: E2E tests for s4om
           - suite: vendor:estimated-delivery-date
             spa_env: estimated-delivery-date,b2c
+            test_name: E2E tests for estimated delivery date
           - suite: vendor:pickup-in-store
             spa_env: b2c
+            test_name: E2E tests for pickup in store
           - suite: vendor:requested-delivery-date
             spa_env: requested-delivery-date,b2c
+            test_name: E2E tests for requested delivery date
 
     steps:
       - uses: actions/checkout@v4
@@ -77,7 +96,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
 
-      - name: Run E2E suite ${{ matrix.suite }}
+      - name: Run ${{ matrix.test_name }}
         env:
           SPA_ENV: ${{ matrix.spa_env }}
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
