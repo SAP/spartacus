@@ -708,6 +708,22 @@
       ],
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
+      "@spartacus/punchout/assets": [
+        "../../integration-libs/punchout/assets/public_api"
+      ],
+      "@spartacus/punchout/components": [
+        "../../integration-libs/punchout/components/public_api"
+      ],
+      "@spartacus/punchout/core": [
+        "../../integration-libs/punchout/core/public_api"
+      ],
+      "@spartacus/punchout": ["../../integration-libs/punchout/public_api"],
+      "@spartacus/punchout/occ": [
+        "../../integration-libs/punchout/occ/public_api"
+      ],
+      "@spartacus/punchout/root": [
+        "../../integration-libs/punchout/root/public_api"
+      ],
       "@spartacus/s4-service/assets": [
         "../../integration-libs/s4-service/assets/public_api"
       ],

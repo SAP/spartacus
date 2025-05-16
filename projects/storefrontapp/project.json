@@ -120,6 +120,10 @@
           {
             "input": "projects/storefrontapp/src/styles/lib-s4-service.scss",
             "bundleName": "s4-service"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-punchout.scss",
+            "bundleName": "punchout"
           }
         ],
         "stylePreprocessorOptions": {
