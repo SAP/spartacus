@@ -58,6 +58,7 @@ export class PunchoutNavigationGuard {
     PUNCHOUT_INSPECT_PAGE_URL,
   ];
   protected readonly HOME_PAGE_URL = '/';
+  protected readonly LOGOUT_CX_ROUTE = 'logout';
 
   protected readonly punchoutNavigationGuardConfig: PunchoutNavigationGuardConfig =
     {
@@ -147,7 +148,7 @@ export class PunchoutNavigationGuard {
       take(1),
       switchMap((punchoutState: PunchoutState | undefined) => {
         if (punchoutState?.punchoutSessionId) {
-          if (cxRoute === 'logout') {
+          if (cxRoute === this.LOGOUT_CX_ROUTE) {
             this.handleWarning();
           }
           return punchoutState?.punchoutSession?.punchOutOperation
