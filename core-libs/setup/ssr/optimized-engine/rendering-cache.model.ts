@@ -20,3 +20,11 @@ export interface RenderingEntry {
    */
   _size?: number;
 }
+
+/**
+ * Custom strategy for calculating the size of a cache entry.
+ * It's needed to keep track of the used cache size.
+ */
+export interface CacheEntrySizeCalculator {
+  calculateSize(entry: RenderingEntry): number;
+}

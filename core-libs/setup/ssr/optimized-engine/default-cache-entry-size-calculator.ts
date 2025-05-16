@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RenderingEntry } from './rendering-cache.model';
-import { CacheEntrySizeCalculator } from './ssr-optimization-options';
+import {
+  CacheEntrySizeCalculator,
+  RenderingEntry,
+} from './rendering-cache.model';
 
 /**
  * Default implementation of the cache entry size calculator.
@@ -15,7 +17,7 @@ import { CacheEntrySizeCalculator } from './ssr-optimization-options';
  *
  * For error object, it only roughly approximates the size - it sums sizes of the `name`, `message` and `stack` string properties.
  *
- * CAUTION: the error object can be potentially anything and can have more properties (not necessarily strings),
+ * **CAUTION**: the error object can be potentially anything and can have more properties (not necessarily strings),
  *          so it's prone to under-estimation!
  *          It's not recommended to cache error objects.
  */
