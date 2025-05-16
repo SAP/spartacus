@@ -94,7 +94,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected translationService: TranslationService
   ) {}
   /**
-   * @deprecated  This property is obsolete since 2211.41
+   * @deprecated  This property is obsolete since 2211.42
    */
   useExtractedBillingAddressComponent: boolean = true;
 
