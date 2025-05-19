@@ -58,6 +58,7 @@ export class PunchoutNavigationGuard {
     PUNCHOUT_INSPECT_PAGE_URL,
   ];
   protected readonly HOME_PAGE_URL = '/';
+  protected readonly LOGOUT_CX_ROUTE = 'logout';
 
   protected readonly punchoutNavigationGuardConfig: PunchoutNavigationGuardConfig =
     {
@@ -81,19 +82,15 @@ export class PunchoutNavigationGuard {
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    return this.getPunchoutOperation().pipe(
+    const cxRoute = route.data.cxRoute;
+    return this.getPunchoutOperation(cxRoute).pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
         const canActivate =
           !punchoutOperation ||
           this.isAllowedCxRoute(route, punchoutOperation) ||
           this.isAllowedUrls(route, punchoutOperation);
         if (!canActivate) {
-          this.globalMessageService.add(
-            {
-              key: 'organization.notification.noSufficientPermissions',
-            },
-            GlobalMessageType.MSG_TYPE_WARNING
-          );
+          this.handleWarning();
           this.routingService.goByUrl(
             this.punchoutNavigationGuardConfig[punchoutOperation].redirectPage
           );
@@ -137,7 +134,9 @@ export class PunchoutNavigationGuard {
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
-  protected getPunchoutOperation(): Observable<PunchOutOperation | undefined> {
+  protected getPunchoutOperation(
+    cxRoute: string
+  ): Observable<PunchOutOperation | undefined> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       switchMap((isLoggedIn) => {
@@ -149,6 +148,10 @@ export class PunchoutNavigationGuard {
       take(1),
       switchMap((punchoutState: PunchoutState | undefined) => {
         if (punchoutState?.punchoutSessionId) {
+          //handle race condition with logout guard, it needs to be assessed before punchout session is requested
+          if (cxRoute === this.LOGOUT_CX_ROUTE) {
+            this.handleWarning();
+          }
           return punchoutState?.punchoutSession?.punchOutOperation
             ? of(punchoutState.punchoutSession)
             : this.punchoutFacade.requestPunchoutSession(
@@ -165,6 +168,15 @@ export class PunchoutNavigationGuard {
         return undefined;
       }),
       catchError(() => of(undefined))
+    );
+  }
+
+  protected handleWarning() {
+    this.globalMessageService.add(
+      {
+        key: 'organization.notification.noSufficientPermissions',
+      },
+      GlobalMessageType.MSG_TYPE_WARNING
     );
   }
 }
