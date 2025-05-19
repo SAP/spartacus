@@ -1,0 +1,166 @@
+import { inject, Injectable } from '@angular/core';
+import { Config } from '@spartacus/core';
+
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { EMPTY } from 'rxjs';
+import { concatMap, tap } from 'rxjs/operators';
+
+type CSRFResponse = {
+  headerName: string;
+  parameterName: string;
+  token: string;
+};
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CustomLoginPageAdapter {
+  protected config = inject(Config);
+  protected http = inject(HttpClient);
+
+  /** DEBUG: flag to switch between sending the login form data via _fetch_ or _form action_ */
+  DEBUG_useFetch = true;
+
+  getCustomLoginCsrf() {
+    const { baseUrl } = this.config.authentication ?? {};
+
+    return this.http
+      .get<CSRFResponse>(`${baseUrl}/authserver/csrf`, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap({
+          next: (value) => {
+            console.log('got csrf', value);
+          },
+          error: (e) => {
+            console.log('failed to get csrf token', e);
+          },
+        })
+      );
+  }
+
+  login(username: string, password: string) {
+    // DEBUG: adjust values
+    // - baseUrl in projects/core/src/auth/user-auth/config/default-auth-config.ts
+    // - loginForm in projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts:53
+    const destination = `${this.config.authentication?.baseUrl}${this.config.authentication?.customLoginPage?.loginForm}`;
+
+    return this.getCustomLoginCsrf().pipe(
+      concatMap((csrf) => {
+        if (this.DEBUG_useFetch) {
+          return this.fetchApiPostForm({
+            destination,
+            username,
+            password,
+            csrf,
+          });
+        } else {
+          return this.formActionSubmit({
+            destination,
+            username,
+            password,
+            csrf,
+          });
+        }
+      })
+    );
+  }
+
+  // Note: This is poor UX.  An HTTP POST is an outdated process and contrary to the SPA web application
+  // paradigm.  Additionally, there are performance issues.  The entire application is will need to be
+  // reloaded on every reloaded on every submit.  This will be a friction point for consumers
+  // if they are on a slower connection or device.
+  // Also, this should not be in adapter/connector services, which are intended for AJAX requests
+  /**
+   * login form is configured to submit via fetch APIs, so we need to dynamically create a
+   * submittable form.
+   *
+   */
+  formActionSubmit({
+    destination,
+    csrf,
+    username,
+    password,
+  }: {
+    destination: string;
+    csrf: { parameterName: string; token: string };
+    username: string;
+    password: string;
+  }) {
+    const form = document.createElement('form');
+    form.action = destination;
+    form.method = 'POST';
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = csrf.parameterName;
+    csrfInput.value = csrf.token;
+    form.appendChild(csrfInput);
+
+    const usernameInput = document.createElement('input');
+    usernameInput.name = 'username';
+    usernameInput.value = username;
+    form.appendChild(usernameInput);
+
+    const pwInput = document.createElement('input');
+    pwInput.type = 'password';
+    pwInput.name = 'password';
+    pwInput.value = password;
+    form.appendChild(pwInput);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    return EMPTY;
+  }
+
+  /**
+   * Use fetch API to post from details to server.
+   *
+   * Note: incomplete, only intended to get the 302 redirect to auth server or error page.
+   *   Processing the location to follow later
+   */
+  fetchApiPostForm({
+    destination,
+    csrf,
+    username,
+    password,
+  }: {
+    destination: string;
+    csrf: { parameterName: string; token: string };
+    username: string;
+    password: string;
+  }) {
+    // make CORS fetch request to POST login form data
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    const body = new HttpParams({
+      fromObject: {
+        username,
+        password,
+        [csrf.parameterName]: csrf.token,
+      },
+    });
+
+    return this.http
+      .post(destination, body.toString(), {
+        headers,
+        withCredentials: true,
+        observe: 'response',
+      })
+      .pipe(
+        tap({
+          next: (response) => {
+            console.log('redirect location', response.headers.get('location'));
+            debugger;
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        })
+      );
+  }
+}

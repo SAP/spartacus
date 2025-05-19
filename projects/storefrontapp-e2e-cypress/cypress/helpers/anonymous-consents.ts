@@ -75,7 +75,7 @@ export function anonoymousConsentConfig(
 export function registerNewUserAndLogin(
   newUser: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   cy.visit('/login/register');
   register(newUser, giveRegistrationConsent, hiddenConsent);
@@ -185,7 +185,7 @@ export function registerUserAndCheckMyAccountConsent(
   user,
   consentCheckBox,
   position,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   registerNewUserAndLogin(user, consentCheckBox, hiddenConsent);
   checkBanner();

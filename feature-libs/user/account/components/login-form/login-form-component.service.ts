@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import {
   AuthService,
+  Config,
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
@@ -22,6 +23,8 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
+  config = inject(Config);
+
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
@@ -56,19 +59,24 @@ export class LoginFormComponentService {
 
     this.busy$.next(true);
 
-    from(
-      this.auth.loginWithCredentials(
-        // TODO: consider dropping toLowerCase as this should not be part of the UI,
-        // as it's too opinionated and doesn't work with other AUTH services
-        this.form.value.userId.toLowerCase(),
-        this.form.value.password
+    const { userId, password } = this.form.value;
+    if (this.config.authentication?.customLoginPage?.enabled) {
+      this.auth.customLoginForm(userId, password).subscribe();
+    } else {
+      from(
+        this.auth.loginWithCredentials(
+          // TODO: consider dropping toLowerCase as this should not be part of the UI,
+          // as it's too opinionated and doesn't work with other AUTH services
+          userId.toLowerCase(),
+          password
+        )
       )
-    )
-      .pipe(
-        withLatestFrom(this.auth.isUserLoggedIn()),
-        tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
-      )
-      .subscribe();
+        .pipe(
+          withLatestFrom(this.auth.isUserLoggedIn()),
+          tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
+        )
+        .subscribe();
+    }
   }
 
   protected onSuccess(isLoggedIn: boolean): void {

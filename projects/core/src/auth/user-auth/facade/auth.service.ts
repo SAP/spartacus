@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { CustomLoginPageAdapter } from '../../connectors/custom-login.adapter';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
@@ -35,6 +36,9 @@ export class AuthService {
    * Indicates whether the logout is being performed
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
+  // Should probably import a service, not adapter directly
+  customLoginPageAdapter = inject(CustomLoginPageAdapter);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -107,6 +111,10 @@ export class AuthService {
 
       this.authRedirectService.redirect();
     } catch {}
+  }
+
+  customLoginForm(userId: string, password: string) {
+    return this.customLoginPageAdapter.login(userId, password);
   }
 
   /**

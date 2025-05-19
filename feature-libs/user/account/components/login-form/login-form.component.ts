@@ -4,9 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
+import { Config, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -23,6 +28,10 @@ export class LoginFormComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+
+  config = inject(Config);
+  action = this.config?.authentication?.customLoginPage?.loginForm;
+  customLogin = this.config?.authentication?.customLoginPage?.enabled;
 
   @HostBinding('class.user-form') style = true;
 

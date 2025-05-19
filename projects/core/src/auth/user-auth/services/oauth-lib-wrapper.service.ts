@@ -35,7 +35,7 @@ export class OAuthLibWrapperService {
 
   protected initialize() {
     const isSSR = !this.winRef.isBrowser();
-    this.oAuthService.configure({
+    const config = {
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
       clientId: this.authConfigService.getClientId(),
@@ -53,7 +53,9 @@ export class OAuthLibWrapperService {
             this.winRef.nativeWindow!.location.origin
           : ''),
       ...this.authConfigService.getOAuthLibConfig(),
-    });
+    };
+    console.log('oAuth config', config);
+    this.oAuthService.configure(config);
   }
 
   /**

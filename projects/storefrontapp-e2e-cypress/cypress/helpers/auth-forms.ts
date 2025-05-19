@@ -67,7 +67,7 @@ export function fillKymaLoginForm({ username, password }: LoginUser) {
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   const loginPage = waitForPage('/login', 'getLoginPage');
@@ -80,7 +80,7 @@ export function register(
 export function registerWithCaptcha(
   user: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   const loginPage = waitForPage('/login', 'getLoginPage');

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Config } from '@spartacus/core';
+import { type Config as SpartacusConfig } from '@spartacus/core';
 
 declare global {
   namespace Cypress {
@@ -19,7 +19,7 @@ declare global {
         cy.cxConfig(config)
         ```
        */
-      cxConfig: (config: Config) => void;
+      cxConfig: (config: SpartacusConfig) => void;
     }
   }
 }
