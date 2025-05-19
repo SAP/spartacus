@@ -5,8 +5,8 @@
  */
 
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/app.module';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { MyStorefrontComponent } from './app/app.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
@@ -14,14 +14,16 @@ if (environment.production) {
 }
 
 function bootstrap() {
-  platformBrowserDynamic()
-    .bootstrapModule(AppModule)
-    /* eslint-disable-next-line no-console
-    --
-    It's just an example application file. This message is not crucial
-    to be logged using any special logger. Moreover, we don't have
-    any special logger available in this context. */
-    .catch((err) => console.error(err));
+  // platformBrowserDynamic()
+  //   .bootstrapModule(AppModule)
+  //   /* eslint-disable-next-line no-console
+  //   --
+  //   It's just an example application file. This message is not crucial
+  //   to be logged using any special logger. Moreover, we don't have
+  //   any special logger available in this context. */
+  //   .catch((err) => console.error(err));
+
+  bootstrapApplication(MyStorefrontComponent);
 }
 
 if (document.readyState === 'complete') {

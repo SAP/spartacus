@@ -5,39 +5,17 @@
  */
 
 import { registerLocaleData } from '@angular/common';
-import {
-  provideHttpClient,
-  withFetch,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { Component } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import {
-  translationChunksConfig,
-  translationsDe,
-  translationsEn,
-  translationsJa,
-  translationsZh,
-} from '@spartacus/assets';
-import {
-  I18nConfig,
-  OccConfig,
-  RoutingConfig,
-  TestConfigModule,
-  provideConfig,
-} from '@spartacus/core';
-import { StoreFinderConfig } from '@spartacus/storefinder/core';
-import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import { skip, take } from 'rxjs';
 import { environment } from '../environments/environment';
-import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { SpartacusModule } from './spartacus/spartacus.module';
+import { AuthStorageChannelWorkerService } from './auth-storage-channel-worker.service';
+import { AuthStorageDbWorkerService } from './auth-storage-db-worker.service';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -48,60 +26,192 @@ if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
-@NgModule({
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
-    SpartacusModule,
-    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-    TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
-
-    ...devImports,
-  ],
-  providers: [
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideConfig(<OccConfig>{
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
-    }),
-    provideConfig(<RoutingConfig>{
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-            paramsMapping: { name: 'slug' },
-          },
-        },
-      },
-    }),
-    provideConfig(<I18nConfig>{
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: {
-          en: translationsEn,
-          ja: translationsJa,
-          de: translationsDe,
-          zh: translationsZh,
-        },
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-    }),
-    provideConfig({ features: { level: '*' } }), // For the development environment and CI, feature level is always the highest.
-    provideConfig(<StoreFinderConfig>{
-      // For security compliance, by default, google maps does not display.
-      // Using special key value 'cx-development' allows google maps to display
-      // without a key, for development or demo purposes.
-      googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
-    }),
-  ],
-  bootstrap: [StorefrontComponent],
+@Component({
+  selector: 'my-storefront2',
+  template: `
+    <button (click)="save()">save</button>
+    <button (click)="get()">get</button>
+    <button (click)="del()">delete</button>
+    <input [(ngModel)]="value" />
+    <hr />
+    <button [disabled]="!db" (click)="mainRetreive()">main get</button>
+  `,
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule],
 })
-export class AppModule {}
+export class MyStorefront2Component {
+  value: string;
+  public key = 'authToken';
+
+  db: IDBDatabase;
+
+  constructor(public authStorageDbWorkerService: AuthStorageDbWorkerService) {
+    authStorageDbWorkerService.initWorker();
+
+    const dbRequest = indexedDB.open('AuthTokenDB', 1);
+
+    dbRequest.onupgradeneeded = (event) => {
+      this.db = (event.target as any).result as IDBDatabase;
+      if (!this.db.objectStoreNames.contains('tokens')) {
+        this.db.createObjectStore('tokens', { keyPath: 'key' });
+      }
+    };
+
+    dbRequest.onsuccess = (event) => {
+      this.db = (event.target as any).result as IDBDatabase;
+      console.log('Main Thread: IndexedDB initialized successfully.');
+    };
+
+    dbRequest.onerror = (event) => {
+      console.error(
+        'Main Thread: Error initializing IndexedDB:',
+        (event.target as any).error
+      );
+    };
+  }
+
+  get() {
+    this.authStorageDbWorkerService
+      .retrieveToken()
+      .pipe(skip(1), take(1))
+      .subscribe((v) => (this.value = v ?? 'NO_VALUE'));
+  }
+  save() {
+    this.authStorageDbWorkerService.storeToken(this.value);
+  }
+  del() {
+    this.authStorageDbWorkerService.deleteToken();
+  }
+
+  mainRetreive() {
+    console.log('making request');
+    const transaction = this.db.transaction(['tokens'], 'readonly');
+    const store = transaction.objectStore('tokens');
+    const request = store.get(this.key);
+
+    request.onsuccess = () => {
+      console.log({
+        status: 'success',
+        action: 'getToken',
+        value: request.result?.value,
+      });
+    };
+
+    request.onerror = (event) => {
+      console.log({
+        status: 'error',
+        action: 'getToken',
+        error: (event.target as any).error,
+      });
+    };
+  }
+}
+
+@Component({
+  selector: 'my-storefront',
+  template: `
+    <button (click)="save()">save</button>
+    <button (click)="get()">get</button>
+    <button (click)="del()">delete</button>
+    <input [(ngModel)]="value" />
+  `,
+  standalone: true,
+  imports: [ReactiveFormsModule, FormsModule],
+})
+export class MyStorefrontComponent {
+  value: string;
+  public key = 'authToken';
+
+  db: IDBDatabase;
+
+  constructor(
+    public authStorageChannelWorkerService: AuthStorageChannelWorkerService
+  ) {
+    authStorageChannelWorkerService.initWorker();
+  }
+
+  get() {
+    this.authStorageChannelWorkerService
+      .retrieveToken()
+      .pipe(skip(1), take(1))
+      .subscribe((v) => (this.value = v ?? 'NO_VALUE'));
+  }
+  save() {
+    this.authStorageChannelWorkerService.storeToken(this.value);
+  }
+  del() {
+    this.authStorageChannelWorkerService.deleteToken();
+  }
+}
+
+// @NgModule({
+//   imports: [
+//     BrowserModule,
+//     AppRoutingModule,
+//     // StoreModule.forRoot({}),
+//     // EffectsModule.forRoot([]),
+//     // SpartacusModule,
+//     // TestOutletModule, // custom usages of cxOutletRef only for e2e testing
+//     // TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
+
+//     ...devImports,
+//   ],
+//   providers: [
+//     // provideHttpClient(withFetch(), withInterceptorsFromDi()),
+//     // provideConfig(<OccConfig>{
+//     //   backend: {
+//     //     occ: {
+//     //       baseUrl: environment.occBaseUrl,
+//     //       prefix: environment.occApiPrefix,
+//     //     },
+//     //   },
+//     // }),
+//     // provideConfig(<RoutingConfig>{
+//     //   // custom routing configuration for e2e testing
+//     //   routing: {
+//     //     routes: {
+//     //       product: {
+//     //         paths: ['product/:productCode/:name', 'product/:productCode'],
+//     //         paramsMapping: { name: 'slug' },
+//     //       },
+//     //     },
+//     //   },
+//     // }),
+//     // provideConfig(<I18nConfig>{
+//     //   // we bring in static translations to be up and running soon right away
+//     //   i18n: {
+//     //     resources: {
+//     //       en: translationsEn,
+//     //       ja: translationsJa,
+//     //       de: translationsDe,
+//     //       zh: translationsZh,
+//     //     },
+//     //     chunks: translationChunksConfig,
+//     //     fallbackLang: 'en',
+//     //   },
+//     // }),
+//     // provideConfig({ features: { level: '*' } }), // For the development environment and CI, feature level is always the highest.
+//     // provideConfig(<StoreFinderConfig>{
+//     //   // For security compliance, by default, google maps does not display.
+//     //   // Using special key value 'cx-development' allows google maps to display
+//     //   // without a key, for development or demo purposes.
+//     //   googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
+//     // }),
+//     AuthStorage2Service,
+//     // {
+//     //   provide: 'SOMETHING',
+//     //   useFactory: (authStorage2Service: AuthStorage2Service) => {
+//     //     authStorage2Service.initWorker();
+//     //   },
+//     //   deps: [AuthStorage2Service],
+//     // },
+//   ],
+//   // import: [MyStorefrontComponent],
+//   // declarations: [MyStorefrontComponent],
+//   bootstrap: [MyStorefrontComponent],
+// })
+// export class AppModule {}
+
+bootstrapApplication(MyStorefrontComponent, {
+  providers: [],
+});

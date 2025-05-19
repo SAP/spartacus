@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthWorkerStorageService } from '../worker/auth-worker-storage.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthStorageService } from './auth-storage.service';
 
@@ -30,6 +31,8 @@ export interface SyncedAuthState {
 })
 export class AuthStatePersistenceService implements OnDestroy {
   protected subscription = new Subscription();
+
+  authWorkerStorageService = inject(AuthWorkerStorageService);
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
