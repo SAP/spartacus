@@ -30,7 +30,7 @@ describe('Applied Promotions Accessibility', { testIsolation: false }, () => {
 
   it('should show all applied promotions on Cart page', () => {
     cy.get('cx-mini-cart').click();
-    cy.get('.cart-details-wrapper').should('exist');
+    cy.get('.cart-details-wrapper');
 
     cy.get('.cx-promotions')
       .filter(':visible')
