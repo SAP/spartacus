@@ -201,7 +201,7 @@
             "command": "nx run storefrontapp:build:production --watch"
           },
           {
-            "command": "sh -c 'while [ ! -f dist/storefrontapp/server/server.mjs ]; do sleep 1; done; nodemon dist/storefrontapp/server/server.mjs --watch dist/storefrontapp/server/server.mjs --signal SIGTERM --verbose'"
+            "command": "sh -c 'while [ ! -f dist/storefrontapp/server/server.mjs ]; do sleep 1; done; node --watch-path=dist/storefrontapp/server/ dist/storefrontapp/server/server.mjs'"
           }
         ]
       }
