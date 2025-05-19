@@ -43,7 +43,6 @@ run_a11y_tests_with_docs_on_failure() {
     echo "Setting up B2B environment"
     export SPA_ENV='ci,b2b'
 
-    echo "Building Spartacus storefrontapp with B2B configuration"
     npm run build -- --skip-nx-cache
     npm run start:pwa &
     B2B_SERVER_PID=$!
@@ -135,7 +134,6 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-echo "SPA_ENV: $SPA_ENV"
 npm run build
 
 is_bot_commit() {
@@ -188,7 +186,6 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
-    echo "Starting application server"
     npm run start:pwa &
     SERVER_PID=$!
 
