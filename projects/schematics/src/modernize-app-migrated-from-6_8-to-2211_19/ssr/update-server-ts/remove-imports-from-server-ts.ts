@@ -18,7 +18,7 @@ import { removeImportFromContent } from '../../../shared/utils/file-utils';
  * - import * as express from 'express';
  * - import { join } from 'path';
  *
- * - import { AppModuleServer } from './src/main.- server';
+ * - import { AppServerModule } from './src/main.- server';
  * - import { APP_BASE_HREF } from '@angular/common';
  * - import { existsSync } from 'fs';
  * ```
@@ -31,7 +31,7 @@ export function removeImportsFromServerTs(
     { importPath: 'zone.js/node' },
     { symbolName: 'express', importPath: 'express' },
     { symbolName: 'join', importPath: 'path' },
-    { symbolName: 'AppModuleServer', importPath: './src/main.server' },
+    { symbolName: 'AppServerModule', importPath: './src/main.server' },
     { symbolName: 'existsSync', importPath: 'fs' },
   ];
 

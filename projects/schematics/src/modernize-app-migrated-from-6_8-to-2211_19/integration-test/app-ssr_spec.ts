@@ -44,8 +44,8 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
     expect(tree.readContent('/src/app/app.module.ts')).toMatchSnapshot();
   });
 
-  it('should rename the src/app/app.module.server.ts to src/app/app.module.server.ts (swapped words "server" and "module")', () => {
-    expect(tree.exists('/src/app/app.module.server.ts')).toBeFalsy();
+  it('should rename the src/app/app.server.module.ts to src/app/app.module.server.ts (swapped words "server" and "module")', () => {
+    expect(tree.exists('/src/app/app.server.module.ts')).toBeFalsy();
     expect(tree.readContent('/src/app/app.module.server.ts')).toMatchSnapshot();
   });
 

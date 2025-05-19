@@ -10,8 +10,8 @@ import { printErrorWithDocsForMigrated_6_8_To_2211_19 } from '../fallback-advice
 /**
  * Updates `main.server.ts` file for new Angular v17 standards.
  *
- * 1. Changes the the export path of the `AppModuleServer` from `./app/app.server.module'` to `./app/app.module.server'`.
- * 2. Exports `AppModuleServer` using `as default`.
+ * 1. Changes the the export path of the `AppServerModule` from `./app/app.server.module'` to `./app/app.module.server'`.
+ * 2. Exports `AppServerModule` using `as default`.
  */
 export function updateMainServerTs(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -35,9 +35,9 @@ export function updateMainServerTs(): Rule {
       return;
     }
 
-    context.logger.info('  ↳ Updating export path of "AppModuleServer"');
+    context.logger.info('  ↳ Updating export path of "AppServerModule"');
     const expectedPattern =
-      /export \{ AppModuleServer \} from ['"]\.\/app\/app\.server\.module['"];/;
+      /export \{ AppServerModule \} from ['"]\.\/app\/app\.server\.module['"];/;
     const newPattern = `export { AppServerModule as default } from './app/app.module.server';`;
 
     let updatedContent = mainServerContent.toString();

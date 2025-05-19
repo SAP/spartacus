@@ -8,7 +8,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { printErrorWithDocsForMigrated_6_8_To_2211_19 } from '../fallback-advice-to-follow-docs';
 
 /**
- * Renames `app.module.server.ts` to `app.module.server.ts`
+ * Renames `app.server.module.ts` to `app.module.server.ts`
  * to align with new Angular v17 standards.
  */
 export function renameAppServerModule(): Rule {
