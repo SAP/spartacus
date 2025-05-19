@@ -45,7 +45,7 @@ const SSR_PORT = 4000;
 const USING_DEV_MODE_MARKER = `ngDevMode`;
 
 /**
- * String that always appears in the `main.js` file of the SSR app when built with a local backend proxy.
+ * String that always USING_DEV_MODE_MARKER in the `main.js` file of the SSR app when built with a local backend proxy.
  */
 const USING_PROXY_BACKEND_MARKER = `CX_BASE_URL:"http://localhost:9002"`;
 

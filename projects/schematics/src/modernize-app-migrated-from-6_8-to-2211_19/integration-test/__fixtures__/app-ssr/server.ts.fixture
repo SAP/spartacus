@@ -9,7 +9,7 @@ import { join } from 'path';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-import { AppServerModule } from './src/main.server';
+import { AppModuleServer } from './src/main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine);
 
@@ -26,7 +26,7 @@ export function app() {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppServerModule,
+      bootstrap: AppModuleServer,
     })
   );
 

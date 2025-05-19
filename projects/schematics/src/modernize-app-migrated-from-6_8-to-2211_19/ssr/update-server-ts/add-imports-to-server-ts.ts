@@ -21,7 +21,7 @@ import { SchematicContext } from '@angular-devkit/schematics';
  * + import express from 'express';
  * + import { dirname, join, resolve } from 'node:path';
  * + import { fileURLToPath } from 'node:url';
- * + import AppServerModule from './src/main.server';
+ * + import AppModuleServer from './src/main.server';
 ```
  */
 export function addImportsToServerTs(
@@ -60,7 +60,7 @@ export function addImportsToServerTs(
     },
     {
       importPath: './src/main.server',
-      symbolName: 'AppServerModule',
+      symbolName: 'AppModuleServer',
       isDefault: true,
     },
   ];

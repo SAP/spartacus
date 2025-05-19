@@ -15,7 +15,9 @@ if (environment.production) {
 
 function bootstrap() {
   platformBrowserDynamic()
-    .bootstrapModule(AppModule)
+    .bootstrapModule(AppModule,{
+         ngZoneEventCoalescing: true,
+     })
     /* eslint-disable-next-line no-console
     --
     It's just an example application file. This message is not crucial

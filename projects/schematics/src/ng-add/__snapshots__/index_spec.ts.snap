@@ -116,6 +116,6 @@ import { provideServer } from '@spartacus/setup/ssr';
      }),
   ],
 })
-export class AppServerModule {}
+export class AppModuleServer {}
 "
 `;

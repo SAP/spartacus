@@ -12,7 +12,7 @@ import { AppModule } from './app.module';
 
 @NgModule({
   imports: [
-    // The AppServerModule should import your AppModule followed
+    // The AppModuleServer should import your AppModule followed
     // by the ServerModule from @angular/platform-server.
     AppModule,
     ServerModule,
@@ -27,4 +27,4 @@ import { AppModule } from './app.module';
     }),
   ],
 })
-export class AppServerModule {}
+export class AppModuleServer {}
