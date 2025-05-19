@@ -18,7 +18,7 @@ export default defineConfig({
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
     API_URL: 'https://40.76.109.9:9002',
-    BASE_SITE: 'electronics-spa',
+    BASE_SITE: 'powertools-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
     OCC_PREFIX: '/occ/v2',
@@ -33,6 +33,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'https://localhost:4200',
   },
 });

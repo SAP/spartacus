@@ -12,10 +12,11 @@ import {
   POWERTOOLS_BASESITE,
   products,
 } from '../../../../sample-data/b2b-checkout';
+import * as login from '../../../../helpers/login';
 
 const OPF_B2B_TEST_EMAIL = 'william.hunter@rustic-hw.com';
 const OPF_B2B_TEST_PASSWORD = 'pw4all';
-const OPF_B2B_ACCOUNT_PAYMENT_OPTION_ID = '2688';
+const OPF_B2B_ACCOUNT_PAYMENT_OPTION_ID = '2720';
 
 context('OPF B2B - Account Checkout flow', () => {
   before(() => {
@@ -25,31 +26,36 @@ context('OPF B2B - Account Checkout flow', () => {
   it('Should checkout using an account payment type (CXSPA-9698)', () => {
     // Login as OPF B2B user
     cy.visit('/login');
+    login.listenForTokenAuthenticationRequest();
+
     cy.get('cx-login-form').within(() => {
       cy.get('[formcontrolname="userId"]').type(OPF_B2B_TEST_EMAIL);
       cy.get('[formcontrolname="password"]').type(OPF_B2B_TEST_PASSWORD);
       cy.get('button[type="submit"]').click();
     });
 
-    cy.wait(3000);
+    cy.wait('@tokenAuthentication')
+      .its('response.statusCode')
+      .should('eq', 200);
 
     // Go to PDP and add product to cart
-    const code = products[0].code;
-    const productPage = waitForProductPage(code, 'getProductPage');
+    const productCode = products[0].code;
+    const productName = products[0].name;
+    const productPage = waitForProductPage(productCode, 'getProductPage');
 
-    cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+    cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${productCode}`);
     cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
     cy.get('cx-product-intro').within(() => {
-      cy.get('.code').should('contain', products[0].code);
+      cy.get('.code').should('contain', productCode);
     });
     cy.get('cx-breadcrumb').within(() => {
-      cy.get('h1').should('contain', products[0].name);
+      cy.get('h1').should('contain', productName);
     });
 
     cy.get('cx-add-to-cart').findByText('Add to cart').click();
     cy.get('cx-added-to-cart-dialog').within(() => {
-      cy.get('.cx-name .cx-link').should('contain', products[0].name);
+      cy.get('.cx-name .cx-link').should('contain', productName);
     });
 
     // Go to checkout
@@ -83,7 +89,7 @@ context('OPF B2B - Account Checkout flow', () => {
       cy.findByText('Continue').click();
     });
 
-    // Select shipping mode
+    // Select shipping address
     cy.wait(3000);
     cy.findByText('Continue').click();
 
