@@ -68,6 +68,8 @@ run_a11y_tests_with_docs_on_failure() {
     sleep 10
 
     echo "Running a11y tests for B2B site"
+    # Use a different ci-build-id for B2B tests
+    export BUILD_NUMBER="${BUILD_NUMBER}-b2b"
     if npm run e2e:run:ci:a11y:b2b; then
         B2B_RESULT=0
     else
