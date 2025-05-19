@@ -10,9 +10,7 @@
       "executor": "@angular-builders/custom-esbuild:application",
       "options": {
         "preserveSymlinks": true,
-        "plugins": [
-          "./projects/storefrontapp/esbuild/plugins.ts"
-        ],
+        "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
         "allowedCommonJsDependencies": [
           "whatwg-url",
@@ -22,9 +20,7 @@
         "outputPath": "dist/storefrontapp",
         "index": "projects/storefrontapp/src/index.html",
         "browser": "projects/storefrontapp/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "projects/storefrontapp/tsconfig.app.json",
         "assets": [
           "projects/storefrontapp/src/manifest.json",
@@ -131,9 +127,7 @@
         ],
         "stylePreprocessorOptions": {
           "sass": {
-            "silenceDeprecations": [
-              "import"
-            ]
+            "silenceDeprecations": ["import"]
           }
         },
         "server": "projects/storefrontapp/src/main.server.ts",
@@ -218,15 +212,10 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "main": "projects/storefrontapp/src/test.ts",
-        "polyfills": [
-          "core-js/es/reflect",
-          "zone.js"
-        ],
+        "polyfills": ["core-js/es/reflect", "zone.js"],
         "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
         "karmaConfig": "projects/storefrontapp/karma.conf.js",
-        "styles": [
-          "projects/storefrontapp/src/styles.scss"
-        ],
+        "styles": ["projects/storefrontapp/src/styles.scss"],
         "scripts": [],
         "assets": [
           "projects/storefrontapp/src/manifest.json",
@@ -240,9 +229,7 @@
             "output": "assets/"
           }
         ],
-        "codeCoverageExclude": [
-          "dist/**/*"
-        ]
+        "codeCoverageExclude": ["dist/**/*"]
       }
     },
     "lint": {
@@ -255,7 +242,5 @@
       }
     }
   },
-  "tags": [
-    "type:app"
-  ]
+  "tags": ["type:app"]
 }

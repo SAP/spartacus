@@ -5,11 +5,9 @@
     "strict": false, // TODO: Fix strict errors and remove this option
     "target": "ES2022",
     "module": "ES2022",
-    "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm dependency (used by @spartacus/epd-visualization)
+    "skipLibCheck": true // Needed due to @sapui5/ts-types-esm dependency (used by @spartacus/epd-visualization)
   },
-  "types": [
-     "node"
-  ],
+  "types": ["node"],
   "files": [
     "src/main.ts",
     "src/main.server.ts",
