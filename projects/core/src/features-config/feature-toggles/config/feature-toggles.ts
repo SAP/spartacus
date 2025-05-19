@@ -16,6 +16,11 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
+   * In Order details page, it shows link to its Quote details page and vice-versa
+   */
+  showOrderQuoteLink?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -34,16 +39,6 @@ export interface FeatureTogglesInterface {
    * (with the plural `...Validators`)
    */
   formErrorsDescriptiveMessages?: boolean;
-
-  /**
-   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
-   */
-  useExtractedBillingAddressComponent?: boolean;
-
-  /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
 
   /**
    * In `ASM` it shows searching customer by order ID.
@@ -792,6 +787,15 @@ export interface FeatureTogglesInterface {
   enableSecurePasswordValidation?: boolean;
 
   /**
+   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
+   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
+   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
+   * on demand by clicking on `Show Options` button in case the back-end signals
+   * that domain values are not yet present.
+   */
+  enableReadDomainValuesOnDemand?: boolean;
+
+  /**
    * When enabled, checks before accessing checkout
    * if user has email assigned to the current cart.
    * If not - redirects user to `/opf-checkout-email` page.
@@ -801,13 +805,12 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
-  useExtractedBillingAddressComponent: true,
-  showBillingAddressInDigitalPayments: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -919,5 +922,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
 };

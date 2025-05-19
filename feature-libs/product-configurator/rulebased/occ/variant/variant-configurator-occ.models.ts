@@ -112,6 +112,7 @@ export namespace OccConfigurator {
     retractBlocked?: boolean;
     validationType?: string;
     visible?: boolean;
+    domainOnDemand?: boolean;
   }
 
   export interface Value {
