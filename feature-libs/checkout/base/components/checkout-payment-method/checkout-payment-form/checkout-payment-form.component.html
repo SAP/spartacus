@@ -1,10 +1,6 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
-  <div
-    *cxFeature="'!a11yRemoveStatusLoadedRole'"
-    role="status"
-    [attr.aria-label]="'common.loaded' | cxTranslate"
-  ></div>
+  <div *cxFeature="'!a11yRemoveStatusLoadedRole'" role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
@@ -14,39 +10,24 @@
           <ng-container *ngIf="cardTypes$ | async as cardTypes">
             <div *ngIf="cardTypes.length !== 0">
               <label>
-                <span class="label-content required"
-                  >{{ 'paymentForm.paymentType' | cxTranslate }}
+                <span class="label-content required">{{ 'paymentForm.paymentType' | cxTranslate }}
                   <cx-form-required-asterisks />
                 </span>
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="cardTypes"
-                  bindLabel="name"
-                  bindValue="code"
-                  placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
-                  formControlName="code"
-                  id="card-type-select"
+                <ng-select [inputAttrs]="{ required: 'true' }" [searchable]="true" [clearable]="false"
+                  [items]="cardTypes" bindLabel="name" bindValue="code"
+                  placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}" formControlName="code" id="card-type-select"
                   [cxNgSelectA11y]="{
                     ariaLabel: 'paymentForm.paymentType' | cxTranslate,
-                  }"
-                >
+                  }">
                 </ng-select>
 
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
-                  [translationParams]="{
+                <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
                     label: 'paymentForm.paymentType' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('cardType.code')"
-                ></cx-form-errors>
+                  }" [control]="paymentForm.get('cardType.code')"></cx-form-errors>
 
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
-                  [control]="paymentForm.get('cardType.code')"
-                ></cx-form-errors>
+                <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+                  [control]="paymentForm.get('cardType.code')"></cx-form-errors>
               </label>
             </div>
           </ng-container>
@@ -54,74 +35,44 @@
 
         <div class="form-group">
           <label>
-            <span class="label-content"
-              >{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
+            <span class="label-content">{{ 'paymentForm.accountHolderName.label' | cxTranslate }}
               <cx-form-required-asterisks />
             </span>
-            <input
-              required="true"
-              class="form-control"
-              type="text"
-              placeholder="{{
+            <input required="true" class="form-control" type="text" placeholder="{{
                 'paymentForm.accountHolderName.placeholder' | cxTranslate
-              }}"
-              formControlName="accountHolderName"
-              [attr.aria-invalid]="
+              }}" formControlName="accountHolderName" [attr.aria-invalid]="
                 paymentForm.get('accountHolderName')?.touched &&
                 paymentForm.get('accountHolderName')?.invalid
-              "
-              [attr.aria-errormessage]="'accountHolderNameError'"
-            />
+              " [attr.aria-errormessage]="'accountHolderNameError'" />
 
             <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-            <cx-form-errors
-              *cxFeature="'formErrorsDescriptiveMessages'"
-              id="accountHolderNameError"
+            <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" id="accountHolderNameError"
               [translationParams]="{
                 label: 'paymentForm.accountHolderName.label' | cxTranslate,
-              }"
-              [control]="paymentForm.get('accountHolderName')"
-            ></cx-form-errors>
+              }" [control]="paymentForm.get('accountHolderName')"></cx-form-errors>
 
-            <cx-form-errors
-              *cxFeature="'!formErrorsDescriptiveMessages'"
-              [control]="paymentForm.get('accountHolderName')"
-            ></cx-form-errors>
+            <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+              [control]="paymentForm.get('accountHolderName')"></cx-form-errors>
           </label>
         </div>
 
         <div class="form-group">
           <label>
-            <span class="label-content"
-              >{{ 'paymentForm.cardNumber' | cxTranslate }}
+            <span class="label-content">{{ 'paymentForm.cardNumber' | cxTranslate }}
               <cx-form-required-asterisks />
             </span>
-            <input
-              required="true"
-              type="text"
-              class="form-control"
-              formControlName="cardNumber"
-              [attr.aria-invalid]="
+            <input required="true" type="text" class="form-control" formControlName="cardNumber" [attr.aria-invalid]="
                 paymentForm.get('cardNumber')?.touched &&
                 paymentForm.get('cardNumber')?.invalid
-              "
-              [attr.aria-errormessage]="'cardNumberError'"
-            />
+              " [attr.aria-errormessage]="'cardNumberError'" />
 
             <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-            <cx-form-errors
-              *cxFeature="'formErrorsDescriptiveMessages'"
-              id="cardNumberError"
-              [translationParams]="{
+            <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" id="cardNumberError" [translationParams]="{
                 label: 'paymentForm.cardNumber' | cxTranslate,
-              }"
-              [control]="paymentForm.get('cardNumber')"
-            ></cx-form-errors>
+              }" [control]="paymentForm.get('cardNumber')"></cx-form-errors>
 
-            <cx-form-errors
-              *cxFeature="'!formErrorsDescriptiveMessages'"
-              [control]="paymentForm.get('cardNumber')"
-            ></cx-form-errors>
+            <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+              [control]="paymentForm.get('cardNumber')"></cx-form-errors>
           </label>
         </div>
 
@@ -133,68 +84,41 @@
                 <cx-form-required-asterisks />
               </legend>
               <label class="cx-payment-form-exp-date-wrapper">
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="months"
-                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
-                  formControlName="expiryMonth"
-                  id="month-select"
-                  [cxNgSelectA11y]="{
+                <ng-select [inputAttrs]="{ required: 'true' }" [searchable]="true" [clearable]="false" [items]="months"
+                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}" formControlName="expiryMonth"
+                  id="month-select" [cxNgSelectA11y]="{
                     ariaLabel:
                       'paymentForm.expirationMonth'
                       | cxTranslate
                         : { selected: paymentForm.get('expiryMonth')?.value },
-                  }"
-                >
+                  }">
                 </ng-select>
 
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
-                  [translationParams]="{
+                <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
                     label: 'paymentForm.expirationDate' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('expiryMonth')"
-                ></cx-form-errors>
+                  }" [control]="paymentForm.get('expiryMonth')"></cx-form-errors>
 
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
-                  [control]="paymentForm.get('expiryMonth')"
-                ></cx-form-errors>
+                <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+                  [control]="paymentForm.get('expiryMonth')"></cx-form-errors>
               </label>
               <label class="cx-payment-form-exp-date-wrapper">
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="years"
-                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
-                  id="year-select"
-                  [cxNgSelectA11y]="{
+                <ng-select [inputAttrs]="{ required: 'true' }" [searchable]="true" [clearable]="false" [items]="years"
+                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}" id="year-select" [cxNgSelectA11y]="{
                     ariaLabel:
                       'paymentForm.expirationYear'
                       | cxTranslate
                         : { selected: paymentForm.get('expiryYear')?.value },
-                  }"
-                  formControlName="expiryYear"
-                >
+                  }" formControlName="expiryYear">
                 </ng-select>
 
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
-                  [translationParams]="{
+                <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" [translationParams]="{
                     label: 'paymentForm.expirationDate' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('expiryYear')"
-                ></cx-form-errors>
+                  }" [control]="paymentForm.get('expiryYear')"></cx-form-errors>
 
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
-                  [control]="paymentForm.get('expiryYear')"
-                ></cx-form-errors>
+                <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+                  [control]="paymentForm.get('expiryYear')"></cx-form-errors>
               </label>
             </fieldset>
           </div>
@@ -204,44 +128,24 @@
               <span class="label-content">
                 {{ 'paymentForm.securityCode' | cxTranslate }}
                 <cx-form-required-asterisks />
-                <cx-icon
-                  [type]="iconTypes.INFO"
-                  class="cx-payment-form-tooltip"
-                  placement="right"
-                  title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}"
-                  alt=""
-                  [attr.aria-label]="
+                <cx-icon [type]="iconTypes.INFO" class="cx-payment-form-tooltip" placement="right"
+                  title="{{ 'paymentForm.securityCodeTitle' | cxTranslate }}" alt="" [attr.aria-label]="
                     'paymentForm.securityCodeTitle' | cxTranslate
-                  "
-                ></cx-icon>
+                  "></cx-icon>
               </span>
-              <input
-                required="true"
-                type="text"
-                class="form-control"
-                id="cVVNumber"
-                formControlName="cvn"
+              <input required="true" type="text" class="form-control" id="cVVNumber" formControlName="cvn"
                 [attr.aria-invalid]="
                   paymentForm.get('cvn')?.touched &&
                   paymentForm.get('cvn')?.invalid
-                "
-                [attr.aria-errormessage]="'cvnError'"
-              />
+                " [attr.aria-errormessage]="'cvnError'" />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-              <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
-                id="cvnError"
-                [translationParams]="{
+              <cx-form-errors *cxFeature="'formErrorsDescriptiveMessages'" id="cvnError" [translationParams]="{
                   label: 'paymentForm.securityCode' | cxTranslate,
-                }"
-                [control]="paymentForm.get('cvn')"
-              ></cx-form-errors>
+                }" [control]="paymentForm.get('cvn')"></cx-form-errors>
 
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
-                [control]="paymentForm.get('cvn')"
-              ></cx-form-errors>
+              <cx-form-errors *cxFeature="'!formErrorsDescriptiveMessages'"
+                [control]="paymentForm.get('cvn')"></cx-form-errors>
             </label>
           </div>
         </div>
@@ -249,40 +153,26 @@
         <div class="form-group" *ngIf="setAsDefaultField">
           <div class="form-check">
             <label>
-              <input
-                type="checkbox"
-                class="form-check-input"
-                (change)="toggleDefaultPaymentMethod()"
-              />
+              <input type="checkbox" class="form-check-input" (change)="toggleDefaultPaymentMethod()" />
               <span class="form-check-label">{{
                 'paymentForm.setAsDefault' | cxTranslate
-              }}</span>
+                }}</span>
             </label>
           </div>
         </div>
 
         <!-- BILLING -->
-        <div class="cx-payment-form-billing">
-          <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
-        </div>
+        <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
       </div>
     </div>
 
     <!-- BUTTON SECTION -->
     <div class="cx-checkout-btns row">
       <div class="col-md-12 col-lg-6">
-        <button
-          *ngIf="paymentMethodsCount === 0"
-          class="btn btn-block btn-secondary"
-          (click)="back()"
-        >
+        <button *ngIf="paymentMethodsCount === 0" class="btn btn-block btn-secondary" (click)="back()">
           {{ 'common.back' | cxTranslate }}
         </button>
-        <button
-          *ngIf="paymentMethodsCount > 0"
-          class="btn btn-block btn-secondary"
-          (click)="close()"
-        >
+        <button *ngIf="paymentMethodsCount > 0" class="btn btn-block btn-secondary" (click)="close()">
           {{ 'paymentForm.changePayment' | cxTranslate }}
         </button>
       </div>
