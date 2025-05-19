@@ -110,7 +110,7 @@ export class OrderAttachmentsDialogComponent {
 
   previewFile(blob: Blob): void {
     const blobUrl = URL.createObjectURL(blob);
-    window.open(blobUrl, '_blank');
+    window.open(blobUrl, '_blank', 'noopener,noreferrer');
   }
 
   downloadFile(blob: Blob, fileName: string): void {
