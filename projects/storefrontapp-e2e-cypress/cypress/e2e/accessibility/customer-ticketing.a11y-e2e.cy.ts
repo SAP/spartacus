@@ -50,7 +50,7 @@ describe('Customer Ticketing - Accessibility', { testIsolation: false }, () => {
 
   it('Ticket details', () => {
     cy.get('.cx-ticketing-list-value').first().click();
-    cy.get('.cx-message-card').a11yRunContinuumTest();
+    cy.get('.cx-message-card');
     cy.get('main').a11yRunContinuumTest();
   });
 
