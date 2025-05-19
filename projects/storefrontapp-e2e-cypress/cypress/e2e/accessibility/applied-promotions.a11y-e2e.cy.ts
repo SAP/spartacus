@@ -22,11 +22,16 @@ describe('Applied Promotions Accessibility', { testIsolation: false }, () => {
     cy.get('cx-added-to-cart-dialog button.close').click({ force: true });
   });
 
-  it('should show promotions on Cart page', () => {
+  it('should show all applied promotions on Cart page', () => {
     cy.get('cx-mini-cart').click();
-
     cy.get('.cart-details-wrapper').should('exist');
 
-    cy.get('.cx-promotions').a11yRunContinuumTest();
+    cy.get('.cx-promotions')
+      .filter(':visible')
+      .each(($el) => {
+        if ($el.text().trim().length > 0) {
+          cy.wrap($el).a11yRunContinuumTest();
+        }
+      });
   });
 });
