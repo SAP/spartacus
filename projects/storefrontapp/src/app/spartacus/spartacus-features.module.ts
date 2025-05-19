@@ -15,7 +15,6 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
-  provideAuthorizationCodeFlowByDefault,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -98,6 +97,7 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ProductImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { PunchoutFeatureModule } from './features/punchout/punchout-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -152,6 +152,9 @@ if (environment.s4om) {
 }
 if (environment.opf) {
   featureModules.push(OpfFeatureModule);
+}
+if (environment.punchout) {
+  featureModules.push(PunchoutFeatureModule);
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
@@ -287,7 +290,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideAuthorizationCodeFlowByDefault(false),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -295,9 +297,7 @@ if (environment.cpq) {
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        useExtractedBillingAddressComponent: false,
         showOrderQuoteLink: false,
-        showBillingAddressInDigitalPayments: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
