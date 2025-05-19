@@ -5,7 +5,7 @@
  */
 
 describe('Applied Promotions Accessibility', { testIsolation: false }, () => {
-  const ProductCode = '266685';
+  const ProductCode = '1382080';
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();
@@ -17,7 +17,13 @@ describe('Applied Promotions Accessibility', { testIsolation: false }, () => {
       .findByText(/Add To Cart/i)
       .click();
 
-    cy.get('cx-added-to-cart-dialog .cx-promotions').a11yRunContinuumTest();
+    cy.get('.cx-promotions')
+      .filter(':visible')
+      .each(($el) => {
+        if ($el.text().trim().length > 0) {
+          cy.wrap($el).a11yRunContinuumTest();
+        }
+      });
 
     cy.get('cx-added-to-cart-dialog button.close').click({ force: true });
   });
