@@ -220,7 +220,7 @@ jobs:
           ci-scripts/e2e-cypress.sh -s b2b
   a11y_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: E2E tests for A11Y
+    name: E2E tests for A11Y (B2C & B2B)
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -250,7 +250,6 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
-          SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s a11y

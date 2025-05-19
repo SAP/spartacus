@@ -33,42 +33,22 @@ run_a11y_tests_with_docs_on_failure() {
         B2C_RESULT=1
     fi
 
-    # Stop the current server
-    echo "Stopping current server"
     kill $SERVER_PID || true
 
     # Wait for the process to fully terminate
-    echo "Waiting for server process to terminate..."
     wait $SERVER_PID 2>/dev/null || true
-    sleep 5  # Add a short delay to ensure port is released
-
     # Make sure port 4200 is available by checking and killing any process using it
-    echo "Ensuring port 4200 is available..."
     lsof -i:4200 -t | xargs kill -9 2>/dev/null || true
-    sleep 2  # Wait a bit more after force kill
 
     echo "Setting up B2B environment"
     export SPA_ENV='ci,b2b'
-    echo "SPA_ENV: $SPA_ENV"
 
-    # Clear NX cache to force rebuild
-    echo "Clearing NX cache to force rebuild with B2B config"
-    npx nx reset
-
-    # Force rebuild with skip-nx-cache flag
     echo "Building Spartacus storefrontapp with B2B configuration"
     npm run build -- --skip-nx-cache
-
-    echo "Starting B2B server"
     npm run start:pwa &
     B2B_SERVER_PID=$!
 
-    # Wait for server to start
-    echo "Waiting for B2B server to start..."
-    sleep 10
-
     echo "Running a11y tests for B2B site"
-    # Use a different ci-build-id for B2B tests
     export BUILD_NUMBER="${BUILD_NUMBER}-b2b"
     if npm run e2e:run:ci:a11y:b2b; then
         B2B_RESULT=0
@@ -77,8 +57,6 @@ run_a11y_tests_with_docs_on_failure() {
         B2B_RESULT=1
     fi
 
-    # Kill B2B server
-    echo "Stopping B2B server"
     kill $B2B_SERVER_PID || true
     wait $B2B_SERVER_PID 2>/dev/null || true
 
@@ -214,10 +192,6 @@ else
     npm run start:pwa &
     SERVER_PID=$!
 
-    # Wait for server to start
-    echo "Waiting for server to start..."
-    sleep 10
-
     echo '-----'
     echo "Running Cypress end to end tests"
 
@@ -246,7 +220,7 @@ else
 
         if is_bot_commit; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-                npm run e2e:run:ci:core"${SUITE}"
+            npm run e2e:run:ci:core"${SUITE}"
         else
             echo "Running full Cypress end-to-end tests"
             if [[ "${SUITE}" == ":a11y" ]]; then
