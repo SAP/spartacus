@@ -89,20 +89,21 @@ ${BUILD_COMMAND_ADVICE}`
     );
   }
 
-  // Search for the marker in every file inside dist/storefrontapp/server
-  const serverDistDir = path.join(__dirname, '../../dist/storefrontapp/server');
-  const serverFiles = fs.readdirSync(serverDistDir);
-  let foundProxyBackendMarker = false;
-  for (const file of serverFiles) {
-    const filePath = path.join(serverDistDir, file);
-    if (fs.statSync(filePath).isFile()) {
-      const distFileContents = fs.readFileSync(filePath, 'utf8');
-      if (distFileContents.includes(USING_PROXY_BACKEND_MARKER)) {
-        foundProxyBackendMarker = true;
-        break;
-      }
-    }
+  // Helper to get all files in a directory (non-recursive)
+  function getFiles(dir: string): string[] {
+    if (!fs.existsSync(dir)) return [];
+    return fs
+      .readdirSync(dir)
+      .map((file) => path.join(dir, file))
+      .filter((filePath) => fs.statSync(filePath).isFile());
   }
+
+  // Check for proxy backend marker in server files
+  const serverDistDir = path.join(__dirname, '../../dist/storefrontapp/server');
+  const serverFiles = getFiles(serverDistDir);
+  const foundProxyBackendMarker = serverFiles.some((filePath) =>
+    fs.readFileSync(filePath, 'utf8').includes(USING_PROXY_BACKEND_MARKER)
+  );
   if (!foundProxyBackendMarker) {
     throw new Error(
       `
@@ -111,26 +112,12 @@ ${BUILD_COMMAND_ADVICE}`
     );
   }
 
-  // Search for the dev mode marker in every file inside two folders: dist/storefrontapp/server and dist/storefrontapp/browser
+  // Check for dev mode marker in server and browser files
   const browserDistDir = path.join(__dirname, '../../dist/storefrontapp/browser');
-  const distDirs = [serverDistDir, browserDistDir];
-  let foundDevModeMarker = false;
-  for (const dir of distDirs) {
-    if (fs.existsSync(dir)) {
-      const files = fs.readdirSync(dir);
-      for (const file of files) {
-        const filePath = path.join(dir, file);
-        if (fs.statSync(filePath).isFile()) {
-          const distFileContents = fs.readFileSync(filePath, 'utf8');
-          if (distFileContents.includes(USING_DEV_MODE_MARKER)) {
-            foundDevModeMarker = true;
-            break;
-          }
-        }
-      }
-    }
-    if (foundDevModeMarker) break;
-  }
+  const allDistFiles = [...serverFiles, ...getFiles(browserDistDir)];
+  const foundDevModeMarker = allDistFiles.some((filePath) =>
+    fs.readFileSync(filePath, 'utf8').includes(USING_DEV_MODE_MARKER)
+  );
   if (foundDevModeMarker) {
     throw new Error(
       `
