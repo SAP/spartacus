@@ -53,6 +53,9 @@ export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy
 {
   @Input()
+  cxNgSelectA11yAriaControls?: string;
+
+  @Input()
   documentTypeOptions: Array<AccountSummaryDocumentType>;
 
   @Input()
