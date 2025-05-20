@@ -12,6 +12,7 @@ import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
+  OccFieldsService,
 } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
@@ -48,6 +49,7 @@ describe('OccOrderHistoryAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let occFieldsService: OccFieldsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,6 +69,7 @@ describe('OccOrderHistoryAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
+    occFieldsService = TestBed.inject(OccFieldsService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
@@ -122,7 +125,11 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('getOrder', () => {
-    it('should fetch a single order', waitForAsync(() => {
+    it('should fetch a single order without quote code', waitForAsync(() => {
+      spyOn(
+        (occOrderHistoryAdapter as any).featureConfigService,
+        'isEnabled'
+      ).and.returnValue(false);
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -130,6 +137,30 @@ describe('OccOrderHistoryAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
         urlParams: { userId, orderId: orderData.code },
       });
+      expect(occEnpointsService.buildUrl).not.toHaveBeenCalledWith(
+        'quoteCode',
+        {
+          urlParams: { userId, orderId: orderData.code },
+        }
+      );
+    }));
+    it('should fetch a single order', waitForAsync(() => {
+      spyOn(occFieldsService, 'getOptimalUrlGroups').and.callThrough();
+      spyOn(
+        (occOrderHistoryAdapter as any).featureConfigService,
+        'isEnabled'
+      ).and.returnValue(true);
+      occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
+      httpMock.expectOne((req: HttpRequest<any>) => {
+        return req.method === 'GET';
+      }, `GET a single order`);
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
+        urlParams: { userId, orderId: orderData.code },
+      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('quoteCode', {
+        urlParams: { userId, orderId: orderData.code },
+      });
+      expect(occFieldsService.getOptimalUrlGroups).toHaveBeenCalled();
     }));
 
     it('should use converter', () => {
