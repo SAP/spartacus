@@ -95,7 +95,7 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-npm run build
+npm run build:csr
 
 is_bot_commit() {
     LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
