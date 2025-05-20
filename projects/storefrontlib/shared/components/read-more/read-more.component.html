@@ -10,7 +10,5 @@
   *ngIf="showReadMore"
   (click)="isCollapsed = !isCollapsed"
 >
-  {{
-    (isCollapsed ? readMoreTranslation! : readLessTranslation!) | cxTranslate
-  }}
+  {{ (isCollapsed ? readMoreI18nKey! : readLessI18nKey!) | cxTranslate }}
 </button>

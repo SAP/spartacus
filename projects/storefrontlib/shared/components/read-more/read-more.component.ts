@@ -28,9 +28,9 @@ import { I18nModule } from '@spartacus/core';
 })
 export class ReadMoreComponent implements OnChanges {
   // Read More label translation key
-  @Input() readMoreTranslation?: string = 'common.readMore';
+  @Input() readMoreI18nKey?: string = 'common.readMore';
   // Read Less label translation key
-  @Input() readLessTranslation?: string = 'common.readLess';
+  @Input() readLessI18nKey?: string = 'common.readLess';
   // Text length that, when exceeded, triggers truncation and adds a Read More link.
   @Input() maxLength = 360;
   // Text to be rendered (decorated with Read More/Read Less links)
