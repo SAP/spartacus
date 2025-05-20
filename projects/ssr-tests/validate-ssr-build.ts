@@ -111,8 +111,27 @@ ${BUILD_COMMAND_ADVICE}`
     );
   }
 
-  const fileContents = fs.readFileSync(SSR_APP_PATH, 'utf8');
-  if (fileContents.includes(USING_DEV_MODE_MARKER)) {
+  // Search for the dev mode marker in every file inside two folders: dist/storefrontapp/server and dist/storefrontapp/browser
+  const browserDistDir = path.join(__dirname, '../../dist/storefrontapp/browser');
+  const distDirs = [serverDistDir, browserDistDir];
+  let foundDevModeMarker = false;
+  for (const dir of distDirs) {
+    if (fs.existsSync(dir)) {
+      const files = fs.readdirSync(dir);
+      for (const file of files) {
+        const filePath = path.join(dir, file);
+        if (fs.statSync(filePath).isFile()) {
+          const distFileContents = fs.readFileSync(filePath, 'utf8');
+          if (distFileContents.includes(USING_DEV_MODE_MARKER)) {
+            foundDevModeMarker = true;
+            break;
+          }
+        }
+      }
+    }
+    if (foundDevModeMarker) break;
+  }
+  if (foundDevModeMarker) {
     throw new Error(
       `
 SSR app is not using prod mode.
