@@ -115,7 +115,10 @@ ${BUILD_COMMAND_ADVICE}`
   }
 
   // Check for dev mode marker in server and browser files
-  const browserDistDir = path.join(__dirname, '../../dist/storefrontapp/browser');
+  const browserDistDir = path.join(
+    __dirname,
+    '../../dist/storefrontapp/browser'
+  );
   const allDistFiles = [...serverFiles, ...getFiles(browserDistDir)];
   const foundDevModeMarker = allDistFiles.some((filePath) =>
     fs.readFileSync(filePath, 'utf8').includes(USING_DEV_MODE_MARKER)
