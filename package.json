@@ -55,7 +55,7 @@
     "build:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV npm run build",
     "build:ssr:opf": "env-cmd --no-override -e opf,b2c,$SPA_ENV npm run build",
     "build:ssr:ci": "env-cmd -e ci,b2c,$SPA_ENV npm run build",
-    "build:ssr:local-http-backend": "env-cmd -e local-http,b2c,$SPA_ENV ng build",
+    "build:ssr:local-http-backend": "env-cmd -e local-http,b2c,$SPA_ENV npm run build",
     "build:storefinder": "npm --prefix feature-libs/storefinder run build:schematics && nx build storefinder --configuration production",
     "build:smartedit": "npm --prefix feature-libs/smartedit run build:schematics && nx build smartedit --configuration production",
     "build:tracking": "npm --prefix feature-libs/tracking run build:schematics && nx build tracking --configuration production",
