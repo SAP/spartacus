@@ -336,7 +336,16 @@ export class PunchoutService implements PunchoutFacade {
     );
   }
 
+  /**
+   * Take a snapshot of initial requisition and store it in the state.
+   * This is used to send the initial cart snapshot in CXML when the user
+   * closes the punchout session via 'Close Session' button.
+   *
+   * This method is called only in EDIT mode.
+   * @returns
+   */
   protected setPunchoutInitialRequisition(): void {
+    // isInitialRequisition is set to true as hitting initial Requisition use case.
     this.getPunchoutSessionRequisition(true)
       .pipe(take(1))
       .subscribe({
