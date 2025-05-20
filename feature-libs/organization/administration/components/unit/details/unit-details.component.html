@@ -64,6 +64,9 @@
       <label>{{ 'orgUnit.parentUnit' | cxTranslate }}</label>
       <a
         class="value"
+        [ariaLabel]="
+          model.parentOrgUnit?.name ?? ('orgUnit.parentUnit' | cxTranslate)
+        "
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
