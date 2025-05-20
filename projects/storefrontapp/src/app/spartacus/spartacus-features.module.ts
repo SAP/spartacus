@@ -322,7 +322,7 @@ if (environment.cpq) {
         a11yPreventSRFocusOnHiddenElements: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
-        a11ySemanticPaginationLabel: true,
+        a11ySemanticPaginationLabel: false,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,

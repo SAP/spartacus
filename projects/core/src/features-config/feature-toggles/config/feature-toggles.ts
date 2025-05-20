@@ -822,7 +822,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOrganizationLinkableCells: true,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
-  a11ySemanticPaginationLabel: true,
+  a11ySemanticPaginationLabel: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: true,
   a11yNotificationPreferenceFieldset: true,

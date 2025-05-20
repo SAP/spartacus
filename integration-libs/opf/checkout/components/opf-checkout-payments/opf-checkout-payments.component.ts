@@ -82,6 +82,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   hideOnlyOnePaymentProviderLabel? = false;
 
+  @Input()
+  forceRadioInputsView? = false;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -127,7 +130,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
               }
 
               this.isOnlyOnePaymentOptionAvailable =
-                state.data.value.length === 1;
+                state.data.value.length === 1 &&
+                state.data.page?.totalPages === 1;
 
               if (this.isOnlyOnePaymentOptionAvailable) {
                 this.selectedPaymentId = state.data?.value[0]?.id;
