@@ -105,6 +105,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     return !state?.loading && !Boolean(state?.data?.value?.length);
   }
 
+  protected checkIfOnlyOnePaymentOptionAvailable(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ): boolean {
+    return (
+      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+    );
+  }
+
   getActiveConfigurations(): Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   > {
@@ -130,8 +138,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
               }
 
               this.isOnlyOnePaymentOptionAvailable =
-                state.data.value.length === 1 &&
-                state.data.page?.totalPages === 1;
+                this.checkIfOnlyOnePaymentOptionAvailable(state);
 
               if (this.isOnlyOnePaymentOptionAvailable) {
                 this.selectedPaymentId = state.data?.value[0]?.id;
