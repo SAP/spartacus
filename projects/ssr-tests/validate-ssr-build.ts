@@ -91,7 +91,7 @@ ${BUILD_COMMAND_ADVICE}`
 
   // Helper to get all files in a directory (non-recursive)
   function getFiles(dir: string): string[] {
-    if (!fs.existsSync(dir)) return [];
+    if (!fs.existsSync(dir)) { return [] };
     return fs
       .readdirSync(dir)
       .map((file) => path.join(dir, file))
