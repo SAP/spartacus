@@ -190,7 +190,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should getPunchoutSessionRequisition with empty param ends punchout session', (done) => {
+  it('should getPunchoutSession with empty param ends punchout session', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     service.getPunchoutSession({ punchoutSessionId: '' }).subscribe({
       error: () => {
@@ -305,7 +305,7 @@ describe('Punchoutservice', () => {
     );
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
     service.getPunchoutSession(mockSessionInput).subscribe({
-      next: () => {
+      complete: () => {
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
         expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
           punchoutInitialRequisition: { ...mockPunchoutInitialRequisition },
@@ -315,25 +315,55 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should redirect to home page if requisition page was open manually', (done) => {
+  it('should getPunchoutSessionRequisition not redirect user when isInitialRequisition is true', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutRequisitionResponse)
+    );
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of({
+        ...mockPunchoutState,
         cancelRequisition: undefined,
         closePunchoutSession: undefined,
       })
     );
-    spyOn(routingService, 'go').and.stub();
-    service.getPunchoutSession(mockSessionInput).subscribe({
-      next: () => {
+
+    service.getPunchoutSessionRequisition(true).subscribe({
+      complete: () => {
+        expect(globalMessageService.add).not.toHaveBeenCalledWith(
+          {
+            key: 'organization.notification.noSufficientPermissions',
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
+        expect(routingService.go).not.toHaveBeenCalledWith({ cxRoute: 'home' });
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionRequisition redirects to home page when isInitialRequisition is false', (done) => {
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutRequisitionResponse)
+    );
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of({
+        ...mockPunchoutState,
+        cancelRequisition: undefined,
+        closePunchoutSession: undefined,
+      })
+    );
+
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    service.getPunchoutSessionRequisition(false).subscribe({
+      complete: () => {
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'organization.notification.noSufficientPermissions',
           },
           GlobalMessageType.MSG_TYPE_WARNING
         );
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'home',
-        });
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
         done();
       },
     });

@@ -114,6 +114,7 @@ export class PunchoutService implements PunchoutFacade {
    * getPunchoutRequisition workflow:
    * Ensure user is logged-in
    * get punchoutSessionId from PunchoutState
+   * Redirect user to homePage if method is called from Requisition page manual navigation
    * Get PunchoutSessionRequisition from  occ api OR from PunchoutState
    * Redirect to Punchout Error page if error occurs
    */
@@ -131,6 +132,8 @@ export class PunchoutService implements PunchoutFacade {
       take(1),
       switchMap((punchoutState: PunchoutState) => {
         // prevent manual navigation to requisition page
+        // isInitialRequisition handles use case where this method is called out of Requisition page,
+        // when fetching the initial requisition object from setPunchoutInitialRequisition().
         console.log(isInitialRequisition);
         if (
           !isInitialRequisition &&
