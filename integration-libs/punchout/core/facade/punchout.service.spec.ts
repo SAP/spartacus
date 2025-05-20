@@ -305,7 +305,7 @@ describe('Punchoutservice', () => {
     );
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
     service.getPunchoutSession(mockSessionInput).subscribe({
-      complete: () => {
+      next: () => {
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
         expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
           punchoutInitialRequisition: { ...mockPunchoutInitialRequisition },
