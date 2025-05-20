@@ -134,7 +134,6 @@ export class PunchoutService implements PunchoutFacade {
         // prevent manual navigation to requisition page
         // isInitialRequisition handles use case where this method is called out of Requisition page,
         // when fetching the initial requisition object from setPunchoutInitialRequisition().
-        console.log(isInitialRequisition);
         if (
           !isInitialRequisition &&
           punchoutState?.closePunchoutSession === undefined &&
