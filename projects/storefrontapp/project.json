@@ -160,22 +160,16 @@
           "serviceWorker": false,
           "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
         },
-        "noSsr": {
-          "ssr": false,
-          "prerender": false
-        },
         "development": {
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
         },
-        "prerender": {
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "namedChunks": false,
-          "serviceWorker": false,
-          "server": "projects/storefrontapp/src/main.server.ts",
+        "noSsr": {
+          "ssr": false,
+          "prerender": false
+        },
+        "withPrerender": {
           "prerender": {
             "discoverRoutes": false,
             "routesFile": "projects/storefrontapp/prerender.txt"
@@ -183,6 +177,14 @@
         }
       },
       "defaultConfiguration": "production"
+    },
+    "prerender-production": {
+      "executor": "@angular-devkit/architect:concat",
+      "options": {
+        "targets": [
+          { "target": "storefrontapp:build:production,withPrerender" }
+        ]
+      }
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
