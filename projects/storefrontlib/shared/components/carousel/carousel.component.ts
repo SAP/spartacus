@@ -97,7 +97,6 @@ export class CarouselComponent implements OnInit, OnChanges {
     protected service: CarouselService
   ) {
     useFeatureStyles('a11yAddPaddingToCarouselPanel');
-    useFeatureStyles('a11yVisibleFocusOverflows');
   }
 
   ngOnInit() {
