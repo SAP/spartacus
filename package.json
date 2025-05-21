@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx esbuild-visualizer --metadata ./dist/storefrontapp/stats.json",
-    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:build:production",
+    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:build",
     "build:core": "nx build core --configuration production",
     "build:storefrontlib": "nx build storefrontlib --configuration production",
     "build:asm": "npm --prefix feature-libs/asm run build:schematics && nx build asm --configuration production",

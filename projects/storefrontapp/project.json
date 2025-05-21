@@ -181,7 +181,8 @@
             "routesFile": "projects/storefrontapp/prerender.txt"
           }
         }
-      }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
