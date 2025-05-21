@@ -299,7 +299,6 @@ if (environment.cpq) {
         shouldHideAddToCartForUnpurchasableProducts: false,
         showOrderQuoteLink: false,
         showBillingAddressInDigitalPayments: true,
-        showDownloadProposalButton: true,
         showPromotionsInPDP: true,
         searchBoxV2: false,
         trendingSearches: false,
