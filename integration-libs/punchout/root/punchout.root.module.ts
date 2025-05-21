@@ -80,6 +80,7 @@ export function punchoutStatePersistenceFactory(): () => void {
           punchoutSession: {
             paths: [PUNCHOUT_SESSION_PAGE_URL],
             protected: false,
+            authFlow: true,
           },
         },
       },
