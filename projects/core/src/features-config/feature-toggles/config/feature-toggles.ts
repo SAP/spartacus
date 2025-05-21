@@ -792,18 +792,6 @@ export interface FeatureTogglesInterface {
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 
   /**
-   * When enabled, sets the default oAuth configuration to use authorization
-   * code flow with PKCE.  This results in a more secure authorization scheme
-   * as the default configuration.
-   *
-   * NOTE: This flag should only be enabled when used with a CCv2 Authorization
-   * Server running the September 2025 update or higher.  The CCv2 Authorization
-   * Server only supports Authorization Code flow for public clients from
-   * that version and onwards.
-   */
-  authorizationCodeFlowDefault?: boolean;
-
-  /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
    * and getStoreLongitude instead of StoreFinderFacade (deprecated)
    * The logic behind it stays the same
