@@ -26,6 +26,7 @@ const ssrOptions: SsrOptimizationOptions = {
   cache: process.env['SSR_CACHE'] === 'true',
   ssrFeatureToggles: {
     avoidCachingErrors: true,
+    limitCacheByMemory: true,
   },
 };
 

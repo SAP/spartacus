@@ -41,11 +41,6 @@ export interface FeatureTogglesInterface {
   formErrorsDescriptiveMessages?: boolean;
 
   /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -804,7 +799,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
-  showBillingAddressInDigitalPayments: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
