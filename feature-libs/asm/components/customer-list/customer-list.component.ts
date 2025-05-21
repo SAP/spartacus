@@ -125,7 +125,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             state.error &&
             typeof state.error === 'object' &&
             'status' in state.error &&
-            (state.error as any).status === 403
+            state.error.status === 403
           ) {
             this.launchDialogService.closeDialog('forbidden');
           }
