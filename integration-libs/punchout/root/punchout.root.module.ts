@@ -14,7 +14,9 @@ import {
 import {
   AuthHttpHeaderService,
   CmsConfig,
+  provideDefaultConfig,
   provideDefaultConfigFactory,
+  RoutingConfig,
 } from '@spartacus/core';
 import { PUNCHOUT_FEATURE } from './feature-name';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
@@ -22,6 +24,7 @@ import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
 import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
 import { PunchoutUiRestrictionService } from './services/punchout-ui-restriction.service';
+import { PUNCHOUT_SESSION_PAGE_URL } from './model';
 
 export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -71,6 +74,16 @@ export function punchoutStatePersistenceFactory(): () => void {
           punchoutComponentsService.init(compRef);
       },
     },
+    provideDefaultConfig({
+      routing: {
+        routes: {
+          punchoutSession: {
+            paths: [PUNCHOUT_SESSION_PAGE_URL],
+            protected: false,
+          },
+        },
+      },
+    } as RoutingConfig),
   ],
 })
 export class PunchoutRootModule {}
