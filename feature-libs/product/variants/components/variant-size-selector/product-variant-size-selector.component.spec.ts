@@ -1,16 +1,60 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import {
+  BaseOption,
   I18nTestingModule,
   Product,
   ProductService,
   RoutingService,
+  TranslationService,
   UrlCommands,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
+import { By } from '@angular/platform-browser';
+
+class MockTranslationService {
+  translate() {
+    return of('of');
+  }
+}
+
+const mockVariants = {
+  options: [
+    {
+      code: '300785814',
+      variantOptionQualifiers: [
+        {
+          name: 'Style',
+          qualifier: 'style',
+          value: 'plaid',
+        },
+        {
+          name: 'Size',
+          qualifier: 'size',
+          value: 'LXL',
+        },
+      ],
+    },
+    {
+      code: '300785815',
+      variantOptionQualifiers: [
+        {
+          name: 'Style',
+          qualifier: 'style',
+          value: 'plaid',
+        },
+        {
+          name: 'Size',
+          qualifier: 'size',
+          value: 'SM',
+        },
+      ],
+    },
+  ],
+};
 
 const mockProduct = {
   code: 'p1',
@@ -55,6 +99,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
       declarations: [ProductVariantSizeSelectorComponent],
       imports: [I18nTestingModule],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: ProductService,
@@ -100,5 +145,19 @@ describe('ProductVariantSizeSelectorComponent', () => {
   it('should not find variant', () => {
     const result = component.getVariantOptionValue([mockQualifiers2]);
     expect(result).toEqual('');
+  });
+
+  it('should append an aria-label to options', () => {
+    fixture = TestBed.createComponent(ProductVariantSizeSelectorComponent);
+    component = fixture.componentInstance;
+    component.variants = mockVariants as unknown as BaseOption;
+    fixture.detectChanges();
+    const options = fixture.debugElement.queryAll(By.css('option'));
+    expect(options.length).toEqual(2);
+    options.forEach((option, index: number) => {
+      expect(option.nativeElement.getAttribute('aria-label')).toContain(
+        `${index + 1} of ${options.length}`
+      );
+    });
   });
 });
