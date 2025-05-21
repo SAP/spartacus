@@ -30,11 +30,14 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param configId configuration id
    * @param groupId group id
    * @param configurationOwner configuration owner
+   * @param attributeKey optional - if filled, only the attribute with the given key is returned
+   *
    */
   abstract readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    attributeKey?: string
   ): Observable<Configurator.Configuration>;
 
   /**
