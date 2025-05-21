@@ -20,6 +20,12 @@ export interface OrderOccEndpoints {
    */
   orderDetail?: string | OccEndpoint;
   /**
+   * Endpoint for Quote Code associated with the Order. The Quote Code is present if the order was placed from a quote.
+   *
+   * @member {string}
+   */
+  quoteCode?: string | OccEndpoint;
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}
@@ -85,6 +91,14 @@ export interface OrderOccEndpoints {
    * Endpoint to create a new cart from an existing order
    */
   reorder?: string | OccEndpoint;
+  /**
+   * Get order attachments
+   */
+  orderAttachments?: string | OccEndpoint;
+  /**
+   * Download order attachment blob
+   */
+  downloadOrderAttachment?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

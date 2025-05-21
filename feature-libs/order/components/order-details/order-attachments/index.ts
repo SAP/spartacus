@@ -1,0 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export * from './order-attachments.component';
+export * from './attachments-dialog/order-attachments-dialog.component';

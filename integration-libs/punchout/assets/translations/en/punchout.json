@@ -1,0 +1,9 @@
+{
+  "punchout": {
+    "backToRequisition": "Back to requisition",
+    "cancel": "Cancel",
+    "redirectToProcurementSystem": "Return to Procurement System",
+    "closeSession": "Close Session",
+    "initiatingUserSession": "Initiating user session"
+  }
+}
