@@ -127,6 +127,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       );
     this.asmService.getAsmUiState().subscribe((state) => {
       if (state.status === 403) {
+        this.logout();
         this.hideUi();
         this.asmService.updateAsmUiState({ status: undefined });
       }
@@ -172,8 +173,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             }
           }
           if (result === 'forbidden') {
+            this.logout();
             this.hideUi();
-            this.subscription.unsubscribe();
           }
         })
     );
