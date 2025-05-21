@@ -8,6 +8,8 @@ import { BEFORE_CMS_PAGE_GUARD } from '@spartacus/storefront';
 
 import { NgModule } from '@angular/core';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
+import { PunchoutProtectedRoutesGuard } from './punchout-protected-routes.guard';
+import { ProtectedRoutesGuard } from '@spartacus/core';
 
 @NgModule({
   providers: [
@@ -15,6 +17,10 @@ import { PunchoutNavigationGuard } from './punchout-navigation.guard';
       provide: BEFORE_CMS_PAGE_GUARD,
       useClass: PunchoutNavigationGuard,
       multi: true,
+    },
+    {
+      provide: ProtectedRoutesGuard,
+      useClass: PunchoutProtectedRoutesGuard,
     },
   ],
 })
