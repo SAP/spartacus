@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { login } from '../../../support/utils/login';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
