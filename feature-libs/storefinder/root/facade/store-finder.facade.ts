@@ -22,6 +22,7 @@ import { StoreEntities } from '../model/store-entities.model';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
+      // @ts-ignore: Deprecated methods will be removed with next major release
       facade: StoreFinderFacade,
       feature: STORE_FINDER_FEATURE,
       methods: [
@@ -34,9 +35,6 @@ import { StoreEntities } from '../model/store-entities.model';
         'viewAllStores',
         'viewStoreById',
         'callFindStoresAction',
-        'getStoreLatitude',
-        'getStoreLongitude',
-        'getDirections',
         'getFindStoreEntityById',
       ],
       async: true,
