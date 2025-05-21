@@ -23,6 +23,7 @@ export interface CustomerSearchOptions {
 }
 
 export interface AsmUi {
+  status?: number;
   collapsed?: boolean;
 }
 

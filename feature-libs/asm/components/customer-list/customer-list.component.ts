@@ -121,6 +121,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       this.asmCustomerListFacade.getCustomerListsState().pipe(
         tap((state) => (this.listsError = !!state.error)),
         map((state) => {
+          if (
+            state.error &&
+            typeof state.error === 'object' &&
+            'status' in state.error &&
+            (state.error as any).status === 403
+          ) {
+            this.launchDialogService.closeDialog('forbidden');
+          }
           if (state?.data?.userGroups?.length === 0) {
             this.listsEmpty = true;
             return undefined;

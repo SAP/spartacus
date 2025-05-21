@@ -125,6 +125,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
+    this.asmService.getAsmUiState().subscribe((state) => {
+      if (state.status === 403) {
+        this.hideUi();
+        this.asmService.updateAsmUiState({ status: undefined });
+      }
+    });
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
@@ -164,6 +170,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                   }, 500);
                 });
             }
+          }
+          if (result === 'forbidden') {
+            this.hideUi();
+            this.subscription.unsubscribe();
           }
         })
     );
