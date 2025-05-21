@@ -14,4 +14,4 @@ if (environment.production) {
   enableProdMode();
 }
 export { renderModule } from '@angular/platform-server';
-export { AppModuleServer as default } from './app/app.module.server';
+export { AppServerModule as default } from './app/app.module.server';

@@ -196,19 +196,6 @@
       },
       "defaultConfiguration": "development"
     },
-    "serve-ssr": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "nx run storefrontapp:build:production --watch"
-          },
-          {
-            "command": "sh -c 'while [ ! -f dist/storefrontapp/server/server.mjs ]; do sleep 1; done; node --watch-path=dist/storefrontapp/server/ dist/storefrontapp/server/server.mjs'"
-          }
-        ]
-      }
-    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {

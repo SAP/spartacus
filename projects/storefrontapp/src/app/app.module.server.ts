@@ -27,4 +27,4 @@ import { AppModule } from './app.module';
     }),
   ],
 })
-export class AppModuleServer {}
+export class AppServerModule {}

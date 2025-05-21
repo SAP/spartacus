@@ -124,8 +124,9 @@
     "test:libs": "concurrently \"nx test core --code-coverage\" \"nx test storefrontlib --code-coverage\" \"nx test cart --code-coverage\" \"nx test organization --code-coverage\" \"nx test storefinder --code-coverage\" \"nx test smartedit --code-coverage\" \"nx test asm --code-coverage\" \"nx test qualtrics --code-coverage\" \"nx test product --code-coverage\" \"nx test product-configurator --code-coverage\" \"nx test product-multi-dimensional --code-coverage\" \"nx test customer-ticketing --code-coverage\" \"nx test cdc --code-coverage\" \"nx test s4-service --code-coverage\" \"nx test cdp --code-coverage\" \"nx test opps --code-coverage\" \"nx test setup --code-coverage\" \"nx test checkout --code-coverage\" \"nx test order --code-coverage\" \"nx test digital-payments --code-coverage\" \"nx test epd-visualization --code-coverage\" \"nx test pickup-in-store --code-coverage\" \"nx test s4om --code-coverage\" \"nx test cpq-quote --code-coverage\" \"nx test omf --code-coverage\" \"nx test requested-delivery-date --code-coverage\" \"nx test estimated-delivery-date --code-coverage\" \"nx test pdf-invoices --code-coverage\" \"nx test quote --code-coverage\" \"nx test opf --code-coverage\" \"nx test punchout --code-coverage\"",
     "test:storefront:lib": "nx test storefrontlib --source-map --code-coverage",
     "test:opf:lib": "nx test opf --source-map --code-coverage",
+    "dev:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
     "serve:ssr": "node dist/storefrontapp/server/server.mjs",
-    "serve:ssr:watch": "node --watch dist/storefrontapp/server/server.mjs",
+    "serve:ssr:watch": "node --watch-path=dist/storefrontapp/server/ dist/storefrontapp/server/server.mjs",
     "serve:ssr:ci": "NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_TIMEOUT=0 node dist/storefrontapp/server/server.mjs",
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp/server/server.mjs",
     "test:ssr": "env-cmd -e dev nx test ssr-tests",
@@ -135,7 +136,6 @@
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "nx test cds --code-coverage",
     "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:build:production",
-    "dev:cds:ssr": "env-cmd --no-override -e dev,b2c,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:serve-ssr",
     "prerender": "npm run build --prerender=true",
     "prerender:cds:dev": "env-cmd --no-override -e dev,cds cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:build:prerender",
     "watch": "npm run build -- --watch"

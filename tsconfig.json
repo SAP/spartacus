@@ -14,7 +14,6 @@
     "stripInternal": true,
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
-    "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
       "@spartacus/schematics": ["projects/schematics/index"],

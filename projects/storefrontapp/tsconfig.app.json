@@ -16,6 +16,7 @@
   ],
   "include": ["projects/storefrontapp/src/**/*.d.ts"],
   "angularCompilerOptions": {
-    "strictTemplates": false
+    "strictTemplates": false,
+    "skipLibCheck": true
   }
 }
