@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { SsrOptimizationOptions } from '../ssr-optimization-options';
 import { RenderingEntry } from './rendering-cache.model';
-import { SsrOptimizationOptions } from './ssr-optimization-options';
 
 /**
  * It keeps track of the used cache size and helps making sure that adding new entries
