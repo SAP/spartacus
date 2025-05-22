@@ -19,6 +19,7 @@
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx esbuild-visualizer --metadata ./dist/storefrontapp/stats.json",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:build",
+    "watch": "npm run build -- --watch --configuration development",
     "build:core": "nx build core --configuration production",
     "build:storefrontlib": "nx build storefrontlib --configuration production",
     "build:asm": "npm --prefix feature-libs/asm run build:schematics && nx build asm --configuration production",
@@ -133,8 +134,7 @@
     "prerender": "env-cmd --no-override -e dev,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender-production",
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "nx test cds --code-coverage",
-    "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:build:production",
-    "watch": "npm run build -- --watch --configuration development"
+    "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:build:production"
   },
   "private": false,
   "dependencies": {
