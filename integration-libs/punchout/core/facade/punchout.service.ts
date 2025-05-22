@@ -266,7 +266,7 @@ export class PunchoutService implements PunchoutFacade {
     return this.closePunchoutSessionCommand.execute(undefined);
   }
 
-  getPunchoutSession(
+  initPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
     return this.getPunchoutSessionCommand.execute(punchoutSessionInput);
