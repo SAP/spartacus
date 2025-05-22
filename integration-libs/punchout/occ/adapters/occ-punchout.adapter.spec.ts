@@ -88,12 +88,12 @@ describe('OccPunchoutAdapter', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should getPunchoutSession successfully', (done) => {
+  it('should initPunchoutSession successfully', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}`
     );
 
-    service.getPunchoutSession(mockSid).subscribe({
+    service.initPunchoutSession(mockSid).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutSessionResponse);
         done();
@@ -166,7 +166,7 @@ describe('OccPunchoutAdapter', () => {
       });
   });
 
-  it('should getPunchoutSession logs error when failing', (done) => {
+  it('should initPunchoutSession logs error when failing', (done) => {
     mockOccEndpointsService.buildUrl.and.returnValue(
       `/punchout/sessions/${mockSid}`
     );
@@ -174,7 +174,7 @@ describe('OccPunchoutAdapter', () => {
 
     const result = tryNormalizeHttpError(mockError, mockLogger);
     spyOn(httpClient, 'get').and.returnValue(throwError(() => mockError));
-    service.getPunchoutSession(mockSid).subscribe({
+    service.initPunchoutSession(mockSid).subscribe({
       error: (error) => {
         expect(error).toBe(result);
         done();

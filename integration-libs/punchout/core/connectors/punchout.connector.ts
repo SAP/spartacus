@@ -13,8 +13,8 @@ import { PunchoutAdapter } from './punchout.adapter';
 export class PunchoutConnector {
   protected adapter = inject(PunchoutAdapter);
 
-  public getPunchoutSession(sessionId: string): Observable<PunchoutSession> {
-    return this.adapter.getPunchoutSession(sessionId);
+  public initPunchoutSession(sessionId: string): Observable<PunchoutSession> {
+    return this.adapter.initPunchoutSession(sessionId);
   }
 
   public getPunchoutSessionRequisition(

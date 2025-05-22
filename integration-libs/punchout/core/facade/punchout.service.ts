@@ -244,7 +244,7 @@ export class PunchoutService implements PunchoutFacade {
     this.commandService.create((punchoutSessionId: string) => {
       return this.cachedPunchoutSessionResponse
         ? of(this.cachedPunchoutSessionResponse)
-        : this.punchoutConnector.getPunchoutSession(punchoutSessionId).pipe(
+        : this.punchoutConnector.initPunchoutSession(punchoutSessionId).pipe(
             map((punchoutSession) => {
               if (
                 !punchoutSession?.token?.accessToken ||
@@ -266,7 +266,7 @@ export class PunchoutService implements PunchoutFacade {
     return this.closePunchoutSessionCommand.execute(undefined);
   }
 
-  getPunchoutSession(
+  initPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
     return this.getPunchoutSessionCommand.execute(punchoutSessionInput);

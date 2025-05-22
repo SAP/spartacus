@@ -57,7 +57,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
    * storage stores minimum data: only punchoutSessionId.
-   * Full PunchoutSession object is retrieved by calling punchoutFacade.getPunchoutSession
+   * Full PunchoutSession object is retrieved by calling punchoutFacade.initPunchoutSession
    */
   protected onRead(punchoutSessionId: string | undefined) {
     if (
@@ -66,7 +66,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
     ) {
       this.punchoutStoreService.setPunchoutState({ punchoutSessionId });
       this.punchoutFacade
-        .getPunchoutSession({
+        .initPunchoutSession({
           punchoutSessionId,
           isPageRefresh: true,
         })
