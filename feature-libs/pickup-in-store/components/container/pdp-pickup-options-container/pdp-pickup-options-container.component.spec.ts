@@ -31,7 +31,9 @@ import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-d
 
 import createSpy = jasmine.createSpy;
 
-class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
+class MockPickupLocationsSearchFacade
+  implements Partial<PickupLocationsSearchFacade>
+{
   startSearch = createSpy();
   hasSearchStarted = createSpy();
   isSearchRunning = createSpy();
