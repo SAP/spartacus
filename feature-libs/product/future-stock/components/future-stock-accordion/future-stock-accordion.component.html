@@ -2,7 +2,7 @@
   <button
     id="cx-future-stock-accordion-header"
     class="cx-future-stock-accordion-header"
-    aria-controls="cx-future-stock-accordion-content"
+    [attr.aria-controls]="expanded ? 'cx-future-stock-accordion-content' : null"
     [attr.aria-expanded]="expanded"
     (click)="toggle()"
   >
