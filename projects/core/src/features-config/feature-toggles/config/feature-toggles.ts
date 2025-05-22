@@ -16,6 +16,11 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
+   * In Order details page, it shows link to its Quote details page and vice-versa
+   */
+  showOrderQuoteLink?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -36,22 +41,6 @@ export interface FeatureTogglesInterface {
   formErrorsDescriptiveMessages?: boolean;
 
   /**
-   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
-   */
-  useExtractedBillingAddressComponent?: boolean;
-
-  /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
-
-  /**
-   * In `QuoteLinksComponent` it shows the download button.
-   * API for this button is available in commerce 2211.16 and above
-   */
-  showDownloadProposalButton?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -70,12 +59,6 @@ export interface FeatureTogglesInterface {
    * In `SearchBoxComponent` it shows the trending searches.
    */
   trendingSearches?: boolean;
-
-  /**
-   * In `InvoicesListComponent` it sorts invoices by the date of the invoice itself.
-   * Previously the sorting was done by the date of creating an invoice entry.
-   */
-  pdfInvoicesSortByInvoiceDate?: boolean;
 
   /**
    * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
@@ -131,22 +114,6 @@ export interface FeatureTogglesInterface {
   productConfiguratorDeltaRendering?: boolean;
 
   /**
-   * Adds asterisks to required form fields in all components existing before v2211.20
-   */
-  a11yRequiredAsterisks?: boolean;
-
-  /**
-   * In `QuantityCounterComponent` the numeric input is no longer made focused
-   * after an increment/decrement button is clicked.
-   */
-  a11yQuantityOrderTabbing?: boolean;
-
-  /**
-   * Improves keyboard navigation inside of 'NavigationUIComponent'.
-   */
-  a11yNavigationUiKeyboardControls?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -157,36 +124,9 @@ export interface FeatureTogglesInterface {
   a11yNavMenuExpandStateReadout?: boolean;
 
   /**
-   * Fixes heading gap present in 'OrderConfirmationItemsComponent' template.
-   */
-  a11yOrderConfirmationHeadingOrder?: boolean;
-
-  /**
-   * Improves accessibility of 'StarRatingComponent' i.e.
-   * Provides a clear rating value to screen readers.
-   * Includes information on whether it is interactive.
-   */
-  a11yStarRating?: boolean;
-
-  /**
-   * 'ViewComponent' will trigger an assistive message after active view changes.
-   */
-  a11yViewChangeAssistiveMessage?: boolean;
-
-  /**
    * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
    */
   a11yPreventHorizontalScroll?: boolean;
-
-  /**
-   * Refocuses inside of 'ReorderDialogComponent' after its content updates.
-   */
-  a11yReorderDialog?: boolean;
-
-  /**
-   * Element containing the 'PopoverDirective' will be refocused after the popover is closed.
-   */
-  a11yPopoverFocus?: boolean;
 
   /**
    * Fix popover appearance when a High Contrast Theme is applied.
@@ -197,54 +137,6 @@ export interface FeatureTogglesInterface {
    * 'TabComponent' disallow automatic tab activation.
    */
   a11yTabsManualActivation?: boolean;
-
-  /**
-   * Adds Datepicker and Combobox label and corrects heading order for 'CheckoutScheduleReplenishmentOrderComponent'.
-   */
-  a11yScheduleReplenishment?: boolean;
-
-  /**
-   * When 'ScrollToTopComponent' is trigged with a keyboard, focus remains on the
-   * button and preserves the user's context.
-   */
-  a11yScrollToTop?: boolean;
-
-  /**
-   * Fixes 'cx-saved-cart-list-label' dissapering on 200% zoom in 'SavedCartListComponent'.
-   */
-  a11ySavedCartsZoom?: boolean;
-
-  /**
-   * Stops dropdown options labels from truncating inside 'ProductListComponent'.
-   */
-  a11ySortingOptionsTruncation?: boolean;
-
-  /**
-   * Fixes unnecessarily expanded focus indicator in 'ProductListItemComponent' and 'AddToSavedCartComponent'.
-   * Modifies dialog styles to stop the focus indicator from expanding when 'close' button is focused.
-   */
-  a11yExpandedFocusIndicator?: boolean;
-
-  /**
-   * Fixes 'CheckoutDeliveryModeComponent' losing focus after delivery methods update.
-   */
-  a11yCheckoutDeliveryFocus?: boolean;
-
-  /**
-   * Prevents the focus indicator of 'VisibleFocusDirective' from overflowing on mobile/while zoomed.
-   */
-  a11yMobileVisibleFocus?: boolean;
-
-  /**
-   * Improves screen reader readout of 'BannerComponent' on organization page.
-   * The anchor tag will no longer contain unnecessary text that would otherwise be read out.
-   */
-  a11yOrganizationsBanner?: boolean;
-
-  /**
-   * Corrects heading order inside 'ListComponent' template.
-   */
-  a11yOrganizationListHeadingOrder?: boolean;
 
   /**
    * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
@@ -258,22 +150,6 @@ export interface FeatureTogglesInterface {
   a11yAnonymousConsentMessageInDialog?: boolean;
 
   /**
-   * Changes 'order days' check list into a fieldset inside of 'CheckoutScheduleReplenishmentOrderComponent'.
-   */
-  a11yReplenishmentOrderFieldset?: boolean;
-
-  /**
-   * Corrects oversized focus indicator from list items inside 'ListComponent'.
-   */
-  a11yListOversizedFocus?: boolean;
-
-  /**
-   * Adjuststs the styles of 'StoreFinderMapComponent' to stop the Google map from overflowing on zoomed/mobile screens.
-   * Includes DOM changes to 'StoreFinderStoreDescriptionComponent' improving the screen reader experience.
-   */
-  a11yStoreFinderOverflow?: boolean;
-
-  /**
    * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
    */
   a11yMobileFocusOnFirstNavigationItem?: boolean;
@@ -284,39 +160,9 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Corrects heading order inside 'OrderSummaryComponent' template.
-   */
-  a11yCartSummaryHeadingOrder?: boolean;
-
-  /**
-   * Improves focus behaviour of 'SearchBoxComponent'.
-   * On mobile, search box will no longer open on focus.
-   */
-  a11ySearchBoxMobileFocus?: boolean;
-
-  /**
-   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
-   */
-  a11yFacetKeyboardNavigation?: boolean;
-
-  /**
-   * Allows users to navigate through the list of units using the arrow keys.
-   * Enables keyboard controls inside 'ToggleLinkCellComponent' and
-   * adjusts 'ListComponent' styles to accomodate.
-   */
-  a11yUnitsListKeyboardControls?: boolean;
-
-  /**
    * Adds label to the `SearchBoxComponent` search input
    */
   a11ySearchboxLabel?: boolean;
-
-  /**
-   * When set to `true`, product titles in `CartItemComponent`, `QuickOrderItemComponent`, `WishListItemComponent`
-   * adopt a more link-like style, appearing blue with an underline. This enhances visual cues for clickable elements,
-   * providing a more intuitive user experience.
-   */
-  a11yCartItemsLinksStyles?: boolean;
 
   /**
    * When set to `true`, external links in `StoreFinderListItemComponent`
@@ -326,14 +172,6 @@ export interface FeatureTogglesInterface {
   a11yStyleExternalLinksAsLinks?: boolean;
 
   /**
-   * If enabled, the "Select this address/payment" button
-   * will not be displayed in `CheckoutPaymentMethodComponent`
-   * and `CheckoutDeliveryAddressComponent` when the address
-   * or payment method is already selected.
-   */
-  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
-
-  /**
    * If enabled, the "Checkout Shipping address/Payment" views
    * will have a more a11y friendly selected label, including the context
    * indicating weather the user is on a selected Address or Payment regsion.
@@ -341,31 +179,11 @@ export interface FeatureTogglesInterface {
   a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
 
   /**
-   * Determines whether the controls in the `CarouselComponent` are focusable and accessible from the keyboard.
-   */
-  a11yFocusableCarouselControls?: boolean;
-
-  /**
    * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
    * Components:
    * - `PickupOptionDialogComponent`
    */
   a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
-
-  /**
-   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
-   * calling its own deprecated method `canActivateGuard()`.
-   */
-  cmsGuardsServiceUseGuardsComposer?: boolean;
-
-  /**
-   * In `CartQuickOrderFormComponent` it stops calling the deprecated method
-   * `watchAddEntryFailEvent()`, which listens to the `CartAddEntryFailEvent`.
-   *
-   * It avoids showing an unnecessary duplicated error message on the failure
-   * of adding to the cart.
-   */
-  cartQuickOrderRemoveListeningToFailEvent?: boolean;
 
   /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
@@ -380,25 +198,6 @@ export interface FeatureTogglesInterface {
   a11yOrganizationLinkableCells?: boolean;
 
   /**
-   * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Includes style changes for:
-   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
-   * `CarouselComponent`, `ProductListItemComponent`
-   */
-  a11yVisibleFocusOverflows?: boolean;
-
-  /**
-   * When enabled then on mobile(320px) responsive view:
-   * 1. `ProductListComponent` - grid view button is aligned correctly
-   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
-   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
-   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
-   * 5. 'UnitLevelOrderHistoryComponent' - sorting dropdown options will not be truncated
-   */
-  a11yTruncatedTextForResponsiveView?: boolean;
-
-  /**
    * `StoreFinderListItemComponent` street name is not truncated
    */
   a11yTruncatedTextStoreFinder?: boolean;
@@ -408,12 +207,6 @@ export interface FeatureTogglesInterface {
    * are not truncated
    */
   a11yTruncatedTextUnitLevelOrderHistory?: boolean;
-
-  /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
 
   /**
    * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
@@ -430,11 +223,6 @@ export interface FeatureTogglesInterface {
    * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
    */
   a11yPreventSRFocusOnHiddenElements?: boolean;
-
-  /**
-   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
-   */
-  a11yMyAccountLinkOutline?: boolean;
 
   /**
    * Improve colour contrast in the demonstration theme Santorini
@@ -460,24 +248,10 @@ export interface FeatureTogglesInterface {
   a11yNotificationPreferenceFieldset?: boolean;
 
   /**
-   * Modifies the template of 'WishListComponent'.
-   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
-   */
-  a11yEmptyWishlistHeading?: boolean;
-
-  /**
    * Removes the `tabindex` attribute from the `StorefrontComponent`.
    * This helps to reduce the screen reader bloat.
    */
   a11yScreenReaderBloatFix?: boolean;
-
-  /**
-   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
-   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`,
-   * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
-   */
-  a11yUseButtonsForBtnLinks?: boolean;
 
   /**
    * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
@@ -516,13 +290,6 @@ export interface FeatureTogglesInterface {
    * required validators for both inputs
    */
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
-
-  /**
-   * In `FacetListComponent` dialog view focus will be moved to the first facet
-   * after single-select facet selection.
-   * New "Back To Results" button is added
-   */
-  a11yFacetsDialogFocusHandling?: boolean;
 
   /**
    * Resets the focus after navigating to a new page.
@@ -983,6 +750,13 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * The optional `aria-controls` attribute will override on the NgSelect implementation.
+   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
+   * This change ensures we can still use a custom id if preferable.
+   */
+  a11yNgSelectAriaControls?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -1001,96 +775,74 @@ export interface FeatureTogglesInterface {
   enableSecurePasswordValidation?: boolean;
 
   /**
+   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
+   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
+   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
+   * on demand by clicking on `Show Options` button in case the back-end signals
+   * that domain values are not yet present.
+   */
+  enableReadDomainValuesOnDemand?: boolean;
+
+  /**
    * When enabled, checks before accessing checkout
    * if user has email assigned to the current cart.
    * If not - redirects user to `/opf-checkout-email` page.
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
+
+  /**
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
+   * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
+   */
+  storeFinderFacadeCleanup?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
-  useExtractedBillingAddressComponent: true,
-  showBillingAddressInDigitalPayments: true,
-  showDownloadProposalButton: true,
-  searchBoxV2: false,
-  trendingSearches: false,
-  pdfInvoicesSortByInvoiceDate: true,
+  searchBoxV2: true,
+  trendingSearches: true,
   useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
-  a11yRequiredAsterisks: true,
-  a11yQuantityOrderTabbing: true,
-  a11yNavigationUiKeyboardControls: true,
   a11yUseProperTextColorForFutureStockAccordion: false,
   a11yNavMenuExpandStateReadout: true,
-  a11yOrderConfirmationHeadingOrder: true,
-  a11yStarRating: true,
-  a11yViewChangeAssistiveMessage: true,
   a11yPreventHorizontalScroll: true,
-  a11yReorderDialog: true,
-  a11yPopoverFocus: true,
   a11yPopoverHighContrast: false,
   a11yTabsManualActivation: false,
-  a11yScheduleReplenishment: true,
-  a11yScrollToTop: true,
-  a11ySavedCartsZoom: true,
-  a11ySortingOptionsTruncation: true,
-  a11yExpandedFocusIndicator: true,
-  a11yCheckoutDeliveryFocus: true,
-  a11yMobileVisibleFocus: true,
-  a11yOrganizationsBanner: true,
-  a11yOrganizationListHeadingOrder: true,
   a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: false,
-  a11yReplenishmentOrderFieldset: true,
-  a11yListOversizedFocus: true,
-  a11yStoreFinderOverflow: true,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
-  a11yCartSummaryHeadingOrder: true,
-  a11ySearchBoxMobileFocus: true,
-  a11yFacetKeyboardNavigation: true,
-  a11yUnitsListKeyboardControls: true,
-  a11yCartItemsLinksStyles: true,
-  a11yStyleExternalLinksAsLinks: false,
-  a11ySearchboxLabel: false,
-  a11yHideSelectBtnForSelectedAddrOrPayment: true,
-  a11ySelectLabelWithContextForSelectedAddrOrPayment: false,
-  a11yFocusableCarouselControls: true,
+  a11yStyleExternalLinksAsLinks: true,
+  a11ySearchboxLabel: true,
+  a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
-  cmsGuardsServiceUseGuardsComposer: true,
-  cartQuickOrderRemoveListeningToFailEvent: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
-  a11yVisibleFocusOverflows: true,
-  a11yTruncatedTextForResponsiveView: true,
-  a11yTruncatedTextStoreFinder: false,
+  a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: true,
-  a11yMyAccountLinkOutline: true,
-  a11yCloseProductImageBtnFocus: true,
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
-  a11yEmptyWishlistHeading: true,
   a11yScreenReaderBloatFix: true,
-  a11yUseButtonsForBtnLinks: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
-  a11yPickupOptionsTabs: false,
+  a11yPickupOptionsTabs: true,
   a11yNotificationsOnConsentChange: true,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
-  a11yFacetsDialogFocusHandling: true,
   a11yResetFocusAfterNavigating: false,
-  headerLayoutForSmallerViewports: false,
+  headerLayoutForSmallerViewports: true,
   a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
   a11yFormErrorMuteIcon: true,
@@ -1100,7 +852,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatedPageTitleFix: true,
   a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
-  a11yNgSelectCloseDropdownOnEscape: false,
+  a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: true,
@@ -1114,28 +866,28 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
-  a11yUpdatingCartNoNarration: false,
-  a11yPasswordVisibliltyBtnValueOverflow: false,
-  a11yItemCounterFocus: false,
-  a11yScrollToReviewByShowReview: false,
-  a11yViewHoursButtonIconContrast: false,
-  a11yStoreInStockIconContrast: false,
-  a11yCheckoutStepsLandmarks: false,
-  a11yQTY2Quantity: false,
-  a11yImproveButtonsInCardComponent: false,
+  a11yUpdatingCartNoNarration: true,
+  a11yPasswordVisibliltyBtnValueOverflow: true,
+  a11yItemCounterFocus: true,
+  a11yScrollToReviewByShowReview: true,
+  a11yViewHoursButtonIconContrast: true,
+  a11yStoreInStockIconContrast: true,
+  a11yCheckoutStepsLandmarks: true,
+  a11yQTY2Quantity: true,
+  a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: false,
-  a11yWrapReviewOrderInSection: false,
-  a11yApprovalProcessWithNoClearable: false,
-  a11yPostRegisterSuccessMessage: false,
-  a11yDeleteButton2First: false,
-  a11yShowLabelOfSelect: false,
-  a11yShowDownArrowOnFocusedSelectMenu: false,
-  a11yCroppedFocusRing: false,
-  a11yTextSpacingAdjustments: false,
-  a11yTableHeaderReadout: false,
-  a11ySearchboxAssistiveMessage: false,
+  a11yWrapReviewOrderInSection: true,
+  a11yApprovalProcessWithNoClearable: true,
+  a11yPostRegisterSuccessMessage: true,
+  a11yDeleteButton2First: true,
+  a11yShowLabelOfSelect: true,
+  a11yShowDownArrowOnFocusedSelectMenu: true,
+  a11yCroppedFocusRing: true,
+  a11yTextSpacingAdjustments: true,
+  a11yTableHeaderReadout: true,
+  a11ySearchboxAssistiveMessage: true,
   updateConsentGivenInOnChanges: false,
-  a11yDifferentiateFocusedAndSelected: false,
+  a11yDifferentiateFocusedAndSelected: true,
   a11yQuickOrderSearchBoxRefocusOnClose: false,
   a11yKeyboardFocusInSearchBox: false,
   a11yAddPaddingToCarouselPanel: false,
@@ -1152,16 +904,19 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
-  a11yPdpGridArrangement: false,
+  a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: false,
-  useExtendedMediaComponentConfiguration: false,
-  showRealTimeStockInPDP: false,
+  useExtendedMediaComponentConfiguration: true,
+  showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: false,
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
+  a11yNgSelectAriaControls: false,
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
+  storeFinderFacadeCleanup: false,
 };

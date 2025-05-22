@@ -116,12 +116,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
-}
-
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -152,7 +146,6 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
 

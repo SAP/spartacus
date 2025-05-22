@@ -84,7 +84,7 @@ describe('StorageV1Adapter', () => {
 
     it('should construct $expand query param', () => {
       sceneAdapter
-        .getNodes('123', undefined, ['metadata', 'mesh'])
+        .getNodes('123', undefined, ['usageIds', 'mesh'])
         .subscribe((result) => {
           expect(result).toEqual(fakeResponse);
         });
@@ -93,7 +93,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes?$expand=metadata,mesh'
+            'https://fake.visualization.application.domain.sap/vis/public/storage/v1/scenes/123/nodes?$expand=usageIds,mesh'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

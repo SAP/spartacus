@@ -7,7 +7,7 @@
     class="cx-product-image"
     [container]="product.images?.PRIMARY"
     format="product"
-    [alt]="product.summary"
+    [alt]="product.name || product.summary"
   ></cx-media>
 </a>
 <a

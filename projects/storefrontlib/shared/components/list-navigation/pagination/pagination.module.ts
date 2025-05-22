@@ -12,11 +12,18 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
+import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus';
 import { defaultPaginationConfig } from './config/index';
 import { PaginationComponent } from './pagination.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, I18nModule, FeaturesConfigModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    FeaturesConfigModule,
+    KeyboardFocusModule,
+  ],
   providers: [provideDefaultConfig(defaultPaginationConfig)],
   declarations: [PaginationComponent],
   exports: [PaginationComponent],

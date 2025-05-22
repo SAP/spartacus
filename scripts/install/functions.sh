@@ -135,8 +135,18 @@ function add_epd_visualization {
 }
 
 function add_opf {
-    if [ "$ADD_OPF" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive
+    if [ "${ADD_OPF}" = true ] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive 
+    fi
+
+    if [ "${ADD_OPF}" = true ] && [ "${ADD_B2B_LIBS}" = true ] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-B2B-Checkout"
+    fi
+}
+
+function add_punchout {
+    if [ "$ADD_PUNCHOUT" = true ] ; then
+        ng add @spartacus/punchout@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     fi
 }
 
@@ -232,6 +242,7 @@ function add_spartacus_csr {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -262,6 +273,7 @@ function add_spartacus_ssr {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -290,6 +302,7 @@ function add_spartacus_ssr_pwa {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -851,6 +864,11 @@ function parseInstallArgs {
             opf)
                 ADD_OPF=true
                 echo "➖ Added OPF"
+                shift
+                ;;
+            punchout)
+                ADD_PUNCHOUT=true
+                echo "➖ Added Punchout"
                 shift
                 ;;
             -*|--*)
