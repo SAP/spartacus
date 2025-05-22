@@ -178,6 +178,12 @@
       },
       "defaultConfiguration": "production"
     },
+    "build-csr-production": {
+      "executor": "@angular-devkit/architect:concat",
+      "options": {
+        "targets": [{ "target": "storefrontapp:build:production,noSsr" }]
+      }
+    },
     "prerender-production": {
       "executor": "@angular-devkit/architect:concat",
       "options": {
