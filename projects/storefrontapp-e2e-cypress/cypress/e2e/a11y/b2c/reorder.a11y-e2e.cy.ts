@@ -5,6 +5,12 @@ import {
   navigateToReviewOrderPage,
 } from './helpers/a11y-b2b.checkout';
 
+export function waitUntilOrderIsPlaced() {
+  cy.get('input[formcontrolname="termsAndConditions"]').check();
+  cy.get('cx-place-order button').contains(' Place Order ').click();
+  cy.get('main').contains('Thank you for your order!');
+}
+
 describe('Reorder accessibility', () => {
   before(() => {
     clearAllStorage();
@@ -12,15 +18,16 @@ describe('Reorder accessibility', () => {
     cy.a11yContinuumSetup();
     loginB2bUser();
     navigateToReviewOrderPage();
+    waitUntilOrderIsPlaced();
   });
 
-  it('Page reorder', () => {
-    cy.get('input[formcontrolname="termsAndConditions"]').check();
-    cy.get('cx-place-order button').contains(' Place Order ').click();
-
-    cy.get('main').contains('Thank you for your order!');
+  it('Reorder', () => {
     cy.visit('my-account/orders');
     cy.get('cx-order-history .cx-order-history-value').first().click();
     cy.get('button').contains(' Reorder ').click();
+    cy.get('cx-reorder-dialog').a11yRunContinuumTest();
+
+    cy.get('button').contains(' Continue ').click();
+    cy.get('p[aria-live="polite"]').a11yRunContinuumTest();
   });
 });
