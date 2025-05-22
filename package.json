@@ -134,7 +134,7 @@
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "nx test cds --code-coverage",
     "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:build:production",
-    "watch": "npm run build -- --watch"
+    "watch": "npm run build -- --watch --configuration development"
   },
   "private": false,
   "dependencies": {
