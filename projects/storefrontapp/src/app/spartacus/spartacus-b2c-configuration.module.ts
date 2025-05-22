@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
+import { AuthConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
@@ -16,9 +16,9 @@ import {
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
+  'electronics',
   'electronics-spa',
   'electronics-spa-standalone',
-  'electronics',
   'electronics-standalone',
   'apparel-de',
   'apparel-uk',
@@ -51,6 +51,11 @@ const baseSite = environment.epdVisualization
         selectiveCart: {
           enabled: true,
         },
+      },
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        client_id: 'android_mobile_new',
       },
     }),
   ],
