@@ -8,8 +8,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-punchout-error',
-  template: `<h2>Punchout Error</h2>
-    <p>Please navigate back to Ariba</p> `,
+  templateUrl: './punchout-error.component.html',
   standalone: false,
 })
 export class PunchoutErrorComponent {}

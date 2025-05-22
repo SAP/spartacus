@@ -14,8 +14,10 @@ import {
 import {
   AuthHttpHeaderService,
   CmsConfig,
+  provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { defaultPunchoutRoutingConfig } from './config';
 import { PUNCHOUT_FEATURE } from './feature-name';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
@@ -71,6 +73,7 @@ export function punchoutStatePersistenceFactory(): () => void {
           punchoutComponentsService.init(compRef);
       },
     },
+    provideDefaultConfig(defaultPunchoutRoutingConfig),
   ],
 })
 export class PunchoutRootModule {}

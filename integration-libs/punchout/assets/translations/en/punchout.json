@@ -4,6 +4,7 @@
     "cancel": "Cancel",
     "redirectToProcurementSystem": "Return to Procurement System",
     "closeSession": "Close Session",
-    "initiatingUserSession": "Initiating user session"
+    "initiatingUserSession": "Initiating user session",
+    "error": "Session has been unexpectedly ended, please return to your procurement system."
   }
 }
