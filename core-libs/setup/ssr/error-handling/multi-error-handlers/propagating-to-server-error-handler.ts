@@ -27,7 +27,10 @@ import { PROPAGATE_ERROR_TO_SERVER } from '../error-response/propagate-error-to-
   providedIn: 'root',
 })
 export class PropagatingToServerErrorHandler implements MultiErrorHandler {
-  protected propagateErrorToServer = inject(PROPAGATE_ERROR_TO_SERVER);
+  protected propagateErrorToServer =
+    inject(PROPAGATE_ERROR_TO_SERVER, {
+      optional: true,
+    }) ?? (() => {}); // fallback to noop, if not provided
   private featureConfigService: FeatureConfigService =
     inject(FeatureConfigService);
 
