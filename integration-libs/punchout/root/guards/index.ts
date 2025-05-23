@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './default-punchout-cms-component-config';
-export * from './default-punchout-routing-config';
+export * from './punchout-navigation.guard';
