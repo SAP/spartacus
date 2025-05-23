@@ -5,7 +5,7 @@
  */
 
 import { RoutingConfig } from '@spartacus/core';
-import { PUNCHOUT_SESSION_PAGE_URL } from '@spartacus/punchout/root';
+import { PUNCHOUT_SESSION_PAGE_URL } from '../model/punchout.model';
 
 export const defaultPunchoutRoutingConfig: RoutingConfig = {
   routing: {

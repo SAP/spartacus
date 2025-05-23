@@ -14,20 +14,21 @@ import {
 import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
-import { PunchoutStatePersistanceService } from './services';
-import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
-import { PunchoutUiRestrictionService } from './services/punchout-ui-restriction.service';
-import { defaultPunchoutRoutingConfig } from './config';
-import { defaultPunchoutCmsComponentsConfig } from './config/default-punchout-cms-component-config';
-
-export function punchoutStatePersistenceFactory(): () => void {
-  const punchoutPersistenceService = inject(PunchoutStatePersistanceService);
-  return () => punchoutPersistenceService.initSync();
-}
+import {
+  PunchoutStatePersistanceService,
+  PunchoutAuthHttpHeaderService,
+  PunchoutUiRestrictionService,
+} from './services';
+import {
+  defaultPunchoutRoutingConfig,
+  defaultPunchoutCmsComponentsConfig,
+} from './config';
 
 @NgModule({
   imports: [PunchoutNavigationModule],
   providers: [
+    provideDefaultConfig(defaultPunchoutCmsComponentsConfig),
+    provideDefaultConfig(defaultPunchoutRoutingConfig),
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
         PunchoutStatePersistanceService
@@ -35,7 +36,6 @@ export function punchoutStatePersistenceFactory(): () => void {
       punchoutPersistenceService.initSync();
     }),
     ...interceptors,
-    provideDefaultConfig(defaultPunchoutCmsComponentsConfig),
     {
       provide: AuthHttpHeaderService,
       useExisting: PunchoutAuthHttpHeaderService,
@@ -50,7 +50,6 @@ export function punchoutStatePersistenceFactory(): () => void {
           punchoutComponentsService.init(compRef);
       },
     },
-    provideDefaultConfig(defaultPunchoutRoutingConfig),
   ],
 })
 export class PunchoutRootModule {}

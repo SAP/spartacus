@@ -5,7 +5,7 @@
  */
 
 import { CmsConfig } from '@spartacus/core';
-import { PUNCHOUT_FEATURE } from '@spartacus/punchout/root';
+import { PUNCHOUT_FEATURE } from '../feature-name';
 
 export const defaultPunchoutCmsComponentsConfig: CmsConfig = {
   featureModules: {
