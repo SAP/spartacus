@@ -12,7 +12,6 @@ export const defaultPunchoutCmsComponentsConfig: CmsConfig = {
     [PUNCHOUT_FEATURE]: {
       cmsComponents: [
         'PunchoutSessionComponent',
-        'PunchoutErrorComponent',
         'PunchoutButtonsComponent',
         'PunchoutRequisitionComponent',
         'PunchoutCloseSessionComponent',

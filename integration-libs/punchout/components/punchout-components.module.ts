@@ -12,7 +12,6 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { PunchoutButtonsComponent } from './punchout-buttons/punchout-buttons.component';
 import { PunchoutCloseSessionComponent } from './punchout-close-session/punchout-close-session.component';
-import { PunchoutErrorComponent } from './punchout-error/punchout-error.component';
 import { PunchoutInspectCartComponent } from './punchout-inspect-cart/punchout-inspect-cart.component';
 import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-requisition.component';
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
@@ -20,16 +19,13 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
 @NgModule({
   declarations: [
     PunchoutSessionComponent,
-    PunchoutErrorComponent,
     PunchoutRequisitionComponent,
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
     PunchoutInspectCartComponent,
-    PunchoutErrorComponent,
   ],
   exports: [
     PunchoutSessionComponent,
-    PunchoutErrorComponent,
     PunchoutRequisitionComponent,
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
@@ -47,9 +43,6 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
       cmsComponents: {
         PunchoutSessionComponent: {
           component: PunchoutSessionComponent,
-        },
-        PunchoutErrorComponent: {
-          component: PunchoutErrorComponent,
         },
         PunchoutButtonsComponent: {
           component: PunchoutButtonsComponent,
