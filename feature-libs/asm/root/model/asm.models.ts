@@ -28,7 +28,7 @@ export interface AsmUi {
 }
 
 export const CLOSE_DIALOG_REASON = {
-  FORBIDDEN: 'forbidden'
+  FORBIDDEN: 'forbidden',
 };
 
 export interface AsmDeepLinkParameters {
