@@ -11,12 +11,7 @@ import {
   NgModule,
   provideAppInitializer,
 } from '@angular/core';
-import {
-  AuthHttpHeaderService,
-  CmsConfig,
-  provideDefaultConfig,
-  RoutingConfig,
-} from '@spartacus/core';
+import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import { PunchoutStatePersistanceService } from './services';
@@ -40,7 +35,7 @@ export function punchoutStatePersistenceFactory(): () => void {
       punchoutPersistenceService.initSync();
     }),
     ...interceptors,
-    provideDefaultConfig(defaultPunchoutCmsComponentsConfig as CmsConfig),
+    provideDefaultConfig(defaultPunchoutCmsComponentsConfig),
     {
       provide: AuthHttpHeaderService,
       useExisting: PunchoutAuthHttpHeaderService,
@@ -55,7 +50,7 @@ export function punchoutStatePersistenceFactory(): () => void {
           punchoutComponentsService.init(compRef);
       },
     },
-    provideDefaultConfig(defaultPunchoutRoutingConfig as RoutingConfig),
+    provideDefaultConfig(defaultPunchoutRoutingConfig),
   ],
 })
 export class PunchoutRootModule {}
