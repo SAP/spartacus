@@ -27,6 +27,10 @@ export interface AsmUi {
   collapsed?: boolean;
 }
 
+export const CLOSE_DIALOG_REASON = {
+  FORBIDDEN: 'forbidden'
+};
+
 export interface AsmDeepLinkParameters {
   customerId?: string;
   orderId?: string;
