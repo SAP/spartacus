@@ -46,6 +46,10 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
 
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
     this.savePaymentMethod(paymentDetails);
+  }
+
+  protected onSuccess(): void {
+    super.onSuccess();
     this.next();
   }
 

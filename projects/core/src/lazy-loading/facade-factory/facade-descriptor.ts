@@ -11,7 +11,7 @@ export interface FacadeDescriptor<T extends object> {
   /**
    * Facade class
    */
-  facade: AbstractType<T>;
+  facade: AbstractType<StrictlyAllowedFacade<T>>;
   /**
    * Feature name that should be used to resolve facade
    */
@@ -37,9 +37,21 @@ export interface FacadeDescriptor<T extends object> {
 }
 
 type MethodKeys<T extends object> = {
-  [K in keyof T]: T[K] extends Function ? K : never;
+  [K in keyof T]: T[K] extends (...args: any[]) => AllowedReturn ? K : never;
 }[keyof T];
 
 type PropertyKeys<T extends object> = {
   [K in keyof T]: T[K] extends Observable<any> ? K : never;
 }[keyof T];
+
+type AllowedReturn = void | Observable<any>;
+
+type AllowedKeys<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => AllowedReturn
+    ? K
+    : T[K] extends Observable<any>
+      ? K
+      : never;
+}[keyof T];
+
+type StrictlyAllowedFacade<T> = Pick<T, AllowedKeys<T>> extends T ? T : never;
