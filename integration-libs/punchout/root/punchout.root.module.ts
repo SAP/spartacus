@@ -50,7 +50,6 @@ import {
           punchoutComponentsService.init(compRef);
       },
     },
-    provideDefaultConfig(defaultPunchoutRoutingConfig),
   ],
 })
 export class PunchoutRootModule {}
