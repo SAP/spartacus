@@ -9,7 +9,12 @@ import {
 } from '@spartacus/core';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 import { PunchoutFacade } from '../facade';
-import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
+import {
+  PUNCHOUT_INSPECT_PAGE_URL,
+  PunchOutOperation,
+  PunchoutSession,
+  PunchoutState,
+} from '../model';
 import {
   PunchoutStatePersistanceService,
   PunchoutStoreService,
@@ -121,7 +126,7 @@ describe('PunchoutNavigationGuard', () => {
         GlobalMessageType.MSG_TYPE_WARNING
       );
       expect(routingService.goByUrl).toHaveBeenCalledWith(
-        '/punchout/cxml/inspect'
+        PUNCHOUT_INSPECT_PAGE_URL
       );
       done();
     });
