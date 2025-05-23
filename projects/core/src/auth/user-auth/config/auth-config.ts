@@ -56,6 +56,10 @@ export abstract class AuthConfig {
      */
     revokeEndpoint?: string;
     /**
+     * Determine if the `Authorization` header should be sent with revocation requests.
+     */
+    enableTokenRevocationInterceptor?: boolean;
+    /**
      * Url for login redirect for Implicit and Authorization Code Flow.
      */
     loginUrl?: string;

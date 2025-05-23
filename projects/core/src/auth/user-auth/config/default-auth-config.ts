@@ -71,6 +71,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
       authentication: {
         ...defaultAuthConfig.authentication,
         client_secret: 'secret',
+        enableTokenRevocationInterceptor: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
           disablePKCE: true,

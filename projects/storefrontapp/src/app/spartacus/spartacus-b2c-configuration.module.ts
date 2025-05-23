@@ -55,7 +55,7 @@ const baseSite = environment.epdVisualization
     }),
     provideConfig(<AuthConfig>{
       authentication: {
-        client_id: 'android_mobile_new',
+        client_id: 'public_client',
       },
     }),
   ],
