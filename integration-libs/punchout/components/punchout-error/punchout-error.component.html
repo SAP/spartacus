@@ -1,9 +1,6 @@
 <div class="alert">
   <span class="alert-icon">
-    <cx-icon
-      class="cx-icon fas fa-exclamation-circle"
-      ng-reflect-type="ERROR"
-    ></cx-icon
-  ></span>
+    <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+  </span>
   {{ 'punchout.error' | cxTranslate }}
 </div>
