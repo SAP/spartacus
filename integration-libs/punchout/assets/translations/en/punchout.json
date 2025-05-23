@@ -5,6 +5,6 @@
     "redirectToProcurementSystem": "Return to Procurement System",
     "closeSession": "Close Session",
     "initiatingUserSession": "Initiating user session",
-    "error": "Session has been unexpectedly ended, please return to the procurement system."
+    "error": "The session has unexpectedly ended. Please return to the procurement system."
   }
 }
