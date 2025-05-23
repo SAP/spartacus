@@ -217,6 +217,9 @@ export class OrderHistoryService implements OrderHistoryFacade {
     return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
   }
 
+  /**
+   * @deprecated: Method doesn't pass facade method's requirements (returns void or Observable)
+   */
   getQueryParams(_order: Order): Params | null {
     return null;
   }
