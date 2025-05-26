@@ -50,6 +50,7 @@ export class PunchoutNavigationGuard {
   ];
   protected readonly allowedCxRoutesForEdit: string[] = [
     'category',
+    'brand',
     'quickOrder',
     'product',
     'cart',
@@ -131,7 +132,7 @@ export class PunchoutNavigationGuard {
     if (!cxRoutes) {
       return false;
     }
-
+    console.log('cxRoutes = ', route.data['cxRoute']);
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
