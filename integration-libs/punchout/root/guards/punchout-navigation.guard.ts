@@ -40,7 +40,7 @@ export class PunchoutNavigationGuard {
     this.semanticPathService.get('punchoutSession') as string,
     this.semanticPathService.get('punchoutRequisition') as string,
   ];
-  protected readonly allowedCxRoutesForEdit: string[] = [
+  protected readonly allowedCxRoutesForEditCreate: string[] = [
     'category',
     'brand',
     'quickOrder',
@@ -57,18 +57,30 @@ export class PunchoutNavigationGuard {
   protected readonly punchoutNavigationGuardConfig: PunchoutNavigationGuardConfig =
     {
       [PunchOutOperation.INSPECT]: {
-        allowedUrls: [...this.allowedUrlsForAll, ...this.allowedUrlsForInspect],
-        redirectPage: this.semanticPathService.get('punchoutInspect') as string,
+        allowedCxRoutes: [
+          'punchoutSession',
+          'punchoutRequisition',
+          'punchoutInspect',
+        ],
+        redirectPage: { cxRoute: 'punchoutInspect' },
       },
       [PunchOutOperation.EDIT]: {
-        allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
-        allowedCxRoutes: [...this.allowedCxRoutesForEdit],
-        redirectPage: this.HOME_PAGE_URL,
+        allowedCxRoutes: [
+          ...this.allowedCxRoutesForEditCreate,
+          'punchoutSession',
+          'punchoutRequisition',
+          'home',
+        ],
+        redirectPage: { cxRoute: 'home' },
       },
       [PunchOutOperation.CREATE]: {
-        allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
-        allowedCxRoutes: [...this.allowedCxRoutesForEdit],
-        redirectPage: this.HOME_PAGE_URL,
+        allowedCxRoutes: [
+          ...this.allowedCxRoutesForEditCreate,
+          'punchoutSession',
+          'punchoutRequisition',
+          'home',
+        ],
+        redirectPage: { cxRoute: 'home' },
       },
     };
 
@@ -85,7 +97,7 @@ export class PunchoutNavigationGuard {
           this.isAllowedUrls(route, punchoutOperation);
         if (!canActivate) {
           this.handleWarning();
-          this.routingService.goByUrl(
+          this.routingService.go(
             this.punchoutNavigationGuardConfig[punchoutOperation].redirectPage
           );
         }

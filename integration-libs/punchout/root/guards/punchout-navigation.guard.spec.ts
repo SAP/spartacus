@@ -53,7 +53,7 @@ describe('PunchoutNavigationGuard', () => {
         },
         {
           provide: RoutingService,
-          useValue: jasmine.createSpyObj('RoutingService', ['goByUrl']),
+          useValue: jasmine.createSpyObj('RoutingService', ['go']),
         },
         {
           provide: GlobalMessageService,
@@ -100,7 +100,7 @@ describe('PunchoutNavigationGuard', () => {
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {
       expect(result).toBeTruthy();
       expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(routingService.goByUrl).not.toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
       done();
     });
   });
@@ -122,9 +122,9 @@ describe('PunchoutNavigationGuard', () => {
         { key: 'organization.notification.noSufficientPermissions' },
         GlobalMessageType.MSG_TYPE_WARNING
       );
-      expect(routingService.goByUrl).toHaveBeenCalledWith(
-        'punchout/cxml/inspect'
-      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'punchoutInspect',
+      });
       done();
     });
   });

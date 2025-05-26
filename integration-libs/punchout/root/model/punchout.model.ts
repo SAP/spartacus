@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LaunchRoute } from '@spartacus/storefront';
+
 export enum PunchOutLevel {
   STORE = 'STORE',
   PRODUCT = 'PRODUCT',
@@ -51,6 +53,6 @@ export type PunchoutNavigationGuardConfig = {
   [key in PunchOutOperation]: {
     allowedUrls?: string[];
     allowedCxRoutes?: string[];
-    redirectPage: string;
+    redirectPage: string | LaunchRoute;
   };
 };
