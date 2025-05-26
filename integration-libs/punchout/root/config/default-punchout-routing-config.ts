@@ -20,6 +20,11 @@ export const defaultPunchoutRoutingConfig: RoutingConfig = {
       punchoutInspect: {
         paths: ['punchout/cxml/inspect'],
       },
+      punchoutError: {
+        paths: ['punchout/cxml/error'],
+        protected: false,
+        authFlow: true,
+      },
     },
   },
 };

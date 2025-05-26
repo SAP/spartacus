@@ -12,6 +12,10 @@ import {
   provideAppInitializer,
 } from '@angular/core';
 import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
+import {
+  defaultPunchoutCmsComponentsConfig,
+  defaultPunchoutRoutingConfig,
+} from './config';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import {
@@ -19,10 +23,6 @@ import {
   PunchoutAuthHttpHeaderService,
   PunchoutUiRestrictionService,
 } from './services';
-import {
-  defaultPunchoutRoutingConfig,
-  defaultPunchoutCmsComponentsConfig,
-} from './config';
 
 @NgModule({
   imports: [PunchoutNavigationModule],

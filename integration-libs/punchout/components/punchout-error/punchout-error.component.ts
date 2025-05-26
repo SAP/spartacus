@@ -5,11 +5,12 @@
  */
 
 import { Component } from '@angular/core';
-
+import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-punchout-error',
-  template: `<h2>Punchout Error</h2>
-    <p>Please navigate back to Ariba</p> `,
+  templateUrl: './punchout-error.component.html',
   standalone: false,
 })
-export class PunchoutErrorComponent {}
+export class PunchoutErrorComponent {
+  iconTypes = ICON_TYPE;
+}

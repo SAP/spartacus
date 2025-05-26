@@ -47,6 +47,7 @@ export class PunchoutNavigationGuard {
     'product',
     'cart',
     'search',
+    'punchoutError',
   ];
   protected readonly allowedUrlsForInspect: string[] = [
     this.semanticPathService.get('punchoutInspect') as string,
