@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const PUNCHOUT_STORAGE_KEY = 'punchout';
-export const PUNCHOUT_OCC_API_URL_SEGMENT = 'punchout/sessions';
-export const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
-
 export enum PunchOutLevel {
   STORE = 'STORE',
   PRODUCT = 'PRODUCT',

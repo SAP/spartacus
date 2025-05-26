@@ -8,7 +8,6 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { StatePersistenceService } from '@spartacus/core';
 import { map, Observable, Subscription, take } from 'rxjs';
 import { PunchoutFacade } from '../facade';
-import { PUNCHOUT_STORAGE_KEY } from '../model';
 import { PunchoutDetectionService } from './punchout-detection.service';
 import { PunchoutStoreService } from './punchout-store.service';
 
@@ -21,6 +20,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
   protected subscription = new Subscription();
   protected hasPunchoutStarted = false;
 
+  protected readonly PUNCHOUT_STORAGE_KEY = 'punchout';
   /**
    * Initializes the synchronization between state and browser storage.
    * Through getPunchoutSessionId(), storage is updated everytime PunchoutState is modified.
@@ -28,7 +28,7 @@ export class PunchoutStatePersistanceService implements OnDestroy {
   public initSync() {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
-        key: PUNCHOUT_STORAGE_KEY,
+        key: this.PUNCHOUT_STORAGE_KEY,
         state$: this.getPunchoutSessionId(),
         onRead: (state) => this.onRead(state),
       })
