@@ -12,7 +12,7 @@ import { PunchoutDetectionService } from './punchout-detection.service';
 import { PunchoutStoreService } from './punchout-store.service';
 
 @Injectable({ providedIn: 'root' })
-export class PunchoutStatePersistanceService implements OnDestroy {
+export class PunchoutStatePersistenceService implements OnDestroy {
   protected statePersistenceService = inject(StatePersistenceService);
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected punchoutFacade = inject(PunchoutFacade);

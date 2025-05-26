@@ -9,7 +9,7 @@ import {
   PunchoutState,
 } from '../model';
 import { PunchoutDetectionService } from './punchout-detection.service';
-import { PunchoutStatePersistanceService } from './punchout-state-persistence.service';
+import { PunchoutStatePersistenceService } from './punchout-state-persistence.service';
 import { PunchoutStoreService } from './punchout-store.service';
 
 const mockPunchoutSession: PunchoutSession = {
@@ -48,7 +48,7 @@ class MockPunchoutFacade implements Partial<PunchoutFacade> {
 }
 
 describe('PunchoutStatePersistenceService', () => {
-  let service: PunchoutStatePersistanceService;
+  let service: PunchoutStatePersistenceService;
   let punchoutStoreService: PunchoutStoreService;
   let punchoutDetectionService: PunchoutDetectionService;
   let statePersistenceServiceMock: jasmine.SpyObj<StatePersistenceService>;
@@ -81,7 +81,7 @@ describe('PunchoutStatePersistenceService', () => {
         },
       ],
     });
-    service = TestBed.inject(PunchoutStatePersistanceService);
+    service = TestBed.inject(PunchoutStatePersistenceService);
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
     punchoutDetectionService = TestBed.inject(PunchoutDetectionService);
     punchoutFacade = TestBed.inject(PunchoutFacade);

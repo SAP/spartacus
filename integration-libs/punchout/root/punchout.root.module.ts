@@ -15,7 +15,7 @@ import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import {
-  PunchoutStatePersistanceService,
+  PunchoutStatePersistenceService,
   PunchoutAuthHttpHeaderService,
   PunchoutUiRestrictionService,
 } from './services';
@@ -31,7 +31,7 @@ import {
     provideDefaultConfig(defaultPunchoutRoutingConfig),
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
-        PunchoutStatePersistanceService
+        PunchoutStatePersistenceService
       );
       punchoutPersistenceService.initSync();
     }),
