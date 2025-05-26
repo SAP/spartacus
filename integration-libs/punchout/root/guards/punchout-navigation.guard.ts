@@ -132,7 +132,6 @@ export class PunchoutNavigationGuard {
     if (!cxRoutes) {
       return false;
     }
-    console.log('cxRoutes = ', route.data['cxRoute']);
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
