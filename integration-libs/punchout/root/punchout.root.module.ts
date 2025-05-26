@@ -7,7 +7,7 @@
 import {
   APP_BOOTSTRAP_LISTENER,
   ComponentRef,
-  importProvidersFrom,
+  // importProvidersFrom,
   inject,
   NgModule,
   provideAppInitializer,
@@ -26,11 +26,11 @@ import {
 } from './services';
 
 @NgModule({
-  // imports: [PunchoutNavigationModule],
+  imports: [PunchoutNavigationModule],
   providers: [
     provideDefaultConfig(defaultPunchoutCmsComponentsConfig),
     provideDefaultConfig(defaultPunchoutRoutingConfig),
-    importProvidersFrom(PunchoutNavigationModule),
+    // importProvidersFrom(PunchoutNavigationModule),
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
         PunchoutStatePersistenceService

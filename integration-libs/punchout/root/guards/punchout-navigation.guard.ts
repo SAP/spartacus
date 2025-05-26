@@ -65,20 +65,20 @@ export class PunchoutNavigationGuard {
         redirectPage: { cxRoute: 'punchoutInspect' },
       },
       [PunchOutOperation.EDIT]: {
+        allowedUrls: ['/'],
         allowedCxRoutes: [
           ...this.allowedCxRoutesForEditCreate,
           'punchoutSession',
           'punchoutRequisition',
-          'home',
         ],
         redirectPage: { cxRoute: 'home' },
       },
       [PunchOutOperation.CREATE]: {
+        allowedUrls: ['/'],
         allowedCxRoutes: [
           ...this.allowedCxRoutesForEditCreate,
           'punchoutSession',
           'punchoutRequisition',
-          'home',
         ],
         redirectPage: { cxRoute: 'home' },
       },
