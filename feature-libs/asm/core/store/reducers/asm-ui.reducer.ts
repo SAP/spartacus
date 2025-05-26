@@ -18,6 +18,12 @@ export function reducer(state: AsmUi = initialState, action: Action): AsmUi {
         ...(action as AsmActions.AsmUiUpdate).payload,
       };
     }
+    case AsmActions.CUSTOMER_SEARCH_FAIL: {
+      return {
+        ...state,
+        ...(action as AsmActions.CustomerSearchFail).payload,
+      };
+    }
     default: {
       return state;
     }
