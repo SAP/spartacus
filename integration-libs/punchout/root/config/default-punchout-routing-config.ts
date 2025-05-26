@@ -15,6 +15,11 @@ export const defaultPunchoutRoutingConfig: RoutingConfig = {
         protected: false,
         authFlow: true,
       },
+      punchoutError: {
+        paths: ['punchout/cxml/error'],
+        protected: false,
+        authFlow: true,
+      },
     },
   },
 };
