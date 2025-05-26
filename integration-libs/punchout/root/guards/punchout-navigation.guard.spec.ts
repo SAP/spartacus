@@ -173,4 +173,41 @@ describe('PunchoutNavigationGuard', () => {
       done();
     });
   });
+  describe('isAllowedCxRoute', () => {
+    it('should return true if cxRoute is in allowedCxRoutesForEdit', () => {
+      const route: any = { data: { cxRoute: 'brand' } };
+      const result = (guard as any).isAllowedCxRoute(
+        route,
+        PunchOutOperation.EDIT
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return false if cxRoute is not in allowedCxRoutesForEdit', () => {
+      const route: any = { data: { cxRoute: 'notAllowedRoute' } };
+      const result = (guard as any).isAllowedCxRoute(
+        route,
+        PunchOutOperation.EDIT
+      );
+      expect(result).toBe(false);
+    });
+
+    it('should return false if cxRoute is missing', () => {
+      const route: any = { data: {} };
+      const result = (guard as any).isAllowedCxRoute(
+        route,
+        PunchOutOperation.EDIT
+      );
+      expect(result).toBe(false);
+    });
+
+    it('should return false if allowedCxRoutes is undefined for operation', () => {
+      const route: any = { data: { cxRoute: 'cart' } };
+      const result = (guard as any).isAllowedCxRoute(
+        route,
+        'UNKNOWN_OP' as any
+      );
+      expect(result).toBe(false);
+    });
+  });
 });
