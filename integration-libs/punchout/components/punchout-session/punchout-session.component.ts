@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { PUNCHOUT_SESSION_KEY, PunchoutFacade } from '@spartacus/punchout/root';
+import { PunchoutFacade } from '@spartacus/punchout/root';
 import { switchMap, take } from 'rxjs';
 @Component({
   selector: 'cx-punchout-session',
@@ -29,7 +29,7 @@ export class PunchoutSessionComponent implements OnInit {
     this.activatedRoute.queryParams
       .pipe(
         take(1),
-        switchMap((param: Params) => {
+        switchMap((params: Params) => {
           this.globalMessageService.add(
             {
               key: 'punchout.initiatingUserSession',
@@ -37,7 +37,7 @@ export class PunchoutSessionComponent implements OnInit {
             GlobalMessageType.MSG_TYPE_INFO
           );
           return this.punchoutFacade.initPunchoutSession({
-            punchoutSessionId: param?.[PUNCHOUT_SESSION_KEY],
+            punchoutSessionId: params?.sid,
           });
         }),
         take(1)

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
-  PUNCHOUT_SESSION_KEY,
   PunchoutFacade,
   PunchOutLevel,
   PunchOutOperation,
@@ -12,7 +11,7 @@ import { PunchoutSessionComponent } from './punchout-session.component';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 class mockActivatedRoute implements Partial<ActivatedRoute> {
-  queryParams = of({ [PUNCHOUT_SESSION_KEY]: '123abc' });
+  queryParams = of({ sid: '123abc' });
 }
 
 describe('PunchoutSessionComponent', () => {

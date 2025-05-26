@@ -15,8 +15,6 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_INSPECT_PAGE_URL,
-  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutLevel,
   PunchOutOperation,
@@ -315,7 +313,7 @@ export class PunchoutService implements PunchoutFacade {
       return;
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.INSPECT) {
-      this.routingService.go(PUNCHOUT_INSPECT_PAGE_URL);
+      this.routingService.go({ cxRoute: 'punchoutInspect' });
       return;
     }
     this.routingService.go('/');
@@ -366,6 +364,6 @@ export class PunchoutService implements PunchoutFacade {
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
-    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+    this.routingService.go({ cxRoute: 'punchoutRequisition' });
   }
 }

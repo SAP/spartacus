@@ -5,15 +5,21 @@
  */
 
 import { RoutingConfig } from '@spartacus/core';
-import { PUNCHOUT_SESSION_PAGE_URL } from '../model/punchout.model';
 
 export const defaultPunchoutRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       punchoutSession: {
-        paths: [PUNCHOUT_SESSION_PAGE_URL],
+        paths: ['punchout/cxml/session'],
+        paramsMapping: { sid: 'sid' },
         protected: false,
         authFlow: true,
+      },
+      punchoutRequisition: {
+        paths: ['punchout/cxml/requisition'],
+      },
+      punchoutInspect: {
+        paths: ['punchout/cxml/inspect'],
       },
     },
   },
