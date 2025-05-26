@@ -6,13 +6,14 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { PUNCHOUT_SESSION_PAGE_URL } from '../model';
 import { PunchoutStoreService } from './punchout-store.service';
+import { SemanticPathService } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class PunchoutDetectionService {
   protected location = inject(Location);
   protected punchoutStoreService = inject(PunchoutStoreService);
+  protected semanticPathService = inject(SemanticPathService);
 
   /**
    * Check if browser url is the punchout initial session page.
@@ -23,7 +24,9 @@ export class PunchoutDetectionService {
     const urlSections = this.location.path().split('?');
     return (
       urlSections.length > 1 &&
-      urlSections[0].includes(PUNCHOUT_SESSION_PAGE_URL)
+      urlSections[0].includes(
+        this.semanticPathService.get('punchoutSession') as string
+      )
     );
   }
   isPunchoutSession(): boolean | undefined {

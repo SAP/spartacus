@@ -19,8 +19,8 @@ import {
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import {
+  PunchoutStatePersistenceService,
   PunchoutAuthHttpHeaderService,
-  PunchoutStatePersistanceService,
   PunchoutUiRestrictionService,
 } from './services';
 
@@ -31,7 +31,7 @@ import {
     provideDefaultConfig(defaultPunchoutRoutingConfig),
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
-        PunchoutStatePersistanceService
+        PunchoutStatePersistenceService
       );
       punchoutPersistenceService.initSync();
     }),

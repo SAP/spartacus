@@ -8,8 +8,6 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_INSPECT_PAGE_URL,
-  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -283,9 +281,9 @@ describe('Punchoutservice', () => {
 
     service.initPunchoutSession(mockSessionInput).subscribe({
       next: () => {
-        expect(routingService.go).toHaveBeenCalledWith(
-          PUNCHOUT_INSPECT_PAGE_URL
-        );
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'punchoutInspect',
+        });
 
         done();
       },
@@ -506,8 +504,8 @@ describe('Punchoutservice', () => {
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
-    expect(routingService.go).toHaveBeenCalledWith(
-      PUNCHOUT_REQUISITION_PAGE_URL
-    );
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'punchoutRequisition',
+    });
   });
 });
