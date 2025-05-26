@@ -18,7 +18,6 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
   PunchoutDetectionService,
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
@@ -91,7 +90,9 @@ export class PunchoutAuthService {
     }
 
     this.authService.coreLogout().finally(() => {
-      this.routingService.go(PUNCHOUT_ERROR_PAGE_URL);
+      this.routingService.go({
+        cxRoute: 'punchoutError',
+      });
     });
   }
 }

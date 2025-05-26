@@ -16,7 +16,6 @@ import {
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import {
-  PUNCHOUT_ERROR_PAGE_URL,
   PUNCHOUT_INSPECT_PAGE_URL,
   PUNCHOUT_REQUISITION_PAGE_URL,
   PUNCHOUT_SESSION_PAGE_URL,
@@ -48,7 +47,6 @@ export class PunchoutNavigationGuard {
   protected readonly allowedUrlsForAll: string[] = [
     PUNCHOUT_SESSION_PAGE_URL,
     PUNCHOUT_REQUISITION_PAGE_URL,
-    PUNCHOUT_ERROR_PAGE_URL,
   ];
   protected readonly allowedCxRoutesForEdit: string[] = [
     'category',
@@ -56,6 +54,7 @@ export class PunchoutNavigationGuard {
     'product',
     'cart',
     'search',
+    'punchoutError',
   ];
   protected readonly allowedUrlsForInspect: string[] = [
     PUNCHOUT_INSPECT_PAGE_URL,

@@ -5,10 +5,7 @@
  */
 
 import { RoutingConfig } from '@spartacus/core';
-import {
-  PUNCHOUT_ERROR_PAGE_URL,
-  PUNCHOUT_SESSION_PAGE_URL,
-} from '../model/punchout.model';
+import { PUNCHOUT_SESSION_PAGE_URL } from '../model/punchout.model';
 
 export const defaultPunchoutRoutingConfig: RoutingConfig = {
   routing: {
@@ -19,7 +16,7 @@ export const defaultPunchoutRoutingConfig: RoutingConfig = {
         authFlow: true,
       },
       punchoutError: {
-        paths: [PUNCHOUT_ERROR_PAGE_URL],
+        paths: ['punchout/cxml/error'],
         protected: false,
         authFlow: true,
       },
