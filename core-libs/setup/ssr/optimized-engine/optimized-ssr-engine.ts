@@ -14,7 +14,7 @@ import {
   ExpressServerLoggerContext,
 } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
-import { RenderingCache } from './rendering-cache';
+import { RenderingCache } from './rendering-cache/rendering-cache';
 import { preprocessRequestForLogger } from './request-context';
 import {
   RenderingStrategy,
