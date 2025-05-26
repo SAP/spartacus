@@ -11,7 +11,6 @@ export const defaultPunchoutRoutingConfig: RoutingConfig = {
     routes: {
       punchoutSession: {
         paths: ['punchout/cxml/session'],
-        paramsMapping: { sid: 'sid' },
         protected: false,
         authFlow: true,
       },

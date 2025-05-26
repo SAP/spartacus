@@ -25,6 +25,8 @@ export class PunchoutSessionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);
   protected globalMessageService = inject(GlobalMessageService);
 
+  protected readonly PUNCHOUT_SESSION_KEY = 'sid';
+
   ngOnInit(): void {
     this.activatedRoute.queryParams
       .pipe(
@@ -37,7 +39,7 @@ export class PunchoutSessionComponent implements OnInit {
             GlobalMessageType.MSG_TYPE_INFO
           );
           return this.punchoutFacade.initPunchoutSession({
-            punchoutSessionId: params?.sid,
+            punchoutSessionId: params?.[this.PUNCHOUT_SESSION_KEY],
           });
         }),
         take(1)
