@@ -25,7 +25,6 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     PunchoutButtonsComponent,
     PunchoutCloseSessionComponent,
     PunchoutInspectCartComponent,
-    PunchoutErrorComponent,
   ],
   exports: [
     PunchoutSessionComponent,
