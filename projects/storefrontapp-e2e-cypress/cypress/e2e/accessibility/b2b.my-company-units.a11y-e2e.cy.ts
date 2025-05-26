@@ -32,10 +32,8 @@ describe(
     });
 
     it('unit details / initial panel', () => {
-      cy.get('[id="Rustic Services"]').click();
-      cy.get(
-        'cx-org-unit-details cx-org-card cx-view .main .details .property a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
-      );
+      cy.get('[id="Rustic"]').click();
+      cy.get('a').contains('Rustic');
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
@@ -54,9 +52,7 @@ describe(
       cy.get(
         'cx-org-unit-details cx-org-card cx-view .main cx-org-notification'
       );
-      cy.get(
-        'cx-org-unit-details cx-org-card cx-view .main .details .property a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
-      );
+      cy.get('a').contains('Rustic');
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
@@ -82,9 +78,8 @@ describe(
     });
 
     it('unit details / users list panel', () => {
-      // TODO: save as rusticServicesBreadcrumb and reuse elsewhere!
       cy.get(
-        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic%20Services"]'
+        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
       cy.get(
         'cx-org-unit-details .main .link-list a.link:nth-child(2)'
@@ -107,16 +102,13 @@ describe(
     });
 
     it('unit details / approvers list panel', () => {
-      // TODO: save as rusticServicesBreadcrumb and reuse elsewhere!
       cy.get(
-        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic%20Services"]'
+        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
       cy.get(
         'cx-org-unit-details .main .link-list a.link:nth-child(3)'
       ).click();
-      cy.get(
-        'cx-org-unit-assigned-approver-list cx-org-sub-list .main .is-empty'
-      );
+      cy.get('td.actions button');
       cy.get('cx-org-unit-assigned-approver-list').a11yRunContinuumTest();
     });
 
@@ -124,33 +116,28 @@ describe(
       cy.get(
         'cx-org-unit-assigned-approver-list cx-org-sub-list .header .btn:first-child'
       ).click();
-      cy.get(
-        'cx-org-unit-approver-list cx-org-sub-list cx-table table tr:nth-child(2) td.orgUnit span[title="Services East"]'
-      );
-      cy.get(
-        'cx-org-unit-approver-list cx-org-sub-list cx-table table tr:nth-child(2) cx-org-user-details-cell button'
-      ).click();
+      cy.get('.actions cx-org-assign-cell button');
+      cy.get('table tr:nth-child(2) cx-org-user-details-cell button').click();
       cy.get('cx-org-unit-approver-list').a11yRunContinuumTest();
     });
 
     it('unit details / approvers list / manage approvers assign panel', () => {
       // Assign button click
       cy.get(
-        'cx-org-unit-approver-list cx-org-sub-list cx-table table tr:nth-child(2) cx-org-assign-cell button'
+        'table tr:nth-child(2) .actions cx-org-assign-cell button'
       ).click();
-      cy.get('cx-global-message .alert-danger');
+      cy.get('.main cx-org-message cx-org-notification');
       cy.get('body').a11yRunContinuumTest();
     });
 
     it('unit details / delivery addresses list panel', () => {
-      // TODO: save as rusticServicesBreadcrumb and reuse elsewhere!
       cy.get(
-        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic%20Services"]'
+        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
       cy.get(
         'cx-org-unit-details .main .link-list a.link:nth-child(4)'
       ).click();
-      cy.get('cx-org-unit-address-list cx-org-sub-list .main .is-empty');
+      cy.get('td.formattedAddress cx-org-link-cell a');
       cy.get('cx-org-unit-address-list').a11yRunContinuumTest();
     });
 
@@ -162,19 +149,18 @@ describe(
       cy.get('cx-org-unit-address-list').a11yRunContinuumTest();
     });
 
-    it('unit details / const centers list panel', () => {
-      // TODO: save as rusticServicesBreadcrumb and reuse elsewhere!
+    it('unit details / cost centers list panel', () => {
       cy.get(
-        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic%20Services"]'
+        'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
       cy.get(
         'cx-org-unit-details .main .link-list a.link:nth-child(5)'
       ).click();
-      cy.get('cx-org-unit-cost-centers cx-org-sub-list .main .is-empty');
+      cy.get('cx-org-cost-center-details-cell button');
       cy.get('cx-org-unit-cost-centers').a11yRunContinuumTest();
     });
 
-    it('unit details / const centers list / create panel', () => {
+    it('unit details / cost centers list / create panel', () => {
       cy.get(
         'cx-org-unit-cost-centers cx-org-sub-list .header .btn:first-child'
       ).click();
