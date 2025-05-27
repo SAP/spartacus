@@ -45,7 +45,6 @@ const consignmentCode = 'a00001004';
 
 const returnRequest: ReturnRequest = { rma: 'test return request' };
 
-// const mockOrderConfig: OrderConfig = { showOrderQuoteLink: false };
 const mockOrderConfig = {
   get showOrderQuoteLink() {
     return false;
