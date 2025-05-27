@@ -8,7 +8,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
-  FeatureConfigService,
   InterceptorUtil,
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
@@ -31,6 +30,7 @@ import {
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   Order,
+  OrderConfig,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -46,7 +46,7 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   protected logger = inject(LoggerService);
   private occFieldsService = inject(OccFieldsService);
-  private featureConfigService = inject(FeatureConfigService);
+  protected orderConfig = inject(OrderConfig);
 
   constructor(
     protected http: HttpClient,
@@ -55,7 +55,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   ) {}
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    const url = this.featureConfigService.isEnabled('showOrderQuoteLink')
+    const url = this.orderConfig.showOrderQuoteLink
       ? (() => {
           const scopes = ['orderDetail', 'quoteCode'];
           const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map(

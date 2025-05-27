@@ -31,7 +31,7 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
 import createSpy = jasmine.createSpy;
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { OrderConfig } from '@spartacus/order/root';
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
@@ -95,6 +95,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
 
+const mockOrderConfig: OrderConfig = { showOrderQuoteLink: true };
+
 describe('QuoteLinksComponent', () => {
   let fixture: ComponentFixture<QuoteLinksComponent>;
   let htmlElem: HTMLElement;
@@ -113,7 +115,7 @@ describe('QuoteLinksComponent', () => {
         UrlTestingModule,
         RouterModule.forRoot(mockRoutes),
       ],
-      declarations: [QuoteLinksComponent, MockFeatureDirective],
+      declarations: [QuoteLinksComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -130,6 +132,10 @@ describe('QuoteLinksComponent', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
+        },
+        {
+          provide: OrderConfig,
+          useValue: mockOrderConfig,
         },
       ],
     }).compileComponents();

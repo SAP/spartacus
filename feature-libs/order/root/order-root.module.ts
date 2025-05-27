@@ -23,7 +23,7 @@ import {
   OrderConfirmationOrderEntriesContextToken,
   OrderDetailsOrderEntriesContextToken,
 } from './tokens/context';
-import { defaultOrderAttachmentsConfig } from './config/default-order-attachments-config';
+import { defaultOrderConfig } from './config/default-order-config';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -172,7 +172,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultOrderComponentsConfig),
     provideDefaultConfig(defaultOrderRoutingConfig),
-    provideDefaultConfig(defaultOrderAttachmentsConfig),
+    provideDefaultConfig(defaultOrderConfig),
   ],
 })
 export class OrderRootModule {}
