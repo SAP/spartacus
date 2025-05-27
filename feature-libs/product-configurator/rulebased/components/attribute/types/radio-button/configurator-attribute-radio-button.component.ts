@@ -44,6 +44,19 @@ export class ConfiguratorAttributeRadioButtonComponent
     );
   }
 
+  onSelect(valueCode: string): void {
+    this.attributeRadioButtonForm.setValue(valueCode);
+
+    setTimeout(() => {
+      const element = document.getElementById(
+        this.createAttributeValueIdForConfigurator(this.attribute, valueCode)
+      );
+      if (element) {
+        element.focus();
+      }
+    }, 100);
+  }
+
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
