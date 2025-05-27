@@ -36,6 +36,7 @@ import {
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { OccQuoteAdapter } from './occ-quote.adapter';
+import { OrderConfig } from '@spartacus/order/root';
 
 const userId = '111111';
 const cartId = '222222';
@@ -111,6 +112,12 @@ const mockQuoteAttachment = (): File => {
   return blob as File;
 };
 
+const MockOrderConfig = {
+  get showOrderQuoteLink() {
+    return false;
+  },
+};
+
 describe(`OccQuoteAdapter`, () => {
   let classUnderTest: OccQuoteAdapter;
   let httpTestingController: HttpTestingController;
@@ -123,6 +130,7 @@ describe(`OccQuoteAdapter`, () => {
       providers: [
         OccQuoteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OrderConfig, useValue: MockOrderConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -191,10 +199,6 @@ describe(`OccQuoteAdapter`, () => {
   });
 
   it('getQuote should return quote details based on provided quoteCode without orderCode', (done) => {
-    spyOn(
-      (classUnderTest as any).featureConfigService,
-      'isEnabled'
-    ).and.returnValue(false);
     classUnderTest
       .getQuote(userId, mockQuote.code)
       .pipe(take(1))
@@ -222,10 +226,9 @@ describe(`OccQuoteAdapter`, () => {
   });
 
   it('getQuote should return quote details based on provided quoteCode', (done) => {
-    spyOn(
-      (classUnderTest as any).featureConfigService,
-      'isEnabled'
-    ).and.returnValue(true);
+    spyOnProperty(MockOrderConfig, 'showOrderQuoteLink', 'get').and.returnValue(
+      true
+    );
     classUnderTest
       .getQuote(userId, mockQuote.code)
       .pipe(take(1))

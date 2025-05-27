@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeaturesConfig } from '@spartacus/core';
+import { OrderConfig } from '@spartacus/core';
 import * as order from '../../../../helpers/b2b/b2b-order-details';
 import * as quote from '../../../../helpers/b2b/b2b-quote';
 import { CURRENCY_USD } from '../../../../helpers/site-context-selector';
@@ -19,10 +19,8 @@ describe('Navigate from Quote to Order and vice-versa (CXSPA-7795, CXSPA-9270) '
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     Cypress.env('BASE_CURRENCY', CURRENCY_USD);
     cy.cxConfig({
-      features: {
-        showOrderQuoteLink: true,
-      },
-    } as FeaturesConfig);
+      showOrderQuoteLink: true,
+    } as OrderConfig);
     cy.visit('/');
   });
   it('should navigate from Quote to Order and vice-versa', () => {
