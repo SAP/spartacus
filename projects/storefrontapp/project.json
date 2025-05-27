@@ -178,19 +178,29 @@
       },
       "defaultConfiguration": "production"
     },
-    "build-csr-production": {
+    "build-csr": {
       "executor": "@angular-devkit/architect:concat",
-      "options": {
-        "targets": [{ "target": "storefrontapp:build:production,noSsr" }]
-      }
+      "configurations": {
+        "development": {
+          "targets": [{ "target": "storefrontapp:build:development,noSsr" }]
+        },
+        "production": {
+          "targets": [{ "target": "storefrontapp:build:production,noSsr" }]
+        }
+      },
+      "defaultConfiguration": "production"
     },
-    "prerender-production": {
+    "prerender": {
       "executor": "@angular-devkit/architect:concat",
-      "options": {
-        "targets": [
-          { "target": "storefrontapp:build:production,withPrerender" }
-        ]
-      }
+      "configurations": {
+        "development": {
+          "targets": [{ "target": "storefrontapp:build:development,noSsr" }]
+        },
+        "production": {
+          "targets": [{ "target": "storefrontapp:build:production,noSsr" }]
+        }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
