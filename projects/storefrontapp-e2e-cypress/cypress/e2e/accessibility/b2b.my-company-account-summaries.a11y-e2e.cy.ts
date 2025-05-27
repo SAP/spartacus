@@ -34,9 +34,11 @@ describe(
     });
 
     it('account summaries details / initial panel', () => {
-      cy.get('#Rustic').click();
+      const EXPAND_BTN_SELECTOR = '.actions > button:nth-child(2)';
+      cy.get(EXPAND_BTN_SELECTOR).click();
+      cy.get('[id="Custom Retail"]').click();
       cy.get(
-        'cx-account-summary-header .cx-summary-card-group-unit-address .cx-card-title'
+        '.cx-account-summary-document-row:nth-child(2) .cx-account-summary-document-label'
       );
       cy.get('main').a11yRunContinuumTest();
     });
