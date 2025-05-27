@@ -1,0 +1,56 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import * as sampleData from '../../sample-data/b2b-checkout';
+
+describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
+  before(() => {
+    cy.a11yContinuumSetup();
+    cy.requireLoggedIn();
+    cy.visit('/my-account/quick-order');
+  });
+
+  it('scan empty Quick Order page', () => {
+    cy.get('cx-quick-order').a11yRunContinuumTest();
+  });
+
+  it('scan after adding a product', () => {
+    cy.get('.quick-order-form-input input')
+      .clear()
+      .type(`${sampleData.b2bProduct.code}`);
+
+    cy.get('.quick-order-results-products', { timeout: 10000 });
+
+    cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
+
+    cy.get('.cx-quick-order-table-row', { timeout: 10000 });
+
+    cy.get('cx-quick-order').a11yRunContinuumTest();
+  });
+
+  it('scan after deleting the product', () => {
+    cy.get('.quick-order-form-input input')
+      .clear()
+      .type(`${sampleData.b2bProduct.code}`);
+
+    cy.get('.quick-order-results-products', { timeout: 10000 });
+    cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
+    cy.get('.cx-quick-order-table-row', { timeout: 10000 });
+
+    cy.get('.cx-quick-order-table-row')
+      .first()
+      .within(() => {
+        cy.get('button.btn-tertiary').click();
+      });
+
+    cy.get('.quick-order-deletions-message', { timeout: 10000 });
+    cy.get('.quick-order-deletions-message').a11yRunContinuumTest();
+  });
+
+  it('scan Quick Order footer', () => {
+    cy.get('.quick-order-footer', { timeout: 10000 }).a11yRunContinuumTest();
+  });
+});
