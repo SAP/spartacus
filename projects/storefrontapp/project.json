@@ -194,10 +194,14 @@
       "executor": "@angular-devkit/architect:concat",
       "configurations": {
         "development": {
-          "targets": [{ "target": "storefrontapp:build:development,withPrerender" }]
+          "targets": [
+            { "target": "storefrontapp:build:development,withPrerender" }
+          ]
         },
         "production": {
-          "targets": [{ "target": "storefrontapp:build:production,withPrerender" }]
+          "targets": [
+            { "target": "storefrontapp:build:production,withPrerender" }
+          ]
         }
       },
       "defaultConfiguration": "production"

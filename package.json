@@ -147,7 +147,7 @@
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp/server/server.mjs",
     "test:ssr": "env-cmd -e dev nx test ssr-tests",
     "test:ssr:ci": "env-cmd -e ci nx test ssr-tests",
-    "prerender": "env-cmd --no-override -e dev,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender",
+    "prerender": "env-cmd --no-override -e dev,$SPA_ENV  cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender",
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "nx test cds --code-coverage",
     "build:cds:ssr": "env-cmd --no-override -e dev,b2c,cds nx run storefrontapp:build:production"
