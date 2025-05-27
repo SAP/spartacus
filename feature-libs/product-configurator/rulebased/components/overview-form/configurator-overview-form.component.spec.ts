@@ -466,19 +466,6 @@ describe('ConfigurationOverviewFormComponent', () => {
         'configurator.a11y.group group:Group 1'
       );
     });
-
-    it("should contain action h2 element with 'aria-hidden' attribute that removes h2 element from the accessibility tree", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'h2',
-        undefined,
-        0,
-        'aria-hidden',
-        'true',
-        'Group 1'
-      );
-    });
   });
 
   describe('getGroupLevelStyleClasses', () => {

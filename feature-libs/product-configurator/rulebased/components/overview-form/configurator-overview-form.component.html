@@ -35,17 +35,13 @@
       id="{{ getGroupId(idPrefix, group.id) }}"
       [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
     >
-      <span class="cx-visually-hidden">
-        {{
-          'configurator.a11y.group'
-            | cxTranslate
-              : {
-                  group: group.groupDescription,
-                }
-        }}
-      </span>
       <h2>
-        <span>{{ group.groupDescription }}</span>
+        <span class="cx-visually-hidden">
+          {{ 'configurator.a11y.group' | cxTranslate: { group: group.groupDescription } }}
+        </span>
+        <span aria-hidden="true">
+          {{ group.groupDescription }}
+        </span>
       </h2>
 
       <div
