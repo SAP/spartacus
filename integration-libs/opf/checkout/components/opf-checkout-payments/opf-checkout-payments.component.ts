@@ -125,10 +125,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       defaultSelectedPaymentOptionId: firstPaymentOption?.id,
     });
 
-    if (this.forceDefaultPaymentOptionInputSelection) {
-      if (!this.selectedPaymentId) {
-        this.selectedPaymentId = firstPaymentOption?.id;
-      }
+    if (
+      this.forceDefaultPaymentOptionInputSelection &&
+      !this.selectedPaymentId
+    ) {
+      this.selectedPaymentId = firstPaymentOption?.id;
     }
   }
 
