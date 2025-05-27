@@ -8,7 +8,7 @@ import { PunchOutOperation } from '../model';
   useExisting: Config,
 })
 export abstract class PunchoutNavigationGuardConfig {
-  punchoutNavigation: {
+  punchoutNavigation?: {
     [PunchOutOperation.EDIT]: {
       allowedUrls?: string[];
       allowedCxRoutes?: string[];
