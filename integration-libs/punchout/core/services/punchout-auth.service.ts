@@ -90,7 +90,9 @@ export class PunchoutAuthService {
     }
 
     this.authService.coreLogout().finally(() => {
-      this.routingService.go({ cxRoute: 'login' });
+      this.routingService.go({
+        cxRoute: 'punchoutError',
+      });
     });
   }
 }

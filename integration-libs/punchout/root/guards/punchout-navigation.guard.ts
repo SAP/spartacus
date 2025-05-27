@@ -12,22 +12,17 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import {
-  PUNCHOUT_INSPECT_PAGE_URL,
-  PUNCHOUT_REQUISITION_PAGE_URL,
-  PUNCHOUT_SESSION_PAGE_URL,
   PunchoutNavigationGuardConfig,
   PunchOutOperation,
   PunchoutSession,
   PunchoutState,
 } from '../model';
-import {
-  PunchoutStatePersistanceService,
-  PunchoutStoreService,
-} from '../services';
+import { PunchoutStoreService } from '../services';
 
 @Injectable({
   providedIn: 'root',
@@ -35,37 +30,35 @@ import {
 export class PunchoutNavigationGuard {
   protected router = inject(Router);
   protected punchoutStoreService = inject(PunchoutStoreService);
-  protected punchoutStatePersistanceService = inject(
-    PunchoutStatePersistanceService
-  );
   protected authService = inject(AuthService);
   protected routingService = inject(RoutingService);
   protected globalMessageService = inject(GlobalMessageService);
   protected punchoutFacade = inject(PunchoutFacade);
-  protected loadedPunchoutSessionId?: string;
+  protected semanticPathService = inject(SemanticPathService);
 
   protected readonly allowedUrlsForAll: string[] = [
-    PUNCHOUT_SESSION_PAGE_URL,
-    PUNCHOUT_REQUISITION_PAGE_URL,
+    this.semanticPathService.get('punchoutSession') as string,
+    this.semanticPathService.get('punchoutRequisition') as string,
   ];
   protected readonly allowedCxRoutesForEdit: string[] = [
     'category',
+    'brand',
     'quickOrder',
     'product',
     'cart',
     'search',
+    'punchoutError',
   ];
   protected readonly allowedUrlsForInspect: string[] = [
-    PUNCHOUT_INSPECT_PAGE_URL,
+    this.semanticPathService.get('punchoutInspect') as string,
   ];
   protected readonly HOME_PAGE_URL = '/';
-  protected readonly LOGOUT_CX_ROUTE = 'logout';
 
   protected readonly punchoutNavigationGuardConfig: PunchoutNavigationGuardConfig =
     {
       [PunchOutOperation.INSPECT]: {
         allowedUrls: [...this.allowedUrlsForAll, ...this.allowedUrlsForInspect],
-        redirectPage: PUNCHOUT_INSPECT_PAGE_URL,
+        redirectPage: this.semanticPathService.get('punchoutInspect') as string,
       },
       [PunchOutOperation.EDIT]: {
         allowedUrls: [...this.allowedUrlsForAll, this.HOME_PAGE_URL],
@@ -131,7 +124,6 @@ export class PunchoutNavigationGuard {
     if (!cxRoutes) {
       return false;
     }
-
     return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
   }
 
@@ -150,7 +142,7 @@ export class PunchoutNavigationGuard {
       switchMap((punchoutState: PunchoutState | undefined) => {
         if (punchoutState?.punchoutSessionId) {
           //handle race condition with logout guard, it needs to be assessed before punchout session is requested
-          if (cxRoute === this.LOGOUT_CX_ROUTE) {
+          if (cxRoute === this.semanticPathService.get('logout')) {
             this.handleWarning();
           }
           return punchoutState?.punchoutSession?.punchOutOperation
