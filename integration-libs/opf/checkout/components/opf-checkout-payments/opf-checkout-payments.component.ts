@@ -82,6 +82,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   hideOnlyOnePaymentProviderLabel? = false;
 
+  @Input()
+  forceRadioInputsView? = false;
+
+  @Input()
+  forceDefaultPaymentOptionInputSelection? = false;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -100,6 +106,38 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ) {
     return !state?.loading && !Boolean(state?.data?.value?.length);
+  }
+
+  protected handleDefaultPaymentOptionInputSelection(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ) {
+    const firstPaymentOption = state.data?.value?.[0];
+
+    if (this.isOnlyOnePaymentOptionAvailable) {
+      this.selectedPaymentId = firstPaymentOption?.id;
+      const providerName = firstPaymentOption?.displayName;
+      if (providerName) {
+        this.selectedPaymentProviderName.emit(providerName);
+      }
+    }
+
+    this.opfMetadataStoreService.updateOpfMetadata({
+      defaultSelectedPaymentOptionId: firstPaymentOption?.id,
+    });
+
+    if (this.forceDefaultPaymentOptionInputSelection) {
+      if (!this.selectedPaymentId) {
+        this.selectedPaymentId = firstPaymentOption?.id;
+      }
+    }
+  }
+
+  protected checkIfOnlyOnePaymentOptionAvailable(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ): boolean {
+    return (
+      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+    );
   }
 
   getActiveConfigurations(): Observable<
@@ -127,19 +165,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
               }
 
               this.isOnlyOnePaymentOptionAvailable =
-                state.data.value.length === 1;
+                this.checkIfOnlyOnePaymentOptionAvailable(state);
 
-              if (this.isOnlyOnePaymentOptionAvailable) {
-                this.selectedPaymentId = state.data?.value[0]?.id;
-                const providerName = state.data?.value[0]?.displayName;
-                if (providerName) {
-                  this.selectedPaymentProviderName.emit(providerName);
-                }
-              }
-
-              this.opfMetadataStoreService.updateOpfMetadata({
-                defaultSelectedPaymentOptionId: state.data?.value[0]?.id,
-              });
+              this.handleDefaultPaymentOptionInputSelection(state);
             }
           }
         )

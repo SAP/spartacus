@@ -13,6 +13,7 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -30,8 +31,15 @@ import {
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { BehaviorSubject, Observable, Subscription, take } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  take,
+  filter,
+  switchMap,
+} from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-type',
@@ -51,6 +59,7 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected globalMessageService = inject(GlobalMessageService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected fb = inject(FormBuilder);
+  protected cdr = inject(ChangeDetectorRef);
 
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
@@ -166,6 +175,30 @@ export class OpfB2bCheckoutPaymentTypeComponent
     if (this.poNumberValue) {
       this.form.patchValue({ poNumber: this.poNumberValue });
     }
+
+    this.getSelectedPaymentOption()
+      .pipe(
+        take(1),
+        filter((paymentOption) => paymentOption === undefined),
+        tap(() => this.opfMetadataStoreService.clearOpfMetadata()),
+        switchMap(() =>
+          this.opfMetadataStoreService.getOpfMetadataState().pipe(
+            filter(
+              (state) => state.defaultSelectedPaymentOptionId !== undefined
+            ),
+            take(1)
+          )
+        ),
+        switchMap((state) => {
+          const paymentId = state.defaultSelectedPaymentOptionId as number;
+          this.selectedPaymentOption = paymentId.toString();
+          return this.setPaymentOption(
+            this.selectedPaymentOption,
+            this.poNumberValue
+          ).pipe(take(1));
+        })
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
