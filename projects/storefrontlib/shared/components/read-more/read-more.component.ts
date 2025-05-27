@@ -32,7 +32,7 @@ export class ReadMoreComponent implements OnChanges {
   // Read Less label translation key
   @Input() readLessI18nKey?: string = 'common.readLess';
   // Text length that, when exceeded, triggers truncation and adds a Read More link.
-  @Input() maxLength = 360;
+  @Input() maxLength = 300;
   // Text to be rendered (decorated with Read More/Read Less links)
   @Input() text: string = '';
 
