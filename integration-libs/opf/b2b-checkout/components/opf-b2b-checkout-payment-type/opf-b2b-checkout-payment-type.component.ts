@@ -13,7 +13,6 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -59,7 +58,6 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected globalMessageService = inject(GlobalMessageService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected fb = inject(FormBuilder);
-  protected cdr = inject(ChangeDetectorRef);
 
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
