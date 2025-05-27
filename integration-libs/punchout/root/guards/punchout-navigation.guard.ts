@@ -36,6 +36,7 @@ export class PunchoutNavigationGuard {
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
     const cxRoute = route.data.cxRoute;
+    console.log(route.data.cxRoute);
     return this.getPunchoutOperation(cxRoute).pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
         const canActivate =

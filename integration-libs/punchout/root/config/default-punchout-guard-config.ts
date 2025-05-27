@@ -6,13 +6,16 @@
 
 import { PunchoutNavigationGuardConfig } from './punchout-guard-config';
 import { PunchOutOperation } from '../model';
+import {
+  PUNCHOUT_ERROR_URL,
+  PUNCHOUT_INSPECT_URL,
+  PUNCHOUT_REQUISITION_URL,
+  PUNCHOUT_SESSION_URL,
+} from './punchout-constant';
 
-const allowedUrlsForAll = [
-  'punchout/cxml/session',
-  'punchout/cxml/requisition',
-];
+const allowedUrlsForAll = [PUNCHOUT_SESSION_URL, PUNCHOUT_REQUISITION_URL];
 
-const allowedUrlsForInspect = ['punchout/cxml/inspect'];
+const allowedUrlsForInspect = [PUNCHOUT_INSPECT_URL];
 
 const allowedCxRoutesForEditCreate: string[] = [
   'category',
@@ -21,7 +24,6 @@ const allowedCxRoutesForEditCreate: string[] = [
   'product',
   'cart',
   'search',
-  'punchoutError',
 ];
 
 export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig =
@@ -32,12 +34,12 @@ export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig
         redirectPage: { cxRoute: 'punchoutInspect' },
       },
       [PunchOutOperation.EDIT]: {
-        allowedUrls: [...allowedUrlsForAll, '/'],
+        allowedUrls: [...allowedUrlsForAll, '/', PUNCHOUT_ERROR_URL],
         allowedCxRoutes: [...allowedCxRoutesForEditCreate],
         redirectPage: { cxRoute: 'home' },
       },
       [PunchOutOperation.CREATE]: {
-        allowedUrls: [...allowedUrlsForAll, '/'],
+        allowedUrls: [...allowedUrlsForAll, '/', PUNCHOUT_ERROR_URL],
         allowedCxRoutes: [...allowedCxRoutesForEditCreate],
         redirectPage: { cxRoute: 'home' },
       },
