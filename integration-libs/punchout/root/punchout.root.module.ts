@@ -7,7 +7,6 @@
 import {
   APP_BOOTSTRAP_LISTENER,
   ComponentRef,
-  // importProvidersFrom,
   inject,
   NgModule,
   provideAppInitializer,
@@ -16,6 +15,7 @@ import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
 import {
   defaultPunchoutCmsComponentsConfig,
   defaultPunchoutRoutingConfig,
+  defaultPunchoutNavigationGuardConfig,
 } from './config';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
@@ -30,7 +30,7 @@ import {
   providers: [
     provideDefaultConfig(defaultPunchoutCmsComponentsConfig),
     provideDefaultConfig(defaultPunchoutRoutingConfig),
-    // importProvidersFrom(PunchoutNavigationModule),
+    provideDefaultConfig(defaultPunchoutNavigationGuardConfig),
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
         PunchoutStatePersistenceService
