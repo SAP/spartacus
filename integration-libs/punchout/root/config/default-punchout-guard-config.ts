@@ -7,6 +7,13 @@
 import { PunchoutNavigationGuardConfig } from './punchout-guard-config';
 import { PunchOutOperation } from '../model';
 
+const allowedUrlsForAll = [
+  'punchout/cxml/session',
+  'punchout/cxml/requisition',
+];
+
+const allowedUrlsForInspect = ['punchout/cxml/inspect'];
+
 const allowedCxRoutesForEditCreate: string[] = [
   'category',
   'brand',
@@ -21,29 +28,17 @@ export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig
   {
     punchoutNavigation: {
       [PunchOutOperation.INSPECT]: {
-        allowedCxRoutes: [
-          'punchoutSession',
-          'punchoutRequisition',
-          'punchoutInspect',
-        ],
+        allowedUrls: [...allowedUrlsForAll, ...allowedUrlsForInspect],
         redirectPage: { cxRoute: 'punchoutInspect' },
       },
       [PunchOutOperation.EDIT]: {
-        allowedUrls: ['/'],
-        allowedCxRoutes: [
-          ...allowedCxRoutesForEditCreate,
-          'punchoutSession',
-          'punchoutRequisition',
-        ],
+        allowedUrls: [...allowedUrlsForAll, '/'],
+        allowedCxRoutes: [...allowedCxRoutesForEditCreate],
         redirectPage: { cxRoute: 'home' },
       },
       [PunchOutOperation.CREATE]: {
-        allowedUrls: ['/'],
-        allowedCxRoutes: [
-          ...allowedCxRoutesForEditCreate,
-          'punchoutSession',
-          'punchoutRequisition',
-        ],
+        allowedUrls: [...allowedUrlsForAll, '/'],
+        allowedCxRoutes: [...allowedCxRoutesForEditCreate],
         redirectPage: { cxRoute: 'home' },
       },
     },
