@@ -7,6 +7,8 @@
 import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
 
 const MY_COMPANY_URL = '/organization/account-summary';
+export const SKELETON_SELECTOR =
+  'main cx-view cx-table table cx-org-toggle-link-cell:not(:has(a))';
 
 /**
  * This test checks accessibility concerns on the B2B My Company Account Summaries page using Access Continuum
@@ -21,8 +23,8 @@ describe(
       cy.visit(MY_COMPANY_URL);
     });
 
-    it('initial page load', () => {
-      cy.get('main cx-view cx-table table');
+    it('page loading (skeleton)', () => {
+      cy.get(SKELETON_SELECTOR);
       cy.get('main').a11yRunContinuumTest();
     });
 

@@ -5,6 +5,7 @@
  */
 
 import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
+import { SKELETON_SELECTOR } from './b2b.my-company-account-summaries.a11y-e2e.cy';
 
 const MY_COMPANY_URL = '/organization/units';
 
@@ -21,8 +22,8 @@ describe(
       cy.visit(MY_COMPANY_URL);
     });
 
-    it('initial page load', () => {
-      cy.get('main cx-view cx-table table');
+    it('page loading (skeleton)', () => {
+      cy.get(SKELETON_SELECTOR);
       cy.get('main').a11yRunContinuumTest();
     });
 

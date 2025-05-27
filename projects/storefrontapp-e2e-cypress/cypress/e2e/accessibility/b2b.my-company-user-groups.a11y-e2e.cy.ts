@@ -10,6 +10,8 @@ const MY_COMPANY_URL = '/organization/user-groups';
 const rowCellSelector =
   'main cx-view cx-table table tr:nth-child(2) .uid cx-org-cell .text';
 const detailsActionsListSelector = 'cx-org-user-group-details .main .link-list';
+export const SKELETON_SELECTOR =
+  'main cx-view cx-table table cx-org-cell:not(:has(a))';
 
 /**
  * This test checks accessibility concerns on the B2B My Company User Groups page using Access Continuum
@@ -24,8 +26,8 @@ describe(
       cy.visit(MY_COMPANY_URL);
     });
 
-    it('list page loaded', () => {
-      cy.get(rowCellSelector);
+    it('page loading (skeleton)', () => {
+      cy.get(SKELETON_SELECTOR);
       cy.get('main').a11yRunContinuumTest();
     });
 
