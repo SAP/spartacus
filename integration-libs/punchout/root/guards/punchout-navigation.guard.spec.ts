@@ -8,11 +8,15 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 import { PunchoutFacade } from '../facade';
 import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
 import { PunchoutStoreService } from '../services';
-import { of } from 'rxjs';
+import {
+  defaultPunchoutNavigationGuardConfig,
+  PunchoutNavigationGuardConfig,
+} from '../config';
 
 describe('PunchoutNavigationGuard', () => {
   let guard: PunchoutNavigationGuard;
@@ -66,6 +70,10 @@ describe('PunchoutNavigationGuard', () => {
         {
           provide: SemanticPathService,
           useClass: MockSemanticPathService,
+        },
+        {
+          provide: PunchoutNavigationGuardConfig,
+          useValue: defaultPunchoutNavigationGuardConfig,
         },
       ],
     });

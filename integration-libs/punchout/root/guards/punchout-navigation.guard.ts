@@ -45,7 +45,7 @@ export class PunchoutNavigationGuard {
         if (!canActivate) {
           this.handleWarning();
           this.routingService.go(
-            this.config.punchoutNavigation[punchoutOperation].redirectPage
+            this.config.punchoutNavigation?.[punchoutOperation]?.redirectPage
           );
         }
         return canActivate;
