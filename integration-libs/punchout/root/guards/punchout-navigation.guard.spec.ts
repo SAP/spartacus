@@ -5,8 +5,8 @@ import {
   CmsActivatedRouteSnapshot,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingConfigService,
   RoutingService,
-  SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
@@ -31,8 +31,8 @@ describe('PunchoutNavigationGuard', () => {
     data: { cxRoute: 'cart' },
   } as unknown as CmsActivatedRouteSnapshot;
 
-  class MockSemanticPathService implements Partial<SemanticPathService> {
-    get = () => 'punchout/cxml/inspect';
+  class MockRoutingConfigService implements Partial<RoutingConfigService> {
+    getRouteName = () => '';
   }
 
   beforeEach(() => {
@@ -68,12 +68,12 @@ describe('PunchoutNavigationGuard', () => {
           useValue: {},
         },
         {
-          provide: SemanticPathService,
-          useClass: MockSemanticPathService,
-        },
-        {
           provide: PunchoutNavigationGuardConfig,
           useValue: defaultPunchoutNavigationGuardConfig,
+        },
+        {
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
         },
       ],
     });
@@ -180,36 +180,36 @@ describe('PunchoutNavigationGuard', () => {
   });
   describe('isAllowedCxRoute', () => {
     it('should return true if cxRoute is in allowedCxRoutesForEdit', () => {
-      const route: any = { data: { cxRoute: 'brand' } };
+      const cxRoute = 'brand';
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         PunchOutOperation.EDIT
       );
       expect(result).toBe(true);
     });
 
     it('should return false if cxRoute is not in allowedCxRoutesForEdit', () => {
-      const route: any = { data: { cxRoute: 'notAllowedRoute' } };
+      const cxRoute = 'notAllowedRoute';
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         PunchOutOperation.EDIT
       );
       expect(result).toBe(false);
     });
 
     it('should return false if cxRoute is missing', () => {
-      const route: any = { data: {} };
+      const cxRoute = undefined;
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         PunchOutOperation.EDIT
       );
       expect(result).toBe(false);
     });
 
     it('should return false if allowedCxRoutes is undefined for operation', () => {
-      const route: any = { data: { cxRoute: 'cart' } };
+      const cxRoute = 'cart';
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         'UNKNOWN_OP' as any
       );
       expect(result).toBe(false);

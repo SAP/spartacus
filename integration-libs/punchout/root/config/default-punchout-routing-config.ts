@@ -5,28 +5,23 @@
  */
 
 import { RoutingConfig } from '@spartacus/core';
-import {
-  PUNCHOUT_ERROR_URL,
-  PUNCHOUT_INSPECT_URL,
-  PUNCHOUT_REQUISITION_URL,
-} from './punchout-constant';
 
 export const defaultPunchoutRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       punchoutSession: {
-        paths: [PUNCHOUT_REQUISITION_URL],
+        paths: ['punchout/cxml/session'],
         protected: false,
         authFlow: true,
       },
       punchoutRequisition: {
-        paths: [PUNCHOUT_REQUISITION_URL],
+        paths: ['punchout/cxml/requisition'],
       },
       punchoutInspect: {
-        paths: [PUNCHOUT_INSPECT_URL],
+        paths: ['punchout/cxml/inspect'],
       },
       punchoutError: {
-        paths: [PUNCHOUT_ERROR_URL],
+        paths: ['punchout/cxml/error'],
         protected: false,
         authFlow: true,
       },

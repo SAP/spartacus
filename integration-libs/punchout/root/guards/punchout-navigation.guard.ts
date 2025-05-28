@@ -11,6 +11,7 @@ import {
   CmsActivatedRouteSnapshot,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
@@ -30,18 +31,22 @@ export class PunchoutNavigationGuard {
   protected globalMessageService = inject(GlobalMessageService);
   protected punchoutFacade = inject(PunchoutFacade);
   protected config = inject(PunchoutNavigationGuardConfig);
+  protected routingConfigService = inject(RoutingConfigService);
 
   canActivate(
     route: CmsActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    const cxRoute = route.data.cxRoute;
+    const relativeUrl = `${route.url.map((u) => u.path).join('/')}`;
+    const cxRoute =
+      route?.data?.cxRoute ??
+      this.routingConfigService.getRouteName(relativeUrl);
     return this.getPunchoutOperation(cxRoute).pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
         const canActivate =
           !punchoutOperation ||
-          this.isAllowedCxRoute(route, punchoutOperation) ||
-          this.isAllowedUrls(route, punchoutOperation);
+          this.isAllowedCxRoute(cxRoute, punchoutOperation) ||
+          this.isAllowedUrls(route, punchoutOperation, relativeUrl);
         if (!canActivate) {
           this.handleWarning();
           this.routingService.go(
@@ -55,7 +60,8 @@ export class PunchoutNavigationGuard {
 
   protected isAllowedUrls(
     route: CmsActivatedRouteSnapshot,
-    punchoutOperation: PunchOutOperation
+    punchoutOperation: PunchOutOperation,
+    relativeUrl: string
   ): boolean {
     let isHomePageAllowed = false;
     const urls =
@@ -66,7 +72,6 @@ export class PunchoutNavigationGuard {
     if (urls.includes('/')) {
       isHomePageAllowed = route?.url?.length === 0;
     }
-    const relativeUrl = `/${route.url.map((u) => u.path).join('/')}`;
     return (
       urls
         .filter((url) => url !== '/')
@@ -75,7 +80,7 @@ export class PunchoutNavigationGuard {
   }
 
   protected isAllowedCxRoute(
-    route: CmsActivatedRouteSnapshot,
+    cxRoute: string,
     punchoutOperation: PunchOutOperation
   ) {
     const cxRoutes =
@@ -83,7 +88,7 @@ export class PunchoutNavigationGuard {
     if (!cxRoutes) {
       return false;
     }
-    return !!route.data['cxRoute'] && cxRoutes.includes(route.data['cxRoute']);
+    return !!cxRoute && cxRoutes.includes(cxRoute);
   }
 
   protected getPunchoutOperation(
