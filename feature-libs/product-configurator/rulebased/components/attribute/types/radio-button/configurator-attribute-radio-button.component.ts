@@ -54,7 +54,7 @@ export class ConfiguratorAttributeRadioButtonComponent
       if (element) {
         element.focus();
       }
-    }, 100);
+    }, 50);
   }
 
   ngOnInit(): void {
