@@ -61,6 +61,8 @@ export const OPF_B2B_CHECKOUT_FEATURE_NAME_CONSTANT =
   'OPF_B2B_CHECKOUT_FEATURE';
 export const OPF_B2B_CHECKOUT_MODULE = 'OpfB2bCheckoutModule';
 export const OPF_B2B_CHECKOUT_ROOT_MODULE = 'OpfB2bCheckoutRootModule';
+export const OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG =
+  'defaultOpfB2bCheckoutOccEndpointsConfig';
 
 export const OPF_BASE_FEATURE_NAME_CONSTANT = 'OPF_BASE_FEATURE';
 export const OPF_BASE_MODULE = 'OpfBaseModule';
@@ -218,6 +220,7 @@ export const OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     featureName: OPF_B2B_CHECKOUT_FEATURE_NAME,
     mainScope: SPARTACUS_OPF,
     featureScope: SPARTACUS_OPF_B2B_CHECKOUT,
+    b2b: true,
   },
   folderName: OPF_FOLDER_NAME,
   moduleName: OPF_MODULE_NAME,
@@ -248,7 +251,7 @@ export const OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
       SPARTACUS_BOOTSTRAP_MIXINS,
     ],
   },
-  customConfig: buildOpfConfig,
+  customConfig: buildOpfB2bConfig,
   dependencyFeatures: [
     OPF_PAYMENT_FEATURE_NAME,
     OPF_BASE_FEATURE_NAME,
@@ -379,6 +382,22 @@ function buildOpfConfig(
             }",
           },
         }`,
+    },
+  };
+}
+
+function buildOpfB2bConfig(
+  _options: SpartacusOpfOptions
+): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
+          namedImports: [OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG],
+        },
+      ],
+      content: `${OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG}`,
     },
   };
 }

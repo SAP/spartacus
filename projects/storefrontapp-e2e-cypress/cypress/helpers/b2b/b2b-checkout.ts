@@ -72,7 +72,7 @@ export function loginB2bUser() {
     });
 }
 
-function addB2bUser(access_token: string, user: any) {
+export function addB2bUser(access_token: string, user: any) {
   return cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -94,7 +94,7 @@ function addB2bUser(access_token: string, user: any) {
   });
 }
 
-function setB2bPassword(
+export function setB2bPassword(
   customerId: string,
   password: string,
   access_token: string

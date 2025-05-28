@@ -29,4 +29,5 @@ interface Env {
   CX_MY_ACCOUNT_V2: boolean;
   CX_ESTIMATED_DELIVERY_DATE: boolean;
   CX_S4_SERVICE: boolean;
+  CX_PUNCHOUT: boolean;
 }
