@@ -131,7 +131,7 @@ export class PunchoutNavigationGuard {
   protected handleWarning() {
     this.globalMessageService.add(
       {
-        key: 'organization.notification.noSufficientPermissions',
+        key: 'punchout.noSufficientPermissions',
       },
       GlobalMessageType.MSG_TYPE_WARNING
     );

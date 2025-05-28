@@ -330,7 +330,7 @@ describe('Punchoutservice', () => {
       complete: () => {
         expect(globalMessageService.add).not.toHaveBeenCalledWith(
           {
-            key: 'organization.notification.noSufficientPermissions',
+            key: 'punchout.noSufficientPermissions',
           },
           GlobalMessageType.MSG_TYPE_WARNING
         );
@@ -357,7 +357,7 @@ describe('Punchoutservice', () => {
       complete: () => {
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
-            key: 'organization.notification.noSufficientPermissions',
+            key: 'punchout.noSufficientPermissions',
           },
           GlobalMessageType.MSG_TYPE_WARNING
         );
