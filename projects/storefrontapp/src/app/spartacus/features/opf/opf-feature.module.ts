@@ -13,22 +13,21 @@ import {
 } from '@spartacus/opf/base/root';
 import {
   opfCheckoutTranslationChunksConfig,
+  opfCheckoutTranslationsDe,
   opfCheckoutTranslationsEn,
   opfCheckoutTranslationsJa,
-  opfCheckoutTranslationsDe,
   opfCheckoutTranslationsZh,
 } from '@spartacus/opf/checkout/assets';
 import {
+  defaultOpfCheckoutConfig,
   OPF_CHECKOUT_FEATURE,
   OpfCheckoutRootModule,
-  defaultOpfCheckoutB2bConfig,
-  defaultOpfCheckoutConfig,
 } from '@spartacus/opf/checkout/root';
 import {
   opfPaymentTranslationChunksConfig,
+  opfPaymentTranslationsDe,
   opfPaymentTranslationsEn,
   opfPaymentTranslationsJa,
-  opfPaymentTranslationsDe,
   opfPaymentTranslationsZh,
 } from '@spartacus/opf/payment/assets';
 
@@ -46,10 +45,19 @@ import {
   OpfQuickBuyRootModule,
 } from '@spartacus/opf/quick-buy/root';
 import { environment } from '../../../../environments/environment';
+import {
+  defaultOpfB2bCheckoutConfig,
+  defaultOpfB2bCheckoutOccEndpointsConfig,
+  OPF_B2B_CHECKOUT_FEATURE,
+  OpfB2bCheckoutRootModule,
+} from '@spartacus/opf/b2b-checkout/root';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
-  extensionProviders.push(provideConfig(defaultOpfCheckoutB2bConfig));
+  extensionProviders.push(
+    provideConfig(defaultOpfB2bCheckoutConfig),
+    provideConfig(defaultOpfB2bCheckoutOccEndpointsConfig)
+  );
 } else {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }
@@ -59,6 +67,7 @@ if (environment.b2b) {
     OpfBaseRootModule,
     OpfPaymentRootModule,
     OpfCheckoutRootModule,
+    OpfB2bCheckoutRootModule,
     OpfCtaRootModule,
     OpfGlobalFunctionsRootModule,
     OpfQuickBuyRootModule,
@@ -77,6 +86,12 @@ if (environment.b2b) {
         [OPF_CHECKOUT_FEATURE]: {
           module: () =>
             import('@spartacus/opf/checkout').then((m) => m.OpfCheckoutModule),
+        },
+        [OPF_B2B_CHECKOUT_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/b2b-checkout').then(
+              (m) => m.OpfB2bCheckoutModule
+            ),
         },
         [OPF_CTA_FEATURE]: {
           module: () =>
@@ -121,8 +136,8 @@ if (environment.b2b) {
     provideConfig(<OpfConfig>{
       opf: {
         opfBaseUrl:
-          'https://opf-iss-d0.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront/',
-        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+          'https://cp96avkh5f-integrati2-s1.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
+        commerceCloudPublicKey: 'A1XtvJflow62RieQAElw1/hNRnIWqtfCsBR8kVKUAXk=',
       },
     }),
     ...extensionProviders,

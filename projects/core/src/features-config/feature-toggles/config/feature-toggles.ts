@@ -16,6 +16,11 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
+   * In Order details page, it shows link to its Quote details page and vice-versa
+   */
+  showOrderQuoteLink?: boolean;
+
+  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -34,16 +39,6 @@ export interface FeatureTogglesInterface {
    * (with the plural `...Validators`)
    */
   formErrorsDescriptiveMessages?: boolean;
-
-  /**
-   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
-   */
-  useExtractedBillingAddressComponent?: boolean;
-
-  /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
 
   /**
    * In `ASM` it shows searching customer by order ID.
@@ -165,17 +160,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Improves focus behaviour of 'SearchBoxComponent'.
-   * On mobile, search box will no longer open on focus.
-   */
-  a11ySearchBoxMobileFocus?: boolean;
-
-  /**
-   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
-   */
-  a11yFacetKeyboardNavigation?: boolean;
-
-  /**
    * Adds label to the `SearchBoxComponent` search input
    */
   a11ySearchboxLabel?: boolean;
@@ -186,14 +170,6 @@ export interface FeatureTogglesInterface {
    * providing a more intuitive user experience.
    */
   a11yStyleExternalLinksAsLinks?: boolean;
-
-  /**
-   * If enabled, the "Select this address/payment" button
-   * will not be displayed in `CheckoutPaymentMethodComponent`
-   * and `CheckoutDeliveryAddressComponent` when the address
-   * or payment method is already selected.
-   */
-  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
 
   /**
    * If enabled, the "Checkout Shipping address/Payment" views
@@ -222,25 +198,6 @@ export interface FeatureTogglesInterface {
   a11yOrganizationLinkableCells?: boolean;
 
   /**
-   * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Includes style changes for:
-   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
-   * `CarouselComponent`, `ProductListItemComponent`
-   */
-  a11yVisibleFocusOverflows?: boolean;
-
-  /**
-   * When enabled then on mobile(320px) responsive view:
-   * 1. `ProductListComponent` - grid view button is aligned correctly
-   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
-   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
-   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
-   * 5. 'UnitLevelOrderHistoryComponent' - sorting dropdown options will not be truncated
-   */
-  a11yTruncatedTextForResponsiveView?: boolean;
-
-  /**
    * `StoreFinderListItemComponent` street name is not truncated
    */
   a11yTruncatedTextStoreFinder?: boolean;
@@ -250,12 +207,6 @@ export interface FeatureTogglesInterface {
    * are not truncated
    */
   a11yTruncatedTextUnitLevelOrderHistory?: boolean;
-
-  /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
 
   /**
    * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
@@ -272,11 +223,6 @@ export interface FeatureTogglesInterface {
    * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
    */
   a11yPreventSRFocusOnHiddenElements?: boolean;
-
-  /**
-   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
-   */
-  a11yMyAccountLinkOutline?: boolean;
 
   /**
    * Improve colour contrast in the demonstration theme Santorini
@@ -302,24 +248,10 @@ export interface FeatureTogglesInterface {
   a11yNotificationPreferenceFieldset?: boolean;
 
   /**
-   * Modifies the template of 'WishListComponent'.
-   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
-   */
-  a11yEmptyWishlistHeading?: boolean;
-
-  /**
    * Removes the `tabindex` attribute from the `StorefrontComponent`.
    * This helps to reduce the screen reader bloat.
    */
   a11yScreenReaderBloatFix?: boolean;
-
-  /**
-   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
-   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`,
-   * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
-   */
-  a11yUseButtonsForBtnLinks?: boolean;
 
   /**
    * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
@@ -358,13 +290,6 @@ export interface FeatureTogglesInterface {
    * required validators for both inputs
    */
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
-
-  /**
-   * In `FacetListComponent` dialog view focus will be moved to the first facet
-   * after single-select facet selection.
-   * New "Back To Results" button is added
-   */
-  a11yFacetsDialogFocusHandling?: boolean;
 
   /**
    * Resets the focus after navigating to a new page.
@@ -850,6 +775,15 @@ export interface FeatureTogglesInterface {
   enableSecurePasswordValidation?: boolean;
 
   /**
+   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
+   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
+   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
+   * on demand by clicking on `Show Options` button in case the back-end signals
+   * that domain values are not yet present.
+   */
+  enableReadDomainValuesOnDemand?: boolean;
+
+  /**
    * When enabled, checks before accessing checkout
    * if user has email assigned to the current cart.
    * If not - redirects user to `/opf-checkout-email` page.
@@ -858,26 +792,21 @@ export interface FeatureTogglesInterface {
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 
   /**
-   * When enabled, sets the default oAuth configuration to use authorization
-   * code flow with PKCE.  This results in a more secure authorization scheme
-   * as the default configuration.
-   *
-   * NOTE: This flag should only be enabled when used with a CCv2 Authorization
-   * Server running the September 2025 update or higher.  The CCv2 Authorization
-   * Server only supports Authorization Code flow for public clients from
-   * that version and onwards.
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
+   * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
    */
-  authorizationCodeFlowDefault?: boolean;
+  storeFinderFacadeCleanup?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
-  useExtractedBillingAddressComponent: true,
-  showBillingAddressInDigitalPayments: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -893,35 +822,25 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: false,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: false,
-  a11ySearchBoxMobileFocus: true,
-  a11yFacetKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
-  a11yHideSelectBtnForSelectedAddrOrPayment: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yOrganizationLinkableCells: true,
-  a11yVisibleFocusOverflows: true,
-  a11yTruncatedTextForResponsiveView: true,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: true,
-  a11yMyAccountLinkOutline: true,
-  a11yCloseProductImageBtnFocus: true,
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
-  a11yEmptyWishlistHeading: true,
   a11yScreenReaderBloatFix: true,
-  a11yUseButtonsForBtnLinks: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yNotificationsOnConsentChange: true,
   a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
-  a11yFacetsDialogFocusHandling: true,
   a11yResetFocusAfterNavigating: false,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderAlerts: true,
@@ -997,6 +916,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableSecurePasswordValidation: false,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
+  enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
-  authorizationCodeFlowDefault: false,
+  storeFinderFacadeCleanup: false,
 };
