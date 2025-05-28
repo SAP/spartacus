@@ -911,7 +911,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
   a11yNgSelectAriaControls: false,
-  enableSecurePasswordValidation: false,
+  enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   enableReadDomainValuesOnDemand: false,
