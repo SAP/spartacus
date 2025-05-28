@@ -58,9 +58,10 @@ export abstract class AuthConfig {
     /**
      * Determine if the `Authorization` header should be sent with revocation requests.
      *
-     * In particular, it should be `true` when using the legacy Authorization Server from SAP
-     * Commerce Cloud versions before the September 2025 update, and set to `false` for the rebuilt
-     * SAP Commerce Cloud Authorization Server included in the September 2025 update onwards.
+     * In particular, you must set this property to `true` when using the legacy Authorization
+     * Server from SAP Commerce Cloud versions prior to September 2025. For SAP Commerce Cloud
+     * versions from September 2025 onwards, which include the rebuilt Authorization server,
+     * set `sendAuthHeaderOnRevoke` to `false`.
      */
     sendAuthHeaderOnRevoke?: boolean;
     /**
