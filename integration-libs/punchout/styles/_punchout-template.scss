@@ -1,5 +1,9 @@
 @import '@spartacus/styles/scss/misc/table';
 %PunchoutTemplate {
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
+
   .SiteLogin {
     @include media-breakpoint-up('lg') {
       padding: 0.5rem 1rem;
@@ -49,4 +53,9 @@
   cx-product-reviews .header button.btn-primary {
     display: none;
   }
+}
+
+.cxPunchoutSessionActive.cx-theme-high-contrast-dark,
+.cxPunchoutSessionActive.cx-theme-high-contrast-light {
+  background-color: var(--cx-color-background);
 }
