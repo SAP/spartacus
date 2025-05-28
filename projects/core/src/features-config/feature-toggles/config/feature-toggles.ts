@@ -36,16 +36,6 @@ export interface FeatureTogglesInterface {
   formErrorsDescriptiveMessages?: boolean;
 
   /**
-   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
-   */
-  useExtractedBillingAddressComponent?: boolean;
-
-  /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
-
-  /**
    * In `ASM` it shows searching customer by order ID.
    */
   showSearchingCustomerByOrderInASM?: boolean;
@@ -795,6 +785,14 @@ export interface FeatureTogglesInterface {
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
+
+  /**
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
+   * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
+   */
+  storeFinderFacadeCleanup?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -803,8 +801,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSearchingCustomerByOrderInASM: true,
   showStyleChangesInASM: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
-  useExtractedBillingAddressComponent: true,
-  showBillingAddressInDigitalPayments: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -916,4 +912,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
+  storeFinderFacadeCleanup: false,
 };

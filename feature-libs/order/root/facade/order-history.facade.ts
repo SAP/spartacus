@@ -18,6 +18,7 @@ import { Params } from '@angular/router';
 
 export function orderHistoryFacadeFactory() {
   return facadeFactory({
+    // @ts-ignore: Deprecated methods will be removed with next major release
     facade: OrderHistoryFacade,
     feature: ORDER_CORE_FEATURE,
     methods: [
@@ -36,7 +37,6 @@ export function orderHistoryFacadeFactory() {
       'getCancelOrderSuccess',
       'resetCancelOrderProcessState',
       'getOrderDetailsLoading',
-      'getQueryParams',
     ],
     async: true,
   });
@@ -142,6 +142,7 @@ export abstract class OrderHistoryFacade {
   abstract getOrderDetailsLoading(): Observable<boolean>;
 
   /**
+   * @deprecated: Method doesn't pass facade method's requirements (returns void or Observable)
    * Returns query parameters needed for order details route
    */
   abstract getQueryParams(order: Order): Params | null;
