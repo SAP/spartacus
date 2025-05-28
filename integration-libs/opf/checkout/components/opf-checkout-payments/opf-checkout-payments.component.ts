@@ -102,6 +102,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
+  protected paginationModel: PaginationModel | undefined;
+
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ) {
@@ -159,6 +161,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
+              this.paginationModel = this.getPaginationModel(state.data?.page);
+
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
                   (config) => config.id === this.selectedPaymentId
@@ -248,14 +252,16 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   getPaginationModel(
     pagination?: OpfActiveConfigurationsPagination
   ): PaginationModel {
-    const paginationModel: PaginationModel = {
+    if (pagination?.number !== undefined) {
+      this.paginationIndex = pagination.number - 1;
+    }
+
+    return {
       currentPage: this.paginationIndex,
       pageSize: pagination?.size,
       totalPages: pagination?.totalPages,
       totalResults: pagination?.totalElements,
     };
-
-    return paginationModel;
   }
 
   pageChange(page: number): void {
