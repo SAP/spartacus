@@ -9,7 +9,7 @@ GH_BASE_URL="https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-comme
 APP_MODULE_PATH="projects/storefrontapp/src/app/app.module.ts"
 B2C_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts"
 B2B_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts"
-SERVER_CONFIG_PATH="projects/storefrontapp/server.ts"
+SERVER_CONFIG_PATH="projects/storefrontapp/src/server.ts"
 
 function verify_branch_exist {
     IS_BRANCH=$(git ls-remote --heads "$1" "$2")
@@ -173,5 +173,5 @@ git config --global user.email "$GHT_CCV2_EMAIL"
 git config --global user.name "$GHT_CCV2_USERNAME"
 
 git add .
-git commit --allow-empty -m "Update with $SOURCE_BRANCH_TO_DEPLOY branch from source of Spartacus" 
+git commit --allow-empty -m "Update with $SOURCE_BRANCH_TO_DEPLOY branch from source of Spartacus"
 git push
