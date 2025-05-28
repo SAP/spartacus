@@ -5,8 +5,13 @@
  */
 
 import * as sampleData from '../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../support/utils/clear-all-storage';
 
 describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
+  beforeEach(() => {
+    clearAllStorage();
+  });
+
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();
@@ -20,7 +25,7 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
   it('scan after adding a product', () => {
     cy.get('.quick-order-form-input input')
       .clear()
-      .type(`${sampleData.b2bProduct.code}`);
+      .type(`${sampleData.b2bProduct2.code}`);
 
     cy.get('.quick-order-results-products', { timeout: 10000 });
 
@@ -34,7 +39,7 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
   it('scan after deleting the product', () => {
     cy.get('.quick-order-form-input input')
       .clear()
-      .type(`${sampleData.b2bProduct.code}`);
+      .type(`${sampleData.b2bProduct2.code}`);
 
     cy.get('.quick-order-results-products', { timeout: 10000 });
     cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
