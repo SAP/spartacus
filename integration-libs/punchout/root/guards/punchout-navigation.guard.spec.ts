@@ -5,14 +5,18 @@ import {
   CmsActivatedRouteSnapshot,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingConfigService,
   RoutingService,
-  SemanticPathService,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 import { PunchoutFacade } from '../facade';
 import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
 import { PunchoutStoreService } from '../services';
-import { of } from 'rxjs';
+import {
+  defaultPunchoutNavigationGuardConfig,
+  PunchoutNavigationGuardConfig,
+} from '../config';
 
 describe('PunchoutNavigationGuard', () => {
   let guard: PunchoutNavigationGuard;
@@ -27,8 +31,8 @@ describe('PunchoutNavigationGuard', () => {
     data: { cxRoute: 'cart' },
   } as unknown as CmsActivatedRouteSnapshot;
 
-  class MockSemanticPathService implements Partial<SemanticPathService> {
-    get = () => 'punchout/cxml/inspect';
+  class MockRoutingConfigService implements Partial<RoutingConfigService> {
+    getRouteName = () => '';
   }
 
   beforeEach(() => {
@@ -53,7 +57,7 @@ describe('PunchoutNavigationGuard', () => {
         },
         {
           provide: RoutingService,
-          useValue: jasmine.createSpyObj('RoutingService', ['goByUrl']),
+          useValue: jasmine.createSpyObj('RoutingService', ['go']),
         },
         {
           provide: GlobalMessageService,
@@ -64,8 +68,12 @@ describe('PunchoutNavigationGuard', () => {
           useValue: {},
         },
         {
-          provide: SemanticPathService,
-          useClass: MockSemanticPathService,
+          provide: PunchoutNavigationGuardConfig,
+          useValue: defaultPunchoutNavigationGuardConfig,
+        },
+        {
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
         },
       ],
     });
@@ -100,7 +108,7 @@ describe('PunchoutNavigationGuard', () => {
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {
       expect(result).toBeTruthy();
       expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(routingService.goByUrl).not.toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
       done();
     });
   });
@@ -122,9 +130,9 @@ describe('PunchoutNavigationGuard', () => {
         { key: 'organization.notification.noSufficientPermissions' },
         GlobalMessageType.MSG_TYPE_WARNING
       );
-      expect(routingService.goByUrl).toHaveBeenCalledWith(
-        'punchout/cxml/inspect'
-      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'punchoutInspect',
+      });
       done();
     });
   });
@@ -172,36 +180,36 @@ describe('PunchoutNavigationGuard', () => {
   });
   describe('isAllowedCxRoute', () => {
     it('should return true if cxRoute is in allowedCxRoutesForEdit', () => {
-      const route: any = { data: { cxRoute: 'brand' } };
+      const cxRoute = 'brand';
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         PunchOutOperation.EDIT
       );
       expect(result).toBe(true);
     });
 
     it('should return false if cxRoute is not in allowedCxRoutesForEdit', () => {
-      const route: any = { data: { cxRoute: 'notAllowedRoute' } };
+      const cxRoute = 'notAllowedRoute';
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         PunchOutOperation.EDIT
       );
       expect(result).toBe(false);
     });
 
     it('should return false if cxRoute is missing', () => {
-      const route: any = { data: {} };
+      const cxRoute = undefined;
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         PunchOutOperation.EDIT
       );
       expect(result).toBe(false);
     });
 
     it('should return false if allowedCxRoutes is undefined for operation', () => {
-      const route: any = { data: { cxRoute: 'cart' } };
+      const cxRoute = 'cart';
       const result = (guard as any).isAllowedCxRoute(
-        route,
+        cxRoute,
         'UNKNOWN_OP' as any
       );
       expect(result).toBe(false);

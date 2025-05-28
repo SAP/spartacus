@@ -6,3 +6,5 @@
 
 export * from './default-punchout-cms-component-config';
 export * from './default-punchout-routing-config';
+export * from './default-punchout-guard-config';
+export * from './punchout-guard-config';

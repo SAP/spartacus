@@ -46,11 +46,3 @@ export interface PunchoutState {
   closePunchoutSession?: boolean;
   punchoutInitialRequisition?: PunchoutRequisition;
 }
-
-export type PunchoutNavigationGuardConfig = {
-  [key in PunchOutOperation]: {
-    allowedUrls?: string[];
-    allowedCxRoutes?: string[];
-    redirectPage: string;
-  };
-};
