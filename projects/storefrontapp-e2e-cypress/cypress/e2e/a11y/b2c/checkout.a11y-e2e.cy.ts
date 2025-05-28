@@ -7,11 +7,11 @@
 import {
   fillPaymentDetails,
   fillShippingAddress,
-} from '../../helpers/checkout-forms';
-import { setupUserAccountForCheckout } from '../../helpers/checkout-user-setup';
-import { CART_PATH } from '../../helpers/site-context-selector';
-import { viewportContext } from '../../helpers/viewport-context';
-import { getSampleUser } from '../../sample-data/checkout-flow';
+} from '../../../helpers/checkout-forms';
+import { setupUserAccountForCheckout } from '../../../helpers/checkout-user-setup';
+import { CART_PATH } from '../../../helpers/site-context-selector';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 const user = getSampleUser();
 describe('Checkout Accessibility', { testIsolation: false }, () => {

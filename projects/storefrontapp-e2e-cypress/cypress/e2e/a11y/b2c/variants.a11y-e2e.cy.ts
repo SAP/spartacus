@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { configureProductWithVariants } from '../../helpers/variants/apparel-checkout-flow';
+import { configureProductWithVariants } from '../../../helpers/variants/apparel-checkout-flow';
 
 describe('Variants Accessibility test', { testIsolation: false }, () => {
   before(() => {

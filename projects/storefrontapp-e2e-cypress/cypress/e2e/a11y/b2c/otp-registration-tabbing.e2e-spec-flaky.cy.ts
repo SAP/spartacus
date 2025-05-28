@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
+import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
+import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
 
 describe('Tabbing order for B2C OTP registration', () => {
   before(() => {

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as myCoupons from '../../helpers/coupons/my-coupons';
-import { viewportContext } from '../../helpers/viewport-context';
+import * as myCoupons from '../../../helpers/coupons/my-coupons';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Coupons Accessibility', { testIsolation: false }, () => {
   before(() => {

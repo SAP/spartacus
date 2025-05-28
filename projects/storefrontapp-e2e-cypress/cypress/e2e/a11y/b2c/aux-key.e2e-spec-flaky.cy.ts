@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isolateTests } from '../../support/utils/test-isolation';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {

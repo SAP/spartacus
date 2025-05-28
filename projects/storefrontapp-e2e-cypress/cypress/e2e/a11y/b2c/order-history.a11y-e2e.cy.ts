@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../helpers/viewport-context';
-import { doPlaceOrder } from '../../helpers/order-history';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { doPlaceOrder } from '../../../helpers/order-history';
 
 describe('Order History Page accessibility', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {

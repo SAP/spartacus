@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { products } from '../../helpers/cart';
-import { getSampleUser } from '../../sample-data/checkout-flow';
+import { products } from '../../../helpers/cart';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { CheckoutConfig } from '@spartacus/storefront';
 import {
   fillPaymentDetails,
   fillShippingAddress,
-} from '../../helpers/checkout-forms';
-import { viewportContext } from '../../helpers/viewport-context';
+} from '../../../helpers/checkout-forms';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Guest Checkout accessibility', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {

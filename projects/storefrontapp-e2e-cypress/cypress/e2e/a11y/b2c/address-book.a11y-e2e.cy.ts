@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { newAddress } from '../../helpers/address-book';
-import { fillShippingAddress } from '../../helpers/checkout-forms';
+import { newAddress } from '../../../helpers/address-book';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 describe('Address Book Page Accessibility', { testIsolation: false }, () => {
   before(() => {

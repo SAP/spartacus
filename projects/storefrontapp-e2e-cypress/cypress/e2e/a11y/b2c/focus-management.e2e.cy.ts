@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as cart from '../../helpers/cart';
-import * as checkout from '../../helpers/checkout-flow';
+import * as cart from '../../../helpers/cart';
+import * as checkout from '../../../helpers/checkout-flow';
 
 describe('Focus managment for a11y', () => {
   context('Checkout - Delivery modes', () => {

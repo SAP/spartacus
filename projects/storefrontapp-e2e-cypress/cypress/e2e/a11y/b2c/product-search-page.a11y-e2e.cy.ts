@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../helpers/viewport-context';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Product Search Page', { testIsolation: false }, () => {
   beforeEach(() => {

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../helpers/viewport-context';
-import { standardUser } from '../../sample-data/shared-users';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { standardUser } from '../../../sample-data/shared-users';
 
 describe('Header and Footer Continuum tests', { testIsolation: false }, () => {
   beforeEach(() => {

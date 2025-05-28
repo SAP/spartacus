@@ -1,80 +1,80 @@
-import { addProduct } from '../../helpers/accessibility/tabbing-order';
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
-import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { addProduct } from '../../../helpers/accessibility/tabbing-order';
+import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
+import { addToCartTabbingOrder } from '../../../helpers/accessibility/tabbing-order/add-to-cart';
+import { cartTabbingOrder } from '../../../helpers/accessibility/tabbing-order/cart';
 import {
   checkoutAppliedCouponsTabbingOrder,
   checkoutCouponsTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/coupons';
+} from '../../../helpers/accessibility/tabbing-order/checkout/coupons';
 import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/delivery-address';
-import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
+} from '../../../helpers/accessibility/tabbing-order/checkout/delivery-address';
+import { checkoutDeliveryModeTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
   checkoutPaymentDetailsTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
-import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
+} from '../../../helpers/accessibility/tabbing-order/checkout/payment-details';
+import { checkoutReviewOrderTabbingOrder } from '../../../helpers/accessibility/tabbing-order/checkout/review-order';
 import {
   consignmentTrackingEventsTabbingOrder,
   consignmentTrackingTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
-import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
+} from '../../../helpers/accessibility/tabbing-order/consignment-tracking';
+import { footerTabbingOrder } from '../../../helpers/accessibility/tabbing-order/footer';
 import {
   headerTabbingOrder,
   subCategoryTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/header';
-import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
-import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
+} from '../../../helpers/accessibility/tabbing-order/header';
+import { homeTabbingOrder } from '../../../helpers/accessibility/tabbing-order/home';
+import { loginTabbingOrder } from '../../../helpers/accessibility/tabbing-order/login';
+import { myAccountTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account';
 import {
   addressBookDirectoryTabbingOrder,
   addressBookFormTabbingOrder,
   setupForAddressBookTests,
-} from '../../helpers/accessibility/tabbing-order/my-account/address-book';
-import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
-import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
-import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
-import { myAccountV2consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-consent-management';
-import { myAccountV2PasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-password';
-import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
-import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
-import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
-import { myAccountV2notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-account-v2-notification-preference';
-import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
+} from '../../../helpers/accessibility/tabbing-order/my-account/address-book';
+import { changePasswordTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/change-password';
+import { closeAccountTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/close-account';
+import { consentManagementTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/consent-management';
+import { myAccountV2consentManagementTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/my-account-v2-consent-management';
+import { myAccountV2PasswordTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/my-account-v2-password';
+import { checkoutMyCouponsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/my-coupons';
+import { myInterestTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import { notificationPreferenceTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myAccountV2notificationPreferenceTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/my-account-v2-notification-preference';
+import { orderDetailsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
   orderHistoryWithOrdersTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/my-account/order-history';
-import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/payment-details';
-import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/personal-details';
-import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
-import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
-import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
+} from '../../../helpers/accessibility/tabbing-order/my-account/order-history';
+import { paymentDetailsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/payment-details';
+import { personalDetailsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/personal-details';
+import { forgotPasswordTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/reset-password';
+import { updateEmailTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/update-email';
+import { wishlistTabbingOrder } from '../../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import {
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
   productListTabbingOrderMobileFilters,
   toggleProductView,
-} from '../../helpers/accessibility/tabbing-order/product-list';
-import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
-import { productPagePickupModalTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-pickup-modal';
-import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
-import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
-import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
+} from '../../../helpers/accessibility/tabbing-order/product-list';
+import { productPageTabbingOrder } from '../../../helpers/accessibility/tabbing-order/product-page';
+import { productPagePickupModalTabbingOrder } from '../../../helpers/accessibility/tabbing-order/product-page-pickup-modal';
+import { productPageTabsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/product-page-tabs';
+import { registerTabbingOrder } from '../../../helpers/accessibility/tabbing-order/register';
+import { saveForLaterTabbingOrder } from '../../../helpers/accessibility/tabbing-order/save-for-later';
 import {
   stockNotificationDialogTabbingOrder,
   stockNotificationNotLoginTabbingOrder,
   stockNotificationTabbingOrderNotificationsAllowed,
   stockNotificationTabbingOrderNotificationsNotAllowed,
   stockNotificationTabbingOrderProductSubscribed,
-} from '../../helpers/accessibility/tabbing-order/stock-notification';
-import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
-import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
-import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
-import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
-import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
+} from '../../../helpers/accessibility/tabbing-order/stock-notification';
+import { countriesListTabbingOrder } from '../../../helpers/accessibility/tabbing-order/store-finder/countries-list';
+import { defaultViewTabbingOrder } from '../../../helpers/accessibility/tabbing-order/store-finder/default-view';
+import { searchResultsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/store-finder/search-results';
+import { storeDetailsTabbingOrder } from '../../../helpers/accessibility/tabbing-order/store-finder/store-details';
+import { storesListTabbingOrder } from '../../../helpers/accessibility/tabbing-order/store-finder/stores-list';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
