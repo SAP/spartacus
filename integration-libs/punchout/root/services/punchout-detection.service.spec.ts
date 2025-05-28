@@ -1,11 +1,11 @@
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
+import { SemanticPathService } from '@spartacus/core';
 import { PunchoutDetectionService } from './punchout-detection.service';
 import { PunchoutStoreService } from './punchout-store.service';
-import { SemanticPathService } from '@spartacus/core';
 
 const MOCK_URL = 'https://test';
-const MOCK_URL_WITH_PUNCHOUT = `https://spartacus/'punchout/cxml/session'?sid=abc123`;
+const MOCK_URL_WITH_PUNCHOUT = `https://spartacus/'punchout/session'?sid=abc123`;
 
 class MockLocation implements Partial<Location> {
   path() {
@@ -18,7 +18,7 @@ class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = () => 'punchout/cxml/session';
+  get = () => 'punchout/session';
 }
 
 describe('PunchoutDetectionService', () => {

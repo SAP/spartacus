@@ -6,8 +6,8 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { PunchoutStoreService } from './punchout-store.service';
 import { SemanticPathService } from '@spartacus/core';
+import { PunchoutStoreService } from './punchout-store.service';
 
 @Injectable({ providedIn: 'root' })
 export class PunchoutDetectionService {
@@ -17,7 +17,7 @@ export class PunchoutDetectionService {
 
   /**
    * Check if browser url is the punchout initial session page.
-   * With default config, the expected url shape is '/punchout/cxml/session?abcd'.
+   * With default config, the expected url shape is '/punchout/session?abcd'.
    * @returns boolean
    */
   isPunchoutSessionPage(): boolean {

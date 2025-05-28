@@ -10,18 +10,18 @@ export const defaultPunchoutRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       punchoutSession: {
-        paths: ['punchout/cxml/session'],
+        paths: ['punchout/session'],
         protected: false,
         authFlow: true,
       },
       punchoutRequisition: {
-        paths: ['punchout/cxml/requisition'],
+        paths: ['punchout/requisition'],
       },
       punchoutInspect: {
-        paths: ['punchout/cxml/inspect'],
+        paths: ['punchout/inspect'],
       },
       punchoutError: {
-        paths: ['punchout/cxml/error'],
+        paths: ['punchout/error'],
         protected: false,
         authFlow: true,
       },
