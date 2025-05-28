@@ -8,7 +8,7 @@ import {
   fillTicketDetails,
   TestCategory,
   TestTicketDetails,
-} from '../../helpers/customer-ticketing/customer-ticketing';
+} from '../../../helpers/customer-ticketing/customer-ticketing';
 
 const testTicketDetails: TestTicketDetails = {
   subject: 'Automated a11y test',
