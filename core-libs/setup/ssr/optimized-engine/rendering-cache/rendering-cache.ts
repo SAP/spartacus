@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { SsrOptimizationOptions } from '../ssr-optimization-options';
 import { RenderingCacheSizeManager } from './rendering-cache-size-manager';
 import { RenderingEntry } from './rendering-cache.model';
-import { SsrOptimizationOptions } from './ssr-optimization-options';
 
 export class RenderingCache {
   protected renders = new Map<string, RenderingEntry>();

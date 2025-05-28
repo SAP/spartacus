@@ -1,10 +1,10 @@
 /// <reference types="jest" />
 
-import { RenderingCache } from './rendering-cache';
 import {
   defaultSsrOptimizationOptions,
   SsrOptimizationOptions,
-} from './ssr-optimization-options';
+} from '../ssr-optimization-options';
+import { RenderingCache } from './rendering-cache';
 
 const options: SsrOptimizationOptions = {
   shouldCacheRenderingResult:

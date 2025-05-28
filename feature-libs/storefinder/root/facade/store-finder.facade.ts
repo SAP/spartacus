@@ -22,6 +22,7 @@ import { StoreEntities } from '../model/store-entities.model';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
+      // @ts-ignore: Deprecated methods will be removed with next major release
       facade: StoreFinderFacade,
       feature: STORE_FINDER_FEATURE,
       methods: [
@@ -34,9 +35,6 @@ import { StoreEntities } from '../model/store-entities.model';
         'viewAllStores',
         'viewStoreById',
         'callFindStoresAction',
-        'getStoreLatitude',
-        'getStoreLongitude',
-        'getDirections',
         'getFindStoreEntityById',
       ],
       async: true,
@@ -59,8 +57,17 @@ export abstract class StoreFinderFacade {
   abstract viewAllStores(): void;
   abstract viewStoreById(storeId: string): void;
   abstract callFindStoresAction(routeParams: { [key: string]: string }): void;
+  /**
+   * @deprecated Please use StoreLocationService instead,
+   */
   abstract getStoreLatitude(location: PointOfService): number | undefined;
+  /**
+   * @deprecated Please use StoreLocationService instead,
+   */
   abstract getStoreLongitude(location: PointOfService): number | undefined;
+  /**
+   * @deprecated Please use StoreLocationService instead,
+   */
   abstract getDirections(location: PointOfService): string;
   abstract getFindStoreEntityById(): Observable<StoreEntities>;
 }
