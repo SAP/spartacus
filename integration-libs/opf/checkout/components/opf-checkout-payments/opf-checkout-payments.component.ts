@@ -161,10 +161,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
-              if (state.data.page?.number !== undefined) {
-                this.paginationIndex = state.data.page.number - 1;
-              }
-
               this.paginationModel = this.getPaginationModel(state.data.page);
 
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
@@ -183,11 +179,15 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       );
   }
 
-  getPaginationModel(
+  protected getPaginationModel(
     pagination?: OpfActiveConfigurationsPagination
   ): PaginationModel {
+    if (pagination?.number !== undefined) {
+      this.paginationIndex = pagination.number - 1;
+    }
+
     return {
-      currentPage: (pagination?.number ?? 1) - 1,
+      currentPage: this.paginationIndex,
       pageSize: pagination?.size,
       totalPages: pagination?.totalPages,
       totalResults: pagination?.totalElements,
