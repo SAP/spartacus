@@ -102,6 +102,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
+  protected paginationModel: PaginationModel | undefined;
+
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ) {
@@ -159,6 +161,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
+              if (state.data.page?.number !== undefined) {
+                this.paginationIndex = state.data.page.number - 1;
+              }
+
+              this.paginationModel = this.getPaginationModel(state.data.page);
+
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
                   (config) => config.id === this.selectedPaymentId
@@ -173,6 +181,17 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
           }
         )
       );
+  }
+
+  getPaginationModel(
+    pagination?: OpfActiveConfigurationsPagination
+  ): PaginationModel {
+    return {
+      currentPage: (pagination?.number ?? 1) - 1,
+      pageSize: pagination?.size,
+      totalPages: pagination?.totalPages,
+      totalResults: pagination?.totalElements,
+    };
   }
 
   updateActiveConfiguration() {
@@ -243,19 +262,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       selectedPaymentOptionId: this.selectedPaymentId,
     });
     this.paymentChange.emit(payment);
-  }
-
-  getPaginationModel(
-    pagination?: OpfActiveConfigurationsPagination
-  ): PaginationModel {
-    const paginationModel: PaginationModel = {
-      currentPage: this.paginationIndex,
-      pageSize: pagination?.size,
-      totalPages: pagination?.totalPages,
-      totalResults: pagination?.totalElements,
-    };
-
-    return paginationModel;
   }
 
   pageChange(page: number): void {
