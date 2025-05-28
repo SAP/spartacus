@@ -5,9 +5,8 @@
  */
 
 export * from './optimized-ssr-engine';
-export * from './rendering-cache';
-export * from './rendering-cache.model';
+export * from './rendering-cache/index';
 export * from './rendering-strategy-resolver';
 export * from './rendering-strategy-resolver-options';
-export { RequestContext, getRequestContext } from './request-context';
+export { getRequestContext, RequestContext } from './request-context';
 export * from './ssr-optimization-options';

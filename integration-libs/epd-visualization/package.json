@@ -19,8 +19,8 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/epd-visualization",
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "scripts": {

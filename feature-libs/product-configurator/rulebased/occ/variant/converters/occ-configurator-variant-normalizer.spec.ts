@@ -792,11 +792,14 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('convertAttributeType', () => {
-    let sourceAttribute: OccConfigurator.Attribute = createOccAttribute(
-      'key',
-      'name',
-      OccConfigurator.UiType.NOT_IMPLEMENTED
-    );
+    let sourceAttribute: OccConfigurator.Attribute;
+    beforeEach(() => {
+      sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.NOT_IMPLEMENTED
+      );
+    });
 
     afterEach(() => {
       sourceAttribute.retractBlocked = undefined;
@@ -1514,6 +1517,21 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(values[0].valueDisplay).toEqual(
         'configurator.attribute.noOptionSelectedMsg'
       );
+    });
+
+    it('should not add a retract value to the list of values for a read-only that is involved in a conflict in case domain is not yet present', () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
+      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
+      sourceAttribute.conflicts = ['conflict1'];
+      sourceAttribute.retractBlocked = false;
+      sourceAttribute.domainOnDemand = true;
+
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(0);
     });
 
     it('should add a retract value to the list of values for a read-only-single-selection-image that is involved in a conflict', () => {
