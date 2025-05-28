@@ -29,7 +29,7 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   getRevokeEndpoint() {
     return '/revoke';
   }
-  public enableTokenRevocationInterceptor(): boolean {
+  public sendAuthHeaderOnRevoke(): boolean {
     return true;
   }
 }

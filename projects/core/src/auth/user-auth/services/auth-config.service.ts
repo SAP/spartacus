@@ -85,8 +85,8 @@ export class AuthConfigService {
   /**
    * Determines if an authorization header should be sent with revoke requests.
    */
-  public enableTokenRevocationInterceptor() {
-    return !!this.config?.enableTokenRevocationInterceptor;
+  public sendAuthHeaderOnRevoke() {
+    return !!this.config?.sendAuthHeaderOnRevoke;
   }
 
   /**
