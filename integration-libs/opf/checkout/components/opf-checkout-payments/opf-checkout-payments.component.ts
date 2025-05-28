@@ -241,6 +241,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
+  changePayment(payment: OpfActiveConfiguration): void {
+    this.selectedPaymentId = payment.id;
+    this.opfMetadataStoreService.updateOpfMetadata({
+      selectedPaymentOptionId: this.selectedPaymentId,
+    });
+    this.paymentChange.emit(payment);
+  }
+
   getPaginationModel(
     pagination?: OpfActiveConfigurationsPagination
   ): PaginationModel {
@@ -254,14 +262,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       totalPages: pagination?.totalPages,
       totalResults: pagination?.totalElements,
     };
-  }
-
-  changePayment(payment: OpfActiveConfiguration): void {
-    this.selectedPaymentId = payment.id;
-    this.opfMetadataStoreService.updateOpfMetadata({
-      selectedPaymentOptionId: this.selectedPaymentId,
-    });
-    this.paymentChange.emit(payment);
   }
 
   pageChange(page: number): void {
