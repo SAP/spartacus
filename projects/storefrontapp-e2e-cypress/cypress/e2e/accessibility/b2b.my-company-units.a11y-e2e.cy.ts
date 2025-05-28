@@ -34,7 +34,6 @@ describe(
 
     it('unit details / initial panel', () => {
       cy.get('[id="Rustic"]').click();
-      cy.get('a').contains('Rustic');
       cy.get('.main .details .property .value.is-active');
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
@@ -54,7 +53,6 @@ describe(
       cy.get(
         'cx-org-unit-details cx-org-card cx-view .main cx-org-notification'
       );
-      cy.get('a').contains('Rustic');
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 

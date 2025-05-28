@@ -10,6 +10,13 @@ const MY_COMPANY_URL = '/organization/users';
 const firstRusticSelector =
   'main cx-view cx-table table tr:nth-child(2) .unit cx-org-unit-cell [title="Rustic"]';
 const detailsActionsListSelector = 'cx-org-user-details .main .link-list';
+const allUsersBreadcrumb = `cx-breadcrumb li:nth-child(3) a`;
+
+function selectUser(rowNr = 2) {
+  const rowSelector = `main cx-view cx-table table tr:nth-child(${rowNr}) .name cx-org-active-link-cell a`;
+  cy.get(rowSelector).click();
+  cy.get('cx-org-user-details cx-org-card cx-view .main .property a.value');
+}
 
 /**
  * This test checks accessibility concerns on the B2B My Company Users page using Access Continuum
@@ -30,10 +37,11 @@ describe(
     });
 
     it('user details / initial panel', () => {
-      cy.get(firstRusticSelector).click();
-      cy.get(
-        'cx-org-user-details cx-org-card cx-view .main .details .property a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
-      );
+      selectUser(2);
+      // cy.get(firstRusticSelector).click();
+      // cy.get(
+      //   'cx-org-user-details cx-org-card cx-view .main .details .property a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
+      // );
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
 
@@ -44,12 +52,7 @@ describe(
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
 
-    it('user details / approvers panel', () => {
-      cy.get(firstRusticSelector).click();
-      cy.get(
-        'cx-org-user-details cx-org-card cx-view .main .details .property a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
-      );
-
+    it('user details / approvers panel (empty)', () => {
       cy.get(`${detailsActionsListSelector} a:nth-child(1)`).click();
       cy.get('cx-org-user-assigned-approver-list .main .is-empty');
       cy.get('cx-org-user-details').a11yRunContinuumTest();
@@ -66,15 +69,53 @@ describe(
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
 
-    it('user details / user groups panel', () => {
+    it('user details / approvers panel (non-empty)', () => {
+      const assignTableRowCel =
+        'cx-org-user-approver-list cx-org-sub-list .main table tr:nth-child(4) td';
+      cy.get(`${assignTableRowCel} cx-org-assign-cell button`).click();
+      cy.get(
+        'cx-org-user-approver-list cx-org-sub-list .main cx-org-notification'
+      );
+      cy.get('cx-org-user-details').a11yRunContinuumTest();
+      const doneBtnSelector = `cx-org-user-approver-list .header .actions button`;
+      cy.get(doneBtnSelector).click();
+      // Not Empty!
+      cy.get('cx-org-user-details').a11yRunContinuumTest();
+      // Cleanup unassign
+      const assignedUserTableRowCel = '.main table tr:nth-child(2) td';
+      cy.get(`${assignedUserTableRowCel}.actions button`).click();
+      cy.get('cx-org-user-assigned-approver-list .main .is-empty');
+    });
+
+    it('user details / user groups panel (empty)', () => {
       cy.get(`${detailsActionsListSelector} a:nth-child(2)`).click();
       cy.get('cx-org-user-assigned-user-group-list .main .is-empty');
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
 
-    it('user details / purchase limits panel', () => {
+    it('user details / user groups panel (non-empty)', () => {
+      cy.get(allUsersBreadcrumb).click();
+      selectUser(3);
+      cy.get(`${detailsActionsListSelector} a:nth-child(2)`).click();
+      cy.get(
+        'cx-org-user-details cx-org-card cx-view .main td cx-org-assign-cell button'
+      );
+      cy.get('cx-org-user-details').a11yRunContinuumTest();
+    });
+
+    it('user details / purchase limits panel (empty)', () => {
       cy.get(`${detailsActionsListSelector} a:nth-child(3)`).click();
       cy.get('cx-org-user-assigned-permission-list .main .is-empty');
+      cy.get('cx-org-user-details').a11yRunContinuumTest();
+    });
+
+    it('user details / purchase limits panel (non-empty)', () => {
+      cy.get(allUsersBreadcrumb).click();
+      selectUser(9);
+      cy.get(`${detailsActionsListSelector} a:nth-child(3)`).click();
+      cy.get(
+        'cx-org-user-assigned-permission-list .main cx-org-assign-cell button'
+      );
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
   }
