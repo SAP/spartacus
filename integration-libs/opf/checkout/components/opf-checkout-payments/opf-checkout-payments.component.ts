@@ -161,7 +161,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
-              this.paginationModel = this.getPaginationModel(state.data.page);
+              this.paginationModel = this.getPaginationModel(state.data?.page);
 
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
@@ -177,21 +177,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
           }
         )
       );
-  }
-
-  protected getPaginationModel(
-    pagination?: OpfActiveConfigurationsPagination
-  ): PaginationModel {
-    if (pagination?.number !== undefined) {
-      this.paginationIndex = pagination.number - 1;
-    }
-
-    return {
-      currentPage: this.paginationIndex,
-      pageSize: pagination?.size,
-      totalPages: pagination?.totalPages,
-      totalResults: pagination?.totalElements,
-    };
   }
 
   updateActiveConfiguration() {
@@ -254,6 +239,21 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       { key: `opfCheckout.errors.${errorKey}` },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  }
+
+  getPaginationModel(
+    pagination?: OpfActiveConfigurationsPagination
+  ): PaginationModel {
+    if (pagination?.number !== undefined) {
+      this.paginationIndex = pagination.number - 1;
+    }
+
+    return {
+      currentPage: this.paginationIndex,
+      pageSize: pagination?.size,
+      totalPages: pagination?.totalPages,
+      totalResults: pagination?.totalElements,
+    };
   }
 
   changePayment(payment: OpfActiveConfiguration): void {
