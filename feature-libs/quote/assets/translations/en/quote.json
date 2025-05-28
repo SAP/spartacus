@@ -194,6 +194,7 @@
       "empty": "We have no quote records for this account.",
       "quoteId": "Quote ID",
       "status": "Status",
+      "details": "Details",
       "clickableRow": "Click on the row for more quote details"
     },
     "states": {
