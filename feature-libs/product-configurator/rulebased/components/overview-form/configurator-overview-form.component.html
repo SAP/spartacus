@@ -37,7 +37,10 @@
     >
       <h2>
         <span class="cx-visually-hidden">
-          {{ 'configurator.a11y.group' | cxTranslate: { group: group.groupDescription } }}
+          {{
+            'configurator.a11y.group'
+              | cxTranslate: { group: group.groupDescription }
+          }}
         </span>
         <span aria-hidden="true">
           {{ group.groupDescription }}
