@@ -33,6 +33,7 @@ import * as path from 'path';
 
 function checkAngularBuildPackageInstalledVersion(): void {
   const EXPECTED_VERSION = '19.0.4';
+  const EARLIEST_VERSION_NOT_NEEDING_PATCH = '19.2.11';
   const PACKAGE_JSON_PATH = path.join(
     'node_modules',
     '@angular',
@@ -43,9 +44,18 @@ function checkAngularBuildPackageInstalledVersion(): void {
   const packageJson = JSON.parse(fs.readFileSync(PACKAGE_JSON_PATH, 'utf8'));
   const version = packageJson.version;
 
+  // Preparing for the future when we'll bump Angular version in our monorepo:
+  // a) To some version <19.2.11, where the patch is still needed
+  // b) To some version >=19.2.11, where the patch is not needed anymore
   if (version !== EXPECTED_VERSION) {
+    const advice =
+      version >= EARLIEST_VERSION_NOT_NEEDING_PATCH
+        ? `Please remove the npm "postinstall" script which attempts to patch a bug in the @angular/build package. The installed version ${version} already contains the bugfix, so the patch is not needed anymore.\n`
+        : `Please update the value of \`const EXPECTED_VERSION = '${EXPECTED_VERSION}'\` in the npm "postinstall" script that attempts to patch a bug in the @angular/build package. Then re-run \`npm install\` and verify the patch applied successfully.`;
+
     throw new Error(
-      `Expected '@angular/build' version ${EXPECTED_VERSION}, but found ${version}`
+      `Expected '@angular/build' version ${EXPECTED_VERSION}, but the installed version is ${version}
+         🚨 ${advice}`
     );
   }
 }
