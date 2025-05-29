@@ -31,6 +31,7 @@ import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
   combineLatest,
+  filter,
   map,
   Observable,
   of,
@@ -306,7 +307,7 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.selectedItem
     ) {
       // product name needs to be fetched to route to product page.
-      const subscription = combineLatest([
+      combineLatest([
         this.productService.get(
           punchoutSession.selectedItem,
           ProductScope.DETAILS
@@ -315,28 +316,30 @@ export class PunchoutService implements PunchoutFacade {
           punchoutSession.selectedItem,
           ProductScope.DETAILS
         ),
-      ]).subscribe({
-        next: ([product, hasError]) => {
-          if (product?.name && !hasError) {
-            this.routingService.go({
-              cxRoute: 'product',
-              params: {
-                code: punchoutSession.selectedItem,
-                name: product.name,
-              },
-            });
-            subscription.unsubscribe();
-          }
-          if (hasError) {
-            // note that an error message is displayed when hasError is true.
-            this.routingService.go('/');
-            subscription.unsubscribe();
-          }
-        },
-        error: () => {
-          this.routingService.go('/');
-        },
-      });
+      ])
+        .pipe(
+          filter(([product, hasError]) => {
+            return (product?.name && !hasError) || hasError;
+          }),
+          take(1)
+        )
+        .subscribe({
+          next: ([product, hasError]) => {
+            if (product?.name && !hasError) {
+              this.routingService.go({
+                cxRoute: 'product',
+                params: {
+                  code: punchoutSession.selectedItem,
+                  name: product.name,
+                },
+              });
+            }
+            if (hasError) {
+              // note that an error message is displayed when hasError is true.
+              this.routingService.go('/');
+            }
+          },
+        });
       return;
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
