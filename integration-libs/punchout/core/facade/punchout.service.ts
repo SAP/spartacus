@@ -307,18 +307,7 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
       punchoutSession?.selectedItem
     ) {
-      // this.productService
-      //   .isSuccess(punchoutSession.selectedItem, ProductScope.DETAILS)
-      //   .subscribe({
-      //     next: (isSuccess) => {
-      //       if (!isSuccess) {
-      //         this.routingService.go('/');
-      //         return;
-      //       }
-      //     },
-      //   });
-
-      combineLatest([
+      const subscription = combineLatest([
         this.productService.get(
           punchoutSession.selectedItem,
           ProductScope.DETAILS
@@ -327,35 +316,28 @@ export class PunchoutService implements PunchoutFacade {
           punchoutSession.selectedItem,
           ProductScope.DETAILS
         ),
-      ])
-        .pipe(
-          tap(([product, hasError]) => {
-            if (product?.name && !hasError) {
-              this.routingService.go({
-                cxRoute: 'product',
-                params: {
-                  code: punchoutSession.selectedItem,
-                  name: product.name,
-                },
-              });
-            }
-            if (hasError) {
-              this.routingService.go('/');
-            }
-          })
-        )
-        .subscribe();
-
-      this.productService
-        .hasError(punchoutSession.selectedItem, ProductScope.DETAILS)
-        .subscribe({
-          next: (hasError) => {
-            if (hasError) {
-              this.routingService.go('/');
-              return;
-            }
-          },
-        });
+      ]).subscribe({
+        next: ([product, hasError]) => {
+          if (product?.name && !hasError) {
+            this.routingService.go({
+              cxRoute: 'product',
+              params: {
+                code: punchoutSession.selectedItem,
+                name: product.name,
+              },
+            });
+            subscription.unsubscribe();
+          }
+          if (hasError) {
+            this.routingService.go('/');
+            subscription.unsubscribe();
+          }
+        },
+        error: () => {
+          this.routingService.go('/');
+          subscription.unsubscribe();
+        },
+      });
 
       this.productService
         .get(punchoutSession.selectedItem, ProductScope.DETAILS)
