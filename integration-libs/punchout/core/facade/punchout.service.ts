@@ -11,6 +11,7 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  isNotUndefined,
   ProductScope,
   ProductService,
   RoutingService,
@@ -30,6 +31,7 @@ import {
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
+  filter,
   map,
   Observable,
   of,
@@ -306,7 +308,7 @@ export class PunchoutService implements PunchoutFacade {
     ) {
       this.productService
         .get(punchoutSession.selectedItem, ProductScope.DETAILS)
-        //  .pipe(filter(isNotUndefined), take(1))
+        .pipe(filter(isNotUndefined), take(1))
         .subscribe({
           next: (product) => {
             if (product?.name) {
