@@ -11,6 +11,7 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  Product,
   ProductScope,
   ProductService,
   RoutingService,
@@ -30,7 +31,6 @@ import {
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
-  combineLatest,
   map,
   Observable,
   of,
@@ -80,34 +80,42 @@ export class PunchoutService implements PunchoutFacade {
 
     return this.punchoutAuthService.silentLogout(payload?.isPageRefresh).pipe(
       switchMap(() => this.requestPunchoutSession(payload.punchoutSessionId)),
-      map((punchoutSession) => {
-        if (punchoutSession?.token?.accessToken) {
-          this.punchoutAuthService.loginWithToken(
-            punchoutSession.token.accessToken
-          );
-          this.loadCart(punchoutSession.cartId).subscribe();
-          this.punchoutStoreService.setPunchoutState({
-            punchoutSessionId: payload.punchoutSessionId,
-            punchoutSession: { ...punchoutSession },
-          });
-          if (
-            punchoutSession.punchOutOperation === PunchOutOperation.EDIT &&
-            punchoutSession?.cartId &&
-            !payload?.isPageRefresh
-          ) {
-            this.setPunchoutInitialRequisition();
-          }
-          if (!payload?.isPageRefresh) {
-            this.routeToTargetPage(punchoutSession);
-          }
-        }
+      switchMap((punchoutSession) =>
+        this.productService
+          .get(punchoutSession.selectedItem, ProductScope.DETAILS)
+          .pipe(
+            map((product) => {
+              console.log(punchoutSession, product);
+              if (punchoutSession?.token?.accessToken) {
+                this.punchoutAuthService.loginWithToken(
+                  punchoutSession.token.accessToken
+                );
+                this.loadCart(punchoutSession.cartId).subscribe();
+                this.punchoutStoreService.setPunchoutState({
+                  punchoutSessionId: payload.punchoutSessionId,
+                  punchoutSession: { ...punchoutSession },
+                });
+                if (
+                  punchoutSession.punchOutOperation ===
+                    PunchOutOperation.EDIT &&
+                  punchoutSession?.cartId &&
+                  !payload?.isPageRefresh
+                ) {
+                  this.setPunchoutInitialRequisition();
+                }
+                if (!payload?.isPageRefresh) {
+                  this.routeToTargetPage(punchoutSession, product);
+                }
+              }
 
-        return punchoutSession;
-      }),
-      catchError((error) => {
-        this.punchoutAuthService.endPunchoutSession();
-        return throwError(() => new Error(error));
-      })
+              return punchoutSession;
+            }),
+            catchError((error) => {
+              this.punchoutAuthService.endPunchoutSession();
+              return throwError(() => new Error(error));
+            })
+          )
+      )
     );
   });
 
@@ -298,44 +306,20 @@ export class PunchoutService implements PunchoutFacade {
     this.openRequisitionPage();
   }
 
-  protected routeToTargetPage(punchoutSession: PunchoutSession) {
+  protected routeToTargetPage(
+    punchoutSession: PunchoutSession,
+    product?: Product
+  ) {
     if (
       (punchoutSession?.punchOutOperation === PunchOutOperation.CREATE ||
         punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) &&
       punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
-      punchoutSession?.selectedItem
+      punchoutSession?.selectedItem &&
+      product?.name
     ) {
-      // product name needs to be fetched to route to product page.
-      const subscription = combineLatest([
-        this.productService.get(
-          punchoutSession.selectedItem,
-          ProductScope.DETAILS
-        ),
-        this.productService.hasError(
-          punchoutSession.selectedItem,
-          ProductScope.DETAILS
-        ),
-      ]).subscribe({
-        next: ([product, hasError]) => {
-          if (product?.name && !hasError) {
-            this.routingService.go({
-              cxRoute: 'product',
-              params: {
-                code: punchoutSession.selectedItem,
-                name: product.name,
-              },
-            });
-            subscription.unsubscribe();
-          }
-          if (hasError) {
-            // note that an error message is displayed when hasError is true.
-            this.routingService.go('/');
-            subscription.unsubscribe();
-          }
-        },
-        error: () => {
-          this.routingService.go('/');
-        },
+      this.routingService.go({
+        cxRoute: 'product',
+        params: product,
       });
       return;
     }
