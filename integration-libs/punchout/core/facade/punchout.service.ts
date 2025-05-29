@@ -307,7 +307,7 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.selectedItem
     ) {
       this.productService
-        .get(punchoutSession.selectedItem, ProductScope.DETAILS)
+        .get(punchoutSession.selectedItem, ProductScope.CODE)
         .pipe(filter(isNotUndefined), take(1))
         .subscribe({
           next: (product) => {
