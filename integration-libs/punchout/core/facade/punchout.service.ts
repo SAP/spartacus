@@ -11,6 +11,7 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  ProductService,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -49,7 +50,7 @@ export class PunchoutService implements PunchoutFacade {
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
   protected globalMessageService = inject(GlobalMessageService);
-
+  protected productService = inject(ProductService);
   /**
    * punchoutSession ajax request will always return same response during a punchout session.
    * To avoid multiple server calls, punchoutSession OCC API response  is stored into cachedPunchoutSessionResponse.
@@ -302,6 +303,27 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
       punchoutSession?.selectedItem
     ) {
+      this.productService
+        .get(punchoutSession.selectedItem)
+        .pipe(take(1))
+        .subscribe({
+          next: (product) => {
+            if (product?.name) {
+              this.routingService.go({
+                cxRoute: 'product',
+                params: {
+                  code: punchoutSession.selectedItem,
+                  name: product.name,
+                },
+              });
+            } else {
+              this.routingService.go('/');
+            }
+          },
+          error: () => {
+            this.routingService.go('/');
+          },
+        });
       this.routingService.go({
         cxRoute: 'product',
         params: { code: punchoutSession.selectedItem, name: '' },
