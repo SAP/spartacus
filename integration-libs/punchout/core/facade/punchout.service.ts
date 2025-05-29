@@ -11,7 +11,6 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
-  isNotUndefined,
   ProductScope,
   ProductService,
   RoutingService,
@@ -32,7 +31,6 @@ import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
   combineLatest,
-  filter,
   map,
   Observable,
   of,
@@ -338,31 +336,6 @@ export class PunchoutService implements PunchoutFacade {
           subscription.unsubscribe();
         },
       });
-
-      this.productService
-        .get(punchoutSession.selectedItem, ProductScope.DETAILS)
-        .pipe(filter(isNotUndefined), take(1))
-        .subscribe({
-          next: (product) => {
-            if (product?.name) {
-              this.routingService.go({
-                cxRoute: 'product',
-                params: {
-                  code: punchoutSession.selectedItem,
-                  name: product.name,
-                },
-              });
-            } else {
-              this.routingService.go('/');
-            }
-          },
-          error: () => {
-            this.routingService.go('/');
-          },
-          complete() {
-            console.log('in complete');
-          },
-        });
       return;
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
