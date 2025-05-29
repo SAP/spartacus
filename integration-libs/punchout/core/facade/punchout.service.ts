@@ -306,44 +306,46 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
       punchoutSession?.selectedItem
     ) {
+      let productName: string;
       this.productService
-        .isSuccess(punchoutSession.selectedItem + '1', ProductScope.DETAILS)
+        .isSuccess(punchoutSession.selectedItem, ProductScope.DETAILS)
         .subscribe({
           next: (isSuccess) => {
-            if (!isSuccess) {
-              this.routingService.go('/');
-              return;
-            }
-          },
-        });
-
-      this.productService
-        .hasError(punchoutSession.selectedItem + '1', ProductScope.DETAILS)
-        .subscribe({
-          next: (isSuccess) => {
-            if (!isSuccess) {
-              this.routingService.go('/');
-              return;
-            }
-          },
-        });
-
-      this.productService
-        .get(punchoutSession.selectedItem + '1', ProductScope.DETAILS)
-        .pipe(filter(isNotUndefined), take(1))
-        .subscribe({
-          next: (product) => {
-            if (product?.name) {
+            if (isSuccess && productName) {
               this.routingService.go({
                 cxRoute: 'product',
                 params: {
                   code: punchoutSession.selectedItem,
-                  name: product.name,
+                  name: productName,
                 },
               });
-            } else {
-              this.routingService.go('/');
+              return;
             }
+          },
+        });
+
+      this.productService
+        .hasError(punchoutSession.selectedItem, ProductScope.DETAILS)
+        .subscribe({
+          next: (hasError) => {
+            if (hasError) {
+              this.routingService.go('/');
+              return;
+            }
+          },
+        });
+
+      this.productService
+        .get(punchoutSession.selectedItem, ProductScope.DETAILS)
+        .pipe(filter(isNotUndefined), take(1))
+        .subscribe({
+          next: (product) => {
+            if (product?.name) {
+              productName = product.name;
+            }
+            // } else {
+            //   this.routingService.go('/');
+            // }
           },
           error: () => {
             this.routingService.go('/');
