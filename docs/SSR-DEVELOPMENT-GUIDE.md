@@ -14,14 +14,6 @@ From now on, any changes to the source code files will trigger a re-build in the
 
 ## How to build and run SSR without watch mode
 
-### Dev mode build
-
-For a **dev** mode build please run:
-- build - `npm run build -- --configuration development` (builds app in **dev** mode; yes use "--" in the middle)
-- serve -  `npm run serve:ssr:dev` (`:dev` in this case tells to ignore insecure TLS cert of our dev OCC backend)
-
-After making any changes to the contents of the libs or the `storefrontapp`, you should rerun the first command, and then restart the SSR server.
-
 ### Prod mode
 
 For a **prod** mode build please run:
@@ -30,3 +22,13 @@ For a **prod** mode build please run:
 - serve - `npm run serve:ssr:dev` (again, `:dev` in this case tells to ignore insecure TLS cert of our dev OCC backend)
 
 After making any changes to the contents of the libs, you should re-build the libs, then re-build the `storefrontapp` and then restart the SSR server.
+
+### Dev mode build
+
+It's possible to build the app in **dev** mode without watch mode. Although it's not practical, it's possible to do so.
+
+For a **dev** mode build please run:
+- build - `npm run build -- --configuration development` (builds app in **dev** mode; yes use "--" in the middle)
+- serve -  `npm run serve:ssr:dev` (`:dev` in this case tells to ignore insecure TLS cert of our dev OCC backend)
+
+After making any changes to the contents of the libs or the `storefrontapp`, you should rerun the first command, and then restart the SSR server.
