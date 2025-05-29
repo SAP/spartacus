@@ -305,6 +305,7 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
       punchoutSession?.selectedItem
     ) {
+      // product name needs to be fetched to route to product page.
       const subscription = combineLatest([
         this.productService.get(
           punchoutSession.selectedItem,
@@ -327,6 +328,7 @@ export class PunchoutService implements PunchoutFacade {
             subscription.unsubscribe();
           }
           if (hasError) {
+            // note that an error message is displayed when hasError is true.
             this.routingService.go('/');
             subscription.unsubscribe();
           }
