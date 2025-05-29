@@ -306,23 +306,16 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.punchOutLevel === PunchOutLevel.PRODUCT &&
       punchoutSession?.selectedItem
     ) {
-      let productName: string;
-      this.productService
-        .isSuccess(punchoutSession.selectedItem, ProductScope.DETAILS)
-        .subscribe({
-          next: (isSuccess) => {
-            if (isSuccess && productName) {
-              this.routingService.go({
-                cxRoute: 'product',
-                params: {
-                  code: punchoutSession.selectedItem,
-                  name: productName,
-                },
-              });
-              return;
-            }
-          },
-        });
+      // this.productService
+      //   .isSuccess(punchoutSession.selectedItem, ProductScope.DETAILS)
+      //   .subscribe({
+      //     next: (isSuccess) => {
+      //       if (!isSuccess) {
+      //         this.routingService.go('/');
+      //         return;
+      //       }
+      //     },
+      //   });
 
       this.productService
         .hasError(punchoutSession.selectedItem, ProductScope.DETAILS)
@@ -341,11 +334,16 @@ export class PunchoutService implements PunchoutFacade {
         .subscribe({
           next: (product) => {
             if (product?.name) {
-              productName = product.name;
+              this.routingService.go({
+                cxRoute: 'product',
+                params: {
+                  code: punchoutSession.selectedItem,
+                  name: product.name,
+                },
+              });
+            } else {
+              this.routingService.go('/');
             }
-            // } else {
-            //   this.routingService.go('/');
-            // }
           },
           error: () => {
             this.routingService.go('/');
