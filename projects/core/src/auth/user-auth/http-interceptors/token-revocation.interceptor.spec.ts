@@ -109,10 +109,9 @@ describe('TokenRevocationInterceptor', () => {
   });
 
   it(`Should not add 'Authorization' header for revoke request when disabled`, (done) => {
-    spyOn(
-      mockAuthConfigService,
-      'enableTokenRevocationInterceptor'
-    ).and.returnValue(false);
+    spyOn(mockAuthConfigService, 'sendAuthHeaderOnRevoke').and.returnValue(
+      false
+    );
 
     const sub: Subscription = http.get('/revoke').subscribe((result) => {
       expect(result).toBeTruthy();
