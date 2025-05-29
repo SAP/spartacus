@@ -11,6 +11,8 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  isNotUndefined,
+  ProductScope,
   ProductService,
   RoutingService,
   UserIdService,
@@ -29,6 +31,7 @@ import {
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
+  filter,
   map,
   Observable,
   of,
@@ -304,8 +307,8 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.selectedItem
     ) {
       this.productService
-        .get(punchoutSession.selectedItem)
-        .pipe(take(1))
+        .get(punchoutSession.selectedItem, ProductScope.DETAILS)
+        .pipe(filter(isNotUndefined), take(1))
         .subscribe({
           next: (product) => {
             if (product?.name) {
@@ -324,10 +327,6 @@ export class PunchoutService implements PunchoutFacade {
             this.routingService.go('/');
           },
         });
-      this.routingService.go({
-        cxRoute: 'product',
-        params: { code: punchoutSession.selectedItem, name: '' },
-      });
       return;
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.EDIT) {
