@@ -2,7 +2,7 @@
 
 SSR (Server-Side Rendering) is a technique that allows us to generate the full HTML for a given URL on the server side in NodeJS, before sending it to the client. Thanks to this, the browser can receive the HTML and paint it immediately, without waiting for the JavaScript to be downloaded and executed in the browser.
 
-## How run SSR for development
+## How to run SSR for development purposes
 
 During development, it's convenient to have automatic rebuilds after file changes. For this purpose we'll use 2 terminal windows side by side - one for build in watch mode, and second for serving the app in watch mode.
 
