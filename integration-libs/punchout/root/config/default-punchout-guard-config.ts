@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PunchoutNavigationGuardConfig } from './punchout-guard-config';
 import { PunchOutOperation } from '../model';
+import { PunchoutNavigationGuardConfig } from './punchout-guard-config';
 
 const allowedCxRoutesForAll = ['punchoutSession', 'punchoutRequisition'];
 
@@ -27,7 +27,7 @@ export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig
         redirectPage: { cxRoute: 'punchoutInspect' },
       },
       [PunchOutOperation.EDIT]: {
-        allowedUrls: ['/'],
+        allowedUrls: ['/', '/product/'],
         allowedCxRoutes: [
           ...allowedCxRoutesForAll,
           ...allowedCxRoutesForEditCreate,
@@ -35,7 +35,7 @@ export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig
         redirectPage: { cxRoute: 'home' },
       },
       [PunchOutOperation.CREATE]: {
-        allowedUrls: ['/'],
+        allowedUrls: ['/', '/product/'],
         allowedCxRoutes: [
           ...allowedCxRoutesForAll,
           ...allowedCxRoutesForEditCreate,
