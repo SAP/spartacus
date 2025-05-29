@@ -139,7 +139,7 @@ export class PunchoutService implements PunchoutFacade {
         ) {
           this.globalMessageService.add(
             {
-              key: 'organization.notification.noSufficientPermissions',
+              key: 'punchout.noSufficientPermissions',
             },
             GlobalMessageType.MSG_TYPE_WARNING
           );

@@ -127,7 +127,7 @@ describe('PunchoutNavigationGuard', () => {
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {
       expect(result).toBeFalsy();
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'organization.notification.noSufficientPermissions' },
+        { key: 'punchout.noSufficientPermissions' },
         GlobalMessageType.MSG_TYPE_WARNING
       );
       expect(routingService.go).toHaveBeenCalledWith({
