@@ -307,11 +307,11 @@ export class PunchoutService implements PunchoutFacade {
     ) {
       const subscription = combineLatest([
         this.productService.get(
-          punchoutSession.selectedItem,
+          punchoutSession.selectedItem + '1',
           ProductScope.DETAILS
         ),
         this.productService.hasError(
-          punchoutSession.selectedItem,
+          punchoutSession.selectedItem + '1',
           ProductScope.DETAILS
         ),
       ]).subscribe({
