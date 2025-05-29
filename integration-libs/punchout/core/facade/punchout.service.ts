@@ -307,11 +307,11 @@ export class PunchoutService implements PunchoutFacade {
     ) {
       const subscription = combineLatest([
         this.productService.get(
-          punchoutSession.selectedItem + '1',
+          punchoutSession.selectedItem,
           ProductScope.DETAILS
         ),
         this.productService.hasError(
-          punchoutSession.selectedItem + '1',
+          punchoutSession.selectedItem,
           ProductScope.DETAILS
         ),
       ]).subscribe({
@@ -333,7 +333,6 @@ export class PunchoutService implements PunchoutFacade {
         },
         error: () => {
           this.routingService.go('/');
-          subscription.unsubscribe();
         },
       });
       return;
