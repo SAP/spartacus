@@ -326,6 +326,9 @@ export class PunchoutService implements PunchoutFacade {
           error: () => {
             this.routingService.go('/');
           },
+          complete() {
+            console.log('in complete');
+          },
         });
       return;
     }
