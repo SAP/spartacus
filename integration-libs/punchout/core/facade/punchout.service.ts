@@ -31,6 +31,7 @@ import {
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   catchError,
+  combineLatest,
   filter,
   map,
   Observable,
@@ -316,6 +317,34 @@ export class PunchoutService implements PunchoutFacade {
       //       }
       //     },
       //   });
+
+      combineLatest([
+        this.productService.get(
+          punchoutSession.selectedItem,
+          ProductScope.DETAILS
+        ),
+        this.productService.hasError(
+          punchoutSession.selectedItem,
+          ProductScope.DETAILS
+        ),
+      ])
+        .pipe(
+          tap(([product, hasError]) => {
+            if (product?.name && !hasError) {
+              this.routingService.go({
+                cxRoute: 'product',
+                params: {
+                  code: punchoutSession.selectedItem,
+                  name: product.name,
+                },
+              });
+            }
+            if (hasError) {
+              this.routingService.go('/');
+            }
+          })
+        )
+        .subscribe();
 
       this.productService
         .hasError(punchoutSession.selectedItem, ProductScope.DETAILS)
