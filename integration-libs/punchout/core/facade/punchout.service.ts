@@ -307,6 +307,28 @@ export class PunchoutService implements PunchoutFacade {
       punchoutSession?.selectedItem
     ) {
       this.productService
+        .isSuccess(punchoutSession.selectedItem + '1', ProductScope.DETAILS)
+        .subscribe({
+          next: (isSuccess) => {
+            if (!isSuccess) {
+              this.routingService.go('/');
+              return;
+            }
+          },
+        });
+
+      this.productService
+        .hasError(punchoutSession.selectedItem + '1', ProductScope.DETAILS)
+        .subscribe({
+          next: (isSuccess) => {
+            if (!isSuccess) {
+              this.routingService.go('/');
+              return;
+            }
+          },
+        });
+
+      this.productService
         .get(punchoutSession.selectedItem + '1', ProductScope.DETAILS)
         .pipe(filter(isNotUndefined), take(1))
         .subscribe({
