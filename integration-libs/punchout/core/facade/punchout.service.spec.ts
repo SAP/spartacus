@@ -4,6 +4,8 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  Product,
+  ProductService,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -67,6 +69,11 @@ const mockPunchoutState: PunchoutState = {
   closePunchoutSession: false,
 };
 
+const mockProduct: Product = {
+  code: '553637',
+  name: 'NV10',
+};
+
 class MockPunchoutStoreService implements Partial<PunchoutStoreService> {
   setPunchoutState = () => {};
   getPunchoutState = () => of(mockPunchoutState);
@@ -117,6 +124,17 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
+class MockProductService implements Partial<ProductService> {
+  get = createSpy('ProductService.get').and.callFake(() => of(mockProduct));
+  hasError = createSpy('ProductService.hasError').and.callFake(() => of(false));
+}
+
+// const productService = jasmine.createSpyObj(
+//   'ProductService',
+//   ['get'],
+//   ['hasError']
+// );
+
 describe('Punchoutservice', () => {
   let service: PunchoutService;
   let connector: PunchoutConnector;
@@ -130,6 +148,7 @@ describe('Punchoutservice', () => {
     TestBed.configureTestingModule({
       providers: [
         PunchoutService,
+        { provide: ProductService, useClass: MockProductService },
         { provide: PunchoutConnector, useClass: MockPunchoutConnector },
         { provide: PunchoutAuthService, useClass: MockPunchoutAuthService },
         { provide: CommandService, useValue: commandServiceMock },
@@ -377,7 +396,10 @@ describe('Punchoutservice', () => {
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'product',
-          params: { code: mockPunchoutSessionResponse.selectedItem, name: '' },
+          params: {
+            code: mockPunchoutSessionResponse.selectedItem,
+            name: mockProduct.name,
+          },
         });
         done();
       },
