@@ -8,8 +8,8 @@ import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
-  const enableProductRouteShorterMatcher =
-    inject(FeatureToggles).enableProductRouteShorterMatcher;
+  const enableProductPageRouteAllowsNoProductName =
+    inject(FeatureToggles).defaultProductPageRouteAllowsNoProductName;
 
   return {
     routing: {
@@ -60,7 +60,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
 
         // pdp routes
         product: {
-          paths: enableProductRouteShorterMatcher
+          paths: enableProductPageRouteAllowsNoProductName
             ? ['product/:productCode/:name', 'product/:productCode']
             : ['product/:productCode/:name'],
           paramsMapping: { productCode: 'code' },

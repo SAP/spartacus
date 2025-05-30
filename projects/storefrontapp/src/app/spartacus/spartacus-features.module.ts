@@ -416,7 +416,7 @@ if (environment.cpq) {
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
-        enableProductRouteShorterMatcher: true,
+        defaultProductPageRouteAllowsNoProductName: true,
       };
       return appFeatureToggles;
     }),
