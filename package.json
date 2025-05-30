@@ -144,7 +144,7 @@
     "delete:ssr-dist": "rimraf dist/storefrontapp/server",
     "dev:ssr": "npm run delete:ssr-dist && concurrently -c \"green.bold,blue.bold\" --names \"build,serve\" \"npm run watch\" \"npm run serve:ssr:watch\"",
     "serve:ssr": "node dist/storefrontapp/server/server.mjs",
-    "serve:ssr:watch": "wait-on dist/storefrontapp/server/server.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 node --watch-path=dist/storefrontapp/server/ dist/storefrontapp/server/server.mjs",
+    "serve:ssr:watch": "(until [ -f dist/storefrontapp/server/server.mjs ]; do sleep 1; done) && NODE_TLS_REJECT_UNAUTHORIZED=0 node --watch-path=dist/storefrontapp/server/ dist/storefrontapp/server/server.mjs",
     "serve:ssr:ci": "NODE_TLS_REJECT_UNAUTHORIZED=0 SSR_TIMEOUT=0 node dist/storefrontapp/server/server.mjs",
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp/server/server.mjs",
     "test:ssr": "env-cmd -e dev nx test ssr-tests",
@@ -278,7 +278,6 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.6.3",
-    "wait-on": "^8.0.3",
     "webpack": "~5.99.0",
     "webpack-cli": "^5.0.0"
   },
