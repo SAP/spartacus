@@ -27,7 +27,7 @@ export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig
         redirectPage: { cxRoute: 'punchoutInspect' },
       },
       [PunchOutOperation.EDIT]: {
-        allowedUrls: ['/', '/product/'],
+        allowedUrls: ['/', 'product/'],
         allowedCxRoutes: [
           ...allowedCxRoutesForAll,
           ...allowedCxRoutesForEditCreate,
@@ -35,7 +35,7 @@ export const defaultPunchoutNavigationGuardConfig: PunchoutNavigationGuardConfig
         redirectPage: { cxRoute: 'home' },
       },
       [PunchOutOperation.CREATE]: {
-        allowedUrls: ['/', '/product/'],
+        allowedUrls: ['/', 'product/'],
         allowedCxRoutes: [
           ...allowedCxRoutesForAll,
           ...allowedCxRoutesForEditCreate,
