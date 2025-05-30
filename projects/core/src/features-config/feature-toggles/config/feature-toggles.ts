@@ -795,6 +795,11 @@ export interface FeatureTogglesInterface {
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
+
+  /**
+   * TODO
+   */
+  enableProductRouteShorterMatcher?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -916,4 +921,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
+  enableProductRouteShorterMatcher: false,
 };
