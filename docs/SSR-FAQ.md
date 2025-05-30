@@ -1,16 +1,23 @@
-# SSR DEVELOPMENT GUIDE
+# SSR FAQ
 
 SSR (Server-Side Rendering) is a technique that allows us to generate the full HTML for a given URL on the server side in NodeJS, before sending it to the client. Thanks to this, the browser can receive the HTML and paint it immediately, without waiting for the JavaScript to be downloaded and executed in the browser.
 
 ## How to run SSR for development purposes
 
-During development, it's convenient to have automatic rebuilds after file changes. For this purpose we'll use 2 terminal windows side by side - one for build in watch mode, and second for serving the app in watch mode.
+During development, it's convenient to have automatic rebuilds after file changes. For this purpose, please run:
 
-Please open 2 terminal windows side by side and run there:
-- `npm run watch` in the first terminal window
-- (wait after the first terminal window output shows "Application bundle generation complete") and then run `npm run serve:ssr:watch` in the second terminal window
+```
+npm run dev:ssr
+```
 
-From now on, any changes to the source code files will trigger a re-build in the first window. And the changed contents of the /dist folder for the app will trigger re-start of the server in the second window.
+From now on, any changes to the source code files will trigger a re-build and re-start of the SSR server.
+
+## Why SSR is not involved in subsequent navigations within the storefront app?
+
+On the first page visit in the browser, a HTTP request is sent to the SSR server, which simulates the storefront SPA in NodeJS and generates the Server-Side Rendered HTML. When the app's state is stable (e.g. when there are no more pending requests to the backend for fetching data) the Server-Side Rendered HTML considered is ready and returned in HTTP response to the browser.
+
+Then browser will paint this HTML and then the JavaScript of the SPA is downloaded to the browser and executed there (i.e. the SSR HTML is "hydrated" with JS) and from now Angular will control changes to the DOM and drive the subsequent navigations within the storefront app. In particular, any subsequent links' clicks or calls of  `RoutingService.go()` within the storefront app are just "virtual" navigations (without doing full HTTP roundtrips to the SSR server) within the browser. Only when full-reloading the page in the browser, the HTTP request is sent to the SSR server again to get the Server-Side Rendered HTML.
+
 
 ## How to build and run SSR without watch mode
 
