@@ -8,7 +8,8 @@ import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
-  const ourNewFancyToggle = inject(FeatureToggles).showStyleChangesInASM;
+  const showStyleChangesInASM =
+    inject(FeatureToggles).enableProductRouteShorterMatcher;
 
   return {
     routing: {
@@ -59,7 +60,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
 
         // pdp routes
         product: {
-          paths: ourNewFancyToggle
+          paths: showStyleChangesInASM
             ? ['product/:productCode/:name', 'product/:productCode']
             : ['product/:productCode/:name'],
           paramsMapping: { productCode: 'code' },
