@@ -15,10 +15,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
+import { PunchoutNavigationGuardConfig } from '../config';
 import { PunchoutFacade } from '../facade';
 import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
 import { PunchoutStoreService } from '../services';
-import { PunchoutNavigationGuardConfig } from '../config';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +75,7 @@ export class PunchoutNavigationGuard {
     return (
       urls
         .filter((url) => url !== '/')
-        .some((url) => relativeUrl.includes(url)) || isHomePageAllowed
+        .some((url) => `/${relativeUrl}`.includes(url)) || isHomePageAllowed
     );
   }
 
