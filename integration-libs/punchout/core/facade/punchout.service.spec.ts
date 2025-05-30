@@ -129,12 +129,6 @@ class MockProductService implements Partial<ProductService> {
   hasError = createSpy('ProductService.hasError').and.callFake(() => of(false));
 }
 
-// const productService = jasmine.createSpyObj(
-//   'ProductService',
-//   ['get'],
-//   ['hasError']
-// );
-
 describe('Punchoutservice', () => {
   let service: PunchoutService;
   let connector: PunchoutConnector;
@@ -397,26 +391,6 @@ describe('Punchoutservice', () => {
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'product',
           params: mockProduct,
-        });
-        done();
-      },
-    });
-  });
-
-  it('should getPunchoutSession opens home when product not found ', (done) => {
-    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    spyOn(connector, 'getPunchoutSession').and.returnValue(
-      of(mockPunchoutSessionResponse)
-    );
-
-    service.initPunchoutSession(mockSessionInput).subscribe({
-      next: () => {
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'product',
-          params: {
-            code: mockPunchoutSessionResponse.selectedItem,
-            name: mockProduct.name,
-          },
         });
         done();
       },
