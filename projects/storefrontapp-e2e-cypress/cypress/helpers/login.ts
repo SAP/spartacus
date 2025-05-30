@@ -18,39 +18,49 @@ export const defaultUser = {
 };
 
 /**
- * Use only if you already are on the `/login` page.
- * Redirects to `/register` page and registers the user.
+ * Registers a user from the login page.
+ * Navigates to the register page, waits for it to load, and submits the registration form.
  *
- * @param uniqueUser if true creates a unique user, otherwise the default sample user is used.
- * @returns Newly registered user
+ * @param uniqueUser - If true, creates a unique user; otherwise, uses the default sample user.
+ * @returns The newly registered user object.
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
+  // Go to the register page from the login page
+  const registerPageAlias = waitForPage('/login/register', 'getRegisterPage');
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
-  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
-  const loginUser = uniqueUser ? getSampleUser() : user;
-  register(loginUser);
-  return loginUser;
+  // Wait for the register page to load
+  cy.wait(`@${registerPageAlias}`).its('response.statusCode').should('eq', 200);
+
+  // Choose the user to register
+  const newUser = uniqueUser ? getSampleUser() : user;
+
+  // Fill and submit the registration form
+  register(newUser);
+
+  return newUser;
 }
 
 /**
- * Use only if you are outside of `/login` page.
- * Redirects to `/login` page, then uses `registerUserFromLoginPage()` helper function.
+ * Registers a user from outside the `/login` page.
+ * Navigates to the login page, waits for it to load, then delegates to registerUserFromLoginPage.
  *
- * @param uniqueUser if true creates a unique user, otherwise the default sample user is used.
- * @returns Newly registered user
+ * @param uniqueUser - If true, creates a unique user; otherwise, uses the default sample user.
+ * @returns The newly registered user object.
  */
 export function registerUser(uniqueUser?: boolean) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  // Navigate to the login page
+  const loginPageAlias = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
+  // Wait for the login page to load
+  cy.wait(`@${loginPageAlias}`).its('response.statusCode').should('eq', 200);
+
+  // Delegate registration to the login page helper
   return registerUserFromLoginPage(uniqueUser);
 }
-
 export function signOutUser() {
   cy.selectUserMenuOption({
     option: 'Sign Out',
@@ -63,66 +73,111 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
+
+/**
+ * Attempts to log in with invalid credentials from the login page,
+ * verifies that authentication fails, and checks for the correct error message.
+ */
 export function loginWithBadCredentialsFromLoginPage() {
+  // Listen for the authentication request
   listenForTokenAuthenticationRequest();
 
+  // Attempt login with invalid password
   login(user.email, 'Password321');
 
+  // Assert that the authentication request failed
   cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
 
+  // Ensure user is not greeted (not logged in)
   cy.get(userGreetSelector).should('not.exist');
 
-  alerts
-    .getErrorAlert()
-    .should('contain', 'Bad credentials. Please login again');
+  // Check for the expected error alert
+  alerts.getErrorAlert().should('contain', 'Bad credentials. Please login again');
 }
 
+/**
+ * Navigates to the login page and attempts to log in with invalid credentials,
+ * verifying that authentication fails and the correct error message is shown.
+ */
 export function loginWithBadCredentials() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  // Navigate to the login page
+  const loginPageAlias = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
+  // Wait for the login page to load
+  cy.wait(`@${loginPageAlias}`).its('response.statusCode').should('eq', 200);
+
+  // Attempt login with invalid credentials and verify error handling
   loginWithBadCredentialsFromLoginPage();
 }
 
+/**
+ * Navigates to the login page and logs in using the default user credentials.
+ * Waits for the login page to load before submitting credentials.
+ */
 export function loginAsDefaultUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  // Navigate to the login page
+  const loginPageAlias = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
+  // Wait for the login page to load
+  cy.wait(`@${loginPageAlias}`).its('response.statusCode').should('eq', 200);
+
+  // Log in with default user credentials
   login(defaultUser.name, defaultUser.password);
 }
 
+/**
+ * Sets up a network intercept for token revocation requests and returns the alias.
+ * This allows tests to wait for or assert on token revocation network calls.
+ *
+ * @returns The Cypress alias for the token revocation request.
+ */
 export function listenForTokenRevocationRequest(): string {
   const aliasName = 'tokenRevocation';
-  cy.intercept({
-    method: 'POST',
-    path: '/authorizationserver/oauth/revoke',
-  }).as(aliasName);
-
-  return `@${aliasName}`;
-}
-
-export function listenForTokenAuthenticationRequest(): string {
-  const aliasName = 'tokenAuthentication';
-  cy.intercept({
-    method: 'POST',
-    path: '/authorizationserver/oauth/token',
-  }).as(aliasName);
+  cy.intercept(
+    {
+      method: 'POST',
+      path: '/authorizationserver/oauth/revoke',
+    }
+  ).as(aliasName);
 
   return `@${aliasName}`;
 }
 
 /**
- * If the singed-in was successful, the user should be redirected to the home page.
- * Thus, this method verifies whether the home page is displayed and
- * the name of the signed-in user is visible next to the mini cart.
+ * Sets up a network intercept for token authentication (login) requests and returns the alias.
+ * This allows tests to wait for or assert on authentication network calls.
  *
- * @param user - logged-in user.
+ * @returns The Cypress alias for the token authentication request.
+ */
+export function listenForTokenAuthenticationRequest(): string {
+  const aliasName = 'tokenAuthentication';
+  cy.intercept(
+    {
+      method: 'POST',
+      path: '/authorizationserver/oauth/token',
+    }
+  ).as(aliasName);
+
+  return `@${aliasName}`;
+}
+
+/**
+ * Verifies that the user is signed in by:
+ * - Waiting for the home page to load
+ * - Checking that the user greeting is visible
+ * - Ensuring the greeting contains the user's full name
+ *
+ * @param user - The logged-in user object (should have a fullName property)
  */
 export function checkUserIsSignedIn(user: SampleUser) {
-  const homePage = waitForPage('homepage', 'getHomePage');
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
-  cy.get(userGreetSelector).should('exist');
-  cy.get(userGreetSelector).should('contain', user.fullName);
+  // Wait for the home page to load
+  const homePageAlias = waitForPage('homepage', 'getHomePage');
+  cy.wait(`@${homePageAlias}`).its('response.statusCode').should('eq', 200);
+
+  // Check that the user greeting is visible and contains the user's full name
+  cy.get(userGreetSelector)
+    .should('exist')
+    .and('contain', user.fullName);
 }
