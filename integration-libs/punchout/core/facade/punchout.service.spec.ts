@@ -70,7 +70,7 @@ const mockPunchoutState: PunchoutState = {
 };
 
 const mockProduct: Product = {
-  code: '553637',
+  code: 'mockItemId',
   name: 'NV10',
 };
 
@@ -387,6 +387,23 @@ describe('Punchoutservice', () => {
   });
 
   it('should getPunchoutSession opens pdp when selectedItem is present ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSession').and.returnValue(
+      of(mockPunchoutSessionResponse)
+    );
+
+    service.initPunchoutSession(mockSessionInput).subscribe({
+      next: () => {
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'product',
+          params: mockProduct,
+        });
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSession opens home when product not found ', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
