@@ -12,7 +12,7 @@ npm run dev:ssr
 
 From now on, any changes to the source code files will trigger a re-build and re-start of the SSR server.
 
-## Why SSR is not involved in subsequent navigations within the storefront app?
+## Why SSR runs only on the first page visit (and full page reloads)
 
 On the first page visit in the browser, a HTTP request is sent to the SSR server, which simulates the storefront SPA in NodeJS and generates the Server-Side Rendered HTML. When the app's state is stable (e.g. when there are no more pending requests to the backend for fetching data) the Server-Side Rendered HTML considered is ready and returned in HTTP response to the browser.
 
