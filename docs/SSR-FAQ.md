@@ -14,7 +14,7 @@ From now on, any changes to the source code files will trigger a re-build and re
 
 ## Why SSR runs only on the first page visit (and full page reloads)
 
-On the first page visit in the browser, a HTTP request is sent to the SSR server, which simulates the storefront SPA in NodeJS and generates the Server-Side Rendered HTML. When the app's state is stable (e.g. when there are no more pending requests to the backend for fetching data) the Server-Side Rendered HTML considered is ready and returned in HTTP response to the browser.
+On the first page visit in the browser, a HTTP request is sent to the SSR server, which simulates the storefront SPA in NodeJS, generates the Server-Side Rendered HTML and returns in the HTTP response to the browser.
 
 Then browser will paint this HTML and then the JavaScript of the SPA is downloaded to the browser and executed there (i.e. the SSR HTML is "hydrated" with JS) and from now Angular will control changes to the DOM and drive the subsequent navigations within the storefront app. In particular, any subsequent links' clicks or calls of  `RoutingService.go()` within the storefront app are just "virtual" navigations (without doing full HTTP roundtrips to the SSR server) within the browser. Only when full-reloading the page in the browser, the HTTP request is sent to the SSR server again to get the Server-Side Rendered HTML.
 
