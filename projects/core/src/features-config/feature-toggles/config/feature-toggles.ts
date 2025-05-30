@@ -797,7 +797,9 @@ export interface FeatureTogglesInterface {
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 
   /**
-   * TODO
+   * When enabled, added to the default configuration
+   * a second route variant for `product`,
+   * which doesn't require the `name` parameter.
    */
   enableProductRouteShorterMatcher?: boolean;
 }
