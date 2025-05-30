@@ -7,11 +7,11 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 10000,
-  requestTimeout: 15000,
+  defaultCommandTimeout: 5000,
+  requestTimeout: 7000,
   chromeWebSecurity: false,
   retries: {
-    runMode: 1,
+    runMode: 0,
   },
   videoUploadOnPasses: false,
   env: {

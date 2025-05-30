@@ -8,15 +8,15 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 30000,
+  defaultCommandTimeout: 10000,
 
-  requestTimeout: 30000,
+  requestTimeout: 10000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
-  video: true,
+  video: false,
   retries: {
-    runMode: 1,
+    runMode: 0,
   },
   videoUploadOnPasses: false,
   env: {
