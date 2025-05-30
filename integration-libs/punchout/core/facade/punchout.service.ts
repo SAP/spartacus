@@ -319,19 +319,16 @@ export class PunchoutService implements PunchoutFacade {
       ])
         .pipe(
           filter(([product, hasError]) => {
-            return (product?.name && !hasError) || hasError;
+            return (!!product && !hasError) || hasError;
           }),
           take(1)
         )
         .subscribe({
           next: ([product, hasError]) => {
-            if (product?.name && !hasError) {
+            if (!!product && !hasError) {
               this.routingService.go({
                 cxRoute: 'product',
-                params: {
-                  code: punchoutSession.selectedItem,
-                  name: product.name,
-                },
+                params: product,
               });
             }
             if (hasError) {
