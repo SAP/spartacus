@@ -797,11 +797,15 @@ export interface FeatureTogglesInterface {
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 
   /**
-   * When enabled, added to the default configuration
-   * a second route variant for `product`,
-   * which doesn't require the `name` parameter.
+   * When enabled, the default routing config for the product page is no longer just:
+   * `paths: ['product/:productCode/:name']`
+   * but:
+   * `paths: ['product/:productCode/:name', 'product/:productCode'],`
+   * 
+   * It means that the old URL scheme of generating links and matching URLs is preserved,
+   * but now also a shorter alias (without product) name is accepted when matching the URL.
    */
-  enableProductRouteShorterMatcher?: boolean;
+  defaultProductPageRouteAllowsNoProductName?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
