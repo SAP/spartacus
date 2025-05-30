@@ -57,8 +57,13 @@ export abstract class AuthConfig {
     revokeEndpoint?: string;
     /**
      * Determine if the `Authorization` header should be sent with revocation requests.
+     *
+     * In particular, you must set this property to `true` when using the legacy Authorization
+     * Server from SAP Commerce Cloud versions prior to September 2025. For SAP Commerce Cloud
+     * versions from September 2025 onwards, which include the rebuilt Authorization server,
+     * set `sendAuthHeaderOnRevoke` to `false`.
      */
-    enableTokenRevocationInterceptor?: boolean;
+    sendAuthHeaderOnRevoke?: boolean;
     /**
      * Url for login redirect for Implicit and Authorization Code Flow.
      */

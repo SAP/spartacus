@@ -32,7 +32,7 @@ const expectedResourceOwnerDefault: AuthConfig = {
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
-    enableTokenRevocationInterceptor: true,
+    sendAuthHeaderOnRevoke: true,
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],

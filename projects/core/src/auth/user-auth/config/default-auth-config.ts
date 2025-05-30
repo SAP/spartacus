@@ -71,13 +71,13 @@ export function defaultAuthConfigFactory(): AuthConfig {
       authentication: {
         ...defaultAuthConfig.authentication,
         client_secret: 'secret',
-        enableTokenRevocationInterceptor: true,
+        sendAuthHeaderOnRevoke: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
           disablePKCE: true,
         },
       },
-    };
+    } satisfies AuthConfig;
 
     delete config.authentication.OAuthLibConfig.responseType;
 
