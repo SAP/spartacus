@@ -270,7 +270,7 @@
     "rimraf": "^5.0.0",
     "sass-true": "^8.0.0",
     "semver": "^7.5.2",
-    "shelljs": "^0.9.0",
+    "shelljs": "^0.10.0",
     "stylelint": "^16.3.1",
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-scss": "^6.2.1",
