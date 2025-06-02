@@ -38,10 +38,6 @@ describe(
 
     it('user details / initial panel', () => {
       selectUser(2);
-      // cy.get(firstRusticSelector).click();
-      // cy.get(
-      //   'cx-org-user-details cx-org-card cx-view .main .details .property a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
-      // );
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
 
