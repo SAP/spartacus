@@ -1,0 +1,174 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import {
+  B2BPaymentTypeEnum,
+  CheckoutPaymentTypeFacade,
+} from '@spartacus/checkout/b2b/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { GlobalMessageService, UserIdService } from '@spartacus/core';
+import {
+  OpfActiveConfiguration,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { BehaviorSubject, Observable, Subscription, take } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Component({
+  selector: 'cx-opf-b2b-checkout-payment-type',
+  templateUrl: './opf-b2b-checkout-payment-type.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+})
+export class OpfB2bCheckoutPaymentTypeComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  protected opfPaymentFacade = inject(OpfPaymentFacade);
+  protected userIdService = inject(UserIdService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected fb = inject(FormBuilder);
+
+  @ViewChild('poNumber', { static: false })
+  protected poNumberInputElement: ElementRef<HTMLInputElement>;
+
+  protected isUpdating$ = new BehaviorSubject<boolean>(false);
+  protected form: FormGroup;
+
+  cartPoNumber$: Observable<string | undefined>;
+
+  protected subscription: Subscription = new Subscription();
+  protected poNumberValue: string | undefined;
+  protected selectedPaymentOption: string | undefined = undefined;
+
+  constructor() {
+    this.form = this.fb.group({
+      poNumber: [''],
+    });
+  }
+
+  protected updatePoNumberField(): void {
+    if (this.poNumberInputElement?.nativeElement && this.poNumberValue) {
+      this.poNumberInputElement.nativeElement.value = this.poNumberValue;
+    }
+  }
+
+  protected adaptCheckoutSteps(paymentType: string | undefined) {
+    if (paymentType) {
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.PAYMENT_DETAILS,
+        paymentType === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+      );
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.REVIEW_ORDER,
+        paymentType !== B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+      );
+    }
+  }
+
+  getCartPoNumber(): Observable<string | undefined> {
+    return this.activeCartFacade.getActive().pipe(
+      take(1),
+      map((cart) => cart.purchaseOrderNumber)
+    );
+  }
+
+  next(): void {
+    const poNumberInput = this.form.get('poNumber')?.value;
+    if (this.selectedPaymentOption) {
+      this.isUpdating$.next(true);
+
+      this.checkoutPaymentTypeFacade
+        .setPaymentType(this.selectedPaymentOption, poNumberInput)
+        .subscribe({
+          complete: () => {
+            this.activeCartFacade.reloadActiveCart();
+            this.checkoutStepService.next(this.activatedRoute);
+            this.isUpdating$.next(false);
+          },
+        });
+    }
+  }
+
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  getSelectedPaymentOption(): Observable<string | undefined> {
+    return this.opfMetadataStoreService.getOpfMetadataState().pipe(
+      take(1),
+      map((state) => state.selectedPaymentOptionId?.toString())
+    );
+  }
+
+  setPaymentOption(paymentOption: string, poNumber?: string) {
+    return this.checkoutPaymentTypeFacade
+      .setPaymentType(paymentOption, poNumber)
+      .pipe(take(1));
+  }
+
+  handlePaymentChange(payment: OpfActiveConfiguration): void {
+    this.selectedPaymentOption = payment?.id?.toString();
+    this.adaptCheckoutSteps(payment?.paymentType);
+    if (this.selectedPaymentOption) {
+      this.isUpdating$.next(true);
+      this.setPaymentOption(
+        this.selectedPaymentOption,
+        this.form.get('poNumber')?.value
+      ).subscribe({
+        complete: () => {
+          this.activeCartFacade.reloadActiveCart();
+          this.isUpdating$.next(false);
+        },
+      });
+    }
+  }
+
+  ngOnInit(): void {
+    this.cartPoNumber$ = this.getCartPoNumber();
+
+    this.getSelectedPaymentOption().subscribe(
+      (selectedOption) => (this.selectedPaymentOption = selectedOption)
+    );
+
+    this.subscription.add(
+      this.cartPoNumber$.subscribe((poNumber) => {
+        this.poNumberValue = poNumber;
+        this.form.patchValue({ poNumber });
+      })
+    );
+  }
+
+  ngAfterViewInit(): void {
+    if (this.poNumberValue) {
+      this.form.patchValue({ poNumber: this.poNumberValue });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}

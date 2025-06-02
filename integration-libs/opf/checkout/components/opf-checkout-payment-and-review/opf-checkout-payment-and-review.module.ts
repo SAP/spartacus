@@ -27,9 +27,12 @@ import {
 
 import { AddressFormModule } from '@spartacus/user/profile/components';
 import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
+import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-checkout-review-card.module';
+import { OpfCheckoutReviewCartDetailsModule } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
 
 @NgModule({
   declarations: [OpfCheckoutPaymentAndReviewComponent],
@@ -47,8 +50,10 @@ import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and
     IconModule,
     CardModule,
     OpfCheckoutTermsAndConditionsAlertModule,
+    OpfCheckoutPaymentWrapperModule,
+    OpfCheckoutReviewCardModule,
+    OpfCheckoutReviewCartDetailsModule,
   ],
-
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -59,5 +64,6 @@ import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and
       },
     }),
   ],
+  exports: [OpfCheckoutPaymentAndReviewComponent],
 })
 export class OpfCheckoutPaymentAndReviewModule {}

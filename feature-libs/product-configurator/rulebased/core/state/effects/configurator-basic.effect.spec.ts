@@ -41,6 +41,7 @@ const CONFIG_ID_TEMPLATE = '1234-56-abcd';
 const groupId = 'GROUP-1';
 const parentGroupid = 'GROUP-PARENT';
 const groupIdA = 'a';
+const attributeKey = 'attributeKey-1';
 
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -384,6 +385,55 @@ describe('ConfiguratorEffect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-');
       expect(configEffects.readConfiguration$).toBeObservable(expected);
+    });
+  });
+
+  describe('Effect readAttributeDomain', () => {
+    const action = new ConfiguratorActions.ReadAttributeDomain({
+      configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
+      groupId: groupId,
+      attributeKey: attributeKey,
+    });
+
+    it('should emit update price action and success action with content in case connector call goes fine', () => {
+      const readSuccessAction =
+        new ConfiguratorActions.ReadConfigurationSuccess(productConfiguration);
+      const updatePricesAction = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfiguration,
+        interactionState: { currentGroup: groupId },
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: readSuccessAction,
+        c: updatePricesAction,
+      });
+
+      expect(configEffects.readAttributeDomain$).toBeObservable(expected);
+    });
+
+    it('should emit a fail action in case connector raises an error', () => {
+      readMock.and.returnValue(throwError(() => errorResponse));
+
+      const readConfigurationFailAction =
+        new ConfiguratorActions.ReadConfigurationFail({
+          ownerKey: productConfiguration.owner.key,
+          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+        });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: readConfigurationFailAction });
+
+      expect(configEffects.readAttributeDomain$).toBeObservable(expected);
+    });
+
+    it('should not emit anything in case source action is not covered', () => {
+      const action = new ConfiguratorActions.ReadConfiguration({
+        configuration: productConfiguration,
+        groupId: groupId,
+      });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-');
+      expect(configEffects.readAttributeDomain$).toBeObservable(expected);
     });
   });
 

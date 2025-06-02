@@ -7,7 +7,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -30,7 +29,6 @@ export class QuoteLinksComponent {
   protected cartUtilsService = inject(CartUtilsService);
   protected eventService = inject(EventService);
   protected fileDownloadService = inject(FileDownloadService);
-  private featureConfig = inject(FeatureConfigService);
   protected globalMessageService = inject(GlobalMessageService);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
@@ -82,8 +80,9 @@ export class QuoteLinksComponent {
    * Determines if the feature for showing the download button is enabled.
    *
    * @returns - if the feature is enabled, returns 'true', otherwise 'false'.
+   * @deprecated  This method is obsolete since 2211.41
    */
   isShowDownloadProposalButtonFeatureEnabled(): boolean {
-    return this.featureConfig.isEnabled('showDownloadProposalButton');
+    return true;
   }
 }

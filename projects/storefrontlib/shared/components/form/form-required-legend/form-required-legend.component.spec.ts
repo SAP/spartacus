@@ -1,13 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { I18nTestingModule } from '@spartacus/core';
 import { FormRequiredLegendComponent } from './form-required-legend.component';
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
 
 describe('FormRequiredLegendComponent', () => {
   let component: FormRequiredLegendComponent;
@@ -16,14 +9,6 @@ describe('FormRequiredLegendComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, FormRequiredLegendComponent],
-      providers: [
-        FeatureConfigService,
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-      declarations: [MockFeatureDirective],
     }).compileComponents();
   }));
 

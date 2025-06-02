@@ -7,7 +7,9 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
   QueryList,
   TemplateRef,
@@ -43,6 +45,7 @@ const defaultTabConfig = {
   standalone: false,
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
+  protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   /**
    * @deprecated This method will be removed.
    */
@@ -146,6 +149,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
    * @deprecated This method will be removed.
    */
   ngOnInit(): void {
+    this.cdr.markForCheck();
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
   }
@@ -180,6 +184,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         );
       })
     );
+    this.cdr.detectChanges();
   }
 
   tabCompLoaded(componentRef: any, componentId?: string): void {

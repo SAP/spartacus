@@ -1,7 +1,7 @@
 <!-- TODO: (CXSPA-7289) - Remove feature flag next major release -->
 <ng-container *cxFeature="'a11ySemanticPaginationLabel'"
   ><a
-    *ngFor="let item of pages"
+    *ngFor="let item of pages; let i = index"
     [class]="item.type"
     [class.disabled]="isInactive(item)"
     [class.current]="isCurrent(item)"
@@ -13,6 +13,7 @@
     (click)="pageChange(item)"
     [attr.aria-label]="getAriaLabel$(item) | async"
     [attr.title]="getAriaLabel$(item) | async"
+    [cxFocus]="{ key: paginationID + i.toString() }"
   >
     {{ item.label }}
   </a></ng-container

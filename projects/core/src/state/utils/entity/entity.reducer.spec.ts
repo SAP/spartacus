@@ -89,6 +89,23 @@ describe('Entity reducer', () => {
         payload: action.payload[1],
       });
     });
+
+    it('should use the targeted reducer and store result under empty string key when entityId is null', () => {
+      const action = {
+        meta: { entityId: null, entityType: 'testType' },
+      } as EntityAction;
+      const state = entityReducer('testType', testSubReducer)(
+        undefined,
+        action
+      );
+      const expectedState = {
+        entities: {
+          '': 'test',
+        },
+      };
+      expect(state).toEqual(expectedState);
+      expect(testSubReducer).toHaveBeenCalledWith(undefined, action);
+    });
   });
 
   describe('remove action', () => {

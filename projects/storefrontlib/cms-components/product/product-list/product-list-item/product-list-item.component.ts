@@ -12,7 +12,6 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -40,10 +39,7 @@ export class ProductListItemComponent implements OnChanges {
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
-  ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
-    useFeatureStyles('a11yVisibleFocusOverflows');
-  }
+  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.product) {

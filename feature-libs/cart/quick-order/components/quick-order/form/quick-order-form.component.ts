@@ -63,7 +63,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
   ) {
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
     useFeatureStyles('a11yPreventSRFocusOnHiddenElements');
   }
 

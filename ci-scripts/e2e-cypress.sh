@@ -7,11 +7,31 @@ POSITIONAL=()
 readonly help_display="Usage: $0 [ command_options ] [ param ]
 
     command options:
-        --suite, -s                             e2e suite to run (b2c, b2b, cds, flaky). Default: b2c
+        --suite, -s                             e2e suite to run (b2c, b2b, cds, flaky, a11y). Default: b2c
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
 "
+
+display_a11y_docs_link() {
+    echo ""
+    echo -e "\033[31m⚠️  Accessibility tests failed\033[0m"
+    echo -e "\033[33mℹ️  For guidance on resolving issues, see:\033[0m"
+    echo -e "\033[36m🔗 https://wiki.one.int.sap/wiki/display/spar/Spartacus+Accessibility+Feature+Compliance\033[0m"
+    echo ""
+}
+
+
+# Function to run a11y tests and print documentation link if they fail
+run_a11y_tests_with_docs_on_failure() {
+    if npm run e2e:run:ci:a11y; then
+        return 0
+    else
+        display_a11y_docs_link
+        return 1
+    fi
+}
+
 
 while [ "${1:0:1}" == "-" ]; do
     case "$1" in
@@ -75,7 +95,7 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-npm run build
+npm run build:csr #csr build is necessary here, npm run build creates index.csr.html which cannot be found by http-server
 
 is_bot_commit() {
     LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
@@ -139,8 +159,13 @@ else
             echo "Running full Cypress end-to-end tests for epic branch"
             npm run e2e:run:ci"${SUITE}"
         else
-            echo "Running core Cypress end-to-end tests for pull requests"
-            npm run e2e:run:ci:core"${SUITE}"
+            if [[ "${SUITE}" == ":a11y" ]]; then
+                echo "Running a11y Cypress end-to-end tests for pull requests"
+                run_a11y_tests_with_docs_on_failure
+            else
+                echo "Running core Cypress end-to-end tests for pull requests"
+                npm run e2e:run:ci:core"${SUITE}"
+            fi
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
@@ -151,10 +176,18 @@ else
             npm run e2e:run:ci:core"${SUITE}"
         else
             echo "Running full Cypress end-to-end tests"
-            npm run e2e:run:ci"${SUITE}"
+            if [[ "${SUITE}" == ":a11y" ]]; then
+                run_a11y_tests_with_docs_on_failure
+            else
+                npm run e2e:run:ci"${SUITE}"
+            fi
         fi
     else
         echo "Running full Cypress end-to-end tests"
-        npm run e2e:run:ci"${SUITE}"
+        if [[ "${SUITE}" == ":a11y" ]]; then
+            run_a11y_tests_with_docs_on_failure
+        else
+            npm run e2e:run:ci"${SUITE}"
+        fi
     fi
 fi

@@ -96,6 +96,16 @@ export class ConfiguratorGroupComponent {
   }
 
   /**
+   * Creates unique key for config attribute on the UI
+   *
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId
+   */
+  createAttributeUiKey(prefix: string, attributeId: string): string {
+    return this.configUtils.createAttributeUiKey(prefix, attributeId);
+  }
+
+  /**
    * Retrieves information whether the expert mode is active.
    *
    * @returns {Observable<boolean> | undefined } - 'True' if the expert mode is active, otherwise 'false'.

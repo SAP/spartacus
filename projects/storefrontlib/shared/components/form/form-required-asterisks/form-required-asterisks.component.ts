@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 
 /**
  * Renders translated form required asteriks component.
@@ -16,7 +16,7 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
   templateUrl: './form-required-asterisks.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, FeaturesConfigModule, I18nModule],
+  imports: [CommonModule, I18nModule],
 })
 export class FormRequiredAsterisksComponent {
   /**

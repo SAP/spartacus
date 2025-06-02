@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -14,6 +14,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 import { OrderOverviewComponentService } from './order-overview-component.service';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-card',
@@ -23,6 +24,14 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
 class MockCardComponent {
   @Input()
   content: Card;
+}
+
+@Pipe({
+  name: 'cxUrl',
+  standalone: false,
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
 }
 
 const mockDeliveryAddress: Address = {
@@ -154,7 +163,12 @@ describe('OrderOverviewComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [OrderOverviewComponent, MockCardComponent],
+      declarations: [
+        OrderOverviewComponent,
+        MockCardComponent,
+        MockUrlPipe,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -551,5 +565,25 @@ describe('OrderOverviewComponent', () => {
         undefined
       );
     });
+  });
+
+  it('should render quote code in UI', () => {
+    component.order$ = of({ ...mockOrder, sapQuoteCode: '12345' });
+    fixture.detectChanges();
+    const quoteContainer =
+      fixture.nativeElement.querySelector('#quote-container');
+    expect(quoteContainer).not.toBeNull();
+    const quoteTemplate = quoteContainer.querySelector('.cx-card-title');
+    expect(quoteTemplate.textContent).toContain('12345');
+    const quoteLink = quoteContainer.querySelector('.cx-card-actions');
+    expect(quoteLink.innerText).toEqual('orderDetails.quoteDetail');
+  });
+
+  it('should not render quote code in UI', () => {
+    component.order$ = of({ ...mockOrder });
+    fixture.detectChanges();
+    const quoteContainer =
+      fixture.nativeElement.querySelector('#quote-container');
+    expect(quoteContainer).toBeNull();
   });
 });

@@ -97,6 +97,7 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ProductImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { PunchoutFeatureModule } from './features/punchout/punchout-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -151,6 +152,9 @@ if (environment.s4om) {
 }
 if (environment.opf) {
   featureModules.push(OpfFeatureModule);
+}
+if (environment.punchout) {
+  featureModules.push(PunchoutFeatureModule);
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
@@ -293,81 +297,42 @@ if (environment.cpq) {
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
-        showDownloadProposalButton: false,
+        showOrderQuoteLink: false,
         searchBoxV2: false,
         trendingSearches: false,
-        pdfInvoicesSortByInvoiceDate: true,
         useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         productConfiguratorDeltaRendering: true,
-        a11yRequiredAsterisks: true,
-        a11yQuantityOrderTabbing: true,
-        a11yNavigationUiKeyboardControls: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
-        a11yOrderConfirmationHeadingOrder: true,
-        a11yStarRating: true,
-        a11yViewChangeAssistiveMessage: true,
         a11yPreventHorizontalScroll: true,
-        a11yReorderDialog: true,
-        a11yPopoverFocus: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yScheduleReplenishment: true,
-        a11yScrollToTop: true,
-        a11ySavedCartsZoom: true,
-        a11ySortingOptionsTruncation: true,
-        a11yExpandedFocusIndicator: true,
-        a11yCheckoutDeliveryFocus: true,
-        a11yMobileVisibleFocus: true,
-        a11yOrganizationsBanner: true,
-        a11yOrganizationListHeadingOrder: true,
         a11yCartImportConfirmationMessage: true,
         a11yAnonymousConsentMessageInDialog: true,
-        a11yReplenishmentOrderFieldset: true,
-        a11yListOversizedFocus: true,
-        a11yStoreFinderOverflow: true,
         a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11yCartSummaryHeadingOrder: true,
-        a11ySearchBoxMobileFocus: true,
-        a11yFacetKeyboardNavigation: true,
-        a11yUnitsListKeyboardControls: true,
         a11ySearchboxLabel: true,
-        a11yCartItemsLinksStyles: true,
         a11yStyleExternalLinksAsLinks: true,
-        a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-        a11yFocusableCarouselControls: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
-        cmsGuardsServiceUseGuardsComposer: true,
-        cartQuickOrderRemoveListeningToFailEvent: true,
         a11yKeyboardAccessibleZoom: true,
         a11yOrganizationLinkableCells: true,
         a11yPreventSRFocusOnHiddenElements: true,
-        a11yVisibleFocusOverflows: true,
-        a11yTruncatedTextForResponsiveView: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11ySemanticPaginationLabel: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yMyAccountLinkOutline: true,
-        a11yCloseProductImageBtnFocus: true,
         a11yNotificationPreferenceFieldset: true,
         a11yImproveContrast: true,
-        a11yEmptyWishlistHeading: true,
         a11yScreenReaderBloatFix: true,
-        a11yUseButtonsForBtnLinks: true,
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
         a11yNotificationsOnConsentChange: true,
         a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
           true,
-        a11yFacetsDialogFocusHandling: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
         a11yStoreFinderAlerts: true,
@@ -444,10 +409,13 @@ if (environment.cpq) {
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        a11yNgSelectAriaControls: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
+        storeFinderFacadeCleanup: true,
       };
       return appFeatureToggles;
     }),

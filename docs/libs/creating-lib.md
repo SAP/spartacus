@@ -36,6 +36,12 @@ These are some naming guidelines for libraries:
 
 Run `nx g @schematics/angular:library <lib-name> --prefix=cx`, move it to the appropriate directory (`feature-libs` or `integration-libs`), and commit.
 
+After creating your library, please run npm install to update `package-lock.json` with information about the new lib. Then please commit changes in the `package-lock.json`.
+
+Note: The npm workspaces feature will create symlinks between the source code folder of your lib and their virtual representations inside `node_modules/@spartacus/<your lib>`. It's needed for symbolic import paths in SCSS to work, e.g. `@import '@spartacus/cart/x/y/z'`
+
+Note 2: If you can't see any changes in `package-lock.json` after adding your library and running npm install, it might be the case that your library folder created outside of the registered npm workspaces. Please make sure your library folder is placed in side one of the directories listed in the "workspaces" property of the main `/package.json` of our monorepo.
+
 ## Aligning with the other libs
 
 In order to be 100% aligned with the existing Spartacus library there are some generated files that should be updated and there are some files that need to be additionally created. Make sure that the `src` folder would not exist in the newly generated library.
@@ -201,8 +207,8 @@ Use the following template:
   "keywords": ["spartacus", "framework", "storefront", "TODO:"],
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "publishConfig": {
@@ -346,7 +352,6 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 - `projects/schematics/package.json` - add the library to the package group
 
 - `ci-scripts/unit-tests.sh`
-
 
 ### Sample data release entry ONLY if applicable
 

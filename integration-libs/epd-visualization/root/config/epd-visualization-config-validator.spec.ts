@@ -106,22 +106,6 @@ describe('epdVisualizationConfigValidator', () => {
     });
   });
 
-  it('should warn about an invalid product UsageId source', () => {
-    negativeTest((config) => {
-      if (config.epdVisualization?.usageIds) {
-        config.epdVisualization.usageIds.productUsageId.source = '';
-      }
-    });
-  });
-
-  it('should warn about an invalid product UsageId category', () => {
-    negativeTest((config) => {
-      if (config.epdVisualization?.usageIds) {
-        config.epdVisualization.usageIds.productUsageId.category = '';
-      }
-    });
-  });
-
   it('should warn about an invalid product UsageId keyName', () => {
     negativeTest((config) => {
       if (config.epdVisualization?.usageIds) {

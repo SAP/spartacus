@@ -18,14 +18,10 @@
   .carousel-panel {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     @include forFeature('a11yAddPaddingToCarouselPanel') {
       padding: 0 0.375rem;
-    }
-
-    // TODO: (CXSPA-6904) - Remove feature flag next major release
-    @include forFeature('a11yFocusableCarouselControls') {
-      align-items: center;
     }
 
     // The size of carousel items depends on the number of items per slide.
@@ -92,31 +88,15 @@
   }
 
   button {
-    &:focus {
-      outline: none;
-
-      // TODO: (CXSPA-6904) - Remove feature flag next major release
-      @include forFeature('a11yFocusableCarouselControls') {
-        @include visible-focus();
-      }
-      @include forFeature('a11yVisibleFocusOverflows') {
-        z-index: 10;
-      }
-    }
     color: var(--cx-color-inverse);
 
-    // TODO: (CXSPA-6904) - Remove all styles with disabled selector
-    &:not(:disabled) {
-      cursor: pointer;
+    &:focus {
+      @include visible-focus();
+      z-index: 10;
     }
 
-    @include forFeature('a11yFocusableCarouselControls') {
-      &:not(:disabled) {
-        cursor: unset;
-      }
-      &[aria-disabled='false'] {
-        cursor: pointer;
-      }
+    &[aria-disabled='false'] {
+      cursor: pointer;
     }
   }
 
@@ -132,17 +112,6 @@
       font-size: var(--cx-font-size, 0.875rem);
       padding: 10px;
 
-      &[disabled] {
-        .cx-icon {
-          color: var(--cx-color-primary);
-          background-color: var(--cx-color-inverse);
-          padding: 2px;
-        }
-      }
-      &:not(:disabled):hover {
-        color: var(--cx-color-primary-accent);
-      }
-
       .cx-icon {
         color: var(--cx-color-inverse);
         border: 4px solid var(--cx-color-primary);
@@ -150,23 +119,21 @@
         background-color: var(--cx-color-inverse);
       }
 
-      // TODO: (CXSPA-6904) - Remove feature flag next major release
-      @include forFeature('a11yFocusableCarouselControls') {
-        &[aria-disabled='true'] {
-          .cx-icon {
-            color: var(--cx-color-primary);
-            background-color: var(--cx-color-inverse);
-            padding: 2px;
-          }
+      &[aria-disabled='true'] {
+        .cx-icon {
+          color: var(--cx-color-primary);
+          background-color: var(--cx-color-inverse);
+          padding: 2px;
         }
+      }
 
-        &:not([aria-disabled='true']):hover {
-          color: var(--cx-color-primary-accent);
-        }
+      &:not([aria-disabled='true']):hover {
+        color: var(--cx-color-primary-accent);
+      }
 
-        &:focus {
-          outline-offset: -5px;
-        }
+      &:focus {
+        transition: none;
+        outline-offset: -5px;
       }
     }
 
@@ -182,26 +149,12 @@
     font-size: 2rem;
     color: var(--cx-color-primary);
 
-    &:disabled {
+    &[aria-disabled='true'] {
       opacity: 0.5;
     }
 
-    &:not(:disabled):hover {
+    &[aria-disabled='false']:hover {
       color: var(--cx-color-primary-accent);
-    }
-
-    @include forFeature('a11yFocusableCarouselControls') {
-      &:not(:disabled):hover {
-        color: var(--cx-color-primary);
-      }
-
-      &[aria-disabled='true'] {
-        opacity: 0.5;
-      }
-
-      &[aria-disabled='false']:hover {
-        color: var(--cx-color-primary-accent);
-      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -214,12 +167,6 @@
       button {
         background-color: var(--cx-color-background);
       }
-    }
-
-    .indicators button[disabled] .cx-icon {
-      color: var(--cx-color-dark);
-      background-color: var(--cx-color-light);
-      padding: 4px;
     }
 
     .indicators button[aria-disabled='true'] {
