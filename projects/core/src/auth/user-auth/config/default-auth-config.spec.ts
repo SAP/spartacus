@@ -8,9 +8,9 @@ import {
 const expectedAuthorizationCodeDefault: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
-    tokenEndpoint: '/authserver/oauth2/token',
-    revokeEndpoint: '/authserver/oauth2/revoke',
-    loginUrl: '/authserver/oauth2/authorize',
+    tokenEndpoint: '/oauth/token',
+    revokeEndpoint: '/oauth/revoke',
+    loginUrl: '/oauth/authorize',
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],
@@ -24,6 +24,7 @@ const expectedAuthorizationCodeDefault: AuthConfig = {
   },
 };
 
+/** Legacy JDK17 configuration */
 const expectedResourceOwnerDefault: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
@@ -31,6 +32,7 @@ const expectedResourceOwnerDefault: AuthConfig = {
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
+    sendAuthHeaderOnRevoke: true,
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],

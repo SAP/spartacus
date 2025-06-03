@@ -83,6 +83,13 @@ export class AuthConfigService {
   }
 
   /**
+   * Determines if an authorization header should be sent with revoke requests.
+   */
+  public sendAuthHeaderOnRevoke() {
+    return !!this.config?.sendAuthHeaderOnRevoke;
+  }
+
+  /**
    * Returns logout url to redirect to on logout.
    */
   public getLogoutUrl(): string {
