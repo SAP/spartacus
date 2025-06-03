@@ -95,7 +95,7 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-npm run build
+npm run build:csr #csr build is necessary here, npm run build creates index.csr.html which cannot be found by http-server
 
 is_bot_commit() {
     LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')

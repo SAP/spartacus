@@ -31,6 +31,7 @@ import { StockLocationSearchParams } from '../model';
         'getSearchResults',
         'getStockLevelAtStore',
         'getStoreDetails',
+        'loadAndGetStoreDetails',
         'hasSearchStarted',
         'isSearchRunning',
         'loadStoreDetails',
@@ -62,4 +63,5 @@ export abstract class PickupLocationsSearchFacade {
 
   abstract getStoreDetails(name: string): Observable<PointOfService>;
   abstract loadStoreDetails(name: string): void;
+  abstract loadAndGetStoreDetails(name: string): Observable<PointOfService>;
 }

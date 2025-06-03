@@ -790,6 +790,14 @@ export interface FeatureTogglesInterface {
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
+
+  /**
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
+   * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
+   */
+  storeFinderFacadeCleanup?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -910,4 +918,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
+  storeFinderFacadeCleanup: false,
 };

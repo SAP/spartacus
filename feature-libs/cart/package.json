@@ -16,8 +16,8 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/cart",
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "scripts": {

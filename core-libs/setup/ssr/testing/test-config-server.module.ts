@@ -43,7 +43,7 @@ export class TestConfigServerModule {
           provide: TEST_CONFIG,
           useFactory: () => {
             const cookieName: string = inject(TEST_CONFIG_COOKIE_NAME);
-            const request = inject(REQUEST);
+            const request = inject(REQUEST, { optional: true });
             if (request && cookieName) {
               const cookie = request.get('Cookie') ?? '';
               const config = getCookie(cookie, cookieName);
