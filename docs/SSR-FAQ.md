@@ -56,7 +56,7 @@ When the incoming HTTP request awaits for the Server-Side Rendered HTML for too 
 
 It's the `timeout` property of the `SsrOptimizationOptions` defined in `server.ts` that controls the max time the SSR server will wait for the Server-Side Rendered HTML. By default it's 3 seconds in customer's apps. It's an important performance optimization for customer's production apps. But for development purposes this timeout mechanism is not needed, therefore it has a generous value of 30 seconds in our repo in `package.json` scripts like `serve:ssr:watch`, `serve:ssr:dev` (and transitively `dev:ssr`) by passing `SSR_TIMEOUT=30000` environment variable.
 
-2. SSR server overloaded because of too many pending renderings
+2. SSR server is overloaded because of too many pending renderings
 When there are too many requests and renderings in parallel for the SSR server, it will refuse to perform the full Server-Side Rendering, to prevent the server from being overwhelmed (and from slowing down the response time). In this case, the SSR server will fallback to CSR for new incoming requests.
 
 It's the `concurrency` property of the `SsrOptimizationOptions` defined in `server.ts` (by default implicitly set to `10`) controls the max number of concurrent renderings in the SSR server
