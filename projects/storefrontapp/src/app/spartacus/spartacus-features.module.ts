@@ -293,6 +293,7 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
+        showDownloadProposalButton: true,
         formErrorsDescriptiveMessages: true,
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
