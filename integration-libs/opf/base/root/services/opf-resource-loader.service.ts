@@ -22,6 +22,9 @@ export class OpfResourceLoaderService {
   protected document = inject(DOCUMENT);
   protected platformId = inject(PLATFORM_ID);
 
+  // Store backend response time to include in total calculation
+  static backendResponseTime: number = 0;
+
   protected readonly CORS_DEFAULT_VALUE = 'anonymous';
   protected readonly OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY = 'opf-load-once';
   protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
@@ -33,7 +36,14 @@ export class OpfResourceLoaderService {
     callback?: EventListener;
     errorCallback: EventListener;
   }): void {
+    const startTime = performance.now();
     const { attributes, src, sri, callback, errorCallback } = embedOptions;
+
+    // Get resource URL for performance timing
+    const resourceUrl = new URL(src, window.location.href).toString();
+
+    // eslint-disable-next-line no-console
+    console.log(`[OPF Resource Loader] Starting to load stylesheet: ${src}`);
 
     const link: HTMLLinkElement = this.document.createElement('link');
     link.href = src;
@@ -53,11 +63,53 @@ export class OpfResourceLoaderService {
       });
 
     if (callback) {
-      link.addEventListener('load', callback);
+      link.addEventListener('load', () => {
+        const loadTime = performance.now() - startTime;
+        const resourceTimingAfterLoad = performance.getEntriesByName(
+          resourceUrl,
+          'resource'
+        );
+        const networkTiming = resourceTimingAfterLoad[
+          resourceTimingAfterLoad.length - 1
+        ] as PerformanceResourceTiming;
+
+        const networkMetrics = networkTiming
+          ? {
+              dnsLookup:
+                networkTiming.domainLookupEnd - networkTiming.domainLookupStart,
+              tcpConnection:
+                networkTiming.connectEnd - networkTiming.connectStart,
+              requestTime:
+                networkTiming.responseEnd - networkTiming.requestStart,
+              totalNetworkTime:
+                networkTiming.responseEnd - networkTiming.startTime,
+            }
+          : null;
+
+        console.log(`[OPF Resource Loader] Stylesheet loaded: ${src}`, {
+          totalLoadTime: `${loadTime.toFixed(2)}ms`,
+          networkMetrics: networkMetrics
+            ? {
+                dnsLookup: `${networkMetrics.dnsLookup.toFixed(2)}ms`,
+                tcpConnection: `${networkMetrics.tcpConnection.toFixed(2)}ms`,
+                requestTime: `${networkMetrics.requestTime.toFixed(2)}ms`,
+                totalNetworkTime: `${networkMetrics.totalNetworkTime.toFixed(2)}ms`,
+              }
+            : 'Not available',
+        });
+        callback(new Event('load'));
+      });
     }
 
     if (errorCallback) {
-      link.addEventListener('error', errorCallback);
+      link.addEventListener('error', (error) => {
+        const errorTime = performance.now() - startTime;
+        console.error(
+          `[OPF Resource Loader] Failed to load stylesheet: ${src} (${errorTime.toFixed(2)}ms)`,
+          error
+        );
+        errorCallback(error);
+      });
     }
 
     this.document.head.appendChild(link);
@@ -106,6 +158,16 @@ export class OpfResourceLoaderService {
 
   protected loadScript(resource: OpfDynamicScriptResource): Promise<void> {
     return new Promise((resolve, reject) => {
+      const startTime = performance.now();
+      const resourceUrl = resource.url
+        ? new URL(resource.url, window.location.href).toString()
+        : '';
+
+      // eslint-disable-next-line no-console
+      console.log(
+        `[OPF Resource Loader] Starting to load payment resource: ${resource.url}`
+      );
+
       const attributes: { [key: string]: string } = {
         type: 'text/javascript',
         ...this.createAttributesList(resource.attributes),
@@ -121,11 +183,55 @@ export class OpfResourceLoaderService {
         this.scriptLoader.embedScript({
           attributes,
           src: resource.url,
-          callback: () => resolve(),
-          errorCallback: () => reject(),
+          callback: () => {
+            const loadTime = performance.now() - startTime;
+            if (resourceUrl) {
+              const resourceTiming = performance.getEntriesByName(
+                resourceUrl,
+                'resource'
+              );
+              const networkTiming = resourceTiming[
+                resourceTiming.length - 1
+              ] as PerformanceResourceTiming;
+
+              // eslint-disable-next-line no-console
+              console.log(
+                `[OPF Resource Loader] Payment resource loaded: ${resource.url}`,
+                {
+                  totalTime: `${loadTime.toFixed(0)}ms`,
+                  networkMetrics: networkTiming
+                    ? {
+                        dnsLookup: `${(networkTiming.domainLookupEnd - networkTiming.domainLookupStart).toFixed(0)}ms`,
+                        tcpConnection: `${(networkTiming.connectEnd - networkTiming.connectStart).toFixed(0)}ms`,
+                        downloadTime: `${(networkTiming.responseEnd - networkTiming.responseStart).toFixed(0)}ms`,
+                        totalNetworkTime: `${(networkTiming.responseEnd - networkTiming.startTime).toFixed(0)}ms`,
+                        resourceSize: `${(networkTiming.transferSize / 1024).toFixed(1)}KB`,
+                      }
+                    : 'Not available',
+                }
+              );
+            }
+            resolve();
+          },
+          errorCallback: (error) => {
+            const errorTime = performance.now() - startTime;
+            // eslint-disable-next-line no-console
+            console.error(
+              `[OPF Resource Loader] Failed to load payment resource: ${resource.url}`,
+              {
+                errorTime: `${errorTime.toFixed(0)}ms`,
+                error,
+              }
+            );
+            reject();
+          },
           disableKeyRestriction: true,
         });
       } else {
+        // eslint-disable-next-line no-console
+        console.log(
+          `[OPF Resource Loader] Payment resource already loaded: ${resource.url}`
+        );
         resolve();
       }
     });
@@ -187,8 +293,18 @@ export class OpfResourceLoaderService {
     scripts: OpfDynamicScriptResource[] = [],
     styles: OpfDynamicScriptResource[] = []
   ): Promise<void> {
+    const startTime = performance.now();
+    // eslint-disable-next-line no-console
+    console.log('[OPF Payment] Starting payment form initialization', {
+      scriptCount: scripts.length,
+      styleCount: styles.length,
+      totalResources: scripts.length + styles.length,
+    });
+
     // SSR mode not supported for security concerns
     if (isPlatformServer(this.platformId)) {
+      // eslint-disable-next-line no-console
+      console.log('[OPF Payment] Skipping resource loading in SSR mode');
       return Promise.resolve();
     }
 
@@ -204,6 +320,8 @@ export class OpfResourceLoaderService {
     ];
 
     if (!resources.length) {
+      // eslint-disable-next-line no-console
+      console.log('[OPF Payment] No payment resources to load');
       return Promise.resolve();
     }
 
@@ -224,6 +342,21 @@ export class OpfResourceLoaderService {
       }
     );
 
-    return Promise.all(resourcesPromises).then(() => {});
+    return Promise.all(resourcesPromises).then(() => {
+      const resourceLoadTime = performance.now() - startTime;
+      const totalTime =
+        resourceLoadTime + OpfResourceLoaderService.backendResponseTime;
+
+      // eslint-disable-next-line no-console
+      console.log('[OPF Payment] Payment form initialization completed', {
+        backendResponseTime: `${(OpfResourceLoaderService.backendResponseTime / 1000).toFixed(2)}s`,
+        resourceLoadTime: `${(resourceLoadTime / 1000).toFixed(2)}s`,
+        totalTime: `${(totalTime / 1000).toFixed(2)}s`,
+        resourceCount: resources.length,
+      });
+
+      // Reset backend response time for next initialization
+      OpfResourceLoaderService.backendResponseTime = 0;
+    });
   }
 }

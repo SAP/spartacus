@@ -40,7 +40,8 @@ import {
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { OpfResourceLoaderService } from '@spartacus/opf/base/root';
 
 @Injectable()
 export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
@@ -52,6 +53,7 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     OpfMetadataStatePersistanceService
   );
   protected logger = inject(LoggerService);
+  protected resourceLoader = inject(OpfResourceLoaderService);
 
   protected headerWithNoLanguage: { [name: string]: string } = {
     accept: 'application/json',
@@ -183,6 +185,10 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
   initiatePayment(
     paymentConfig: OpfPaymentInitiationConfig
   ): Observable<OpfPaymentSessionData> {
+    const startTime = performance.now();
+    // eslint-disable-next-line no-console
+    console.log('[OPF Payment] Waiting for payment initialization response...');
+
     const headers = new HttpHeaders({
       'Accept-Language':
         this.opfMetadataStatePersistanceService.getActiveLanguage(),
@@ -203,7 +209,22 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     return this.http
       .post<OpfPaymentSessionData>(url, paymentConfig?.config, { headers })
       .pipe(
+        tap(() => {
+          const waitTime = performance.now() - startTime;
+          // Store backend response time for total calculation
+          OpfResourceLoaderService.backendResponseTime = waitTime;
+          // eslint-disable-next-line no-console
+          console.log(
+            `[OPF Payment] Backend response received after ${(waitTime / 1000).toFixed(2)}s`
+          );
+        }),
         catchError((error) => {
+          const waitTime = performance.now() - startTime;
+          // eslint-disable-next-line no-console
+          console.error(
+            `[OPF Payment] Backend request failed after ${(waitTime / 1000).toFixed(2)}s`,
+            error
+          );
           throw tryNormalizeHttpError(error, this.logger);
         })
       );
