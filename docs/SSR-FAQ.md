@@ -53,7 +53,7 @@ When starting Spartacus SSR with npm `run dev:ssr`, you may encounter the follow
 FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
 ```
 
-This issue occurs because the default memory limit for Node.js has been exceeded. To resolve this, you can increase the memory allocation by running the following shell command:
+This issue occurs because the default memory limit for Node.js has been exceeded. To resolve this, you can increase the memory allocation by running the following shell command. For convenience, you can put this command to your `~/.bashrc` (or `~/.zshrc`) and reopen your terminal. Thanks to this, you'll never need to remember to run this command manually again, because it will run automatically on the startup of your terminal:
 
 `export NODE_OPTIONS="$NODE_OPTIONS --max-old-space-size=8192"`
 
