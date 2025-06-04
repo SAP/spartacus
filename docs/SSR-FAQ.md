@@ -55,6 +55,6 @@ FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memor
 
 This issue occurs because the default memory limit for Node.js has been exceeded. To resolve this, you can increase the memory allocation by running the following shell command:
 
-`export NODE_OPTIONS="--max-old-space-size=8192"`
+`export NODE_OPTIONS="$NODE_OPTIONS --max-old-space-size=8192"`
 
 This command sets the maximum memory limit for Node.js to 8192 MB (8 GB), allowing the SSR server to run without memory-related issues.
