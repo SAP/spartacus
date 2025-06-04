@@ -29,6 +29,14 @@ module.exports = (on, config) => {
     },
   });
 
+  on('before:browser:launch', (browser, launchOptions) => {
+    if (browser.name === 'chrome') {
+    // Disable Chrome Reading mode - mainly to resolve CXSPA-9374 issue with multi-dimensional checkout as guest spec running in Chrome
+      launchOptions.args.push('--disable-reader-mode');
+    }
+    return launchOptions;
+  });
+
   /* Set exact timestamp to be shared in all spec files */
   config.env.TIMESTAMP = Date.now() - 1535535333333;
 
