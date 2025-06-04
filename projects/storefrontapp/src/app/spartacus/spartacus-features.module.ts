@@ -418,6 +418,7 @@ if (environment.cpq) {
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
       };
       return appFeatureToggles;
     }),
