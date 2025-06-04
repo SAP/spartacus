@@ -17,6 +17,7 @@
     "node": "^22.0.0"
   },
   "scripts": {
+    "postinstall": "ts-node scripts/npm-postinstall/patch-@angular-build-19.0.4.ts",
     "build:analyze": "npm run build -- --stats-json && npx esbuild-visualizer --metadata ./dist/storefrontapp/stats.json",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:build",
     "watch": "npm run build -- --watch --configuration development",
