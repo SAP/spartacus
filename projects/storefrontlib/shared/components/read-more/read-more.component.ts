@@ -12,7 +12,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, Translatable } from '@spartacus/core';
 
 /**
  * Wraps the provided input text in a Read More / Read Less component, truncating input to maxLength
@@ -28,9 +28,9 @@ import { I18nModule } from '@spartacus/core';
 })
 export class ReadMoreComponent implements OnChanges {
   // Read More label translation key
-  @Input() readMoreI18nKey?: string = 'common.readMore';
+  @Input() readMoreI18nKey?: string | Translatable = 'common.readMore';
   // Read Less label translation key
-  @Input() readLessI18nKey?: string = 'common.readLess';
+  @Input() readLessI18nKey?: string | Translatable = 'common.readLess';
   // Text length that, when exceeded, triggers truncation and adds a Read More link.
   @Input() maxLength = 300;
   // Text to be rendered (decorated with Read More/Read Less links)
