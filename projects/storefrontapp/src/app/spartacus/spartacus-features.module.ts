@@ -297,7 +297,6 @@ if (environment.cpq) {
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        showOrderQuoteLink: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
