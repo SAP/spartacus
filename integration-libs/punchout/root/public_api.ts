@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './config/index';
 export * from './facade/index';
 export * from './feature-name';
 export * from './model/index';
 export * from './punchout.root.module';
 export * from './services/index';
+export * from './guards/index';
