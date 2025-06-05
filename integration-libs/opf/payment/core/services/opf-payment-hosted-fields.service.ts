@@ -168,7 +168,6 @@ export class OpfPaymentHostedFieldsService {
       onFailure: OpfPaymentMerchantCallback;
     }
   ): Observable<Order> {
-    console.log('paymentResponseHandler', response);
     if (
       response.status === OpfPaymentSubmitStatus.ACCEPTED ||
       response.status === OpfPaymentSubmitStatus.DELAYED
