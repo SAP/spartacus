@@ -1,6 +1,10 @@
 @import './progress-bar';
 
 %cx-storefront {
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
+
   display: flex;
   flex-direction: column;
   min-height: 100vh;
