@@ -35,7 +35,7 @@
           {{ 'quote.links.download' | cxTranslate }}
         </button>
       </li>
-      <ng-container *cxFeature="'showOrderQuoteLink'">
+      <ng-container *ngIf="orderConfig.showOrderQuoteLink">
         <li *ngIf="quoteDetails.sapOrderCode">
           <a
             [attr.aria-label]="'quote.links.a11y.order' | cxTranslate"

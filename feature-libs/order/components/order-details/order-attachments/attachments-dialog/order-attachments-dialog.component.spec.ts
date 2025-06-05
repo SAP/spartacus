@@ -22,7 +22,7 @@ import {
   OrderAttachments,
   OrderAttachmentsFacade,
 } from '@spartacus/order/root';
-import { OrderAttachmentsConfig } from '@spartacus/order/root';
+import { OrderConfig } from '@spartacus/order/root';
 
 const orderCode = '00001004';
 
@@ -53,7 +53,7 @@ const notConfiguredMimeTypeBlob = new Blob(['mock data'], {
 });
 const mockUrl = 'blob:http://localhost/mock-url';
 
-const mockConfig: OrderAttachmentsConfig = {
+const mockConfig: OrderConfig = {
   orderAttachments: {
     previewMimeTypes: ['application/pdf'],
   },

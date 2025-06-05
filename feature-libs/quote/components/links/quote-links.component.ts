@@ -10,6 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
+import { OrderConfig } from '@spartacus/order/root';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -30,6 +31,7 @@ export class QuoteLinksComponent {
   protected eventService = inject(EventService);
   protected fileDownloadService = inject(FileDownloadService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected orderConfig = inject(OrderConfig);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
