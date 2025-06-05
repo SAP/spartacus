@@ -24,6 +24,7 @@ import {
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
+  OrderConfig,
   ReturnRequest,
   ReturnRequestEntryInputList,
 } from '@spartacus/order/root';
@@ -44,6 +45,12 @@ const consignmentCode = 'a00001004';
 
 const returnRequest: ReturnRequest = { rma: 'test return request' };
 
+const mockOrderConfig = {
+  get showOrderQuoteLink() {
+    return false;
+  },
+};
+
 describe('OccOrderHistoryAdapter', () => {
   let occOrderHistoryAdapter: OccOrderHistoryAdapter;
   let httpMock: HttpTestingController;
@@ -60,6 +67,7 @@ describe('OccOrderHistoryAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        { provide: OrderConfig, useValue: mockOrderConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -126,10 +134,6 @@ describe('OccOrderHistoryAdapter', () => {
 
   describe('getOrder', () => {
     it('should fetch a single order without quote code', waitForAsync(() => {
-      spyOn(
-        (occOrderHistoryAdapter as any).featureConfigService,
-        'isEnabled'
-      ).and.returnValue(false);
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -145,11 +149,12 @@ describe('OccOrderHistoryAdapter', () => {
       );
     }));
     it('should fetch a single order', waitForAsync(() => {
-      spyOn(occFieldsService, 'getOptimalUrlGroups').and.callThrough();
-      spyOn(
-        (occOrderHistoryAdapter as any).featureConfigService,
-        'isEnabled'
+      spyOnProperty(
+        mockOrderConfig,
+        'showOrderQuoteLink',
+        'get'
       ).and.returnValue(true);
+      spyOn(occFieldsService, 'getOptimalUrlGroups').and.callThrough();
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
