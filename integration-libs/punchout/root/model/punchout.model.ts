@@ -4,15 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const PUNCHOUT_SESSION_KEY = 'sid';
-export const PUNCHOUT_SESSION_ID = 'punchoutSessionId';
-export const PUNCHOUT_SESSION_PAGE_URL = '/punchout/cxml/session';
-export const PUNCHOUT_REQUISITION_PAGE_URL = '/punchout/cxml/requisition';
-export const PUNCHOUT_INSPECT_PAGE_URL = '/punchout/cxml/inspect';
-export const PUNCHOUT_STORAGE_KEY = 'punchout';
-export const PUNCHOUT_OCC_API_URL_SEGMENT = 'punchout/sessions';
-export const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
-
 export enum PunchOutLevel {
   STORE = 'STORE',
   PRODUCT = 'PRODUCT',
@@ -55,11 +46,3 @@ export interface PunchoutState {
   closePunchoutSession?: boolean;
   punchoutInitialRequisition?: PunchoutRequisition;
 }
-
-export type PunchoutNavigationGuardConfig = {
-  [key in PunchOutOperation]: {
-    allowedUrls?: string[];
-    allowedCxRoutes?: string[];
-    redirectPage: string;
-  };
-};

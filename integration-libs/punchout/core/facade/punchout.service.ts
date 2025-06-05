@@ -15,8 +15,6 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_INSPECT_PAGE_URL,
-  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchoutFacade,
   PunchOutLevel,
   PunchOutOperation,
@@ -114,14 +112,15 @@ export class PunchoutService implements PunchoutFacade {
    * getPunchoutRequisition workflow:
    * Ensure user is logged-in
    * get punchoutSessionId from PunchoutState
+   * Redirect user to homePage if method is called from Requisition page manual navigation
    * Get PunchoutSessionRequisition from  occ api OR from PunchoutState
    * Redirect to Punchout Error page if error occurs
    */
 
   protected getPunchoutRequisitionCommand: Command<
-    undefined,
+    boolean,
     PunchoutRequisition
-  > = this.commandService.create(() => {
+  > = this.commandService.create((isInitialRequisition: boolean) => {
     return this.punchoutAuthService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
         return isLoggedIn
@@ -131,13 +130,16 @@ export class PunchoutService implements PunchoutFacade {
       take(1),
       switchMap((punchoutState: PunchoutState) => {
         // prevent manual navigation to requisition page
+        // isInitialRequisition handles use case where this method is called out of Requisition page,
+        // when fetching the initial requisition object from setPunchoutInitialRequisition().
         if (
+          !isInitialRequisition &&
           punchoutState?.closePunchoutSession === undefined &&
           punchoutState?.cancelRequisition === undefined
         ) {
           this.globalMessageService.add(
             {
-              key: 'organization.notification.noSufficientPermissions',
+              key: 'punchout.noSufficientPermissions',
             },
             GlobalMessageType.MSG_TYPE_WARNING
           );
@@ -262,14 +264,16 @@ export class PunchoutService implements PunchoutFacade {
     return this.closePunchoutSessionCommand.execute(undefined);
   }
 
-  getPunchoutSession(
+  initPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession> {
     return this.getPunchoutSessionCommand.execute(punchoutSessionInput);
   }
 
-  getPunchoutSessionRequisition(): Observable<PunchoutRequisition | undefined> {
-    return this.getPunchoutRequisitionCommand.execute(undefined);
+  getPunchoutSessionRequisition(
+    isInitialRequisition = false
+  ): Observable<PunchoutRequisition | undefined> {
+    return this.getPunchoutRequisitionCommand.execute(isInitialRequisition);
   }
 
   logoutPunchoutUser(): Observable<boolean> {
@@ -309,7 +313,7 @@ export class PunchoutService implements PunchoutFacade {
       return;
     }
     if (punchoutSession?.punchOutOperation === PunchOutOperation.INSPECT) {
-      this.routingService.go(PUNCHOUT_INSPECT_PAGE_URL);
+      this.routingService.go({ cxRoute: 'punchoutInspect' });
       return;
     }
     this.routingService.go('/');
@@ -330,8 +334,17 @@ export class PunchoutService implements PunchoutFacade {
     );
   }
 
+  /**
+   * Take a snapshot of initial requisition and store it in the state.
+   * This is used to send the initial cart snapshot in CXML when the user
+   * closes the punchout session via 'Close Session' button.
+   *
+   * This method is called only in EDIT mode.
+   * @returns
+   */
   protected setPunchoutInitialRequisition(): void {
-    this.getPunchoutSessionRequisition()
+    // isInitialRequisition is set to true as hitting initial Requisition use case.
+    this.getPunchoutSessionRequisition(true)
       .pipe(take(1))
       .subscribe({
         next: (punchoutRequisition) => {
@@ -351,6 +364,6 @@ export class PunchoutService implements PunchoutFacade {
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
-    this.routingService.go(PUNCHOUT_REQUISITION_PAGE_URL);
+    this.routingService.go({ cxRoute: 'punchoutRequisition' });
   }
 }

@@ -9,7 +9,7 @@ import {
   PunchoutState,
 } from '../model';
 import { PunchoutDetectionService } from './punchout-detection.service';
-import { PunchoutStatePersistanceService } from './punchout-state-persistence.service';
+import { PunchoutStatePersistenceService } from './punchout-state-persistence.service';
 import { PunchoutStoreService } from './punchout-store.service';
 
 const mockPunchoutSession: PunchoutSession = {
@@ -44,11 +44,11 @@ class MockPunchoutDetectionService
 }
 
 class MockPunchoutFacade implements Partial<PunchoutFacade> {
-  getPunchoutSession = () => of(mockPunchoutSession);
+  initPunchoutSession = () => of(mockPunchoutSession);
 }
 
 describe('PunchoutStatePersistenceService', () => {
-  let service: PunchoutStatePersistanceService;
+  let service: PunchoutStatePersistenceService;
   let punchoutStoreService: PunchoutStoreService;
   let punchoutDetectionService: PunchoutDetectionService;
   let statePersistenceServiceMock: jasmine.SpyObj<StatePersistenceService>;
@@ -81,7 +81,7 @@ describe('PunchoutStatePersistenceService', () => {
         },
       ],
     });
-    service = TestBed.inject(PunchoutStatePersistanceService);
+    service = TestBed.inject(PunchoutStatePersistenceService);
     punchoutStoreService = TestBed.inject(PunchoutStoreService);
     punchoutDetectionService = TestBed.inject(PunchoutDetectionService);
     punchoutFacade = TestBed.inject(PunchoutFacade);
@@ -106,34 +106,34 @@ describe('PunchoutStatePersistenceService', () => {
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       false
     );
-    spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
+    spyOn(punchoutFacade, 'initPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
     service['onRead'](mockPunchoutState.punchoutSessionId);
 
-    expect(punchoutFacade.getPunchoutSession).toHaveBeenCalled();
+    expect(punchoutFacade.initPunchoutSession).toHaveBeenCalled();
   });
 
   it('should onRead do nothing when user on punchout session page', () => {
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       true
     );
-    spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
+    spyOn(punchoutFacade, 'initPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
     service['onRead'](mockPunchoutState.punchoutSessionId);
-    expect(punchoutFacade.getPunchoutSession).not.toHaveBeenCalled();
+    expect(punchoutFacade.initPunchoutSession).not.toHaveBeenCalled();
   });
 
   it('should onRead do nothing when no sessionId stored', () => {
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       true
     );
-    spyOn(punchoutFacade, 'getPunchoutSession').and.returnValue(
+    spyOn(punchoutFacade, 'initPunchoutSession').and.returnValue(
       of(mockPunchoutSession)
     );
     service['onRead'](undefined);
-    expect(punchoutFacade.getPunchoutSession).not.toHaveBeenCalled();
+    expect(punchoutFacade.initPunchoutSession).not.toHaveBeenCalled();
   });
 
   it('should ngOnDestroy removes subscription', () => {

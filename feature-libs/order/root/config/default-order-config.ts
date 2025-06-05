@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderAttachmentsConfig } from './order-attachments-config';
+import { OrderConfig } from '.';
 
-export const defaultOrderAttachmentsConfig: OrderAttachmentsConfig = {
+export const defaultOrderConfig: OrderConfig = {
   orderAttachments: {
     previewMimeTypes: [
       'text/plain',
@@ -24,4 +24,5 @@ export const defaultOrderAttachmentsConfig: OrderAttachmentsConfig = {
       'application/pdf',
     ],
   },
+  showOrderQuoteLink: false,
 };
