@@ -34,6 +34,7 @@ import { ProductGridItemComponent } from './product-grid-item/product-grid-item.
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductListService } from './product-list.service';
+import { SafeInnerHtmlDirective } from './product-list-item/SafeInnerHtmlDirective';
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import { ProductListService } from './product-list.service';
     ProductGridItemComponent,
     ProductViewComponent,
     ProductScrollComponent,
+    SafeInnerHtmlDirective
   ],
   exports: [
     ProductListComponent,
