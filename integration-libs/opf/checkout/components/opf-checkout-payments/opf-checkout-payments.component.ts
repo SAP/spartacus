@@ -82,6 +82,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   hideOnlyOnePaymentProviderLabel? = false;
 
+  @Input()
+  forceRadioInputsView? = false;
+
+  @Input()
+  forceDefaultPaymentOptionInputSelection? = false;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -96,10 +102,45 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
+  protected paginationModel: PaginationModel | undefined;
+
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ) {
     return !state?.loading && !Boolean(state?.data?.value?.length);
+  }
+
+  protected handleDefaultPaymentOptionInputSelection(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ) {
+    const firstPaymentOption = state.data?.value?.[0];
+
+    if (this.isOnlyOnePaymentOptionAvailable) {
+      this.selectedPaymentId = firstPaymentOption?.id;
+      const providerName = firstPaymentOption?.displayName;
+      if (providerName) {
+        this.selectedPaymentProviderName.emit(providerName);
+      }
+    }
+
+    this.opfMetadataStoreService.updateOpfMetadata({
+      defaultSelectedPaymentOptionId: firstPaymentOption?.id,
+    });
+
+    if (
+      this.forceDefaultPaymentOptionInputSelection &&
+      !this.selectedPaymentId
+    ) {
+      this.selectedPaymentId = firstPaymentOption?.id;
+    }
+  }
+
+  protected checkIfOnlyOnePaymentOptionAvailable(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ): boolean {
+    return (
+      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+    );
   }
 
   getActiveConfigurations(): Observable<
@@ -120,6 +161,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             if (state.data?.value && !state.error && !state.loading) {
+              this.paginationModel = this.getPaginationModel(state.data?.page);
+
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
                   (config) => config.id === this.selectedPaymentId
@@ -127,19 +170,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
               }
 
               this.isOnlyOnePaymentOptionAvailable =
-                state.data.value.length === 1;
+                this.checkIfOnlyOnePaymentOptionAvailable(state);
 
-              if (this.isOnlyOnePaymentOptionAvailable) {
-                this.selectedPaymentId = state.data?.value[0]?.id;
-                const providerName = state.data?.value[0]?.displayName;
-                if (providerName) {
-                  this.selectedPaymentProviderName.emit(providerName);
-                }
-              }
-
-              this.opfMetadataStoreService.updateOpfMetadata({
-                defaultSelectedPaymentOptionId: state.data?.value[0]?.id,
-              });
+              this.handleDefaultPaymentOptionInputSelection(state);
             }
           }
         )
@@ -219,14 +252,16 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   getPaginationModel(
     pagination?: OpfActiveConfigurationsPagination
   ): PaginationModel {
-    const paginationModel: PaginationModel = {
+    if (pagination?.number !== undefined) {
+      this.paginationIndex = pagination.number - 1;
+    }
+
+    return {
       currentPage: this.paginationIndex,
       pageSize: pagination?.size,
       totalPages: pagination?.totalPages,
       totalResults: pagination?.totalElements,
     };
-
-    return paginationModel;
   }
 
   pageChange(page: number): void {
