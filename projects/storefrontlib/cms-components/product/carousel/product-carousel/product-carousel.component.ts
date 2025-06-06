@@ -22,7 +22,6 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {ngSkipHydration: 'true'},
   standalone: false,
 })
 export class ProductCarouselComponent {

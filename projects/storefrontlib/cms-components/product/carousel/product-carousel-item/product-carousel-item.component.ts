@@ -20,7 +20,6 @@ import {
 @Component({
   selector: 'cx-product-carousel-item',
   templateUrl: './product-carousel-item.component.html',
-  host: {ngSkipHydration: 'true'},
   providers: [
     ProductListItemContextSource,
     {
