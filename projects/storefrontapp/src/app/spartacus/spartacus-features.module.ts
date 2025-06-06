@@ -299,7 +299,6 @@ if (environment.cpq) {
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        showOrderQuoteLink: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -418,6 +417,7 @@ if (environment.cpq) {
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
       };
       return appFeatureToggles;
     }),
