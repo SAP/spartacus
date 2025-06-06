@@ -41,7 +41,25 @@ export function fillRegistrationForm(
   });
 }
 
-export function fillLoginForm({ username, password }: LoginUser) {
+/**
+ * Fill in Spartacus Login page
+ * @deprecated Old authentication process
+ */
+export function fillLoginForm(credentials: LoginUser) {
+  return fillCustomLoginForm(credentials);
+}
+
+/** New Authorization server login */
+export function fillAuthServerLoginForm({ username, password }: LoginUser) {
+  cy.log(`🛒 Logging in user ${username} from the login form`);
+  cy.get('input[name=username]').clear().type(username);
+  cy.get('input[name=password]').clear().type(password);
+
+  cy.get('button[type=submit]').click();
+}
+
+/** New Authorization server login */
+export function fillCustomLoginForm({ username, password }: LoginUser) {
   cy.log(`🛒 Logging in user ${username} from the login form`);
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').clear().type(username);
@@ -67,7 +85,7 @@ export function fillKymaLoginForm({ username, password }: LoginUser) {
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   const loginPage = waitForPage('/login', 'getLoginPage');
@@ -80,7 +98,7 @@ export function register(
 export function registerWithCaptcha(
   user: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   const loginPage = waitForPage('/login', 'getLoginPage');
@@ -96,5 +114,9 @@ export function registerWithCaptcha(
 }
 
 export function login(username: string, password: string) {
+  fillAuthServerLoginForm({ username, password });
+}
+
+export function legacyLogin(username: string, password: string) {
   fillLoginForm({ username, password });
 }

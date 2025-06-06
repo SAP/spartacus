@@ -3,9 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { Config } from '@spartacus/core';
-
+import { Config as SpartacusConfig } from '@spartacus/core';
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -19,7 +17,7 @@ declare global {
         cy.cxConfig(config)
         ```
        */
-      cxConfig: (config: Config) => void;
+      cxConfig: (config: SpartacusConfig) => void;
     }
   }
 }
