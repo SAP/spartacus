@@ -31,3 +31,4 @@ import './select-user-menu-option.commands';
 import './storage.commands';
 import './vendor/cds/merchandising-carousel.commands';
 import './viewport.commands';
+import './punchout.commands';
