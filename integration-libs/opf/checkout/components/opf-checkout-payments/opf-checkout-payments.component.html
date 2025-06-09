@@ -16,12 +16,15 @@
             <ng-container
               *ngIf="
                 isOnlyOnePaymentOptionAvailable &&
-                !hideOnlyOnePaymentProviderLabel
+                !hideOnlyOnePaymentProviderLabel &&
+                !forceRadioInputsView
               "
             >
               {{ configuration.displayName }}
             </ng-container>
-            <ng-container *ngIf="!isOnlyOnePaymentOptionAvailable">
+            <ng-container
+              *ngIf="!isOnlyOnePaymentOptionAvailable || forceRadioInputsView"
+            >
               <div class="form-check">
                 <input
                   id="paymentId-{{ configuration.id }}"
@@ -97,9 +100,7 @@
 
         <cx-pagination
           class="cx-payment-options-list-pagination"
-          [pagination]="
-            getPaginationModel(activeConfigurationsState?.data?.page)
-          "
+          [pagination]="paginationModel"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination></div
     ></ng-container>

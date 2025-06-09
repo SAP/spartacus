@@ -8,13 +8,12 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { Order, ReplenishmentOrder } from '@spartacus/order/root';
+import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 import { OrderOverviewComponentService } from './order-overview-component.service';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-card',
@@ -33,6 +32,8 @@ class MockCardComponent {
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
+
+const mockOrderConfig: OrderConfig = { showOrderQuoteLink: true };
 
 const mockDeliveryAddress: Address = {
   firstName: 'John',
@@ -163,12 +164,7 @@ describe('OrderOverviewComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [
-        OrderOverviewComponent,
-        MockCardComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
-      ],
+      declarations: [OrderOverviewComponent, MockCardComponent, MockUrlPipe],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -177,6 +173,7 @@ describe('OrderOverviewComponent', () => {
         },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: OrderConfig, useValue: mockOrderConfig },
       ],
     }).compileComponents();
   });
