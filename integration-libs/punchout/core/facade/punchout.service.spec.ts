@@ -209,7 +209,7 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should return initialRequisition when closePunchoutSession', (done) => {
+  it('should getPunchoutSessionRequisition call end session when user is not logged-in', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(punchoutAuthService, 'isUserLoggedIn').and.returnValue(of(false));
     service.getPunchoutSessionRequisition().subscribe({

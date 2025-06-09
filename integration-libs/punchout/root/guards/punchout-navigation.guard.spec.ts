@@ -301,10 +301,14 @@ describe('PunchoutNavigationGuard', () => {
       const result = (guard as any).isAllowedUrls(
         {
           ...mockRoute,
-          url: [{ path: 'catalog123' }, { path: 'product' }, { path: 'abc' }],
+          url: [
+            { path: 'catalog123' },
+            { path: 'discount-products' },
+            { path: 'abc' },
+          ],
         },
         PunchOutOperation.EDIT,
-        'catalog123/product/abc'
+        'catalog123/discount-products/abc'
       );
       expect(result).toBe(true);
     });

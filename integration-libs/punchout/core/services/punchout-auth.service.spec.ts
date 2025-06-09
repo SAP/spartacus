@@ -180,7 +180,7 @@ describe('PunchoutAuthService', () => {
   });
 
   it('should endPunchoutSession navigate to punchoutError page', async () => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false, true, true));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(authService, 'coreLogout').and.returnValue(Promise.resolve());
     spyOn(globalMessageService, 'add');
     spyOn(routingService, 'go');
@@ -199,8 +199,8 @@ describe('PunchoutAuthService', () => {
     });
   });
 
-  it('should endPunchoutSession setRedirectUrl to homepage on SessionPage', async () => {
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false, true, true));
+  it('should endPunchoutSession setRedirectUrl to homepage on Punchout Session Page', async () => {
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(authService, 'coreLogout').and.returnValue(Promise.resolve());
     spyOn(globalMessageService, 'add');
     spyOn(routingService, 'go');
