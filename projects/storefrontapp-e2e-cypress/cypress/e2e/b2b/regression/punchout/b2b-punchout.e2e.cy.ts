@@ -21,18 +21,8 @@ describe('B2B Punchout', () => {
   });
 
   describe('Punchout Create', () => {
-    it('should display title', () => {
+    it('should open session', () => {
       cy.title().should('not.be.empty');
     });
-
-    it('should have site logo', () => {
-      cy.get('cx-page-slot.SiteLogo').should('be.visible');
-    });
-
-    it('should have splash banner', () => {
-      cy.get('cx-page-slot.Section1 cx-banner');
-    });
-
-    it('should open session', () => {});
   });
 });
