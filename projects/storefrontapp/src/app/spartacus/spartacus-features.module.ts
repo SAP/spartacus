@@ -15,6 +15,7 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
+  provideAuthorizationCodeFlowByDefault,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -290,6 +291,7 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
+    provideAuthorizationCodeFlowByDefault(true),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -297,7 +299,6 @@ if (environment.cpq) {
         showSearchingCustomerByOrderInASM: true,
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        showOrderQuoteLink: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -416,6 +417,7 @@ if (environment.cpq) {
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
       };
       return appFeatureToggles;
     }),

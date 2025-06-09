@@ -22,7 +22,7 @@ export function createUser(): AccountData {
       ...standardUser.registrationData,
       email: generateMail(randomString(), true),
     },
-  };
+  } satisfies AccountData;
 
   // TODO: optimize below code to avoid unnecessary login and logout
   // we just need to register
@@ -82,7 +82,10 @@ export function revokeAccessToken() {
   });
 }
 
-export function testRedirectBackfterLogin(kyma = false) {
+export function testRedirectBackAfterLogin(
+  kyma = false,
+  authServerLogin = false
+) {
   it('should redirect back after the login', () => {
     const user = createUser();
     cy.visit(`/contact`);
@@ -90,11 +93,19 @@ export function testRedirectBackfterLogin(kyma = false) {
     cy.get('cx-login').click();
 
     if (!kyma) {
-      cy.location('pathname').should('contain', '/login');
-      authForms.login(
-        user.registrationData.email,
-        user.registrationData.password
-      );
+      if (authServerLogin) {
+        cy.log('auth server code flow');
+        authForms.fillAuthServerLoginForm({
+          username: user.registrationData.email,
+          password: user.registrationData.password,
+        });
+      } else {
+        cy.location('pathname').should('contain', '/login');
+        authForms.login(
+          user.registrationData.email,
+          user.registrationData.password
+        );
+      }
     } else {
       authForms.fillKymaLoginForm({
         username: user.registrationData.email,
@@ -125,6 +136,24 @@ export function testRedirectAfterForcedLogin(kyma = false) {
     }
 
     cy.location('pathname').should('contain', '/my-account/address-book');
+  });
+}
+
+export function authFlowTests(
+  name: string,
+  config: any,
+  testConfig?: { legacy: boolean }
+) {
+  describe(name, () => {
+    beforeEach(() => {
+      cy.cxConfig(config);
+    });
+
+    const useKyma = config?.authentication?.client_id === 'client4kyma';
+    const useAuthServerForm = !testConfig.legacy;
+
+    testRedirectBackAfterLogin(useKyma, useAuthServerForm);
+    // testRedirectAfterForcedLogin(useKyma);
   });
 }
 

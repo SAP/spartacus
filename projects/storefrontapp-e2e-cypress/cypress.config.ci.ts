@@ -20,11 +20,12 @@ export default defineConfig({
   },
   videoUploadOnPasses: false,
   env: {
-    API_URL: 'https://api.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
+    API_URL:
+      'https://api.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
-    CLIENT_ID: 'mobile_android',
+    CLIENT_ID: 'mobile_android_public',
     CLIENT_SECRET: 'secret',
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',

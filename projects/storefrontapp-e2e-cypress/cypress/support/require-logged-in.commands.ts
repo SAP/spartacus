@@ -5,7 +5,7 @@
  */
 
 import { generateMail, randomString } from '../helpers/user';
-import { config, login, setSessionData } from './utils/login';
+import { config, login, loginJDK21, setSessionData } from './utils/login';
 
 declare global {
   namespace Cypress {
@@ -48,6 +48,7 @@ export interface RequireLoggedInDebugOptions {
 Cypress.Commands.add(
   'requireLoggedIn',
   (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
+    /** @deprecated Not supported in JDK17 */
     function loginAsGuest() {
       return cy.request({
         method: 'POST',
@@ -90,12 +91,13 @@ Cypress.Commands.add(
         titleCode: 'mr',
       },
     };
-    const account = accountData || defaultAccount;
+    const account = accountData ?? defaultAccount;
     const username =
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
 
-    login(username, account.registrationData.password, false).then((res) => {
+    const password = account.registrationData.password;
+    loginJDK21(username, password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
         setSessionData(res.body);

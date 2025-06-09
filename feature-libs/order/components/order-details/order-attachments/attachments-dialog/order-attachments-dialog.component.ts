@@ -23,7 +23,7 @@ import { catchError, map, switchMap, tap, filter } from 'rxjs/operators';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   OrderAttachment,
-  OrderAttachmentsConfig,
+  OrderConfig,
   OrderAttachmentsFacade,
 } from '@spartacus/order/root';
 
@@ -34,7 +34,7 @@ import {
   standalone: false,
 })
 export class OrderAttachmentsDialogComponent {
-  protected config = inject(OrderAttachmentsConfig);
+  protected config = inject(OrderConfig);
   protected launchDialogService = inject(LaunchDialogService);
   protected orderAttachmentsFacade = inject(OrderAttachmentsFacade);
   protected translation = inject(TranslationService);
@@ -110,7 +110,7 @@ export class OrderAttachmentsDialogComponent {
 
   previewFile(blob: Blob): void {
     const blobUrl = URL.createObjectURL(blob);
-    window.open(blobUrl, '_blank');
+    window.open(blobUrl, '_blank', 'noopener,noreferrer');
   }
 
   downloadFile(blob: Blob, fileName: string): void {
