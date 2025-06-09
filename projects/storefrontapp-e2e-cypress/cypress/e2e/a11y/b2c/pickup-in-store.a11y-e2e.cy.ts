@@ -10,8 +10,6 @@ describe(
   () => {
     before(() => {
       cy.a11yContinuumSetup();
-    });
-    before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });
