@@ -1,5 +1,13 @@
 %cx-product-list-item {
   padding-bottom: 1rem;
+  @include forFeature('consistentSizeProductCards') {
+    @include media-breakpoint-up(md) {
+      height: 272px;
+      & > div {
+        height: 100%;
+      }
+    }
+  }
 
   .cx-product-search-list {
     border-width: 0 0 1px 0;
@@ -28,6 +36,16 @@
     width: 100%;
     height: 100%;
     display: block;
+    @include forFeature('consistentSizeProductCards') {
+      @include media-breakpoint-up(md) {
+        display: flex;
+        img {
+          margin-top: auto;
+          margin-bottom: auto;
+          max-height: 255px;
+        }
+      }
+    }
   }
 
   .cx-product-name {

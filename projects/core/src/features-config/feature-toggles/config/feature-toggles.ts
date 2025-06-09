@@ -809,6 +809,12 @@ export interface FeatureTogglesInterface {
    * but now also a shorter alias (without product name) is accepted when matching the URL.
    */
   defaultProductPageRouteAllowsNoProductName?: boolean;
+
+  /**
+   * When enabled, the product cards in the product list page will have a forced consistent size.
+   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
+   */
+  consistentSizeProductCards?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -931,4 +937,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  consistentSizeProductCards: false,
 };
