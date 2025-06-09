@@ -5,6 +5,8 @@
  */
 
 import { defineConfig } from 'cypress';
+const mochawesome = require("cypress-mochawesome-reporter/plugin");
+const plugins = require('./cypress/plugins/index.js');
 
 export default defineConfig({
   defaultCommandTimeout: 5000,
@@ -31,8 +33,19 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config);
+      //require('cypress-mochawesome-reporter/plugin')(on);
+      // return require('./cypress/plugins/index.js')(on, config);
+      mochawesome(on);
+      return plugins(on, config);
     },
     baseUrl: 'http://localhost:4200',
+  },
+  reporter: 'cypress-mochawesome-reporter',
+  reporterOptions: {
+    charts: true,
+    reportPageTitle: 'Composable Storefront Cypress E2E Test Report',
+    embeddedScreenshots: true,   // ✅ Needed for screenshots
+    inlineAssets: true,          // ✅ Inline CSS/JS in the report
+    saveAllAttempts: false
   },
 });
