@@ -9,8 +9,9 @@ import { getSampleUser } from '../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../sample-data/shared-users';
 import { login } from '../../support/utils/login';
 import { visitHomePage } from '../checkout-flow';
+import { addB2bUser, setB2bPassword } from './b2b-checkout';
 
-export function loginPunchoutUser() {
+export function createPunchoutUser() {
   let adminToken;
   let user = getSampleUser();
 
@@ -21,7 +22,7 @@ export function loginPunchoutUser() {
     .then((result) => {
       expect(result.status).to.eq(200);
       adminToken = result?.body?.access_token;
-      return addB2bUser(adminToken, user);
+      return addB2bUser(adminToken, user, ['PunchOut Organization']);
     })
     .then((result) => {
       expect(result.status).to.eq(201);

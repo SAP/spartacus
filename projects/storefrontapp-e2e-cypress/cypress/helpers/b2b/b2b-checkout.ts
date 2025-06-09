@@ -72,7 +72,11 @@ export function loginB2bUser() {
     });
 }
 
-export function addB2bUser(access_token: string, user: any) {
+export function addB2bUser(
+  access_token: string,
+  user: any,
+  roles: string[] = []
+) {
   return cy.request({
     method: 'POST',
     url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -89,7 +93,7 @@ export function addB2bUser(access_token: string, user: any) {
       orgUnit: {
         uid: b2bUnit,
       },
-      roles: ['b2bcustomergroup'],
+      roles: ['b2bcustomergroup', ...roles],
     },
   });
 }
