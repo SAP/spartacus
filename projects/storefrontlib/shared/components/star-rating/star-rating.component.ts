@@ -14,6 +14,7 @@ import {
   Output,
 } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { useFeatureStyles } from '@spartacus/core';
 
 /**
  * Star rating component can be used to view existing ratings as well
@@ -53,7 +54,9 @@ export class StarRatingComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change = new EventEmitter<number>();
 
-  constructor() {}
+  constructor() {
+    useFeatureStyles('reserveHorizontalSpaceStarRating');
+  }
 
   setRate(value: number): void {
     if (this.disabled) {
