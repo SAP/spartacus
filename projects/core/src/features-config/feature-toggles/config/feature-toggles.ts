@@ -16,12 +16,6 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
-   * when a product does not have a defined price or its purchasable field is set to false
-   */
-  shouldHideAddToCartForUnpurchasableProducts?: boolean;
-
-  /**
    * In `FormErrorsComponent` it uses more descriptive validation error messages
    * in all UI form fields existing before v2211.25.
    *
@@ -36,19 +30,9 @@ export interface FeatureTogglesInterface {
   formErrorsDescriptiveMessages?: boolean;
 
   /**
-   * In `ASM` it shows searching customer by order ID.
-   */
-  showSearchingCustomerByOrderInASM?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
-
-  /**
-   * Some Changes for input of cart Number and text of Customer360View in ASM view
-   */
-  showStyleChangesInASM?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the trending searches.
@@ -607,19 +591,6 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
-   * In OCC cart requests, it puts parameters of a cart name and cart description
-   * into a request body, instead of query params.
-   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
-   */
-  occCartNameAndDescriptionInHttpRequestBody?: boolean;
-
-  /**
-   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
-   * customization buttons in the BottomHeaderSlot in SmartEdit.
-   */
-  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
-
-  /**
    * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
    * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
    * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
@@ -809,9 +780,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
-  showSearchingCustomerByOrderInASM: true,
-  showStyleChangesInASM: true,
-  shouldHideAddToCartForUnpurchasableProducts: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -903,8 +871,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: false,
   a11yHighContrastBorders: false,
   a11yRegionAssociatedHeaders: false,
-  occCartNameAndDescriptionInHttpRequestBody: true,
-  cmsBottomHeaderSlotUsingFlexStyles: true,
   useSiteThemeService: true,
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
