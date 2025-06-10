@@ -325,7 +325,6 @@ if (environment.cpq) {
         a11yPickupOptionsTabs: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
-        a11yStoreFinderAlerts: true,
         a11yFormErrorMuteIcon: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
