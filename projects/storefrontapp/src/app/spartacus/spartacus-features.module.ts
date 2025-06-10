@@ -295,7 +295,6 @@ if (environment.cpq) {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
         shouldHideAddToCartForUnpurchasableProducts: false,
-        showOrderQuoteLink: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -413,6 +412,8 @@ if (environment.cpq) {
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
+        storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
       };
       return appFeatureToggles;
     }),

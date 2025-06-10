@@ -13,6 +13,7 @@ const mockAuthConfig: AuthConfig = {
     baseUrl: 'authBaseUrl',
     client_id: 'some_client_id',
     client_secret: 'some_client_secret',
+    sendAuthHeaderOnRevoke: true,
     OAuthLibConfig: {
       oidc: false,
       issuer: 'issuer_url',

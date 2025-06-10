@@ -4,11 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './default-cache-entry-size-calculator';
 export * from './optimized-ssr-engine';
-export * from './rendering-cache';
-export * from './rendering-cache-size-manager';
-export * from './rendering-cache.model';
+export * from './rendering-cache/index';
 export * from './rendering-strategy-resolver';
 export * from './rendering-strategy-resolver-options';
 export { getRequestContext, RequestContext } from './request-context';

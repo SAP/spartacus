@@ -1,7 +1,7 @@
 import { ExpressServerLogger } from '@spartacus/setup/ssr';
+import { SsrOptimizationOptions } from '../ssr-optimization-options';
 import { RenderingCacheSizeManager } from './rendering-cache-size-manager';
 import { RenderingEntry } from './rendering-cache.model';
-import { SsrOptimizationOptions } from './ssr-optimization-options';
 
 describe('RenderingCacheSizeManager', () => {
   let mockLogger: ExpressServerLogger;

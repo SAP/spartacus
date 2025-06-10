@@ -2522,6 +2522,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
     {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
       type: TabbingOrderTypes.LINK,
     },
     {
