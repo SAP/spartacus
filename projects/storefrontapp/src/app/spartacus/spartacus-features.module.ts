@@ -294,7 +294,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
-        shouldHideAddToCartForUnpurchasableProducts: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,

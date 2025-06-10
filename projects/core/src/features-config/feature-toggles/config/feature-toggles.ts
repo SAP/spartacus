@@ -780,7 +780,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
-  shouldHideAddToCartForUnpurchasableProducts: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
