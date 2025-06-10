@@ -21,7 +21,6 @@ import {
   Config,
   FeatureConfigService,
   Product,
-  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
