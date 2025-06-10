@@ -299,11 +299,6 @@ export interface FeatureTogglesInterface {
   a11yAddedToCartActiveDialog?: boolean;
 
   /**
-   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
-   */
-  a11yNgSelectMobileReadout?: boolean;
-
-  /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
    */
   a11yDeliveryMethodFieldset?: boolean;
@@ -768,7 +763,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
-  a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
   a11yQuickOrderAriaControls: true,

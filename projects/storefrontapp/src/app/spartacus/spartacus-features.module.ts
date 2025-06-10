@@ -341,7 +341,6 @@ if (environment.cpq) {
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
-        a11yNgSelectMobileReadout: true,
         a11yDeliveryMethodFieldset: true,
         a11yShowMoreReviewsBtnFocus: true,
         a11yQuickOrderAriaControls: true,
