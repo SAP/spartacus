@@ -372,43 +372,86 @@ describe('MediaComponent', () => {
     expect(picture).toBeNull();
   });
 
-  it('should accept fetchPriority input', () => {
-    configureTestingModule(new MockMediaService(null, false));
-    const { component } = createComponent();
-    component.fetchPriority = ImageFetchPriority.HIGH;
-    expect(component.fetchPriority).toBe('high');
-  });
+  describe('effectiveLoadingStrategy', () => {
+    it('should accept fetchPriority input', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component } = createComponent();
+      component.fetchPriority = ImageFetchPriority.HIGH;
+      expect(component.fetchPriority).toBe('high');
+    });
 
-  it('should return EAGER if fetchPriority is HIGH', () => {
-    configureTestingModule(new MockMediaService(null, false));
-    const { component } = createComponent();
-    component.fetchPriority = ImageFetchPriority.HIGH;
-    component.loading = ImageLoadingStrategy.LAZY;
-    expect(component['effectiveLoadingStrategy']).toBe(
-      ImageLoadingStrategy.EAGER
-    );
-  });
+    it('should return EAGER if fetchPriority is HIGH', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component, fixture } = createComponent();
 
-  it('should return loading if fetchPriority is not HIGH', () => {
-    configureTestingModule(new MockMediaService(null, false));
-    const { component } = createComponent();
-    component.fetchPriority = ImageFetchPriority.LOW;
-    component.loading = ImageLoadingStrategy.LAZY;
-    expect(component['effectiveLoadingStrategy']).toBe(
-      ImageLoadingStrategy.LAZY
-    );
-  });
+      const imageNativeElement: HTMLImageElement = fixture.debugElement.query(
+        By.css('img')
+      ).nativeElement;
 
-  it('should fallback to loadingStrategy if loading is null', () => {
-    configureTestingModule(new MockMediaService(null, false));
-    const { component } = createComponent();
-    component.fetchPriority = undefined;
-    spyOnProperty(component, 'loadingStrategy', 'get').and.returnValue(
-      ImageLoadingStrategy.LAZY
-    );
-    component.loading = null;
-    expect(component['effectiveLoadingStrategy']).toBe(
-      ImageLoadingStrategy.LAZY
-    );
+      component.fetchPriority = ImageFetchPriority.HIGH;
+      component.loading = ImageLoadingStrategy.LAZY;
+
+      const load = new UIEvent('load');
+      imageNativeElement.dispatchEvent(load);
+
+      fixture.detectChanges();
+
+      expect(component['effectiveLoadingStrategy']).toBe(
+        ImageLoadingStrategy.EAGER
+      );
+
+      expect(imageNativeElement.getAttribute('loading')).toBe('eager');
+      expect(imageNativeElement.getAttribute('fetchpriority')).toBe('high');
+    });
+
+    it('should return loading if fetchPriority is not HIGH', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component, fixture } = createComponent();
+
+      const imageNativeElement: HTMLImageElement = fixture.debugElement.query(
+        By.css('img')
+      ).nativeElement;
+
+      const load = new UIEvent('load');
+      imageNativeElement.dispatchEvent(load);
+
+      component.fetchPriority = ImageFetchPriority.LOW;
+      component.loading = ImageLoadingStrategy.LAZY;
+
+      fixture.detectChanges();
+
+      expect(component['effectiveLoadingStrategy']).toBe(
+        ImageLoadingStrategy.LAZY
+      );
+      expect(imageNativeElement.getAttribute('loading')).toBe('lazy');
+      expect(imageNativeElement.getAttribute('fetchpriority')).toBe('low');
+    });
+
+    it('should fallback to loadingStrategy if loading is null', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component, fixture } = createComponent();
+
+      const imageNativeElement: HTMLImageElement = fixture.debugElement.query(
+        By.css('img')
+      ).nativeElement;
+
+      const load = new UIEvent('load');
+      imageNativeElement.dispatchEvent(load);
+
+      component.fetchPriority = undefined;
+      component.loading = null;
+
+      spyOnProperty(component, 'loadingStrategy', 'get').and.returnValue(
+        ImageLoadingStrategy.LAZY
+      );
+
+      expect(component['effectiveLoadingStrategy']).toBe(
+        ImageLoadingStrategy.LAZY
+      );
+
+      fixture.detectChanges();
+
+      expect(imageNativeElement.getAttribute('loading')).toBe('lazy');
+    });
   });
 });
