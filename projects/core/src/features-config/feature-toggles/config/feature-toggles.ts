@@ -197,11 +197,6 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextUnitLevelOrderHistory?: boolean;
 
   /**
-   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
-   */
-  a11ySemanticPaginationLabel?: boolean;
-
-  /**
    * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
@@ -827,7 +822,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
-  a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPreventSRFocusOnHiddenElements: true,
   a11yNotificationPreferenceFieldset: true,
