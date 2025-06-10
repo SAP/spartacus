@@ -221,11 +221,6 @@ export interface FeatureTogglesInterface {
   a11yImproveContrast?: boolean;
 
   /**
-   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
-   */
-  a11yNotificationPreferenceFieldset?: boolean;
-
-  /**
    * Removes the `tabindex` attribute from the `StorefrontComponent`.
    * This helps to reduce the screen reader bloat.
    */
@@ -818,7 +813,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
   a11yScreenReaderBloatFix: true,
   a11yTabComponent: true,
