@@ -10,8 +10,8 @@ $punchout-components-allowlist:
 
 $skipComponentStyles: () !default;
 
-$page-template-allowlist: PunchoutTemplate;
-$page-template-blocklist: () !default;
+$page-template-allowlist-punchout: PunchoutTemplate !default;
+$page-template-blocklist-punchout: () !default;
 
 @each $selector in $punchout-components-allowlist {
   #{$selector} {
@@ -31,9 +31,9 @@ body {
   }
 }
 
-@each $selector in $page-template-allowlist {
+@each $selector in $page-template-allowlist-punchout {
   cx-page-layout.#{$selector} {
-    @if (index($page-template-blocklist, $selector) == null) {
+    @if (index($page-template-blocklist-punchout, $selector) == null) {
       @extend %#{$selector} !optional;
     }
   }

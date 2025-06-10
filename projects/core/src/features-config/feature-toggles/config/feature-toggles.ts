@@ -16,11 +16,6 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In Order details page, it shows link to its Quote details page and vice-versa
-   */
-  showOrderQuoteLink?: boolean;
-
-  /**
    * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
    * when a product does not have a defined price or its purchasable field is set to false
    */
@@ -780,10 +775,28 @@ export interface FeatureTogglesInterface {
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
+
+  /**
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
+   * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
+   */
+  storeFinderFacadeCleanup?: boolean;
+
+  /**
+   * When enabled, the default routing config for the product page is no longer just:
+   * `paths: ['product/:productCode/:name']`
+   * but:
+   * `paths: ['product/:productCode/:name', 'product/:productCode'],`
+   *
+   * It means that the old URL scheme of generating links and matching URLs is preserved,
+   * but now also a shorter alias (without product name) is accepted when matching the URL.
+   */
+  defaultProductPageRouteAllowsNoProductName?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showOrderQuoteLink: false,
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
   shouldHideAddToCartForUnpurchasableProducts: true,
@@ -893,9 +906,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
   a11yNgSelectAriaControls: false,
-  enableSecurePasswordValidation: false,
+  enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: false,
   enableClaimCustomerCouponWithCodeInRequestBody: false,
   enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
+  storeFinderFacadeCleanup: false,
+  defaultProductPageRouteAllowsNoProductName: false,
 };

@@ -19,7 +19,7 @@ export function punchoutFacadeFactory() {
     facade: PunchoutFacade,
     feature: PUNCHOUT_FEATURE,
     methods: [
-      'getPunchoutSession',
+      'initPunchoutSession',
       'getPunchoutSessionRequisition',
       'logoutPunchoutUser',
       'closePunchoutSession',
@@ -40,7 +40,7 @@ export abstract class PunchoutFacade {
    * occ api request, logout previous user, login punchout user, load cart
    * @param sessionId is the sesssion Id given by ARIBA via url param
    */
-  abstract getPunchoutSession(
+  abstract initPunchoutSession(
     punchoutSessionInput: PunchoutSessionInput
   ): Observable<PunchoutSession>;
 

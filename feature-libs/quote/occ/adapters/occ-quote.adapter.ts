@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
-  FeatureConfigService,
   LoggerService,
   normalizeHttpError,
   OccEndpointsService,
@@ -16,6 +15,7 @@ import {
   PaginationModel,
   ScopedDataWithUrl,
 } from '@spartacus/core';
+import { OrderConfig } from '@spartacus/order/root';
 import {
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
@@ -46,7 +46,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   protected converterService = inject(ConverterService);
   protected loggerService = inject(LoggerService);
   private occFieldsService = inject(OccFieldsService);
-  private featureConfigService = inject(FeatureConfigService);
+  protected orderConfig = inject(OrderConfig);
 
   getQuotes(
     userId: string,
@@ -105,7 +105,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   }
 
   protected getQuoteEndpoint(userId: string, quoteCode: string): string {
-    if (this.featureConfigService.isEnabled('showOrderQuoteLink')) {
+    if (this.orderConfig.showOrderQuoteLink) {
       const scopes = ['getQuote', 'getOrderCode'];
       const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map((scope) => ({
         scopedData: { scope, userId, quoteCode },

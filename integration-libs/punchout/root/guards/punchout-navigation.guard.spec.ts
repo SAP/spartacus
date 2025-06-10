@@ -5,16 +5,18 @@ import {
   CmsActivatedRouteSnapshot,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
+import { of } from 'rxjs';
 import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 import { PunchoutFacade } from '../facade';
 import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
+import { PunchoutStoreService } from '../services';
 import {
-  PunchoutStatePersistanceService,
-  PunchoutStoreService,
-} from '../services';
-import { of } from 'rxjs';
+  defaultPunchoutNavigationGuardConfig,
+  PunchoutNavigationGuardConfig,
+} from '../config';
 
 describe('PunchoutNavigationGuard', () => {
   let guard: PunchoutNavigationGuard;
@@ -28,6 +30,10 @@ describe('PunchoutNavigationGuard', () => {
     url: [{ path: 'cart' }],
     data: { cxRoute: 'cart' },
   } as unknown as CmsActivatedRouteSnapshot;
+
+  class MockRoutingConfigService implements Partial<RoutingConfigService> {
+    getRouteName = () => '';
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,7 +57,7 @@ describe('PunchoutNavigationGuard', () => {
         },
         {
           provide: RoutingService,
-          useValue: jasmine.createSpyObj('RoutingService', ['goByUrl']),
+          useValue: jasmine.createSpyObj('RoutingService', ['go']),
         },
         {
           provide: GlobalMessageService,
@@ -62,8 +68,12 @@ describe('PunchoutNavigationGuard', () => {
           useValue: {},
         },
         {
-          provide: PunchoutStatePersistanceService,
-          useValue: {},
+          provide: PunchoutNavigationGuardConfig,
+          useValue: defaultPunchoutNavigationGuardConfig,
+        },
+        {
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
         },
       ],
     });
@@ -98,7 +108,7 @@ describe('PunchoutNavigationGuard', () => {
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {
       expect(result).toBeTruthy();
       expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(routingService.goByUrl).not.toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
       done();
     });
   });
@@ -117,12 +127,12 @@ describe('PunchoutNavigationGuard', () => {
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {
       expect(result).toBeFalsy();
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'organization.notification.noSufficientPermissions' },
+        { key: 'punchout.noSufficientPermissions' },
         GlobalMessageType.MSG_TYPE_WARNING
       );
-      expect(routingService.goByUrl).toHaveBeenCalledWith(
-        '/punchout/cxml/inspect'
-      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'punchoutInspect',
+      });
       done();
     });
   });
@@ -166,6 +176,43 @@ describe('PunchoutNavigationGuard', () => {
     guard.canActivate(mockRoute, {} as any).subscribe((result) => {
       expect(result).toBeTruthy();
       done();
+    });
+  });
+  describe('isAllowedCxRoute', () => {
+    it('should return true if cxRoute is in allowedCxRoutesForEdit', () => {
+      const cxRoute = 'brand';
+      const result = (guard as any).isAllowedCxRoute(
+        cxRoute,
+        PunchOutOperation.EDIT
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return false if cxRoute is not in allowedCxRoutesForEdit', () => {
+      const cxRoute = 'notAllowedRoute';
+      const result = (guard as any).isAllowedCxRoute(
+        cxRoute,
+        PunchOutOperation.EDIT
+      );
+      expect(result).toBe(false);
+    });
+
+    it('should return false if cxRoute is missing', () => {
+      const cxRoute = undefined;
+      const result = (guard as any).isAllowedCxRoute(
+        cxRoute,
+        PunchOutOperation.EDIT
+      );
+      expect(result).toBe(false);
+    });
+
+    it('should return false if allowedCxRoutes is undefined for operation', () => {
+      const cxRoute = 'cart';
+      const result = (guard as any).isAllowedCxRoute(
+        cxRoute,
+        'UNKNOWN_OP' as any
+      );
+      expect(result).toBe(false);
     });
   });
 });

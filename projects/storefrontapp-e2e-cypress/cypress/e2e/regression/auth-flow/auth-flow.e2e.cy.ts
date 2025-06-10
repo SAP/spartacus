@@ -21,6 +21,7 @@ context('Authentication Flows', () => {
       tokenEndpoint: '/oauth/token',
       revokeEndpoint: '/oauth/revoke',
       loginUrl: '/oauth/authorize',
+      sendAuthHeaderOnRevoke: true,
       OAuthLibConfig: {
         scope: '',
         customTokenParameters: ['token_type'],
@@ -40,6 +41,7 @@ context('Authentication Flows', () => {
       tokenEndpoint: '/oauth/token',
       revokeEndpoint: '/oauth/revoke',
       loginUrl: '/oauth/authorize',
+      sendAuthHeaderOnRevoke: true,
       OAuthLibConfig: {
         responseType: 'token',
         scope: '',
@@ -60,6 +62,7 @@ context('Authentication Flows', () => {
       tokenEndpoint: '/oauth/token',
       revokeEndpoint: '/oauth/revoke',
       loginUrl: '/oauth/authorize',
+      sendAuthHeaderOnRevoke: true,
       OAuthLibConfig: {
         responseType: 'code',
         scope: '',
