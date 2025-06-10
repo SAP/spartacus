@@ -226,14 +226,6 @@ export interface FeatureTogglesInterface {
   a11yPickupOptionsTabs?: boolean;
 
   /**
-   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
-   * will be displayed
-   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
-   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
-   */
-  a11yNotificationsOnConsentChange?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
@@ -785,7 +777,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
-  a11yNotificationsOnConsentChange: true,
   a11yResetFocusAfterNavigating: false,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderAlerts: true,

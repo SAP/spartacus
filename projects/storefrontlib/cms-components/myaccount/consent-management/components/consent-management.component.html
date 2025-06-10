@@ -1,4 +1,4 @@
-<ng-container *cxFeature="'a11yNotificationsOnConsentChange'">
+<ng-container>
   <ng-container
     *ngIf="{
       loading: loading$ | async,
@@ -57,7 +57,7 @@
   </ng-container>
 </ng-container>
 
-<ng-container *cxFeature="'!a11yNotificationsOnConsentChange'">
+<ng-container>
   <div *ngIf="loading$ | async; else consentManagementForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>

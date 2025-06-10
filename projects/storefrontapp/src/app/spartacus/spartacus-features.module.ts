@@ -323,7 +323,6 @@ if (environment.cpq) {
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
-        a11yNotificationsOnConsentChange: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
         a11yStoreFinderAlerts: true,
