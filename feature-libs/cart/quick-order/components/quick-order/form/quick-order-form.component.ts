@@ -62,9 +62,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
-  ) {
-    useFeatureStyles('a11yPreventSRFocusOnHiddenElements');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();

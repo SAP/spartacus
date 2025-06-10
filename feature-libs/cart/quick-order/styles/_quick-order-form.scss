@@ -118,9 +118,7 @@
   }
 
   .quick-order-form-description {
-    @include forFeature('a11yPreventSRFocusOnHiddenElements') {
-      visibility: hidden;
-    }
+    visibility: hidden;
   }
 }
 

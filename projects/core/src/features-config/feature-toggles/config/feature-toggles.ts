@@ -203,11 +203,6 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
-   */
-  a11yPreventSRFocusOnHiddenElements?: boolean;
-
-  /**
    * Improve colour contrast in the demonstration theme Santorini
    * to comply with accessibility standards. On activation, colour
    * assignations for all UI elements will change and previous keyboard
@@ -823,7 +818,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yPreventSRFocusOnHiddenElements: true,
   a11yNotificationPreferenceFieldset: true,
   a11yImproveContrast: true,
   a11yScreenReaderBloatFix: true,

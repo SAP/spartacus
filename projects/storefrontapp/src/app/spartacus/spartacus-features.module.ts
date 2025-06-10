@@ -317,7 +317,6 @@ if (environment.cpq) {
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
         a11yKeyboardAccessibleZoom: true,
-        a11yPreventSRFocusOnHiddenElements: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
