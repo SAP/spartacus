@@ -15,21 +15,8 @@
       />
 
       <img
-        *cxFeature="'enableMediaFetchPriority'"
         [loading]="effectiveLoadingStrategy"
         [attr.fetchpriority]="fetchPriority"
-        [alt]="media.alt"
-        [title]="media.alt"
-        [src]="media.src"
-        [attr.role]="media.role"
-        [attr.width]="media.width"
-        [attr.height]="media.height"
-        (load)="loadHandler()"
-        (error)="errorHandler()"
-      />
-      <img
-        *cxFeature="'!enableMediaFetchPriority'"
-        [loading]="loading"
         [alt]="media.alt"
         [title]="media.alt"
         [src]="media.src"
@@ -42,39 +29,21 @@
     </picture>
 
     <ng-template #imageElementTmp>
-      <ng-container *cxFeature="'enableMediaFetchPriority'">
-        <img
-          *ngIf="media.src"
-          [loading]="effectiveLoadingStrategy"
-          [attr.fetchpriority]="fetchPriority"
-          [alt]="media.alt"
-          [title]="media.alt"
-          [src]="media.src"
-          [srcset]="media.srcset || media.src"
-          [attr.role]="media.role"
-          [attr.width]="media.width"
-          [attr.height]="media.height"
-          [attr.sizes]="sizesForImgElement"
-          (load)="loadHandler()"
-          (error)="errorHandler()"
-        />
-      </ng-container>
-      <ng-container *cxFeature="'!enableMediaFetchPriority'">
-        <img
-          *ngIf="media.src"
-          [loading]="loading"
-          [alt]="media.alt"
-          [title]="media.alt"
-          [src]="media.src"
-          [srcset]="media.srcset || media.src"
-          [attr.role]="media.role"
-          [attr.width]="media.width"
-          [attr.height]="media.height"
-          [attr.sizes]="sizesForImgElement"
-          (load)="loadHandler()"
-          (error)="errorHandler()"
-        />
-      </ng-container>
+      <img
+        *ngIf="media.src"
+        [loading]="effectiveLoadingStrategy"
+        [attr.fetchpriority]="fetchPriority"
+        [alt]="media.alt"
+        [title]="media.alt"
+        [src]="media.src"
+        [srcset]="media.srcset || media.src"
+        [attr.role]="media.role"
+        [attr.width]="media.width"
+        [attr.height]="media.height"
+        [attr.sizes]="sizesForImgElement"
+        (load)="loadHandler()"
+        (error)="errorHandler()"
+      />
     </ng-template>
   </ng-container>
 
@@ -89,19 +58,8 @@
         [media]="source.media"
       />
       <img
-        *cxFeature="'enableMediaFetchPriority'"
         [loading]="effectiveLoadingStrategy"
         [attr.fetchpriority]="fetchPriority"
-        [alt]="media.alt"
-        [title]="media.alt"
-        [src]="media.src"
-        [attr.role]="media.role"
-        (load)="loadHandler()"
-        (error)="errorHandler()"
-      />
-      <img
-        *cxFeature="'!enableMediaFetchPriority'"
-        [loading]="loading"
         [alt]="media.alt"
         [title]="media.alt"
         [src]="media.src"
@@ -112,33 +70,18 @@
     </picture>
 
     <ng-template #legacyImgTmp>
-      <ng-container *cxFeature="'enableMediaFetchPriority'">
-        <img
-          *ngIf="media.src"
-          [loading]="effectiveLoadingStrategy"
-          [attr.fetchpriority]="fetchPriority"
-          [alt]="media.alt"
-          [title]="media.alt"
-          [src]="media.src"
-          [srcset]="media?.srcset || media.src"
-          [attr.role]="media.role"
-          (load)="loadHandler()"
-          (error)="errorHandler()"
-        />
-      </ng-container>
-      <ng-container *cxFeature="'!enableMediaFetchPriority'">
-        <img
-          *ngIf="media.src"
-          [loading]="loading"
-          [alt]="media.alt"
-          [title]="media.alt"
-          [src]="media.src"
-          [srcset]="media?.srcset || media.src"
-          [attr.role]="media.role"
-          (load)="loadHandler()"
-          (error)="errorHandler()"
-        />
-      </ng-container>
+      <img
+        *ngIf="media.src"
+        [loading]="effectiveLoadingStrategy"
+        [attr.fetchpriority]="fetchPriority"
+        [alt]="media.alt"
+        [title]="media.alt"
+        [src]="media.src"
+        [srcset]="media?.srcset || media.src"
+        [attr.role]="media.role"
+        (load)="loadHandler()"
+        (error)="errorHandler()"
+      />
     </ng-template>
   </ng-container>
 </ng-container>

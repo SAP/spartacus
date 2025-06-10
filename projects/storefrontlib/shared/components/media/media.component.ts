@@ -94,8 +94,6 @@ export class MediaComponent implements OnChanges {
    * When set to 'high', the browser may prioritize loading this image earlier,
    * and it will automatically use `loading="eager"` for optimal performance.
    * Valid values are: 'low', 'auto', or 'high'.
-   *
-   * Works when the `enableMediaFetchPriority` feature flag is enabled.
    */
   @Input() fetchPriority?: ImageFetchPriority;
 
