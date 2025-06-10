@@ -416,6 +416,7 @@ if (environment.cpq) {
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
+        enableMediaFetchPriority: true,
       };
       return appFeatureToggles;
     }),

@@ -804,6 +804,16 @@ export interface FeatureTogglesInterface {
    * but now also a shorter alias (without product name) is accepted when matching the URL.
    */
   defaultProductPageRouteAllowsNoProductName?: boolean;
+
+  /**
+   * Enables the `fetchpriority` attribute on images in the `MediaComponent`.
+   * When set, this attribute hints to the browser to prioritize image loading,
+   * improving perceived performance—especially for above-the-fold content.
+   *
+   * Controlled via the new `fetchpriority` input in `media.component.ts`.
+   * See `media.component.ts` for implementation details.
+   */
+  enableMediaFetchPriority?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -925,4 +935,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  enableMediaFetchPriority: false,
 };

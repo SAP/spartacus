@@ -13,7 +13,7 @@ import { By } from '@angular/platform-browser';
 import { InjectionToken } from '@angular/core';
 import { FeatureConfigService } from '@spartacus/core';
 import { MediaComponent } from './media.component';
-import { ImageLoadingStrategy, Media } from './media.model';
+import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
@@ -370,5 +370,45 @@ describe('MediaComponent', () => {
     const picture = fixture.debugElement.query(By.css('picture'));
 
     expect(picture).toBeNull();
+  });
+
+  it('should accept fetchPriority input', () => {
+    configureTestingModule(new MockMediaService(null, false));
+    const { component } = createComponent();
+    component.fetchPriority = ImageFetchPriority.HIGH;
+    expect(component.fetchPriority).toBe('high');
+  });
+
+  it('should return EAGER if fetchPriority is HIGH', () => {
+    configureTestingModule(new MockMediaService(null, false));
+    const { component } = createComponent();
+    component.fetchPriority = ImageFetchPriority.HIGH;
+    component.loading = ImageLoadingStrategy.LAZY;
+    expect(component['effectiveLoadingStrategy']).toBe(
+      ImageLoadingStrategy.EAGER
+    );
+  });
+
+  it('should return loading if fetchPriority is not HIGH', () => {
+    configureTestingModule(new MockMediaService(null, false));
+    const { component } = createComponent();
+    component.fetchPriority = ImageFetchPriority.LOW;
+    component.loading = ImageLoadingStrategy.LAZY;
+    expect(component['effectiveLoadingStrategy']).toBe(
+      ImageLoadingStrategy.LAZY
+    );
+  });
+
+  it('should fallback to loadingStrategy if loading is null', () => {
+    configureTestingModule(new MockMediaService(null, false));
+    const { component } = createComponent();
+    component.fetchPriority = undefined;
+    spyOnProperty(component, 'loadingStrategy', 'get').and.returnValue(
+      ImageLoadingStrategy.LAZY
+    );
+    component.loading = null;
+    expect(component['effectiveLoadingStrategy']).toBe(
+      ImageLoadingStrategy.LAZY
+    );
   });
 });
