@@ -295,7 +295,7 @@ if (environment.cpq) {
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
         showBillingAddressInDigitalPayments: false,
-        showDownloadProposalButton: false,
+        showDownloadProposalButton: true,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
