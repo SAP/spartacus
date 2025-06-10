@@ -327,7 +327,6 @@ if (environment.cpq) {
         headerLayoutForSmallerViewports: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
-        a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
