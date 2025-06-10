@@ -203,24 +203,6 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Improve colour contrast in the demonstration theme Santorini
-   * to comply with accessibility standards. On activation, colour
-   * assignations for all UI elements will change and previous keyboard
-   * focus-ring gets replaced by a new bi-colour focus-ring.
-   *
-   * Note: If you're not using in your app the `StorefrontComponent`
-   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
-   *       the following line to the constructor of your app's root component:
-   *
-   * ```
-   * constructor() {
-   *   useFeatureStyles('a11yImproveContrast');
-   * }
-   * ```
-   */
-  a11yImproveContrast?: boolean;
-
-  /**
    * Removes the `tabindex` attribute from the `StorefrontComponent`.
    * This helps to reduce the screen reader bloat.
    */
@@ -813,7 +795,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yImproveContrast: true,
   a11yScreenReaderBloatFix: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,

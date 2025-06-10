@@ -53,9 +53,7 @@
       position: relative;
       word-break: break-word;
 
-      @include forFeature('a11yImproveContrast') {
-        @include type('7');
-      }
+      @include type('7');
 
       &::before,
       &::after {
