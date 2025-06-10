@@ -320,7 +320,6 @@ if (environment.cpq) {
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yScreenReaderBloatFix: true,
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,

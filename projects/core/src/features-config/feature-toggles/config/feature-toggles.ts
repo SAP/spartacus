@@ -203,12 +203,6 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Removes the `tabindex` attribute from the `StorefrontComponent`.
-   * This helps to reduce the screen reader bloat.
-   */
-  a11yScreenReaderBloatFix?: boolean;
-
-  /**
    * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
    * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
    * and responsive in tab and accordion stles.
@@ -795,7 +789,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yScreenReaderBloatFix: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
