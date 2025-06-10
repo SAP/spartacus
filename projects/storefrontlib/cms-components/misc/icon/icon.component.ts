@@ -41,7 +41,6 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 @Component({
   selector: 'cx-icon,[cxIcon]',
   templateUrl: './icon.component.html',
-  host: {ngSkipHydration: 'true'},
   standalone: false,
 })
 export class IconComponent {
@@ -115,23 +114,21 @@ export class IconComponent {
    * Adds the style classes and the link resource (if available).
    */
   protected addStyleClasses(type: ICON_TYPE): void {
-    if(this.host) {
-      this.renderer.addClass(this.host, 'cx-icon');
+    this.renderer.addClass(this.host, 'cx-icon');
 
-      this.styleClasses?.forEach((cls) =>
-        this.renderer.removeClass(this.host, cls)
-      );
+    this.styleClasses?.forEach((cls) =>
+      this.renderer.removeClass(this.host, cls)
+    );
 
-      this.styleClasses = this.iconLoader.getStyleClasses(type)?.split(' ');
-      this.styleClasses?.forEach((cls) => {
-        if (cls !== '') {
-          this.renderer.addClass(this.host, cls);
-        }
-      });
-    }
+    this.styleClasses = this.iconLoader.getStyleClasses(type)?.split(' ');
+    this.styleClasses?.forEach((cls) => {
+      if (cls !== '') {
+        this.renderer.addClass(this.host, cls);
+      }
+    });
   }
 
   protected get host() {
-    return this.elementRef?.nativeElement;
+    return this.elementRef.nativeElement;
   }
 }

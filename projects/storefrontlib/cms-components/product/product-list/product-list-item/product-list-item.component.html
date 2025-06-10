@@ -22,7 +22,7 @@
     <h2 class="cx-product-name">
       <a
         [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-        [cxSafeInnerHtml]="product.nameHtml"
+        [cxSearchResultsHighlightInnerHtml]="product.nameHtml"
       ></a>
     </h2>
 
@@ -44,7 +44,7 @@
 
     <div class="row">
       <div class="col-12 col-md-7 col-xl-7">
-        <p class="cx-product-summary" [cxSafeInnerHtml]="product.summary">
+        <p class="cx-product-summary" [cxSearchResultsHighlightInnerHtml]="product.summary">
           {{ product.summary }}
         </p>
       </div>
