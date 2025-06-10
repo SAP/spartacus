@@ -87,21 +87,13 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
-    // TODO: (CXSPA-7479) Remove feature flags next major
-    const shouldHaveRequiredValidator = !this.featureConfig.isEnabled(
-      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
-    );
-
     this.quickOrderForm = this.formBuilder.group({
-      productCode: [
-        '',
-        shouldHaveRequiredValidator ? [Validators.required] : [],
-      ],
+      productCode: ['', [Validators.required]],
       quantity: [
         this.minQuantityValue,
         {
           updateOn: 'blur',
-          validators: shouldHaveRequiredValidator ? [Validators.required] : [],
+          validators: [Validators.required],
         },
       ],
     });

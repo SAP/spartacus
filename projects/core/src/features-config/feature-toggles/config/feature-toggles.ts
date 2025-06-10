@@ -234,13 +234,6 @@ export interface FeatureTogglesInterface {
   a11yNotificationsOnConsentChange?: boolean;
 
   /**
-   * When enabled disable "Apply" button in promo code component in cart for empty input,
-   * disable "Add" button in quick order component when input is empty and remove
-   * required validators for both inputs
-   */
-  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
@@ -793,7 +786,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yNotificationsOnConsentChange: true,
-  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
   a11yResetFocusAfterNavigating: false,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderAlerts: true,
