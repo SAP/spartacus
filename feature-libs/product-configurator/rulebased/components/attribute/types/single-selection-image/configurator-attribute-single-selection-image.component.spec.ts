@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -60,7 +60,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const ownerKey = 'theOwnerKey';
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(
@@ -173,7 +172,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       values: values,
     };
     component.ownerKey = ownerKey;
-    featureConfigService = TestBed.inject(FeatureConfigService);
     fixture.detectChanges();
   });
 
