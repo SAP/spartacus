@@ -15,10 +15,10 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
+import { EventPhase } from '@angular/core/primitives/event-dispatch';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
 import { LockFocusService } from './lock-focus.service';
-
 /**
  * Focusable elements exclude hidden elements by default, but this contradicts with
  * unlocking (hidden) elements.
@@ -64,7 +64,10 @@ export class LockFocusDirective
   handleEnter(event: KeyboardEvent) {
     if (this.shouldLock && this.host === (event.target as HTMLElement)) {
       this.unlockFocus(event);
-      event.preventDefault();
+      //prevent errors with event replay
+      if(event.eventPhase !== EventPhase.REPLAY) {
+        event.preventDefault();
+      }
       event.stopPropagation();
     }
   }
