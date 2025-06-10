@@ -30,14 +30,12 @@ export class SearchHighlightDirective implements OnChanges {
 
     if (!this.htmlString) { return; }
 
-    // Only parse HTML string in the browser (DOMParser is not available on the server)
     if (isPlatformBrowser(this.platformId)) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(this.htmlString, 'text/html');
       this.appendNodes(doc.body.childNodes, native);
     } else {
-      // On the server, just render the plain text to avoid errors
-      this.renderer.appendChild(native, this.renderer.createText(this.htmlString));
+      native.innerHTML = this.htmlString;
     }
   }
 
