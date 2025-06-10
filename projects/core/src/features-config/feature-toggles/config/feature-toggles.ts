@@ -186,13 +186,6 @@ export interface FeatureTogglesInterface {
   a11yKeyboardAccessibleZoom?: boolean;
 
   /**
-   * Sets 'linkable' property in 'CellComponent' to be false by default.
-   * Modifies all table configs to acomodate this change.
-   * This stops unnecessary anchor tags from being rendered in the table cells.
-   */
-  a11yOrganizationLinkableCells?: boolean;
-
-  /**
    * `StoreFinderListItemComponent` street name is not truncated
    */
   a11yTruncatedTextStoreFinder?: boolean;
@@ -832,7 +825,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
-  a11yOrganizationLinkableCells: true,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
   a11ySemanticPaginationLabel: true,
