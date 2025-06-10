@@ -30,19 +30,9 @@ export interface FeatureTogglesInterface {
   formErrorsDescriptiveMessages?: boolean;
 
   /**
-   * In `ASM` it shows searching customer by order ID.
-   */
-  showSearchingCustomerByOrderInASM?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
-
-  /**
-   * Some Changes for input of cart Number and text of Customer360View in ASM view
-   */
-  showStyleChangesInASM?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the trending searches.
@@ -790,8 +780,7 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
   formErrorsDescriptiveMessages: true,
-  showSearchingCustomerByOrderInASM: true,
-  showStyleChangesInASM: true,
+  shouldHideAddToCartForUnpurchasableProducts: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
