@@ -4,21 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductListService {
-  protected featureConfig = inject(FeatureConfigService);
-  private shouldHideAddToCartForUnpurchasableProducts =
-    this.featureConfig.isEnabled('shouldHideAddToCartForUnpurchasableProducts');
-
   shouldHideAddToCartButton(product: any): boolean {
-    return (
-      this.shouldHideAddToCartForUnpurchasableProducts &&
-      (!product.price || product.purchasable === false)
-    );
+    return !product.price || product.purchasable === false;
   }
 }
