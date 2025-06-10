@@ -9,14 +9,14 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { PunchoutNavigationGuard } from './punchout-navigation.guard';
-import { PunchoutFacade } from '../facade';
-import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
-import { PunchoutStoreService } from '../services';
 import {
   defaultPunchoutNavigationGuardConfig,
   PunchoutNavigationGuardConfig,
 } from '../config';
+import { PunchoutFacade } from '../facade';
+import { PunchOutOperation, PunchoutSession, PunchoutState } from '../model';
+import { PunchoutStoreService } from '../services';
+import { PunchoutNavigationGuard } from './punchout-navigation.guard';
 
 describe('PunchoutNavigationGuard', () => {
   let guard: PunchoutNavigationGuard;
@@ -24,16 +24,14 @@ describe('PunchoutNavigationGuard', () => {
   let punchoutStoreService: jasmine.SpyObj<PunchoutStoreService>;
   let punchoutFacade: jasmine.SpyObj<PunchoutFacade>;
   let routingService: jasmine.SpyObj<RoutingService>;
+  let routingConfigService: jasmine.SpyObj<RoutingConfigService>;
   let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
+  let punchoutNavigationGuardConfig: jasmine.SpyObj<PunchoutNavigationGuardConfig>;
 
   const mockRoute = {
     url: [{ path: 'cart' }],
     data: { cxRoute: 'cart' },
   } as unknown as CmsActivatedRouteSnapshot;
-
-  class MockRoutingConfigService implements Partial<RoutingConfigService> {
-    getRouteName = () => '';
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,7 +71,9 @@ describe('PunchoutNavigationGuard', () => {
         },
         {
           provide: RoutingConfigService,
-          useClass: MockRoutingConfigService,
+          useValue: jasmine.createSpyObj('RoutingConfigService', [
+            'getRouteName',
+          ]),
         },
       ],
     });
@@ -89,9 +89,15 @@ describe('PunchoutNavigationGuard', () => {
     routingService = TestBed.inject(
       RoutingService
     ) as jasmine.SpyObj<RoutingService>;
+    routingConfigService = TestBed.inject(
+      RoutingConfigService
+    ) as jasmine.SpyObj<RoutingConfigService>;
     globalMessageService = TestBed.inject(
       GlobalMessageService
     ) as jasmine.SpyObj<GlobalMessageService>;
+    punchoutNavigationGuardConfig = TestBed.inject(
+      PunchoutNavigationGuardConfig
+    ) as jasmine.SpyObj<PunchoutNavigationGuardConfig>;
   });
 
   it('should allow access for allowed cxRoute in EDIT mode', (done) => {
@@ -111,6 +117,59 @@ describe('PunchoutNavigationGuard', () => {
       expect(routingService.go).not.toHaveBeenCalled();
       done();
     });
+  });
+
+  it('should allow access for an allowed routeName', (done) => {
+    authService.isUserLoggedIn.and.returnValue(of(true));
+
+    const state: PunchoutState = {
+      punchoutSessionId: 'session123',
+      punchoutSession: {
+        punchOutOperation: PunchOutOperation.EDIT,
+      } as PunchoutSession,
+    };
+    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
+    routingConfigService.getRouteName.and.returnValue('punchoutSession');
+
+    guard
+      .canActivate(
+        {
+          url: [],
+          data: { cxRoute: undefined },
+        } as unknown as CmsActivatedRouteSnapshot,
+        {} as any
+      )
+      .subscribe((result) => {
+        expect(result).toBeTruthy();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+        expect(routingService.go).not.toHaveBeenCalled();
+        done();
+      });
+  });
+
+  it('should show warning message with logout cxRoute', (done) => {
+    authService.isUserLoggedIn.and.returnValue(of(true));
+
+    const state: PunchoutState = {
+      punchoutSessionId: 'session123',
+      punchoutSession: undefined,
+    };
+    punchoutStoreService.getPunchoutState.and.returnValue(of(state));
+
+    guard
+      .canActivate(
+        {
+          url: ['product', '123'],
+          data: { cxRoute: 'logout' },
+        } as unknown as CmsActivatedRouteSnapshot,
+        {} as any
+      )
+      .subscribe((result) => {
+        expect(result).toBeTruthy();
+        expect(globalMessageService.add).toHaveBeenCalled();
+        expect(routingService.go).not.toHaveBeenCalled();
+        done();
+      });
   });
 
   it('should block access for disallowed route in INSPECT mode', (done) => {
@@ -213,6 +272,45 @@ describe('PunchoutNavigationGuard', () => {
         'UNKNOWN_OP' as any
       );
       expect(result).toBe(false);
+    });
+
+    it('should return true if isAllowedUrls contains home url', () => {
+      const result = (guard as any).isAllowedUrls(
+        { ...mockRoute, url: [] },
+        PunchOutOperation.EDIT,
+        '/'
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return true if allowed url is contained in relative url', () => {
+      punchoutNavigationGuardConfig.punchoutNavigation = {
+        [PunchOutOperation.INSPECT]: {
+          allowedCxRoutes: ['punchoutInspect'],
+          redirectPage: { cxRoute: 'punchoutInspect' },
+        },
+        [PunchOutOperation.EDIT]: {
+          allowedUrls: ['product'],
+          redirectPage: { cxRoute: 'home' },
+        },
+        [PunchOutOperation.CREATE]: {
+          allowedUrls: ['/'],
+          redirectPage: { cxRoute: 'home' },
+        },
+      };
+      const result = (guard as any).isAllowedUrls(
+        {
+          ...mockRoute,
+          url: [
+            { path: 'catalog123' },
+            { path: 'discount-products' },
+            { path: 'abc' },
+          ],
+        },
+        PunchOutOperation.EDIT,
+        'catalog123/discount-products/abc'
+      );
+      expect(result).toBe(true);
     });
   });
 });
