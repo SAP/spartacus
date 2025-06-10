@@ -775,6 +775,14 @@ export interface FeatureTogglesInterface {
    * but now also a shorter alias (without product name) is accepted when matching the URL.
    */
   defaultProductPageRouteAllowsNoProductName?: boolean;
+
+  /**
+   * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
+   * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
+   * Otherwise the component has no width initially, and gets wider only after a delay.
+   * when Font Awesome font is loaded and Star icons are rendered.
+   */
+  reserveHorizontalSpaceStarRating?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -891,4 +899,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  reserveHorizontalSpaceStarRating: false,
 };
