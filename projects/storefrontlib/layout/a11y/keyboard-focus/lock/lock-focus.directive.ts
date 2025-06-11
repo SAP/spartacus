@@ -65,9 +65,7 @@ export class LockFocusDirective
     if (this.shouldLock && this.host === (event.target as HTMLElement)) {
       this.unlockFocus(event);
       //prevent errors with event replay
-      if (event.eventPhase !== EventPhase.REPLAY) {
-        event.preventDefault();
-      }
+      event.preventDefault();
       event.stopPropagation();
     }
   }
