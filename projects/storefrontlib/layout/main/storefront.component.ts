@@ -99,7 +99,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected keyboardFocusService: KeyboardFocusService
   ) {
     useFeatureStyles('a11yImproveContrast');
-    useFeatureStyles('cmsBottomHeaderSlotUsingFlexStyles');
     useFeatureStyles('headerLayoutForSmallerViewports');
     useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
