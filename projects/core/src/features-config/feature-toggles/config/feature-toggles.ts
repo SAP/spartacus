@@ -783,6 +783,23 @@ export interface FeatureTogglesInterface {
    * when Font Awesome font is loaded and Star icons are rendered.
    */
   reserveHorizontalSpaceStarRating?: boolean;
+
+  /**
+   * Feature flag to enable using `transform: translateX` instead of animating the `margin` property
+   * for the top progress bar animation.
+   *
+   * ## Why this flag exists:
+   * Animating the `margin` property has two major downsides:
+   *
+   * 1. **Cumulative Layout Shift (CLS)**: Changing margin causes layout shifts that negatively impact visual stability.
+   * 2. **Performance impact**: Margin animations trigger browser re-layouts (reflows), increasing layout and paint costs,
+   *    which contributes to poor performance metrics like Total Blocking Time (TBT).
+   *
+   * ## When enabled:
+   * The top progress bar will animate using `transform: translateX(...)`,, which is a GPU-accelerated,
+   * layout-independent operation that improves visual performance and avoids layout shifts.
+   */
+  topProgressBarUseTransformAnimation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -900,4 +917,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
+  topProgressBarUseTransformAnimation: false,
 };
