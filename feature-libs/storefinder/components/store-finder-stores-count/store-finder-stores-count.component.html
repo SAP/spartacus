@@ -9,14 +9,12 @@
     role="status"
     [attr.aria-label]="'common.loaded' | cxTranslate"
   ></div>
-  <ng-container>
-    <div *ngIf="locations?.length" class="col-12 m-3">
-      <span role="alert">{{
-        'storeFinder.ariaLabelCountriesCount'
-          | cxTranslate: { count: locations?.length }
-      }}</span>
-    </div>
-  </ng-container>
+  <div *ngIf="locations?.length" class="col-12 m-3">
+    <span role="alert">{{
+      'storeFinder.ariaLabelCountriesCount'
+        | cxTranslate: { count: locations?.length }
+    }}</span>
+  </div>
   <div class="cx-count container">
     <div class="row" *ngIf="locations?.length">
       <div

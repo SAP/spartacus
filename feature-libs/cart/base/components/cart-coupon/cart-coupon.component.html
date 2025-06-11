@@ -6,25 +6,23 @@
       </label>
 
       <div class="cx-cart-coupon-container">
-        <ng-container>
-          <input
-            [attr.aria-labelledby]="'card-coupon-input-label'"
-            type="text"
-            class="form-control input-coupon-code"
-            formControlName="couponCode"
-            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-          />
-          <button
-            class="btn btn-block btn-secondary apply-coupon-button"
-            type="submit"
-            [disabled]="
-              (cartIsLoading$ | async) || !couponForm?.get('couponCode')?.value
-            "
-            [class.disabled]="cartIsLoading$ | async"
-          >
-            {{ 'voucher.apply' | cxTranslate }}
-          </button>
-        </ng-container>
+        <input
+          [attr.aria-labelledby]="'card-coupon-input-label'"
+          type="text"
+          class="form-control input-coupon-code"
+          formControlName="couponCode"
+          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+        />
+        <button
+          class="btn btn-block btn-secondary apply-coupon-button"
+          type="submit"
+          [disabled]="
+            (cartIsLoading$ | async) || !couponForm?.get('couponCode')?.value
+          "
+          [class.disabled]="cartIsLoading$ | async"
+        >
+          {{ 'voucher.apply' | cxTranslate }}
+        </button>
       </div>
     </form>
   </div>

@@ -8,7 +8,7 @@
         <span class="cx-cart-quick-order-form-productID">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </label>
 
           <ng-container>
@@ -32,7 +32,7 @@
             class="cx-cart-quick-order-form-label"
           >
             {{ 'quickOrderCartForm.quantityFullLabel' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </label>
 
           <label
@@ -40,7 +40,7 @@
             class="cx-cart-quick-order-form-label"
           >
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+            <cx-form-required-asterisks />
           </label>
 
           <ng-container>
@@ -72,5 +72,3 @@
     </form>
   </div>
 </ng-container>
-
-<ng-template #requiredAsterisk> </ng-template>

@@ -62,9 +62,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
-  // TODO: (CXSPA-7464) - Remove feature flags and following bindings next major release.
-  @HostBinding('attr.role') role = null;
-
   // required by esc focus
   @HostBinding('tabindex') tabindex = '-1';
 
