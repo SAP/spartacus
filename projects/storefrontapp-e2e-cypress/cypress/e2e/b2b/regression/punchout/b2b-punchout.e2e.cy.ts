@@ -4,39 +4,40 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isolateTests } from '../../../../support/utils/test-isolation';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
-import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import {
-  createPunchoutSessionResponse,
   createPunchoutUser,
+  preparePunchoutSession,
 } from '../../../../helpers/b2b/b2b-punchout';
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
 describe('B2B Punchout', () => {
   isolateTests();
-  before(() => {
-    // clearAllStorage();
-    // Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-  });
+  let user: any;
+  let cart: any;
+  let stateAuth: any;
 
-  beforeEach(() => {
-    let sampleUser = getSampleUser();
-    createPunchoutUser(sampleUser).then((params) => {
-      ({ user, cart, stateAuth } = params);
-    });
-  });
+  // before(() => {
+  //   // clearAllStorage();
+  //   // Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+  // });
 
-  describe('Punchout Create', () => {
-    it('should open session', () => {
-      const punchoutConfig = {
-        punchOutLevel: 'STORE',
-        punchOutOperation: 'CREATE',
-        selectedItem: '3881414',
-      };
-      console.log('eeee', { user, cart, stateAuth, punchoutConfig });
-      preparePunchoutSession({ user, cart, stateAuth, punchoutConfig });
-      cy.get('cx-page-slot.SiteLogo').should('be.visible');
+  // beforeEach(() => {});
+
+  // describe('Punchout Create', () => {
+  it('should open session', () => {
+    //    let sampleUser = getSampleUser();
+    createPunchoutUser().then((params) => {
+      //  ({ user, cart, stateAuth } = params);
     });
+
+    const punchoutConfig = {
+      punchOutLevel: 'STORE',
+      punchOutOperation: 'CREATE',
+      selectedItem: '3881414',
+    };
+    cy.log('eeee', { user, cart, stateAuth, punchoutConfig });
+    preparePunchoutSession({ user, cart, stateAuth, punchoutConfig });
+    cy.get('cx-page-slot.SiteLogo').should('be.visible');
   });
+  //});
 });

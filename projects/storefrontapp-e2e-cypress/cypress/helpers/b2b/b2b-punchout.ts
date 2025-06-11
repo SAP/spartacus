@@ -4,51 +4,52 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { b2bUser } from '../../sample-data/b2b-checkout';
-import { myCompanyAdminUser } from '../../sample-data/shared-users';
-import { login } from '../../support/utils/login';
+import { login, setSessionData } from '../../support/utils/login';
 import { visitHomePage } from '../checkout-flow';
-import { addB2bUser, setB2bPassword } from './b2b-checkout';
-import { product1 } from '../../sample-data/b2b-order-history';
-import { clearAllStorage } from '../../support/utils/clear-all-storage';
 import { removeProductFromCart } from '../wish-list';
 
-export function createPunchoutUser(user) {
-  let adminToken;
-  let stateAuth;
-  return login(
-    myCompanyAdminUser.registrationData.email,
-    myCompanyAdminUser.registrationData.password
-  )
-    .then((result) => {
-      expect(result.status).to.eq(200);
-      adminToken = result?.body?.access_token;
-      return addB2bUser(adminToken, user, ['PunchOut Organization']);
-    })
-    .then((result) => {
-      expect(result.status).to.eq(201);
-      return setB2bPassword(result.body.customerId, user.password, adminToken);
-    })
-    .then((result: any) => {
-      expect(result.status).to.eq(204);
-      b2bUser.registrationData.email = user.email;
-      b2bUser.registrationData.password = user.password;
+//presteps
+// login with punchout user,
+// get its token from response
+// create a cart (not sure if it is done by adding item?)
+// no need to logout (session page )
 
-      return cy.requireLoggedIn(b2bUser);
-    })
-    .then(() => {
-      visitHomePage();
-      cy.get('.cx-login-greet').should('contain', user.fullName);
-      return cy.window();
-    })
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
-    .then(({ token }) => {
-      stateAuth = token;
-      return cy.requireProductAddedToCart(stateAuth, product1);
-    })
-    .then((cart) => {
-      user, cart, stateAuth;
-    });
+export function createPunchoutUser() {
+  // let adminToken;
+  // let stateAuth;
+  return login('punchout.customer@punchoutorg.com', 'pw4all').then((result) => {
+    expect(result.status).to.eq(200);
+    cy.log('Logged in as Punchout user', JSON.stringify(result.body));
+    setSessionData(result.body);
+
+    visitHomePage();
+    //   adminToken = result?.body?.access_token;
+    //   return addB2bUser(adminToken, user, ['PunchOutOrganization']);
+    // })
+    // .then((result) => {
+    //   expect(result.status).to.eq(201);
+    //   return setB2bPassword(result.body.customerId, user.password, adminToken);
+    // })
+    // .then((result: any) => {
+    //   expect(result.status).to.eq(204);
+    //   b2bUser.registrationData.email = user.email;
+    //   b2bUser.registrationData.password = user.password;
+
+    //   return cy.requireLoggedIn(b2bUser);
+  });
+  // .then(() => {
+  //   visitHomePage();
+  //   cy.get('.cx-login-greet').should('contain', user.fullName);
+  //   return cy.window();
+  // })
+  // .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+  // .then(({ token }) => {
+  //   stateAuth = token;
+  //   return cy.requireProductAddedToCart(stateAuth, product1);
+  // })
+  // .then((cart) => {
+  //   user, cart, stateAuth;
+  // });
 }
 
 export function createPunchoutSession(
@@ -100,7 +101,7 @@ export const preparePunchoutSession = ({
   removeProductFromCart();
   console.log('mockResponse', mockResponse);
   createPunchoutSession(mockResponse);
-  clearAllStorage();
+  // clearAllStorage();
   cy.visit(`/punchout/cxml/session?sid=mySessionId`);
   cy.get('cx-login .cx-login-greet').contains(
     `Hi, ${user.firstName} ${user.lastName}`
