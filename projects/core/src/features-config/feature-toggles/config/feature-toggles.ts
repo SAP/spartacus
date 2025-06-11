@@ -170,13 +170,6 @@ export interface FeatureTogglesInterface {
   a11yKeyboardAccessibleZoom?: boolean;
 
   /**
-   * Sets 'linkable' property in 'CellComponent' to be false by default.
-   * Modifies all table configs to acomodate this change.
-   * This stops unnecessary anchor tags from being rendered in the table cells.
-   */
-  a11yOrganizationLinkableCells?: boolean;
-
-  /**
    * `StoreFinderListItemComponent` street name is not truncated
    */
   a11yTruncatedTextStoreFinder?: boolean;
@@ -188,49 +181,10 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextUnitLevelOrderHistory?: boolean;
 
   /**
-   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
-   */
-  a11ySemanticPaginationLabel?: boolean;
-
-  /**
    * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
-
-  /**
-   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
-   */
-  a11yPreventSRFocusOnHiddenElements?: boolean;
-
-  /**
-   * Improve colour contrast in the demonstration theme Santorini
-   * to comply with accessibility standards. On activation, colour
-   * assignations for all UI elements will change and previous keyboard
-   * focus-ring gets replaced by a new bi-colour focus-ring.
-   *
-   * Note: If you're not using in your app the `StorefrontComponent`
-   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
-   *       the following line to the constructor of your app's root component:
-   *
-   * ```
-   * constructor() {
-   *   useFeatureStyles('a11yImproveContrast');
-   * }
-   * ```
-   */
-  a11yImproveContrast?: boolean;
-
-  /**
-   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
-   */
-  a11yNotificationPreferenceFieldset?: boolean;
-
-  /**
-   * Removes the `tabindex` attribute from the `StorefrontComponent`.
-   * This helps to reduce the screen reader bloat.
-   */
-  a11yScreenReaderBloatFix?: boolean;
 
   /**
    * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
@@ -256,21 +210,6 @@ export interface FeatureTogglesInterface {
   a11yPickupOptionsTabs?: boolean;
 
   /**
-   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
-   * will be displayed
-   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
-   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
-   */
-  a11yNotificationsOnConsentChange?: boolean;
-
-  /**
-   * When enabled disable "Apply" button in promo code component in cart for empty input,
-   * disable "Add" button in quick order component when input is empty and remove
-   * required validators for both inputs
-   */
-  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
@@ -282,36 +221,15 @@ export interface FeatureTogglesInterface {
   headerLayoutForSmallerViewports?: boolean;
 
   /**
-   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
-   * and further improves its screen reader readout.
-   */
-  a11yDeliveryModeRadiogroup?: boolean;
-
-  /**
-   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
-   */
-  a11yStoreFinderAlerts?: boolean;
-
-  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
-
-  /**
-   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
-   */
-  a11yFormErrorMuteIcon?: boolean;
 
   /**
    * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
    *  together with aria-live="atomic"
    */
   a11yImprovedErrorMessage?: boolean;
-
-  /**
-   * `MessageComponent` gets focused after a message with an action is rendered.
-   */
-  a11yCxMessageFocus?: boolean;
 
   /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
@@ -363,11 +281,6 @@ export interface FeatureTogglesInterface {
    * Improves its screen reader readout.
    */
   a11yAddedToCartActiveDialog?: boolean;
-
-  /**
-   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
-   */
-  a11yNgSelectMobileReadout?: boolean;
 
   /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
@@ -783,6 +696,23 @@ export interface FeatureTogglesInterface {
    * when Font Awesome font is loaded and Star icons are rendered.
    */
   reserveHorizontalSpaceStarRating?: boolean;
+
+  /**
+   * Feature flag to enable using `transform: translateX` instead of animating the `margin` property
+   * for the top progress bar animation.
+   *
+   * ## Why this flag exists:
+   * Animating the `margin` property has two major downsides:
+   *
+   * 1. **Cumulative Layout Shift (CLS)**: Changing margin causes layout shifts that negatively impact visual stability.
+   * 2. **Performance impact**: Margin animations trigger browser re-layouts (reflows), increasing layout and paint costs,
+   *    which contributes to poor performance metrics like Total Blocking Time (TBT).
+   *
+   * ## When enabled:
+   * The top progress bar will animate using `transform: translateX(...)`, which is a GPU-accelerated,
+   * layout-independent operation that improves visual performance and avoids layout shifts.
+   */
+  topProgressBarUseTransformAnimation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -808,37 +738,24 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
-  a11yOrganizationLinkableCells: true,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: false,
-  a11ySemanticPaginationLabel: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yPreventSRFocusOnHiddenElements: true,
-  a11yNotificationPreferenceFieldset: true,
-  a11yImproveContrast: true,
-  a11yScreenReaderBloatFix: true,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
-  a11yNotificationsOnConsentChange: true,
-  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
   a11yResetFocusAfterNavigating: false,
   headerLayoutForSmallerViewports: true,
-  a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
-  a11yFormErrorMuteIcon: true,
   a11yImprovedErrorMessage: false,
-  a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
-  a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: false,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
-  a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
   a11yQuickOrderAriaControls: true,
@@ -900,4 +817,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
+  topProgressBarUseTransformAnimation: false,
 };
