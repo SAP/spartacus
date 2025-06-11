@@ -15,7 +15,6 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { EventPhase } from '@angular/core/primitives/event-dispatch';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
 import { LockFocusService } from './lock-focus.service';
