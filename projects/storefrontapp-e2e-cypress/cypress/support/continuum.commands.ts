@@ -93,7 +93,9 @@ const a11yContinuumSetup = withContinuum(
 );
 
 const a11YContinuumPrintResults = withContinuum(() => {
-  const accessibilityConcerns = Continuum.getAccessibilityConcerns();
+  const accessibilityConcerns = getConfirmedConcerns(
+    Continuum.getAccessibilityConcerns()
+  );
 
   if (accessibilityConcerns.length > 0) {
     accessibilityConcerns.forEach((accessibilityConcern) => {
@@ -123,7 +125,7 @@ const a11YContinuumPrintResults = withContinuum(() => {
 
 const a11YContinuumFailIfConcerns = withContinuum(() => {
   expect(
-    Continuum.getAccessibilityConcerns(),
+    getConfirmedConcerns(Continuum.getAccessibilityConcerns(), false),
     'no accessibility concerns'
   ).to.have.lengthOf(0);
 });
@@ -135,6 +137,26 @@ const isContinuumAvailable = () => {
   } catch (e) {
     return false;
   }
+};
+
+// Some concerns reported by the continuum cannot be verified automatically and require a manual review by the dev.
+// We assume that unconfirmed violations are not critical, so we log them instead of failing the test.
+const getConfirmedConcerns = (
+  accessibilityConcerns,
+  logPossibleConcerns = true
+) => {
+  return accessibilityConcerns.filter((concern) => {
+    if (concern._needsReview && logPossibleConcerns) {
+      cy.get(concern.path, { log: false }).then((node) => {
+        const originalNodeShadow = node.css('box-shadow');
+        node.css('box-shadow', '0 0 10px 10px orange');
+        cy.a11yWarning(concern).then(() => {
+          node.css('box-shadow', originalNodeShadow);
+        });
+      });
+    }
+    return !concern._needsReview;
+  });
 };
 
 // We verify Access Engine is loaded, loading it again only if necessary, before running our accessibility tests.
@@ -173,6 +195,22 @@ const a11yRunContinuumTest = withContinuum(
   }
 );
 
+const a11yWarning = (concern) => {
+  cy.get(concern.path, { log: false }).then((node) => {
+    Cypress.log({
+      name: 'A11yWarning',
+      displayName: 'A11y Warning',
+      message: `⚠️♿️⚠️ Possible accessibility concern detected`,
+      consoleProps: () => ({
+        element: node[0],
+        attribute: concern.attribute,
+        description: concern.bestPracticeDescription,
+        url: concern.bestPracticeDetailsUrl,
+      }),
+    });
+  });
+};
+
 Cypress.Commands.add('a11yContinuumSetup', a11yContinuumSetup);
 Cypress.Commands.add(
   'a11yRunContinuumTest',
@@ -182,3 +220,4 @@ Cypress.Commands.add(
   (prevSubject, failIfConcerns = true, includeIframe = false) =>
     a11yRunContinuumTest(prevSubject, failIfConcerns, includeIframe)
 );
+Cypress.Commands.add('a11yWarning', a11yWarning);

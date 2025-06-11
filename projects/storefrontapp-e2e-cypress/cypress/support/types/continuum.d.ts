@@ -50,6 +50,12 @@ declare global {
         failIfConcerns?: boolean,
         includeIframe?: boolean
       ): Chainable<void>;
+
+      /**
+       * Logs an accessibility concern to the Cypress log. Not intended for direct use in tests.
+       * @param concern - The accessibility concern object returned by Access Continuum.
+       */
+      a11yWarning(concern): Chainable<void>;
     }
   }
 
