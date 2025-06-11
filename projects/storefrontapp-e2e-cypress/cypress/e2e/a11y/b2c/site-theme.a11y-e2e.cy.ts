@@ -5,7 +5,7 @@
  */
 
 import { FeaturesConfig } from '@spartacus/core';
-import * as siteTheme from '../../helpers/site-theme';
+import * as siteTheme from '../../../helpers/site-theme';
 
 context('Continuum Theme Switching Context', { testIsolation: false }, () => {
   before(() => {

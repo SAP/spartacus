@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { formats } from '../../sample-data/viewports';
+import { formats } from '../../../sample-data/viewports';
 
 const mobileHeaderVisibleElements = [
   'cx-banner a',

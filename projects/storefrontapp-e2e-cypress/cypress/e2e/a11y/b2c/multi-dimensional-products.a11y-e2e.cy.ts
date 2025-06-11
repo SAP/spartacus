@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { multiDBaseProduct } from '../../sample-data/multi-dimensional-flow';
+import { multiDBaseProduct } from '../../../sample-data/multi-dimensional-flow';
 
 describe('Multi Dimensional Products Accessibility', () => {
   before(() => {

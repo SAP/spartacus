@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../helpers/viewport-context';
+import { viewportContext } from '../../../helpers/viewport-context';
 /**
  * This test checks accessibility concerns on the cart page using Access Continuum
  */

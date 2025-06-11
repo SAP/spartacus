@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { user } from '../../sample-data/checkout-flow';
+import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
+import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
+import { user } from '../../../sample-data/checkout-flow';
 
 describe('Tabbing order for OTP login', () => {
   before(() => {

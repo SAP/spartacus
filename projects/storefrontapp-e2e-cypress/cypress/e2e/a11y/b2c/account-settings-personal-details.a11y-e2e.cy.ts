@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { standardUser } from '../../sample-data/shared-users';
-import * as updateProfile from '../../helpers/update-profile';
+import { standardUser } from '../../../sample-data/shared-users';
+import * as updateProfile from '../../../helpers/update-profile';
 
 export function fillUpdatePersonalDetailsForm({
   firstName,

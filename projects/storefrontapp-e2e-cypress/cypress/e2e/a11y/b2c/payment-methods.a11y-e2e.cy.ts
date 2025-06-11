@@ -7,8 +7,8 @@
 import {
   addPaymentMethod,
   testPaymentDetail,
-} from '../../helpers/payment-methods';
-import { products } from '../../helpers/cart';
+} from '../../../helpers/payment-methods';
+import { products } from '../../../helpers/cart';
 
 function addPaymentMethods() {
   cy.visit(`product/${products[0].code}`);

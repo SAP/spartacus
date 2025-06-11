@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { normalProductCode } from '../../helpers/notification';
+import { normalProductCode } from '../../../helpers/notification';
 
 describe('Customer Interests accessibility', { testIsolation: false }, () => {
   before(() => {

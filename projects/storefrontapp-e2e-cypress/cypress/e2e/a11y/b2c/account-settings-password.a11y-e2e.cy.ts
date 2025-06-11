@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as updateEmail from '../../helpers/update-email';
-import * as updatePassword from '../../helpers/update-password';
-import { standardUser } from '../../sample-data/shared-users';
+import * as updateEmail from '../../../helpers/update-email';
+import * as updatePassword from '../../../helpers/update-password';
+import { standardUser } from '../../../sample-data/shared-users';
 
 export function fillUpdatePasswordForm({
   oldPassword,

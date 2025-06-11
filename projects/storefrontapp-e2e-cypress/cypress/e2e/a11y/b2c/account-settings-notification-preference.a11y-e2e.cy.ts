@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { standardUser } from '../../sample-data/shared-users';
+import { standardUser } from '../../../sample-data/shared-users';
 
 const NOTIFICATION_PREFERENCE_URL = '/my-account/notification-preference';
 

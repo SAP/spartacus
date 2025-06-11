@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as siteContextSelector from '../../helpers/site-context-selector';
+import * as siteContextSelector from '../../../helpers/site-context-selector';
 
 /**
  * This test checks accessibility concerns on the add to cart modal (PLP Page) using Access Continuum
