@@ -9,7 +9,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  Optional,
   Output,
   inject,
 } from '@angular/core';
@@ -63,10 +62,7 @@ export class PaginationComponent {
 
   pages: PaginationItem[] = [];
 
-  // TODO: (CXSPA-7289) - Make required next major release
-  @Optional() translationService = inject(TranslationService, {
-    optional: true,
-  });
+  translationService = inject(TranslationService);
 
   constructor(
     private paginationBuilder: PaginationBuilder,
@@ -114,22 +110,6 @@ export class PaginationComponent {
           : goToTranslation;
       })
     );
-  }
-  /**
-   * Format aria-label based on pagination item type.
-   *
-   * @param label string
-   * @param type PaginationItemType
-   * @returns string
-   */
-  // TODO: (CXSPA-7289) - Remove deprecated method next major release
-  getAriaLabel(label?: string, type?: PaginationItemType): string {
-    // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
-    type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
-    type = type === PaginationItemType.END ? PaginationItemType.LAST : type;
-    return type === PaginationItemType.PAGE
-      ? `${type} ${label}`
-      : `${type} ${PaginationItemType.PAGE}`;
   }
 
   /**

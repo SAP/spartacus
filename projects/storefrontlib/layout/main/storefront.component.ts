@@ -62,19 +62,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
-  // TODO: (CXSPA-7464) - Remove feature flags and following bindings next major release.
-  @HostBinding('attr.role') role = this?.featureConfigService.isEnabled(
-    'a11yScreenReaderBloatFix'
-  )
-    ? null
-    : 'presentation';
-
   // required by esc focus
-  @HostBinding('tabindex') tabindex = this?.featureConfigService.isEnabled(
-    'a11yScreenReaderBloatFix'
-  )
-    ? '-1'
-    : '0';
+  @HostBinding('tabindex') tabindex = '-1';
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
@@ -98,7 +87,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('a11yImproveContrast');
     useFeatureStyles('headerLayoutForSmallerViewports');
     useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');

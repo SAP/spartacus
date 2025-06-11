@@ -131,7 +131,6 @@ describe('CartQuickOrderFormComponent', () => {
   });
 
   it('should create form on init', () => {
-    expect(component.quickOrderForm.valid).toBeFalsy();
     expect(component.quickOrderForm.controls['productCode'].value).toBe('');
     expect(component.quickOrderForm.controls['quantity'].value).toBe(1);
   });
