@@ -9,11 +9,6 @@
     content: '';
     position: fixed;
     z-index: 2;
-    // testing for feature flag is working or not
-    @include forFeature('topProgressBarUseTransformAnimation') {
-      will-change: transform; // Hint for better performance
-      height: 100px;
-    }
   }
   &:before {
     background-color: var(--cx-color-light);
@@ -24,6 +19,9 @@
   }
 }
 
+/**
+ * @deprecated since 2211. ?? - use instead `%progress-bar-loading-animation `
+ */
 %progress-bar-loading {
   @keyframes loading {
     0% {
@@ -39,25 +37,15 @@
       margin-inline-end: 0;
     }
   }
-  @include forFeature('topProgressBarUseTransformAnimation') {
-    @keyframes loading {
-      0% {
-        transform: translateX(-100%);
-      }
-      50% {
-        transform: translateX(-25%);
-      }
-      100% {
-        transform: translateX(0%);
-      }
-    }
-  }
 
   &:after {
     animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 }
 
+/**
+ * @deprecated since 2211. ?? - use instead `%progress-bar-loaded-animation `
+ */
 %progress-bar-loaded {
   @keyframes loaded {
     0% {
@@ -69,17 +57,40 @@
       margin-inline-end: 0;
     }
   }
-  @include forFeature('topProgressBarUseTransformAnimation') {
-    @keyframes loaded {
-      0% {
-        transform: translateX(-50%);
-      }
-      100% {
-        transform: translateX(0%);
-      }
+  &:after {
+    animation: loaded 0.5s;
+  }
+}
+
+%progress-bar-loading-animation {
+  @keyframes progress-bar-loading-animation {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(-25%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  &:after {
+    animation: progress-bar-loading-animation 2s cubic-bezier(0.4, 0, 0.2, 1)
+      infinite;
+  }
+}
+
+%progress-bar-loaded-animation {
+  @keyframes progress-bar-loaded-animation {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
     }
   }
   &:after {
-    animation: loaded 0.5s;
+    animation: progress-bar-loaded-animation 0.5s;
   }
 }
