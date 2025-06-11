@@ -34,7 +34,6 @@ import { ProductGridItemComponent } from './product-grid-item/product-grid-item.
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductListService } from './product-list.service';
-import { SearchHighlightDirective } from './product-list-item/search-highlight.directive';
 
 @NgModule({
   imports: [
@@ -92,7 +91,6 @@ import { SearchHighlightDirective } from './product-list-item/search-highlight.d
     ProductGridItemComponent,
     ProductViewComponent,
     ProductScrollComponent,
-    SearchHighlightDirective,
   ],
   exports: [
     ProductListComponent,
