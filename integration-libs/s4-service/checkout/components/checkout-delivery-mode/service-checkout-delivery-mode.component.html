@@ -143,27 +143,25 @@
 
 <ng-template #displayServiceDelivery>
   <ng-container *ngIf="hasServiceProducts$ | async">
-    <ng-container>
-      <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
-        <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
-          {{ 'serviceOrderCheckout.serviceDeliveryMethod' | cxTranslate }}
-        </legend>
-      </ng-container>
-      <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
-        <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
-          {{ 'serviceOrderCheckout.serviceDeliveryOption' | cxTranslate }}
-        </legend>
-      </ng-container>
-      <div class="cx-delivery-mode-wrapper">
-        <div class="form-check">
-          <ng-container
-            *ngTemplateOutlet="
-              displayDeliveryMode;
-              context: { content: serviceDeliveryConfig }
-            "
-          ></ng-container>
-        </div>
-      </div>
+    <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
+      <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+        {{ 'serviceOrderCheckout.serviceDeliveryMethod' | cxTranslate }}
+      </legend>
     </ng-container>
+    <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
+      <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+        {{ 'serviceOrderCheckout.serviceDeliveryOption' | cxTranslate }}
+      </legend>
+    </ng-container>
+    <div class="cx-delivery-mode-wrapper">
+      <div class="form-check">
+        <ng-container
+          *ngTemplateOutlet="
+            displayDeliveryMode;
+            context: { content: serviceDeliveryConfig }
+          "
+        ></ng-container>
+      </div>
+    </div>
   </ng-container>
 </ng-template>

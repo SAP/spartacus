@@ -11,19 +11,17 @@
             <cx-form-required-asterisks />
           </label>
 
-          <ng-container>
-            <input
-              [attr.aria-label]="
-                'quickOrderCartForm.entryProductCode' | cxTranslate
-              "
-              class="form-control input-product-code"
-              formControlName="productCode"
-              placeholder="{{
-                'quickOrderCartForm.productCodePlaceholder' | cxTranslate
-              }}"
-              type="text"
-            />
-          </ng-container>
+          <input
+            [attr.aria-label]="
+              'quickOrderCartForm.entryProductCode' | cxTranslate
+            "
+            class="form-control input-product-code"
+            formControlName="productCode"
+            placeholder="{{
+              'quickOrderCartForm.productCodePlaceholder' | cxTranslate
+            }}"
+            type="text"
+          />
         </span>
 
         <span class="cx-cart-quick-order-form-qty">
@@ -43,31 +41,27 @@
             <cx-form-required-asterisks />
           </label>
 
-          <ng-container>
-            <input
-              [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
-              class="form-control input-quantity"
-              formControlName="quantity"
-              type="number"
-            />
-          </ng-container>
+          <input
+            [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
+            class="form-control input-quantity"
+            formControlName="quantity"
+            type="number"
+          />
         </span>
 
-        <ng-container>
-          <button
-            [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
-            [class.disabled]="cartIsLoading$ | async"
-            [disabled]="
-              (cartIsLoading$ | async) ||
-              !quickOrderForm?.get('productCode')?.value ||
-              !quickOrderForm?.get('quantity')?.value
-            "
-            class="btn btn-block btn-secondary apply-quick-order-button"
-            type="submit"
-          >
-            {{ 'quickOrderCartForm.add' | cxTranslate }}
-          </button>
-        </ng-container>
+        <button
+          [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
+          [class.disabled]="cartIsLoading$ | async"
+          [disabled]="
+            (cartIsLoading$ | async) ||
+            !quickOrderForm?.get('productCode')?.value ||
+            !quickOrderForm?.get('quantity')?.value
+          "
+          class="btn btn-block btn-secondary apply-quick-order-button"
+          type="submit"
+        >
+          {{ 'quickOrderCartForm.add' | cxTranslate }}
+        </button>
       </div>
     </form>
   </div>

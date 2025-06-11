@@ -322,3 +322,8 @@ export const unitsTableConfig: TableConfig = {
     },
   },
 };
+
+/**
+ * @deprecated Use `unitsTableConfig` instead.
+ */
+export const newUnitsTableConfig: TableConfig = unitsTableConfig;

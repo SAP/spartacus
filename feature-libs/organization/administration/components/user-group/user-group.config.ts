@@ -196,3 +196,8 @@ export const userGroupTableConfig: TableConfig = {
     },
   },
 };
+
+/**
+ * @deprecated Use `userGroupTableConfig` instead.
+ */
+export const newUserGroupTableConfig: TableConfig = userGroupTableConfig;
