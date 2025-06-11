@@ -28,7 +28,9 @@ export class SearchHighlightDirective implements OnChanges {
       this.renderer.removeChild(native, native.firstChild);
     }
 
-    if (!this.htmlString) { return; }
+    if (!this.htmlString) {
+      return;
+    }
 
     if (isPlatformBrowser(this.platformId)) {
       const parser = new DOMParser();
@@ -50,7 +52,7 @@ export class SearchHighlightDirective implements OnChanges {
       ) {
         const em = this.renderer.createElement('em');
         this.renderer.addClass(em, 'search-results-highlight');
-        this.appendNodes(node.childNodes as NodeListOf<ChildNode>, em);
+        this.appendNodes(node.childNodes, em);
         this.renderer.appendChild(parent, em);
       }
       // Ignore any other elements for security
