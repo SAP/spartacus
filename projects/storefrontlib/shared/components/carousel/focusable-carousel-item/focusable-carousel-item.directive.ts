@@ -51,7 +51,7 @@ export class FocusableCarouselItemDirective {
     const focusableTags = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON', 'A'];
     const element = this.el.nativeElement;
     const hasTabIndex =
-      element?.hasAttribute('tabindex') &&
+      element.hasAttribute('tabindex') &&
       element.getAttribute('tabindex') !== '-1';
     const isFocusableTag = focusableTags.includes(element.tagName);
     const isDisabled = element.hasAttribute('disabled');
