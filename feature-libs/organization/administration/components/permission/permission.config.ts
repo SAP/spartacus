@@ -73,10 +73,10 @@ export const permissionCmsConfig: CmsConfig = {
 };
 
 export function permissionTableConfigFactory(): TableConfig {
-  return newPermissionTableConfig;
+  return permisionTableConfig;
 }
 
-export const newPermissionTableConfig: TableConfig = {
+export const permisionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
       cells: ['code', 'active', 'limit', 'unit'],
@@ -101,26 +101,7 @@ export const newPermissionTableConfig: TableConfig = {
   },
 };
 
-export const permisionTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.PERMISSION]: {
-      cells: ['code', 'active', 'limit', 'unit'],
-      options: {
-        cells: {
-          code: {
-            dataComponent: ActiveLinkCellComponent,
-          },
-          active: {
-            dataComponent: StatusCellComponent,
-          },
-          unit: {
-            dataComponent: UnitCellComponent,
-          },
-          limit: {
-            dataComponent: LimitCellComponent,
-          },
-        },
-      },
-    },
-  },
-};
+/**
+ * @deprecated Use `permisionTableConfig` instead.
+ */
+export const newPermissionTableConfig: TableConfig = permisionTableConfig;

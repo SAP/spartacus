@@ -81,51 +81,10 @@ export const budgetCmsConfig: CmsConfig = {
 };
 
 export function budgetTableConfigFactory(): TableConfig {
-  return newBudgetTableConfig;
+  return budgetTableConfig;
 }
 
 export const budgetTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.BUDGET]: {
-      cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: ActiveLinkCellComponent,
-          },
-          active: {
-            dataComponent: StatusCellComponent,
-          },
-          amount: {
-            dataComponent: AmountCellComponent,
-          },
-          dateRange: {
-            dataComponent: DateRangeCellComponent,
-          },
-          unit: {
-            dataComponent: UnitCellComponent,
-          },
-        },
-      },
-    },
-
-    [OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS]: {
-      cells: ['name'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: CostCenterDetailsCellComponent,
-          },
-        },
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    },
-  },
-};
-
-export const newBudgetTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.BUDGET]: {
       cells: ['name', 'active', 'amount', 'dateRange', 'unit'],
@@ -166,3 +125,8 @@ export const newBudgetTableConfig: TableConfig = {
     },
   },
 };
+
+/**
+ * @deprecated Use `budgetTableConfig` instead.
+ */
+export const newBudgetTableConfig: TableConfig = budgetTableConfig;

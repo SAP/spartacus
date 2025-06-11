@@ -94,10 +94,10 @@ export const costCenterCmsConfig: CmsConfig = {
 };
 
 export function costCenterTableConfigFactory(): TableConfig {
-  return newCostCenterTableConfig;
+  return costCenterTableConfig;
 }
 
-export const newCostCenterTableConfig: TableConfig = {
+export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: {
       cells: ['name', 'active', 'currency', 'unit'],
@@ -152,57 +152,8 @@ export const newCostCenterTableConfig: TableConfig = {
     },
   },
 };
-export const costCenterTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.COST_CENTER]: {
-      cells: ['name', 'active', 'currency', 'unit'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: ActiveLinkCellComponent,
-          },
-          active: {
-            dataComponent: StatusCellComponent,
-          },
-          currency: {
-            dataComponent: CellComponent,
-          },
-          unit: {
-            dataComponent: UnitCellComponent,
-          },
-        },
-      },
-    },
 
-    [OrganizationTableType.COST_CENTER_ASSIGNED_BUDGETS]: {
-      cells: ['name', 'actions'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: BudgetDetailsCellComponent,
-          },
-          actions: {
-            dataComponent: AssignCellComponent,
-          },
-        },
-        pagination: {
-          pageSize: MAX_OCC_INTEGER_VALUE,
-        },
-      },
-    },
-
-    [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      cells: ['name', 'actions'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: BudgetDetailsCellComponent,
-          },
-          actions: {
-            dataComponent: AssignCellComponent,
-          },
-        },
-      },
-    },
-  },
-};
+/**
+ * @deprecated Use `costCenterTableConfig` instead.
+ */
+export const newCostCenterTableConfig: TableConfig = costCenterTableConfig;
