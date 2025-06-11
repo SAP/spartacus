@@ -20,7 +20,7 @@
 }
 
 /**
- * @deprecated since 2211. ?? - use instead `%progress-bar-loading-animation `
+ * @deprecated since 2211.41.0 - use instead `%progress-bar-loading-animation `
  */
 %progress-bar-loading {
   @keyframes loading {
@@ -44,7 +44,7 @@
 }
 
 /**
- * @deprecated since 2211. ?? - use instead `%progress-bar-loaded-animation `
+ * @deprecated since 2211.41.0  - use instead `%progress-bar-loaded-animation `
  */
 %progress-bar-loaded {
   @keyframes loaded {
