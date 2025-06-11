@@ -92,7 +92,7 @@ import { SearchHighlightDirective } from './product-list-item/search-highlight.d
     ProductGridItemComponent,
     ProductViewComponent,
     ProductScrollComponent,
-    SearchHighlightDirective
+    SearchHighlightDirective,
   ],
   exports: [
     ProductListComponent,

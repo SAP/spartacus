@@ -21,9 +21,7 @@ import {
   template,
   url,
 } from '@angular-devkit/schematics';
-import {
-  insertImport,
-} from '@schematics/angular/utility/ast-utils';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -31,9 +29,7 @@ import {
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
 import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
-import {
-  ANGULAR_SSR,
-} from '../shared/constants';
+import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
@@ -354,7 +350,6 @@ function useNoSsrConfigurationInNgServe(
     return tree;
   };
 }
-
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {

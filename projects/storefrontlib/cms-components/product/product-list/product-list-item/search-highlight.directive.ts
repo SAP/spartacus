@@ -4,13 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input, SimpleChanges, OnChanges, ElementRef, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Directive,
+  Input,
+  SimpleChanges,
+  OnChanges,
+  ElementRef,
+  Renderer2,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 // parse the string with HTML (with limited possible node types), and then build ourselves the DOM structure using Angular Renderer
 @Directive({
   selector: '[cxSearchResultsHighlightInnerHtml]',
-  standalone: false
+  standalone: false,
 })
 export class SearchHighlightDirective implements OnChanges {
   @Input('cxSearchResultsHighlightInnerHtml') htmlString: string;
@@ -48,9 +57,12 @@ export class SearchHighlightDirective implements OnChanges {
   }
 
   appendNodes(nodes: NodeListOf<ChildNode>, parent: HTMLElement) {
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       if (node.nodeType === Node.TEXT_NODE) {
-        this.renderer.appendChild(parent, this.renderer.createText(node.textContent || ''));
+        this.renderer.appendChild(
+          parent,
+          this.renderer.createText(node.textContent || '')
+        );
       } else if (
         node.nodeType === Node.ELEMENT_NODE &&
         node.nodeName.toLowerCase() === 'em' &&
