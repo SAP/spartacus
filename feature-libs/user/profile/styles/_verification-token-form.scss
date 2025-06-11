@@ -65,9 +65,7 @@
     position: relative;
     word-break: break-word;
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('7');
-    }
+    @include type('7');
 
     &::before,
     &::after {
@@ -87,11 +85,7 @@
     }
 
     &::after {
-      content: '!';
-      // TODO: (CXSPA-7588) - Remove feature flag next major release
-      @include forFeature('a11yFormErrorMuteIcon') {
-        content: '!' / '';
-      }
+      content: '!' / '';
       color: var(--cx-color-inverse);
       font-weight: var(--cx-font-weight-bold);
       text-align: center;
