@@ -5,16 +5,16 @@
  */
 
 import { b2bUser } from '../../sample-data/b2b-checkout';
-import { getSampleUser } from '../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../sample-data/shared-users';
 import { login } from '../../support/utils/login';
 import { visitHomePage } from '../checkout-flow';
 import { addB2bUser, setB2bPassword } from './b2b-checkout';
 import { product1 } from '../../sample-data/b2b-order-history';
+import { clearAllStorage } from '../../support/utils/clear-all-storage';
+import { removeProductFromCart } from '../wish-list';
 
 export function createPunchoutUser(user) {
   let adminToken;
-  // let user = getSampleUser();
   let stateAuth;
   return login(
     myCompanyAdminUser.registrationData.email,
@@ -60,33 +60,53 @@ export function createPunchoutSession(
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/punchout/session/*`,
+      )}/punchout/sessions/*`,
     },
     mockResponse
   ).as(alias);
 }
 
-export const punchoutSessionResponse = {
-  customerId: 'punchout.customer@punchoutorg.com',
-  cartId: '00002159',
-  punchOutLevel: 'STORE',
-  punchOutOperation: 'CREATE',
-  selectedItem: '300000029',
-  token: {
-    accessToken: '1uEhL4lj58n1zX9R0aICC7-ng2c',
-    tokenType: 'bearer',
-  },
-};
-
-export const createPunchoutSessionResponse = (user) => ({
+export const createPunchoutSessionResponse = ({
+  user,
+  cart,
+  stateAuth,
+  punchOutLevel,
+  punchOutOperation,
+  selectedItem,
+}) => ({
   customerId: user.email,
-  cartId: localStorage.getItem('spartacus⚿powertools-spa⚿cart'),
-  punchOutLevel: 'STORE',
-  punchOutOperation: 'CREATE',
-  selectedItem: '300000029',
+  cartId: cart.cartId,
+  punchOutLevel,
+  punchOutOperation,
+  selectedItem,
   token: {
-    accessToken: JSON.parse(localStorage.getItem('spartacus⚿⚿auth'))?.token
-      .access_token,
+    accessToken: stateAuth.access_token,
     tokenType: 'bearer',
   },
 });
+
+export const preparePunchoutSession = ({
+  user,
+  cart,
+  stateAuth,
+  punchoutConfig,
+}) => {
+  const mockResponse = createPunchoutSessionResponse({
+    user,
+    cart,
+    stateAuth,
+    ...punchoutConfig,
+  });
+  removeProductFromCart();
+  console.log('mockResponse', mockResponse);
+  createPunchoutSession(mockResponse);
+  clearAllStorage();
+  cy.visit(`/punchout/cxml/session?sid=mySessionId`);
+  cy.get('cx-login .cx-login-greet').contains(
+    `Hi, ${user.firstName} ${user.lastName}`
+  );
+  cy.get('cx-navigation-ui.accNavComponent').should(
+    'not.contain.text',
+    'My Account'
+  );
+};
