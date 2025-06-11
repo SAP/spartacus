@@ -59,9 +59,6 @@ describe('PunchoutStatePersistenceService', () => {
       'StatePersistenceService',
       ['syncWithStorage', 'readStateFromStorage']
     );
-    // punchoutFacadeMock = jasmine.createSpyObj('PunchoutFacade', [
-    //   'getPunchoutSession',
-    // ]);
 
     TestBed.configureTestingModule({
       providers: [
