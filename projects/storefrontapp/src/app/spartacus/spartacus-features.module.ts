@@ -294,9 +294,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: true,
-        showStyleChangesInASM: false,
-        shouldHideAddToCartForUnpurchasableProducts: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -339,7 +336,6 @@ if (environment.cpq) {
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yCxMessageFocus: true,
-        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
         a11yDeliveryModeRadiogroup: true,
@@ -394,7 +390,6 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
@@ -416,6 +411,7 @@ if (environment.cpq) {
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
+        reserveHorizontalSpaceStarRating: true,
       };
       return appFeatureToggles;
     }),
