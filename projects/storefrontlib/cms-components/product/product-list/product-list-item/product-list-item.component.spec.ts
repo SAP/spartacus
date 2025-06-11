@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { OutletDirective, OutletModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { SearchHighlightDirective} from './search-highlight.directive';
+import { SearchHighlightDirective } from './search-highlight.directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
@@ -112,7 +112,7 @@ describe('ProductListItemComponent in product-list', () => {
         MockCxIconComponent,
         MockFeatureDirective,
         MockOutletDirective,
-        SearchHighlightDirective
+        SearchHighlightDirective,
       ],
       providers: [
         {
@@ -147,7 +147,9 @@ describe('ProductListItemComponent in product-list', () => {
   });
 
   it('should display product name', () => {
-    console.log( fixture.debugElement.nativeElement.querySelector('.cx-product-name'));
+    console.log(
+      fixture.debugElement.nativeElement.querySelector('.cx-product-name')
+    );
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
