@@ -796,7 +796,7 @@ export interface FeatureTogglesInterface {
    *    which contributes to poor performance metrics like Total Blocking Time (TBT).
    *
    * ## When enabled:
-   * The top progress bar will animate using `transform: translateX(...)`,, which is a GPU-accelerated,
+   * The top progress bar will animate using `transform: translateX(...)`, which is a GPU-accelerated,
    * layout-independent operation that improves visual performance and avoids layout shifts.
    */
   topProgressBarUseTransformAnimation?: boolean;
