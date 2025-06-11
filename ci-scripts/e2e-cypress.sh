@@ -22,7 +22,6 @@ display_a11y_docs_link() {
     echo ""
 }
 
-# Function to run a11y tests and print documentation link if they fail
 run_a11y_tests_with_docs_on_failure() {
     if npm run e2e:run:ci:a11y; then
         return 0
@@ -32,7 +31,6 @@ run_a11y_tests_with_docs_on_failure() {
     fi
 }
 
-# Function to run a11y B2B tests and print documentation link if they fail
 run_a11y_b2b_tests_with_docs_on_failure() {
     if npm run e2e:run:ci:a11y:b2b; then
         return 0
@@ -42,48 +40,37 @@ run_a11y_b2b_tests_with_docs_on_failure() {
     fi
 }
 
-# Function to stop the running PWA app
+run_tests_for_suite() {
+  local suite="$1"
+  local scope="$2"
+
+  if [ "$suite" == ":a11y" ]; then
+    run_dual_a11y_tests
+  elif [ "$scope" == "core" ]; then
+    npm run e2e:run:ci:core"${suite}"
+  else
+    npm run e2e:run:ci"${suite}"
+  fi
+}
+
 stop_pwa_app() {
     echo "Stopping PWA application..."
-    # Kill all node processes running http-server (PWA app)
     pkill -f "http-server" || true
-    # Wait a bit for the process to fully stop
     sleep 5
 }
 
-# Function to build and start PWA app with specific SPA_ENV
 build_and_start_pwa() {
-    local spa_env="$1"
-    local app_type="$2"
+    export SPA_ENV="$1"
 
-    echo "-----"
-    echo "📦 Building Spartacus storefrontapp for ${app_type} (SPA_ENV=${spa_env})"
-
-    # Set the SPA_ENV for this specific build
-    export SPA_ENV="${spa_env}"
-
-    # Build the CSR app with the specified environment
     npm run build:csr
-
-    echo "🚀 Starting ${app_type} PWA application..."
     npm run start:pwa &
-
-    # Wait for the app to start
     sleep 10
 }
 
-# Function to run both B2C and B2B a11y tests
 run_dual_a11y_tests() {
-    local test_context="$1"  # e.g., "pull requests", "push event", "full"
-
-    echo "Running dual a11y tests (B2C + B2B) for ${test_context}"
-
-    # First, run B2C a11y tests
     echo "=========================================="
     echo "🔵 Running B2C Accessibility Tests"
     echo "=========================================="
-
-    build_and_start_pwa "ci,b2c" "B2C"
 
     local b2c_result=0
     if ! run_a11y_tests_with_docs_on_failure; then
@@ -92,7 +79,6 @@ run_dual_a11y_tests() {
 
     stop_pwa_app
 
-    # Then, run B2B a11y tests
     echo "=========================================="
     echo "🔶 Running B2B Accessibility Tests"
     echo "=========================================="
@@ -106,7 +92,6 @@ run_dual_a11y_tests() {
 
     stop_pwa_app
 
-    # Check if either test suite failed
     if [[ $b2c_result -ne 0 ]] || [[ $b2b_result -ne 0 ]]; then
         echo "=========================================="
         echo "❌ A11Y Tests Summary:"
@@ -172,6 +157,10 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
 fi
 
+if [ "$SUITE" == ":a11y" ]; then
+    export SPA_ENV='ci,b2c'
+fi
+
 if [ "$SKIP_BUILD" == "true" ]; then
     echo "⏩ Skipping build as requested with --skip-build"
 else
@@ -196,12 +185,9 @@ else
         exit 1
     fi
 
-    # For a11y tests, we don't build the app here since we'll build it twice with different SPA_ENV
-    if [[ "${SUITE}" != ":a11y" ]]; then
-        echo '-----'
-        echo "📦 Building Spartacus storefrontapp"
-        npm run build:csr
-    fi
+    echo '-----'
+    echo "📦 Building Spartacus storefrontapp"
+    npm run build:csr
 fi
 
 is_bot_commit() {
@@ -254,64 +240,34 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
-    # Handle a11y tests specially to run both B2C and B2B
-    if [[ "${SUITE}" == ":a11y" ]]; then
-        echo '-----'
-        echo "Running dual A11Y Cypress end to end tests (B2C + B2B)"
+    npm run start:pwa &
 
-        if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-            if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-                echo "Running full dual a11y Cypress end-to-end tests for epic branch"
-                run_dual_a11y_tests "epic branch pull request"
-            else
-                echo "Running dual a11y Cypress end-to-end tests for pull requests"
-                run_dual_a11y_tests "pull request"
-            fi
-        elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-            echo "Running dual a11y Cypress end-to-end tests for push event"
+    echo '-----'
+    echo "Running Cypress end to end tests"
 
-            if is_bot_commit; then
-                echo "Commit was made by Renovate Bot or Dependabot. Running dual a11y Cypress end-to-end tests"
-                run_dual_a11y_tests "bot commit push event"
-            else
-                echo "Running full dual a11y Cypress end-to-end tests"
-                run_dual_a11y_tests "push event"
-            fi
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+        echo "Running Cypress end-to-end tests for pull request"
+
+        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+            echo "Running full Cypress end-to-end tests for epic branch"
+            run_tests_for_suite "${SUITE}" "full"
         else
-            echo "Running full dual a11y Cypress end-to-end tests"
-            run_dual_a11y_tests "default execution"
+            echo "Running core Cypress end-to-end tests for pull requests"
+            run_tests_for_suite "${SUITE}" "core"
         fi
-    else
-        # Regular non-a11y tests - existing behavior
-        npm run start:pwa &
 
-        echo '-----'
-        echo "Running Cypress end to end tests"
+    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+        echo "Running Cypress end-to-end tests for push event"
 
-        if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-            echo "Running Cypress end-to-end tests for pull request"
-
-            if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-                echo "Running full Cypress end-to-end tests for epic branch"
-                npm run e2e:run:ci"${SUITE}"
-            else
-                echo "Running core Cypress end-to-end tests for pull requests"
-                npm run e2e:run:ci:core"${SUITE}"
-            fi
-
-        elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-            echo "Running Cypress end-to-end tests for push event"
-
-            if is_bot_commit; then
-                echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-                npm run e2e:run:ci:core"${SUITE}"
-            else
-                echo "Running full Cypress end-to-end tests"
-                npm run e2e:run:ci"${SUITE}"
-            fi
+        if is_bot_commit; then
+            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+            run_tests_for_suite "${SUITE}" "core"
         else
             echo "Running full Cypress end-to-end tests"
-            npm run e2e:run:ci"${SUITE}"
+            run_tests_for_suite "${SUITE}" "full"
         fi
+    else
+        echo "Running full Cypress end-to-end tests"
+        run_tests_for_suite "${SUITE}" "full"
     fi
 fi
