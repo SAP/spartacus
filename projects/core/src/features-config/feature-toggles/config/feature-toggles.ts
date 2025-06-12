@@ -696,6 +696,23 @@ export interface FeatureTogglesInterface {
    * when Font Awesome font is loaded and Star icons are rendered.
    */
   reserveHorizontalSpaceStarRating?: boolean;
+
+  /**
+   * Feature flag to enable using `transform: translateX` instead of animating the `margin` property
+   * for the top progress bar animation.
+   *
+   * ## Why this flag exists:
+   * Animating the `margin` property has two major downsides:
+   *
+   * 1. **Cumulative Layout Shift (CLS)**: Changing margin causes layout shifts that negatively impact visual stability.
+   * 2. **Performance impact**: Margin animations trigger browser re-layouts (reflows), increasing layout and paint costs,
+   *    which contributes to poor performance metrics like Total Blocking Time (TBT).
+   *
+   * ## When enabled:
+   * The top progress bar will animate using `transform: translateX(...)`, which is a GPU-accelerated,
+   * layout-independent operation that improves visual performance and avoids layout shifts.
+   */
+  topProgressBarUseTransformAnimation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -707,27 +724,27 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
-  a11yUseProperTextColorForFutureStockAccordion: false,
+  a11yUseProperTextColorForFutureStockAccordion: true,
   a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
-  a11yPopoverHighContrast: false,
-  a11yTabsManualActivation: false,
+  a11yPopoverHighContrast: true,
+  a11yTabsManualActivation: true,
   a11yCartImportConfirmationMessage: true,
-  a11yAnonymousConsentMessageInDialog: false,
+  a11yAnonymousConsentMessageInDialog: true,
   a11yMobileFocusOnFirstNavigationItem: true,
-  a11yQuickOrderSearchListKeyboardNavigation: false,
+  a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
-  a11yTruncatedTextUnitLevelOrderHistory: false,
+  a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
-  a11yResetFocusAfterNavigating: false,
+  a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: false,
@@ -736,7 +753,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
-  a11yNgSelectAriaLabelDropdownCustomized: false,
+  a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
   a11yDeliveryMethodFieldset: true,
@@ -756,7 +773,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCheckoutStepsLandmarks: true,
   a11yQTY2Quantity: true,
   a11yImproveButtonsInCardComponent: true,
-  a11yMiniCartFocusOnMobile: false,
+  a11yMiniCartFocusOnMobile: true,
   a11yWrapReviewOrderInSection: true,
   a11yApprovalProcessWithNoClearable: true,
   a11yPostRegisterSuccessMessage: true,
@@ -767,37 +784,38 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTextSpacingAdjustments: true,
   a11yTableHeaderReadout: true,
   a11ySearchboxAssistiveMessage: true,
-  updateConsentGivenInOnChanges: false,
+  updateConsentGivenInOnChanges: true,
   a11yDifferentiateFocusedAndSelected: true,
-  a11yQuickOrderSearchBoxRefocusOnClose: false,
-  a11yKeyboardFocusInSearchBox: false,
+  a11yQuickOrderSearchBoxRefocusOnClose: true,
+  a11yKeyboardFocusInSearchBox: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yNavigationButtonsAriaFixes: false,
-  a11yFocusOnCardAfterSelecting: false,
-  a11ySearchableDropdownFirstElementFocus: false,
-  a11yHideConsentButtonWhenBannerVisible: false,
-  a11yRepeatingButtonsUniqueLabels: false,
-  a11yHighContrastBorders: false,
-  a11yRegionAssociatedHeaders: false,
+  a11yNavigationButtonsAriaFixes: true,
+  a11yFocusOnCardAfterSelecting: true,
+  a11ySearchableDropdownFirstElementFocus: true,
+  a11yHideConsentButtonWhenBannerVisible: true,
+  a11yRepeatingButtonsUniqueLabels: true,
+  a11yHighContrastBorders: true,
+  a11yRegionAssociatedHeaders: true,
   useSiteThemeService: true,
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
-  a11yHamburgerMenuTrapFocus: false,
+  a11yHamburgerMenuTrapFocus: true,
   useExtendedMediaComponentConfiguration: true,
   showRealTimeStockInPDP: true,
-  a11yScrollToTopPositioning: false,
+  a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
   a11yNgSelectAriaControls: false,
   enableSecurePasswordValidation: true,
-  enableCarouselCategoryProducts: false,
-  enableClaimCustomerCouponWithCodeInRequestBody: false,
+  enableCarouselCategoryProducts: true,
+  enableClaimCustomerCouponWithCodeInRequestBody: true,
   enableReadDomainValuesOnDemand: false,
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
+  topProgressBarUseTransformAnimation: false,
 };

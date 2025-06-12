@@ -398,6 +398,7 @@ if (environment.cpq) {
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
         reserveHorizontalSpaceStarRating: true,
+        topProgressBarUseTransformAnimation: true,
       };
       return appFeatureToggles;
     }),
