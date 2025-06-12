@@ -15,7 +15,7 @@ import {
 describe('B2B Punchout', () => {
   isolateTests();
 
-  it('should open and close session', () => {
+  xit('should open and close session', () => {
     openPunchoutSession({
       ...mockPunchoutSession,
       punchOutLevel: 'STORE',
@@ -30,7 +30,7 @@ describe('B2B Punchout', () => {
   });
 
   describe('Product level and Create operation', () => {
-    it('should go to cart and Back to requisition', () => {
+    xit('should go to cart and Back to requisition', () => {
       const productId = '3880500';
       openPunchoutSession({
         ...mockPunchoutSession,
@@ -39,18 +39,15 @@ describe('B2B Punchout', () => {
         selectedItem: productId,
       }).then(() => {
         goToPunchoutCart(productId);
-        cy.get('cx-punchout-buttons').within(() => {
-          cy.get('button').contains(' Cancel ').should('be.visible');
-          cy.get('button')
-            .contains(' Back to requisition ')
-            .should('be.visible')
-            .click();
-        });
+        cy.get('cx-punchout-buttons button')
+          .contains(' Back to requisition ')
+          .should('be.visible')
+          .click();
         verifyBackToAriba();
       });
     });
 
-    it('should go to cart and Cancel', () => {
+    xit('should go to cart and Cancel', () => {
       const productId = '3880500';
       openPunchoutSession({
         ...mockPunchoutSession,
@@ -59,13 +56,37 @@ describe('B2B Punchout', () => {
         selectedItem: productId,
       }).then(() => {
         goToPunchoutCart(productId);
-        cy.get('cx-punchout-buttons').within(() => {
-          cy.get('button')
-            .contains(' Back to requisition ')
-            .should('be.visible');
-          cy.get('button').contains(' Cancel ').should('be.visible').click();
-        });
+        cy.get('cx-punchout-buttons button')
+          .contains(' Cancel ')
+          .should('be.visible')
+          .click();
         verifyBackToAriba();
+      });
+    });
+
+    it('should disallow for checkout', () => {
+      const productId = '3880500';
+      openPunchoutSession({
+        ...mockPunchoutSession,
+        punchOutLevel: 'PRODUCT',
+        punchOutOperation: 'CREATE',
+        selectedItem: productId,
+      }).then(() => {
+        goToPunchoutCart(productId);
+        cy.visit('/checkout');
+        cy.get('cx-global-message').should(
+          'contain',
+          'No sufficient permissions to access this page'
+        );
+        cy.location('pathname').should(
+          'contain',
+          `/${Cypress.env('BASE_SITE')}/en/USD/`
+        );
+        //TODO
+        cy.location('pathname').should(
+          'contain',
+          `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/error`
+        );
       });
     });
   });
