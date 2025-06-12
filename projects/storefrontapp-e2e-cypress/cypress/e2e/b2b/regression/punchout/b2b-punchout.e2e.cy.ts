@@ -15,7 +15,7 @@ import {
 describe('B2B Punchout', () => {
   isolateTests();
 
-  xit('should open and close session', () => {
+  it('should open and close session', () => {
     openPunchoutSession({
       ...mockPunchoutSession,
       punchOutLevel: 'STORE',
@@ -30,7 +30,7 @@ describe('B2B Punchout', () => {
   });
 
   describe('Product level and Create operation', () => {
-    xit('should go to cart and Back to requisition', () => {
+    it('should go to cart and Back to requisition', () => {
       const productId = '3880500';
       openPunchoutSession({
         ...mockPunchoutSession,
@@ -47,7 +47,7 @@ describe('B2B Punchout', () => {
       });
     });
 
-    xit('should go to cart and Cancel', () => {
+    it('should go to cart and Cancel', () => {
       const productId = '3880500';
       openPunchoutSession({
         ...mockPunchoutSession,
@@ -87,6 +87,60 @@ describe('B2B Punchout', () => {
           'contain',
           `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/error`
         );
+      });
+    });
+  });
+
+  describe('Cart level and Inspect operation', () => {
+    it('should see empty inspect page', () => {
+      openPunchoutSession({
+        ...mockPunchoutSession,
+        punchOutLevel: 'CART',
+        punchOutOperation: 'INSPECT',
+      }).then(() => {
+        cy.location('pathname').should(
+          'contain',
+          `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/inspect`
+        );
+        cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
+      });
+    });
+
+    it('should see product in inspect page', () => {
+      const productId = '3880500';
+      openPunchoutSession({
+        ...mockPunchoutSession,
+        punchOutLevel: 'PRODUCT',
+        punchOutOperation: 'CREATE',
+        selectedItem: productId,
+      }).then(() => {
+        goToPunchoutCart(productId);
+        openPunchoutSession({
+          ...mockPunchoutSession,
+          punchOutLevel: 'CART',
+          punchOutOperation: 'INSPECT',
+        }).then(() => {
+          cy.location('pathname').should(
+            'contain',
+            `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/inspect`
+          );
+          cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
+          cy.get(
+            'cx-page-slot.SiteContext>cx-site-context-selector+cx-site-theme-switcher'
+          ).should('exist');
+          cy.get(
+            'cx-punchout-inspect-cart > .punchoutStartSection > cx-cart-item-list table tbody.cx-item-list-items > tr'
+          ).should('have.length', 1);
+          cy.get(
+            'cx-punchout-inspect-cart > .punchoutEndSection > cx-order-summary .cx-summary-row.cx-summary-total > .cx-summary-amount'
+          ).should('not.be.empty');
+          cy.get(
+            'cx-punchout-inspect-cart > div.punchoutEndSection > cx-punchout-buttons > button'
+          )
+            .should('have.text', ' Back to requisition ')
+            .click();
+          verifyBackToAriba();
+        });
       });
     });
   });
