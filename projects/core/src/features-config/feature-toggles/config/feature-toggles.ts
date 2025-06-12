@@ -829,5 +829,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
-  disableCxPageSlotMarginAnimation: true,
+  disableCxPageSlotMarginAnimation: false,
 };
