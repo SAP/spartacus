@@ -1,7 +1,4 @@
-<ng-container *ngIf="icon; else withoutInternalHtml">
+<ng-container *ngIf="icon">
   <i [outerHTML]="icon"></i>
 </ng-container>
-<ng-template #withoutInternalHtml>
-  <i></i>
-</ng-template>
 <ng-content></ng-content>
