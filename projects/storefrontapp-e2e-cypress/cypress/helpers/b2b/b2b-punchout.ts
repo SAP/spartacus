@@ -5,54 +5,22 @@
  */
 
 import { login, setSessionData } from '../../support/utils/login';
-import { visitHomePage } from '../checkout-flow';
-import { removeProductFromCart } from '../wish-list';
+import { createCart } from '../../support/utils/cart';
 
-//presteps
-// login with punchout user,
-// get its token from response
-// create a cart (not sure if it is done by adding item?)
-// no need to logout (session page )
+export const mockPunchoutSession = {
+  customerId: 'punchout.customer@punchoutorg.com',
+  password: 'pw4all',
+  cartId: '',
+  punchOutLevel: '',
+  punchOutOperation: '',
+  selectedItem: '',
+  token: {
+    accessToken: '',
+    tokenType: 'bearer',
+  },
+};
 
-export function createPunchoutUser() {
-  // let adminToken;
-  // let stateAuth;
-  return login('punchout.customer@punchoutorg.com', 'pw4all').then((result) => {
-    expect(result.status).to.eq(200);
-    cy.log('Logged in as Punchout user', JSON.stringify(result.body));
-    setSessionData(result.body);
-
-    visitHomePage();
-    //   adminToken = result?.body?.access_token;
-    //   return addB2bUser(adminToken, user, ['PunchOutOrganization']);
-    // })
-    // .then((result) => {
-    //   expect(result.status).to.eq(201);
-    //   return setB2bPassword(result.body.customerId, user.password, adminToken);
-    // })
-    // .then((result: any) => {
-    //   expect(result.status).to.eq(204);
-    //   b2bUser.registrationData.email = user.email;
-    //   b2bUser.registrationData.password = user.password;
-
-    //   return cy.requireLoggedIn(b2bUser);
-  });
-  // .then(() => {
-  //   visitHomePage();
-  //   cy.get('.cx-login-greet').should('contain', user.fullName);
-  //   return cy.window();
-  // })
-  // .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
-  // .then(({ token }) => {
-  //   stateAuth = token;
-  //   return cy.requireProductAddedToCart(stateAuth, product1);
-  // })
-  // .then((cart) => {
-  //   user, cart, stateAuth;
-  // });
-}
-
-export function createPunchoutSession(
+export function createPunchoutSessionIntercept(
   mockResponse = {},
   alias = 'createPunchoutSession'
 ) {
@@ -67,47 +35,25 @@ export function createPunchoutSession(
   ).as(alias);
 }
 
-export const createPunchoutSessionResponse = ({
-  user,
-  cart,
-  stateAuth,
-  punchOutLevel,
-  punchOutOperation,
-  selectedItem,
-}) => ({
-  customerId: user.email,
-  cartId: cart.cartId,
-  punchOutLevel,
-  punchOutOperation,
-  selectedItem,
-  token: {
-    accessToken: stateAuth.access_token,
-    tokenType: 'bearer',
-  },
-});
-
-export const preparePunchoutSession = ({
-  user,
-  cart,
-  stateAuth,
-  punchoutConfig,
-}) => {
-  const mockResponse = createPunchoutSessionResponse({
-    user,
-    cart,
-    stateAuth,
-    ...punchoutConfig,
-  });
-  removeProductFromCart();
-  console.log('mockResponse', mockResponse);
-  createPunchoutSession(mockResponse);
-  // clearAllStorage();
-  cy.visit(`/punchout/cxml/session?sid=mySessionId`);
-  cy.get('cx-login .cx-login-greet').contains(
-    `Hi, ${user.firstName} ${user.lastName}`
-  );
-  cy.get('cx-navigation-ui.accNavComponent').should(
-    'not.contain.text',
-    'My Account'
-  );
-};
+export function openPunchoutSession(punchoutSession) {
+  return login(punchoutSession.customerId, punchoutSession.password)
+    .then((result) => {
+      expect(result.status).to.eq(200);
+      cy.log('Logged in as Punchout user', JSON.stringify(result.body));
+      setSessionData(result.body);
+      punchoutSession.token.accessToken = result.body.access_token;
+      createCart(result.body.access_token);
+    })
+    .then((cart) => {
+      cy.log('Cart created', JSON.stringify(cart));
+      punchoutSession.cartId = (cart as any).body.code;
+      createPunchoutSessionIntercept(punchoutSession);
+      return login('carla.torres@rustic-hw.com', 'pw4all');
+    })
+    .then((result) => {
+      expect(result.status).to.eq(200);
+      cy.log('Logged in as Maria Torres', JSON.stringify(result.body));
+      setSessionData(result.body);
+      cy.visit(`/punchout/cxml/session?sid=abcd123`);
+    });
+}

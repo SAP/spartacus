@@ -4,82 +4,47 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { login, setSessionData } from '../../../../support/utils/login';
 import { isolateTests } from '../../../../support/utils/test-isolation';
+import {
+  mockPunchoutSession,
+  openPunchoutSession,
+} from '../../../../helpers/b2b/b2b-punchout';
 
 describe('B2B Punchout', () => {
   isolateTests();
-  // let user: any;
-  // let cart: any;
-  // let stateAuth: any;
 
-  // before(() => {
-  //   // clearAllStorage();
-  //   // Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-  // });
-
-  // beforeEach(() => {});
-
-  // describe('Punchout Create', () => {
   it('should open session', () => {
-    const mockPunchoutSession = {
-      customerId: 'punchout.customer@punchoutorg.com',
-      cartId: '',
+    openPunchoutSession({
+      ...mockPunchoutSession,
       punchOutLevel: 'STORE',
       punchOutOperation: 'CREATE',
-      selectedItem: '3880500',
-      token: {
-        accessToken: '',
-        tokenType: 'bearer',
-      },
-    };
-
-    login('punchout.customer@punchoutorg.com', 'pw4all')
-      .then((result) => {
-        expect(result.status).to.eq(200);
-        cy.log('Logged in as Punchout user', JSON.stringify(result.body));
-        setSessionData(result.body);
-        mockPunchoutSession.token.accessToken = result.body.access_token;
-        // create a cart for punchout user
-        return cy.request({
-          method: 'POST',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
-          body: {
-            fields: 'DEFAULT',
-          },
-          form: true,
-          headers: {
-            Authorization: `bearer ${result.body.access_token}`,
-          },
-        });
-      })
-      .then((cart) => {
-        cy.log('Cart created', JSON.stringify(cart));
-        mockPunchoutSession.cartId = (cart as any).body.code;
-
-        cy.intercept(
-          {
-            method: 'GET',
-            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
-            )}/punchout/sessions/*`,
-          },
-          mockPunchoutSession
-        ).as('punchoutSessionAlias');
-
-        // login with any other b2b user to avoid revoking token of punchout user
-        return login('carla.torres@rustic-hw.com', 'pw4all');
-      })
-      .then((result) => {
-        expect(result.status).to.eq(200);
-        cy.log('Logged in as Maria Torres', JSON.stringify(result.body));
-        setSessionData(result.body);
-
-        cy.visit(`/punchout/cxml/session?sid=abcd123`);
-        cy.get('cx-punchout-close-session').should('be.visible');
-      });
+    }).then(() => {
+      cy.get('cx-punchout-close-session').should('be.visible');
+      cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
+      cy.get('.accNavComponent').should('not.exist');
+      cy.get('cx-page-slot.SiteLogo').should('be.not.visible');
+    });
   });
-  //});
+
+  it('should open PDP in Create operation', () => {
+    const productId = '3880500';
+    openPunchoutSession({
+      ...mockPunchoutSession,
+      punchOutLevel: 'PRODUCT',
+      punchOutOperation: 'CREATE',
+      selectedItem: productId,
+    }).then(() => {
+      const pdpUrl = `/${Cypress.env('BASE_SITE')}/en/USD/product/${productId}`;
+      cy.location('pathname').should('contain', pdpUrl);
+      cy.get('cx-add-to-cart')
+        .findByText(/Add To Cart/i)
+        .click();
+      cy.get('.cx-dialog-buttons').within(() => {
+        cy.get('button').contains(' view cart ').should('be.visible');
+        cy.get('button')
+          .contains(' proceed to checkout ')
+          .should('not.be.visible');
+      });
+    });
+  });
 });
