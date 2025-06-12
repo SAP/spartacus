@@ -18,6 +18,7 @@ import {
   BrowserModule,
   provideClientHydration,
   withEventReplay,
+  withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -66,7 +67,12 @@ if (!environment.production) {
   ],
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(
+      withEventReplay(),
+      withHttpTransferCacheOptions({
+        includeHeaders: ['X-Anonymous-Consents'],
+      })
+    ),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
