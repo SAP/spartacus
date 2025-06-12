@@ -4,17 +4,13 @@
   margin-bottom: 0.25rem;
   color: var(--cx-color-text);
   &:focus {
-    border-color: var(--cx-color-secondary);
     box-shadow: none;
     -webkit-box-shadow: none;
-  }
-
-  border: 1px solid var(--cx-color-dark);
-
-  &:focus {
     border-color: var(--cx-color-text);
     background-color: var(--cx-color-inverse);
   }
+
+  border: 1px solid var(--cx-color-dark);
 
   &::placeholder {
     color: var(--cx-color-secondary);

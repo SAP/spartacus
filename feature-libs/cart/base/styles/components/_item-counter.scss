@@ -68,6 +68,7 @@
       cursor: pointer;
       font-weight: var(--cx-font-weight-bold);
       z-index: 10;
+      box-shadow: 0 0 0 0;
     }
 
     // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed
@@ -78,7 +79,7 @@
 
     @include forFeature('a11yItemCounterFocus') {
       &[aria-disabled='true'] {
-        color: var(--cx-color-light);
+        color: var(--cx-color-dark);
         cursor: not-allowed;
       }
     }
@@ -87,13 +88,6 @@
     line-height: 0;
     padding-inline-start: 0;
     padding-inline-end: 0;
-    &:focus {
-      box-shadow: 0 0 0 0;
-    }
-    // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed
-    &:disabled {
-      color: var(--cx-color-dark);
-    }
     @include forFeature('a11yItemCounterFocus') {
       &[aria-disabled='true'] {
         color: var(--cx-color-dark);
