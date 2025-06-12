@@ -15,7 +15,7 @@ import {
 describe('B2B Punchout', () => {
   isolateTests();
 
-  xit('should open and close session', () => {
+  it('should open and close session', () => {
     openPunchoutSession({
       ...mockPunchoutSession,
       punchOutLevel: 'STORE',
