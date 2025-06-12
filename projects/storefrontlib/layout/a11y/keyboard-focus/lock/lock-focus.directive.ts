@@ -63,7 +63,6 @@ export class LockFocusDirective
   handleEnter(event: KeyboardEvent) {
     if (this.shouldLock && this.host === (event.target as HTMLElement)) {
       this.unlockFocus(event);
-      //prevent errors with event replay
       event.preventDefault();
       event.stopPropagation();
     }

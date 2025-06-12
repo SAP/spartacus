@@ -145,9 +145,6 @@ describe('ProductListItemComponent in product-list', () => {
   });
 
   it('should display product name', () => {
-    console.log(
-      fixture.debugElement.nativeElement.querySelector('.cx-product-name')
-    );
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
