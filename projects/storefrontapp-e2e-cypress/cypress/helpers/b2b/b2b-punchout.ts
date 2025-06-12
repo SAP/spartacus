@@ -57,3 +57,24 @@ export function openPunchoutSession(punchoutSession) {
       cy.visit(`/punchout/cxml/session?sid=abcd123`);
     });
 }
+
+export function goToPunchoutCart(productId) {
+  const pdpUrl = `/${Cypress.env('BASE_SITE')}/en/USD/product/${productId}`;
+  cy.location('pathname').should('contain', pdpUrl);
+  cy.get('cx-add-to-cart')
+    .findByText(/Add To Cart/i)
+    .click();
+  cy.get('.cx-dialog-buttons').within(() => {
+    cy.get('button').contains(' proceed to checkout ').should('not.be.visible');
+    cy.get('button').contains(' view cart ').should('be.visible').click();
+  });
+  cy.get('cx-cart-proceed-to-checkout button').should('not.exist');
+}
+
+export function verifyBackToAriba() {
+  cy.get('cx-global-message').should('contain', 'Return to Procurement System');
+  cy.location('pathname').should(
+    'contain',
+    `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/error`
+  );
+}
