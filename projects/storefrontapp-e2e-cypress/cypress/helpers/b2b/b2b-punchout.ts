@@ -68,6 +68,10 @@ export function goToPunchoutCart(productId) {
     cy.get('button').contains(' proceed to checkout ').should('not.be.visible');
     cy.get('button').contains(' view cart ').should('be.visible').click();
   });
+  cy.location('pathname').should(
+    'contain',
+    `/${Cypress.env('BASE_SITE')}/en/USD/cart`
+  );
   cy.get('cx-cart-proceed-to-checkout button').should('not.exist');
 }
 
