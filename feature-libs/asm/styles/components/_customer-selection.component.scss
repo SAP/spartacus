@@ -185,92 +185,7 @@
         opacity: 1;
       }
     }
-  }
 
-  .asm-results {
-    position: absolute;
-    border: solid 1px #89919a;
-    line-height: 1.5rem;
-    z-index: 11;
-    box-shadow:
-      0 5px 20px 0 #d9d9d9,
-      0 2px 8px 0 #ededed;
-    background-color: #fff;
-    border-radius: 4px;
-    max-width: 50vw;
-    max-height: 70vh;
-    overflow-y: auto;
-    top: 3.3rem;
-    width: 25rem;
-
-    @media (max-width: 1200px) {
-      max-width: calc(100% - 4rem);
-    }
-
-    cx-dot-spinner {
-      height: 42px;
-      color: #0a6ed1;
-    }
-
-    button {
-      margin: 0;
-      appearance: none;
-      outline: 0;
-      border: 0;
-      text-decoration: none;
-      cursor: pointer;
-      user-select: none;
-      vertical-align: middle;
-      white-space: nowrap;
-      background-color: transparent;
-      color: #51555a;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      padding: 10px;
-      width: 100%;
-      align-items: flex-start;
-      justify-content: flex-start;
-
-      @media (min-width: 767px) {
-        flex-direction: row;
-      }
-      &.active {
-        color: #32363a;
-        background-color: #d3d6db;
-      }
-
-      &:hover {
-        color: #32363a;
-        background-color: #d3d6db;
-      }
-
-      span {
-        margin-inline-end: 15px;
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-inline-start: 0;
-        word-break: break-all;
-        white-space: normal;
-        text-align: start;
-
-        @media (min-width: 575px) {
-          &:last-of-type {
-            margin: 0;
-          }
-        }
-      }
-
-      .linkStyleLabel {
-        font-family: '72';
-        font-weight: 600;
-        font-size: 13px;
-        color: #0064d9;
-      }
-    }
-  }
-
-  form {
     display: flex;
     width: 100%;
 
@@ -407,6 +322,89 @@
 
       &.active {
         opacity: 1;
+      }
+    }
+  }
+
+  .asm-results {
+    position: absolute;
+    border: solid 1px #89919a;
+    line-height: 1.5rem;
+    z-index: 11;
+    box-shadow:
+      0 5px 20px 0 #d9d9d9,
+      0 2px 8px 0 #ededed;
+    background-color: #fff;
+    border-radius: 4px;
+    max-width: 50vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    top: 3.3rem;
+    width: 25rem;
+
+    @media (max-width: 1200px) {
+      max-width: calc(100% - 4rem);
+    }
+
+    cx-dot-spinner {
+      height: 42px;
+      color: #0a6ed1;
+    }
+
+    button {
+      margin: 0;
+      appearance: none;
+      outline: 0;
+      border: 0;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+      vertical-align: middle;
+      white-space: nowrap;
+      background-color: transparent;
+      color: #51555a;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+      width: 100%;
+      align-items: flex-start;
+      justify-content: flex-start;
+
+      @media (min-width: 767px) {
+        flex-direction: row;
+      }
+      &.active {
+        color: #32363a;
+        background-color: #d3d6db;
+      }
+
+      &:hover {
+        color: #32363a;
+        background-color: #d3d6db;
+      }
+
+      span {
+        margin-inline-end: 15px;
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-inline-start: 0;
+        word-break: break-all;
+        white-space: normal;
+        text-align: start;
+
+        @media (min-width: 575px) {
+          &:last-of-type {
+            margin: 0;
+          }
+        }
+      }
+
+      .linkStyleLabel {
+        font-family: '72';
+        font-weight: 600;
+        font-size: 13px;
+        color: #0064d9;
       }
     }
   }
