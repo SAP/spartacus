@@ -1,15 +1,12 @@
 name: Upgrade testing
 
 on:
-  pull_request:
-    branches:
-      - develop
   workflow_dispatch:
     inputs:
       cliVersion:
         description: "Angular CLI version"
         required: false
-        default: "19.0.3"
+        default: "${{ secrets.RBSC_TOKEN }}"
       versionBeforeUpdate:
         description: "Spartacus version before upgrade"
         required: true
