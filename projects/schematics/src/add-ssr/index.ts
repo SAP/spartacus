@@ -376,7 +376,7 @@ export function addWithNoHttpTransferCacheToAppModule(spartacusOptions: Spartacu
       '@angular/platform-browser'
     );
 
-    const fileContent = tree!.read(appModulePath)!.toString();
+    const fileContent = tree.read(appModulePath).toString();
 
     // Regex to match provideClientHydration(...) with any arguments
     const hydrationRegex = /provideClientHydration\s*\(\s*([^)]*)\)/m;
