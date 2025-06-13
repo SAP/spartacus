@@ -1,0 +1,89 @@
+name: Upgrade testing
+
+on:
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch:
+    inputs:
+      cliVersion:
+        description: "Angular CLI version"
+        required: false
+        default: "19.0.3"
+      versionBeforeUpdate:
+        description: "Spartacus version before upgrade"
+        required: true
+      versionAfterUpdate:
+        description: "Spartacus version after upgrade"
+        required: true
+
+jobs:
+  create-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create new Angular app
+        run: |
+          npx @angular/cli@${{ inputs.cliVersion }} new spartacusstore \
+            --style=scss \
+            --routing=false \
+            --skip-git=true \
+            --standalone=false
+        env:
+          NG_CLI_ANALYTICS: "false"
+
+      - name: Create .npmrc with RBSC_TOKEN
+        run: |
+          echo "always-auth=true" > spartacusstore/.npmrc
+          echo "@spartacus:registry=https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/" >> spartacusstore/.npmrc
+          echo "//73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/:_auth=${{ secrets.RBSC_TOKEN }}" >> spartacusstore/.npmrc
+
+      - name: Install Spartacus schematics
+        working-directory: spartacusstore
+        run: |
+          npm install @spartacus/schematics@${{ inputs.versionBeforeUpdate }}
+
+      - name: Add Spartacus features
+        working-directory: spartacusstore
+        run: |
+          npx ng add @spartacus/schematics@${{ inputs.versionBeforeUpdate }} \
+            --skip-confirmation \
+            --no-interactive \
+            --baseSite=electronics-spa \
+            --baseUrl=https://40.76.109.9:9002 \
+            --features=ASM \
+            --features=ASM-Customer-360 \
+            --features=Import-Export \
+            --features=Saved-Cart \
+            --features=Quick-Order \
+            --features=Checkout \
+            --features=Cart \
+            --features=WishList \
+            --features=Order \
+            --features=Product-Variants \
+            --features=Image-Zoom \
+            --features=SmartEdit \
+            --features=Store-Finder \
+            --features=Personalization \
+            --features=User-Account \
+            --features=User-Profile
+
+      - name: List all files under src/app/spartacus
+        working-directory: spartacusstore
+        run: |
+          echo "Listing contents of src/app/spartacus:"
+          find src/app/spartacus
+
+      - name: Show spartacus-configuration.module.ts content
+        working-directory: spartacusstore
+        run: |
+          echo "Contents of spartacus-configuration.module.ts:"
+          cat src/app/spartacus/spartacus-configuration.module.ts
