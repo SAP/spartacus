@@ -276,14 +276,14 @@ describe('OutletDirective', () => {
       deferLoaderService = TestBed.inject(DeferLoaderService);
     }));
 
-    it('should use defer loading when cxOutletDefer is undefined', () => {
+    it('should NOT use defer loading when cxOutletDefer is undefined', () => {
       spyOn(deferLoaderService, 'load').and.callThrough();
       const fixture = TestBed.createComponent(MockInstantOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).toHaveBeenCalled();
     });
 
-    it('should use defer loading when cxOutletDefer is not INSTANT-LOADING', () => {
+    it('should NOT use defer loading when cxOutletDefer is not INSTANT-LOADING', () => {
       spyOn(deferLoaderService, 'load').and.callThrough();
       const fixture = TestBed.createComponent(MockDeferredOutletComponent);
       fixture.componentInstance.deferOptions = {
