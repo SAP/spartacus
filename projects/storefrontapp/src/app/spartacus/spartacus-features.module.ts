@@ -324,6 +324,7 @@ if (environment.cpq) {
         headerLayoutForSmallerViewports: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
+        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
         /**
@@ -376,6 +377,7 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
+        cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
