@@ -11,6 +11,13 @@
     label {
       margin: 0 0 15px;
       min-width: auto;
+      margin-inline-end: 2rem;
+
+      .selection-message-info {
+        z-index: 11;
+        width: 25rem;
+        position: absolute;
+      }
 
       cx-form-errors p {
         color: #db0002;
@@ -45,67 +52,9 @@
         min-width: 25rem;
       }
 
-      .searchTermLabel {
-        display: flex;
-        align-items: center;
-        color: #556b82;
-        min-width: auto;
-        margin: 0 15px 0 0;
-      }
-
-      input {
-        width: 100%;
-        &:focus {
-          outline: none;
-        }
-      }
-    }
-
-    button[type='submit'] {
-      background-color: #ebf5cb;
-      opacity: 0.4;
-      border: 1px solid #ebf5cb;
-      border-radius: 8px;
-      color: #256f3a;
-      font-weight: 700;
-      transition: opacity 0.3s;
-
-      &.active {
-        opacity: 1;
-      }
-    }
-
-    display: flex;
-    width: 100%;
-
-    @media (max-width: 41rem) {
-      flex-direction: column;
-    }
-    .searchLabel {
-      margin-top: 0.5rem;
-      margin-inline-end: 1rem;
-    }
-
-    label {
-      margin-inline-end: 2rem;
-      min-width: auto;
-
-      .selection-message-info {
-        z-index: 11;
-        width: 25rem;
-        position: absolute;
-      }
-
       @media (min-width: 41rem) {
         margin-bottom: 0;
         min-width: 25rem;
-      }
-
-      .linkStyleLabel {
-        @include type('7');
-        font-weight: var(--cx-font-weight-bold);
-        margin-inline-start: 0.2rem;
-        color: var(--cx-color-primary);
       }
 
       .asm-results {
@@ -186,6 +135,21 @@
         }
       }
 
+      .linkStyleLabel {
+        @include type('7');
+        font-weight: var(--cx-font-weight-bold);
+        margin-inline-start: 0.2rem;
+        color: var(--cx-color-primary);
+      }
+
+      .searchTermLabel {
+        display: flex;
+        align-items: center;
+        color: #556b82;
+        min-width: auto;
+        margin: 0 15px 0 0;
+      }
+
       input {
         width: 100%;
         &:focus {
@@ -198,6 +162,17 @@
           }
         }
       }
+    }
+
+    display: flex;
+    width: 100%;
+
+    @media (max-width: 41rem) {
+      flex-direction: column;
+    }
+    .searchLabel {
+      margin-top: 0.5rem;
+      margin-inline-end: 1rem;
     }
 
     button[type='submit'] {
