@@ -54,7 +54,7 @@ export function createPunchoutRequisitionIntercept(
   ).as(alias);
 }
 
-export function openPunchoutSession(punchoutSession): any {
+export function addProductToB2BCart(punchoutSession) {
   return login(punchoutSession.customerId, punchoutSession.password)
     .then((result) => {
       expect(result.status).to.eq(200);
@@ -67,7 +67,6 @@ export function openPunchoutSession(punchoutSession): any {
       cy.log('Cart created', JSON.stringify(cart));
       punchoutSession.cartId = (cart as any).body.code;
       mockPunchoutSession.cartId = punchoutSession.cartId;
-      createPunchoutSessionIntercept(punchoutSession);
       return login('carla.torres@rustic-hw.com', 'pw4all');
     })
     .then((result) => {
@@ -78,17 +77,24 @@ export function openPunchoutSession(punchoutSession): any {
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*/carts/${punchoutSession.cartId}?*`
       ).as('cartRequest');
-
-      cy.visit(`/punchout/cxml/session?sid=abcd123`);
-      // cy.wait(2000);
-      cy.wait('@cartRequest')
-        .its('request.headers')
-        .should('have.property', 'punchoutsid');
       return cy.wrap({
         ...punchoutSession,
         token: { ...punchoutSession.token },
       });
     });
+}
+
+export function openPunchoutSession(punchoutSession): any {
+  createPunchoutSessionIntercept(punchoutSession);
+  cy.visit(`/punchout/cxml/session?sid=abcd123`);
+  // cy.wait(2000);
+  cy.wait('@cartRequest')
+    .its('request.headers')
+    .should('have.property', 'punchoutsid');
+  return cy.wrap({
+    ...punchoutSession,
+    token: { ...punchoutSession.token },
+  });
 }
 
 function goToPdpAndAddToCart(productId) {
