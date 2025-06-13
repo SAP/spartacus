@@ -155,17 +155,26 @@ export function verifyBackToAriba(discardCartEntries?: boolean) {
 }
 
 export function deleteStaleCart(punchoutSession) {
-  cy.log('Deleting stale cart with ID:', punchoutSession.cartId);
-  cy.request({
-    method: 'DELETE',
-    url: `${Cypress.env('API_URL')}/${Cypress.env(
-      'OCC_PREFIX'
-    )}/${Cypress.env('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
-    headers: {
-      Authorization: `Bearer ${punchoutSession.token.accessToken}`,
-    },
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-    cy.log('Stale cart deleted successfully');
-  });
+  // login the punchout user to get a new  access token as previous token has been revoked
+  // this is needed to delete the stale cart
+  cy.log('--> Delete stale cart');
+  login(punchoutSession.customerId, punchoutSession.password).then(
+    (result: any) => {
+      expect(result.status).to.eq(200);
+
+      return cy
+        .request({
+          method: 'DELETE',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
+          headers: {
+            Authorization: `Bearer ${result.body.access_token}`,
+          },
+        })
+        .then((response) => {
+          expect(response.status).to.eq(200);
+        });
+    }
+  );
 }

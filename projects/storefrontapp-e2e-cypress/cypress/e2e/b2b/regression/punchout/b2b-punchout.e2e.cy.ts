@@ -14,6 +14,15 @@ import {
 } from '../../../../helpers/b2b/b2b-punchout';
 
 describe('STORE level and CREATE operation', () => {
+  let localPunchoutSession: any;
+
+  afterEach(() => {
+    if (localPunchoutSession) {
+      deleteStaleCart({ ...localPunchoutSession });
+      localPunchoutSession = null;
+    }
+  });
+
   it('should land on home page and close session', () => {
     openPunchoutSession({
       ...mockPunchoutSession,
@@ -21,18 +30,28 @@ describe('STORE level and CREATE operation', () => {
       punchOutLevel: 'STORE',
       punchOutOperation: 'CREATE',
     }).then((punchoutSession) => {
+      localPunchoutSession = { ...punchoutSession };
       cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
       cy.get('.accNavComponent').should('not.exist');
       cy.get('cx-page-slot.SiteLogo').should('be.not.visible');
       createPunchoutRequisitionIntercept();
       cy.get('cx-punchout-close-session').should('be.visible').click();
-      deleteStaleCart(punchoutSession);
+
       verifyBackToAriba(true);
     });
   });
 });
 
 describe('PRODUCT level and CREATE operation', () => {
+  let localPunchoutSession: any;
+
+  afterEach(() => {
+    if (localPunchoutSession) {
+      deleteStaleCart({ ...localPunchoutSession });
+      localPunchoutSession = null;
+    }
+  });
+
   it('should land on PDP, block navigation to checkout page and Cancel', () => {
     const productId = '3880500';
     openPunchoutSession({
@@ -42,6 +61,7 @@ describe('PRODUCT level and CREATE operation', () => {
       punchOutOperation: 'CREATE',
       selectedItem: productId,
     }).then((punchoutSession) => {
+      localPunchoutSession = { ...punchoutSession };
       addProductAndClickCheckout(productId);
       cy.get('cx-global-message').should(
         'contain',
@@ -57,13 +77,25 @@ describe('PRODUCT level and CREATE operation', () => {
         .contains(' Cancel ')
         .should('be.visible')
         .click();
-      deleteStaleCart(punchoutSession);
       verifyBackToAriba(true);
     });
   });
 });
 
 describe('STORE level and EDIT operation', () => {
+  let localPunchoutSessionTest1: any;
+  let localPunchoutSessionTest2: any;
+
+  afterEach(() => {
+    if (localPunchoutSessionTest1) {
+      deleteStaleCart({ ...localPunchoutSessionTest1 });
+      localPunchoutSessionTest1 = null;
+    }
+    if (localPunchoutSessionTest2) {
+      deleteStaleCart({ ...localPunchoutSessionTest2 });
+      localPunchoutSessionTest2 = null;
+    }
+  });
   it('should land on cart page and Cancel session', () => {
     const productId = '3880500';
     createPunchoutRequisitionIntercept();
@@ -77,6 +109,7 @@ describe('STORE level and EDIT operation', () => {
       },
       true
     ).then((punchoutSession) => {
+      localPunchoutSessionTest1 = { ...punchoutSession };
       cy.location('pathname').should(
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/cart`
@@ -86,7 +119,6 @@ describe('STORE level and EDIT operation', () => {
         .contains(' Cancel ')
         .should('be.visible')
         .click();
-      deleteStaleCart(punchoutSession);
       verifyBackToAriba();
     });
   });
@@ -104,6 +136,7 @@ describe('STORE level and EDIT operation', () => {
       },
       true
     ).then((punchoutSession) => {
+      localPunchoutSessionTest2 = { ...punchoutSession };
       cy.location('pathname').should(
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/cart`
@@ -113,13 +146,20 @@ describe('STORE level and EDIT operation', () => {
         .contains(' Back to requisition ')
         .should('be.visible')
         .click();
-      deleteStaleCart(punchoutSession);
       verifyBackToAriba();
     });
   });
 });
 
 describe('INSPECT operation', () => {
+  let localPunchoutSession: any;
+
+  afterEach(() => {
+    if (localPunchoutSession?.cartId) {
+      deleteStaleCart({ ...localPunchoutSession });
+      localPunchoutSession = null;
+    }
+  });
   it('should land on InspectCart page and Return to requisition', () => {
     openPunchoutSession(
       {
@@ -131,6 +171,7 @@ describe('INSPECT operation', () => {
       },
       true
     ).then((punchoutSession) => {
+      localPunchoutSession = { ...punchoutSession };
       cy.location('pathname').should(
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/inspect`
@@ -154,7 +195,6 @@ describe('INSPECT operation', () => {
       )
         .should('have.text', ' Back to requisition ')
         .click();
-      deleteStaleCart(punchoutSession);
       verifyBackToAriba();
     });
   });
