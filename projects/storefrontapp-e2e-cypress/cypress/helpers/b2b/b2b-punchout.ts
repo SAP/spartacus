@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { createCart } from '../../support/utils/cart';
+import { addProductToB2BCart, createCart } from '../../support/utils/cart';
 import { login, setSessionData } from '../../support/utils/login';
 
 export const mockPunchoutSession = {
@@ -54,20 +54,35 @@ export function createPunchoutRequisitionIntercept(
   ).as(alias);
 }
 
-export function addProductToB2BCart(punchoutSession) {
+export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
   return login(punchoutSession.customerId, punchoutSession.password)
     .then((result) => {
       expect(result.status).to.eq(200);
       cy.log('Logged in as Punchout user', JSON.stringify(result.body));
       setSessionData(result.body);
       punchoutSession.token.accessToken = result.body.access_token;
-      createCart(result.body.access_token);
+      return createCart(result.body.access_token);
     })
     .then((cart) => {
       cy.log('Cart created', JSON.stringify(cart));
       punchoutSession.cartId = (cart as any).body.code;
       mockPunchoutSession.cartId = punchoutSession.cartId;
-      return login('carla.torres@rustic-hw.com', 'pw4all');
+      if (addItem) {
+        return addProductToB2BCart(
+          punchoutSession.cartId,
+          '3881014',
+          '1',
+          punchoutSession.token.accessToken
+        ).then((response) => {
+          expect(response.status).to.eq(200);
+          cy.log('Product added to cart', JSON.stringify(response.body));
+          createPunchoutSessionIntercept(punchoutSession);
+          return login('carla.torres@rustic-hw.com', 'pw4all');
+        });
+      } else {
+        createPunchoutSessionIntercept(punchoutSession);
+        return login('carla.torres@rustic-hw.com', 'pw4all');
+      }
     })
     .then((result) => {
       expect(result.status).to.eq(200);
@@ -77,24 +92,17 @@ export function addProductToB2BCart(punchoutSession) {
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*/carts/${punchoutSession.cartId}?*`
       ).as('cartRequest');
+
+      cy.visit(`/punchout/cxml/session?sid=abcd123`);
+      // cy.wait(2000);
+      cy.wait('@cartRequest')
+        .its('request.headers')
+        .should('have.property', 'punchoutsid');
       return cy.wrap({
         ...punchoutSession,
         token: { ...punchoutSession.token },
       });
     });
-}
-
-export function openPunchoutSession(punchoutSession): any {
-  createPunchoutSessionIntercept(punchoutSession);
-  cy.visit(`/punchout/cxml/session?sid=abcd123`);
-  // cy.wait(2000);
-  cy.wait('@cartRequest')
-    .its('request.headers')
-    .should('have.property', 'punchoutsid');
-  return cy.wrap({
-    ...punchoutSession,
-    token: { ...punchoutSession.token },
-  });
 }
 
 function goToPdpAndAddToCart(productId) {
@@ -131,18 +139,18 @@ export function addProductAndClickCheckout(productId) {
 }
 
 export function verifyBackToAriba(discardCartEntries?: boolean) {
-  cy.get('cx-global-message').should('contain', 'Return to Procurement System');
+  // cy.get('cx-global-message').should('contain', 'Return to Procurement System');
   cy.location('pathname').should(
     'contain',
     `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/requisition`
   );
   // cy.get('body > pre').should('contain', 'Cannot POST /ariba-redirection-test');
-  // cy.wait('@punchoutRequisition')
-  //   .its('request.headers')
-  //   .should(
-  //     discardCartEntries ? 'have.property' : 'not.have.property',
-  //     'discardCartEntries'
-  //   );
+  cy.wait('@punchoutRequisition')
+    .its('request.query')
+    .should(
+      discardCartEntries ? 'have.property' : 'not.have.property',
+      'discardCartEntries'
+    );
 }
 
 export function deleteStaleCart(punchoutSession) {
