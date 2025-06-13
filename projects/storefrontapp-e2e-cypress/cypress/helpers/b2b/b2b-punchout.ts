@@ -144,7 +144,8 @@ export function verifyBackToAriba(discardCartEntries?: boolean) {
     'contain',
     `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/requisition`
   );
-  // cy.get('body > pre').should('contain', 'Cannot POST /ariba-redirection-test');
+  cy.location('pathname').should('contain', `/ariba-redirection-test`);
+  cy.get('body > pre').should('contain', 'Cannot POST /ariba-redirection-test');
   cy.wait('@punchoutRequisition')
     .its('request.query')
     .should(
