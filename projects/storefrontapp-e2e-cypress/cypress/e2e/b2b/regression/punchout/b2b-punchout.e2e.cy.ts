@@ -6,6 +6,7 @@
 
 import {
   addProductAndClickCheckout,
+  createPunchoutRequisitionIntercept,
   deleteStaleCart,
   goToPunchoutCart,
   mockPunchoutSession,
@@ -27,8 +28,9 @@ describe('B2B Punchout', () => {
       cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
       cy.get('.accNavComponent').should('not.exist');
       cy.get('cx-page-slot.SiteLogo').should('be.not.visible');
+      createPunchoutRequisitionIntercept();
       cy.get('cx-punchout-close-session').should('be.visible').click();
-      //  verifyBackToAriba();
+      verifyBackToAriba(true);
       deleteStaleCart(punchoutSession);
     });
   });
@@ -45,16 +47,17 @@ describe('Product level and Create operation', () => {
       selectedItem: productId,
     }).then((punchoutSession) => {
       goToPunchoutCart(productId);
+      createPunchoutRequisitionIntercept();
       cy.get('cx-punchout-buttons button')
         .contains(' Back to requisition ')
         .should('be.visible')
         .click();
-      // verifyBackToAriba();
+      verifyBackToAriba();
       deleteStaleCart(punchoutSession);
     });
   });
 
-  xit('should go to cart and Cancel', () => {
+  it('should go to cart and Cancel', () => {
     const productId = '3880500';
     openPunchoutSession({
       ...mockPunchoutSession,
@@ -64,11 +67,12 @@ describe('Product level and Create operation', () => {
       selectedItem: productId,
     }).then(() => {
       goToPunchoutCart(productId);
+      createPunchoutRequisitionIntercept();
       cy.get('cx-punchout-buttons button')
         .contains(' Cancel ')
         .should('be.visible')
         .click();
-      verifyBackToAriba();
+      verifyBackToAriba(true);
     });
   });
 
@@ -96,7 +100,7 @@ describe('Product level and Create operation', () => {
 });
 
 describe('Product level and Edit operation', () => {
-  xit('should go to cart and Back to requisition', () => {
+  it('should go to cart and Back to requisition', () => {
     const productId = '3880500';
     openPunchoutSession({
       ...mockPunchoutSession,
@@ -140,7 +144,7 @@ describe('Cart level and Inspect operation', () => {
     });
   });
 
-  xit('should see product in inspect page', () => {
+  it('should see product in inspect page', () => {
     const productId = '3880500';
     openPunchoutSession({
       ...mockPunchoutSession,
@@ -172,6 +176,7 @@ describe('Cart level and Inspect operation', () => {
         cy.get(
           'cx-punchout-inspect-cart > .punchoutEndSection > cx-order-summary .cx-summary-row.cx-summary-total > .cx-summary-amount'
         ).should('not.be.empty');
+        createPunchoutRequisitionIntercept();
         cy.get(
           'cx-punchout-inspect-cart > div.punchoutEndSection > cx-punchout-buttons > button'
         )
