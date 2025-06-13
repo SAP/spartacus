@@ -81,6 +81,10 @@ describe('STORE level and EDIT operation', () => {
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/cart`
       );
+      cy.get('cx-cart-item-list table tbody.cx-item-list-items > tr').should(
+        'have.length',
+        1
+      );
       createPunchoutRequisitionIntercept();
       cy.get('cx-punchout-buttons button')
         .contains(' Cancel ')
