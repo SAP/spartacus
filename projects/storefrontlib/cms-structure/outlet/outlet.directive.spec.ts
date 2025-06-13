@@ -26,7 +26,7 @@ class MockDeferLoaderService {
   }
 }
 
-fdescribe('OutletDirective', () => {
+describe('OutletDirective', () => {
   describe('(Non-stacked)', () => {
     @Component({
       template: `
