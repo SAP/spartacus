@@ -212,13 +212,6 @@
         min-width: 25rem;
       }
 
-      .linkStyleLabel {
-        @include type('7');
-        font-weight: var(--cx-font-weight-bold);
-        margin-inline-start: 0.2rem;
-        color: var(--cx-color-primary);
-      }
-
       .asm-results {
         position: absolute;
         top: auto;
@@ -297,6 +290,21 @@
         }
       }
 
+      .linkStyleLabel {
+        @include type('7');
+        font-weight: var(--cx-font-weight-bold);
+        margin-inline-start: 0.2rem;
+        color: var(--cx-color-primary);
+      }
+
+      .searchTermLabel {
+        display: flex;
+        align-items: center;
+        color: #556b82;
+        min-width: auto;
+        margin: 0 15px 0 0;
+      }
+
       input {
         width: 100%;
         &:focus {
@@ -309,6 +317,14 @@
           }
         }
       }
+    }
+
+    @media (max-width: 41rem) {
+      flex-direction: column;
+    }
+    .searchLabel {
+      margin-top: 0.5rem;
+      margin-inline-end: 1rem;
     }
 
     button[type='submit'] {
