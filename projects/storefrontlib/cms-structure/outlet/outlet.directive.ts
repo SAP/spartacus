@@ -10,6 +10,7 @@ import {
   Directive,
   EmbeddedViewRef,
   EventEmitter,
+  inject,
   Injector,
   Input,
   OnChanges,
@@ -29,12 +30,15 @@ import {
   USE_STACKED_OUTLETS,
 } from './outlet.model';
 import { OutletService } from './outlet.service';
+import { DeferLoadingStrategy, FeatureToggles } from '@spartacus/core';
 
 @Directive({
   selector: '[cxOutlet]',
   standalone: false,
 })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
+  private fixOutletDeferLoadingCondition =
+    inject(FeatureToggles).fixOutletDeferLoadingCondition;
   private renderedTemplate: any[] = [];
   public renderedComponents = new Map<
     OutletPosition,
@@ -85,7 +89,12 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
 
-    if (this.cxOutletDefer) {
+    const shouldDefer =
+      (this.fixOutletDeferLoadingCondition &&
+        this.cxOutletDefer?.deferLoading !== DeferLoadingStrategy.INSTANT) ||
+      (!this.fixOutletDeferLoadingCondition && this.cxOutletDefer);
+
+    if (shouldDefer) {
       this.deferLoading();
     } else {
       this.build();

@@ -6,14 +6,18 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { getLastValueSync } from '@spartacus/core';
-import { OutletService } from '@spartacus/storefront';
+import { DeferLoadingStrategy, getLastValueSync } from '@spartacus/core';
+import { IntersectionOptions, OutletService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletContextData, OutletPosition } from './outlet.model';
+import { FeatureToggles } from '@spartacus/core';
 
+const mockFeatureToggles = {
+  fixOutletDeferLoadingCondition: true,
+};
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
 class MockDeferLoaderService {
@@ -22,7 +26,7 @@ class MockDeferLoaderService {
   }
 }
 
-describe('OutletDirective', () => {
+fdescribe('OutletDirective', () => {
   describe('(Non-stacked)', () => {
     @Component({
       template: `
@@ -96,6 +100,7 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          { provide: FeatureToggles, useValue: mockFeatureToggles },
         ],
       }).compileComponents();
     }));
@@ -195,6 +200,7 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          { provide: FeatureToggles, useValue: mockFeatureToggles },
         ],
       }).compileComponents();
     }));
@@ -235,7 +241,7 @@ describe('OutletDirective', () => {
       template: `
         <ng-template
           cxOutlet="deferred"
-          [cxOutletDefer]="{}"
+          [cxOutletDefer]="deferOptions"
           (loaded)="load($event)"
         >
           <div id="first">deferred</div>
@@ -244,6 +250,7 @@ describe('OutletDirective', () => {
       standalone: false,
     })
     class MockDeferredOutletComponent {
+      deferOptions: IntersectionOptions = {};
       load(_eventValue: boolean) {}
     }
 
@@ -262,24 +269,38 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          { provide: FeatureToggles, useValue: mockFeatureToggles },
         ],
       }).compileComponents();
 
       deferLoaderService = TestBed.inject(DeferLoaderService);
     }));
 
-    it('should use instant loading', () => {
+    it('should use defer loading when cxOutletDefer is undefined', () => {
       spyOn(deferLoaderService, 'load').and.callThrough();
       const fixture = TestBed.createComponent(MockInstantOutletComponent);
       fixture.detectChanges();
-      expect(deferLoaderService.load).not.toHaveBeenCalled();
+      expect(deferLoaderService.load).toHaveBeenCalled();
     });
 
-    it('should use defer loading', () => {
+    it('should use defer loading when cxOutletDefer is not INSTANT-LOADING', () => {
       spyOn(deferLoaderService, 'load').and.callThrough();
       const fixture = TestBed.createComponent(MockDeferredOutletComponent);
+      fixture.componentInstance.deferOptions = {
+        deferLoading: DeferLoadingStrategy.DEFER,
+      };
       fixture.detectChanges();
       expect(deferLoaderService.load).toHaveBeenCalled();
+    });
+
+    it('should use instant when cxOutletDefer is INSTANT-LOADING', () => {
+      spyOn(deferLoaderService, 'load').and.callThrough();
+      const fixture = TestBed.createComponent(MockDeferredOutletComponent);
+      fixture.componentInstance.deferOptions = {
+        deferLoading: DeferLoadingStrategy.INSTANT,
+      };
+      fixture.detectChanges();
+      expect(deferLoaderService.load).not.toHaveBeenCalled();
     });
   });
 
@@ -307,6 +328,7 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          { provide: FeatureToggles, useValue: mockFeatureToggles },
         ],
       }).compileComponents();
 
@@ -379,6 +401,7 @@ describe('OutletDirective', () => {
             provide: 'mockContext',
             useValue: mockContextSubject$,
           },
+          { provide: FeatureToggles, useValue: mockFeatureToggles },
         ],
       }).compileComponents();
     }));
@@ -512,6 +535,7 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
+          { provide: FeatureToggles, useValue: mockFeatureToggles },
         ],
       }).compileComponents();
     }));

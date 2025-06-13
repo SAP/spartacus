@@ -713,6 +713,21 @@ export interface FeatureTogglesInterface {
    * layout-independent operation that improves visual performance and avoids layout shifts.
    */
   topProgressBarUseTransformAnimation?: boolean;
+
+  /**
+   * Controls whether to apply the corrected condition for triggering `deferLoading()` in the `OutletComponent`.
+   *
+   * When enabled:
+   * - `deferLoading()` is only called when the CMS component is not explicitly configured with `DeferLoadingStrategy.INSTANT`.
+   * - Prevents unnecessary layout shifts and reflows caused by incorrect defer behavior.
+   * - Improves performance metrics such as CLS (Cumulative Layout Shift) and TBT (Total Blocking Time).
+   *
+   * When disabled (legacy behavior):
+   * - `deferLoading()` is always called due to an overly permissive condition.
+   * - Can introduce unnecessary animations and layout recalculations even when defer loading is not configured.
+   *
+   */
+  fixOutletDeferLoadingCondition?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -818,4 +833,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
+  fixOutletDeferLoadingCondition: false,
 };
