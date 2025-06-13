@@ -194,12 +194,12 @@
 @include media-breakpoint-up(lg) {
   cx-navigation-ui nav {
     li {
-      //padding-inline-end: 15px;
-
       > cx-generic-link > a {
-        padding-top: 20px;
-        padding-bottom: 22px;
+        padding-top: 10px;
+        padding-bottom: 12px;
         padding-inline-start: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
     }
     li > div > cx-generic-link {
@@ -210,13 +210,6 @@
       @include forFeature('a11yOptimizedMenuSpacing') {
         padding: 0;
       }
-    }
-    li > cx-generic-link > a {
-      padding-top: 10px;
-      padding-bottom: 12px;
-      padding-inline-start: 0;
-      margin-top: 10px;
-      margin-bottom: 10px;
     }
     ul.childs > li > button:hover {
       color: var(--cx-color-text);
