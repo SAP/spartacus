@@ -65,7 +65,7 @@ describe('Product level and Create operation', () => {
       punchOutLevel: 'PRODUCT',
       punchOutOperation: 'CREATE',
       selectedItem: productId,
-    }).then(() => {
+    }).then((punchoutSession) => {
       goToPunchoutCart(productId);
       createPunchoutRequisitionIntercept();
       cy.get('cx-punchout-buttons button')
@@ -73,6 +73,7 @@ describe('Product level and Create operation', () => {
         .should('be.visible')
         .click();
       verifyBackToAriba(true);
+      deleteStaleCart(punchoutSession);
     });
   });
 
@@ -100,7 +101,7 @@ describe('Product level and Create operation', () => {
 });
 
 describe('Product level and Edit operation', () => {
-  it('should go to cart and Back to requisition', () => {
+  it('should be redirected to cart', () => {
     const productId = '3880500';
     openPunchoutSession({
       ...mockPunchoutSession,
@@ -110,18 +111,21 @@ describe('Product level and Edit operation', () => {
       selectedItem: productId,
     }).then(() => {
       goToPunchoutCart(productId);
-      cy.visit('/');
+      cy.get('cx-breadcrumb > nav > ol > li > a')
+        .should('contain', 'Home')
+        .click();
       openPunchoutSession({
         ...mockPunchoutSession,
         token: { ...mockPunchoutSession.token },
         punchOutLevel: 'CART',
         punchOutOperation: 'EDIT',
-      }).then(() => {
+      }).then((punchoutSession) => {
         cy.location('pathname').should(
           'contain',
           `/${Cypress.env('BASE_SITE')}/en/USD/cart`
         );
         // TODO: should see not empty cart here
+        // deleteStaleCart(punchoutSession);
       });
     });
   });
@@ -158,7 +162,7 @@ describe('Cart level and Inspect operation', () => {
         ...mockPunchoutSession,
         punchOutLevel: 'CART',
         punchOutOperation: 'INSPECT',
-      }).then(() => {
+      }).then((punchoutSession) => {
         cy.location('pathname').should(
           'contain',
           `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/inspect`
@@ -183,6 +187,7 @@ describe('Cart level and Inspect operation', () => {
           .should('have.text', ' Back to requisition ')
           .click();
         verifyBackToAriba();
+        deleteStaleCart(punchoutSession);
       });
     });
   });
