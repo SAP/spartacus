@@ -13,6 +13,14 @@ on:
       versionAfterUpdate:
         description: "Spartacus version after upgrade"
         required: true
+      rbscEnv:
+        description: "RBSC env"
+        required: false
+        default: "dev"
+        type: choice
+        options:
+          - prod
+          - dev
 
 jobs:
   create-app:
@@ -39,9 +47,17 @@ jobs:
 
       - name: Create .npmrc with RBSC_TOKEN
         run: |
+          if [ "${{ inputs.rbscEnv }}" = "prod" ]; then
+            REGISTRY_HOST="73554900100900004337.npmsrv.base.repositories.cloud.sap"
+          else
+            REGISTRY_HOST="73554900100900004337.dev.npmsrv.base.repositories.cloud.sap"
+          fi
+
+          echo "Using RBSC registry: https://$REGISTRY_HOST"
+
           echo "always-auth=true" > spartacusstore/.npmrc
-          echo "@spartacus:registry=https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/" >> spartacusstore/.npmrc
-          echo "//73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/:_auth=${{ secrets.RBSC_TOKEN }}" >> spartacusstore/.npmrc
+          echo "@spartacus:registry=https://$REGISTRY_HOST/" >> spartacusstore/.npmrc
+          echo "//$REGISTRY_HOST/:_auth=${{ secrets.RBSC_TOKEN }}" >> spartacusstore/.npmrc
 
       - name: Install Spartacus schematics (before upgrade)
         working-directory: spartacusstore
@@ -73,18 +89,36 @@ jobs:
             --features=User-Account \
             --features=User-Profile
 
+      - name: Show files BEFORE update
+        working-directory: spartacusstore
+        run: |
+          echo "▶️ spartacus-features.module.ts:"
+          cat src/app/spartacus/spartacus-features.module.ts || echo "❌ File not found"
+
+          echo ""
+          echo "▶️ spartacus-configuration.module.ts:"
+          cat src/app/spartacus/spartacus-configuration.module.ts || echo "❌ File not found"
+
+          echo ""
+          echo "▶️ package.json:"
+          cat package.json
+
       - name: Upgrade Spartacus to versionAfterUpdate
         working-directory: spartacusstore
         run: |
           echo "Running ng update to version ${{ inputs.versionAfterUpdate }}..."
           npx ng update @spartacus/schematics@${{ inputs.versionAfterUpdate }} --allow-dirty
 
-      - name: Show spartacus-configuration.module.ts content
+      - name: Show files AFTER update
         working-directory: spartacusstore
         run: |
-          echo "Contents of spartacus-configuration.module.ts:"
-          if [ -f src/app/spartacus/spartacus-configuration.module.ts ]; then
-            cat src/app/spartacus/spartacus-configuration.module.ts
-          else
-            echo "File not found: src/app/spartacus/spartacus-configuration.module.ts"
-          fi
+          echo "▶️ spartacus-features.module.ts (after update):"
+          cat src/app/spartacus/spartacus-features.module.ts || echo "❌ File not found"
+
+          echo ""
+          echo "▶️ spartacus-configuration.module.ts (after update):"
+          cat src/app/spartacus/spartacus-configuration.module.ts || echo "❌ File not found"
+
+          echo ""
+          echo "▶️ package.json (after update):"
+          cat package.json
