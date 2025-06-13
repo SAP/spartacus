@@ -6,7 +6,7 @@ on:
       cliVersion:
         description: "Angular CLI version"
         required: false
-        default: "${{ secrets.RBSC_TOKEN }}"
+        default: "19.0.3"
       versionBeforeUpdate:
         description: "Spartacus version before upgrade"
         required: true
@@ -43,7 +43,7 @@ jobs:
           echo "@spartacus:registry=https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/" >> spartacusstore/.npmrc
           echo "//73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/:_auth=${{ secrets.RBSC_TOKEN }}" >> spartacusstore/.npmrc
 
-      - name: Install Spartacus schematics
+      - name: Install Spartacus schematics (before upgrade)
         working-directory: spartacusstore
         run: |
           npm install @spartacus/schematics@${{ inputs.versionBeforeUpdate }}
@@ -73,14 +73,18 @@ jobs:
             --features=User-Account \
             --features=User-Profile
 
-      - name: List all files under src/app/spartacus
+      - name: Upgrade Spartacus to versionAfterUpdate
         working-directory: spartacusstore
         run: |
-          echo "Listing contents of src/app/spartacus:"
-          find src/app/spartacus
+          echo "Running ng update to version ${{ inputs.versionAfterUpdate }}..."
+          npx ng update @spartacus/schematics@${{ inputs.versionAfterUpdate }} --allow-dirty
 
       - name: Show spartacus-configuration.module.ts content
         working-directory: spartacusstore
         run: |
           echo "Contents of spartacus-configuration.module.ts:"
-          cat src/app/spartacus/spartacus-configuration.module.ts
+          if [ -f src/app/spartacus/spartacus-configuration.module.ts ]; then
+            cat src/app/spartacus/spartacus-configuration.module.ts
+          else
+            echo "File not found: src/app/spartacus/spartacus-configuration.module.ts"
+          fi
