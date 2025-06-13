@@ -376,16 +376,16 @@ export function addWithNoHttpTransferCacheToAppModule(spartacusOptions: Spartacu
       '@angular/platform-browser'
     );
 
-    const fileContent = tree.read(appModulePath)!.toString();
+    const fileContent = tree!.read(appModulePath)!.toString();
 
     // Regex to match provideClientHydration(...) with any arguments
     const hydrationRegex = /provideClientHydration\s*\(\s*([^)]*)\)/m;
     const match = hydrationRegex.exec(fileContent);
 
     if (match) {
-      let args = match[1].trim();
+      const args = match[1].trim();
 
-      let argList = args
+      const argList = args
         .split(',')
         .map(a => a.trim())
         .filter(a => a.length > 0);
@@ -406,7 +406,7 @@ export function addWithNoHttpTransferCacheToAppModule(spartacusOptions: Spartacu
         tree.overwrite(appModulePath, updatedContent);
         if (spartacusOptions.debug) {
           context.logger.info(
-            '✅ Added withNoHttpTransferCache() next to withEventReplay() in the paramter list of provideClientHydration'
+            '✅ Added withNoHttpTransferCache() next to withEventReplay() in the parameter list of provideClientHydration'
           );
       }
     }
