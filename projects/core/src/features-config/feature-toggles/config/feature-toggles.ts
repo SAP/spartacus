@@ -221,6 +221,12 @@ export interface FeatureTogglesInterface {
   headerLayoutForSmallerViewports?: boolean;
 
   /**
+   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
+   * and further improves its screen reader readout.
+   */
+  a11yDeliveryModeRadiogroup?: boolean;
+
+  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
@@ -768,6 +774,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yImprovedErrorMessage: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
+  a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
