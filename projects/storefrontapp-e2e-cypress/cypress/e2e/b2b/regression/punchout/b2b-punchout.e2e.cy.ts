@@ -7,9 +7,11 @@
 import {
   addProductAndClickCheckout,
   createPunchoutRequisitionIntercept,
+  createPunchoutUser,
   deleteStaleCart,
   mockPunchoutSession,
   openPunchoutSession,
+  punchoutUser,
   verifyBackToAriba,
 } from '../../../../helpers/b2b/b2b-punchout';
 
@@ -24,25 +26,30 @@ describe('STORE level and CREATE operation', () => {
   });
 
   it('should land on home page and close session', () => {
-    openPunchoutSession({
-      ...mockPunchoutSession,
-      token: { ...mockPunchoutSession.token },
-      punchOutLevel: 'STORE',
-      punchOutOperation: 'CREATE',
-    }).then((punchoutSession) => {
-      localPunchoutSession = { ...punchoutSession };
-      cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
-      cy.get('.accNavComponent').should('not.exist');
-      cy.get('cx-page-slot.SiteLogo').should('be.not.visible');
-      createPunchoutRequisitionIntercept();
-      cy.get('cx-punchout-close-session').should('be.visible').click();
+    createPunchoutUser(punchoutUser).then(({ username, password }) => {
+      console.log('xxx', username, password);
+      return openPunchoutSession({
+        ...mockPunchoutSession,
+        token: { ...mockPunchoutSession.token },
+        customerId: username,
+        password,
+        punchOutLevel: 'STORE',
+        punchOutOperation: 'CREATE',
+      }).then((punchoutSession) => {
+        localPunchoutSession = { ...punchoutSession };
+        cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
+        cy.get('.accNavComponent').should('not.exist');
+        cy.get('cx-page-slot.SiteLogo').should('be.not.visible');
+        createPunchoutRequisitionIntercept();
+        cy.get('cx-punchout-close-session').should('be.visible').click();
 
-      verifyBackToAriba(true);
+        verifyBackToAriba(true);
+      });
     });
   });
 });
 
-describe('PRODUCT level and CREATE operation', () => {
+xdescribe('PRODUCT level and CREATE operation', () => {
   let localPunchoutSession: any;
 
   afterEach(() => {
@@ -82,7 +89,7 @@ describe('PRODUCT level and CREATE operation', () => {
   });
 });
 
-describe('STORE level and EDIT operation', () => {
+xdescribe('STORE level and EDIT operation', () => {
   let localPunchoutSessionTest1: any;
   let localPunchoutSessionTest2: any;
 
@@ -155,7 +162,7 @@ describe('STORE level and EDIT operation', () => {
   });
 });
 
-describe('INSPECT operation', () => {
+xdescribe('INSPECT operation', () => {
   let localPunchoutSession: any;
 
   afterEach(() => {

@@ -6,10 +6,15 @@
 
 import { addProductToB2BCart, createCart } from '../../support/utils/cart';
 import { login, setSessionData } from '../../support/utils/login';
+import { myCompanyAdminUser } from '../../sample-data/shared-users';
+import { addB2bUser, setB2bPassword } from './b2b-checkout';
+import { AccountData } from '../../support/require-logged-in.commands';
+import { generateMail, randomString } from '../user';
+import { user } from '../../sample-data/checkout-flow';
 
 export const mockPunchoutSession = {
-  customerId: 'punchout.customer@punchoutorg.com',
-  password: 'pw4all',
+  // customerId: 'punchout.customer@punchoutorg.com',
+  // password: 'pw4all',
   cartId: '',
   punchOutLevel: '',
   punchOutOperation: '',
@@ -19,6 +24,41 @@ export const mockPunchoutSession = {
     tokenType: 'bearer',
   },
 };
+
+export const punchoutUser: AccountData = {
+  ...user,
+  user: 'punchoutUser',
+  registrationData: {
+    firstName: 'Punchout',
+    lastName: 'Customer',
+    email: generateMail(randomString(), true),
+    password: 'pw4all',
+    titleCode: 'mr',
+  },
+};
+
+export function createPunchoutUser(user) {
+  let adminToken;
+  return login(
+    myCompanyAdminUser.registrationData.email,
+    myCompanyAdminUser.registrationData.password
+  )
+    .then((result) => {
+      expect(result.status).to.eq(200);
+      adminToken = result?.body?.access_token;
+      return addB2bUser(adminToken, user, ['PunchoutTest']);
+    })
+    .then((result) => {
+      expect(result.status).to.eq(201);
+      return setB2bPassword(result.body.customerId, user.password, adminToken);
+    })
+    .then((result: any) => {
+      expect(result.status).to.eq(204);
+      punchoutUser.registrationData.email = user.email;
+      punchoutUser.registrationData.password = user.password;
+      return cy.requireLoggedIn(user);
+    });
+}
 
 export function createPunchoutSessionIntercept(
   mockResponse = {},
@@ -55,6 +95,14 @@ export function createPunchoutRequisitionIntercept(
 }
 
 export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
+  const user = {
+    ...punchoutUser,
+    registrationData: {
+      ...punchoutUser.registrationData,
+      email: generateMail(randomString(), true),
+    },
+  };
+  // return createPunchoutUser(user).then(({ username, password }) => {
   return login(punchoutSession.customerId, punchoutSession.password)
     .then((result) => {
       expect(result.status).to.eq(200);
@@ -103,6 +151,7 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
         token: { ...punchoutSession.token },
       });
     });
+  // });
 }
 
 function goToPdpAndAddToCart(productId) {
