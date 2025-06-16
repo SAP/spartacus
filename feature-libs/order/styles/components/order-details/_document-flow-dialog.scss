@@ -1,0 +1,146 @@
+%cx-order-document-flow-dialog {
+  .cx-modal-content {
+    .cx-dialog-header {
+      @include type('3');
+      align-items: center;
+      padding: 1rem 0 1rem 1rem;
+      margin: 0 1rem;
+
+      button {
+        &.back, &.close {
+          @include type('2');
+          padding: 0 1rem 0 0;
+
+          span {
+            vertical-align: sub;
+          }
+        }
+      }
+    }
+
+    .cx-dialog-body {
+      position: relative;
+      min-height: 20rem;
+      max-height: 38rem;
+      padding: 0 1rem;
+      overflow-y: auto;
+
+      .cx-dialog-message {
+        button.close {
+          @include type('4');
+          align-self: start;
+        }
+
+        .cx-message-text {
+          @include type('8');
+        }
+      }
+
+      div.cx-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .table {
+        thead {
+          position: sticky;
+          top: 0;
+          background-color: white;
+          box-shadow: 0 (2 * $table-border-width) (2 * $table-border-width) -1px $gray-300;
+          border-bottom: unset;
+
+          tr {
+            border-bottom: unset;
+
+            th {
+              padding: 1rem .5rem;
+
+              &:first-child {
+                display: flex;
+                padding: 1rem .5rem 1rem 1rem;
+              }
+
+              &:last-child {
+                text-align: right;
+              }
+
+              @include media-breakpoint-down(sm) {
+                &:last-child {
+                  width: 20%;
+                  text-align: left;
+                }
+              }
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            td {
+              padding: .5rem;
+
+              &:first-child {
+                padding: .5rem .5rem .5rem 1rem;
+              }
+
+              &:last-child {
+                text-align: right;
+              }
+
+              @include media-breakpoint-down(sm) {
+                &:last-child {
+                  text-align: left;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      button.action {
+        @include type('2');
+        padding: 0 1rem 0 0;
+
+        span {
+          vertical-align: sub;
+        }
+      }
+
+      .cx-mobile-header {
+        font-weight: bold;
+
+        &::after {
+          content: ': ';
+        }
+      }
+
+      .cx-desktop-only {
+        display: table-cell;
+      }
+
+      .cx-mobile-only {
+        display: none;
+      }
+
+      @include media-breakpoint-down(sm) {
+        .cx-desktop-only {
+          display: none;
+        }
+
+        .cx-mobile-only {
+          display: block;
+        }
+      }
+    }
+
+    .cx-dialog-footer {
+      margin: 0 1rem;
+    }
+  }
+}
+
+%cx-order-subsequent-document-node {
+  display: contents;
+}

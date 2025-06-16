@@ -199,7 +199,24 @@
       "closeModal": "Close Modal",
       "error": "An error has occurred. Refresh the page or try again later.",
       "empty": "Documents are unavailable. You can view the documents here once they are added.",
-      "downloadError": "An error occured while fetching documents. Refresh the page or try again later."
+      "downloadError": "An error occurred while fetching documents. Refresh the page or try again later."
+    }
+  },
+  "documentFlow": {
+    "button": "View Document Flow",
+    "dialog": {
+      "title": "Document",
+      "closeModal": "Close Modal",
+      "name": "Document name",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "orderItems": "Order Items",
+      "deliveryItemId": "Delivery Item ID",
+      "orderItemId": "Order Item ID",
+      "fetchError": "An error has occurred. Refresh the page or try again later.",
+      "empty": "Documents are unavailable. You can view the documents here once they are added.",
+      "documentFetchError": "An error occurred while fetching documents. Refresh the page or try again later."
     }
   }
 }

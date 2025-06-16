@@ -67,6 +67,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReplenishmentConfirmationTotalsComponent',
           'MyAccountViewOrderComponent',
           'AccountOrderAttachmentsComponent',
+          'AccountOrderDocumentFlowComponent',
         ],
         dependencies: [CART_BASE_FEATURE],
       },

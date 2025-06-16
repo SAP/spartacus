@@ -1,0 +1,112 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-modal-container"
+  role="dialog"
+  aria-labelledby="dialogTitle"
+  aria-modal="true"
+>
+  <div class="cx-modal-content">
+    <div class="cx-dialog-header modal-header">
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
+        <ng-container *ngIf="!(selectedDocument$ | async)">
+          <div>
+            <span>
+              {{ 'documentFlow.dialog.title' | cxTranslate }}
+            </span>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="selectedDocument$ | async as selectedDocument">
+          <div>
+            <span>
+              <button
+                class="btn-tertiary back"
+                title="{{ 'documentFlow.dialog.orderItems' | cxTranslate }}"
+                (click)="goBack()"
+              >
+                <cx-icon
+                  class="cx-icon fas"
+                  [type]="iconTypes.CARET_LEFT"
+                ></cx-icon>
+              </button>
+            </span>
+            <span>{{ selectedDocument.sapDocumentCategory + ' ' + selectedDocument.sapDocumentId }}</span>
+          </div>
+        </ng-container>
+      </div>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{ 'documentFlow.dialog.closeModal' | cxTranslate }}"
+        title="{{ 'documentFlow.dialog.closeModal' | cxTranslate }}"
+        (click)="close('Close dialog')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body" #scrollContainer>
+      <ng-container *ngIf="!(selectedDocument$ | async) else entries">
+        <ng-container *ngIf="documents$ | async as documents else spinner">
+          <ng-container *ngIf="!loadError() else error">
+            <ng-container *ngIf="documents.length > 0 else empty">
+              <cx-order-subsequent-document-list
+                [documents]="documents"
+                (documentSelected)="onDocumentSelection($event)"
+              ></cx-order-subsequent-document-list>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #entries>
+        <ng-container *ngIf="selectedDocumentEntries$ | async as entries else spinner">
+          <ng-container *ngIf="!loadError() else error">
+            <ng-container *ngIf="entries.length > 0 else empty">
+              <cx-order-document-order-entry-list [entries]="entries"></cx-order-document-order-entry-list>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="cx-dialog-footer modal-footer">
+      <button
+        (click)="close('Cancel dialog')"
+        [attr.aria-label]="'common.cancel' | cxTranslate"
+        class="btn btn-secondary cancel-button"
+        type="button"
+      >
+        {{ 'common.cancel' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #error>
+  <cx-message
+    [text]="'documentFlow.dialog.error' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_ERROR"
+    [isVisibleCloseButton]="false"
+    class="cx-dialog-message error-message"
+  >
+  </cx-message>
+</ng-template>
+<ng-template #empty>
+  <cx-message
+    [text]="'documentFlow.dialog.empty' | cxTranslate"
+    [type]="globalMessageType.MSG_TYPE_INFO"
+    [isVisibleCloseButton]="false"
+    class="cx-dialog-message info-message"
+  >
+  </cx-message>
+</ng-template>
+<ng-template #spinner>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

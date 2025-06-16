@@ -12,3 +12,4 @@ export * from './replenishment-order.model';
 export * from './scheduled-replenishment.model';
 export * from './order-view.model';
 export * from './order-attachments.model';
+export * from './document-flow.model';

@@ -1,0 +1,26 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>
+      {{ 'documentFlow.dialog.name' | cxTranslate }}
+    </th>
+    <th class="cx-desktop-only">
+      {{ 'documentFlow.dialog.time' | cxTranslate }}
+    </th>
+    <th class="cx-desktop-only">
+      {{ 'documentFlow.dialog.status' | cxTranslate }}
+    </th>
+    <th class="text-center">
+      {{ 'documentFlow.dialog.orderItems' | cxTranslate }}
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngIf="documents">
+    <cx-order-subsequent-document-node
+      [documents]="documents"
+      (documentSelected)="onDocumentSelection($event)">
+    </cx-order-subsequent-document-node>
+  </ng-container>
+  </tbody>
+</table>

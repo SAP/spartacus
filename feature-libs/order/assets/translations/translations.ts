@@ -20,6 +20,7 @@ export const orderTranslationChunksConfig: TranslationChunksConfig = {
     'returnRequest',
     'reorder',
     'attachments',
+    'documentFlow',
   ],
 };
 

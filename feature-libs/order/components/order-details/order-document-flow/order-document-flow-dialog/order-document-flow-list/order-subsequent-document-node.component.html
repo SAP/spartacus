@@ -1,0 +1,49 @@
+<ng-container *ngFor="let document of documents">
+  <tr>
+    <td [style.padding-left.rem]="depth + 1">
+      <div>
+        <span>{{ document.sapDocumentCategory + ' ' + document.sapDocumentId }}</span>
+      </div>
+      <div>
+        <span class="cx-mobile-header">{{ 'documentFlow.dialog.date' | cxTranslate }}</span>
+        <span class="cx-date">{{ document.sapCreatedAt | cxDate: 'shortDate' }}</span>
+      </div>
+      <div class="cx-mobile-only">
+        <span class="cx-mobile-header">{{ 'documentFlow.dialog.time' | cxTranslate }}</span>
+        <span class="cx-time">{{ document.sapCreatedAt | cxDate: 'shortTime' }}</span>
+      </div>
+      <div class="cx-mobile-only">
+        <span class="cx-mobile-header">{{ 'documentFlow.dialog.status' | cxTranslate }}</span>
+        <span class="cx-status">{{ document.sapStatus }}</span>
+      </div>
+    </td>
+    <td class="cx-desktop-only">
+      {{ document.sapCreatedAt | cxDate: 'shortTime' }}
+    </td>
+    <td class="cx-desktop-only">
+      {{ document.sapStatus }}
+    </td>
+    <td class="text-center">
+      <ng-container *ngIf="haveSubNodes(document)">
+          <button
+            class="btn btn-tertiary action"
+            title="{{ 'documentFlow.dialog.orderItems' | cxTranslate }}"
+            (click)="onDocumentSelection(document)"
+          >
+            <cx-icon
+              class="cx-icon fas"
+              [type]="iconTypes.CARET_RIGHT"
+            ></cx-icon>
+          </button>
+        </ng-container>
+    </td>
+  </tr>
+  <ng-container *ngIf="haveSubNodes(document)">
+    <cx-order-subsequent-document-node
+      [documents]="document.sapSubsequentDocuments"
+      [depth]="depth + 1"
+      (documentSelected)="onDocumentSelection($event)"
+    >
+    </cx-order-subsequent-document-node>
+  </ng-container>
+</ng-container>

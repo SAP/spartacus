@@ -57,6 +57,19 @@ import {
   OrderAttachmentsDialogComponent,
 } from './order-attachments';
 import { defaultOrderAttachmentsDialogLayoutConfig } from './order-attachments/default-order-attachments-dialog-layout.config';
+import {
+  defaultOrderDocumentFlowDialogLayoutConfig
+} from './order-document-flow/default-order-document-flow-dialog-layout.config';
+import { OrderDocumentFlowComponent, OrderDocumentFlowDialogComponent } from './order-document-flow';
+import {
+  OrderSubsequentDocumentList
+} from './order-document-flow/order-document-flow-dialog/order-document-flow-list/order-subsequent-document-list.component';
+import {
+  OrderSubsequentDocumentNode
+} from './order-document-flow/order-document-flow-dialog/order-document-flow-list/order-subsequent-document-node.component';
+import {
+  OrderDocumentOrderEntryListComponent
+} from './order-document-flow/order-document-flow-dialog/order-document-order-entry-list/order-document-order-entry-list.component';
 
 function registerOrderOutletFactory(): () => void {
   const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);
@@ -101,6 +114,11 @@ const moduleComponents = [
   MyAccountV2ConsignmentTrackingComponent,
   OrderAttachmentsComponent,
   OrderAttachmentsDialogComponent,
+  OrderDocumentFlowComponent,
+  OrderDocumentFlowDialogComponent,
+  OrderSubsequentDocumentList,
+  OrderSubsequentDocumentNode,
+  OrderDocumentOrderEntryListComponent
 ];
 
 @NgModule({
@@ -121,6 +139,7 @@ const moduleComponents = [
     AbstractOrderContextModule,
     BtnLikeLinkModule,
     MessageComponentModule,
+    IconModule,
   ],
   providers: [
     OrderOverviewComponentService,
@@ -168,6 +187,10 @@ const moduleComponents = [
           component: OrderAttachmentsComponent,
           guards: [AuthGuard],
         },
+        AccountOrderDocumentFlowComponent: {
+          component: OrderDocumentFlowComponent,
+          guards: [AuthGuard],
+        },
       },
       features: {
         consignmentTracking: '1.2',
@@ -176,6 +199,7 @@ const moduleComponents = [
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
     provideDefaultConfig(defaultReorderLayoutConfig),
     provideDefaultConfig(defaultOrderAttachmentsDialogLayoutConfig),
+    provideDefaultConfig(defaultOrderDocumentFlowDialogLayoutConfig),
     provideDefaultConfigFactory(() =>
       inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
     ),

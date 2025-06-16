@@ -1,0 +1,15 @@
+<ng-container *ngIf="order$ | async as order">
+  <ng-container *ngIf="order.code">
+    <div class="row justify-content-end">
+      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4">
+        <button
+          #element
+          class="btn btn-secondary w-100 order-document-flow-dialog-btn"
+          (click)="onOrderDocumentFlowClick(order.code)"
+        >
+          {{ 'documentFlow.button' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
