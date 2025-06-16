@@ -12,6 +12,7 @@ import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import {
   FeatureConfigService,
+  FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
   User,
@@ -134,6 +135,12 @@ describe('CustomerSelectionComponent', () => {
           useClass: MockDirectionService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
+          },
+        },
       ],
     }).compileComponents();
 
@@ -178,6 +185,24 @@ describe('CustomerSelectionComponent', () => {
     });
   });
 
+  it('should emit selection event when submitted with showSearchingCustomerByOrderInASM disabled (CXSPA-7026)', () => {
+    component.isShowSearchingCustomerByOrderInASM = false;
+    spyOn(component, 'onSubmit').and.callThrough();
+    spyOn(component.customerSelectionForm, 'markAllAsTouched').and.stub();
+
+    component.customerSelectionForm.controls.searchTerm.setValue('testTerm');
+    component.selectedCustomer = mockCustomer;
+    fixture.detectChanges();
+
+    const submitBtn = fixture.debugElement.query(
+      By.css('button[type="submit"]')
+    );
+    submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+
+    expect(component.onSubmit).toHaveBeenCalled();
+    expect(component.customerSelectionForm.markAllAsTouched).toHaveBeenCalled();
+  });
+
   it('should display spinner when customer search is running (CXSPA-7026)', () => {
     customerSearchResultsLoading.next(true);
     component.searchByCustomer = true;
@@ -201,6 +226,20 @@ describe('CustomerSelectionComponent', () => {
     );
     component.selectedCustomer = mockCustomer;
 
+    fixture.detectChanges();
+    tick(1000);
+    expect(asmService.customerSearch).toHaveBeenCalledWith({
+      query: validSearchTerm,
+      pageSize: 20,
+    });
+  }));
+
+  it('should trigger search for valid search term when showSearchingCustomerByOrderInASM disabled', fakeAsync(() => {
+    component.isShowSearchingCustomerByOrderInASM = false;
+    spyOn(asmService, 'customerSearch').and.callThrough();
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
     fixture.detectChanges();
     tick(1000);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
