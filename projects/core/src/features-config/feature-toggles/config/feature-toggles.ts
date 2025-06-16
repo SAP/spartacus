@@ -238,6 +238,11 @@ export interface FeatureTogglesInterface {
   a11yImprovedErrorMessage?: boolean;
 
   /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -772,6 +777,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: false,
+  a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
   a11yDeliveryModeRadiogroup: true,
