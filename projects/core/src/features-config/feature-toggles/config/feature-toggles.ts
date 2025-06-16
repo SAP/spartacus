@@ -227,6 +227,11 @@ export interface FeatureTogglesInterface {
   a11yDeliveryModeRadiogroup?: boolean;
 
   /**
+   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
+   */
+  a11yStoreFinderAlerts?: boolean;
+
+  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
@@ -780,6 +785,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
+  a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
   a11yFormErrorMuteIcon: true,
   a11yImprovedErrorMessage: false,
