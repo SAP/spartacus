@@ -232,6 +232,11 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
+   */
+  a11yFormErrorMuteIcon?: boolean;
+
+  /**
    * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
    *  together with aria-live="atomic"
    */
@@ -776,6 +781,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
+  a11yFormErrorMuteIcon: true,
   a11yImprovedErrorMessage: false,
   a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
