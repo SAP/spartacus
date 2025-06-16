@@ -21,33 +21,21 @@ import {
   template,
   url,
 } from '@angular-devkit/schematics';
-import {
-  findNode,
-  getDecoratorMetadata,
-  getMetadataField,
-  insertImport,
-} from '@schematics/angular/utility/ast-utils';
-import { RemoveChange } from '@schematics/angular/utility/change';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
 import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
-import {
-  ANGULAR_CORE,
-  ANGULAR_PLATFORM_BROWSER,
-  ANGULAR_SSR,
-} from '../shared/constants';
+import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
-  removeImport,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -364,120 +352,73 @@ function useNoSsrConfigurationInNgServe(
 }
 
 /**
- * Removes the "provideClientHydration" from "app.module.ts" file.
- *
- * This rule should be skipped (and removed) when Spartacus starts supporting client hydration.
+ * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
  */
-function removeClientHydration(spartacusOptions: SpartacusOptions): Rule {
+export function addWithNoHttpTransferCacheToAppModule(
+  spartacusOptions: SpartacusOptions
+): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    if (spartacusOptions.debug) {
-      context.logger.info(
-        `⌛️ Removing "provideClientHydration" from "app.module.ts"...`
-      );
-    }
     const appModulePath = getPathResultsForFile(
       tree,
       'app.module.ts',
       '/src'
     )[0];
-
     if (!appModulePath) {
-      throw new SchematicsException(`Project file "app.module.ts" not found.`);
-    }
-
-    const sourceFile = getTsSourceFile(tree, appModulePath);
-
-    // Remove import
-    const removeProvideClientHydrationImport = removeImport(sourceFile, {
-      className: `provideClientHydration`,
-      importPath: ANGULAR_PLATFORM_BROWSER,
-    });
-
-    const removeWithEventReplayImport = removeImport(sourceFile, {
-      className: `withEventReplay`,
-      importPath: ANGULAR_PLATFORM_BROWSER,
-    });
-
-    // Remove provider
-    const providerChanges = removeFromModuleProviders(
-      sourceFile,
-      ts.SyntaxKind.CallExpression,
-      `provideClientHydration(withEventReplay())`
-    );
-
-    const changes = [
-      removeProvideClientHydrationImport,
-      removeWithEventReplayImport,
-      ...providerChanges,
-    ];
-    commitChanges(tree, appModulePath, changes);
-
-    if (spartacusOptions.debug) {
-      context.logger.info(
-        `✅ Removing "provideClientHydration" from "app.module.ts" complete.`
+      throw new SchematicsException(
+        `AppModule file "app.module.ts" not found.`
       );
     }
+
+    const source = getTsSourceFile(tree, appModulePath);
+
+    const importChange = insertImport(
+      source,
+      appModulePath,
+      'withNoHttpTransferCache',
+      '@angular/platform-browser'
+    );
+
+    const fileBuffer = tree.read(appModulePath);
+    if (!fileBuffer) {
+      throw new SchematicsException(`Could not read file at ${appModulePath}`);
+    }
+    const fileContent = fileBuffer.toString();
+
+    // Regex to match provideClientHydration(...) with any arguments
+    const hydrationRegex = /provideClientHydration\s*\(\s*([^)]*)\)/m;
+    const match = hydrationRegex.exec(fileContent);
+
+    if (match) {
+      const args = match[1].trim();
+
+      const argList = args
+        .split(',')
+        .map((a) => a.trim())
+        .filter((a) => a.length > 0);
+
+      const idx = argList.findIndex((a) => a.startsWith('withEventReplay'));
+      if (idx !== -1) {
+        argList[idx] = 'withEventReplay()';
+        argList.splice(idx + 1, 0, 'withNoHttpTransferCache()');
+      } else {
+        argList.push('withNoHttpTransferCache()');
+      }
+      const newArgs = argList.join(', ');
+
+      const updatedContent = fileContent.replace(
+        hydrationRegex,
+        (_, _args) => `provideClientHydration(${newArgs}`
+      );
+      tree.overwrite(appModulePath, updatedContent);
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          '✅ Added withNoHttpTransferCache() next to withEventReplay() in the parameter list of provideClientHydration'
+        );
+      }
+    }
+    commitChanges(tree, appModulePath, [importChange]);
     return tree;
   };
-}
-
-/**
- * Removes provider from  module providers.
- *
- * removeClientHydration() function is the only place where this function is used and it's used temporarily.
- * If needed, move this function to module-file-utils.ts
- */
-function removeFromModuleProviders(
-  source: ts.SourceFile,
-  kind: ts.SyntaxKind,
-  providerName: string
-): RemoveChange[] {
-  const nodes = getDecoratorMetadata(source, 'NgModule', ANGULAR_CORE);
-  const node = nodes[0];
-
-  if (!node || !ts.isObjectLiteralExpression(node)) {
-    return [];
-  }
-
-  // Find the matching metadata field.
-  const matchingProperties = getMetadataField(node, `providers`);
-  const assignment = matchingProperties[0];
-
-  // return empty array if assignment is not an array
-  if (
-    !ts.isPropertyAssignment(assignment) ||
-    !ts.isArrayLiteralExpression(assignment.initializer)
-  ) {
-    return [];
-  }
-
-  //find providers
-  const providersExpression = assignment.initializer;
-  const providerNodes = providersExpression
-    .getChildren()
-    .filter((e) => e.getText().includes(providerName))[0];
-
-  // return empty array if there is no `provideClientHydration` among providers
-  if (!providerNodes) {
-    return [];
-  }
-
-  // get specific provider with given kind and name;
-  const providerSpecifier = providerNodes
-    .getChildren()
-    .find((childNode) => findNode(childNode, kind, providerName));
-
-  if (!providerSpecifier) {
-    return [];
-  }
-
-  return [
-    new RemoveChange(
-      source.fileName,
-      providerSpecifier.pos,
-      `${providerSpecifier.getFullText()}`
-    ),
-  ];
 }
 
 export function addSSR(options: SpartacusOptions): Rule {
@@ -493,8 +434,8 @@ export function addSSR(options: SpartacusOptions): Rule {
       }),
       addBuildSsrScript(options),
       modifyAppServerModuleFile(),
-      removeClientHydration(options),
       modifyIndexHtmlFile(options),
+      addWithNoHttpTransferCacheToAppModule(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
