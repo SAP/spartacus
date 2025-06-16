@@ -6,6 +6,7 @@
 
 import * as cart from './cart';
 import { waitForPage, waitForProductPage } from './checkout-flow';
+import { clearAllStorage } from '../support/utils/clear-all-storage';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
@@ -293,7 +294,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
 
   const cartPage = waitForPage(
     config.importButtonPath,
-    `get${config.context}age`
+    `get${config.context}Page`
   );
   cy.visit(config.importButtonPath);
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
@@ -379,12 +380,15 @@ export function testImportExportSingleProduct() {
   describe('Single product', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
-    it('should export cart', () => {
+    it('Single product - should export cart, import to active cart, import to saved cart', () => {
+      // export cart:
+      cy.log('SINGLE PRODUCT - EXPORT CART:');
       addProductToCart(cart.products[1].code);
       exportCart(EXPECTED_CSV);
-    });
 
-    it('should import to active cart', () => {
+      // import to active cart:
+      cy.log('SINGLE PRODUCT - IMPORT TO ACTIVE CART:');
+      clearAllStorage();
       importCartTestFromConfig({
         fileName: 'cart-single',
         context: ImportExportContext.ACTIVE_CART,
@@ -395,9 +399,12 @@ export function testImportExportSingleProduct() {
         headers: getCsvHeaders(EXPECTED_CSV),
         expectedData: convertCsvToArray(EXPECTED_CSV),
       });
-    });
 
-    it('should import to saved cart', () => {
+      // import to saved cart:
+      cy.log('SINGLE PRODUCT - IMPORT TO SAVED CART:');
+      clearAllStorage();
+      // to ensure the "import" alias is assigned to correct cart #:
+      cy.wait('@import').its('response.statusCode').should('eq', 200);
       importCartTestFromConfig({
         fileName: 'cart-single',
         context: ImportExportContext.SAVED_CART,
@@ -423,14 +430,16 @@ export function testImportExportLargerQuantity() {
   describe('Single product with larger quantity', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
-    it('should export cart', () => {
+    it('Single product with larger quantity - should export cart, import to active cart, import to saved cart', () => {
+      // export cart:
+      cy.log('SINGLE PRODUCT WITH LARGER QUANTITY - EXPORT CART:');
       addProductToCart();
       addProductToCart();
       addProductToCart();
       exportCart(EXPECTED_CSV);
-    });
 
-    it('should import to active cart', () => {
+      cy.log('SINGLE PRODUCT WITH LARGER QUANTITY - IMPORT TO ACTIVE CART:');
+      clearAllStorage();
       importCartTestFromConfig({
         fileName: 'cart-lg-qty',
         context: ImportExportContext.ACTIVE_CART,
@@ -441,9 +450,13 @@ export function testImportExportLargerQuantity() {
         headers: getCsvHeaders(EXPECTED_CSV),
         expectedData: convertCsvToArray(EXPECTED_CSV),
       });
-    });
 
-    it('should import to saved cart', () => {
+      // import to saved cart:
+      cy.log('SINGLE PRODUCT WITH LARGER QUANTITY - IMPORT TO SAVED CART:');
+      clearAllStorage();
+      // to ensure the "import" alias is assigned to correct cart #:
+      cy.wait('@import').its('response.statusCode').should('eq', 200);
+
       importCartTestFromConfig({
         fileName: 'cart-lg-qty',
         context: ImportExportContext.SAVED_CART,

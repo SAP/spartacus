@@ -8,8 +8,6 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
-  PUNCHOUT_INSPECT_PAGE_URL,
-  PUNCHOUT_REQUISITION_PAGE_URL,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutRequisition,
@@ -18,7 +16,7 @@ import {
   PunchoutState,
   PunchoutStoreService,
 } from '@spartacus/punchout/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { PunchoutConnector } from '../connectors';
 import { PunchoutAuthService } from '../services';
 import { PunchoutService } from './punchout.service';
@@ -159,7 +157,7 @@ describe('Punchoutservice', () => {
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of(mockPunchoutSessionResponse)
     );
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       next: (result) => {
         expect(result).toEqual(mockPunchoutSessionResponse);
         expect(connector.getPunchoutSession).toHaveBeenCalledWith(
@@ -190,9 +188,9 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should getPunchoutSessionRequisition with empty param ends punchout session', (done) => {
+  it('should getPunchoutSession with empty param ends punchout session', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
-    service.getPunchoutSession({ punchoutSessionId: '' }).subscribe({
+    service.initPunchoutSession({ punchoutSessionId: '' }).subscribe({
       error: () => {
         expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
@@ -211,13 +209,24 @@ describe('Punchoutservice', () => {
     });
   });
 
+  it('should getPunchoutSessionRequisition call end session when user is not logged-in', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutAuthService, 'isUserLoggedIn').and.returnValue(of(false));
+    service.getPunchoutSessionRequisition().subscribe({
+      error: () => {
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
+        done();
+      },
+    });
+  });
+
   it('should getPunchoutSession stays on page when isPageRefresh is true', (done) => {
     spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
     spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
       of(mockPunchoutRequisitionResponse)
     );
     service
-      .getPunchoutSession({ ...mockSessionInput, isPageRefresh: true })
+      .initPunchoutSession({ ...mockSessionInput, isPageRefresh: true })
       .subscribe({
         next: () => {
           expect(routingService.go).not.toHaveBeenCalled();
@@ -231,7 +240,7 @@ describe('Punchoutservice', () => {
     spyOn(connector, 'getPunchoutSession').and.returnValue(
       of({ ...mockPunchoutSessionResponse, token: undefined })
     );
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       error: () => {
         expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
@@ -245,7 +254,7 @@ describe('Punchoutservice', () => {
       of({ ...mockPunchoutSessionResponse, token: undefined })
     );
 
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       error: () => {
         expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
         done();
@@ -263,7 +272,7 @@ describe('Punchoutservice', () => {
       })
     );
 
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith('/');
         done();
@@ -281,11 +290,11 @@ describe('Punchoutservice', () => {
       })
     );
 
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       next: () => {
-        expect(routingService.go).toHaveBeenCalledWith(
-          PUNCHOUT_INSPECT_PAGE_URL
-        );
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'punchoutInspect',
+        });
 
         done();
       },
@@ -304,7 +313,7 @@ describe('Punchoutservice', () => {
       of(mockPunchoutInitialRequisition)
     );
     spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
         expect(punchoutStoreService.updatePunchoutState).toHaveBeenCalledWith({
@@ -315,25 +324,74 @@ describe('Punchoutservice', () => {
     });
   });
 
-  it('should redirect to home page if requisition page was open manually', (done) => {
+  it('should requestPunchoutSession return existing cachedPunchoutSessionResponse ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSession').and.returnValue(
+      of(mockPunchoutSessionResponse)
+    );
+    service;
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+    service['cachedPunchoutSessionResponse'] = mockPunchoutSessionResponse;
+    service.requestPunchoutSession('123').subscribe({
+      next: () => {
+        expect(connector.getPunchoutSession).not.toHaveBeenCalled();
+        expect(service['cachedPunchoutSessionResponse']).toEqual(
+          mockPunchoutSessionResponse
+        );
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionRequisition not redirect user when isInitialRequisition is true', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutRequisitionResponse)
+    );
     spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
       of({
+        ...mockPunchoutState,
         cancelRequisition: undefined,
         closePunchoutSession: undefined,
       })
     );
-    spyOn(routingService, 'go').and.stub();
-    service.getPunchoutSession(mockSessionInput).subscribe({
-      next: () => {
-        expect(globalMessageService.add).toHaveBeenCalledWith(
+
+    service.getPunchoutSessionRequisition(true).subscribe({
+      complete: () => {
+        expect(globalMessageService.add).not.toHaveBeenCalledWith(
           {
-            key: 'organization.notification.noSufficientPermissions',
+            key: 'punchout.noSufficientPermissions',
           },
           GlobalMessageType.MSG_TYPE_WARNING
         );
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'home',
-        });
+        expect(routingService.go).not.toHaveBeenCalledWith({ cxRoute: 'home' });
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionRequisition redirects to home page when isInitialRequisition is false', (done) => {
+    spyOn(connector, 'getPunchoutSessionRequisition').and.returnValue(
+      of(mockPunchoutRequisitionResponse)
+    );
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of({
+        ...mockPunchoutState,
+        cancelRequisition: undefined,
+        closePunchoutSession: undefined,
+      })
+    );
+
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    service.getPunchoutSessionRequisition(false).subscribe({
+      complete: () => {
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'punchout.noSufficientPermissions',
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
         done();
       },
     });
@@ -345,7 +403,7 @@ describe('Punchoutservice', () => {
       of(mockPunchoutSessionResponse)
     );
 
-    service.getPunchoutSession(mockSessionInput).subscribe({
+    service.initPunchoutSession(mockSessionInput).subscribe({
       next: () => {
         expect(routingService.go).toHaveBeenCalledWith({
           cxRoute: 'product',
@@ -378,6 +436,74 @@ describe('Punchoutservice', () => {
     service.endPunchoutSession().subscribe({
       next: () => {
         expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalledWith();
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionRequisition return InitialPunchoutRequisition when closePunchoutSession is true', (done) => {
+    const mockState: PunchoutState = {
+      ...mockPunchoutState,
+      punchoutInitialRequisition: mockPunchoutInitialRequisition,
+      closePunchoutSession: true,
+      punchoutSession: {
+        ...mockPunchoutSession,
+        punchOutOperation: PunchOutOperation.EDIT,
+      },
+    };
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockState)
+    );
+    spyOn(connector, 'getPunchoutSessionRequisition').and.callThrough();
+
+    service.getPunchoutSessionRequisition().subscribe({
+      next: (result) => {
+        expect(result).toEqual(mockPunchoutInitialRequisition);
+        expect(connector.getPunchoutSessionRequisition).not.toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
+  it('should getPunchoutSessionRequisition end session if connector fails', (done) => {
+    const mockState: PunchoutState = {
+      ...mockPunchoutState,
+      punchoutSessionId: undefined,
+      punchoutInitialRequisition: undefined,
+      closePunchoutSession: true,
+      punchoutSession: {
+        ...mockPunchoutSession,
+        punchOutOperation: PunchOutOperation.EDIT,
+      },
+    };
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      of(mockState)
+    );
+    spyOn(connector, 'getPunchoutSessionRequisition').and.callThrough();
+
+    service.getPunchoutSessionRequisition().subscribe({
+      error: (result) => {
+        expect(String(result)).toContain('Punchout Session Id missing');
+        expect(connector.getPunchoutSessionRequisition).not.toHaveBeenCalled();
+        done();
+      },
+    });
+  });
+
+  it('should closePunchoutSession end Punchout session if any error occurs ', (done) => {
+    spyOn(routingService, 'go').and.returnValue(Promise.resolve(true));
+    spyOn(punchoutStoreService, 'getPunchoutState').and.returnValue(
+      throwError(() => new Error('Error occurred'))
+    );
+    spyOn(punchoutStoreService, 'updatePunchoutState').and.callThrough();
+    spyOn(connector, 'getPunchoutSessionRequisition').and.callThrough();
+
+    service.closePunchoutSession().subscribe({
+      error: (error) => {
+        expect(punchoutAuthService.endPunchoutSession).toHaveBeenCalled();
+        expect(String(error)).toContain('Error occurred');
         done();
       },
     });
@@ -476,8 +602,8 @@ describe('Punchoutservice', () => {
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
-    expect(routingService.go).toHaveBeenCalledWith(
-      PUNCHOUT_REQUISITION_PAGE_URL
-    );
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'punchoutRequisition',
+    });
   });
 });

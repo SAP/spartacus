@@ -96,9 +96,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected featureConfig = inject(FeatureConfigService);
-  isShowStyleChangesInASM = this.featureConfig.isEnabled(
-    'showStyleChangesInASM'
-  );
 
   constructor(
     protected globalMessageService: GlobalMessageService,
