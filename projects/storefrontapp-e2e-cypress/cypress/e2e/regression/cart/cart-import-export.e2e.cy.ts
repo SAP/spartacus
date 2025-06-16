@@ -242,8 +242,8 @@ context('Cart Import/Export', () => {
       });
     });
 
-    // TODO: Enable and improve once importing configurable products is supported (#13456)
-    xdescribe('Configurable products', () => {
+    // TODO: Improve once importing configurable products is supported (#13456)
+    describe('Configurable products', () => {
       const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
       beforeEach(() => {
         cy.cxConfig(importExport.configurableProductConfig);
