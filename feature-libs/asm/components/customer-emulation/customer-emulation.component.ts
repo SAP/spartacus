@@ -42,6 +42,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected featureConfig = inject(FeatureConfigService);
+  isShowStyleChangesInASM = this.featureConfig.isEnabled(
+    'showStyleChangesInASM'
+  );
 
   constructor(
     protected asmComponentService: AsmComponentService,
