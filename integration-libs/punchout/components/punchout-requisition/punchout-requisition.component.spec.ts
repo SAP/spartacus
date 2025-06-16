@@ -133,4 +133,21 @@ describe('PunchoutRequisitionComponent', () => {
 
     expect(mockPunchoutFacade.endPunchoutSession).toHaveBeenCalled();
   }));
+
+  it('should call endPunchoutSession when form nativeElement does not exists', fakeAsync(() => {
+    mockPunchoutFacade.endPunchoutSession.and.returnValue(of(true));
+    mockPunchoutFacade.logoutPunchoutUser.and.returnValue(of(true));
+
+    fixture = TestBed.createComponent(PunchoutRequisitionComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.punchoutFormElement = {} as ElementRef<HTMLFormElement>;
+    tick(10);
+
+    component.punchoutFormGroup
+      .get(component.FORM_CONTROL_NAME.ORDER)
+      ?.setValue(mockRequisition.orderAsCXML);
+
+    expect(mockPunchoutFacade.endPunchoutSession).toHaveBeenCalled();
+  }));
 });

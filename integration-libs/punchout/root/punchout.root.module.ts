@@ -11,52 +11,33 @@ import {
   NgModule,
   provideAppInitializer,
 } from '@angular/core';
+import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
 import {
-  AuthHttpHeaderService,
-  CmsConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { PUNCHOUT_FEATURE } from './feature-name';
+  defaultPunchoutCmsComponentsConfig,
+  defaultPunchoutRoutingConfig,
+  defaultPunchoutNavigationGuardConfig,
+} from './config';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
-import { PunchoutStatePersistanceService } from './services';
-import { PunchoutAuthHttpHeaderService } from './services/punchout-auth-http-header.service';
-import { PunchoutUiRestrictionService } from './services/punchout-ui-restriction.service';
-
-export function defaultPunchoutCmsComponentsConfig(): CmsConfig {
-  const config: CmsConfig = {
-    featureModules: {
-      [PUNCHOUT_FEATURE]: {
-        cmsComponents: [
-          'PunchoutSessionComponent',
-          'PunchoutErrorComponent',
-          'PunchoutButtonsComponent',
-          'PunchoutRequisitionComponent',
-          'PunchoutCloseSessionComponent',
-          'PunchoutInspectCartComponent',
-        ],
-      },
-    },
-  };
-  return config;
-}
-
-export function punchoutStatePersistenceFactory(): () => void {
-  const punchoutPersistenceService = inject(PunchoutStatePersistanceService);
-  return () => punchoutPersistenceService.initSync();
-}
+import {
+  PunchoutStatePersistenceService,
+  PunchoutAuthHttpHeaderService,
+  PunchoutUiRestrictionService,
+} from './services';
 
 @NgModule({
   imports: [PunchoutNavigationModule],
   providers: [
+    provideDefaultConfig(defaultPunchoutCmsComponentsConfig),
+    provideDefaultConfig(defaultPunchoutRoutingConfig),
+    provideDefaultConfig(defaultPunchoutNavigationGuardConfig),
     provideAppInitializer(() => {
       const punchoutPersistenceService = inject(
-        PunchoutStatePersistanceService
+        PunchoutStatePersistenceService
       );
       punchoutPersistenceService.initSync();
     }),
     ...interceptors,
-    provideDefaultConfigFactory(defaultPunchoutCmsComponentsConfig),
     {
       provide: AuthHttpHeaderService,
       useExisting: PunchoutAuthHttpHeaderService,

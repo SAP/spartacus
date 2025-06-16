@@ -11,12 +11,13 @@ import { Config } from '@spartacus/core';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class OrderAttachmentsConfig {
+export abstract class OrderConfig {
   orderAttachments?: {
     previewMimeTypes: string[];
   };
+  showOrderQuoteLink?: boolean;
 }
 
 declare module '@spartacus/core' {
-  interface Config extends OrderAttachmentsConfig {}
+  interface Config extends OrderConfig {}
 }
