@@ -64,6 +64,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     let headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     headers = this.appendCaptchaToken(headers);
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 

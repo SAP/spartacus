@@ -11,11 +11,12 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
+  CLIENT_TOKENS_DISABLED,
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../../occ/utils/interceptor-util';
@@ -29,6 +30,8 @@ import { ClientTokenService } from '../services/client-token.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
+  protected disableClientToken = inject(CLIENT_TOKENS_DISABLED);
+
   constructor(
     protected clientTokenService: ClientTokenService,
     protected clientErrorHandlingService: ClientErrorHandlingService,
@@ -42,6 +45,9 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     const isClientTokenRequest = this.isClientTokenRequest(request);
     if (isClientTokenRequest) {
       request = InterceptorUtil.removeHeader(USE_CLIENT_TOKEN, request);
+    }
+    if (this.disableClientToken) {
+      return next.handle(request);
     }
 
     return this.getClientToken(isClientTokenRequest).pipe(

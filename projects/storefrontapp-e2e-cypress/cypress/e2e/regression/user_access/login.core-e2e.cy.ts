@@ -10,11 +10,12 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.visit('/login');
-      login.registerUserFromLoginPage();
+      cy.visit('/login/register');
+      login.registerUserFromRegisterPage();
     });
 
     it('should login and logout successfully', () => {
+      cy.visit('/login');
       login.loginUser();
 
       const tokenRevocationRequestAlias =
