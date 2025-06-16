@@ -22,7 +22,7 @@
     <h2 class="cx-product-name">
       <a
         [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-        [innerHtml]="product.nameHtml"
+        [innerHTML]="product.nameHtml"
       ></a>
     </h2>
 
@@ -44,9 +44,7 @@
 
     <div class="row">
       <div class="col-12 col-md-7 col-xl-7">
-        <p class="cx-product-summary" [innerHtml]="product.summary">
-          {{ product.summary }}
-        </p>
+        <p class="cx-product-summary" [innerHTML]="product.summary"></p>
       </div>
       <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
