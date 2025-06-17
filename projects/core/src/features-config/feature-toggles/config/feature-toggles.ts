@@ -843,5 +843,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
-  createMediaPreconnectLinkInSsr: false,
+  createMediaPreconnectLinkInSsr: false
 };
