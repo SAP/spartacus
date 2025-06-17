@@ -713,7 +713,7 @@ export interface FeatureTogglesInterface {
    * layout-independent operation that improves visual performance and avoids layout shifts.
    */
   topProgressBarUseTransformAnimation?: boolean;
-  
+
   /**
    * Feature flag to disable the margin animation for the cx-page-slot component.
    * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
