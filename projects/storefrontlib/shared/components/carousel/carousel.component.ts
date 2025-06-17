@@ -15,6 +15,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
