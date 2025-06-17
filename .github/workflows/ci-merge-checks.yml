@@ -187,6 +187,9 @@ jobs:
         env:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        with:
+          record: false
+          config: video=false,screenshotsFolder=true
         run: |
           ci-scripts/e2e-cypress.sh -s a11y
   merge_checks_result:
