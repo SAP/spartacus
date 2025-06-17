@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MediaPreconnectService } from './media-preconnect.service';
 import { PageMetaLinkService } from './page-meta-link.service';
-import { MediaService } from '@spartacus/core';
+import { MediaService } from '../../shared/components/media/media.service';
 import { FeatureToggles } from '@spartacus/core';
 import { WindowRef } from '@spartacus/core';
 
