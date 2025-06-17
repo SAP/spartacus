@@ -1,6 +1,7 @@
 $space: 0.5rem;
 
 %header {
+  // min-height: 208.3px;
   background-color: var(--cx-color-light);
   color: var(--cx-color-inverse);
 
@@ -18,6 +19,15 @@ $space: 0.5rem;
 
     @include media-breakpoint-up(lg) {
       padding: 0 10px;
+    }
+
+    @include media-breakpoint-down(md) {
+      .SiteContext,
+      .SiteLinks,
+      .SiteLogin,
+      .NavigationBar {
+        display: none;
+      }
     }
 
     display: flex;
