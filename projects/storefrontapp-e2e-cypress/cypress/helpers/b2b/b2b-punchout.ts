@@ -20,6 +20,13 @@ export const mockPunchoutSession = {
   },
 };
 
+export function hardCopyPunchoutSession(punchoutSession) {
+  return {
+    ...punchoutSession,
+    token: { ...punchoutSession.token },
+  };
+}
+
 export function createPunchoutSessionIntercept(
   mockResponse = {},
   alias = 'createPunchoutSession'
@@ -69,7 +76,6 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
       return createCart(result.body.access_token);
     })
     .then((cart) => {
-      cy.log('Cart created', JSON.stringify(cart));
       punchoutSession.cartId = (cart as any).body.code;
       mockPunchoutSession.cartId = punchoutSession.cartId;
       if (addItem) {
@@ -96,10 +102,7 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
         .its('request.headers')
         .should('have.property', 'punchoutsid');
 
-      return cy.wrap({
-        ...punchoutSession,
-        token: { ...punchoutSession.token },
-      });
+      return cy.wrap(hardCopyPunchoutSession(punchoutSession));
     });
 }
 
@@ -149,29 +152,20 @@ export function verifyBackToAriba(discardCartEntries?: boolean) {
       discardCartEntries ? 'have.property' : 'not.have.property',
       'discardCartEntries'
     );
+  cy.wait('@oauthRevoke');
 }
 
 export function deleteStaleCart(punchoutSession) {
-  // login the punchout user to get a new  access token as previous token has been revoked
-  // this is needed to delete the stale cart
-  cy.log('--> Delete stale cart');
-  login(punchoutSession.customerId, punchoutSession.password).then(
-    (result: any) => {
-      expect(result.status).to.eq(200);
-
-      return cy
-        .request({
-          method: 'DELETE',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
-          headers: {
-            Authorization: `Bearer ${result.body.access_token}`,
-          },
-        })
-        .then((response) => {
-          expect(response.status).to.eq(200);
-        });
-    }
-  );
+  // this is needed to delete the stale cart, single user is used for all tests, thus high carts volume expected.
+  cy.request({
+    method: 'DELETE',
+    url: `${Cypress.env('API_URL')}/${Cypress.env(
+      'OCC_PREFIX'
+    )}/${Cypress.env('BASE_SITE')}/users/current/carts/${punchoutSession.cartId}?lang=en&curr=USD`,
+    headers: {
+      Authorization: `Bearer ${punchoutSession.token.accessToken}`,
+    },
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
 }

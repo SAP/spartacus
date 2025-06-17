@@ -8,6 +8,7 @@ import {
   addProductAndClickCheckout,
   createPunchoutRequisitionIntercept,
   deleteStaleCart,
+  hardCopyPunchoutSession,
   mockPunchoutSession,
   openPunchoutSession,
   verifyBackToAriba,
@@ -18,7 +19,7 @@ describe('STORE level and CREATE operation', () => {
 
   afterEach(() => {
     if (localPunchoutSession) {
-      deleteStaleCart({ ...localPunchoutSession });
+      deleteStaleCart(hardCopyPunchoutSession(localPunchoutSession));
       localPunchoutSession = null;
     }
   });
@@ -31,7 +32,7 @@ describe('STORE level and CREATE operation', () => {
       punchOutLevel: 'STORE',
       punchOutOperation: 'CREATE',
     }).then((punchoutSession) => {
-      localPunchoutSession = { ...punchoutSession };
+      localPunchoutSession = hardCopyPunchoutSession(punchoutSession);
 
       cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
       cy.get('.accNavComponent').should('not.exist');
@@ -49,7 +50,7 @@ describe('PRODUCT level and CREATE operation', () => {
 
   afterEach(() => {
     if (localPunchoutSession) {
-      deleteStaleCart({ ...localPunchoutSession });
+      deleteStaleCart(hardCopyPunchoutSession(localPunchoutSession));
       localPunchoutSession = null;
     }
   });
@@ -65,7 +66,10 @@ describe('PRODUCT level and CREATE operation', () => {
       punchOutOperation: 'CREATE',
       selectedItem: productId,
     }).then((punchoutSession) => {
-      localPunchoutSession = { ...punchoutSession };
+      localPunchoutSession = {
+        ...punchoutSession,
+        token: { ...punchoutSession.token },
+      };
       addProductAndClickCheckout(productId);
       cy.get('cx-global-message').should(
         'contain',
@@ -92,11 +96,11 @@ describe('STORE level and EDIT operation', () => {
 
   afterEach(() => {
     if (localPunchoutSessionTest1) {
-      deleteStaleCart({ ...localPunchoutSessionTest1 });
+      deleteStaleCart(hardCopyPunchoutSession(localPunchoutSessionTest1));
       localPunchoutSessionTest1 = null;
     }
     if (localPunchoutSessionTest2) {
-      deleteStaleCart({ ...localPunchoutSessionTest2 });
+      deleteStaleCart(hardCopyPunchoutSession(localPunchoutSessionTest2));
       localPunchoutSessionTest2 = null;
     }
   });
@@ -114,7 +118,7 @@ describe('STORE level and EDIT operation', () => {
       },
       true
     ).then((punchoutSession) => {
-      localPunchoutSessionTest1 = { ...punchoutSession };
+      localPunchoutSessionTest1 = hardCopyPunchoutSession(punchoutSession);
 
       cy.location('pathname').should(
         'contain',
@@ -139,7 +143,6 @@ describe('STORE level and EDIT operation', () => {
     openPunchoutSession(
       {
         ...mockPunchoutSession,
-
         token: { ...mockPunchoutSession.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'EDIT',
@@ -147,7 +150,7 @@ describe('STORE level and EDIT operation', () => {
       },
       true
     ).then((punchoutSession) => {
-      localPunchoutSessionTest2 = { ...punchoutSession };
+      localPunchoutSessionTest2 = hardCopyPunchoutSession(punchoutSession);
       cy.location('pathname').should(
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/cart`
@@ -167,7 +170,7 @@ describe('INSPECT operation', () => {
 
   afterEach(() => {
     if (localPunchoutSession?.cartId) {
-      deleteStaleCart({ ...localPunchoutSession });
+      deleteStaleCart(hardCopyPunchoutSession(localPunchoutSession));
       localPunchoutSession = null;
     }
   });
@@ -175,7 +178,6 @@ describe('INSPECT operation', () => {
     openPunchoutSession(
       {
         ...mockPunchoutSession,
-
         token: { ...mockPunchoutSession.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'INSPECT',
@@ -183,7 +185,7 @@ describe('INSPECT operation', () => {
       },
       true
     ).then((punchoutSession) => {
-      localPunchoutSession = { ...punchoutSession };
+      localPunchoutSession = hardCopyPunchoutSession(punchoutSession);
       cy.location('pathname').should(
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/inspect`
