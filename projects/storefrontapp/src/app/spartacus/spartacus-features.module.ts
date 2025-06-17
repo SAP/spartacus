@@ -399,6 +399,7 @@ if (environment.cpq) {
         defaultProductPageRouteAllowsNoProductName: true,
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
+        createMediaPreconnectLinkInSsr: true,
       };
       return appFeatureToggles;
     }),

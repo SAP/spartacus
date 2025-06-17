@@ -713,6 +713,19 @@ export interface FeatureTogglesInterface {
    * layout-independent operation that improves visual performance and avoids layout shifts.
    */
   topProgressBarUseTransformAnimation?: boolean;
+
+  /**
+   * Feature flag to enable using <link rel=preconnect> in the index.html.
+   *
+   * ## Why this flag exists
+   * 1. **Preconnecting is only effective for domains other than the origin domain, so you shouldn't use it for your site.
+   *
+   * ## When enabled:
+   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
+   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
+   * has already been completed by the time the browser requests them.
+   */
+  createMediaPreconnectLinkInSsr?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -818,4 +831,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
+  createMediaPreconnectLinkInSsr: false,
 };

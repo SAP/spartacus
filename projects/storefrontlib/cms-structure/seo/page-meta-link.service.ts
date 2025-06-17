@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, Inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ import { WindowRef } from '@spartacus/core';
 export class PageMetaLinkService {
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    @Inject(DOCUMENT) protected document: Document
   ) {}
 
   /**
@@ -42,6 +44,13 @@ export class PageMetaLinkService {
     } else {
       link?.setAttribute('href', url);
     }
+  }
+
+  addPreconnectLink(url: string): void {
+    const preconnect = this.renderer.createElement('link');
+    this.renderer.setAttribute(preconnect, 'rel', 'preconnect');
+    this.renderer.setAttribute(preconnect, 'href', url);
+    this.document.head.insertBefore(preconnect, this.document.head.firstChild); // we want the preconnect-link to be at the top of the <head> section
   }
 
   protected get renderer(): Renderer2 {
