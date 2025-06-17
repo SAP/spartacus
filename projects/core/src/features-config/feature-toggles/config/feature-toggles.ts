@@ -713,6 +713,17 @@ export interface FeatureTogglesInterface {
    * layout-independent operation that improves visual performance and avoids layout shifts.
    */
   topProgressBarUseTransformAnimation?: boolean;
+  
+  /**
+   * Feature flag to disable the margin animation for the cx-page-slot component.
+   * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
+   * This animation was originally part of the legacy "defer loading" and "below the fold"
+   * mechanism in Spartacus. Since this mechanism is no longer used in the current storefront,
+   * the animation causes unnecessary layout shifts (CLS) and increased rendering cost (TBT).
+   *
+   * Enabling this flag removes the margin animation to improve performance and user experience.
+   */
+  disableCxPageSlotMarginAnimation?: boolean;
 
   /**
    * Feature flag to enable using <link rel=preconnect> in the index.html.
@@ -831,5 +842,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   defaultProductPageRouteAllowsNoProductName: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
+  disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLinkInSsr: false,
 };
