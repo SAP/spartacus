@@ -13,7 +13,7 @@ export const mockPunchoutSession = {
   cartId: '',
   punchOutLevel: '',
   punchOutOperation: '',
-  selectedItem: '',
+  selectedItem: '3880500',
   token: {
     accessToken: '',
     tokenType: 'bearer',
@@ -156,6 +156,7 @@ export function verifyBackToAriba(discardCartEntries?: boolean) {
 }
 
 export function deleteStaleCart(punchoutSession) {
+  cy.log('Delete stale cart: ' + punchoutSession.cartId);
   // this is needed to delete the stale cart, single user is used for all tests, thus high carts volume expected.
   cy.request({
     method: 'DELETE',
