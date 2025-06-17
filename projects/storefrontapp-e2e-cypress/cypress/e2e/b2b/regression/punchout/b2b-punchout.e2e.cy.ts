@@ -9,6 +9,7 @@ import {
   createPunchoutRequisitionIntercept,
   deleteStaleCart,
   mockPunchoutSession,
+  mockPunchoutSession2,
   openPunchoutSession,
   verifyBackToAriba,
 } from '../../../../helpers/b2b/b2b-punchout';
@@ -24,13 +25,19 @@ describe('STORE level and CREATE operation', () => {
   });
 
   it('should land on home page and close session', () => {
+    console.log('test1');
+    const currentRetry = cy.state('runnable')._currentRetry;
+    const session =
+      currentRetry > 0 ? mockPunchoutSession2 : mockPunchoutSession;
+
     openPunchoutSession({
-      ...mockPunchoutSession,
-      token: { ...mockPunchoutSession.token },
+      ...session,
+      token: { ...session.token },
       punchOutLevel: 'STORE',
       punchOutOperation: 'CREATE',
     }).then((punchoutSession) => {
       localPunchoutSession = { ...punchoutSession };
+
       cy.get('.cx-login-greet').should('contain', 'Hi, PunchOut Customer');
       cy.get('.accNavComponent').should('not.exist');
       cy.get('cx-page-slot.SiteLogo').should('be.not.visible');
@@ -53,10 +60,15 @@ describe('PRODUCT level and CREATE operation', () => {
   });
 
   it('should land on PDP, block navigation to checkout page and Cancel', () => {
+    const currentRetry = cy.state('runnable')._currentRetry;
+    const session =
+      currentRetry > 0 ? mockPunchoutSession2 : mockPunchoutSession;
+
     const productId = '3880500';
+
     openPunchoutSession({
-      ...mockPunchoutSession,
-      token: { ...mockPunchoutSession.token },
+      ...session,
+      token: { ...session.token },
       punchOutLevel: 'PRODUCT',
       punchOutOperation: 'CREATE',
       selectedItem: productId,
@@ -97,12 +109,16 @@ describe('STORE level and EDIT operation', () => {
     }
   });
   it('should land on cart page and Cancel session', () => {
+    const currentRetry = cy.state('runnable')._currentRetry;
+    const session =
+      currentRetry > 0 ? mockPunchoutSession2 : mockPunchoutSession;
+
     const productId = '3880500';
     createPunchoutRequisitionIntercept();
     openPunchoutSession(
       {
-        ...mockPunchoutSession,
-        token: { ...mockPunchoutSession.token },
+        ...session,
+        token: { ...session.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'EDIT',
         selectedItem: productId,
@@ -110,6 +126,7 @@ describe('STORE level and EDIT operation', () => {
       true
     ).then((punchoutSession) => {
       localPunchoutSessionTest1 = { ...punchoutSession };
+
       cy.location('pathname').should(
         'contain',
         `/${Cypress.env('BASE_SITE')}/en/USD/cart`
@@ -128,12 +145,17 @@ describe('STORE level and EDIT operation', () => {
   });
 
   it('should land on cart page and Back to requisition', () => {
+    const currentRetry = cy.state('runnable')._currentRetry;
+
+    const session =
+      currentRetry > 0 ? mockPunchoutSession2 : mockPunchoutSession;
+
     const productId = '3880500';
     createPunchoutRequisitionIntercept();
     openPunchoutSession(
       {
-        ...mockPunchoutSession,
-        token: { ...mockPunchoutSession.token },
+        ...session,
+        token: { ...session.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'EDIT',
         selectedItem: productId,
@@ -165,10 +187,14 @@ describe('INSPECT operation', () => {
     }
   });
   it('should land on InspectCart page and Return to requisition', () => {
+    const currentRetry = cy.state('runnable')._currentRetry;
+    const session =
+      currentRetry > 0 ? mockPunchoutSession2 : mockPunchoutSession;
+
     openPunchoutSession(
       {
-        ...mockPunchoutSession,
-        token: { ...mockPunchoutSession.token },
+        ...session,
+        token: { ...session.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'INSPECT',
         selectedItem: 'storeItem',

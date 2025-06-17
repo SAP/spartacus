@@ -5,10 +5,23 @@
  */
 
 import { addProductToB2BCart, createCart } from '../../support/utils/cart';
-import { login, setSessionData } from '../../support/utils/login';
+import { login } from '../../support/utils/login';
 
 export const mockPunchoutSession = {
   customerId: 'punchout.customer@punchoutorg.com',
+  password: 'pw4all',
+  cartId: '',
+  punchOutLevel: '',
+  punchOutOperation: '',
+  selectedItem: '',
+  token: {
+    accessToken: '',
+    tokenType: 'bearer',
+  },
+};
+
+export const mockPunchoutSession2 = {
+  customerId: 'punchout.customer2@punchoutorg.com',
   password: 'pw4all',
   cartId: '',
   punchOutLevel: '',
@@ -58,8 +71,7 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
   return login(punchoutSession.customerId, punchoutSession.password)
     .then((result) => {
       expect(result.status).to.eq(200);
-      cy.log('Logged in as Punchout user', JSON.stringify(result.body));
-      setSessionData(result.body);
+
       punchoutSession.token.accessToken = result.body.access_token;
       return createCart(result.body.access_token);
     })
@@ -68,7 +80,7 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
       punchoutSession.cartId = (cart as any).body.code;
       mockPunchoutSession.cartId = punchoutSession.cartId;
       if (addItem) {
-        return addProductToB2BCart(
+        addProductToB2BCart(
           punchoutSession.cartId,
           '3881014',
           '1',
@@ -76,18 +88,14 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
         ).then((response) => {
           expect(response.status).to.eq(200);
           cy.log('Product added to cart', JSON.stringify(response.body));
+
           createPunchoutSessionIntercept(punchoutSession);
-          return login('carla.torres@rustic-hw.com', 'pw4all');
+          //    return login('carla.torres@rustic-hw.com', 'pw4all');
         });
       } else {
         createPunchoutSessionIntercept(punchoutSession);
-        return login('carla.torres@rustic-hw.com', 'pw4all');
       }
-    })
-    .then((result) => {
-      expect(result.status).to.eq(200);
-      cy.log('Logged in as Maria Torres', JSON.stringify(result.body));
-      setSessionData(result.body);
+
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*/carts/${punchoutSession.cartId}?*`
@@ -98,6 +106,7 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
       cy.wait('@cartRequest')
         .its('request.headers')
         .should('have.property', 'punchoutsid');
+
       return cy.wrap({
         ...punchoutSession,
         token: { ...punchoutSession.token },
