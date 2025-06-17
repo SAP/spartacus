@@ -11,6 +11,7 @@ import * as siteContextSelector from '../../../helpers/site-context-selector';
  */
 describe('Add to Cart Modal Accessibility', () => {
   beforeEach(() => {
+
     cy.a11yContinuumSetup();
   });
 
