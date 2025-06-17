@@ -29,7 +29,7 @@ export interface FeatureTogglesInterface {
    */
   formErrorsDescriptiveMessages?: boolean;
 
-   /**
+  /**
    * After the feature toggle is enabled, Customer Support Agent logs in ASM with the Authorization Code flow.
    */
   showOauth2AsmloginPage?: boolean;
