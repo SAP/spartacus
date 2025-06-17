@@ -294,6 +294,7 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
+        showOauth2AsmloginPage: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,

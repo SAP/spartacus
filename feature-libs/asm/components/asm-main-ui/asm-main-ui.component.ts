@@ -8,6 +8,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -22,6 +23,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -85,6 +87,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+
+  protected featureConfig = inject(FeatureConfigService);
+  isShowOauth2AsmloginPage = this.featureConfig.isEnabled(
+    'showOauth2AsmloginPage'
+  );
 
   constructor(
     protected authService: AuthService,
@@ -308,6 +315,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     password: string;
   }): void {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
+  }
+
+  loginCustomerSupportAgentWithAuthorizationCodeFlow(): void {
+    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow();
   }
 
   logout(): void {

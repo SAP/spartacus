@@ -65,6 +65,10 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
     return of(false);
   }
   startCustomerEmulationSession(_customerId: string) {}
+
+  authorizeCustomerSupportAgentWhenUseCodeFlow(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
@@ -240,6 +244,17 @@ describe('AsmMainUiComponent', () => {
     expect(
       csAgentAuthService.authorizeCustomerSupportAgent
     ).toHaveBeenCalledWith(userId, password);
+  });
+
+  it('should call authorizeCustomerSupportAgentWhenUseCodeFlow() when click agent login link', () => {
+    spyOn(
+      csAgentAuthService,
+      'authorizeCustomerSupportAgentWhenUseCodeFlow'
+    ).and.stub();
+    component.loginCustomerSupportAgentWithAuthorizationCodeFlow();
+    expect(
+      csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow
+    ).toHaveBeenCalled();
   });
 
   it('should call logoutCustomerSupportAgentAndCustomer() on agent logout', () => {
