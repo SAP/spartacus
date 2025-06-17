@@ -5,10 +5,23 @@
  */
 
 import { HttpHeaders, HttpRequest } from '@angular/common/http';
+import { InjectionToken } from '@angular/core';
 
 export const USE_CLIENT_TOKEN = 'cx-use-client-token';
 export const USE_CUSTOMER_SUPPORT_AGENT_TOKEN = 'cx-use-csagent-token';
 export const USE_CAPTCHA_TOKEN = 'sap-commerce-cloud-captcha-token';
+
+export const CLIENT_TOKENS_DISABLED = new InjectionToken<boolean>(
+  'CLIENT_TOKENS_DISABLED',
+  {
+    providedIn: 'root',
+    factory: () => false,
+  }
+);
+
+export function provideClientTokensDisabled(value = true) {
+  return { provide: CLIENT_TOKENS_DISABLED, useValue: value };
+}
 
 export class InterceptorUtil {
   static createHeader<T>(

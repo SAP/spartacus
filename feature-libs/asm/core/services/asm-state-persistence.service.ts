@@ -62,7 +62,7 @@ export class AsmStatePersistenceService implements OnDestroy {
   protected getAsmState(): Observable<SyncedAsmState> {
     return combineLatest([
       this.store.pipe(
-        // Since getAsmState() may be called while the module is lazy loded
+        // Since getAsmState() may be called while the module is lazy loaded
         // The asm state slice may not exist yet in the first store emissions.
         filter((store) => !!store.asm),
         select(AsmSelectors.getAsmUi)

@@ -88,10 +88,10 @@ export function register(
   hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  const homepage = waitForPage('/homepage', 'getHomepageAfterRegister');
   cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${homepage}`).its('response.statusCode').should('eq', 200);
   });
 }
 

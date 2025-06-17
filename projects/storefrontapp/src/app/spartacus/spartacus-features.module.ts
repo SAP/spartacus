@@ -16,6 +16,7 @@ import {
   UserModule,
   UserOccModule,
   provideAuthorizationCodeFlowByDefault,
+  provideClientTokensDisabled,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -292,6 +293,7 @@ if (environment.cpq) {
       useValue: environment.myAccountV2,
     },
     provideAuthorizationCodeFlowByDefault(true),
+    provideClientTokensDisabled(),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,

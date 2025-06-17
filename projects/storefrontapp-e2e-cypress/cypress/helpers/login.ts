@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { user, getSampleUser, SampleUser } from '../sample-data/checkout-flow';
-import { login, register } from './auth-forms';
+import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
+import { legacyLogin, login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
 
@@ -21,14 +21,25 @@ export const defaultUser = {
  * Use only if you already are on the `/login` page.
  * Redirects to `/register` page and registers the user.
  *
+ * @deprecated Not supported for JDK21.
+ *
  * @param uniqueUser if true creates a unique user, otherwise the default sample user is used.
  * @returns Newly registered user
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
+  const registerPage = waitForPage('/login', 'getRegisterPage');
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
+  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+
+  const loginUser = uniqueUser ? getSampleUser() : user;
+  register(loginUser);
+  return loginUser;
+}
+
+export function registerUserFromRegisterPage(uniqueUser?: boolean) {
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
   const loginUser = uniqueUser ? getSampleUser() : user;
@@ -63,12 +74,31 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function loginWithBadCredentialsFromLoginPage() {
+/** @deprecated Not supported for JDK21. */
+export function legacy_loginWithBadCredentialsFromLoginPage() {
   listenForTokenAuthenticationRequest();
+
+  legacyLogin(user.email, 'Password321');
+
+  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
+
+  cy.get(userGreetSelector).should('not.exist');
+
+  alerts
+    .getErrorAlert()
+    .should('contain', 'Bad credentials. Please login again');
+}
+
+export function loginWithBadCredentialsFromLoginPage() {
+  const alias = listenForAuthServerLoginRequest();
 
   login(user.email, 'Password321');
 
-  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
+  cy.wait(alias)
+    .its('response.statusCode')
+    .should('eq', 302)
+    .its('response.headers.location')
+    .should('have.string', '?error');
 
   cy.get(userGreetSelector).should('not.exist');
 
@@ -108,6 +138,16 @@ export function listenForTokenAuthenticationRequest(): string {
   cy.intercept({
     method: 'POST',
     path: '/authorizationserver/oauth/token',
+  }).as(aliasName);
+
+  return `@${aliasName}`;
+}
+
+export function listenForAuthServerLoginRequest(): string {
+  const aliasName = 'loginRequest';
+  cy.intercept({
+    method: 'POST',
+    path: '/authorizationserver/login',
   }).as(aliasName);
 
   return `@${aliasName}`;

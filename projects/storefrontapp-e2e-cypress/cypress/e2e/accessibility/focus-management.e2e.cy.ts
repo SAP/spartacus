@@ -54,7 +54,7 @@ describe('Focus managment for a11y', () => {
     });
   });
 
-  context('Dropdown tigger, refocus after esc key press', () => {
+  context('Dropdown trigger, refocus after esc key press', () => {
     it('Should refocus Sorting ng-select', () => {
       cy.visit(`Brands/all/c/brands`);
       cy.get('cx-sorting ng-select').first().as('sorting');

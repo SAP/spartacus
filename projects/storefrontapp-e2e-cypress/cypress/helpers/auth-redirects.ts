@@ -7,8 +7,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';
-import { generateMail, randomString } from './user';
 import * as authForms from './auth-forms';
+import { generateMail, randomString } from './user';
 
 const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
 
@@ -150,7 +150,7 @@ export function authFlowTests(
     });
 
     const useKyma = config?.authentication?.client_id === 'client4kyma';
-    const useAuthServerForm = !testConfig.legacy;
+    const useAuthServerForm = !testConfig?.legacy;
 
     testRedirectBackAfterLogin(useKyma, useAuthServerForm);
     // testRedirectAfterForcedLogin(useKyma);
