@@ -6,6 +6,7 @@ import {
   CheckoutFlowOrchestratorService,
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
+import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
@@ -61,6 +62,30 @@ class MockCheckoutFlowOrchestratorService
   getCheckoutFlow = createSpy();
 }
 
+class MockCheckoutDeliveryModesFacade
+  implements Partial<CheckoutDeliveryModesFacade>
+{
+  getSupportedDeliveryModesState = jasmine
+    .createSpy()
+    .and.returnValue(
+      of({ loading: false, error: false, success: true, value: [] })
+    );
+
+  getSupportedDeliveryModes = jasmine.createSpy().and.returnValue(of([]));
+
+  getSelectedDeliveryModeState = jasmine
+    .createSpy()
+    .and.returnValue(
+      of({ loading: false, error: false, success: true, value: undefined })
+    );
+
+  setDeliveryMode = jasmine.createSpy().and.returnValue(of(undefined));
+
+  clearCheckoutDeliveryMode = jasmine
+    .createSpy()
+    .and.returnValue(of(undefined));
+}
+
 describe('ServiceCheckoutDeliveryModeComponent', () => {
   let component: ServiceCheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<ServiceCheckoutDeliveryModeComponent>;
@@ -86,6 +111,10 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
         {
           provide: S4ServiceDeliveryModeConfig,
           useValue: mockServiceDeliveryModeConfig,
+        },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
         },
       ],
     }).compileComponents();

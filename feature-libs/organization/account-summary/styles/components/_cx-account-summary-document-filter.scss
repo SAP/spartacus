@@ -27,11 +27,8 @@ cx-account-summary-document-filter {
     height: 50px;
     border-width: 1px;
     border-style: solid;
-    border-color: var(--cx-color-light);
+    border-color: var(--cx-color-dark);
     border-radius: 4px;
-    @include forFeature('a11yImproveContrast') {
-      border-color: var(--cx-color-dark);
-    }
 
     @include cx-highContrastTheme {
       background-color: var(--cx-color-background);

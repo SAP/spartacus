@@ -24,6 +24,7 @@ const resolveEnvPlugin: Plugin = {
       ...build.initialOptions.define,
       'buildProcess.env': JSON.stringify(env),
     };
+    console.log('env=', env);
   },
 };
 

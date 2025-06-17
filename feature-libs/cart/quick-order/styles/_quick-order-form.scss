@@ -21,16 +21,12 @@
     .quick-order-form-reset-icon {
       background: transparent;
       border: none;
-      color: var(--cx-color-medium);
+      color: var(--cx-color-secondary);
       display: block;
       font-size: 24px;
       position: absolute;
       right: 6px;
       top: 4px;
-
-      @include forFeature('a11yImproveContrast') {
-        color: var(--cx-color-secondary);
-      }
     }
 
     .quick-order-form-reset-icon {
@@ -118,9 +114,7 @@
   }
 
   .quick-order-form-description {
-    @include forFeature('a11yPreventSRFocusOnHiddenElements') {
-      visibility: hidden;
-    }
+    visibility: hidden;
   }
 }
 

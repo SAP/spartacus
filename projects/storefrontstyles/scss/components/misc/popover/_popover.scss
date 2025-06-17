@@ -35,9 +35,7 @@
     max-width: 70vw;
   }
 
-  @include forFeature('a11yImproveContrast') {
-    @include type('7');
-  }
+  @include type('7');
 
   > .arrow {
     position: absolute;
