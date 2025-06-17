@@ -298,7 +298,7 @@ if (environment.cpq) {
         showStyleChangesInASM: false,
         shouldHideAddToCartForUnpurchasableProducts: false,
         useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
+        showBillingAddressInDigitalPayments: true,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
