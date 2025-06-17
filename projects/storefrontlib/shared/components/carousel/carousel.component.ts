@@ -15,6 +15,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -61,6 +62,7 @@ export class CarouselComponent implements OnInit, OnChanges {
     this.items = inputItems;
     //Reset slider when changing products
     this.activeSlide = 0;
+    this.cdr.markForCheck();
   }
 
   /**
@@ -94,7 +96,8 @@ export class CarouselComponent implements OnInit, OnChanges {
 
   constructor(
     protected el: ElementRef,
-    protected service: CarouselService
+    protected service: CarouselService,
+    protected cdr: ChangeDetectorRef
   ) {
     useFeatureStyles('a11yAddPaddingToCarouselPanel');
   }
