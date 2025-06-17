@@ -404,7 +404,7 @@ if (environment.cpq) {
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
-        showRealTimeStockInPDP: false,
+        showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
         a11yWrapReviewOrderInSection: true,
