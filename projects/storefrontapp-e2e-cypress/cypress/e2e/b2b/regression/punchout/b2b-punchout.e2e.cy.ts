@@ -6,6 +6,7 @@
 
 import {
   addProductAndClickCheckout,
+  createOauthRevokeIntercept,
   createPunchoutRequisitionIntercept,
   deleteStaleCart,
   hardCopyPunchoutSession,
@@ -18,6 +19,7 @@ let localPunchoutSession: any;
 
 beforeEach(() => {
   createPunchoutRequisitionIntercept();
+  createOauthRevokeIntercept();
 });
 
 afterEach(() => {
@@ -65,10 +67,12 @@ describe('PRODUCT level and CREATE operation', () => {
         `/${Cypress.env('BASE_SITE')}/en/USD/`
       );
       cy.get('cx-mini-cart').click();
+      cy.get('cx-cart-proceed-to-checkout button').should('not.exist');
       cy.get('cx-punchout-buttons button')
         .contains(' Cancel ')
         .should('be.visible')
         .click();
+
       verifyBackToAriba(true);
     });
   });
@@ -94,6 +98,7 @@ describe('STORE level and EDIT operation', () => {
         'have.length',
         1
       );
+      cy.get('cx-cart-proceed-to-checkout button').should('not.exist');
       cy.get('cx-punchout-buttons button')
         .contains(' Cancel ')
         .should('be.visible')
