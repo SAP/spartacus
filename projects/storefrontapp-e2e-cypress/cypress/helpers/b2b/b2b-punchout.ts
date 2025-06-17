@@ -7,10 +7,6 @@
 import { addProductToB2BCart, createCart } from '../../support/utils/cart';
 import { login } from '../../support/utils/login';
 
-export const customerIds = [
-  'punchout.customer@punchoutorg.com',
-  'punchout.customer2@punchoutorg.com',
-];
 export const mockPunchoutSession = {
   customerId: 'punchout.customer@punchoutorg.com',
   password: 'pw4all',
@@ -56,6 +52,12 @@ export function createPunchoutRequisitionIntercept(
     },
     mockResponse
   ).as(alias);
+
+  // Stub oAuth revoke response to allow tests running in parallel with same user.
+  cy.intercept('POST', '**/authorizationserver/oauth/revoke', {
+    statusCode: 200,
+    body: {},
+  }).as('oauthRevoke');
 }
 
 export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
@@ -71,29 +73,25 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
       punchoutSession.cartId = (cart as any).body.code;
       mockPunchoutSession.cartId = punchoutSession.cartId;
       if (addItem) {
-        addProductToB2BCart(
+        return addProductToB2BCart(
           punchoutSession.cartId,
           '3881014',
           '1',
           punchoutSession.token.accessToken
-        ).then((response) => {
-          expect(response.status).to.eq(200);
-          cy.log('Product added to cart', JSON.stringify(response.body));
-
-          createPunchoutSessionIntercept(punchoutSession);
-          //    return login('carla.torres@rustic-hw.com', 'pw4all');
-        });
-      } else {
-        createPunchoutSessionIntercept(punchoutSession);
+        );
       }
-
+      return cy.wrap({ status: 200 });
+    })
+    .then((response) => {
+      expect(response.status).to.eq(200);
+      createPunchoutSessionIntercept(punchoutSession);
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*/carts/${punchoutSession.cartId}?*`
       ).as('cartRequest');
 
       cy.visit(`/punchout/cxml/session?sid=abcd123`);
-      // cy.wait(2000);
+
       cy.wait('@cartRequest')
         .its('request.headers')
         .should('have.property', 'punchoutsid');
@@ -139,7 +137,6 @@ export function addProductAndClickCheckout(productId) {
 }
 
 export function verifyBackToAriba(discardCartEntries?: boolean) {
-  // cy.get('cx-global-message').should('contain', 'Return to Procurement System');
   cy.location('pathname').should(
     'contain',
     `/${Cypress.env('BASE_SITE')}/en/USD/punchout/cxml/requisition`

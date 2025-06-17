@@ -7,7 +7,6 @@
 import {
   addProductAndClickCheckout,
   createPunchoutRequisitionIntercept,
-  customerIds,
   deleteStaleCart,
   mockPunchoutSession,
   openPunchoutSession,
@@ -25,12 +24,9 @@ describe('STORE level and CREATE operation', () => {
   });
 
   it('should land on home page and close session', () => {
-    console.log('test1');
-    const currentRetry = cy.state('runnable')._currentRetry;
-
     openPunchoutSession({
       ...mockPunchoutSession,
-      customerId: customerIds?.[currentRetry] || customerIds[0],
+
       token: { ...mockPunchoutSession.token },
       punchOutLevel: 'STORE',
       punchOutOperation: 'CREATE',
@@ -59,13 +55,11 @@ describe('PRODUCT level and CREATE operation', () => {
   });
 
   it('should land on PDP, block navigation to checkout page and Cancel', () => {
-    const currentRetry = cy.state('runnable')._currentRetry;
-
     const productId = '3880500';
 
     openPunchoutSession({
       ...mockPunchoutSession,
-      customerId: customerIds?.[currentRetry] || customerIds[0],
+
       token: { ...mockPunchoutSession.token },
       punchOutLevel: 'PRODUCT',
       punchOutOperation: 'CREATE',
@@ -107,14 +101,12 @@ describe('STORE level and EDIT operation', () => {
     }
   });
   it('should land on cart page and Cancel session', () => {
-    const currentRetry = cy.state('runnable')._currentRetry;
-
     const productId = '3880500';
     createPunchoutRequisitionIntercept();
     openPunchoutSession(
       {
         ...mockPunchoutSession,
-        customerId: customerIds?.[currentRetry] || customerIds[0],
+
         token: { ...mockPunchoutSession.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'EDIT',
@@ -142,14 +134,12 @@ describe('STORE level and EDIT operation', () => {
   });
 
   it('should land on cart page and Back to requisition', () => {
-    const currentRetry = cy.state('runnable')._currentRetry;
-
     const productId = '3880500';
     createPunchoutRequisitionIntercept();
     openPunchoutSession(
       {
         ...mockPunchoutSession,
-        customerId: customerIds?.[currentRetry] || customerIds[0],
+
         token: { ...mockPunchoutSession.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'EDIT',
@@ -182,12 +172,10 @@ describe('INSPECT operation', () => {
     }
   });
   it('should land on InspectCart page and Return to requisition', () => {
-    const currentRetry = cy.state('runnable')._currentRetry;
-
     openPunchoutSession(
       {
         ...mockPunchoutSession,
-        customerId: customerIds?.[currentRetry] || customerIds[0],
+
         token: { ...mockPunchoutSession.token },
         punchOutLevel: 'STORE',
         punchOutOperation: 'INSPECT',
