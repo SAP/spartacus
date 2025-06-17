@@ -7,21 +7,12 @@
 import { addProductToB2BCart, createCart } from '../../support/utils/cart';
 import { login } from '../../support/utils/login';
 
+export const customerIds = [
+  'punchout.customer@punchoutorg.com',
+  'punchout.customer2@punchoutorg.com',
+];
 export const mockPunchoutSession = {
   customerId: 'punchout.customer@punchoutorg.com',
-  password: 'pw4all',
-  cartId: '',
-  punchOutLevel: '',
-  punchOutOperation: '',
-  selectedItem: '',
-  token: {
-    accessToken: '',
-    tokenType: 'bearer',
-  },
-};
-
-export const mockPunchoutSession2 = {
-  customerId: 'punchout.customer2@punchoutorg.com',
   password: 'pw4all',
   cartId: '',
   punchOutLevel: '',
