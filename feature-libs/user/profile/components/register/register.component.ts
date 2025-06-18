@@ -41,16 +41,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-8550) Remove feature toggle
   private featureConfigService = inject(FeatureConfigService);
 
-  protected passwordValidators = this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators;
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'enableSecurePasswordValidation'
+  )
+    ? CustomFormValidators.securePasswordValidators
+    : this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
+      ? [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]
+      : CustomFormValidators.passwordValidators;
 
   titles$: Observable<Title[]>;
 
