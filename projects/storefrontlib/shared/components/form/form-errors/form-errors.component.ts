@@ -9,14 +9,18 @@ import {
   ChangeDetectorRef,
   Component,
   DoCheck,
-  ElementRef,
-  HostAttributeToken,
   HostBinding,
   Input,
   inject,
+  HostAttributeToken,
+  ElementRef,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, isObject } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  isObject,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -43,7 +47,9 @@ export class FormErrorsComponent implements DoCheck {
     optional: true,
   });
 
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
+  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
+    useFeatureStyles('a11yFormErrorMuteIcon');
+  }
 
   _control: UntypedFormControl | AbstractControl;
 
