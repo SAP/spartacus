@@ -26,7 +26,6 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   private featureConfigService = inject(FeatureConfigService);
 
   protected passwordValidators = this.featureConfigService.isEnabled(

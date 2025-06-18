@@ -24,7 +24,6 @@ export class UserChangePasswordFormService extends FormService<any> {
    * so that the customerId can be used during persistent.
    */
   protected build() {
-    // TODO: (CXSPA-7315) Remove feature toggle in the next major
     const passwordValidators = CustomFormValidators.passwordValidators;
     const form = new UntypedFormGroup({});
     form.setControl('customerId', new UntypedFormControl(''));
