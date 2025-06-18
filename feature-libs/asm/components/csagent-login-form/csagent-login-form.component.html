@@ -19,18 +19,11 @@
       [attr.aria-errormessage]="'userIdError'"
     />
 
-    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
-      *cxFeature="'formErrorsDescriptiveMessages'"
       id="userIdError"
       [translationParams]="{
         label: 'asm.loginForm.userId.label' | cxTranslate,
       }"
-      [control]="csAgentLoginForm.get('userId')"
-    ></cx-form-errors>
-
-    <cx-form-errors
-      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="csAgentLoginForm.get('userId')"
     ></cx-form-errors>
   </label>
@@ -52,18 +45,11 @@
       cxPasswordVisibilitySwitch
     />
 
-    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
-      *cxFeature="'formErrorsDescriptiveMessages'"
       id="passwordError"
       [translationParams]="{
         label: 'asm.loginForm.password.label' | cxTranslate,
       }"
-      [control]="csAgentLoginForm.get('password')"
-    ></cx-form-errors>
-
-    <cx-form-errors
-      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>
   </label>

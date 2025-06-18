@@ -9,11 +9,11 @@ import {
   ChangeDetectorRef,
   Component,
   DoCheck,
+  ElementRef,
+  HostAttributeToken,
   HostBinding,
   Input,
   inject,
-  HostAttributeToken,
-  ElementRef,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import {
@@ -59,15 +59,10 @@ export class FormErrorsComponent implements DoCheck {
    */
   errorsDetails$: Observable<Array<[string, string | boolean]>>;
 
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   /**
    * Prefix prepended to the translation key.
    */
-  @Input() prefix = this.featureConfigService.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? 'formErrors.labeled'
-    : 'formErrors';
+  @Input() prefix = 'formErrors.labeled';
 
   /**
    * Fallback prefix prepended to the translation key.
