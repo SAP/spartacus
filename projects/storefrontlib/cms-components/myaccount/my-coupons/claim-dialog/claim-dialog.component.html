@@ -30,8 +30,8 @@
         <label>
           <span class="label-content"
             >{{ 'myCoupons.claimCouponCode.label' | cxTranslate }}
-            <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-          ></span>
+            <cx-form-required-asterisks />
+          </span>
           <input
             required="true"
             type="text"
@@ -41,8 +41,13 @@
               'myCoupons.claimCouponCode.placeholder' | cxTranslate
             }}"
             class="form-control"
+            [attr.aria-invalid]="
+              form.get('couponCode')?.touched && form.get('couponCode')?.invalid
+            "
+            [attr.aria-errormessage]="'couponCodeError'"
           />
           <cx-form-errors
+            id="couponCodeError"
             [translationParams]="{
               label: 'myCoupons.claimCouponCode.label' | cxTranslate,
             }"
@@ -72,12 +77,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    aria-hidden="true"
-    class="text-decoration-none"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

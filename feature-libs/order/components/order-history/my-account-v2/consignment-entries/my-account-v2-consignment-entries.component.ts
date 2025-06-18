@@ -11,6 +11,7 @@ import { ConsignmentView } from '@spartacus/order/root';
   selector: 'cx-my-account-v2-consignment-entries',
   templateUrl: './my-account-v2-consignment-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyAccountV2ConsignmentEntriesComponent {
   @Input()

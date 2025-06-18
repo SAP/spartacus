@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Impossible d'obtenir des factures, assurez-vous que SAP Invoice et API for Invoices sont activés.",
+    "invoicesLoadingError": "Une erreur s'est produite. Impossible d'afficher les factures pour la commande.",
+    "invoicesTable": {
+      "header": "Factures",
+      "label": "Tableau des factures",
+      "invoiceId": "Numéro de facture",
+      "createdAt": "Date",
+      "netAmount": "Montant net",
+      "totalAmount": "Montant total",
+      "attachment": "Télécharger la facture",
+      "download": "Télécharger",
+      "attachmentDescription": "Téléchargez le PDF pour la facture {{id}}.",
+      "noneFound": "Aucune facture trouvée"
+    },
+    "downloadPDFError": "Une erreur s'est produite. Impossible d'obtenir le PDF de la facture.",
+    "sortBy": "Trier par",
+    "sortInvoices": "Trier les factures",
+    "sorts": {
+      "byCreatedAtAsc": "Date (croissant)",
+      "byCreatedAtDesc": "Date (décroissant)",
+      "byInvoiceIdAsc": "Numéro de facture (croissant)",
+      "byInvoiceIdDesc": "Numéro de facture (décroissant)",
+      "byNetAmountAsc": "Montant net (croissant)",
+      "byNetAmountDesc": "Montant net (décroissant)",
+      "byTotalAmountAsc": "Montant total (croissant)",
+      "byTotalAmountDesc": "Montant total (décroissant)"
+    }
+  }
+}

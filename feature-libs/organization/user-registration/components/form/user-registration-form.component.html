@@ -6,9 +6,7 @@
   ></div>
 
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content">{{
         'userRegistrationForm.fields.titleCode.label' | cxTranslate
@@ -34,9 +32,9 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'userRegistrationForm.fields.firstName.label' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'userRegistrationForm.fields.firstName.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -46,11 +44,17 @@
           'userRegistrationForm.fields.firstName.placeholder' | cxTranslate
         }}"
         formControlName="firstName"
+        [attr.aria-invalid]="
+          registerForm.get('firstName')?.touched &&
+          registerForm.get('firstName')?.invalid
+        "
+        [attr.aria-errormessage]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.firstName.label' | cxTranslate,
         }"
@@ -65,9 +69,9 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'userRegistrationForm.fields.lastName.label' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'userRegistrationForm.fields.lastName.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -77,11 +81,17 @@
           'userRegistrationForm.fields.lastName.placeholder' | cxTranslate
         }}"
         formControlName="lastName"
+        [attr.aria-invalid]="
+          registerForm.get('lastName')?.touched &&
+          registerForm.get('lastName')?.invalid
+        "
+        [attr.aria-errormessage]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.lastName.label' | cxTranslate,
         }"
@@ -96,9 +106,9 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'userRegistrationForm.fields.companyName.label' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'userRegistrationForm.fields.companyName.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -108,9 +118,15 @@
           'userRegistrationForm.fields.companyName.placeholder' | cxTranslate
         }}"
         formControlName="companyName"
+        [attr.aria-invalid]="
+          registerForm.get('companyName')?.touched &&
+          registerForm.get('companyName')?.invalid
+        "
+        [attr.aria-errormessage]="'companyNameError'"
       />
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="companyNameError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.companyName.label' | cxTranslate,
         }"
@@ -124,9 +140,9 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'userRegistrationForm.fields.email.label' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'userRegistrationForm.fields.email.label' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         required="true"
         class="form-control"
@@ -136,11 +152,17 @@
           'userRegistrationForm.fields.email.placeholder' | cxTranslate
         }}"
         formControlName="email"
+        [attr.aria-invalid]="
+          registerForm.get('email')?.touched &&
+          registerForm.get('email')?.invalid
+        "
+        [attr.aria-errormessage]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.email.label' | cxTranslate,
         }"
@@ -207,11 +229,17 @@
           'userRegistrationForm.fields.addressLine.placeholder' | cxTranslate
         }}"
         formControlName="line1"
+        [attr.aria-invalid]="
+          registerForm.get('line1')?.touched &&
+          registerForm.get('line1')?.invalid
+        "
+        [attr.aria-errormessage]="'line1Error'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="line1Error"
         [translationParams]="{
           label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate,
         }"
@@ -236,8 +264,16 @@
             | cxTranslate
         }}"
         formControlName="line2"
+        [attr.aria-invalid]="
+          registerForm.get('line2')?.touched &&
+          registerForm.get('line2')?.invalid
+        "
+        [attr.aria-errormessage]="'line2Error'"
       />
-      <cx-form-errors [control]="registerForm.get('line2')"></cx-form-errors>
+      <cx-form-errors
+        id="line2Error"
+        [control]="registerForm.get('line2')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -251,8 +287,15 @@
           'userRegistrationForm.fields.city.label' | cxTranslate
         }}"
         formControlName="town"
+        [attr.aria-invalid]="
+          registerForm.get('town')?.touched && registerForm.get('town')?.invalid
+        "
+        [attr.aria-errormessage]="'townError'"
       />
-      <cx-form-errors [control]="registerForm.get('town')"></cx-form-errors>
+      <cx-form-errors
+        id="townError"
+        [control]="registerForm.get('town')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -266,11 +309,17 @@
           'userRegistrationForm.fields.postalCode.placeholder' | cxTranslate
         }}"
         formControlName="postalCode"
+        [attr.aria-invalid]="
+          registerForm.get('postalCode')?.touched &&
+          registerForm.get('postalCode')?.invalid
+        "
+        [attr.aria-errormessage]="'postalCodeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="postalCodeError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate,
         }"
@@ -333,11 +382,17 @@
           'userRegistrationForm.fields.phoneNumber.placeholder' | cxTranslate
         }}"
         formControlName="phoneNumber"
+        [attr.aria-invalid]="
+          registerForm.get('phoneNumber')?.touched &&
+          registerForm.get('phoneNumber')?.invalid
+        "
+        [attr.aria-errormessage]="'phoneNumberError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="phoneNumberError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate,
         }"
@@ -361,11 +416,17 @@
           'userRegistrationForm.fields.message.placeholder' | cxTranslate
         }}"
         rows="5"
+        [attr.aria-invalid]="
+          registerForm.get('message')?.touched &&
+          registerForm.get('message')?.invalid
+        "
+        [attr.aria-errormessage]="'messageError'"
       ></textarea>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="messageError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.message.label' | cxTranslate,
         }"
@@ -391,14 +452,4 @@
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>
-</ng-template>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
 </ng-template>

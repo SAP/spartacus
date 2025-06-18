@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "प्रोफ़ाइल पूर्णता",
+      "description": "हमें निम्न के लिए अभी भी आपकी सहमति की आवश्यकता है"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "प्रोफ़इल विवरण सफलतापूर्वक अपडेट किया गया",
+    "profileUpdateFailure": "प्रोफ़ाइल विवरण अपडेट करने में विफल"
+  }
+}

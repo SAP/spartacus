@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "Moje e-mailová adresa",
+    "email": "E-mail",
+    "emailAddress": "E-mailová adresa",
+    "newEmailAddress": "Nová e-mailová adresa",
+    "confirmNewEmailAddress": "Potvrďte novou e-mailovou adresu",
+    "emailPlaceHolder": "Zadejte e-mail",
+    "passwordPlaceHolder": "Zadejte heslo",
+    "password": "Heslo",
+    "reloginIndicator": "Po nastavení nové e-mailové adresy je třeba znovu se přihlásit."
+  }
+}

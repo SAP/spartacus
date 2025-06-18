@@ -11,7 +11,6 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -22,6 +21,7 @@ import {
   selector: 'cx-product-image-zoom-dialog',
   templateUrl: 'product-image-zoom-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;
@@ -46,10 +46,7 @@ export class ProductImageZoomDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {
-    useFeatureStyles('a11yCloseProductImageBtnFocus');
-    useFeatureStyles('a11yExpandedFocusIndicator');
-  }
+  ) {}
 
   close(reason = ''): void {
     this.launchDialogService.closeDialog(reason);

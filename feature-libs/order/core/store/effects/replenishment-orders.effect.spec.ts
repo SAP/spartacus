@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -11,6 +11,10 @@ import { ReplenishmentOrderHistoryAdapter } from '../../connectors/replenishment
 import { ReplenishmentOrderHistoryConnector } from '../../connectors/replenishment-order-history.connector';
 import { OrderActions } from '../actions/index';
 import * as fromEffect from './replenishment-orders.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const mockUserReplenishmentOrders: ReplenishmentOrderList = {
   replenishmentOrders: [],
@@ -33,13 +37,15 @@ describe('Replenishment Orders effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         ReplenishmentOrderHistoryConnector,
         fromEffect.ReplenishmentOrdersEffect,
         { provide: ReplenishmentOrderHistoryAdapter, useValue: {} },
         { provide: LoggerService, useClass: MockLoggerService },
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

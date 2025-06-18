@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "चालान प्राप्त करने में असमर्थ, सुनिश्चित करें कि चालानों के लिए SAP चालान और API सक्षम हैं.",
+    "invoicesLoadingError": "कुछ गलत हुआ है. ऑर्डर के लिे चालान प्रदर्शित करने में असमर्थ",
+    "invoicesTable": {
+      "header": "चालान",
+      "label": "चालान तालिका",
+      "invoiceId": "चालान #",
+      "createdAt": "दिनांक",
+      "netAmount": "शुद्ध राशि",
+      "totalAmount": "कुल राशि",
+      "attachment": "चालान डाउनलोड करें",
+      "download": "डाउनलोड करें",
+      "attachmentDescription": "चालान {{id}} के लिए PDF डाउनलोड करें.",
+      "noneFound": "कोई चालान नहीं मिला"
+    },
+    "downloadPDFError": "कुछ गलत हुआ है. चालान PDF प्राप्त करने में असमर्थ.",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortInvoices": "चालान क्रमित करें",
+    "sorts": {
+      "byCreatedAtAsc": "दिनांक आरोही",
+      "byCreatedAtDesc": "दिनांक अवरोही",
+      "byInvoiceIdAsc": "चालान संख्या आरोही",
+      "byInvoiceIdDesc": "चालान संख्या अवरोही",
+      "byNetAmountAsc": "शुद्ध राशि आरोही",
+      "byNetAmountDesc": "शुद्ध राशि अवरोही",
+      "byTotalAmountAsc": "कुल राशि आरोही",
+      "byTotalAmountDesc": "कुल राशि अवरोही"
+    }
+  }
+}

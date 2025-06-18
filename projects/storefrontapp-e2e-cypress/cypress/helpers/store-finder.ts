@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const googleMap = 'cx-store-finder-map .cx-store-map .gm-style';
+export const googleMap = 'cx-store-finder-map .cx-store-map';
 export const resultListItem = 'cx-store-finder-list-item';
 export const storeAddressDescription = '.cx-store-description-address';
 export const openingHours = '.cx-schedule';
@@ -22,6 +22,10 @@ export function testAllowViewAllStores() {
 
 export function testAllowViewStoreDetails() {
   it('should allow to see store details', () => {
+    cy.intercept('GET', /.*StaticMapService\.GetMapImage.*/).as(
+      'mapImageRequest'
+    );
+
     cy.get(resultListItem)
       .first()
       .within(() => {
@@ -32,6 +36,9 @@ export function testAllowViewStoreDetails() {
     cy.get(openingHours).should('not.to.be.empty');
     cy.get(contactDetails).should('not.to.be.empty');
 
-    cy.get(googleMap);
+    cy.wait('@mapImageRequest').then((interception) => {
+      expect(interception.response.statusCode).to.eq(200);
+      cy.get(googleMap);
+    });
   });
 }

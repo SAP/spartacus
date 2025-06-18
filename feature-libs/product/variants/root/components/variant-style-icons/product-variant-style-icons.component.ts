@@ -30,6 +30,7 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
   templateUrl: './product-variant-style-icons.component.html',
   styleUrls: ['./product-variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(

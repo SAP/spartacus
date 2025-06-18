@@ -35,6 +35,7 @@ import { CurrentBudgetService } from '../services/current-budget.service';
       useExisting: CurrentBudgetService,
     },
   ],
+  standalone: false,
 })
 export class BudgetFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

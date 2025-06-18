@@ -9,6 +9,7 @@ import { Component, Input, NgModule } from '@angular/core';
 @Component({
   selector: 'cx-org-card',
   template: '<ng-content></ng-content>',
+  standalone: false,
 })
 class MockCardComponent {
   @Input() i18nRoot;

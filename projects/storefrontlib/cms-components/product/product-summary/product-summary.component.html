@@ -1,9 +1,6 @@
 <ng-container *ngIf="product$ | async as product">
   <ng-container *ngIf="product.potentialPromotions">
-    <cx-promotions
-      *cxFeature="'showPromotionsInPDP'"
-      [promotions]="product.potentialPromotions"
-    ></cx-promotions>
+    <cx-promotions [promotions]="product.potentialPromotions"></cx-promotions>
   </ng-container>
 
   <ng-template

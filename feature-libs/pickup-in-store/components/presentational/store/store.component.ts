@@ -16,6 +16,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-store',
   templateUrl: './store.component.html',
+  standalone: false,
 })
 export class StoreComponent implements OnInit {
   /** The details of the store to be displayed */
@@ -30,7 +31,6 @@ export class StoreComponent implements OnInit {
   readonly ICON_TYPE = ICON_TYPE;
 
   constructor() {
-    useFeatureStyles('a11yVisibleFocusOverflows');
     useFeatureStyles('a11yViewHoursButtonIconContrast');
     useFeatureStyles('a11yStoreInStockIconContrast');
   }

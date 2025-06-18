@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "Nová e-mailová adresa",
+      "placeholder": "Zadejte e-mail"
+    },
+    "confirmNewEmailAddress": {
+      "label": "Potvrďte novou e-mailovou adresu",
+      "placeholder": "Zadejte e-mail"
+    },
+    "enterValidEmail": "Zadejte platný e-mail.",
+    "bothEmailMustMatch": "Oba e-maily se musí shodovat",
+    "password": {
+      "label": "Heslo",
+      "placeholder": "Zadejte heslo"
+    },
+    "pleaseInputPassword": "Zadejte heslo",
+    "emailUpdateSuccess": "Úspěch. Přihlaste se s {{ newUid }}"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "Potvrďte heslo",
+      "label": "Potvrďte heslo",
+      "placeholder": "Potvrďte heslo"
+    },
+    "managementInMyAccount": "Správa v Mém účtu.",
+    "termsAndConditions": "Obchodní podmínky",
+    "signIn": "Mám již účet. Přihlásit se",
+    "register": "Registrovat",
+    "confirmNewPassword": "Potvrďte nové heslo",
+    "resetPassword": "Resetovat heslo",
+    "createAccount": "Vytvoření účtu",
+    "title": "Oslovení",
+    "titleOptional": "Titul (volitelný)",
+    "firstName": {
+      "label": "Křestní jméno",
+      "placeholder": "Křestní jméno"
+    },
+    "lastName": {
+      "label": "Příjmení",
+      "placeholder": "Příjmení"
+    },
+    "emailAddress": {
+      "label": "E-mailová adresa",
+      "placeholder": "E-mailová adresa"
+    },
+    "password": {
+      "label": "Heslo",
+      "placeholder": "Heslo"
+    },
+    "newPassword": "Nové heslo",
+    "emailMarketing": "Použít mé osobní údaje k zasílání newsletterů marketingových kampaní e-mailem. Nastavení můžete změnit ve Správě souhlasů v Můj účet.",
+    "confirmThatRead": "Potvrzuji, že po přečtení souhlasím s",
+    "selectTitle": "Vyberte oslovení",
+    "passwordMinRequirements": "Zde je stručný návod na bezpečné heslo: Použijte minimálně 8 znaků a kombinujte malá a velká písmena, číslice a symboly.",
+    "passwordStrengthRequirements": "Zde je stručný návod na bezpečné heslo: Použijte minimálně 8 znaků a kombinujte malá a velká písmena, číslice a symboly. Nepoužívejte stejné znaky za sebou.",
+    "bothPasswordMustMatch": "Obě hesla se musí shodovat",
+    "titleRequired": "Oslovení je povinné.",
+    "postRegisterMessage": "Přihlaste se s poskytnutými přihlašovacími údaji.",
+    "postRegisterSuccessMessage": "Registrace byla úspěšná. Přihlaste se s poskytnutými přihlašovacími údaji."
+  },
+  "forgottenPassword": {
+    "resetPassword": "Resetovat heslo",
+    "enterEmailAddressAssociatedWithYourAccount": "Zadejte e-mailovou adresu přidruženou k vašemu účtu.",
+    "emailAddress": {
+      "label": "E-mailová adresa",
+      "placeholder": "Zadejte e-mail"
+    },
+    "enterValidEmail": "Zadejte platný e-mail.",
+    "passwordResetEmailSent": "Poslali jsme vám e-mail s informacemi, jak resetovat heslo.",
+    "passwordResetSuccess": "Úspěch! Nyní se může přihlásit novým heslem."
+  }
+}

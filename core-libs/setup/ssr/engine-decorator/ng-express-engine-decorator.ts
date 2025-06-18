@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonEngineOptions, CommonEngineRenderOptions } from '@angular/ssr';
+import {
+  CommonEngineOptions,
+  CommonEngineRenderOptions,
+} from '@angular/ssr/node';
 import { NgSetupOptions } from '../engine/ng-express-engine';
 import {
   OptimizedSsrEngine,

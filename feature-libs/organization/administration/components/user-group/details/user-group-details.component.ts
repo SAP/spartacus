@@ -22,6 +22,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class UserGroupDetailsComponent {
   model$: Observable<UserGroup> = this.itemService.key$.pipe(

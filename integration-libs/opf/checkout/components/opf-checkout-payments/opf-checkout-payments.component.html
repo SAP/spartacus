@@ -1,7 +1,8 @@
 <section [attr.aria-label]="'opfCheckout.paymentOption' | cxTranslate">
-  <h3>
-    {{ 'opfCheckout.paymentOption' | cxTranslate }}
+  <h3 *ngIf="isHeadingDisplayed">
+    {{ headingTranslationKey || 'opfCheckout.paymentOption' | cxTranslate }}
   </h3>
+
   <ng-container
     *ngIf="activeConfigurations$ | async as activeConfigurationsState"
   >
@@ -9,36 +10,51 @@
       <div class="cx-payment-options-list">
         <ng-content></ng-content>
         <div
-          class="form-check"
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
-          <input
-            id="paymentId-{{ configuration.id }}"
-            class="form-check-input"
-            role="radio"
-            type="radio"
-            [attr.aria-checked]="configuration.id === selectedPaymentId"
-            (change)="changePayment(configuration)"
-            [value]="configuration.id"
-            [checked]="configuration.id === selectedPaymentId"
-            formControlName="paymentId"
-            [disabled]="disabled && explicitTermsAndConditions"
-          />
-          <label
-            class="cx-payment-type-label form-check-label form-radio-label"
-            for="paymentId-{{ configuration.id }}"
-          >
-            <div class="cx-payment-type">
+          <ng-container>
+            <ng-container
+              *ngIf="
+                isOnlyOnePaymentOptionAvailable &&
+                !hideOnlyOnePaymentProviderLabel &&
+                !forceRadioInputsView
+              "
+            >
               {{ configuration.displayName }}
-              <img
-                *ngIf="configuration?.logoUrl"
-                [src]="configuration.logoUrl"
-                [alt]="configuration.displayName"
-                class="cx-payment-logo"
-              />
-            </div>
-          </label>
-
+            </ng-container>
+            <ng-container
+              *ngIf="!isOnlyOnePaymentOptionAvailable || forceRadioInputsView"
+            >
+              <div class="form-check">
+                <input
+                  id="paymentId-{{ configuration.id }}"
+                  class="form-check-input"
+                  role="radio"
+                  type="radio"
+                  [attr.aria-checked]="configuration.id === selectedPaymentId"
+                  (change)="changePayment(configuration)"
+                  [value]="configuration.id"
+                  [checked]="configuration.id === selectedPaymentId"
+                  formControlName="paymentId"
+                  [disabled]="disabled && explicitTermsAndConditions"
+                />
+                <label
+                  class="cx-payment-type-label form-check-label form-radio-label"
+                  for="paymentId-{{ configuration.id }}"
+                >
+                  <div class="cx-payment-type">
+                    {{ configuration.displayName }}
+                    <img
+                      *ngIf="configuration?.logoUrl"
+                      [src]="configuration.logoUrl"
+                      [alt]="configuration.displayName"
+                      class="cx-payment-logo"
+                    />
+                  </div>
+                </label>
+              </div>
+            </ng-container>
+          </ng-container>
           <ng-container *ngIf="isPaymentInfoMessageVisible">
             <ng-container
               *ngIf="
@@ -65,17 +81,26 @@
             </ng-container>
           </ng-container>
 
+          <ng-container *ngIf="customPaymentTemplate">
+            <ng-container
+              *ngTemplateOutlet="customPaymentTemplate"
+            ></ng-container>
+          </ng-container>
+
           <cx-opf-checkout-payment-wrapper
-            *ngIf="selectedPaymentId && configuration.id === selectedPaymentId"
+            *ngIf="
+              !customPaymentTemplate &&
+              isPaymentRenderBelow &&
+              selectedPaymentId &&
+              configuration.id === selectedPaymentId
+            "
             [selectedPaymentId]="selectedPaymentId"
           ></cx-opf-checkout-payment-wrapper>
         </div>
 
         <cx-pagination
           class="cx-payment-options-list-pagination"
-          [pagination]="
-            getPaginationModel(activeConfigurationsState?.data?.page)
-          "
+          [pagination]="paginationModel"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination></div
     ></ng-container>

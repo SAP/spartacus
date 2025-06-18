@@ -1,6 +1,6 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 
-import { TSESLint } from '@typescript-eslint/utils';
+import { RuleTester } from '@angular-eslint/test-utils';
 import { fixPossiblyMissingImport, isIdentifierImported } from './import-utils';
 
 describe('import-utils', () => {
@@ -49,13 +49,7 @@ describe('import-utils', () => {
     },
   });
 
-  const ruleTester = new TSESLint.RuleTester({
-    parser: require.resolve('@typescript-eslint/parser'),
-    parserOptions: {
-      ecmaVersion: 2020,
-      sourceType: 'module',
-    },
-  });
+  const ruleTester = new RuleTester();
 
   ruleTester.run('isIdentifierImported', rule, {
     valid: [

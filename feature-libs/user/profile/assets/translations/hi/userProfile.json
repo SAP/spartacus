@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "नया ईमेल पता",
+      "placeholder": "ईमेल दर्ज करें"
+    },
+    "confirmNewEmailAddress": {
+      "label": "नए ईमेल पते की पुष्टि करे",
+      "placeholder": "ईमेल दर्ज करें"
+    },
+    "enterValidEmail": "कृपया कोई मान्य ईमेल दर्ज करें. ",
+    "bothEmailMustMatch": "दोनों ईमेल मेल खाने चाहिए",
+    "password": {
+      "label": "पासवर्ड",
+      "placeholder": "पासवर्ड दर्ज करें"
+    },
+    "pleaseInputPassword": "कृपया पासवर्ड इनपुट करें",
+    "emailUpdateSuccess": "सफलता. कृपया {{ newUid }} के साथ साइन इन करें"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "पासवर्ड की पुष्टि करें",
+      "label": "पासवर्ड की पुष्टि करें",
+      "placeholder": "पासवर्ड की पुष्टि करें"
+    },
+    "managementInMyAccount": "मेरे खाते में प्रबंधन.",
+    "termsAndConditions": "नियम & शर्तें",
+    "signIn": "मेरा पहले से खाता है. साइन इन",
+    "register": "पंजीकृत करें",
+    "confirmNewPassword": "नए पासवर्ड की पुष्टि करें",
+    "resetPassword": "पासवर्ड रीसेट करें",
+    "createAccount": "एक खाता बनाएं",
+    "title": "शीर्षक",
+    "titleOptional": "शीर्षक (वैकल्पिक)",
+    "firstName": {
+      "label": "प्रथम नाम",
+      "placeholder": "प्रथम नाम"
+    },
+    "lastName": {
+      "label": "अंतिम नाम",
+      "placeholder": "अंतिम नाम"
+    },
+    "emailAddress": {
+      "label": "ईमेल पता",
+      "placeholder": "ईमेल पता"
+    },
+    "password": {
+      "label": "पासवर्ड",
+      "placeholder": "पासवर्ड"
+    },
+    "newPassword": "नया पासवर्ड",
+    "emailMarketing": "मार्केटिंग कंपनियों के ईमेल समाचार पत्र प्राप्त करने के लिए मेरे निजी डेटा का प्रयोग करें. अपने सेटिंग बदले के लिए, मेरा खाता में सहमति प्रबंधन पर जाएं.",
+    "confirmThatRead": "मैं पुष्टि कर रहा हूं कि मैंने पढ़ कर स्वीकृत करता हूं",
+    "selectTitle": "शीर्षक चुनें",
+    "passwordMinRequirements": "सुरक्षित पासवर्ड के लिए त्वरित मार्गदर्शिकाः अपर और लोअर केस के वर्ण, संख्या और प्रतीक चिह्नों के कम से कम 8 वर्णों का उपयोग करें.",
+    "passwordStrengthRequirements": "सुरक्षित पासवर्ड के लिए त्वरित मार्गदर्शिकाः अपर और लोअर केस के वर्ण, संख्या और प्रतीक चिह्नों के कम से कम 8 वर्णों का अपयोग करे. ध्यान रखें कि एक ही वर्ण का लगातार उपयोग न करें.",
+    "bothPasswordMustMatch": "दोनों पासवर्ड मेल खाना चाहिए",
+    "titleRequired": "शीर्षक आवश्यक है.",
+    "postRegisterMessage": "कृपया प्रदत्त परिचय द्वारा लॉगिन करें.",
+    "postRegisterSuccessMessage": "सफल पंजीकरणः कृपया प्रदत्त परिचय द्वारा लॉगिन करें."
+  },
+  "forgottenPassword": {
+    "resetPassword": "पासवर्ड रीसेट करें",
+    "enterEmailAddressAssociatedWithYourAccount": "अपने खाते से संबंधित ईमेल पता दर्ज करें",
+    "emailAddress": {
+      "label": "ईमेल पता",
+      "placeholder": "ईमेल दर्ज करें"
+    },
+    "enterValidEmail": "कृपया कोई मान्य ईमेल दर्ज करें. ",
+    "passwordResetEmailSent": "आपको पासवर्ड रीसेट करने की जानकारी वाला ईमेल भेजा जाएगा.",
+    "passwordResetSuccess": "सफल रहा! अब आप अपने नए पासवर्ड का उपयोग करके लॉगिन कर सकते हैं."
+  }
+}

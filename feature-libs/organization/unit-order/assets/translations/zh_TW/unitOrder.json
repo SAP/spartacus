@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "單位層級訂單歷史記錄",
+    "orderId": "訂單號碼",
+    "emptyPurchaseOrderId": "無",
+    "date": "日期",
+    "status": "狀態",
+    "buyer": "買方",
+    "unit": "單位",
+    "total": "總計",
+    "noOrders": "沒有甫和您單位的訂單記錄。",
+    "startShopping": "開始購物",
+    "sortBy": "排序依據",
+    "sortOrders": "排序順序",
+    "purchaseOrderNumber": "採購單號碼",
+    "startOn": "開始日期",
+    "frequency": "頻率",
+    "nextOrderDate": "下一個訂單日期",
+    "notFound": "找不到訂單",
+    "applyFilter": "套用",
+    "filterBy": "篩選依據",
+    "filterByBuyer": "按買方篩選",
+    "filterByBuyerLabel": "買方名稱",
+    "filterByBuyerPlaceholder": "輸入買方名稱",
+    "filterByBuyerAriaLabel": "按買方篩選清單",
+    "filterByUnit": "按單位篩選",
+    "filterByUnitLabel": "單位名稱",
+    "filterByUnitPlaceholder": "輸入單位名稱",
+    "filterByUnitAriaLabel": "按單位篩選清單",
+    "search": "搜尋",
+    "clearAll": "全部清除",
+    "removeAppliedFilters": "移除篩選",
+    "yourFilters": "您的篩選：",
+    "and": " 和 "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "日期",
+    "orderNumber": "訂單號碼",
+    "buyer": "買方 (升冪)",
+    "buyerDesc": "買方 (降冪)",
+    "orgUnit": "單位 (升冪)",
+    "orgUnitDesc": "單位 (降冪)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "買方"
+  }
+}

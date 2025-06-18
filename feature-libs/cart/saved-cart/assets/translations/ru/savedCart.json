@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Имя",
+    "cartDescription": "Описание",
+    "cartId": "Ид.",
+    "dateSaved": "Дата сохранения",
+    "items": "Позиции",
+    "quantity": "Количество",
+    "total": "Итого",
+    "editSavedCart": "Редактировать сохраненную корзину",
+    "deleteSavedCart": "Удалить сохраненную корзину",
+    "addSelectedItems": "Добавить выбранные позиции",
+    "emptyCartItems": "Удалить позиции корзины"
+  },
+  "savedCartList": {
+    "savedCarts": "Сохраненные корзины ({{count}})",
+    "cartName": "Имя",
+    "cartId": "Ид.",
+    "dateSaved": "Дата сохранения",
+    "cartDescription": "Описание",
+    "quantity": "Кол.",
+    "quantityFull": "Количество",
+    "total": "Итого",
+    "actions": "Действия",
+    "makeCartActive": "Сделать корзину активной",
+    "notFound": "Сохраненные корзины не найдены",
+    "swapCartNoActiveCart": "Существующую корзину успешно активировал {{cartName}}.",
+    "swapCartWithActiveCart": "Существующую корзину успешно активировал {{cartName}}. Ваши прежние позиции сохранены в корзине {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Позиции вашей корзины успешно сохранены на будущее в корзине \"{{cartName}}\""
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Сохранить на будущее",
+    "itemsSavedForLater": "Все позиции в вашей корзине будут сохранены на будущее",
+    "savedCartName": "Имя сохраненной корзины",
+    "savedCartDescription": "Описание сохраненной корзины",
+    "optional": "необязательно",
+    "charactersLeft": "осталось символов: {{count}}",
+    "cancel": "Отменить",
+    "save": "Сохранить",
+    "restore": "Восстановить",
+    "followingCartDelete": "Следующая сохраненная корзина будет удалена",
+    "followingCartRestore": "Следующая сохраненная корзина будет восстановлена как активная",
+    "delete": "Удалить",
+    "deleteCartSuccess": "Корзина успешно удалена",
+    "editCartSuccess": "Корзина успешно отредактирвана",
+    "editSavedCart": "Редактировать сохраненную корзину",
+    "deleteSavedCart": "Удалить сохраненную корзину",
+    "restoreSavedCart": "Восстановить сохраненную корзину",
+    "name": "Имя",
+    "id": "Ид.",
+    "description": "Описание",
+    "quantity": "Кол.",
+    "quantityFull": "Количество",
+    "total": "Итого",
+    "keepCopySavedCart": "Сохраните копию этой корзины в списке сохраненных корзин ",
+    "defaultCloneCartName": "Копия {{name}}",
+    "nameOfCloneCart": "Имя скопированной корзины"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Сохраненные корзины",
+    "saveCartForLater": "Сохранить корзину на будущее"
+  }
+}

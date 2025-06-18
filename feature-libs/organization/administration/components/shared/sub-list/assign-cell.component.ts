@@ -30,6 +30,7 @@ import { SubListService } from './sub-list.service';
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AssignCellComponent<T extends BaseItem> extends CellComponent {
   constructor(

@@ -21,11 +21,13 @@
     "search": "Search",
     "add": "Add",
     "breadcrumbs": "breadcrumbs",
+    "breadcrumbsCurrentPage": "Current Page",
     "selectFile": "Select file",
     "clear": "Clear",
     "loaded": "Loaded",
     "results": "Results",
     "of": "of",
+    "ngSelectDropdownOptionsList": "Options",
     "required": "required",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
@@ -63,7 +65,8 @@
     "goTo": "Go to {{location}}",
     "navigateTo": "Navigate to {{nav}}",
     "scrollToTop": "Scroll back to the top of the page",
-    "linkItemInList": "{{title}}. {{position}} of {{listLength}}"
+    "linkItemInList": "{{title}}. {{position}} of {{listLength}}",
+    "menuButonTitle": "{{title}} Menu"
   },
   "searchBox": {
     "placeholder": "Enter product name or SKU",
@@ -73,6 +76,8 @@
     "ariaLabelProducts": "product results",
     "initialDescription": "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
     "suggestions": "Suggested Keywords",
+    "recentSearches": "Recent Searches",
+    "trendingSearches": "Trending Searches",
     "suggestionsResult": "{{ count }} suggestion and ",
     "suggestionsResult_other": "{{ count }} suggestions and ",
     "products": "Recommended Products",
@@ -85,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Ask us anything"
     },
-    "closeSearchPanel": "Close"
+    "closeSearchPanel": "Close",
+    "queryError": "Your search query is incorrectly formatted. Please remove special characters like \":\" and try again."
   },
   "sorting": {
     "date": "Date",
@@ -185,6 +191,7 @@
       "cxMaxCharactersLength": "Password cannot have more than 128 characters",
       "cxContainsSpecialCharacters": "Password cannot contain special characters",
       "cxNoConsecutiveCharacters": "Password cannot contain consecutive identical characters",
+      "invalidTokenCodeError": "This code is not valid",
       "date": {
         "required": "Field {{label}} is required",
         "min": "Field {{label}} cannot be before {{min}}",

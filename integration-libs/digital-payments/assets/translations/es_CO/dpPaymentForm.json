@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "En breve se lo redirigirá a la página del tercero para realizar el registro de tarjeta",
+    "callback": "Espere… Obteniendo detalles de pago…",
+    "cancelledOrFailed": "Registro de tarjeta fallido o cancelado",
+    "error": {
+      "redirect": "No es posible iniciar la operación. Inténtelo de nuevo",
+      "paymentFetch": "No es posible obtener los detalles de pago. Inténtelo de nuevo.",
+      "unknown": "Ocurrió un error desconocido al obtener el pago. Póngase en contacto con el servicio de soporte"
+    },
+    "confirmation": {
+      "heading": "Tiene cambios sin guardar.",
+      "text": "Si cierra este diálogo, perderá todos los cambios realizados. ¿Confirma que desea cerrar?"
+    }
+  }
+}

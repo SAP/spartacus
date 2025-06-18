@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "帳戶摘要",
+    "header": "所有帳戶摘要 ({{count}})",
+    "name": "單位",
+    "details": {
+      "header": "帳戶摘要明細",
+      "uid": "單位 ID",
+      "name": "單位名稱",
+      "address": "地址",
+      "creditRep": "信用報告",
+      "creditLine": "信用額度",
+      "currentBalance": "目前餘額",
+      "openBalance": "未結餘額",
+      "pastDueBalance": "逾期餘額",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} 天",
+      "dayPlus": "{{minBoundary}}+ 天",
+      "notApplicable": "n/a"
+    },
+    "document": {
+      "header": "文件",
+      "id": "文件號碼",
+      "type": "文件類型",
+      "date": "建立日期",
+      "dueDate": "到期日",
+      "originalAmount": "原始金額",
+      "openAmount": "未結金額",
+      "status": "狀態",
+      "attachment": "附件",
+      "download": "下載",
+      "attachmentDescription": "下載 {{type}} {{id}} 的附件。",
+      "noneFound": "找不到文件"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "建立日期 (升冪)",
+      "byCreatedAtDateDesc": "建立日期 (降冪)",
+      "byDueAtDateAsc": "到期日 (升冪)",
+      "byDueAtDateDesc": "到期日 (降冪)",
+      "byOriginalAmountAsc": "原始金額 (升冪)",
+      "byOriginalAmountDesc": "原始金額 (降冪)",
+      "byOpenAmountAsc": "未結金額 (升冪)",
+      "byOpenAmountDesc": "未結金額 (降冪)",
+      "byOrgDocumentTypeAsc": "文件類型 (升冪)",
+      "byOrgDocumentTypeDesc": "文件類型 (降冪)",
+      "byStatusAsc": "狀態 (升冪)",
+      "byStatusDesc": "狀態 (降冪)",
+      "byOrgDocumentIdAsc": "文件號碼 (升冪)",
+      "byOrgDocumentIdDesc": "文件號碼 (降冪)"
+    },
+    "statuses": {
+      "open": "未結",
+      "closed": "已關閉",
+      "all": "全部"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "文件號碼",
+      "orgDocumentIdRange": "文件號碼範圍",
+      "orgDocumentType": "文件類型",
+      "createdAtDateRange": "建立日期範圍",
+      "dueAtDateRange": "到期日範圍",
+      "amountRange": "原始金額範圍",
+      "openAmountRange": "未結金額範圍"
+    },
+    "sortBy": "排序依據",
+    "sortDocuments": "排序文件",
+    "filter": {
+      "status": "狀態",
+      "filterBy": "篩選依據",
+      "documentNumber": "文件號碼",
+      "documentType": "文件類型",
+      "startRange": "自",
+      "endRange": "至",
+      "clear": "全部清除",
+      "search": "搜尋",
+      "errors": {
+        "toDateMustComeAfterFrom": "選擇晚於開始日期的結束日期。",
+        "toAmountMustBeLargeThanFrom": "選擇小於開始值的結束範圍值。"
+      }
+    },
+    "hint": "帳戶摘要可讓您審查關於單位的一般資訊，包含餘額和發票帳齡摘要。您也可在此瀏覽單位的交易文件清單。"
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "帳戶摘要",
+      "details": "{{name}}"
+    }
+  }
+}

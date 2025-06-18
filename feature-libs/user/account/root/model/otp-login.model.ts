@@ -7,7 +7,7 @@
 export interface VerificationTokenCreation {
   purpose: string;
   loginId: string;
-  password: string;
+  password?: string;
 }
 
 export interface VerificationToken {

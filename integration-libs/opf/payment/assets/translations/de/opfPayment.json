@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "Zurzeit ist es nicht möglich, mit dieser Zahlungsart fortzufahren. Versuchen Sie es später erneut, oder wählen Sie eine andere Zahlungsoption aus.",
+      "cancelPayment": "Sie haben Ihre Zahlung abgebrochen. Um mit der Bestellung fortzufahren, versuchen Sie es erneut, oder wählen Sie eine andere Zahlungsoption aus.",
+      "cardExpired": "Karte ist abgelaufen.",
+      "insufficientFunds": "Unzureichende Deckung.",
+      "invalidCreditCard": "Ungültige Kreditkarte. Überprüfen Sie Ihre Kartendetails.",
+      "unknown": "Beim Abrufen der Zahlung ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an den Support.",
+      "cardReportedLost": "Karte ist als verloren gemeldet."
+    }
+  }
+}

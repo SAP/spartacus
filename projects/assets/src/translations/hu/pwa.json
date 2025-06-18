@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "A gyorsabb visszalátogatáshoz adja hozzá az SAP storefrontot eszköze kezdőképernyőjéhez",
+    "noInstallationNeeded": "Nincs szükség telepítésre",
+    "fastAccessToApplication": "Gyors hozzáférés az alkalmazáshoz",
+    "addToHomeScreen": "Hozzáadás a kezdőképernyőhöz",
+    "addedToHomeScreen": "Hozzáadta az SAP storefrontot a kezdőképernyőjéhez"
+  }
+}

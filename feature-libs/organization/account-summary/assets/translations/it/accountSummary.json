@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Riepiloghi account",
+    "header": "Tutti i riepiloghi account ({{count}})",
+    "name": "Unità",
+    "details": {
+      "header": "Dettagli riepilogo account",
+      "uid": "ID unità",
+      "name": "Nome unità",
+      "address": "Indirizzo",
+      "creditRep": "Rapp. crediti",
+      "creditLine": "Linea di credito",
+      "currentBalance": "Saldo attuale",
+      "openBalance": "Saldo aperto",
+      "pastDueBalance": "Saldo scaduto",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} giorni",
+      "dayPlus": "{{minBoundary}}+ giorni",
+      "notApplicable": "n/a"
+    },
+    "document": {
+      "header": "Documenti",
+      "id": "Numero documento",
+      "type": "Tipo di documento",
+      "date": "Data di creazione",
+      "dueDate": "Data scadenza",
+      "originalAmount": "Importo originale",
+      "openAmount": "Importo aperto",
+      "status": "Stato",
+      "attachment": "Allegato",
+      "download": "Scarica",
+      "attachmentDescription": "Scarica allegato per {{type}} {{id}}.",
+      "noneFound": "Nessun documento trovato"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Data di creazione (in ordine crescente)",
+      "byCreatedAtDateDesc": "Data di creazione (in ordine decrescente)",
+      "byDueAtDateAsc": "Data scadenza (in ordine crescente)",
+      "byDueAtDateDesc": "Data scadenza (in ordine decrescente)",
+      "byOriginalAmountAsc": "Importo originale (in ordine crescente)",
+      "byOriginalAmountDesc": "Importo originale (in ordine decrescente)",
+      "byOpenAmountAsc": "Importo aperto (in ordine crescente)",
+      "byOpenAmountDesc": "Importo aperto (in ordine decrescente)",
+      "byOrgDocumentTypeAsc": "Tipo di documento (in ordine crescente)",
+      "byOrgDocumentTypeDesc": "Tipo di documento (in ordine decrescente)",
+      "byStatusAsc": "Stato (in ordine crescente)",
+      "byStatusDesc": "Stato (in ordine decrescente)",
+      "byOrgDocumentIdAsc": "Numero documento (in ordine crescente)",
+      "byOrgDocumentIdDesc": "Numero documento (in ordine decrescente)"
+    },
+    "statuses": {
+      "open": "Aperto",
+      "closed": "Chiuso",
+      "all": "Tutto"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Numero documento",
+      "orgDocumentIdRange": "Intervallo numero documento",
+      "orgDocumentType": "Tipo di documento",
+      "createdAtDateRange": "Intervallo data di creazione",
+      "dueAtDateRange": "Intervallo data scadenza",
+      "amountRange": "Intervallo importo originale",
+      "openAmountRange": "Intervallo importo aperto"
+    },
+    "sortBy": "Ordina per",
+    "sortDocuments": "Ordina documenti",
+    "filter": {
+      "status": "Stato",
+      "filterBy": "Filtra per",
+      "documentNumber": "Numero documento",
+      "documentType": "Tipo di documento",
+      "startRange": "Da",
+      "endRange": "A",
+      "clear": "Cancella tutto",
+      "search": "Cerca",
+      "errors": {
+        "toDateMustComeAfterFrom": "Scegliere una data di fine successiva alla data di inizio.",
+        "toAmountMustBeLargeThanFrom": "Scegliere un valore di fine intervallo inferiore al valore di inizio."
+      }
+    },
+    "hint": "I riepiloghi di account consentono di rivedere le informazioni generali di un'unità, compresi riepilogo delle scadenze e saldi delle fatture. Qui è anche possibile sfogliare una lista di documenti di transazione per un'unità."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Riepiloghi account",
+      "details": "{{name}}"
+    }
+  }
+}

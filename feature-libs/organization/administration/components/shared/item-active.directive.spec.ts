@@ -14,6 +14,7 @@ const mockCode = 'mc1';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-host',
   template: `<div cxOrgItemActive>TEST</div>`,
+  standalone: false,
 })
 class TestComponent {}
 

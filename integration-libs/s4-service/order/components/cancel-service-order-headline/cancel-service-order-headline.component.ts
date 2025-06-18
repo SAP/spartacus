@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-cancel-service-order-headline',
   templateUrl: './cancel-service-order-headline.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CancelServiceOrderHeadlineComponent {
   protected orderDetailsService = inject(OrderDetailsService);

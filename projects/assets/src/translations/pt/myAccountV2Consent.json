@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "Gerenciamento de consentimentos",
+    "dateDescription": "Aprovado em ",
+    "clearAll": "Desativar tudo",
+    "selectAll": "Ativar tudo",
+    "message": {
+      "success": {
+        "given": "Consentimento dado com êxito.",
+        "withdrawn": "Consentimento retirado com êxito."
+      }
+    }
+  }
+}

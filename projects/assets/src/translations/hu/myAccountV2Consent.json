@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "Hozzájárulás-kezelés",
+    "dateDescription": "Jóváhagyás dátuma ",
+    "clearAll": "Összes letiltása",
+    "selectAll": "Összes engedélyezése",
+    "message": {
+      "success": {
+        "given": "Hozzájárulás megadása sikeres.",
+        "withdrawn": "Hozzájárulás visszavonása sikeres."
+      }
+    }
+  }
+}

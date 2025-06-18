@@ -1,11 +1,11 @@
 <div
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
-  class="cx-clear-cart-dialog"
+  class="modal-dialog modal-dialog-centered cx-clear-cart-dialog"
   role="dialog"
   aria-labelledby="dialogTitle"
 >
-  <div class="cx-clear-cart-container">
+  <div class="modal-content cx-clear-cart-container">
     <ng-container *ngIf="!isClearing; else loading">
       <div
         *cxFeature="'!a11yRemoveStatusLoadedRole'"
@@ -43,7 +43,7 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="cx-clear-cart-body">
+      <div class="modal-body cx-clear-cart-body">
         <div class="clear-cart-msg">
           {{ 'clearCart.allItemsWillBeRemoved' | cxTranslate }}
         </div>

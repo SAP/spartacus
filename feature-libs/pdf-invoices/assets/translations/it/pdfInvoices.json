@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Impossibile ottenere le fatture; assicurarsi che SAP Invoice e le API per Invoices siano attivati.",
+    "invoicesLoadingError": "Si è verificato un errore. Impossibile visualizzare le fatture per l'ordine.",
+    "invoicesTable": {
+      "header": "Fatture",
+      "label": "Tabella fatture",
+      "invoiceId": "N. fattura",
+      "createdAt": "Data",
+      "netAmount": "Importo netto",
+      "totalAmount": "Importo totale",
+      "attachment": "Scarica fattura",
+      "download": "Scarica",
+      "attachmentDescription": "Scarica PDF per la fattura {{id}}.",
+      "noneFound": "Nessuna fattura trovata"
+    },
+    "downloadPDFError": "Si è verificato un errore. Impossibile ottenere il PDF della fattura.",
+    "sortBy": "Ordina per",
+    "sortInvoices": "Ordina fatture",
+    "sorts": {
+      "byCreatedAtAsc": "Data (in ordine crescente)",
+      "byCreatedAtDesc": "Data (in ordine decrescente)",
+      "byInvoiceIdAsc": "Numero fattura (in ordine crescente)",
+      "byInvoiceIdDesc": "Numero fattura (in ordine decrescente)",
+      "byNetAmountAsc": "Importo netto (in ordine crescente)",
+      "byNetAmountDesc": "Importo netto (in ordine decrescente)",
+      "byTotalAmountAsc": "Importo totale (in ordine crescente)",
+      "byTotalAmountDesc": "Importo totale (in ordine decrescente)"
+    }
+  }
+}

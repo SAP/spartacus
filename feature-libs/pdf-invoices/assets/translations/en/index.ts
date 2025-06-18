@@ -5,7 +5,6 @@
  */
 
 import pdfInvoices from './pdfInvoices.json';
-
 export const en = {
   pdfInvoices,
 };

@@ -1,11 +1,14 @@
 <div
-  class="cx-suggested-addresses-dialog"
+  class="modal-dialog modal-dialog-centered modal-lg cx-suggested-addresses-dialog"
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
   aria-labelledby="dialogTitle"
 >
-  <div *ngIf="data$ | async as data" class="cx-suggested-addresses-container">
+  <div
+    *ngIf="data$ | async as data"
+    class="modal-content cx-suggested-addresses-container"
+  >
     <div class="cx-suggested-addresses-header cx-modal-header">
       <h3
         *cxFeature="'a11yDialogsHeading'"
@@ -33,7 +36,7 @@
         </span>
       </button>
     </div>
-    <div class="cx-suggested-addresses-body" ngForm>
+    <div class="modal-body" ngForm>
       <div class="cx-dialog-info">
         <p>
           {{ 'addressSuggestion.ensureAccuracySuggestChange' | cxTranslate }}

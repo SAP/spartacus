@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   ActiveCartFacade,
@@ -49,6 +48,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -85,6 +85,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -217,16 +218,6 @@ describe('AsmBindCartComponent', () => {
     (activeCartFacade.getActiveCartId as jasmine.Spy).and.returnValue(of(''));
 
     fixture.detectChanges();
-
-    expect(component.cartId.value).toEqual('');
-  });
-
-  it('should clear field when clear input is clicked', () => {
-    component.isShowStyleChangesInASM = false;
-    fixture.detectChanges();
-    let button = fixture.debugElement.query(By.css('.cx-asm-reset'));
-
-    button.triggerEventHandler('click');
 
     expect(component.cartId.value).toEqual('');
   });

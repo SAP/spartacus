@@ -17,6 +17,7 @@ import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion-listing',
   templateUrl: './asm-customer-360-promotion-listing.component.html',
+  standalone: false,
 })
 export class AsmCustomer360PromotionListingComponent {
   @Input() headerText: string;

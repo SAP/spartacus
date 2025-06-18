@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, GuardResult } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -23,7 +23,7 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
   protected activeCartFacade = inject(ActiveCartFacade);
   protected config = inject(S4ServiceDeliveryModeConfig);
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
     return combineLatest(
       this.checkoutServiceDetailsFacade.hasServiceItems(),
       this.checkoutServiceDetailsFacade.hasNonServiceItems()
@@ -42,9 +42,7 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
     );
   }
 
-  protected isServiceDetailsSet(
-    step: CheckoutStep
-  ): Observable<boolean | UrlTree> {
+  protected isServiceDetailsSet(step: CheckoutStep): Observable<GuardResult> {
     return this.checkoutServiceDetailsFacade
       .getSelectedServiceDetailsState()
       .pipe(
@@ -80,7 +78,7 @@ export class CheckoutServiceOrderStepsSetGuard extends CheckoutB2BStepsSetGuard 
   protected override isB2BStepSet(
     step: CheckoutStep,
     isAccountPayment: boolean
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.PAYMENT_TYPE:

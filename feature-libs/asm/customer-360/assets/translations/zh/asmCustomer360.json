@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "无法加载此信息。请稍后重试或联系系统管理员。",
+    "errorMessageHeader": "糟糕！发生了一些错误",
+    "applyActionAlter": "操作无法完成。请稍后再试。",
+    "header": {
+      "title": "客户个人资料",
+      "newTitle": "客户 360°",
+      "subTitle": "{{name}} 客户 360° 视图",
+      "newSubTitle": "{{name}} 360 视图",
+      "activeCartLabel": "{{cartSize}} 个项目已添加到购物车",
+      "recentOrderLabel": "最近订单 {{price}}",
+      "recentTicketLabel": "最近票证",
+      "signedUpAt": "{{date}} 上创建的账户"
+    },
+    "productListing": {
+      "totalNoItems": "项目总计 {{count}}",
+      "totalPrice": "总价 {{price}}",
+      "showMore": "显示更多",
+      "showLess": "显示更少"
+    },
+    "productItem": {
+      "outOfStock": "缺货",
+      "quantity": "数量：{{count}}",
+      "itemPrice": "项目价格：{{price}}"
+    },
+    "activeCart": {
+      "header": "活动购物车",
+      "emptyDescription": "目前没有活动购物车项目",
+      "aria": {
+        "linkLabel": "活动购物车 {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "最近保存的购物车",
+      "emptyDescription": "目前没有保存的购物车项目",
+      "aria": {
+        "linkLabel": "最近保存的购物车 {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "关注对象",
+      "emptyDescription": "目前没有关注的项目"
+    },
+    "profile": {
+      "address": "地址",
+      "billingAddress": "账单地址",
+      "deliveryAddress": "送货地址",
+      "phone1": "电话 1",
+      "phone2": "电话 2",
+      "paymentMethodHeader": "保存的付款方式"
+    },
+    "activity": {
+      "type": "类型",
+      "id": "标识",
+      "description": "描述",
+      "status": "状态",
+      "created": "已创建",
+      "updated": "已更新",
+      "numberOfCartItems": "包含 {{count}} 个项目的购物车",
+      "cart": "购物车",
+      "order": "顺序",
+      "savedCart": "已保存购物车",
+      "emptyStateText": "目前没有记录的客户活动",
+      "headerText": "常规"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "商品",
+        "dateAndStatus": "日期/状态",
+        "rating": "评级",
+        "review": "评价"
+      },
+      "header": "产品评价",
+      "emptyDescription": "目前没有产品评价项目",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "标识",
+        "headline": "标题",
+        "category": "类别"
+      },
+      "header": "支持票证",
+      "emptyDescription": "目前没有支持票证"
+    },
+    "coupons": {
+      "headerText": "优惠券",
+      "emptyDescription": "目前没有优惠券",
+      "applyButtonText": "适用于购物车",
+      "applied": "已应用优惠券",
+      "removeButtonText": "移除"
+    },
+    "promotions": {
+      "headerText": "促销",
+      "emptyDescription": "目前没有促销",
+      "applied": "已应用促销",
+      "headerName": "名称",
+      "headerAction": "操作"
+    },
+    "customerCoupons": {
+      "headerText": "客户优惠券",
+      "emptyDescription": "目前没有客户优惠券",
+      "applyButtonText": "分配给客户",
+      "removeButtonText": "移除",
+      "availableTab": "可用",
+      "sentTab": "已发送",
+      "searchBox": "优惠券"
+    },
+    "maps": {
+      "storeClosed": "关闭",
+      "storesFound": " {{ initial }} - {{ end }}（共找到 {{ total }} 个店铺）"
+    },
+    "overviewTab": "概览",
+    "profileTab": "个人资料",
+    "activityTab": "活动",
+    "feedbackTab": "反馈",
+    "promotionsTab": "促销",
+    "mapsTab": "地图",
+    "storeLocationsTab": "店铺位置",
+    "aria": {
+      "activeCartCode": "活动购物车 {{code}}",
+      "recentOrderCode": "最近订单 {{code}}"
+    },
+    "pagination": "分页",
+    "page": "第 {{number}} 页",
+    "emptyCellValue": "---"
+  }
+}

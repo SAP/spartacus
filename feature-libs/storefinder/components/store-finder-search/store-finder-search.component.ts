@@ -12,6 +12,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
+  standalone: false,
 })
 export class StoreFinderSearchComponent {
   searchBox: UntypedFormControl = new UntypedFormControl();

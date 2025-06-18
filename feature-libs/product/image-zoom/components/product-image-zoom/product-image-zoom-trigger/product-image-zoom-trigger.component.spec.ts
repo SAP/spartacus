@@ -14,6 +14,7 @@ import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.c
 
 @Component({
   template: '',
+  standalone: false,
 })
 class TestDialogComponent {
   @Input() galleryItem: number;

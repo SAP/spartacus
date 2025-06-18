@@ -1,5 +1,4 @@
 @import '../../theme';
-@import 'bootstrap/scss/buttons';
 
 button {
   &:focus {
@@ -30,10 +29,7 @@ button {
   min-height: 48px;
   min-width: 48px;
   border-radius: var(--cx-buttons-border-radius);
-
-  @include forFeature('a11yImproveContrast') {
-    @include type('4');
-  }
+  @include type('4');
 
   &-sm {
     padding-top: 0;
@@ -62,9 +58,7 @@ button {
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
       @include cx-darken(88);
-      @include forFeature('a11yImproveContrast') {
-        filter: none;
-      }
+      filter: none;
     }
 
     &.disabled,
@@ -85,14 +79,10 @@ button {
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      background-color: var(--cx-color-primary);
+      background-color: var(--cx-color-primary-accent);
       border-color: var(--cx-color-primary);
       @include cx-lighten(88);
-
-      @include forFeature('a11yImproveContrast') {
-        background-color: var(--cx-color-primary-accent);
-        filter: none;
-      }
+      filter: none;
 
       &:focus {
         box-shadow: 0 0 0 0.2rem rgba(var(--cx-color-primary), 0.5);
@@ -172,22 +162,18 @@ button {
 
   &-link {
     font-size: $font-size-base * 1.125;
-    color: var(--cx-color-text);
+    color: var(--cx-color-primary);
     text-decoration: underline;
     cursor: pointer;
     display: inline-block;
     border-style: none;
+    @include type('6');
 
     &:focus {
       border-radius: 4px;
     }
     .focus {
       border-radius: 4px;
-    }
-
-    @include forFeature('a11yImproveContrast') {
-      @include type('6');
-      color: var(--cx-color-primary);
     }
   }
 }
@@ -199,10 +185,7 @@ button {
   border-style: none;
   font-size: var(--cx-font-size, 1rem);
   width: auto;
-
-  @include forFeature('a11yImproveContrast') {
-    @include type('6');
-  }
+  @include type('6');
 
   &:hover {
     background-color: var(--cx-color-transparent);
@@ -335,5 +318,12 @@ button,
 .btn {
   &:focus {
     @include visible-focus();
+  }
+}
+
+// override opacity of bootstrap .close class
+button.close:not(:disabled):not(.disabled) {
+  &:focus {
+    opacity: 1;
   }
 }

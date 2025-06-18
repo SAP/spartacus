@@ -1,17 +1,16 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CmsBannerCarouselComponent,
   CmsBannerCarouselEffect,
   CmsComponent,
   CmsService,
 } from '@spartacus/core';
-import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { of } from 'rxjs';
 import {
   CmsComponentData,
   ComponentWrapperDirective,
 } from '../../../cms-structure/index';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { IconComponent } from '../../misc';
 import { BannerCarouselComponent } from './banner-carousel.component';
 
@@ -36,7 +35,6 @@ describe('CreateComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         BannerCarouselComponent,
         CarouselComponent,

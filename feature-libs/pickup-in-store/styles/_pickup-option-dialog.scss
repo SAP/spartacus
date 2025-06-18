@@ -4,8 +4,6 @@
   .cx-pickup-option-dialog {
     align-items: normal;
 
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
     @include media-breakpoint-down(md) {
       height: 100%;
     }
@@ -15,7 +13,6 @@
         height: 100%;
       }
 
-      @extend .modal-content;
       .cx-dialog-header {
         margin-bottom: 0;
         padding-bottom: 0;

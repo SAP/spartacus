@@ -6,7 +6,7 @@
   <a
     actions
     *ngIf="isUpdatingUserAllowed"
-    class="link edit"
+    class="link btn btn-link btn-sm edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUserEdit', params: model } | cxUrl"
   >
@@ -86,7 +86,7 @@
     <div class="property full-width">
       <a
         *ngIf="model.customerId && isUpdatingUserAllowed"
-        class="link"
+        class="link btn btn-link btn-sm"
         [class.disabled]="!model.active"
         [routerLink]="
           { cxRoute: 'orgUserChangePassword', params: model } | cxUrl
@@ -100,14 +100,14 @@
   <section main class="link-list">
     <ng-container *ngIf="model.customerId">
       <a
-        class="link"
+        class="link btn btn-link btn-sm"
         [routerLink]="{ cxRoute: 'orgUserApprovers', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
         {{ 'orgUser.links.approvers' | cxTranslate }}
       </a>
       <a
-        class="link"
+        class="link btn btn-link btn-sm"
         [routerLink]="{ cxRoute: 'orgUserUserGroups', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
@@ -115,7 +115,7 @@
       </a>
 
       <a
-        class="link"
+        class="link btn btn-link btn-sm"
         [routerLink]="{ cxRoute: 'orgUserPermissions', params: model } | cxUrl"
         routerLinkActive="is-current"
       >

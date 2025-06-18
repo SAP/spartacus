@@ -14,7 +14,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService, useFeatureStyles } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
@@ -23,6 +23,7 @@ import { map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-saved-cart',
   templateUrl: './add-to-saved-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
@@ -43,10 +44,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
-    useFeatureStyles('a11yUseButtonsForBtnLinks');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.cart$ = combineLatest([

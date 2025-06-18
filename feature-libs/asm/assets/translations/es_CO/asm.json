@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Modo de servicio asistido",
+    "logout": "Cerrar sesión",
+    "hideUi": "Cerrar MSA",
+    "helpPortalUrl": "Ayuda",
+    "customers": "Clientes",
+    "asmCustomer360Button": "Cliente Vista 360º",
+    "asmCustomer360ViewButton": "Cliente 360°",
+    "createCustomerSuccessfullyAlert": "Se ha creado la cuenta del cliente e iniciado la sesión del cliente.",
+    "saveInactiveCartAlertInfo": "La cesta identificada está inactiva. Para realizar otras acciones con esta cesta, primero guárdela.",
+    "activeCartAlertInfo": "La cesta identificada está activa.",
+    "startCustomerEmulationAlertInfo": "Ha comenzado la emulación del cliente. Cualquier acción que realice replicará los efectos en la cuenta del cliente.",
+    "toggleUi": {
+      "collapse": "Ocultar MSA",
+      "expand": "Mostrar MSA"
+    },
+    "loginForm": {
+      "submit": "Iniciar sesión",
+      "userId": {
+        "label": "ID o correo electrónico de agente"
+      },
+      "password": {
+        "label": "Contraseña"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "Nombre/dirección de correo electrónico del cliente"
+      },
+      "searchCustomer": {
+        "label": "Buscar por nombre o dirección de correo electrónico"
+      },
+      "searchOrder": {
+        "label": "Buscar por ID completo de pedido"
+      },
+      "submit": "Comenzar sesión",
+      "startEmulation": "Comenzar emulación",
+      "noMatch": "No se ha encontrado ningún cliente.",
+      "noMatchResult": "No se ha podido encontrar esta cuenta.",
+      "noCustomerMatchResult": "No se ha encontrado ningún cliente que coincida.",
+      "noOrderMatchResult": "Buscar por ID completo de pedido.",
+      "createCustomer": "Crear nuevo cliente",
+      "customer": "Cliente",
+      "orderID": "ID de pedido"
+    },
+    "createCustomerForm": {
+      "title": "Crear nuevo cliente",
+      "createAccount": "Crear",
+      "cancel": "Cancelar",
+      "firstName": {
+        "label": "Nombre",
+        "placeholder": "Nombre"
+      },
+      "lastName": {
+        "label": "Apellido",
+        "placeholder": "Apellido"
+      },
+      "emailAddress": {
+        "label": "Dirección de correo electrónico",
+        "placeholder": "Dirección de correo electrónico"
+      },
+      "createAccountAlert": "La sesión de cliente comienza una vez creada la cuenta de cliente.",
+      "validationErrors": {
+        "firstName": "Ingrese un nombre válido.",
+        "lastName": "Indique un apellido válido.",
+        "emailAddress": "Ingrese una dirección de correo electrónico válida."
+      },
+      "badRequestDuplicatedEmail": "Ingrese una dirección de correo electrónico diferente porque {{ emailAddress }} ya existe."
+    },
+    "customerList": {
+      "title": "Lista de clientes",
+      "description": "Seleccione un cliente de una de las distintas listas disponibles.",
+      "createCustomer": "Crear nuevo cliente",
+      "cancel": "Cancelar",
+      "tableHeader": {
+        "customer": "Cliente",
+        "customerName": "Nombre del cliente",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "emailId": "Correo electrónico/ID",
+        "phone": "Teléfono",
+        "account": "Cuenta",
+        "cart": "Carro",
+        "order": "Pedido",
+        "view": "Vista 360°",
+        "activeCart": "Carro activo",
+        "viewActiveCart": "Ver carro activo",
+        "orders": "Pedidos",
+        "viewOrders": "Ver pedidos",
+        "customer360": "Cliente 360°",
+        "viewCustomer360": "Ver Cliente 360°"
+      },
+      "tableSort": {
+        "sortBy": "Ordenar por",
+        "byName": "Nombre (ascendente)",
+        "byNameAsc": "Nombre (ascendente)",
+        "byNameDesc": "Nombre (descendente)",
+        "byDateAsc": "Fecha (ascendente)",
+        "byDateDesc": "Fecha (descendente)",
+        "byOrderDateAsc": "Fecha de pedido (ascendente)",
+        "byOrderDateDesc": "Fecha de pedido (descendente)",
+        "byUnit": "Cuenta (ascendente)",
+        "byUnitDesc": "Cuenta (descendente)"
+      },
+      "page": {
+        "page": "Página {{count}}",
+        "previous": "Anterior",
+        "next": "Siguiente"
+      },
+      "noOfCustomers": "{{count}} Clientes",
+      "oneCustomer": "1 Cliente",
+      "noCustomers": "En este momento no hay clientes en esta lista de clientes.",
+      "noLists": "En este momento no hay listas de clientes disponibles. Póngase en contacto con el administrador.",
+      "listsError": "Las listas de clientes no se pueden retirar. Intente nuevamente más tarde.",
+      "searchBox": "Buscar",
+      "enterSearchBox": "Indique nombre o correo electrónico del cliente"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "Advertencia",
+        "body": "Hacer clic en \"Cambiar cliente\" finaliza la emulación de \"{{ customerA }}\" e inicia la de \"{{ customerB }}\". Se perderá cualquier cambio de \"{{ customerA }}\" que no haya sido grabado.",
+        "actions": {
+          "switch": "Cambiar cliente"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "Guardar para más tarde",
+      "dialog": {
+        "saveInfo": "Guarde el carro antes de realizar otras acciones.",
+        "disableInfo": "No se puede guardar el carro porque está vacío.",
+        "title": "Guardar carro",
+        "row": {
+          "id": "ID",
+          "qty": "Cantidad",
+          "qtyFull": "Cantidad",
+          "total": "Total"
+        },
+        "actions": {
+          "save": "Guardar para más tarde"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "Número de carro",
+      "bindCartToCustomer": "Asignar carro a cliente",
+      "success": "Se ha asignado el carro correctamente",
+      "assignCartId": "Asignar carro a cliente",
+      "enterCartId": "Indique ID de carro",
+      "resetCartId": "Restablecer",
+      "dialog": {
+        "title": "Asignar carro anónimo",
+        "body": "¿Quiere reemplazar el carro activo en este momento por el carro anónimo? Si reemplaza el carro activo en este momento se guardará como carro guardado.",
+        "actions": {
+          "replace": "Reemplazar carro"
+        }
+      }
+    },
+    "csagentTokenExpired": "Su sesión de agente de soporte al cliente ha expirado.",
+    "endSession": "Finalizar sesión",
+    "endEmulation": "Finalizar emulación",
+    "agentSessionTimer": {
+      "label": "Expiró la sesión",
+      "minutes": "min",
+      "reset": "Restablecer"
+    },
+    "auth": {
+      "agentLoggedInError": "No puede iniciar sesión como usuario cuando se encuentra activa una sesión de agente CS. Emule el usuario o cierre la sesión de agente CS."
+    },
+    "error": {
+      "noCustomerId": "No se encontró ningún ID de cliente para el usuario seleccionado. No se puede iniciar sesión."
+    }
+  }
+}

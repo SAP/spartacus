@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}){{ product }}이(가) 장바구니에 추가되었습니다.",
+    "entryWasAdded": "{{ product }}이(가) 장바구니에 추가되었습니다.",
+    "noResults": "제품을 찾을 수 없습니다.",
+    "stockLevelReached": "최대 재고 레벨에 도달했습니다.",
+    "title": "빠른 주문",
+    "productCodePlaceholder": "ID 입력",
+    "entryProductCode": "빠른 주문을 위한 제품 ID 입력",
+    "quantity": "빠른 주문 수량",
+    "addToCart": "빠른 주문에 제품 추가",
+    "add": "추가",
+    "product": "제품",
+    "products": "제품",
+    "productCodeLabel": "제품 ID",
+    "quantityLabel": "수량",
+    "quantityFullLabel": "수량"
+  },
+  "quickOrderForm": {
+    "placeholder": "제품 이름 또는 SKU 입력 ",
+    "searchBoxLabel": "빠른 주문을 위해 제품 이름이나 SKU를 입력하십시오. 주문마다 {{ limit }}개까지 제품을 추가할 수 있습니다.",
+    "listLimitReached": "제품 한도에 도달했습니다.",
+    "id": "ID {{ id }}",
+    "noResults": "결과를 찾을 수 없습니다.",
+    "addProduct": "제품 {{ product }} 추가",
+    "initialDescription": "자동 완성 결과가 표시되면 위아래 화살표를 사용하여 검토하고 Enter를 눌러 선택하십시오.",
+    "productsResults": "{{ count }}개 제품을 사용할 수 있습니다.",
+    "quickOrderSearch": "빠른 주문 제품 찾기"
+  },
+  "quickOrderList": {
+    "addToCart": "장바구니에 추가",
+    "emptyList": "빈 목록",
+    "header": "제품/SKU 추가",
+    "subHeader": "유효한 SKU를 한 번에 {{ limit }}개까지 추가할 수 있습니다.",
+    "errorProceedingToCart": "장바구니로 이동하는 동안 오류가 발생했습니다.",
+    "warningProceedingToCart": "장바구니로 이동하는 동안 경고가 발생했습니다.",
+    "successfullyAddedToCart": "장바구니에 추가되었습니다.",
+    "errors": {
+      "productIsOutOfStock": "{{ name }}(#{{code}})의 재고가 없습니다.",
+      "reviewErrors": "이 오류를 검토하십시오.",
+      "listIsFull": "목록이 가득 찼습니다. 계속하려면 이 {{ count }}개 제품을 장바구니로 추가하십시오.",
+      "nonPurchasableError": "제품 {{ name }}을(를) 구매할 수 없습니다.",
+      "outOfStockErrorFound": "재고가 없는 {{count}}개 제품이 추가되지 않았습니다.",
+      "outOfStockErrorFound_other": "재고가 없는 {{count}}개 제품이 추가되지 않았습니다."
+    },
+    "warnings": {
+      "productWasReduced": "{{ name }}(#{{code}})의 수량이 {{ quantityAdded}}개로 줄었습니다.",
+      "reviewWarnings": "이 경고를 검토하십시오.",
+      "reduceWarningFound": "{{count}}개 제품 수량이 줄었습니다.",
+      "reduceWarningFound_other": "{{count}}개 제품 수량이 줄었습니다."
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }}(#{{code}})이(가) 장바구니에 추가되었습니다.",
+      "addedToCartFound": "{{ count }}개 제품이 장바구니에 추가되었습니다.",
+      "addedToCartFound_other": "{{ count }}개 제품이 장바구니에 추가되었습니다."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "장바구니에 추가하기 전에 목록에 제품을 추가하십시오."
+    },
+    "undo": "실행 취소",
+    "revokeUndo": "제품 \"{{name}}\"의 삭제가 취소되었습니다.",
+    "productWasDeleted": "제품 \"{{ name }}\"이(가) 휴지통으로 이동되었습니다."
+  },
+  "quickOrderTable": {
+    "product": "제품",
+    "id": "ID",
+    "price": "가격",
+    "quantity": "수량",
+    "quantityFull": "수량",
+    "itemPrice": "품목 가격",
+    "qty": "수량",
+    "actions": "작업",
+    "inStock": "재고 있음",
+    "lowStock": "재고 부족",
+    "outOfStock": "재고 없음",
+    "listCleared": "빠른 주문 목록이 지워졌습니다.",
+    "addedtoCart": "빠른 주문 목록이 장바구니에 추가되었습니다.",
+    "caption": "빠른 주문 내용"
+  }
+}

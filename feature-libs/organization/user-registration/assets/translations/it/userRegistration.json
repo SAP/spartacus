@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Titolo (facoltativo)",
+        "placeholder": "Titolo"
+      },
+      "firstName": {
+        "label": "Nome",
+        "placeholder": "Nome"
+      },
+      "lastName": {
+        "label": "Cognome",
+        "placeholder": "Cognome"
+      },
+      "companyName": {
+        "label": "Nome della società",
+        "placeholder": "Nome della società"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "E-mail"
+      },
+      "city": {
+        "label": "Città (facoltativo)",
+        "placeholder": "Seleziona la città"
+      },
+      "country": {
+        "label": "Paese (facoltativo)",
+        "placeholder": "Seleziona un paese"
+      },
+      "state": {
+        "label": "Stato/Provincia (facoltativo)",
+        "placeholder": "Seleziona Stato/Provincia"
+      },
+      "postalCode": {
+        "label": "CAP/Codice postale (facoltativo)",
+        "placeholder": "CAP/codice postale"
+      },
+      "addressLine": {
+        "label": "Indirizzo (facoltativo)",
+        "placeholder": "Indirizzo"
+      },
+      "secondAddressLine": {
+        "label": "Riga 2 indirizzo (facoltativa)",
+        "placeholder": "Riga 2 indirizzo"
+      },
+      "phoneNumber": {
+        "label": "Numero di telefono (facoltativo)",
+        "placeholder": "Numero di telefono"
+      },
+      "message": {
+        "label": "Messaggio (facoltativo)",
+        "placeholder": "Dati di esempio per il campo messaggio: \"Reparto: supporto a terra; posizione: capo della sicurezza; superiore: Paolo Rossi; commento: crea nuovo account per me\"."
+      }
+    },
+    "messageToApproverTemplate": "Nome società: {{companyName}},\n  Numero di telefono: {{phoneNumber}},\n  Indirizzo: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Messaggio: {{message}}",
+    "successFormSubmitMessage": "Grazie della registrazione. Un rappresentante ti contatterà a breve e confermerà le tue informazioni di accesso.",
+    "formSubmitButtonLabel": "Registrati",
+    "goToLoginButtonLabel": "Hai già effettuato la registrazione? Passa all'accesso",
+    "httpHandlers": {
+      "conflict": "Un utente con questo indirizzo e-mail esiste già."
+    },
+    "messageToFailedToRegister": "Registrazione non riuscita. Contatta l'amministratore per ulteriore assistenza."
+  }
+}

@@ -35,6 +35,7 @@ import { RegisterComponentService } from './register-component.service';
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
+  standalone: false,
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
@@ -112,7 +113,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   updateAdditionalConsents(event: MouseEvent, index: number) {
     const { checked } = event.target as HTMLInputElement;
-    this.registerForm.value.additionalConsents[index] = checked;
+    this.registerForm.value.additionalConsents[index].isConsentGranted =
+      checked;
   }
 
   constructor(
@@ -214,15 +216,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   collectDataFromRegisterForm(formData: any): UserSignUp {
-    const { firstName, lastName, email, password, titleCode } = formData;
-
-    return {
-      firstName,
-      lastName,
-      uid: email.toLowerCase(),
-      password,
-      titleCode,
-    };
+    return this.registerComponentService.collectDataFromRegisterForm(formData);
   }
 
   isConsentGiven(consent: AnonymousConsent | undefined): boolean {

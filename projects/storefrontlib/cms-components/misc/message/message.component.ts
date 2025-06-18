@@ -18,6 +18,7 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
+  standalone: false,
 })
 export class MessageComponent implements AfterViewInit {
   @Input()

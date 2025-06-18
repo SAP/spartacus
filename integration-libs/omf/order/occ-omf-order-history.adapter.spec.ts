@@ -1,13 +1,16 @@
 import {
-  HttpClientModule,
   HttpHeaders,
   HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
 import {
   ConverterService,
   InterceptorUtil,
@@ -17,17 +20,15 @@ import {
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
+import { OrderSelectors } from '@spartacus/order/core';
 import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { OccOmfOrderHistoryAdapter } from './occ-omf-order-history.adapter';
 import { of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { Store, StoreModule } from '@ngrx/store';
 import { OmfConfig } from './config/omf-config';
-import { OrderSelectors } from '@spartacus/order/core';
+import { OccOmfOrderHistoryAdapter } from './occ-omf-order-history.adapter';
 const userId = '123';
 
 const orderData: Order = {
@@ -64,11 +65,7 @@ describe('OccOmfOrderHistoryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [StoreModule.forRoot({})],
       providers: [
         LoggerService,
         OccOmfOrderHistoryAdapter,
@@ -79,6 +76,8 @@ describe('OccOmfOrderHistoryAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

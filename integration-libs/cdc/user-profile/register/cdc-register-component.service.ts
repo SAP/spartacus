@@ -6,7 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import {
-  FormControl,
   UntypedFormArray,
   UntypedFormBuilder,
   Validators,
@@ -16,6 +15,7 @@ import {
   CdcConsentManagementComponentService,
   CdcJsService,
   CdcLoadUserTokenFailEvent,
+  CDC_PREFERENCE_SERIALIZER,
   CDC_USER_PREFERENCE_SERIALIZER,
 } from '@spartacus/cdc/root';
 import {
@@ -91,8 +91,6 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
       return throwError(() => `The provided user is not valid: ${user}`);
     }
-    /** fill the user preferences */
-    user.preferences = this.generatePreferencesObject();
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
         if (!cdcLoaded) {
@@ -128,7 +126,9 @@ export class CDCRegisterComponentService extends RegisterComponentService {
   /**
    * Return preferences object that needs to be updated during register process
    * @returns preference object
+   * @deprecated since 2211.38
    */
+  // CXSPA-9292: remove this method in next major release
   generatePreferencesObject(): any {
     let preferences = null;
     const consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents
@@ -178,8 +178,16 @@ export class CDCRegisterComponentService extends RegisterComponentService {
   generateAdditionalConsentsFormControl(): UntypedFormArray {
     const consentArray = this.fb.array([]);
     const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
-    for (const _template of templates) {
-      consentArray.push(new FormControl(false, [Validators.requiredTrue]));
+    for (const template of templates) {
+      const isMandatory = this.cdcConsentManagementService.isConsentMandatory(
+        template.id ?? ''
+      );
+      consentArray.push(
+        this.fb.group({
+          id: [template.id],
+          isConsentGranted: [false, isMandatory ? Validators.requiredTrue : []],
+        })
+      );
     }
     return consentArray;
   }
@@ -200,9 +208,33 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     for (const template of templates) {
       const returnConsent: any = {};
       returnConsent['template'] = template;
-      returnConsent['required'] = true; //these consents are always mandatory
+      returnConsent['required'] =
+        this.cdcConsentManagementService.isConsentMandatory(template.id ?? '');
       returnConsents.push(returnConsent);
     }
     return returnConsents;
+  }
+
+  collectDataFromRegisterForm(formData: any): UserSignUp {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      titleCode,
+      additionalConsents,
+    } = formData;
+
+    return {
+      firstName,
+      lastName,
+      password,
+      titleCode,
+      uid: email.toLowerCase(),
+      preferences: this.converter.convert(
+        additionalConsents,
+        CDC_PREFERENCE_SERIALIZER
+      ),
+    };
   }
 }

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   NotificationPreference,
@@ -50,12 +49,7 @@ describe('StockNotificationDialogComponent', () => {
         FocusDirective,
         MockFeatureDirective,
       ],
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        SpinnerModule,
-        UrlTestingModule,
-      ],
+      imports: [I18nTestingModule, SpinnerModule, UrlTestingModule],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserInterestsService, useValue: interestsService },

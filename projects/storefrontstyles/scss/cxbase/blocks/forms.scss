@@ -1,39 +1,31 @@
 @import '../../theme';
-@import 'bootstrap/scss/forms';
-@import 'bootstrap/scss/custom-forms';
 
 .form-control {
   margin-bottom: 0.25rem;
   color: var(--cx-color-text);
   &:focus {
-    border-color: var(--cx-color-secondary);
     box-shadow: none;
     -webkit-box-shadow: none;
+    border-color: var(--cx-color-text);
+    background-color: var(--cx-color-inverse);
   }
 
-  @include forFeature('a11yImproveContrast') {
-    border: 1px solid var(--cx-color-dark);
+  border: 1px solid var(--cx-color-dark);
 
-    &:focus {
-      border-color: var(--cx-color-text);
-      background-color: var(--cx-color-inverse);
-    }
+  &::placeholder {
+    color: var(--cx-color-secondary);
+  }
 
-    &::placeholder {
-      color: var(--cx-color-secondary);
-    }
+  &::-webkit-input-placeholder {
+    color: var(--cx-color-secondary);
+  }
 
-    &::-webkit-input-placeholder {
-      color: var(--cx-color-secondary);
-    }
+  &:-ms-input-placeholder {
+    color: var(--cx-color-secondary);
+  }
 
-    &:-ms-input-placeholder {
-      color: var(--cx-color-secondary);
-    }
-
-    &::-ms-input-placeholder {
-      color: var(--cx-color-secondary);
-    }
+  &::-ms-input-placeholder {
+    color: var(--cx-color-secondary);
   }
 
   @include cx-highContrastTheme {
@@ -54,10 +46,7 @@ cx-form-errors {
     padding-inline-start: 25px;
     position: relative;
     word-break: break-word;
-
-    @include forFeature('a11yImproveContrast') {
-      @include type('7');
-    }
+    @include type('7');
 
     &::before,
     &::after {
@@ -77,11 +66,7 @@ cx-form-errors {
     }
 
     &::after {
-      content: '!';
-      // TODO: (CXSPA-7588) - Remove feature flag next major release
-      @include forFeature('a11yFormErrorMuteIcon') {
-        content: '!' / '';
-      }
+      content: '!' / '';
       color: var(--cx-color-inverse);
       font-weight: var(--cx-font-weight-bold);
       text-align: center;
@@ -161,10 +146,9 @@ label {
       font-weight: var(--cx-font-weight-semi);
     }
   }
-
-  abbr.required-asterisk {
-    color: var(--cx-color-danger);
-  }
+}
+abbr.required-asterisk {
+  color: var(--cx-color-danger);
 }
 
 .notes-content {
@@ -228,11 +212,7 @@ legend {
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    border-color: var(--cx-color-medium);
-
-    @include forFeature('a11yImproveContrast') {
-      border-color: var(--cx-color-text);
-    }
+    border-color: var(--cx-color-text);
 
     &:checked {
       font-style: normal;
@@ -267,10 +247,7 @@ legend {
 
 .form-control[type='text'] {
   &:focus {
-    background-color: var(--cx-color-background);
-    @include forFeature('a11yImproveContrast') {
-      background-color: var(--cx-color-inverse);
-    }
+    background-color: var(--cx-color-inverse);
     box-shadow: none;
     -webkit-box-shadow: none;
     @include cx-highContrastTheme {
@@ -285,12 +262,8 @@ input[type='radio'] {
   display: inline-block;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--cx-color-medium);
+  border-color: var(--cx-color-text);
   position: absolute;
-
-  @include forFeature('a11yImproveContrast') {
-    border-color: var(--cx-color-text);
-  }
 
   &::after {
     content: '';
@@ -332,13 +305,11 @@ input[type='radio'] {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
         background-color: var(--cx-color-light);
-        @include forFeature('a11yImproveContrast') {
-          outline: 2px solid var(--cx-color-visual-focus);
-          margin-top: 2px;
-          margin-bottom: 2px;
-          margin-inline-start: 2px;
-          margin-inline-end: 2px;
-        }
+        outline: 2px solid var(--cx-color-visual-focus);
+        margin-top: 2px;
+        margin-bottom: 2px;
+        margin-inline-start: 2px;
+        margin-inline-end: 2px;
         @include cx-highContrastTheme {
           background-color: var(--cx-color-background);
         }
@@ -358,9 +329,7 @@ input[type='radio'] {
     padding: 0.6875rem 0;
     line-height: 1.6;
     height: unset;
-    @include forFeature('a11yImproveContrast') {
-      border: 1px solid var(--cx-color-dark);
-    }
+    border: 1px solid var(--cx-color-dark);
     @include cx-highContrastTheme {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
@@ -401,6 +370,16 @@ input[type='radio'] {
         border-color: var(--cx-color-text) transparent transparent;
       }
     }
+  }
+  input {
+    color: var(--cx-color-text);
+  }
+}
+
+ng-select.ng-select.ng-select-opened .ng-select-container,
+ng-select .ng-dropdown-panel {
+  @include forFeature('a11yNgSelectLayering') {
+    z-index: 10;
   }
 }
 
@@ -482,10 +461,6 @@ input {
   input[type='tel']::placeholder {
     color: var(--cx-color-secondary);
     opacity: 1;
-
-    @include forFeature('a11yImproveContrast') {
-      color: var(--cx-color-secondary);
-    }
   }
 
   input[type='text']:-ms-input-placeholder,

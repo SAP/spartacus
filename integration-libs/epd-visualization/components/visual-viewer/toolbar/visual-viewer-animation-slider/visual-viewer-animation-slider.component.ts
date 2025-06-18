@@ -21,6 +21,7 @@ import { VisualViewerAnimationSliderService } from './visual-viewer-animation-sl
   templateUrl: './visual-viewer-animation-slider.component.html',
   providers: [VisualViewerAnimationSliderService],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

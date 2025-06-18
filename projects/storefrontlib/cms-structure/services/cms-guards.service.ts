@@ -5,7 +5,11 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { CanActivateFn, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  CanActivateFn,
+  GuardResult,
+  RouterStateSnapshot,
+} from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   FeatureConfigService,
@@ -13,8 +17,8 @@ import {
   UnifiedInjector,
   wrapIntoObservable,
 } from '@spartacus/core';
-import { concat, Observable, of } from 'rxjs';
-import { endWith, first, skipWhile } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
 import { CanActivate, GuardsComposer } from './guards-composer';
 
@@ -28,6 +32,9 @@ export class CmsGuardsService {
     protected unifiedInjector: UnifiedInjector
   ) {}
 
+  /**
+   * @deprecated since 2211.41 - not needed anymore
+   */
   protected featureConfigService = inject(FeatureConfigService);
   protected guardsComposer = inject(GuardsComposer);
 
@@ -40,34 +47,14 @@ export class CmsGuardsService {
     componentTypes: string[],
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const guards = this.cmsComponentsService.getGuards(componentTypes);
-
-    if (
-      this.featureConfigService.isEnabled('cmsGuardsServiceUseGuardsComposer')
-    ) {
-      const guardsInstances: CanActivate[] = guards
-        .map((guardClass) =>
-          getLastValueSync(this.unifiedInjector.get<CanActivate>(guardClass))
-        )
-        .filter(isCanActivate);
-      return this.guardsComposer.canActivate(guardsInstances, route, state);
-    }
-    // When the FeatureToggle 'cmsGuardsServiceUseGuardsComposer' is disabled,
-    // use the old approach:
-    if (guards.length) {
-      const canActivateObservables = guards.map((guard) =>
-        this.canActivateGuard(guard, route, state)
-      );
-
-      return concat(...canActivateObservables).pipe(
-        skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
-        endWith(true),
-        first()
-      );
-    } else {
-      return of(true);
-    }
+    const guardsInstances: CanActivate[] = guards
+      .map((guardClass) =>
+        getLastValueSync(this.unifiedInjector.get<CanActivate>(guardClass))
+      )
+      .filter(isCanActivate);
+    return this.guardsComposer.canActivate(guardsInstances, route, state);
   }
 
   /**
@@ -78,14 +65,13 @@ export class CmsGuardsService {
    *
    * NOTE: It injects the guard on demand from the {@link UnifiedInjector}
    *
-   * @deprecated since 2211.24 - enable FeatureToggle `cmsGuardsServiceUseGuardsComposer`
-   * and then use or extend the class {@link GuardsComposer} instead
+   * @deprecated since 2211.24 - instead use the util {@link GuardsComposer}
    */
   canActivateGuard(
     guardClass: any,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
+  ): Observable<GuardResult> {
     const guard = getLastValueSync(
       this.unifiedInjector.get<{
         canActivate: CanActivateFn;

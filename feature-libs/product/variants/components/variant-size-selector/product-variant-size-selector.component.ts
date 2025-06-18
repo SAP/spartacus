@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import {
   BaseOption,
   isNotUndefined,
@@ -12,17 +17,22 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
+  TranslationService,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
-import { filter, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-variant-size-selector',
   templateUrl: './product-variant-size-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductVariantSizeSelectorComponent {
+  protected translationService = inject(TranslationService);
+
   constructor(
     private productService: ProductService,
     private routingService: RoutingService
@@ -56,5 +66,18 @@ export class ProductVariantSizeSelectorComponent {
   getVariantOptionValue(qualifiers: VariantOptionQualifier[]) {
     const obj = qualifiers.find((q) => q.qualifier === VariantQualifier.SIZE);
     return obj ? obj.value : '';
+  }
+
+  ariaLabel$(
+    qualifiers: VariantOptionQualifier[],
+    index: number,
+    quantity: number
+  ): Observable<string> {
+    return this.translationService.translate('common.of').pipe(
+      take(1),
+      map((ofTranslation) => {
+        return `${this.getVariantOptionValue(qualifiers)}, ${index + 1} ${ofTranslation} ${quantity}`;
+      })
+    );
   }
 }

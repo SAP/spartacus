@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "服務明細",
+    "serviceScheduleHeading": "服務排程 - 日期和時間",
+    "address": "與出貨地址相同",
+    "serviceLocationHeading": "服務地點",
+    "datePickerLabel": "排程服務日期",
+    "timePickerLabel": "排程服務時間",
+    "unknownError": "發生未知錯誤。請聯絡支援團隊。",
+    "productDeliveryOptions": "產品的交貨選項",
+    "serviceDeliveryOption": "服務的交貨選項",
+    "productDeliveryMethods": "產品的交貨方法",
+    "serviceDeliveryMethod": "服務的交貨方法"
+  },
+  "cancelService": {
+    "heading": "下列項目將包含在取消請求中",
+    "cancelReason": "取消服務的原因",
+    "optional": "(選擇性)",
+    "action": "取消服務",
+    "back": "返回",
+    "Submit": "提交請求",
+    "cancelServiceSuccess": "已成功取消服務",
+    "unknownError": "發生未知錯誤。請聯絡支援團隊。",
+    "ServiceTime": "服務時間",
+    "ServiceLocation": "服務地點",
+    "ServiceDate": "服務日期",
+    "SubmitRequest": "提交請求",
+    "serviceNotRcancelable": "服務無法取消",
+    "charactersLeft": "剩餘字元：{{count}}",
+    "Services": "服務"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "重新排程服務",
+    "headerLabel": "服務",
+    "contentLabel": "服務重新排程 - 選擇新日期和時間",
+    "datePickerLabel": "服務日期",
+    "timePickerLabel": "服務時間",
+    "backButtonLabel": "返回",
+    "submitButtonLabel": "提交請求",
+    "note": "請注意，需要一段時間訂單才會反映請求。",
+    "unknownError": "發生未知錯誤。請聯絡支援團隊。",
+    "serviceNotReschedulable": "無法重新排程服務。",
+    "serviceNotAmendable": "早於排程日期 24 小時的服務無法取銷或重新排程。",
+    "rescheduleSuccess": "已成功更改服務日期和時間。"
+  }
+}

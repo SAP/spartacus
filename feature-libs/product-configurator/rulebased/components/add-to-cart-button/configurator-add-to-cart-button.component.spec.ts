@@ -92,6 +92,7 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -100,6 +101,7 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min: number;

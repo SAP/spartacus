@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "Tanggal Permintaan Pengiriman",
+    "readOnlyTextLabel": "Tanggal Pengiriman yang Diminta",
+    "successMessage": "Tanggal pengiriman berhasil diperbarui.",
+    "errorMessage": "Terjadi kesalahan. Tidak dapat memperbarui tanggal yang diminta."
+  }
+}

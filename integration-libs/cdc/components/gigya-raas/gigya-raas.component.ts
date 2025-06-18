@@ -24,13 +24,14 @@ import { distinctUntilChanged, take, tap } from 'rxjs/operators';
   styleUrls: ['./gigya-raas.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class GigyaRaasComponent implements OnInit {
   protected renderScreenSet = true;
   language$: Observable<string>;
   jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
-
+  protected isPasswordReset = false;
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
     private baseSiteService: BaseSiteService,
@@ -83,10 +84,15 @@ export class GigyaRaasComponent implements OnInit {
       ...(this.isLoginScreenSet(data)
         ? { sessionExpiration: this.getSessionExpirationValue() }
         : {
+            onSubmit: (event: { formModel: Record<string, unknown> }) => {
+              const formData = event.formModel;
+              this.isPasswordReset = !!formData?.newPassword;
+            },
             onAfterSubmit: (...params: any[]) => {
-              this.zone.run(() =>
-                this.cdcJSService.onProfileUpdateEventHandler(...params)
-              );
+              this.zone.run(() => {
+                params.push({ passwordReset: this.isPasswordReset });
+                this.cdcJSService.onProfileUpdateEventHandler(...params);
+              });
             },
           }),
     });

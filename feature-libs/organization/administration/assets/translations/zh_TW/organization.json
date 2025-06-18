@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "啟用中",
+    "disabled": "已停用",
+    "enable": "啟用",
+    "disable": "停用",
+    "name": "名稱",
+    "code": "代碼",
+    "done": "完成",
+    "cancel": "取消",
+    "add": "新增",
+    "manageUsers": "管理使用者",
+    "create": "建立 {{name}}",
+    "edit": "編輯",
+    "save": "儲存 {{name}}",
+    "delete": "刪除",
+    "assign": "管理",
+    "active": "啟用中",
+    "status": "狀態",
+    "details": "明細",
+    "messages": {
+      "emptyList": "此清單為空"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "客戶",
+      "b2bapprovergroup": "核准者",
+      "b2bmanagergroup": "經理",
+      "b2badmingroup": "管理員"
+    },
+    "userRights": {
+      "unitorderviewergroup": "檢視單位層級訂單"
+    },
+    "breadcrumb": "組織",
+    "notification": {
+      "noSufficientPermissions": "存取此頁面的權限不足",
+      "notExist": "此項目不存在",
+      "disabled": "您無法編輯停用的項目"
+    },
+    "confirmation": {
+      "cancel": "取消",
+      "confirm": "確認",
+      "disable": "停用",
+      "delete": "刪除"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "代碼為 {{ code }} 的預算已存在。",
+        "costCenter": "代碼為 {{ code }} 的成本中心已存在。",
+        "unit": "UID 為 {{ code }} 的組織單位已存在。",
+        "user": "電子郵件為 {{ code }} 的使用者已存在",
+        "userGroup": "ID 為 {{ code }} 的使用者群組已存在",
+        "permission": "代碼為 {{ code }} 的核准權限已存在。",
+        "unknown": "伺服器驗證錯誤。"
+      }
+    },
+    "information": "關於 {{title}} 的更多資訊"
+  },
+  "orgCostCenter": {
+    "groupName": "成本中心",
+    "header": "所有成本中心 ({{count}})",
+    "code": "代碼",
+    "active": "狀態",
+    "name": "名稱",
+    "currency": "幣別",
+    "unit": "上層單位",
+    "actions": "",
+    "sortBy": "排序依據",
+    "sort": {
+      "byName": "名稱",
+      "byUnitName": "單位",
+      "byCode": "代碼"
+    },
+    "hint": "透過貴組織採購帳戶下訂的所有訂單都會連結至成本中心以進行追蹤。每個單位可有多個成本中心。若要限制支出，請將預算指派給成本中心。買方會在結帳時選擇成本中心。",
+    "disable": {
+      "confirm": "停用"
+    },
+    "messages": {
+      "deactivateTitle": "停用此成本中心嗎？",
+      "deactivate": "停用的成本中心無法用於下新訂單。請確保您的單位至少有一個成本中心。現有的訂單不會受到影響。",
+      "confirmEnabled": "已成功啟用成本中心 {{ item.name }}",
+      "confirmDisabled": "已成功停用成本中心 {{ item.name }}",
+      "update": "已成功更新成本中心 {{ item.name }}",
+      "create": "已成功建立成本中心 {{ item.name }}"
+    },
+    "info": {
+      "disabledEdit": "啟用成本中心以允許編輯。",
+      "disabledEnable": "必須先啟用單位，才能啟用此成本中心。"
+    },
+    "details": {
+      "title": "成本中心明細",
+      "subtitle": "成本中心：{{ item.name }}"
+    },
+    "edit": {
+      "title": "編輯成本中心",
+      "subtitle": "成本中心：{{ item.name }}"
+    },
+    "create": {
+      "title": "建立成本中心",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "預算"
+    },
+    "breadcrumbs": {
+      "list": "所有成本中心",
+      "details": "{{name}}",
+      "budgets": "預算"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "管理預算",
+    "subtitle": "成本中心：{{ item.name }}",
+    "assigned": "已成功指派預算 {{ item.name }}",
+    "unassigned": "已成功取消指派預算 {{ item.name }}"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "指派的預算",
+    "subtitle": "成本中心：{{ item.name }}",
+    "assigned": "已成功指派預算 {{ item.name }}",
+    "unassigned": "已成功取消指派預算 {{ item.name }}"
+  },
+  "orgBudget": {
+    "groupName": "預算",
+    "header": "所有預算 ({{count}})",
+    "code": "代碼",
+    "name": "名稱",
+    "active": "狀態",
+    "currency": "幣別",
+    "amount": "金額",
+    "unit": "單位",
+    "businessUnits": "單位",
+    "dateRange": "開始 - 結束",
+    "startDate": "開始",
+    "endDate": "結束",
+    "actions": "",
+    "sortBy": "排序依據",
+    "sort": {
+      "byName": "名稱",
+      "byUnitName": "單位",
+      "byCode": "代碼",
+      "byValue": "值"
+    },
+    "hint": "預算設定整體採購限制並指派給成本中心。買方會在結帳時選擇成本中心。",
+    "details": {
+      "title": "預算明細",
+      "subtitle": "預算：{{ item.name }}"
+    },
+    "edit": {
+      "title": "編輯預算",
+      "subtitle": "預算：{{ item.name }}"
+    },
+    "create": {
+      "title": "建立預算",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "停用此預算嗎？",
+      "deactivate": "停用的預算不再套用至受指派的成本中心。請確保關聯的成本中心至少有一個預算。",
+      "confirmEnabled": "已成功啟用預算 {{ item.name }}",
+      "confirmDisabled": "已成功停用預算 {{ item.name }}",
+      "update": "已成功更新預算 {{ item.name }}",
+      "create": "已成功建立預算 {{ item.name }}"
+    },
+    "info": {
+      "disabledEdit": "啟用預算以允許編輯。",
+      "disabledEnable": "必須先啟用單位，才能啟用此預算。"
+    },
+    "links": {
+      "costCenters": "成本中心"
+    },
+    "breadcrumbs": {
+      "list": "所有預算",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "成本中心",
+    "subtitle": "預算：{{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "單位",
+    "header": "所有單位 ({{count}})",
+    "unit": "單位",
+    "name": "名稱",
+    "uid": "ID",
+    "approvalProcess": "核准程序",
+    "parentUnit": "上層單位",
+    "active": "狀態",
+    "hint": "單位表示部門、商店、地區或其他合理的邏輯分組。買方在結帳時可用的成本中心和交貨地址取決於其單位。使用者可存取其主要單位的所有下層單位。",
+    "details": {
+      "title": "單位明細",
+      "subtitle": "單位：{{ item.name }}",
+      "hint": "單位表示部門、商店、地區或其他合理的邏輯分組。停用單位將停用單位的所有下層，包含下層單位、使用者和成本中心。無法編輯停用的單位。"
+    },
+    "edit": {
+      "title": "編輯單位",
+      "subtitle": "單位：{{ item.name }}"
+    },
+    "create": {
+      "title": "建立單位",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "停用此單位嗎？",
+      "deactivate": "停用單位將對您的交易組織產生廣泛的影響。所有單位的下層單位、使用者、預算和成本中心也將停用。",
+      "confirmEnabled": "已成功啟用單位 {{item.name}}",
+      "confirmDisabled": "已成功停用單位 {{item.name}}",
+      "update": "已成功更新單位 {{ item.name }}",
+      "create": "已成功建立單位 {{ item.name }}"
+    },
+    "info": {
+      "disabledEdit": "啟用單位以允許編輯。",
+      "disabledEnable": "必須先啟用上層，才能啟用此單位。",
+      "disabledDisable": "無法停用根單位。"
+    },
+    "links": {
+      "units": "下層單位",
+      "users": "使用者",
+      "approvers": "核准者",
+      "shippingAddresses": "交貨地址",
+      "costCenters": "成本中心"
+    },
+    "tree": {
+      "expandAll": "全部展開",
+      "collapseAll": "全部收縮",
+      "expand": "展開",
+      "collapse": "收縮",
+      "explore": "探索子單位"
+    },
+    "children": {
+      "create": {
+        "title": "建立下層單位",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "已成功建立單位 {{ item.name }}"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "建立成本中心",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "上層業務單位",
+      "create": "建立單位",
+      "parentOrgUnitNotes": "此單位是您組織的最上層單位。無法將此單位指派給其他單位。"
+    },
+    "users": {
+      "header": "{{code}} 中的使用者",
+      "changeUserRoles": "更改使用者角色",
+      "newUser": "新使用者"
+    },
+    "assignRoles": {
+      "header": "管理 {{code}} 中的角色",
+      "instructions": {
+        "check": "若要將角色指派給使用者，請勾選角色的核取方塊。",
+        "uncheck": "若要移除角色，請清除角色的核取方塊。",
+        "changes": "已自動儲存更改。"
+      }
+    },
+    "approvers": {
+      "header": "{{code}} 中的核准者",
+      "assign": "管理核准者",
+      "new": "新核准者"
+    },
+    "assignApprovers": {
+      "header": "管理 {{code}} 中的核准者",
+      "instructions": {
+        "check": "若要將核准者指派給此單位，請勾選使用者的核取方塊。",
+        "uncheck": "若要移除核准者，請清除使用者的核取方塊。",
+        "changes": "已自動儲存更改。"
+      },
+      "hint": "核准者清單下顯示的使用者會受指派此單位和下層單位買方的核准權限。請注意，具備核准者角色的使用者與核准者清單下顯示的核准者不同。如果單位的核准者不存在或核准者沒有足夠的核准採購權限，則在選擇管理前會尋找單位階層較上層的核准者。"
+    },
+    "breadcrumbs": {
+      "list": "所有單位",
+      "details": "{{name}}",
+      "children": "下層單位",
+      "users": "使用者",
+      "approvers": "核准者",
+      "addresses": "交貨地址",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "成本中心"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "下層單位",
+    "subtitle": "單位：{{item.name}}",
+    "info": {
+      "disabledCreate": "無法為停用的單位建立下層單位。"
+    },
+    "hint": "單位表示部門、商店、地區或其他合理的邏輯分組。使用者「繼承」下層單位，表示買方在結帳時可存取下層單位的成本中心和交貨地址"
+  },
+  "orgUnitApprovers": {
+    "title": "管理核准者",
+    "subtitle": "單位：{{item.name}}",
+    "assigned": "已成功指派使用者 {{ item.name }}",
+    "unassigned": "已成功指派使用者 {{ item.name }}"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "指派的核准者",
+    "subtitle": "單位：{{item.name}}",
+    "assigned": "已成功指派使用者 {{ item.name }}",
+    "unassigned": "已成功指派使用者 {{ item.name }}",
+    "hint": "核准者清單下顯示的使用者會受指派此單位和下層單位買方的核准權限。請注意，具備核准者角色的使用者與核准者清單下顯示的核准者不同。如果單位的核准者不存在或核准者沒有足夠的核准採購權限，則在選擇管理前會尋找單位階層較上層的核准者。"
+  },
+  "orgUnitAssignedRoles": {
+    "header": "管理 {{code}} 中的角色",
+    "name": "名稱",
+    "email": "電子郵件",
+    "roles": "角色",
+    "roleCustomer": "客戶",
+    "roleApprover": "核准者",
+    "roleManager": "經理",
+    "roleAdministrator": "管理員"
+  },
+  "orgUnitUsers": {
+    "title": "指派的使用者",
+    "subtitle": "單位：{{item.name}}",
+    "info": {
+      "disabledCreate": "無法為停用的單位建立使用者"
+    },
+    "hint": "使用者是買方、核准者、經理和組織的管理員。每個使用者會受指派採購或核准採購的角色。使用者「繼承」下層單位，表示買方可在結帳時存取下層單位的成本中心和交貨地址。"
+  },
+  "orgUnitUserRoles": {
+    "title": "使用者角色和權限",
+    "subtitle": "使用者：{{item.name}}",
+    "messages": {
+      "rolesUpdated": "已成功更新 {{item.name}} 的角色"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "指派的使用者",
+    "subtitle": "單位：{{item.name}}"
+  },
+  "orgUnitCostCenters": {
+    "title": "指派的成本中心",
+    "subtitle": "單位：{{item.name}}",
+    "info": {
+      "disabledCreate": "無法為停用的單位建立成本中心"
+    },
+    "hint": "透過貴組織採購帳戶下訂的所有訂單都會連結至成本中心以進行追蹤。買方會在使用「帳戶」採購方法結帳時選擇成本中心。每個單位可有多個成本中心，但單一成本中心僅可指派給單一單位。若要定義最終支出限制，請將預算指派給成本中心。 "
+  },
+  "orgUnitAddress": {
+    "title": "交貨地址",
+    "subtitle": "單位：{{item.name}}",
+    "country": "國家/地區",
+    "titles": "稱謂",
+    "firstName": "名字",
+    "lastName": "姓氏",
+    "formattedAddress": "地址",
+    "address1": "地址",
+    "address2": "第二個地址 (選擇性)",
+    "city": "城市",
+    "state": "州",
+    "zipCode": "郵遞區號",
+    "phoneNumber": "電話號碼 (選擇性)",
+    "streetAddress": "街道地址",
+    "aptSuite": "公寓號碼",
+    "selectOne": "選擇一個...",
+    "hint": "買方使用「帳戶」採購方法結帳時，必須選擇成本中心。買方可用的交貨地址取決於所選成本中心的單位。",
+    "details": {
+      "title": "地址明細",
+      "subtitle": "單位：{{item.name}}"
+    },
+    "edit": {
+      "title": "編輯地址"
+    },
+    "create": {
+      "title": "建立地址"
+    },
+    "form": {
+      "subtitle": "單位：{{item.name}}"
+    },
+    "messages": {
+      "create": "已成功建立地址 {{ item.firstName }} {{ item.lastName }}",
+      "update": "已成功更新地址 {{ item.firstName }} {{ item.lastName }}",
+      "delete": "無法復原地址。現有的訂單不會受到影響。",
+      "deleteTitle": "刪除此地址嗎？",
+      "deleted": "已成功刪除地址 {{ item.firstName }} {{ item.lastName }}"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "使用者群組",
+    "header": "所有使用者群組 ({{count}})",
+    "disabled": "(已停用)",
+    "uid": "代碼",
+    "name": "名稱",
+    "unit": "單位",
+    "orgUnit": "單位",
+    "actions": "",
+    "sortBy": "排序依據",
+    "sort": {
+      "byName": "名稱",
+      "byUnitName": "單位",
+      "byGroupID": "群組"
+    },
+    "hint": "使用者群組可讓您將使用者組合在一個群組中，以便一次為多個使用者指派採購限制。",
+    "details": {
+      "title": "使用者群組明細",
+      "subtitle": "使用者群組：{{ item.name }}"
+    },
+    "edit": {
+      "title": "編輯使用者群組",
+      "subtitle": "使用者群組：{{ item.name }}"
+    },
+    "create": {
+      "title": "建立使用者群組",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "使用者",
+      "permission": "採購限制"
+    },
+    "messages": {
+      "update": "已成功更新使用者群組 {{ item.name }}",
+      "create": "已成功建立使用者群組 {{ item.name }}",
+      "deleteTitle": "刪除此使用者群組嗎？",
+      "delete": "刪除使用者群組時，此群組中的使用者不會受到影響。",
+      "deleted": "已成功刪除使用者群組 {{ item.name }}"
+    },
+    "breadcrumbs": {
+      "list": "所有使用者群組",
+      "details": "{{name}}",
+      "users": "使用者",
+      "permissions": "採購限制"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "管理使用者",
+    "subtitle": "使用者群組：{{ item.name }}",
+    "assigned": "已成功指派使用者 {{ item.name }}",
+    "unassigned": "已成功指派使用者 {{ item.name }}",
+    "unassignAll": "取消指派全部",
+    "unassignAllConfirmation": "已成功取消指派所有使用者"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "指派的使用者",
+    "subtitle": "使用者群組：{{ item.name }}",
+    "assigned": "已成功指派使用者 {{ item.name }}",
+    "unassigned": "已成功指派使用者 {{ item.name }}"
+  },
+  "orgUserGroupPermissions": {
+    "title": "管理採購限制",
+    "subtitle": "限制：{{ item.name }}",
+    "assigned": "已成功指派採購限制 {{item.code}}",
+    "unassigned": "已成功取消指派採購限制 {{item.code}}"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "指派的採購限制",
+    "subtitle": "限制：{{ item.name }}",
+    "assigned": "已成功指派採購限制 {{item.code}}",
+    "unassigned": "已成功取消指派採購限制 {{item.code}}"
+  },
+  "orgUser": {
+    "groupName": "使用者",
+    "header": "所有使用者 ({{count}})",
+    "disabled": "(已停用)",
+    "uid": "電子郵件",
+    "active": "狀態",
+    "name": "名稱",
+    "firstName": "名字",
+    "lastName": "姓氏",
+    "email": "電子郵件",
+    "orgUnit": "單位",
+    "unit": "單位",
+    "roles": "角色",
+    "rights": "權限",
+    "title": "稱謂",
+    "hint": "使用者是買方、核准者、經理和組織的管理員。每個使用者會受指派採購或核准採購的角色。每個使用者屬於單位，並可存取其主要單位的所有下層單位。",
+    "unitApprover": "單位核准者",
+    "assignApprover": "將使用者新增至單位的核准者",
+    "actions": "",
+    "sortBy": "排序依據",
+    "sort": {
+      "byName": "名稱",
+      "byUnit": "單位"
+    },
+    "details": {
+      "title": "使用者明細",
+      "subtitle": "使用者：{{ item.name }}"
+    },
+    "edit": {
+      "title": "編輯使用者",
+      "subtitle": "使用者：{{ item.name }}"
+    },
+    "create": {
+      "title": "建立使用者",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "更改密碼",
+      "approvers": "核准者",
+      "userGroup": "使用者群組",
+      "permission": "採購限制",
+      "rolesAndRights": "角色和權限"
+    },
+    "messages": {
+      "deactivateTitle": "停用此使用者嗎？",
+      "deactivate": "停用的使用者無法登入店面和下訂單。",
+      "confirmEnabled": "已成功啟用使用者 {{item.firstName}} {{item.lastName}}",
+      "confirmDisabled": "已成功停用使用者 {{item.firstName}} {{item.lastName}}",
+      "update": "已成功更新使用者 {{item.firstName}} {{item.lastName}}",
+      "create": "已成功建立使用者 {{item.firstName}} {{item.lastName}}",
+      "updatePassword": "已成功更新使用者 {{item.firstName}} {{item.lastName}} 密碼"
+    },
+    "info": {
+      "disabledEdit": "啟用使用者以允許編輯。",
+      "disabledEnable": "必須先啟用單位，才能啟用此使用者。"
+    },
+    "approver": {
+      "link": "核准者",
+      "header": "{{code}} 中的核准者",
+      "assign": "指派核准者",
+      "assignHeader": "指派 {{code}} 中的核准者",
+      "back": "返回",
+      "new": "新核准者",
+      "instructions": {
+        "check": "若要將核准者指派給此使用者，請勾選使用者的核取方塊。",
+        "uncheck": "若要移除核准者，請清除使用者的核取方塊。",
+        "changes": "已自動儲存更改。"
+      }
+    },
+    "userGroup": {
+      "link": "使用者群組",
+      "header": "{{code}} 中的使用者群組 ",
+      "assign": "指派使用者群組",
+      "assignHeader": "指派 {{code}} 中的使用者群組 ",
+      "back": "返回",
+      "instructions": {
+        "check": "若要將使用者群組指派給此使用者，請勾選使用者的核取方塊。",
+        "uncheck": "若要移除使用者群組，請清除使用者的核取方塊。",
+        "changes": "已自動儲存更改。"
+      }
+    },
+    "permission": {
+      "link": "採購限制",
+      "header": "{{code}} 中的採購限制",
+      "assign": "指派採購限制",
+      "assignHeader": "指派 {{code}} 中的採購限制",
+      "back": "返回",
+      "instructions": {
+        "check": "若要將採購限制指派給此使用者，請勾選其核取方塊。",
+        "uncheck": "若要取消指派採購限制，請清除其核取方塊。",
+        "changes": "已自動儲存更改。"
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "每月",
+        "YEAR": "每年",
+        "WEEK": "每週",
+        "QUARTER": "每季"
+      }
+    },
+    "password": {
+      "title": "更改密碼",
+      "subtitle": "使用者：{{ item.email }}",
+      "newPassword": "新密碼",
+      "confirmPassword": "重新輸入新密碼"
+    },
+    "breadcrumbs": {
+      "list": "所有使用者",
+      "details": "{{name}}",
+      "userGroups": "使用者群組",
+      "approvers": "核准者",
+      "permissions": "採購限制"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "管理使用者群組",
+    "subtitle": "使用者：{{ item.name }}",
+    "assigned": "已成功指派使用者群組 {{item.name}}",
+    "unassigned": "已成功取消指派使用者群組 {{item.name}}"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "指派的使用者群組",
+    "subtitle": "使用者：{{ item.name }}",
+    "assigned": "已成功指派使用者群組 {{item.name}}",
+    "unassigned": "已成功取消指派使用者群組 {{item.name}}"
+  },
+  "orgUserApprovers": {
+    "title": "管理核准者",
+    "subtitle": "使用者：{{ item.name }}",
+    "assigned": "已成功指派核准者 {{ item.name }}",
+    "unassigned": "已成功取消指派核准者 {{ item.name }}"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "指派的核准者",
+    "subtitle": "使用者：{{ item.name }}",
+    "assigned": "已成功指派核准者 {{ item.name }}",
+    "unassigned": "已成功取消指派核准者 {{ item.name }}"
+  },
+  "orgUserPermissions": {
+    "title": "管理採購限制",
+    "subtitle": "使用者：{{ item.name }}",
+    "assigned": "已成功指派採購限制 {{ item.code }}",
+    "unassigned": "已成功取消指派採購限制 {{ item.code }}"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "指派的採購限制",
+    "subtitle": "使用者：{{ item.name }}",
+    "assigned": "已成功指派採購限制 {{ item.code }}",
+    "unassigned": "已成功取消指派採購限制 {{ item.code }}"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "採購限制",
+    "header": "所有採購限制 ({{count}})",
+    "name": "名稱",
+    "code": "代碼",
+    "active": "狀態",
+    "limit": "額度",
+    "orderApprovalPermissionType": "類型",
+    "threshold": "門檻",
+    "periodRange": "期間",
+    "currency": "幣別",
+    "orgUnit": "上層單位",
+    "unit": "上層單位",
+    "actions": "",
+    "hint": "採購限制可透過定義買方每個訂單或每週、每月、每季或每年可支出的金額，從而協助控制支出。採購限制會指派給使用者或使用者群組。採購限制也會指派給核准者以定義允許核准的金額。您可使用使用者群組一次將採購限制指派給多個使用者。",
+    "details": {
+      "title": "採購限制明細",
+      "subtitle": "採購限制：{{ item.code }}"
+    },
+    "edit": {
+      "title": "編輯採購限制",
+      "subtitle": "採購限制：{{ item.code }}"
+    },
+    "create": {
+      "title": "建立採購限制",
+      "subtitle": ""
+    },
+    "sortBy": "排序依據",
+    "sort": {
+      "byName": "名稱",
+      "byUnitName": "單位"
+    },
+    "messages": {
+      "deactivateTitle": "停用此採購限制嗎？",
+      "deactivate": "停用的採購限制無法再指派給使用者或使用者群組。目前的指派將無效。",
+      "confirmEnabled": "已成功啟用採購限制 {{ item.code }}",
+      "confirmDisabled": "已成功停用採購限制 {{ item.code }}",
+      "update": "已成功更新採購限制 {{ item.code }}",
+      "create": "已成功建立採購限制 {{ item.code }}"
+    },
+    "info": {
+      "disabledEdit": "啟用採購限制以允許編輯。",
+      "disabledEnable": "必須先啟用單位，才能啟用此採購限制。"
+    },
+    "per": {
+      "DAY": "每天",
+      "WEEK": "每週",
+      "MONTH": "每月",
+      "QUARTER": "每季",
+      "YEAR": "每年"
+    },
+    "breadcrumbs": {
+      "list": "所有採購限制",
+      "details": "{{code}}"
+    }
+  }
+}

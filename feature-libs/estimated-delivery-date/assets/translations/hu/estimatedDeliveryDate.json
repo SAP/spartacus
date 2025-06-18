@@ -1,0 +1,8 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "Menny.-",
+    "quantityFull": "Mennyiség-",
+    "ETA": "Becsült kézbesítési dátum:",
+    "estimatedDeliveryDateEntryInfo": "A mennyiség ({{ quantity }}) {{ date }}-ig lesz kiszállítva"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "Gestione dei consensi",
+    "dateDescription": "Data di approvazione ",
+    "clearAll": "Disattiva tutto",
+    "selectAll": "Attiva tutto",
+    "message": {
+      "success": {
+        "given": "Consenso accordato correttamente.",
+        "withdrawn": "Consenso ritirato correttamente."
+      }
+    }
+  }
+}

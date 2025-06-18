@@ -14,15 +14,13 @@
       ></cx-message>
     </div>
   </ng-container>
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <p class="cx-import-entries-subtitle">
     {{ 'importEntriesDialog.importProductsNewSavedCartSubtitle' | cxTranslate }}
   </p>
   <p>
     {{ 'importEntriesDialog.importProductFileDetails' | cxTranslate }}
-    <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+    <cx-form-required-asterisks />
   </p>
   <label>
     <cx-file-upload
@@ -41,7 +39,7 @@
     <label>
       <span class="cx-import-entries-label label-content">
         {{ 'importEntriesDialog.savedCartName' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         [maxLength]="nameMaxLength"
@@ -49,8 +47,15 @@
         formControlName="name"
         required
         type="text"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
-      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+      <cx-form-errors
+        id="nameError"
+        [control]="form.get('name')"
+      ></cx-form-errors>
     </label>
   </div>
 
@@ -67,8 +72,15 @@
         class="form-control"
         formControlName="description"
         rows="5"
+        [attr.aria-invalid]="
+          form.get('description')?.touched && form.get('description')?.invalid
+        "
+        [attr.aria-errormessage]="'descriptionError'"
       ></textarea>
-      <cx-form-errors [control]="form.get('description')"></cx-form-errors>
+      <cx-form-errors
+        id="descriptionError"
+        [control]="form.get('description')"
+      ></cx-form-errors>
 
       <p class="cx-import-entries-input-hint">
         {{
@@ -95,13 +107,3 @@
     </button>
   </div>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

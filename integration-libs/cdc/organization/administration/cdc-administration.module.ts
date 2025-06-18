@@ -31,6 +31,7 @@ import { CdcUserListService } from './cdc-user-list.service';
               provide: UserListService,
               useExisting: CdcUserListService,
             },
+            { provide: B2BUserService, useClass: CdcB2BUserService },
             userCmsConfig.cmsComponents?.ManageUsersListComponent?.providers ||
               [],
           ],
@@ -48,6 +49,7 @@ import { CdcUserListService } from './cdc-user-list.service';
               provide: B2BUserService,
               useExisting: CdcB2BUserService,
             },
+            { provide: OrgUnitService, useClass: CdcOrgUnitService },
             unitsCmsConfig.cmsComponents?.ManageUnitsListComponent?.providers ||
               [],
           ],

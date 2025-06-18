@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
+import { GuardResult } from '@angular/router';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { map, Observable } from 'rxjs';
@@ -17,7 +17,7 @@ export class ServiceOrderGuard {
   protected orderDetailsService = inject(OrderDetailsService);
   protected globalMessageService = inject(GlobalMessageService);
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return this.orderDetailsService.getOrderDetails().pipe(
       map((orderDetails) => {
         if (orderDetails && orderDetails.serviceReschedulable) {

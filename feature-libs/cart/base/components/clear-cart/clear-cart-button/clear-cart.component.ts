@@ -21,6 +21,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-clear-cart',
   templateUrl: './clear-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ClearCartComponent implements OnDestroy {
   cart$: Observable<Cart> = this.activeCartFacade.getActive();

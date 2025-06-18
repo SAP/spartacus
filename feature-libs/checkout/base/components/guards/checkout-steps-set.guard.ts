@@ -5,7 +5,12 @@
  */
 
 import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  GuardResult,
+  Router,
+  UrlTree,
+} from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -65,7 +70,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
       });
   }
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
     let currentIndex = -1;
     const currentRouteUrl = '/' + route.url.join('/');
 
@@ -98,7 +103,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
     );
   }
 
-  protected isStepSet(step: CheckoutStep): Observable<boolean | UrlTree> {
+  protected isStepSet(step: CheckoutStep): Observable<GuardResult> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.DELIVERY_ADDRESS: {
@@ -126,9 +131,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
     return of(true);
   }
 
-  protected isDeliveryAddress(
-    step: CheckoutStep
-  ): Observable<boolean | UrlTree> {
+  protected isDeliveryAddress(step: CheckoutStep): Observable<GuardResult> {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -142,9 +145,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
     );
   }
 
-  protected isDeliveryModeSet(
-    step: CheckoutStep
-  ): Observable<boolean | UrlTree> {
+  protected isDeliveryModeSet(step: CheckoutStep): Observable<GuardResult> {
     return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -152,9 +153,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
     );
   }
 
-  protected isPaymentDetailsSet(
-    step: CheckoutStep
-  ): Observable<boolean | UrlTree> {
+  protected isPaymentDetailsSet(step: CheckoutStep): Observable<GuardResult> {
     return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),

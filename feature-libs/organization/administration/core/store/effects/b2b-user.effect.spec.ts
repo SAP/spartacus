@@ -1,5 +1,10 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpErrorResponse,
+  HttpHeaders,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -179,10 +184,7 @@ describe('B2B User Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        StoreModule.forRoot({ orgCustomer: () => mockB2bUserState }),
-      ],
+      imports: [StoreModule.forRoot({ orgCustomer: () => mockB2bUserState })],
       providers: [
         { provide: B2BUserConnector, useClass: MockB2BUserConnector },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -196,6 +198,8 @@ describe('B2B User Effects', () => {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -3,7 +3,7 @@
 exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery-Date feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { estimatedDeliveryDateTranslationChunksConfig, estimatedDeliveryDateTranslations } from "@spartacus/estimated-delivery-date/assets";
+import { estimatedDeliveryDateTranslationChunksConfig, estimatedDeliveryDateTranslationsEn } from "@spartacus/estimated-delivery-date/assets";
 import { EstimatedDeliveryDateRootModule } from "@spartacus/estimated-delivery-date/root";
 
 @NgModule({
@@ -13,7 +13,7 @@ import { EstimatedDeliveryDateRootModule } from "@spartacus/estimated-delivery-d
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: estimatedDeliveryDateTranslations,
+      resources: { en: estimatedDeliveryDateTranslationsEn },
       chunks: estimatedDeliveryDateTranslationChunksConfig,
     },
   })
@@ -81,8 +81,10 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -93,7 +95,12 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -101,13 +108,13 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -133,10 +140,7 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -148,8 +152,10 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -174,7 +180,7 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add eager loading shou
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { EstimatedDeliveryDateModule } from "@spartacus/estimated-delivery-date";
-import { estimatedDeliveryDateTranslationChunksConfig, estimatedDeliveryDateTranslations } from "@spartacus/estimated-delivery-date/assets";
+import { estimatedDeliveryDateTranslationChunksConfig, estimatedDeliveryDateTranslationsEn } from "@spartacus/estimated-delivery-date/assets";
 import { EstimatedDeliveryDateRootModule } from "@spartacus/estimated-delivery-date/root";
 
 @NgModule({
@@ -185,7 +191,7 @@ import { EstimatedDeliveryDateRootModule } from "@spartacus/estimated-delivery-d
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: estimatedDeliveryDateTranslations,
+      resources: { en: estimatedDeliveryDateTranslationsEn },
       chunks: estimatedDeliveryDateTranslationChunksConfig,
     },
   })]

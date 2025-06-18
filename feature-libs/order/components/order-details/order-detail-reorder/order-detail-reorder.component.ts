@@ -22,6 +22,7 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-details-reorder',
   templateUrl: './order-detail-reorder.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   constructor(

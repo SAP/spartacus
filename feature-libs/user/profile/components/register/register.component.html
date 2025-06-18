@@ -11,9 +11,7 @@
     <div class="col-md-6">
       <div class="cx-section">
         <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
-        <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-          {{ 'formLegend.required' | cxTranslate }}
-        </p>
+        <cx-form-required-legend />
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>
@@ -39,8 +37,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.firstName.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks />
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -50,11 +48,17 @@
                   'register.firstName.placeholder' | cxTranslate
                 }}"
                 formControlName="firstName"
+                [attr.aria-invalid]="
+                  registerForm.get('firstName')?.touched &&
+                  registerForm.get('firstName')?.invalid
+                "
+                [attr.aria-errormessage]="'firstNameError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="firstNameError"
                 [translationParams]="{
                   label: 'register.firstName.label' | cxTranslate,
                 }"
@@ -72,8 +76,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.lastName.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks />
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -83,11 +87,17 @@
                   'register.lastName.placeholder' | cxTranslate
                 }}"
                 formControlName="lastName"
+                [attr.aria-invalid]="
+                  registerForm.get('lastName')?.touched &&
+                  registerForm.get('lastName')?.invalid
+                "
+                [attr.aria-errormessage]="'lastNameError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="lastNameError"
                 [translationParams]="{
                   label: 'register.lastName.label' | cxTranslate,
                 }"
@@ -105,8 +115,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.emailAddress.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks />
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -116,11 +126,17 @@
                   'register.emailAddress.placeholder' | cxTranslate
                 }}"
                 formControlName="email"
+                [attr.aria-invalid]="
+                  registerForm.get('email')?.touched &&
+                  registerForm.get('email')?.invalid
+                "
+                [attr.aria-errormessage]="'emailError'"
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="emailError"
                 [translationParams]="{
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
@@ -138,8 +154,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.password.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks />
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -179,8 +195,8 @@
             <label>
               <span class="label-content"
                 >{{ 'register.confirmPassword.label' | cxTranslate }}
-                <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-              ></span>
+                <cx-form-required-asterisks />
+              </span>
               <input
                 required="true"
                 class="form-control"
@@ -193,12 +209,18 @@
                 [attr.aria-label]="
                   'register.confirmPassword.placeholder' | cxTranslate
                 "
+                [attr.aria-invalid]="
+                  registerForm.get('passwordconf')?.touched &&
+                  registerForm.get('passwordconf')?.invalid
+                "
+                [attr.aria-errormessage]="'passwordconfError'"
                 cxPasswordVisibilitySwitch
               />
 
               <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
                 *cxFeature="'formErrorsDescriptiveMessages'"
+                id="passwordconfError"
                 [translationParams]="{
                   label: 'register.confirmPassword.label' | cxTranslate,
                 }"
@@ -214,18 +236,22 @@
 
           <div class="form-group">
             <div class="form-check">
-              <label *ngIf="anonymousConsent$ | async as anonymousConsent">
-                <input
-                  type="checkbox"
-                  name="newsletter"
-                  class="form-check-input"
-                  formControlName="newsletter"
-                  [checked]="isConsentGiven(anonymousConsent.consent)"
-                />
-                <span class="form-check-label">
-                  {{ anonymousConsent.template }}
-                </span>
-              </label>
+              <ng-container
+                *ngIf="anonymousConsent$ | async as anonymousConsent"
+              >
+                <label *ngIf="anonymousConsent.template">
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    class="form-check-input"
+                    formControlName="newsletter"
+                    [checked]="isConsentGiven(anonymousConsent.consent)"
+                  />
+                  <span class="form-check-label">
+                    {{ anonymousConsent.template }}
+                  </span>
+                </label>
+              </ng-container>
             </div>
           </div>
 
@@ -237,6 +263,7 @@
             <div
               class="form-check"
               *ngFor="let control of additionalConsents.controls; let i = index"
+              [formGroupName]="i"
             >
               <div *ngIf="consents[i]?.template?.id as id">
                 <label>
@@ -245,12 +272,17 @@
                     [required]="consents[i].required"
                     [name]="id"
                     (change)="updateAdditionalConsents($any($event), i)"
-                    [formControlName]="i"
+                    formControlName="isConsentGranted"
                   />
                   <span class="form-check-label">
                     {{ consents[i].template.description }}
+                    <ng-container *ngIf="consents[i].required">
+                      <cx-form-required-asterisks />
+                    </ng-container>
                   </span>
-                  <cx-form-errors [control]="control"></cx-form-errors>
+                  <cx-form-errors
+                    [control]="control.get('isConsentGranted')"
+                  ></cx-form-errors>
                 </label>
               </div>
             </div>
@@ -264,6 +296,11 @@
                   type="checkbox"
                   name="termsandconditions"
                   formControlName="termsandconditions"
+                  [attr.aria-invalid]="
+                    registerForm.get('termsandconditions')?.touched &&
+                    registerForm.get('termsandconditions')?.invalid
+                  "
+                  [attr.aria-errormessage]="'termsandconditionsError'"
                 />
                 <span class="form-check-label">
                   {{ 'register.confirmThatRead' | cxTranslate }}
@@ -274,14 +311,13 @@
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
-                  <ng-template
-                    [ngTemplateOutlet]="requiredAsterisk"
-                  ></ng-template>
+                  <cx-form-required-asterisks />
                 </span>
 
                 <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
                   *cxFeature="'formErrorsDescriptiveMessages'"
+                  id="termsandconditionsError"
                   [translationParams]="{
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"
@@ -312,16 +348,6 @@
     </div>
   </div>
 </section>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    aria-hidden="true"
-    class="text-decoration-none required-asterisk"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>

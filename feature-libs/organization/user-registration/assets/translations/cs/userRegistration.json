@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Titul (volitelný)",
+        "placeholder": "Oslovení"
+      },
+      "firstName": {
+        "label": "Křestní jméno",
+        "placeholder": "Křestní jméno"
+      },
+      "lastName": {
+        "label": "Příjmení",
+        "placeholder": "Příjmení"
+      },
+      "companyName": {
+        "label": "Název společnosti",
+        "placeholder": "Název společnosti"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "E-mail"
+      },
+      "city": {
+        "label": "Město/obec (volitelné)",
+        "placeholder": "Vyberte město/obec"
+      },
+      "country": {
+        "label": "Země (volitelná)",
+        "placeholder": "Vyberte zemi"
+      },
+      "state": {
+        "label": "Stát / správní celek (volitelný)",
+        "placeholder": "Vyberte stát / správní celek"
+      },
+      "postalCode": {
+        "label": "PSČ (volitelné)",
+        "placeholder": "PSČ"
+      },
+      "addressLine": {
+        "label": "Adresa (volitelná)",
+        "placeholder": "Adresa"
+      },
+      "secondAddressLine": {
+        "label": "2. řádek adresy (volitelný)",
+        "placeholder": "2. řádek adresy"
+      },
+      "phoneNumber": {
+        "label": "Telefonní číslo (volitelné)",
+        "placeholder": "Telefonní číslo"
+      },
+      "message": {
+        "label": "Zpráva (volitelná)",
+        "placeholder": "Příklad dat pro pole zprávy: „Oddělení: pozemní podpora, Pozice: velitel bezpečnosti; Přímý nadřízený: Steve Jackson; Komentáře: Vytvořte mi prosím nový účet“."
+      }
+    },
+    "messageToApproverTemplate": "Název společnost: {{companyName}},\n  Telefonní číslo: {{phoneNumber}},\n  Adresa: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Zpráva: {{message}}",
+    "successFormSubmitMessage": "Děkujeme za registraci! Zástupce vás bude brzy kontaktovat a potvrdí vaše přístupové údaje.",
+    "formSubmitButtonLabel": "Registrovat",
+    "goToLoginButtonLabel": "Už jste zaregistrováni? Přihlaste se.",
+    "httpHandlers": {
+      "conflict": "Uživatel s touto e-mailovou adresou už existuje."
+    },
+    "messageToFailedToRegister": "Registrace se nezdařila. Obraťte se na správce."
+  }
+}

@@ -24,6 +24,7 @@ import { ConfirmationMessageData } from './confirmation-message.model';
   selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

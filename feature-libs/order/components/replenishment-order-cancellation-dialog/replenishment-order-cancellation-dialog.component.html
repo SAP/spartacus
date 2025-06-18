@@ -1,12 +1,12 @@
 <div
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
-  class="cx-cancel-replenishment-dialog-foreground"
+  class="modal-dialog modal-dialog-centered modal-sm"
   role="dialog"
   aria-labelledby="dialogTitle"
 >
-  <div class="cx-cancel-replenishment-dialog-content">
-    <div class="cx-cancel-replenishment-dialog-header">
+  <div class="modal-content">
+    <div class="modal-header">
       <h3 id="dialogTitle">
         {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}
       </h3>
@@ -26,7 +26,7 @@
       {{ 'orderDetails.cancelReplenishment.description' | cxTranslate }}
     </div>
 
-    <div class="cx-cancel-replenishment-dialog-body">
+    <div class="modal-body">
       <div class="cx-cancel-replenishment-btns row">
         <div class="col-md-6">
           <button

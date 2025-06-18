@@ -1,24 +1,30 @@
-import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ConverterService,
   OccConfig,
   OccEndpointsService,
+  OccFieldsService,
 } from '@spartacus/core';
 import {
   CancellationRequestEntryInputList,
-  ConsignmentTracking,
   CONSIGNMENT_TRACKING_NORMALIZER,
+  ConsignmentTracking,
   Order,
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
-  ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURNS_NORMALIZER,
+  OrderConfig,
   ReturnRequest,
   ReturnRequestEntryInputList,
 } from '@spartacus/order/root';
@@ -39,15 +45,21 @@ const consignmentCode = 'a00001004';
 
 const returnRequest: ReturnRequest = { rma: 'test return request' };
 
+const mockOrderConfig = {
+  get showOrderQuoteLink() {
+    return false;
+  },
+};
+
 describe('OccOrderHistoryAdapter', () => {
   let occOrderHistoryAdapter: OccOrderHistoryAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let occFieldsService: OccFieldsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccOrderHistoryAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
@@ -55,6 +67,9 @@ describe('OccOrderHistoryAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        { provide: OrderConfig, useValue: mockOrderConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -62,6 +77,7 @@ describe('OccOrderHistoryAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
+    occFieldsService = TestBed.inject(OccFieldsService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
@@ -117,7 +133,7 @@ describe('OccOrderHistoryAdapter', () => {
   });
 
   describe('getOrder', () => {
-    it('should fetch a single order', waitForAsync(() => {
+    it('should fetch a single order without quote code', waitForAsync(() => {
       occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
       httpMock.expectOne((req: HttpRequest<any>) => {
         return req.method === 'GET';
@@ -125,6 +141,31 @@ describe('OccOrderHistoryAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
         urlParams: { userId, orderId: orderData.code },
       });
+      expect(occEnpointsService.buildUrl).not.toHaveBeenCalledWith(
+        'quoteCode',
+        {
+          urlParams: { userId, orderId: orderData.code },
+        }
+      );
+    }));
+    it('should fetch a single order', waitForAsync(() => {
+      spyOnProperty(
+        mockOrderConfig,
+        'showOrderQuoteLink',
+        'get'
+      ).and.returnValue(true);
+      spyOn(occFieldsService, 'getOptimalUrlGroups').and.callThrough();
+      occOrderHistoryAdapter.load(userId, orderData.code).subscribe();
+      httpMock.expectOne((req: HttpRequest<any>) => {
+        return req.method === 'GET';
+      }, `GET a single order`);
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
+        urlParams: { userId, orderId: orderData.code },
+      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('quoteCode', {
+        urlParams: { userId, orderId: orderData.code },
+      });
+      expect(occFieldsService.getOptimalUrlGroups).toHaveBeenCalled();
     }));
 
     it('should use converter', () => {

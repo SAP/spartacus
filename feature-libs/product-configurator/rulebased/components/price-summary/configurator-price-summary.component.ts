@@ -15,6 +15,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-price-summary',
   templateUrl: './configurator-price-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorPriceSummaryComponent {
   configuration$: Observable<Configurator.Configuration> =

@@ -7,7 +7,6 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   HostListener,
   inject,
   OnDestroy,
@@ -33,11 +32,9 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
+  standalone: false,
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
-  @HostBinding('attr.role') role = 'dialog';
-  @HostBinding('attr.aria-modal') modal = true;
-
   private subscriptions = new Subscription();
   private featureConfigService = inject(FeatureConfigService);
 
@@ -83,8 +80,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         this.requiredConsents = this.config.anonymousConsents.requiredConsents;
       }
     }
-    useFeatureStyles('a11yUseButtonsForBtnLinks');
-    useFeatureStyles('a11yExpandedFocusIndicator');
     useFeatureStyles('a11yAnonymousConsentMessageInDialog');
   }
 
@@ -215,9 +210,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         key: 'consentManagementForm.message.success.given',
       });
-    } else if (
-      this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
-    ) {
+    } else {
       this.globalMessageService?.add(
         { key: 'consentManagementForm.message.success.given' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -233,9 +226,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         key: 'consentManagementForm.message.success.withdrawn',
       });
-    } else if (
-      this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
-    ) {
+    } else {
       this.globalMessageService?.add(
         { key: 'consentManagementForm.message.success.withdrawn' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

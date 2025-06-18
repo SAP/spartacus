@@ -1,0 +1,8 @@
+{
+  "s4omScheduleLines": {
+    "quantity": "-  數量",
+    "a11y": {
+      "scheduleLineEntryInfo": "{{ quantity }} 數量將於 {{ date }} 交貨"
+    }
+  }
+}

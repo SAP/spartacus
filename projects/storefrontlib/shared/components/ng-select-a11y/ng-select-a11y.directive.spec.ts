@@ -19,6 +19,7 @@ import { NgSelectA11yModule } from './ng-select-a11y.module';
     </ng-select>
     <div id="size-results"></div>
   `,
+  standalone: false,
 })
 class MockComponent {
   isSearchable: boolean = false;

@@ -35,9 +35,7 @@
     max-width: 70vw;
   }
 
-  @include forFeature('a11yImproveContrast') {
-    @include type('7');
-  }
+  @include type('7');
 
   > .arrow {
     position: absolute;
@@ -207,6 +205,16 @@
       margin-top: -5px;
       margin-inline-end: -5px;
       font-size: 1rem;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    box-shadow: none;
+    .popover-body > .cx-close-row {
+      .close {
+        color: var(--cx-color-text);
+      }
     }
   }
 }

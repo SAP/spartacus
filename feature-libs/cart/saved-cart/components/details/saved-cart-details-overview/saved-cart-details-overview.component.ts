@@ -26,6 +26,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-overview',
   templateUrl: './saved-cart-details-overview.component.html',
+  standalone: false,
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {
   private subscription = new Subscription();

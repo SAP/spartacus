@@ -15,6 +15,7 @@ import { DisableInfoService } from './disable-info.service';
   selector: 'cx-org-disable-info',
   templateUrl: './disable-info.component.html',
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

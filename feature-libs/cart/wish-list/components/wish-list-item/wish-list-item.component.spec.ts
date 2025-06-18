@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -23,6 +22,7 @@ import { WishListItemComponent } from './wish-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
+  standalone: false,
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -32,6 +32,7 @@ class MockAddToCartComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
+  standalone: false,
 })
 class MockPictureComponent {
   @Input() container;
@@ -40,6 +41,7 @@ class MockPictureComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -74,6 +76,7 @@ const mockCartEntry: OrderEntry = {
 
 @Directive({
   selector: '[cxAtMessage]',
+  standalone: false,
 })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -87,7 +90,7 @@ describe('WishListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         WishListItemComponent,
         MockPictureComponent,

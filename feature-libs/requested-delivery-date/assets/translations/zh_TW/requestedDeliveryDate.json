@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "請求交貨日期",
+    "readOnlyTextLabel": "請求的交貨日期",
+    "successMessage": "已成功更新交貨日期。",
+    "errorMessage": "發生錯誤，無法更新請求的日期。"
+  }
+}

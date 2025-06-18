@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
@@ -150,6 +149,7 @@ const mockTicketList2: TicketList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -158,6 +158,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
+  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -169,6 +170,7 @@ class MockSortingComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -197,6 +199,7 @@ class MockCustomerTicketingFacade {
 }
 @Component({
   selector: 'cx-customer-ticketing-create',
+  standalone: false,
 })
 class MockCustomerTicketingCreateComponent {}
 
@@ -208,7 +211,7 @@ describe('CustomerTicketingListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         CustomerTicketingListComponent,
         MockPaginationComponent,

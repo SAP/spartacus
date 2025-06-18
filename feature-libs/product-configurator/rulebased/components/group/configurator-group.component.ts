@@ -24,6 +24,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   selector: 'cx-configurator-group',
   templateUrl: './configurator-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorGroupComponent {
   protected readonly typePrefix = 'AttributeType_';
@@ -92,6 +93,16 @@ export class ConfiguratorGroupComponent {
    */
   createGroupId(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
+  }
+
+  /**
+   * Creates unique key for config attribute on the UI
+   *
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId
+   */
+  createAttributeUiKey(prefix: string, attributeId: string): string {
+    return this.configUtils.createAttributeUiKey(prefix, attributeId);
   }
 
   /**

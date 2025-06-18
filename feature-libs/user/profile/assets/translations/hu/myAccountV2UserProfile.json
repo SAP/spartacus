@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "Saját e-mail-cím",
+    "myInformation": "Saját információk",
+    "name": "Név",
+    "customerId": "CustomerId",
+    "title": "Megszólítás",
+    "firstName": "Utónév",
+    "lastName": "Vezetéknév"
+  }
+}

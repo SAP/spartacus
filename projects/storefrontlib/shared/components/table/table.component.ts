@@ -50,6 +50,7 @@ import {
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;

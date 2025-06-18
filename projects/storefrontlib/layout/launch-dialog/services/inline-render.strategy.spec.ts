@@ -13,6 +13,7 @@ const testTemplate = {} as ComponentFactory<any>;
 
 @Component({
   template: '',
+  standalone: false,
 })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}

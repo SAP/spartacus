@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "module": "CommonJs",
-    "types": ["jest"],
+    "types": ["node", "jest"],
     "paths": {
       "@spartacus/core": ["../../projects/core/public_api"]
     },

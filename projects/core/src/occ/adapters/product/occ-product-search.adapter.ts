@@ -23,13 +23,15 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OCC_HTTP_TOKEN } from '../../utils';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { WindowRef } from '../../../window/window-ref';
 
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   protected router = inject(Router, {
     optional: true,
   });
+  protected winRef = inject(WindowRef);
 
   constructor(
     protected http: HttpClient,
@@ -54,11 +56,17 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
       .get(this.getSearchEndpoint(query, searchConfig, scope), { context })
       .pipe(
         this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER),
-        tap(
-          (productSearchPage) =>
-            productSearchPage.keywordRedirectUrl &&
-            this.router?.navigate([productSearchPage.keywordRedirectUrl])
-        )
+        tap((productSearchPage) => {
+          if (productSearchPage.keywordRedirectUrl) {
+            const navigationData = this.parseUrlForNavigation(
+              productSearchPage.keywordRedirectUrl
+            );
+            if (navigationData) {
+              const [path, navigationExtras] = navigationData;
+              this.router?.navigate(path, navigationExtras);
+            }
+          }
+        })
       );
   }
 
@@ -151,5 +159,37 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     return this.occEndpoints.buildUrl('productSuggestions', {
       queryParams: { term, max },
     });
+  }
+
+  protected parseUrlForNavigation(
+    url: string
+  ): [string[], NavigationExtras] | null {
+    let urlObj: URL;
+
+    const HTTP_PROTOCOL_REGEX: RegExp = /^https?:\/\//i;
+
+    try {
+      urlObj = HTTP_PROTOCOL_REGEX.test(url)
+        ? new URL(url)
+        : new URL(url, this.winRef.location.origin);
+    } catch (error) {
+      return null;
+    }
+
+    const { queryParams, fragment } =
+      this.router?.parseUrl(urlObj.pathname + urlObj.search + urlObj.hash) ??
+      {};
+
+    const path = urlObj.pathname.split('/').filter(Boolean); // Extract path segments
+
+    const navigationExtras: NavigationExtras = {};
+    if (queryParams) {
+      navigationExtras.queryParams = queryParams;
+    }
+
+    if (fragment) {
+      navigationExtras.fragment = fragment;
+    }
+    return [path, navigationExtras];
   }
 }

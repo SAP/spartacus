@@ -8,7 +8,11 @@ import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/prop
 import { CxCommonEngine } from './cx-common-engine';
 
 // Test how the CxCommonEngine handles successful server-side rendering
-@Component({ selector: 'cx-mock', template: 'some template' })
+@Component({
+  selector: 'cx-mock',
+  template: 'some template',
+  standalone: false,
+})
 export class SuccessComponent {}
 
 @NgModule({
@@ -22,6 +26,7 @@ export class SuccessServerModule {}
 @Component({
   selector: 'cx-response',
   template: ``,
+  standalone: false,
 })
 export class WithPropagatedErrorComponent {
   constructor() {
@@ -43,6 +48,7 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 @Component({
   selector: 'cx-token',
   template: `message:{{ someToken }}`,
+  standalone: false,
 })
 export class TokenComponent {
   someToken = inject(SOME_TOKEN);

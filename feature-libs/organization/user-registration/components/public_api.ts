@@ -6,3 +6,5 @@
 
 export * from './user-registration-components.module';
 export * from './form/index';
+export * from './registration-otp-form/index';
+export * from './verification-token-form/index';

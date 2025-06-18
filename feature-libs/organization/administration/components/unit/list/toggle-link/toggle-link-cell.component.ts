@@ -9,15 +9,9 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Optional,
   inject,
 } from '@angular/core';
-import {
-  B2BUnit,
-  FeatureConfigService,
-  RoutingService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { B2BUnit, RoutingService } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
@@ -31,6 +25,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
@@ -38,20 +33,14 @@ export class ToggleLinkCellComponent extends CellComponent {
     return this.model.depthLevel;
   }
 
-  @Optional() protected elementRef = inject(ElementRef, { optional: true });
-  @Optional() protected routingService = inject(RoutingService, {
-    optional: true,
-  });
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  protected elementRef = inject(ElementRef);
+  protected routingService = inject(RoutingService);
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected unitTreeService: UnitTreeService
   ) {
     super(outlet);
-    useFeatureStyles('a11yUnitsListKeyboardControls');
   }
 
   get combinedName() {
@@ -99,12 +88,6 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   onKeydown(event: KeyboardEvent) {
-    // TODO: (CXSPA-6804) - Remove feature flag next major release
-    if (
-      !this.featureConfigService?.isEnabled('a11yUnitsListKeyboardControls')
-    ) {
-      return;
-    }
     const tableElement = this.elementRef?.nativeElement.closest('table');
     const siblingElements = tableElement.querySelectorAll(
       `cx-org-toggle-link-cell a`

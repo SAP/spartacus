@@ -15,6 +15,7 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   templateUrl: './reset-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form' },
+  standalone: false,
 })
 export class ResetPasswordComponent {
   form: UntypedFormGroup = this.service.form;

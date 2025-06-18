@@ -13,6 +13,7 @@ import { QuoteItemsComponentService } from './quote-items.component.service';
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;

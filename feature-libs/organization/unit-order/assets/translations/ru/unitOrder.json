@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "История заказов на уровне единицы",
+    "orderId": "Заказ №",
+    "emptyPurchaseOrderId": "Нет",
+    "date": "Дата",
+    "status": "Статус",
+    "buyer": "Покупатель",
+    "unit": "Единица",
+    "total": "Итого",
+    "noOrders": "Нет записей заказов для вашей единицы.",
+    "startShopping": "Начать покупки",
+    "sortBy": "Сортировать по",
+    "sortOrders": "Сортировать заказы",
+    "purchaseOrderNumber": "ЗП №",
+    "startOn": "Дата начала",
+    "frequency": "Периодичность",
+    "nextOrderDate": "Дата следующего заказа",
+    "notFound": "Заказы не найдены",
+    "applyFilter": "Применить",
+    "filterBy": "Фильтровать по",
+    "filterByBuyer": "Фильтровать по покупателю",
+    "filterByBuyerLabel": "Имя покупателя",
+    "filterByBuyerPlaceholder": "Введите имя покупателя",
+    "filterByBuyerAriaLabel": "Фильтровать список по покупателю",
+    "filterByUnit": "Фильтровать по единице",
+    "filterByUnitLabel": "Имя единицы",
+    "filterByUnitPlaceholder": "Введите имя единицы",
+    "filterByUnitAriaLabel": "Фильтровать список по единице",
+    "search": "Поиск",
+    "clearAll": "Очистить все",
+    "removeAppliedFilters": "Удалить фильтры",
+    "yourFilters": "Ваши фильтры:",
+    "and": " и "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "Дата",
+    "orderNumber": "Номер заказа",
+    "buyer": "Покупатель (по восходящей)",
+    "buyerDesc": "Покупатель (по нисходящей)",
+    "orgUnit": "Единица (по восходящей)",
+    "orgUnitDesc": "Единица (по нисходящей)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "Покупатель"
+  }
+}

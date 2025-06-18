@@ -22,6 +22,7 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
+  standalone: false,
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(

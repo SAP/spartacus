@@ -23,6 +23,7 @@ import { UnitItemService } from '../services/unit-item.service';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class UnitDetailsComponent {
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(

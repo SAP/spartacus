@@ -22,6 +22,7 @@ import { UnitChildrenService } from './unit-children.service';
       useExisting: UnitChildrenService,
     },
   ],
+  standalone: false,
 })
 export class UnitChildrenComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService

@@ -12,6 +12,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   IconModule,
   KeyboardFocusModule,
   NgSelectA11yModule,
@@ -32,6 +34,8 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
     FormErrorsModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   exports: [AddressFormComponent, SuggestedAddressDialogComponent],

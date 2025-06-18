@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "請求書を取得できません。SAP Invoice および請求書用の API が有効化されていることを確認してください。",
+    "invoicesLoadingError": "問題が発生しました。注文の請求書を表示できません",
+    "invoicesTable": {
+      "header": "請求書",
+      "label": "請求書テーブル",
+      "invoiceId": "請求書番号",
+      "createdAt": "日付",
+      "netAmount": "正味額",
+      "totalAmount": "合計金額",
+      "attachment": "請求書のダウンロード",
+      "download": "ダウンロード",
+      "attachmentDescription": "請求書 {{id}} をダウンロードします。",
+      "noneFound": "請求書が見つかりません。"
+    },
+    "downloadPDFError": "問題が発生しました。請求書の PDF を取得できません。",
+    "sortBy": "ソート基準",
+    "sortInvoices": "請求書のソート",
+    "sorts": {
+      "byCreatedAtAsc": "日付 (昇順)",
+      "byCreatedAtDesc": "日付 (降順)",
+      "byInvoiceIdAsc": "請求書番号 (昇順)",
+      "byInvoiceIdDesc": "請求書番号 (降順)",
+      "byNetAmountAsc": "正味額 (昇順)",
+      "byNetAmountDesc": "正味額 (降順)",
+      "byTotalAmountAsc": "合計金額 (昇順)",
+      "byTotalAmountDesc": "合計金額 (降順)"
+    }
+  }
+}

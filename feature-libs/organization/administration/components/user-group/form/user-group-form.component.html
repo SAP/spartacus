@@ -1,13 +1,11 @@
 <cx-org-form i18nRoot="orgUserGroup">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required"
-        >{{ 'orgUserGroup.name' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUserGroup.name' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         type="text"
         class="form-control"
@@ -15,11 +13,16 @@
         placeholder="{{ 'orgUserGroup.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
         [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
         [control]="form.get('name')"
       ></cx-form-errors>
@@ -32,20 +35,25 @@
 
     <label>
       <span class="label-content required"
-        >{{ 'orgUserGroup.uid' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUserGroup.uid' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <input
         class="form-control"
         type="text"
         required
         placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
         formControlName="uid"
+        [attr.aria-invalid]="
+          form.get('uid')?.touched && form.get('uid')?.invalid
+        "
+        [attr.aria-errormessage]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
         [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
         [control]="form.get('uid')"
       ></cx-form-errors>
@@ -58,9 +66,9 @@
 
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required"
-        >{{ 'orgUserGroup.orgUnit' | cxTranslate
-        }}<ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template
-      ></span>
+        >{{ 'orgUserGroup.orgUnit' | cxTranslate }}
+        <cx-form-required-asterisks />
+      </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
@@ -89,13 +97,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

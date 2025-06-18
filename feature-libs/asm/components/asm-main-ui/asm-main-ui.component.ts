@@ -16,6 +16,7 @@ import { AsmService } from '@spartacus/asm/core';
 import {
   AsmDeepLinkParameters,
   AsmUi,
+  CLOSE_DIALOG_REASON,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
@@ -24,6 +25,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  HttpResponseStatus,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -56,6 +58,7 @@ export const CART_TYPE_KEY: CartTypeKey = {
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
+  standalone: false,
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;
@@ -63,6 +66,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+  forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -124,6 +128,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
+    this.asmService.getAsmUiState().subscribe((state) => {
+      if (state.status === this.forbiddenResponseStatus) {
+        this.logout();
+        this.hideUi();
+        this.asmService.updateAsmUiState({ status: undefined });
+      }
+    });
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
@@ -163,6 +174,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                   }, 500);
                 });
             }
+          }
+          if (result === CLOSE_DIALOG_REASON.FORBIDDEN) {
+            this.logout();
+            this.hideUi();
           }
         })
     );

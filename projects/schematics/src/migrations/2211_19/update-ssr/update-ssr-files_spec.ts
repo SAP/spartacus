@@ -1,14 +1,10 @@
+import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
+import { HostTree } from '@angular-devkit/schematics/src/tree/host-tree';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import path from 'path';
-import { Schema as SpartacusOptions } from '../../../add-spartacus/schema';
 import {
   EXPRESS_TOKENS,
   NEW_ZONE_IMPORT,
@@ -18,106 +14,65 @@ import {
   SERVER_FILENAME,
   SSR_SETUP_IMPORT,
 } from '../../../shared/constants';
-import { SPARTACUS_SCHEMATICS } from '../../../shared/libs-constants';
 
 const updateSsrCollectionPath = path.join(
   __dirname,
   './update-ssr.collection.json'
 );
-const collectionPath = path.join(__dirname, '../../../collection.json');
+
+const serverFilePath = './server.ts';
 
 describe('Update SSR', () => {
-  const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
-    collectionPath
-  );
   const updateSsrSchematicRunner = new SchematicTestRunner(
     'test',
     updateSsrCollectionPath
   );
-
+  let host: TempScopedNodeJsSyncHost;
   let tree: UnitTestTree;
 
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-    standalone: false,
-  };
-  const defaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
-    baseSite: 'electronics',
-    baseUrl: 'https://localhost:9002',
-    lazy: true,
-    features: [],
-  };
-  beforeEach(async () => {
-    tree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    tree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      appOptions,
-      tree
-    );
-
-    tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      { ...defaultOptions, name: 'schematics-test' },
-      tree
-    );
-
-    tree = await schematicRunner.runSchematic(
-      'add-ssr',
-      { ...defaultOptions, name: 'schematics-test' },
-      tree
-    );
+  beforeEach(() => {
+    host = new TempScopedNodeJsSyncHost();
+    tree = new UnitTestTree(new HostTree(host));
   });
 
   describe('updateServerFile', () => {
     it('should change nguniversal import in server.ts', async () => {
+      const serverFileContent = `import { ngExpressEngine as engine } from '@nguniversal/express-engine'`;
+      tree.create(serverFilePath, serverFileContent);
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
         tree
       );
 
-      const updatedContent = tree.read('./server.ts')?.toString();
+      const updatedContent = tree.read(serverFilePath)?.toString();
       expect(updatedContent).toContain(SSR_SETUP_IMPORT);
       expect(updatedContent).not.toContain(NGUNIVERSAL_IMPORT);
     });
 
     it('should change zone.js import in server.ts', async () => {
-      let serverContent = tree.read('./server.ts')?.toString();
+      let serverFileContent = `
+      import "${OLD_ZONE_IMPORT}"
+      import { NgExpressEngineDecorator, ngExpressEngine as engine } from '@spartacus/setup/ssr';
+      `;
 
-      if (!serverContent?.includes('zone.js')) {
-        serverContent = serverContent + `import "${OLD_ZONE_IMPORT}"`;
-        tree.overwrite('./server.ts', serverContent);
-      }
+      tree.create(serverFilePath, serverFileContent);
+
       tree = await updateSsrSchematicRunner.runSchematic(
         'update-ssr',
         { name: 'schematics-test' },
         tree
       );
 
-      const updatedServerContent = tree.read('./server.ts')?.toString();
+      const updatedServerContent = tree.read(serverFilePath)?.toString();
       expect(updatedServerContent).toContain(NEW_ZONE_IMPORT);
       expect(updatedServerContent).not.toContain(OLD_ZONE_IMPORT);
     });
 
     it('should restore server.ts based on the server.ts.bak and remove server.ts.bak file', async () => {
+      const serverFileContent = `import { NgExpressEngineDecorator, ngExpressEngine as engine } from '@spartacus/setup/ssr';`;
+      tree.create(serverFilePath, serverFileContent);
+
       const serverBakPath = `./${SERVER_BAK_FILENAME}`;
       const serverBakFileContent = 'testing';
       tree.create(serverBakPath, serverBakFileContent);

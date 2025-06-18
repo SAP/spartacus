@@ -8,6 +8,7 @@ import { VerificationTokenDialogComponent } from './verification-token-dialog.co
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}

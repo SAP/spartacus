@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "없음",
+    "poNumber": "구매 주문 번호(선택사항)",
+    "costCenter": "코스트 센터",
+    "placeholder": "구매 주문 입력",
+    "availableLabel": "사용할 수 있는 배송지 주소는 코스트 센터 단위에 따라 달라집니다.",
+    "invalid": {
+      "accountType": "여기서 체크아웃할 수 없는 계정입니다."
+    },
+    "methodOfPayment": {
+      "paymentType": "지불 유형"
+    },
+    "review": {
+      "poNumber": "구매 주문 번호"
+    },
+    "progress": {
+      "methodOfPayment": "지불 방법"
+    },
+    "invalidCostCenter": "잘못된 코스트 센터입니다."
+  }
+}

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -20,6 +20,10 @@ import {
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of, throwError } from 'rxjs';
 import { CDCB2BRegisterComponentService } from './cdc-b2b-register-component.service';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 
 const mockedGlobalMessageService = {
@@ -91,7 +95,7 @@ describe('CdcRegisterComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         {
@@ -123,6 +127,8 @@ describe('CdcRegisterComponentService', () => {
         { provide: EventService, useClass: MockEventService },
         { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
         CDCB2BRegisterComponentService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

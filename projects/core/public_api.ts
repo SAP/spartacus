@@ -49,5 +49,9 @@ export { Facet, ProductSearchPage } from './src/model/product-search.model';
 export { Price, Product, Stock } from './src/model/product.model';
 export { BackendConfig } from './src/occ/config/occ-config';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
+export {
+  OccHttpErrorType,
+  OccHttpErrorReason,
+} from './src/util/occ-http-error-constants';
 export { RoutingConfigDefinition } from './src/routing/configurable-routes/config/routing-config';
 /** AUGMENTABLE_TYPES_END */

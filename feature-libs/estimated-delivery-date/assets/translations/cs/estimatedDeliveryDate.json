@@ -1,0 +1,8 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "Množství-",
+    "quantityFull": "Množství-",
+    "ETA": "Odhadované datum dodání",
+    "estimatedDeliveryDateEntryInfo": "{{ quantity }} množství bude dodáno do {{ date }}"
+  }
+}

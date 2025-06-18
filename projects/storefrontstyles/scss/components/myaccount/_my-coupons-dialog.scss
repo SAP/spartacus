@@ -1,12 +1,7 @@
 %cx-coupon-dialog {
   background-color: rgba(0, 0, 0, 0.5);
   .cx-coupon-dialog {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-    @extend .modal-lg;
-
     .cx-coupon-container {
-      @extend .modal-content;
       .cx-dialog-item {
         padding-inline-end: 1rem;
       }

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,10 @@ import { BaseOccModule } from '../../../occ/base-occ.module';
 import { SiteThemeConfig } from '../../config/site-theme-config';
 import { SiteThemeActions } from '../actions/index';
 import * as fromEffects from './site-themes.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const themes: SiteTheme[] = [{ i18nNameKey: 'dark', className: 'dark' }];
 const mockSiteThemeConfig: SiteThemeConfig = {
@@ -30,12 +34,14 @@ describe('Themes Effects', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot(), HttpClientTestingModule, BaseOccModule],
+      imports: [ConfigModule.forRoot(), BaseOccModule],
       providers: [
         fromEffects.SiteThemesEffects,
         provideMockActions(() => actions$),
         { provide: Store, useValue: mockStore },
         { provide: SiteThemeConfig, useValue: mockSiteThemeConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

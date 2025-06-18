@@ -28,7 +28,11 @@ context('Site Theme', { testIsolation: false }, () => {
   it('should set default theme', () => {
     cy.get('cx-site-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
-      cy.wrap(selectedOption).should('have.attr', 'aria-label', 'Default');
+      cy.wrap(selectedOption).should(
+        'have.attr',
+        'aria-label',
+        'Default, 1 of 3'
+      );
       cy.wrap(selectedOption).should('have.value', '');
     });
   });
@@ -74,7 +78,11 @@ context('Site Theme', { testIsolation: false }, () => {
     cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
     cy.get('cx-site-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
-      cy.wrap(selectedOption).should('have.attr', 'aria-label', 'HC-Dark');
+      cy.wrap(selectedOption).should(
+        'have.attr',
+        'aria-label',
+        'HC-Dark, 2 of 3'
+      );
       cy.wrap(selectedOption).should(
         'have.value',
         'cx-theme-high-contrast-dark'

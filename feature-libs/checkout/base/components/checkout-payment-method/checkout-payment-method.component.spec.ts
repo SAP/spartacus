@@ -1,5 +1,11 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -19,7 +25,7 @@ import {
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
@@ -27,6 +33,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -146,6 +153,7 @@ const mockAddress: Address = {
 @Component({
   selector: 'cx-payment-form',
   template: '',
+  standalone: false,
 })
 class MockPaymentFormComponent {
   @Input()
@@ -161,6 +169,7 @@ class MockPaymentFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -413,47 +422,7 @@ describe('CheckoutPaymentMethodComponent', () => {
       expect(getContinueButton().nativeElement.disabled).toBeFalsy();
     });
 
-    it('should display credit card info correctly', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-      const selectedPaymentMethod: PaymentDetails = {
-        id: 'selected payment method',
-        accountHolderName: 'Name',
-        cardNumber: '123456789',
-        cardType: {
-          code: 'Visa',
-          name: 'Visa',
-        },
-        expiryMonth: '01',
-        expiryYear: '2022',
-        cvn: '123',
-        defaultPayment: true,
-      };
-
-      expect(
-        component['createCard'](
-          selectedPaymentMethod,
-          {
-            textDefaultPaymentMethod: '✓ DEFAULT',
-            textExpires: 'Expires',
-            textUseThisPayment: 'Use this payment',
-            textSelected: 'Selected',
-          },
-          selectedPaymentMethod
-        )
-      ).toEqual({
-        role: 'application',
-        title: '✓ DEFAULT',
-        textBold: 'Name',
-        text: ['123456789', 'Expires'],
-        img: 'CREDIT_CARD',
-        actions: [{ name: 'Use this payment', event: 'send' }],
-        header: 'Selected',
-        label: 'paymentCard.defaultPaymentLabel',
-      });
-    });
-
     it('should not add select action for selected card', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
       const selectedPaymentMethod: PaymentDetails = {
         id: 'selected payment method',
         accountHolderName: 'Name',
@@ -666,6 +635,27 @@ describe('CheckoutPaymentMethodComponent', () => {
           ).role
         ).toEqual('button');
       });
+    });
+
+    describe('focusCardAfterSelecting', () => {
+      it('should refocus the selected card after updating', fakeAsync(() => {
+        const card = document.createElement('cx-card');
+        const selectButton = document.createElement('button');
+        card.appendChild(selectButton);
+        card.tabIndex = 0;
+        document.body.appendChild(card);
+        selectButton.focus();
+        component['isUpdating$'] = of(false);
+        spyOn(card, 'focus');
+        spyOn(component['focusService'], 'findFirstFocusable').and.returnValue(
+          card
+        );
+
+        component.focusCardAfterSelecting();
+        tick(16); // Wait for requestAnimationFrame
+
+        expect(card.focus).toHaveBeenCalled();
+      }));
     });
   });
 });

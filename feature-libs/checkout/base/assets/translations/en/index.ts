@@ -5,7 +5,6 @@
  */
 
 import checkout from './checkout.json';
-
 export const en = {
   checkout,
 };

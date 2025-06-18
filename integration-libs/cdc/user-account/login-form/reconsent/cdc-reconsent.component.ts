@@ -9,36 +9,46 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
+import {
+  CdcConsent,
+  CdcConsentManagementComponentService,
+} from '@spartacus/cdc/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription, Observable, map, of } from 'rxjs';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog', //reusing existing selector
   templateUrl: './cdc-reconsent.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
+  protected cdcConsentManagementComponentService = inject(
+    CdcConsentManagementComponentService
+  );
 
   form: UntypedFormGroup = new UntypedFormGroup({});
   iconTypes = ICON_TYPE;
   loaded$: Observable<boolean> = of(false);
-
   templateList$: Observable<ConsentTemplate[]>;
   reconsentEvent: any = {};
-
+  requiredReconsents: string[] = [];
   selectedConsents: string[] = [];
   disableSubmitButton: boolean = true;
-  totalConsents: number = 0;
+  /**
+   * @deprecated since 2211.38
+   */
+  totalConsents: number = 0; // CXSPA-9292: remove this property in next major release
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -56,56 +66,106 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
-        this.reconsentEvent['user'] = data.user;
-        this.reconsentEvent['password'] = data.password;
-        this.reconsentEvent['regToken'] = data.regToken;
-        this.reconsentEvent['errorMessage'] = data.errorMessage;
+        this.reconsentEvent = { ...data };
         this.loadConsents(data.consentIds);
       })
     );
   }
 
   loadConsents(reconsentIds: string[]): void {
-    this.templateList$ = this.anonymousConsentsService.getTemplates(true).pipe(
-      map((templateList) => {
-        const output: ConsentTemplate[] = [];
-        templateList.forEach((template) => {
-          if (template.id && reconsentIds.includes(template.id)) {
-            output.push(template);
-          }
-        });
-        this.totalConsents = output.length;
-        return output;
-      })
+    this.templateList$ = this.anonymousConsentsService
+      .getTemplates(true)
+      .pipe(
+        map((templates) =>
+          templates.filter((template) =>
+            reconsentIds.includes(template.id || '')
+          )
+        )
+      );
+    this.requiredReconsents = reconsentIds.filter((id) =>
+      this.cdcConsentManagementComponentService
+        .getCdcConsentIDs(true)
+        .includes(id)
     );
+    this.disableSubmitButton = this.requiredReconsents.length > 0;
     this.loaded$ = of(true);
   }
 
   onConsentChange(event: { given: boolean; template: ConsentTemplate }) {
-    if (event.given === false && event.template?.id) {
-      const index: number = this.selectedConsents.indexOf(event.template.id);
-      if (index !== -1) {
-        this.selectedConsents.splice(index, 1);
-      }
-    } else if (event.given === true && event.template?.id) {
-      this.selectedConsents.push(event.template.id);
+    if (!event.template?.id) {
+      return;
     }
-    if (this.totalConsents === this.selectedConsents.length) {
-      this.disableSubmitButton = false;
-    } else {
-      this.disableSubmitButton = true;
-    }
+
+    const { given, template } = event;
+    this.updateSelectedConsents(given, template.id ?? '');
+
+    this.areAllMandatoryConsentsGiven().subscribe((result) => {
+      this.disableSubmitButton = !result;
+    });
   }
 
   dismissDialog(reason?: any, message?: string): void {
     if (reason === 'Proceed To Login') {
       this.loaded$ = of(false);
-      this.cdcReconsentService.saveConsentAndLogin(
-        this.selectedConsents,
-        this.reconsentEvent
-      );
+      this.templateList$.subscribe((templates) => {
+        const consents = this.buildPreferenceList(templates);
+        if (consents.length) {
+          this.cdcReconsentService.savePreferencesAndLogin(
+            consents,
+            this.reconsentEvent
+          );
+        }
+      });
     } else {
       this.cdcReconsentService.handleReconsentUpdateError(reason, message);
+    }
+  }
+
+  private buildPreferenceList(templates: ConsentTemplate[]): CdcConsent[] {
+    const preferences: Record<string, CdcConsent> =
+      this.reconsentEvent.preferences || {};
+    const consents = Object.entries(preferences).map(([id, value]) => ({
+      id,
+      isConsentGranted: value?.isConsentGranted || false,
+    }));
+
+    templates.forEach((template) => {
+      const existingIndex = consents.findIndex(
+        (consent) => consent.id === template.id
+      );
+      // If id is already present, remove the existing entry
+      if (existingIndex !== -1) {
+        consents.splice(existingIndex, 1);
+      }
+      consents.push({
+        id: template.id || '',
+        isConsentGranted: this.selectedConsents.includes(template.id || ''),
+      });
+    });
+    return consents;
+  }
+
+  private areAllMandatoryConsentsGiven(): Observable<boolean> {
+    return this.templateList$.pipe(
+      map((templates) =>
+        templates.every(
+          (template) =>
+            !this.requiredReconsents.includes(template.id || '') ||
+            this.selectedConsents.includes(template.id || '')
+        )
+      )
+    );
+  }
+
+  private updateSelectedConsents(given: boolean, templateId: string): void {
+    if (given) {
+      if (!this.selectedConsents.includes(templateId)) {
+        this.selectedConsents.push(templateId);
+      }
+    } else {
+      this.selectedConsents = this.selectedConsents.filter(
+        (id) => id !== templateId
+      );
     }
   }
 

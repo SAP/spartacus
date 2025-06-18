@@ -1,16 +1,15 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavigationExtras } from '@angular/router';
 import {
-  I18nTestingModule,
   BaseOption,
-  VariantType,
+  I18nTestingModule,
   RoutingService,
   UrlCommands,
-  VariantQualifier,
   VariantOptionQualifier,
+  VariantQualifier,
+  VariantType,
 } from '@spartacus/core';
 import { ProductVariantColorSelectorComponent } from './product-variant-color-selector.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NavigationExtras } from '@angular/router';
 
 const mockVariant: BaseOption = {
   selected: {
@@ -51,7 +50,7 @@ describe('ProductVariantColorSelectorComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProductVariantColorSelectorComponent],
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       providers: [{ provide: RoutingService, useClass: MockRoutingService }],
     }).compileComponents();
 

@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "CSV にエクスポート",
+    "exportMessage": "CSV ファイルはお使いのデバイスに自動的にダウンロードされます。ダウンロードされない場合は、ブラウザの設定を確認してください。",
+    "columnNames": {
+      "code": "コード",
+      "quantity": "数量",
+      "name": "名前",
+      "price": "価格"
+    },
+    "exportProductToCsv": "商品を CSV にエクスポート"
+  },
+  "importEntries": {
+    "importProducts": "商品のインポート"
+  },
+  "importEntriesDialog": {
+    "importProducts": "商品のインポート",
+    "importProductsSubtitle": ".CSV ファイルをインポートして商品を追加",
+    "importProductsNewSavedCartSubtitle": ".CSV ファイルをインポートして商品を追加し、保存済みのカートを新しく作成します。",
+    "importProductFileDetails": "テキストファイルには必要な列 (SKU および数量) がカンマで区切られた商品のリストが含まれている必要があります。",
+    "selectFile": "ファイルの選択",
+    "selectedSuccessfully": "CSV ファイルが正常に選択されました。",
+    "savedCartName": "保存されたカート名",
+    "savedCartDescription": "保存されたカートの説明",
+    "optional": "任意",
+    "charactersLeft": "残り文字数: {{count}}",
+    "cancel": "キャンセル",
+    "upload": "アップロード",
+    "close": "閉じる",
+    "summary": {
+      "info": "商品のインポート中は、このウィンドウを閉じたりリフレッシュしたりしないでください。",
+      "loadedToCart": "商品がカート {{ cartName }} に読み込まれました",
+      "loaded": "商品が読み込まれました",
+      "loading": "商品の処理中です... ({{ count }}/{{ total }})",
+      "successes": "{{ total }} 個中 {{ successesCount }} 個の商品が正常にインポートされました。",
+      "warning": "合計 {{ count }} 個の商品がインポートされませんでした。",
+      "warning_other": "合計 {{ count }} 個の商品がインポートされませんでした。",
+      "error": "{{ count }} 個の商品がインポートされませんでした。",
+      "error_other": "{{ count }} 個の商品がインポートされませんでした。",
+      "messages": {
+        "unknownIdentifier": "商品 SKU \"{{ productCode}}\" が存在しません。",
+        "lowStock": "{{ productName }} の数量: {{ quantity }} は {{ quantityAdded }} に削減されました。",
+        "noStock": "{{ productName }} は現在在庫がありません。",
+        "unknownError": "\"{{ productCode }}\" の不明な問題です。",
+        "limitExceeded": "\"{{ productCode }}\" を追加できません。制限を超過しました。"
+      },
+      "show": "表示",
+      "hide": "非表示"
+    }
+  }
+}

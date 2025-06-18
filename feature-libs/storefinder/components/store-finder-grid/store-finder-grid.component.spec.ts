@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
@@ -16,6 +15,7 @@ const regionIsoCode = 'CA-QC';
 @Component({
   selector: 'cx-store-finder-list-item',
   template: '',
+  standalone: false,
 })
 class MockStoreFinderListItemComponent {
   @Input()
@@ -54,7 +54,7 @@ describe('StoreFinderGridComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SpinnerModule],
+      imports: [SpinnerModule],
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,

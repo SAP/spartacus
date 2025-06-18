@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   organizationTranslationChunksConfig,
-  organizationTranslations,
+  organizationTranslationsEn,
+  organizationTranslationsJa,
+  organizationTranslationsDe,
+  organizationTranslationsZh,
 } from '@spartacus/organization/administration/assets';
 import {
   AdministrationRootModule,
@@ -31,7 +34,12 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: organizationTranslations,
+        resources: {
+          en: organizationTranslationsEn,
+          ja: organizationTranslationsJa,
+          de: organizationTranslationsDe,
+          zh: organizationTranslationsZh,
+        },
         chunks: organizationTranslationChunksConfig,
       },
     }),

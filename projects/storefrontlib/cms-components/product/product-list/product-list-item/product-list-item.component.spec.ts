@@ -9,7 +9,6 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   ProductService,
@@ -23,6 +22,7 @@ import { ProductListItemComponent } from './product-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
+  standalone: false,
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -32,6 +32,7 @@ class MockAddToCartComponent {
 @Component({
   selector: 'cx-star-rating',
   template: '*****',
+  standalone: false,
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -41,6 +42,7 @@ class MockStarRatingComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
+  standalone: false,
 })
 class MockPictureComponent {
   @Input() container;
@@ -50,6 +52,7 @@ class MockPictureComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -57,6 +60,7 @@ class MockCxIconComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -67,6 +71,7 @@ class MockProductService {}
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
@@ -96,7 +101,7 @@ describe('ProductListItemComponent in product-list', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule],
       declarations: [
         ProductListItemComponent,
         MockPictureComponent,

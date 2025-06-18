@@ -23,6 +23,7 @@ export interface SwitchCustomerData {
 @Component({
   selector: 'cx-asm-switch-customer-dialog',
   templateUrl: './asm-switch-customer-dialog.component.html',
+  standalone: false,
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {
   SWITCH_CUSTOMER_DIALOG_ACTION = SWITCH_CUSTOMER_DIALOG_ACTION;

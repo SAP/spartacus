@@ -19,5 +19,6 @@ import { CostCenterBudgetListService } from './cost-center-budget-list.service';
       useExisting: CostCenterBudgetListService,
     },
   ],
+  standalone: false,
 })
 export class CostCenterBudgetListComponent {}

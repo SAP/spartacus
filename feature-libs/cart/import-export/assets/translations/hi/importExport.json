@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "CSV में निर्यात करें",
+    "exportMessage": "CSV फ़ाइल स्वचालित रूप से आपके डिवाइस में डाउनलोड होगी, यदि नहीं होती तो कृपया अपनी ब्राउज़र सेटिंग जांचें",
+    "columnNames": {
+      "code": "कोड",
+      "quantity": "मात्रा",
+      "name": "नाम",
+      "price": "मूल्य"
+    },
+    "exportProductToCsv": "CSV में उत्पाद निर्यात करें"
+  },
+  "importEntries": {
+    "importProducts": "उत्पाद आयात करें"
+  },
+  "importEntriesDialog": {
+    "importProducts": "उत्पाद आयात करें",
+    "importProductsSubtitle": ".CSV फ़ाइल आयात करके उत्पाद जोड़ें.",
+    "importProductsNewSavedCartSubtitle": ".CSV फ़ाइल आयात करके उत्पाद जोड़ें और नया सहेजा गया कार्ट बना रहे हैं.",
+    "importProductFileDetails": "टेक्स्ट फ़ाइल में अल्पविराम द्वारा अलग किए गए आवश्यक स्तंभों के साथ उत्पाद सूची होनी चाहिएः SKU और मात्रा",
+    "selectFile": "फाइल चुनें",
+    "selectedSuccessfully": "CSV फ़ाइल सफलतापूर्वक चुनी गई.",
+    "savedCartName": "सहेजी गई कार्ट का नाम",
+    "savedCartDescription": "सहेजी गई कार्ट का वर्णन",
+    "optional": "वैकल्पिक",
+    "charactersLeft": "वर्ण बचे हैंः  {{count}}",
+    "cancel": "रद्द करें",
+    "upload": "अपलोड करें",
+    "close": "बंद करें",
+    "summary": {
+      "info": "उत्पाद आयात हो रहा है इसलिए इस विंडो को बंद या रिफ़्रेश न करें.",
+      "loadedToCart": "उत्पाद कार्ट {{ cartName }} में लोड किया गया",
+      "loaded": "उत्पाद लोड किया गया",
+      "loading": "उत्पाद प्रोसेस हो रहा है...  ({{ count }}/{{ total }})",
+      "successes": "{{ total }} में से {{ successesCount }} उत्पाद सफलतापूर्वक आयात किए गए.",
+      "warning": "{{ count }} उत्पाद कभी भी आयात नहीं किए गए.",
+      "warning_other": "{{ count }} उत्पाद कभी भी आयात नहीं किए गए.",
+      "error": "{{ count }} उत्पाद आयात नहीं किए गए.",
+      "error_other": "{{ count }} उत्पाद आयात नहीं किए गए.",
+      "messages": {
+        "unknownIdentifier": "उत्पाद SKU \"{{ productCode}}\" मौजूद नहीं है.",
+        "lowStock": "{{ productName }}: {{ quantity }} के लिए मात्रा {{ quantityAdded }} तक कम की गई.",
+        "noStock": "{{ productName }} वर्तमान में स्टॉक में नहीं है.",
+        "unknownError": "\"{{ productCode }}\" के साथ अपरिचित समस्या.",
+        "limitExceeded": "\"{{ productCode }}\" जोड़ा नहीं जा सकता. सीमा पार हुई."
+      },
+      "show": "दिखाएं",
+      "hide": "छिपाएं"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Powrót do koszyka"
+  },
+  "checkoutProgress": {
+    "label": "Postęp realizacji płatności",
+    "deliveryAddress": "Adres wysyłki",
+    "deliveryMode": "Tryb dostawy",
+    "paymentDetails": "Płatność",
+    "reviewOrder": "Recenzja",
+    "state": {
+      "completed": "{{step}}, ukończone",
+      "selected": "{{step}}, wybrane",
+      "disabled": "{{step}}, wyłączone"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Adres wysyłki",
+    "selectYourDeliveryAddress": "Wybierz adres dostawy",
+    "defaultDeliveryAddress": "Domyślny adres dostawy",
+    "addNewAddress": "Dodaj nowy adres",
+    "shipToThisAddress": "Wyślij na ten adres",
+    "deliveryAddressSelected": "Wybrany adres dostawy"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Metoda dostawy",
+    "deliveryOptions": "Opcje dostawy",
+    "standardDelivery": "Dostawa standardowa",
+    "premiumDelivery": "Dostawa premium",
+    "deliveryEntries": "Pozycje do wysłania"
+  },
+  "checkoutReview": {
+    "review": "Przejrzyj",
+    "reviewOrder": "Przejrzyj zamówienie",
+    "orderItems": "Pozycje zamówienia",
+    "confirmThatRead": "Potwierdzam, że zapoznałem(-am) się i akceptuję",
+    "placeOrder": "Złóż zamówienie",
+    "termsAndConditions": "Warunki",
+    "editDeliveryAddressDetails": "Edytuj szczegóły adresu dostawy, otwiera stronę Adres dostawy",
+    "editBillingDetails": "Edytuj adres rozliczeniowy, otwiera stronę Szczegóły płatności",
+    "editPaymentDetails": "Edytuj szczegóły płatności, otwiera stronę Szczegóły płatności",
+    "editPaymentType": "Edytuj metodę płatności, otwiera stronę Metoda płatności",
+    "editDeliveryMode": "Edytuj tryb dostawy, otwiera stronę Tryb dostawy",
+    "orderInProcess": "Trwa przetwarzanie zamówienia. Proszę czekać."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Potwierdzenie zamówienia:",
+    "thankYou": "Dziękujemy za zamówienie!",
+    "invoiceHasBeenSentByEmail": "Faktura została wysłana pocztą elektroniczną. Wkrótce ją otrzymasz.",
+    "orderItems": "Pozycje zamówienia",
+    "orderPlacedSuccessfully": "Zamówienie zostało złożone",
+    "createAccount": "Czy utworzyć konto?",
+    "createAccountForNext": "Utwórz konto dla <{{email}}> w celu szybszej realizacji płatności przy następnej wizycie."
+  }
+}

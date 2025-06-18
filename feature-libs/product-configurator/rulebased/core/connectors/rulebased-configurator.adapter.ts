@@ -30,11 +30,14 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param configId configuration id
    * @param groupId group id
    * @param configurationOwner configuration owner
+   * @param attributeKey optional - if filled, only the attribute with the given key is returned
+   *
    */
   abstract readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    attributeKey?: string
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -116,11 +119,6 @@ export abstract class RulebasedConfiguratorAdapter {
    *
    */
   abstract getConfiguratorType(): string;
-
-  /**
-   * Abstract method to check if the adapter supports to call CPQ over OCC. Only relevant for adapters supporting @see ConfiguratorType.CPQ
-   */
-  abstract supportsCpqOverOcc?(): boolean;
 
   /**
    * Searches for variants that are matching the configuration identified by its id.

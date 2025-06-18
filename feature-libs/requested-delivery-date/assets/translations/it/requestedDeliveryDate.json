@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "Richiedi data di consegna",
+    "readOnlyTextLabel": "Data di consegna richiesta",
+    "successMessage": "Data di consegna aggiornata correttamente.",
+    "errorMessage": "Si è verificato un errore. Impossibile aggiornare la data richiesta."
+  }
+}

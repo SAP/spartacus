@@ -5,8 +5,6 @@
  */
 
 export interface UsageIdDefinition {
-  name?: string;
-  source: string;
-  category: string;
+  name: string;
   keyName: string;
 }

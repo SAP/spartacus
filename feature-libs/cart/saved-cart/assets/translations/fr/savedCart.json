@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Nom",
+    "cartDescription": "Description",
+    "cartId": "ID",
+    "dateSaved": "Date d'enregistrement",
+    "items": "Articles",
+    "quantity": "Quantité",
+    "total": "Total",
+    "editSavedCart": "Modifier le panier enregistré",
+    "deleteSavedCart": "Supprimer le panier enregistré",
+    "addSelectedItems": "Ajouter les articles sélectionnés",
+    "emptyCartItems": "Vider les articles du panier"
+  },
+  "savedCartList": {
+    "savedCarts": "Paniers enregistrés ({{count}})",
+    "cartName": "Nom",
+    "cartId": "ID",
+    "dateSaved": "Date d'enregistrement",
+    "cartDescription": "Description",
+    "quantity": "Qté",
+    "quantityFull": "Quantité",
+    "total": "Total",
+    "actions": "Actions",
+    "makeCartActive": "Rendre le panier actif",
+    "notFound": "Aucun panier enregistré trouvé",
+    "swapCartNoActiveCart": "Le panier existant a été activé avec succès par {{cartName}}.",
+    "swapCartWithActiveCart": "Le panier existant a été activé avec succès par {{cartName}}. Vos articles précédents ont été enregistrés dans un panier {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Les articles de votre panier ont bien été enregistrés pour plus tard dans le panier \"{{cartName}}\"."
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Enregistrer pour plus tard",
+    "itemsSavedForLater": "Tous les articles de votre panier seront enregistrés pour plus tard.",
+    "savedCartName": "Nom du panier enregistré",
+    "savedCartDescription": "Description du panier enregistré",
+    "optional": "facultatif",
+    "charactersLeft": "Caractères restants : {{count}}",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "restore": "Restaurer",
+    "followingCartDelete": "Le panier enregistré suivant sera supprimé.",
+    "followingCartRestore": "Le panier enregistré suivant sera restauré comme panier actif.",
+    "delete": "Supprimer",
+    "deleteCartSuccess": "Panier supprimé avec succès",
+    "editCartSuccess": "Panier modifié avec succès",
+    "editSavedCart": "Modifier le panier enregistré",
+    "deleteSavedCart": "Supprimer le panier enregistré",
+    "restoreSavedCart": "Restaurer le panier enregistré",
+    "name": "Nom",
+    "id": "ID",
+    "description": "Description",
+    "quantity": "QTÉ",
+    "quantityFull": "Quantité",
+    "total": "Total",
+    "keepCopySavedCart": "Conserver une copie de ce panier dans la liste des paniers enregistrés",
+    "defaultCloneCartName": "Copie de {{name}}",
+    "nameOfCloneCart": "Nom du panier copié"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Paniers enregistrés",
+    "saveCartForLater": "Enregistrer le panier pour plus tard"
+  }
+}

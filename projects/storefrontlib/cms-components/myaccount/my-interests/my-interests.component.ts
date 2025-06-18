@@ -21,7 +21,6 @@ import {
   ProductService,
   TranslationService,
   UserInterestsService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -36,6 +35,7 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;
@@ -68,9 +68,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     private translationService: TranslationService,
     private productService: ProductService,
     private globalMessageService: GlobalMessageService
-  ) {
-    useFeatureStyles('a11yCartItemsLinksStyles');
-  }
+  ) {}
 
   ngOnInit() {
     this.interests$ = this.productInterestService

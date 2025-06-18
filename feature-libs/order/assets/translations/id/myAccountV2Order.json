@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Semua Pemesanan ({{param}})",
+    "item": "{{param}} Item",
+    "items": "{{param}} Item",
+    "totalPrice": "Total Harga: {{param}}",
+    "consignmentCode": "Konsinyasi {{param}}",
+    "statusDate": "Terakhir Diperbarui: {{param}}",
+    "returnProcessed": "Pengembalian Diproses: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Siap Diambil - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Siap Dikirim - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Siap Diambil - "
+    },
+    "orderListResults": "Daftar Pemesanan",
+    "orderListPagination": "Paginasi Daftar Pemesanan",
+    "totalPriceLabel": "Total Harga",
+    "orderPlaced": "Pemesanan Dilakukan Pada",
+    "orderCodeLabel": "Kode Pemesanan",
+    "consignmentDetailLabel": "Informasi Konsinyasi",
+    "consignmentNumberLabel": "Nomor Konsinyasi",
+    "consignmentStatusLabel": "Status Konsinyasi",
+    "consignmentStatusDateLabel": "Terakhir Diperbarui Pada",
+    "estimateDeliveryLabel": "Estimasi Tanggal Pengiriman"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Kembalikan Item",
+    "cancelItems": "Batalkan Item",
+    "downloadInvoices": "Unduh Tagihan",
+    "viewAllOrders": "Lihat Semua Pemesanan",
+    "noInvoices": "Tagihan belum dibuat. Silakan kembali lagi nanti."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} Item",
+    "items": "{{value}} Item",
+    "heading": "Pemesanan dan Pengembalian",
+    "orderNumber": "Nomor Pesanan ({{value}})",
+    "purchasedOn": "Dibeli Pada: {{value}}",
+    "orderedItems": "Item yang Dipesan: {{value}}",
+    "totalPrice": "Total Harga: {{value}}",
+    "orderDetails": "Rincian Pemesanan",
+    "orderDetailsLabel": "Tampilkan rincian pemesanan untuk nomor pesanan {{value}}",
+    "orderStatusLabel": "Status Pesanan",
+    "returnOrder": "Kembalikan Pesanan",
+    "showMore": "Tampilkan Lebih Banyak",
+    "showMoreLabel": "Arahkan ke riwayat pemesanan"
+  }
+}

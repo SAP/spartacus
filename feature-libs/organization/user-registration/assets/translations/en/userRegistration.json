@@ -5,6 +5,10 @@
         "label": "Title (optional)",
         "placeholder": "Title"
       },
+      "titleCodeOnOTPForm": {
+        "label": "Title",
+        "placeholder": "Select Title"
+      },
       "firstName": {
         "label": "First name",
         "placeholder": "First name"
@@ -25,38 +29,71 @@
         "label": "City/Town (optional)",
         "placeholder": "Please select City/Town"
       },
+      "cityOnOTPForm": {
+        "label": "City/Town",
+        "placeholder": "Please select City/Town"
+      },
       "country": {
         "label": "Country (optional)",
+        "placeholder": "Select Country"
+      },
+      "countryOnOTPForm": {
+        "label": "Country",
         "placeholder": "Select Country"
       },
       "state": {
         "label": "State/Province (optional)",
         "placeholder": "Select State/Province"
       },
+      "stateOnOTPForm": {
+        "label": "State/Province",
+        "placeholder": "Select State/Province"
+      },
       "postalCode": {
         "label": "Zip/Postal code (optional)",
+        "placeholder": "Zip/Postal code"
+      },
+      "postalCodeOnOTPForm": {
+        "label": "Zip/Postal code",
         "placeholder": "Zip/Postal code"
       },
       "addressLine": {
         "label": "Address (optional)",
         "placeholder": "Address"
       },
+      "addressLineOnOTPForm": {
+        "label": "Address",
+        "placeholder": "Address"
+      },
       "secondAddressLine": {
         "label": "Address line 2 (optional)",
+        "placeholder": "Address line 2"
+      },
+      "secondAddressLineOnOTPForm": {
+        "label": "Address line 2",
         "placeholder": "Address line 2"
       },
       "phoneNumber": {
         "label": "Phone number (optional)",
         "placeholder": "Phone number"
       },
+      "phoneNumberOnOTPForm": {
+        "label": "Phone number",
+        "placeholder": "Phone number"
+      },
       "message": {
         "label": "Message (optional)",
+        "placeholder": "An example data for the message field: \"Department: Ground support; Position: Chief safe guard; Report to: Steve Jackson; Comments: Please create new account for me\"."
+      },
+      "messageOnOTPForm": {
+        "label": "Message",
         "placeholder": "An example data for the message field: \"Department: Ground support; Position: Chief safe guard; Report to: Steve Jackson; Comments: Please create new account for me\"."
       }
     },
     "messageToApproverTemplate": "Company name: {{companyName}},\n  Phone number: {{phoneNumber}},\n  Address: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Message: {{message}}",
     "successFormSubmitMessage": "Thank you for registering! A representative will contact you shortly and confirm your access information.",
     "formSubmitButtonLabel": "Register",
+    "continueWithOTP": "Continue",
     "goToLoginButtonLabel": "Already registered? Go to Sign in",
     "httpHandlers": {
       "conflict": "User with this e-mail address already exists."

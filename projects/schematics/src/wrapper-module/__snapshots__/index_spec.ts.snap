@@ -2,11 +2,11 @@
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout Scheduled Replenishment should create the checkout wrapper module and import Checkout features 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslationsEn } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -25,19 +25,19 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutB2BTranslations,
+                resources: { en: checkoutB2BTranslationsEn },
                 chunks: checkoutB2BTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutScheduledReplenishmentTranslations,
+                resources: { en: checkoutScheduledReplenishmentTranslationsEn },
                 chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
             },
         })
@@ -69,13 +69,13 @@ export class CheckoutWrapperModule {
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout and DP Should create DP feature module 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { dpTranslationChunksConfig, dpTranslations } from "@spartacus/digital-payments/assets";
+import { dpTranslationChunksConfig, dpTranslationsEn } from "@spartacus/digital-payments/assets";
 @NgModule({
     declarations: [],
     imports: [],
     providers: [provideConfig(<I18nConfig>{
             i18n: {
-                resources: dpTranslations,
+                resources: { en: dpTranslationsEn },
                 chunks: dpTranslationChunksConfig,
             },
         })
@@ -88,11 +88,11 @@ export class DigitalPaymentsFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout and DP Should create checkout feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslationsEn } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -111,19 +111,19 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutB2BTranslations,
+                resources: { en: checkoutB2BTranslationsEn },
                 chunks: checkoutB2BTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutScheduledReplenishmentTranslations,
+                resources: { en: checkoutScheduledReplenishmentTranslationsEn },
                 chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
             },
         })
@@ -176,11 +176,11 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 2`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslationsEn } from "@spartacus/checkout/scheduled-replenishment/assets";
 import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -199,19 +199,19 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutB2BTranslations,
+                resources: { en: checkoutB2BTranslationsEn },
                 chunks: checkoutB2BTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutScheduledReplenishmentTranslations,
+                resources: { en: checkoutScheduledReplenishmentTranslationsEn },
                 chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
             },
         })
@@ -225,13 +225,13 @@ export class CheckoutFeatureModule {
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Digital Payments should create the checkout wrapper module and import Base Checkout and DP 3`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { dpTranslationChunksConfig, dpTranslations } from "@spartacus/digital-payments/assets";
+import { dpTranslationChunksConfig, dpTranslationsEn } from "@spartacus/digital-payments/assets";
 @NgModule({
     declarations: [],
     imports: [],
     providers: [provideConfig(<I18nConfig>{
             i18n: {
-                resources: dpTranslations,
+                resources: { en: dpTranslationsEn },
                 chunks: dpTranslationChunksConfig,
             },
         })
@@ -244,7 +244,7 @@ export class DigitalPaymentsFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Double execution should not change anything 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -261,7 +261,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         })
@@ -288,7 +288,7 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Multiple dynamic imports in the file should generate appropriate feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { cartBaseTranslationChunksConfig, cartBaseTranslations } from "@spartacus/cart/base/assets";
+import { cartBaseTranslationChunksConfig, cartBaseTranslationsEn } from "@spartacus/cart/base/assets";
 import { ADD_TO_CART_FEATURE, CART_BASE_FEATURE, CartBaseRootModule, MINI_CART_FEATURE } from "@spartacus/cart/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -319,7 +319,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: cartBaseTranslations,
+                resources: { en: cartBaseTranslationsEn },
                 chunks: cartBaseTranslationChunksConfig,
             },
         })
@@ -346,9 +346,9 @@ export class CartBaseWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module One dynamic import in the file should generate appropriate feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslationsEn } from "@spartacus/checkout/b2b/assets";
 import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CHECKOUT_FEATURE, CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -366,13 +366,13 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         }),
         provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutB2BTranslations,
+                resources: { en: checkoutB2BTranslationsEn },
                 chunks: checkoutB2BTranslationChunksConfig,
             },
         })
@@ -401,7 +401,7 @@ export class CheckoutWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module wrapper module already exists should append the feature module after it, and not add a dynamic import to the feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { checkoutTranslationChunksConfig, checkoutTranslationsEn } from "@spartacus/checkout/base/assets";
 import { CheckoutRootModule } from "@spartacus/checkout/base/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 @NgModule({
@@ -411,7 +411,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     ],
     providers: [provideConfig(<I18nConfig>{
             i18n: {
-                resources: checkoutTranslations,
+                resources: { en: checkoutTranslationsEn },
                 chunks: checkoutTranslationChunksConfig,
             },
         })

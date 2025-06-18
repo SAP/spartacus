@@ -1,12 +1,12 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { RoutingParamsService } from './routing-params.service';
 
 @Component({
   selector: 'cx-mock',
   template: '',
+  standalone: false,
 })
 export class MockComponent {}
 
@@ -19,7 +19,7 @@ describe('RoutingParamsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
           {
             path: '',
             component: MockComponent,

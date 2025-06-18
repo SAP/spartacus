@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Kontozusammenfassungen",
+    "header": "Alle Kontozusammenfassungen ({{count}})",
+    "name": "Einheit",
+    "details": {
+      "header": "Details zur Kontozusammenfassung",
+      "uid": "Einheits-ID",
+      "name": "Name der Einheit",
+      "address": "Adresse",
+      "creditRep": "Kredit-Rep",
+      "creditLine": "Kreditlinie",
+      "currentBalance": "Aktueller Saldo",
+      "openBalance": "Offener Saldo",
+      "pastDueBalance": "Überfälliger Saldo",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} Tage",
+      "dayPlus": "{{minBoundary}}+ Tage",
+      "notApplicable": "k.A."
+    },
+    "document": {
+      "header": "Belege",
+      "id": "Belegnummer",
+      "type": "Belegart",
+      "date": "Erstellt am",
+      "dueDate": "Fällig am",
+      "originalAmount": "Ursprünglicher Betrag",
+      "openAmount": "Offener Betrag",
+      "status": "Status",
+      "attachment": "Anhang",
+      "download": "Herunterladen",
+      "attachmentDescription": "Laden Sie den Anhang für {{type}} {{id}} herunter.",
+      "noneFound": "Keine Belege gefunden"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Erstellt am (aufsteigend)",
+      "byCreatedAtDateDesc": "Erstellt am (absteigend)",
+      "byDueAtDateAsc": "Fällig am (aufsteigend)",
+      "byDueAtDateDesc": "Fällig am (absteigend)",
+      "byOriginalAmountAsc": "Ursprünglicher Betrag aufsteigend",
+      "byOriginalAmountDesc": "Ursprünglicher Betrag absteigend",
+      "byOpenAmountAsc": "Offener Betrag (aufsteigend)",
+      "byOpenAmountDesc": "Offener Betrag (absteigend)",
+      "byOrgDocumentTypeAsc": "Belegart aufsteigend",
+      "byOrgDocumentTypeDesc": "Belegart absteigend",
+      "byStatusAsc": "Status (aufsteigend)",
+      "byStatusDesc": "Status (absteigend)",
+      "byOrgDocumentIdAsc": "Belegnummer aufsteigend",
+      "byOrgDocumentIdDesc": "Belegnummer absteigend"
+    },
+    "statuses": {
+      "open": "Offen",
+      "closed": "Geschlossen",
+      "all": "Alle"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Belegnummer",
+      "orgDocumentIdRange": "Nummernkreis für Beleg",
+      "orgDocumentType": "Belegart",
+      "createdAtDateRange": "Erstellt am - Bereich",
+      "dueAtDateRange": "Fällig am - Bereich",
+      "amountRange": "Ursprünglicher Betrag - Bereich",
+      "openAmountRange": "Offener Betrag - Bereich"
+    },
+    "sortBy": "Sortieren nach",
+    "sortDocuments": "Belege sortieren",
+    "filter": {
+      "status": "Status",
+      "filterBy": "Filtern nach",
+      "documentNumber": "Belegnummer",
+      "documentType": "Belegart",
+      "startRange": "Von",
+      "endRange": "Bis",
+      "clear": "Alle zurücksetzen",
+      "search": "Suchen",
+      "errors": {
+        "toDateMustComeAfterFrom": "Wählen Sie ein Enddatum, das später als das Startdatum ist.",
+        "toAmountMustBeLargeThanFrom": "Wählen Sie einen Endbereichswert, der kleiner als der Startwert ist."
+      }
+    },
+    "hint": "Mithilfe von Kontozusammenfassungen können Sie allgemeine Informationen über eine Einheit, einschließlich der Salden und Fälligkeitszusammenfassungen von Rechnungen prüfen. Sie können hier auch eine Liste von Transaktionsbelegen für eine Einheit durchsuchen."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Kontozusammenfassungen",
+      "details": "{{name}}"
+    }
+  }
+}

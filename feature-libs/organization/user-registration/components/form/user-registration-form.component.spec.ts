@@ -2,7 +2,6 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
@@ -116,6 +115,7 @@ class MockUserRegistrationFormService
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -136,7 +136,6 @@ describe('UserRegistrationFormComponent', () => {
         NgSelectModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
       ],
       declarations: [
         UserRegistrationFormComponent,

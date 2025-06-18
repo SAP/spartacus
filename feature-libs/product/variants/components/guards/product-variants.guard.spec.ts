@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   Product,
   ProductService,
@@ -70,7 +69,6 @@ describe('ProductVariantsGuard', () => {
         },
         SemanticPathService,
       ],
-      imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(ProductVariantsGuard);

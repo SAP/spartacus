@@ -14,6 +14,7 @@ import { BaseItem } from './organization.model';
 
 @Directive({
   selector: '[cxOrgItemExists]',
+  standalone: false,
 })
 export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription: Subscription;

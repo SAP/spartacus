@@ -95,7 +95,7 @@ describe('add-ssr', () => {
 
   describe('server.ts', () => {
     it('should be configured properly', async () => {
-      const serverTs = appTree.readContent('/server.ts');
+      const serverTs = appTree.readContent('src/server.ts');
       expect(serverTs).toMatchSnapshot();
     });
   });

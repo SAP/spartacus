@@ -31,6 +31,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   selector: 'cx-review-submit',
   templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutReviewSubmitComponent {
   readonly cartOutlets = CartOutlets;

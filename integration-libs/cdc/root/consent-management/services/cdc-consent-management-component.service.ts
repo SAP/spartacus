@@ -46,4 +46,8 @@ export class CdcConsentManagementComponentService extends ConsentManagementCompo
     });
     return consentIDs;
   }
+
+  isConsentMandatory(id: string): boolean {
+    return this.getCdcConsentIDs(true).includes(id);
+  }
 }

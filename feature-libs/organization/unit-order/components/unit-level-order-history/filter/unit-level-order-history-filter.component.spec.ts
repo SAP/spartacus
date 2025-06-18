@@ -21,6 +21,7 @@ import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history
 
 @Pipe({
   name: 'cxTranslate',
+  standalone: false,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
@@ -29,6 +30,7 @@ class MockTranslatePipe implements PipeTransform {
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -38,6 +40,7 @@ class MockPaginationComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

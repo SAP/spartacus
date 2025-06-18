@@ -1,7 +1,7 @@
 <ng-container *ngIf="mode$ | async as mode">
   <!-- Tab List is the list of buttons to open tabs -->
   <div
-    [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'presentation' : 'tablist'"
+    [attr.role]="mode === TAB_MODE.ACCORDIAN ? null : 'tablist'"
     [attr.aria-label]="config.label | cxTranslate"
     [class]="mode.toLowerCase()"
   >
@@ -14,7 +14,7 @@
         (keydown)="handleKeydownEvent(i, tabs, mode, $event)"
         [attr.aria-selected]="mode === TAB_MODE.ACCORDIAN ? null : isOpen(i)"
         [attr.aria-expanded]="mode === TAB_MODE.TAB ? null : isOpen(i)"
-        [attr.aria-controls]="'section-' + i"
+        [attr.aria-controls]="isOpen(i) ? 'section-' + i : null"
         [attr.tabindex]="getTabIndex(i, mode)"
         [attr.id]="tab.id"
         [attr.title]="getTitle(mode, i)"

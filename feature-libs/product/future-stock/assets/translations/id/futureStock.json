@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "Ketersediaan di Masa Mendatang",
+    "quantity": "Jml",
+    "noFutureStocks": "Produk ini tidak memiliki informasi ketersediaan di masa mendatang."
+  }
+}

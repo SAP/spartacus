@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "मेरा ईमेल पता",
+    "myInformation": "मेरी जानकारी",
+    "name": "नाम",
+    "customerId": "ग्राहक Id",
+    "title": "शीर्षक",
+    "firstName": "प्रथम नाम",
+    "lastName": "अंतिम नाम"
+  }
+}

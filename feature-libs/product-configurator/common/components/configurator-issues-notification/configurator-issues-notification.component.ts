@@ -14,6 +14,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
+  standalone: false,
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;

@@ -13,8 +13,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { useFeatureStyles } from '@spartacus/core';
 
 /**
  * Star rating component can be used to view existing ratings as well
@@ -24,6 +24,7 @@ import { ICON_TYPE } from '../../../cms-components/misc/index';
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StarRatingComponent {
   protected initialRate = 0;
@@ -54,7 +55,7 @@ export class StarRatingComponent {
   @Output() change = new EventEmitter<number>();
 
   constructor() {
-    useFeatureStyles('a11yVisibleFocusOverflows');
+    useFeatureStyles('reserveHorizontalSpaceStarRating');
   }
 
   setRate(value: number): void {

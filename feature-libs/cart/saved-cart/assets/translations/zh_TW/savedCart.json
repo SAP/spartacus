@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "名稱",
+    "cartDescription": "說明",
+    "cartId": "ID",
+    "dateSaved": "儲存日期",
+    "items": "項目",
+    "quantity": "數量",
+    "total": "總計",
+    "editSavedCart": "編輯儲存的購物車",
+    "deleteSavedCart": "刪除儲存的購物車",
+    "addSelectedItems": "新增所選項目",
+    "emptyCartItems": "空白購物車項目"
+  },
+  "savedCartList": {
+    "savedCarts": "儲存的購物車 ({{count}})",
+    "cartName": "名稱",
+    "cartId": "ID",
+    "dateSaved": "儲存日期",
+    "cartDescription": "說明",
+    "quantity": "數量",
+    "quantityFull": "數量",
+    "total": "總計",
+    "actions": "動作",
+    "makeCartActive": "標記購物車為啟用中",
+    "notFound": "找不到儲存的購物車",
+    "swapCartNoActiveCart": "{{cartName}} 已成功啟用現有購物車。",
+    "swapCartWithActiveCart": "{{cartName}} 已成功啟用現有購物車。您的先前項目已儲存於購物車 {{previousCartName}} 中。"
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "已成功儲存您的購物車項目，稍後可用於 \"{{cartName}}\" 購物車"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "儲存以供稍後使用",
+    "itemsSavedForLater": "購物車中的所有項目將儲存，已供稍後使用",
+    "savedCartName": "儲存的購物車名稱",
+    "savedCartDescription": "儲存的購物車說明",
+    "optional": "選擇性",
+    "charactersLeft": "剩餘字元：{{count}}",
+    "cancel": "取消",
+    "save": "儲存",
+    "restore": "還原",
+    "followingCartDelete": "將刪除下列儲存的購物車",
+    "followingCartRestore": "下列儲存的購物車將還原為啟用中購物車",
+    "delete": "刪除",
+    "deleteCartSuccess": "已成功刪除購物車",
+    "editCartSuccess": "已成功編輯購物車",
+    "editSavedCart": "編輯儲存的購物車",
+    "deleteSavedCart": "刪除儲存的購物車",
+    "restoreSavedCart": "還原儲存的購物車",
+    "name": "名稱",
+    "id": "ID",
+    "description": "說明",
+    "quantity": "數量",
+    "quantityFull": "數量",
+    "total": "總計",
+    "keepCopySavedCart": "在儲存的購物車清單中保留此購物車副本",
+    "defaultCloneCartName": "{{name}} 副本",
+    "nameOfCloneCart": "複製的購物車名稱"
+  },
+  "addToSavedCart": {
+    "savedCarts": "儲存的購物車",
+    "saveCartForLater": "儲存購物車以供稍後使用"
+  }
+}

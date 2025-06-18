@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "Modus für unterstützen Service",
+    "logout": "Abmelden",
+    "hideUi": "ASM schließen",
+    "helpPortalUrl": "Hilfe",
+    "customers": "Kunden",
+    "asmCustomer360Button": "360°-Kundensicht",
+    "asmCustomer360ViewButton": "Kunde 360°",
+    "createCustomerSuccessfullyAlert": "Das Kundekonto wurde erstellt, und die Kundensitzung wurde gestartet.",
+    "saveInactiveCartAlertInfo": "Der identifizierte Warenkorb ist ein inaktiver Warenkorb. Um weitere Aktionen für diesen Warenkorb durchzuführen, müssen Sie ihn vorher speichern. ",
+    "activeCartAlertInfo": "Der identifizierte Warenkorb ist ein aktiver Warenkorb.",
+    "startCustomerEmulationAlertInfo": "Kundenemulation wurde gestartet. Alle Aktionen, die Sie vornehmen, spiegeln die Auswirkungen auf das Kundenkonto wider.",
+    "toggleUi": {
+      "collapse": "ASM ausblenden",
+      "expand": "ASM anzeigen"
+    },
+    "loginForm": {
+      "submit": "Anmelden",
+      "userId": {
+        "label": "ID oder E-Mail des Kundenbetreuers"
+      },
+      "password": {
+        "label": "Kennwort"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "Kundenname/E-Mail-Adresse"
+      },
+      "searchCustomer": {
+        "label": "Nach Name oder E-Mail-Adresse suchen"
+      },
+      "searchOrder": {
+        "label": "Nach vollständiger Bestellungs-ID suchen"
+      },
+      "submit": "Sitzung starten",
+      "startEmulation": "Emulation starten",
+      "noMatch": "Keinen Kunden gefunden.",
+      "noMatchResult": "Dieses Konto wurde nicht gefunden.",
+      "noCustomerMatchResult": "Es wurde kein passender Kunde gefunden.",
+      "noOrderMatchResult": "Suchen Sie nach der vollständigen Bestellungs-ID.",
+      "createCustomer": "Neuen Kunden erstellen",
+      "customer": "Kunde",
+      "orderID": "Bestell-ID"
+    },
+    "createCustomerForm": {
+      "title": "Neuen Kunden erstellen",
+      "createAccount": "Erstellen",
+      "cancel": "Abbrechen",
+      "firstName": {
+        "label": "Vorname",
+        "placeholder": "Vorname"
+      },
+      "lastName": {
+        "label": "Nachname",
+        "placeholder": "Nachname"
+      },
+      "emailAddress": {
+        "label": "E-Mail-Adresse",
+        "placeholder": "E-Mail-Adresse"
+      },
+      "createAccountAlert": "Die Kundensitzung startet, nachdem Sie das Kundenkonto erstellt haben.",
+      "validationErrors": {
+        "firstName": "Geben Sie einen gültigen Vornamen ein.",
+        "lastName": "Geben Sie einen gültigen Nachnamen ein.",
+        "emailAddress": "Geben Sie eine gültige E-Mail-Adresse ein."
+      },
+      "badRequestDuplicatedEmail": "Geben Sie eine andere E-Mail-Adresse ein, weil {{ emailAddress }} bereits vorhanden ist."
+    },
+    "customerList": {
+      "title": "Kundenliste",
+      "description": "Wählen Sie einen Kunden aus einer der angegebenen Listen aus.",
+      "createCustomer": "Neuen Kunden erstellen",
+      "cancel": "Abbrechen",
+      "tableHeader": {
+        "customer": "Kunde",
+        "customerName": "Kundenname",
+        "name": "Name",
+        "email": "E-Mail",
+        "emailId": "E-Mail/ID",
+        "phone": "Telefon",
+        "account": "Konto",
+        "cart": "Warenkorb",
+        "order": "Bestellung",
+        "view": " 360°-Sicht",
+        "activeCart": "Aktiver Warenkorb",
+        "viewActiveCart": "Aktiven Warenkorb anzeigen",
+        "orders": "Bestellungen",
+        "viewOrders": "Bestellungen anzeigen",
+        "customer360": "Kunde 360°",
+        "viewCustomer360": "360°-Kundensicht"
+      },
+      "tableSort": {
+        "sortBy": "Sortieren nach",
+        "byName": "Name (aufsteigend)",
+        "byNameAsc": "Name (aufsteigend)",
+        "byNameDesc": "Name (absteigend)",
+        "byDateAsc": "Datum (aufsteigend)",
+        "byDateDesc": "Datum (absteigend)",
+        "byOrderDateAsc": "Bestelldatum (aufsteigend)",
+        "byOrderDateDesc": "Bestelldatum (absteigend)",
+        "byUnit": "Konto (aufsteigend)",
+        "byUnitDesc": "Konto (absteigend)"
+      },
+      "page": {
+        "page": "Seite {{count}}",
+        "previous": "Zurück",
+        "next": "Weiter"
+      },
+      "noOfCustomers": "{{count}} Kunden",
+      "oneCustomer": "1 Kunde",
+      "noCustomers": "Diese Kundenliste enthält zurzeit keine Kunden.",
+      "noLists": "Zurzeit sind keine Kundenlisten verfügbar. Wenden Sie sich an Ihren Systemadministrator.",
+      "listsError": "Die Kundenlisten konnten nicht abgerufen werden. Versuchen Sie es später erneut.",
+      "searchBox": "Suchen",
+      "enterSearchBox": "Name oder E-Mail des Kunden eingeben"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "Warnung",
+        "body": "Wenn Sie auf \"Kunde wechseln\" klicken, wird die Emulation für \"{{ customerA }}\" beendet und für \"{{ customerB }}\" gestartet. Alle ungespeicherten Änderungen für \"{{ customerA }}\" gehen verloren.",
+        "actions": {
+          "switch": "Kunde wechseln"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "Für später speichern",
+      "dialog": {
+        "saveInfo": "Speichern Sie den Warenkorb, bevor Sie mit weiteren Aktionen fortfahren.",
+        "disableInfo": "Der Warenkorb kann nicht gespeichert werden, weil er leer ist.",
+        "title": "Warenkorb speichern",
+        "row": {
+          "id": "ID",
+          "qty": "Menge",
+          "qtyFull": "Menge",
+          "total": "Gesamtsumme"
+        },
+        "actions": {
+          "save": "Für später speichern"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "Warenkorbnummer",
+      "bindCartToCustomer": "Warenkorb dem Kunden zuordnen",
+      "success": "Warenkorb wurde erfolgreich zugeordnet",
+      "assignCartId": "Warenkorb-ID dem Kunden zuordnen",
+      "enterCartId": "Warenkorb-ID eingeben",
+      "resetCartId": "Zurücksetzen",
+      "dialog": {
+        "title": "Anonymen Warenkorb zuordnen",
+        "body": "Möchten Sie den aktuellen aktiven Warenkorb durch den anonymen Warenkorb ersetzen? Wenn Sie den aktuellen aktiven Warenkorb ersetzen, wird er als gespeicherter Warenkorb gespeichert.",
+        "actions": {
+          "replace": "Warenkorb ersetzen"
+        }
+      }
+    },
+    "csagentTokenExpired": "Ihre Kundenbetreuersitzung ist abgelaufen.",
+    "endSession": "Sitzung beenden",
+    "endEmulation": "Emulation beenden",
+    "agentSessionTimer": {
+      "label": "Sitzungs-Timeout",
+      "minutes": "Min.",
+      "reset": "Zurücksetzen"
+    },
+    "auth": {
+      "agentLoggedInError": "Anmeldung als Benutzer nicht möglich, wenn es eine aktive Kundenbetreuersitzung gibt. Emulieren Sie entweder den Benutzer, oder melden Sie den Kundenbetreuer ab."
+    },
+    "error": {
+      "noCustomerId": "Keine Kunden-ID für den ausgewählten Benutzer gefunden. Sitzung kann nicht gestartet werden."
+    }
+  }
+}

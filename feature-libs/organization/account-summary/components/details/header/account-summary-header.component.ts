@@ -23,6 +23,7 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
   notApplicable: string;

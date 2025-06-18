@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Név:",
+      "description": "Leírás:",
+      "validity": "Az ajánlat a következő dátumig érvényes: {{ expirationTime }}",
+      "option": {
+        "yes": "Igen",
+        "no": "Nem"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Ajánlat elküldése előugró ablak bezárása"
+          },
+          "title": "Elküldi a következő ajánlatkérést: {{ code }}?",
+          "confirmNote": "Biztosan szeretné elküldeni ezt az ajánlatkérést?",
+          "successMessage": "Ajánlatkérés elküldése sikeres"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Ajánlat törlése előugró ablak bezárása"
+          },
+          "title": "Törli a következő ajánlatkérést: {{ code }}?",
+          "confirmNote": "Biztosan szeretné törölni ezt az ajánlatkérést?",
+          "successMessage": "Ajánlatkérés törölve"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Ajánlat szerkesztése előugró ablak bezárása"
+          },
+          "title": "Megerősíti a következő ajánlat szerkesztését: {{ code }}?",
+          "confirmNote": "Biztosan szeretné szerkeszteni ezt a jóváhagyott ajánlatot?",
+          "warningNote": "Ezt az ajánlatot már jóváhagyták. Az ajánlat szerkesztése megakadályozza a fizetést, amíg jóvá nem hagyják az új módosításokat."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Ajánlat törlése előugró ablak bezárása"
+          },
+          "title": "Törli a következő ajánlatot: {{ code }}?",
+          "confirmNote": "Biztosan szeretné törölni ezt az ajánlatot?",
+          "successMessage": "Ajánlat törölve"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Ajánlat fizetése előugró ablak bezárása"
+          },
+          "title": "Fizeti a következő ajánlatot: {{ code }}?",
+          "confirmNote": "Biztosan szeretné elfogadni és fizetni ezt az ajánlatot?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Ajánlat szerkesztése előugró ablak bezárása"
+          },
+          "title": "Megerősíti a következő ajánlat szerkesztését: {{ code }}?",
+          "confirmNote": "Biztosan szeretné szerkeszteni ezt a lejárt ajánlatot?",
+          "warningNote": "Ez az ajánlat lejárt. Az ajánlat szerkesztése megakadályozza a fizetést, amíg jóvá nem hagyják az új módosításokat."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Ajánlat újraszámítása előugró ablak bezárása"
+          },
+          "title": "Újra létrehozza a következő ajánlatkérést: {{ code }}?",
+          "confirmNote": "Biztosan szeretné újra létrehozni ezt az ajánlatkérést?",
+          "warningNote": "Ez az ajánlat lejárt. Az ajánlat újraszámítása egy új ajánlatkérést hoz létre ugyanazzal a tartalommal, amelyet később szerkeszthet és elküldhet."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Ajánlat elküldése előugró ablak bezárása"
+          },
+          "title": "Elküldi a következő ajánlatot: {{ code }}?",
+          "confirmNote": "Biztosan szeretné elküldeni ezt az ajánlatot?",
+          "warningNote": "Az ajánlat teljes értékétől függően előfordulhat, hogy további jóváhagyásra van szükség, mielőtt a beszerző kifizethetné ezt az ajánlatot.",
+          "successMessage": "Ajánlat elküldése sikeres"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Ajánlat jóváhagyása előugró ablak bezárása"
+          },
+          "title": "Jóváhagyja a következő ajánlatot: {{ code }}?",
+          "confirmNote": "Biztosan szeretné jóváhagyni ezt az ajánlatot?",
+          "successMessage": "Ajánlat jóváhagyása sikeres"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Ajánlat elutasítása előugró ablak bezárása"
+          },
+          "title": "Elutasítja a következő ajánlatot: {{ code }}?",
+          "confirmNote": "Biztosan szeretné elutasítani ezt az ajánlatot?",
+          "successMessage": "Ajánlat elutasítva"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Ajánlat újraszámítása előugró ablak bezárása"
+          },
+          "title": "Újra létrehozza a következő ajánlatkérést: {{ code }}?",
+          "confirmNote": "Biztosan szeretné újra létrehozni ezt az ajánlatkérést?",
+          "warningNote": "A rendszer mentett kosárrá alakítja az aktuális kosarát."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Ajánlat szerkesztése előugró ablak bezárása"
+          },
+          "title": "Szerkeszti a következő ajánlatot: {{ code }}?",
+          "confirmNote": "Biztosan szeretné szerkeszteni ezt az ajánlatot?",
+          "warningNote": "A rendszer mentett kosárrá alakítja az aktuális kosarát."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Kapcsolat/Megjegyzés mező",
+      "title": "Kapcsolat",
+      "invalidComment": "Érvénytelen bevitel – Gépelje be újra…",
+      "allProducts": "Összes termék"
+    },
+    "commons": {
+      "requestQuote": "Ajánlat kérése",
+      "cart": "Kosár",
+      "minRequestInitiationNote": "Legalább {{minValue}} USD részösszegre van szükség egy ajánlat elküldéséhez ",
+      "savedActiveCart": "A rendszer mentett kosárrá alakította az aktív kosarát ({{ code }})"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Ajánlat fejlécadatai szerkesztésének megszakítása",
+          "save": "Ajánlat fejlécadatainak mentése"
+        }
+      },
+      "overview": {
+        "regionTitle": "Ajánlat részleteinek összegzése",
+        "id": "Ajánlatazonosító",
+        "status": "Státus",
+        "information": "Ajánlat adatai",
+        "name": "Név",
+        "description": "Leírás",
+        "charactersLeft": "hátralévő karakterek: {{count}}",
+        "priceAndExpiry": "Ár és lejárat",
+        "estimatedTotal": "Becsült végösszeg",
+        "total": "Végösszeg",
+        "expirationTime": "Lejárati dátum",
+        "a11y": {
+          "edit": "Ajánlat fejlécadatainak szerkesztése"
+        },
+        "createdAndUpdated": "Létrehozva és aktualizálva",
+        "createdDate": "Létrehozva",
+        "lastUpdatedDate": "Legutóbbi aktualizálás"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Hibák találhatók a bejegyzéseiben. Ellenőrizze a kosarát.",
+      "quoteCartIssue": "Nem lehetséges módosítani a kosár bejegyzéseit; lépjen a fizetéshez",
+      "absoluteDiscountIssue": "Olyan engedményt válasszon, amely nem haladja meg az összértéket",
+      "expirationDateIssue": "Jövőbeli lejárati dátumot válasszon",
+      "threshold": {
+        "underThresholdError": "A kért ajánlat teljes ára nem éri el a minimális küszöbértéket"
+      },
+      "expired": "Ez az ajánlat lejárt. Újra el kell küldenie az ajánlatkérést, ha másik szállítói ajánlatot szeretne kérni.",
+      "downloadPDFError": "Hiba történt. Nem sikerült lekérni a javaslatdokumentum PDF-jét."
+    },
+    "items": {
+      "regionTitle": "Kosárban lévő tételek"
+    },
+    "links": {
+      "newCart": "Új kosár",
+      "quotes": "Ajánlatok",
+      "download": "Javaslat letöltése",
+      "a11y": {
+        "newCart": "Hozzon létre egy új üres kosarat, és nyissa meg.",
+        "quotes": "Lépjen az ajánlatkeresés találatainak listájára.",
+        "download": "Az ajánlatjavaslat letöltésének megkezdése"
+      }
+    },
+    "list": {
+      "regionTitle": "Ajánlatlista összegzése",
+      "title": "Ajánlatlista",
+      "name": "Név",
+      "updated": "Aktualizálva",
+      "sortBy": "Rendezés alapja",
+      "sortQuotes": "Ajánlatok rendezése",
+      "empty": "Nem rendelkezünk ajánlati rekordokkal ehhez a fiókhoz.",
+      "quoteId": "Ajánlatazonosító",
+      "status": "Státus",
+      "clickableRow": "Az ajánlat további részleteihez kattintson a sorra"
+    },
+    "states": {
+      "BUYER_DRAFT": "Piszkozat",
+      "BUYER_SUBMITTED": "Elküldve",
+      "BUYER_ACCEPTED": "Elfogadva",
+      "BUYER_APPROVED": "Jóváhagyva",
+      "BUYER_REJECTED": "Elutasítva",
+      "BUYER_OFFER": "Szállítói ajánlat",
+      "BUYER_ORDERED": "Megrendelve",
+      "SELLER_DRAFT": "Piszkozat",
+      "SELLER_REQUEST": "Igényelve",
+      "SELLER_SUBMITTED": "Elküldve",
+      "SELLERAPPROVER_DRAFT": "Piszkozat",
+      "SELLERAPPROVER_PENDING": "Jóváhagyásra vár",
+      "SELLERAPPROVER_APPROVED": "Jóváhagyva",
+      "SELLERAPPROVER_REJECTED": "Elutasítva",
+      "CREATED": "Létrehozva",
+      "CANCELLED": "Törölve",
+      "EXPIRED": "Lejárt"
+    },
+    "summary": {
+      "regionTitle": "Rendelés összefoglalása",
+      "actions": {
+        "APPROVE": "Ajánlat jóváhagyása",
+        "CANCEL": "Ajánlat törlése",
+        "CHECKOUT": "Elfogadás és fizetés",
+        "EDIT": "Ajánlat szerkesztése",
+        "REJECT": "Ajánlat elutasítása",
+        "REQUOTE": "Új ajánlat kérése",
+        "SAVE": "Ajánlat mentése",
+        "SUBMIT": "Ajánlat elküldése",
+        "VIEW": "Ajánlat megtekintése"
+      },
+      "prices": {
+        "title": "Rendelés összefoglalása",
+        "subtotal": "Részösszeg",
+        "productDiscount": "Tétel engedménye",
+        "orderDiscount": "Rendelés engedménye",
+        "quoteDiscount": "Ajánlat engedménye",
+        "total": "Összesen",
+        "hint": "A végösszeg nem tartalmazza az adókat"
+      },
+      "sellerEdit": {
+        "discount": "Engedmény",
+        "apply": "Alkalmaz",
+        "expiryDate": "Lejárati dátum",
+        "discountValidationText": "Érvényes százalékos engedményt adjon meg",
+        "a11y": {
+          "apply": "Kattintással alkalmazhatja a megadott engedményértéket az ajánlatra",
+          "discount": "Adja meg az ajánlatra alkalmazni kívánt százalékos engedményértéket",
+          "expiryDate": "Adja meg az ajánlat lejárati dátumát"
+        }
+      }
+    }
+  }
+}

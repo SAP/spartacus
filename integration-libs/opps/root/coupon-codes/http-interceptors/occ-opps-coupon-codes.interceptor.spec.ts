@@ -1,7 +1,12 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HttpClient,
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
@@ -33,7 +38,7 @@ describe('OccCouponCodesInterceptor', () => {
   let couponService: OppsCouponCodesService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: OppsConfig, useValue: mockOppsConfig },
         { provide: WindowRef, useValue: MockWindowRef },
@@ -46,6 +51,8 @@ describe('OccCouponCodesInterceptor', () => {
           provide: OppsCouponCodesService,
           useClass: MockOppsCouponCodesService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     httpMock = TestBed.inject(HttpTestingController);

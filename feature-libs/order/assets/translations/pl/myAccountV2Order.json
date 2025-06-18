@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Wszystkie zamówienia ({{param}})",
+    "item": "{{param}} pozycja",
+    "items": "{{param}} pozycje(-i)",
+    "totalPrice": "Cena łączna: {{param}}",
+    "consignmentCode": "Konsygnacja {{param}}",
+    "statusDate": "Ostatnia aktualizacja: {{param}}",
+    "returnProcessed": "Zwrot przetworzony: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Do pobrania - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Do wysłania - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Do pobrania - "
+    },
+    "orderListResults": "Lista zamówień",
+    "orderListPagination": "Stronicowanie listy zamówień",
+    "totalPriceLabel": "Cena łączna",
+    "orderPlaced": "Data złożenia zamówienia",
+    "orderCodeLabel": "Kod zamówienia",
+    "consignmentDetailLabel": "Informacja o konsygnacji",
+    "consignmentNumberLabel": "Numer konsygnacji",
+    "consignmentStatusLabel": "Status konsygnacji",
+    "consignmentStatusDateLabel": "Data ostatniej aktualizacji",
+    "estimateDeliveryLabel": "Szacowana data dostawy"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Zwróć pozycje",
+    "cancelItems": "Anuluj pozycje",
+    "downloadInvoices": "Pobierz faktury",
+    "viewAllOrders": "Wyświetl wszystkie zamówienia",
+    "noInvoices": "Faktury nie zostały jeszcze wygenerowane. Wróć później."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} pozycja",
+    "items": "{{value}} pozycje(-i)",
+    "heading": "Zamówienia i zwroty",
+    "orderNumber": "Numer zamówienia ({{value}})",
+    "purchasedOn": "Data zakupu: {{value}}",
+    "orderedItems": "Pozycje zamówienia: {{value}}",
+    "totalPrice": "Cena łączna: {{value}}",
+    "orderDetails": "Szczegóły zamówienia",
+    "orderDetailsLabel": "Pokaż szczegóły zamówienia dla numeru zamówienia {{value}}",
+    "orderStatusLabel": "Status zamówienia",
+    "returnOrder": "Zlecenie zwrotu",
+    "showMore": "Pokaż więcej",
+    "showMoreLabel": "Przejdź do historii zamówienia"
+  }
+}

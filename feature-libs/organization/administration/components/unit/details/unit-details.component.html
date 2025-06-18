@@ -7,7 +7,7 @@
   <a
     actions
     *ngIf="isUpdatingUnitAllowed"
-    class="link edit"
+    class="link btn btn-link btn-sm edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
   >
@@ -79,7 +79,7 @@
   <section main class="link-list">
     <ng-container *ngIf="model.uid">
       <a
-        class="link"
+        class="link btn btn-link btn-sm"
         *ngIf="isUpdatingUnitAllowed"
         [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
         routerLinkActive="is-current"
@@ -87,7 +87,7 @@
         {{ 'orgUnit.links.units' | cxTranslate }}
       </a>
       <a
-        class="link"
+        class="link btn btn-link btn-sm"
         [routerLink]="{ cxRoute: 'orgUnitUserList', params: model } | cxUrl"
         routerLinkActive="is-current"
       >

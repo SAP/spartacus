@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CurrencyService,
+  I18nTestingModule,
+  LanguageService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
@@ -38,6 +41,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -45,6 +49,7 @@ class MockTranslateUrlPipe implements PipeTransform {
 
 @Pipe({
   name: 'cxMultiLine',
+  standalone: false,
 })
 class MockMultiLinePipe implements PipeTransform {
   transform(value: string): string {
@@ -57,8 +62,14 @@ describe('CheckoutProgressComponent', () => {
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
   beforeEach(waitForAsync(() => {
+    const mockCurrencyService = {
+      getActive: () => of('USD'),
+    };
+    const mockLanguageService = {
+      getActive: () => of('en'),
+    };
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         CheckoutProgressComponent,
         MockTranslateUrlPipe,
@@ -66,6 +77,8 @@ describe('CheckoutProgressComponent', () => {
       ],
       providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
       ],
     }).compileComponents();
   }));
@@ -85,6 +98,15 @@ describe('CheckoutProgressComponent', () => {
 
     mockCheckoutSteps.forEach((step) => {
       expect(steps.innerText).toContain(step.name);
+    });
+  });
+
+  it('should combine currency and language into params$', (done) => {
+    component.ngOnInit();
+    component.params$.subscribe(([currency, language]) => {
+      expect(currency).toBe('USD');
+      expect(language).toBe('en');
+      done();
     });
   });
 

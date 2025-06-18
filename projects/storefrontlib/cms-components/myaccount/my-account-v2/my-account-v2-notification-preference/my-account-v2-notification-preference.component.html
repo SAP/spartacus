@@ -8,10 +8,10 @@
     <div class="np-row np-flex np-content-center">
       <div class="col-md-8">
         <div class="header">
-          {{ 'myAccountV2NotifiationPerference.header' | cxTranslate }}
+          {{ 'myAccountV2NotificationPreference.header' | cxTranslate }}
         </div>
         <div class="pref-info">
-          {{ 'myAccountV2NotifiationPerference.message' | cxTranslate }}
+          {{ 'myAccountV2NotificationPreference.message' | cxTranslate }}
         </div>
         <div class="form-check cx-notification-channels">
           <ng-container *ngFor="let preference of preferences">
@@ -26,7 +26,7 @@
               />
               <span class="form-check-label">
                 {{
-                  'myAccountV2NotifiationPerference.' + preference.channel
+                  'myAccountV2NotificationPreference.' + preference.channel
                     | cxTranslate
                 }}
                 {{ preference.value }}
@@ -36,9 +36,9 @@
         </div>
         <label
           ><strong>{{
-            'myAccountV2NotifiationPerference.note' | cxTranslate
+            'myAccountV2NotificationPreference.note' | cxTranslate
           }}</strong
-          >{{ 'myAccountV2NotifiationPerference.noteMessage' | cxTranslate }}
+          >{{ 'myAccountV2NotificationPreference.noteMessage' | cxTranslate }}
         </label>
       </div>
     </div>

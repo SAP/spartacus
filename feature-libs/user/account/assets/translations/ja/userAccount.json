@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "パスワードを忘れた場合",
+    "signIn": "サインイン",
+    "register": "登録",
+    "dontHaveAccount": "アカウントをお持ちでない場合",
+    "guestCheckout": "ゲストでチェックアウト",
+    "emailAddress": {
+      "label": "電子メールアドレス",
+      "placeholder": "電子メールアドレスを入力"
+    },
+    "password": {
+      "label": "パスワード",
+      "placeholder": "パスワードを入力"
+    },
+    "wrongEmailFormat": "これは有効な電子メール形式ではありません。"
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "認証コードが {{target}} に送信されました。確認してコードを入力してください。",
+    "needInputCredentials": "続行するには、認証情報を入力してください。",
+    "sendRateLime": "{{waitTime}} 秒以内",
+    "resend": "再送信",
+    "verificationCode": {
+      "label": "認証コード",
+      "placeholder": "認証コードを入力"
+    },
+    "noReceiveCode": "コードが受信されない場合",
+    "verify": "認証",
+    "back": "戻る",
+    "tokenInputHint": "新しいコードを依頼することができます。依頼を再送信できる残りの秒数を示すタイマーが開始されます。"
+  },
+  "verificationTokenDialog": {
+    "title": "コードが受信されなかった場合",
+    "noReceiveCode": "コードが受信されなかった場合、以下の理由が考えられます。",
+    "contentLine1": "1. 電子メールがまだ届いていない。",
+    "contentLine2": "2. 受信した電子メールが迷惑メールとして処理された。",
+    "contentLine3": "3. 入力した電子メールアドレス、またはパスワードのどちらかが間違っていた。",
+    "close": "閉じる"
+  },
+  "miniLogin": {
+    "userGreeting": "{{name}} さん、こんにちは",
+    "signInRegister": "サインイン/登録"
+  },
+  "myAccountV2User": {
+    "signOut": "サインアウト"
+  }
+}

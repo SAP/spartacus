@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "辅助服务模式",
+    "logout": "注销",
+    "hideUi": "关闭 ASM",
+    "helpPortalUrl": "帮助",
+    "customers": "客户",
+    "asmCustomer360Button": "客户 360 视图",
+    "asmCustomer360ViewButton": "客户 360°",
+    "createCustomerSuccessfullyAlert": "客户账户已创建且客户会话已开始。",
+    "saveInactiveCartAlertInfo": "标识的购物车为非活动购物车。要对此购物车采取进一步操作，请先保存它。",
+    "activeCartAlertInfo": "标识的购物车为活动购物车。",
+    "startCustomerEmulationAlertInfo": "客户模拟已开始。您执行的任何操作都将对客户账户产生影响。",
+    "toggleUi": {
+      "collapse": "隐藏 ASM",
+      "expand": "显示 ASM"
+    },
+    "loginForm": {
+      "submit": "登录",
+      "userId": {
+        "label": "代理标识或电子邮件"
+      },
+      "password": {
+        "label": "密码"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "客户姓名/电子邮件地址"
+      },
+      "searchCustomer": {
+        "label": "按名称或电子邮件地址搜索"
+      },
+      "searchOrder": {
+        "label": "按完整订单标识搜索"
+      },
+      "submit": "开始会话",
+      "startEmulation": "开始模拟",
+      "noMatch": "未找到客户。",
+      "noMatchResult": "无法找到此账户。",
+      "noCustomerMatchResult": "未找到匹配的客户。",
+      "noOrderMatchResult": "按完整订单标识搜索。",
+      "createCustomer": "创建新客户",
+      "customer": "客户",
+      "orderID": "订单标识"
+    },
+    "createCustomerForm": {
+      "title": "创建新客户",
+      "createAccount": "创建",
+      "cancel": "取消",
+      "firstName": {
+        "label": "名字",
+        "placeholder": "名字"
+      },
+      "lastName": {
+        "label": "姓氏",
+        "placeholder": "姓氏"
+      },
+      "emailAddress": {
+        "label": "电子邮件地址",
+        "placeholder": "电子邮件地址"
+      },
+      "createAccountAlert": "您创建客户账户后，客户会话将开始。",
+      "validationErrors": {
+        "firstName": "输入有效的名字。",
+        "lastName": "输入有效的姓氏。",
+        "emailAddress": "输入有效的电子邮件地址。"
+      },
+      "badRequestDuplicatedEmail": "输入不同的电子邮件地址，因为 {{ emailAddress }} 已存在。"
+    },
+    "customerList": {
+      "title": "客户列表",
+      "description": "从提供的几个列表中选择客户。",
+      "createCustomer": "创建新客户",
+      "cancel": "取消",
+      "tableHeader": {
+        "customer": "客户",
+        "customerName": "客户名称",
+        "name": "名称",
+        "email": "电子邮件",
+        "emailId": "电子邮件/标识",
+        "phone": "电话",
+        "account": "会计科目",
+        "cart": "购物车",
+        "order": "顺序",
+        "view": "360 视图",
+        "activeCart": "活动购物车",
+        "viewActiveCart": "查看活动购物车",
+        "orders": "订单",
+        "viewOrders": "查看订单",
+        "customer360": "客户 360°",
+        "viewCustomer360": "查看客户 360°"
+      },
+      "tableSort": {
+        "sortBy": "排序依据",
+        "byName": "名称 (升序)",
+        "byNameAsc": "名称 (升序)",
+        "byNameDesc": "名称(降序)",
+        "byDateAsc": "日期(升序)",
+        "byDateDesc": "日期(降序)",
+        "byOrderDateAsc": "订单日期（升序）",
+        "byOrderDateDesc": "订单日期（降序）",
+        "byUnit": "账户（升序）",
+        "byUnitDesc": "账户（降序）"
+      },
+      "page": {
+        "page": "第 {{count}} 页",
+        "previous": "上一步",
+        "next": "下一步"
+      },
+      "noOfCustomers": "{{count}} 个客户",
+      "oneCustomer": "1 个客户",
+      "noCustomers": "当前客户列表中没有客户。",
+      "noLists": "目前没有可用的客户列表。请联系您的系统管理员。",
+      "listsError": "无法检索客户列表。请稍后重试。",
+      "searchBox": "搜索",
+      "enterSearchBox": "输入客户名称或电子邮件"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "警告",
+        "body": "单击“切换客户”将结束“{{ customerA }}”的模拟并开始“{{ customerB }}”。“{{ customerA }}”的任何未保存的更改都将丢失。",
+        "actions": {
+          "switch": "切换客户"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "保存备用",
+      "dialog": {
+        "saveInfo": "请先保存购物车，然后才能采取进一步操作。",
+        "disableInfo": "无法保存购物车，因为它为空。",
+        "title": "保存购物车",
+        "row": {
+          "id": "标识",
+          "qty": "数量",
+          "qtyFull": "数量",
+          "total": "总计"
+        },
+        "actions": {
+          "save": "保存备用"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "购物车编号",
+      "bindCartToCustomer": "将购物车分配给客户",
+      "success": "已成功分配购物车",
+      "assignCartId": "将购物车标识分配给客户",
+      "enterCartId": "输入购物车标识",
+      "resetCartId": "重置",
+      "dialog": {
+        "title": "分配匿名购物车",
+        "body": "是否要用匿名购物车替换当前活动购物车？如果替换当前活动购物车，它将另存为已保存购物车。",
+        "actions": {
+          "replace": "替换购物车"
+        }
+      }
+    },
+    "csagentTokenExpired": "您的客户支持代理已过期。",
+    "endSession": "结束会话",
+    "endEmulation": "结束模拟",
+    "agentSessionTimer": {
+      "label": "会话超时",
+      "minutes": "分钟",
+      "reset": "重置"
+    },
+    "auth": {
+      "agentLoggedInError": "当存在活动的 CS 代理会话时，无法以用户身份登录。请模拟用户或注销 CS 代理。"
+    },
+    "error": {
+      "noCustomerId": "未找到所选用户的 customerId。无法启动会话。"
+    }
+  }
+}

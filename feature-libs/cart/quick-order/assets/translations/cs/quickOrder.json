@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "Do košíku přidáno: ({{ quantity }}) {{ product }}",
+    "entryWasAdded": "Do košíku přidáno: {{ product }}",
+    "noResults": "Nemůžeme najít žádné produkty",
+    "stockLevelReached": "Byla dosažena maximální úroveň zásob",
+    "title": "Rychlá objednávka",
+    "productCodePlaceholder": "Zadejte ID",
+    "entryProductCode": "Zadejte ID produkty pro rychlou objednávku",
+    "quantity": "Množství pro rychlou objednávku",
+    "addToCart": "Přidejte produkt pro rychlou objednávku",
+    "add": "Přidat",
+    "product": "Produkt",
+    "products": "Produkty",
+    "productCodeLabel": "ID produktu",
+    "quantityLabel": "Množství",
+    "quantityFullLabel": "Množství"
+  },
+  "quickOrderForm": {
+    "placeholder": "Zadejte název produktu nebo SKU",
+    "searchBoxLabel": "Zadejte název produktu nebo SKU pro rychlou objednávku. Na jednu objednávku můžete přidat až {{ limit }} produktů.",
+    "listLimitReached": "Byl dosažen limit produktů.",
+    "id": "ID {{ id }}",
+    "noResults": "Nemůžeme najít žádné výsledky",
+    "addProduct": "Přidat produkt {{ product }}",
+    "initialDescription": "Až budou výsledky automatického dokončení k dispozici, použijte šipky nahoru a dolů ke kontrole a klávesu Enter k výběru.",
+    "productsResults": "Počet produktů k dispozici: {{ count }}.",
+    "quickOrderSearch": "Vyhledejte produkt pro rychlou objednávku"
+  },
+  "quickOrderList": {
+    "addToCart": "Přidat do košíku",
+    "emptyList": "Prázdný seznam",
+    "header": "Přidat produkty/SKU",
+    "subHeader": "Najednou můžete přidat max. {{ limit }} platných SKU.",
+    "errorProceedingToCart": "Při přechodu do košíku došlo k chybě.",
+    "warningProceedingToCart": "Varování při přechodu do košíku.",
+    "successfullyAddedToCart": "Úspěšně přidáno do košíku.",
+    "errors": {
+      "productIsOutOfStock": "{{ name }} (#{{code}}) není skladem.",
+      "reviewErrors": "Zkontrolujte tyto chyby.",
+      "listIsFull": "Seznam je plný. Chcete-li pokračovat, přidejte tyto {{ count }} produkty do košíku.",
+      "nonPurchasableError": "Produkt {{ name }} nelze zakoupit.",
+      "outOfStockErrorFound": "{{count}} vyprodaný produkt nebyl přidán.",
+      "outOfStockErrorFound_other": "{{count}} vyprodané produkty nebyly přidány."
+    },
+    "warnings": {
+      "productWasReduced": "Množství {{ name }} (#{{code}}) bylo sníženo na {{ quantityAdded}}.",
+      "reviewWarnings": "Zkontrolujte tato varování.",
+      "reduceWarningFound": "{{count}} množství produktu bylo sníženo.",
+      "reduceWarningFound_other": "{{count}} množství produktů bylo sníženo."
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }} (#{{code}}) přidáno do košíku.",
+      "addedToCartFound": "{{ count }} produkt přidán do košíku.",
+      "addedToCartFound_other": "{{ count }} produktů přidáno do košíku."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "Než vložíte produkty do košíku, přidejte je do seznamu."
+    },
+    "undo": "ZPĚT",
+    "revokeUndo": "Odstranění zrušeného produktu „{{name}}“.",
+    "productWasDeleted": " Produkt „{{ name }}“ přesunut do koše."
+  },
+  "quickOrderTable": {
+    "product": "Produkt",
+    "id": "ID",
+    "price": "Cena",
+    "quantity": "Množství",
+    "quantityFull": "Množství",
+    "itemPrice": "Cena položky",
+    "qty": "Množství",
+    "actions": "Akce",
+    "inStock": "Na skladě",
+    "lowStock": "Nedostatečné množství zásob",
+    "outOfStock": "Není skladem",
+    "listCleared": "Seznam pro rychlou objednávku byl vymazán",
+    "addedtoCart": "Seznam pro rychlou objednávku byl přidán do košíku",
+    "caption": "Obsah rychlé objednávky."
+  }
+}

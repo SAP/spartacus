@@ -14,7 +14,11 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
-@Component({ selector: 'cx-card', template: '' })
+@Component({
+  selector: 'cx-card',
+  template: '',
+  standalone: false,
+})
 class MockCardComponent {
   @Input()
   content: Card;

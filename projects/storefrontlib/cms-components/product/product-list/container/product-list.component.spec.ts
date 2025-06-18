@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
@@ -27,6 +26,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-star-rating',
   template: '',
+  standalone: false,
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -45,6 +45,7 @@ class MockPageLayoutService {
 @Component({
   template: '',
   selector: 'cx-product-list-item',
+  standalone: false,
 })
 class MockProductListItemComponent {
   @Input()
@@ -53,6 +54,7 @@ class MockProductListItemComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -61,6 +63,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -69,6 +72,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
+  standalone: false,
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -106,7 +110,6 @@ describe('ProductListComponent', () => {
       imports: [
         ListNavigationModule,
         FormsModule,
-        RouterTestingModule,
         I18nTestingModule,
         InfiniteScrollModule,
         SpinnerModule,

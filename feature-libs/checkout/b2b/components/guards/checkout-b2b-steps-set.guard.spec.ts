@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   DeliveryMode,
@@ -151,7 +150,6 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       providers: [
         CheckoutB2BStepsSetGuard,
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },

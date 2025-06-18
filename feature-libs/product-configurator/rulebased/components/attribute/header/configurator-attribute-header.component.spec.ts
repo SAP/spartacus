@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { Config, I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -26,11 +26,21 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
   @Input() textSize = 60;
   @Input() productName: string;
+}
+
+@Component({
+  selector: 'cx-configurator-show-options',
+  template: '',
+  standalone: false,
+})
+class MockConfiguratorShowOptionsComponent {
+  @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
 }
 
 export class MockIconFontLoaderService {
@@ -83,6 +93,10 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
+class MockConfig {
+  features = [{ enableReadDomainValuesOnDemand: false }];
+}
+
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
@@ -90,6 +104,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
+  let featuresConfig: Config;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -117,7 +132,6 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   const testConfiguratorUISettings: ConfiguratorUISettingsConfig = {
     productConfigurator: {
-      enableNavigationToConflict: false,
       descriptions: {
         attributeDescriptionLength: 100,
         valueDescriptionLength: 70,
@@ -131,6 +145,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       declarations: [
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
+        MockConfiguratorShowOptionsComponent,
       ],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
@@ -155,12 +170,7 @@ describe('ConfigAttributeHeaderComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '*' },
-          },
-        },
+        { provide: Config, useClass: MockConfig },
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
@@ -184,10 +194,13 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.groupId = 'testGroup';
     component.attribute.required = false;
     component.attribute.incomplete = true;
+    component.attribute.domainOnDemand = false;
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
+    featuresConfig = TestBed.inject(Config);
+    (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = false;
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -317,6 +330,24 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         '.cx-required-icon'
+      );
+    });
+
+    it('should not render "Show Options" button if domainOnDemand is false', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-options'
+      );
+    });
+    it('should render "Show Options" button if domainOnDemand is true in case enableReadDomainValuesOnDemand feature flag is enabled', () => {
+      component.attribute.domainOnDemand = true;
+      (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-show-options'
       );
     });
 
@@ -690,27 +721,16 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Get conflict message key', () => {
-    it("should return 'configurator.conflict.conflictDetected' conflict message key", () => {
+    it("should return 'configurator.conflict.viewConflictDetails' conflict message key for attribute groups", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-      (configuratorUISettingsConfig.productConfigurator ??=
-        {}).enableNavigationToConflict = false;
-      fixture.detectChanges();
-      expect(component.getConflictMessageKey()).toEqual(
-        'configurator.conflict.conflictDetected'
-      );
-    });
 
-    it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
-      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-      (configuratorUISettingsConfig.productConfigurator ??=
-        {}).enableNavigationToConflict = true;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
       );
     });
 
-    it("should return 'configurator.conflict.viewConfigurationDetails' conflict message key", () => {
+    it("should return 'configurator.conflict.viewConfigurationDetails' conflict message key for conflict groups", () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
@@ -1076,32 +1096,11 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('isNavigationToConflictEnabled', () => {
-    it('should return false if productConfigurator setting is not provided', () => {
-      configuratorUISettingsConfig.productConfigurator = undefined;
-      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
-    });
-
-    it('should return false if enableNavigationToConflict setting is not provided', () => {
-      (configuratorUISettingsConfig.productConfigurator ??=
-        {}).enableNavigationToConflict = undefined;
-      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
-    });
-
-    it('should return true if enableNavigationToConflict setting is true', () => {
-      (configuratorUISettingsConfig.productConfigurator ??=
-        {}).enableNavigationToConflict = true;
+    it('should return true if isNavigationToGroupEnabled is true', () => {
       expect(component.isNavigationToConflictEnabled()).toBe(true);
     });
 
-    it('should return false if enableNavigationToConflict setting is false', () => {
-      (configuratorUISettingsConfig.productConfigurator ??=
-        {}).enableNavigationToConflict = false;
-      expect(component.isNavigationToConflictEnabled()).toBe(false);
-    });
-
-    it('should return false if enableNavigationToConflict setting is true and isNavigationToGroupEnabled is false', () => {
-      (configuratorUISettingsConfig.productConfigurator ??=
-        {}).enableNavigationToConflict = true;
+    it('should return false if isNavigationToGroupEnabled is false', () => {
       component.isNavigationToGroupEnabled = false;
       fixture.detectChanges();
       expect(component.isNavigationToConflictEnabled()).toBe(false);

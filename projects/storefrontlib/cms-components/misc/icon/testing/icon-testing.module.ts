@@ -11,6 +11,7 @@ import { IconLoaderService } from '../icon-loader.service';
 @Component({
   selector: 'cx-icon,[cxIcon]',
   template: `{{ type || cxIcon }}`,
+  standalone: false,
 })
 export class MockIconComponent {
   @Input() cxIcon: any;

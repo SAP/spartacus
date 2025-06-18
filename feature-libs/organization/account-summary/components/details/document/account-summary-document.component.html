@@ -1,8 +1,8 @@
 <ng-container *ngIf="accountSummary$ | async as accountSummary">
-  <div>
+  <div role="region" aria-labelledby="regionTitle">
     <!-- HEADER -->
     <div class="cx-account-summary-document-header">
-      <h2>
+      <h2 id="regionTitle">
         {{ 'orgAccountSummary.document.header' | cxTranslate }}
       </h2>
     </div>
@@ -47,6 +47,7 @@
             <cx-pagination
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"
+              paginationID="pagination-top"
             ></cx-pagination>
           </div>
         </div>
@@ -254,6 +255,7 @@
             <cx-pagination
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"
+              paginationID="pagination-bottom"
             ></cx-pagination>
           </div>
         </div>

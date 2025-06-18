@@ -3,7 +3,7 @@
 exports[`Spartacus Cart schematics: ng-add Cart Base feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CartBaseModule } from "@spartacus/cart/base";
-import { cartBaseTranslationChunksConfig, cartBaseTranslations } from "@spartacus/cart/base/assets";
+import { cartBaseTranslationChunksConfig, cartBaseTranslationsEn } from "@spartacus/cart/base/assets";
 import { AddToCartModule } from "@spartacus/cart/base/components/add-to-cart";
 import { MiniCartModule } from "@spartacus/cart/base/components/mini-cart";
 import { CartBaseRootModule } from "@spartacus/cart/base/root";
@@ -19,7 +19,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cartBaseTranslations,
+      resources: { en: cartBaseTranslationsEn },
       chunks: cartBaseTranslationChunksConfig,
     },
   })]
@@ -30,7 +30,7 @@ export class CartBaseFeatureModule { }
 
 exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { cartBaseTranslationChunksConfig, cartBaseTranslations } from "@spartacus/cart/base/assets";
+import { cartBaseTranslationChunksConfig, cartBaseTranslationsEn } from "@spartacus/cart/base/assets";
 import { ADD_TO_CART_FEATURE, CART_BASE_FEATURE, CartBaseRootModule, MINI_CART_FEATURE } from "@spartacus/cart/base/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -65,7 +65,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: cartBaseTranslations,
+      resources: { en: cartBaseTranslationsEn },
       chunks: cartBaseTranslationChunksConfig,
     },
   })
@@ -78,6 +78,9 @@ export class CartBaseFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/cart";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -117,8 +120,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -128,7 +133,12 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -136,13 +146,13 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -168,10 +178,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -183,8 +190,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -207,7 +216,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
 exports[`Spartacus Cart schematics: ng-add Cart Import Export feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { ImportExportModule } from "@spartacus/cart/import-export";
-import { importExportTranslationChunksConfig, importExportTranslations } from "@spartacus/cart/import-export/assets";
+import { importExportTranslationChunksConfig, importExportTranslationsEn } from "@spartacus/cart/import-export/assets";
 import { ImportExportRootModule } from "@spartacus/cart/import-export/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -219,7 +228,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: importExportTranslations,
+      resources: { en: importExportTranslationsEn },
       chunks: importExportTranslationChunksConfig,
     },
   })]
@@ -230,7 +239,7 @@ export class CartImportExportFeatureModule { }
 
 exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { importExportTranslationChunksConfig, importExportTranslations } from "@spartacus/cart/import-export/assets";
+import { importExportTranslationChunksConfig, importExportTranslationsEn } from "@spartacus/cart/import-export/assets";
 import { CART_IMPORT_EXPORT_FEATURE, ImportExportRootModule } from "@spartacus/cart/import-export/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -249,7 +258,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: importExportTranslations,
+      resources: { en: importExportTranslationsEn },
       chunks: importExportTranslationChunksConfig,
     },
   })
@@ -262,6 +271,9 @@ export class CartImportExportFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/cart";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -301,8 +313,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -312,7 +326,12 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -320,13 +339,13 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -352,10 +371,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -367,8 +383,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -391,7 +409,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
 exports[`Spartacus Cart schematics: ng-add Quick Order feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { QuickOrderModule } from "@spartacus/cart/quick-order";
-import { quickOrderTranslationChunksConfig, quickOrderTranslations } from "@spartacus/cart/quick-order/assets";
+import { quickOrderTranslationChunksConfig, quickOrderTranslationsEn } from "@spartacus/cart/quick-order/assets";
 import { QuickOrderRootModule } from "@spartacus/cart/quick-order/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -403,7 +421,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: quickOrderTranslations,
+      resources: { en: quickOrderTranslationsEn },
       chunks: quickOrderTranslationChunksConfig,
     },
   })]
@@ -414,7 +432,7 @@ export class CartQuickOrderFeatureModule { }
 
 exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { quickOrderTranslationChunksConfig, quickOrderTranslations } from "@spartacus/cart/quick-order/assets";
+import { quickOrderTranslationChunksConfig, quickOrderTranslationsEn } from "@spartacus/cart/quick-order/assets";
 import { CART_QUICK_ORDER_FEATURE, QuickOrderRootModule } from "@spartacus/cart/quick-order/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -433,7 +451,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: quickOrderTranslations,
+      resources: { en: quickOrderTranslationsEn },
       chunks: quickOrderTranslationChunksConfig,
     },
   })
@@ -446,6 +464,9 @@ export class CartQuickOrderFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/cart";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -485,8 +506,10 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -496,7 +519,12 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -504,13 +532,13 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -536,10 +564,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -551,8 +576,10 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -575,7 +602,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
 exports[`Spartacus Cart schematics: ng-add Saved Cart feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { SavedCartModule } from "@spartacus/cart/saved-cart";
-import { savedCartTranslationChunksConfig, savedCartTranslations } from "@spartacus/cart/saved-cart/assets";
+import { savedCartTranslationChunksConfig, savedCartTranslationsEn } from "@spartacus/cart/saved-cart/assets";
 import { SavedCartRootModule } from "@spartacus/cart/saved-cart/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -587,7 +614,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: savedCartTranslations,
+      resources: { en: savedCartTranslationsEn },
       chunks: savedCartTranslationChunksConfig,
     },
   })]
@@ -598,7 +625,7 @@ export class CartSavedCartFeatureModule { }
 
 exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { savedCartTranslationChunksConfig, savedCartTranslations } from "@spartacus/cart/saved-cart/assets";
+import { savedCartTranslationChunksConfig, savedCartTranslationsEn } from "@spartacus/cart/saved-cart/assets";
 import { CART_SAVED_CART_FEATURE, SavedCartRootModule } from "@spartacus/cart/saved-cart/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -617,7 +644,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: savedCartTranslations,
+      resources: { en: savedCartTranslationsEn },
       chunks: savedCartTranslationChunksConfig,
     },
   })
@@ -630,6 +657,9 @@ export class CartSavedCartFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/cart";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -669,8 +699,10 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -680,7 +712,12 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -688,13 +725,13 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -720,10 +757,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -735,8 +769,10 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -759,7 +795,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
 exports[`Spartacus Cart schematics: ng-add Wish List feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { WishListModule } from "@spartacus/cart/wish-list";
-import { wishListTranslationChunksConfig, wishListTranslations } from "@spartacus/cart/wish-list/assets";
+import { wishListTranslationChunksConfig, wishListTranslationsEn } from "@spartacus/cart/wish-list/assets";
 import { AddToWishListModule } from "@spartacus/cart/wish-list/components/add-to-wishlist";
 import { WishListRootModule } from "@spartacus/cart/wish-list/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
@@ -773,7 +809,7 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: wishListTranslations,
+      resources: { en: wishListTranslationsEn },
       chunks: wishListTranslationChunksConfig,
     },
   })]
@@ -784,7 +820,7 @@ export class WishListFeatureModule { }
 
 exports[`Spartacus Cart schematics: ng-add Wish List feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { wishListTranslationChunksConfig, wishListTranslations } from "@spartacus/cart/wish-list/assets";
+import { wishListTranslationChunksConfig, wishListTranslationsEn } from "@spartacus/cart/wish-list/assets";
 import { ADD_TO_WISHLIST_FEATURE, CART_WISH_LIST_FEATURE, WishListRootModule } from "@spartacus/cart/wish-list/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
@@ -811,7 +847,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: wishListTranslations,
+      resources: { en: wishListTranslationsEn },
       chunks: wishListTranslationChunksConfig,
     },
   })
@@ -824,6 +860,9 @@ export class WishListFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/cart";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
 "
 `;
 
@@ -863,8 +902,10 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -874,7 +915,12 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
-              ]
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
             }
           },
           "configurations": {
@@ -882,13 +928,13 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "500kB",
                   "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -914,10 +960,7 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "schematics-test:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -929,8 +972,10 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
             ],
             "styles": [
               "src/styles.scss",

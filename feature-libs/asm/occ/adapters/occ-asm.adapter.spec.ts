@@ -1,7 +1,7 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -25,6 +25,10 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OccAsmAdapter } from './occ-asm.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const MockAsmConfig: AsmConfig = {};
 
@@ -84,12 +88,14 @@ describe('OccAsmAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccAsmAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
@@ -152,13 +158,15 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(sort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
-    expect(mockReq.request.params.get('customerListId')).toBe(customerListId);
+    expect(mockReq.request.body).toEqual({
+      query: searchQuery,
+      customerListId: customerListId,
+    });
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -190,12 +198,14 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.body).toEqual({
+      query: searchQuery,
+    });
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -222,12 +232,13 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
     expect(mockReq.request.params.get('query')).toBeNull();
+    expect(mockReq.request.body).toEqual({});
     expect(mockReq.request.params.get('pageSize')).toBeNull();
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -259,12 +270,14 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.body).toEqual({
+      query: searchQuery,
+    });
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -293,12 +306,15 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBeNull();
-    expect(mockReq.request.params.get('query')).toBeNull();
+
+    expect(mockReq.request.body).toEqual({
+      customerListId: 'instoreCustomers',
+    });
     expect(mockReq.request.params.get('pageSize')).toBeNull();
 
     expect(mockReq.cancelled).toBeFalsy();

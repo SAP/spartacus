@@ -44,6 +44,7 @@ import { SplitViewService } from '../split-view.service';
   templateUrl: './split-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SplitViewService],
+  standalone: false,
 })
 export class SplitViewComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

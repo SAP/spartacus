@@ -19,6 +19,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-overview',
   templateUrl: './return-request-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

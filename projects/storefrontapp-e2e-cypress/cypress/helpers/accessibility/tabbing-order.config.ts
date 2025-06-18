@@ -2392,6 +2392,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   asmNotLoggedIn: [
     {
       type: TabbingOrderTypes.LINK,
+      value: 'Help',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: 'Hide ASM',
     },
     {
@@ -2415,6 +2419,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   asmNoSelectedUser: [
     {
       type: TabbingOrderTypes.LINK,
+      value: 'Help',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: 'Customers',
     },
     {
@@ -2435,12 +2443,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.FORM_FIELD,
       value: 'searchOrder',
     },
-    {
-      type: TabbingOrderTypes.BUTTON,
-      value: 'Start Session',
-    },
   ],
   asmWithSelectedUser: [
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Help',
+    },
     {
       type: TabbingOrderTypes.LINK,
       value: 'Customers',
@@ -2475,19 +2483,102 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+      value: 'Current In-Store Customers',
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: '1',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: '2',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: ' ··· ',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: '7',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
     },
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
     },
   ],
+  asmWithB2BCustomerLists: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Create New Customer',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+      value: 'My Recent Customer Sessions',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
   asmWithCreateCustomerForm: [
+    {
+      type: TabbingOrderTypes.SPAN,
+    },
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
@@ -2510,6 +2601,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
   ],
   asmInactiveCartSaveDialog: [
+    {
+      type: TabbingOrderTypes.SPAN,
+    },
     {
       type: TabbingOrderTypes.BUTTON,
       value: '',
@@ -2550,5 +2644,24 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: "Didn't receive the code?", type: TabbingOrderTypes.LINK },
     { value: 'Verify', type: TabbingOrderTypes.BUTTON },
     { value: 'Back', type: TabbingOrderTypes.LINK },
+  ],
+  otpRegistration: [
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
+    { type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.LINK },
+  ],
+  verifyTokenForRegistration: [
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.BUTTON },
+    { type: TabbingOrderTypes.BUTTON },
   ],
 };

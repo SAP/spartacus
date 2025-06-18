@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "Profil kitöltöttsége",
+      "description": "Még el kell fogadnia a következőt:"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "Profiladatok sikeresen frissítve",
+    "profileUpdateFailure": "Nem sikerült frissíteni a profiladatokat"
+  }
+}

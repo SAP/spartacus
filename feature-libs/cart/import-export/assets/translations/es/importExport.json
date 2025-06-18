@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Exportar a CSV",
+    "exportMessage": "El fichero CSV se descargará automáticamente en su dispositivo. Si no lo hace, verifique la configuración de su navegador.",
+    "columnNames": {
+      "code": "Código",
+      "quantity": "Cantidad",
+      "name": "Nombre",
+      "price": "Precio"
+    },
+    "exportProductToCsv": "Exportar producto a CSV"
+  },
+  "importEntries": {
+    "importProducts": "Importar productos"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Importar productos",
+    "importProductsSubtitle": "Añada productos importando un fichero .CSV.",
+    "importProductsNewSavedCartSubtitle": "Añada productos importando un archivo .CSV y creando una nueva cesta guardada.",
+    "importProductFileDetails": "El fichero de texto debe contener una lista de productos con las columnas obligatorias separadas por comas: unidad de almacenamiento y cantidad.",
+    "selectFile": "Seleccionar fichero",
+    "selectedSuccessfully": "El fichero CSV se ha seleccionado correctamente.",
+    "savedCartName": "Nombre de cesta guardada",
+    "savedCartDescription": "Descripción de cesta guardada",
+    "optional": "opcional",
+    "charactersLeft": "caracteres restantes: {{count}}",
+    "cancel": "Cancelar",
+    "upload": "Cargar",
+    "close": "Cerrar",
+    "summary": {
+      "info": "No cierre ni actualice esta ventana mientras se importan los productos.",
+      "loadedToCart": "Los productos se han cargado en el carrito {{ cartName }}",
+      "loaded": "Se han cargado los productos",
+      "loading": "Los productos se están procesando... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} de {{ total }} productos se han importado con éxito.",
+      "warning": "{{ count }} producto no se importó en su totalidad.",
+      "warning_other": "{{ count }} productos no se importaron en su totalidad.",
+      "error": "{{ count }} producto no se importó.",
+      "error_other": "{{ count }} productos no se importaron.",
+      "messages": {
+        "unknownIdentifier": "La unidad de almacenamiento \"{{ productCode}}\" del producto no existe.",
+        "lowStock": "La cantidad de {{ productName }}: {{ quantity }} se ha reducido a {{ quantityAdded }}.",
+        "noStock": "{{ productName }} no está disponible actualmente en el stock.",
+        "unknownError": "Problema no reconocido con \"{{ productCode }}\".",
+        "limitExceeded": "No se puede añadir \"{{ productCode }}\". Se excedió el límite."
+      },
+      "show": "Visualizar",
+      "hide": "Ocultar"
+    }
+  }
+}

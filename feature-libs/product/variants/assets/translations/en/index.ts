@@ -5,7 +5,6 @@
  */
 
 import productVariants from './productVariants.json';
-
 export const en = {
   productVariants,
 };

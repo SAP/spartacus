@@ -5,7 +5,6 @@
  */
 
 import multiDimensionalSelector from './multiDimensionalSelector.json';
-
 export const en = {
   multiDimensionalSelector,
 };

@@ -15,22 +15,24 @@ import {
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
   WindowRef,
-  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   IconModule,
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { defaultVerificationTokenLayoutConfig } from './default-verification-token-layout.config';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
 
 @NgModule({
   imports: [
@@ -45,6 +47,8 @@ import { VerificationTokenFacade } from '@spartacus/user/account/root';
     FormErrorsModule,
     SpinnerModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

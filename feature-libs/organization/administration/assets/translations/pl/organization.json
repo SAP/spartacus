@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "Aktywne",
+    "disabled": "Wyłączone",
+    "enable": "Włącz",
+    "disable": "Wyłącz",
+    "name": "Nazwa",
+    "code": "Kod",
+    "done": "gotowe",
+    "cancel": "Anuluj",
+    "add": "Dodaj",
+    "manageUsers": "Zarządzaj użytkownikami",
+    "create": "Utwórz {{name}}",
+    "edit": "Edytuj",
+    "save": "Zapisz {{name}}",
+    "delete": "Usuń",
+    "assign": "Zarządzaj",
+    "active": "Aktywne",
+    "status": "Status",
+    "details": "Szczegóły",
+    "messages": {
+      "emptyList": "Ta lista jest pusta"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "Klient",
+      "b2bapprovergroup": "Osoba zatwierdzająca",
+      "b2bmanagergroup": "Menedżer",
+      "b2badmingroup": "Administrator"
+    },
+    "userRights": {
+      "unitorderviewergroup": "Wyświetl zamówienia na poziomie jednostki"
+    },
+    "breadcrumb": "Organizacja",
+    "notification": {
+      "noSufficientPermissions": "Niewystarczające uprawnienia dostępu do tej strony.",
+      "notExist": "Ta pozycja nie istnieje.",
+      "disabled": "Nie możesz edytować wyłączonej pozycji"
+    },
+    "confirmation": {
+      "cancel": "ANULUJ",
+      "confirm": "POTWIERDŹ",
+      "disable": "WYŁĄCZ",
+      "delete": "USUŃ"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "Budżet z kodem {{ code }} już istnieje.",
+        "costCenter": "Miejsce powstawania kosztów z kodem {{ code }} już istnieje.",
+        "unit": "Jednostka organizacyjna z UID {{ code }} już istnieje.",
+        "user": "Użytkownik z adresem e-mail {{ code }} już istnieje",
+        "userGroup": "Grupa użytkowników z ID {{ code }} już istnieje",
+        "permission": "Uprawnienie do zatwierdzania z kodem {{ code }} już istnieje.",
+        "unknown": "Błąd walidacji serwera."
+      }
+    },
+    "information": "Więcej informacji o planie {{title}}"
+  },
+  "orgCostCenter": {
+    "groupName": "Miejsca powstawania kosztów",
+    "header": "Wszystkie miejsca powstawania kosztów ({{count}})",
+    "code": "Kod",
+    "active": "Status",
+    "name": "Nazwa",
+    "currency": "Waluta",
+    "unit": "Jednostka nadrzędna",
+    "actions": "",
+    "sortBy": "Sortuj według",
+    "sort": {
+      "byName": "Nazwa",
+      "byUnitName": "Jednostka",
+      "byCode": "Kod"
+    },
+    "hint": "Wszystkie zamówienia złożone za pośrednictwem konta zakupowego organizacji są powiązane z miejscem powstawania kosztów w celu ich śledzenia. Każda jednostka może mieć wiele miejsc powstawania kosztów. Aby ograniczyć wydatki, budżety są przypisywane do miejsc powstawania kosztów. Nabywca wybiera miejsce powstawania kosztów podczas dokonywania zakupu.",
+    "disable": {
+      "confirm": "Wyłącz"
+    },
+    "messages": {
+      "deactivateTitle": "Wyłączyć to miejsce powstawania kosztów?",
+      "deactivate": "Wyłączone miejsca powstawania kosztów nie mogą być używane do składania nowych zamówień. Upewnij się, że Twoja jednostka ma co najmniej jedno miejsce powstawania kosztów. Nie ma to wpływu na istniejące zamówienia.",
+      "confirmEnabled": "Miejsce powstawania kosztów {{ item.name }} zostało włączone",
+      "confirmDisabled": "Miejsce powstawania kosztów {{ item.name }} zostało wyłączone",
+      "update": "Miejsce powstawania kosztów {{ item.name }} zostało zaktualizowane",
+      "create": "Miejsce powstawania kosztów {{ item.name }} zostało utworzone"
+    },
+    "info": {
+      "disabledEdit": "Włącz miejsce powstawania kosztów, aby umożliwić edycję",
+      "disabledEnable": "Jednostkę należy włączyć przed włączeniem tego miejsca powstawania kosztów."
+    },
+    "details": {
+      "title": "Szczegóły miejsca powstawania kosztów",
+      "subtitle": "Miejsce powstawania kosztów: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edytuj miejsce powstawania kosztów",
+      "subtitle": "Miejsce powstawania kosztów: {{ item.name }}"
+    },
+    "create": {
+      "title": "Utwórz miejsce powstawania kosztów",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "Budżety"
+    },
+    "breadcrumbs": {
+      "list": "Wszystkie miejsca powstawania kosztów",
+      "details": "{{name}}",
+      "budgets": "Budżety"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "Zarządzanie budżetami",
+    "subtitle": "Miejsce powstawania kosztów: {{ item.name }}",
+    "assigned": "Budżet {{ item.name }} został przypisany",
+    "unassigned": "Usunięto przypisanie budżetu {{ item.name }}"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "Przypisane budżety",
+    "subtitle": "Miejsce powstawania kosztów: {{ item.name }}",
+    "assigned": "Budżet {{ item.name }} został przypisany",
+    "unassigned": "Usunięto przypisanie budżetu {{ item.name }}"
+  },
+  "orgBudget": {
+    "groupName": "Budżety",
+    "header": "Wszystkie budżety ({{count}})",
+    "code": "Kod",
+    "name": "Nazwa",
+    "active": "Status",
+    "currency": "Waluta",
+    "amount": "Kwota",
+    "unit": "Jednostka",
+    "businessUnits": "Jednostka",
+    "dateRange": "Początek - Koniec",
+    "startDate": "Początek",
+    "endDate": "Koniec",
+    "actions": "",
+    "sortBy": "Sortuj według",
+    "sort": {
+      "byName": "Nazwa",
+      "byUnitName": "Jednostka",
+      "byCode": "Kod",
+      "byValue": "Wartość"
+    },
+    "hint": "Budżety określają ogólne limity zakupów i są przypisane do miejsc powstawania kosztów. Nabywca wybiera miejsce powstawania kosztów podczas dokonywania zakupu.",
+    "details": {
+      "title": "Szczegóły budżetu",
+      "subtitle": "Budżet: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edytuj budżet",
+      "subtitle": "Budżet: {{ item.name }}"
+    },
+    "create": {
+      "title": "Utwórz budżet",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Czy wyłączyć budżet?",
+      "deactivate": "Wyłączone budżety nie mają już zastosowania do miejsc powstawania kosztów, do których zostały przypisane. Upewnij się, że powiązane miejsce powstawania kosztów ma co najmniej jeden budżet.",
+      "confirmEnabled": "Budżet {{ item.name }} został włączony",
+      "confirmDisabled": "Budżet {{ item.name }} został wyłączony",
+      "update": "Budżet {{ item.name }} został zaktualizowany",
+      "create": "Budżet {{ item.name }} został utworzony"
+    },
+    "info": {
+      "disabledEdit": "Włącz budżet, aby umożliwić edycję.",
+      "disabledEnable": "Jednostkę należy włączyć przed włączeniem tego budżetu."
+    },
+    "links": {
+      "costCenters": "Miejsca powstawania kosztów"
+    },
+    "breadcrumbs": {
+      "list": "Wszystkie budżety",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "Miejsca powstawania kosztów",
+    "subtitle": "Budżet: {{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "Jednostki",
+    "header": "Wszystkie jednostki ({{count}})",
+    "unit": "Jednostka",
+    "name": "Nazwa",
+    "uid": "ID",
+    "approvalProcess": "Proces zatwierdzania",
+    "parentUnit": "Jednostka nadrzędna",
+    "active": "Status",
+    "hint": "Jednostki reprezentują działy, sklepy, regiony lub inne grupy logiczne, które mają sens. Miejsca powstawania kosztów i adresy dostawy dostępne dla nabywcy podczas dokonywania płatności zależą od jego jednostki. Użytkownicy mają dostęp do wszystkich jednostek podrzędnych swojej jednostki podstawowej.",
+    "details": {
+      "title": "Szczegóły jednostki",
+      "subtitle": "Jednostka: {{ item.name }}",
+      "hint": "Jednostki reprezentują działy, sklepy, regiony lub inne grupy logiczne, które mają sens. Wyłączenie jednostki powoduje wyłączenie wszystkich elementów podrzędnych tej jednostki, w tym jednostek podrzędnych, użytkowników, osób zatwierdzających i miejsc powstawania kosztów. Wyłączonych jednostek nie można edytować."
+    },
+    "edit": {
+      "title": "Edytuj jednostkę",
+      "subtitle": "Jednostka: {{ item.name }}"
+    },
+    "create": {
+      "title": "Utwórz jednostkę",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Czy wyłączyć jednostkę?",
+      "deactivate": "Wyłączenie jednostki ma szeroki wpływ na organizację handlową. WSZYSTKIE jednostki podrzędne danej jednostki, użytkownicy, budżety i miejsca powstawania kosztów również zostaną wyłączone.",
+      "confirmEnabled": "Jednostka {{ item.name }} została włączona",
+      "confirmDisabled": "Jednostka {{ item.name }} została wyłączona",
+      "update": "Jednostka {{ item.name }} została zaktualizowana",
+      "create": "Jednostka {{ item.name }} została utworzona"
+    },
+    "info": {
+      "disabledEdit": "Włącz jednostkę, aby umożliwić edycję.",
+      "disabledEnable": "Jednostkę nadrzędną należy włączyć przed włączeniem tej jednostki.",
+      "disabledDisable": "Nie można wyłączyć jednostki głównej."
+    },
+    "links": {
+      "units": "Jednostki podrzędne",
+      "users": "Użytkownicy",
+      "approvers": "Osoby zatwierdzające",
+      "shippingAddresses": "Adresy dostawy",
+      "costCenters": "Miejsca powstawania kosztów"
+    },
+    "tree": {
+      "expandAll": "Rozwiń wszystkie",
+      "collapseAll": "Zwiń wszystkie",
+      "expand": "Rozwiń",
+      "collapse": "zwiń",
+      "explore": "Analizuj jednostki podrzędne"
+    },
+    "children": {
+      "create": {
+        "title": "Utwórz jednostkę podrzędną",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "Jednostka {{ item.name }} została utworzona"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "Utwórz miejsce powstawania kosztów",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "Nadrzędna jednostka biznesowa",
+      "create": "Utwórz jednostkę",
+      "parentOrgUnitNotes": "Ta jednostka jest jednostką najwyższego poziomu w organizacji. Nie można jej przypisać do innej jednostki."
+    },
+    "users": {
+      "header": "Użytkownicy w {{code}}",
+      "changeUserRoles": "Zmień role użytkownika",
+      "newUser": "Nowy użytkownik"
+    },
+    "assignRoles": {
+      "header": "Zarządzanie rolami w {{code}}",
+      "instructions": {
+        "check": "Aby przypisać rolę do użytkownika, zaznacz pole wyboru roli.",
+        "uncheck": "Aby usunąć rolę, wyczyść jej pole wyboru.",
+        "changes": "Zmiany są zapisywane automatycznie."
+      }
+    },
+    "approvers": {
+      "header": "Osoby zatwierdzające w {{code}}",
+      "assign": "Zarządzanie osobami zatwierdzającymi",
+      "new": "Nowa osoba zatwierdzająca"
+    },
+    "assignApprovers": {
+      "header": "Zarządzanie osobami zatwierdzającymi w {{code}}",
+      "instructions": {
+        "check": "Aby przypisać osobę zatwierdzającą do jednostki, zaznacz pole wyboru użytkownika.",
+        "uncheck": "Aby usunąć osobę zatwierdzającą, odznacz pole wyboru użytkownika.",
+        "changes": "Zmiany są zapisywane automatycznie."
+      },
+      "hint": "Użytkownicy wyświetlani na liście zatwierdzających mają przypisane uprawnienia do zatwierdzania nabywców danej jednostki i jednostek podrzędnych. Zwróć uwagę, że użytkownik, który ma rolę osoby zatwierdzającej, jest niezależny od osoby zatwierdzającej, która pojawia się na liście osób zatwierdzających. Jeśli osoba zatwierdzająca nie istnieje dla jednostki lub jeśli osoby zatwierdzające nie mają wystarczających uprawnień do zatwierdzania zakupów, wyszukiwana jest osoba zatwierdzająca znajdująca się wyżej w hierarchii jednostek, aż do momentu wybrania administratora."
+    },
+    "breadcrumbs": {
+      "list": "Wszystkie jednostki",
+      "details": "{{name}}",
+      "children": "Jednostki podrzędne",
+      "users": "Użytkownicy",
+      "approvers": "Osoby zatwierdzające",
+      "addresses": "Adresy dostawy",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "Miejsca powstawania kosztów"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "Jednostki podrzędne",
+    "subtitle": "Jednostka: {{item.name}}",
+    "info": {
+      "disabledCreate": "Nie można utworzyć jednostki podrzędnej dla wyłączonej jednostki."
+    },
+    "hint": "Jednostki reprezentują działy, sklepy, regiony lub inne logiczne grupy, które mają sens. Użytkownicy \"dziedziczą\" jednostki podrzędne, co oznacza, że nabywcy mają dostęp do miejsc powstawania kosztów i adresów dostawy jednostek podrzędnych podczas dokonywania płatności."
+  },
+  "orgUnitApprovers": {
+    "title": "Zarządzanie osobami zatwierdzającymi",
+    "subtitle": "Jednostka: {{item.name}}",
+    "assigned": "Użytkownik {{ item.name }} został przypisany",
+    "unassigned": "Usunięto przypisanie użytkownika {{ item.name }}"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "Przypisane osoby zatwierdzające",
+    "subtitle": "Jednostka: {{item.name}}",
+    "assigned": "Użytkownik {{ item.name }} został przypisany",
+    "unassigned": "Usunięto przypisanie użytkownika {{ item.name }}",
+    "hint": "Użytkownicy wyświetlani na liście zatwierdzających mają przypisane uprawnienia do zatwierdzania nabywców danej jednostki i jednostek podrzędnych. Zwróć uwagę, że użytkownik, który ma rolę osoby zatwierdzającej, jest niezależny od osoby zatwierdzającej, która pojawia się na liście osób zatwierdzających. Jeśli osoba zatwierdzająca nie istnieje dla jednostki lub jeśli osoby zatwierdzające nie mają wystarczających uprawnień do zatwierdzania zakupów, wyszukiwana jest osoba zatwierdzająca znajdująca się wyżej w hierarchii jednostek, aż do momentu wybrania administratora."
+  },
+  "orgUnitAssignedRoles": {
+    "header": "Zarządzanie rolami w {{code}}",
+    "name": "Nazwa",
+    "email": "E-mail",
+    "roles": "Role",
+    "roleCustomer": "Klient",
+    "roleApprover": "Osoba zatwierdzająca",
+    "roleManager": "Menedżer",
+    "roleAdministrator": "Administrator"
+  },
+  "orgUnitUsers": {
+    "title": "Przypisani użytkownicy",
+    "subtitle": "Jednostka: {{item.name}}",
+    "info": {
+      "disabledCreate": "Nie można utworzyć użytkownika dla wyłączonej jednostki."
+    },
+    "hint": "Użytkownicy to nabywcy, osoby zatwierdzające, menedżerowie i administratorzy organizacji. Każdy użytkownik ma przypisaną rolę umożliwiającą dokonywanie lub zatwierdzanie zakupów. Użytkownicy \"dziedziczą\" jednostki podrzędne, co oznacza, że nabywcy mają dostęp do miejsc powstawania kosztów i adresów dostawy jednostek podrzędnych podczas dokonywania płatności."
+  },
+  "orgUnitUserRoles": {
+    "title": "Role i uprawnienia użytkownika",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "messages": {
+      "rolesUpdated": "Role zostały zaktualizowane dla {{item.name}}"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "Przypisani użytkownicy",
+    "subtitle": "Jednostka: {{item.name}}"
+  },
+  "orgUnitCostCenters": {
+    "title": "Przypisane miejsca powstawania kosztów",
+    "subtitle": "Jednostka: {{item.name}}",
+    "info": {
+      "disabledCreate": "Nie można utworzyć miejsca powstawania kosztów dla wyłączonej jednostki."
+    },
+    "hint": "Wszystkie zamówienia złożone za pośrednictwem konta zakupowego organizacji są powiązane z miejscem powstawania kosztów na potrzeby śledzenia. Nabywca wybiera miejsce powstawania kosztów podczas dokonywania płatności używając metody zakupu \"Konto\". Każda jednostka może mieć wiele miejsc powstawania kosztów, ale jedno miejsce powstawania kosztów może być przypisane tylko do jednej jednostki. Aby zdefiniować ostateczne limity wydatków, budżety są przypisywane do miejsc powstawania kosztów. "
+  },
+  "orgUnitAddress": {
+    "title": "Adresy dostawy",
+    "subtitle": "Jednostka: {{item.name}}",
+    "country": "Kraj/region",
+    "titles": "Tytuł",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "formattedAddress": "Adres",
+    "address1": "Adres",
+    "address2": "2. adres (opcjonalny)",
+    "city": "Miasto",
+    "state": "Status",
+    "zipCode": "Kod pocztowy",
+    "phoneNumber": "Numer telefonu (opcjonalny)",
+    "streetAddress": "Ulica",
+    "aptSuite": "Numer mieszkania",
+    "selectOne": "Wybierz jeden...",
+    "hint": "Gdy nabywca dokonuje płatności, używając metody zakupu \"Konto\", wybiera miejsce powstawania kosztów. Adresy dostawy dostępne dla nabywcy zależą od jednostki wybranego miejsca powstawania kosztów.",
+    "details": {
+      "title": "Dane adresowe",
+      "subtitle": "Jednostka: {{item.name}}"
+    },
+    "edit": {
+      "title": "Edytuj adres"
+    },
+    "create": {
+      "title": "Utwórz adres"
+    },
+    "form": {
+      "subtitle": "Jednostka: {{item.name}}"
+    },
+    "messages": {
+      "create": "Adres {{ item.firstName }} {{ item.lastName }} został utworzony",
+      "update": "Adres {{ item.firstName }} {{ item.lastName }} został zaktualizowany",
+      "delete": "Nie można przywrócić adresu. Nie ma to wpływu na istniejące zamówienia.",
+      "deleteTitle": "Czy usunąć ten adres?",
+      "deleted": "Adres {{ item.firstName }} {{ item.lastName }} został usunięty"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "Grupy użytkowników",
+    "header": "Wszystkie grupy użytkowników ({{count}})",
+    "disabled": "(wyłączony)",
+    "uid": "Kod",
+    "name": "Nazwa",
+    "unit": "Jednostka",
+    "orgUnit": "Jednostka",
+    "actions": "",
+    "sortBy": "Sortuj według",
+    "sort": {
+      "byName": "Nazwa",
+      "byUnitName": "Jednostka",
+      "byGroupID": "Grupa"
+    },
+    "hint": "Grupy użytkowników umożliwiają łączenie użytkowników w jedną grupę w celu przypisania limitów zakupów dla wielu użytkowników jednocześnie.",
+    "details": {
+      "title": "Szczegóły grupy użytkowników",
+      "subtitle": "Grupa użytkowników: {{item.name}}"
+    },
+    "edit": {
+      "title": "Edytuj grupę użytkowników",
+      "subtitle": "Grupa użytkowników: {{item.name}}"
+    },
+    "create": {
+      "title": "Utwórz grupę użytkowników",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "Użytkownicy",
+      "permission": "Limity zakupów"
+    },
+    "messages": {
+      "update": "Grupa użytkowników {{ item.name }} została zaktualizowana",
+      "create": "Grupa użytkowników {{ item.name }} została utworzona",
+      "deleteTitle": "Usunąć tę grupę użytkowników?",
+      "delete": "Usunięcie grupy użytkowników nie ma wpływu na użytkowników należących do tej grupy.",
+      "deleted": "Grupa użytkowników {{ item.name }} została usunięta"
+    },
+    "breadcrumbs": {
+      "list": "Wszystkie grupy użytkowników",
+      "details": "{{name}}",
+      "users": "Użytkownicy",
+      "permissions": "Limity zakupów"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "Zarządzanie użytkownikami",
+    "subtitle": "Grupa użytkowników: {{item.name}}",
+    "assigned": "Użytkownik {{ item.name }} został przypisany",
+    "unassigned": "Usunięto przypisanie użytkownika {{ item.name }}",
+    "unassignAll": "Usuń przypisania wszystkich",
+    "unassignAllConfirmation": "Usunięto przypisania wszystkich użytkowników"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "Przypisani użytkownicy",
+    "subtitle": "Grupa użytkowników: {{item.name}}",
+    "assigned": "Użytkownik {{ item.name }} został przypisany",
+    "unassigned": "Usunięto przypisanie użytkownika {{ item.name }}"
+  },
+  "orgUserGroupPermissions": {
+    "title": "Zarządzanie limitami zakupów",
+    "subtitle": "Limit: {{ item.name }}",
+    "assigned": "Limity zakupów {{item.code}} zostały przypisane",
+    "unassigned": "Usunięto przypisania limitów zakupów {{item.code}}"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "Przypisane limity zakupów",
+    "subtitle": "Limit: {{ item.name }}",
+    "assigned": "Limity zakupów {{item.code}} zostały przypisane",
+    "unassigned": "Usunięto przypisania limitów zakupów {{item.code}}"
+  },
+  "orgUser": {
+    "groupName": "Użytkownicy",
+    "header": "Wszyscy użytkownicy ({{count}})",
+    "disabled": "(wyłączony)",
+    "uid": "E-mail",
+    "active": "Status",
+    "name": "Nazwa",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "email": "E-mail",
+    "orgUnit": "Jednostka",
+    "unit": "Jednostka",
+    "roles": "Role",
+    "rights": "Uprawnienia",
+    "title": "Tytuł",
+    "hint": "Użytkownicy to nabywcy, osoby zatwierdzające, menedżerowie i administratorzy organizacji. Każdy użytkownik ma przypisaną rolę umożliwiającą dokonywanie lub zatwierdzanie zakupów. Każdy użytkownik należy do jednostki i ma dostęp do wszystkich jednostek podrzędnych swojej jednostki podstawowej.",
+    "unitApprover": "Osoba zatwierdzająca jednostki",
+    "assignApprover": "Dodanie użytkownika do osób zatwierdzających dla jednostki",
+    "actions": "",
+    "sortBy": "Sortuj według",
+    "sort": {
+      "byName": "Nazwa",
+      "byUnit": "Jednostka"
+    },
+    "details": {
+      "title": "Szczegóły użytkownika",
+      "subtitle": "Użytkownik: {{item.name}}"
+    },
+    "edit": {
+      "title": "Edytuj użytkownika",
+      "subtitle": "Użytkownik: {{item.name}}"
+    },
+    "create": {
+      "title": "Utwórz użytkownika",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "Zmień hasło",
+      "approvers": "Osoby zatwierdzające",
+      "userGroup": "Grupy użytkowników",
+      "permission": "Limity zakupów",
+      "rolesAndRights": "Role i uprawnienia"
+    },
+    "messages": {
+      "deactivateTitle": "Czy wyłączyć użytkownika?",
+      "deactivate": "Wyłączeni użytkownicy nie mogą logować się do sklepu i składać zamówień.",
+      "confirmEnabled": "Użytkownik {{ item.firstName }} {{ item.lastName }} został włączony",
+      "confirmDisabled": "Użytkownik {{ item.firstName }} {{ item.lastName }} został wyłączony",
+      "update": "Użytkownik {{ item.firstName }} {{ item.lastName }} został zaktualizowany",
+      "create": "Użytkownik {{ item.firstName }} {{ item.lastName }} został utworzony",
+      "updatePassword": "Hasło użytkownika {{ item.firstName }} {{ item.lastName }} zostało zaktualizowane"
+    },
+    "info": {
+      "disabledEdit": "Włącz użytkownika, aby umożliwić edycję.",
+      "disabledEnable": "Jednostkę należy włączyć przed włączeniem tego użytkownika."
+    },
+    "approver": {
+      "link": "Osoby zatwierdzające",
+      "header": "Osoby zatwierdzające w {{code}}",
+      "assign": "Przypisz osoby zatwierdzające",
+      "assignHeader": "Przypisz osoby zatwierdzające w {{code}}",
+      "back": "Wstecz",
+      "new": "Nowa osoba zatwierdzająca",
+      "instructions": {
+        "check": "Aby przypisać osobę zatwierdzającą do użytkownika, zaznacz pole wyboru użytkownika.",
+        "uncheck": "Aby usunąć osobę zatwierdzającą, odznacz pole wyboru użytkownika.",
+        "changes": "Zmiany są zapisywane automatycznie."
+      }
+    },
+    "userGroup": {
+      "link": "Grupy użytkowników",
+      "header": "Grupy użytkowników w {{code}}",
+      "assign": "Przypisz grupy użytkowników",
+      "assignHeader": "Przypisz grupy użytkowników do {{code}}",
+      "back": "Wstecz",
+      "instructions": {
+        "check": "Aby przypisać grupę do użytkownika, zaznacz pole wyboru użytkownika.",
+        "uncheck": "Aby usunąć grupę użytkowników, odznacz pole wyboru użytkownika.",
+        "changes": "Zmiany są zapisywane automatycznie."
+      }
+    },
+    "permission": {
+      "link": "Limity zakupów",
+      "header": "Limity zakupów w {{code}}",
+      "assign": "Przypisz limity zakupów",
+      "assignHeader": "Przypisz limity zakupów w {{code}}",
+      "back": "Wstecz",
+      "instructions": {
+        "check": "Aby przypisać limity zakupów do użytkownika, zaznacz jego pole wyboru.",
+        "uncheck": "Aby usunąć przypisanie limitów zakupu, odznacz pole wyboru.",
+        "changes": "Zmiany są zapisywane automatycznie."
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "na miesiąc",
+        "YEAR": "na rok",
+        "WEEK": "na tydzień",
+        "QUARTER": "na kwartał"
+      }
+    },
+    "password": {
+      "title": "Zmień hasło",
+      "subtitle": "Użytkownik: {{item.name}}",
+      "newPassword": "Nowe hasło",
+      "confirmPassword": "Wpisz ponownie nowe hasło"
+    },
+    "breadcrumbs": {
+      "list": "Wszyscy użytkownicy",
+      "details": "{{name}}",
+      "userGroups": "Grupy użytkowników",
+      "approvers": "Osoby zatwierdzające",
+      "permissions": "Limity zakupów"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "Zarządzanie grupami użytkowników",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "assigned": "Grupa użytkowników {{ item.name }} została przypisana",
+    "unassigned": "Usunięto przypisanie grupy użytkowników {{ item.name }}"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "Przypisane grupy użytkowników",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "assigned": "Grupa użytkowników {{ item.name }} została przypisana",
+    "unassigned": "Usunięto przypisanie grupy użytkowników {{ item.name }}"
+  },
+  "orgUserApprovers": {
+    "title": "Zarządzanie osobami zatwierdzającymi",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "assigned": "Osoba zatwierdzająca {{ item.name }} została przypisana",
+    "unassigned": "Usunięto przypisanie osoby zatwierdzającej {{ item.name }}"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "Przypisane osoby zatwierdzające",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "assigned": "Osoba zatwierdzająca {{ item.name }} została przypisana",
+    "unassigned": "Usunięto przypisanie osoby zatwierdzającej {{ item.name }}"
+  },
+  "orgUserPermissions": {
+    "title": "Zarządzanie limitami zakupów",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "assigned": "Limit zakupów {{item.code}} został przypisany",
+    "unassigned": "Usunięto przypisanie limitu zakupów {{item.code}}"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "Przypisane limity zakupów",
+    "subtitle": "Użytkownik: {{item.name}}",
+    "assigned": "Limit zakupów {{item.code}} został przypisany",
+    "unassigned": "Usunięto przypisanie limitu zakupów {{item.code}}"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "Limity zakupów",
+    "header": "Wszystkie limity zakupów ({{count}})",
+    "name": "Nazwa",
+    "code": "Kod",
+    "active": "Status",
+    "limit": "Limit",
+    "orderApprovalPermissionType": "Typ",
+    "threshold": "Wartość progowa",
+    "periodRange": "Okres",
+    "currency": "Waluta",
+    "orgUnit": "Jednostka nadrzędna",
+    "unit": "Jednostka nadrzędna",
+    "actions": "",
+    "hint": "Limity zakupów pomagają kontrolować wydatki, określając, ile nabywcy mogą wydać na zamówienie lub na tydzień, miesiąc, kwartał lub rok. Limity zakupów są przypisywane do użytkowników lub grup użytkowników. Limity zakupów są również przypisywane do osób zatwierdzających, określając, ile mogą zatwierdzić. Za pomocą grup użytkowników można przypisać limity zakupów do wielu użytkowników jednocześnie.",
+    "details": {
+      "title": "Szczegóły limitów zakupów",
+      "subtitle": "Limit zakupów: {{ item.code }}"
+    },
+    "edit": {
+      "title": "Edytuj limit zakupów",
+      "subtitle": "Limity zakupów: {{ item.code }}"
+    },
+    "create": {
+      "title": "Utwórz limit zakupów",
+      "subtitle": ""
+    },
+    "sortBy": "Sortuj według",
+    "sort": {
+      "byName": "Nazwa",
+      "byUnitName": "Jednostka"
+    },
+    "messages": {
+      "deactivateTitle": "Czy wyłączyć ten limit zakupów?",
+      "deactivate": "Wyłączonych limitów zakupów nie można już przypisywać do użytkownika lub grupy użytkowników. Bieżące przypisania nie będą działać.",
+      "confirmEnabled": "Limit zakupów {{item.code}} został włączony",
+      "confirmDisabled": "Limit zakupów {{item.code}} został wyłączony",
+      "update": "Limit zakupów {{item.code}} został zaktualizowany",
+      "create": "Limit zakupów {{item.code}} został utworzony"
+    },
+    "info": {
+      "disabledEdit": "Włącz limit zakupów, aby umożliwić edycję.",
+      "disabledEnable": "Jednostkę należy włączyć przed włączeniem tego limitu zakupów."
+    },
+    "per": {
+      "DAY": "na dzień",
+      "WEEK": "na tydzień",
+      "MONTH": "na miesiąc",
+      "QUARTER": "na kwartał",
+      "YEAR": "na rok"
+    },
+    "breadcrumbs": {
+      "list": "Wszystkie limity zakupów",
+      "details": "{{code}}"
+    }
+  }
+}

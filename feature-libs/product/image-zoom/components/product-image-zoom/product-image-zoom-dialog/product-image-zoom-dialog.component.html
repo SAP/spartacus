@@ -1,12 +1,12 @@
 <div
-  class="cx-image-zoom-dialog"
+  class="modal-dialog modal-dialog-centered modal-lg cx-image-zoom-dialog"
   role="dialog"
   (esc)="close('Escape clicked')"
   [cxFocus]="focusConfig"
   [attr.aria-label]="'productImageZoomDialog.zoomedInImage' | cxTranslate"
 >
-  <div class="cx-dialog-content">
-    <div class="cx-dialog-header">
+  <div class="modal-content cx-dialog-content">
+    <div class="modal-header cx-dialog-header">
       <button
         type="button"
         class="close"
@@ -19,7 +19,7 @@
         </span>
       </button>
     </div>
-    <div class="cx-dialog-body">
+    <div class="modal-body cx-dialog-body">
       <cx-product-image-zoom-view
         [galleryIndex]="galleryIndex"
       ></cx-product-image-zoom-view>

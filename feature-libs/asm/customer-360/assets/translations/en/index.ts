@@ -5,7 +5,6 @@
  */
 
 import asmCustomer360 from './asmCustomer360.json';
-
 export const en = {
   asmCustomer360,
 };

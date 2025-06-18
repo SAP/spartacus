@@ -1,18 +1,15 @@
-<div class="cx-order-type-card">
+<div
+  class="cx-order-type-card"
+  role="region"
+  [attr.aria-labelledby]="'checkout-schedule-replenishment-order-title'"
+>
   <div class="cx-label-container">
-    <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
     <h3
-      *cxFeature="'a11yScheduleReplenishment'"
+      id="checkout-schedule-replenishment-order-title"
       class="cx-order-replenishment-header"
     >
       {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
     </h3>
-    <h5
-      *cxFeature="'!a11yScheduleReplenishment'"
-      class="cx-order-replenishment-header"
-    >
-      {{ 'checkoutScheduledReplenishment.autoReplenishOrder' | cxTranslate }}
-    </h5>
     <cx-icon [type]="iconTypes.CLOCK"></cx-icon>
   </div>
   <div
@@ -50,17 +47,9 @@
   >
     <div class="cx-replenishment-form-data-container">
       <div *ngIf="!isMonthly" class="cx-days">
-        <span
-          class="form-data-label"
-          *cxFeature="'!a11yScheduleReplenishment'"
-          >{{ 'checkoutScheduledReplenishment.every' | cxTranslate }}</span
-        >
-        <label
-          class="form-data-label"
-          *cxFeature="'a11yScheduleReplenishment'"
-          for="order-replenishment-period-type"
-          >{{ 'checkoutScheduledReplenishment.every' | cxTranslate }}</label
-        >
+        <label class="form-data-label" for="order-replenishment-period-type">{{
+          'checkoutScheduledReplenishment.every' | cxTranslate
+        }}</label>
         <ng-container *ngIf="isWeekly; else isDaily">
           <select
             id="order-replenishment-period-type"
@@ -95,27 +84,18 @@
         </ng-template>
       </div>
       <div class="cx-month">
-        <ng-container *cxFeature="'!a11yScheduleReplenishment'">
-          <span *ngIf="isMonthly" class="form-data-label">{{
-            'checkoutScheduledReplenishment.every' | cxTranslate
-          }}</span>
-        </ng-container>
-        <ng-container *cxFeature="'a11yScheduleReplenishment'">
-          <label
-            *ngIf="isMonthly"
-            class="form-data-label"
-            for="order-replenishment-recurrence-period"
-            >{{ 'checkoutScheduledReplenishment.every' | cxTranslate }}</label
-          >
-          <label
-            *ngIf="!isMonthly"
-            class="form-data-label"
-            for="order-replenishment-recurrence-period"
-            >{{
-              'checkoutScheduledReplenishment.duration' | cxTranslate
-            }}</label
-          >
-        </ng-container>
+        <label
+          *ngIf="isMonthly"
+          class="form-data-label"
+          for="order-replenishment-recurrence-period"
+          >{{ 'checkoutScheduledReplenishment.every' | cxTranslate }}</label
+        >
+        <label
+          *ngIf="!isMonthly"
+          class="form-data-label"
+          for="order-replenishment-recurrence-period"
+          >{{ 'checkoutScheduledReplenishment.duration' | cxTranslate }}</label
+        >
         <select
           id="order-replenishment-recurrence-period"
           class="form-control"
@@ -134,19 +114,9 @@
         </select>
       </div>
       <div *ngIf="isMonthly" class="cx-dayMonth">
-        <span
-          class="form-data-label"
-          *cxFeature="'!a11yScheduleReplenishment'"
-          >{{ 'checkoutScheduledReplenishment.dayOfMonth' | cxTranslate }}</span
-        >
-        <label
-          class="form-data-label"
-          *cxFeature="'a11yScheduleReplenishment'"
-          for="order-replenishment-day-of-month"
-          >{{
-            'checkoutScheduledReplenishment.dayOfMonth' | cxTranslate
-          }}</label
-        >
+        <label class="form-data-label" for="order-replenishment-day-of-month">{{
+          'checkoutScheduledReplenishment.dayOfMonth' | cxTranslate
+        }}</label>
         <div class="cx-day-of-month">
           <select
             id="order-replenishment-day-of-month"
@@ -166,16 +136,9 @@
     </div>
 
     <div class="cx-replenishment-form-data-container">
-      <!-- TODO: (CXSPA-6306) - Remove feature flag next major release -->
-      <label
-        *cxFeature="'a11yScheduleReplenishment'"
-        for="datepicker"
-        class="form-data-label"
-        >{{ 'checkoutScheduledReplenishment.startOn' | cxTranslate }}</label
-      >
-      <span *cxFeature="'!a11yScheduleReplenishment'" class="form-data-label">{{
+      <label for="datepicker" class="form-data-label">{{
         'checkoutScheduledReplenishment.startOn' | cxTranslate
-      }}</span>
+      }}</label>
       <div class="cx-replenishment-date">
         <input
           id="datepicker"
@@ -186,50 +149,25 @@
         />
       </div>
     </div>
-    <!-- TODO: (CXSPA-6446) Remove feature flag next major release -->
-    <ng-container *cxFeature="'a11yReplenishmentOrderFieldset'">
-      <fieldset
-        *ngIf="isWeekly"
-        class="cx-replenishment-form-data-container cx-repeat-days-container"
-      >
-        <legend class="cx-repeat-days form-data-label">
-          {{ 'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate }}
-        </legend>
-        <div *ngFor="let day of daysOfWeek" class="form-check">
-          <label for="day-{{ day }}" class="cx-week-day">{{
-            day | titlecase
-          }}</label
-          ><input
-            id="day-{{ day }}"
-            type="checkbox"
-            class="form-check-input"
-            [checked]="hasDaysOfWeekChecked(day)"
-            (change)="changeRepeatDays(day, $event.target.checked)"
-          />
-        </div>
-      </fieldset>
-    </ng-container>
-    <ng-container *cxFeature="'!a11yReplenishmentOrderFieldset'">
-      <div
-        *ngIf="isWeekly"
-        class="cx-replenishment-form-data-container cx-repeat-days-container"
-      >
-        <span class="cx-repeat-days form-data-label">{{
-          'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate
-        }}</span>
-        <div *ngFor="let day of daysOfWeek" class="form-check">
-          <label for="day-{{ day }}" class="cx-week-day">{{
-            day | titlecase
-          }}</label
-          ><input
-            id="day-{{ day }}"
-            type="checkbox"
-            class="form-check-input"
-            [checked]="hasDaysOfWeekChecked(day)"
-            (change)="changeRepeatDays(day, $event.target.checked)"
-          />
-        </div>
+    <fieldset
+      *ngIf="isWeekly"
+      class="cx-replenishment-form-data-container cx-repeat-days-container"
+    >
+      <legend class="cx-repeat-days form-data-label">
+        {{ 'checkoutScheduledReplenishment.repeatOnDays' | cxTranslate }}
+      </legend>
+      <div *ngFor="let day of daysOfWeek" class="form-check">
+        <label for="day-{{ day }}" class="cx-week-day">{{
+          day | titlecase
+        }}</label
+        ><input
+          id="day-{{ day }}"
+          type="checkbox"
+          class="form-check-input"
+          [checked]="hasDaysOfWeekChecked(day)"
+          (change)="changeRepeatDays(day, $event.target.checked)"
+        />
       </div>
-    </ng-container>
+    </fieldset>
   </ng-container>
 </div>

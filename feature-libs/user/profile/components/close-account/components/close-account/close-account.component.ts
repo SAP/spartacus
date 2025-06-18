@@ -21,6 +21,7 @@ import { RoutingService } from '@spartacus/core';
   selector: 'cx-close-account',
   templateUrl: './close-account.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

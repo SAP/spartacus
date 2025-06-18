@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   PageContext,
   PageType,
@@ -33,6 +32,7 @@ import createSpy = jasmine.createSpy;
       ></ng-container>
     </ng-container>
   `,
+  standalone: false,
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -49,6 +49,7 @@ class MockCarouselComponent {
   selector: '[cxAttributes]',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
+  standalone: false,
 })
 class MockAttributesDirective {
   @Input() cxAttributes: { [attribute: string]: any };
@@ -57,6 +58,7 @@ class MockAttributesDirective {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -65,6 +67,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-media',
   template: '',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -167,7 +170,6 @@ describe('MerchandisingCarouselComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         MerchandisingCarouselComponent,
         MockCarouselComponent,

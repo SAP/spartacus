@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "A informação não pode ser carregada. Tente novamente mais tarde ou contate seu administrador do sistema.",
+    "errorMessageHeader": "Algo deu errado",
+    "applyActionAlter": "Não foi possível concluir a ação. Tente novamente mais tarde.",
+    "header": {
+      "title": "Perfil do cliente",
+      "newTitle": "Cliente 360º",
+      "subTitle": "Visão 360º do cliente {{name}}",
+      "newSubTitle": "Visão 360º {{name}}",
+      "activeCartLabel": "{{cartSize}} item adicionado ao carrinho",
+      "recentOrderLabel": "Último pedido {{price}}",
+      "recentTicketLabel": "Último ticket",
+      "signedUpAt": "Conta criada em {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Nº total de itens {{count}}",
+      "totalPrice": "Preço total {{price}}",
+      "showMore": "Mostrar mais",
+      "showLess": "Mostrar menos"
+    },
+    "productItem": {
+      "outOfStock": "Sem estoque",
+      "quantity": "Quantidade: {{count}}",
+      "itemPrice": "Preço do item: {{price}}"
+    },
+    "activeCart": {
+      "header": "Carrinho ativo",
+      "emptyDescription": "Atualmente não existem itens do carrinho ativos",
+      "aria": {
+        "linkLabel": "Carrinho ativo {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Último carrinho gravado",
+      "emptyDescription": "Atualmente não existem itens do carrinho gravados",
+      "aria": {
+        "linkLabel": "Último carrinho gravado {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Juros",
+      "emptyDescription": "Atualmente não existem itens de juros"
+    },
+    "profile": {
+      "address": "Endereço",
+      "billingAddress": "Endereço de faturamento",
+      "deliveryAddress": "Endereço de entrega",
+      "phone1": "Telefone 1",
+      "phone2": "Telefone 2",
+      "paymentMethodHeader": "Formas de pagamento gravadas"
+    },
+    "activity": {
+      "type": "Tipo",
+      "id": "ID",
+      "description": "Descrição",
+      "status": "Status",
+      "created": "Criado",
+      "updated": "Atualizado",
+      "numberOfCartItems": "Carrinho com {{count}} itens",
+      "cart": "Carrinho",
+      "order": "Pedido",
+      "savedCart": "Carrinho gravado",
+      "emptyStateText": "Atualmente não existe nenhuma atividade de cliente registrada",
+      "headerText": "Geral"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Item",
+        "dateAndStatus": "Data/status",
+        "rating": "Classificação",
+        "review": "Revisão"
+      },
+      "header": "Revisões de produto",
+      "emptyDescription": "Atualmente não existem itens da revisão do produto",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Cabeçalho",
+        "category": "Categoria"
+      },
+      "header": "Tickets de suporte",
+      "emptyDescription": "Atualmente não existem tickets de suporte"
+    },
+    "coupons": {
+      "headerText": "Cupons",
+      "emptyDescription": "Atualmente não existem cupons",
+      "applyButtonText": "Aplicar ao carrinho",
+      "applied": "Cupom aplicado",
+      "removeButtonText": "Remover"
+    },
+    "promotions": {
+      "headerText": "Promoções",
+      "emptyDescription": "Atualmente não existem promoções",
+      "applied": "Promoção aplicada",
+      "headerName": "Nome",
+      "headerAction": "Ação"
+    },
+    "customerCoupons": {
+      "headerText": "Cupons do cliente",
+      "emptyDescription": "Atualmente não existem cupons de cliente",
+      "applyButtonText": "Atribuir ao cliente",
+      "removeButtonText": "Remover",
+      "availableTab": "Disponível",
+      "sentTab": "Enviado",
+      "searchBox": "Cupom"
+    },
+    "maps": {
+      "storeClosed": "Fechar",
+      "storesFound": "{{ initial }} - {{ end }} de {{ total }} lojas encontradas"
+    },
+    "overviewTab": "Síntese",
+    "profileTab": "Perfil",
+    "activityTab": "Atividade",
+    "feedbackTab": "Feedback",
+    "promotionsTab": "Promoções",
+    "mapsTab": "Mapas",
+    "storeLocationsTab": "Localizações de lojas",
+    "aria": {
+      "activeCartCode": "Carrinho ativo {{code}}",
+      "recentOrderCode": "Último pedido {{code}}"
+    },
+    "pagination": "Paginação",
+    "page": "Página {{number}}",
+    "emptyCellValue": "---"
+  }
+}

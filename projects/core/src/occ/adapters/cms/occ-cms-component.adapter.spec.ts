@@ -1,7 +1,7 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
@@ -15,6 +15,10 @@ import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FeatureConfigService, UserIdService } from '@spartacus/core';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -64,7 +68,7 @@ describe('OccCmsComponentAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccCmsComponentAdapter,
         UserIdService,
@@ -73,6 +77,8 @@ describe('OccCmsComponentAdapter', () => {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(OccCmsComponentAdapter);

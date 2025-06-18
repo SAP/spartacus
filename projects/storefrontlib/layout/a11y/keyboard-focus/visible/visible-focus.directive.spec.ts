@@ -13,6 +13,7 @@ import { VisibleFocusDirective } from './visible-focus.directive';
 
 @Directive({
   selector: '[cxVisibleFocus]',
+  standalone: false,
 })
 class CustomFocusDirective extends VisibleFocusDirective {
   @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
@@ -27,6 +28,7 @@ class CustomFocusDirective extends VisibleFocusDirective {
 
 @Directive({
   selector: '[cxCustomFocus]',
+  standalone: false,
 })
 class CustomFakeFocusDirective extends VisibleFocusDirective {
   protected defaultConfig = {};
@@ -46,6 +48,7 @@ class CustomFakeFocusDirective extends VisibleFocusDirective {
     <div id="b" [cxVisibleFocus]="{ disableMouseFocus: false }"></div>
     <div id="c" cxCustomFocus></div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

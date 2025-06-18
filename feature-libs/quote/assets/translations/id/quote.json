@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Nama:",
+      "description": "Deskripsi:",
+      "validity": "Penawaran ini valid hingga {{ expirationTime }}",
+      "option": {
+        "yes": "Ya",
+        "no": "Tidak"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Tutup modal untuk mengajukan penawaran"
+          },
+          "title": "Ajukan Permintaan Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin mengajukan permintaan penawaran ini?",
+          "successMessage": "Permintaan penawaran berhasil diajukan"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Tutup modal untuk membatalkan penawaran"
+          },
+          "title": "Batalkan Permintaan Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin membatalkan permintaan penawaran ini?",
+          "successMessage": "Permintaan penawaran dibatalkan"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Tutup modal untuk mengedit penawaran"
+          },
+          "title": "Konfirmasi Edit Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin mengedit penawaran yang disetujui ini?",
+          "warningNote": "Penawaran ini telah Disetujui. Jika Anda mengedit Penawaran ini, proses pembayaran akan tertunda hingga editan baru disetujui."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Tutup modal untuk membatalkan penawaran"
+          },
+          "title": "Batalkan Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin membatalkan penawaran ini?",
+          "successMessage": "Penawaran dibatalkan"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Tutup modal untuk melakukan pembayaran penawaran"
+          },
+          "title": "Lakukan Pembayaran untuk Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin menerima dan melakukan pembayaran untuk penawaran ini?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Tutup modal untuk mengedit penawaran"
+          },
+          "title": "Konfirmasi Edit Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin mengedit penawaran yang telah berakhir ini?",
+          "warningNote": "Penawaran ini telah berakhir. Jika Anda mengedit penawaran ini, proses pembayaran akan tertunda hingga editan yang baru disetujui."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Tutup modal untuk membuat ulang penawaran"
+          },
+          "title": "Buat Ulang Permintaan Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin membuat ulang permintaan penawaran ini?",
+          "warningNote": "Penawaran ini telah berakhir. Jika Anda membuat ulang penawaran ini, permintaan penawaran baru dengan isi yang sama akan dibuat, yang kemudian dapat diedit dan diajukan untuk mendapatkan persetujuan."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Tutup modal untuk mengajukan penawaran"
+          },
+          "title": "Ajukan Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin mengajukan penawaran ini?",
+          "warningNote": "Persetujuan tambahan mungkin diperlukan tergantung total nilai penawarannya sebelum pembeli dapat melakukan pembayaran untuk penawaran ini.",
+          "successMessage": "Penawaran berhasil diajukan"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Tutup modal untuk menyetujui penawaran"
+          },
+          "title": "Setujui Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin menyetujui penawaran ini?",
+          "successMessage": "Penawaran berhasil disetujui"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Tutup modal untuk menolak penawaran"
+          },
+          "title": "Tolak Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin menolak penawaran ini?",
+          "successMessage": "Penawaran ditolak"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Tutup modal untuk membuat ulang penawaran"
+          },
+          "title": "Buat Ulang Permintaan Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin membuat ulang permintaan penawaran ini?",
+          "warningNote": "Keranjang Anda saat ini akan diubah menjadi keranjang tersimpan."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Tutup modal untuk mengedit penawaran"
+          },
+          "title": "Edit Penawaran {{ code }}?",
+          "confirmNote": "Apakah Anda yakin ingin mengedit penawaran ini?",
+          "warningNote": "Keranjang Anda saat ini akan diubah menjadi keranjang tersimpan."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Kolom Kontak/Komentar",
+      "title": "Kontak",
+      "invalidComment": "Input tidak valid - Silakan ketik lagi...",
+      "allProducts": "Semua Produk"
+    },
+    "commons": {
+      "requestQuote": "Minta Penawaran",
+      "cart": "Keranjang",
+      "minRequestInitiationNote": "Subtotal minimal ${{minValue}} diperlukan untuk mengajukan penawaran ",
+      "savedActiveCart": "Keranjang aktif Anda telah diubah menjadi keranjang tersimpan {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Batalkan pengeditan informasi header penawaran",
+          "save": "Simpan informasi header penawaran"
+        }
+      },
+      "overview": {
+        "regionTitle": "Ringkasan rincian penawaran",
+        "id": "ID Penawaran",
+        "status": "Status",
+        "information": "Informasi Penawaran",
+        "name": "Nama",
+        "description": "Deskripsi",
+        "charactersLeft": "karakter tersisa: {{count}}",
+        "priceAndExpiry": "Harga & Masa Berlaku",
+        "estimatedTotal": "Estimasi Total",
+        "total": "Total",
+        "expirationTime": "Tanggal Berakhir",
+        "a11y": {
+          "edit": "Edit informasi header penawaran"
+        },
+        "createdAndUpdated": "Dibuat & Diperbarui",
+        "createdDate": "Dibuat",
+        "lastUpdatedDate": "Terakhir Diperbarui"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Terdapat masalah dengan entri Anda. Silakan tinjau kembali keranjang Anda.",
+      "quoteCartIssue": "Perubahan pada entri keranjang tidak dapat dilakukan. Lanjutkan ke proses pembayaran",
+      "absoluteDiscountIssue": "Pilih diskon yang tidak melebihi nilai total",
+      "expirationDateIssue": "Pilih tanggal kedaluwarsa yang jatuh di tanggal yang akan datang",
+      "threshold": {
+        "underThresholdError": "Harga total permintaan penawaran tidak memenuhi batas minimum"
+      },
+      "expired": "Penawaran ini telah berakhir. Anda harus mengajukan ulang permintaan penawaran untuk menerima penawaran lain dari vendor.",
+      "downloadPDFError": "Terjadi kesalahan. Tidak dapat mengakses dokumen proposal dalam format PDF."
+    },
+    "items": {
+      "regionTitle": "Item keranjang"
+    },
+    "links": {
+      "newCart": "Keranjang Baru",
+      "quotes": "Penawaran",
+      "download": "Unduh Proposal",
+      "a11y": {
+        "newCart": "Buat keranjang kosong baru dan buka keranjang tersebut.",
+        "quotes": "Arahkan ke daftar hasil pencarian penawaran.",
+        "download": "Mulai mengunduh proposal penawaran"
+      }
+    },
+    "list": {
+      "regionTitle": "Ringkasan daftar penawaran",
+      "title": "Daftar Penawaran",
+      "name": "Nama",
+      "updated": "Diperbarui",
+      "sortBy": "Urutkan berdasarkan",
+      "sortQuotes": "Urutkan Penawaran",
+      "empty": "Kami tidak memiliki catatan penawaran untuk akun ini.",
+      "quoteId": "ID Penawaran",
+      "status": "Status",
+      "clickableRow": "Klik baris tersebut untuk melihat rincian penawaran selengkapnya"
+    },
+    "states": {
+      "BUYER_DRAFT": "Draf",
+      "BUYER_SUBMITTED": "Diajukan",
+      "BUYER_ACCEPTED": "Diterima",
+      "BUYER_APPROVED": "Disetujui",
+      "BUYER_REJECTED": "Ditolak",
+      "BUYER_OFFER": "Penawaran Vendor",
+      "BUYER_ORDERED": "Telah Dipesan",
+      "SELLER_DRAFT": "Draf",
+      "SELLER_REQUEST": "Diminta",
+      "SELLER_SUBMITTED": "Diajukan",
+      "SELLERAPPROVER_DRAFT": "Draf",
+      "SELLERAPPROVER_PENDING": "Menunggu Persetujuan",
+      "SELLERAPPROVER_APPROVED": "Disetujui",
+      "SELLERAPPROVER_REJECTED": "Ditolak",
+      "CREATED": "Dibuat",
+      "CANCELLED": "Dibatalkan",
+      "EXPIRED": "Berakhir"
+    },
+    "summary": {
+      "regionTitle": "Ringkasan Pemesanan",
+      "actions": {
+        "APPROVE": "Setujui Penawaran",
+        "CANCEL": "Batalkan Penawaran",
+        "CHECKOUT": "Terima dan Bayar",
+        "EDIT": "Edit Penawaran",
+        "REJECT": "Tolak Penawaran",
+        "REQUOTE": "Minta Penawaran baru",
+        "SAVE": "Simpan Penawaran",
+        "SUBMIT": "Ajukan Penawaran",
+        "VIEW": "Lihat Penawaran"
+      },
+      "prices": {
+        "title": "Ringkasan Pemesanan",
+        "subtotal": "Subtotal",
+        "productDiscount": "Diskon Item",
+        "orderDiscount": "Diskon Pemesanan",
+        "quoteDiscount": "Diskon Penawaran",
+        "total": "Total",
+        "hint": "Total tersebut belum termasuk pajak"
+      },
+      "sellerEdit": {
+        "discount": "Diskon",
+        "apply": "Terapkan",
+        "expiryDate": "Tanggal Berakhir",
+        "discountValidationText": "Masukkan persentase diskon yang valid",
+        "a11y": {
+          "apply": "Klik untuk menerapkan nilai diskon yang dimasukkan ke penawaran ini",
+          "discount": "Masukkan nilai persentase diskon yang akan diterapkan pada penawaran ini",
+          "expiryDate": "Masukkan tanggal berakhirnya penawaran ini"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "updateEmailForm": {
+    "newEmailAddress": {
+      "label": "新しいメールアドレス",
+      "placeholder": "メールアドレスを入力"
+    },
+    "confirmNewEmailAddress": {
+      "label": "新しいメールアドレスを確認",
+      "placeholder": "メールアドレスを入力"
+    },
+    "enterValidEmail": "有効なメールアドレスを入力してください。",
+    "bothEmailMustMatch": "両方のメールアドレスが一致する必要があります",
+    "password": {
+      "label": "パスワード",
+      "placeholder": "パスワードを入力"
+    },
+    "pleaseInputPassword": "パスワードを入力してください",
+    "emailUpdateSuccess": "成功しました。{{ newUid }} でサインインしてください"
+  },
+  "register": {
+    "confirmPassword": {
+      "action": "パスワードを再入力",
+      "label": "パスワードを再入力",
+      "placeholder": "パスワードを再入力"
+    },
+    "managementInMyAccount": "マイアカウントでの管理",
+    "termsAndConditions": "利用条件",
+    "signIn": "既にアカウントをお持ちの場合: サインイン",
+    "register": "登録",
+    "confirmNewPassword": "新しいパスワードを再入力",
+    "resetPassword": "パスワードをリセット",
+    "createAccount": "アカウントを作成",
+    "title": "タイトル",
+    "titleOptional": "タイトル (オプション)",
+    "firstName": {
+      "label": "名",
+      "placeholder": "名"
+    },
+    "lastName": {
+      "label": "姓",
+      "placeholder": "姓"
+    },
+    "emailAddress": {
+      "label": "メールアドレス",
+      "placeholder": "メールアドレス"
+    },
+    "password": {
+      "label": "パスワード",
+      "placeholder": "パスワード"
+    },
+    "newPassword": "新しいパスワード",
+    "emailMarketing": "個人データを使用して、マーケティングキャンペーンのニュースレターを電子メールで受け取ります。設定を変更するには、マイアカウントの同意管理に移動してください。",
+    "confirmThatRead": "読んで同意したことを確認します",
+    "selectTitle": "タイトルを選択",
+    "passwordMinRequirements": "安全なパスワードについて簡単に説明します。大文字と小文字、数字、および記号を組み合わせた 8 文字以上を使用してださい。",
+    "passwordStrengthRequirements": "安全なパスワードについて簡単に説明します。大文字と小文字、数字、および記号を組み合わせた 8 文字以上を使用してださい。同じ文字を連続して使用しないようにしてください。",
+    "bothPasswordMustMatch": "両方のパスワードが一致する必要があります",
+    "titleRequired": "タイトルは必須です。",
+    "postRegisterMessage": "指定された認証情報を使用してログインしてください。",
+    "postRegisterSuccessMessage": "正常に登録: 指定された認証情報を使用してログインしてください。"
+  },
+  "forgottenPassword": {
+    "resetPassword": "パスワードをリセット",
+    "enterEmailAddressAssociatedWithYourAccount": "アカウントに関連付けられたメールアドレスを入力してください。",
+    "emailAddress": {
+      "label": "メールアドレス",
+      "placeholder": "メールアドレスを入力"
+    },
+    "enterValidEmail": "有効なメールアドレスを入力してください。",
+    "passwordResetEmailSent": "パスワードのリセット方法が記載された電子メールが送信されました。",
+    "passwordResetSuccess": "パスワードの再設定に成功しました。新しいパスワードを使用してログインできます。"
+  }
+}

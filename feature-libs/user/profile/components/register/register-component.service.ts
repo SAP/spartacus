@@ -83,4 +83,15 @@ export class RegisterComponentService {
   generateAdditionalConsentsFormControl(): UntypedFormArray | undefined {
     return this.fb?.array([]) ?? undefined;
   }
+
+  collectDataFromRegisterForm(formData: any): UserSignUp {
+    const { firstName, lastName, email, password, titleCode } = formData;
+    return {
+      firstName,
+      lastName,
+      password,
+      titleCode,
+      uid: email.toLowerCase(),
+    };
+  }
 }

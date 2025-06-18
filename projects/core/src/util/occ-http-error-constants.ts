@@ -6,11 +6,11 @@
 
 // Constants for different strings in error details
 
-export declare const enum OccHttpErrorType {
+export enum OccHttpErrorType {
   NOT_FOUND_ERROR = 'NotFoundError',
   CLASS_MISMATCH_ERROR = 'ClassMismatchError',
 }
 
-export declare const enum OccHttpErrorReason {
+export enum OccHttpErrorReason {
   NOT_FOUND_ERROR = 'notFound',
 }

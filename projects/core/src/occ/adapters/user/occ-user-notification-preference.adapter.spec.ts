@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
@@ -19,6 +19,10 @@ import {
   NotificationPreference,
   NotificationPreferenceList,
 } from '../../../model/notification-preference.model';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const userId = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -49,7 +53,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccUserNotificationPreferenceAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
@@ -57,6 +61,8 @@ describe('OccUserNotificationPreferenceAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Сервисная служба",
+    "showMore": "Показать больше",
+    "showMoreLabel": "Перейти к истории запросов в сервисную службу",
+    "changedOn": "Дата изменения: {{value}}",
+    "ticketId": "Ид.: {{value}}",
+    "subjectLabel": "Тема",
+    "idLabel": "Ид. сервисной службы"
+  }
+}

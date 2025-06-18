@@ -2,16 +2,15 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   I18nTestingModule,
   RoutingService,
   User,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
-import { UserAccountFacade } from '@spartacus/user/account/root';
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
@@ -40,7 +39,18 @@ class MockUserAccountFacade {
 
 @Component({
   selector: 'cx-page-slot',
-  template: '',
+  standalone: false,
+  template: `
+    <cx-navigation-ui>
+      <nav>
+        <ul>
+          <li>
+            <button>Navigation Trigger</button>
+          </li>
+        </ul>
+      </nav>
+    </cx-navigation-ui>
+  `,
 })
 class MockDynamicSlotComponent {
   @Input()
@@ -49,10 +59,13 @@ class MockDynamicSlotComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
+
+let expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -62,7 +75,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
       providers: [
         {
@@ -103,6 +116,12 @@ describe('LoginComponent', () => {
     expect(user).toEqual(mockUserDetails);
   });
 
+  it('should have greeting details when token exists', () => {
+    let greeting;
+    component.greeting$.subscribe((result) => (greeting = result));
+    expect(greeting).toEqual(expectedGreeting);
+  });
+
   it('should not get user details when token is lacking', () => {
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
 
@@ -126,7 +145,7 @@ describe('LoginComponent', () => {
 
     it('should display greeting message when the user is logged in', () => {
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'miniLogin.userGreeting name:First Last'
+        expectedGreeting
       );
     });
 
@@ -138,6 +157,23 @@ describe('LoginComponent', () => {
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'miniLogin.signInRegister'
       );
+    });
+
+    it('should contain the dynamic slot: HeaderLinks', () => {
+      spyOn(component, 'onRootNavBtnAdded').and.callThrough();
+      component.ngOnInit();
+      fixture.detectChanges();
+      expectedGreeting = 'Testing;';
+      const expectedRootNavBtn = fixture.debugElement.query(
+        By.css('cx-navigation-ui nav ul li:first-child button')
+      );
+      const mockedMutation = {
+        target: expectedRootNavBtn.nativeNode,
+      } as MutationRecord;
+      expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(null);
+      component.onRootNavBtnAdded(mockedMutation, expectedGreeting);
+      expect(expectedRootNavBtn).not.toBeNull();
+      expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(expectedGreeting);
     });
   });
 });

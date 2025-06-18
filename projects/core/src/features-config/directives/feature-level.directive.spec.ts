@@ -3,7 +3,11 @@ import { Component } from '@angular/core';
 import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 
-@Component({ selector: 'cx-test-cmp', template: '' })
+@Component({
+  selector: 'cx-test-cmp',
+  template: '',
+  standalone: false,
+})
 class TestComponent {}
 
 function createTestComponent(

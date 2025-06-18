@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Все заказы ({{param}})",
+    "item": "{{param}} позиция",
+    "items": "{{param}} поз.",
+    "totalPrice": "Общая цена: {{param}}",
+    "consignmentCode": "Поставка {{param}}",
+    "statusDate": "Последнее обновление: {{param}}",
+    "returnProcessed": "Процесс возврата: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Для самовывоза - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Для отправки - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Для самовывоза - "
+    },
+    "orderListResults": "Список заказов",
+    "orderListPagination": "Разбиение списка заказов на страницы",
+    "totalPriceLabel": "Общая цена",
+    "orderPlaced": "Заказ размещен",
+    "orderCodeLabel": "Код заказа",
+    "consignmentDetailLabel": "Информация о поставке",
+    "consignmentNumberLabel": "Номер поставки",
+    "consignmentStatusLabel": "Статус поставки",
+    "consignmentStatusDateLabel": "Дата последнего обновления",
+    "estimateDeliveryLabel": "Ориентировочная дата доставки"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Вернуть позиции",
+    "cancelItems": "Отменить позиции",
+    "downloadInvoices": "Выгрузить счета",
+    "viewAllOrders": "Просмотреть все заказы",
+    "noInvoices": "Счета пока не сгенерированы. Вернитесь позже."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} позиция",
+    "items": "{{value}} поз.",
+    "heading": "Заказы и возвраты",
+    "orderNumber": "Номер заказа ({{value}})",
+    "purchasedOn": "Дата покупки: {{value}}",
+    "orderedItems": "Заказанные позиции: {{value}} ",
+    "totalPrice": "Общая цена: {{value}}",
+    "orderDetails": "Сведения о заказе",
+    "orderDetailsLabel": "Показать сведения о заказе для номера заказа {{value}}",
+    "orderStatusLabel": "Статус заказа",
+    "returnOrder": "Заказ на возврат",
+    "showMore": "Показать больше",
+    "showMoreLabel": "Перейти в историю заказов"
+  }
+}

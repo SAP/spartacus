@@ -11,5 +11,6 @@ export default {
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
+  testEnvironment: './environments/fix-jsdom-environment.ts',
   moduleFileExtensions: ['ts', 'js', 'html'],
 };

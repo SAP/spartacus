@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-checkout-order-summary',
   templateUrl: './checkout-order-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutOrderSummaryComponent {
   cart$: Observable<Cart>;

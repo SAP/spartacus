@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Título (opcional)",
+        "placeholder": "Título"
+      },
+      "firstName": {
+        "label": "Nome",
+        "placeholder": "Nome"
+      },
+      "lastName": {
+        "label": "Sobrenome",
+        "placeholder": "Sobrenome"
+      },
+      "companyName": {
+        "label": "Nome da empresa",
+        "placeholder": "Nome da empresa"
+      },
+      "email": {
+        "label": "E-mail",
+        "placeholder": "E-mail"
+      },
+      "city": {
+        "label": "Cidade (opcional)",
+        "placeholder": "Selecione a cidade"
+      },
+      "country": {
+        "label": "País (opcional)",
+        "placeholder": "Selecione o país"
+      },
+      "state": {
+        "label": "Estado/município (opcional)",
+        "placeholder": "Selecione o estado/município"
+      },
+      "postalCode": {
+        "label": "CEP/código postal (opcional)",
+        "placeholder": "CEP/código postal"
+      },
+      "addressLine": {
+        "label": "Endereço (opcional)",
+        "placeholder": "Endereço"
+      },
+      "secondAddressLine": {
+        "label": "Linha 2 do endereço (opcional)",
+        "placeholder": "Linha 2 do endereço"
+      },
+      "phoneNumber": {
+        "label": "Número de telefone (opcional)",
+        "placeholder": "Número de telefone"
+      },
+      "message": {
+        "label": "Mensagem (opcional)",
+        "placeholder": "Um exemplo de dados para o campo da mensagem: \"Departamento: apoio em terra; Posição: chefe de segurança; Reportar a: Steve Jackson; Comentários: crie uma nova conta para mim\"."
+      }
+    },
+    "messageToApproverTemplate": "Nome da empresa: {{companyName}},\n  Número de telefone: {{phoneNumber}},\n  Endereço: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Mensagem: {{message}}",
+    "successFormSubmitMessage": "Obrigado por se registrar! Um representante irá contatar você em breve e confirmar suas informações de acesso.",
+    "formSubmitButtonLabel": "Registrar",
+    "goToLoginButtonLabel": "Já registrado? Vá para Iniciar sessão",
+    "httpHandlers": {
+      "conflict": "Já existe um utilizador com este endereço de e-mail."
+    },
+    "messageToFailedToRegister": "Falha no registro. Contate seu administrador para mais assistência."
+  }
+}

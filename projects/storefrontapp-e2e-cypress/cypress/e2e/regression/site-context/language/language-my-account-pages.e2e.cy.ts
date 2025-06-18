@@ -28,6 +28,7 @@ describe('Language switch - my-account pages', () => {
   describe('address book page', () => {
     const addressBookPath = siteContextSelector.ADDRESS_BOOK_PATH;
     const deutschName = siteContextSelector.TITLE_DE;
+    const deutsEdit = siteContextSelector.EDIT_DE;
 
     it('should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
@@ -56,7 +57,9 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );
-      cy.get('cx-address-book button').contains('Edit').click({ force: true });
+      cy.get('cx-address-book button')
+        .contains(deutsEdit)
+        .click({ force: true });
 
       cy.get(
         'cx-address-form .ng-select[formcontrolname="titleCode"]'

@@ -8,8 +8,8 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-import { CaptchaService } from '../captcha.service';
 import { RenderParams } from '../captcha.model';
+import { CaptchaService } from '../captcha.service';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be
@@ -25,7 +25,7 @@ declare global {
   providedIn: 'root',
 })
 export class MockCaptchaService extends CaptchaService {
-  protected retVal = new Subject<string>();
+  protected retVal: Subject<string>;
 
   protected container: HTMLDivElement;
 
@@ -60,12 +60,13 @@ export class MockCaptchaService extends CaptchaService {
     this.label.textContent = '';
     this.container.appendChild(this.spinner);
     this.checkbox.disabled = true;
+    this.checkbox.checked = true;
 
     setTimeout(() => {
       this.container.removeChild(this.spinner);
       this.retVal.next('succeed');
       this.retVal.complete();
-      this.token = 'my token';
+      this.token = 'myToken';
       this.label.textContent = 'Verified';
     }, 500);
   }
@@ -76,6 +77,13 @@ export class MockCaptchaService extends CaptchaService {
    */
   renderCaptcha(renderParams: RenderParams): Observable<string> {
     if (renderParams.element instanceof HTMLElement) {
+      // Reset checkbox state before rendering
+      this.checkbox.disabled = false;
+      this.checkbox.checked = false;
+      this.label.textContent = "I'm not a robot";
+      this.token = '';
+      this.retVal = new Subject<string>();
+
       renderParams.element.appendChild(this.container);
     }
 

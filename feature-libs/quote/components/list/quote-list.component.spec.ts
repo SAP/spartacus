@@ -7,7 +7,6 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   LanguageService,
@@ -68,6 +67,7 @@ const mockQuoteListState$ = new BehaviorSubject(mockQuoteListState);
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -77,6 +77,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
+  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: SortModel[];
@@ -88,6 +89,7 @@ class MockSortingComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -96,6 +98,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -138,7 +141,7 @@ describe('QuoteListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         QuoteListComponent,
         MockUrlPipe,

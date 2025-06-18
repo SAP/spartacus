@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const enum Priority {
+export enum Priority {
   /**
    * Used as fallback, when there is no other matches
    */

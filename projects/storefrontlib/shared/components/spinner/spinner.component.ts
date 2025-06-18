@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'cx-spinner',
   templateUrl: './spinner.component.html',
+  standalone: false,
 })
 export class SpinnerComponent {
   constructor() {

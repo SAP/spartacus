@@ -8,15 +8,13 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -28,10 +26,7 @@ import { startWith } from 'rxjs/operators';
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  // do not use OnPush change detection strategy as we would not
-  // get updates of other form control state (disabled). We want to have a
-  // disabled state in order to ensure that the control cannot be used while
-  // the cart is updated.
+  standalone: false,
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**
@@ -85,20 +80,9 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Subscription responsible for auto-correcting control's value when it's invalid.
    */
   private sub: Subscription;
-  protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor() {
-    useFeatureStyles('a11yVisibleFocusOverflows');
     useFeatureStyles('a11yItemCounterFocus');
-  }
-
-  // TODO: (CXSPA-6034) Remove HostListener next major release
-  @HostListener('click') handleClick() {
-    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
-      this.input.nativeElement.focus();
-    }
   }
 
   ngOnInit() {

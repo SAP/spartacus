@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "ID",
+    "quantity": "Menge",
+    "quantityFull": "Menge",
+    "productDetails": "Produktdetails",
+    "specification": "Spezifikationen",
+    "reviews": "Rezensionen",
+    "shipping": "Versand",
+    "share": "Teilen",
+    "showReviews": "Rezensionen anzeigen",
+    "noReviews": "Noch keine Rezensionen",
+    "productPrice": "Produktpreis",
+    "noProductImage": "Kein Bild verfügbar, {{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "Filtern nach",
+      "action": "Filtern nach"
+    },
+    "activeFilter": "Filter {{filter}}, durch Klicken auf diese Schaltfläche wird der Filter entfernt",
+    "appliedFilter": "Angewendeter Filter:",
+    "showLess": "Weniger anzeigen...",
+    "showMore": "Mehr anzeigen...",
+    "sortBy": "Sortieren nach",
+    "sortResults": "Ergebnisse sortieren",
+    "backToTopBtn": "ZUM ANFANG",
+    "showMoreBtn": "MEHR ANZEIGEN",
+    "productSearchPagination": "Paginierung der Produktsuche",
+    "productListResults": "Produktergebnisliste"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "Filtern nach",
+      "action": "Filtern nach",
+      "facet": "Ergebnisse nach Facetten filtern",
+      "name": "Filtern nach {{name}}"
+    },
+    "appliedFilter": "Angewendeter Filter:",
+    "showLess": "Weniger anzeigen...",
+    "showMore": "Mehr anzeigen...",
+    "sortBy": "Sortieren nach",
+    "ariaLabelShowLess": "Weniger anzeigen, Schaltfläche, durch Klicken auf diese Schaltfläche werden weniger Optionen für die aktive Gruppe angezeigt",
+    "ariaLabelShowMore": "Mehr anzeigen, Schaltfläche, durch Klicken auf diese Schaltfläche werden alle Optionen für die aktive Gruppe angezeigt",
+    "ariaLabelItemsAvailable": "{{name}}, {{state}} {{count}} Position verfügbar",
+    "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} Positionen verfügbar",
+    "decreaseOptionsVisibility": "Optionen wurden aus der aktiven Gruppe ausgeblendet, Tabulatortaste rückwärts, um sie zu lesen, oder Tabulatortaste vorwärts für die nächste Gruppe",
+    "increaseOptionsVisibility": "Der aktiven Gruppe wurden mehr Optionen hinzugefügt, Tabulatortaste rückwärts, um sie zu lesen, oder Tabulatortaste vorwärts für die nächste Gruppe",
+    "backToResults": "Zurück zu den Ergebnissen",
+    "productFacets": "Produktfacetten"
+  },
+  "productSummary": {
+    "id": "ID",
+    "showReviews": "Rezensionen anzeigen",
+    "showReviewsDetailed": "{{count}} Rezensionen anzeigen, mit {{rating}} von 5 Sternen bewertet",
+    "share": "Teilen",
+    "newItemPrice": "Neuer Positionspreis"
+  },
+  "productReview": {
+    "overallRating": "Gesamtbewertung",
+    "reviewTitle": "Überschrift ihrer Rezension",
+    "writeYourComments": "Geben Sie Ihre Kommentare ein",
+    "rating": "Bewertung",
+    "ratingRequired": "Produktbewertung, erforderlich",
+    "addRate": "Bewertung hinzufügen: {{count}} Stern",
+    "addRate_other": "Bewertung hinzufügen: {{count}} Sterne",
+    "reviewerName": "Name des Rezensenten (optional)",
+    "writeReview": "Rezension schreiben",
+    "more": "Mehr Rezensionen anzeigen",
+    "less": "Weniger Rezensionen anzeigen",
+    "thankYouForReview": "Vielen Dank für die Rezension! Beachten Sie, dass Rezensionen manchmal geprüft werden müssen, bevor sie hier angezeigt werden.",
+    "postReviewFail": "Bei der Veröffentlichung Ihrer Bewertung ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.",
+    "ratedOutOf": "Bewertet: {{rating}} von 5"
+  },
+  "productCarousel": {
+    "carouselLabel": "Karussell, {{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "Position wurde Ihrem Warenkorb hinzugefügt",
+    "itemsAddedToYourCart": "Position(en) wurde(n) Ihrem Warenkorb hinzugefügt",
+    "itemsIncrementedInYourCart": "Diese Position war schon in Ihrem Warenkorb. Die Menge wurde aktualisiert.",
+    "items": "Positionen",
+    "updatingCart": "Warenkorb wird aktualisiert...",
+    "addToCart": "In den Warenkorb",
+    "viewCart": "Warenkorb anzeigen",
+    "proceedToCheckout": "zur Kasse gehen",
+    "quantity": "Menge",
+    "quantityFull": "Menge",
+    "outOfStock": "Nicht vorrätig",
+    "inStock": "Vorrätig",
+    "selectStyleAndSize": "Stil und Größe zum Prüfen des Bestands auswählen",
+    "removeFromCart": "Produkt aus Warenkorb entfernen",
+    "closeModal": "Modalen Dialog schließen",
+    "buyItAgain": "Erneut kaufen",
+    "addToActiveCart": "In den aktiven Warenkorb"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "Produktdetails",
+      "ProductSpecsTabComponent": "Spezifikationen",
+      "ProductReviewsTabComponent": "Rezensionen",
+      "deliveryTab": "Versand",
+      "SparePartsTabComponent": " Ersatzteile"
+    },
+    "tabPanelContainerRegion": "Registerkartengruppe mit weiteren Produktdetails",
+    "tabPanelContainerRegionGroup": "Gruppe mit weiteren Produktdetails"
+  },
+  "addToWishList": {
+    "add": "Dem Wunschzettel hinzufügen",
+    "remove": "Aus Wunschliste entfernen",
+    "anonymous": "Zum Hinzufügen zur Wunschliste anmelden",
+    "addedToWishList": "Produkt wurde der Wunschliste hinzugefügt",
+    "removedFromWishList": "Produkt wurde aus Wunschliste entfernt"
+  },
+  "stockNotification": {
+    "notifyMe": "MICH BENACHRICHTIGEN",
+    "stopNotify": "BENACHRICHTIGUNG BEENDEN",
+    "getNotify": "Lassen Sie sich benachrichtigen, wenn dieses Produkt verfügbar ist.",
+    "getNotifySuffix": "um benachrichtigt zu werden, wenn dieses Produkt verfügbar ist.",
+    "activateChannelsPrefix": "Um benachrichtigt zu werden, müssen Sie Folgendes aktivieren: ",
+    "channelsLink": "Benachrichtigungskanäle",
+    "activateChannelsSuffix": ".",
+    "notified": "Sie werden benachrichtigt, wenn dieses Produkt wieder auf Lager ist.",
+    "getNotified": "Lassen Sie sich benachrichtigen, wenn dieses Produkt wieder auf Lager ist.",
+    "unsubscribeSuccess": "Sie erhalten für dieses Produkt keine \"Wieder auf Lager\"-Benachrichtigungen.",
+    "subscriptionDialog": {
+      "header": "\"Nicht vorrätig\"-Abonnement",
+      "notifiedPrefix": "Sie werden benachrichtigt:",
+      "notifiedSuffix": "sobald das Produkt wieder auf Lager ist.",
+      "manageChannelsPrefix": "Verwalten Sie Ihre bevorzugten Benachrichtigungskanäle auf der Seite ",
+      "manageChannelsLink": "Benachrichtigungseinstellung",
+      "manageChannelsSuffix": " .",
+      "manageSubscriptionsPrefix": "Sie können Ihre Abonnements auf der folgenden Seite verwalten: ",
+      "manageSubscriptionsLink": "Meine Interessen",
+      "manageSubscriptionsSuffix": " .",
+      "okBtn": "OK",
+      "subscribing": "Abonnement für \"Nicht vorrätig\"-Benachrichtigungen für dieses Produkt"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "1 entfernen",
+    "addOneMore": "Noch 1 hinzufügen",
+    "quantity": "Menge"
+  },
+  "productView": {
+    "gridView": "Auswählen, um zur Rasteransicht zu wechseln",
+    "listView": "Auswählen, um zur Listenansicht zu wechseln"
+  }
+}

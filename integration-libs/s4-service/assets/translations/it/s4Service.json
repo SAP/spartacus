@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Dettagli servizio",
+    "serviceScheduleHeading": "Pianificazione del servizio - Data e ora",
+    "address": "Uguale all'indirizzo di spedizione",
+    "serviceLocationHeading": "Sede di servizio",
+    "datePickerLabel": "Pianifica data di servizio",
+    "timePickerLabel": "Pianifica ora di servizio",
+    "unknownError": "Si è verificato un errore sconosciuto. Contattare il supporto.",
+    "productDeliveryOptions": "Opzioni di consegna per i prodotti",
+    "serviceDeliveryOption": "Opzione di consegna per i servizi",
+    "productDeliveryMethods": "Metodi di consegna per i prodotti",
+    "serviceDeliveryMethod": "Metodo di consegna per i servizi"
+  },
+  "cancelService": {
+    "heading": "Nella richiesta di annullamento verranno inclusi i seguenti elementi",
+    "cancelReason": "Motivo dell’annullamento del servizio",
+    "optional": "(facoltativo)",
+    "action": "Annulla servizio",
+    "back": "Indietro",
+    "Submit": "Invia richiesta",
+    "cancelServiceSuccess": "Il servizio è stato annullato correttamente",
+    "unknownError": "Si è verificato un errore sconosciuto. Contattare il supporto.",
+    "ServiceTime": "Ora del servizio",
+    "ServiceLocation": "Sede di servizio",
+    "ServiceDate": "Data del servizio",
+    "SubmitRequest": "Invia richiesta",
+    "serviceNotRcancelable": "Il servizio non è annullabile",
+    "charactersLeft": "caratteri rimanenti: {{count}}",
+    "Services": "Servizi"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Ripianifica servizio",
+    "headerLabel": "Servizi",
+    "contentLabel": "Ripianificazione del servizio - Scegli nuova data e ora",
+    "datePickerLabel": "Data del servizio",
+    "timePickerLabel": "Ora del servizio",
+    "backButtonLabel": "Indietro",
+    "submitButtonLabel": "Invia richiesta",
+    "note": "Perché l'ordine rispecchi la richiesta potrebbero essere necessari alcuni minuti.",
+    "unknownError": "Si è verificato un errore sconosciuto. Contattare il supporto.",
+    "serviceNotReschedulable": "Il servizio non può essere ripianificato.",
+    "serviceNotAmendable": "Il servizio non può essere annullato o ripianificato meno di 24 ore prima della data pianificata.",
+    "rescheduleSuccess": "Data e ora del servizio modificate correttamente."
+  }
+}

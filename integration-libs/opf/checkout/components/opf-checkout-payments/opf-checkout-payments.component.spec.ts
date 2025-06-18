@@ -32,6 +32,7 @@ import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component'
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -41,6 +42,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-opf-checkout-payment-wrapper',
+  standalone: false,
 })
 class MockOpfCheckoutPaymentWrapperComponent {}
 

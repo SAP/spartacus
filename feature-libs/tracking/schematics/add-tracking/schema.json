@@ -24,16 +24,20 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "default": ["Personalization"],
       "items": {
         "enum": ["Personalization", "TMS-GTM", "TMS-AEPL"],
         "type": "string"
       },
-      "default": ["Personalization"],
       "x-prompt": {
         "message": "Which Tracking features would you like to set up?",
         "type": "list",
         "items": [
-          { "value": "Personalization", "label": "Personalization" },
+          {
+            "value": "Personalization",
+            "label": "Personalization",
+            "checked": true
+          },
           {
             "value": "TMS-GTM",
             "label": "Tag Management System - Google Tag Manager"

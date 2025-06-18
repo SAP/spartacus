@@ -24,6 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "default": ["Product-Variants", "Image-Zoom", "Future-Stock"],
       "items": {
         "enum": [
           "Bulk-Pricing",
@@ -33,7 +34,6 @@
         ],
         "type": "string"
       },
-      "default": ["Product-Variants", "Image-Zoom", "Future-Stock"],
       "x-prompt": {
         "message": "Which Product features would you like to set up?",
         "type": "list",
@@ -44,15 +44,18 @@
           },
           {
             "value": "Product-Variants",
-            "label": "Product Variants"
+            "label": "Product Variants",
+            "checked": true
           },
           {
             "value": "Image-Zoom",
-            "label": "Image Zoom"
+            "label": "Image Zoom",
+            "checked": true
           },
           {
             "value": "Future-Stock",
-            "label": "Future Stock"
+            "label": "Future Stock",
+            "checked": true
           }
         ]
       }

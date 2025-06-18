@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Volver al carro"
+  },
+  "checkoutProgress": {
+    "label": "Ver progreso",
+    "deliveryAddress": "Dirección de envío",
+    "deliveryMode": "Modo de entrega",
+    "paymentDetails": "Pago",
+    "reviewOrder": "Revisión",
+    "state": {
+      "completed": "{{step}}Finalizado",
+      "selected": "{{step}}, Seleccionado",
+      "disabled": "{{step}}, Desactivado"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Dirección de envío",
+    "selectYourDeliveryAddress": "Seleccione su dirección de entrega",
+    "defaultDeliveryAddress": "Dirección de entrega predeterminada",
+    "addNewAddress": "Agregar dirección nueva",
+    "shipToThisAddress": "Enviar a esta dirección",
+    "deliveryAddressSelected": "Dirección de entrega seleccionada"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Método de entrega",
+    "deliveryOptions": "Opciones de entrega",
+    "standardDelivery": "Entrega estándar",
+    "premiumDelivery": "Entrega premium",
+    "deliveryEntries": "Artículos para enviar"
+  },
+  "checkoutReview": {
+    "review": "Revisión",
+    "reviewOrder": "Revisar pedido",
+    "orderItems": "Artículos del pedido",
+    "confirmThatRead": "Confirmo que he leído y estoy de acuerdo con los",
+    "placeOrder": "Realizar pedido",
+    "termsAndConditions": "Términos y condiciones",
+    "editDeliveryAddressDetails": "Editar detalles de la dirección de entrega abre la página Dirección de entrega",
+    "editBillingDetails": "Editar dirección de facturación abre la página Detalles de pago",
+    "editPaymentDetails": "Editar detalles de pago abre la página Detalles de pago",
+    "editPaymentType": "Editar método de pago abre la página Método de pago",
+    "editDeliveryMode": "Editar modo de entrega abre la página Modo de entrega",
+    "orderInProcess": "El pedido está en proceso. Por favor, espere."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Confirmación de pedido:",
+    "thankYou": "Gracias por su pedido.",
+    "invoiceHasBeenSentByEmail": "Le enviamos una factura por correo electrónico. Debería recibirla pronto.",
+    "orderItems": "Artículos del pedido",
+    "orderPlacedSuccessfully": "Pedido realizado correctamente",
+    "createAccount": "Crear una cuenta",
+    "createAccountForNext": "Cree una cuenta <{{email}}> para gestionar compras más rápido la próxima vez."
+  }
+}

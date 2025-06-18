@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from './select-focus.util';
 
@@ -50,6 +50,7 @@ import { SelectFocusUtility } from './select-focus.util';
       <button id="e5"></button>
     </div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

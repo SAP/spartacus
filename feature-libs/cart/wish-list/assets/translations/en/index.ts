@@ -5,7 +5,6 @@
  */
 
 import wishlist from './wishlist.json';
-
 export const en = {
   wishlist,
 };

@@ -20,6 +20,7 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
   selector: 'cx-asm-customer-360-saved-cart',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './asm-customer-360-saved-cart.component.html',
+  standalone: false,
 })
 export class AsmCustomer360SavedCartComponent {
   savedCart$: Observable<CustomerCart | undefined>;

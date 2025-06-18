@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Voltar para o carrinho"
+  },
+  "checkoutProgress": {
+    "label": "Progresso de check-out",
+    "deliveryAddress": "Endereço de entrega",
+    "deliveryMode": "Modo de entrega",
+    "paymentDetails": "Pagamento",
+    "reviewOrder": "Revisão",
+    "state": {
+      "completed": "{{step}}, concluído",
+      "selected": "{{step}}, selecionado",
+      "disabled": "{{step}}, desativado"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Endereço de entrega",
+    "selectYourDeliveryAddress": "Selecione seu endereço de entrega",
+    "defaultDeliveryAddress": "Endereço de entrega padrão",
+    "addNewAddress": "Adicionar novo endereço",
+    "shipToThisAddress": "Entregar para esse endereço",
+    "deliveryAddressSelected": "Endereço de entrega selecionado"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Método de entrega",
+    "deliveryOptions": "Opções de entrega",
+    "standardDelivery": "Entrega padrão",
+    "premiumDelivery": "Entrega premium",
+    "deliveryEntries": "Itens a serem enviados"
+  },
+  "checkoutReview": {
+    "review": "Revisão",
+    "reviewOrder": "Revisar pedido",
+    "orderItems": "Itens do pedido",
+    "confirmThatRead": "Confirmo que li e concordo com os",
+    "placeOrder": "Fazer pedido",
+    "termsAndConditions": "Termos e Condições",
+    "editDeliveryAddressDetails": "A edição de detalhes do endereço de entrega abre a página Endereço de entrega",
+    "editBillingDetails": "A edição do endereço de faturamento abre a página Detalhes de pagamento",
+    "editPaymentDetails": "A edição de detalhes de pagamento abre a página Detalhes de pagamento",
+    "editPaymentType": "A edição da forma de pagamento abre a página Forma de pagamento",
+    "editDeliveryMode": "A edição do modo de entrega abre a página Modo de entrega",
+    "orderInProcess": "O pedido está em processamento. Aguarde."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Confirmação do pedido:",
+    "thankYou": "Obrigado pelo seu pedido!",
+    "invoiceHasBeenSentByEmail": "Uma fatura foi enviada por e-mail. Você deverá recebê-la em breve.",
+    "orderItems": "Itens do pedido",
+    "orderPlacedSuccessfully": "Pedido feito com êxito",
+    "createAccount": "Criar uma conta?",
+    "createAccountForNext": "Crie uma conta para <{{email}}> para um check-out mais rápido em sua próxima visita."
+  }
+}

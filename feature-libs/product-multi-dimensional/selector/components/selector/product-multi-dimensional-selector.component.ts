@@ -34,6 +34,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-product-multi-dimensional-selector',
   templateUrl: './product-multi-dimensional-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductMultiDimensionalSelectorComponent {
   protected multiDimensionalService: ProductMultiDimensionalSelectorService =

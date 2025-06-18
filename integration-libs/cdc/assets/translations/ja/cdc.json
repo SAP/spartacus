@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "プロファイル作成完了",
+      "description": "次に対する同意が必要です"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "プロファイル詳細が正常に更新されました",
+    "profileUpdateFailure": "プロファイル詳細を更新できませんでした"
+  }
+}

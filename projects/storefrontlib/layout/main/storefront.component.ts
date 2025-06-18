@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -16,27 +17,27 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FeatureConfigService,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import {
   FocusConfig,
-  SkipFocusConfig,
   KeyboardFocusService,
+  SkipFocusConfig,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
+  standalone: false,
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
@@ -61,19 +62,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
 
-  // TODO: (CXSPA-7464) - Remove feature flags and following bindings next major release.
-  @HostBinding('attr.role') role = this?.featureConfigService.isEnabled(
-    'a11yScreenReaderBloatFix'
-  )
-    ? null
-    : 'presentation';
-
   // required by esc focus
-  @HostBinding('tabindex') tabindex = this?.featureConfigService.isEnabled(
-    'a11yScreenReaderBloatFix'
-  )
-    ? '-1'
-    : '0';
+  @HostBinding('tabindex') tabindex = '-1';
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
@@ -97,11 +87,11 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('a11yImproveContrast');
-    useFeatureStyles('cmsBottomHeaderSlotUsingFlexStyles');
     useFeatureStyles('headerLayoutForSmallerViewports');
     useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
+    useFeatureStyles('a11yNgSelectLayering');
+    useFeatureStyles('topProgressBarUseTransformAnimation');
   }
 
   ngOnInit(): void {

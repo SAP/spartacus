@@ -32,6 +32,7 @@ import { OutletService } from './outlet.service';
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   private renderedTemplate: any[] = [];

@@ -28,9 +28,7 @@
       font-size: var(--cx-font-size, 1.188rem);
       font-weight: var(--cx-font-weight-bold);
 
-      @include forFeature('a11yImproveContrast') {
-        @include type('3');
-      }
+      @include type('3');
     }
 
     .total {
@@ -63,27 +61,9 @@
     }
   }
 
-  @mixin native-high-contrast-fix {
-    @media (forced-colors: active) {
-      a {
-        forced-color-adjust: none;
-        background: LinkText;
-        color: Canvas;
-
-        &:hover {
-          background: LinkText;
-          color: Canvas;
-        }
-      }
-    }
-  }
-
-  @include native-high-contrast-fix;
-
   @include cx-highContrastTheme {
     a {
       color: var(--cx-color-medium);
     }
-    @include native-high-contrast-fix;
   }
 }

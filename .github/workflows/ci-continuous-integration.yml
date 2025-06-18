@@ -4,7 +4,7 @@ on:
     branches:
       - develop
       - develop-*
-      - release-*
+      - release/*
       - epic/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
@@ -87,8 +87,80 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
+  check_peer_dependencies:
+    name: CI - Check peerDependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Run peerDependencies check
+        run: |
+          bash ci-scripts/check-peer-deps.sh ${{ github.event.pull_request.base.ref }}
+      - name: Collect peer dependency changes
+        id: collect-peer-deps
+        run: |
+          if [ -s peer-deps-result.txt ]; then
+            echo "output<<EOF" >> $GITHUB_OUTPUT
+            echo "### ❗ peerDependencies changes detected:" >> $GITHUB_OUTPUT
+            cat peer-deps-result.txt >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "output=No peerDependencies changes detected" >> $GITHUB_OUTPUT
+          fi
+      - name: Post PR comment if peerDependencies changed
+        if: failure() && github.event.pull_request
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+                const path = 'peer-deps-result.txt';
+
+            if (!fs.existsSync(path)) {
+              console.log("No peer-deps result file found. Skipping comment.");
+              return;
+            }
+
+            const diff = fs.readFileSync(path, 'utf8').trim();
+            if (!diff) {
+              console.log("peer-deps result file is empty. Skipping comment.");
+              return;
+            }
+
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const botUser = context.actor;
+
+            const commentHeader = "🚨 **PeerDependencies Change Detected** 🚨";
+
+            const body = `
+              ${commentHeader}
+
+              Your pull request includes modifications to \`peerDependencies\` in the following file(s):
+
+              \`\`\`diff
+              ${diff}
+              \`\`\`
+
+              Please note: Changes to peerDependencies are **restricted** and only permitted during **framework update releases**, as they may introduce breaking changes for customer's applications.
+              If you believe this change is necessary, please reach out to the Asterix team for further assistance.
+              `;
+
+            await github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body
+            });
+
   ci_result:
-    needs: [unit_tests, sonarqube_scan, linting]
+    needs: [unit_tests, sonarqube_scan, linting, check_peer_dependencies]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}

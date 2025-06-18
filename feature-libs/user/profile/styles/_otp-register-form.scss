@@ -1,0 +1,21 @@
+%cx-otp-register-form {
+  form {
+    a {
+      text-decoration: underline;
+    }
+    .cx-login-link {
+      margin: 1rem 0 0;
+    }
+  }
+  .cx-page-section {
+    padding-top: 0.3125rem;
+  }
+  .label-content {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.361875rem;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "शीर्षक (वैकल्पिक)",
+        "placeholder": "शीर्षक"
+      },
+      "firstName": {
+        "label": "प्रथम नाम",
+        "placeholder": "प्रथम नाम"
+      },
+      "lastName": {
+        "label": "अंतिम नाम",
+        "placeholder": "अंतिम नाम"
+      },
+      "companyName": {
+        "label": "कंपनी का नाम",
+        "placeholder": "कंपनी का नाम"
+      },
+      "email": {
+        "label": "ईमेल",
+        "placeholder": "ईमेल"
+      },
+      "city": {
+        "label": "शहर/नगर (वैकल्पिक)",
+        "placeholder": "कृपया शहर/नगर चुनें"
+      },
+      "country": {
+        "label": "देश (वैकल्पिक)",
+        "placeholder": "देश चुनें"
+      },
+      "state": {
+        "label": "राज्य/प्रांत (वैकल्पिक)",
+        "placeholder": "राज्य/ प्रांत चुनें"
+      },
+      "postalCode": {
+        "label": "ज़िप/पोस्टल कोड (वैकल्पिक)",
+        "placeholder": "ज़िप/पोस्टल कोड"
+      },
+      "addressLine": {
+        "label": "पता (वैकल्पिक)",
+        "placeholder": "पता"
+      },
+      "secondAddressLine": {
+        "label": "पता पंक्ति 2 (वैकल्पिक)",
+        "placeholder": "पता पंक्ति 2"
+      },
+      "phoneNumber": {
+        "label": "फोन नंबर (वैकल्पिक)",
+        "placeholder": "फ़ोन नंबर"
+      },
+      "message": {
+        "label": "संदेश (वैकल्पिक)",
+        "placeholder": "संदेश फ़ील्ड के लिए उदाहरण डेटाः \"विभागः ग्राउंड सहायता; पदः प्रमुख सुरक्षा गार्ड; रिपोर्ट करेंः स्टीव जैकसन; टिप्पणियांः कृपया मेरे लिए नया खाता बनाएं\"."
+      }
+    },
+    "messageToApproverTemplate": "कंपनी नामः {{companyName}}, फोन नंबरः {{phoneNumber}}, पताः {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}}, संदेशः {{message}}",
+    "successFormSubmitMessage": "पंजीकरण करने के लिए धन्यवाद! कोई प्रतिनिधि जल्द ही आपसे संपर्क करेगा और आपकी पहुंच जानकारी की पुष्टि करेगा.",
+    "formSubmitButtonLabel": "पंजीकृत करें",
+    "goToLoginButtonLabel": "पहले से पंजीकृत हैं? साइन इन पर जाएं",
+    "httpHandlers": {
+      "conflict": "इस ईमेल के साथ उपयोगकर्ता पहले से मौजूद है."
+    },
+    "messageToFailedToRegister": "पंजीकरण करने में विफल. आगे सहायता के लिए कृपया अपने व्यवस्थापक से संपर्क करें."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "Poproś o datę dostawy",
+    "readOnlyTextLabel": "Wymagana data dostawy",
+    "successMessage": "Data dostawy została zaktualizowana.",
+    "errorMessage": "Coś poszło nie tak. Nie można zaktualizować żądanej daty."
+  }
+}

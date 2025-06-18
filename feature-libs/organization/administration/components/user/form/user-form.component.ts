@@ -44,6 +44,7 @@ import { UserItemService } from '../services/user-item.service';
       useExisting: CurrentUserService,
     },
   ],
+  standalone: false,
 })
 export class UserFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

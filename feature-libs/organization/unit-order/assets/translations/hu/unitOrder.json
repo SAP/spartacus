@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "Egységszintű rendeléstörténet",
+    "orderId": "Rendelés #",
+    "emptyPurchaseOrderId": "Nincs",
+    "date": "Dátum",
+    "status": "Státus",
+    "buyer": "Beszerző",
+    "unit": "Egység",
+    "total": "Összesen",
+    "noOrders": "Nincsenek egyező rendelési rekordok az egységéhez.",
+    "startShopping": "Vásárlás megkezdése",
+    "sortBy": "Rendezés alapja",
+    "sortOrders": "Rendelések rendezése",
+    "purchaseOrderNumber": "Megrendelés #",
+    "startOn": "Indítás dátuma",
+    "frequency": "Gyakoriság",
+    "nextOrderDate": "Következő rendelés dátuma",
+    "notFound": "Nem található rendelés",
+    "applyFilter": "Alkalmaz",
+    "filterBy": "Szűrés alapja",
+    "filterByBuyer": "Szűrés beszerző szerint",
+    "filterByBuyerLabel": "Beszerző neve",
+    "filterByBuyerPlaceholder": "Adja meg a beszerző nevét",
+    "filterByBuyerAriaLabel": "Lista szűrése beszerző szerint",
+    "filterByUnit": "Szűrés egység szerint",
+    "filterByUnitLabel": "Egység neve",
+    "filterByUnitPlaceholder": "Adja meg az egység nevét",
+    "filterByUnitAriaLabel": "Lista szűrése egység szerint",
+    "search": "Keresés",
+    "clearAll": "Összes törlése",
+    "removeAppliedFilters": "Szűrők eltávolítása",
+    "yourFilters": "Saját szűrők:",
+    "and": " és "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "Dátum",
+    "orderNumber": "Rendelésszám",
+    "buyer": "Beszerző (növekvő)",
+    "buyerDesc": "Beszerző (csökkenő)",
+    "orgUnit": "Egység (növekvő)",
+    "orgUnitDesc": "Egység (csökkenő)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "Beszerző"
+  }
+}

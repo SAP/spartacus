@@ -1,13 +1,11 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-    {{ 'formLegend.required' | cxTranslate }}
-  </p>
+  <cx-form-required-legend />
   <label>
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+      <cx-form-required-asterisks />
     </span>
     <input
       required="true"
@@ -19,6 +17,12 @@
       aria-describedby="tokenInputHint"
     />
     <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
+    <div class="rate-limit-error-display" *ngIf="upToRateLimit">
+      {{
+        'register.rateLimitForRegistrationMessage'
+          | cxTranslate: { seconds: waitTimeForRateLimit }
+      }}
+    </div>
   </label>
   <span id="tokenInputHint" class="cx-visually-hidden">
     {{ 'verificationTokenForm.tokenInputHint' | cxTranslate }}
@@ -26,7 +30,7 @@
 
   <input type="hidden" formControlName="tokenId" [(ngModel)]="tokenId" />
 
-  <div class="resend-link-text">
+  <div *ngIf="!upToRateLimit" class="resend-link-text">
     <div class="left-text">
       <span role="timer" aria-live="polite" aria-atomic="true">
         <a
@@ -75,13 +79,3 @@
     </button>
   </div>
 </form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

@@ -1,0 +1,48 @@
+{
+  "customerTicketing": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "客戶記錄單",
+    "ticketId": "ID",
+    "createdOn": "建立日期",
+    "changedOn": "更改日期",
+    "status": "狀態",
+    "message": "訊息",
+    "cancel": "取消",
+    "submit": "提交",
+    "uploadFile": "上傳檔案",
+    "fileSizeLimit": "檔案大小限制：{{count}} MB",
+    "maximumAttachment": "各訊息最多一個附件",
+    "errorMessage": "發生錯誤。",
+    "charactersLeft": "剩餘字元：{{count}}",
+    "customerService": "客戶服務"
+  },
+  "customerTicketingList": {
+    "subject": "主旨",
+    "ticketCategory": "種類",
+    "sortSubtitle": "排序依據",
+    "sortOrders": "排序順序",
+    "noTickets": "您沒有請求",
+    "requestTitle": "所有請求",
+    "mobile": {
+      "ticketIdFull": "記錄單 ID"
+    }
+  },
+  "createCustomerTicket": {
+    "createNewTicket": "新增",
+    "addNewRequest": "新增請求",
+    "addRequest": "新增請求",
+    "subject": "主旨",
+    "category": "種類",
+    "associateTo": "關聯至",
+    "ticketCreated": "請求已建立。",
+    "optionallySelectAssociatedObject": "選擇選項",
+    "selectCategory": "選擇種類"
+  },
+  "customerTicketingDetails": {
+    "requestReopened": "請求已重新開啟。",
+    "requestClosed": "請求已關閉，您可視需求重新開啟。",
+    "reopenRequest": "重新開啟請求",
+    "closeRequest": "關閉請求",
+    "ticketNotFound": "找不到記錄單。"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "Zurück zum Warenkorb"
+  },
+  "checkoutProgress": {
+    "label": "Fortschritt beim Bezahlen",
+    "deliveryAddress": "Lieferadresse",
+    "deliveryMode": "Lieferart",
+    "paymentDetails": "Zahlung",
+    "reviewOrder": "Prüfen",
+    "state": {
+      "completed": "{{step}}, abgeschlossen",
+      "selected": "{{step}}, ausgewählt",
+      "disabled": "{{step}}, deaktiviert"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "Lieferadresse",
+    "selectYourDeliveryAddress": "Wählen Sie Ihre Lieferadresse aus",
+    "defaultDeliveryAddress": "Standardlieferadresse",
+    "addNewAddress": "Neue Adresse hinzufügen",
+    "shipToThisAddress": "An diese Adresse senden",
+    "deliveryAddressSelected": "Lieferadresse ausgewählt"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "Lieferart",
+    "deliveryOptions": "Lieferoptionen",
+    "standardDelivery": "Standard-Lieferung",
+    "premiumDelivery": "Premium-Lieferung",
+    "deliveryEntries": "Zu versendende Positionen"
+  },
+  "checkoutReview": {
+    "review": "Prüfen",
+    "reviewOrder": "Bestellung prüfen",
+    "orderItems": "Bestellpositionen",
+    "confirmThatRead": "Ich bestätige, dass ich Folgendes gelesen habe und damit einverstanden bin:",
+    "placeOrder": "Bestellung aufgeben",
+    "termsAndConditions": "Allgemeine Geschäftsbedingungen",
+    "editDeliveryAddressDetails": "Details der Lieferadresse bearbeiten, öffnet die Seite \"Lieferadresse\"",
+    "editBillingDetails": "Rechnungsadresse bearbeiten, öffnet die Seite \"Zahlungsdetails\"",
+    "editPaymentDetails": "Zahlungsdetails bearbeiten, öffnet die Seite \"Zahlungsdetails\"",
+    "editPaymentType": "Zahlungsart bearbeiten, öffnet die Seite \"Zahlungsart\"",
+    "editDeliveryMode": "Lieferart bearbeiten, öffnet die Seite \"Lieferart\"",
+    "orderInProcess": "Bestellung ist in Bearbeitung. Bitte warten."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "Bestätigung der Bestellung",
+    "thankYou": "Vielen Dank für Ihre Bestellung!",
+    "invoiceHasBeenSentByEmail": "Eine Rechnung wurde per E-Mail an Sie gesendet, die Sie in Kürze erhalten müssten.",
+    "orderItems": "Bestellpositionen",
+    "orderPlacedSuccessfully": "Bestellung erfolgreich aufgegeben",
+    "createAccount": "Ein Konto erstellen?",
+    "createAccountForNext": "Erstellen Sie ein Konto für <{{email}}>, um bei Ihrem nächsten Besuch schneller bezahlen zu können."
+  }
+}

@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
-  HttpClientTestingModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nModule,
   MockTranslatePipe,
@@ -42,20 +45,14 @@ describe('VisualPickingProductFilterComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VisualPickingProductFilterComponent, MockTranslatePipe],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        I18nModule,
-        CommonModule,
-        FormsModule,
-        UrlModule,
-        IconModule,
-      ],
+      imports: [I18nModule, CommonModule, FormsModule, UrlModule, IconModule],
       providers: [
         {
           provide: VisualPickingProductFilterService,
           useValue: mockVisualPickingProductFilterService,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

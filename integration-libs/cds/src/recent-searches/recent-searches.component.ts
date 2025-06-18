@@ -31,6 +31,7 @@ const MAX_RECENT_SEARCHES = 5;
   selector: 'cx-recent-searches',
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RecentSearchesComponent implements OnInit {
   public result$: Observable<string[]>;

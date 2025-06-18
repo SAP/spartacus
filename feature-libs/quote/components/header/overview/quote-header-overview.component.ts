@@ -26,6 +26,7 @@ import {
 @Component({
   selector: 'cx-quote-header-overview',
   templateUrl: './quote-header-overview.component.html',
+  standalone: false,
 })
 export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);

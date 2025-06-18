@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "入荷予定",
+    "quantity": "数量",
+    "noFutureStocks": "申し訳ありませんが、この商品の入荷予定はありません."
+  }
+}

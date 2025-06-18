@@ -5,12 +5,11 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, User } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -18,14 +17,15 @@ import {
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
-import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
-import createSpy = jasmine.createSpy;
-import { UpdateEmailComponentService } from './update-email-component.service';
 import { UserProfileFacade } from '../../root/facade';
+import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
+import { UpdateEmailComponentService } from './update-email-component.service';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
@@ -67,7 +67,6 @@ describe('MyAccountV2EmailComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
       ],

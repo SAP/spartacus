@@ -10,6 +10,7 @@
     <div class="cx-table-item-container">
       <!-- Item Image -->
       <a
+        *ngIf="!options.disableItemLink"
         [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
         tabindex="0"
       >
@@ -18,13 +19,20 @@
           format="cartIcon"
         ></cx-media>
       </a>
+      <cx-media
+        *ngIf="options.disableItemLink"
+        [container]="item.product?.images?.PRIMARY"
+        format="cartIcon"
+      ></cx-media>
       <div class="cx-info">
         <div *ngIf="item.product?.name" class="cx-name">
           <a
+            *ngIf="!options.disableItemLink"
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
             >{{ item.product?.name }}</a
           >
+          <span *ngIf="options.disableItemLink">{{ item.product?.name }}</span>
         </div>
         <div *ngIf="item.product?.code" class="cx-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}

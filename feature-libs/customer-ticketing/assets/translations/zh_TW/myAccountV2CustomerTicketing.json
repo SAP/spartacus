@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "客戶服務",
+    "showMore": "顯示更多",
+    "showMoreLabel": "瀏覽至客戶服務請求歷史記錄",
+    "changedOn": "更改日期：{{value}}",
+    "ticketId": "ID：{{value}}",
+    "subjectLabel": "主旨",
+    "idLabel": "客戶服務 ID"
+  }
+}

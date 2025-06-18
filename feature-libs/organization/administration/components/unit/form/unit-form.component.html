@@ -1,12 +1,10 @@
 <cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">
         <span>{{ 'orgUnit.name' | cxTranslate }}</span>
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -15,10 +13,15 @@
         placeholder="{{ 'orgUnit.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
@@ -34,7 +37,7 @@
     <label>
       <span class="label-content required">
         <span>{{ 'orgUnit.uid' | cxTranslate }}</span>
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -42,11 +45,16 @@
         required
         placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
+        [attr.aria-invalid]="
+          form.get('uid')?.touched && form.get('uid')?.invalid
+        "
+        [attr.aria-errormessage]="'uidError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"
@@ -65,7 +73,6 @@
       }}</span>
       <ng-select
         *cxFeature="'a11yApprovalProcessWithNoClearable'"
-        [inputAttrs]="{ required: 'true' }"
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
@@ -74,6 +81,10 @@
         bindValue="code"
         appendTo="cx-org-list"
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
         [cxNgSelectA11y]="{}"
       >
       </ng-select>
@@ -87,12 +98,17 @@
         bindValue="code"
         appendTo="cx-org-list"
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       >
       </ng-select>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
         [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
@@ -108,7 +124,7 @@
       <label formGroupName="parentOrgUnit">
         <span class="label-content required">
           {{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}
-          <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+          <cx-form-required-asterisks />
         </span>
         <ng-select
           *cxFeature="'a11yApprovalProcessWithNoClearable'"
@@ -122,6 +138,10 @@
           appendTo="cx-org-list"
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
           [cxNgSelectA11y]="{}"
+          [attr.aria-invalid]="
+            form.get('uid')?.touched && form.get('uid')?.invalid
+          "
+          [attr.aria-errormessage]="'codeError'"
         >
         </ng-select>
         <ng-select
@@ -135,11 +155,16 @@
           bindValue="id"
           appendTo="cx-org-list"
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+          [attr.aria-invalid]="
+            form.get('uid')?.touched && form.get('uid')?.invalid
+          "
+          [attr.aria-errormessage]="'parentUnitUidError'"
         >
         </ng-select>
 
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
+          id="parentUnitUidError"
           *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
@@ -160,13 +185,3 @@
     </ng-template>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

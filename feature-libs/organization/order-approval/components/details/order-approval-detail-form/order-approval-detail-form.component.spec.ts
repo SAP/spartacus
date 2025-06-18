@@ -8,7 +8,6 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -47,6 +46,7 @@ class MockOrderApprovalDetailService {
 @Component({
   selector: 'cx-form-errors',
   template: '',
+  standalone: false,
 })
 class MockFormErrorsComponent {
   @Input() control: UntypedFormControl;
@@ -57,11 +57,13 @@ class MockFormErrorsComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -89,7 +91,7 @@ describe('OrderApprovalDetailFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         OrderApprovalDetailFormComponent,
         MockFormErrorsComponent,

@@ -33,6 +33,7 @@ import { PopoverService } from './popover.service';
  */
 @Directive({
   selector: '[cxPopover]',
+  standalone: false,
 })
 export class PopoverDirective implements OnInit {
   /**
@@ -184,16 +185,7 @@ export class PopoverDirective implements OnInit {
         this.close();
       }
       if (this.focusDirectiveTriggerEvents.includes(event)) {
-        // TODO: (CXSPA-6594) - Remove feature flag next major release.
-        if (this.featureConfigService?.isEnabled('a11yPopoverFocus')) {
-          this.popoverService.setFocusOnElement(this.element);
-        } else {
-          this.popoverService.setFocusOnElement(
-            this.element,
-            this.focusConfig,
-            this.cxPopoverOptions?.appendToBody
-          );
-        }
+        this.popoverService.setFocusOnElement(this.element);
       }
     });
   }
@@ -225,8 +217,16 @@ export class PopoverDirective implements OnInit {
         this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
+        const body = this.winRef.document.body;
+        const element = this.featureConfigService?.isEnabled(
+          'a11yPopoverHighContrast'
+        )
+          ? // we need to select first child element if exists,
+            // otherwise HCT theming in popover will not be picked up.
+            (body.firstElementChild ?? body)
+          : body;
         this.renderer.appendChild(
-          this.winRef.document.body,
+          element,
           this.popoverContainer.location.nativeElement
         );
       }

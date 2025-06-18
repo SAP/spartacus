@@ -27,10 +27,14 @@ class MockOutletService implements Partial<OutletService> {
   add = jasmine.createSpy('add');
 }
 
-@Component({})
+@Component({
+  standalone: false,
+})
 class AlphaComponent {}
 
-@Component({})
+@Component({
+  standalone: false,
+})
 class BetaComponent {}
 
 describe('OutletModule.forRoot()', () => {

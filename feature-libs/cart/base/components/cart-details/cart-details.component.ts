@@ -21,6 +21,7 @@ import { filter, map, tap } from 'rxjs/operators';
   selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;

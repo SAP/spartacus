@@ -1,6 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   EventService,
   I18nTestingModule,
@@ -16,13 +15,13 @@ import {
 import { CardModule, ICON_TYPE } from '@spartacus/storefront';
 
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
+import { QuoteUIConfig } from '../../config';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import {
   EditCard,
   SaveEvent,
 } from '../buyer-edit/quote-header-buyer-edit.component';
 import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
-import { QuoteUIConfig } from '../../config';
 
 const totalPriceFormattedValue = '$20';
 
@@ -51,12 +50,14 @@ const mockQuote: Quote = {
 @Component({
   selector: 'cx-quote-actions-link',
   template: '',
+  standalone: false,
 })
 export class MockQuoteActionsLinkComponent {}
 
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -65,6 +66,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   template: '',
+  standalone: false,
 })
 class MockQuoteHeaderBuyerEditComponent {
   @Input() content: EditCard | null;
@@ -99,7 +101,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   beforeEach(waitForAsync(() => {
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CardModule, RouterTestingModule],
+      imports: [I18nTestingModule, CardModule],
       declarations: [
         QuoteHeaderOverviewComponent,
         MockCxIconComponent,

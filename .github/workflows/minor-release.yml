@@ -1,12 +1,19 @@
-name: Minor Release
+name: Release snapshot (creates a snapshot from the develop branch or from the input-provided source)
 
 on:
   workflow_dispatch:
     inputs:
+      source:
+        description: 'Source to release from. Could be any branch or tag (e.g., release/2211.20.x, 2211.20.0). By default, the develop branch is used.'
+        required: false
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
+        required: true
+      create_pr:
+        description: 'Create a PR from the release branch to the source branch?'
         required: false
-  
+        type: 'boolean'
+        default: false
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -14,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: develop 
+          ref: ${{ github.event.inputs.source || 'develop' }}
 
       - name: Configure Git
         run: |
@@ -96,4 +103,50 @@ jobs:
           git add .
           git commit -m "Release ${{ env.version }}"
           git push origin "${{ env.RELEASE_BRANCH }}"
-  
+        
+      - name: Tag the release
+        run: |
+          git fetch origin "${{ env.RELEASE_BRANCH }}"
+          git checkout "${{ env.RELEASE_BRANCH }}"
+
+          TAG="${{ env.version }}"
+
+          # Check if tag already exists
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists. Skipping creation."
+          else
+            git tag -a "$TAG" -m "$TAG"
+            git push origin "$TAG"
+            echo "Created and pushed tag: $TAG"
+          fi
+
+      - name: Sync branch to a private repo
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+        run: |
+          echo "Triggering repo-sync.yml with branch: ${{ env.RELEASE_BRANCH }}"
+          
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/repo-sync.yml/dispatches \
+            -d "{\"ref\":\"${{ env.RELEASE_BRANCH }}\",\"inputs\":{\"branch_to_sync\":\"${{ env.RELEASE_BRANCH }}\"}}"
+
+      - name: Create Pull Request to develop
+        if: ${{ github.event.inputs.create_pr == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+        run: |
+          echo "Creating pull request from ${{ env.RELEASE_BRANCH }} to ${{ github.event.inputs.source }}..."
+
+          # Check if a PR already exists
+          existing_pr=$(gh pr list --head "${{ env.RELEASE_BRANCH }}" --base "${{ github.event.inputs.source }}" --json number --jq '.[].number')
+          if [[ -n "$existing_pr" ]]; then
+            echo "PR already exists: #$existing_pr"
+          else
+            gh pr create \
+              --head "${{ env.RELEASE_BRANCH }}" \
+              --base "${{ github.event.inputs.source }}" \
+              --title "chore(release): ${{ env.version }}" \
+              --body "Automated PR to merge release changes back into the source branch."
+          fi

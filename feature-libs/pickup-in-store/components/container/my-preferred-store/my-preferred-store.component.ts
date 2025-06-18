@@ -24,13 +24,23 @@ import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
+import { StoreLocationService } from '@spartacus/storefinder/core';
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';
+const GET_DIRECTIONS_ARIA = 'cardActions.getDirections';
 
 interface PreferredStoreContent {
   header: string;
@@ -44,16 +54,21 @@ interface PreferredStoreContent {
   selector: 'cx-my-preferred-store',
   templateUrl: 'my-preferred-store.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MyPreferredStoreComponent implements OnInit {
+  protected storeLocationService: StoreLocationService =
+    inject(StoreLocationService);
   preferredStore$: Observable<PointOfService>;
-  content: PreferredStoreContent = {
+  content: PreferredStoreContent | null;
+  defaultContent: PreferredStoreContent = {
     header: 'My Store',
     actions: [
       { event: 'send', name: GET_DIRECTIONS_NAME },
       { event: 'edit', name: CHANGE_STORE_NAME },
     ],
   };
+
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
   pointOfService: PointOfService;
@@ -69,32 +84,102 @@ export class MyPreferredStoreComponent implements OnInit {
     protected storeFinderService: StoreFinderFacade,
     protected cmsService: CmsService
   ) {
-    this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
-      filter((preferredStore) => preferredStore !== null),
-      map((preferredStore) => preferredStore as PointOfServiceNames),
-      filter((preferredStore) => !!preferredStore.name),
-      map((preferredStore) => preferredStore.name),
-      tap((preferredStoreName) =>
-        this.pickupLocationsSearchService.loadStoreDetails(
-          preferredStoreName as string
-        )
-      ),
-      switchMap((preferredStoreName) =>
-        this.pickupLocationsSearchService.getStoreDetails(
-          preferredStoreName as string
-        )
-      ),
-      tap((store: PointOfService) => {
-        this.pointOfService = store;
-      })
-    );
-
+    if (!this.featureConfigService.isEnabled('storeFinderFacadeCleanup')) {
+      this.preferredStore$ = this.preferredStoreFacade
+        .getPreferredStore$()
+        .pipe(
+          filter((preferredStore) => preferredStore !== null),
+          map((preferredStore) => preferredStore as PointOfServiceNames),
+          filter((preferredStore) => !!preferredStore.name),
+          map((preferredStore) => preferredStore.name),
+          tap((preferredStoreName) =>
+            this.pickupLocationsSearchService.loadStoreDetails(
+              preferredStoreName as string
+            )
+          ),
+          switchMap((preferredStoreName) =>
+            this.pickupLocationsSearchService.getStoreDetails(
+              preferredStoreName as string
+            )
+          ),
+          tap((store: PointOfService) => {
+            this.pointOfService = store;
+          })
+        );
+    }
     useFeatureStyles('a11yViewHoursButtonIconContrast');
     useFeatureStyles('a11yImproveButtonsInCardComponent');
   }
 
   ngOnInit(): void {
-    if (
+    if (this.featureConfigService.isEnabled('storeFinderFacadeCleanup')) {
+      this.preferredStore$ = this.preferredStoreFacade
+        .getPreferredStore$()
+        .pipe(
+          filter(
+            (preferredStore) =>
+              preferredStore !== null && 'name' in preferredStore
+          ),
+          map((preferredStore) => preferredStore.name),
+          distinctUntilChanged(),
+          switchMap((preferredStoreName) =>
+            this.pickupLocationsSearchService.loadAndGetStoreDetails(
+              preferredStoreName as string
+            )
+          ),
+          tap((store: PointOfService) => {
+            this.pointOfService = store;
+          }),
+          shareReplay({ bufferSize: 1, refCount: true })
+        );
+
+      this.preferredStore$
+        .pipe(
+          switchMap(() =>
+            this.cmsService.getCurrentPage().pipe(
+              filter<Page>(Boolean),
+              take(1),
+              map((cmsPage) => {
+                this.isStoreFinder = cmsPage.pageId === 'storefinderPage';
+                return this.isStoreFinder;
+              }),
+              tap((isStoreFinder) => {
+                const link = this.storeLocationService.getDirections(
+                  this.pointOfService
+                );
+                if (isStoreFinder) {
+                  this.content = {
+                    header: '',
+                    actions: [
+                      {
+                        link,
+                        name: GET_DIRECTIONS_NAME,
+                        ariaLabel: GET_DIRECTIONS_ARIA,
+                        target: '_blank',
+                      },
+                    ],
+                  };
+                } else {
+                  this.content = {
+                    ...this.defaultContent,
+                    actions: [
+                      {
+                        link,
+                        name: GET_DIRECTIONS_NAME,
+                        ariaLabel: GET_DIRECTIONS_ARIA,
+                        target: '_blank',
+                      },
+                      { event: 'edit', name: CHANGE_STORE_NAME },
+                    ],
+                  };
+                }
+                this.cdr?.detectChanges();
+              })
+            )
+          )
+        )
+        .subscribe();
+    } else if (
       this.featureConfigService.isEnabled('a11yImproveButtonsInCardComponent')
     ) {
       this.cmsService
@@ -118,22 +203,22 @@ export class MyPreferredStoreComponent implements OnInit {
                 {
                   link,
                   name: GET_DIRECTIONS_NAME,
-                  ariaLabel: 'cardActions.getDirections',
+                  ariaLabel: GET_DIRECTIONS_ARIA,
                   target: '_blank',
                 },
               ],
             };
           } else {
             this.content = {
-              ...this.content,
+              ...this.defaultContent,
               actions: [
                 {
                   link,
                   name: GET_DIRECTIONS_NAME,
-                  ariaLabel: 'cardActions.getDirections',
+                  ariaLabel: GET_DIRECTIONS_ARIA,
                   target: '_blank',
                 },
-                { event: 'edit', name: 'Change Store' },
+                { event: 'edit', name: CHANGE_STORE_NAME },
               ],
             };
           }
@@ -174,9 +259,11 @@ export class MyPreferredStoreComponent implements OnInit {
   }
 
   getDirectionsToStore(): void {
-    const linkToDirections: string = this.storeFinderService.getDirections(
-      this.pointOfService
-    );
+    const linkToDirections = this.featureConfigService.isEnabled(
+      'storeFinderFacadeCleanup'
+    )
+      ? this.storeLocationService.getDirections(this.pointOfService)
+      : this.storeFinderService.getDirections(this.pointOfService);
     window.open(linkToDirections, '_blank', 'noopener,noreferrer');
   }
 }

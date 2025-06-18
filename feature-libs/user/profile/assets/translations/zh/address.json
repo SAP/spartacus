@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "标题",
+    "titleOptional": "标题（可选）",
+    "defaultTitle": "标题",
+    "firstName": {
+      "label": "名字",
+      "placeholder": "名字"
+    },
+    "lastName": {
+      "label": "姓氏",
+      "placeholder": "姓氏"
+    },
+    "address1": "地址 1",
+    "address2": "地址 2（可选）",
+    "country": "国家/地区",
+    "city": {
+      "label": "城市",
+      "placeholder": "城市"
+    },
+    "state": "州/省",
+    "zipCode": {
+      "label": "邮政编码",
+      "placeholder": "邮政编码"
+    },
+    "phoneNumber": {
+      "label": "电话号码（可选）",
+      "placeholder": "例如 (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "手机号码",
+      "placeholder": "例如 (###) - ### - ####"
+    },
+    "saveAsDefault": "另存为默认值",
+    "chooseAddress": "选择地址",
+    "streetAddress": "街道地址",
+    "aptSuite": "公寓号",
+    "selectOne": "选择一个...",
+    "setAsDefault": "设置默认送货地址",
+    "titleRequired": "标题为必填项。",
+    "userAddressAddSuccess": "新地址添加成功！",
+    "userAddressUpdateSuccess": "地址更新成功！",
+    "userAddressDeleteSuccess": "地址删除成功！",
+    "invalidAddress": "无效地址"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "添加新送货地址",
+    "editDeliveryAddress": "编辑送货地址",
+    "areYouSureToDeleteAddress": "是否确定要删除此地址？",
+    "addNewAddress": "添加新地址",
+    "addAddress": "添加地址",
+    "updateAddress": "更新地址",
+    "backToAddressList": "返回地址列表",
+    "defaultDeliveryAddress": "默认送货地址",
+    "additionalDeliveryAddress": "附加送货地址 {{number}}"
+  },
+  "addressCard": {
+    "default": "默认值",
+    "selected": "已选择",
+    "selectedAddress": "所选地址",
+    "setAsDefault": "设置为默认值",
+    "shipTo": "送货地址",
+    "billTo": "帐单寄送地址",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "验证您的地址",
+    "ensureAccuracySuggestChange": "为确保交货准确性，我们建议进行以下更改。",
+    "chooseAddressToUse": "请选择您要使用的地址：",
+    "suggestedAddress": "建议地址",
+    "enteredAddress": "输入的地址",
+    "editAddress": "编辑地址",
+    "saveAddress": "保存地址"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "地址 {{ streetAddress }} 已成功设置为默认地址"
+  }
+}

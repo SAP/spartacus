@@ -7,6 +7,13 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  TranslationService,
+} from '@spartacus/core';
+import {
   AssociatedObject,
   Category,
   MAX_ENTRIES_FOR_ATTACHMENT,
@@ -15,18 +22,13 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
+import { catchError, first, map, tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-  TranslationService,
-} from '@spartacus/core';
-import { catchError, first, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
   templateUrl: './customer-ticketing-create-dialog.component.html',
+  standalone: false,
 })
 export class CustomerTicketingCreateDialogComponent
   extends CustomerTicketingDialogComponent
@@ -40,6 +42,12 @@ export class CustomerTicketingCreateDialogComponent
     );
   ticketAssociatedObjects$: Observable<AssociatedObject[]> =
     this.customerTicketingFacade.getTicketAssociatedObjects().pipe(
+      map((ao) =>
+        ao.map((cao) => ({
+          ...cao,
+          label: `${cao.type} ${cao.code}`,
+        }))
+      ),
       catchError((error: any) => {
         this.handleError(error);
         return of([]);
@@ -59,6 +67,8 @@ export class CustomerTicketingCreateDialogComponent
 
   protected translationService = inject(TranslationService);
 
+  protected featureService = inject(FeatureConfigService, { optional: true });
+
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
       message: form?.get('message')?.value,
@@ -70,6 +80,15 @@ export class CustomerTicketingCreateDialogComponent
 
   ngOnInit(): void {
     this.buildForm();
+
+    if (
+      this.featureService?.isEnabled(
+        'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+      )
+    ) {
+      this.focusConfig.trap = false;
+      this.focusConfig.trapTabOnly = true;
+    }
   }
 
   protected buildForm(): void {

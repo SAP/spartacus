@@ -19,6 +19,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 @Component({
   selector: 'cx-configurator-restart-dialog',
   templateUrl: './configurator-restart-dialog.component.html',
+  standalone: false,
 })
 export class ConfiguratorRestartDialogComponent {
   constructor(

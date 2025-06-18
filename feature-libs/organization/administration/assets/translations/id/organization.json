@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "Aktif",
+    "disabled": "Dinonaktifkan",
+    "enable": "Aktifkan",
+    "disable": "Nonaktifkan",
+    "name": "Nama",
+    "code": "Kode",
+    "done": "selesai",
+    "cancel": "Batalkan",
+    "add": "Tambahkan",
+    "manageUsers": "Kelola Pengguna",
+    "create": "Buat {{name}}",
+    "edit": "Edit",
+    "save": "Simpan {{name}}",
+    "delete": "Hapus",
+    "assign": "Kelola",
+    "active": "Aktif",
+    "status": "Status",
+    "details": "Rincian",
+    "messages": {
+      "emptyList": "Daftar kosong"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "Pelanggan",
+      "b2bapprovergroup": "Penyetuju",
+      "b2bmanagergroup": "Manajer",
+      "b2badmingroup": "Admin"
+    },
+    "userRights": {
+      "unitorderviewergroup": "Lihat Pesanan Pada Tingkat Unit"
+    },
+    "breadcrumb": "Organisasi",
+    "notification": {
+      "noSufficientPermissions": "Tidak memiliki izin yang memadai untuk mengakses halaman ini",
+      "notExist": "Item ini tidak ada",
+      "disabled": "Anda tidak dapat mengedit item yang dinonaktifkan"
+    },
+    "confirmation": {
+      "cancel": "BATALKAN",
+      "confirm": "KONFIRMASI",
+      "disable": "NONAKTIFKAN",
+      "delete": "HAPUS"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "Kode anggaran {{ code }} sudah ada.",
+        "costCenter": "Kode pusat biaya {{ code }} sudah ada.",
+        "unit": "Uid unit organisasi {{ code }} sudah ada.",
+        "user": "Email pengguna {{ code }} sudah ada.",
+        "userGroup": "Id Grup Pengguna {{ code }} sudah ada.",
+        "permission": "Kode Izin Persetujuan {{ code }} sudah ada.",
+        "unknown": "Kesalahan validasi server."
+      }
+    },
+    "information": "Informasi selengkapnya tentang {{title}}"
+  },
+  "orgCostCenter": {
+    "groupName": "Pusat Biaya",
+    "header": "Semua Pusat Biaya ({{count}})",
+    "code": "Kode",
+    "active": "Status",
+    "name": "Nama",
+    "currency": "Mata Uang",
+    "unit": "Unit Induk",
+    "actions": "",
+    "sortBy": "Urutkan berdasarkan",
+    "sort": {
+      "byName": "Nama",
+      "byUnitName": "Unit",
+      "byCode": "Kode"
+    },
+    "hint": "Semua pemesanan yang dilakukan melalui akun pembelian organisasi Anda tertaut dengan pusat biaya untuk tujuan pelacakan. Setiap unit dapat memiliki lebih dari satu pusat biaya. Untuk membatasi pengeluaran, anggaran ditetapkan pada pusat biaya. Pembeli memilih pusat biaya saat akan melakukan pembayaran.",
+    "disable": {
+      "confirm": "Nonaktifkan"
+    },
+    "messages": {
+      "deactivateTitle": "Nonaktifkan pusat biaya ini?",
+      "deactivate": "Pusat biaya yang dinonaktifkan tidak dapat digunakan untuk melakukan pemesanan baru. Pastikan bahwa unit Anda memiliki setidaknya satu pusat biaya. Pemesanan yang sudah ada tidak terpengaruh.",
+      "confirmEnabled": "Pusat Biaya {{ item.name }} berhasil diaktifkan",
+      "confirmDisabled": "Pusat Biaya {{ item.name }} berhasil dinonaktifkan",
+      "update": "Pusat Biaya {{ item.name }} berhasil diperbarui",
+      "create": "Pusat Biaya {{ item.name }} berhasil dibuat"
+    },
+    "info": {
+      "disabledEdit": "Aktifkan pusat biaya untuk mengizinkan pengeditan.",
+      "disabledEnable": "Unit harus diaktifkan terlebih dahulu sebelum pusat biaya ini dapat diaktfikan."
+    },
+    "details": {
+      "title": "Rincian Pusat Biaya",
+      "subtitle": "Pusat Biaya: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edit Pusat Biaya",
+      "subtitle": "Pusat Biaya: {{ item.name }}"
+    },
+    "create": {
+      "title": "Buat Pusat Biaya",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "Anggaran"
+    },
+    "breadcrumbs": {
+      "list": "Semua pusat biaya",
+      "details": "{{name}}",
+      "budgets": "Anggaran"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "Kelola anggaran",
+    "subtitle": "Pusat Biaya: {{ item.name }}",
+    "assigned": "Anggaran {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Anggaran {{ item.name }} berhasil dibatalkan penetapannya"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "Anggaran yang ditetapkan",
+    "subtitle": "Pusat Biaya: {{ item.name }}",
+    "assigned": "Anggaran {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Anggaran {{ item.name }} berhasil dibatalkan penetapannya"
+  },
+  "orgBudget": {
+    "groupName": "Anggaran",
+    "header": "Semua anggaran ({{count}})",
+    "code": "Kode",
+    "name": "Nama",
+    "active": "Status",
+    "currency": "Mata Uang",
+    "amount": "Jumlah",
+    "unit": "Unit",
+    "businessUnits": "Unit",
+    "dateRange": "Mulai - Berakhir",
+    "startDate": "Mulai",
+    "endDate": "Berakhir",
+    "actions": "",
+    "sortBy": "Urutkan berdasarkan",
+    "sort": {
+      "byName": "Nama",
+      "byUnitName": "Unit",
+      "byCode": "Kode",
+      "byValue": "Nilai"
+    },
+    "hint": "Anggaran mengatur batas pembelian secara keseluruhan dan ditetapkan pada pusat biaya. Pembeli memilih pusat biaya saat akan melakukan pembayaran.",
+    "details": {
+      "title": "Rincian Anggaran",
+      "subtitle": "Anggaran: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edit Anggaran",
+      "subtitle": "Anggaran: {{ item.name }}"
+    },
+    "create": {
+      "title": "Buat Anggaran",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Nonaktifkan anggaran ini?",
+      "deactivate": "Anggaran yang dinonaktifkan sudah tidak berlaku untuk pusat biaya tempat ditetapkannya anggaran tersebut. Pastikan bahwa pusat biaya terkait tersebut memiliki setidaknya satu anggaran.",
+      "confirmEnabled": "Anggaran {{ item.name }} berhasil diaktifkan",
+      "confirmDisabled": "Anggaran {{ item.name }} berhasil dinonaktifkan",
+      "update": "Anggaran {{ item.name }} berhasil diperbarui",
+      "create": "Anggaran {{ item.name }} berhasil dibuat"
+    },
+    "info": {
+      "disabledEdit": "Aktifkan anggaran untuk mengizinkan pengeditan.",
+      "disabledEnable": "Unit harus diaktifkan terlebih dahulu sebelum anggaran ini dapat diaktfikan."
+    },
+    "links": {
+      "costCenters": "Pusat Biaya"
+    },
+    "breadcrumbs": {
+      "list": "Semua anggaran",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "Pusat biaya",
+    "subtitle": "Anggaran: {{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "Unit",
+    "header": "Semua unit ({{count}})",
+    "unit": "Unit",
+    "name": "Nama",
+    "uid": "ID",
+    "approvalProcess": "Proses persetujuan",
+    "parentUnit": "Unit Induk",
+    "active": "Status",
+    "hint": "Unit mewakili departemen, toko, wilayah, atau pengelompokan logis apa pun lainnya yang sesuai dengan kebutuhan Anda. Pusat biaya dan alamat pengiriman yang tersedia bagi pembeli saat melakukan pembayaran bergantung pada unitnya. Pembeli memiliki akses ke semua unit turunan dari unit utamanya.",
+    "details": {
+      "title": "Rincian Unit",
+      "subtitle": "Unit: {{ item.name }}",
+      "hint": "Unit mewakili departemen, toko, wilayah, atau pengelompokan logis apa pun lainnya yang sesuai dengan kebutuhan Anda. Penonaktifan unit akan menonaktifkan semua turunan unit, termasuk unit turunan, pengguna, penyetuju, dan pusat biaya. Unit yang dinonaktifkan tidak dapat diedit."
+    },
+    "edit": {
+      "title": "Edit Unit",
+      "subtitle": "Unit: {{ item.name }}"
+    },
+    "create": {
+      "title": "Buat Unit",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Nonaktifkan unit ini?",
+      "deactivate": "Menonaktikan unit akan berdampak luas pada organisasi perdagangan Anda. SEMUA unit turunan, pengguna, anggaran, dan pusat biaya dari unit tersebut juga akan dinonaktifkan.",
+      "confirmEnabled": "Unit {{ item.name }} berhasil diaktifkan",
+      "confirmDisabled": "Unit {{ item.name }} berhasil dinonaktifkan",
+      "update": "Unit {{ item.name }} berhasil diperbarui",
+      "create": "Unit {{ item.name }} berhasil dibuat"
+    },
+    "info": {
+      "disabledEdit": "Aktifkan unit untuk mengizinkan pengeditan.",
+      "disabledEnable": "Induk harus diaktifkan terlebih dahulu sebelum unit ini dapat diaktifkan.",
+      "disabledDisable": "Unit utama tidak dapat dinonaktifkan."
+    },
+    "links": {
+      "units": "Unit Turunan",
+      "users": "Pengguna",
+      "approvers": "Penyetuju",
+      "shippingAddresses": "Alamat Pengiriman",
+      "costCenters": "Pusat Biaya"
+    },
+    "tree": {
+      "expandAll": "Perluas semua",
+      "collapseAll": "Ciutkan semua",
+      "expand": "Perluas",
+      "collapse": "ciutkan",
+      "explore": "Jelajahi subunit"
+    },
+    "children": {
+      "create": {
+        "title": "Buat unit turunan",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "Unit {{ item.name }} berhasil dibuat"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "Buat pusat biaya",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "Unit bisnis induk",
+      "create": "Buat Unit",
+      "parentOrgUnitNotes": "Unit ini merupakan unit tingkat teratas bagi organisasi Anda. Unit ini tidak dapat ditetapkan ke unit lainnya."
+    },
+    "users": {
+      "header": "Pengguna dalam kode {{code}}",
+      "changeUserRoles": "Ubah peran pengguna",
+      "newUser": "Pengguna baru"
+    },
+    "assignRoles": {
+      "header": "Kelola peran dalam kode {{code}}",
+      "instructions": {
+        "check": "Untuk menetapkan peran ke pengguna, pilih kotak centang peran tersebut.",
+        "uncheck": "Untuk menghapus peran, hapus centang pada kotak peran tersebut.",
+        "changes": "Perubahan akan disimpan secara otomatis."
+      }
+    },
+    "approvers": {
+      "header": "Penyetuju dalam kode {{code}}",
+      "assign": "Kelola penyetuju",
+      "new": "Penyetuju baru"
+    },
+    "assignApprovers": {
+      "header": "Kelola penyetuju dalam kode {{code}}",
+      "instructions": {
+        "check": "Untuk menetapkan penyetuju pada unit ini, pilih kotak centang pengguna tersebut.",
+        "uncheck": "Untuk menghapus penyetuju, hapus centang pada kotak pengguna tersebut.",
+        "changes": "Perubahan akan disimpan secara otomatis."
+      },
+      "hint": "Pengguna yang ditampilkan dalam daftar Penyetuju diberi hak istimewa untuk menyetujui pembelian oleh pembeli dari unit ini dan unit turunannya. Perlu dicatat bahwa pengguna yang memiliki peran sebagai penyetuju berbeda dengan penyetuju yang muncul dalam daftar Penyetuju. Jika penyetuju tidak ditemukan untuk suatu unit, atau jika penyetuju tidak diberi hak istimewa yang memadai untuk menyetujui pembelian, penyetuju di tingkat yang lebih tinggi dalam hierarki unit akan dicari hingga ditemukan seorang administrator yang dipilih."
+    },
+    "breadcrumbs": {
+      "list": "Semua unit",
+      "details": "{{name}}",
+      "children": "Unit turunan",
+      "users": "Pengguna",
+      "approvers": "Penyetuju",
+      "addresses": "Alamat pengiriman",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "Pusat Biaya"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "Unit turunan",
+    "subtitle": "Unit: {{ item.name }}",
+    "info": {
+      "disabledCreate": "Unit turunan tidak dapat dibuat untuk unit yang dinonaktifkan."
+    },
+    "hint": "Unit mewakili departemen, toko, wilayah, atau pengelompokan logis apa pun lainnya yang sesuai dengan kebutuhan Anda. Pengguna akan \"mewarisi\" unit turunan, yang berarti pembeli memiliki akses ke pusat biaya dan alamat pengiriman dari unit turunan saat akan melakukan pembayaran."
+  },
+  "orgUnitApprovers": {
+    "title": "Kelola penyetuju",
+    "subtitle": "Unit: {{ item.name }}",
+    "assigned": "Pengguna {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Pengguna {{ item.name }} berhasil dibatalkan penetapannya"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "Penyetuju yang ditetapkan",
+    "subtitle": "Unit: {{ item.name }}",
+    "assigned": "Pengguna {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Pengguna {{ item.name }} berhasil dibatalkan penetapannya",
+    "hint": "Pengguna yang ditampilkan dalam daftar Penyetuju diberi hak istimewa untuk menyetujui pembelian oleh pembeli dari unit ini dan unit turunannya. Perlu dicatat bahwa pengguna yang memiliki peran sebagai penyetuju berbeda dengan penyetuju yang muncul dalam daftar Penyetuju. Jika penyetuju tidak ditemukan untuk suatu unit, atau jika penyetuju tidak diberi hak istimewa yang memadai untuk menyetujui pembelian, penyetuju di tingkat yang lebih tinggi dalam hierarki unit akan dicari hingga ditemukan seorang administrator yang dipilih."
+  },
+  "orgUnitAssignedRoles": {
+    "header": "Kelola peran dalam kode {{code}}",
+    "name": "Nama",
+    "email": "Email",
+    "roles": "Peran",
+    "roleCustomer": "Pelanggan",
+    "roleApprover": "Penyetuju",
+    "roleManager": "Manajer",
+    "roleAdministrator": "Admin"
+  },
+  "orgUnitUsers": {
+    "title": "Pengguna yang ditetapkan",
+    "subtitle": "Unit: {{ item.name }}",
+    "info": {
+      "disabledCreate": "Pengguna tidak dapat dibuat untuk unit yang dinonaktifkan."
+    },
+    "hint": "Pengguna merupakan pembeli, penyetuju, manajer, dan administrator organisasi Anda. Setiap pengguna akan ditetapkan suatu peran untuk melakukan atau menyetujui pembelian. Pengguna \"mewarisi\" unit turunan, yang berarti pembeli memiliki akses ke pusat biaya dan alamat pengiriman dari unit turunan saat akan melakukan pembayaran."
+  },
+  "orgUnitUserRoles": {
+    "title": "Peran dan hak pengguna",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "messages": {
+      "rolesUpdated": "Peran berhasil diperbarui untuk {{item.name}}"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "Pengguna yang ditetapkan",
+    "subtitle": "Unit: {{ item.name }}"
+  },
+  "orgUnitCostCenters": {
+    "title": "Pusat biaya yang ditetapkan",
+    "subtitle": "Unit: {{ item.name }}",
+    "info": {
+      "disabledCreate": "Pusat biaya tidak dapat dibuat untuk unit yang dinonaktifkan."
+    },
+    "hint": "Semua pemesanan yang dilakukan melalui akun pembelian organisasi Anda tertaut dengan pusat biaya untuk tujuan pelacakan. Pembeli memilih pusat biaya saat akan melakukan pembayaran menggunakan metode pembelian \"Akun\". Setiap unit dapat memiliki lebih dari satu pusat biaya, tetapi satu pusat biaya hanya dapat ditetapkan pada satu unit. Untuk menentukan batas pengeluaran maksimum, anggaran ditetapkan pada pusat biaya. "
+  },
+  "orgUnitAddress": {
+    "title": "Alamat pengiriman",
+    "subtitle": "Unit: {{ item.name }}",
+    "country": "Negara/Wilayah",
+    "titles": "Gelar",
+    "firstName": "Nama depan",
+    "lastName": "Nama belakang",
+    "formattedAddress": "Alamat",
+    "address1": "Alamat",
+    "address2": "Alamat kedua (opsional)",
+    "city": "Kota",
+    "state": "Negara Bagian",
+    "zipCode": "Kode pos",
+    "phoneNumber": "Nomor telepon (opsional)",
+    "streetAddress": "Alamat Jalan",
+    "aptSuite": "Nomor Apartemen",
+    "selectOne": "Pilih Satu...",
+    "hint": "Jika pembeli melakukan pembayaran dengan metode pembelian \"Akun\", pembeli harus memilih pusat biaya. Alamat pengiriman yang tersedia bagi pembeli bergantung pada unit pusat biaya yang dipilih.",
+    "details": {
+      "title": "Rincian alamat",
+      "subtitle": "Unit: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edit Alamat"
+    },
+    "create": {
+      "title": "Buat Alamat"
+    },
+    "form": {
+      "subtitle": "Unit: {{ item.name }}"
+    },
+    "messages": {
+      "create": "Alamat {{ item.firstName }} {{ item.lastName }} berhasil dibuat",
+      "update": "Alamat {{ item.firstName }} {{ item.lastName }} berhasil diperbarui",
+      "delete": "Alamat tidak dapat dipulihkan. Pemesanan yang sudah ada tidak terpengaruh.",
+      "deleteTitle": "Hapus alamat ini?",
+      "deleted": "Alamat {{ item.firstName }} {{ item.lastName }} berhasil dihapus"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "Grup Pengguna",
+    "header": "Semua grup pengguna ({{count}})",
+    "disabled": "(dinonaktifkan)",
+    "uid": "Kode",
+    "name": "Nama",
+    "unit": "Unit",
+    "orgUnit": "Unit",
+    "actions": "",
+    "sortBy": "Urutkan berdasarkan",
+    "sort": {
+      "byName": "Nama",
+      "byUnitName": "Unit",
+      "byGroupID": "Grup"
+    },
+    "hint": "Grup pengguna memungkinkan Anda untuk menggabungkan pengguna dalam satu grup yang bertujuan untuk menetapkan batas pembelian bagi banyak pengguna sekaligus.",
+    "details": {
+      "title": "Rincian Grup pengguna",
+      "subtitle": "Grup pengguna: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edit Grup pengguna",
+      "subtitle": "Grup pengguna: {{ item.name }}"
+    },
+    "create": {
+      "title": "Buat Grup pengguna",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "Pengguna",
+      "permission": "Batas pembelian"
+    },
+    "messages": {
+      "update": "Grup Pengguna {{ item.name }} berhasil diperbarui",
+      "create": "Grup Pengguna {{ item.name }} berhasil dibuat",
+      "deleteTitle": "Hapus grup pengguna ini?",
+      "delete": "Pengguna dalam grup ini tidak terdampak jika grup pengguna dihapus.",
+      "deleted": "Grup Pengguna {{ item.name }} berhasil dihapus"
+    },
+    "breadcrumbs": {
+      "list": "Semua grup pengguna",
+      "details": "{{name}}",
+      "users": "Pengguna",
+      "permissions": "Batas pembelian"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "Kelola pengguna",
+    "subtitle": "Grup pengguna: {{ item.name }}",
+    "assigned": "Pengguna {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Pengguna {{ item.name }} berhasil dibatalkan penetapannya",
+    "unassignAll": "Batal Tetapkan Semua",
+    "unassignAllConfirmation": "Semua pengguna berhasil dibatalkan penetapannya"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "Pengguna yang ditetapkan",
+    "subtitle": "Grup pengguna: {{ item.name }}",
+    "assigned": "Pengguna {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Pengguna {{ item.name }} berhasil dibatalkan penetapannya"
+  },
+  "orgUserGroupPermissions": {
+    "title": "Kelola batas pembelian",
+    "subtitle": "Batas: {{ item.name }}",
+    "assigned": "Batas pembelian {{item.code}} berhasil ditetapkan",
+    "unassigned": "Batas pembelian {{item.code}} berhasil dibatalkan penetapannya"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "Batas pembelian yang ditetapkan",
+    "subtitle": "Batas: {{ item.name }}",
+    "assigned": "Batas pembelian {{item.code}} berhasil ditetapkan",
+    "unassigned": "Batas pembelian {{item.code}} berhasil dibatalkan penetapannya"
+  },
+  "orgUser": {
+    "groupName": "Pengguna",
+    "header": "Semua pengguna ({{count}})",
+    "disabled": "(dinonaktifkan)",
+    "uid": "Email",
+    "active": "Status",
+    "name": "Nama",
+    "firstName": "Nama depan",
+    "lastName": "Nama belakang",
+    "email": "Email",
+    "orgUnit": "Unit",
+    "unit": "Unit",
+    "roles": "Peran",
+    "rights": "Hak",
+    "title": "Gelar",
+    "hint": "Pengguna merupakan pembeli, penyetuju, manajer, dan administrator organisasi Anda. Setiap pengguna akan ditetapkan suatu peran untuk melakukan atau menyetujui pembelian. Setiap pengguna tergabung dalam suatu unit dan memiliki akses ke semua unit turunan dari unit utama mereka.",
+    "unitApprover": "Penyetuju unit",
+    "assignApprover": "Tambahkan pengguna ke penyetuju unit",
+    "actions": "",
+    "sortBy": "Urutkan berdasarkan",
+    "sort": {
+      "byName": "Nama",
+      "byUnit": "Unit"
+    },
+    "details": {
+      "title": "Rincian Pengguna",
+      "subtitle": "Pengguna: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Edit Pengguna",
+      "subtitle": "Pengguna: {{ item.name }}"
+    },
+    "create": {
+      "title": "Buat Pengguna",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "Ubah kata sandi",
+      "approvers": "Penyetuju",
+      "userGroup": "Grup pengguna",
+      "permission": "Batas pembelian",
+      "rolesAndRights": "Peran dan Hak"
+    },
+    "messages": {
+      "deactivateTitle": "Nonaktifkan pengguna ini?",
+      "deactivate": "Pengguna yang dinonaktifkan tidak dapat masuk ke etalase dan melakukan pemesanan.",
+      "confirmEnabled": "Pengguna {{item.firstName}} {{item.lastName}} berhasil diaktifkan",
+      "confirmDisabled": "Pengguna {{item.firstName}} {{item.lastName}} berhasil dinonaktifkan",
+      "update": "Pengguna {{item.firstName}} {{item.lastName}} berhasil diperbarui",
+      "create": "Pengguna {{item.firstName}} {{item.lastName}} berhasil dibuat",
+      "updatePassword": "Kata sandi pengguna {{item.firstName}} {{item.lastName}} berhasil diperbarui"
+    },
+    "info": {
+      "disabledEdit": "Aktifkan pengguna untuk mengizinkan pengeditan.",
+      "disabledEnable": "Unit harus diaktifkan terlebih dahulu sebelum pengguna ini dapat diaktfikan."
+    },
+    "approver": {
+      "link": "Penyetuju",
+      "header": "Penyetuju dalam kode {{code}}",
+      "assign": "Tetapkan Penyetuju",
+      "assignHeader": "Tetapkan Penyetuju dalam kode {{code}}",
+      "back": "Kembali",
+      "new": "Penyetuju baru",
+      "instructions": {
+        "check": "Untuk menetapkan penyetuju pada pengguna ini, pilih kotak centang pengguna tersebut.",
+        "uncheck": "Untuk menghapus penyetuju, hapus centang pada kotak pengguna tersebut.",
+        "changes": "Perubahan akan disimpan secara otomatis."
+      }
+    },
+    "userGroup": {
+      "link": "Grup pengguna",
+      "header": "Grup pengguna dalam kode {{code}}",
+      "assign": "Tetapkan grup pengguna",
+      "assignHeader": "Tetapkan grup pengguna dalam kode {{code}}",
+      "back": "Kembali",
+      "instructions": {
+        "check": "Untuk menetapkan grup pengguna ke pengguna ini, pilih kotak centang pengguna tersebut.",
+        "uncheck": "Untuk menghapus grup pengguna, hapus centang pada kotak pengguna tersebut.",
+        "changes": "Perubahan akan disimpan secara otomatis."
+      }
+    },
+    "permission": {
+      "link": "Batas pembelian",
+      "header": "Batas pembelian dalam kode {{code}}",
+      "assign": "Tetapkan batas pembelian",
+      "assignHeader": "Tetapkan batas pembelian dalam kode {{code}}",
+      "back": "Kembali",
+      "instructions": {
+        "check": "Untuk menetapkan batas pembelian pada pengguna ini, pilih kotak centang tersebut.",
+        "uncheck": "Untuk membatalkan penetapan batas pembelian, hapus centang pada kotak tersebut.",
+        "changes": "Perubahan akan disimpan secara otomatis."
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "setiap Bulan",
+        "YEAR": "setiap Tahun",
+        "WEEK": "setiap Minggu",
+        "QUARTER": "setiap Triwulan"
+      }
+    },
+    "password": {
+      "title": "Ubah kata sandi",
+      "subtitle": "Pengguna: {{ item.name }}",
+      "newPassword": "Kata sandi baru",
+      "confirmPassword": "Ketik ulang kata sandi baru"
+    },
+    "breadcrumbs": {
+      "list": "Semua pengguna",
+      "details": "{{name}}",
+      "userGroups": "Grup pengguna",
+      "approvers": "Penyetuju",
+      "permissions": "Batas pembelian"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "Kelola grup pengguna",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "assigned": "Grup pengguna {{item.name}} berhasil ditetapkan",
+    "unassigned": "Grup pengguna {{item.name}} berhasil dibatalkan penetapannya"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "Grup pengguna yang ditetapkan",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "assigned": "Grup pengguna {{item.name}} berhasil ditetapkan",
+    "unassigned": "Grup pengguna {{item.name}} berhasil dibatalkan penetapannya"
+  },
+  "orgUserApprovers": {
+    "title": "Kelola penyetuju",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "assigned": "Penyetuju {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Penyetuju {{ item.name }} berhasil dibatalkan penetapannya"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "Penyetuju yang ditetapkan",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "assigned": "Penyetuju {{ item.name }} berhasil ditetapkan",
+    "unassigned": "Penyetuju {{ item.name }} berhasil dibatalkan penetapannya"
+  },
+  "orgUserPermissions": {
+    "title": "Kelola batas pembelian",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "assigned": "Batas pembelian {{ item.code }} berhasil ditetapkan",
+    "unassigned": "Batas pembelian {{ item.code }} berhasil dibatalkan penetapannya"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "Batas pembelian yang ditetapkan",
+    "subtitle": "Pengguna: {{ item.name }}",
+    "assigned": "Batas pembelian {{ item.code }} berhasil ditetapkan",
+    "unassigned": "Batas pembelian {{ item.code }} berhasil dibatalkan penetapannya"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "Batas Pembelian",
+    "header": "Semua batas pembelian ({{count}})",
+    "name": "Nama",
+    "code": "Kode",
+    "active": "Status",
+    "limit": "Batas",
+    "orderApprovalPermissionType": "Tipe",
+    "threshold": "Ambang Batas",
+    "periodRange": "Periode",
+    "currency": "Mata Uang",
+    "orgUnit": "Unit Induk",
+    "unit": "Unit Induk",
+    "actions": "",
+    "hint": "Batas pembelian membantu mengendalikan pengeluaran dengan menentukan seberapa banyak yang dapat dibelanjakan oleh pembeli setiap pemesanan atau setiap minggu, bulan, triwulan, atau tahun. Batas pembelian ditetapkan pada pengguna individu atau grup pengguna. Batas pembelian juga ditetapkan pada penyetuju yang menentukan seberapa banyak yang dapat mereka setujui. Anda dapat menetapkan batas pembelian bagi banyak pengguna sekaligus dengan grup pengguna.",
+    "details": {
+      "title": "Rincian Batas Pembelian",
+      "subtitle": "Batas Pembelian: {{ item.code }}"
+    },
+    "edit": {
+      "title": "Edit Batas Pembelian",
+      "subtitle": "Batas pembelian: {{ item.code }}"
+    },
+    "create": {
+      "title": "Buat Batas Pembelian",
+      "subtitle": ""
+    },
+    "sortBy": "Urutkan berdasarkan",
+    "sort": {
+      "byName": "Nama",
+      "byUnitName": "Unit"
+    },
+    "messages": {
+      "deactivateTitle": "Nonaktifkan batas pembelian ini?",
+      "deactivate": "Batas pembelian yang dinonaktifkan sudah tidak bisa lagi ditetapkan ke pengguna individu atau grup pengguna. Penetapan saat ini tidak akan terdampak.",
+      "confirmEnabled": "Batas Pembelian {{ item.code }} berhasil diaktifkan",
+      "confirmDisabled": "Batas Pembelian {{ item.code }} berhasil dinonaktifkan",
+      "update": "Batas Pembelian {{ item.code }} berhasil diperbarui",
+      "create": "Batas Pembelian {{ item.code }} berhasil dibuat"
+    },
+    "info": {
+      "disabledEdit": "Aktifkan batas pembelian untuk mengizinkan pengeditan.",
+      "disabledEnable": "Unit harus diaktifkan terlebih dahulu sebelum batas pembelian ini dapat diaktifkan."
+    },
+    "per": {
+      "DAY": "setiap hari",
+      "WEEK": "setiap minggu",
+      "MONTH": "setiap bulan",
+      "QUARTER": "setiap triwulan",
+      "YEAR": "setiap tahun"
+    },
+    "breadcrumbs": {
+      "list": "Semua batas pembelian",
+      "details": "{{code}}"
+    }
+  }
+}

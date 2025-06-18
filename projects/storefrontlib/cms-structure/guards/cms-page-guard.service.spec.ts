@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterStateSnapshot, UrlTree } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
@@ -78,7 +77,6 @@ describe('CmsPageGuardService', () => {
           useClass: MockRoutingService,
         },
       ],
-      imports: [RouterTestingModule],
     });
 
     cms = TestBed.inject(CmsService);

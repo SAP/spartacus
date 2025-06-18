@@ -19,6 +19,7 @@ type OpeningTime = {
 @Component({
   selector: 'cx-store-schedule',
   templateUrl: 'store-schedule.component.html',
+  standalone: false,
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */

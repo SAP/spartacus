@@ -9,7 +9,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   ProductSearchPage,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
@@ -21,6 +20,7 @@ import { ProductListComponentService } from './product-list-component.service';
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
+  standalone: false,
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
@@ -38,10 +38,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private productListComponentService: ProductListComponentService,
     private globalMessageService: GlobalMessageService,
     public scrollConfig: ViewConfig
-  ) {
-    useFeatureStyles('a11ySortingOptionsTruncation');
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isInfiniteScroll = this.scrollConfig.view?.infiniteScroll?.active;

@@ -16,6 +16,7 @@ import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-i
 @Component({
   template: '',
   selector: 'cx-media',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -25,6 +26,7 @@ class MockMediaComponent {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -55,6 +57,7 @@ describe('AsmCustomer360ProductItemComponent', () => {
 
   @Pipe({
     name: 'cxTranslate',
+    standalone: false,
   })
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
@@ -62,6 +65,7 @@ describe('AsmCustomer360ProductItemComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
+    standalone: false,
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;

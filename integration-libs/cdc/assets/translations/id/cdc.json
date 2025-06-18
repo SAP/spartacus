@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "Penyelesaian Profil",
+      "description": "Kami masih memerlukan persetujuan Anda untuk hal berikut"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "Rincian profil berhasil diperbarui",
+    "profileUpdateFailure": "Gagal memperbarui rincian profil"
+  }
+}

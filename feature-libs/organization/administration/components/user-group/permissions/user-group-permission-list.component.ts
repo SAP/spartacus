@@ -19,5 +19,6 @@ import { UserGroupPermissionListService } from './user-group-permission-list.ser
       useExisting: UserGroupPermissionListService,
     },
   ],
+  standalone: false,
 })
 export class UserGroupPermissionListComponent {}

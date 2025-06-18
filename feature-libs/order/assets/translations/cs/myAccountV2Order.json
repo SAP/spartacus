@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Všechny objednávky ({{param}})",
+    "item": "{{param}} položka",
+    "items": "Počet položek: {{param}}",
+    "totalPrice": "Cena celkem: {{param}}",
+    "consignmentCode": "Konsignace {{param}}",
+    "statusDate": "Naposledy aktualizováno: {{param}}",
+    "returnProcessed": "Vrácení zpracováno: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "K vyzvednutí – "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "K expedici – "
+    },
+    "checkoutPickupInStore": {
+      "heading": "K vyzvednutí – "
+    },
+    "orderListResults": "Seznam objednávek",
+    "orderListPagination": "Stránkování seznamu objednávek",
+    "totalPriceLabel": "Celková cena",
+    "orderPlaced": "Datum objednávky",
+    "orderCodeLabel": "Kód objednávky",
+    "consignmentDetailLabel": "Informace o konsignaci",
+    "consignmentNumberLabel": "Číslo konsignace",
+    "consignmentStatusLabel": "Status konsignace",
+    "consignmentStatusDateLabel": "Naposledy aktualizováno",
+    "estimateDeliveryLabel": "Odhadované datum dodání"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Vrátit položky",
+    "cancelItems": "Zrušit položky",
+    "downloadInvoices": "Stáhnout faktury",
+    "viewAllOrders": "Zobrazit všechny objednávky",
+    "noInvoices": "Faktury zatím nebyly vytvořeny. Vraťte se později."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} položka",
+    "items": "{{value}} položky/položek",
+    "heading": "Objednávky a vratky",
+    "orderNumber": "Číslo objednávky ({{value}})",
+    "purchasedOn": "Zakoupeno dne: {{value}}",
+    "orderedItems": "Objednané položky: {{value}}",
+    "totalPrice": "Cena celkem: {{value}}",
+    "orderDetails": "Detaily objednávky",
+    "orderDetailsLabel": "Zobrazit detaily objednávky číslo {{value}}",
+    "orderStatusLabel": "Status objednávky",
+    "returnOrder": "Vrátit objednávku",
+    "showMore": "Zobrazit více",
+    "showMoreLabel": "Přejít na historii objednávek"
+  }
+}

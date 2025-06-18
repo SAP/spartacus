@@ -1,0 +1,8 @@
+{
+  "s4omScheduleLines": {
+    "quantity": "-  ctd.",
+    "a11y": {
+      "scheduleLineEntryInfo": "La cantidad {{ quantity }} será suministrada por {{ date }}"
+    }
+  }
+}

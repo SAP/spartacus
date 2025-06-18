@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   SavedCartFacade,
@@ -69,6 +68,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -109,7 +109,7 @@ describe('SavedCartListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [I18nTestingModule],
       declarations: [SavedCartListComponent, MockUrlPipe, MockFeatureDirective],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

@@ -81,6 +81,7 @@ let conflictGroup: Configurator.Group;
 @Component({
   selector: 'cx-configurator-conflict-description',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorConflictDescriptionComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -90,6 +91,7 @@ class MockConfiguratorConflictDescriptionComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -98,6 +100,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
+  standalone: false,
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -106,6 +109,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-input-field',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorAttributeInputFieldComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -119,6 +123,7 @@ class MockConfiguratorAttributeInputFieldComponent {
 @Component({
   selector: 'cx-configurator-attribute-numeric-input-field',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -133,6 +138,7 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -140,6 +146,7 @@ class MockCxIconComponent {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
@@ -249,6 +256,7 @@ class MockConfiguratorStorefrontUtilsService {
   isLastSelected(): boolean {
     return false;
   }
+  createAttributeUiKey() {}
 }
 
 const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =
@@ -297,6 +305,7 @@ describe('ConfiguratorGroupComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configExpertModeService: ConfiguratorExpertModeService;
+  let storefrontUtils: ConfiguratorStorefrontUtilsService;
   let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorGroupComponent>;
@@ -403,6 +412,9 @@ describe('ConfiguratorGroupComponent', () => {
     spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
     configuratorUtils.setOwnerKey(OWNER);
+    storefrontUtils = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
   });
@@ -728,6 +740,17 @@ describe('ConfiguratorGroupComponent', () => {
 
     it('should return group ID string', () => {
       expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('createAttributeUiKey', () => {
+    it('should call method of configuratoreStorefrontUtils', () => {
+      spyOn(storefrontUtils, 'createAttributeUiKey').and.callThrough();
+      createComponent().createAttributeUiKey('prefix', 'attributeId');
+      expect(storefrontUtils.createAttributeUiKey).toHaveBeenCalledWith(
+        'prefix',
+        'attributeId'
+      );
     });
   });
 

@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "Pagina iniziale"
+        },
+        "zoomButton": {
+          "label": "Zoom"
+        },
+        "panButton": {
+          "label": "Panoramica"
+        },
+        "rotateButton": {
+          "label": "Ruota"
+        },
+        "isolateButton": {
+          "label": "Isola"
+        },
+        "playButton": {
+          "label": "Riproduci"
+        },
+        "pauseButton": {
+          "label": "Pausa"
+        },
+        "hotspotsButton": {
+          "label": "Hotspots",
+          "show": "Mostra",
+          "hide": "Nascondi"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "Cursore di animazione",
+          "role": "Cursore"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "Nessuna parte di ricambio disponibile per questo prodotto."
+      },
+      "visualPickingProductList": {
+        "description": "Descrizione",
+        "itemPrice": "Prezzo",
+        "outOfStock": "Non disponibile",
+        "id": "ID"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "Filtra per nome o ID"
+        },
+        "searchButton": {
+          "label": "cerca"
+        },
+        "resetButton": {
+          "label": "reimposta"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "Nessuna visualizzazione corrispondente trovata",
+        "multipleMatchingVisualsFound": "Trovate più visualizzazioni corrispondenti",
+        "unexpectedLoadError": "Errore durante il caricamento della visualizzazione"
+      }
+    }
+  }
+}

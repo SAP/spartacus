@@ -1,6 +1,11 @@
 %cx-order-confirmation-totals {
   .cx-order-summary {
     padding-inline-end: var(--cx-padding, 0);
+    @include forFeature('a11yWideScreenImprovements') {
+      cx-order-summary {
+        padding: 1rem;
+      }
+    }
 
     &.container {
       @include media-breakpoint-down(md) {

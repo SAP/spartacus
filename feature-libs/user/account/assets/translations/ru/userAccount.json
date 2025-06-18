@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Забыли пароль?",
+    "signIn": "Вход",
+    "register": "Зарегистрироваться",
+    "dontHaveAccount": "У вас нет учетной записи?",
+    "guestCheckout": "Оформление заказа для гостя",
+    "emailAddress": {
+      "label": "Адрес электронной почты",
+      "placeholder": "Введите адрес электронной почты"
+    },
+    "password": {
+      "label": "Пароль",
+      "placeholder": "Введите ваш пароль"
+    },
+    "wrongEmailFormat": "Недействительный формат электронной почты."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Код верификации отправлен на {{target}}. Проверьте и введите код.",
+    "needInputCredentials": "Чтобы продолжить, введите ваши учетные данные.",
+    "sendRateLime": "через {{waitTime}} сек.",
+    "resend": "Отправить повторно",
+    "verificationCode": {
+      "label": "Верификационный код",
+      "placeholder": "Введите верификационный код"
+    },
+    "noReceiveCode": "Не получили код?",
+    "verify": "Проверить",
+    "back": "Назад",
+    "tokenInputHint": "Вы можете запросить новый код. Таймер начинает отсчитывать секунды, оставшиеся до повторной отправки запроса."
+  },
+  "verificationTokenDialog": {
+    "title": "Код не получен",
+    "noReceiveCode": "Возможные причины того, что вы не получили код:",
+    "contentLine1": "1. Еще не пришло письмо на электронную почту.",
+    "contentLine2": "2. Полученное письмо попало в спам.",
+    "contentLine3": "3. Неправильно введен адрес электронной почты или пароль.",
+    "close": "Закрыть"
+  },
+  "miniLogin": {
+    "userGreeting": "Здравствуйте, {{name}}",
+    "signInRegister": "Войти / зарегистрироваться"
+  },
+  "myAccountV2User": {
+    "signOut": "Выйти"
+  }
+}

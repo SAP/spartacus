@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "无",
+    "poNumber": "采购订单编号（可选）",
+    "costCenter": "成本中心",
+    "placeholder": "输入采购订单",
+    "availableLabel": "您可以使用的送货地址取决于成本中心的单位",
+    "invalid": {
+      "accountType": "您的账户无法在此结账。"
+    },
+    "methodOfPayment": {
+      "paymentType": "付款类型"
+    },
+    "review": {
+      "poNumber": "采购订单编号"
+    },
+    "progress": {
+      "methodOfPayment": "付款方式"
+    },
+    "invalidCostCenter": "成本中心无效。"
+  }
+}

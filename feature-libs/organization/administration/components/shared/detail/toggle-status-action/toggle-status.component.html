@@ -1,6 +1,6 @@
 <button
   *ngIf="current$ | async as item"
-  class="button active"
+  class="button btn btn-sm active"
   [disabled]="
     isDisabled(item) ||
     ((isInEditMode$ | async) && item.active && disabled !== true)

@@ -21,6 +21,7 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   selector: 'cx-order-approval-list',
   templateUrl: './order-approval-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderApprovalListComponent implements OnInit {
   constructor(

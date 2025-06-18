@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import {
   importExportTranslationChunksConfig,
-  importExportTranslations,
+  importExportTranslationsEn,
+  importExportTranslationsJa,
+  importExportTranslationsDe,
+  importExportTranslationsZh,
 } from '@spartacus/cart/import-export/assets';
 import {
   CART_IMPORT_EXPORT_FEATURE,
@@ -28,11 +31,16 @@ import {
         },
       },
       i18n: {
-        resources: importExportTranslations,
+        resources: {
+          en: importExportTranslationsEn,
+          ja: importExportTranslationsJa,
+          de: importExportTranslationsDe,
+          zh: importExportTranslationsZh,
+        },
         chunks: importExportTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),
   ],
 })
-export class ImportExportFeatureModule {}
+export class CartImportExportFeatureModule {}

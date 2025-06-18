@@ -12,6 +12,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
+  standalone: false,
 })
 export class FutureStockAccordionComponent {
   futureStocks$ = this.futureStockService.getFutureStock();
@@ -20,6 +21,7 @@ export class FutureStockAccordionComponent {
 
   constructor(protected futureStockService: FutureStockFacade) {
     useFeatureStyles('a11yCroppedFocusRing');
+    useFeatureStyles('a11yUseProperTextColorForFutureStockAccordion');
   }
 
   toggle(): void {

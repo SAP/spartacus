@@ -12,15 +12,12 @@
     font-weight: var(--cx-font-weight, 600);
 
     .set-preferred-heading {
-      padding-inline-start: 0.5rem;
+      padding-inline-start: 0;
+      margin-inline-start: 0.5rem;
       text-decoration: underline;
       border: none;
       background: none;
-
-      @include forFeature('a11yVisibleFocusOverflows') {
-        padding-inline-start: 0;
-        margin-inline-start: 0.5rem;
-      }
+      color: inherit;
     }
   }
 }

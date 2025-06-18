@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "पासवर्ड भूल गए हैं?",
+    "signIn": "साइन इन करें",
+    "register": "पंजीकृत करें",
+    "dontHaveAccount": "अभी तक खाता नहीं है?",
+    "guestCheckout": "गेस्ट चेकआउट",
+    "emailAddress": {
+      "label": "ईमेल पता",
+      "placeholder": "ईमेल पता दर्ज करें"
+    },
+    "password": {
+      "label": "पासवर्ड",
+      "placeholder": "अपना पासवर्ड दर्ज करें"
+    },
+    "wrongEmailFormat": "यह मान्य ई-मेल स्वरूप नहीं है."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "सत्यापन कोड {{target}} को भेजा गया. कृपया जांचें और कोड दर्ज करें.",
+    "needInputCredentials": "जारी रखने के लिए कृपया अपना परिचय दर्ज करें.",
+    "sendRateLime": "{{waitTime}} सेकंड में",
+    "resend": "पुनः भेजें",
+    "verificationCode": {
+      "label": "सत्यापन कोड",
+      "placeholder": "सत्यापन कोड दाखिल करें"
+    },
+    "noReceiveCode": "कोड प्राप्त नहीं हुआ?",
+    "verify": "सत्यापित करें",
+    "back": "वापस जाएं",
+    "tokenInputHint": "आप नए कोड का अनुरोध कर सकते हैं.  एक टाइमर आरंभ होता है जो ये बताता है कि आपके पास अपना अनुरोध पुनः भेजने के लिए कितने सेकंड शेष हैं."
+  },
+  "verificationTokenDialog": {
+    "title": "कोड प्राप्त नहीं हुआ",
+    "noReceiveCode": "यदि आपको कोड प्राप्त नहीं हुआ, ये कारण हो सकते हैंः",
+    "contentLine1": "1. ई-मेल अभी तक नहीं आया है.",
+    "contentLine2": "2. प्राप्त ई-मेल को जंक ई-मेल माना गया है.",
+    "contentLine3": "3. आपके द्वारा दर्ज ई-मेल पता या पासवर्ड गलत हो.",
+    "close": "बंद करें"
+  },
+  "miniLogin": {
+    "userGreeting": "हाय, {{name}}",
+    "signInRegister": "साइन-इन / रजिस्टर करें"
+  },
+  "myAccountV2User": {
+    "signOut": "साइन आउट करें"
+  }
+}

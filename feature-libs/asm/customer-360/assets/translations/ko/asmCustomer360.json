@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "정보를 로드할 수 없습니다. 나중에 다시 시도하거나 시스템 관리자에게 문의하십시오.",
+    "errorMessageHeader": "오류가 발생했습니다.",
+    "applyActionAlter": "액션을 완료할 수 없습니다. 나중에 다시 시도하십시오.",
+    "header": {
+      "title": "고객 프로필",
+      "newTitle": "고객 360도",
+      "subTitle": "{{name}} 고객 360도 뷰",
+      "newSubTitle": "{{name}} 360도 뷰",
+      "activeCartLabel": "장바구니에 {{cartSize}} 품목이 추가되었습니다.",
+      "recentOrderLabel": "마지막 주문 {{price}}",
+      "recentTicketLabel": "마지막 티켓",
+      "signedUpAt": "계정 생성일 {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "총 품목 수 {{count}}",
+      "totalPrice": "총액 {{price}}",
+      "showMore": "더 보기",
+      "showLess": "간단히 보기"
+    },
+    "productItem": {
+      "outOfStock": "재고 없음",
+      "quantity": "수량: {{count}}",
+      "itemPrice": "품목 가격: {{price}}"
+    },
+    "activeCart": {
+      "header": "사용 중인 장바구니",
+      "emptyDescription": "현재 사용 중인 장바구니 품목이 없습니다.",
+      "aria": {
+        "linkLabel": "사용 중인 장바구니 {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "마지막으로 저장된 장바구니",
+      "emptyDescription": "현재 저장된 장바구니 품목이 없습니다.",
+      "aria": {
+        "linkLabel": "마지막으로 저장된 장바구니 {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "관심",
+      "emptyDescription": "현재 관심 품목이 없습니다."
+    },
+    "profile": {
+      "address": "주소",
+      "billingAddress": "청구 주소",
+      "deliveryAddress": "배송 주소",
+      "phone1": "전화 1",
+      "phone2": "전화 2",
+      "paymentMethodHeader": "저장된 지불 방법"
+    },
+    "activity": {
+      "type": "유형",
+      "id": "ID",
+      "description": "설명",
+      "status": "상태",
+      "created": "생성됨",
+      "updated": "업데이트됨",
+      "numberOfCartItems": "장바구니에 {{count}}개 품목이 있음",
+      "cart": "장바구니",
+      "order": "주문",
+      "savedCart": "저장된 장바구니",
+      "emptyStateText": "현재 기록된 고객 활동이 없습니다.",
+      "headerText": "일반"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "품목",
+        "dateAndStatus": "날짜/상태",
+        "rating": "등급",
+        "review": "검토"
+      },
+      "header": "제품 검토",
+      "emptyDescription": "현재 제품 검토 품목이 없습니다.",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "헤드라인",
+        "category": "범주"
+      },
+      "header": "지원 티켓",
+      "emptyDescription": "현재 지원 티켓이 없습니다."
+    },
+    "coupons": {
+      "headerText": "쿠폰",
+      "emptyDescription": "현재 쿠폰이 없습니다.",
+      "applyButtonText": "장바구니에 적용",
+      "applied": "쿠폰 적용됨",
+      "removeButtonText": "제거"
+    },
+    "promotions": {
+      "headerText": "프로모션",
+      "emptyDescription": "현재 프로모션이 없습니다.",
+      "applied": "프로모션 적용됨",
+      "headerName": "이름",
+      "headerAction": "작업"
+    },
+    "customerCoupons": {
+      "headerText": "고객 쿠폰",
+      "emptyDescription": "현재 고객 쿠폰이 없습니다.",
+      "applyButtonText": "고객에게 할당",
+      "removeButtonText": "제거",
+      "availableTab": "사용 가능",
+      "sentTab": "전송됨",
+      "searchBox": "쿠폰"
+    },
+    "maps": {
+      "storeClosed": "닫기",
+      "storesFound": "{{ total }}개 매장에서 {{ initial }} - {{ end }} 찾음"
+    },
+    "overviewTab": "개요",
+    "profileTab": "프로필",
+    "activityTab": "활동",
+    "feedbackTab": "피드백",
+    "promotionsTab": "프로모션",
+    "mapsTab": "지도",
+    "storeLocationsTab": "매장 위치",
+    "aria": {
+      "activeCartCode": "사용 중인 장바구니 {{code}}",
+      "recentOrderCode": "마지막 주문 {{code}}"
+    },
+    "pagination": "페이지 매김",
+    "page": "{{number}} 페이지",
+    "emptyCellValue": "---"
+  }
+}

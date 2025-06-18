@@ -28,6 +28,7 @@ import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 @Component({
   selector: 'cx-card',
   template: '',
+  standalone: false,
 })
 class MockCardComponent {
   @Input() content: any;

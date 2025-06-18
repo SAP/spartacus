@@ -62,16 +62,14 @@
     ></cx-facet>
   </ng-container>
 
-  <ng-container *cxFeature="'a11yFacetsDialogFocusHandling'">
-    <div *ngIf="isDialog" class="cx-facet-list-footer">
-      <button
-        #backToResultsBtn
-        class="btn btn-primary"
-        (click)="close()"
-        cxAutoFocus
-      >
-        {{ 'productFacetNavigation.backToResults' | cxTranslate }}
-      </button>
-    </div>
-  </ng-container>
+  <div *ngIf="isDialog" class="cx-facet-list-footer">
+    <button
+      #backToResultsBtn
+      class="btn btn-primary"
+      (click)="close()"
+      cxAutoFocus
+    >
+      {{ 'productFacetNavigation.backToResults' | cxTranslate }}
+    </button>
+  </div>
 </section>

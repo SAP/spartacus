@@ -9,5 +9,6 @@ import { UnitListComponent } from '@spartacus/organization/administration/compon
 @Component({
   selector: 'cx-account-summary-list',
   templateUrl: './account-summary-list.component.html',
+  standalone: false,
 })
 export class AccountSummaryListComponent extends UnitListComponent {}

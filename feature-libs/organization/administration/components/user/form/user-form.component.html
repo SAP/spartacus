@@ -1,8 +1,6 @@
 <cx-org-form i18nRoot="orgUser">
   <ng-container main *ngIf="form" [formGroup]="form">
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">{{
         'orgUser.title' | cxTranslate
@@ -34,7 +32,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.firstName' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -42,11 +40,16 @@
         required
         placeholder="{{ 'orgUser.firstName' | cxTranslate }}"
         formControlName="firstName"
+        [attr.aria-invalid]="
+          form.get('firstName')?.touched && form.get('firstName')?.invalid
+        "
+        [attr.aria-errormessage]="'firstNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="firstNameError"
         [translationParams]="{ label: 'orgUser.firstName' | cxTranslate }"
         [control]="form.get('firstName')"
       ></cx-form-errors>
@@ -60,7 +63,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.lastName' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -68,11 +71,16 @@
         required
         placeholder="{{ 'orgUser.lastName' | cxTranslate }}"
         formControlName="lastName"
+        [attr.aria-invalid]="
+          form.get('lastName')?.touched && form.get('lastName')?.invalid
+        "
+        [attr.aria-errormessage]="'lastNameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="lastNameError"
         [translationParams]="{ label: 'orgUser.lastName' | cxTranslate }"
         [control]="form.get('lastName')"
       ></cx-form-errors>
@@ -86,7 +94,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgUser.email' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -94,11 +102,16 @@
         required
         placeholder="{{ 'orgUser.email' | cxTranslate }}"
         formControlName="email"
+        [attr.aria-invalid]="
+          form.get('email')?.touched && form.get('email')?.invalid
+        "
+        [attr.aria-errormessage]="'emailError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="emailError"
         [translationParams]="{ label: 'orgUser.email' | cxTranslate }"
         [control]="form.get('email')"
       ></cx-form-errors>
@@ -158,7 +171,7 @@
     <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">
         {{ 'orgUser.orgUnit' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
@@ -200,13 +213,3 @@
     </div>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

@@ -5,7 +5,6 @@
  */
 
 import futureStock from './futureStock.json';
-
 export const en = {
   futureStock,
 };

@@ -21,6 +21,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-references',
   templateUrl: './product-references.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductReferencesComponent {
   constructor(

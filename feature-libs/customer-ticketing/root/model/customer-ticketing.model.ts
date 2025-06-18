@@ -6,18 +6,18 @@
 
 import { PaginationModel, SortModel } from '@spartacus/core';
 
-export const enum TEXT_COLOR_CLASS {
+export enum TEXT_COLOR_CLASS {
   GREY = 'cx-text-grey',
   GREEN = 'cx-text-green',
 }
 
-export const enum STATUS {
+export enum STATUS {
   OPEN = 'OPEN',
   CLOSED = 'CLOSED',
   INPROCESS = 'INPROCESS',
 }
 
-export const enum STATUS_NAME {
+export enum STATUS_NAME {
   OPEN = 'Open',
   CLOSED = 'Closed',
   INPROCESS = 'INPROCESS',

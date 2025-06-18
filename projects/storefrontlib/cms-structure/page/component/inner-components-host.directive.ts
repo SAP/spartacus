@@ -27,6 +27,7 @@ import { ComponentHandlerService } from './services/component-handler.service';
 
 @Directive({
   selector: '[cxInnerComponentsHost]',
+  standalone: false,
 })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   protected innerComponents$ = this.data.data$.pipe(

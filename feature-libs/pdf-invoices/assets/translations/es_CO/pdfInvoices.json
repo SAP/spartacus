@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "No se puede obtener facturas. Asegúrese de que SAP Invoice y la API para facturas estén activadas.",
+    "invoicesLoadingError": "Se produjo un problema. No se puede mostrar las facturas para el pedido",
+    "invoicesTable": {
+      "header": "Facturas",
+      "label": "Tabla de facturas",
+      "invoiceId": "N.º de factura",
+      "createdAt": "Fecha",
+      "netAmount": "Importe neto",
+      "totalAmount": "Importe total",
+      "attachment": "Descargar factura",
+      "download": "Descargar",
+      "attachmentDescription": "Descargar PDF para factura {{id}}.",
+      "noneFound": "No se encontró ninguna factura"
+    },
+    "downloadPDFError": "Se produjo un problema. No se puede obtener el PDF de la factura.",
+    "sortBy": "Clasificar por",
+    "sortInvoices": "Clasificar facturas",
+    "sorts": {
+      "byCreatedAtAsc": "Fecha ascendente",
+      "byCreatedAtDesc": "Fecha descendente",
+      "byInvoiceIdAsc": "Número de factura ascendente",
+      "byInvoiceIdDesc": "Número de factura descendente",
+      "byNetAmountAsc": "Importe neto ascendente",
+      "byNetAmountDesc": "Importe neto descendente",
+      "byTotalAmountAsc": "Importe total ascendente",
+      "byTotalAmountDesc": "Importe total descendente"
+    }
+  }
+}

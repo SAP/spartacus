@@ -5,11 +5,11 @@
  */
 
 import { noop, Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { checkIfSSRIsUsed } from '../../../shared/utils/package-utils';
+import { isUsingLegacyServerBuilder as isOldSsrUsed } from '../../../shared/utils/package-utils';
 import { updateServerFiles } from '../update-ssr/update-ssr-files';
 
 export function migrate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    return checkIfSSRIsUsed(tree) ? updateServerFiles() : noop();
+    return isOldSsrUsed(tree) ? updateServerFiles() : noop();
   };
 }

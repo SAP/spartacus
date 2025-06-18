@@ -71,4 +71,8 @@
       margin-bottom: 0;
     }
   }
+
+  @include cx-highContrastTheme {
+    border-color: var(--cx-color-dark);
+  }
 }

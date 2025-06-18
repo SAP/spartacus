@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "주문 번호",
+    "orderNumber": "주문 번호",
+    "replenishmentId": "보충 번호",
+    "purchaseOrderId": "구매 주문 번호",
+    "purchaseOrderNumber": "구매 주문 번호",
+    "emptyPurchaseOrderId": "없음",
+    "none": "없음 {{value}}",
+    "placed": "주문함",
+    "placedBy": "주문자",
+    "unit": "단위",
+    "costCenter": "코스트 센터",
+    "costCenterAndUnit": "코스트 센터/단위",
+    "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
+    "methodOfPayment": "지불 방법",
+    "payByAccount": "계정으로 지불",
+    "paidByCreditCard": "(신용 카드로 지불함)",
+    "status": "상태",
+    "active": "사용 중",
+    "shippedOn": "배송일",
+    "shippingMethod": "배송 방법",
+    "placedOn": "주문일",
+    "startOn": "시작일",
+    "nextOrderDate": "다음 주문일",
+    "frequency": "빈도",
+    "cancelled": " 취소됨",
+    "deliveryStatus_IN_TRANSIT": "배송 중",
+    "deliveryStatus_READY_FOR_PICKUP": "픽업 준비 완료",
+    "deliveryStatus_READY_FOR_SHIPPING": "배송 준비 완료",
+    "deliveryStatus_WAITING": "대기 중",
+    "deliveryStatus_DELIVERING": "배송 중",
+    "deliveryStatus_PICKPACK": "배송 준비 중",
+    "deliveryStatus_PICKUP_COMPLETE": "픽업 완료",
+    "deliveryStatus_DELIVERY_COMPLETED": "배송 완료",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "지불 문제",
+    "deliveryStatus_IN_PROCESS": "주문 처리 중",
+    "deliveryStatus_READY": "주문 처리 중",
+    "deliveryStatus_DELIVERY_REJECTED": "배송 거부됨",
+    "deliveryStatus_SHIPPED": "배송됨",
+    "deliveryStatus_TAX_NOT_COMMITTED": "세금 문제",
+    "deliveryStatus_CANCELLED": "취소됨",
+    "statusDisplay_cancelled": "취소됨",
+    "statusDisplay_cancelling": "취소 보류 중",
+    "statusDisplay_completed": "완료됨",
+    "statusDisplay_created": "작성됨",
+    "statusDisplay_error": "보류 중",
+    "statusDisplay_Error": "보류 중",
+    "statusDisplay_processing": "보류 중",
+    "statusDisplay_open": "미결",
+    "statusDisplay_pending": {
+      "approval": "승인 보류 중",
+      "merchant": {
+        "approval": "판매업체 승인 보류 중"
+      }
+    },
+    "statusDisplay_approved": "승인됨",
+    "statusDisplay_rejected": "거부됨",
+    "statusDisplay_merchant": {
+      "approved": "판매업체 승인됨",
+      "rejected": "판매업체 거부됨"
+    },
+    "statusDisplay_assigned": {
+      "admin": "관리자에게 할당됨"
+    },
+    "consignmentTracking": {
+      "action": "패키지 추적",
+      "dialog": {
+        "header": "추적 정보",
+        "shipped": "배송됨",
+        "estimate": "예상 배송일",
+        "carrier": "배송 서비스",
+        "trackingId": "추적 번호",
+        "noTracking": "패키지가 창고에서 발송되지 않았습니다. 패키지가 배송된 후에 추적 정보를 사용할 수 있습니다.",
+        "loadingHeader": "위탁 추적"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "반품 요청",
+      "cancelAction": "품목 취소",
+      "item": "품목",
+      "itemPrice": "품목 가격",
+      "quantity": "최대 수량",
+      "returnQty": "반품할 수량",
+      "cancelQty": "취소할 수량",
+      "setAll": "모든 수량을 최대 수량으로 설정",
+      "totalPrice": "합계",
+      "submit": "요청 제출",
+      "submitDescription": "요청 제출. 이 페이지의 품목이 취소 요청에 포함됩니다.",
+      "returnSuccess": "반품 요청({{rma}})이 제출되었습니다.",
+      "cancelSuccess": "취소 요청이 제출되었습니다(최초 주문 {{orderCode}}이(가) 업데이트됨)."
+    },
+    "cancelReplenishment": {
+      "title": "보충 취소",
+      "description": "나중에 추가한 보충 주문을 취소하시겠습니까?",
+      "accept": "예",
+      "reject": "아니요",
+      "cancelSuccess": "보충 주문 번호 {{replenishmentOrderCode}}이(가) 취소되었습니다."
+    },
+    "caption": "주문 내용"
+  },
+  "orderHistory": {
+    "orderHistory": "주문 내역",
+    "orderId": "주문 번호",
+    "emptyPurchaseOrderId": "없음",
+    "date": "날짜",
+    "status": "상태",
+    "PONumber": "구매 주문 번호",
+    "total": "합계",
+    "noOrders": "이 계정의 주문 기록이 없습니다.",
+    "noReplenishmentOrders": "이 계정의 보충 주문 기록이 없습니다.",
+    "startShopping": "배송 시작",
+    "sortBy": "정렬 기준",
+    "sortOrders": "정렬 순서",
+    "replenishmentOrderHistory": "보충 주문 내역",
+    "replenishmentOrderId": "보충 번호",
+    "purchaseOrderNumber": "구매 주문 번호",
+    "costCenter": "코스트 센터",
+    "startOn": "시작일",
+    "frequency": "빈도",
+    "nextOrderDate": "다음 주문일",
+    "cancel": "취소",
+    "cancelled": "취소됨",
+    "replenishmentHistory": "보충 내역",
+    "notFound": "주문이 없습니다.",
+    "actions": "작업"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "모든 주문({{param}})",
+      "OrderReturnRequestListComponent": "반품({{param}})"
+    },
+    "tabPanelContainerRegion": "주문 내역 세부사항 그룹",
+    "tabPanelContainerRegionGroup": "주문 내역 세부사항 그룹"
+  },
+  "returnRequestList": {
+    "returnRequestId": "반품 번호",
+    "orderId": "주문 번호",
+    "date": "작성 날짜",
+    "status": "상태",
+    "sortBy": "정렬 기준",
+    "sortReturns": "반품 정렬",
+    "statusDisplay_APPROVAL_PENDING": "승인 보류 중",
+    "statusDisplay_CANCELED": "취소됨",
+    "statusDisplay_CANCELLING": "취소 중",
+    "statusDisplay_WAIT": "대기",
+    "statusDisplay_RECEIVED": "수신함",
+    "statusDisplay_RECEIVING": "수신 중",
+    "statusDisplay_APPROVING": "승인 중",
+    "statusDisplay_REVERSING_PAYMENT": "지불 취소 중",
+    "statusDisplay_PAYMENT_REVERSED": "지불 취소됨",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "지불 취소 실패",
+    "statusDisplay_REVERSING_TAX": "세금 취소 중",
+    "statusDisplay_TAX_REVERSED": "세금 취소됨",
+    "statusDisplay_TAX_REVERSAL_FAILED": "세금 취소 실패",
+    "statusDisplay_COMPLETED": "완료됨"
+  },
+  "returnRequest": {
+    "returnRequestId": "반품 요청 번호",
+    "orderCode": "주문 번호",
+    "status": "반품 상태",
+    "cancel": "반품 요청 취소",
+    "item": "설명",
+    "itemPrice": "품목 가격",
+    "returnQty": "반품 수량",
+    "total": "합계",
+    "summary": "반품 합계",
+    "subtotal": "소계",
+    "deliveryCode": "배송비",
+    "estimatedRefund": "예상 환불 금액",
+    "note": "합계는 예상 금액이며 세금이나 기타 수수료를 포함하지 않을 수 있습니다.",
+    "cancelSuccess": "반품 요청({{rma}})이 취소되었습니다.",
+    "caption": "주문 내용"
+  },
+  "reorder": {
+    "button": "재주문",
+    "dialog": {
+      "reorderProducts": "제품 재주문",
+      "messages": {
+        "reviewConfiguration": "\"{{ productCode}}\" 구성에서 오류가 발생했습니다.",
+        "lowStock": "{{ productName }} 수량: {{ quantity }}에서 {{ quantityAdded }}(으)로 감소되었습니다.",
+        "noStock": "{{ productName }}은(는) 현재 품절입니다.",
+        "pricingError": "\"{{ productCode }}\"에 가격 문제가 있습니다.",
+        "unresolvableIssues": "\"{{ productCode }}\"에 알 수 없는 문제가 있습니다.",
+        "success": "제품이 장바구니에 추가되었습니다."
+      },
+      "areYouSureToReplaceCart": "현재 장바구니가 새 품목으로 바뀌게 됩니다. 계속하시겠습니까?",
+      "cancel": "취소",
+      "continue": "계속"
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "情報を読み込むことができません。もう一度実行するか、またはシステム管理者に連絡してください。",
+    "errorMessageHeader": "何らかの問題が発生しました。",
+    "applyActionAlter": "アクションを完了できませんでした。後でもう一度実行してください。",
+    "header": {
+      "title": "顧客プロフィール",
+      "newTitle": "顧客 360 度",
+      "subTitle": "{{name}} 顧客 360 度ビュー",
+      "newSubTitle": "{{name}} 360 ビュー",
+      "activeCartLabel": "{{cartSize}} アイテムがカートに追加されました",
+      "recentOrderLabel": "最後の注文 {{price}}",
+      "recentTicketLabel": "最後のチケット",
+      "signedUpAt": "アカウントが {{date}} に作成されました"
+    },
+    "productListing": {
+      "totalNoItems": "アイテム合計数 {{count}}",
+      "totalPrice": "合計価格 {{price}}",
+      "showMore": "表示を増やす",
+      "showLess": "表示数を減らす"
+    },
+    "productItem": {
+      "outOfStock": "在庫なし",
+      "quantity": "数量: {{count}}",
+      "itemPrice": "商品価格: {{price}}"
+    },
+    "activeCart": {
+      "header": "有効なカート",
+      "emptyDescription": "現在、有効なカートアイテムはありません",
+      "aria": {
+        "linkLabel": "有効なカート {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "最後に保存したカート",
+      "emptyDescription": "現在、保存済のカートアイテムはありません。",
+      "aria": {
+        "linkLabel": "最後に保存したカート {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "関心",
+      "emptyDescription": "現在、関心のあるアイテムはありません"
+    },
+    "profile": {
+      "address": "住所",
+      "billingAddress": "請求先住所",
+      "deliveryAddress": "配送先住所",
+      "phone1": "電話 1",
+      "phone2": "電話 2",
+      "paymentMethodHeader": "保存された支払方法"
+    },
+    "activity": {
+      "type": "タイプ",
+      "id": "ID",
+      "description": "説明",
+      "status": "ステータス",
+      "created": "作成済み",
+      "updated": "更新済み",
+      "numberOfCartItems": "{{count}} アイテムがあるカート",
+      "cart": "カート",
+      "order": "注文",
+      "savedCart": "保存されたカート",
+      "emptyStateText": "現在、記録された顧客活動はありません",
+      "headerText": "一般"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "アイテム",
+        "dateAndStatus": "日付/ステータス",
+        "rating": "評価",
+        "review": "レビュー"
+      },
+      "header": "商品レビュー",
+      "emptyDescription": "現在、商品レビューアイテムはありません",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "見出し",
+        "category": "カテゴリ"
+      },
+      "header": "サポートチケット",
+      "emptyDescription": "現在、サポートチケットはありません"
+    },
+    "coupons": {
+      "headerText": "クーポン",
+      "emptyDescription": "現在、クーポンはありません",
+      "applyButtonText": "カートに適用",
+      "applied": "クーポンが適用されました",
+      "removeButtonText": "削除"
+    },
+    "promotions": {
+      "headerText": "プロモーション",
+      "emptyDescription": "現在、プロモーションはありません",
+      "applied": "プロモーションが適用されました",
+      "headerName": "名前",
+      "headerAction": "アクション"
+    },
+    "customerCoupons": {
+      "headerText": "顧客クーポン",
+      "emptyDescription": "現在、顧客クーポンはありません。",
+      "applyButtonText": "顧客に割り当て",
+      "removeButtonText": "削除",
+      "availableTab": "利用可能",
+      "sentTab": "送信済み",
+      "searchBox": "クーポン"
+    },
+    "maps": {
+      "storeClosed": "閉じる",
+      "storesFound": "{{ total }} 件の店舗から、{{ initial }} から {{ end }} が見つかりました"
+    },
+    "overviewTab": "概要",
+    "profileTab": "プロフィール",
+    "activityTab": "活動",
+    "feedbackTab": "フィードバック",
+    "promotionsTab": "プロモーション",
+    "mapsTab": "マップ",
+    "storeLocationsTab": "店舗所在地",
+    "aria": {
+      "activeCartCode": "有効なカート {{code}}",
+      "recentOrderCode": "最後の注文 {{code}}"
+    },
+    "pagination": "ページネーション",
+    "page": "{{number}} ページ",
+    "emptyCellValue": "---"
+  }
+}

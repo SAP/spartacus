@@ -5,7 +5,6 @@
  */
 
 import accountSummary from './accountSummary.json';
-
 export const en = {
   accountSummary,
 };

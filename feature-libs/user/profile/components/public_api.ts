@@ -13,3 +13,5 @@ export * from './update-password/index';
 export * from './update-profile/index';
 export * from './user-profile-components.module';
 export * from './address-book/index';
+export * from './otp-login-register/index';
+export * from './registration-verification-token-form/index';

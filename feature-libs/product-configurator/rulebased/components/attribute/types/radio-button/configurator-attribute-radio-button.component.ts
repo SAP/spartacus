@@ -20,6 +20,7 @@ import { ConfiguratorAttributePriceChangeService } from '../../price-change/conf
   templateUrl: './configurator-attribute-radio-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

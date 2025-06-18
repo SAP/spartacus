@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
@@ -15,7 +15,6 @@ import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
-import { FocusDirective } from '@spartacus/storefront';
 
 const mockCode = 'p1';
 
@@ -42,7 +41,6 @@ describe('PermissionDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
         CardTestingModule,

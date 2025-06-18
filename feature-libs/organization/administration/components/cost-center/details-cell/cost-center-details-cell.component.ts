@@ -11,5 +11,6 @@ import { CellComponent } from '../../shared';
   selector: 'cx-org-cost-center-details-cell',
   templateUrl: './cost-center-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CostCenterDetailsCellComponent extends CellComponent {}

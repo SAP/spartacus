@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, GuardResult } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthGuard } from '../../auth/user-auth/guards/auth.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
@@ -20,7 +20,7 @@ export class ProtectedRoutesGuard {
   /**
    * When the anticipated url is protected, it switches to the AuthGuard. Otherwise emits true.
    */
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
     let urlSegments: string[] = route.url.map((seg) => seg.path);
 
     // For the root path `/` ActivatedRoute contains an empty array of segments:

@@ -22,6 +22,8 @@ import {
 import {
   BtnLikeLinkModule,
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
@@ -39,6 +41,8 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     SpinnerModule,
     FeaturesConfigModule,
     BtnLikeLinkModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

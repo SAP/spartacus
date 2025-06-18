@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Nazwa:",
+      "description": "Opis:",
+      "validity": "Ta wycena jest ważna do {{ expirationTime }}",
+      "option": {
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe przesyłania wyceny"
+          },
+          "title": "Przesłać zapytanie ofertowe {{ code }}?",
+          "confirmNote": "Na pewno chcesz przesłać to zapytanie ofertowe?",
+          "successMessage": "Zapytanie ofertowe zostało przesłane"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe anulowania wyceny"
+          },
+          "title": "Anulować zapytanie ofertowe {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz anulować to zapytanie ofertowe?",
+          "successMessage": "Zapytanie ofertowe zostało anulowana"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe edycji wyceny"
+          },
+          "title": "Potwierdzić edycję wyceny {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz edytować zatwierdzoną wycenę?",
+          "warningNote": "Ta wycena została zatwierdzona. Jej edycja uniemożliwi realizację zakupu do czasu zatwierdzenia nowych zmian."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe anulowania oferty"
+          },
+          "title": "Anulować ofertę {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz anulować tę ofertę?",
+          "successMessage": "Oferta została anulowana"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe realizacji oferty"
+          },
+          "title": "Realizować ofertę {{ code }}?",
+          "confirmNote": "Na pewno chcesz zaakceptować i zrealizować tę ofertę cenową?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe edycji oferty"
+          },
+          "title": "Potwierdzić edycję oferty {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz edytować wygasłą ofertę?",
+          "warningNote": "Ta oferta wygasła. Jej edycja uniemożliwi realizację zakupu do czasu zatwierdzenia nowych zmian."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Zamknij okno ponowienia zapytania"
+          },
+          "title": "Odtworzyć zapytanie ofertowe {{ code }}?",
+          "confirmNote": "Na pewno chcesz odtworzyć to zapytanie ofertowe?",
+          "warningNote": "Ta oferta wygasła. Ponowienie prośby utworzy nowe zapytanie ofertowe o tej samej treści, które można następnie edytować i przesłać do zatwierdzenia."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe przesyłania wyceny"
+          },
+          "title": "Przesłać zapytanie ofertowe {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz przesłać to zapytanie ofertowe?",
+          "warningNote": "W zależności od całkowitej wartości wyceny, może być wymagane dodatkowe zatwierdzenie, zanim kupujący będzie mógł procedować tę ofertę.",
+          "successMessage": "Wycena została przesłana"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Zamknij okno zatwierdzania oferty"
+          },
+          "title": "Zatwierdzić wycenę {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz zatwierdzić tę wycenę?",
+          "successMessage": "Zatwierdzono wycenę"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Zamknij okno odrzucenia oferty"
+          },
+          "title": "Odrzucić ofertę {{ code }}?",
+          "confirmNote": "Na pewno chcesz odrzucić tę ofertę?",
+          "successMessage": "Oferta odrzucona"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Zamknij okno ponowienia zapytania"
+          },
+          "title": "Odtworzyć zapytanie ofertowe {{ code }}?",
+          "confirmNote": "Na pewno chcesz odtworzyć to zapytanie ofertowe?",
+          "warningNote": "Twój aktualny koszyk zostanie przekonwertowany na zapisany koszyk."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Zamknij okno dialogowe edycji wyceny"
+          },
+          "title": "Edytować ofertę {{ code }}?",
+          "confirmNote": "Czy na pewno chcesz edytować tę ofertę?",
+          "warningNote": "Twój aktualny koszyk zostanie przekonwertowany na zapisany koszyk."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Kontakt/Komentarz",
+      "title": "Kontakt",
+      "invalidComment": "Nieprawidłowy wpis - wpisz ponownie...",
+      "allProducts": "Wszystkie produkty"
+    },
+    "commons": {
+      "requestQuote": "Zapytaj o wycenę",
+      "cart": "Koszyk zakupów",
+      "minRequestInitiationNote": "Minimalna ${{minValue}} suma częściowa jest wymagana do przesłania oferty. ",
+      "savedActiveCart": "Twój aktualny koszyk został przekonwertowany na zapisany koszyk {{ code }}"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Anuluj edycję informacji w nagłówku wyceny",
+          "save": "Zapisz informacje z nagłówka wyceny"
+        }
+      },
+      "overview": {
+        "regionTitle": "Podsumowanie oferty",
+        "id": "ID oferty",
+        "status": "Status",
+        "information": "Treść oferty cenowej",
+        "name": "Nazwa",
+        "description": "Opis",
+        "charactersLeft": "pozostało znaków: {{count}}",
+        "priceAndExpiry": "Cena i data wygaśnięcia",
+        "estimatedTotal": "Szacowana suma",
+        "total": "Suma",
+        "expirationTime": "Data wygaśnięcia",
+        "a11y": {
+          "edit": "Edytuj informacje w nagłówku wyceny"
+        },
+        "createdAndUpdated": "Utworzone i zaktualizowane",
+        "createdDate": "Utworzone",
+        "lastUpdatedDate": "Ostatnio zaktualizowane"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "Wystąpiły problemy z twoimi wpisami. Sprawdź swój koszyk.",
+      "quoteCartIssue": "Nie można wprowadzać zmian we wpisach koszyka. Przejdź do finalizacji zakupu",
+      "absoluteDiscountIssue": "Wybierz rabat, który nie przekracza sumy całkowitej",
+      "expirationDateIssue": "Wybierz datę wygaśnięcia w przyszłości",
+      "threshold": {
+        "underThresholdError": "Łączna cena wnioskowanej oferty nie osiąga minimalnego progu"
+      },
+      "expired": "Ta wycena wygasła. Musisz ponownie przesłać prośbę o wycenę, aby otrzymać kolejną ofertę od dostawcy.",
+      "downloadPDFError": "Coś poszło nie tak. Nie można uzyskać pliku PDF z ofertą."
+    },
+    "items": {
+      "regionTitle": "Pozycje koszyka"
+    },
+    "links": {
+      "newCart": "Nowy koszyk",
+      "quotes": "Oferty",
+      "download": "Pobierz propozycję",
+      "a11y": {
+        "newCart": "Utwórz nowy pusty koszyk i przejdź do niego.",
+        "quotes": "Przejdź do listy wyników wyszukiwania ofert.",
+        "download": "Pobierz proponowaną wycenę"
+      }
+    },
+    "list": {
+      "regionTitle": "Podsumowanie listy ofert",
+      "title": "Lista ofert",
+      "name": "Nazwa",
+      "updated": "Zaktualizowane",
+      "sortBy": "Sortuj według",
+      "sortQuotes": "Sortuj oferty",
+      "empty": "Nie mamy rekordów wycen dla tego konta.",
+      "quoteId": "ID oferty",
+      "status": "Status",
+      "clickableRow": "Kliknij wiersz, aby uzyskać więcej szczegółów wyceny"
+    },
+    "states": {
+      "BUYER_DRAFT": "Wersja robocza",
+      "BUYER_SUBMITTED": "Przesłane",
+      "BUYER_ACCEPTED": "Zaakceptowane",
+      "BUYER_APPROVED": "Zatwierdzone",
+      "BUYER_REJECTED": "Odrzucone",
+      "BUYER_OFFER": "Oferta dostawcy",
+      "BUYER_ORDERED": "Zamówione",
+      "SELLER_DRAFT": "Wersja robocza",
+      "SELLER_REQUEST": "Wnioskowane",
+      "SELLER_SUBMITTED": "Przesłane",
+      "SELLERAPPROVER_DRAFT": "Wersja robocza",
+      "SELLERAPPROVER_PENDING": "Oczekuje na zatwierdzenie",
+      "SELLERAPPROVER_APPROVED": "Zatwierdzone",
+      "SELLERAPPROVER_REJECTED": "Odrzucone",
+      "CREATED": "Utworzone",
+      "CANCELLED": "Anulowane",
+      "EXPIRED": "Wygasłe"
+    },
+    "summary": {
+      "regionTitle": "Podsumowanie zamówienia",
+      "actions": {
+        "APPROVE": "Zatwierdź ofertę",
+        "CANCEL": "Anuluj ofertę",
+        "CHECKOUT": "Zaakceptuj i zrealizuj zakup",
+        "EDIT": "Edytuj ofertę",
+        "REJECT": "Odrzuć ofertę",
+        "REQUOTE": "Poproś o nową wycenę",
+        "SAVE": "Zapisz ofertę",
+        "SUBMIT": "Prześlij ofertę",
+        "VIEW": "Wyświetl ofertę"
+      },
+      "prices": {
+        "title": "Podsumowanie zamówienia",
+        "subtotal": "Suma częściowa",
+        "productDiscount": "Rabat dla pozycji",
+        "orderDiscount": "Rabat zamówienia",
+        "quoteDiscount": "Rabat oferty",
+        "total": "Suma",
+        "hint": "Podatki nie są uwzględnione w kwocie całkowitej"
+      },
+      "sellerEdit": {
+        "discount": "Rabat",
+        "apply": "Zastosuj",
+        "expiryDate": "Data wygaśnięcia",
+        "discountValidationText": "Wprowadź ważny upust procentowy",
+        "a11y": {
+          "apply": "Kliknij, aby zastosować wprowadzoną wartość rabatu do tej oferty",
+          "discount": "Wprowadź procentową wartość rabatu, który ma zostać zastosowany do tej oferty",
+          "expiryDate": "Wprowadź datę wygaśnięcia tej oferty"
+        }
+      }
+    }
+  }
+}

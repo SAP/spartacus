@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}) {{ product }}: добавлено в корзину",
+    "entryWasAdded": "{{ product }}: добавлено в корзину",
+    "noResults": "Продукты не найдены",
+    "stockLevelReached": "Достигнут максимальный уровень запасов",
+    "title": "Быстрый заказ",
+    "productCodePlaceholder": "Введите ид.",
+    "entryProductCode": "Введите ид. продукта для быстрого заказа",
+    "quantity": "Количество для быстрого заказа",
+    "addToCart": "Добавить продукт в быстрый заказ",
+    "add": "Добавить",
+    "product": "Продукт",
+    "products": "Продукты",
+    "productCodeLabel": "Ид. продукта",
+    "quantityLabel": "Кол.",
+    "quantityFullLabel": "Количество"
+  },
+  "quickOrderForm": {
+    "placeholder": "Введите имя продукта или SKU",
+    "searchBoxLabel": "Введите имя продукта или SKU для быстрого заказа. Можно добавить до {{ limit }} продуктов на заказ.",
+    "listLimitReached": "Достигнут лимит продуктов.",
+    "id": "Ид. {{ id }}",
+    "noResults": "Результаты не найдены",
+    "addProduct": "Добавить продукт {{ product }}",
+    "initialDescription": "Если результаты автоматического заполнения доступны, используйте стрелки вверх и вниз для просмотра и Enter для выбора.",
+    "productsResults": "Доступно продуктов: {{ count }}.",
+    "quickOrderSearch": "Найти продукт для быстрого заказа"
+  },
+  "quickOrderList": {
+    "addToCart": "Добавить в корзину",
+    "emptyList": "Пустой список",
+    "header": "Добавить продукты/SKU",
+    "subHeader": "За один раз можно добавить до {{ limit }} действительных SKU.",
+    "errorProceedingToCart": "Ошибка при переходе к корзине.",
+    "warningProceedingToCart": "Предупреждение при переходе к корзине.",
+    "successfullyAddedToCart": "Успешно добавлено в корзину.",
+    "errors": {
+      "productIsOutOfStock": "{{ name }} (№ {{code}}) нет в наличии",
+      "reviewErrors": "Проверьте эти ошибки.",
+      "listIsFull": "Список заполнен, добавьте эти продукты ({{ count }}) в корзину, чтобы продолжить.",
+      "nonPurchasableError": "Покупка продукта {{ name }} невозможна",
+      "outOfStockErrorFound": "Добавлен продукт ({{count}}), которого нет в наличии.",
+      "outOfStockErrorFound_other": "Добавлены продукты ({{count}}), которых нет в наличии."
+    },
+    "warnings": {
+      "productWasReduced": "Количество {{ name }} (№ {{code}}) сокращено до {{ quantityAdded}}.",
+      "reviewWarnings": "Проверьте эти предупреждения.",
+      "reduceWarningFound": "Количество продукта ({{count}}) сокращено.",
+      "reduceWarningFound_other": "Количество продуктов ({{count}}) сокращено."
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }} (#{{code}}) добавлен в корзину.",
+      "addedToCartFound": "Продукт ({{ count }}) добавлен в корзину.",
+      "addedToCartFound_other": "Продукты ({{ count }}) добавлены в корзину."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "Добавьте продукты в список перед добавлением в корзину."
+    },
+    "undo": "ОТМЕНИТЬ",
+    "revokeUndo": "Удаление продукта \"{{name}}\" отозвано.",
+    "productWasDeleted": "Продукт \"{{ name }}\" перемещен в корзину для удаления."
+  },
+  "quickOrderTable": {
+    "product": "Продукт",
+    "id": "Ид.",
+    "price": "Цена",
+    "quantity": "Кол.",
+    "quantityFull": "Количество",
+    "itemPrice": "Цена позиции",
+    "qty": "Кол.",
+    "actions": "Действия",
+    "inStock": "В наличии",
+    "lowStock": "В наличии мало",
+    "outOfStock": "Нет в наличии",
+    "listCleared": "Список быстрого заказа очищен",
+    "addedtoCart": "Список быстрого заказа добавлен в корзину",
+    "caption": "Содержимое быстрого заказа."
+  }
+}

@@ -14,6 +14,7 @@ import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
+  standalone: false,
 })
 export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];

@@ -7,6 +7,7 @@
 import { navigation } from './navigation';
 import * as configurationCart from './product-configurator-cart';
 import Chainable = Cypress.Chainable;
+import { waitForPage } from './checkout-flow';
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
@@ -34,10 +35,11 @@ export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
  * Clicks on 'Proceed to Checkout' in the cart
  */
 export function clickOnProceedToCheckoutBtnInCart(): void {
+  const paymentTypeAlias = waitForPage('/checkout/payment-type', 'paymentType');
   cy.findByText(/proceed to checkout/i)
     .click()
     .then(() => {
-      cy.location('pathname').should('contain', '/checkout/payment-type');
+      cy.wait(`@${paymentTypeAlias}`);
       cy.get('.cx-payment-type-container').should('contain', 'Payment method');
       cy.get('cx-payment-type').should('be.visible');
     });
@@ -276,13 +278,15 @@ function checkTermsAndConditions(): void {
  */
 function reviewOrder(): void {
   cy.log("🛒 Navigate to the next step 'Review Order' tab");
+  const reviewOrderAlias = waitForPage('/checkout/review-order', 'reviewOrder');
+  cy.get('button.btn-primary').click();
   checkContinueBtnNotDisabled();
   cy.get('button.btn-primary')
     .contains('Continue')
     .click()
     .then(() => {
+      cy.wait(`@${reviewOrderAlias}`);
       cy.location('pathname').should('contain', '/checkout/review-order');
-      //cy.get('a.cx-link.active').contains('ReviewOrder');
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review').should('be.visible');
       cy.get('.cx-review').should('contain', 'Review');
@@ -304,6 +308,7 @@ function placeOrder(): void {
     .wait(Cypress.config('defaultCommandTimeout'))
     .click()
     .then(() => {
+      cy.wait('@orderConfirmation');
       cy.location('pathname').should('contain', '/order-confirmation');
       cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
     });
@@ -453,4 +458,5 @@ export function verifyCartCount(expectedCount: number) {
 function defineB2BCheckoutAlias() {
   cy.intercept('GET', '**delivery-address*').as('deliveryAddress');
   cy.intercept('PUT', '**/deliverymode*').as('deliveryMode');
+  cy.intercept('POST', '**/orders*').as('orderConfirmation');
 }

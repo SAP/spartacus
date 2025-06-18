@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "고객 서비스",
+    "showMore": "자세히 보기",
+    "showMoreLabel": "고객 서비스 요청 이력으로 이동",
+    "changedOn": "변경일: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "제목",
+    "idLabel": "고객 서비스 ID"
+  }
+}

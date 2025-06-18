@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "返回清單",
+    "showForm_APPROVE": "核准訂單...",
+    "showForm_REJECT": "拒絕訂單...",
+    "form": {
+      "title_APPROVE": "核准訂單 {{orderCode}} 總計 {{orderTotal}}",
+      "title_REJECT": "拒絕訂單 {{orderCode}} 總計 {{orderTotal}}",
+      "submit_APPROVE": "核准",
+      "submit_REJECT": "拒絕",
+      "cancel": "取消",
+      "comment_APPROVE": {
+        "label": "備註 (選擇性，最多 255 個字元)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "備註 (最多 255 個字元)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "客戶核准明細",
+      "permission": "權限",
+      "approver": "核准者",
+      "status": "狀態",
+      "approverComments": "核准者備註",
+      "noApprovalComments": "無",
+      "permissionType_B2BBudgetExceededPermission": "已超過與所選成本中心相關的預算",
+      "permissionType_B2BOrderThresholdPermission": "訂單總計超過各訂單限制",
+      "permissionType_B2BOrderThresholdTimespanPermission": "訂單總計超過各時間間隔限制"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "訂單號碼",
+    "POCode": "採購單號碼",
+    "placedBy": "下單者",
+    "date": "日期",
+    "status": "狀態",
+    "total": "總計",
+    "none": "無",
+    "emptyList": "目前沒有要核准的訂單。",
+    "orderApprovalList": "訂單核准清單"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "沒有足夠權限無法存取此頁面。"
+    }
+  }
+}

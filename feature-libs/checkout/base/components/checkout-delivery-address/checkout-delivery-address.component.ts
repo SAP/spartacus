@@ -24,15 +24,21 @@ import {
   GlobalMessageType,
   TranslationService,
   UserAddressService,
+  WindowRef,
   getLastValueSync,
 } from '@spartacus/core';
-import { Card, getAddressNumbers } from '@spartacus/storefront';
+import {
+  Card,
+  SelectFocusUtility,
+  getAddressNumbers,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   switchMap,
+  take,
   tap,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services';
@@ -47,6 +53,7 @@ export interface CardWithAddress {
   selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);
@@ -79,6 +86,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
+  @Optional() protected focusService = inject(SelectFocusUtility);
+  @Optional() protected windowRef = inject(WindowRef);
+
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -106,10 +116,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     textPhone: string,
     textMobile: string
   ): Card {
-    // TODO: (CXSPA-6956) - Remove feature flag in next major release
-    const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
-      'a11yHideSelectBtnForSelectedAddrOrPayment'
-    );
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
@@ -131,10 +137,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.postalCode,
         numbers,
       ],
-      actions:
-        hideSelectActionForSelected && isSelected
-          ? []
-          : [{ name: textShipToThisAddress, event: 'send' }],
+      actions: isSelected
+        ? []
+        : [{ name: textShipToThisAddress, event: 'send' }],
       header: isSelected ? textSelected : '',
       label: address.defaultAddress
         ? 'addressBook.defaultDeliveryAddress'
@@ -155,6 +160,38 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
 
     this.setAddress(address);
+    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
+      this.focusCardAfterSelecting();
+    }
+  }
+
+  /**
+   * Restores the focus to the Card component after it has been selected and the checkout has finished updating.
+   * The focus is lost due to DOM changes making it otherwise impossible to target elements that have been removed.
+   */
+  focusCardAfterSelecting(): void {
+    const cardNodes = Array.from(
+      this.windowRef?.document.querySelectorAll('cx-card')
+    );
+    const triggeredCard =
+      this.windowRef?.document.activeElement?.closest('cx-card');
+
+    if (triggeredCard) {
+      const selectedCardIndex = cardNodes.indexOf(triggeredCard);
+      this.isUpdating$
+        .pipe(
+          filter((isUpdating) => !isUpdating),
+          take(1)
+        )
+        .subscribe(() => {
+          requestAnimationFrame(() => {
+            const selectedCard = this.windowRef?.document.querySelectorAll(
+              'cx-card'
+            )[selectedCardIndex] as HTMLElement;
+            this.focusService.findFirstFocusable(selectedCard)?.focus();
+          });
+        });
+    }
   }
 
   addAddress(address: Address | undefined): void {

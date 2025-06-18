@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-order-confirmation-items',
   templateUrl: './order-confirmation-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderConfirmationItemsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;

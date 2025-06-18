@@ -38,7 +38,7 @@
     [class.selected]="item.selected"
   >
     <!-- Item Description -->
-    <div class="col-6 flex-row">
+    <div class="col-6 flex-row thumbnail-and-product-info">
       <!-- Thumbnail -->
       <div class="thumbnail-container">
         <div class="thumbnail" [class.selected]="item.selected">
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Name -->
-      <div class="flex-column">
+      <div class="flex-column product-info">
         <div *ngIf="item.product.name" class="cx-name">
           <a
             class="cx-link"
@@ -72,7 +72,7 @@
     </div>
 
     <!-- Item Price -->
-    <div class="col-4 flex-column">
+    <div class="col-4 flex-column price">
       <div *ngIf="item.product.price" class="cx-price">
         {{ item.product.price?.formattedValue }}
       </div>
@@ -87,6 +87,7 @@
         "
       >
         <div
+          class="add-to-cart"
           (click)="addToCartComponent.addToCart(); $event.preventDefault()"
           (keydown.enter)="
             addToCartComponent.addToCart(); $event.preventDefault()

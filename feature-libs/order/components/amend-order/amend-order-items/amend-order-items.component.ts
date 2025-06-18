@@ -15,6 +15,7 @@ import { OrderAmendService } from '../amend-order.service';
   selector: 'cx-amend-order-items',
   templateUrl: './amend-order-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

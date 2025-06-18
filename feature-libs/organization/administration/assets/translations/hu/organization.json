@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "Aktív",
+    "disabled": "Letiltva",
+    "enable": "Aktiválás",
+    "disable": "Letiltás",
+    "name": "Név",
+    "code": "Kód",
+    "done": "kész",
+    "cancel": "Mégse",
+    "add": "Hozzáadás",
+    "manageUsers": "Felhasználók kezelése",
+    "create": "{{name}} létrehozása",
+    "edit": "Szerkesztés",
+    "save": "{{name}} mentése",
+    "delete": "Törlés",
+    "assign": "Kezelés",
+    "active": "Aktív",
+    "status": "Státus",
+    "details": "Részletek",
+    "messages": {
+      "emptyList": "A lista üres"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "Ügyfél",
+      "b2bapprovergroup": "Jóváhagyó",
+      "b2bmanagergroup": "Vezető",
+      "b2badmingroup": "Rendszergazda"
+    },
+    "userRights": {
+      "unitorderviewergroup": "Egységszintű rendelések megtekintése"
+    },
+    "breadcrumb": "Szervezet",
+    "notification": {
+      "noSufficientPermissions": "Nem rendelkezik megfelelő jogosultsággal az oldal eléréséhez",
+      "notExist": "Ez a tétel nem létezik",
+      "disabled": "Nem szerkeszthet letiltott tételeket"
+    },
+    "confirmation": {
+      "cancel": "MÉGSE",
+      "confirm": "MEGERŐSÍTÉS",
+      "disable": "LETILTÁS",
+      "delete": "TÖRLÉS"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "Már létezik {{ code }} kóddal rendelkező költségkeret.",
+        "costCenter": "Már létezik {{ code }} kóddal rendelkező költséghely.",
+        "unit": "Már létezik {{ code }} azonosítóval rendelkező szervezeti egység.",
+        "user": "Már létezik {{ code }} e-mail-címmel rendelkező felhasználó",
+        "userGroup": "Már létezik {{ code }} azonosítóval rendelkező felhasználócsoport",
+        "permission": "Már létezik {{ code }} kóddal rendelkező jóváhagyási jogosultság.",
+        "unknown": "Szerverhitelesítési hiba."
+      }
+    },
+    "information": "További információk a következőről: {{title}}"
+  },
+  "orgCostCenter": {
+    "groupName": "Költséghelyek",
+    "header": "Összes költséghely ({{count}})",
+    "code": "Kód",
+    "active": "Státus",
+    "name": "Név",
+    "currency": "Pénznem",
+    "unit": "Fölérendelt egység",
+    "actions": "",
+    "sortBy": "Rendezés alapja",
+    "sort": {
+      "byName": "Név",
+      "byUnitName": "Egység",
+      "byCode": "Kód"
+    },
+    "hint": "A szervezete beszerzési fiókján keresztül leadott rendeléseket a rendszer követési célból összekapcsolja egy költséghellyel. Az egyes egységek több költséghellyel rendelkezhetnek. A kiadások korlátozása érdekében a költséghelyekhez költségkeret is tartozik. A beszerzők a rendelés leadásakor választják ki a költséghelyet.",
+    "disable": {
+      "confirm": "Letiltás"
+    },
+    "messages": {
+      "deactivateTitle": "Letiltja ezt a költséghelyet?",
+      "deactivate": "A letiltott költséghelyek nem használhatók új rendelések leadására. Biztosítsa, hogy az egysége rendelkezzen legalább egy költséghellyel. A meglévő rendelésekre ez nincs hatással.",
+      "confirmEnabled": "A költséghely ({{ item.name }}) engedélyezése sikeres",
+      "confirmDisabled": "A költséghely ({{ item.name }}) letiltása sikeres",
+      "update": "A költséghely ({{ item.name }}) frissítése sikeres",
+      "create": "A költséghely ({{ item.name }}) létrehozása sikeres"
+    },
+    "info": {
+      "disabledEdit": "A szerkesztés a költséghely engedélyezése után válik elérhetővé.",
+      "disabledEnable": "A költséghely engedélyezéséhez először engedélyezni kell az egységet."
+    },
+    "details": {
+      "title": "Költséghely részletei",
+      "subtitle": "Költséghely: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Költséghely szerkesztése",
+      "subtitle": "Költséghely: {{ item.name }}"
+    },
+    "create": {
+      "title": "Költséghely létrehozása",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "Költségkeretek"
+    },
+    "breadcrumbs": {
+      "list": "Összes költséghely",
+      "details": "{{name}}",
+      "budgets": "Költségkeretek"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "Költségkeretek kezelése",
+    "subtitle": "Költséghely: {{ item.name }}",
+    "assigned": "A költségkeret ({{ item.name }}) hozzárendelése sikeres",
+    "unassigned": "A költségkeret ({{ item.name }}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "Hozzárendelt költségvetések",
+    "subtitle": "Költséghely: {{ item.name }}",
+    "assigned": "A költségkeret ({{ item.name }}) hozzárendelése sikeres",
+    "unassigned": "A költségkeret ({{ item.name }}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgBudget": {
+    "groupName": "Költségkeretek",
+    "header": "Összes költségkeret ({{count}})",
+    "code": "Kód",
+    "name": "Név",
+    "active": "Státus",
+    "currency": "Pénznem",
+    "amount": "Összeg",
+    "unit": "Egység",
+    "businessUnits": "Egység",
+    "dateRange": "Kezdés – Befejezés",
+    "startDate": "Kezdés",
+    "endDate": "Befejezés",
+    "actions": "",
+    "sortBy": "Rendezés alapja",
+    "sort": {
+      "byName": "Név",
+      "byUnitName": "Egység",
+      "byCode": "Kód",
+      "byValue": "Érték"
+    },
+    "hint": "A költségkeretek megszabják a beszerzések átfogó korlátozásait, és költséghelyekhez vannak hozzárendelve. A beszerzők a rendelés leadásakor választják ki a költséghelyet.",
+    "details": {
+      "title": "Költségkeret részletei",
+      "subtitle": "Költségkeret: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Költségkeret szerkesztése",
+      "subtitle": "Költségkeret: {{ item.name }}"
+    },
+    "create": {
+      "title": "Költségkeret létrehozása",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Letiltja ezt a költségkeretet?",
+      "deactivate": "A letiltott költségkereteket a rendszer nem alkalmazza azokon a költséghelyeken, amelyekhez a költségkereteket hozzárendelték. Biztosítsa, hogy a társított költséghely legalább egy költségkerettel rendelkezik.",
+      "confirmEnabled": "A költségkeret ({{ item.name }}) engedélyezése sikeres",
+      "confirmDisabled": "A költségkeret ({{ item.name }}) letiltása sikeres",
+      "update": "A költségkeret ({{ item.name }}) frissítése sikeres",
+      "create": "A költségkeret ({{ item.name }}) létrehozása sikeres"
+    },
+    "info": {
+      "disabledEdit": "A szerkesztés a költségkeret engedélyezése után válik elérhetővé.",
+      "disabledEnable": "A költségkeret engedélyezéséhez először engedélyezni kell az egységet."
+    },
+    "links": {
+      "costCenters": "Költséghelyek"
+    },
+    "breadcrumbs": {
+      "list": "Összes költségkeret",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "Költséghelyek",
+    "subtitle": "Költségkeret: {{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "Egységek",
+    "header": "Összes egység ({{count}})",
+    "unit": "Egység",
+    "name": "Név",
+    "uid": "Azonosító",
+    "approvalProcess": "Jóváhagyási folyamat",
+    "parentUnit": "Fölérendelt egység",
+    "active": "Státus",
+    "hint": "Az egységek a részlegeket, áruházakat, régiókat vagy egyéb csoportosításokat jelentik, amelyek logikusak az Ön számára. A beszerzők számára a rendelés leadásakor rendelkezésre álló költséghelyek és szállítási címek az egységüktől függnek. A felhasználók hozzáférhetnek az elsődleges egységük összes alárendelt egységéhez.",
+    "details": {
+      "title": "Egység részletei",
+      "subtitle": "Egység: {{ item.name }}",
+      "hint": "Az egységek a részlegeket, áruházakat, régiókat vagy egyéb csoportosításokat jelentik, amelyek logikusak az Ön számára. Az egységek letiltása letiltja az egység összes alárendeltjének használatát is, beleértve az alárendelt egységeket, felhasználókat, jóváhagyókat és költséghelyeket. A letiltott egységek nem szerkeszthetők."
+    },
+    "edit": {
+      "title": "Egység szerkesztése",
+      "subtitle": "Egység: {{ item.name }}"
+    },
+    "create": {
+      "title": "Egység létrehozása",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Letiltja ezt az egységet?",
+      "deactivate": "Az egység letiltása széles körű hatással lesz a kereskedelmi szervezetére. Az egység ÖSSZES alárendelt egysége, felhasználója, költségkerete és költséghelye is le lesz tiltva.",
+      "confirmEnabled": "Az egység ({{ item.name }}) engedélyezése sikeres",
+      "confirmDisabled": "Az egység ({{ item.name }}) letiltása sikeres",
+      "update": "Az egység ({{ item.name }}) frissítése sikeres",
+      "create": "Az egység ({{ item.name }}) létrehozása sikeres"
+    },
+    "info": {
+      "disabledEdit": "A szerkesztés az egység engedélyezése után válik elérhetővé.",
+      "disabledEnable": "Az egység engedélyezéséhez először engedélyezni kell a fölérendeltet.",
+      "disabledDisable": "Nem lehet letiltani a gyökéregységet."
+    },
+    "links": {
+      "units": "Alárendelt egységek",
+      "users": "Felhasználók",
+      "approvers": "Jóváhagyók",
+      "shippingAddresses": "Szállítási címek",
+      "costCenters": "Költséghelyek"
+    },
+    "tree": {
+      "expandAll": "Összes kibontása",
+      "collapseAll": "Összes összecsukása",
+      "expand": "Kibontás",
+      "collapse": "összecsukás",
+      "explore": "Alegységek felfedezése"
+    },
+    "children": {
+      "create": {
+        "title": "Alárendelt egység létrehozása",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "Az egység ({{ item.name }}) létrehozása sikeres"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "Költséghely létrehozása",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "Fölérendelt üzleti egység",
+      "create": "Egység létrehozása",
+      "parentOrgUnitNotes": "Ez az egység a szervezetének legfelső szintjén található. Nem lehet hozzárendelni egy másik egységhez."
+    },
+    "users": {
+      "header": "Felhasználók a következőben: {{code}}",
+      "changeUserRoles": "Felhasználói szerepek módosítása",
+      "newUser": "Új felhasználó"
+    },
+    "assignRoles": {
+      "header": "Felhasználók kezelése a következőben: {{code}}",
+      "instructions": {
+        "check": "Ha hozzá szeretne rendelni egy szerepet egy felhasználóhoz, jelölje ki a szerep jelölőnégyzetét.",
+        "uncheck": "Ha el szeretne távolítani egy szerepet, törölje a jelölőnégyzet kijelölését.",
+        "changes": "A módosítások mentése automatikus."
+      }
+    },
+    "approvers": {
+      "header": "Jóváhagyók a következőben: {{code}}",
+      "assign": "Jóváhagyók kezelése",
+      "new": "Új jóváhagyó"
+    },
+    "assignApprovers": {
+      "header": "Jóváhagyók kezelése a következőben: {{code}}",
+      "instructions": {
+        "check": "Ha jóváhagyót szeretne hozzárendelni ehhez az egységhez, jelölje ki a felhasználó jelölőnégyzetét.",
+        "uncheck": "Ha el szeretne távolítani egy jóváhagyót, törölje a felhasználó jelölőnégyzetét.",
+        "changes": "A módosítások mentése automatikus."
+      },
+      "hint": "A Jóváhagyók lista alatt megjelenített felhasználók jóváhagyási jogosultságokat kapnak ezen egység és alárendelt egységeinek beszerzőihez. Megjegyzés: a jóváhagyó szereppel rendelkező felhasználók nem ugyanazok, mint a Jóváhagyók lista alatt megjelenő jóváhagyók. Ha egy egység nem rendelkezik jóváhagyóval, vagy ha a jóváhagyók nem rendelkeznek megfelelő jóváhagyási beszerzési jogosultságokkal, akkor a rendszer az egységhierarchia magasabb szintjén keres jóváhagyót, amíg ki nem választ egy rendszergazdát."
+    },
+    "breadcrumbs": {
+      "list": "Összes egység",
+      "details": "{{name}}",
+      "children": "Alárendelt egységek",
+      "users": "Felhasználók",
+      "approvers": "Jóváhagyók",
+      "addresses": "Szállítási címek",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "Költséghelyek"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "Alárendelt egységek",
+    "subtitle": "Egység: {{item.name}}",
+    "info": {
+      "disabledCreate": "Letiltott egységekhez nem lehet létrehozni alárendelt egységeket."
+    },
+    "hint": "Az egységek a részlegeket, áruházakat, régiókat vagy egyéb csoportosításokat jelentik, amelyek logikusak az Ön számára. A felhasználók „öröklik” az alárendelt egységeket, azaz a beszerzők a rendelések leadásakor hozzáférhetnek az alárendelt egységek költséghelyeihez és szállítási címeihez."
+  },
+  "orgUnitApprovers": {
+    "title": "Jóváhagyók kezelése",
+    "subtitle": "Egység: {{item.name}}",
+    "assigned": "A felhasználó ({{item.name}}) hozzárendelése sikeres",
+    "unassigned": "A felhasználó ({{item.name}}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "Hozzárendelt jóváhagyók",
+    "subtitle": "Egység: {{item.name}}",
+    "assigned": "A felhasználó ({{item.name}}) hozzárendelése sikeres",
+    "unassigned": "A felhasználó ({{item.name}}) hozzárendelésének megszüntetése sikeres",
+    "hint": "A Jóváhagyók lista alatt megjelenített felhasználók jóváhagyási jogosultságokat kapnak ezen egység és alárendelt egységeinek beszerzőihez. Megjegyzés: a jóváhagyó szereppel rendelkező felhasználók nem ugyanazok, mint a Jóváhagyók lista alatt megjelenő jóváhagyók. Ha egy egység nem rendelkezik jóváhagyóval, vagy ha a jóváhagyók nem rendelkeznek megfelelő jóváhagyási beszerzési jogosultságokkal, akkor a rendszer az egységhierarchia magasabb szintjén keres jóváhagyót, amíg ki nem választ egy rendszergazdát."
+  },
+  "orgUnitAssignedRoles": {
+    "header": "Felhasználók kezelése a következőben: {{code}}",
+    "name": "Név",
+    "email": "E-mail",
+    "roles": "Szerepek",
+    "roleCustomer": "Ügyfél",
+    "roleApprover": "Jóváhagyó",
+    "roleManager": "Vezető",
+    "roleAdministrator": "Rendszergazda"
+  },
+  "orgUnitUsers": {
+    "title": "Hozzárendelt felhasználók",
+    "subtitle": "Egység: {{item.name}}",
+    "info": {
+      "disabledCreate": "Letiltott egységekhez nem lehet létrehozni felhasználókat."
+    },
+    "hint": "A felhasználók a szervezete beszerzői, jóváhagyói, vezetői és rendszergazdái. A rendszer minden felhasználóhoz hozzárendel egy szerepet a beszerzések létrehozásához vagy jóváhagyásához. A felhasználók „öröklik” az alárendelt egységeket, azaz a beszerzők a rendelések leadásakor hozzáférhetnek az alárendelt egységek költséghelyeihez és szállítási címeihez."
+  },
+  "orgUnitUserRoles": {
+    "title": "Felhasználói szerepek és jogok",
+    "subtitle": "Felhasználó: {{item.name}}",
+    "messages": {
+      "rolesUpdated": "A szerepek frissítése sikeres a következőhöz: {{item.name}}"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "Hozzárendelt felhasználók",
+    "subtitle": "Egység: {{item.name}}"
+  },
+  "orgUnitCostCenters": {
+    "title": "Hozzárendelt költséghelyek",
+    "subtitle": "Egység: {{item.name}}",
+    "info": {
+      "disabledCreate": "Letiltott egységekhez nem lehet létrehozni költséghelyeket."
+    },
+    "hint": "A szervezete beszerzési fiókján keresztül leadott rendeléseket a rendszer követési célból összekapcsolja egy költséghellyel. A beszerző a „Számla” beszerzési módszerrel végzett rendelés leadásakor kiválaszt egy költséghelyet. Az egyes egységek több költséghellyel rendelkezhetnek, de egy költséghely csak egyetlen egységhez rendelhető hozzá. A végső kiadási korlátozások definiálásához a rendszer költségkereteket rendel hozzá a költséghelyekhez. "
+  },
+  "orgUnitAddress": {
+    "title": "Szállítási címek",
+    "subtitle": "Egység: {{item.name}}",
+    "country": "Ország/régió",
+    "titles": "Megszólítás",
+    "firstName": "Utónév",
+    "lastName": "Vezetéknév",
+    "formattedAddress": "Cím",
+    "address1": "Cím",
+    "address2": "Másodlagos cím (opcionális)",
+    "city": "Város",
+    "state": "Állam",
+    "zipCode": "Irányítószám",
+    "phoneNumber": "Telefonszám (opcionális)",
+    "streetAddress": "Utcanév",
+    "aptSuite": "Lakásszám",
+    "selectOne": "Válasszon egyet…",
+    "hint": "Ha egy beszerző a „Számla” beszerzési módszerrel ad le egy rendelést, ki kell választania egy költséghelyet. A beszerző számára rendelkezésre álló szállítási címek a kiválasztott költséghely egységétől függnek.",
+    "details": {
+      "title": "Cím részletei",
+      "subtitle": "Egység: {{item.name}}"
+    },
+    "edit": {
+      "title": "Cím szerkesztése"
+    },
+    "create": {
+      "title": "Cím létrehozása"
+    },
+    "form": {
+      "subtitle": "Egység: {{item.name}}"
+    },
+    "messages": {
+      "create": "A cím ({{ item.firstName }} {{ item.lastName }}) létrehozása sikeres",
+      "update": "A cím ({{ item.firstName }} {{ item.lastName }}) frissítése sikeres",
+      "delete": "A címet nem lehet visszahozni. Ez nincs hatással a meglévő rendelésekre.",
+      "deleteTitle": "Törli ezt a címet?",
+      "deleted": "A cím ({{ item.firstName }} {{ item.lastName }}) törlése sikeres"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "Felhasználócsoportok",
+    "header": "Összes felhasználócsoport ({{count}})",
+    "disabled": "(letiltva)",
+    "uid": "Kód",
+    "name": "Név",
+    "unit": "Egység",
+    "orgUnit": "Egység",
+    "actions": "",
+    "sortBy": "Rendezés alapja",
+    "sort": {
+      "byName": "Név",
+      "byUnitName": "Egység",
+      "byGroupID": "Csoport"
+    },
+    "hint": "A felhasználócsoportok lehetővé teszik, hogy egy csoportban egyesítse a felhasználókat, így lehetősége nyílik egyszerre több felhasználó beszerzési korlátozásainak hozzárendelésére.",
+    "details": {
+      "title": "Felhasználócsoport részletei",
+      "subtitle": "Felhasználócsoport: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Felhasználócsoport szerkesztése",
+      "subtitle": "Felhasználócsoport: {{ item.name }}"
+    },
+    "create": {
+      "title": "Felhasználócsoport létrehozása",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "Felhasználók",
+      "permission": "Beszerzési korlátok"
+    },
+    "messages": {
+      "update": "A felhasználócsoport ({{ item.name }}) frissítése sikeres",
+      "create": "A felhasználócsoport ({{ item.name }}) létrehozása sikeres",
+      "deleteTitle": "Törli ezt a felhasználócsoportot?",
+      "delete": "A felhasználócsoport törlése nem érinti a csoportban található felhasználókat.",
+      "deleted": "A felhasználócsoport ({{ item.name }}) törlése sikeres"
+    },
+    "breadcrumbs": {
+      "list": "Összes felhasználócsoport",
+      "details": "{{name}}",
+      "users": "Felhasználók",
+      "permissions": "Beszerzési korlátok"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "Felhasználók kezelése",
+    "subtitle": "Felhasználócsoport: {{item.name}}",
+    "assigned": "A felhasználó ({{item.name}}) hozzárendelése sikeres",
+    "unassigned": "A felhasználó ({{item.name}}) hozzárendelésének megszüntetése sikeres",
+    "unassignAll": "Összes hozzárendelés megszüntetése",
+    "unassignAllConfirmation": "Az összes felhasználó hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "Hozzárendelt felhasználók",
+    "subtitle": "Felhasználócsoport: {{ item.name }}",
+    "assigned": "A felhasználó ({{item.name}}) hozzárendelése sikeres",
+    "unassigned": "A felhasználó ({{item.name}}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserGroupPermissions": {
+    "title": "Beszerzési korlátok kezelése",
+    "subtitle": "Korlát: {{ item.name }}",
+    "assigned": "A beszerzési korlátok {{item.code}} hozzárendelése sikeres",
+    "unassigned": "A beszerzési korlátok {{item.code}} hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "Hozzárendelt beszerzési korlátok",
+    "subtitle": "Korlát: {{ item.name }}",
+    "assigned": "A beszerzési korlátok {{item.code}} hozzárendelése sikeres",
+    "unassigned": "A beszerzési korlátok {{item.code}} hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUser": {
+    "groupName": "Felhasználók",
+    "header": "Összes felhasználó ({{count}})",
+    "disabled": "(letiltva)",
+    "uid": "E-mail",
+    "active": "Státus",
+    "name": "Név",
+    "firstName": "Utónév",
+    "lastName": "Vezetéknév",
+    "email": "E-mail",
+    "orgUnit": "Egység",
+    "unit": "Egység",
+    "roles": "Szerepek",
+    "rights": "Jogok",
+    "title": "Megszólítás",
+    "hint": "A felhasználók a szervezete beszerzői, jóváhagyói, vezetői és rendszergazdái. A rendszer minden felhasználóhoz hozzárendel egy szerepet a beszerzések létrehozásához vagy jóváhagyásához. Minden felhasználó egy egységhez tartozik, és a felhasználók hozzáférnek az elsődleges egységük összes alárendelt egységéhez.",
+    "unitApprover": "Egységjóváhagyó",
+    "assignApprover": "Felhasználó hozzáadása az egység jóváhagyóihoz",
+    "actions": "",
+    "sortBy": "Rendezés alapja",
+    "sort": {
+      "byName": "Név",
+      "byUnit": "Egység"
+    },
+    "details": {
+      "title": "Felhasználó adatai",
+      "subtitle": "Felhasználó: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Felhasználó szerkesztése",
+      "subtitle": "Felhasználó: {{ item.name }}"
+    },
+    "create": {
+      "title": "Felhasználó létrehozása",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "Jelszó módosítása",
+      "approvers": "Jóváhagyók",
+      "userGroup": "Felhasználócsoportok",
+      "permission": "Beszerzési korlátok",
+      "rolesAndRights": "Szerepek és jogok"
+    },
+    "messages": {
+      "deactivateTitle": "Letiltja ezt a felhasználót?",
+      "deactivate": "A letiltott felhasználók nem jelentkezhetnek be az áruházba és nem adhatnak le rendeléseket.",
+      "confirmEnabled": "A felhasználó ({{item.firstName}} {{item.lastName}}) engedélyezése sikeres",
+      "confirmDisabled": "A felhasználó ({{item.firstName}} {{item.lastName}}) letiltása sikeres",
+      "update": "A felhasználó ({{item.firstName}} {{item.lastName}}) frissítése sikeres",
+      "create": "A felhasználó ({{item.firstName}} {{item.lastName}}) létrehozása sikeres",
+      "updatePassword": "A felhasználó ({{item.firstName}} {{item.lastName}}) jelszavának frissítése sikeres"
+    },
+    "info": {
+      "disabledEdit": "A szerkesztés a felhasználó engedélyezése után válik elérhetővé.",
+      "disabledEnable": "A felhasználó engedélyezéséhez először engedélyezni kell az egységet."
+    },
+    "approver": {
+      "link": "Jóváhagyók",
+      "header": "Jóváhagyók a következőben: {{code}}",
+      "assign": "Jóváhagyók hozzárendelése",
+      "assignHeader": "Jóváhagyók hozzárendelése a következőben: {{code}}",
+      "back": "Vissza",
+      "new": "Új jóváhagyó",
+      "instructions": {
+        "check": "Ha jóváhagyót szeretne hozzárendelni ehhez a felhasználóhoz, jelölje ki a felhasználó jelölőnégyzetét.",
+        "uncheck": "Ha el szeretne távolítani egy jóváhagyót, törölje a felhasználó jelölőnégyzetét.",
+        "changes": "A módosítások mentése automatikus."
+      }
+    },
+    "userGroup": {
+      "link": "Felhasználócsoportok",
+      "header": "Felhasználócsoportok a következőben: {{code}}",
+      "assign": "Felhasználócsoportok hozzárendelése",
+      "assignHeader": "Felhasználócsoportok hozzárendelése a következőben: {{code}}",
+      "back": "Vissza",
+      "instructions": {
+        "check": "Ha felhasználócsoportot szeretne hozzárendelni ehhez a felhasználóhoz, jelölje ki a felhasználó jelölőnégyzetét.",
+        "uncheck": "Ha el szeretne távolítani egy felhasználócsoportot, törölje a felhasználó jelölőnégyzetét.",
+        "changes": "A módosítások mentése automatikus."
+      }
+    },
+    "permission": {
+      "link": "Beszerzési korlátok",
+      "header": "Beszerzési korlátok a következőben: {{code}}",
+      "assign": "Beszerzési korlátok hozzárendelése",
+      "assignHeader": "Beszerzési korlátok hozzárendelése a következőben: {{code}}",
+      "back": "Vissza",
+      "instructions": {
+        "check": "Ha beszerzési korlátot szeretne hozzárendelni ehhez a felhasználóhoz, jelölje ki a jelölőnégyzetét.",
+        "uncheck": "Ha el szeretne távolítani egy beszerzési korlátot, törölje a jelölőnégyzetét.",
+        "changes": "A módosítások mentése automatikus."
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "havonta",
+        "YEAR": "évente",
+        "WEEK": "hetente",
+        "QUARTER": "negyedévente"
+      }
+    },
+    "password": {
+      "title": "Jelszó módosítása",
+      "subtitle": "Felhasználó: {{ item.email }}",
+      "newPassword": "Új jelszó",
+      "confirmPassword": "Új jelszó megerősítése"
+    },
+    "breadcrumbs": {
+      "list": "Összes felhasználó",
+      "details": "{{name}}",
+      "userGroups": "Felhasználócsoportok",
+      "approvers": "Jóváhagyók",
+      "permissions": "Beszerzési korlátok"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "Felhasználócsoportok kezelése",
+    "subtitle": "Felhasználó: {{ item.name }}",
+    "assigned": "A felhasználócsoport ({{item.name}}) hozzárendelése sikeres",
+    "unassigned": "A felhasználócsoport ({{item.name}}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "Hozzárendelt felhasználócsoportok",
+    "subtitle": "Felhasználó: {{ item.name }}",
+    "assigned": "A felhasználócsoport ({{item.name}}) hozzárendelése sikeres",
+    "unassigned": "A felhasználócsoport ({{item.name}}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserApprovers": {
+    "title": "Jóváhagyók kezelése",
+    "subtitle": "Felhasználó: {{ item.name }}",
+    "assigned": "A jóváhagyó ({{ item.name }}) hozzárendelése sikeres",
+    "unassigned": "A jóváhagyó ({{ item.name }}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "Hozzárendelt jóváhagyók",
+    "subtitle": "Felhasználó: {{ item.name }}",
+    "assigned": "A jóváhagyó ({{ item.name }}) hozzárendelése sikeres",
+    "unassigned": "A jóváhagyó ({{ item.name }}) hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserPermissions": {
+    "title": "Beszerzési korlátok kezelése",
+    "subtitle": "Felhasználó: {{ item.name }}",
+    "assigned": "A beszerzési korlát ({{ item.code }}) hozzárendelése sikeres",
+    "unassigned": "A beszerzési korlát {{ item.code }} hozzárendelésének megszüntetése sikeres"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "Hozzárendelt beszerzési korlátok",
+    "subtitle": "Felhasználó: {{ item.name }}",
+    "assigned": "A beszerzési korlát ({{ item.code }}) hozzárendelése sikeres",
+    "unassigned": "A beszerzési korlát {{ item.code }} hozzárendelésének megszüntetése sikeres"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "Beszerzési korlátok",
+    "header": "Összes beszerzési korlát ({{count}})",
+    "name": "Név",
+    "code": "Kód",
+    "active": "Státus",
+    "limit": "Korlát",
+    "orderApprovalPermissionType": "Típus",
+    "threshold": "Küszöb",
+    "periodRange": "Időszak",
+    "currency": "Pénznem",
+    "orgUnit": "Fölérendelt egység",
+    "unit": "Fölérendelt egység",
+    "actions": "",
+    "hint": "A beszerzési korlátok segítenek felügyelni a kiadásokat annak definiálásával, hogy a beszerzők mennyit költhetnek rendelésenként vagy hetente, havonta, negyedévente vagy évente. A beszerzési korlátokat felhasználókhoz vagy felhasználócsoportokhoz lehet hozzárendelni. A jóváhagyókhoz rendelt beszerzési korlát azt határozza meg, hogy mekkora összeg jóváhagyására jogosultak. A felhasználócsoportokkal egyszerre több felhasználóhoz is hozzárendelhet beszerzési korlátokat.",
+    "details": {
+      "title": "Beszerzési korlát részletei",
+      "subtitle": "Beszerzési korlát: {{ item.code }}"
+    },
+    "edit": {
+      "title": "Beszerzési korlát szerkesztése",
+      "subtitle": "Beszerzési korlátok: {{ item.code }}"
+    },
+    "create": {
+      "title": "Beszerzési korlát létrehozása",
+      "subtitle": ""
+    },
+    "sortBy": "Rendezés alapja",
+    "sort": {
+      "byName": "Név",
+      "byUnitName": "Egység"
+    },
+    "messages": {
+      "deactivateTitle": "Letiltja ezt a beszerzési korlátot?",
+      "deactivate": "A letiltott beszerzési korlátok nem rendelhetők hozzá felhasználóhoz vagy felhasználócsoporthoz. A jelenlegi hozzárendelésekre ez nincs hatással.",
+      "confirmEnabled": "A beszerzési korlát ({{ item.code }}) engedélyezése sikeres",
+      "confirmDisabled": "A beszerzési korlát ({{ item.code }}) letiltása sikeres",
+      "update": "A beszerzési korlát ({{ item.code }}) frissítése sikeres",
+      "create": "A beszerzési korlát ({{ item.code }}) létrehozása sikeres"
+    },
+    "info": {
+      "disabledEdit": "A szerkesztés a beszerzési korlát engedélyezése után válik elérhetővé.",
+      "disabledEnable": "A beszerzési korlát engedélyezéséhez először engedélyezni kell az egységet."
+    },
+    "per": {
+      "DAY": "naponta",
+      "WEEK": "hetente",
+      "MONTH": "havonta",
+      "QUARTER": "negyedévente",
+      "YEAR": "évente"
+    },
+    "breadcrumbs": {
+      "list": "Összes beszerzési korlát",
+      "details": "{{code}}"
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   GlobalMessageService,
@@ -34,7 +33,7 @@ describe('UserGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({})],
       providers: [
         UserGuard,
         {

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -13,7 +12,7 @@ describe('RolesCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RolesCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,

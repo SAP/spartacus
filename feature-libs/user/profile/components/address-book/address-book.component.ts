@@ -19,6 +19,7 @@ import { Card, getAddressNumbers } from '@spartacus/storefront';
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
+  standalone: false,
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;

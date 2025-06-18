@@ -10,7 +10,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -26,6 +25,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
@@ -54,7 +54,6 @@ describe('UpdateEmailComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
       ],

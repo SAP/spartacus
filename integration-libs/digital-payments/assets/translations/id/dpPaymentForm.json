@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "Anda akan segera diarahkan ke halaman pihak ketiga untuk pendaftaran kartu",
+    "callback": "Silakan Tunggu... Sedang mengambil rincian pembayaran...",
+    "cancelledOrFailed": "Pendaftaran kartu tidak berhasil atau telah dibatalkan",
+    "error": {
+      "redirect": "Tidak dapat memulai operasi. Silakan coba lagi",
+      "paymentFetch": "Tidak dapat mengambil rincian pembayaran. Silakan coba lagi.",
+      "unknown": "Terjadi kesalahan yang tidak diketahui saat mengambil rincian pembayaran. Silakan hubungi bagian dukungan"
+    },
+    "confirmation": {
+      "heading": "Ada Perubahan yang Belum Anda Simpan.",
+      "text": "Jika Anda menutup dialog ini, semua perubahan yang telah dibuat akan hilang. Apakah Anda yakin ingin menutupnya?"
+    }
+  }
+}

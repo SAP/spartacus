@@ -19,7 +19,11 @@ class MockCurrentUserGroupService {
   key$ = of(mockKey);
 }
 
-@Component({ selector: 'cx-org-sub-list', template: '' })
+@Component({
+  selector: 'cx-org-sub-list',
+  template: '',
+  standalone: false,
+})
 class MockSubListComponent {
   messageService = {
     add(_message) {},

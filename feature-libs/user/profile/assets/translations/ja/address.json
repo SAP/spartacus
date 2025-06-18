@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "タイトル",
+    "titleOptional": "タイトル (オプション)",
+    "defaultTitle": "タイトル",
+    "firstName": {
+      "label": "名",
+      "placeholder": "名"
+    },
+    "lastName": {
+      "label": "姓",
+      "placeholder": "姓"
+    },
+    "address1": "住所 1",
+    "address2": "住所 2 (オプション)",
+    "country": "国/地域",
+    "city": {
+      "label": "市区町村",
+      "placeholder": "市区町村"
+    },
+    "state": "都道府県/州",
+    "zipCode": {
+      "label": "郵便番号",
+      "placeholder": "郵便番号"
+    },
+    "phoneNumber": {
+      "label": "電話番号 (オプション)",
+      "placeholder": "例 (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "携帯電話番号 (オプション)",
+      "placeholder": "例 (###) - ### - ####"
+    },
+    "saveAsDefault": "デフォルトとして保存",
+    "chooseAddress": "住所の選択",
+    "streetAddress": "番地",
+    "aptSuite": "部屋番号",
+    "selectOne": "1 つ選択...",
+    "setAsDefault": "既定の配送先住所として設定",
+    "titleRequired": "タイトルが必要です。",
+    "userAddressAddSuccess": "新しい住所が正常に追加されました。",
+    "userAddressUpdateSuccess": "住所が正常に更新されました。",
+    "userAddressDeleteSuccess": "住所が正常に削除されました。",
+    "invalidAddress": "無効な住所です"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "新しい配送先住所の追加",
+    "editDeliveryAddress": "配送先住所の編集",
+    "areYouSureToDeleteAddress": "この住所を削除してもよろしいですか?",
+    "addNewAddress": "新しい住所の追加",
+    "addAddress": "住所の追加",
+    "updateAddress": "住所の更新",
+    "backToAddressList": "住所一覧に戻る",
+    "defaultDeliveryAddress": "既定の配送先住所",
+    "additionalDeliveryAddress": "追加の配送先住所 {{number}}"
+  },
+  "addressCard": {
+    "default": "既定の設定",
+    "selected": "選択済み",
+    "selectedAddress": "選択された住所",
+    "setAsDefault": "既定に設定",
+    "shipTo": "配送先",
+    "billTo": "請求先",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "住所の確認",
+    "ensureAccuracySuggestChange": "配送を正確に行うために、以下の選択を変更することをお奨めします。",
+    "chooseAddressToUse": "どの住所を使用するのかを選択してください。",
+    "suggestedAddress": "推奨される住所",
+    "enteredAddress": "入力された住所",
+    "editAddress": "住所を編集",
+    "saveAddress": "住所を保存"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "住所 {{ streetAddress }} が既定の住所として正常に設定されました"
+  }
+}

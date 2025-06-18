@@ -49,7 +49,10 @@ describe('Spartacus CDC schematics: ng-add', () => {
   async function generateWorkspace() {
     schematicRunner.registerCollection(
       SPARTACUS_ASM,
-      require.resolve('../../../../feature-libs/asm/schematics/collection.json')
+      path.join(
+        __dirname,
+        '../../../../feature-libs/asm/schematics/collection.json'
+      )
     );
     schematicRunner.registerCollection(
       SPARTACUS_USER,

@@ -17,6 +17,7 @@ class MockActiveCartService {
 @Component({
   selector: 'cx-order-summary',
   template: '',
+  standalone: false,
 })
 class MockOrderSummaryComponent {
   @Input() cart: Cart;

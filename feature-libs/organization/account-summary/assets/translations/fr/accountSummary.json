@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Récapitulatifs de comptes",
+    "header": "Tous les récapitulatifs de comptes ({{count}})",
+    "name": "Unité",
+    "details": {
+      "header": "Détails du récapitulatif du compte",
+      "uid": "ID de l'unité",
+      "name": "Nom de l'unité",
+      "address": "Adresse",
+      "creditRep": "Rapport de solvabilité",
+      "creditLine": "Marge de crédit",
+      "currentBalance": "Solde actuel",
+      "openBalance": "Solde non utilisé",
+      "pastDueBalance": "Ancien solde dû",
+      "dayRange": "{{minBoundary}}-{{maxBoundary}} jours",
+      "dayPlus": "{{minBoundary}}+ jours",
+      "notApplicable": "non applicable"
+    },
+    "document": {
+      "header": "Documents",
+      "id": "Numéro de document",
+      "type": "Type de document",
+      "date": "Créé le",
+      "dueDate": "Dû le",
+      "originalAmount": "Montant d'origine",
+      "openAmount": "Montant en suspens",
+      "status": "Statut",
+      "attachment": "Pièce jointe",
+      "download": "Télécharger",
+      "attachmentDescription": "Télécharger la pièce jointe pour {{type}} {{id}}",
+      "noneFound": "Aucun document trouvé"
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Créé le (croissant)",
+      "byCreatedAtDateDesc": "Créé le (décroissant)",
+      "byDueAtDateAsc": "Dû le (croissant)",
+      "byDueAtDateDesc": "Dû le (décroissant)",
+      "byOriginalAmountAsc": "Montant d'origine (croissant)",
+      "byOriginalAmountDesc": "Montant d'origine (décroissant)",
+      "byOpenAmountAsc": "Montant en suspens (croissant)",
+      "byOpenAmountDesc": "Montant en suspens (décroissant)",
+      "byOrgDocumentTypeAsc": "Type de document (croissant)",
+      "byOrgDocumentTypeDesc": "Type de document (décroissant)",
+      "byStatusAsc": "Statut (croissant)",
+      "byStatusDesc": "Statut (décroissant)",
+      "byOrgDocumentIdAsc": "Numéro de document (croissant)",
+      "byOrgDocumentIdDesc": "Numéro de document (décroissant)"
+    },
+    "statuses": {
+      "open": "En cours",
+      "closed": "Fermé",
+      "all": "Tous"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Numéro de document",
+      "orgDocumentIdRange": "Numéro de document (intervalle)",
+      "orgDocumentType": "Type de document",
+      "createdAtDateRange": "Créé le (intervalle)",
+      "dueAtDateRange": "Dû le (intervalle)",
+      "amountRange": "Montant d'origine (intervalle)",
+      "openAmountRange": "Montant en suspens (intervalle)"
+    },
+    "sortBy": "Trier par",
+    "sortDocuments": "Trier les documents",
+    "filter": {
+      "status": "Statut",
+      "filterBy": "Filtrer par",
+      "documentNumber": "Numéro de document",
+      "documentType": "Type de document",
+      "startRange": "De",
+      "endRange": "À",
+      "clear": "Effacer tout",
+      "search": "Rechercher",
+      "errors": {
+        "toDateMustComeAfterFrom": "Sélectionnez une date de fin postérieure à la date de début.",
+        "toAmountMustBeLargeThanFrom": "Sélectionnez une valeur d'intervalle de fin inférieure à la valeur de début."
+      }
+    },
+    "hint": "Les récapitulatifs de comptes vous permettent de consulter des informations générales sur une unité, y compris les soldes et le récapitulatif chronologique des factures. Vous pouvez également parcourir la liste des documents de transaction d'une unité."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Récapitulatifs de comptes",
+      "details": "{{name}}"
+    }
+  }
+}

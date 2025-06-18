@@ -10,12 +10,12 @@ import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
-import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutProgressMobileTopComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =
@@ -25,9 +25,7 @@ export class CheckoutProgressMobileTopComponent {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
-  ) {
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
-  }
+  ) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

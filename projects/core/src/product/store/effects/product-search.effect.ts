@@ -12,10 +12,16 @@ import { LoggerService } from '../../../logger';
 import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
+import { HttpErrorModel } from '../../../model';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../../global-message';
 
 @Injectable()
 export class ProductsSearchEffects {
   protected logger = inject(LoggerService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   searchProducts$: Observable<
     ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
@@ -35,14 +41,27 @@ export class ProductsSearchEffects {
                     action.auxiliary
                   );
                 }),
-                catchError((error) =>
-                  of(
+                catchError((error) => {
+                  const normalizedError: HttpErrorModel = tryNormalizeHttpError(
+                    error,
+                    this.logger
+                  );
+                  if (
+                    normalizedError?.details?.[0].type ===
+                    'ArrayIndexOutOfBoundsError'
+                  ) {
+                    this.globalMessageService.add(
+                      { key: 'searchBox.queryError' },
+                      GlobalMessageType.MSG_TYPE_ERROR
+                    );
+                  }
+                  return of(
                     new ProductActions.SearchProductsFail(
-                      tryNormalizeHttpError(error, this.logger),
+                      normalizedError,
                       action.auxiliary
                     )
-                  )
-                )
+                  );
+                })
               );
           })
         )

@@ -1,0 +1,88 @@
+{
+  "orgAccountSummary": {
+    "groupName": "Souhrny účtu",
+    "header": "Všechny souhrny účtu ({{count}})",
+    "name": "Jednotka",
+    "details": {
+      "header": "Detaily souhrnu zákazníka",
+      "uid": "ID jednotky",
+      "name": "Název jednotky",
+      "address": "Adresa",
+      "creditRep": "Výkaz úvěru",
+      "creditLine": "Úvěrový rámec",
+      "currentBalance": "Aktuální zůstatek",
+      "openBalance": "Počáteční zůstatek",
+      "pastDueBalance": "Zůstatek po splatnosti",
+      "dayRange": "{{minBoundary}}–{{maxBoundary}} d.",
+      "dayPlus": "{{minBoundary}}a více dní.",
+      "notApplicable": "irelevantní"
+    },
+    "document": {
+      "header": "Doklady",
+      "id": "Číslo dokladu",
+      "type": "Typ dokladu",
+      "date": "Vytvořeno",
+      "dueDate": "Datum splatnosti",
+      "originalAmount": "Původní částka",
+      "openAmount": "Otevřená částka",
+      "status": "Status",
+      "attachment": "Příloha",
+      "download": "Stáhnout",
+      "attachmentDescription": "Stáhnout přílohu pro {{type}} {{id}}.",
+      "noneFound": "Nebyly nalezeny žádné doklady."
+    },
+    "sorts": {
+      "byCreatedAtDateAsc": "Datum vytvoření vzestupně",
+      "byCreatedAtDateDesc": "Datum vytvoření sestupně",
+      "byDueAtDateAsc": "Datum splatnosti vzestupně",
+      "byDueAtDateDesc": "Datum splatnosti vzestupně",
+      "byOriginalAmountAsc": "Původní částka vzestupně",
+      "byOriginalAmountDesc": "Původní částka vzestupně",
+      "byOpenAmountAsc": "Otevřená částka vzestupně",
+      "byOpenAmountDesc": "Otevřená částka sestupně",
+      "byOrgDocumentTypeAsc": "Typ dokladu vzestupně",
+      "byOrgDocumentTypeDesc": "Typ dokladu sestupně",
+      "byStatusAsc": "Status vzestupně",
+      "byStatusDesc": "Status sestupně",
+      "byOrgDocumentIdAsc": "Číslo dokladu vzestupně",
+      "byOrgDocumentIdDesc": "Číslo dokladu sestupně"
+    },
+    "statuses": {
+      "open": "Otevřeno",
+      "closed": "Zavřeno",
+      "all": "Vše"
+    },
+    "filterByOptions": {
+      "orgDocumentId": "Číslo dokladu",
+      "orgDocumentIdRange": "Rozsah čísel dokladu",
+      "orgDocumentType": "Typ dokladu",
+      "createdAtDateRange": "Rozsah data vytvoření",
+      "dueAtDateRange": "Rozsah data splatnosti",
+      "amountRange": "Rozsah původní částky",
+      "openAmountRange": "Rozsah otevřené částky"
+    },
+    "sortBy": "Řadit podle",
+    "sortDocuments": "Řadit dokumentu",
+    "filter": {
+      "status": "Status",
+      "filterBy": "Filtrovat podle",
+      "documentNumber": "Číslo dokladu",
+      "documentType": "Typ dokladu",
+      "startRange": "Od",
+      "endRange": "Do",
+      "clear": "Vymazat vše",
+      "search": "Hledat",
+      "errors": {
+        "toDateMustComeAfterFrom": "Zvolte koncové datum, které následuje po počátečním.",
+        "toAmountMustBeLargeThanFrom": "Vyberte koncovou hodnotu rozsahu, která je menší než počáteční hodnota."
+      }
+    },
+    "hint": "Souhrny účtů umožňují prohlížet obecné informace o jednotce, včetně zůstatků a souhrnů stárnutí faktur. Můžete zde také procházet seznam transakčních dokladů jednotky."
+  },
+  "orgAccountSummaryList": {
+    "breadcrumbs": {
+      "list": "Souhrny účtu",
+      "details": "{{name}}"
+    }
+  }
+}

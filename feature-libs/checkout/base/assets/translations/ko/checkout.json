@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "장바구니로 돌아가기"
+  },
+  "checkoutProgress": {
+    "label": "체크아웃 프로세스",
+    "deliveryAddress": "배송 주소",
+    "deliveryMode": "배송 모드",
+    "paymentDetails": "지불",
+    "reviewOrder": "검토",
+    "state": {
+      "completed": "{{step}}, 완료됨",
+      "selected": "{{step}}, 선택됨",
+      "disabled": "{{step}}, 비활성화됨"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "배송 주소",
+    "selectYourDeliveryAddress": "배송 주소 선택",
+    "defaultDeliveryAddress": "기본 배송 주소",
+    "addNewAddress": "새 주소 추가",
+    "shipToThisAddress": "이 주소로 배송",
+    "deliveryAddressSelected": "배송 주소 선택됨"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "배송 방법",
+    "deliveryOptions": "배송 옵션",
+    "standardDelivery": "표준 배송",
+    "premiumDelivery": "프리미엄 배송",
+    "deliveryEntries": "배송할 품목"
+  },
+  "checkoutReview": {
+    "review": "검토",
+    "reviewOrder": "주문 검토",
+    "orderItems": "주문 품목",
+    "confirmThatRead": "읽었으며 이에 동의함을 확인함 -",
+    "placeOrder": "주문",
+    "termsAndConditions": "사용 약관",
+    "editDeliveryAddressDetails": "배송 주소 세부사항 편집을 누르면 배송 주소 페이지가 열립니다.",
+    "editBillingDetails": "청구 주소 편집을 누르면 지불 세부사항 페이지가 열립니다.",
+    "editPaymentDetails": "지불 세부사항 편집을 누르면 지불 세부사항 페이지가 열립니다.",
+    "editPaymentType": "지불 방법 편집을 누르면 지불 방법 페이지가 열립니다.",
+    "editDeliveryMode": "배송 모드 편집을 누르면 배송 모드 페이지가 열립니다.",
+    "orderInProcess": "주문을 처리 중입니다. 기다리십시오."
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "주문 확인:",
+    "thankYou": "주문해주셔서 감사합니다!",
+    "invoiceHasBeenSentByEmail": "송장을 이메일로 보냈습니다. 곧 받으실 것입니다.",
+    "orderItems": "주문 품목",
+    "orderPlacedSuccessfully": "주문이 완료되었습니다.",
+    "createAccount": "계정을 만드시겠습니까?",
+    "createAccountForNext": "다음에 방문할 때 빠른 체크아웃을 위해 <{{email}}>에 대한 계정을 만드십시오."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "मेरा ईमेल पता",
+    "email": "ईमेल",
+    "emailAddress": "ईमेल पता",
+    "newEmailAddress": "नया ईमेल पता",
+    "confirmNewEmailAddress": "नए ईमेल पते की पुष्टि करे",
+    "emailPlaceHolder": "ईमेल दर्ज करें",
+    "passwordPlaceHolder": "पासवर्ड दर्ज करें",
+    "password": "पासवर्ड",
+    "reloginIndicator": "नया ईमेल पता सेट करने के बाद आपको फिर से लॉगिन करने की आवश्यकता है."
+  }
+}

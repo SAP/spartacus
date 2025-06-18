@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "所有訂單 ({{param}})",
+    "item": "{{param}} 個項目",
+    "items": "{{param}} 個項目",
+    "totalPrice": "總價：{{param}}",
+    "consignmentCode": "託售 {{param}}",
+    "statusDate": "上次更新：{{param}}",
+    "returnProcessed": "已處理退貨：{{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "待撿貨 "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "待出貨 "
+    },
+    "checkoutPickupInStore": {
+      "heading": "待撿貨 "
+    },
+    "orderListResults": "訂單清單",
+    "orderListPagination": "訂單清單分頁",
+    "totalPriceLabel": "總價",
+    "orderPlaced": "下訂日期",
+    "orderCodeLabel": "訂單代碼",
+    "consignmentDetailLabel": "託售資訊",
+    "consignmentNumberLabel": "託售號碼",
+    "consignmentStatusLabel": "託售狀態",
+    "consignmentStatusDateLabel": "上次更新日期",
+    "estimateDeliveryLabel": "預計交貨日期"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "退貨項目",
+    "cancelItems": "取消項目",
+    "downloadInvoices": "下載發票",
+    "viewAllOrders": "檢視全部訂單",
+    "noInvoices": "發票尚未產生，請稍後再查看。"
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} 個項目",
+    "items": "{{value}} 個項目",
+    "heading": "訂單和退貨",
+    "orderNumber": "訂單號碼 ({{value}})",
+    "purchasedOn": "採購日期：{{value}}",
+    "orderedItems": "訂購項目：{{value}}",
+    "totalPrice": "總價：{{value}}",
+    "orderDetails": "訂單明細",
+    "orderDetailsLabel": "顯示訂單號碼 {{value}} 的訂單明細",
+    "orderStatusLabel": "訂單狀態",
+    "returnOrder": "退貨單",
+    "showMore": "顯示更多",
+    "showMoreLabel": "瀏覽至訂單歷史記錄"
+  }
+}

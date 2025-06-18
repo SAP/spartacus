@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "ID",
+    "quantity": "Jml",
+    "quantityFull": "Jumlah",
+    "productDetails": "Rincian Produk",
+    "specification": "Spesifikasi",
+    "reviews": "Ulasan",
+    "shipping": "Pengiriman",
+    "share": "Bagikan",
+    "showReviews": "Tampilkan ulasan",
+    "noReviews": "Belum ada ulasan",
+    "productPrice": "Harga produk",
+    "noProductImage": "Gambar tidak tersedia, {{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "Filter berdasarkan",
+      "action": "Filter berdasarkan"
+    },
+    "activeFilter": "{{filter}} filter, mengeklik tombol ini akan menghapus filter tersebut",
+    "appliedFilter": "Filter yang diterapkan:",
+    "showLess": "Tampilkan lebih sedikit...",
+    "showMore": "Tampikan lebih banyak...",
+    "sortBy": "Urutkan berdasarkan",
+    "sortResults": "Urutkan hasil",
+    "backToTopBtn": "KEMBALI KE ATAS",
+    "showMoreBtn": "TAMPILKAN LEBIH BANYAK",
+    "productSearchPagination": "Penomoran halaman pada pencarian produk",
+    "productListResults": "Daftar Hasil Produk"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "Filter berdasarkan",
+      "action": "Filter berdasarkan",
+      "facet": "Filter hasil berdasarkan Fitur",
+      "name": "Filter berdasarkan {{name}}"
+    },
+    "appliedFilter": "Filter yang diterapkan:",
+    "showLess": "Tampilkan lebih sedikit...",
+    "showMore": "Tampikan lebih banyak...",
+    "sortBy": "Urutkan berdasarkan",
+    "ariaLabelShowLess": "Mengeklik tombol Tampilkan Lebih Sedikit akan mengurangi opsi untuk grup yang aktif",
+    "ariaLabelShowMore": "Mengeklik tombol Tampilkan Lebih Banyak akan menampilkan semua opsi untuk grup yang aktif",
+    "ariaLabelItemsAvailable": "{{name}}, {{state}} {{count}} item tersedia",
+    "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} item tersedia",
+    "decreaseOptionsVisibility": "Opsi disembunyikan dari grup yang aktif, tekan tab kembali untuk melihat ke grup sebelumnya atau tekan tab lanjut ke grup berikutnya",
+    "increaseOptionsVisibility": "Beberapa opsi ditambahkan ke grup yang aktif, tekan tab kembali untuk melihat ke grup sebelumnya atau tekan tab lanjut ke grup berikutnya",
+    "backToResults": "Kembali ke Hasil",
+    "productFacets": "Fitur Produk"
+  },
+  "productSummary": {
+    "id": "ID",
+    "showReviews": "Tampilkan ulasan",
+    "showReviewsDetailed": "Tampilkan {{count}} ulasan, Diberi nilai {{rating}} dari 5 bintang",
+    "share": "Bagikan",
+    "newItemPrice": "Harga item baru"
+  },
+  "productReview": {
+    "overallRating": "Penilaian Keseluruhan",
+    "reviewTitle": "Judul Ulasan",
+    "writeYourComments": "Tulis komentar Anda",
+    "rating": "Penilaian",
+    "ratingRequired": "Penilaian produk, diwajibkan",
+    "addRate": "Tambah nilai: {{count}} bintang",
+    "addRate_other": "Tambah nilai: {{count}} bintang",
+    "reviewerName": "Nama pemberi ulasan (opsional)",
+    "writeReview": "Tulis Ulasan",
+    "more": "Tampilkan Lebih Banyak Ulasan",
+    "less": "Tampilkan Lebih Sedikit Ulasan",
+    "thankYouForReview": "Terima kasih atas ulasannya! Perlu diingat bahwa ulasan mungkin memerlukan peninjauan sebelum ditampilkan di sini.",
+    "postReviewFail": "Ada masalah saat mengirim ulasan Anda. Silakan coba lagi nanti.",
+    "ratedOutOf": "Diberi nilai: {{rating}} dari 5"
+  },
+  "productCarousel": {
+    "carouselLabel": "Korsel, {{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "Item Telah Ditambahkan ke Keranjang Anda",
+    "itemsAddedToYourCart": "Item telah ditambahkan ke keranjang Anda",
+    "itemsIncrementedInYourCart": "Item ini sudah ada di keranjang Anda. Jumlahnya telah diperbarui.",
+    "items": "item",
+    "updatingCart": "Memperbarui keranjang...",
+    "addToCart": "Tambahkan ke keranjang",
+    "viewCart": "lihat keranjang",
+    "proceedToCheckout": "lanjutkan ke pembayaran",
+    "quantity": "Jml",
+    "quantityFull": "Jumlah",
+    "outOfStock": "Stok habis",
+    "inStock": "Stok tersedia",
+    "selectStyleAndSize": "Pilih model dan ukuran untuk memeriksa stok",
+    "removeFromCart": "Hapus Produk dari Keranjang",
+    "closeModal": "Tutup Modal",
+    "buyItAgain": "Beli Lagi",
+    "addToActiveCart": "Tambahkan ke Keranjang Aktif"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "Rincian Produk",
+      "ProductSpecsTabComponent": "Spesifikasi",
+      "ProductReviewsTabComponent": "Ulasan",
+      "deliveryTab": "Pengiriman",
+      "SparePartsTabComponent": " Suku Cadang"
+    },
+    "tabPanelContainerRegion": "Grup tab dengan lebih banyak rincian produk",
+    "tabPanelContainerRegionGroup": "Grup dengan lebih banyak rincian produk"
+  },
+  "addToWishList": {
+    "add": "Tambahkan ke Daftar Keinginan",
+    "remove": "Hapus dari Daftar Keinginan",
+    "anonymous": "Masuk untuk menambahkan ke daftar keinginan",
+    "addedToWishList": "Produk ditambahkan ke daftar keinginan",
+    "removedFromWishList": "Produk dihapus dari daftar keinginan"
+  },
+  "stockNotification": {
+    "notifyMe": "BERI SAYA NOTIFIKASI",
+    "stopNotify": "HENTIKAN NOTIFIKASI",
+    "getNotify": "Dapatkan notifikasi saat produk ini tersedia.",
+    "getNotifySuffix": "untuk mendapatkan notifikasi saat produk ini tersedia.",
+    "activateChannelsPrefix": "Untuk mendapatkan notifikasi, Anda perlu mengaktifkan ",
+    "channelsLink": "Saluran Notifikasi",
+    "activateChannelsSuffix": ".",
+    "notified": "Anda akan diberi notifikasi saat produk ini tersedia kembali.",
+    "getNotified": "Dapatkan notifikasi saat produk ini tersedia kembali.",
+    "unsubscribeSuccess": "Anda tidak akan menerima notifikasi ketersediaan ulang untuk produk ini.",
+    "subscriptionDialog": {
+      "header": "Berlangganan pemberitahuan stok",
+      "notifiedPrefix": "Anda akan diberi notifikasi pada:",
+      "notifiedSuffix": "segera setelah produk ini tersedia kembali.",
+      "manageChannelsPrefix": "Kelola saluran notifikasi favorit Anda di halaman ",
+      "manageChannelsLink": "Preferensi Notifikasi",
+      "manageChannelsSuffix": " .",
+      "manageSubscriptionsPrefix": "Anda dapat mengelola berlangganan Anda di halaman ",
+      "manageSubscriptionsLink": "Minat Saya",
+      "manageSubscriptionsSuffix": " .",
+      "okBtn": "OKE",
+      "subscribing": "Mendaftarkan Anda untuk berlangganan notifikasi stok untuk produk ini"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "Hapus satu item",
+    "addOneMore": "Hapus satu item lagi",
+    "quantity": "Jumlah"
+  },
+  "productView": {
+    "gridView": "Pilih untuk mengubah ke Tampilan Kisi",
+    "listView": "Pilih untuk mengubah ke Tampilan Daftar"
+  }
+}

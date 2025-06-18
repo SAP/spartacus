@@ -127,6 +127,9 @@ describe('SearchBoxComponentService', () => {
     spyOn(service, 'launchSearchPage').and.callThrough();
 
     service.launchSearchPage(mockQueryString);
+
+    service.searchCompleted.next(true);
+
     expect(service.launchSearchPage).toHaveBeenCalled();
     expect(MockRoutingService.go).toHaveBeenCalledWith({
       cxRoute: 'search',

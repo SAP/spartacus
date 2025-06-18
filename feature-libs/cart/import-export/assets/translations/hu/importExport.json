@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Exportálás CSV-formátumba",
+    "exportMessage": "A rendszer automatikusan letölti a CSV-fájlt az eszközére; ha ez nem történik meg, ellenőrizze a böngészője beállításait",
+    "columnNames": {
+      "code": "Kód",
+      "quantity": "Mennyiség",
+      "name": "Név",
+      "price": "Ár"
+    },
+    "exportProductToCsv": "Termék exportálása CSV-be"
+  },
+  "importEntries": {
+    "importProducts": "Termékek importálása"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Termékek importálása",
+    "importProductsSubtitle": "Termékek hozzáadása .CSV-fájl importálásával",
+    "importProductsNewSavedCartSubtitle": "Termékek hozzáadása .CSV-fájl importálásával és új mentett kosár létrehozásával",
+    "importProductFileDetails": "A szöveges fájlnak tartalmaznia kell a termékek listáját a vesszővel elválasztott kötelező oszlopokkal: cikkszám és mennyiség.",
+    "selectFile": "Fájl kiválasztása",
+    "selectedSuccessfully": "CSV-fájl sikeresen kiválasztva.",
+    "savedCartName": "Mentett kosár neve",
+    "savedCartDescription": "Mentett kosár leírása",
+    "optional": "opcionális",
+    "charactersLeft": "hátralévő karakterek: {{count}}",
+    "cancel": "Mégse",
+    "upload": "Feltöltés",
+    "close": "Bezárás",
+    "summary": {
+      "info": "Ne zárja be vagy frissítse ezt az ablakot, amíg folyamatban van a termékek importálása.",
+      "loadedToCart": "Termékek betöltve a következő kosárhoz: {{ cartName }}",
+      "loaded": "Termékek betöltve",
+      "loading": "Termékek feldolgozása folyamatban... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }}/{{ total }} termék importálása sikeres.",
+      "warning": "{{ count }} terméket nem sikerült teljesen importálni.",
+      "warning_other": "{{ count }} terméket nem sikerült teljesen importálni.",
+      "error": "{{ count }} terméket nem sikerült importálni.",
+      "error_other": "{{ count }} terméket nem sikerült importálni.",
+      "messages": {
+        "unknownIdentifier": "A(z) „{{ productCode}}” cikkszám nem létezik.",
+        "lowStock": "A(z) {{ productName }}:{{ quantity }} mennyisége a következőre csökkent: {{ quantityAdded }}.",
+        "noStock": "A(z) {{ productName }} jelenleg nincs készleten.",
+        "unknownError": "Ismeretlen hiba a következővel: „{{ productCode }}”.",
+        "limitExceeded": "Nem lehet hozzáadni a következőt: „{{ productCode }}”. Korlát túllépve."
+      },
+      "show": "Megjelenítés",
+      "hide": "Elrejtés"
+    }
+  }
+}

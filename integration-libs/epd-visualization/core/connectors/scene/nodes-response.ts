@@ -10,22 +10,15 @@ export interface NodesResponse {
 
 export interface TreeNode {
   sid: string;
-  metadata?: Metadatum[];
+  usageIds?: UsageId[];
 }
 
-export enum MetadatumValueType {
-  string = 'string',
-  integer = 'integer',
-  float = 'float',
-  date = 'date',
-  blob = 'blob',
-  string_array = 'string_array',
+export interface UsageId {
+  name: string;
+  keys: UsageIdKey[];
 }
 
-export interface Metadatum {
-  source: string;
-  category: string;
-  tag: string;
+export interface UsageIdKey {
+  name: string;
   value: string;
-  valueType: MetadatumValueType;
 }

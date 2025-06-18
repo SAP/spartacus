@@ -50,6 +50,7 @@
               <cx-pagination
                 [pagination]="type.orderHistory.pagination"
                 (viewPageEvent)="pageChange($event)"
+                paginationID="pagination-top"
               ></cx-pagination>
             </div>
           </div>
@@ -67,24 +68,24 @@
             </caption>
             <thead class="cx-order-history-thead-mobile">
               <tr role="row">
-                <th role="columnheader">
+                <th role="columnheader" scope="col">
                   {{ 'orderHistory.orderId' | cxTranslate }}
                 </th>
                 <ng-container *ngIf="hasPONumber">
-                  <th role="columnheader">
+                  <th role="columnheader" scope="col">
                     {{ 'orderHistory.PONumber' | cxTranslate }}
                   </th>
-                  <th role="columnheader">
+                  <th role="columnheader" scope="col">
                     {{ 'orderHistory.costCenter' | cxTranslate }}
                   </th>
                 </ng-container>
-                <th role="columnheader">
+                <th role="columnheader" scope="col">
                   {{ 'orderHistory.date' | cxTranslate }}
                 </th>
-                <th role="columnheader">
+                <th role="columnheader" scope="col">
                   {{ 'orderHistory.status' | cxTranslate }}
                 </th>
-                <th role="columnheader">
+                <th role="columnheader" scope="col">
                   {{ 'orderHistory.total' | cxTranslate }}
                 </th>
               </tr>
@@ -92,8 +93,9 @@
             <tbody>
               <tr
                 role="row"
-                *ngFor="let order of type.orderHistory.orders"
+                *ngFor="let order of type.orderHistory.orders; let i = index"
                 (click)="goToOrderDetail(order)"
+                [attr.aria-rowindex]="i + 1"
               >
                 <td role="cell" class="cx-order-history-code">
                   <div class="cx-order-history-label">
@@ -217,6 +219,7 @@
               <cx-pagination
                 [pagination]="type.orderHistory.pagination"
                 (viewPageEvent)="pageChange($event)"
+                paginationID="pagination-bottom"
               ></cx-pagination>
             </div>
           </div>

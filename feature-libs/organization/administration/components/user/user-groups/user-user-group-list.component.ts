@@ -19,5 +19,6 @@ import { UserUserGroupListService } from './user-user-group-list.service';
       useExisting: UserUserGroupListService,
     },
   ],
+  standalone: false,
 })
 export class UserUserGroupListComponent {}

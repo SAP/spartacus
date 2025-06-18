@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Nessuno",
+    "poNumber": "Numero ordine acquisto (facoltativo)",
+    "costCenter": "Centro di costo",
+    "placeholder": "Inserisci ordine d'acquisto",
+    "availableLabel": "Gli indirizzi di consegna disponibili dipendono dall'unità del centro di costo",
+    "invalid": {
+      "accountType": "L'account non consente di effettuare il check-out qui."
+    },
+    "methodOfPayment": {
+      "paymentType": "Tipo di pagamento"
+    },
+    "review": {
+      "poNumber": "Numero ordine d'acquisto"
+    },
+    "progress": {
+      "methodOfPayment": "Metodo di pagamento"
+    },
+    "invalidCostCenter": "Centro di costo non valido."
+  }
+}

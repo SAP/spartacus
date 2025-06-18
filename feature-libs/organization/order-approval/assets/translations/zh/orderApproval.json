@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "返回到列表",
+    "showForm_APPROVE": "批准订单...",
+    "showForm_REJECT": "拒绝订单...",
+    "form": {
+      "title_APPROVE": "批准订单 {{orderCode}}，总计 {{orderTotal}}",
+      "title_REJECT": "拒绝订单 {{orderCode}}，总计 {{orderTotal}}",
+      "submit_APPROVE": "批准",
+      "submit_REJECT": "拒绝",
+      "cancel": "取消",
+      "comment_APPROVE": {
+        "label": "备注（可选，最多 255 个字符）",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "备注（最多 255 个字符）",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "客户批准详细信息",
+      "permission": "权限",
+      "approver": "批准人",
+      "status": "状态",
+      "approverComments": "批准人注释",
+      "noApprovalComments": "无",
+      "permissionType_B2BBudgetExceededPermission": "已超出与所选成本中心相关联的预算",
+      "permissionType_B2BOrderThresholdPermission": "订单总计超出每笔订单限制",
+      "permissionType_B2BOrderThresholdTimespanPermission": "订单总计超出每个时间跨度限制"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "订单编号",
+    "POCode": "采购订单编号",
+    "placedBy": "订购人",
+    "date": "日期",
+    "status": "状态",
+    "total": "总计",
+    "none": "无",
+    "emptyList": "目前没有需要批准的订单。",
+    "orderApprovalList": "订单审批列表"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "权限不足，无法访问此页面。"
+    }
+  }
+}

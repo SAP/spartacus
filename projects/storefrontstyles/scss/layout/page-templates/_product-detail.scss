@@ -78,6 +78,9 @@
       max-width: var(--cx-page-width-max);
       margin: auto;
     }
+    &.Tabs {
+      @extend .container !optional;
+    }
   }
 
   .tab-delivery {

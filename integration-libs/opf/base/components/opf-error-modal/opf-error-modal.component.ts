@@ -23,6 +23,7 @@ import { OpfErrorModalService } from './opf-error-modal.service';
   selector: 'cx-opf-error-modal',
   templateUrl: './opf-error-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OpfErrorModalComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

@@ -8,13 +8,13 @@ export enum NavigationMode {
   /**
    * Left mouse button drag causes turntable rotation.
    */
-  Turntable = 0,
+  Turntable = 'Turntable',
   /**
    * Left mouse button drag performs panning.
    */
-  Pan = 2,
+  Pan = 'Pan',
   /**
    * Left mouse button drag performs zooming.
    */
-  Zoom = 3,
+  Zoom = 'Zoom',
 }

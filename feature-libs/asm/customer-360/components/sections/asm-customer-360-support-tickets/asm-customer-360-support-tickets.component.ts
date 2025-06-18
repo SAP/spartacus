@@ -20,6 +20,7 @@ import { SupportTicketEntry } from './asm-customer-360-support-tickets.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-support-tickets',
   templateUrl: './asm-customer-360-support-tickets.component.html',
+  standalone: false,
 })
 export class AsmCustomer360SupportTicketsComponent implements OnInit {
   supportTicketsColumns: Array<CustomerTableColumn> = [

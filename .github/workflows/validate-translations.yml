@@ -1,0 +1,45 @@
+on:
+  pull_request:
+    paths:
+      - '**/assets/translations/**'
+      - '**/assets/src/translations/**'
+
+env:
+  NODE_VERSION: '20'
+
+name: Validate Configuration of Translation Files
+jobs:
+  validate-translations:
+    name: Validate Translations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run Translation Validation Script
+        run: |
+          BASE_COMMIT=${{ github.event.pull_request.base.sha }}
+          HEAD_COMMIT=${{ github.event.pull_request.head.sha }}
+
+          # Get the paths of the changed files
+          changed_files=$(git diff --name-only $BASE_COMMIT $HEAD_COMMIT | grep -E 'assets/translations|assets/src/translations')
+
+          if [ -n "$changed_files" ]; then
+            for file in $changed_files; do
+              # Extract the folder path from the file path to pass to the script
+              folder_path=$(echo "$file" | sed -E 's|(.*assets/(src/)?translations).*|\1|')
+              echo "Changes detected in $folder_path"
+              sh ./ci-scripts/validate-translations.sh "$folder_path"
+            done
+          else
+            echo "No translation changes detected"
+            exit 1
+          fi

@@ -21,9 +21,6 @@ context('CPQ download proposal document', () => {
           timeout: 10000,
         },
       },
-      features: {
-        showDownloadProposalButton: true,
-      },
     };
     cy.cxConfig(globalMessageSettings);
     cy.visit('/');

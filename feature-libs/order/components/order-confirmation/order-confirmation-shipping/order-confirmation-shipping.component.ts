@@ -34,6 +34,7 @@ import { map, tap } from 'rxjs/operators';
   selector: 'cx-order-confirmation-shipping',
   templateUrl: './order-confirmation-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
   @Input() showItemList: boolean = true;

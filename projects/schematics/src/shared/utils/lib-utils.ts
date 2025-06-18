@@ -216,6 +216,7 @@ export interface I18NConfig {
 export interface StylingConfig {
   scssFileName: string;
   importStyle: string;
+  importStyles?: string[];
 }
 
 export interface AssetsConfig {
@@ -469,12 +470,12 @@ export function addFeatureTranslations<T extends LibraryOptions>(
             },
             {
               moduleSpecifier: config.i18n.importPath,
-              namedImports: [config.i18n.chunks, config.i18n.resources],
+              namedImports: [config.i18n.chunks, `${config.i18n.resources}En`],
             },
           ],
           content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
-                resources: ${config.i18n.resources},
+                resources: { en: ${config.i18n.resources}En },
                 chunks: ${config.i18n.chunks},
               },
             })`,
@@ -633,20 +634,33 @@ export function addLibraryStyles(
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
-    const libraryStylesImport = `@import "${stylingConfig.importStyle}";`;
+
+    const featureLibStyleImport = `@import "${stylingConfig.importStyle}";`;
+    const additionalImports = stylingConfig.importStyles
+      ? stylingConfig.importStyles.map((style) => `@import "${style}";`)
+      : [];
+
     if (tree.exists(libraryScssPath)) {
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
       let content = initialContent;
 
-      if (!content.includes(libraryStylesImport)) {
-        content += `\n${libraryStylesImport}`;
+      if (!content.includes(featureLibStyleImport)) {
+        content += `\n${featureLibStyleImport}`;
       }
-      // prevent the unnecessary Angular logs about the files being updated
+
+      additionalImports.forEach((importStatement) => {
+        if (!content.includes(importStatement)) {
+          content += `\n${importStatement}`;
+        }
+      });
+
+      // Prevent unnecessary Angular logs about files being updated
       if (initialContent !== content) {
         tree.overwrite(libraryScssPath, content);
       }
       return tree;
     }
+
     const styleConfigFilePath = getStylesConfigFilePath(
       getSourceRoot(tree, {
         project: project,
@@ -663,7 +677,10 @@ export function addLibraryStyles(
       libraryScssFileContent += `${stylesConfigImport}\n`;
     }
 
-    libraryScssFileContent += `${libraryStylesImport}\n`;
+    libraryScssFileContent += `${featureLibStyleImport}\n`;
+    if (additionalImports.length > 0) {
+      libraryScssFileContent += `${additionalImports.join('\n')}\n`;
+    }
 
     tree.create(libraryScssPath, libraryScssFileContent);
 

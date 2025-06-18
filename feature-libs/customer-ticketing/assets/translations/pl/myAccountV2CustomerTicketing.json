@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Obsługa klienta",
+    "showMore": "Pokaż więcej",
+    "showMoreLabel": "Przejdź do historii zgłoszeń obsługi klienta",
+    "changedOn": "Data zmiany: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "Temat",
+    "idLabel": "ID obsługi klienta"
+  }
+}

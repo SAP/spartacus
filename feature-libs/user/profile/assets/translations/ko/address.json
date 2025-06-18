@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "호칭",
+    "titleOptional": "호칭(선택사항)",
+    "defaultTitle": "호칭",
+    "firstName": {
+      "label": "이름",
+      "placeholder": "이름"
+    },
+    "lastName": {
+      "label": "성",
+      "placeholder": "성"
+    },
+    "address1": "주소 1",
+    "address2": "주소 2(선택사항)",
+    "country": "국가/지역",
+    "city": {
+      "label": "시/구/군",
+      "placeholder": "시/구/군"
+    },
+    "state": "시/도",
+    "zipCode": {
+      "label": "우편 번호",
+      "placeholder": "우편 번호"
+    },
+    "phoneNumber": {
+      "label": "전화 번호(옵션)",
+      "placeholder": "예: (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "휴대폰 번호(옵션)",
+      "placeholder": "예: (###) - ### - ####"
+    },
+    "saveAsDefault": "기본값으로 저장",
+    "chooseAddress": "주소 선택",
+    "streetAddress": "도로 주소",
+    "aptSuite": "아파트 호수",
+    "selectOne": "하나를 선택하십시오...",
+    "setAsDefault": "기본 배송 주소로 설정",
+    "titleRequired": "호칭은 필수 항목입니다.",
+    "userAddressAddSuccess": "새 주소가 추가되었습니다.",
+    "userAddressUpdateSuccess": "주소가 업데이트되었습니다.",
+    "userAddressDeleteSuccess": "주소가 삭제되었습니다.",
+    "invalidAddress": "주소가 잘못되었습니다."
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "새 배송 주소 추가",
+    "editDeliveryAddress": "배송 주소 편집",
+    "areYouSureToDeleteAddress": "이 주소를 삭제하시겠습니까?",
+    "addNewAddress": "새 주소 추가",
+    "addAddress": "주소 추가",
+    "updateAddress": "주소 업데이트",
+    "backToAddressList": "주소록으로 돌아가기",
+    "defaultDeliveryAddress": "기본 배송 주소",
+    "additionalDeliveryAddress": "추가 배송 주소 {{number}}"
+  },
+  "addressCard": {
+    "default": "기본값",
+    "selected": "선택됨",
+    "selectedAddress": "선택된 주소",
+    "setAsDefault": "기본값으로 설정",
+    "shipTo": "배송지",
+    "billTo": "청구지",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "주소 확인",
+    "ensureAccuracySuggestChange": "정확한 배송을 위해 아래에 선택된 변경사항을 제안합니다.",
+    "chooseAddressToUse": "사용할 주소 선택:",
+    "suggestedAddress": "제안된 주소",
+    "enteredAddress": "입력한 주소",
+    "editAddress": "주소 편집",
+    "saveAddress": "주소 저장"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "주소 {{ streetAddress }}이(가) 기본값으로 설정되었습니다."
+  }
+}

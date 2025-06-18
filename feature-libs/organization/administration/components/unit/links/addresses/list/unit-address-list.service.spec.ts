@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Address, EntitiesModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
@@ -38,7 +37,6 @@ describe('UnitAddressListService', () => {
   let service: UnitAddressListService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       providers: [
         UnitAddressListService,
         {

@@ -5,7 +5,6 @@
  */
 
 import bulkPricing from './bulkPricing.json';
-
 export const en = {
   bulkPricing,
 };

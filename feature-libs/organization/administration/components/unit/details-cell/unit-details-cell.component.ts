@@ -11,5 +11,6 @@ import { CellComponent } from '../../shared';
   selector: 'cx-org-unit-details-cell',
   templateUrl: './unit-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UnitDetailsCellComponent extends CellComponent {}

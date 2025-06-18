@@ -36,6 +36,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "Proceder a finalizar la compra",
+    "cartName": "Carro #{{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "Descripción",
+    "item": "Artículo",
+    "itemPrice": "Precio del artículo",
+    "quantity": "Cantidad",
+    "quantityFull": "Cantidad",
+    "quantityTitle": "La cantidad representa el número total de este artículo en su carro.",
+    "total": "Total",
+    "actions": "Acciones",
+    "cartTotal": "Total del carro ({{count}} artículo)",
+    "cartTotal_other": "Total del carro ({{count}} artículos)",
+    "itemRemoved": "Se ha eliminado el artículo seleccionado. El total del carro ha sido actualizado.",
+    "caption": "Contenido del carro de compras."
+  },
+  "orderCost": {
+    "orderSummary": "Resumen del pedido",
+    "subtotal": "Subtotal luego de los descuentos:",
+    "shipping": "Envío:",
+    "estimatedShipping": "Envío estimado:",
+    "discount": "Ahorró:",
+    "salesTax": "Impuesto sobre las ventas:",
+    "grossTax": "El total del pedido no incluye impuesto sobre",
+    "grossIncludeTax": "El total del pedido incluye impuesto sobre",
+    "total": "Total:",
+    "toBeDetermined": "A determinar"
+  },
+  "voucher": {
+    "coupon": "¿Tiene un cupón?",
+    "coupon_other": "Códigos de cupón",
+    "couponLabel": "Introducir un código promocional",
+    "addCoupon": "Agregar un cupón",
+    "apply": "Aplicar",
+    "placeholder": "Código promocional",
+    "applyVoucherSuccess": "{{voucherCode}} ha sido aplicado.",
+    "removeVoucherSuccess": "{{voucherCode}} se ha eliminado.",
+    "anchorLabel": "Introducir o eliminar código promocional",
+    "vouchersApplied": "Cupones aplicados",
+    "availableCoupons": "Cupones disponibles",
+    "availableCouponsLabel": "Puede añadir estos cupones al pedido."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Guardar para más tarde ({{count}} artículo)",
+    "itemTotal_other": "Guardar para más tarde ({{count}} artículos)",
+    "cartTitle": "Carro",
+    "saveForLater": "Guardar para más tarde",
+    "moveToCart": "Mover al carro",
+    "stock": "Stock",
+    "forceInStock": "En stock"
+  },
+  "clearCart": {
+    "clearCart": "Vaciar carro",
+    "clearingCart": "Vaciando carro...",
+    "cartClearedSuccessfully": "Carro activo vaciado correctamente.",
+    "areYouSureToClearCart": "¿Está seguro de que desea vaciar este carro?",
+    "allItemsWillBeRemoved": "Se eliminarán todos los artículos de su carro activo."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "Durante la finalización de su compra detectamos problemas en sus entradas. Revise su carro.",
+    "cartEntryRemoved": "{{name}} se eliminó del carro porque está fuera de stock.",
+    "productOutOfStock": "{{name}} se eliminó del carro por stock insuficiente.",
+    "lowStock": "Se redujo la cantidad a {{quantity}} por stock insuficiente.",
+    "reviewConfiguration": "Primero, resuelva los problemas en la configuración de la entrada del carro.",
+    "configurationError": "Primero, resuelva los problemas en la configuración de las entradas de la cesta.",
+    "pricingError": "La determinación de precios no está disponible en este momento. El envío de oferta/compra no es posible. Intente de nuevo más tarde.",
+    "unresolvableIssues": "La configuración del producto necesita entradas adicionales en el back end. Como consecuencia, no puede avanzar. Póngase en contacto con soporte.",
+    "inProgress": "Procesando"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "忘記密碼？",
+    "signIn": "登入",
+    "register": "註冊",
+    "dontHaveAccount": "沒有帳戶？",
+    "guestCheckout": "訪客結帳",
+    "emailAddress": {
+      "label": "電子郵件地址",
+      "placeholder": "輸入電子郵件地址"
+    },
+    "password": {
+      "label": "密碼",
+      "placeholder": "輸入密碼"
+    },
+    "wrongEmailFormat": "這不是有效的電子郵件格式。"
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "驗證代碼已傳送至 {{target}}，請查看並輸入代碼。",
+    "needInputCredentials": "請輸入憑證以繼續。",
+    "sendRateLime": "{{waitTime}} 秒內",
+    "resend": "重新傳送",
+    "verificationCode": {
+      "label": "驗證代碼",
+      "placeholder": "輸入驗證代碼"
+    },
+    "noReceiveCode": "沒有收到代碼？",
+    "verify": "驗證",
+    "back": "返回",
+    "tokenInputHint": "您可請求新代碼。計時器將開始，表示您可重新傳送請求前的剩餘秒數。"
+  },
+  "verificationTokenDialog": {
+    "title": "沒有收到代碼",
+    "noReceiveCode": "若沒有收到代碼，原因可能是：",
+    "contentLine1": "1. 電子郵件尚未抵達。",
+    "contentLine2": "2. 收到的電子郵件已分類為垃圾電子郵件。",
+    "contentLine3": "3. 您輸入的電子郵件地址或密碼不正確。",
+    "close": "關閉"
+  },
+  "miniLogin": {
+    "userGreeting": "{{name}}，您好",
+    "signInRegister": "登入/註冊"
+  },
+  "myAccountV2User": {
+    "signOut": "登出"
+  }
+}

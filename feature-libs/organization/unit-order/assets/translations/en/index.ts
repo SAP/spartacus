@@ -5,7 +5,6 @@
  */
 
 import unitOrder from './unitOrder.json';
-
 export const en = {
   unitOrder,
 };

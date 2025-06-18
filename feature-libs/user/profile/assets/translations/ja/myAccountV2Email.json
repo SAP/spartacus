@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "自分の電子メールアドレス",
+    "email": "電子メール",
+    "emailAddress": "電子メールアドレス",
+    "newEmailAddress": "新しい電子メールアドレス",
+    "confirmNewEmailAddress": "新しい電子メールアドレスの確認",
+    "emailPlaceHolder": "電子メールアドレスを入力",
+    "passwordPlaceHolder": "パスワードを入力",
+    "password": "パスワード",
+    "reloginIndicator": "新しい電子メールアドレスの設定後、再度ログインする必要があります。"
+  }
+}

@@ -24,6 +24,7 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
+  standalone: false,
 })
 export class CartItemComponent implements OnChanges {
   @Input() compact = false;
@@ -44,7 +45,6 @@ export class CartItemComponent implements OnChanges {
   readonly CartOutlets = CartOutlets;
 
   constructor(protected cartItemContextSource: CartItemContextSource) {
-    useFeatureStyles('a11yCartItemsLinksStyles');
     useFeatureStyles('a11yQTY2Quantity');
     useFeatureStyles('a11yCroppedFocusRing');
   }

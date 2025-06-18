@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "Nie można załadować informacji. Spróbuj ponownie później lub skontaktuj się z administratorem systemu.",
+    "errorMessageHeader": "Ups... Coś poszło nie tak",
+    "applyActionAlter": "Nie można było ukończyć czynności. Spróbuj ponownie później.",
+    "header": {
+      "title": "Profil klienta",
+      "newTitle": "Klient 360°",
+      "subTitle": "Widok 360° klienta {{name}}",
+      "newSubTitle": "Widok 360 {{name}}",
+      "activeCartLabel": "Dodano {{cartSize}} pozycję do koszyka",
+      "recentOrderLabel": "Ostatnie zamówienie {{price}}",
+      "recentTicketLabel": "Ostatnie zgłoszenie",
+      "signedUpAt": "Data utworzenia konta: {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Łączna liczba pozycji: {{count}}",
+      "totalPrice": "Cena łączna: {{price}}",
+      "showMore": "Pokaż więcej",
+      "showLess": "Pokaż mniej"
+    },
+    "productItem": {
+      "outOfStock": "Zapas wyczerpany",
+      "quantity": "Ilość: {{count}}",
+      "itemPrice": "Cena pozycji: {{price}}"
+    },
+    "activeCart": {
+      "header": "Aktywny koszyk",
+      "emptyDescription": "Obecnie nie ma pozycji aktywnego koszyka",
+      "aria": {
+        "linkLabel": "Aktywny koszyk: {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Ostatnio zapisany koszyk",
+      "emptyDescription": "Obecnie nie ma pozycji zapisanego koszyka",
+      "aria": {
+        "linkLabel": "Ostatnio zapisany koszyk: {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Odsetki",
+      "emptyDescription": "Obecnie nie ma pozycji odsetek"
+    },
+    "profile": {
+      "address": "Adres",
+      "billingAddress": "Adres faktury",
+      "deliveryAddress": "Adres dostawy",
+      "phone1": "Telefon 1",
+      "phone2": "Telefon 2",
+      "paymentMethodHeader": "Zapisane metody płatności"
+    },
+    "activity": {
+      "type": "Typ",
+      "id": "ID",
+      "description": "Opis",
+      "status": "Status",
+      "created": "Utworzone",
+      "updated": "Zaktualizowane",
+      "numberOfCartItems": "Koszyk z {{count}} pozycjami",
+      "cart": "Koszyk",
+      "order": "Zamówienie",
+      "savedCart": "Zapisany koszyk",
+      "emptyStateText": "Obecnie nie zarejestrowano żadnego działania klienta",
+      "headerText": "Ogólne"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Pozycja",
+        "dateAndStatus": "Data / Status",
+        "rating": "Ocena",
+        "review": "Recenzja"
+      },
+      "header": "Oceny produktów",
+      "emptyDescription": "Obecnie nie ma pozycji recenzji produktów",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Nagłówek",
+        "category": "Kategoria"
+      },
+      "header": "Zgłoszenia klienta",
+      "emptyDescription": "Obecnie nie ma pozycji zgłoszeń klienta"
+    },
+    "coupons": {
+      "headerText": "Kupony",
+      "emptyDescription": "Obecnie nie ma żadnych kuponów",
+      "applyButtonText": "Zastosuj do koszyka",
+      "applied": "Zastosowany kupon",
+      "removeButtonText": "Usuń"
+    },
+    "promotions": {
+      "headerText": "Promocje",
+      "emptyDescription": "Obecnie nie ma żadnych promocji",
+      "applied": "Zastosowana promocja",
+      "headerName": "Nazwa",
+      "headerAction": "Czynność"
+    },
+    "customerCoupons": {
+      "headerText": "Kupony klienta",
+      "emptyDescription": "Obecnie brak wysłanych kuponów klienta",
+      "applyButtonText": "Przypisz do klienta",
+      "removeButtonText": "Usuń",
+      "availableTab": "Dostępne",
+      "sentTab": "Wysłane",
+      "searchBox": "Kupon"
+    },
+    "maps": {
+      "storeClosed": "Zamknij",
+      "storesFound": "{{ initial }} - znaleziono {{ end }} z {{ total }} sklepów"
+    },
+    "overviewTab": "Przegląd",
+    "profileTab": "Profil",
+    "activityTab": "Działanie",
+    "feedbackTab": "Informacja zwrotna",
+    "promotionsTab": "Promocje",
+    "mapsTab": "Mapy",
+    "storeLocationsTab": "Lokalizacje sklepów",
+    "aria": {
+      "activeCartCode": "Aktywny koszyk: {{code}}",
+      "recentOrderCode": "Ostatnie zamówienie: {{code}}"
+    },
+    "pagination": "Stronicowanie",
+    "page": "Strona {{number}}",
+    "emptyCellValue": "---"
+  }
+}

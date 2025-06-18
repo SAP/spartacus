@@ -5,7 +5,6 @@
  */
 
 import cart from './cart.json';
-
 export const en = {
   cart,
 };

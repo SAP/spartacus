@@ -15,7 +15,12 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { AtMessageModule, FormErrorsModule } from '@spartacus/storefront';
+import {
+  AtMessageModule,
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
@@ -31,6 +36,8 @@ import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spin
     ReactiveFormsModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),

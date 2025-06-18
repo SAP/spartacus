@@ -1,17 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CurrencyService,
   GlobalMessageService,
   I18nTestingModule,
+  LanguageService,
   RoutingService,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
   AtMessageModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
@@ -34,6 +35,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -48,19 +50,22 @@ describe('CheckoutPlaceOrderComponent', () => {
   let launchDialogService: LaunchDialogService;
 
   beforeEach(waitForAsync(() => {
+    const mockCurrencyService = {
+      getActive: () => of('USD'),
+    };
+    const mockLanguageService = {
+      getActive: () => of('en'),
+    };
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        AtMessageModule,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
       declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
       providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: GlobalMessageService, useValue: {} },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
       ],
     }).compileComponents();
   }));
@@ -102,6 +107,15 @@ describe('CheckoutPlaceOrderComponent', () => {
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderConfirmation',
+    });
+  });
+
+  it('should combine currency and language into params$', (done) => {
+    component.ngOnInit();
+    component.params$.subscribe(([currency, language]) => {
+      expect(currency).toBe('USD');
+      expect(language).toBe('en');
+      done();
     });
   });
 

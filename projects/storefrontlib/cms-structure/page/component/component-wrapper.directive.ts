@@ -41,6 +41,7 @@ import { ComponentHandlerService } from './services/component-handler.service';
  */
 @Directive({
   selector: '[cxComponentWrapper]',
+  standalone: false,
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;

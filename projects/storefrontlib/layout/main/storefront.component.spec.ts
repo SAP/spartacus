@@ -1,35 +1,38 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
+import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
-import { SkipLinkService } from '../a11y/skip-link/index';
 
 @Component({
   selector: 'cx-header',
   template: '',
+  standalone: false,
 })
 class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-global-message',
   template: '',
+  standalone: false,
 })
 class MockGlobalMessageComponent {}
 
 @Component({
   selector: 'cx-page-slot',
   template: '',
+  standalone: false,
 })
 class DynamicSlotComponent {}
 
 @Component({
   selector: 'cx-footer',
   template: '',
+  standalone: false,
 })
 class MockFooterComponent {}
 
@@ -42,12 +45,14 @@ class MockRoutingService {
 @Component({
   selector: 'cx-schema',
   template: '',
+  standalone: false,
 })
 class MockSchemaComponent {}
 
 @Component({
   selector: 'cx-page-layout',
   template: '',
+  standalone: false,
 })
 class MockPageLayoutComponent {}
 
@@ -58,6 +63,7 @@ class MockHamburgerMenuService {
 
 @Directive({
   selector: '[cxOutlet]',
+  standalone: false,
 })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
@@ -85,7 +91,6 @@ describe('StorefrontComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
       declarations: [
         StorefrontComponent,
         MockHeaderComponent,

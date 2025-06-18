@@ -26,6 +26,7 @@ import { startWith } from 'rxjs/operators';
   selector: 'cx-replenishment-order-cancellation-dialog',
   templateUrl: './replenishment-order-cancellation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy

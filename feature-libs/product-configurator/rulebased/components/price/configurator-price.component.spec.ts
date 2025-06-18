@@ -8,6 +8,7 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 @Pipe({
   name: 'cxNumeric',
+  standalone: false,
 })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {

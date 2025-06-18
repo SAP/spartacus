@@ -130,7 +130,7 @@ export class OAuthLibWrapperService {
    * In cases where we don't receive this event, the token has been obtained from storage.
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       // We use the 'token_received' event to check if we have returned
       // from the auth server.
       let tokenReceivedEvent: OAuthEvent | undefined;
@@ -150,6 +150,9 @@ export class OAuthLibWrapperService {
             result: result,
             tokenReceived: !!tokenReceivedEvent,
           });
+        })
+        .catch((error) => {
+          reject(error);
         })
         .finally(() => {
           subscription.unsubscribe();

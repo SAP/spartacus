@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Détails du service",
+    "serviceScheduleHeading": "Planification du service - Date et heure",
+    "address": "Identique à l'adresse d'expédition",
+    "serviceLocationHeading": "Lieu du service",
+    "datePickerLabel": "Planifier la date du service",
+    "timePickerLabel": "Planifier l'heure du service",
+    "unknownError": "Une erreur inconnue s'est produite. Veuillez contacter le service d'assistance.",
+    "productDeliveryOptions": "Options de livraison des produits",
+    "serviceDeliveryOption": "Options de livraison des services",
+    "productDeliveryMethods": "Modes de livraison des produits",
+    "serviceDeliveryMethod": "Mode de livraison des services"
+  },
+  "cancelService": {
+    "heading": "Les articles suivants seront inclus dans la demande d'annulation",
+    "cancelReason": "Motif d'annulation du service",
+    "optional": "(facultatif)",
+    "action": "Annuler le service",
+    "back": "Retour",
+    "Submit": "Envoyer la demande",
+    "cancelServiceSuccess": "Le service a été annulé avec succès",
+    "unknownError": "Une erreur inconnue s'est produite. Veuillez contacter le service d'assistance.",
+    "ServiceTime": "Heure du service",
+    "ServiceLocation": "Lieu du service",
+    "ServiceDate": "Date du service",
+    "SubmitRequest": "Envoyer la demande",
+    "serviceNotRcancelable": "Le service ne peut pas être annulé",
+    "charactersLeft": "Caractères restants : {{count}}",
+    "Services": "Services"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Replanifier le service",
+    "headerLabel": "Services",
+    "contentLabel": "Replanification du service - Sélectionner une nouvelle date et heure",
+    "datePickerLabel": "Date du service",
+    "timePickerLabel": "Heure du service",
+    "backButtonLabel": "Retour",
+    "submitButtonLabel": "Envoyer la demande",
+    "note": "Veuillez noter qu'il peut s'écouler quelques instants avant que votre commande ne reflète la demande.",
+    "unknownError": "Une erreur inconnue s'est produite. Veuillez contacter le service d'assistance.",
+    "serviceNotReschedulable": "Le service ne peut pas être replanifié.",
+    "serviceNotAmendable": "Le service ne peut pas être annulé ou replanifié moins de 24 heures avant la date planifiée.",
+    "rescheduleSuccess": "La date et l'heure du service ont été modifiées avec succès."
+  }
+}

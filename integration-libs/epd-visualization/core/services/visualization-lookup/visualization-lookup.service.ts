@@ -34,7 +34,7 @@ export class VisualizationLookupService {
    * @returns An Observable producing an VisualizationInfo array containing the set of matching visualizations.
    */
   public findMatchingVisualizations(
-    productCode: String
+    productCode: string
   ): Observable<VisualizationInfo[]> {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -43,10 +43,10 @@ export class VisualizationLookupService {
     const folderUsageId = usageIdConfig.folderUsageId;
 
     const usage: UsageId = {
-      name: productUsageId.name as string,
+      name: productUsageId.name,
       keys: [
         {
-          name: productUsageId.keyName as string,
+          name: productUsageId.keyName,
           value: productCode,
         },
       ],

@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "Kérés kézbesítési dátuma",
+    "readOnlyTextLabel": "Kért kézbesítési dátum",
+    "successMessage": "A kézbesítési dátum aktualizálása sikeres.",
+    "errorMessage": "Hiba történt. Nem sikerült aktualizálni a kért dátumot."
+  }
+}

@@ -9,3 +9,9 @@ export const OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE =
 
 export const OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT =
   'OpfExplicitTermsAndConditionsComponent';
+
+export const OPF_CHECKOUT_FLOW_NAME = 'OPF';
+
+export interface CartUserEmailResponse {
+  sapCustomerEmail: string;
+}

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,10 @@ import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import * as fromEffects from './currencies.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('Currencies Effects', () => {
   let actions$: Subject<SiteContextActions.CurrenciesAction>;
@@ -28,12 +32,14 @@ describe('Currencies Effects', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot(), HttpClientTestingModule, BaseOccModule],
+      imports: [ConfigModule.forRoot(), BaseOccModule],
       providers: [
         fromEffects.CurrenciesEffects,
         { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
         { provide: Store, useValue: mockStore },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

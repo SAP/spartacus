@@ -4,17 +4,15 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { Router, Routes } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule, Routes } from '@angular/router';
 import {
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
   I18nTestingModule,
   Price,
-  FeatureConfigService,
-  GlobalMessageService,
-  HttpErrorModel,
   Translatable,
-  GlobalMessageType,
 } from '@spartacus/core';
 import {
   CartUtilsService,
@@ -33,6 +31,7 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
 import createSpy = jasmine.createSpy;
+import { OrderConfig } from '@spartacus/order/root';
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
@@ -56,6 +55,11 @@ const mockQuote: Quote = {
   code: mockCode,
   threshold: threshold,
   totalPrice: totalPrice,
+};
+
+const mockWithOrderCode: Quote = {
+  ...mockQuote,
+  sapOrderCode: '12345',
 };
 
 const mockQuoteAttachment = (): File => {
@@ -87,15 +91,11 @@ class MockFileDownloadService {
   download(_url: string, _fileName?: string): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
-}
-
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
 }
+
+const mockOrderConfig: OrderConfig = { showOrderQuoteLink: true };
 
 describe('QuoteLinksComponent', () => {
   let fixture: ComponentFixture<QuoteLinksComponent>;
@@ -112,8 +112,8 @@ describe('QuoteLinksComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        RouterTestingModule.withRoutes(mockRoutes),
         UrlTestingModule,
+        RouterModule.forRoot(mockRoutes),
       ],
       declarations: [QuoteLinksComponent],
       providers: [
@@ -130,12 +130,12 @@ describe('QuoteLinksComponent', () => {
           useClass: MockFileDownloadService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-        {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
+        },
+        {
+          provide: OrderConfig,
+          useValue: mockOrderConfig,
         },
       ],
     }).compileComponents();
@@ -318,6 +318,31 @@ describe('QuoteLinksComponent', () => {
         fixture.detectChanges();
         expect(spyMessage).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('order details link', () => {
+    it('should not show order details link when order code is present', () => {
+      const anchorElements =
+        fixture.nativeElement.querySelectorAll('a.cx-action-link');
+      const orderLink = Array.from(anchorElements).find(
+        (el: any) => el.innerText.trim() === 'quote.links.order'
+      );
+      expect(orderLink).toBeUndefined();
+    });
+    it('should show order details link when order code is present', async () => {
+      mockQuoteDetails$.next(mockWithOrderCode);
+      fixture.detectChanges();
+      const anchorElements =
+        fixture.nativeElement.querySelectorAll('a.cx-action-link');
+      const orderLink = Array.from(anchorElements).find(
+        (el: any) => el.innerText.trim() === 'quote.links.order'
+      );
+      expect(orderLink).not.toBeUndefined();
+      expect((orderLink as HTMLAnchorElement).href).toContain(
+        'cxRoute:orderDetails'
+      );
+      expect((orderLink as HTMLAnchorElement).href).toContain('code:12345');
     });
   });
 });

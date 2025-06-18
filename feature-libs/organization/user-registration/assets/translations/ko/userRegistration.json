@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "호칭(선택사항)",
+        "placeholder": "호칭"
+      },
+      "firstName": {
+        "label": "이름",
+        "placeholder": "이름"
+      },
+      "lastName": {
+        "label": "성",
+        "placeholder": "성"
+      },
+      "companyName": {
+        "label": "회사 이름",
+        "placeholder": "회사 이름"
+      },
+      "email": {
+        "label": "이메일",
+        "placeholder": "이메일"
+      },
+      "city": {
+        "label": "시/구/군(선택사항)",
+        "placeholder": "시/구/군을 선택하십시오."
+      },
+      "country": {
+        "label": "국가(선택사항)",
+        "placeholder": "국가 선택"
+      },
+      "state": {
+        "label": "시/도(선택사항)",
+        "placeholder": "시/도 선택"
+      },
+      "postalCode": {
+        "label": "우편번호(선택사항)",
+        "placeholder": "우편번호"
+      },
+      "addressLine": {
+        "label": "주소(선택사항)",
+        "placeholder": "주소"
+      },
+      "secondAddressLine": {
+        "label": "주소 2(선택사항)",
+        "placeholder": "주소 2"
+      },
+      "phoneNumber": {
+        "label": "전화번호(선택사항)",
+        "placeholder": "전화번호"
+      },
+      "message": {
+        "label": "메시지(선택사항)",
+        "placeholder": "메시지 필드 예: \"부서: 지상 지원, 포지션: 경비 대장, 보고 대상: Steve Jackson, 의견: 저의 새 계정을 만들어주십시오.\""
+      }
+    },
+    "messageToApproverTemplate": "회사 이름: {{companyName}},\n  전화 번호: {{phoneNumber}},\n  주소: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  메시지: {{message}}",
+    "successFormSubmitMessage": "등록해주셔서 감사합니다! 곧 담당자가 연락하여 액세스 정보를 확인해 드리겠습니다.",
+    "formSubmitButtonLabel": "등록",
+    "goToLoginButtonLabel": "이미 등록하셨습니까? 로그인하십시오.",
+    "httpHandlers": {
+      "conflict": "이 이메일 주소를 사용하는 사용자가 이미 있습니다."
+    },
+    "messageToFailedToRegister": "등록하지 못했습니다. 지원 받으려면 관리자에게 문의하십시오."
+  }
+}

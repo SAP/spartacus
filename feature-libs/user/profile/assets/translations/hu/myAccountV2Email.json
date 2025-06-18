@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "Saját e-mail-cím",
+    "email": "E-mail",
+    "emailAddress": "E-mail-cím",
+    "newEmailAddress": "Új e-mail-cím",
+    "confirmNewEmailAddress": "Új e-mail-cím megerősítése",
+    "emailPlaceHolder": "E-mail-cím megadása",
+    "passwordPlaceHolder": "Jelszó megadása",
+    "password": "Jelszó",
+    "reloginIndicator": "Új e-mail-cím beállítása esetén újra be kell jelentkeznie."
+  }
+}

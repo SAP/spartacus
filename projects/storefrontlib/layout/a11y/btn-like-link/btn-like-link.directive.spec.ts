@@ -20,6 +20,7 @@ export const Mock = {
       Unaffected Link 2
     </a>
   `,
+  standalone: false,
 })
 class TestContainerComponent {
   onClick(value: string) {

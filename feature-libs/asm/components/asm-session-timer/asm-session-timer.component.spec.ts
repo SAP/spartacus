@@ -49,6 +49,7 @@ class MockRoutingService implements Partial<RoutingService> {
 
 @Pipe({
   name: 'formatTimer',
+  standalone: false,
 })
 class MockFormatTimerPipe implements PipeTransform {
   transform() {}

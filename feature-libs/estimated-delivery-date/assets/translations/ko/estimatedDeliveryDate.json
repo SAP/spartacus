@@ -1,0 +1,8 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "수량 -",
+    "quantityFull": "수량 -",
+    "ETA": "예상 배송일:",
+    "estimatedDeliveryDateEntryInfo": "{{ quantity }} 수량이 {{ date }}에 의해 배송될 예정입니다."
+  }
+}

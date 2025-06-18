@@ -7,10 +7,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
+import { OrderConfig } from '@spartacus/order/root';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -23,14 +23,15 @@ import { Observable } from 'rxjs';
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);
   protected cartUtilsService = inject(CartUtilsService);
   protected eventService = inject(EventService);
   protected fileDownloadService = inject(FileDownloadService);
-  private featureConfig = inject(FeatureConfigService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected orderConfig = inject(OrderConfig);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
@@ -81,8 +82,9 @@ export class QuoteLinksComponent {
    * Determines if the feature for showing the download button is enabled.
    *
    * @returns - if the feature is enabled, returns 'true', otherwise 'false'.
+   * @deprecated  This method is obsolete since 2211.41
    */
   isShowDownloadProposalButtonFeatureEnabled(): boolean {
-    return this.featureConfig.isEnabled('showDownloadProposalButton');
+    return true;
   }
 }

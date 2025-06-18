@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "ID",
+    "quantity": "मात्रा",
+    "quantityFull": "मात्रा",
+    "productDetails": "उत्पाद विवरण",
+    "specification": "विशिष्टता",
+    "reviews": "समीक्षा",
+    "shipping": "शिपिंग",
+    "share": "साझा करें",
+    "showReviews": "समीक्षाएं दिखाएं",
+    "noReviews": "अभी तक कोई समीक्षाएं नहीं",
+    "productPrice": "उत्पाद मूल्य",
+    "noProductImage": "कोई छवि उपलब्ध नहीं, {{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "फ़िल्टरकर्ता",
+      "action": "फ़िल्टरकर्ता"
+    },
+    "activeFilter": "{{filter}} फ़िल्टर, इस बटन पर क्लिक करने से फ़िल्टर निकल जाएगा",
+    "appliedFilter": "लागू किए गए फ़िल्टरः",
+    "showLess": "कम दिखाएँ...",
+    "showMore": "अधिक दिखाएँ...",
+    "sortBy": "इसके द्वारा क्रमित",
+    "sortResults": "क्रमण का परिणाम",
+    "backToTopBtn": "शीर्ष पर वापस जाएं",
+    "showMoreBtn": "अधिक दिखाएँ",
+    "productSearchPagination": "उत्पाद खोज पृष्ठांकन",
+    "productListResults": "उत्पाद परिणाम सूची"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "फ़िल्टरकर्ता",
+      "action": "फ़िल्टरकर्ता",
+      "facet": "पहलू के अनुसार परिणाम फ़िल्टर करें",
+      "name": "{{name}} द्वारा फ़िल्टर"
+    },
+    "appliedFilter": "लागू किए गए फ़िल्टरः",
+    "showLess": "कम दिखाएँ...",
+    "showMore": "अधिक दिखाएँ...",
+    "sortBy": "इसके द्वारा क्रमित",
+    "ariaLabelShowLess": "कम दिखाएं, बटन, इस बटन पर क्लिक करने से सक्रिय समूह के लिए विकल्प कम हो जाएंगे",
+    "ariaLabelShowMore": "अधिक दिखाएं, बटन, इस बटन पर क्लिक करने से सक्रिय समूह के लिए सभी विकल्प दिखाए जाएंगे",
+    "ariaLabelItemsAvailable": "{{name}}, {{state}} {{count}} आइटम उपलब्ध",
+    "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} आइटम उपलब्ध",
+    "decreaseOptionsVisibility": "सक्रिय समूह से विकल्प छिपाए गए थे, इ्न्हें पढ़ने के लिए पिछला टैब दबाएं या अगले समूह के लिए फॉरवर्ड पर क्लिक करें",
+    "increaseOptionsVisibility": "सक्रिय समूह में अधिक विकल्प जोड़े गए, इन्हें पढ़ने के लिए पिछला टैब पर जाएं या अगले समूह के लिए फॉरवर्ड पर जाएं",
+    "backToResults": "परिणामों पर वापस जाएं",
+    "productFacets": "उत्पाद पहलू"
+  },
+  "productSummary": {
+    "id": "ID",
+    "showReviews": "समीक्षाएं दिखाएं",
+    "showReviewsDetailed": "{{count}} समीक्षाएं दिखाएं, 5 स्टार में से {{rating}} रेट किया गया",
+    "share": "साझा करेंसाझा करें ",
+    "newItemPrice": "नया आइटम मूल्य"
+  },
+  "productReview": {
+    "overallRating": "समग्र रेटिंग",
+    "reviewTitle": "शीर्षक की समीक्षा करें",
+    "writeYourComments": "अपनी टिप्पणियां लिखें",
+    "rating": "मुल्यांकन",
+    "ratingRequired": "उत्पाद रेटिंग, आवश्यक",
+    "addRate": "दर जोड़ेंः {{count}} स्टार",
+    "addRate_other": "दर जोड़ेंः {{count}} स्टार",
+    "reviewerName": "समीक्षक का नाम (वैकल्पिक)",
+    "writeReview": "एक समीक्षा लिखें",
+    "more": "अधिक समीक्षाओं को दिखाएं",
+    "less": "कम समीक्षाएं दिखाएं",
+    "thankYouForReview": "समीक्षा के लिए धन्यवाद! ध्यान रखें कि यहां दिखने से पहले समीक्षाओं की समीक्षा आवश्यक है.",
+    "postReviewFail": "आपकी समीक्षा पोस्ट करते समय कुछ गलत हुआ है. कृपया बाद में फिर से कोशिश करें.",
+    "ratedOutOf": "रेट किया गयाः 5 में से {{rating}}"
+  },
+  "productCarousel": {
+    "carouselLabel": "कोरोसल, {{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "आइटम आपकी कार्ट में जोड़ा गया",
+    "itemsAddedToYourCart": "आइटम आपकी कार्ट में जोड़े गए",
+    "itemsIncrementedInYourCart": "यह आइटम पहले से आपकी कार्ट में था. मात्रा अपडेट की गई.",
+    "items": "आइटम",
+    "updatingCart": "कार्ट अपडेट कर रहे हैं...",
+    "addToCart": "कार्ट में जोड़ें",
+    "viewCart": "कार्ट देखें ",
+    "proceedToCheckout": "चेक आउट करने के लिए आगे बढ़ें",
+    "quantity": "मात्रा",
+    "quantityFull": "मात्रा",
+    "outOfStock": "स्टॉक में नहीं है",
+    "inStock": "स्टॉक में है",
+    "selectStyleAndSize": "चेक आउट करने के लिए स्टाइल और आकार चुनें",
+    "removeFromCart": "उत्पाद कार्ट से निकालें",
+    "closeModal": "मॉडल बंद करें",
+    "buyItAgain": "फिर से खरीदें",
+    "addToActiveCart": "सक्रिय कार्ट में जोड़ें"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "उत्पाद विवरण",
+      "ProductSpecsTabComponent": "विशिष्टता",
+      "ProductReviewsTabComponent": "समीक्षाएं",
+      "deliveryTab": "शिपिंग",
+      "SparePartsTabComponent": " स्पेयर पार्ट"
+    },
+    "tabPanelContainerRegion": "अधिक उत्पाद विवरण के साथ टैब समूह",
+    "tabPanelContainerRegionGroup": "अधिक उत्पाद विवरण के साथ समूह"
+  },
+  "addToWishList": {
+    "add": "विश लिस्ट में जोड़ें",
+    "remove": "विश लिस्ट से हटाएं",
+    "anonymous": "विश लिस्ट में जोड़ने के लिए साइन इन करें",
+    "addedToWishList": "उत्पाद विश लिस्ट में जोड़ा गया",
+    "removedFromWishList": "उत्पाद विश लिस्ट से निकाला गया"
+  },
+  "stockNotification": {
+    "notifyMe": "मुझे सूचित करें",
+    "stopNotify": "अधिसूचनाएं बंद करें",
+    "getNotify": "यह उत्पाद उपलब्ध होने पर सूचित करें",
+    "getNotifySuffix": "यह उत्पाद उपलब्ध होने पर सूचना प्राप्त करें",
+    "activateChannelsPrefix": "आपको सूचित करने के लिए आपको इसे सक्रिय करने की आवश्यकता है ",
+    "channelsLink": "अधिसूचना चैनल",
+    "activateChannelsSuffix": ".",
+    "notified": "यह उत्पाद स्टॉक में वापस आने पर आपको सूचित किया जाएगा.",
+    "getNotified": "यह उत्पाद स्टॉक में वापस आने पर सूचना प्राप्त करें.",
+    "unsubscribeSuccess": "आपको इस उत्पाद के लिए स्टॉक में वापस आने की अधिसूचना प्राप्त नहीं होगी.",
+    "subscriptionDialog": {
+      "header": "स्टॉक से बाहर सब्स्क्रिप्शन",
+      "notifiedPrefix": "आपको इस दिनांक पर सूचित किया जाएगाः",
+      "notifiedSuffix": "जैसे ही यह उत्पाद स्टॉक में वापस आएगा.",
+      "manageChannelsPrefix": "अपना पसंदीदा अधिसूचना चैनल यहां प्रबंधित करें ",
+      "manageChannelsLink": "अधिसूचना वरीयता",
+      "manageChannelsSuffix": " पृष्ठ.",
+      "manageSubscriptionsPrefix": "अपने सबस्क्रिप्शन यहां प्रबंधित कर सकते हैं ",
+      "manageSubscriptionsLink": "मेरी रूचि",
+      "manageSubscriptionsSuffix": " पृष्ठ.",
+      "okBtn": "ठीक",
+      "subscribing": "इस उत्पाद के स्टॉक समाप्त होने के लिए आपको सब्स्क्राइब कर रहे हैं"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "एक निकालें",
+    "addOneMore": "एक और जोड़ें",
+    "quantity": "मात्रा"
+  },
+  "productView": {
+    "gridView": "ग्रिड दृश्य पर बदले के लिए चुनें",
+    "listView": "ग्रिड दृश्य पर बदले के लिए चुनें"
+  }
+}

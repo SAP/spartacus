@@ -102,6 +102,7 @@ function createFocusedElements(
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
+  standalone: false,
 })
 class MockComponent {}
 
@@ -506,6 +507,14 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should return prefix ID separated by 2 dashes and group ID string', () => {
       expect(classUnderTest.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
+    });
+  });
+
+  describe('createAttributeUiKey', () => {
+    it('should generate attribute key', () => {
+      expect(classUnderTest.createAttributeUiKey('prefix', 'attributeId')).toBe(
+        'cx-configurator--prefix--attributeId'
+      );
     });
   });
 

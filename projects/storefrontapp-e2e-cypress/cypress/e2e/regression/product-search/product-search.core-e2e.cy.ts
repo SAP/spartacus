@@ -22,31 +22,30 @@ context('Product search', { testIsolation: false }, () => {
     });
 
     describe('Pagination', () => {
-      it('should navigate to the next page and display results', () => {
+      it('should test pagination and display results', () => {
+        cy.log('NAVIGATE TO NEXT PAGE AND DISPLAY RESULTS:');
         productSearchFlow.verifyNextPage(2);
-      });
 
-      it('should be able navigate to the specified page number and display results', () => {
+        cy.log('NAVIGATE TO A SPECIFIED PAGE AND DISPLAY RESULTS:');
         productSearchFlow.verifyChoosePage(3);
-      });
 
-      it('should navigate to the previous page and display results', () => {
+        cy.log('NAVIGATE TO PREVIOUS PAGE AND DISPLAY RESULTS:');
         productSearchFlow.verifyPreviousPage(2);
       });
     });
 
-    describe('product list view mode', () => {
+    describe('Product list view mode', () => {
       it('should be able to switch to grid mode', () => {
         productSearchFlow.viewMode();
       });
     });
 
     describe('Facets', () => {
-      it('should filter results using facet filtering', () => {
+      it('should filter results using facet filtering and clear active facet', () => {
+        cy.log('FILTER RESULTS USING FACET FILTERING:');
         productSearchFlow.filterUsingFacetFiltering();
-      });
 
-      it('should be able to clear active facet', () => {
+        cy.log('CLEAR ACTIVE FACET:');
         productSearchFlow.clearActiveFacet();
       });
     });
@@ -56,27 +55,23 @@ context('Product search', { testIsolation: false }, () => {
         cy.visit('/');
       });
 
-      it('should be able to sort by lowest price', () => {
+      it('should be able to sort by different sort options', () => {
+        cy.log('SORT BY LOWEST PRICE:');
         productSearchFlow.sortByLowestPrice();
-      });
 
-      it('should be able to sort by highest price', () => {
+        cy.log('SORT BY HIGHEST PRICE:');
         productSearchFlow.sortByHighestPrice();
-      });
 
-      it('should be able to sort by name ascending', () => {
+        cy.log('SORT BY NAME ASCENDING:');
         productSearchFlow.sortByNameAscending();
-      });
 
-      it('should be able to sort by name descending', () => {
+        cy.log('SORT BY NAME DESCENDING:');
         productSearchFlow.sortByNameDescending();
-      });
 
-      it('should be able to sort by relevance', () => {
+        cy.log('SORT BY RELEVANCE:');
         productSearchFlow.sortByRelevance();
-      });
 
-      it('should be able to sort by top rated', () => {
+        cy.log('SORT BY TOP RATED:');
         productSearchFlow.sortByTopRated();
       });
     });

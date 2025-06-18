@@ -1,0 +1,66 @@
+{
+  "userRegistrationForm": {
+    "fields": {
+      "titleCode": {
+        "label": "Anrede (optional)",
+        "placeholder": "Anrede"
+      },
+      "firstName": {
+        "label": "Vorname",
+        "placeholder": "Vorname"
+      },
+      "lastName": {
+        "label": "Nachname",
+        "placeholder": "Nachname"
+      },
+      "companyName": {
+        "label": "Firmenname",
+        "placeholder": "Firmenname"
+      },
+      "email": {
+        "label": "E-Mail",
+        "placeholder": "E-Mail"
+      },
+      "city": {
+        "label": "Ort/Land (optional)",
+        "placeholder": "Ort/Land auswählen"
+      },
+      "country": {
+        "label": "Land (optional)",
+        "placeholder": "Land auswählen"
+      },
+      "state": {
+        "label": "Bundesland/Kanton",
+        "placeholder": "Bundesland/Kanton auswählen"
+      },
+      "postalCode": {
+        "label": "Postleitzahl (optional)",
+        "placeholder": "Postleitzahl"
+      },
+      "addressLine": {
+        "label": "Adresse (optional)",
+        "placeholder": "Adresse"
+      },
+      "secondAddressLine": {
+        "label": "Adresse Zeile 2 (optional)",
+        "placeholder": "Adresse Zeile 2"
+      },
+      "phoneNumber": {
+        "label": "Telefonnummer (optional)",
+        "placeholder": "Telefonnummer"
+      },
+      "message": {
+        "label": "Nachricht (optional)",
+        "placeholder": "Beispieldaten für das Nachrichtenfeld: \"Abteilung: Ground Support; Planstelle: Chief Safe Guard; Bericht an: Steve Jackson; Kommentare: Bitte erstellen Sie ein neues Konto für mich\"."
+      }
+    },
+    "messageToApproverTemplate": "Firmenname: {{companyName}},\n  Telefonnummer: {{phoneNumber}},\n  Adresse: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Nachricht: {{message}}",
+    "successFormSubmitMessage": "Vielen Dank für Ihre Registrierung! Ein Beauftragter wird Sie in Kürze kontaktieren und Ihre Zugriffsinformationen bestätigen.",
+    "formSubmitButtonLabel": "Registrieren",
+    "goToLoginButtonLabel": "Schon registriert? Zur Anmeldung wechseln",
+    "httpHandlers": {
+      "conflict": "Ein Benutzer mit dieser E-Mail-Adresse ist bereits vorhanden."
+    },
+    "messageToFailedToRegister": "Registrierung fehlgeschlagen. Bitte wenden Sie sich an Ihren Administrator, um weitere Unterstützung zu erhalten."
+  }
+}

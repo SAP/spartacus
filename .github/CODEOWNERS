@@ -32,9 +32,10 @@
 
 
 # ================================================
-#  This code owners file
+#  Admin files
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
+/projects/storefrontstyles/vendor/bootstrap          @SAP/spartacus-admins
 
 # ================================================
 #  Folders where anyone with write access to the repo can approve Pull Requests
@@ -55,6 +56,7 @@
 # ================================================
 /feature-libs/user/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
 /projects/storefrontlib/cms-components/myaccount/         @SAP/spartacus-codeowners @SAP/spartacus-holidays
+/run-spartacus-cust-e2es.sh    @SAP/spartacus-codeowners @SAP/spartacus-holidays 
 
 # ================================================
 #  Product Configurator (VC and CPQ) integration
@@ -81,3 +83,7 @@
 # ================================================
 /feature-libs/pickup-in-store/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
 
+# ================================================
+#  EPD Visualization
+# ================================================
+/integration-libs/epd-visualization/         @SAP/spartacus-codeowners @SAP/spartacus-epd

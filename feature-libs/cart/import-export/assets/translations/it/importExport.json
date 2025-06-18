@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "Esporta in formato CSV",
+    "exportMessage": "Il file CSV verrà scaricato automaticamente nel dispositivo; in caso contrario, verificare le impostazioni del browser.",
+    "columnNames": {
+      "code": "Codice",
+      "quantity": "Quantità",
+      "name": "Nome",
+      "price": "Prezzo"
+    },
+    "exportProductToCsv": "Esporta prodotto in CSV"
+  },
+  "importEntries": {
+    "importProducts": "Importa prodotti"
+  },
+  "importEntriesDialog": {
+    "importProducts": "Importa prodotti",
+    "importProductsSubtitle": "Aggiungere prodotti tramite l'importazione di un file .CSV.",
+    "importProductsNewSavedCartSubtitle": "Aggiungere prodotti tramite l'importazione di un file .CSV e la creazione di un nuovo carrello acquisti salvato.",
+    "importProductFileDetails": "Il file di testo deve contenere una lista di prodotto con le colonne richieste separate da virgola: SKU e Quantità.",
+    "selectFile": "Seleziona file",
+    "selectedSuccessfully": "Il file CSV è stato selezionato correttamente.",
+    "savedCartName": "Nome carrello acquisti salvato",
+    "savedCartDescription": "Descrizione carrello acquisti salvata",
+    "optional": "facoltativa",
+    "charactersLeft": "caratteri rimanenti: {{count}}",
+    "cancel": "Annulla",
+    "upload": "Carica",
+    "close": "Chiudi",
+    "summary": {
+      "info": "Non chiudere o aggiornare questa finestra durante l'importazione dei prodotti.",
+      "loadedToCart": "Prodotti caricati nel carrello acquisti {{ cartName }}",
+      "loaded": "Prodotti caricati",
+      "loading": "Prodotti in fase di elaborazione... ({{ count }}/{{ total }})",
+      "successes": "{{ successesCount }} di {{ total }} prodotti importati correttamente.",
+      "warning": "{{ count }} prodotto non importato totalmente.",
+      "warning_other": "{{ count }} prodotti non importati totalmente.",
+      "error": "{{ count }} prodotto non importato.",
+      "error_other": "{{ count }} prodotti non importati.",
+      "messages": {
+        "unknownIdentifier": "SKU prodotto \"{{ productCode}}\" inesistente.",
+        "lowStock": "Quantità per {{ productName }}: {{ quantity }} ridotta a {{ quantityAdded }}.",
+        "noStock": "{{ productName }} attualmente non in stock.",
+        "unknownError": "Problema non identificato con \"{{ productCode }}\".",
+        "limitExceeded": "Impossibile aggiungere \"{{ productCode }}\". Limite superato."
+      },
+      "show": "Mostra",
+      "hide": "Nascondi"
+    }
+  }
+}

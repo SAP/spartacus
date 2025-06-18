@@ -16,6 +16,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-conflict-suggestion',
   templateUrl: './configurator-conflict-suggestion.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorConflictSuggestionComponent {
   @Input() currentGroup: Configurator.Group;

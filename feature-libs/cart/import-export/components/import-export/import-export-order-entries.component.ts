@@ -17,6 +17,7 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-import-export-order-entries',
   templateUrl: './import-export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

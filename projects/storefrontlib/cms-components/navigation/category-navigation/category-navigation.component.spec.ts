@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CmsNavigationComponent, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -12,6 +11,7 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 @Component({
   template: '',
   selector: 'cx-navigation-ui',
+  standalone: false,
 })
 class MockNavigationComponent {
   @Input() node: NavigationNode;
@@ -59,7 +59,7 @@ describe('CategoryNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
         {

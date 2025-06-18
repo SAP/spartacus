@@ -1,4 +1,5 @@
 const wp = require('@cypress/webpack-preprocessor');
+const webpack = require('webpack');
 
 const webpackOptions = {
   resolve: {
@@ -37,7 +38,11 @@ const webpackOptions = {
       },
     ],
   },
-  target: 'node',
+  plugins: [
+    new webpack.NormalModuleReplacementPlugin(/^node:(.*)$/, (resource) => {
+      resource.request = resource.request.replace(/^node:/, '');
+    }),
+  ],
 };
 
 const options = {

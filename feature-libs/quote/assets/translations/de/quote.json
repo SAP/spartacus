@@ -1,0 +1,251 @@
+{
+  "quote": {
+    "confirmDialog": {
+      "name": "Name:",
+      "description": "Beschreibung:",
+      "validity": "Das Angebot ist gültig bis {{ expirationTime }}",
+      "option": {
+        "yes": "Ja",
+        "no": "Nein"
+      },
+      "buyer": {
+        "submit": {
+          "a11y": {
+            "close": "Modalen Dialog zum Senden des Angebots schließen"
+          },
+          "title": "Angebotsanforderung {{ code }} senden?",
+          "confirmNote": "Möchten Sie diese Angebotsanforderung wirklich senden?",
+          "successMessage": "Angebotsanforderung erfolgreich gesendet"
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Modalen Dialog zum Stornieren des Angebots schließen"
+          },
+          "title": "Angebotsanforderung {{ code }} stornieren?",
+          "confirmNote": "Möchten Sie diese Angebotsanforderung wirklich stornieren?",
+          "successMessage": "Angebotsanforderung storniert"
+        }
+      },
+      "buyer_offer": {
+        "edit": {
+          "a11y": {
+            "close": "Modalen Dialog zum Bearbeiten des Angebots schließen"
+          },
+          "title": "Bearbeitung von Angebot {{ code }} bestätigen?",
+          "confirmNote": "Möchten Sie dieses genehmigte Angebot wirklich bearbeiten?",
+          "warningNote": "Dieses Angebot wurde genehmigt. Wenn dieses Angebot bearbeitet wird, ist die Bezahlung erst nach Genehmigung der neuen Änderungen möglich."
+        },
+        "cancel": {
+          "a11y": {
+            "close": "Modalen Dialog zum Stornieren des Angebots schließen"
+          },
+          "title": "Angebot {{ code }} stornieren?",
+          "confirmNote": "Möchten Sie dieses Angebot wirklich stornieren?",
+          "successMessage": "Angebot storniert"
+        },
+        "checkout": {
+          "a11y": {
+            "close": "Modalen Dialog zum Bezahlen des Angebots schließen"
+          },
+          "title": "Angebot {{ code }} bezahlen?",
+          "confirmNote": "Möchten Sie dieses Angebot wirklich akzeptieren und bezahlen?"
+        }
+      },
+      "expired": {
+        "edit": {
+          "a11y": {
+            "close": "Modalen Dialog zum Bearbeiten des Angebots schließen"
+          },
+          "title": "Bearbeitung von Angebot {{ code }} bestätigen?",
+          "confirmNote": "Möchten Sie dieses abgelaufene Angebot wirklich bearbeiten?",
+          "warningNote": "Dieses Angebot ist abgelaufen. Wenn das Angebot bearbeitet wird, ist die Bezahlung erst nach Genehmigung der neuen Änderungen möglich."
+        },
+        "requote": {
+          "a11y": {
+            "close": "Modalen Dialog zum Neuerstellen des Angebots schließen"
+          },
+          "title": "Angebotsanforderung {{ code }} erneut erstellen?",
+          "confirmNote": "Möchten Sie diese Angebotsanforderung wirklich erneut erstellen?",
+          "warningNote": "Dieses Angebot ist abgelaufen. Durch eine Neuerstellung wird eine neue Angebotsanforderung mit denselben Inhalten erstellt, die bearbeitet und dann zur Genehmigung abgesendet werden kann."
+        }
+      },
+      "seller": {
+        "submit": {
+          "a11y": {
+            "close": "Modalen Dialog zum Senden des Angebots schließen"
+          },
+          "title": "Angebot {{ code }} senden?",
+          "confirmNote": "Möchten Sie dieses Angebot wirklich senden?",
+          "warningNote": "Abhängig vom Gesamtwert des Angebots ist möglicherweise eine zusätzliche Genehmigung erforderlich, bevor der Käufer dieses Angebot bezahlen kann.",
+          "successMessage": "Angebot erfolgreich gesendet"
+        }
+      },
+      "sellerapprover": {
+        "approve": {
+          "a11y": {
+            "close": "Modalen Dialog zum Genehmigen des Angebots schließen"
+          },
+          "title": "Angebot {{ code }} genehmigen?",
+          "confirmNote": "Möchten Sie dieses Angebot wirklich genehmigen?",
+          "successMessage": "Angebot erfolgreich genehmigt"
+        },
+        "reject": {
+          "a11y": {
+            "close": "Modalen Dialog zum Ablehnen des Angebots schließen"
+          },
+          "title": "Angebot {{ code }} ablehnen?",
+          "confirmNote": "Möchten Sie dieses Angebot wirklich ablehnen?",
+          "successMessage": "Angebot abgelehnt"
+        }
+      },
+      "cancelled": {
+        "requote": {
+          "a11y": {
+            "close": "Modalen Dialog zum Neuerstellen des Angebots schließen"
+          },
+          "title": "Angebotsanforderung {{ code }} erneut erstellen?",
+          "confirmNote": "Möchten Sie diese Angebotsanforderung wirklich erneut erstellen?",
+          "warningNote": "Ihr aktueller Warenkorb wird in einen gespeicherten Warenkorb umgewandelt."
+        }
+      },
+      "all": {
+        "edit": {
+          "a11y": {
+            "close": "Modalen Dialog zum Bearbeiten des Angebots schließen"
+          },
+          "title": "Angebot {{ code }} bearbeiten?",
+          "confirmNote": "Möchten Sie dieses Angebot wirklich bearbeiten?",
+          "warningNote": "Ihr aktueller Warenkorb wird in einen gespeicherten Warenkorb umgewandelt."
+        }
+      }
+    },
+    "comments": {
+      "regionTitle": "Kontakt/Kommentarfeld",
+      "title": "Kontakt",
+      "invalidComment": "Ungültige Eingabe, versuchen Sie es noch einmal...",
+      "allProducts": "Alle Produkte"
+    },
+    "commons": {
+      "requestQuote": "Angebot anfordern",
+      "cart": "Warenkorb",
+      "minRequestInitiationNote": "Mindestens eine Zwischensumme von {{minValue}} $ ist zum Senden eines Angebots erforderlich ",
+      "savedActiveCart": "Ihr aktiver Warenkorb wurde in den gespeicherten Warenkorb {{ code }} umgewandelt"
+    },
+    "header": {
+      "buyerEdit": {
+        "a11y": {
+          "cancel": "Bearbeitung der Angebotskopfinformationen abbrechen",
+          "save": "Angebotskopfinformationen speichern"
+        }
+      },
+      "overview": {
+        "regionTitle": "Zusammenfassung der Angebotsdetails",
+        "id": "Angebots-ID",
+        "status": "Status",
+        "information": "Angebotsinformationen",
+        "name": "Name",
+        "description": "Beschreibung",
+        "charactersLeft": "Zeichen übrig: {{count}}",
+        "priceAndExpiry": "Preis und Ablauf",
+        "estimatedTotal": "Geschätzte Summe",
+        "total": "Gesamtsumme",
+        "expirationTime": "Ablaufdatum",
+        "a11y": {
+          "edit": "Angebotskopfinformationen bearbeiten"
+        },
+        "createdAndUpdated": "Erstellt und aktualisiert",
+        "createdDate": "Erstellt",
+        "lastUpdatedDate": "Zuletzt aktualisiert"
+      }
+    },
+    "httpHandlers": {
+      "cartValidationIssue": "In Zusammenhang mit Ihren Einträgen sind Probleme aufgetreten. Überprüfen Sie Ihren Warenkorb.",
+      "quoteCartIssue": "Keine Änderungen den Warenkorbeinträgen möglich. Gehen Sie zur Kasse",
+      "absoluteDiscountIssue": "Wählen Sie einen Rabatt aus, der den Gesamtwert nicht überschreitet",
+      "expirationDateIssue": "Wählen Sie ein Ablaufdatum in der Zukunft aus",
+      "threshold": {
+        "underThresholdError": "Gesamtpreis des angeforderten Angebots entspricht nicht dem Schwellenwert für das Minimum"
+      },
+      "expired": "Dieses Angebot ist abgelaufen. Sie müssen Ihre Angebotsanforderung erneut senden, um ein weiteres Anbieterangebot zu erhalten.",
+      "downloadPDFError": "Es ist ein Fehler aufgetreten. Die PDF-Datei für den Vorschlagsbeleg kann nicht abgerufen werden."
+    },
+    "items": {
+      "regionTitle": "Warenkorbpositionen"
+    },
+    "links": {
+      "newCart": "Neuer Warenkorb",
+      "quotes": "Angebote",
+      "download": "Vorschlag herunterladen",
+      "a11y": {
+        "newCart": "Erstellen Sie einen neuen leeren Warenkorb, und wechseln Sie zu ihm.",
+        "quotes": "Navigieren Sie zur Ergebnisliste für die Angebotssuche.",
+        "download": "Herunterladen eines Angebotsvorschlags starten"
+      }
+    },
+    "list": {
+      "regionTitle": "Angebotslistenzusammenfassung",
+      "title": "Angebotsliste",
+      "name": "Name",
+      "updated": "Aktualisiert",
+      "sortBy": "Sortieren nach",
+      "sortQuotes": "Angebote sortieren",
+      "empty": "Für dieses Konto gibt es keine Angebotsdatensätze.",
+      "quoteId": "Angebots-ID",
+      "status": "Status",
+      "clickableRow": "Für weitere Angebotsdetails auf die Zeile klicken"
+    },
+    "states": {
+      "BUYER_DRAFT": "Entwurf",
+      "BUYER_SUBMITTED": "Gesendet",
+      "BUYER_ACCEPTED": "Akzeptiert",
+      "BUYER_APPROVED": "Genehmigt",
+      "BUYER_REJECTED": "Abgelehnt",
+      "BUYER_OFFER": "Anbieterangebot",
+      "BUYER_ORDERED": "Bestellt",
+      "SELLER_DRAFT": "Entwurf",
+      "SELLER_REQUEST": "Angefordert",
+      "SELLER_SUBMITTED": "Gesendet",
+      "SELLERAPPROVER_DRAFT": "Entwurf",
+      "SELLERAPPROVER_PENDING": "Genehmigung ausstehend",
+      "SELLERAPPROVER_APPROVED": "Genehmigt",
+      "SELLERAPPROVER_REJECTED": "Abgelehnt",
+      "CREATED": "Erstellt",
+      "CANCELLED": "Storniert",
+      "EXPIRED": "Abgelaufen"
+    },
+    "summary": {
+      "regionTitle": "Bestellungszusammenfassung",
+      "actions": {
+        "APPROVE": "Angebot genehmigen",
+        "CANCEL": "Angebot stornieren",
+        "CHECKOUT": "Akzeptieren und bezahlen",
+        "EDIT": "Angebot bearbeiten",
+        "REJECT": "Angebot ablehnen",
+        "REQUOTE": "Neues Angebot anfordern",
+        "SAVE": "Angebot speichern",
+        "SUBMIT": "Angebot senden",
+        "VIEW": "Angebot anzeigen"
+      },
+      "prices": {
+        "title": "Bestellungszusammenfassung",
+        "subtotal": "Zwischensumme",
+        "productDiscount": "Positionsrabatt",
+        "orderDiscount": "Bestellungsrabatt",
+        "quoteDiscount": "Angebotsrabatt",
+        "total": "Gesamtsumme",
+        "hint": "Die Gesamtsumme enthält keine Steuern"
+      },
+      "sellerEdit": {
+        "discount": "Rabatt",
+        "apply": "Anwenden",
+        "expiryDate": "Ablaufdatum",
+        "discountValidationText": "Geben Sie einen gültigen prozentualen Rabatt ein",
+        "a11y": {
+          "apply": "Klicken, um den eingegebenen Rabattwert auf dieses Angebot anzuwenden",
+          "discount": "Geben Sie einen prozentualen Rabattwert ein, der auf dieses Angebot angewendet werden soll",
+          "expiryDate": "Geben Sie ein Ablaufdatum für dieses Angebot ein"
+        }
+      }
+    }
+  }
+}

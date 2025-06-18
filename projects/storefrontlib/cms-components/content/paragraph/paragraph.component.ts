@@ -19,6 +19,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   selector: 'cx-paragraph',
   templateUrl: './paragraph.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ParagraphComponent {
   protected sanitizer = inject(DomSanitizer);

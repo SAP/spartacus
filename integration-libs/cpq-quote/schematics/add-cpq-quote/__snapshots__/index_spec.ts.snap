@@ -3,7 +3,7 @@
 exports[`Spartacus Cpq-quote CPQ-QUOTE feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
-import { cpqquoteTranslationChunksConfig, cpqquoteTranslations } from "@spartacus/cpq-quote/assets";
+import { cpqquoteTranslationChunksConfig, cpqquoteTranslationsEn } from "@spartacus/cpq-quote/assets";
 import { CpqQuoteRootModule } from "@spartacus/cpq-quote/root";
 
 @NgModule({
@@ -13,7 +13,7 @@ import { CpqQuoteRootModule } from "@spartacus/cpq-quote/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cpqquoteTranslations,
+      resources: { en: cpqquoteTranslationsEn },
       chunks: cpqquoteTranslationChunksConfig,
     },
   })
@@ -43,7 +43,7 @@ exports[`Spartacus Cpq-quote eager loading should import appropriate modules 1`]
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { CpqQuoteModule } from "@spartacus/cpq-quote";
-import { cpqquoteTranslationChunksConfig, cpqquoteTranslations } from "@spartacus/cpq-quote/assets";
+import { cpqquoteTranslationChunksConfig, cpqquoteTranslationsEn } from "@spartacus/cpq-quote/assets";
 import { CpqQuoteRootModule } from "@spartacus/cpq-quote/root";
 
 @NgModule({
@@ -54,7 +54,7 @@ import { CpqQuoteRootModule } from "@spartacus/cpq-quote/root";
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cpqquoteTranslations,
+      resources: { en: cpqquoteTranslationsEn },
       chunks: cpqquoteTranslationChunksConfig,
     },
   })]

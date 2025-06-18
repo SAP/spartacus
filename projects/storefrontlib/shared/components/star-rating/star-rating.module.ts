@@ -6,12 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/index';
 import { StarRatingComponent } from './star-rating.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule, FeaturesConfigModule],
+  imports: [CommonModule, IconModule, I18nModule],
   declarations: [StarRatingComponent],
   exports: [StarRatingComponent],
 })

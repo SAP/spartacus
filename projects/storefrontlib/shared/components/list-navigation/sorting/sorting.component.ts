@@ -17,6 +17,7 @@ import { SortModel } from '@spartacus/core';
   selector: 'cx-sorting',
   templateUrl: './sorting.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SortingComponent {
   @Input()

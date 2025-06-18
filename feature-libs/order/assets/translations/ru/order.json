@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "Заказ №",
+    "orderNumber": "Номер заказа",
+    "replenishmentId": "Пополнение №",
+    "purchaseOrderId": "Заказ на покупку №",
+    "purchaseOrderNumber": "Номер заказа на покупку",
+    "emptyPurchaseOrderId": "Нет",
+    "none": "Нет {{value}}",
+    "placed": "Размещено",
+    "placedBy": "Кем размещено",
+    "unit": "Единица",
+    "costCenter": "МВЗ",
+    "costCenterAndUnit": "МВЗ / единица",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "Метод оплаты",
+    "payByAccount": "Оплатить со счета",
+    "paidByCreditCard": "(оплачено картой)",
+    "status": "Статус",
+    "active": "Активно",
+    "shippedOn": "Дата отправки",
+    "shippingMethod": "Метод доставки",
+    "placedOn": "Дата размещения",
+    "startOn": "Дата начала",
+    "nextOrderDate": "Дата следующего заказа",
+    "frequency": "Периодичность",
+    "cancelled": " Отменено",
+    "deliveryStatus_IN_TRANSIT": "В пути",
+    "deliveryStatus_READY_FOR_PICKUP": "Готово к вывозу",
+    "deliveryStatus_READY_FOR_SHIPPING": "Готово к отправке",
+    "deliveryStatus_WAITING": "В ожидании",
+    "deliveryStatus_DELIVERING": "Доставка выполняется",
+    "deliveryStatus_PICKPACK": "Подготовка к отправке",
+    "deliveryStatus_PICKUP_COMPLETE": "Вывоз завершен",
+    "deliveryStatus_DELIVERY_COMPLETED": "Доставка завершена",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Проблема при оплате",
+    "deliveryStatus_IN_PROCESS": "Обработка заказа",
+    "deliveryStatus_READY": "Обработка заказа",
+    "deliveryStatus_DELIVERY_REJECTED": "Доставка отклонена",
+    "deliveryStatus_SHIPPED": "Отправлено",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Проблема с налогами",
+    "deliveryStatus_CANCELLED": "Отменено",
+    "statusDisplay_cancelled": "Отменено",
+    "statusDisplay_cancelling": "Ожидает отмены",
+    "statusDisplay_completed": "Завершено",
+    "statusDisplay_created": "Создано",
+    "statusDisplay_error": "Ожидает",
+    "statusDisplay_Error": "Ожидает",
+    "statusDisplay_processing": "Ожидает",
+    "statusDisplay_open": "Открыто",
+    "statusDisplay_pending": {
+      "approval": "Ожидает утверждения",
+      "merchant": {
+        "approval": "Ожидает утверждения продавца"
+      }
+    },
+    "statusDisplay_approved": "Утверждено",
+    "statusDisplay_rejected": "Отклонено",
+    "statusDisplay_merchant": {
+      "approved": "Продавец утвердил",
+      "rejected": "Продавец отклонил"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Направлено администратору"
+    },
+    "consignmentTracking": {
+      "action": "Отслеживать пакет",
+      "dialog": {
+        "header": "Информация для отслеживания",
+        "shipped": "Отправлено",
+        "estimate": "Предполагаемая доставка",
+        "carrier": "Служба доставки",
+        "trackingId": "Номер для отслеживания",
+        "noTracking": "Пакет не отправлен со склада. Информация для отслеживания будет доступна после его отправки.",
+        "loadingHeader": "Отслеживание поставки"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Запросить возврат",
+      "cancelAction": "Отменить позиции",
+      "item": "Позиция",
+      "itemPrice": "Цена позиции",
+      "quantity": "Максимальное количество",
+      "returnQty": "Количество для возврата",
+      "cancelQty": "Количество для отмены",
+      "setAll": "Установить все количества на максимальные",
+      "totalPrice": "Итого",
+      "submit": "Отправить запрос",
+      "submitDescription": "Отправить запрос. Позиции на этой странице будут включены в запрос на отмену.",
+      "returnSuccess": "Запрос на возврат ({{rma}}) отправлен",
+      "cancelSuccess": "Запрос на отмену отправлен (исходный заказ {{orderCode}} будет обновлен) "
+    },
+    "cancelReplenishment": {
+      "title": "Отменить пополнение",
+      "description": "Отменить все будущие заказы на пополнение?",
+      "accept": "Да",
+      "reject": "Нет",
+      "cancelSuccess": "Заказ на пополнение №{{replenishmentOrderCode}} отменен"
+    },
+    "caption": "Содержимое заказа."
+  },
+  "orderHistory": {
+    "orderHistory": "История заказов",
+    "orderId": "Заказ №",
+    "emptyPurchaseOrderId": "Нет",
+    "date": "Дата",
+    "status": "Статус",
+    "PONumber": "Номер заказа на покупку",
+    "total": "Итого",
+    "noOrders": "Нет записей заказов для этой учетной записи.",
+    "noReplenishmentOrders": "Нет записей заказов на пополнение для этой учетной записи.",
+    "startShopping": "Начать покупки",
+    "sortBy": "Сортировать по",
+    "sortOrders": "Сортировать заказы",
+    "replenishmentOrderHistory": "История заказов на пополнение",
+    "replenishmentOrderId": "Пополнение №",
+    "purchaseOrderNumber": "ЗП №",
+    "costCenter": "МВЗ",
+    "startOn": "Дата начала",
+    "frequency": "Периодичность",
+    "nextOrderDate": "Дата следующего заказа",
+    "cancel": "Отменить",
+    "cancelled": "Отменено",
+    "replenishmentHistory": "История пополнения",
+    "notFound": "Заказы не найдены",
+    "actions": "Операции"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "ВСЕ ЗАКАЗЫ ({{param}})",
+      "OrderReturnRequestListComponent": "ВОЗВРАТЫ ({{param}})"
+    },
+    "tabPanelContainerRegion": "Группа со сведениями истории заказов",
+    "tabPanelContainerRegionGroup": "Группа со сведениями истории заказов"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Возврат №",
+    "orderId": "Заказ №",
+    "date": "Дата создания",
+    "status": "Статус",
+    "sortBy": "Сортировать по",
+    "sortReturns": "Сортировать возвраты",
+    "statusDisplay_APPROVAL_PENDING": "Ожидает утверждения",
+    "statusDisplay_CANCELED": "Отменено",
+    "statusDisplay_CANCELLING": "Отмена",
+    "statusDisplay_WAIT": "Ожидание",
+    "statusDisplay_RECEIVED": "Получено",
+    "statusDisplay_RECEIVING": "Получение",
+    "statusDisplay_APPROVING": "Утверждение",
+    "statusDisplay_REVERSING_PAYMENT": "Сторнирование платежа",
+    "statusDisplay_PAYMENT_REVERSED": "Платеж сторнирован",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Ошибка сторнирования платежа",
+    "statusDisplay_REVERSING_TAX": "Сторнирование налога",
+    "statusDisplay_TAX_REVERSED": "Налог сторнирован",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Ошибка сторнирования налога",
+    "statusDisplay_COMPLETED": "Завершено"
+  },
+  "returnRequest": {
+    "returnRequestId": "Запрос на возврат №",
+    "orderCode": "По заказу №",
+    "status": "Статус возврата",
+    "cancel": "Отменить запрос на возврат",
+    "item": "Описание",
+    "itemPrice": "Цена позиции",
+    "returnQty": "Количество возврата",
+    "total": "Итого",
+    "summary": "Итого к возврату",
+    "subtotal": "Промежуточная сумма",
+    "deliveryCode": "Стоимость доставки",
+    "estimatedRefund": "Предполагаемое возмещение",
+    "note": "Итоговые суммы являются предполагаемыми и не включают применимые налоги и другие сборы.",
+    "cancelSuccess": "Запрос на возврат ({{rma}}) отменен",
+    "caption": "Содержимое заказа."
+  },
+  "reorder": {
+    "button": "Заказать повторно",
+    "dialog": {
+      "reorderProducts": "Заказать продукты повторно",
+      "messages": {
+        "reviewConfiguration": "Ошибка с конфигурацией \"{{ productCode}}\".",
+        "lowStock": "Количество {{ productName }}: {{ quantity }}) сокращено до {{ quantityAdded }}.",
+        "noStock": "{{ productName }} сейчас не в наличии.",
+        "pricingError": "Проблема при расчете цены для: \"{{ productCode }}\".",
+        "unresolvableIssues": "Неизвестная проблема с: {{ productCode }}.",
+        "success": "Продукты добавлены в корзину"
+      },
+      "areYouSureToReplaceCart": "Текущая корзина будет заменена новыми позициями. Продолжить?",
+      "cancel": "Отменить",
+      "continue": "Продолжить"
+    }
+  }
+}

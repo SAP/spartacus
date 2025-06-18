@@ -1,6 +1,4 @@
 %cx-my-preferred-store {
-  @import 'bootstrap/scss/buttons';
-
   .cx-store-opening-hours-toggle {
     @include type('6');
     color: $cx-color-link-primary;
@@ -30,9 +28,7 @@
       margin-bottom: 0;
       color: var(--cx-color-primary);
 
-      @include forFeature('a11yImproveContrast') {
-        @include type('2');
-      }
+      @include type('2');
     }
     [data-test-id='preferredStoreAddressBook'] .cx-store-name {
       font-weight: 700;
@@ -40,8 +36,6 @@
     }
     cx-card {
       .cx-card-actions {
-        @extend .btn, .btn-sm, .btn-block !optional;
-        @extend .btn-outline-text !optional;
         border-width: 2px;
         border-style: solid;
         text-decoration: none;

@@ -1,14 +1,14 @@
 <ng-container>
   <div
     [cxFocus]="focusConfig"
-    class="cx-opf-error-modal"
+    class="modal-dialog modal-dialog-centered cx-opf-error-modal"
     (esc)="dismissModal('Escape click')"
   >
     <div
-      class="cx-opf-error-modal-container"
+      class="modal-content cx-opf-error-modal-container"
       *ngIf="opfErrorDialogOptions$ | async as opfErrorDialogOptions"
     >
-      <div class="cx-opf-error-modal-body modal-body">
+      <div class="modal-body">
         <p class="cx-confirmation">
           {{ opfErrorDialogOptions?.message }}
         </p>

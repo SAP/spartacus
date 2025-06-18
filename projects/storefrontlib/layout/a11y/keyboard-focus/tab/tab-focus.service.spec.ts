@@ -22,6 +22,7 @@ import { TabFocusService } from './tab-focus.service';
     </div>
     <div id="c"></div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

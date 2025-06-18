@@ -22,6 +22,7 @@ const CUSTOM_TEXT = 'customized';
       </ng-container>
     </ng-container>
   `,
+  standalone: false,
 })
 class TestContainerComponent {
   outletRefVisible = true;

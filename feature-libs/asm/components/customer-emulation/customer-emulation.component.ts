@@ -27,6 +27,7 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
+  standalone: false,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
@@ -41,9 +42,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected featureConfig = inject(FeatureConfigService);
-  isShowStyleChangesInASM = this.featureConfig.isEnabled(
-    'showStyleChangesInASM'
-  );
 
   constructor(
     protected asmComponentService: AsmComponentService,

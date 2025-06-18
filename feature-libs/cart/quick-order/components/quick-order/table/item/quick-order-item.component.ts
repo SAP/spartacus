@@ -22,6 +22,7 @@ import { Subscription } from 'rxjs';
   selector: '[cx-quick-order-item], cx-quick-order-item',
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: UntypedFormControl;
@@ -50,7 +51,6 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade
   ) {
-    useFeatureStyles('a11yCartItemsLinksStyles');
     useFeatureStyles('a11yQTY2Quantity');
   }
 

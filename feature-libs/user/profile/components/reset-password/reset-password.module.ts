@@ -14,11 +14,13 @@ import {
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
-  RoutingService,
   provideDefaultConfig,
+  RoutingService,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -37,6 +39,8 @@ import { ResetPasswordComponent } from './reset-password.component';
     SpinnerModule,
     PasswordVisibilityToggleModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

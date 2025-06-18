@@ -1,7 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -36,12 +35,7 @@ describe('PopoverComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        IconModule,
-        KeyboardFocusTestingModule,
-        I18nTestingModule,
-      ],
+      imports: [IconModule, KeyboardFocusTestingModule, I18nTestingModule],
       declarations: [PopoverComponent],
       providers: [
         { provide: PositioningService, useClass: MockPositionService },

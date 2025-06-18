@@ -12,6 +12,7 @@ import { useFeatureStyles } from '@spartacus/core';
   selector: 'cx-quick-order-table',
   templateUrl: './quick-order-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuickOrderTableComponent {
   @Input()

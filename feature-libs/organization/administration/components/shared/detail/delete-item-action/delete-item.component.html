@@ -1,6 +1,6 @@
 <button
   *ngIf="current$ | async as item"
-  class="button active"
+  class="button btn btn-sm active"
   [disabled]="isInEditMode$ | async"
   (click)="delete(item)"
 >

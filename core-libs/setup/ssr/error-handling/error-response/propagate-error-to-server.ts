@@ -19,4 +19,4 @@ import { InjectionToken } from '@angular/core';
  */
 export const PROPAGATE_ERROR_TO_SERVER = new InjectionToken<
   (error: unknown) => void
->('PROPAGATE_ERROR_RESPONSE');
+>('PROPAGATE_ERROR_TO_SERVER');

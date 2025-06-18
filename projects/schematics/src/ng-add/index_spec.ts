@@ -90,7 +90,7 @@ describe('Spartacus Schematics: ng-add', () => {
     )[0];
     const appServerModuleBuffer = tree.read(appServerModulePath);
     expect(appServerModuleBuffer).toBeTruthy();
-    const serverBuffer = tree.read('server.ts');
+    const serverBuffer = tree.read('src/server.ts');
     expect(serverBuffer).toBeTruthy();
 
     if (packageJsonBuffer) {

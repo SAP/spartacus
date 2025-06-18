@@ -33,6 +33,7 @@ const ALL_PRODUCTS_ID = '';
   providers: [
     { provide: MessagingComponent, useClass: MockCxMessagingComponent },
   ],
+  standalone: false,
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -43,6 +44,7 @@ class MockCxMessagingComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

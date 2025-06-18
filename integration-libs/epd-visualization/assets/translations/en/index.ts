@@ -5,7 +5,6 @@
  */
 
 import epdVisualization from './epdVisualization.json';
-
 export const en = {
   epdVisualization,
 };

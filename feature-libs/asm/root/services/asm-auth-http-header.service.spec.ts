@@ -1,5 +1,10 @@
-import { HttpHeaders, HttpRequest } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpHeaders,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthRedirectService,
@@ -71,7 +76,7 @@ describe('AsmAuthHttpHeaderService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         AsmAuthHttpHeaderService,
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
@@ -85,6 +90,8 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

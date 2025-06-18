@@ -18,7 +18,6 @@ import {
   FeatureConfigService,
   isNotNullable,
   Product,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -28,6 +27,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-wishlist',
   templateUrl: './add-to-wish-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
@@ -59,9 +59,7 @@ export class AddToWishListComponent {
     protected wishListFacade: WishListFacade,
     protected currentProductService: CurrentProductService,
     protected authService: AuthService
-  ) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
-  }
+  ) {}
 
   add(product: Product): void {
     if (product.code) {

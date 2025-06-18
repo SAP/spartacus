@@ -70,6 +70,8 @@ export const DISMISS_CONFLICT_DIALOG = '[Configurator] Dismiss conflict dialog';
 
 export const CHECK_CONFLICT_DIALOG = '[Configurator] Check conflict dialog';
 
+export const READ_ATTRIBUTE_DOMAIN = '[Configurator] Read Attribute Domain';
+
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
 
@@ -403,6 +405,20 @@ export class CheckConflictDialoge extends StateUtils.EntitySuccessAction {
   }
 }
 
+export class ReadAttributeDomain extends StateUtils.EntityLoadAction {
+  readonly type = READ_ATTRIBUTE_DOMAIN;
+
+  constructor(
+    public payload: {
+      configuration: Configurator.Configuration;
+      groupId: string;
+      attributeKey: string;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -433,4 +449,5 @@ export type ConfiguratorAction =
   | SetGroupsVisited
   | RemoveProductBoundConfigurations
   | CheckConflictDialoge
-  | DissmissConflictDialoge;
+  | DissmissConflictDialoge
+  | ReadAttributeDomain;

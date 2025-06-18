@@ -29,6 +29,7 @@ export interface SkipFocusConfig {
  */
 @Directive({
   selector: '[cxSkipFocus]',
+  standalone: false,
 })
 export class SkipFocusDirective implements OnChanges {
   @Input('cxSkipFocus') config: SkipFocusConfig = { isEnabled: false };

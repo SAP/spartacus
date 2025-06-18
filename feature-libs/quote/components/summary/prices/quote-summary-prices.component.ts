@@ -11,6 +11,7 @@ import { QuoteFacade } from '@spartacus/quote/root';
 @Component({
   selector: 'cx-quote-summary-prices',
   templateUrl: 'quote-summary-prices.component.html',
+  standalone: false,
 })
 export class QuoteSummaryPricesComponent {
   protected quoteFacade = inject(QuoteFacade);

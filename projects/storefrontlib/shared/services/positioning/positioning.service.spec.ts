@@ -14,6 +14,7 @@ import { PositioningService } from './positioning.service';
       style="position:absolute;top:0;left:0; display: inline-block; height: 50px; width: 100px; margin-top: 10px; margin-left: 20px"
     ></div>
   `,
+  standalone: false,
 })
 class TestComponent {}
 

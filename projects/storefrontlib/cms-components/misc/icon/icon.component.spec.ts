@@ -15,6 +15,7 @@ import { IconModule } from './icon.module';
     <div cxIcon type="CART"></div>
     <p class="original" cxIcon="CART"></p>
   `,
+  standalone: false,
 })
 class MockIconTestComponent {}
 

@@ -1,0 +1,13 @@
+{
+  "opfPayment": {
+    "errors": {
+      "proceedPayment": "Jelenleg nem tudjuk feldolgozni ezt a fizetési lehetőséget. Próbálja újra később, vagy válasszon egy másik fizetési lehetőséget.",
+      "cancelPayment": "Törölte a fizetést. A rendelés folytatásához próbálja újra vagy válasszon egy másik fizetési lehetőséget.",
+      "cardExpired": "A kártya lejárt.",
+      "insufficientFunds": "Nincs elég fedezet.",
+      "invalidCreditCard": "Érvénytelen hitelkártya. Ellenőrizze a kártyaadatokat.",
+      "unknown": "Ismeretlen hiba történt a fizetés lekérésekor. Forduljon a támogatáshoz.",
+      "cardReportedLost": "A kártyát elveszettként jelentették."
+    }
+  }
+}

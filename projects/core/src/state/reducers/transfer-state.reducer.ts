@@ -41,7 +41,7 @@ export function getTransferStateReducer(
 
 export function getServerTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType }
+  keys: { [key: string]: StateTransferType | undefined }
 ) {
   const transferStateKeys = filterKeysByType(
     keys,
@@ -63,7 +63,7 @@ export function getServerTransferStateReducer(
 
 export function getBrowserTransferStateReducer(
   transferState: TransferState,
-  keys: { [key: string]: StateTransferType },
+  keys: { [key: string]: StateTransferType | undefined },
   isLoggedIn: boolean
 ) {
   const transferStateKeys = filterKeysByType(

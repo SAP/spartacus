@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Název",
+    "cartDescription": "Popis",
+    "cartId": "ID",
+    "dateSaved": "Datum uložení",
+    "items": "Položky",
+    "quantity": "Množství",
+    "total": "Celkem",
+    "editSavedCart": "Upravit uložený košík",
+    "deleteSavedCart": "Odstranit uložený košík",
+    "addSelectedItems": "Přidat vybrané položky",
+    "emptyCartItems": "Vyjmout položky z košíku"
+  },
+  "savedCartList": {
+    "savedCarts": "Uložené košíky ({{count}})",
+    "cartName": "Název",
+    "cartId": "ID",
+    "dateSaved": "Datum uložení",
+    "cartDescription": "Popis",
+    "quantity": "Množství",
+    "quantityFull": "Množství",
+    "total": "Celkem",
+    "actions": "Akce",
+    "makeCartActive": "Aktivovat košík",
+    "notFound": "Nebyly nalezeny žádné uložené košíky",
+    "swapCartNoActiveCart": "Stávající  košík byl úspěšně aktivován uživatelem {{cartName}}.",
+    "swapCartWithActiveCart": "Stávající košík byl úspěšně aktivován uživatelem {{cartName}}. Vaše dřívější položky byly uloženy do košíku {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Položky z vašeho košíku byly úspěšně uloženy na později do košíku „{{cartName}}“"
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Uložit na později",
+    "itemsSavedForLater": "Všechny položky z vašeho košíku byly uloženy na později.",
+    "savedCartName": "Název uloženého košíku",
+    "savedCartDescription": "Popis uloženého košiku",
+    "optional": "volitelné",
+    "charactersLeft": "zbývá znaků: {{count}}",
+    "cancel": "Zrušit",
+    "save": "Uložit",
+    "restore": "Obnovit",
+    "followingCartDelete": "Následující uložený košík bude odstraněn",
+    "followingCartRestore": "Následující uložený košík bude obnoven jako aktivní košík",
+    "delete": "Vymazat",
+    "deleteCartSuccess": "Košík byl úspěšně odstraněn",
+    "editCartSuccess": "Košík byl úspěšně upraven",
+    "editSavedCart": "Upravit uložený košík",
+    "deleteSavedCart": "Odstranit uložený košík",
+    "restoreSavedCart": "Obnovit uložený košík",
+    "name": "Název",
+    "id": "ID",
+    "description": "Popis",
+    "quantity": "Množství",
+    "quantityFull": "Množství",
+    "total": "Celkem",
+    "keepCopySavedCart": "Zachovat kopii tohoto košíku v seznamu uložených košíků",
+    "defaultCloneCartName": "Kopie {{name}}",
+    "nameOfCloneCart": "Název zkopírovaného košíku"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Uložené košíky",
+    "saveCartForLater": "Uložit košík na později"
+  }
+}

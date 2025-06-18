@@ -27,6 +27,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-consignment-tracking',
   templateUrl: './consignment-tracking.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentStatus: string[] = [

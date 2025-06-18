@@ -10,6 +10,7 @@ import { Component, Input, NgModule, Output } from '@angular/core';
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-split-view',
+  standalone: false,
 })
 export class MockSplitViewComponent {
   @Input() hideMode;
@@ -18,6 +19,7 @@ export class MockSplitViewComponent {
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-view',
+  standalone: false,
 })
 export class MockViewComponent {
   @Input() position: number;

@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Ügyfélszolgálat",
+    "showMore": "Több megjelenítése",
+    "showMoreLabel": "Navigálás az ügyfélszolgálati kérelmek előzményeire",
+    "changedOn": "Módosítás dátuma: {{value}}",
+    "ticketId": "Azonosító: {{value}}",
+    "subjectLabel": "Tárgy",
+    "idLabel": "Ügyfélszolgálati azonosító"
+  }
+}

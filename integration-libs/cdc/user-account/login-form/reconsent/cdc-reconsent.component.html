@@ -1,12 +1,12 @@
 <div
-  class="cx-anonymous-consent-dialog"
+  class="modal-dialog modal-dialog-centered modal-lg cx-anonymous-consent-dialog"
   [cxFocus]="focusConfig"
   (esc)="dismissDialog('Escape pressed', reconsentEvent.errorMessage)"
 >
-  <div class="cx-dialog-content">
+  <div class="modal-content cx-dialog-content">
     <!-- Modal Header -->
     <ng-container *ngIf="loaded$ | async; else loading">
-      <div class="cx-dialog-header">
+      <div class="modal-header cx-dialog-header">
         <h3>
           {{ 'reconsent.dialog.title' | cxTranslate }}
         </h3>
@@ -30,7 +30,10 @@
       </div>
       <div class="cx-dialog-buttons"></div>
       <!-- Modal Body -->
-      <div class="cx-dialog-body" *ngIf="templateList$ | async as templateList">
+      <div
+        class="modal-body cx-dialog-body"
+        *ngIf="templateList$ | async as templateList"
+      >
         <div
           class="cx-dialog-row col-sm-12 col-md-6"
           *ngFor="let consentTemplate of templateList"
@@ -38,6 +41,9 @@
           <cx-consent-management-form
             [consentTemplate]="consentTemplate"
             (consentChanged)="onConsentChange($event)"
+            [showMandatory]="
+              requiredReconsents.includes(consentTemplate.id ?? '')
+            "
           ></cx-consent-management-form>
         </div>
       </div>

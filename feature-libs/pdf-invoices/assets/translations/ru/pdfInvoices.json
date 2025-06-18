@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Невозможно получить счета, убедитесь, что активирован счет SAP и API для счетов.",
+    "invoicesLoadingError": "Что-то пошло не так. Невозможно просмотреть счета для заказа",
+    "invoicesTable": {
+      "header": "Счета",
+      "label": "Таблица счетов",
+      "invoiceId": "Счет №",
+      "createdAt": "Дата",
+      "netAmount": "Сумма нетто",
+      "totalAmount": "Общая сумма",
+      "attachment": "Выгрузить счет",
+      "download": "Выгрузить",
+      "attachmentDescription": "Выгрузить PDF для счета {{id}}.",
+      "noneFound": "Счета не найдены"
+    },
+    "downloadPDFError": "Что-то пошло не так. Невозможно получить PDF счета.",
+    "sortBy": "Сортировать по",
+    "sortInvoices": "Сортировать счета",
+    "sorts": {
+      "byCreatedAtAsc": "Дата по возрастанию",
+      "byCreatedAtDesc": "Дата по убыванию",
+      "byInvoiceIdAsc": "Номер счета по возрастанию",
+      "byInvoiceIdDesc": "Номер счета по убыванию",
+      "byNetAmountAsc": "Сумма нетто по возрастанию",
+      "byNetAmountDesc": "Сумма нетто по убыванию",
+      "byTotalAmountAsc": "Общая сумма по возрастанию",
+      "byTotalAmountDesc": "Общая сумма по убыванию"
+    }
+  }
+}

@@ -19,18 +19,19 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
-import { BREAKPOINT, BreakpointService } from '../../../layout';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { map } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BREAKPOINT, BreakpointService } from '../../../layout';
 
 const ARIA_LABEL = 'aria-label';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
+  standalone: false,
 })
 export class NgSelectA11yDirective implements AfterViewInit {
   /**
@@ -47,6 +48,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
   private featureConfigService = inject(FeatureConfigService);
 
   @HostListener('open')
+  //TODO: CXSPA-9005: Remove this method in next major release
+  /**
+   * @deprecated since 2211.33
+   */
   onOpen() {
     if (!this.featureConfigService?.isEnabled('a11yNgSelectOptionsCount')) {
       return;
@@ -91,19 +96,38 @@ export class NgSelectA11yDirective implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    const divCombobox =
+    const inputCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
-    const inputElement = divCombobox.querySelector('input');
 
-    this.renderer.setAttribute(inputElement, 'role', 'combobox');
-    this.renderer.setAttribute(inputElement, 'aria-expanded', 'false');
+    this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
+    this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
+    if (
+      this.featureConfigService?.isEnabled(
+        'a11yNgSelectAriaLabelDropdownCustomized'
+      )
+    ) {
+      this.customizeNgSelectAriaLabelDropdown();
+    }
 
     const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
     const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));
     merge(isOpened$, isClosed$)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
-        this.renderer.setAttribute(inputElement, 'aria-expanded', state);
+        this.renderer.setAttribute(inputCombobox, 'aria-expanded', state);
+        if (
+          ariaControls &&
+          this.featureConfigService.isEnabled('a11yNgSelectAriaControls')
+        ) {
+          // Delay execution to come after the ng-select's own 'aria-controls' logic
+          setTimeout(() => {
+            this.renderer.setAttribute(
+              inputCombobox,
+              'aria-controls',
+              ariaControls
+            );
+          });
+        }
       });
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
@@ -111,24 +135,20 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
-      this.renderer.setAttribute(divCombobox, ARIA_LABEL, ariaLabel);
+      this.renderer.setAttribute(inputCombobox, ARIA_LABEL, ariaLabel);
     }
 
     if (ariaControls) {
-      this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);
+      this.renderer.setAttribute(inputCombobox, 'aria-controls', ariaControls);
     }
 
-    if (
-      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputElement.readOnly &&
-      isPlatformBrowser(this.platformId)
-    ) {
+    if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
         .pipe(filter(Boolean), take(1))
         .subscribe(() => {
           const selectObserver = new MutationObserver((changes, observer) => {
-            this.appendValueToAriaLabel(changes, observer, divCombobox);
+            this.appendValueToAriaLabel(changes, observer, inputCombobox);
           });
           selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
@@ -138,6 +158,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
     }
   }
 
+  //TODO: CXSPA-9005: Remove this method in next major release
+  /**
+   * @deprecated since 2211.33
+   */
   appendAriaLabelToOptions(
     _changes: MutationRecord[],
     observerInstance: MutationObserver
@@ -189,5 +213,14 @@ export class NgSelectA11yDirective implements AfterViewInit {
       );
     }
     observer.disconnect();
+  }
+
+  customizeNgSelectAriaLabelDropdown() {
+    this.translationService
+      .translate('common.ngSelectDropdownOptionsList')
+      .pipe(take(1))
+      .subscribe((translation) => {
+        this.selectComponent.ariaLabelDropdown = translation;
+      });
   }
 }

@@ -1,0 +1,8 @@
+{
+  "s4omScheduleLines": {
+    "quantity": "-  Кол.",
+    "a11y": {
+      "scheduleLineEntryInfo": "Количество {{ quantity }} будет доставлено {{ date }}"
+    }
+  }
+}

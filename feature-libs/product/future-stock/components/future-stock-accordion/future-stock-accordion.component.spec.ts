@@ -11,6 +11,7 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class OrderCancellationGuard {
     protected router: Router
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return this.orderAmendService.getForm().pipe(
       map((form) => {
         if (!form.valid) {

@@ -15,6 +15,7 @@ import { OrderAmendService } from '../../amend-order.service';
   selector: 'cx-return-order',
   templateUrl: './return-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReturnOrderComponent {
   orderCode: string;

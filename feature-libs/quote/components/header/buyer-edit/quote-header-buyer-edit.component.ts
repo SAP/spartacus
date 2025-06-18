@@ -22,6 +22,7 @@ export interface EditCard {
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   templateUrl: './quote-header-buyer-edit.component.html',
+  standalone: false,
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;

@@ -9,18 +9,14 @@ import {
   ChangeDetectorRef,
   Component,
   DoCheck,
+  ElementRef,
+  HostAttributeToken,
   HostBinding,
   Input,
-  KeyValueDiffer,
-  KeyValueDiffers,
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import {
-  FeatureConfigService,
-  isObject,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { FeatureConfigService, isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -37,16 +33,17 @@ import { map, startWith } from 'rxjs/operators';
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);
 
-  constructor(
-    protected ChangeDetectionRef: ChangeDetectorRef,
-    protected keyValueDiffers: KeyValueDiffers
-  ) {
-    useFeatureStyles('a11yFormErrorMuteIcon');
-  }
+  protected elementRef = inject(ElementRef, { optional: true });
+  protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
+    optional: true,
+  });
+
+  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
 
   _control: UntypedFormControl | AbstractControl;
 
@@ -55,8 +52,6 @@ export class FormErrorsComponent implements DoCheck {
    * the error key and error details.
    */
   errorsDetails$: Observable<Array<[string, string | boolean]>>;
-
-  protected differ: KeyValueDiffer<any, any>;
 
   // TODO: (CXSPA-7315) Remove feature toggle in the next major
   /**
@@ -87,8 +82,6 @@ export class FormErrorsComponent implements DoCheck {
 
     this._control = control;
 
-    this.differ = this.keyValueDiffers.find(this.control).create();
-
     this.errorsDetails$ = control?.statusChanges.pipe(
       startWith({}),
       map(() => control.errors || {}),
@@ -102,14 +95,24 @@ export class FormErrorsComponent implements DoCheck {
     return this._control;
   }
 
+  private previousTouchedState: boolean = false;
+
   ngDoCheck(): void {
-    const changes = this.differ?.diff(this.control);
-    if (changes) {
-      changes.forEachChangedItem((r) => {
-        if (r?.key === 'touched') {
+    if (this.control.touched !== this.previousTouchedState) {
+      if (
+        this.featureConfigService.isEnabled('a11yImprovedErrorMessage') &&
+        this.elementRef?.nativeElement?.getAttribute('aria-live') === 'polite'
+      ) {
+        // due to the way we detect changes here, JAWS doesn't always respect
+        // aria live `polite`, so we need to move this in the next event-loop queue
+        setTimeout(() => {
+          this.previousTouchedState = this.control.touched;
           this.ChangeDetectionRef.markForCheck();
-        }
-      });
+        });
+      } else {
+        this.previousTouchedState = this.control.touched;
+        this.ChangeDetectionRef.markForCheck();
+      }
     }
   }
   /**
@@ -137,5 +140,18 @@ export class FormErrorsComponent implements DoCheck {
   @HostBinding('class.cx-visually-hidden') get hidden() {
     return !(this.invalid && (this.touched || this.dirty));
   }
-  @HostBinding('attr.role') role = 'alert';
+  @HostBinding('attr.role') role = this.featureConfigService.isEnabled(
+    'a11yImprovedErrorMessage'
+  )
+    ? null
+    : 'alert';
+
+  @HostBinding('attr.aria-live') ariaLive =
+    !this.featureConfigService.isEnabled('a11yImprovedErrorMessage')
+      ? this.ariaLiveToken
+      : // If no aria-live value is set add 'polite' as a default. This is preferred over setting
+        // role='alert' so that screen readers do not interrupt the current task to read this aloud.
+        (this.ariaLiveToken ?? 'polite');
+
+  @HostBinding('attr.aria-atomic') atomic = true;
 }

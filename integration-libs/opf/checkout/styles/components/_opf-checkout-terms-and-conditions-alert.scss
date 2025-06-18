@@ -1,4 +1,16 @@
 %cx-opf-checkout-terms-and-conditions-alert {
+  &.for-mobile {
+    display: none;
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
+  }
+  &.for-desktop {
+    display: block;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
   .alert {
     padding-inline-end: 3rem;
     .close {
@@ -12,7 +24,7 @@
     .message {
       padding: 10px 0;
       margin: 0;
-      text-align: left;
+      text-align: start;
     }
   }
 }

@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Tratamiento",
+    "titleOptional": "Tratamiento (opcional)",
+    "defaultTitle": "Tratamiento",
+    "firstName": {
+      "label": "Nombre",
+      "placeholder": "Nombre"
+    },
+    "lastName": {
+      "label": "Apellido",
+      "placeholder": "Apellido"
+    },
+    "address1": "Dirección 1",
+    "address2": "Dirección 2 (opcional)",
+    "country": "País/Región",
+    "city": {
+      "label": "Ciudad",
+      "placeholder": "Ciudad"
+    },
+    "state": "Estado",
+    "zipCode": {
+      "label": "Código postal",
+      "placeholder": "Código postal"
+    },
+    "phoneNumber": {
+      "label": "Número de teléfono (opcional)",
+      "placeholder": "Por ejemplo: (123) - 456 - 7890"
+    },
+    "cellphone": {
+      "label": "Número de teléfono móvil (opcional)",
+      "placeholder": "Por ejemplo: (123) - 456 - 7890"
+    },
+    "saveAsDefault": "Guardar como predeterminada",
+    "chooseAddress": "Elegir dirección",
+    "streetAddress": "Dirección postal",
+    "aptSuite": "Número de apartamento",
+    "selectOne": "Seleccionar uno...",
+    "setAsDefault": "Establecer como dirección de entrega predeterminada",
+    "titleRequired": "El tratamiento es obligatorio",
+    "userAddressAddSuccess": "La nueva dirección se agregó correctamente",
+    "userAddressUpdateSuccess": "Dirección actualizada correctamente.",
+    "userAddressDeleteSuccess": "Dirección borrada correctamente.",
+    "invalidAddress": "Dirección no válida"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Agregar una dirección de entrega nueva",
+    "editDeliveryAddress": "Editar dirección de entrega",
+    "areYouSureToDeleteAddress": "¿Confirma que desea borrar esta dirección?",
+    "addNewAddress": "Agregar dirección nueva",
+    "addAddress": "Agregar dirección",
+    "updateAddress": "Actualizar dirección",
+    "backToAddressList": "Volver a la lista de direcciones",
+    "defaultDeliveryAddress": "Dirección de entrega predeterminada",
+    "additionalDeliveryAddress": "Dirección de entrega adicional {{number}}"
+  },
+  "addressCard": {
+    "default": "PREDETERMINADA",
+    "selected": "Seleccionada",
+    "selectedAddress": "Dirección seleccionada",
+    "setAsDefault": "Definir como predeterminada",
+    "shipTo": "Entrega",
+    "billTo": "Facturación",
+    "phoneNumber": "T",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Verifique su dirección",
+    "ensureAccuracySuggestChange": "Para garantizar la fiabilidad de entrega, sugerimos el cambio seleccionado a continuación.",
+    "chooseAddressToUse": "Elija la dirección que desea usar:",
+    "suggestedAddress": "Dirección sugerida",
+    "enteredAddress": "Dirección ingresada",
+    "editAddress": "Editar dirección",
+    "saveAddress": "Guardar dirección"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "La dirección {{ streetAddress }} se estableció correctamente como predeterminada"
+  }
+}

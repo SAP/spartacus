@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Сведения о сервисе",
+    "serviceScheduleHeading": "График сервиса - дата и время",
+    "address": "Совпадает с адресом доставки",
+    "serviceLocationHeading": "Место сервиса",
+    "datePickerLabel": "Плановая дата сервиса",
+    "timePickerLabel": "Плановое время сервиса",
+    "unknownError": "Произошла ошибка. Обратитесь в службу поддержки.",
+    "productDeliveryOptions": "Опции доставки для продуктов",
+    "serviceDeliveryOption": "Опция доставки для сервисов",
+    "productDeliveryMethods": "Методы доставки для продуктов",
+    "serviceDeliveryMethod": "Метод доставки для сервисов"
+  },
+  "cancelService": {
+    "heading": "Следующие продукты будут включены в запрос на отмену",
+    "cancelReason": "Причина отмены сервиса",
+    "optional": "(необязательно)",
+    "action": "Отменить сервис",
+    "back": "Назад",
+    "Submit": "Отправить запрос",
+    "cancelServiceSuccess": "Сервис отменен",
+    "unknownError": "Произошла ошибка. Обратитесь в службу поддержки.",
+    "ServiceTime": "Время сервиса",
+    "ServiceLocation": "Место сервиса",
+    "ServiceDate": "Дата сервиса",
+    "SubmitRequest": "Отправить запрос",
+    "serviceNotRcancelable": "Отмена сервиса невозможна",
+    "charactersLeft": "осталось символов: {{count}}",
+    "Services": "Сервисы"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Перепланировать сервис",
+    "headerLabel": "Сервисы",
+    "contentLabel": "Перепланировать сервис - выбрать новую дату и время",
+    "datePickerLabel": "Дата сервиса",
+    "timePickerLabel": "Время сервиса",
+    "backButtonLabel": "Назад",
+    "submitButtonLabel": "Отправить запрос",
+    "note": "Обратите внимание, что обработка вашего запроса может занять некоторое время.",
+    "unknownError": "Произошла ошибка. Обратитесь в службу поддержки.",
+    "serviceNotReschedulable": "Изменение планирования сервиса невозможно",
+    "serviceNotAmendable": "Сервис нельзя отменить или перепланировать менее чем за 24 часа до запланированной даты.",
+    "rescheduleSuccess": "Дата и время сервиса изменены."
+  }
+}

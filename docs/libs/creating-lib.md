@@ -36,6 +36,12 @@ These are some naming guidelines for libraries:
 
 Run `nx g @schematics/angular:library <lib-name> --prefix=cx`, move it to the appropriate directory (`feature-libs` or `integration-libs`), and commit.
 
+After creating your library, please run npm install to update `package-lock.json` with information about the new lib. Then please commit changes in the `package-lock.json`.
+
+Note: The npm workspaces feature will create symlinks between the source code folder of your lib and their virtual representations inside `node_modules/@spartacus/<your lib>`. It's needed for symbolic import paths in SCSS to work, e.g. `@import '@spartacus/cart/x/y/z'`
+
+Note 2: If you can't see any changes in `package-lock.json` after adding your library and running npm install, it might be the case that your library folder created outside of the registered npm workspaces. Please make sure your library folder is placed in side one of the directories listed in the "workspaces" property of the main `/package.json` of our monorepo.
+
 ## Aligning with the other libs
 
 In order to be 100% aligned with the existing Spartacus library there are some generated files that should be updated and there are some files that need to be additionally created. Make sure that the `src` folder would not exist in the newly generated library.
@@ -201,8 +207,8 @@ Use the following template:
   "keywords": ["spartacus", "framework", "storefront", "TODO:"],
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "publishConfig": {
@@ -347,7 +353,6 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `ci-scripts/unit-tests.sh`
 
-
 ### Sample data release entry ONLY if applicable
 
 If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then the following is applicable to you.
@@ -402,6 +407,46 @@ There are couple of required changes to make sure schematics will work properly
   - `projects/storefrontapp/tsconfig.server.json`,
   - `projects/storefrontapp/tsconfig.app.prod.json`
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
+  - if the library includes several features and some of them should be installed by default, add them to the `default` array (for 'no-interactive' mode) and add them `checked: true` flag (for interactive prompt). Please note the `Feature1` in the following example:
+  ```json
+  {
+    "$schema": "http://json-schema.org/schema",
+    "id": "ExampleSchematics",
+    "title": "Example Schematics",
+    "type": "object",
+    "properties": {
+      "features": {
+        "type": "array",
+        "uniqueItems": true,
+        "default": ["Feature1"],
+        "items": {
+          "enum": [
+            "Feature1",
+            "Feature2", 
+          ],
+          "type": "string"
+        },
+        "x-prompt": {
+          "message": "Which features would you like to set up?",
+          "type": "list",
+          "items": [
+            {
+              "value": "Feature1",
+              "label": "Feature 1",
+              "checked": true
+            },
+            {
+              "value": "Feature2", 
+              "label": "Feature 2",
+            },
+          ]
+        }
+      },
+      ...
+    }
+  }
+  ```
+  Values from `x-prompt.items` with `checked: true` should reflect the features that will be installed by default in 'no-interactive' mode (`default` array). 
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
 - create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file.

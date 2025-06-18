@@ -18,7 +18,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 describe('Payment Methods', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       visitHomePage();
@@ -29,6 +29,15 @@ describe('Payment Methods', () => {
         cy.visit('/my-account/payment-details');
         cy.location('pathname').should('contain', '/login');
       });
+    });
+  });
+});
+
+describe('Payment Methods', () => {
+  viewportContext(['desktop', 'mobile'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      visitHomePage();
     });
 
     describe('Authenticated user', { testIsolation: false }, () => {
@@ -41,14 +50,18 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      // Core test. Repeat in different view port.
-      paymentMethods.testRenderEmptyPaymentDetailsPage();
+      it('should render page with different number of payment methods', () => {
+        // Core test. Repeat in different view port.
 
-      // Core test. Repeat in different view port.
-      paymentMethods.testRenderOnePaymentMethod();
+        // Render empty payment details page:
+        paymentMethods.testRenderEmptyPaymentDetailsPage();
 
-      // Below tests depend on core tests for setup
-      it('should render page with two payment methods', () => {
+        // Render page with only one payment method:
+        paymentMethods.testRenderOnePaymentMethod();
+
+        // Below tests depend on core tests for setup
+
+        // Render page with two payment methods:
         cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);
         visitPaymentDetailsPage();

@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
@@ -47,7 +46,7 @@ describe('RoutingService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), RouterTestingModule],
+      imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
         WindowRef,

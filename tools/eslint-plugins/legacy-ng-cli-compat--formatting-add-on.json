@@ -25,26 +25,6 @@
         "named": "never"
       }
     ],
-    "@typescript-eslint/member-delimiter-style": [
-      "error",
-      {
-        "multiline": {
-          "delimiter": "semi",
-          "requireLast": true
-        },
-        "singleline": {
-          "delimiter": "semi",
-          "requireLast": false
-        }
-      }
-    ],
-    "quotes": "off",
-    "@typescript-eslint/quotes": [
-      "error",
-      "single",
-      { "allowTemplateLiterals": true }
-    ],
-    "@typescript-eslint/semi": ["error", "always"],
-    "@typescript-eslint/type-annotation-spacing": "error"
+    "quotes": "off"
   }
 }

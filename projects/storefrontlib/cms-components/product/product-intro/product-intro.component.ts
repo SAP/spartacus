@@ -24,6 +24,7 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-product-intro',
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =

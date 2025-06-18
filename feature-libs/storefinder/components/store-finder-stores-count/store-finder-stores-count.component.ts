@@ -5,13 +5,14 @@
  */
 
 import { Component, OnInit, Optional, inject } from '@angular/core';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-store-finder-stores-count',
   templateUrl: './store-finder-stores-count.component.html',
+  standalone: false,
 })
 export class StoreFinderStoresCountComponent implements OnInit {
   // TODO: CXSPA-6884 Make service required in next major.
@@ -21,9 +22,7 @@ export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
-  constructor(private storeFinderService: StoreFinderService) {
-    useFeatureStyles('a11yStoreFinderAlerts');
-  }
+  constructor(private storeFinderService: StoreFinderService) {}
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();

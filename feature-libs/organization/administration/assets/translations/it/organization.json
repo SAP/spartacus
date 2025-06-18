@@ -1,0 +1,663 @@
+{
+  "organization": {
+    "enabled": "Attivo",
+    "disabled": "Disattivato",
+    "enable": "Attiva",
+    "disable": "Disattiva",
+    "name": "Nome",
+    "code": "Codice",
+    "done": "fine",
+    "cancel": "Annulla",
+    "add": "Aggiungi",
+    "manageUsers": "Gestisci utenti",
+    "create": "Crea {{name}}",
+    "edit": "Modifica",
+    "save": "Salva {{name}}",
+    "delete": "Elimina",
+    "assign": "Gestisci",
+    "active": "Attivo",
+    "status": "Stato",
+    "details": "Dettagli",
+    "messages": {
+      "emptyList": "La lista è vuota"
+    },
+    "userRoles": {
+      "b2bcustomergroup": "Cliente",
+      "b2bapprovergroup": "Approvatore",
+      "b2bmanagergroup": "Responsabile",
+      "b2badmingroup": "Amministratore"
+    },
+    "userRights": {
+      "unitorderviewergroup": "Visualizza ordini a livello di unità"
+    },
+    "breadcrumb": "Organizzazione",
+    "notification": {
+      "noSufficientPermissions": "Autorizzazioni insufficienti per accedere a questa pagina",
+      "notExist": "Questo articolo non esiste",
+      "disabled": "Non è possibile modificare un articolo disattivato"
+    },
+    "confirmation": {
+      "cancel": "ANNULLA",
+      "confirm": "CONFERMA",
+      "disable": "DISATTIVA",
+      "delete": "ELIMINA"
+    },
+    "httpHandlers": {
+      "conflict": {
+        "budget": "Budget con codice {{ code }} già esistente.",
+        "costCenter": "Centro di costo con codice {{ code }} già esistente.",
+        "unit": "Unità organizzativa con UID {{ code }} già esistente.",
+        "user": "Utente con e-mail {{ code }} già esistente",
+        "userGroup": "Gruppo di utenti con ID {{ code }} già esistente",
+        "permission": "Autorizzazione di approvazione con codice {{ code }} già esistente.",
+        "unknown": "Errore di convalida del server."
+      }
+    },
+    "information": "Ulteriori informazioni su {{title}}"
+  },
+  "orgCostCenter": {
+    "groupName": "Centri di costo",
+    "header": "Tutti i centri di costo ({{count}})",
+    "code": "Codice",
+    "active": "Stato",
+    "name": "Nome",
+    "currency": "Valuta",
+    "unit": "Unità sovraordinata",
+    "actions": "",
+    "sortBy": "Ordina per",
+    "sort": {
+      "byName": "Nome",
+      "byUnitName": "Unità",
+      "byCode": "Codice"
+    },
+    "hint": "Tutti gli ordini effettuati tramite l'account acquisti dell'organizzazione sono collegati a un centro di costo a scopo di tracciamento. Ogni unità può avere più centri di costo. Per limitare le spese, ai centri di costo vengono assegnati i budget. Un acquirente seleziona un centro di costo in fase di check-out.",
+    "disable": {
+      "confirm": "Disattiva"
+    },
+    "messages": {
+      "deactivateTitle": "Disattivare questo centro di costo?",
+      "deactivate": "I centri di costo disattivati non possono essere utilizzati per effettuare nuovi ordini. Assicurarsi che l'unità abbia almeno un centro di costo. Gli ordini esistenti non vengono interessati.",
+      "confirmEnabled": "Centro di costo {{ item.name }} attivato correttamente",
+      "confirmDisabled": "Centro di costo {{ item.name }} disattivato correttamente",
+      "update": "Centro di costo {{ item.name }} aggiornato correttamente",
+      "create": "Centro di costo {{ item.name }} creato correttamente"
+    },
+    "info": {
+      "disabledEdit": "Attivare il centro di costo per consentire la modifica.",
+      "disabledEnable": "Prima di poter attivare questo centro di costo è necessario attivare l'unità."
+    },
+    "details": {
+      "title": "Dettagli centro di costo",
+      "subtitle": "Centro di costo: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Modifica centro di costo",
+      "subtitle": "Centro di costo: {{ item.name }}"
+    },
+    "create": {
+      "title": "Crea centro di costo",
+      "subtitle": ""
+    },
+    "budget": {
+      "link": "Budgets"
+    },
+    "breadcrumbs": {
+      "list": "Tutti i centri di costo",
+      "details": "{{name}}",
+      "budgets": "Budgets"
+    }
+  },
+  "orgCostCenterBudgets": {
+    "title": "Gestisci i budget",
+    "subtitle": "Centro di costo: {{ item.name }}",
+    "assigned": "Budget {{ item.name }} assegnato correttamente",
+    "unassigned": "Assegnazione del budget {{ item.name }} annullata correttamente"
+  },
+  "orgCostCenterAssignedBudgets": {
+    "title": "Budget assegnati",
+    "subtitle": "Centro di costo: {{ item.name }}",
+    "assigned": "Budget {{ item.name }} assegnato correttamente",
+    "unassigned": "Assegnazione del budget {{ item.name }} annullata correttamente"
+  },
+  "orgBudget": {
+    "groupName": "Budgets",
+    "header": "Tutti i budget ({{count}})",
+    "code": "Codice",
+    "name": "Nome",
+    "active": "Stato",
+    "currency": "Valuta",
+    "amount": "Importo",
+    "unit": "Unità",
+    "businessUnits": "Unità",
+    "dateRange": "Inizio - Fine",
+    "startDate": "Inizio",
+    "endDate": "Fine",
+    "actions": "",
+    "sortBy": "Ordina per",
+    "sort": {
+      "byName": "Nome",
+      "byUnitName": "Unità",
+      "byCode": "Codice",
+      "byValue": "Valore"
+    },
+    "hint": "I budget impostano i limiti di spesa complessivi e vengono assegnati ai centri di costo. Un acquirente seleziona un centro di costo in fase di check-out.",
+    "details": {
+      "title": "Dettagli budget",
+      "subtitle": "Budget: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Modifica budget",
+      "subtitle": "Budget: {{ item.name }}"
+    },
+    "create": {
+      "title": "Crea budget",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Disattivare questo budget?",
+      "deactivate": "I budget disattivati non si applicano più ai centri di costo a cui sono assegnati. Assicurarsi che il centro di costo associato disponga di almeno un budget.",
+      "confirmEnabled": "Budget {{ item.name }} attivato correttamente",
+      "confirmDisabled": "Budget {{ item.name }} disattivato correttamente",
+      "update": "Budget {{ item.name }} aggiornato correttamente",
+      "create": "Budget {{ item.name }} creato correttamente"
+    },
+    "info": {
+      "disabledEdit": "Attivare il budget per consentire la modifica.",
+      "disabledEnable": "Prima di poter attivare questo budget è necessario attivare l'unità."
+    },
+    "links": {
+      "costCenters": "Centri di costo"
+    },
+    "breadcrumbs": {
+      "list": "Tutti i budget",
+      "details": "{{name}}"
+    }
+  },
+  "orgBudgetAssignedCostCenters": {
+    "title": "Centri di costo",
+    "subtitle": "Budget: {{ item.name }}"
+  },
+  "orgUnit": {
+    "groupName": "Unità",
+    "header": "Tutte le unità ({{count}})",
+    "unit": "Unità",
+    "name": "Nome",
+    "uid": "ID",
+    "approvalProcess": "Processo di approvazione",
+    "parentUnit": "Unità sovraordinata",
+    "active": "Stato",
+    "hint": "Le unità rappresentano reparti, punti vendita, regioni o qualsiasi altro raggruppamento logico significativo per l'utente. I centri di costo e gli indirizzi di consegna disponibili per un acquirente durante il check-out dipendono dalla sua unità. Gli utenti hanno accesso a tutte le unità subordinate dell'unità principale.",
+    "details": {
+      "title": "Dettagli unità",
+      "subtitle": "Unità: {{ item.name }}",
+      "hint": "Le unità rappresentano reparti, punti vendita, regioni o qualsiasi altro raggruppamento logico significativo per l'utente. La disattivazione di un'unità disattiva tutti i relativi elementi subordinati, compresi unità, utenti, approvatori e centri di costo subordinati. Le unità disattivate non possono essere modificate."
+    },
+    "edit": {
+      "title": "Modifica unità",
+      "subtitle": "Unità: {{ item.name }}"
+    },
+    "create": {
+      "title": "Crea unità",
+      "subtitle": ""
+    },
+    "messages": {
+      "deactivateTitle": "Disattivare questa unità?",
+      "deactivate": "La disattivazione di un'unità ha vasti effetti sulla propria organizzazione commerciale. Vengono disattivati anche TUTTI gli utenti, le unità, i budget e i centri di costo subordinati.",
+      "confirmEnabled": "Unità {{item.name}} attivata correttamente",
+      "confirmDisabled": "Unità {{item.name}} disattivata correttamente",
+      "update": "Unità {{ item.name }} aggiornata correttamente",
+      "create": "Unità {{ item.name }} creata correttamente"
+    },
+    "info": {
+      "disabledEdit": "Attivare l'unità per consentire la modifica.",
+      "disabledEnable": "Prima di poter attivare questa unità è necessario attivare l'elemento sovraordinato.",
+      "disabledDisable": "L'unità radice non può essere disattivata."
+    },
+    "links": {
+      "units": "Unità subordinate",
+      "users": "Utenti",
+      "approvers": "Approvatori",
+      "shippingAddresses": "Indirizzi di consegna",
+      "costCenters": "Centri di costo"
+    },
+    "tree": {
+      "expandAll": "Espandi tutto",
+      "collapseAll": "Comprimi tutto",
+      "expand": "Espandi",
+      "collapse": "comprimi",
+      "explore": "Esplora unità subordinate"
+    },
+    "children": {
+      "create": {
+        "title": "Crea unità subordinata",
+        "subtitle": ""
+      },
+      "messages": {
+        "create": "Unità {{ item.name }} creata correttamente"
+      }
+    },
+    "costCenters": {
+      "create": {
+        "title": "Crea centro di costo",
+        "subtitle": ""
+      }
+    },
+    "form": {
+      "parentOrgUnit": "Unità aziendale sovraordinata",
+      "create": "Crea unità",
+      "parentOrgUnitNotes": "Questa unità è l'unità di livello massimo dell'organizzazione. Non può essere assegnata a un'altra unità."
+    },
+    "users": {
+      "header": "Utenti in {{code}}",
+      "changeUserRoles": "Modifica ruoli utente",
+      "newUser": "Nuovo utente"
+    },
+    "assignRoles": {
+      "header": "Gestisci ruoli in {{code}}",
+      "instructions": {
+        "check": "Per assegnare un ruolo a un utente, selezionare la casella di spunta del ruolo.",
+        "uncheck": "Per rimuovere un ruolo, deselezionare la casella di spunta del ruolo.",
+        "changes": "Le modifiche vengono salvate automaticamente."
+      }
+    },
+    "approvers": {
+      "header": "Approvatori in {{code}}",
+      "assign": "Gestisci approvatori",
+      "new": "Nuovo approvatore"
+    },
+    "assignApprovers": {
+      "header": "Gestisci approvatori in {{code}}",
+      "instructions": {
+        "check": "Per assegnare un approvatore a questa unità, selezionare la casella di spunta dell'utente.",
+        "uncheck": "Per rimuovere un approvatore, deleselezionare la casella di spunta dell'utente.",
+        "changes": "Le modifiche vengono salvate automaticamente."
+      },
+      "hint": "Agli utenti visualizzati sotto la lista Approvatori vengono assegnati privilegi di approvazione per gli acquirenti di questa unità e delle unità subordinate. Un utente con ruolo di approvatore è diverso da un approvatore visualizzato sotto la lista Approvatori. Se per un'unità non esiste un approvatore o se gli approvatori non dispongono di sufficienti privilegi di approvazione di acquisto, viene trovato un approvatore più in alto nella gerarchia dell'unità fino alla selezione di un'amministrazione."
+    },
+    "breadcrumbs": {
+      "list": "Tutte le unità",
+      "details": "{{name}}",
+      "children": "Unità subordinate",
+      "users": "Utenti",
+      "approvers": "Approvatori",
+      "addresses": "Indirizzi di consegna",
+      "addressDetails": "{{formattedAddress}}",
+      "costCenters": "Centri di costo"
+    }
+  },
+  "orgUnitChildren": {
+    "title": "Unità subordinate",
+    "subtitle": "Unità: {{item.name}}",
+    "info": {
+      "disabledCreate": "Non è possibile creare un'unità subordinata per un'unità disattivata."
+    },
+    "hint": "Le unità rappresentano reparti, punti vendita, regioni o qualsiasi altro raggruppamento logico significativo per l'utente. Gli utenti \"ereditano\" unità subordinate, il che significa che gli acquirenti hanno accesso ai centri di costo e agli indirizzi di consegna delle unità subordinate in fase di check-out."
+  },
+  "orgUnitApprovers": {
+    "title": "Gestisci approvatori",
+    "subtitle": "Unità: {{item.name}}",
+    "assigned": "Utente {{item.name}} assegnato correttamente",
+    "unassigned": "Assegnazione dell'utente {{item.name}} annullata correttamente"
+  },
+  "orgUnitAssignedApprovers": {
+    "title": "Approvatori assegnati",
+    "subtitle": "Unità: {{item.name}}",
+    "assigned": "Utente {{item.name}} assegnato correttamente",
+    "unassigned": "Assegnazione dell'utente {{item.name}} annullata correttamente",
+    "hint": "Agli utenti visualizzati sotto la lista Approvatori vengono assegnati privilegi di approvazione per gli acquirenti di questa unità e delle unità subordinate. Un utente con ruolo di approvatore è diverso da un approvatore visualizzato sotto la lista Approvatori. Se per un'unità non esiste un approvatore o se gli approvatori non dispongono di sufficienti privilegi di approvazione di acquisto, viene trovato un approvatore più in alto nella gerarchia dell'unità fino alla selezione di un'amministrazione."
+  },
+  "orgUnitAssignedRoles": {
+    "header": "Gestisci ruoli in {{code}}",
+    "name": "Nome",
+    "email": "E-mail",
+    "roles": "Ruoli",
+    "roleCustomer": "Cliente",
+    "roleApprover": "Approvatore",
+    "roleManager": "Responsabile",
+    "roleAdministrator": "Amministratore"
+  },
+  "orgUnitUsers": {
+    "title": "Utenti assegnati",
+    "subtitle": "Unità: {{item.name}}",
+    "info": {
+      "disabledCreate": "Non è possibile creare un utente per un'unità disattivata."
+    },
+    "hint": "Gli utenti sono gli acquirenti, gli approvatori, i responsabili e gli amministratori della propria organizzazione. A ogni utente è assegnato un ruolo per effettuare o approvare gli acquisti. Gli utenti \"ereditano\" le unità subordinate, il che significa che gli acquirenti hanno accesso ai centri di costo e agli indirizzi di consegna delle unità subordinate in fase di check-out."
+  },
+  "orgUnitUserRoles": {
+    "title": "Ruoli e diritti utente",
+    "subtitle": "Utente: {{item.name}}",
+    "messages": {
+      "rolesUpdated": "Ruoli aggiornati correttamente per {{item.name}}"
+    }
+  },
+  "orgUnitAssignedUsers": {
+    "title": "Utenti assegnati",
+    "subtitle": "Unità: {{item.name}}"
+  },
+  "orgUnitCostCenters": {
+    "title": "Centri di costo assegnati",
+    "subtitle": "Unità: {{item.name}}",
+    "info": {
+      "disabledCreate": "Non è possibile creare un centro di costo per un'unità disattivata."
+    },
+    "hint": "Tutti gli ordini effettuati tramite l'account acquisti dell'organizzazione sono collegati a un centro di costo a scopo di tracciamento. Un acquirente seleziona un centro di costo in fase di check-out utilizzando il metodo di acquisto \"Account\". Ogni unità può avere più centri di costo, ma un singolo centro di costo può essere assegnato solo a un'unica unità. Per definire limiti di spesa massimi, ai centri di costo vengono assegnati i budget. "
+  },
+  "orgUnitAddress": {
+    "title": "Indirizzi di consegna",
+    "subtitle": "Unità: {{item.name}}",
+    "country": "Paese/regione",
+    "titles": "Titolo",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "formattedAddress": "Indirizzo",
+    "address1": "Indirizzo",
+    "address2": "Secondo indirizzo (facoltativo)",
+    "city": "Città",
+    "state": "Stato",
+    "zipCode": "CAP",
+    "phoneNumber": "Numero di telefono (facoltativo)",
+    "streetAddress": "Via",
+    "aptSuite": "Numero di appartamento",
+    "selectOne": "Seleziona uno...",
+    "hint": "Quando un acquirente esegue il check-out utilizzando il metodo di acquisto \"Account\", deve scegliere un centro di costo. Gli indirizzi di consegna disponibili per l'acquirente dipendono dall'unità del centro di costo scelto.",
+    "details": {
+      "title": "Dettagli indirizzo",
+      "subtitle": "Unità: {{item.name}}"
+    },
+    "edit": {
+      "title": "Modifica indirizzo"
+    },
+    "create": {
+      "title": "Crea indirizzo"
+    },
+    "form": {
+      "subtitle": "Unità: {{item.name}}"
+    },
+    "messages": {
+      "create": "Indirizzo {{ item.firstName }} {{ item.lastName }} creato correttamente",
+      "update": "Indirizzo {{ item.firstName }} {{ item.lastName }} aggiornato correttamente",
+      "delete": "L'indirizzo non può essere riportato. Gli ordini esistenti non saranno interessati.",
+      "deleteTitle": "Eliminare questo indirizzo?",
+      "deleted": "Indirizzo {{ item.firstName }} {{ item.lastName }} eliminato correttamente"
+    }
+  },
+  "orgUserGroup": {
+    "groupName": "Gruppi di utenti",
+    "header": "Tutti i gruppi di utenti ({{count}})",
+    "disabled": "(disattivato)",
+    "uid": "Codice",
+    "name": "Nome",
+    "unit": "Unità",
+    "orgUnit": "Unità",
+    "actions": "",
+    "sortBy": "Ordina per",
+    "sort": {
+      "byName": "Nome",
+      "byUnitName": "Unità",
+      "byGroupID": "Gruppo"
+    },
+    "hint": "I gruppi di utenti consentono la combinazione di utenti in un gruppo per assegnare limiti di acquisto a più utenti contemporaneamente.",
+    "details": {
+      "title": "Dettagli gruppo di utenti",
+      "subtitle": "Gruppo di utenti: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Modifica gruppo di utenti",
+      "subtitle": "Gruppo di utenti: {{ item.name }}"
+    },
+    "create": {
+      "title": "Crea gruppo di utenti",
+      "subtitle": ""
+    },
+    "links": {
+      "user": "Utenti",
+      "permission": "Limiti di acquisto"
+    },
+    "messages": {
+      "update": "Gruppo di utenti {{ item.name }} aggiornato correttamente",
+      "create": "Gruppo di utenti {{ item.name }} creato correttamente",
+      "deleteTitle": "Eliminare questo gruppo di utenti?",
+      "delete": "Gli utenti di questo gruppo non sono interessati dall'eliminazione del gruppo di utenti.",
+      "deleted": "Gruppo di utenti {{ item.name }} eliminato correttamente"
+    },
+    "breadcrumbs": {
+      "list": "Tutti i gruppi di utenti",
+      "details": "{{name}}",
+      "users": "Utenti",
+      "permissions": "Limiti di acquisto"
+    }
+  },
+  "orgUserGroupUsers": {
+    "title": "Gestisci utenti",
+    "subtitle": "Gruppo di utenti: {{ item.name }}",
+    "assigned": "Utente {{item.name}} assegnato correttamente",
+    "unassigned": "Assegnazione dell'utente {{item.name}} annullata correttamente",
+    "unassignAll": "Annulla tutte le assegnazioni",
+    "unassignAllConfirmation": "Assegnazione di tutti gli utenti annullata correttamente"
+  },
+  "orgUserGroupAssignedUsers": {
+    "title": "Utenti assegnati",
+    "subtitle": "Gruppo di utenti: {{ item.name }}",
+    "assigned": "Utente {{item.name}} assegnato correttamente",
+    "unassigned": "Assegnazione dell'utente {{item.name}} annullata correttamente"
+  },
+  "orgUserGroupPermissions": {
+    "title": "Gestisci imiti di acquisto",
+    "subtitle": "Limite: {{ item.name }}",
+    "assigned": "Limiti di acquisto {{item.code}} assegnati correttamente",
+    "unassigned": "Assegnazione dei limiti di acquisto {{item.code}} annullata correttamente"
+  },
+  "orgUserGroupAssignedPermissions": {
+    "title": "Limiti di acquisto assegnati",
+    "subtitle": "Limite: {{ item.name }}",
+    "assigned": "Limiti di acquisto {{item.code}} assegnati correttamente",
+    "unassigned": "Assegnazione dei limiti di acquisto {{item.code}} annullata correttamente"
+  },
+  "orgUser": {
+    "groupName": "Utenti",
+    "header": "Tutti gli utenti ({{count}})",
+    "disabled": "(disattivato)",
+    "uid": "E-mail",
+    "active": "Stato",
+    "name": "Nome",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "email": "E-mail",
+    "orgUnit": "Unità",
+    "unit": "Unità",
+    "roles": "Ruoli",
+    "rights": "Diritti",
+    "title": "Titolo",
+    "hint": "Gli utenti sono gli acquirenti, gli approvatori, i responsabili e gli amministratori della propria organizzazione. A ogni utente è assegnato un ruolo per effettuare o approvare gli acquisti. Ogni utente appartiene a un'unità e ha accesso a tutte le unità subordinate dell'unità principale.",
+    "unitApprover": "Approvatore unità",
+    "assignApprover": "Aggiungi l'utente agli approvatori dell'unità",
+    "actions": "",
+    "sortBy": "Ordina per",
+    "sort": {
+      "byName": "Nome",
+      "byUnit": "Unità"
+    },
+    "details": {
+      "title": "Dettagli utente",
+      "subtitle": "Utente: {{ item.name }}"
+    },
+    "edit": {
+      "title": "Modifica utente",
+      "subtitle": "Utente: {{ item.name }}"
+    },
+    "create": {
+      "title": "Crea utente",
+      "subtitle": ""
+    },
+    "links": {
+      "password": "Modifica password",
+      "approvers": "Approvatori",
+      "userGroup": "Gruppi di utenti",
+      "permission": "Limiti di acquisto",
+      "rolesAndRights": "Ruoli e diritti"
+    },
+    "messages": {
+      "deactivateTitle": "Disattivare questo utente?",
+      "deactivate": "Gli utenti disattivati non possono accedere allo storefront ed effettuare ordini.",
+      "confirmEnabled": "Utente {{item.firstName}} {{item.lastName}} attivato correttamente",
+      "confirmDisabled": "Utente {{item.firstName}} {{item.lastName}} disattivato correttamente",
+      "update": "Utente {{item.firstName}} {{item.lastName}} aggiornato correttamente",
+      "create": "Utente {{item.firstName}} {{item.lastName}} creato correttamente",
+      "updatePassword": "Password utente {{item.firstName}} {{item.lastName}} aggiornata correttamente"
+    },
+    "info": {
+      "disabledEdit": "Attivare l'utente per consentire la modifica.",
+      "disabledEnable": "Prima di poter attivare questo utente è necessario attivare l'unità."
+    },
+    "approver": {
+      "link": "Approvatori",
+      "header": "Approvatori in {{code}}",
+      "assign": "Assegna approvatori",
+      "assignHeader": "Assegna approvatori in {{code}}",
+      "back": "Indietro",
+      "new": "Nuovo approvatore",
+      "instructions": {
+        "check": "Per assegnare un approvatore a questo utente, selezionare la casella di spunta dell'utente.",
+        "uncheck": "Per rimuovere un approvatore, deleselezionare la casella di spunta dell'utente.",
+        "changes": "Le modifiche vengono salvate automaticamente."
+      }
+    },
+    "userGroup": {
+      "link": "Gruppi di utenti",
+      "header": "Gruppi di utenti in {{code}}",
+      "assign": "Assegna gruppi di utenti",
+      "assignHeader": "Assegna gruppi di utenti in {{code}}",
+      "back": "Indietro",
+      "instructions": {
+        "check": "Per assegnare un gruppo di utenti a questo utente, selezionare la casella di spunta dell'utente.",
+        "uncheck": "Per rimuovere un gruppo di utenti, deleselezionare la casella di spunta dell'utente.",
+        "changes": "Le modifiche vengono salvate automaticamente."
+      }
+    },
+    "permission": {
+      "link": "Limiti di acquisto",
+      "header": "Limiti di acquisto in {{code}}",
+      "assign": "Assegna limiti di acquisto",
+      "assignHeader": "Assegna limiti di acquisto in {{code}}",
+      "back": "Indietro",
+      "instructions": {
+        "check": "Per assegnare limiti di acquisto a questo utente, selezionare la relativa casella di spunta.",
+        "uncheck": "Per annullare l'assegnazione di limiti di acquisto, deselezionare la relativa casella di spunta.",
+        "changes": "Le modifiche vengono salvate automaticamente."
+      },
+      "per": {
+        "undefined": "",
+        "MONTH": "per ogni mese",
+        "YEAR": "per ogni anno",
+        "WEEK": "per ogni settimana",
+        "QUARTER": "per ogni trimestre"
+      }
+    },
+    "password": {
+      "title": "Modifica password",
+      "subtitle": "Utente: {{ item.name }}",
+      "newPassword": "Nuova password",
+      "confirmPassword": "Digita nuovamente la nuova password"
+    },
+    "breadcrumbs": {
+      "list": "Tutti gli utenti",
+      "details": "{{name}}",
+      "userGroups": "Gruppi di utenti",
+      "approvers": "Approvatori",
+      "permissions": "Limiti di acquisto"
+    }
+  },
+  "orgUserUserGroups": {
+    "title": "Gestisci gruppi di utenti",
+    "subtitle": "Utente: {{ item.name }}",
+    "assigned": "Gruppo di utenti {{item.name}} assegnato correttamente",
+    "unassigned": "Assegnazione del gruppo di utenti {{item.name}} annullata correttamente"
+  },
+  "orgUserAssignedUserGroups": {
+    "title": "Gruppi di utenti assegnati",
+    "subtitle": "Utente: {{ item.name }}",
+    "assigned": "Gruppo di utenti {{item.name}} assegnato correttamente",
+    "unassigned": "Assegnazione del gruppo di utenti {{item.name}} annullata correttamente"
+  },
+  "orgUserApprovers": {
+    "title": "Gestisci approvatori",
+    "subtitle": "Utente: {{ item.name }}",
+    "assigned": "Approvatore {{ item.name }} assegnato correttamente",
+    "unassigned": "Assegnazione dell'approvatore {{ item.name }} annullata correttamente"
+  },
+  "orgUserAssignedApprovers": {
+    "title": "Approvatori assegnati",
+    "subtitle": "Utente: {{ item.name }}",
+    "assigned": "Approvatore {{ item.name }} assegnato correttamente",
+    "unassigned": "Assegnazione dell'approvatore {{ item.name }} annullata correttamente"
+  },
+  "orgUserPermissions": {
+    "title": "Gestisci limiti di acquisto",
+    "subtitle": "Utente: {{ item.name }}",
+    "assigned": "Limite di acquisto {{ item.code }} assegnato correttamente",
+    "unassigned": "Assegnazione del limite di acquisto {{ item.code }} annullata correttamente"
+  },
+  "orgUserAssignedPermissions": {
+    "title": "Limiti di acquisto assegnati",
+    "subtitle": "Utente: {{ item.name }}",
+    "assigned": "Limite di acquisto {{ item.code }} assegnato correttamente",
+    "unassigned": "Assegnazione del limite di acquisto {{ item.code }} annullata correttamente"
+  },
+  "orgPurchaseLimit": {
+    "groupName": "Limiti di acquisto",
+    "header": "Tutti i limiti di acquisto ({{count}})",
+    "name": "Nome",
+    "code": "Codice",
+    "active": "Stato",
+    "limit": "Limite",
+    "orderApprovalPermissionType": "Tipo",
+    "threshold": "Soglia",
+    "periodRange": "Periodo",
+    "currency": "Valuta",
+    "orgUnit": "Unità sovraordinata",
+    "unit": "Unità sovraordinata",
+    "actions": "",
+    "hint": "I limiti di acquisto aiutano a controllare la spesa tramite la definizione dell'importo di spesa degli acquirenti per ogni ordine o per ogni settimana, mese, trimestre o anno. I limiti di acquisto vengono assegnati agli utenti o ai gruppi di utenti. I limiti di acquisto vengono anche assegnati agli approvatori e definiscono l'importo che sono autorizzati ad approvare. Con i gruppi di utenti, è possibile assegnare limiti di acquisto a molti utenti contemporaneamente.",
+    "details": {
+      "title": "Dettagli dei limiti di acquisto",
+      "subtitle": "Limite di acquisto: {{ item.code }}"
+    },
+    "edit": {
+      "title": "Modifica limite di acquisto",
+      "subtitle": "Limiti di acquisto: {{ item.code }}"
+    },
+    "create": {
+      "title": "Crea limite di acquisto",
+      "subtitle": ""
+    },
+    "sortBy": "Ordina per",
+    "sort": {
+      "byName": "Nome",
+      "byUnitName": "Unità"
+    },
+    "messages": {
+      "deactivateTitle": "Disattivare questo limite di acquisto?",
+      "deactivate": "I limiti di acquisto disattivati non possono più essere assegnati a un utente o a un gruppo di utenti. Le assegnazioni correnti non avranno effetto.",
+      "confirmEnabled": "Limite di acquisto {{ item.code }} attivato correttamente",
+      "confirmDisabled": "Limite di acquisto {{ item.code }} disattivato correttamente",
+      "update": "Limite di acquisto {{ item.code }} aggiornato correttamente",
+      "create": "Limite di acquisto {{ item.code }} creato correttamente"
+    },
+    "info": {
+      "disabledEdit": "Attivare il limite di acquisto per consentire la modifica.",
+      "disabledEnable": "Prima di poter attivare questo limite di acquisto è necessario attivare l'unità."
+    },
+    "per": {
+      "DAY": "per ogni giorno",
+      "WEEK": "per ogni settimana",
+      "MONTH": "per ogni mese",
+      "QUARTER": "per ogni trimestre",
+      "YEAR": "per ogni anno"
+    },
+    "breadcrumbs": {
+      "list": "Tutti i limiti di acquisto",
+      "details": "{{code}}"
+    }
+  }
+}

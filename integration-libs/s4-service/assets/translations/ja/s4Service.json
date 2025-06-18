@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "サービス詳細",
+    "serviceScheduleHeading": "サービススケジュール - 日付および時刻",
+    "address": "配送先住所と同じ",
+    "serviceLocationHeading": "サービス提供地域",
+    "datePickerLabel": "サービス日付のスケジュール設定",
+    "timePickerLabel": "サービス時刻のスケジュール設定",
+    "unknownError": "不明なエラーが発生しました。サポートに連絡してください。",
+    "productDeliveryOptions": "商品の配送オプション",
+    "serviceDeliveryOption": "サービスの提供オプション",
+    "productDeliveryMethods": "商品の配送方法",
+    "serviceDeliveryMethod": "サービスの提供オプション"
+  },
+  "cancelService": {
+    "heading": "次のアイテムがキャンセル依頼に含まれます",
+    "cancelReason": "サービスのキャンセル理由",
+    "optional": "(オプション)",
+    "action": "サービスをキャンセル",
+    "back": "戻る",
+    "Submit": "依頼を送信",
+    "cancelServiceSuccess": "サービスが正常にキャンセルされました",
+    "unknownError": "不明なエラーが発生しました。サポートに連絡してください。",
+    "ServiceTime": "サービス時刻",
+    "ServiceLocation": "サービス提供地域",
+    "ServiceDate": "サービス日付",
+    "SubmitRequest": "依頼を送信",
+    "serviceNotRcancelable": "サービスはキャンセルできません",
+    "charactersLeft": "残り文字数: {{count}}",
+    "Services": "サービス"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "サービスをリスケジュール",
+    "headerLabel": "サービス",
+    "contentLabel": "サービスのリスケジュール - 新しい日付および時刻を選択",
+    "datePickerLabel": "サービス日付",
+    "timePickerLabel": "サービス時刻",
+    "backButtonLabel": "戻る",
+    "submitButtonLabel": "依頼を送信",
+    "note": "注文に依頼が反映されるまで少し時間がかかる場合があることに注意してください。",
+    "unknownError": "不明なエラーが発生しました。サポートに連絡してください。",
+    "serviceNotReschedulable": "サービスを再スケジュールできません。",
+    "serviceNotAmendable": "サービスをキャンセルできないか、スケジュールされた日付から 24 時間を切ると再スケジュールできません。",
+    "rescheduleSuccess": "サービスの日付および時刻が正常に変更されました。"
+  }
+}

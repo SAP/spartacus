@@ -2,12 +2,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 
   .cx-clear-cart-dialog {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-
     .cx-clear-cart-container {
-      @extend .modal-content;
-
       .cx-clear-cart-header {
         .cx-clear-cart-title {
           font-size: var(--cx-font-size, 1.375rem);
@@ -17,8 +12,6 @@
       }
 
       .cx-clear-cart-body {
-        @extend .modal-body;
-
         .clear-cart-msg {
           margin-bottom: 1.5rem;
         }

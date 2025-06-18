@@ -16,10 +16,10 @@ import { execSync } from 'child_process';
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
 import glob from 'glob';
+import { chalk } from '../chalk';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
-import {chalk} from "../chalk";
 
 // ------------ Utilities ------------
 
@@ -219,9 +219,7 @@ export type Library = {
   }>;
 };
 
-export type Repository = {
-  [library: string]: Library;
-};
+export type Repository = { [library: string]: Library };
 
 /**
  * Paths to `package.json` files for all libraries.
@@ -294,6 +292,8 @@ if (options.generateDeps) {
  * Format all files.
  */
 if (options.fix) {
+  console.log('\nGenerating updated package-lock file...\n');
+  execSync('npm install', { stdio: 'inherit' });
   console.log('\nFormatting files (might take some time)...\n');
   execSync('npm run prettier:fix');
   console.log(`✨ ${chalk.green('Update completed')}`);

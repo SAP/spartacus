@@ -1,0 +1,49 @@
+{
+  "orderApprovalDetails": {
+    "back": "Назад к списку",
+    "showForm_APPROVE": "Утвердить заказ...",
+    "showForm_REJECT": "Отклонить заказ...",
+    "form": {
+      "title_APPROVE": "Утвердить заказ {{orderCode}} на общую сумму {{orderTotal}}",
+      "title_REJECT": "Отклонить заказ {{orderCode}} на общую сумму {{orderTotal}}",
+      "submit_APPROVE": "Утвердить",
+      "submit_REJECT": "Отклонить",
+      "cancel": "Отменить",
+      "comment_APPROVE": {
+        "label": "Комментарий (необязательно, максимум 255 символов)",
+        "placeholder": ""
+      },
+      "comment_REJECT": {
+        "label": "Комментарий (максимум 255 символов)",
+        "placeholder": ""
+      }
+    },
+    "permissionResults": {
+      "header": "Сведения об утверждении клиентом",
+      "permission": "Разрешение",
+      "approver": "Утверждающий",
+      "status": "Статус",
+      "approverComments": "Комментарии утверждающего",
+      "noApprovalComments": "Нет",
+      "permissionType_B2BBudgetExceededPermission": "Превышен бюджет, связанный с выбранным МВЗ",
+      "permissionType_B2BOrderThresholdPermission": "Общая сумма заказа превышает лимит на заказ",
+      "permissionType_B2BOrderThresholdTimespanPermission": "Общая сумма заказа превышает лимит на временной интервал"
+    }
+  },
+  "orderApprovalList": {
+    "orderCode": "Заказ №",
+    "POCode": "ЗП №",
+    "placedBy": "Размещено",
+    "date": "Дата",
+    "status": "Статус",
+    "total": "Итого",
+    "none": "Нет",
+    "emptyList": "На данный момент нет заказов на утверждение.",
+    "orderApprovalList": "Список утверждения заказов"
+  },
+  "orderApprovalGlobal": {
+    "notification": {
+      "noSufficientPermissions": "Нет полномочий на доступ к странице."
+    }
+  }
+}

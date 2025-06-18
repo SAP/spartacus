@@ -13,6 +13,7 @@ import { PointOfService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-address',
   templateUrl: 'store-address.component.html',
+  standalone: false,
 })
 export class StoreAddressComponent {
   /** The details of the store */

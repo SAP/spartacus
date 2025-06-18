@@ -17,7 +17,7 @@ export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
 export const ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR =
   'cx-user-registration-form';
 
-export const enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
+export enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
   SUCCESS = 'success',
   ERROR = 'error',
 }
@@ -29,7 +29,7 @@ export function navigateToOrganizationUserRegisterPage() {
     clickHamburger();
   });
   cy.findByText(/Sign in \/ Register/i).click();
-  cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).click();
+  cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
 }
 
 export function fillOrganizationUserRegistrationForm(
@@ -67,11 +67,11 @@ export function fillOrganizationUserRegistrationForm(
 /**
  * Method submits prefiled form and by default waits till registration request will be completed.
  *
- * @param {boolean} [wiatForRequestCompletion=true]
+ * @param {boolean} [waitForRequestCompletion=true]
  * specifies if cypress should wait till registration request be completed.
  */
 export function submitOrganizationUserRegistrationForm(
-  wiatForRequestCompletion: boolean = true
+  waitForRequestCompletion: boolean = true
 ) {
   interceptPost('registerOrganizationUser', '*/orgUsers*');
 
@@ -79,8 +79,10 @@ export function submitOrganizationUserRegistrationForm(
     cy.get('button[type=submit]').click();
   });
 
-  if (wiatForRequestCompletion) {
-    cy.wait('@registerOrganizationUser');
+  if (waitForRequestCompletion) {
+    cy.wait('@registerOrganizationUser')
+      .its('response.statusCode')
+      .should('eq', 201);
   }
 }
 
@@ -103,6 +105,14 @@ export function verifyTabbingOrder() {
     'cx-page-layout.AccountPageTemplate',
     config.userRegistrationForm
   );
+}
+
+export function verifyTabbingOrderForRegistrationWithOTP() {
+  tabbingOrder('form', config.userRegistrationFormWithOTP);
+}
+
+export function verifyTabbingOrderForOTPVerification() {
+  tabbingOrder('form', config.verificationToken);
 }
 
 export function verifyFormErrors() {

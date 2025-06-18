@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -12,6 +12,10 @@ import { UserInterestsAdapter } from '../../connectors/interests/user-interests.
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { UserActions } from '../actions/index';
 import * as fromInterestsEffect from './product-interests.effect';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const loadParams = {
   userId: 'qingyu@sap.com',
@@ -28,11 +32,13 @@ describe('Product Interests Effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         fromInterestsEffect.ProductInterestsEffect,
         { provide: UserInterestsAdapter, useValue: {} },
         provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

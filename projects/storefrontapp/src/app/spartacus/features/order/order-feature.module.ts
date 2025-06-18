@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderTranslationChunksConfig,
-  orderTranslations,
+  orderTranslationsEn,
+  orderTranslationsJa,
+  orderTranslationsDe,
+  orderTranslationsZh,
 } from '@spartacus/order/assets';
 import {
   USE_MY_ACCOUNT_V2_ORDER,
@@ -34,7 +37,12 @@ import { environment } from '../../../../environments/environment';
     },
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: orderTranslations,
+        resources: {
+          en: orderTranslationsEn,
+          ja: orderTranslationsJa,
+          de: orderTranslationsDe,
+          zh: orderTranslationsZh,
+        },
         chunks: orderTranslationChunksConfig,
         fallbackLang: 'en',
       },

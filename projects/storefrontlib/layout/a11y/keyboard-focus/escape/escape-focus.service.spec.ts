@@ -5,7 +5,10 @@ import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { EscapeFocusService } from './escape-focus.service';
 
-@Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
+@Component({
+  template: '<div id="a"></div><div id="b" tabindex="5"></div>',
+  standalone: false,
+})
 class MockComponent {}
 
 class MockSelectFocusUtility {

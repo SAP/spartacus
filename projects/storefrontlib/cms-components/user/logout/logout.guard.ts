@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router, UrlTree } from '@angular/router';
 import {
   AuthService,
   CmsService,
@@ -35,7 +35,7 @@ export class LogoutGuard {
     protected router: Router
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`

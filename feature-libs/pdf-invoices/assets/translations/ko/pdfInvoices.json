@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "송장을 가져올 수 없습니다. SAP 송장과 송장을 위한 API가 활성화되었는지 확인하십시오.",
+    "invoicesLoadingError": "문제가 발생했습니다. 주문의 송장을 표시할 수 없습니다.",
+    "invoicesTable": {
+      "header": "송장",
+      "label": "송장 테이블",
+      "invoiceId": "송장 번호",
+      "createdAt": "날짜",
+      "netAmount": "순액",
+      "totalAmount": "총액",
+      "attachment": "송장 다운로드",
+      "download": "다운로드",
+      "attachmentDescription": "송장 {{id}}의 PDF를 다운로드합니다.",
+      "noneFound": "송장 없음"
+    },
+    "downloadPDFError": "문제가 발생했습니다. 송장 PDF를 가져올 수 없습니다.",
+    "sortBy": "정렬 기준",
+    "sortInvoices": "송장 정렬",
+    "sorts": {
+      "byCreatedAtAsc": "날짜(오름차순)",
+      "byCreatedAtDesc": "날짜(내림차순)",
+      "byInvoiceIdAsc": "송장 번호(오름차순)",
+      "byInvoiceIdDesc": "송장 번호(내림차순)",
+      "byNetAmountAsc": "순액(오름차순)",
+      "byNetAmountDesc": "순액(내림차순)",
+      "byTotalAmountAsc": "총액(오름차순)",
+      "byTotalAmountDesc": "총액(내림차순)"
+    }
+  }
+}

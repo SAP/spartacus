@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "自分のメールアドレス",
+    "myInformation": "My 情報",
+    "name": "名前",
+    "customerId": "顧客 ID",
+    "title": "タイトル",
+    "firstName": "名",
+    "lastName": "姓"
+  }
+}

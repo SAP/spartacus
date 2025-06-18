@@ -31,9 +31,15 @@ export function fillTicketDetails(ticketDetails: TestTicketDetails) {
       ticketDetails.subject
     );
     cy.contains('.cx-customer-ticket-label', 'Category')
-      .get('select')
+      .get('[formControlName="ticketCategory"]')
       .eq(CATEGORY_SELECT)
-      .select(ticketDetails.ticketCategory.name);
+      .then((select) => {
+        if (select.is('ng-select')) {
+          cy.wrap(select).ngSelect(ticketDetails.ticketCategory.name);
+        } else {
+          cy.wrap(select).select(ticketDetails.ticketCategory.name);
+        }
+      });
     cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`).type(
       ticketDetails.message
     );

@@ -1,0 +1,9 @@
+{
+  "productVariants": {
+    "style": "Stílus",
+    "selectedStyle": "Kiválasztott stílus",
+    "size": "Méret",
+    "color": "Szín",
+    "sizeGuideLabel": "Stílusútmutató"
+  }
+}

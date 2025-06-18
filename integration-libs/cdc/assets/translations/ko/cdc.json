@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "프로파일 완료",
+      "description": "다음에 대한 동의가 필요합니다."
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "프로파일 세부사항이 업데이트되었습니다.",
+    "profileUpdateFailure": "프로파일 세부사항을 업데이트하지 못했습니다."
+  }
+}

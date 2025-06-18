@@ -1,33 +1,32 @@
-<p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-  {{ 'formLegend.required' | cxTranslate }}
-</p>
+<cx-form-required-legend />
 <form class="cx-place-order-form form-check" [formGroup]="checkoutSubmitForm">
   <div class="form-group">
     <label>
       <input
         formControlName="termsAndConditions"
         class="scaled-input form-check-input"
-        required="true"
         type="checkbox"
+        aria-required="true"
+        [attr.aria-describedby]="'termsAndConditionsError'"
       />
       <span class="form-check-label">
         {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
         <a
-          [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+          [routerLink]="
+            {
+              cxRoute: 'termsAndConditions',
+              params: [params$ | async],
+            } | cxUrl
+          "
           class="cx-tc-link"
           target="_blank"
           rel="noopener noreferrer"
         >
           {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
         </a>
-        <abbr
-          *cxFeature="'a11yRequiredAsterisks'"
-          aria-hidden="true"
-          class="text-decoration-none required-asterisk"
-          title="{{ 'common.required' | cxTranslate }}"
-          >*</abbr
-        >
+        <cx-form-required-asterisks />
         <cx-form-errors
+          id="termsAndConditionsError"
           [control]="checkoutSubmitForm.get('termsAndConditions')"
         ></cx-form-errors>
       </span>

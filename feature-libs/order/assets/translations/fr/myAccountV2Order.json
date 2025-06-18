@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Toutes les commandes ({{param}})",
+    "item": "{{param}} article",
+    "items": "{{param}} articles",
+    "totalPrice": "Prix total : {{param}}",
+    "consignmentCode": "Expédition {{param}}",
+    "statusDate": "Dernière mise à jour : {{param}}",
+    "returnProcessed": "Retour traité : {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "À retirer - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "À expédier - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "À retirer - "
+    },
+    "orderListResults": "Liste des commandes",
+    "orderListPagination": "Pagination de la liste des commandes",
+    "totalPriceLabel": "Prix total",
+    "orderPlaced": "Commande passée le",
+    "orderCodeLabel": "Code de la commande",
+    "consignmentDetailLabel": "Informations d'expédition",
+    "consignmentNumberLabel": "Numéro d'expédition",
+    "consignmentStatusLabel": "Statut d'expédition",
+    "consignmentStatusDateLabel": "Dernière mise à jour le",
+    "estimateDeliveryLabel": "Date de livraison estimée"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Retourner des articles",
+    "cancelItems": "Annuler des articles",
+    "downloadInvoices": "Télécharger les factures",
+    "viewAllOrders": "Afficher toutes les commandes",
+    "noInvoices": "Les factures ne sont pas encore générées. Veuillez repasser plus tard."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} article",
+    "items": "{{value}} articles",
+    "heading": "Commandes et  retours",
+    "orderNumber": "Numéro de commande ({{value}})",
+    "purchasedOn": "Acheté le : {{value}}",
+    "orderedItems": "Articles commandés : {{value}}",
+    "totalPrice": "Prix total : {{value}}",
+    "orderDetails": "Détails de la commande",
+    "orderDetailsLabel": "Afficher les détails de la commande pour le numéro de commande {{value}}",
+    "orderStatusLabel": "Statut de la commande",
+    "returnOrder": "Retourner la commande",
+    "showMore": "Afficher plus",
+    "showMoreLabel": "Naviguer vers l'historique des commandes"
+  }
+}

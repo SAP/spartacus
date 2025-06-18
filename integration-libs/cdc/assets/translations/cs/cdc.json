@@ -1,0 +1,12 @@
+{
+  "reconsent": {
+    "dialog": {
+      "title": "Dokončení profilu",
+      "description": "Potřebujeme váš souhlas pro následující"
+    }
+  },
+  "cdcProfile": {
+    "profileUpdateSuccess": "Údaje profilu byly úspěšně aktualizovány",
+    "profileUpdateFailure": "Nepodařilo se aktualizovat údaje profilu"
+  }
+}

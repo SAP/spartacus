@@ -16,6 +16,7 @@ import { CurrentLocationService } from '../../services/current-location.service'
 @Component({
   selector: 'cx-store-search',
   templateUrl: './store-search.component.html',
+  standalone: false,
 })
 export class StoreSearchComponent {
   /** Whether the hide out of stock checkbox appears checked */

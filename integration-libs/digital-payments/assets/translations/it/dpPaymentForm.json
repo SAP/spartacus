@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "A breve si verrà reindirizzati a una pagina di terzi per la registrazione della carta",
+    "callback": "Attendere... recupero dei dettagli di pagamento in corso...",
+    "cancelledOrFailed": "Registrazione della carta non riuscita o annullata",
+    "error": {
+      "redirect": "Impossibile avviare l'operazione. Riprovare.",
+      "paymentFetch": "Impossibile recuperare i dettagli di pagamento. Riprovare.",
+      "unknown": "Errore sconosciuto durante il recupero del pagamento. Contattare il supporto."
+    },
+    "confirmation": {
+      "heading": "Sono presenti modifiche non salvate.",
+      "text": "Se si chiude questa finestra di dialogo, le modifiche apportate qui andranno perse. Confermare di volerla chiudere?"
+    }
+  }
+}

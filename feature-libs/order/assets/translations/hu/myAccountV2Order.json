@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Összes rendelés ({{param}})",
+    "item": "{{param}} tétel",
+    "items": "{{param}} tétel",
+    "totalPrice": "Teljes ár: {{param}}",
+    "consignmentCode": "Konszignáció: {{param}}",
+    "statusDate": "Legutolsó frissítés: {{param}}",
+    "returnProcessed": "Visszáru feldolgozva: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Átveendő – "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Szállítandó – "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Átveendő – "
+    },
+    "orderListResults": "Rendelési lista",
+    "orderListPagination": "Rendelési lista lapszámozása",
+    "totalPriceLabel": "Teljes ár",
+    "orderPlaced": "Rendelésleadás dátuma",
+    "orderCodeLabel": "Rendelési kód",
+    "consignmentDetailLabel": "Konszignáció adatai",
+    "consignmentNumberLabel": "Konszignáció száma",
+    "consignmentStatusLabel": "Konszignáció státusa",
+    "consignmentStatusDateLabel": "Legutóbbi frissítés",
+    "estimateDeliveryLabel": "Becsült kézbesítési dátum"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Tételek visszaküldése",
+    "cancelItems": "Tételek törlése",
+    "downloadInvoices": "Számlák letöltése",
+    "viewAllOrders": "Összes rendelés megtekintése",
+    "noInvoices": "A számlák még nincsenek létrehozva. Nézzen vissza később."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} tétel",
+    "items": "{{value}} tétel",
+    "heading": "Rendelések és visszáruk",
+    "orderNumber": "Rendelés száma ({{value}})",
+    "purchasedOn": "Vásárlás dátuma: {{value}}",
+    "orderedItems": "Rendelt tételek: {{value}}",
+    "totalPrice": "Teljes ár: {{value}}",
+    "orderDetails": "Rendelés részletei",
+    "orderDetailsLabel": "Rendelés részleteinek megjelenítése a következő számú rendeléshez: {{value}}",
+    "orderStatusLabel": "Rendelés státusa",
+    "returnOrder": "Visszárurendelés",
+    "showMore": "Több megjelenítése",
+    "showMoreLabel": "Navigálás a rendeléstörténethez"
+  }
+}

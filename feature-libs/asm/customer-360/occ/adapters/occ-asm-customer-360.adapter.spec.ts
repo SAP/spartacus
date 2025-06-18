@@ -1,6 +1,6 @@
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -17,6 +17,10 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OccAsmCustomer360Adapter } from './occ-asm-customer-360.adapter';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const baseSite = 'test-site';
 class MockBaseSiteService {
@@ -43,11 +47,13 @@ describe('OccAsmCustomer360Adapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         OccAsmCustomer360Adapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

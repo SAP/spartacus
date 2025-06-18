@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "Alamat Email Saya",
+    "email": "Email",
+    "emailAddress": "Alamat Email",
+    "newEmailAddress": "Alamat Email Baru",
+    "confirmNewEmailAddress": "Konfirmasi Alamat Email Baru",
+    "emailPlaceHolder": "Masukkan email",
+    "passwordPlaceHolder": "Masukkan kata sandi",
+    "password": "Kata sandi",
+    "reloginIndicator": "Anda perlu masuk kembali setelah mengatur alamat email baru."
+  }
+}

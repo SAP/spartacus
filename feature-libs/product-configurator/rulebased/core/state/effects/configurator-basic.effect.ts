@@ -123,6 +123,44 @@ export class ConfiguratorBasicEffects {
     )
   );
 
+  readAttributeDomain$: Observable<
+    | ConfiguratorActions.ReadConfigurationFail
+    | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummary
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.READ_ATTRIBUTE_DOMAIN),
+      mergeMap((action: ConfiguratorActions.ReadAttributeDomain) => {
+        return this.configuratorCommonsConnector
+          .readConfiguration(
+            action.payload.configuration.configId,
+            action.payload.groupId,
+            action.payload.configuration.owner,
+            action.payload.attributeKey
+          )
+          .pipe(
+            switchMap((configuration: Configurator.Configuration) => {
+              return [
+                new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+                new ConfiguratorActions.UpdatePriceSummary({
+                  ...configuration,
+                  interactionState: {
+                    currentGroup: action.payload.groupId,
+                  },
+                }),
+              ];
+            }),
+            catchError((error) => [
+              new ConfiguratorActions.ReadConfigurationFail({
+                ownerKey: action.payload.configuration.owner.key,
+                error: tryNormalizeHttpError(error, this.logger),
+              }),
+            ])
+          );
+      })
+    )
+  );
+
   updateConfiguration$: Observable<
     | ConfiguratorActions.UpdateConfigurationSuccess
     | ConfiguratorActions.UpdateConfigurationFail

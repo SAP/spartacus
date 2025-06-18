@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   storeFinderTranslationChunksConfig,
-  storeFinderTranslations,
+  storeFinderTranslationsEn,
+  storeFinderTranslationsJa,
+  storeFinderTranslationsDe,
+  storeFinderTranslationsZh,
 } from '@spartacus/storefinder/assets';
 import {
   StoreFinderRootModule,
@@ -28,10 +31,15 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: storeFinderTranslations,
+        resources: {
+          en: storeFinderTranslationsEn,
+          ja: storeFinderTranslationsJa,
+          de: storeFinderTranslationsDe,
+          zh: storeFinderTranslationsZh,
+        },
         chunks: storeFinderTranslationChunksConfig,
       },
     }),
   ],
 })
-export class StorefinderFeatureModule {}
+export class StoreFinderFeatureModule {}

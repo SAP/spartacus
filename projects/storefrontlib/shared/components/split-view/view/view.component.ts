@@ -14,15 +14,10 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   inject,
 } from '@angular/core';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { Subscription, timer } from 'rxjs';
 import { delayWhen, distinctUntilChanged } from 'rxjs/operators';
 import { SplitViewService } from '../split-view.service';
@@ -40,6 +35,7 @@ import { SplitViewService } from '../split-view.service';
   selector: 'cx-view',
   templateUrl: './view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ViewComponent implements OnInit, OnDestroy {
   protected _hidden: boolean | undefined;
@@ -75,16 +71,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   @Input()
   viewTitle?: string;
 
-  // TODO: (CXSPA-6475) - Remove FeatureConfigService and make globalMessageService required.
-  @Optional()
-  protected globalMessageService = inject(GlobalMessageService, {
-    optional: true,
-  });
-
-  @Optional()
-  featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  protected globalMessageService = inject(GlobalMessageService);
 
   protected subscription: Subscription;
 
@@ -109,12 +96,7 @@ export class ViewComponent implements OnInit, OnDestroy {
         this.disappeared = view.hidden;
         this.cd.markForCheck();
       });
-    // TODO: (CXSPA-6475) - Remove feature flag next major release
-    if (
-      this.featureConfigService?.isEnabled('a11yViewChangeAssistiveMessage')
-    ) {
-      this.onViewChangeShowAssistiveMessage();
-    }
+    this.onViewChangeShowAssistiveMessage();
   }
 
   /**

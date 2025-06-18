@@ -28,7 +28,7 @@ export abstract class StateConfig {
         /**
          * A set of state keys that should be transferred from server.
          */
-        [key: string]: StateTransferType;
+        [key: string]: StateTransferType | undefined;
       };
     };
   };

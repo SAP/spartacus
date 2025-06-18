@@ -60,6 +60,7 @@ export function isIdentifierImported({
       declaration.specifiers.some(
         (specifier) =>
           specifier.type === AST_NODE_TYPES.ImportSpecifier &&
+          specifier.imported.type === AST_NODE_TYPES.Identifier &&
           specifier.imported.name === importedIdentifier
       )
   );

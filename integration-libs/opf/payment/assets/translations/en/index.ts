@@ -5,7 +5,6 @@
  */
 
 import opfPayment from './opfPayment.json';
-
 export const en = {
   opfPayment,
 };

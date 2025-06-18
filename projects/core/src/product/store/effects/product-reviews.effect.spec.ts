@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -15,6 +15,10 @@ import { defaultOccProductConfig } from '../../../occ/adapters/product/default-o
 import createSpy = jasmine.createSpy;
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const reviewData: Review[] = [
   {
@@ -42,7 +46,7 @@ describe('Product reviews effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: ProductReviewsConnector,
@@ -52,6 +56,8 @@ describe('Product reviews effect', () => {
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$),
         { provide: GlobalMessageService, useValue: GlobalMessageServiceMock },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

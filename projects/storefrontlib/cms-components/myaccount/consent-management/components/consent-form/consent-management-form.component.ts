@@ -24,6 +24,7 @@ import {
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
+  standalone: false,
 })
 export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;
@@ -38,6 +39,9 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consent: AnonymousConsent | null;
 
   @Input() disabled: boolean = false;
+
+  @Input()
+  showMandatory: boolean = false;
 
   @Output()
   consentChanged = new EventEmitter<{

@@ -15,7 +15,6 @@ export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig =
         date: 1500,
       },
       addRetractOption: false,
-      enableNavigationToConflict: true,
       descriptions: {
         attributeDescriptionLength: 100,
         valueDescriptionLength: 70,

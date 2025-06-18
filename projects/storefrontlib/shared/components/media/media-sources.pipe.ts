@@ -8,6 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'cxMediaSources',
+  standalone: false,
 })
 export class MediaSourcesPipe implements PipeTransform {
   transform(sizes: string) {

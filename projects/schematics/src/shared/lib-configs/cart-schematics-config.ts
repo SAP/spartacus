@@ -13,6 +13,9 @@ import {
   CART_SAVED_CART_FEATURE_NAME,
   CART_WISHLIST_FEATURE_NAME,
   MINI_CART_ENTRY_POINT,
+  SPARTACUS_BOOTSTRAP_FUNCTIONS,
+  SPARTACUS_BOOTSTRAP_MIXINS,
+  SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_CART,
   SPARTACUS_CART_BASE,
   SPARTACUS_CART_BASE_ASSETS,
@@ -90,6 +93,11 @@ export const CART_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
@@ -131,6 +139,11 @@ export const CART_IMPORT_EXPORT_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
 };
 
@@ -171,6 +184,11 @@ export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [CART_BASE_FEATURE_NAME],
 };
@@ -211,6 +229,11 @@ export const CART_SAVED_CART_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [CART_BASE_FEATURE_NAME],
 };
@@ -262,6 +285,11 @@ export const CART_WISHLIST_SCHEMATICS_CONFIG: SchematicConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
   },
   dependencyFeatures: [CART_BASE_FEATURE_NAME],
 };

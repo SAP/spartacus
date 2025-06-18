@@ -45,6 +45,7 @@ describe('CustomerTicketMessagesComponent', () => {
   @Component({
     selector: 'cx-messaging',
     template: '',
+    standalone: false,
   })
   class MockCxMessagingComponent {
     @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -97,28 +98,38 @@ describe('CustomerTicketMessagesComponent', () => {
   });
 
   it('should call uploadAttachment if the file is attached', () => {
+    // Create a mock FileList with [Symbol.iterator] to satisfy the FileList interface
+    const file = 'mockFile' as unknown as File;
     const fileList: FileList = {
-      0: 'mockFile' as unknown as File,
+      0: file,
       length: 1,
-      item: () => 'mockFile' as unknown as File,
-    };
+      item: (index: number) => (index === 0 ? file : null),
+      [Symbol.iterator]: function* () {
+        yield file;
+      },
+    } as unknown as FileList;
 
     spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 
     expect(customerTicketingFacade.uploadAttachment).toHaveBeenCalledWith(
-      'mockFile' as unknown as File,
+      file,
       'mockCode'
     );
   });
 
   it('should not call uploadAttachment if the file is not attached', () => {
+    // Create a mock FileList with [Symbol.iterator] to satisfy the FileList interface
+    const file = '' as unknown as File;
     const fileList: FileList = {
-      0: '' as unknown as File,
+      0: file,
       length: 0,
-      item: () => 'mockFile' as unknown as File,
-    };
+      item: () => null,
+      [Symbol.iterator]: function* () {
+        // No files to yield
+      },
+    } as unknown as FileList;
 
     spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
     mockSendEvent.files = fileList;

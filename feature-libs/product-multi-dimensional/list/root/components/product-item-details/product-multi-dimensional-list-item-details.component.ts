@@ -13,6 +13,7 @@ import { ProductListItemContext } from '@spartacus/storefront';
   selector: 'cx-product-multi-dimensional-list-item-details',
   templateUrl: './product-multi-dimensional-list-item-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(

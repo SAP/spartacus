@@ -199,11 +199,7 @@
       z-index: 20;
 
       @include placeholder {
-        color: currentColor;
-
-        @include forFeature('a11yImproveContrast') {
-          color: var(--cx-color-secondary);
-        }
+        color: var(--cx-color-secondary);
       }
     }
 
@@ -219,11 +215,7 @@
       background: none;
       border: none;
       padding: 6px;
-      color: var(--cx-color-medium);
-
-      @include forFeature('a11yImproveContrast') {
-        color: var(--cx-color-secondary);
-      }
+      color: var(--cx-color-secondary);
 
       @include media-breakpoint-down(sm) {
         color: var(--cx-color-primary);
@@ -237,12 +229,9 @@
         @include media-breakpoint-down(sm) {
           position: relative;
           left: 120px;
-          z-index: 20;
+          z-index: 1001;
           top: 59px;
           margin-top: 0;
-          @include forFeature('a11yImproveContrast') {
-            z-index: 1001;
-          }
         }
       }
     }
@@ -337,11 +326,7 @@
       z-index: 20;
 
       @include placeholder {
-        color: currentColor;
-
-        @include forFeature('a11yImproveContrast') {
-          color: var(--cx-color-dark);
-        }
+        color: var(--cx-color-dark);
       }
     }
 
@@ -352,11 +337,7 @@
       background: none;
       border: none;
       padding: 6px;
-      color: var(--cx-color-medium);
-
-      @include forFeature('a11yImproveContrast') {
-        color: var(--cx-color-secondary);
-      }
+      color: var(--cx-color-secondary);
 
       @include media-breakpoint-down(sm) {
         color: var(--cx-color-primary);
@@ -397,9 +378,7 @@
       padding-top: 4px;
     }
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-    }
+    @include type('8');
 
     h3 {
       @include type('8');
@@ -493,9 +472,7 @@
             font-size: inherit;
             font-weight: inherit;
 
-            @include forFeature('a11yImproveContrast') {
-              @include type('8');
-            }
+            @include type('8');
 
             // Required for text-overflow to do anything
             white-space: nowrap;
@@ -503,10 +480,7 @@
           }
           .price {
             font-weight: normal;
-
-            @include forFeature('a11yImproveContrast') {
-              @include type('8');
-            }
+            @include type('8');
           }
         }
       }
@@ -533,9 +507,7 @@
       color: $primary;
       padding: 5px 8px;
       z-index: 1;
-      @include forFeature('a11yImproveContrast') {
-        @include type('6');
-      }
+      @include type('6');
       @include media-breakpoint-down(sm) {
         display: block;
         right: 12px;
@@ -920,6 +892,8 @@
     }
     .results {
       border: 1px solid var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
       a {
         &:hover,
         &:focus {
@@ -938,11 +912,6 @@
         background-color: var(--cx-color-background);
         border: 1px solid var(--cx-color-text);
       }
-    }
-
-    // native high contrast themes fix
-    @media (forced-colors: active) {
-      border-color: Canvas;
     }
   }
 }

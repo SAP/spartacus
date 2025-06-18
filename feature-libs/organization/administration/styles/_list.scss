@@ -73,43 +73,24 @@
   }
 }
 
-// TODO: (CXSPA-6624) - Remove feature flag + redundant code
 %organizationTitle {
-  .title {
-    cx-popover {
-      text-transform: initial;
-    }
-    h3 {
-      button {
-        border: none;
-        background-color: inherit;
-        cx-icon {
-          pointer-events: none;
-          color: var(--cx-color, var(--cx-color-info));
-        }
-      }
-    }
-  }
-
   @include forFeature('a11yCroppedFocusRing') {
     .header h2 button {
       outline-offset: -2px;
     }
   }
-  @include forFeature('a11yOrganizationListHeadingOrder') {
-    .title {
-      h2,
-      h3 {
-        @include type('3', 'normal');
-        text-transform: uppercase;
-        button {
-          border: none;
-          background-color: inherit;
+  .title {
+    h2,
+    h3 {
+      @include type('3', 'normal');
+      text-transform: uppercase;
+      button {
+        border: none;
+        background-color: inherit;
 
-          cx-icon {
-            pointer-events: none;
-            color: var(--cx-color, var(--cx-color-info));
-          }
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
         }
       }
     }
@@ -208,12 +189,10 @@
       }
     }
   }
-  // TODO: (CXSPA-7155) - Remove feature flag next major release
-  @include forFeature('a11yOrganizationLinkableCells') {
-    cx-view {
-      &[position='0'] tr {
-        cursor: pointer;
-      }
+
+  cx-view {
+    &[position='0'] tr {
+      cursor: pointer;
     }
   }
 
@@ -311,12 +290,7 @@
     button.tree-item-toggle {
       margin-inline-start: -40px;
       min-width: 40px;
-    }
-    // TODO: (CXSPA-6457) - Remove feature flag next major release
-    @include forFeature('a11yListOversizedFocus') {
-      button.tree-item-toggle {
-        color: var(--cx-color-primary);
-      }
+      color: var(--cx-color-primary);
     }
   }
 
@@ -340,6 +314,17 @@
     .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
       white-space: normal;
       overflow: initial;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      &.ng-option-marked {
+        background-color: var(--cx-color-text);
+        color: var(--cx-color-background);
+      }
     }
   }
 }
@@ -372,11 +357,8 @@
         @include visible-focus();
         outline-offset: -2px;
       }
-      // TODO: (CXSPA-6457) - Remove feature flag next major release
-      @include forFeature('a11yListOversizedFocus') {
-        & cx-org-active-link-cell a:focus {
-          outline: none;
-        }
+      & cx-org-active-link-cell a:focus {
+        outline: none;
       }
 
       .hide-focus-border {
@@ -402,11 +384,8 @@
           display: none;
         }
         tr {
-          // TODO: (CXSPA-6457) - Remove feature flag next major release
-          @include forFeature('a11yListOversizedFocus') {
-            &:focus-within {
-              outline: none;
-            }
+          &:focus-within {
+            outline: none;
           }
           td {
             &.actions {
@@ -458,12 +437,7 @@
 
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
-      // TODO: (CXSPA-6457) - Remove feature flag next major release
-      padding-inline-end: 40px;
-      @include forFeature('a11yListOversizedFocus') {
-        padding-inline-end: unset;
-        margin-inline-end: 40px;
-      }
+      margin-inline-end: 40px;
     }
 
     td:last-child span {
@@ -514,58 +488,22 @@
           }
         }
       }
-      // TODO: (CXSPA-6804) - Remove feature flag next major release
-      @include forFeature('a11yUnitsListKeyboardControls') {
-        cx-org-active-link-cell a,
-        cx-org-toggle-link-cell a {
-          color: var(--cx-color-primary);
-          text-decoration: underline;
-        }
+      cx-org-active-link-cell a,
+      cx-org-toggle-link-cell a {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
       }
       a {
-        // TODO: (CXSPA-6804) - Remove feature flag next major release
-        @include forFeature('a11yUnitsListKeyboardControls') {
-          color: inherit;
-          text-decoration: none;
-        }
+        color: inherit;
+        text-decoration: none;
         display: flex;
         align-items: center;
         width: 100%;
-        // TODO: (CXSPA-6457) - Remove feature flag next major release
-        min-height: 74px;
-        @include forFeature('a11yListOversizedFocus') {
-          min-height: unset;
-        }
 
         @include media-breakpoint-up(lg) {
           .text {
             // reset padding for .text, when it's already added for parent <a>
             padding-inline-start: 0;
-          }
-        }
-        // TODO: (CXSPA-6804) - Remove feature flag next major release
-        &[tabindex='0'],
-        &[tabindex='0']:hover {
-          text-decoration: underline;
-          color: var(--cx-color-primary);
-        }
-
-        &[tabindex='-1'],
-        &[tabindex='-1']:hover {
-          color: inherit;
-          text-decoration: none;
-        }
-        @include forFeature('a11yUnitsListKeyboardControls') {
-          &[tabindex='0'],
-          &[tabindex='0']:hover {
-            text-decoration: unset;
-            color: unset;
-          }
-
-          &[tabindex='-1'],
-          &[tabindex='-1']:hover {
-            color: unset;
-            text-decoration: unset;
           }
         }
       }

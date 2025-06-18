@@ -2,11 +2,7 @@ cx-import-entries-dialog {
   background-color: rgba(0, 0, 0, 0.5);
 
   .cx-import-entries-dialog {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-
     .cx-import-entries-container {
-      @extend .modal-content;
       pointer-events: none;
 
       button,
@@ -22,17 +18,14 @@ cx-import-entries-dialog {
           line-height: var(--cx-line-height, 1.2222222222);
         }
 
-        @include forFeature('a11yVisibleFocusOverflows') {
-          .cx-import-entries-close {
-            margin: 0;
-            padding: 0;
-          }
+        .cx-import-entries-close {
+          margin: 0;
+          padding: 0;
         }
       }
 
       cx-import-entries-form,
       cx-import-to-new-saved-cart-form {
-        @extend .modal-body;
         background-color: var(--cx-color-inverse);
         .cx-import-entries-subtitle {
           font-weight: var(--cx-font-weight-bold);
@@ -95,8 +88,6 @@ cx-import-entries-dialog {
       }
 
       cx-import-entries-summary {
-        @extend .modal-body;
-
         ul {
           margin: -0.75rem 0 1.5rem;
           overflow: auto;

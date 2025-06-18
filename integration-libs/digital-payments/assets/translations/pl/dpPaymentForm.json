@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "Wkrótce zostaniesz przekierowany na zewnętrzną stronę w celu rejestracji karty",
+    "callback": "Proszę czekać... Pobieranie szczegółów płatności...",
+    "cancelledOrFailed": "Rejestracja karty zakończona niepowodzeniem lub anulowana",
+    "error": {
+      "redirect": "Nie można rozpocząć operacji. Spróbuj ponownie",
+      "paymentFetch": "Nie można pobrać szczegółów płatności. Spróbuj ponownie.",
+      "unknown": "Podczas pobierania płatności wystąpił nieznany błąd. Prosimy o kontakt z obsługą klienta."
+    },
+    "confirmation": {
+      "heading": "Masz niezapisane zmiany.",
+      "text": "Zamknięcie tego okna dialogowego spowoduje utratę wszystkich wprowadzonych zmian. Czy na pewno chcesz zamknąć okno?"
+    }
+  }
+}

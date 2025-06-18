@@ -14,6 +14,7 @@ import { BaseItem } from './organization.model';
 
 @Directive({
   selector: '[cxOrgItemActive]',
+  standalone: false,
 })
 export class ItemActiveDirective<T extends BaseItem = BaseItem>
   implements OnInit, OnDestroy

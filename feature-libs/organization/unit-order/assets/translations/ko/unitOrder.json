@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "단위 레벨 주문 내역",
+    "orderId": "주문 번호",
+    "emptyPurchaseOrderId": "없음",
+    "date": "날짜",
+    "status": "상태",
+    "buyer": "구매자",
+    "unit": "단위",
+    "total": "합계",
+    "noOrders": "단위에 일치하는 주문 기록이 없습니다.",
+    "startShopping": "배송 시작",
+    "sortBy": "정렬 기준",
+    "sortOrders": "정렬 순서",
+    "purchaseOrderNumber": "구매 주문 번호",
+    "startOn": "시작일",
+    "frequency": "빈도",
+    "nextOrderDate": "다음 주문일",
+    "notFound": "주문이 없습니다.",
+    "applyFilter": "적용",
+    "filterBy": "필터 기준",
+    "filterByBuyer": "구매자별 필터",
+    "filterByBuyerLabel": "구매자 이름",
+    "filterByBuyerPlaceholder": "구매자 이름 입력",
+    "filterByBuyerAriaLabel": "구매자별 목록 필터",
+    "filterByUnit": "단위별 필터",
+    "filterByUnitLabel": "단위 이름",
+    "filterByUnitPlaceholder": "단위 이름 입력",
+    "filterByUnitAriaLabel": "단위별 목록 필터",
+    "search": "검색",
+    "clearAll": "모두 지우기",
+    "removeAppliedFilters": "필터 제거",
+    "yourFilters": "필터:",
+    "and": " 및 "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "날짜",
+    "orderNumber": "주문 번호",
+    "buyer": "구매자(오름차순)",
+    "buyerDesc": "구매자(내림차순)",
+    "orgUnit": "단위(오름차순)",
+    "orgUnitDesc": "단위(내림차순)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "구매자"
+  }
+}

@@ -11,6 +11,7 @@ import { PaginationModel } from '@spartacus/core';
   selector: 'cx-total',
   templateUrl: './total.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TotalComponent {
   private _pagination: PaginationModel;

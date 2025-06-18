@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "稱謂",
+    "titleOptional": "稱謂 (選擇性)",
+    "defaultTitle": "稱謂",
+    "firstName": {
+      "label": "名字",
+      "placeholder": "名字"
+    },
+    "lastName": {
+      "label": "姓氏",
+      "placeholder": "姓氏"
+    },
+    "address1": "地址 1",
+    "address2": "地址行 2 (選擇性)",
+    "country": "國家/地區",
+    "city": {
+      "label": "城市",
+      "placeholder": "城市"
+    },
+    "state": "州",
+    "zipCode": {
+      "label": "郵遞區號",
+      "placeholder": "郵遞區號/ZIP"
+    },
+    "phoneNumber": {
+      "label": "電話號碼 (選擇性)",
+      "placeholder": "範例：(###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "行動電話號碼 (選擇性)",
+      "placeholder": "範例：(###) - ### - ####"
+    },
+    "saveAsDefault": "儲存為預設",
+    "chooseAddress": "選擇地址",
+    "streetAddress": "街道地址",
+    "aptSuite": "公寓號碼",
+    "selectOne": "選擇一個...",
+    "setAsDefault": "設定為預設交貨地址",
+    "titleRequired": "稱謂為必要。",
+    "userAddressAddSuccess": "已成功新增地址！",
+    "userAddressUpdateSuccess": "已成功更新地址！",
+    "userAddressDeleteSuccess": "已成功刪除地址！",
+    "invalidAddress": "地址無效"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "新增交貨地址",
+    "editDeliveryAddress": "編輯交貨地址",
+    "areYouSureToDeleteAddress": "是否確定要刪除此地址？",
+    "addNewAddress": "新增地址",
+    "addAddress": "新增地址",
+    "updateAddress": "更新地址",
+    "backToAddressList": "返回地址清單",
+    "defaultDeliveryAddress": "預設交貨地址",
+    "additionalDeliveryAddress": "附加交貨地址 {{number}}"
+  },
+  "addressCard": {
+    "default": "預設",
+    "selected": "已選擇",
+    "selectedAddress": "所選地址",
+    "setAsDefault": "設定為預設",
+    "shipTo": "運送地址",
+    "billTo": "帳單地址",
+    "phoneNumber": "電話號碼",
+    "mobileNumber": "行動電話號碼"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "驗證地址",
+    "ensureAccuracySuggestChange": "為了確保交貨準確性，建議您更改下方所選項目。",
+    "chooseAddressToUse": "請選擇要使用的地址：",
+    "suggestedAddress": "建議的地址",
+    "enteredAddress": "輸入的地址",
+    "editAddress": "編輯地址",
+    "saveAddress": "儲存地址"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "已成功將地址 {{ streetAddress }} 設定為預設"
+  }
+}

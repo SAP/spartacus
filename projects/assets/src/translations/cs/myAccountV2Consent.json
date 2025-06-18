@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "Správa souhlasů",
+    "dateDescription": "Schváleno dne ",
+    "clearAll": "Deaktivovat vše",
+    "selectAll": "Aktivovat vše",
+    "message": {
+      "success": {
+        "given": "Souhlas úspěšně udělen.",
+        "withdrawn": "Souhlas úspěšně odvolán."
+      }
+    }
+  }
+}

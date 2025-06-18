@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "배송일  요청",
+    "readOnlyTextLabel": "요청된 배송일",
+    "successMessage": "배송일이 업데이트되었습니다.",
+    "errorMessage": "문제가 발생했습니다. 요청된 날짜를 업데이트할 수 없습니다."
+  }
+}

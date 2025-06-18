@@ -1,0 +1,10 @@
+{
+  "siteThemeSwitcher": {
+    "theme": "테마",
+    "themes": {
+      "default": "기본값",
+      "highContrastDark": "HC-어두움",
+      "highContrastLight": "HC-밝음"
+    }
+  }
+}

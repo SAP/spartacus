@@ -7,3 +7,5 @@
 export * from './converters';
 export * from './opf-payment.adapter';
 export * from './opf-payment.connector';
+export * from './opf-payment-occ.adapter';
+export * from './opf-payment-occ.connector';

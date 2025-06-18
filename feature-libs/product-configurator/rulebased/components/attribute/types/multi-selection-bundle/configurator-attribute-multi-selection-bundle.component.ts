@@ -23,6 +23,7 @@ interface SelectionValue {
   selector: 'cx-configurator-attribute-multi-selection-bundle',
   templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

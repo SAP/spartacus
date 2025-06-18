@@ -21,6 +21,7 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
 @Component({
   selector: 'cx-customer-ticketing-close',
   templateUrl: './customer-ticketing-close.component.html',
+  standalone: false,
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
   protected subscription = new Subscription();

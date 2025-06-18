@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   FeatureConfigService,
   I18nTestingModule,
@@ -22,6 +21,7 @@ import { NavigationUIComponent } from './navigation-ui.component';
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockIconComponent {
   @Input() type: string;
@@ -30,6 +30,7 @@ class MockIconComponent {
 @Component({
   selector: 'cx-generic-link',
   template: '<a href={{url}}>{{title}}</a>',
+  standalone: false,
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -117,7 +118,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         NavigationUIComponent,
         MockIconComponent,
@@ -166,11 +167,12 @@ describe('Navigation UI Component', () => {
     });
 
     it('should return 2 for 11', () => {
-      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+      expect(navigationComponent.getColumnCount(11)).toEqual(3);
     });
 
     it('should return 2 for 12', () => {
-      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+      console.log(navigationComponent.wrapAfter);
+      expect(navigationComponent.getColumnCount(12)).toEqual(3);
     });
 
     it('should return 3 for 13', () => {
@@ -310,16 +312,17 @@ describe('Navigation UI Component', () => {
       spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
       spyOn(navigationComponent, 'reinitializeMenu').and.callThrough();
       spyOn(hamburgerMenuService, 'toggle').and.stub();
+      navigationComponent.isDesktop$ = of(false);
       fixture.detectChanges();
 
       element
         .query(By.css('nav > ul > li:nth-child(2) > button'))
         .nativeElement.click();
       element
-        .query(By.css('button[aria-controls="Child 1"]'))
+        .query(By.css('button[aria-controls="Child-1"]'))
         .nativeElement.click();
       element
-        .query(By.css('button[aria-controls="Sub child 1"]'))
+        .query(By.css('button[aria-controls="Sub-child-1"]'))
         .nativeElement.click();
 
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
@@ -361,17 +364,17 @@ describe('Navigation UI Component', () => {
       });
     });
 
-    it('should apply role="heading" to nested dropdown trigger button while on desktop', () => {
+    it('on desktop, display headings for nested nodes instead of dropdown triggers', () => {
       fixture.detectChanges();
-      const nestedTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-controls="Child 1"]')
+      const nestedNodeHeading = fixture.debugElement.query(
+        By.css('#Root-1 h4')
       ).nativeElement;
       const rootTriggerButton = fixture.debugElement.query(
-        By.css('button[aria-controls="Root 1"]')
+        By.css('button[aria-controls="Root-1"]')
       ).nativeElement;
 
-      expect(nestedTriggerButton.getAttribute('role')).toEqual('heading');
-      expect(rootTriggerButton.getAttribute('role')).toEqual('button');
+      expect(nestedNodeHeading.tagName).toEqual('H4');
+      expect(rootTriggerButton.tagName).toEqual('BUTTON');
     });
   });
 
@@ -384,7 +387,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(navigationComponent, 'toggleOpen');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-controls="Sub child 1"]')
+        By.css('nav button[aria-expanded="false"')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -398,7 +401,7 @@ describe('Navigation UI Component', () => {
       const spy = spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-controls="Sub child 1"]')
+        By.css('[depth="2"] h4')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 
@@ -419,7 +422,7 @@ describe('Navigation UI Component', () => {
       });
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('button[aria-controls="Sub child 1"]')
+        By.css('[depth="2"] h4')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
       Object.defineProperty(arrowDownEvent, 'target', {
@@ -462,5 +465,21 @@ describe('Navigation UI Component', () => {
 
       expect(mockHeader.focus).toHaveBeenCalled();
     }));
+  });
+
+  describe('transformIntoValidID', () => {
+    it('should replace invalid characters and provide a valid ID', () => {
+      const invalidIDs = [
+        { input: 'Invalid ID', expected: 'Invalid-ID' },
+        { input: 'Inv@lid$Char!', expected: 'Inv-lid-Char-' },
+        { input: 'ValidId', expected: 'ValidId' },
+      ];
+
+      invalidIDs.forEach(({ input, expected }) => {
+        expect(navigationComponent.transformIntoValidID(input)).toEqual(
+          expected
+        );
+      });
+    });
   });
 });

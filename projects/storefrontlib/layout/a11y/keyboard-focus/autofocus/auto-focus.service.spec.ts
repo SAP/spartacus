@@ -24,6 +24,7 @@ import { AutoFocusService } from './auto-focus.service';
       <div id="e2"></div>
     </div>
   `,
+  standalone: false,
 })
 class MockComponent {}
 

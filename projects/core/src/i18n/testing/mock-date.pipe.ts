@@ -7,7 +7,10 @@
 import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'cxDate' })
+@Pipe({
+  name: 'cxDate',
+  standalone: false,
+})
 export class MockDatePipe extends DatePipe implements PipeTransform {
   transform(value: any, ...args: any[]): any;
   // Overload to support stricter type check from angular 11 onwards

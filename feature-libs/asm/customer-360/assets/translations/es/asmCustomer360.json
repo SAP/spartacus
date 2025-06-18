@@ -1,0 +1,129 @@
+{
+  "asmCustomer360": {
+    "alertErrorMessage": "La información no se puede cargar. Inténtelo de nuevo más tarde o póngase en contacto con el administrador del sistema.",
+    "errorMessageHeader": "Se produjo un error",
+    "applyActionAlter": "No se pudo completar la acción. Inténtelo de nuevo más tarde.",
+    "header": {
+      "title": "Perfil del cliente",
+      "newTitle": "Customer 360°",
+      "subTitle": "{{name}} Customer 360° View",
+      "newSubTitle": "{{name}} 360 View",
+      "activeCartLabel": "{{cartSize}} artículo añadido a la cesta",
+      "recentOrderLabel": "Último pedido {{price}}",
+      "recentTicketLabel": "Último ticket",
+      "signedUpAt": "Cuenta creada el {{date}}"
+    },
+    "productListing": {
+      "totalNoItems": "Cantidad total de artículos {{count}}",
+      "totalPrice": "Precio total {{price}}",
+      "showMore": "Mostrar más",
+      "showLess": "Mostrar menos"
+    },
+    "productItem": {
+      "outOfStock": "No disponible en stock",
+      "quantity": "Ctd.: {{count}}",
+      "itemPrice": "Precio del artículo: {{price}}"
+    },
+    "activeCart": {
+      "header": "Cesta activa",
+      "emptyDescription": "Actualmente no hay artículos en la cesta activa",
+      "aria": {
+        "linkLabel": "Cesta activa {{code}}"
+      }
+    },
+    "savedCart": {
+      "header": "Última cesta grabada",
+      "emptyDescription": "Actualmente no hay artículos guardados en la cesta",
+      "aria": {
+        "linkLabel": "Última cesta grabada {{code}}"
+      }
+    },
+    "productInterests": {
+      "header": "Intereses",
+      "emptyDescription": "Actualmente no hay artículos de intereses"
+    },
+    "profile": {
+      "address": "Dirección",
+      "billingAddress": "Dirección de facturación",
+      "deliveryAddress": "Dirección de entrega",
+      "phone1": "Teléfono 1",
+      "phone2": "Teléfono 2",
+      "paymentMethodHeader": "Métodos de pago grabados"
+    },
+    "activity": {
+      "type": "Tipo",
+      "id": "ID",
+      "description": "Descripción",
+      "status": "Estado",
+      "created": "Creado",
+      "updated": "Actualizado",
+      "numberOfCartItems": "Cesta con {{count}} artículos",
+      "cart": "Cesta",
+      "order": "Pedido",
+      "savedCart": "Cesta guardada",
+      "emptyStateText": "Actualmente no hay actividad de cliente registrada",
+      "headerText": "General"
+    },
+    "productReviews": {
+      "columnHeaders": {
+        "item": "Artículo",
+        "dateAndStatus": "Fecha/Estado",
+        "rating": "Clasificación",
+        "review": "Reseñas"
+      },
+      "header": "Reseñas del producto",
+      "emptyDescription": "Actualmente no hay artículos con reseñas del producto",
+      "sku": "SKU"
+    },
+    "supportTickets": {
+      "columnHeaders": {
+        "id": "ID",
+        "headline": "Título",
+        "category": "Categoría"
+      },
+      "header": "Tickets de soporte",
+      "emptyDescription": "Actualmente no hay tickets de soporte"
+    },
+    "coupons": {
+      "headerText": "Cupones",
+      "emptyDescription": "Actualmente no hay cupones",
+      "applyButtonText": "Aplicar a la cesta",
+      "applied": "Cupón aplicado",
+      "removeButtonText": "Eliminar"
+    },
+    "promotions": {
+      "headerText": "Promociones",
+      "emptyDescription": "Actualmente no hay promociones",
+      "applied": "Promoción aplicada",
+      "headerName": "Nombre",
+      "headerAction": "Acción"
+    },
+    "customerCoupons": {
+      "headerText": "Cupones del cliente",
+      "emptyDescription": "Actualmente no hay cupones del cliente",
+      "applyButtonText": "Asignar a cliente",
+      "removeButtonText": "Eliminar",
+      "availableTab": "Disponible",
+      "sentTab": "Enviado",
+      "searchBox": "Cupón"
+    },
+    "maps": {
+      "storeClosed": "Cerrar",
+      "storesFound": "Existen {{ initial }} - {{ end }} de {{ total }} tiendas"
+    },
+    "overviewTab": "Resumen",
+    "profileTab": "Perfil",
+    "activityTab": "Actividad",
+    "feedbackTab": "Comentarios",
+    "promotionsTab": "Promociones",
+    "mapsTab": "Mapas",
+    "storeLocationsTab": "Ubicaciones de almacén",
+    "aria": {
+      "activeCartCode": "Cesta activa {{code}}",
+      "recentOrderCode": "Último pedido {{code}}"
+    },
+    "pagination": "Paginación",
+    "page": "Página {{number}}",
+    "emptyCellValue": "---"
+  }
+}

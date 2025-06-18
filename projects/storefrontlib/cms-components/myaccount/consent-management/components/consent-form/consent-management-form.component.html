@@ -14,17 +14,24 @@
         <br />
       </ng-container>
     </span>
-    <span
-      *cxFeature="'!a11yNotificationsOnConsentChange'"
-      class="form-check-label"
-    >
+    <span class="form-check-label">
       {{ consentTemplate?.description }}
+      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
   </label>
-  <span
-    *cxFeature="'a11yNotificationsOnConsentChange'"
-    class="form-check-label"
-  >
+  <span class="form-check-label">
     {{ consentTemplate?.description }}
+    <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
   </span>
 </div>
+
+<ng-template #requiredAsterisk>
+  <ng-container *ngIf="showMandatory">
+    <abbr
+      aria-hidden="true"
+      class="text-decoration-none required-asterisk"
+      title="{{ 'common.required' | cxTranslate }}"
+      >*</abbr
+    >
+  </ng-container>
+</ng-template>

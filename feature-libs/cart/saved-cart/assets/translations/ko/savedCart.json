@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "이름",
+    "cartDescription": "설명",
+    "cartId": "ID",
+    "dateSaved": "저장 날짜",
+    "items": "품목",
+    "quantity": "수량",
+    "total": "합계",
+    "editSavedCart": "저장된 장바구니 편집",
+    "deleteSavedCart": "저장된 장바구니 삭제",
+    "addSelectedItems": "선택된 품목 추가",
+    "emptyCartItems": "장바구니 품목 비우기"
+  },
+  "savedCartList": {
+    "savedCarts": "저장된 장바구니({{count}})",
+    "cartName": "이름",
+    "cartId": "ID",
+    "dateSaved": "저장 날짜",
+    "cartDescription": "설명",
+    "quantity": "수량",
+    "quantityFull": "수량",
+    "total": "합계",
+    "actions": "작업",
+    "makeCartActive": "장바구니를 활성으로 설정",
+    "notFound": "저장된 장바구니가 없습니다.",
+    "swapCartNoActiveCart": "이전 장바구니가 {{cartName}}에 의해 활성화되었습니다.",
+    "swapCartWithActiveCart": "이전 장바구니가 {{cartName}}에 의해 활성화되었습니다. 이전 품목이 장바구니 {{previousCartName}}에 저장되었습니다."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "장바구니 품목을 나중에 사용하기 위해 \"{{cartName}}\" 장바구니에 저장했습니다."
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "저장 후 나중에 사용",
+    "itemsSavedForLater": "장바구니의 모든 품목을 나중에 사용하기 위해 저장합니다.",
+    "savedCartName": "저장된 장바구니 이름",
+    "savedCartDescription": "저장된 장바구니 설명",
+    "optional": "옵션",
+    "charactersLeft": "{{count}}자 남음",
+    "cancel": "취소",
+    "save": "저장",
+    "restore": "복원",
+    "followingCartDelete": "다음 저장된 장바구니가 삭제됩니다.",
+    "followingCartRestore": "다음 저장된 장바구니가 활성 장바구니로 복원됩니다.",
+    "delete": "삭제",
+    "deleteCartSuccess": "장바구니가 삭제되었습니다.",
+    "editCartSuccess": "장바구니가 편집되었습니다.",
+    "editSavedCart": "저장된 장바구니 편집",
+    "deleteSavedCart": "저장된 장바구니 삭제",
+    "restoreSavedCart": "저장된 장바구니 복원",
+    "name": "이름",
+    "id": "ID",
+    "description": "설명",
+    "quantity": "수량",
+    "quantityFull": "수량",
+    "total": "합계",
+    "keepCopySavedCart": "이 장바구니의 복사본을 저장된 장바구니 목록에 보관",
+    "defaultCloneCartName": "{{name}}의 복사본",
+    "nameOfCloneCart": "복사된 장바구니 이름"
+  },
+  "addToSavedCart": {
+    "savedCarts": "저장된 장바구니",
+    "saveCartForLater": "장바구니를 저장 후 나중에 사용"
+  }
+}

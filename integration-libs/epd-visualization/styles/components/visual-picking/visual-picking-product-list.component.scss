@@ -29,6 +29,25 @@
     height: 48px;
   }
 
+  .list-panel,
+  .slides,
+  .slide,
+  .item,
+  .thumbnail-and-product-info,
+  .cx-code,
+  .price,
+  .add-to-cart {
+    @include media-breakpoint-down(sm) {
+      padding: 0 !important;
+    }
+  }
+
+  .product-info {
+    @include media-breakpoint-down(sm) {
+      padding: 3px !important;
+    }
+  }
+
   .list-header {
     @include type('8');
     justify-content: space-between;
@@ -46,6 +65,10 @@
     align-items: center;
 
     padding: 0.5rem;
+    @include media-breakpoint-down(sm) {
+      padding: 0 !important;
+    }
+
     border-width: 1px;
     border-style: solid;
     border-color: transparent transparent var(--cx-color-light) transparent;
@@ -64,6 +87,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    @include media-breakpoint-down(sm) {
+      padding: 0 !important;
+    }
   }
 
   .thumbnail {
@@ -102,7 +128,7 @@
     padding: 1.125rem 0;
 
     @include media-breakpoint-down(sm) {
-      padding: 1rem 0;
+      padding: 0 !important;
     }
 
     text-transform: uppercase;
@@ -125,7 +151,7 @@
   .cx-name {
     @include type('5');
     overflow-wrap: break-word;
-    padding: 0;
+    padding: 0 !important;
 
     @include media-breakpoint-down(lg) {
       @include type('7');
@@ -145,7 +171,10 @@
     @include type('7');
     color: var(--cx-color-secondary);
     overflow-wrap: break-word;
-    padding: 0.625rem 0 0 0;
+    padding: 0.625rem 0 0 0 !important;
+    @include media-breakpoint-down(sm) {
+      padding: 0 !important;
+    }
   }
 
   .cx-price {
@@ -153,7 +182,7 @@
     justify-content: flex-end;
     text-align: end;
     overflow-wrap: break-word;
-    padding: 0 1em 0 0; // rtl equivalent in in html[dir='rtl'] section at end
+    padding: 0 1em 0 0 !important; // rtl equivalent in in html[dir='rtl'] section at end
 
     @include type('5', $font-weight-normal);
 
@@ -175,6 +204,9 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    @include media-breakpoint-down(sm) {
+      padding: 0 !important;
+    }
   }
 
   .flex-column {
@@ -197,11 +229,11 @@
 
 html[dir='rtl'] cx-epd-visualization-product-list {
   .cx-item-list-price {
-    padding: 0 0 0 1em;
+    padding: 0 0 0 1em !important;
   }
 
   .cx-price {
-    padding: 0 0 0 1em;
+    padding: 0 0 0 1em !important;
   }
 
   .thumbnail {

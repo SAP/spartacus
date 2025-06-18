@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Kundenservice",
+    "showMore": "Mehr anzeigen",
+    "showMoreLabel": "Zum Verlauf der Kundenserviceanforderungen navigieren ",
+    "changedOn": "Geändert am: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "Betreff",
+    "idLabel": "Kundenservice-ID"
+  }
+}

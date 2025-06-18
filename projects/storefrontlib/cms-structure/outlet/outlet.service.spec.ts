@@ -27,16 +27,19 @@ const OUTLET_NAME_4 = 'OUTLET.4';
     <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
   `,
+  standalone: false,
 })
 class TestContainerComponent {}
 
 @Component({
   template: ` any `,
+  standalone: false,
 })
 class AnyComponent {}
 
 @Component({
   template: ` any2 `,
+  standalone: false,
 })
 class Any2Component {}
 @NgModule({

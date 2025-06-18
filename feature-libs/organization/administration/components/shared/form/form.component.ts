@@ -10,6 +10,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
@@ -30,6 +31,7 @@ const DISABLED_STATUS = 'DISABLED';
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
   /**
@@ -68,7 +70,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    @Optional() protected messageService: MessageService
   ) {}
 
   save(form: UntypedFormGroup): void {
@@ -96,7 +98,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   protected notify(item: T | undefined, action: string) {
-    this.messageService.add({
+    this.messageService?.add({
       message: {
         key: `${this.i18nRoot}.messages.${action}`,
         params: {

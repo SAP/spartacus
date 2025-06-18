@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "Za chvíli vás přesměrujeme na stránku třetí strany k registraci karty",
+    "callback": "Chvíli počkejte… načítáme detaily platby…",
+    "cancelledOrFailed": "Registrace karty selhala nebo byla zrušena",
+    "error": {
+      "redirect": "Nepodařilo se spustit operaci. Zkuste to znovu.",
+      "paymentFetch": "Nedaří se načíst detaily platby. Zkuste to znovu.",
+      "unknown": "Došlo k neznámé chybě při načítání platby. Obraťte se na podporu."
+    },
+    "confirmation": {
+      "heading": "Máte neuložené změny.",
+      "text": "Pokud nyní zavřete dialogové okno, ztratíte všechny provedené změny. Opravdu chcete okno zavřít?"
+    }
+  }
+}

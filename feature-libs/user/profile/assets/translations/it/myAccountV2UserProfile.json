@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "Indirizzo e-mail personale",
+    "myInformation": "Informazioni personali",
+    "name": "Nome",
+    "customerId": "ID cliente",
+    "title": "Titolo",
+    "firstName": "Nome",
+    "lastName": "Cognome"
+  }
+}

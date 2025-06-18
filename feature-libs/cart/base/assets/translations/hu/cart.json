@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "Azonosító",
+    "proceedToCheckout": "Tovább a fizetéshez",
+    "cartName": "Kosár #{{code}}"
+  },
+  "cartItems": {
+    "id": "Azonosító",
+    "description": "Leírás",
+    "item": "Tétel",
+    "itemPrice": "Tétel ára",
+    "quantity": "Menny.",
+    "quantityFull": "Mennyiség",
+    "quantityTitle": "A mennyiség a tétel teljes darabszámát jelzi a kosárban.",
+    "total": "Összesen",
+    "actions": "Műveletek",
+    "cartTotal": "Kosár összege ({{count}} tétel)",
+    "cartTotal_other": "Kosár összege ({{count}} tétel)",
+    "itemRemoved": "A kiválasztott tétel el lett távolítva. A kosár összege frissült.",
+    "caption": "A bevásárlókosár tartalma."
+  },
+  "orderCost": {
+    "orderSummary": "Rendelés összefoglalása",
+    "subtotal": "Részösszeg az engedmények után:",
+    "shipping": "Kiszállítás:",
+    "estimatedShipping": "Becsült kiszállítás:",
+    "discount": "Megtakarítás:",
+    "salesTax": "Forgalmi adó:",
+    "grossTax": "A rendelés összege nem tartalmazza az adókat:",
+    "grossIncludeTax": "A rendelés összege tartalmazza az adókat:",
+    "total": "Összesen:",
+    "toBeDetermined": "Meghatározandó"
+  },
+  "voucher": {
+    "coupon": "Szeretne felhasználni egy kupont?",
+    "coupon_other": "Kuponkódok",
+    "couponLabel": "Itt megadhatja a promóciós kódot",
+    "addCoupon": "Kupon hozzáadása",
+    "apply": "Alkalmaz",
+    "placeholder": "Promóciós kód",
+    "applyVoucherSuccess": "{{voucherCode}} alkalmazva.",
+    "removeVoucherSuccess": "{{voucherCode}} eltávolítva.",
+    "anchorLabel": "Kuponkód megadása vagy eltávolítása",
+    "vouchersApplied": "Alkalmazott kuponok",
+    "availableCoupons": "Elérhető kuponok",
+    "availableCouponsLabel": "Ezeket a kuponokat hozzáadhatja a rendeléshez."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Mentve későbbre ({{count}} tétel)",
+    "itemTotal_other": "Mentve későbbre ({{count}} tétel)",
+    "cartTitle": "Kosár",
+    "saveForLater": "Mentés későbbre",
+    "moveToCart": "Kosárba",
+    "stock": "Készlet",
+    "forceInStock": "Készleten"
+  },
+  "clearCart": {
+    "clearCart": "Kosár kiürítése",
+    "clearingCart": "Kosár kiürítése...",
+    "cartClearedSuccessfully": "Az aktív kosár kiürítése sikeres.",
+    "areYouSureToClearCart": "Biztosan szeretné kiüríteni ezt a kosarat?",
+    "allItemsWillBeRemoved": "Az aktív kosárban található minden tétel el lesz távolítva."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "A fizetés során hibát észleltünk a bejegyzéseiben. Ellenőrizze a kosarát.",
+    "cartEntryRemoved": "A(z) {{name}} nincs készleten, így el lett távolítva a kosárból.",
+    "productOutOfStock": "Nincs elegendő készlet, így a(z) {{name}} el lett távolítva a kosárból.",
+    "lowStock": "Mennyiség a következőre csökkentve alacsony készlet miatt: {{quantity}}.",
+    "reviewConfiguration": "Előbb oldja meg a kosárbejegyzés konfigurációs problémáit.",
+    "configurationError": "Előbb oldja meg a kosárbejegyzések konfigurációs problémáit.",
+    "pricingError": "A konfiguráló árképzése jelenleg nem áll rendelkezésre. Fizetés/ajánlat beküldése nem lehetséges. Próbálkozzon újra később.",
+    "unresolvableIssues": "A termék konfigurációja kiegészítő bejegyzéseket igényel a háttérrendszerben. Emiatt nem tud továbblépni. Forduljon a támogatáshoz.",
+    "inProgress": "Feldolgozás"
+  }
+}

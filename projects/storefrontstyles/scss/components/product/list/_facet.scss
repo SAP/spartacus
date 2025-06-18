@@ -8,13 +8,9 @@ $intialExpandedFacetsLarge: 3 !default;
   margin: 0.4rem 0;
   padding: 0.4rem;
   width: 100%;
-  border-bottom: 1px solid var(--cx-color-light);
+  border-bottom: 1px solid var(--cx-color-medium);
   cursor: pointer;
   font-weight: var(--cx-font-weight-semi);
-
-  @include forFeature('a11yImproveContrast') {
-    border-bottom: 1px solid var(--cx-color-medium);
-  }
 
   &:hover,
   &:focus {
@@ -166,56 +162,22 @@ $intialExpandedFacetsLarge: 3 !default;
       width: 1.3rem;
       height: 1.35rem;
       border-radius: 0.2rem;
-      border: solid 1px var(--cx-color-light);
+      border: solid 1px var(--cx-color-text);
       display: flex;
       justify-content: center;
       align-items: center;
       margin-inline-end: 0.5rem;
-
-      @include forFeature('a11yImproveContrast') {
-        border: solid 2px var(--cx-color-text);
-      }
     }
 
     &.selected::before {
       background-color: var(--cx-color-primary);
       border-color: var(--cx-color-primary);
       color: var(--cx-color-inverse);
-    }
-  }
 
-  @mixin native-high-contrast-fix {
-    @media (forced-colors: active) {
-      a,
-      button {
-        color: CanvasText;
-        &.value:hover {
-          color: LinkText;
-        }
-      }
-
-      &.multi-select a.value {
-        forced-color-adjust: none;
-        &:hover {
-          &:not(.selected)::before {
-            border-color: LinkText;
-          }
-        }
-        &::before {
-          border: solid 2px CanvasText;
-        }
-        &.selected::before {
-          background-color: Canvas;
-          border-color: CanvasText;
-          color: CanvasText;
-        }
+      @include cx-highContrastTheme-dark {
+        background-color: transparent;
+        border-color: var(--cx-color-dark);
       }
     }
-  }
-
-  @include native-high-contrast-fix;
-
-  @include cx-highContrastTheme {
-    @include native-high-contrast-fix;
   }
 }

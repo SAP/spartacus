@@ -16,10 +16,13 @@ import { lastValueFrom } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CONFIG_INITIALIZER } from '../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
 import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { AuthConfigInitializer } from './config/auth-config-initializer';
+import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
+import { defaultAuthConfigFactory } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
@@ -91,7 +94,7 @@ export class UserAuthModule {
     return {
       ngModule: UserAuthModule,
       providers: [
-        provideDefaultConfig(defaultAuthConfig),
+        provideDefaultConfigFactory(defaultAuthConfigFactory),
         provideConfigValidator(baseUrlConfigValidator),
         ...interceptors,
         {

@@ -23,6 +23,7 @@ class MockLanguageService {
 @Component({
   selector: 'cx-cpq-quote-offer',
   template: '',
+  standalone: false,
 })
 class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;

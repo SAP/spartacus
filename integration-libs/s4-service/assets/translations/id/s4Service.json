@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Rincian Layanan",
+    "serviceScheduleHeading": "Jadwal Layanan - Tanggal dan Waktu",
+    "address": "Sama Seperti Alamat Pengiriman",
+    "serviceLocationHeading": "Lokasi Layanan",
+    "datePickerLabel": "Jadwalkan Tanggal Layanan",
+    "timePickerLabel": "Jadwalkan Waktu Layanan",
+    "unknownError": "Terjadi kesalahan yang tidak diketahui. Silakan hubungi bagian dukungan.",
+    "productDeliveryOptions": "Opsi Pengiriman Produk",
+    "serviceDeliveryOption": "Opsi Penyediaan Layanan",
+    "productDeliveryMethods": "Metode Pengiriman Produk",
+    "serviceDeliveryMethod": "Metode Penyediaan Layanan"
+  },
+  "cancelService": {
+    "heading": "Item berikut akan dimasukkan dalam permintaan pembatalan",
+    "cancelReason": "Alasan di balik pembatalan layanan",
+    "optional": "(opsional)",
+    "action": "Batalkan Layanan",
+    "back": "Kembali",
+    "Submit": "Kirimkan Permintaan",
+    "cancelServiceSuccess": "Layanan telah berhasil dibatalkan",
+    "unknownError": "Terjadi kesalahan yang tidak diketahui. Silakan hubungi bagian dukungan.",
+    "ServiceTime": "Waktu Layanan",
+    "ServiceLocation": "Lokasi Layanan",
+    "ServiceDate": "Tanggal Layanan",
+    "SubmitRequest": "Kirimkan Permintaan",
+    "serviceNotRcancelable": "Layanan tidak dapat dibatalkan",
+    "charactersLeft": "karakter tersisa: {{count}}",
+    "Services": "Layanan"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Atur Ulang Jadwal Layanan",
+    "headerLabel": "Layanan",
+    "contentLabel": "Penjadwalan Ulang Layanan - Pilih Tanggal dan Waktu Baru",
+    "datePickerLabel": "Tanggal Layanan",
+    "timePickerLabel": "Waktu Layanan",
+    "backButtonLabel": "Kembali",
+    "submitButtonLabel": "Kirimkan Permintaan",
+    "note": "Harap diperhatikan, butuh sedikit waktu agar permintaan Anda terlihat pada pesanan.",
+    "unknownError": "Terjadi kesalahan yang tidak diketahui. Silakan hubungi bagian dukungan.",
+    "serviceNotReschedulable": "Layanan tidak dapat dijadwalkan ulang.",
+    "serviceNotAmendable": "Layanan tidak dapat dibatalkan atau dijadwalkan ulang jika kurang dari 24 jam sebelum tanggal yang telah ditentukan.",
+    "rescheduleSuccess": "Tanggal dan waktu layanan telah berhasil diubah."
+  }
+}

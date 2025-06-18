@@ -10,7 +10,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -19,12 +18,13 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
-import createSpy = jasmine.createSpy;
 import { UpdatePasswordComponentService } from './update-password-component.service';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
@@ -55,7 +55,6 @@ describe('MyAccountV2PasswordComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        RouterTestingModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
       ],

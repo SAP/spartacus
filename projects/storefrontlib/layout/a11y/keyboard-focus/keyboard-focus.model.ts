@@ -9,7 +9,7 @@ export const FOCUS_ATTR = 'data-cx-focus';
 /** The element attribute used to store the focus group state */
 export const FOCUS_GROUP_ATTR = 'data-cx-focus-group';
 
-export const enum MOVE_FOCUS {
+export enum MOVE_FOCUS {
   NEXT = 1,
   PREV = -1,
 }

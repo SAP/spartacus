@@ -17,6 +17,7 @@ import { UntypedFormGroup } from '@angular/forms';
   selector: 'cx-amend-order-actions',
   templateUrl: './amend-order-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;

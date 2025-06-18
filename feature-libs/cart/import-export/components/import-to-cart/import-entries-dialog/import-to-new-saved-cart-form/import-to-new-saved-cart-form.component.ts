@@ -37,6 +37,7 @@ import { ImportEntriesFormComponent } from '../import-entries-form/import-entrie
   templateUrl: './import-to-new-saved-cart-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
+  standalone: false,
 })
 export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponent {
   descriptionMaxLength: number = 250;

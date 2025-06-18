@@ -15,6 +15,7 @@ import { MediaService } from '../../../shared/components/media/media.service';
   selector: 'cx-pdf',
   templateUrl: './pdf.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PDFComponent {
   url?: string;

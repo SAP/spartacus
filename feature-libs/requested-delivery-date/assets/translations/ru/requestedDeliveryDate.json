@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "Запросить дату доставки",
+    "readOnlyTextLabel": "Запрошенная дата доставки",
+    "successMessage": "Дата доставки обновлена.",
+    "errorMessage": "Что-то пошло не так. Не удалось обновить запрошенную дату."
+  }
+}

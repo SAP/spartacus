@@ -106,69 +106,6 @@ export function checkoutDeliveryMode() {
     .should('eq', 200);
 }
 
-export function checkoutPaymentDetails() {
-  const ReviewOrderPage = waitForPage(
-    '/checkout/review-order',
-    'getReviewOrderPage'
-  );
-  cy.get('cx-payment-method').within(() => {
-    cy.get('cx-card')
-      .eq(0)
-      .within(() => {
-        cy.findByText(my_user.fullName);
-        cy.findByText(my_user.payment.number);
-        cy.findByText(
-          'Expires: ' +
-            my_user.payment.expires.month +
-            '/' +
-            my_user.payment.expires.year
-        );
-        cy.findByText('Use this payment').click();
-      });
-    cy.findByText('Continue').click();
-  });
-  cy.wait(`@${ReviewOrderPage}`).its('response.statusCode').should('eq', 200);
-}
-
-export function reviewAndPlaceOrder() {
-  const ConfirmOrderPage = waitForPage(
-    '/order-confirmation',
-    'getOrderConfirmationPage'
-  );
-  cy.get('cx-review-submit').within(() => {
-    cy.get('cx-card')
-      .eq(0)
-      .within(() => {
-        cy.findByText(my_user.payment.number);
-        cy.findByText(
-          'Expires: ' +
-            my_user.payment.expires.month +
-            '/' +
-            my_user.payment.expires.year
-        );
-      });
-  });
-  cy.get('cx-place-order').within(() => {
-    cy.get('[formcontrolname="termsAndConditions"]').check();
-    cy.findByText('Place Order').click();
-  });
-  cy.wait(`@${ConfirmOrderPage}`).its('response.statusCode').should('eq', 200);
-}
-
-export function orderConfirmation() {
-  cy.get('cx-breadcrumb').within(() => {
-    cy.findByText('Order Confirmation');
-  });
-  cy.get('cx-order-confirmation-thank-you-message');
-  cy.findByText(my_user.payment.number);
-  cy.findByText(
-    'Expires: ' +
-      my_user.payment.expires.month +
-      '/' +
-      my_user.payment.expires.year
-  );
-}
-
 export function interceptDigitalPaymentsRequest() {
   cy.intercept('POST', `**/payment/digitalPayments/request?**`, {
     statusCode: 200,

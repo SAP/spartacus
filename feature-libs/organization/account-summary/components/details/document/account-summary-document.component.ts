@@ -32,6 +32,7 @@ import { skip, switchMap, take, tap } from 'rxjs/operators';
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

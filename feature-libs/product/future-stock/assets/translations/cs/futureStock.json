@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "Budoucí dostupnost",
+    "quantity": "Množství",
+    "noFutureStocks": "Pro tento produkt nejsou informace o budoucí dostupnosti."
+  }
+}

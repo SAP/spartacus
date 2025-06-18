@@ -7,7 +7,11 @@
 import { Request } from 'express';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
-import { RenderingEntry } from './rendering-cache.model';
+import { DefaultCacheEntrySizeCalculator } from './rendering-cache/default-cache-entry-size-calculator';
+import {
+  CacheEntrySizeCalculator,
+  RenderingEntry,
+} from './rendering-cache/rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 
@@ -37,8 +41,39 @@ export interface SsrOptimizationOptions {
    * to be served with next request.
    *
    * Default value is set to 3000.
+   *
+   * @deprecated since v2211.42. Use `cacheSizeBytes` option instead.
+   *             The `cacheSize` option will be removed eventually together with the feature toggle `ssrFeatureToggles.limitCacheByMemory`.
    */
   cacheSize?: number;
+
+  /**
+   * Limits the cache size memory in bytes.
+   *
+   * Specifies the maximum memory (in bytes) allocated for cached entries,
+   * helping to keep memory usage under control.
+   *
+   * The default value is set to 800 MB (meaning 800 000 000 in International System of Units).
+   *
+   * **IMPORTANT**: Your server should have much more available memory than the configured `cacheSizeMemory`,
+   *            because the NodeJS process needs a lot of operational memory also for the rendering activities,
+   *            such as creating instances of the Angular applications for each incoming requests.
+   *            The more parallel requests are allowed (which can be limited with the `concurrency` option),
+   *            the more operational memory is needed.
+   *
+   * *Note*: for calculating the size of the cache entry, the `cacheEntrySizeCalculator` option is used.
+   */
+  cacheSizeMemory?: number;
+
+  /**
+   * Strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size,
+   * so the oldest entries can be removed when the cache size memory limit is reached.
+   *
+   * *Note*: This config option is used only when the `ssrFeatureToggles.limitCacheByMemory` is set to true.
+   *
+   * For details on how each entry's size is calculated by default, see {@link DefaultCacheEntrySizeCalculator}.
+   */
+  cacheEntrySizeCalculator?: CacheEntrySizeCalculator;
 
   /**
    * Limit number of concurrent rendering
@@ -173,6 +208,12 @@ export interface SsrOptimizationOptions {
      * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
      */
     avoidCachingErrors?: boolean;
+
+    /**
+     * When true, the cache size will be limited by memory defined via the `cacheSizeMemory` option.
+     * When false, the cache size will be limited by number of entries defined via the deprecated `cacheSize` option.
+     */
+    limitCacheByMemory?: boolean;
   };
 }
 
@@ -216,6 +257,8 @@ type DefaultSsrOptimizationOptions = Omit<
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
   cacheSize: 3000,
+  cacheSizeMemory: 800_000_000,
+  cacheEntrySizeCalculator: new DefaultCacheEntrySizeCalculator(),
   ttl: undefined,
   concurrency: 10,
   timeout: 3_000,
@@ -233,6 +276,7 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
     ),
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
-    avoidCachingErrors: false,
+    avoidCachingErrors: true,
+    limitCacheByMemory: false,
   },
 };

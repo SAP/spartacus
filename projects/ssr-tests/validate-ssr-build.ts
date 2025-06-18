@@ -40,21 +40,21 @@ import * as path from 'path';
 const SSR_PORT = 4000;
 
 /**
- * String that always appears in the `main.js` file of the SSR app when built with a local backend proxy.
- */
-const USING_PROXY_BACKEND_MARKER = `CX_BASE_URL:"http://localhost:9002"`;
-
-/**
  * String that always appears in the `main.js` file of the SSR app when built in dev mode.
  */
 const USING_DEV_MODE_MARKER = `ngDevMode`;
+
+/**
+ * String that always USING_DEV_MODE_MARKER in the `main.js` file of the SSR app when built with a local backend proxy.
+ */
+const USING_PROXY_BACKEND_MARKER = `CX_BASE_URL:"http://localhost:9002"`;
 
 /**
  * Path to the `main.js` file of the built SSR app.
  */
 const SSR_APP_PATH = path.join(
   __dirname,
-  '../../dist/storefrontapp-server/main.js'
+  '../../dist/storefrontapp/server/server.mjs'
 );
 
 /**
@@ -84,13 +84,29 @@ export default async function validateSsrBuild() {
   if (!fs.existsSync(SSR_APP_PATH)) {
     throw new Error(
       `
-SSR app not found at the expected path '${SSR_APP_PATH}'. 
+SSR app not found at the expected path '${SSR_APP_PATH}'.
 ${BUILD_COMMAND_ADVICE}`
     );
   }
 
-  const fileContents = fs.readFileSync(SSR_APP_PATH, 'utf8');
-  if (!fileContents.includes(USING_PROXY_BACKEND_MARKER)) {
+  // Helper to get all files in a directory (non-recursive)
+  function getFiles(dir: string): string[] {
+    if (!fs.existsSync(dir)) {
+      return [];
+    }
+    return fs
+      .readdirSync(dir)
+      .map((file) => path.join(dir, file))
+      .filter((filePath) => fs.statSync(filePath).isFile());
+  }
+
+  // Check for proxy backend marker in server files
+  const serverDistDir = path.join(__dirname, '../../dist/storefrontapp/server');
+  const serverFiles = getFiles(serverDistDir);
+  const foundProxyBackendMarker = serverFiles.some((filePath) =>
+    fs.readFileSync(filePath, 'utf8').includes(USING_PROXY_BACKEND_MARKER)
+  );
+  if (!foundProxyBackendMarker) {
     throw new Error(
       `
 SSR app is not using a local backend proxy as a base OCC url.
@@ -98,7 +114,16 @@ ${BUILD_COMMAND_ADVICE}`
     );
   }
 
-  if (fileContents.includes(USING_DEV_MODE_MARKER)) {
+  // Check for dev mode marker in server and browser files
+  const browserDistDir = path.join(
+    __dirname,
+    '../../dist/storefrontapp/browser'
+  );
+  const allDistFiles = [...serverFiles, ...getFiles(browserDistDir)];
+  const foundDevModeMarker = allDistFiles.some((filePath) =>
+    fs.readFileSync(filePath, 'utf8').includes(USING_DEV_MODE_MARKER)
+  );
+  if (foundDevModeMarker) {
     throw new Error(
       `
 SSR app is not using prod mode.

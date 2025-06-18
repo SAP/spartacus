@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
 import { ScheduleLine } from '@spartacus/s4om/root';
@@ -29,6 +28,7 @@ class MockLanguageService {
 @Component({
   selector: 'cx-schedule-lines',
   template: '',
+  standalone: false,
 })
 class MockConfigureScheduleLineComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<ScheduleLine>>;
@@ -42,7 +42,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         ScheduleLinesComponent,
         MockConfigureScheduleLineComponent,

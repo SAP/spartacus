@@ -1,15 +1,15 @@
 <div
-  class="cx-consignment-tracking-dialog"
+  class="modal-dialog modal-dialog-centered modal-lg cx-consignment-tracking-dialog"
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
 >
-  <div class="cx-consignment-tracking-container">
+  <div class="modal-content cx-consignment-tracking-container">
     <ng-container
       *ngIf="tracking$ | async as consignmentTracking; else loading"
     >
       <!-- Modal Header -->
-      <div class="cx-modal-header">
-        <div class="cx-consignment-tracking-title modal-title">
+      <div class="modal-header cx-modal-header">
+        <div class="modal-title cx-consignment-tracking-title">
           {{ 'orderDetails.consignmentTracking.dialog.header' | cxTranslate }}
         </div>
         <button

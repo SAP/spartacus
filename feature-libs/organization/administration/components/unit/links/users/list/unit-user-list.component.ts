@@ -24,6 +24,7 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
       useExisting: UnitUserListService,
     },
   ],
+  standalone: false,
 })
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;

@@ -37,6 +37,7 @@ export interface Card {
 @Component({
   selector: 'cx-card',
   templateUrl: './card.component.html',
+  standalone: false,
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
@@ -78,6 +79,9 @@ export class CardComponent implements OnInit {
 
   @Input()
   index: number;
+
+  @Input()
+  role?: string;
 
   // ACTIONS
 
@@ -128,6 +132,10 @@ export class CardComponent implements OnInit {
   /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
   ngOnInit() {
     // Intentional empty method
+  }
+
+  protected get isHeaderVisible(): boolean {
+    return !!this.content?.header && !this.editMode;
   }
 
   /**

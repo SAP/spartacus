@@ -1,0 +1,51 @@
+{
+  "exportEntries": {
+    "exportToCsv": "导出为 CSV",
+    "exportMessage": "CSV 文件将自动下载到您的设备，如果没有，请检查您的浏览器设置",
+    "columnNames": {
+      "code": "代码",
+      "quantity": "数量",
+      "name": "名称",
+      "price": "价格"
+    },
+    "exportProductToCsv": "将产品导出至 CSV"
+  },
+  "importEntries": {
+    "importProducts": "导入产品"
+  },
+  "importEntriesDialog": {
+    "importProducts": "导入产品",
+    "importProductsSubtitle": "通过导入 .CSV 文件添加产品。",
+    "importProductsNewSavedCartSubtitle": "通过导入 .CSV 文件并创建新的已保存购物车来添加产品。",
+    "importProductFileDetails": "文本文件应包含产品列表，其中所需列以逗号分隔：SKU 和数量。",
+    "selectFile": "选择文件",
+    "selectedSuccessfully": "已成功选择 CSV 文件。",
+    "savedCartName": "已保存购物车名称",
+    "savedCartDescription": "已保存购物车描述",
+    "optional": "可选",
+    "charactersLeft": "剩余字符：{{count}}",
+    "cancel": "取消",
+    "upload": "上载",
+    "close": "关闭",
+    "summary": {
+      "info": "在导入产品时请勿关闭或刷新此窗口。",
+      "loadedToCart": "产品已加载到购物车 {{ cartName }}",
+      "loaded": "产品已加载",
+      "loading": "产品正在处理... ({{ count }}/{{ total }})",
+      "successes": "已成功导入 {{ total }} 个产品中的 {{ successesCount }} 个。",
+      "warning": "{{ count }} 个产品未完全导入。",
+      "warning_other": "{{ count }} 个产品未完全导入。",
+      "error": "{{ count }} 个产品未导入。",
+      "error_other": "{{ count }} 个产品未导入。",
+      "messages": {
+        "unknownIdentifier": "产品 SKU“{{ productCode}}”不存在。",
+        "lowStock": "{{ productName }} 的数量：{{ quantity }} 已减少至 {{ quantityAdded }}。",
+        "noStock": "{{ productName }} 目前缺货。",
+        "unknownError": "“{{ productCode }}”存在无法识别的问题。",
+        "limitExceeded": "无法添加“{{ productCode }}”。超出限制。"
+      },
+      "show": "显示",
+      "hide": "隐藏"
+    }
+  }
+}

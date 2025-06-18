@@ -1,9 +1,8 @@
 %cx-star-rating {
-  padding: 15px 0;
-  // TODO: (CXSPA-7208) Remove feature flag next major
-  @include forFeature('a11yVisibleFocusOverflows') {
-    padding: unset;
-    margin: 15px 0;
+  margin: 15px 0;
+
+  @include forFeature('reserveHorizontalSpaceStarRating') {
+    width: 9rem;
   }
 
   &:not([disabled='true']) {
@@ -24,7 +23,7 @@
           var(--cx-color-primary) 0%,
           var(--cx-color-primary)
             calc((var(--star-fill, 0) - #{$i} + 1) * 100%),
-          var(--cx-color-medium) calc((var(--star-fill, 0) - #{$i} + 1) * 100%)
+          var(--cx-color-dark) calc((var(--star-fill, 0) - #{$i} + 1) * 100%)
         );
         // somehow we cannot move the text related clip and fill color outside this loop.
         // most likely they cannot come before the definition of the background.

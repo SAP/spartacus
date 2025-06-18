@@ -1,0 +1,31 @@
+{
+  "comment": "Spartacus translations",
+  "collections": [
+    {
+      "collectionName": "Spartacus",
+      "folders": [
+        {
+          "startingFolderPath": "/feature-libs/",
+          "sourceFilters": ["**/assets/translations/en/*.json"]
+        },
+        {
+          "startingFolderPath": "/integration-libs/",
+          "sourceFilters": ["**/assets/translations/en/*.json"]
+        },
+        {
+          "startingFolderPath": "/projects/",
+          "sourceFilters": ["**/assets/src/translations/en/*.json"]
+        }
+      ]
+    }
+  ],
+  "defaultConfiguration": {
+    "fileNameReplacePatterns": [
+      { "searchString": "/en/", "replacement": "/[langCode]/" }
+    ],
+    "targetFolderPath": ".",
+    "pseudoLocFolderPath": ".",
+    "oneQFolderPath": ".",
+    "targetFileNamingConvention": "[filename].[extension]"
+  }
+}

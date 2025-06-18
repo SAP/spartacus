@@ -15,6 +15,7 @@ import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
   AsmCustomerListFacade,
+  CLOSE_DIALOG_REASON,
   CustomerListColumnActionType,
   CustomerListsPage,
   CustomerSearchOptions,
@@ -25,6 +26,8 @@ import {
   TranslationService,
   User,
   OccConfig,
+  useFeatureStyles,
+  HttpResponseStatus,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -41,6 +44,7 @@ import { CustomerListAction } from './customer-list.model';
 @Component({
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
+  standalone: false,
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
   protected DEFAULT_PAGE_SIZE = 5;
@@ -94,6 +98,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   searchBox: UntypedFormControl = new UntypedFormControl();
 
+  forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
+
   protected teardown: Subscription = new Subscription();
 
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
@@ -106,6 +112,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmCustomerListFacade: AsmCustomerListFacade,
     protected occConfig?: OccConfig
   ) {
+    useFeatureStyles('a11yShowLabelOfSelect');
     this.breakpoint$ = this.getBreakpoint();
   }
 
@@ -118,6 +125,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       this.asmCustomerListFacade.getCustomerListsState().pipe(
         tap((state) => (this.listsError = !!state.error)),
         map((state) => {
+          if (
+            state.error &&
+            typeof state.error === 'object' &&
+            'status' in state.error &&
+            state.error.status === this.forbiddenResponseStatus
+          ) {
+            this.launchDialogService.closeDialog(CLOSE_DIALOG_REASON.FORBIDDEN);
+          }
           if (state?.data?.userGroups?.length === 0) {
             this.listsEmpty = true;
             return undefined;
@@ -172,7 +187,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     const options: CustomerSearchOptions = {
       customerListId: this.selectedUserGroupId,
       pageSize: this.pageSize,
-      currentPage: page,
+      page: page,
       sort: this.sortCode,
     };
     if (this.searchBox?.value) {
@@ -189,7 +204,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
         pageSize: this.pageSize,
-        currentPage: this.currentPage,
+        page: this.currentPage,
       };
       if (this.sortCode) {
         options.sort = this.sortCode;

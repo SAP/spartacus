@@ -25,6 +25,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
@@ -52,7 +53,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       attributeComponentContext.attribute.key
     );
 
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
     useFeatureStyles('a11yDifferentiateFocusedAndSelected');
   }
 

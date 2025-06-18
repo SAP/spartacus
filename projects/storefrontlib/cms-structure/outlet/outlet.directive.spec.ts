@@ -42,6 +42,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      standalone: false,
     })
     class MockTemplateComponent {}
 
@@ -60,6 +61,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      standalone: false,
     })
     class MockOutletBeforeComponent {}
 
@@ -75,6 +77,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      standalone: false,
     })
     class MockOutletAfterComponent {}
 
@@ -146,6 +149,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      standalone: false,
     })
     class MockStackedReplaceOutletComponent {}
 
@@ -171,6 +175,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      standalone: false,
     })
     class MockStackedBeforeOutletComponent {}
 
@@ -222,6 +227,7 @@ describe('OutletDirective', () => {
           <div id="first">instant</div>
         </ng-template>
       `,
+      standalone: false,
     })
     class MockInstantOutletComponent {}
 
@@ -235,6 +241,7 @@ describe('OutletDirective', () => {
           <div id="first">deferred</div>
         </ng-template>
       `,
+      standalone: false,
     })
     class MockDeferredOutletComponent {
       load(_eventValue: boolean) {}
@@ -283,6 +290,7 @@ describe('OutletDirective', () => {
         <ng-template cxOutletRef="B">B</ng-template>
         <ng-container *cxOutlet="outletName"> </ng-container>
       `,
+      standalone: false,
     })
     class HostComponent {
       outletName = 'A';
@@ -334,6 +342,7 @@ describe('OutletDirective', () => {
           </ng-template>
         </div>
       `,
+      standalone: false,
     })
     class MockTemplateComponent {
       constructor(
@@ -344,6 +353,7 @@ describe('OutletDirective', () => {
     @Component({
       template: ` <div id="component">TestData</div> `,
       selector: 'cx-test-component',
+      standalone: false,
     })
     class MockOutletComponent {
       constructor(public outlet: OutletContextData) {}
@@ -476,6 +486,7 @@ describe('OutletDirective', () => {
         </ng-template>
       `,
       changeDetection: ChangeDetectionStrategy.OnPush,
+      standalone: false,
     })
     class MockTestOutletComponent {
       innerCompRef: any;
@@ -484,7 +495,7 @@ describe('OutletDirective', () => {
     @Component({
       template: ` <div id="component">TestData</div> `,
       selector: 'cx-test-component',
-      //changeDetection: ChangeDetectionStrategy.OnPush,
+      standalone: false,
     })
     class MockOutletComponent {}
 

@@ -22,6 +22,7 @@ import { filter, take } from 'rxjs/operators';
   selector: 'cx-product-variant-style-selector',
   templateUrl: './product-variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductVariantStyleSelectorComponent {
   constructor(

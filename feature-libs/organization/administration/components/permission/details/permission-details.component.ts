@@ -22,6 +22,7 @@ import { PermissionItemService } from '../services/permission-item.service';
     },
   ],
   host: { class: 'content-wrapper' },
+  standalone: false,
 })
 export class PermissionDetailsComponent {
   model$: Observable<Permission> = this.itemService.key$.pipe(

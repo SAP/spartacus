@@ -133,14 +133,9 @@ function invalidUsageIds(
     }
   }
 
-  if (!epdVisualization.usageIds.productUsageId.source) {
+  if (!epdVisualization.usageIds.productUsageId.name) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.source'
-    );
-  }
-  if (!epdVisualization.usageIds.productUsageId.category) {
-    return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.category'
+      'epdVisualization.usageIds.productUsageId.name'
     );
   }
   if (!epdVisualization.usageIds.productUsageId.keyName) {

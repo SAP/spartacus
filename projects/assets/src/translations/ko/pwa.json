@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "빠른 재방문을 위해 장치의 홈 화면에 SAP Storefront를 추가하십시오. ",
+    "noInstallationNeeded": "설치가 필요 없습니다.",
+    "fastAccessToApplication": "빠른 어플리케이션 액세스",
+    "addToHomeScreen": "홈 화면에 추가",
+    "addedToHomeScreen": "SAP Storefront에 홈 화면에 추가되었습니다."
+  }
+}

@@ -1,10 +1,10 @@
-import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/utils';
-import { TSESLint } from '@typescript-eslint/utils';
+import {
+  convertAnnotatedSourceToFailureCase,
+  RuleTester,
+} from '@angular-eslint/test-utils';
 import { rule, RULE_NAME } from './use-provide-default-feature-toggles-factory';
 
-const ruleTester = new TSESLint.RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-});
+const ruleTester = new RuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -24,10 +24,7 @@ ruleTester.run(RULE_NAME, rule, {
         ]
       `,
       messageId: 'useProvideDefaultFeatureTogglesFactory',
-    }) as TSESLint.InvalidTestCase<
-      'useProvideDefaultFeatureTogglesFactory',
-      never[]
-    >, // type cast used as convertAnnotatedSourceToFailureCase simplifies testing, but TSESLint v6 requires never[] instead of readonly unknown[]
+    }),
     convertAnnotatedSourceToFailureCase({
       description:
         'should fail when provideFeatureTogglesFactory is found with inline provided config and underline the entire call expression',
@@ -42,9 +39,6 @@ ruleTester.run(RULE_NAME, rule, {
         ]
       `,
       messageId: 'useProvideDefaultFeatureTogglesFactory',
-    }) as TSESLint.InvalidTestCase<
-      'useProvideDefaultFeatureTogglesFactory',
-      never[]
-    >, // type cast used as convertAnnotatedSourceToFailureCase simplifies testing, but TSESLint v6 requires never[] instead of readonly unknown[]
+    }),
   ],
 });

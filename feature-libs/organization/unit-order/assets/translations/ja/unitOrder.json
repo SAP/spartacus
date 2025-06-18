@@ -1,0 +1,47 @@
+{
+  "unitLevelOrderHistory": {
+    "orderHistory": "ユニットレベルの注文履歴",
+    "orderId": "注文番号",
+    "emptyPurchaseOrderId": "なし",
+    "date": "日付",
+    "status": "ステータス",
+    "buyer": "購入担当者",
+    "unit": "ユニット",
+    "total": "合計",
+    "noOrders": "ユニットに一致する注文レコードがありません。",
+    "startShopping": "ショッピング開始",
+    "sortBy": "ソート基準",
+    "sortOrders": "ソート順序",
+    "purchaseOrderNumber": "発注書番号",
+    "startOn": "開始日",
+    "frequency": "頻度",
+    "nextOrderDate": "次回注文日",
+    "notFound": "注文はありません",
+    "applyFilter": "適用",
+    "filterBy": "フィルタ基準",
+    "filterByBuyer": "購入担当者によるフィルタ",
+    "filterByBuyerLabel": "購入担当者名",
+    "filterByBuyerPlaceholder": "購入担当者名を入力",
+    "filterByBuyerAriaLabel": "購入担当者によるフィルタ一覧",
+    "filterByUnit": "ユニットによるフィルタ",
+    "filterByUnitLabel": "ユニット名",
+    "filterByUnitPlaceholder": "ユニット名を入力",
+    "filterByUnitAriaLabel": "ユニットによるフィルタ一覧",
+    "search": "検索",
+    "clearAll": "すべてクリア",
+    "removeAppliedFilters": "フィルタの削除",
+    "yourFilters": "ユーザのフィルタ:",
+    "and": " および "
+  },
+  "unitLevelOrderHistorySorting": {
+    "date": "日付",
+    "orderNumber": "注文番号",
+    "buyer": "購入担当者 (昇順)",
+    "buyerDesc": "購入担当者 (降順)",
+    "orgUnit": "ユニット (昇順)",
+    "orgUnitDesc": "ユニット (降順)"
+  },
+  "unitLevelOrderDetails": {
+    "buyer": "購入担当者"
+  }
+}

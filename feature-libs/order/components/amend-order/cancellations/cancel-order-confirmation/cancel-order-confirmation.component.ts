@@ -15,6 +15,7 @@ import { OrderAmendService } from '../../amend-order.service';
   selector: 'cx-cancel-order-confirmation',
   templateUrl: './cancel-order-confirmation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CancelOrderConfirmationComponent {
   orderCode: string;

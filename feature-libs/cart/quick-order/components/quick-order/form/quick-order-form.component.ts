@@ -21,7 +21,6 @@ import {
   Config,
   FeatureConfigService,
   Product,
-  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -40,6 +39,7 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
@@ -61,10 +61,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
-  ) {
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
-    useFeatureStyles('a11yPreventSRFocusOnHiddenElements');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -157,6 +154,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     // Focus on first index moving to last
     if (results.length) {
+      if (
+        this.featureConfigService.isEnabled(
+          'a11ySearchableDropdownFirstElementFocus'
+        )
+      ) {
+        this.winRef.document
+          .querySelector('main')
+          ?.classList.remove('mouse-focus');
+      }
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {

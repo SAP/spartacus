@@ -11,8 +11,11 @@ import {
   LoggerService,
   normalizeHttpError,
   OccEndpointsService,
+  OccFieldsService,
   PaginationModel,
+  ScopedDataWithUrl,
 } from '@spartacus/core';
+import { OrderConfig } from '@spartacus/order/root';
 import {
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
@@ -42,6 +45,8 @@ export class OccQuoteAdapter implements QuoteAdapter {
   protected occEndpointsService = inject(OccEndpointsService);
   protected converterService = inject(ConverterService);
   protected loggerService = inject(LoggerService);
+  private occFieldsService = inject(OccFieldsService);
+  protected orderConfig = inject(OrderConfig);
 
   getQuotes(
     userId: string,
@@ -100,9 +105,22 @@ export class OccQuoteAdapter implements QuoteAdapter {
   }
 
   protected getQuoteEndpoint(userId: string, quoteCode: string): string {
-    return this.occEndpointsService.buildUrl('getQuote', {
-      urlParams: { userId, quoteCode },
-    });
+    if (this.orderConfig.showOrderQuoteLink) {
+      const scopes = ['getQuote', 'getOrderCode'];
+      const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map((scope) => ({
+        scopedData: { scope, userId, quoteCode },
+        url: this.occEndpointsService.buildUrl(scope, {
+          urlParams: { userId, quoteCode },
+        }),
+      }));
+      const mergedUrl =
+        this.occFieldsService.getOptimalUrlGroups(scopedDataWithUrls);
+      return Object.keys(mergedUrl)[0];
+    } else {
+      return this.occEndpointsService.buildUrl('getQuote', {
+        urlParams: { userId, quoteCode },
+      });
+    }
   }
 
   editQuote(

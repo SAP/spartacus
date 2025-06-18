@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
@@ -21,6 +20,7 @@ const MockMessageData: Partial<MessageData> = {
 
 @Component({
   template: '',
+  standalone: false,
 })
 class MessageComponent extends BaseMessageComponent {}
 
@@ -33,7 +33,6 @@ describe('BaseMessageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        RouterTestingModule,
         PaginationTestingModule,
         KeyboardFocusTestingModule,
         I18nTestingModule,

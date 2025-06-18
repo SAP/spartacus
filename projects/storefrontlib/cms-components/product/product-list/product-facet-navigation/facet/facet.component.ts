@@ -32,6 +32,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;
@@ -63,14 +64,6 @@ export class FacetComponent implements AfterViewInit {
   @Optional() featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
-
-  // TODO: (CXSPA-6892) - Remove getter next major release.
-  /** Temporary getter, not ment for public use */
-  get isFacetKeyboardNavigationEnabled(): boolean {
-    return !!this.featureConfigService?.isEnabled(
-      'a11yFacetKeyboardNavigation'
-    );
-  }
 
   constructor(
     protected facetService: FacetService,
@@ -134,10 +127,6 @@ export class FacetComponent implements AfterViewInit {
   }
 
   onKeydown(event: KeyboardEvent): void {
-    // TODO: (CXSPA-6892) - Remove feature flag next major release.
-    if (!this.isFacetKeyboardNavigationEnabled) {
-      return;
-    }
     const targetIndex = this.values.toArray().findIndex((el) => {
       return el.nativeElement === event.target;
     });

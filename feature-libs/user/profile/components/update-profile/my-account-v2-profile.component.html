@@ -69,10 +69,15 @@
           class="form-control"
           name="firstName"
           formControlName="firstName"
+          [attr.aria-invalid]="
+            form.get('firstName')?.touched && form.get('firstName')?.invalid
+          "
+          [attr.aria-errormessage]="'firstNameError'"
         />
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="firstNameError"
           [translationParams]="{
             label: 'updateProfileForm.firstName.label' | cxTranslate,
           }"
@@ -95,10 +100,15 @@
           class="form-control"
           name="lastName"
           formControlName="lastName"
+          [attr.aria-invalid]="
+            form.get('lastName')?.touched && form.get('lastName')?.invalid
+          "
+          [attr.aria-errormessage]="'lastNameError'"
         />
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="lastNameError"
           [translationParams]="{
             label: 'updateProfileForm.lastName.label' | cxTranslate,
           }"
@@ -121,11 +131,16 @@
           class="form-control"
           name="customerId"
           formControlName="customerId"
+          [attr.aria-invalid]="
+            form.get('customerId')?.touched && form.get('customerId')?.invalid
+          "
+          [attr.aria-errormessage]="'customerIdError'"
           readonly
         />
         <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           *cxFeature="'formErrorsDescriptiveMessages'"
+          id="customerIdError"
           [translationParams]="{
             label: 'updateProfileForm.customerId' | cxTranslate,
           }"

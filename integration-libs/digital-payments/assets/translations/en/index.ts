@@ -5,7 +5,6 @@
  */
 
 import dpPaymentForm from './dpPaymentForm.json';
-
 export const en = {
   dpPaymentForm,
 };

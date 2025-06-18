@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Anrede",
+    "titleOptional": "Anrede (optional)",
+    "defaultTitle": "Anrede",
+    "firstName": {
+      "label": "Vorname",
+      "placeholder": "Vorname"
+    },
+    "lastName": {
+      "label": "Nachname",
+      "placeholder": "Nachname"
+    },
+    "address1": "Adresse 1",
+    "address2": "Adresse 2 (optional)",
+    "country": "Land/Region",
+    "city": {
+      "label": "Ort",
+      "placeholder": "Ort"
+    },
+    "state": "Bundesland",
+    "zipCode": {
+      "label": "Postleitzahl",
+      "placeholder": "Postleitzahl"
+    },
+    "phoneNumber": {
+      "label": "Telefonnummer (optional)",
+      "placeholder": "z.B. (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Mobiltelefonnummer (optional)",
+      "placeholder": "z.B. (###) - ### - ####"
+    },
+    "saveAsDefault": "Als Standard speichern",
+    "chooseAddress": "Adresse auswählen",
+    "streetAddress": "Hausanschrift",
+    "aptSuite": "Wohnungsnummer",
+    "selectOne": "Treffen Sie eine Auswahl...",
+    "setAsDefault": "Als Standardlieferadresse festlegen",
+    "titleRequired": "Anrede ist erforderlich.",
+    "userAddressAddSuccess": "Neue Adresse wurde erfolgreich hinzugefügt.",
+    "userAddressUpdateSuccess": "Adresse erfolgreich aktualisiert.",
+    "userAddressDeleteSuccess": "Adresse erfolgreich gelöscht.",
+    "invalidAddress": "Ungültige Adresse"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Neue Lieferadresse hinzufügen",
+    "editDeliveryAddress": "Lieferadresse bearbeiten",
+    "areYouSureToDeleteAddress": "Soll diese Adresse wirklich gelöscht werden?",
+    "addNewAddress": "Neue Adresse hinzufügen",
+    "addAddress": "Adresse hinzufügen",
+    "updateAddress": "Adresse aktualisieren",
+    "backToAddressList": "Zurück zur Adressliste",
+    "defaultDeliveryAddress": "Standardlieferadresse",
+    "additionalDeliveryAddress": "Zusätzliche Lieferadresse {{number}}"
+  },
+  "addressCard": {
+    "default": "STANDARD",
+    "selected": "Ausgewählt",
+    "selectedAddress": "Ausgewählte Adresse",
+    "setAsDefault": "Als Standard festlegen",
+    "shipTo": "Liefern an",
+    "billTo": "Rechnung an",
+    "phoneNumber": "T",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Überprüfen Sie Ihre Adresse",
+    "ensureAccuracySuggestChange": "Um eine korrekte Lieferung sicherzustellen, schlagen wir die unten ausgewählte Änderung vor.",
+    "chooseAddressToUse": "Wählen Sie die Adresse aus, die Sie verwenden möchten:",
+    "suggestedAddress": "Vorgeschlagene Adresse",
+    "enteredAddress": "Eingegebene Adresse",
+    "editAddress": "Adresse bearbeiten",
+    "saveAddress": "Adresse speichern"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "Adresse {{ streetAddress }} wurde erfolgreich als Standard festgelegt"
+  }
+}

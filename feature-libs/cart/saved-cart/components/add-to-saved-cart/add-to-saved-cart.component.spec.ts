@@ -1,6 +1,5 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
@@ -8,13 +7,13 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 const mockCart: Cart = {
   code: '123456789',
@@ -59,12 +58,7 @@ describe('AddToSavedCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        I18nTestingModule,
-        UrlTestingModule,
-        RouterTestingModule,
-      ],
+      imports: [StoreModule.forRoot({}), I18nTestingModule, UrlTestingModule],
       declarations: [AddToSavedCartComponent, MockFeatureDirective],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },

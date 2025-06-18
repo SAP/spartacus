@@ -9,7 +9,6 @@ import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
@@ -22,6 +21,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'cx-dp-payment-callback',
   templateUrl: './dp-payment-callback.component.html',
+  standalone: false,
 })
 export class DpPaymentCallbackComponent implements OnInit {
   @Output()
@@ -29,7 +29,6 @@ export class DpPaymentCallbackComponent implements OnInit {
   @Output()
   paymentDetailsAdded = new EventEmitter<any>();
 
-  protected featureConfig = inject(FeatureConfigService);
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
   protected launchDialogService = inject(LaunchDialogService);
   showBillingAddressForm = false;
@@ -46,11 +45,7 @@ export class DpPaymentCallbackComponent implements OnInit {
       DP_CARD_REGISTRATION_STATUS
     );
     if (dpResponse?.toLowerCase() === 'successful') {
-      if (this.featureConfig.isEnabled('showBillingAddressInDigitalPayments')) {
-        this.showBillingAddressForm = true;
-      } else {
-        this.fetchPaymentDetails();
-      }
+      this.showBillingAddressForm = true;
     } else {
       this.globalMsgService.add(
         { key: 'dpPaymentForm.cancelledOrFailed' },

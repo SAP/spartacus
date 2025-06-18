@@ -21,6 +21,7 @@ import { CpqQuoteService } from '../../cpq-qute.service';
 @Component({
   selector: 'cx-cpq-quote-heading',
   templateUrl: './cpq-quote-heading.component.html',
+  standalone: false,
 })
 export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   @Input()

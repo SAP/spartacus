@@ -43,6 +43,7 @@ const confirmationContext: ConfirmationContext = {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -50,6 +51,7 @@ class MockCxIconComponent {
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};

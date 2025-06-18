@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   NotAuthGuard,
   provideDefaultConfig,
@@ -25,7 +24,6 @@ import { LoginRegisterComponent } from './login-register.component';
     UrlModule,
     PageSlotModule,
     I18nModule,
-    FeaturesConfigModule,
     BtnLikeLinkModule,
   ],
   providers: [

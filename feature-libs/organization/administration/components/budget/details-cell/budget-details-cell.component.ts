@@ -11,5 +11,6 @@ import { CellComponent } from '../../shared';
   selector: 'cx-org-budget-details-cell',
   templateUrl: './budget-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BudgetDetailsCellComponent extends CellComponent {}

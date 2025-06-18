@@ -5,9 +5,8 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProductGridItemComponent } from '../..';
@@ -106,6 +105,7 @@ const showMoreBtn = 'productList.showMoreBtn';
 @Component({
   selector: 'cx-star-rating',
   template: '',
+  standalone: false,
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -115,6 +115,7 @@ class MockStarRatingComponent {
 @Component({
   template: '',
   selector: 'cx-product-list-item',
+  standalone: false,
 })
 class MockProductListItemComponent {
   @Input()
@@ -123,6 +124,7 @@ class MockProductListItemComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -131,6 +133,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
+  standalone: false,
 })
 class MockAddToCartComponent {
   @Input() product: string;
@@ -149,6 +152,7 @@ class MockProductListComponentService {
 @Component({
   selector: 'cx-variant-style-icons',
   template: 'test',
+  standalone: false,
 })
 class MockStyleIconsComponent {
   @Input() variants: any[];
@@ -172,12 +176,7 @@ describe('ProductScrollComponent', () => {
         MockStyleIconsComponent,
         MockFeatureLevelDirective,
       ],
-      imports: [
-        InfiniteScrollModule,
-        I18nTestingModule,
-        SpinnerModule,
-        RouterTestingModule,
-      ],
+      imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
       providers: [
         {
           provide: ProductListComponentService,

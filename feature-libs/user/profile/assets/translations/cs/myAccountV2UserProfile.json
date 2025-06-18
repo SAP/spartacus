@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "Moje e-mailová adresa",
+    "myInformation": "Moje informace",
+    "name": "Jméno",
+    "customerId": "CustomerId",
+    "title": "Oslovení",
+    "firstName": "Křestní jméno",
+    "lastName": "Příjmení"
+  }
+}

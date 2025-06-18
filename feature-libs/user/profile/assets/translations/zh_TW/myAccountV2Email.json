@@ -1,0 +1,13 @@
+{
+  "myAccountV2Email": {
+    "myEmailAddress": "我的電子郵件地址",
+    "email": "電子郵件",
+    "emailAddress": "電子郵件地址",
+    "newEmailAddress": "新電子郵件地址",
+    "confirmNewEmailAddress": "確認新電子郵件地址",
+    "emailPlaceHolder": "輸入電子郵件",
+    "passwordPlaceHolder": "輸入密碼",
+    "password": "密碼",
+    "reloginIndicator": "設定新電子郵件地址後，您必須再次登入。"
+  }
+}

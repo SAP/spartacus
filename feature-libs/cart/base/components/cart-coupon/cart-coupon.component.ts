@@ -27,6 +27,7 @@ import { map, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
+  standalone: false,
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
@@ -89,16 +90,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
-    // TODO: (CXSPA-7479) Remove feature flags next major
-    const shouldHaveRequiredValidator = !this.featureConfigService?.isEnabled(
-      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
-    );
-
     this.couponForm = this.formBuilder.group({
-      couponCode: [
-        '',
-        shouldHaveRequiredValidator ? [Validators.required] : [],
-      ],
+      couponCode: ['', [Validators.required]],
     });
 
     // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER

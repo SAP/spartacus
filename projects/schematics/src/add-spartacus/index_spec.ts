@@ -633,6 +633,28 @@ describe('add-spartacus on Angular app without routing', () => {
     );
   });
 
+  it('should use `~` instead of `^` for @spartacus dependencies in package.json', async () => {
+    const packageJson = JSON.parse(tree.readContent('/package.json'));
+    const spartacusPackages = Object.keys(packageJson.dependencies).filter(
+      (packageName) => packageName.startsWith('@spartacus')
+    );
+    spartacusPackages.forEach((packageName) => {
+      expect(packageJson.dependencies[packageName]).not.toContain('^');
+      expect(packageJson.dependencies[packageName]).toContain('~');
+    });
+  });
+
+  it('should use `~` instead of `^` for @spartacus devDependencies in package.json', async () => {
+    const packageJson = JSON.parse(tree.readContent('/package.json'));
+    const spartacusPackages = Object.keys(packageJson.devDependencies).filter(
+      (packageName) => packageName.startsWith('@spartacus')
+    );
+    spartacusPackages.forEach((packageName) => {
+      expect(packageJson.devDependencies[packageName]).not.toContain('^');
+      expect(packageJson.devDependencies[packageName]).toContain('~');
+    });
+  });
+
   it('should import necessary modules in app.module', async () => {
     const appModule = tree.readContent(
       '/projects/schematics-test/src/app/app.module.ts'

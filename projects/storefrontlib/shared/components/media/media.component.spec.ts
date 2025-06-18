@@ -13,7 +13,7 @@ import { By } from '@angular/platform-browser';
 import { InjectionToken } from '@angular/core';
 import { FeatureConfigService } from '@spartacus/core';
 import { MediaComponent } from './media.component';
-import { ImageLoadingStrategy, Media } from './media.model';
+import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
@@ -25,6 +25,7 @@ const mediaUrl = 'mockProductImageUrl.jpg';
 
 @Directive({
   selector: '[cxFeature]',
+  standalone: false,
 })
 export class MockFeatureDirective {
   protected templateRef = inject(TemplateRef<any>);
@@ -47,6 +48,7 @@ export class MockFeatureDirective {
 
 @Pipe({
   name: 'cxMediaSources',
+  standalone: false,
 })
 export class MockMediaSourcesPipe implements PipeTransform {
   transform() {
@@ -368,5 +370,88 @@ describe('MediaComponent', () => {
     const picture = fixture.debugElement.query(By.css('picture'));
 
     expect(picture).toBeNull();
+  });
+
+  describe('effectiveLoadingStrategy', () => {
+    it('should accept fetchPriority input', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component } = createComponent();
+      component.fetchPriority = ImageFetchPriority.HIGH;
+      expect(component.fetchPriority).toBe('high');
+    });
+
+    it('should return EAGER if fetchPriority is HIGH', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component, fixture } = createComponent();
+
+      const imageNativeElement: HTMLImageElement = fixture.debugElement.query(
+        By.css('img')
+      ).nativeElement;
+
+      component.fetchPriority = ImageFetchPriority.HIGH;
+      component.loading = ImageLoadingStrategy.LAZY;
+
+      const load = new UIEvent('load');
+      imageNativeElement.dispatchEvent(load);
+
+      fixture.detectChanges();
+
+      expect(component['effectiveLoadingStrategy']).toBe(
+        ImageLoadingStrategy.EAGER
+      );
+
+      expect(imageNativeElement.getAttribute('loading')).toBe('eager');
+      expect(imageNativeElement.getAttribute('fetchpriority')).toBe('high');
+    });
+
+    it('should return loading if fetchPriority is not HIGH', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component, fixture } = createComponent();
+
+      const imageNativeElement: HTMLImageElement = fixture.debugElement.query(
+        By.css('img')
+      ).nativeElement;
+
+      const load = new UIEvent('load');
+      imageNativeElement.dispatchEvent(load);
+
+      component.fetchPriority = ImageFetchPriority.LOW;
+      component.loading = ImageLoadingStrategy.LAZY;
+
+      fixture.detectChanges();
+
+      expect(component['effectiveLoadingStrategy']).toBe(
+        ImageLoadingStrategy.LAZY
+      );
+      expect(imageNativeElement.getAttribute('loading')).toBe('lazy');
+      expect(imageNativeElement.getAttribute('fetchpriority')).toBe('low');
+    });
+
+    it('should fallback to loadingStrategy if loading is null', () => {
+      configureTestingModule(new MockMediaService(null, false));
+      const { component, fixture } = createComponent();
+
+      const imageNativeElement: HTMLImageElement = fixture.debugElement.query(
+        By.css('img')
+      ).nativeElement;
+
+      const load = new UIEvent('load');
+      imageNativeElement.dispatchEvent(load);
+
+      component.fetchPriority = undefined;
+      component.loading = null;
+
+      spyOnProperty(component, 'loadingStrategy', 'get').and.returnValue(
+        ImageLoadingStrategy.LAZY
+      );
+
+      expect(component['effectiveLoadingStrategy']).toBe(
+        ImageLoadingStrategy.LAZY
+      );
+
+      fixture.detectChanges();
+
+      expect(imageNativeElement.getAttribute('loading')).toBe('lazy');
+    });
   });
 });

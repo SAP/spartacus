@@ -13,7 +13,6 @@ import {
   ProductImportStatus,
   ProductImportSummary,
 } from '@spartacus/cart/base/root';
-import { useFeatureStyles } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -26,6 +25,7 @@ import { finalize, map } from 'rxjs/operators';
   selector: 'cx-import-entries-dialog',
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;
@@ -52,10 +52,7 @@ export class ImportEntriesDialogComponent {
       map((data) => data.orderEntriesContext)
     );
 
-  constructor(protected launchDialogService: LaunchDialogService) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
-    useFeatureStyles('a11yVisibleFocusOverflows');
-  }
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

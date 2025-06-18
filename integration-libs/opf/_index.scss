@@ -1,20 +1,23 @@
 @import '@spartacus/styles/scss/core';
 @import '@spartacus/checkout';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/_mixins';
+
 @import './base/styles/index';
 @import './checkout/styles/index';
+@import './b2b-checkout/styles/index';
 @import './cta/styles/index';
 @import './payment/styles/index';
 @import './quick-buy/styles/index';
 
-$opf-components-allowlist: cx-opf-payment-method-details,
-  cx-opf-checkout-payment-and-review, cx-opf-checkout-payments,
-  cx-opf-checkout-billing-address-form, cx-opf-checkout-payment-wrapper,
+$opf-components-allowlist:
+  cx-opf-payment-method-details, cx-opf-checkout-payment-and-review,
+  cx-opf-checkout-payments, cx-opf-checkout-billing-address-form,
+  cx-opf-checkout-payment-wrapper, cx-opf-checkout-review-card,
   cx-opf-checkout-terms-and-conditions-alert, cx-opf-error-modal,
   cx-opf-cta-element, cx-opf-google-pay, cx-opf-apple-pay,
-  cx-opf-quick-buy-buttons !default;
+  cx-opf-quick-buy-buttons, cx-opf-b2b-checkout-payment-type,
+  cx-opf-b2b-checkout-review, cx-opf-b2b-checkout-delivery-address,
+  cx-opf-b2b-checkout-cost-center, cx-opf-b2b-checkout-payment-and-review,
+  cx-opf-b2b-checkout-place-order !default;
 
 $skipComponentStyles: () !default;
 

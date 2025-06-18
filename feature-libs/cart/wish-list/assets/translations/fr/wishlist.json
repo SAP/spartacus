@@ -1,0 +1,7 @@
+{
+  "wishlist": {
+    "empty": "Il n'y a aucun produit dans votre liste de souhaits pour le moment.",
+    "itemRemoved": "L'article sélectionné a été supprimé.",
+    "caption": "Contenu de la liste de souhaits"
+  }
+}

@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
@@ -43,6 +42,7 @@ const mockEmptyOrderList: OrderHistoryListView = {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -76,6 +76,7 @@ class MockTranslationService {
 @Component({
   template: '',
   selector: 'cx-media',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -86,6 +87,7 @@ class MockMediaComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -96,7 +98,7 @@ describe(' MyAccountV2OrdersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [
         MyAccountV2OrdersComponent,
         MockUrlPipe,

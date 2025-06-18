@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "系統即將重新導向至第三方頁面，以進行卡片註冊",
+    "callback": "請稍候...正在取得付款明細...",
+    "cancelledOrFailed": "卡片註冊失敗或已取消",
+    "error": {
+      "redirect": "無法初始作業，請再試一次",
+      "paymentFetch": "無法取得付款明細，請再試一次。",
+      "unknown": "取得付款時發生未知錯誤。請聯絡支援團隊"
+    },
+    "confirmation": {
+      "heading": "您有未儲存更改內容。",
+      "text": "若您關閉此對話，則會遺失已做的所有更改內容。您確定要關閉嗎？"
+    }
+  }
+}

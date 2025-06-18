@@ -1,0 +1,9 @@
+{
+  "productVariants": {
+    "style": "Model",
+    "selectedStyle": "Model yang dipilih",
+    "size": "Ukuran",
+    "color": "Warna",
+    "sizeGuideLabel": "Panduan model"
+  }
+}

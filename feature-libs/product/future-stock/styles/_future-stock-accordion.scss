@@ -16,6 +16,9 @@ cx-future-stock-accordion {
         margin-inline-start: 0;
       }
     }
+    @include forFeature('a11yUseProperTextColorForFutureStockAccordion') {
+      color: var(--cx-color-text);
+    }
     margin: 0.5rem auto;
     cursor: pointer;
 

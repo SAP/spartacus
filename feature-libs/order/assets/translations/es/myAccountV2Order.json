@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "Todos los pedidos ({{param}})",
+    "item": "{{param}} pedido",
+    "items": "{{param}} pedidos",
+    "totalPrice": "Precio total: {{param}}",
+    "consignmentCode": "Consignación {{param}}",
+    "statusDate": "Última actualización: {{param}}",
+    "returnProcessed": "Devolución procesada: {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "Para recoger - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "Para enviar - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "Para recoger - "
+    },
+    "orderListResults": "Lista de pedidos",
+    "orderListPagination": "Paginación de la lista de pedidos",
+    "totalPriceLabel": "Precio total",
+    "orderPlaced": "Fecha en que se realizó el pedido",
+    "orderCodeLabel": "Código de pedido",
+    "consignmentDetailLabel": "Información de consignación",
+    "consignmentNumberLabel": "Número de consignación",
+    "consignmentStatusLabel": "Estado de consignación",
+    "consignmentStatusDateLabel": "Fecha de la última actualización",
+    "estimateDeliveryLabel": "Fecha de entrega estimada"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "Devolver artículos",
+    "cancelItems": "Cancelar artículos",
+    "downloadInvoices": "Descargar facturas",
+    "viewAllOrders": "Ver todos los pedidos",
+    "noInvoices": "Aún no se generaron facturas. Vuelva más tarde."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} pedido",
+    "items": "{{value}} pedidos",
+    "heading": "Pedidos y devoluciones",
+    "orderNumber": "Número de pedido ({{value}})",
+    "purchasedOn": "Fecha de compra: {{value}}",
+    "orderedItems": "Artículos pedidos: {{value}}",
+    "totalPrice": "Precio total: {{value}}",
+    "orderDetails": "Detalles del pedido",
+    "orderDetailsLabel": "Mostrar detalles del pedido para  el número de pedido {{value}}",
+    "orderStatusLabel": "Estado del pedido",
+    "returnOrder": "Pedido de devolución",
+    "showMore": "Mostrar más",
+    "showMoreLabel": "Ir al historial de pedidos"
+  }
+}

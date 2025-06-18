@@ -1,0 +1,8 @@
+{
+  "requestedDeliveryDate": {
+    "datePickerLabel": "要求交货日期",
+    "readOnlyTextLabel": "要求交货日期",
+    "successMessage": "交货日期已成功更新。",
+    "errorMessage": "出错了。无法更新要求日期。"
+  }
+}

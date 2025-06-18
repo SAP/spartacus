@@ -1,0 +1,80 @@
+{
+  "quickOrderCartForm": {
+    "entriesWereAdded": "({{ quantity }}) {{ product }} telah ditambahkan ke keranjang",
+    "entryWasAdded": "{{ product }} telah ditambahkan ke keranjang",
+    "noResults": "Kami tidak dapat menemukan produk apa pun",
+    "stockLevelReached": "Tingkat stok maksimum telah tercapai",
+    "title": "Pemesanan Cepat",
+    "productCodePlaceholder": "Masukkan ID",
+    "entryProductCode": "Masukkan ID Produk untuk Pemesanan Cepat",
+    "quantity": "Jumlah Pemesanan Cepat",
+    "addToCart": "Tambahkan Produk ke Pemesanan Cepat",
+    "add": "Tambahkan",
+    "product": "Produk",
+    "products": "Produk",
+    "productCodeLabel": "ID Produk",
+    "quantityLabel": "Jml",
+    "quantityFullLabel": "Jumlah"
+  },
+  "quickOrderForm": {
+    "placeholder": "Masukkan nama Produk atau SKU",
+    "searchBoxLabel": "masukkan nama Produk atau SKU untuk pemesanan cepat. Anda dapat menambahkan hingga {{ limit }} produk per pemesanan.",
+    "listLimitReached": "Batas maksimum produk telah tercapai.",
+    "id": "ID {{ id }}",
+    "noResults": "Kami tidak dapat menemukan hasil apa pun",
+    "addProduct": "Tambahkan produk {{ product }}",
+    "initialDescription": "Jika hasil pengisian otomatis tersedia, gunakan tombol panah atas dan bawah untuk meninjau dan tombol enter untuk memilih.",
+    "productsResults": "{{ count }} produk tersedia.",
+    "quickOrderSearch": "Temukan produk untuk pemesanan cepat"
+  },
+  "quickOrderList": {
+    "addToCart": "Tambahkan ke keranjang",
+    "emptyList": "Kosongkan daftar",
+    "header": "Tambahkan Produk/SKU",
+    "subHeader": "Anda dapat menambahkan hingga {{ limit }} SKU yang valid dalam satu waktu.",
+    "errorProceedingToCart": "Terjadi kesalahan saat memproses ke Keranjang.",
+    "warningProceedingToCart": "Terdapat peringatan saat memproses ke Keranjang.",
+    "successfullyAddedToCart": "Berhasil menambahkan ke Keranjang.",
+    "errors": {
+      "productIsOutOfStock": "Stok {{ name }} (#{{code}}) habis.",
+      "reviewErrors": "Silakan tinjau kesalahan ini.",
+      "listIsFull": "Daftar penuh, tambahkan produk {{ count }} ini ke Keranjang untuk melanjutkan.",
+      "nonPurchasableError": "Produk {{ name }} tidak dapat dibeli",
+      "outOfStockErrorFound": "{{count}} produk habis tidak ditambahkan.",
+      "outOfStockErrorFound_other": "{{count}} produk habis tidak ditambahkan."
+    },
+    "warnings": {
+      "productWasReduced": "Jumlah untuk {{ name }} (#{{code}}) telah dikurangi menjadi {{ quantityAdded}}.",
+      "reviewWarnings": "Silakan tinjau peringatan ini.",
+      "reduceWarningFound": "{{count}} jumlah produk telah dikurangi.",
+      "reduceWarningFound_other": "{{count}} jumlah produk telah dikurangi."
+    },
+    "successes": {
+      "productAddedToCart": "{{ name }} (#{{code}}) telah ditambahkan ke keranjang.",
+      "addedToCartFound": "{{ count }} produk telah ditambahkan ke keranjang.",
+      "addedToCartFound_other": "{{ count }} produk telah ditambahkan ke keranjang."
+    },
+    "informations": {
+      "addProductBeforeAddingToCart": "Tambahkan produk ke daftar sebelum menambahkannya ke keranjang."
+    },
+    "undo": "BATALKAN",
+    "revokeUndo": "Penghapusan produk \"{{name}}\" dibatalkan.",
+    "productWasDeleted": "Produk \"{{ name }}\" dipindahkan ke tempat sampah."
+  },
+  "quickOrderTable": {
+    "product": "Produk",
+    "id": "ID",
+    "price": "Harga",
+    "quantity": "JML",
+    "quantityFull": "Jumlah",
+    "itemPrice": "Harga item",
+    "qty": "Jml",
+    "actions": "Tindakan",
+    "inStock": "Stok Tersedia",
+    "lowStock": "Stok Sedikit",
+    "outOfStock": "Stok Habis",
+    "listCleared": "Daftar pemesanan cepat telah dihapus",
+    "addedtoCart": "Daftar pemesanan cepat telah ditambahkan ke keranjang",
+    "caption": "Isi pemesanan cepat."
+  }
+}

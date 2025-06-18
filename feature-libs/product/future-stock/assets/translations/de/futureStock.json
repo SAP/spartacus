@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "Zukünftige Verfügbarkeit",
+    "quantity": "Menge",
+    "noFutureStocks": "Für dieses Produkt gibt es keine Informationen zur zukünftigen Verfügbarkeit."
+  }
+}

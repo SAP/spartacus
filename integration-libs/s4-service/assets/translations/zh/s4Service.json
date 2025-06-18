@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "服务详细信息",
+    "serviceScheduleHeading": "服务计划 - 日期和时间",
+    "address": "与送货地址相同",
+    "serviceLocationHeading": "服务地点",
+    "datePickerLabel": "计划服务日期",
+    "timePickerLabel": "计划服务时间",
+    "unknownError": "出现未知错误。请联系支持部门。",
+    "productDeliveryOptions": "产品的送货选项",
+    "serviceDeliveryOption": "服务的送货选项",
+    "productDeliveryMethods": "产品的送货方式",
+    "serviceDeliveryMethod": "服务的送货方式"
+  },
+  "cancelService": {
+    "heading": "以下商品将包含在取消请求中",
+    "cancelReason": "取消服务的原因",
+    "optional": "(可选)",
+    "action": "取消服务",
+    "back": "返回",
+    "Submit": "提交请求",
+    "cancelServiceSuccess": "服务已成功取消",
+    "unknownError": "出现未知错误。请联系支持部门。",
+    "ServiceTime": "服务时间",
+    "ServiceLocation": "服务地点",
+    "ServiceDate": "服务日期",
+    "SubmitRequest": "提交请求",
+    "serviceNotRcancelable": "服务不可取消",
+    "charactersLeft": "剩余字符：{{count}}",
+    "Services": "服务"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "重新计划服务",
+    "headerLabel": "服务",
+    "contentLabel": "服务重新计划 - 选择新日期和时间",
+    "datePickerLabel": "服务日期",
+    "timePickerLabel": "服务时间",
+    "backButtonLabel": "返回",
+    "submitButtonLabel": "提交请求",
+    "note": "请注意，您的订单可能需要一段时间才能反映请求。",
+    "unknownError": "出现未知错误。请联系支持部门。",
+    "serviceNotReschedulable": "无法重新计划服务。",
+    "serviceNotAmendable": "在计划日期前 24 小时内，无法取消或重新计划服务。",
+    "rescheduleSuccess": "服务日期和时间已成功更改。"
+  }
+}

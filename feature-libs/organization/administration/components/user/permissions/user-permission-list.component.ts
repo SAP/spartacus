@@ -19,5 +19,6 @@ import { UserPermissionListService } from './user-permission-list.service';
       useExisting: UserPermissionListService,
     },
   ],
+  standalone: false,
 })
 export class UserPermissionListComponent {}

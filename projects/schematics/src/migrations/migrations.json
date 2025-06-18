@@ -45,7 +45,6 @@
       "factory": "./3_0/ssr/ssr#migrate",
       "description": "Migrate ssr to the new setup"
     },
-
     "00-migration-v4-rename-symbol": {
       "version": "4.1.0-next.0",
       "factory": "./4_0/rename-symbol/rename-symbol#migrate",
@@ -91,7 +90,6 @@
       "factory": "./mechanism/scaffold-app-structure/scaffold-app-structure#scaffoldAppStructure",
       "description": "Scaffold the new app structure"
     },
-
     "00-migration-v5-config-deprecations": {
       "version": "5.0.0-next.0",
       "factory": "./5_0/config-deprecations/config-deprecations#migrate",
@@ -137,7 +135,6 @@
       "factory": "./5_0/angular-json-styles/angular-json-styles#migrate",
       "description": "Update the angular.json with the style preprocessor options"
     },
-
     "00-migration-v6-ssr": {
       "version": "6.0.0",
       "factory": "./6_0/ssr/ssr#migrate",
@@ -188,7 +185,6 @@
       "factory": "./6_0/angular-json-styles/angular-json-styles#migrate",
       "description": "Update the angular.json with the style preprocessor options"
     },
-
     "00-migration-v2211-ssr": {
       "version": "2211.19.0",
       "factory": "./2211_19/ssr/ssr#migrate",
@@ -238,6 +234,26 @@
       "version": "2211.19.0",
       "factory": "./2211_19/angular-json-styles/angular-json-styles#migrate",
       "description": "Update the angular.json with the style preprocessor options"
+    },
+    "00-migration-v2211_36-dependency-management": {
+      "version": "2211.36.0",
+      "factory": "./2211_36/dependency-management/dependency-management#migrate",
+      "description": "Update dependencies"
+    },
+    "01-migration-v2211_36-ssr": {
+      "version": "2211.36.0",
+      "factory": "./2211_36/ssr/ssr#migrate",
+      "description": "Updates server.ts file to use dist/server/index.server.ts"
+    },
+    "02-migration-v2211_36-bootstrap": {
+      "version": "2211.36.0",
+      "factory": "./2211_36/bootstrap/bootstrap#migrate",
+      "description": "Replace import paths for Bootstrap usages"
+    },
+    "03-migration-v2211_36-silence-sass-deprecations": {
+      "version": "2211.36.0",
+      "factory": "./2211_36/silence-sass-deprecations/silence-sass-deprecations#migrate",
+      "description": "Silence Sass deprecations about the `@import` directive"
     }
   }
 }

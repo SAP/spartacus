@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "Zur Kasse gehen",
+    "cartName": "Warenkorbnr. {{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "Beschreibung",
+    "item": "Position",
+    "itemPrice": "Positionspreis",
+    "quantity": "Menge",
+    "quantityFull": "Menge",
+    "quantityTitle": "Die Menge stellt die Gesamtmenge dieser Position in Ihrem Warenkorb dar.",
+    "total": "Gesamtsumme",
+    "actions": "Aktionen",
+    "cartTotal": "Gesamtsumme des Warenkorbs ({{count}} Position)",
+    "cartTotal_other": "Gesamtsumme des Warenkorbs ({{count}} Positionen)",
+    "itemRemoved": "Ausgewählte Position wurde entfernt. Gesamtsumme des Warenkorbs wurde aktualisiert.",
+    "caption": "Inhalte des Warenkorbs."
+  },
+  "orderCost": {
+    "orderSummary": "Bestellungszusammenfassung",
+    "subtotal": "Zwischensumme nach Rabatten:",
+    "shipping": "Versand:",
+    "estimatedShipping": "Versand voraussichtlich:",
+    "discount": "Sie haben gespart:",
+    "salesTax": "Umsatzsteuer",
+    "grossTax": "Die Bestellsumme enthält nicht die Steuer von",
+    "grossIncludeTax": "Die Bestellsumme enthält die Steuer von",
+    "total": "Gesamtsumme:",
+    "toBeDetermined": "Noch nicht festgelegt"
+  },
+  "voucher": {
+    "coupon": "Haben Sie einen Coupon?",
+    "coupon_other": "Couponcodes",
+    "couponLabel": "Hier einen Aktionscode eingeben",
+    "addCoupon": "Coupon hinzufügen",
+    "apply": "Anwenden",
+    "placeholder": "Aktionscode",
+    "applyVoucherSuccess": "{{voucherCode}} wurde angewendet.",
+    "removeVoucherSuccess": "{{voucherCode}} wurde entfernt.",
+    "anchorLabel": "Couponcode eingeben oder entfernen",
+    "vouchersApplied": "Angewendete Coupons",
+    "availableCoupons": "Verfügbare Coupons",
+    "availableCouponsLabel": "Sie können der Bestellung diese Coupons hinzufügen."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Für später gespeichert ({{count}} Position)",
+    "itemTotal_other": "Für später gespeichert ({{count}} Positionen)",
+    "cartTitle": "Warenkorb",
+    "saveForLater": "Für später speichern",
+    "moveToCart": "In Warenkorb verschieben",
+    "stock": "Bestand",
+    "forceInStock": "Vorrätig"
+  },
+  "clearCart": {
+    "clearCart": "Warenkorb löschen",
+    "clearingCart": "Warenkorb wird gelöscht...",
+    "cartClearedSuccessfully": "Aktiver Warenkorb wurde erfolgreich gelöscht.",
+    "areYouSureToClearCart": "Möchten Sie diesen Warenkorb wirklich löschen?",
+    "allItemsWillBeRemoved": "Alle Positionen in Ihrem aktiven Warenkorb werden entfernt."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "Beim Bezahlen wurden Probleme mit Ihren Einträgen festgestellt. Überprüfen Sie Ihren Warenkorb.",
+    "cartEntryRemoved": "{{name}} ist nicht vorrätig und wurde deshalb aus dem Warenkorb entfernt.",
+    "productOutOfStock": "Aufgrund des zu geringen Bestands wurde {{name}} aus dem Warenkorb entfernt.",
+    "lowStock": "Menge wurde aufgrund des zu geringen Bestands auf {{quantity}} verringert.",
+    "reviewConfiguration": "Beheben Sie zuerst die Probleme in der Konfiguration für den Warenkorbeintrag.",
+    "configurationError": "Beheben Sie zuerst die Probleme in der Konfiguration für Warenkorbeinträge.",
+    "pricingError": "Konfiguratorpreisfindung ist zurzeit nicht verfügbar. Kaufabwicklung/Angebotsübermittlung ist nicht möglich. Versuchen Sie es später noch einmal.",
+    "unresolvableIssues": "Für die Produktkonfiguration sind zusätzliche Einträge im Backend erforderlich. Deshalb können Sie nicht fortfahren. Wenden Sie sich an den Support.",
+    "inProgress": "Wird bearbeitet"
+  }
+}

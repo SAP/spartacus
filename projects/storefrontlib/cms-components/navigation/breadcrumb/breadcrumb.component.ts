@@ -16,7 +16,6 @@ import {
   FeatureConfigService,
   PageMetaService,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -27,6 +26,7 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
@@ -51,7 +51,6 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
     private translation: TranslationService
   ) {
     super(component, pageMetaService);
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
   }
 
   ngOnInit(): void {

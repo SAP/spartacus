@@ -1,0 +1,55 @@
+{
+  "checkout": {
+    "backToCart": "返回到购物车"
+  },
+  "checkoutProgress": {
+    "label": "结账进度",
+    "deliveryAddress": "发货地址",
+    "deliveryMode": "送货方式",
+    "paymentDetails": "付款",
+    "reviewOrder": "评价",
+    "state": {
+      "completed": "{{step}}，已完成",
+      "selected": "{{step}}，已选择",
+      "disabled": "{{step}}，已禁用"
+    }
+  },
+  "checkoutAddress": {
+    "shippingAddress": "发货地址",
+    "selectYourDeliveryAddress": "选择送货地址",
+    "defaultDeliveryAddress": "默认送货地址",
+    "addNewAddress": "添加新地址",
+    "shipToThisAddress": "送货地址",
+    "deliveryAddressSelected": "已选择送货地址"
+  },
+  "checkoutMode": {
+    "deliveryMethod": "送货方式",
+    "deliveryOptions": "送货选项",
+    "standardDelivery": "标准送货",
+    "premiumDelivery": "高级送货",
+    "deliveryEntries": "待发货项目"
+  },
+  "checkoutReview": {
+    "review": "评价",
+    "reviewOrder": "评价订单",
+    "orderItems": "订单项目",
+    "confirmThatRead": "我确认我已阅读并同意",
+    "placeOrder": "下订单",
+    "termsAndConditions": "条款和条件",
+    "editDeliveryAddressDetails": "编辑送货地址详细信息，打开“送货地址”页面",
+    "editBillingDetails": "编辑账单地址，打开“付款详细信息”页面",
+    "editPaymentDetails": "编辑付款详细信息，打开“付款详细信息”页面",
+    "editPaymentType": "编辑付款方式，打开“付款方式”页面",
+    "editDeliveryMode": "编辑送货方式，打开“送货方式”页面",
+    "orderInProcess": "订单正在处理中。请稍候。"
+  },
+  "checkoutOrderConfirmation": {
+    "confirmationOfOrder": "确认订单。",
+    "thankYou": "感谢您的订购！",
+    "invoiceHasBeenSentByEmail": "发票已通过电子邮件发送。您很快就会收到。",
+    "orderItems": "订单项目",
+    "orderPlacedSuccessfully": "已成功下达订单",
+    "createAccount": "创建账户？",
+    "createAccountForNext": "为<{{email}}>创建账户，以便您下次访问时更快地结账。"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "serviceOrderCheckout": {
+    "serviceDetails": "Detaily služby",
+    "serviceScheduleHeading": "Plán služby – datum a čas",
+    "address": "Stejná jako dodací adresa",
+    "serviceLocationHeading": "Místo služby",
+    "datePickerLabel": "Datum služby v plánu",
+    "timePickerLabel": "Čas služby v plánu",
+    "unknownError": "Došlo k neznámé chybě; obraťte se na podporu.",
+    "productDeliveryOptions": "Možnosti dodání produktu",
+    "serviceDeliveryOption": "Možnost poskytnutí služby",
+    "productDeliveryMethods": "Způsoby dodání produktu",
+    "serviceDeliveryMethod": "Způsob poskytnutí služby"
+  },
+  "cancelService": {
+    "heading": "Následující položky budou zahrnuty do požadavku na zrušení",
+    "cancelReason": "Důvod zrušení služby",
+    "optional": "(nepovinné)",
+    "action": "Zrušit službu",
+    "back": "Zpět",
+    "Submit": "Odeslat požadavek",
+    "cancelServiceSuccess": "Služba byla úspěšně zrušena",
+    "unknownError": "Došlo k neznámé chybě. Obraťte se na podporu.",
+    "ServiceTime": "Čas služby",
+    "ServiceLocation": "Místo služby",
+    "ServiceDate": "Datum služby",
+    "SubmitRequest": "Odeslat požadavek",
+    "serviceNotRcancelable": "Službu nelze zrušit",
+    "charactersLeft": "zbývá znaků: {{count}}",
+    "Services": "Služby"
+  },
+  "rescheduleService": {
+    "actionButtonLabel": "Přeplánovat službu",
+    "headerLabel": "Služby",
+    "contentLabel": "Přeplánování služby – vyberte nový datum a čas",
+    "datePickerLabel": "Datum služby",
+    "timePickerLabel": "Čas služby",
+    "backButtonLabel": "Zpět",
+    "submitButtonLabel": "Odeslat požadavek",
+    "note": "Vezměte na vědomí, že požadavek se ve vaší objednávce může projevit až za okamžik.",
+    "unknownError": "Došlo k neznámé chybě. Obraťte se na podporu.",
+    "serviceNotReschedulable": "Tuto službu nelze přeplánovat.",
+    "serviceNotAmendable": "Tuto službu nelze zrušit ani přeplánovat, jakmile zbývá méně než 24 hodin do plánovaného data poskytnutí.",
+    "rescheduleSuccess": "Datum a čas služby byly úspěšně změněny."
+  }
+}

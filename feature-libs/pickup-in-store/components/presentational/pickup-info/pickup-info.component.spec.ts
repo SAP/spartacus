@@ -38,6 +38,7 @@ describe('PickupInfoComponent', () => {
 @Component({
   selector: 'cx-pickup-info',
   template: '',
+  standalone: false,
 })
 export class PickupInfoStubComponent {
   @Input() storeDetails: PointOfService;

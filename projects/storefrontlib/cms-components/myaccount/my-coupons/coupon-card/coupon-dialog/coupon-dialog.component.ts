@@ -12,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CustomerCoupon, useFeatureStyles } from '@spartacus/core';
+import { CustomerCoupon } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
@@ -21,6 +21,7 @@ import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CouponDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();
@@ -44,9 +45,7 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {
-    useFeatureStyles('a11yExpandedFocusIndicator');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

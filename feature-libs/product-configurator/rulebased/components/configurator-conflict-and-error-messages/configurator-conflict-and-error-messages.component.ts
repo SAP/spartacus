@@ -16,6 +16,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configuration-conflict-and-error-messages',
   templateUrl: './configurator-conflict-and-error-messages.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = ICON_TYPE;

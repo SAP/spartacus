@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "Číslo objednávky",
+    "orderNumber": "Číslo objednávky",
+    "replenishmentId": "Č. doplňování",
+    "purchaseOrderId": "Č. objednávky",
+    "purchaseOrderNumber": "Číslo objednávky",
+    "emptyPurchaseOrderId": "Nic",
+    "none": "Žádné {{value}}",
+    "placed": "Podáno",
+    "placedBy": "Podal/a",
+    "unit": "Jednotka",
+    "costCenter": "Nákladové středisko",
+    "costCenterAndUnit": "Nákladové středisko / jednotka",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "Způsob platby",
+    "payByAccount": "Platba z účtu",
+    "paidByCreditCard": "(platba platební kartou)",
+    "status": "Status",
+    "active": "Aktivní",
+    "shippedOn": "Odesláno dne",
+    "shippingMethod": "Způsob dodání",
+    "placedOn": "Podáno dne",
+    "startOn": "Zahájit",
+    "nextOrderDate": "Datum další objednávky",
+    "frequency": "Četnost",
+    "cancelled": " Zrušeno",
+    "deliveryStatus_IN_TRANSIT": "V přepravě",
+    "deliveryStatus_READY_FOR_PICKUP": "Připraveno k vyzvednutí",
+    "deliveryStatus_READY_FOR_SHIPPING": "Připraveno k expedici",
+    "deliveryStatus_WAITING": "Čekající",
+    "deliveryStatus_DELIVERING": "Dodává se",
+    "deliveryStatus_PICKPACK": "Připraveno k expedici",
+    "deliveryStatus_PICKUP_COMPLETE": "Vyzvednutí je dokončeno",
+    "deliveryStatus_DELIVERY_COMPLETED": "Dodání dokončeno",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Problém s platbou",
+    "deliveryStatus_IN_PROCESS": "Zpracování objednávky",
+    "deliveryStatus_READY": "Zpracování objednávky",
+    "deliveryStatus_DELIVERY_REJECTED": "Dodávka odmítnuta",
+    "deliveryStatus_SHIPPED": "Expedováno",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Problém v oblasti daní",
+    "deliveryStatus_CANCELLED": "Zrušeno",
+    "statusDisplay_cancelled": "Zrušeno",
+    "statusDisplay_cancelling": "Probíhá zrušení",
+    "statusDisplay_completed": "Dokončeno",
+    "statusDisplay_created": "Vytvořeno",
+    "statusDisplay_error": "Čeká",
+    "statusDisplay_Error": "Čeká",
+    "statusDisplay_processing": "Čeká",
+    "statusDisplay_open": "Otevřeno",
+    "statusDisplay_pending": {
+      "approval": "Čeká na schválení",
+      "merchant": {
+        "approval": "Čeká na schválení obchodníka"
+      }
+    },
+    "statusDisplay_approved": "Schváleno",
+    "statusDisplay_rejected": "Zamítnuto",
+    "statusDisplay_merchant": {
+      "approved": "Obchodník byl schválen",
+      "rejected": "Obchodník byl zamítnut"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Přiřazeno správci"
+    },
+    "consignmentTracking": {
+      "action": "Sledovat zásilku",
+      "dialog": {
+        "header": "Informace o sledování",
+        "shipped": "Expedováno",
+        "estimate": "Odhadované dodání",
+        "carrier": "Dodací služba",
+        "trackingId": "Číslo sledování",
+        "noTracking": "Balíček nebyl ze skladu odeslán. Informace o sledování budou k dispozici po odeslání balíčku.",
+        "loadingHeader": "Sledování konsignace"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Vyžádat vrácení",
+      "cancelAction": "Zrušit položky",
+      "item": "Položka",
+      "itemPrice": "Cena položky",
+      "quantity": "Maximální množství",
+      "returnQty": "Množství k vrácení",
+      "cancelQty": "Množství ke zrušení",
+      "setAll": "Nastavit všechna množství na maximum",
+      "totalPrice": "Celkem",
+      "submit": "Odeslat požadavek",
+      "submitDescription": "Odeslat požadavek. Položky na této stránce byly zahrnuty do požadavku na zrušení.",
+      "returnSuccess": "Váš požadavek na vrácení ({{rma}}) byl odeslán.",
+      "cancelSuccess": "Váš požadavek na zrušení byl odeslán (původní objednávka {{orderCode}} bude aktualizována)"
+    },
+    "cancelReplenishment": {
+      "title": "Zrušit doplnění",
+      "description": "Zrušit veškeré budoucí objednávky na doplnění?",
+      "accept": "Ano",
+      "reject": "Ne",
+      "cancelSuccess": "Objednávka na doplnění č. {{replenishmentOrderCode}} byla úspěšně zrušena."
+    },
+    "caption": "Obsah objednávky."
+  },
+  "orderHistory": {
+    "orderHistory": "Historie objednávky",
+    "orderId": "Číslo objednávky",
+    "emptyPurchaseOrderId": "Nic",
+    "date": "Datum",
+    "status": "Status",
+    "PONumber": "Číslo objednávky",
+    "total": "Celkem",
+    "noOrders": "Pro tento účet nemáme žádné záznamy objednávek.",
+    "noReplenishmentOrders": "Pro tento účet nemáme žádné záznamy objednávek na doplnění.",
+    "startShopping": "Začít nakupovat",
+    "sortBy": "Řadit podle",
+    "sortOrders": "Seřadit objednávky",
+    "replenishmentOrderHistory": "Historie objednávek na doplnění",
+    "replenishmentOrderId": "Č. doplňování",
+    "purchaseOrderNumber": "Č. objednávky",
+    "costCenter": "Nákladové středisko",
+    "startOn": "Zahájit dne",
+    "frequency": "Četnost",
+    "nextOrderDate": "Datum další objednávky",
+    "cancel": "Zrušit",
+    "cancelled": "Zrušeno",
+    "replenishmentHistory": "Historie doplňování",
+    "notFound": "Nebyly nalezeny žádné objednávky",
+    "actions": "Akce"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "VŠECHNY OBJEDNÁVKY ({{param}})",
+      "OrderReturnRequestListComponent": "VRATKY ({{param}})"
+    },
+    "tabPanelContainerRegion": "Skupina s detaily historie objednávky",
+    "tabPanelContainerRegionGroup": "Skupina s detaily historie objednávky"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Číslo vratky",
+    "orderId": "Číslo objednávky",
+    "date": "Datum vytvoření",
+    "status": "Status",
+    "sortBy": "Řadit podle",
+    "sortReturns": "Seřadit vratky",
+    "statusDisplay_APPROVAL_PENDING": "Čeká na schválení",
+    "statusDisplay_CANCELED": "Zrušeno",
+    "statusDisplay_CANCELLING": "Ruší se",
+    "statusDisplay_WAIT": "Počkejte",
+    "statusDisplay_RECEIVED": "Přijato",
+    "statusDisplay_RECEIVING": "Přijímá se",
+    "statusDisplay_APPROVING": "Schvaluje se",
+    "statusDisplay_REVERSING_PAYMENT": "Probíhá stornování platby",
+    "statusDisplay_PAYMENT_REVERSED": "Platba byla stornována",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Nepodařilo se stornovat platbu",
+    "statusDisplay_REVERSING_TAX": "Probíhá stornování daně",
+    "statusDisplay_TAX_REVERSED": "Daň byla stornována",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Nepodařilo se stornovat daň",
+    "statusDisplay_COMPLETED": "Dokončeno"
+  },
+  "returnRequest": {
+    "returnRequestId": "Číslo požadavku na vrácení",
+    "orderCode": "pro objednávku č.",
+    "status": "Status vratky",
+    "cancel": "Zrušit požadavek na vrácení",
+    "item": "Popis",
+    "itemPrice": "Cena položky",
+    "returnQty": "Vrácené množství",
+    "total": "Celkem",
+    "summary": "Vráceno celkem",
+    "subtotal": "Mezisoučet",
+    "deliveryCode": "Náklady na dodání",
+    "estimatedRefund": "Odhadovaná refundace",
+    "note": "Celkové sumy jsou odhadované a nemusí zahrnovat příslušné daně a další poplatky.",
+    "cancelSuccess": "Váš požadavek na vrácení ({{rma}}) byl zrušen.",
+    "caption": "Obsah objednávky."
+  },
+  "reorder": {
+    "button": "Znovu objednat",
+    "dialog": {
+      "reorderProducts": "Znovu objednat produkty",
+      "messages": {
+        "reviewConfiguration": "Došlo k chybě s konfigurací „{{ productCode}}“.",
+        "lowStock": "Množství pro {{ productName }}:{{ quantity }}) bylo sníženo na {{ quantityAdded }}.",
+        "noStock": "{{ productName }} není momentálně skladem.",
+        "pricingError": "Problém s cenou u „{{ productCode }}“.",
+        "unresolvableIssues": "Neznámý problém s „{{ productCode }}“.",
+        "success": "Produkty byly úspěšně přidány do košíku."
+      },
+      "areYouSureToReplaceCart": "Stávající košík bude nahrazen novými položkami. Přejete si pokračovat?",
+      "cancel": "Zrušit",
+      "continue": "Pokračovat"
+    }
+  }
+}

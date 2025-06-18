@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
+import { provideLocationMocks } from '@angular/common/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { OutletModule } from '@spartacus/storefront';
@@ -107,11 +108,12 @@ describe('StoreFinderListItemComponent', () => {
         CommonModule,
         ReactiveFormsModule,
         I18nTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         OutletModule,
       ],
       declarations: [StoreFinderListItemComponent],
       providers: [
+        provideLocationMocks(),
         { provide: StoreFinderService, useClass: MockStoreFinderService },
       ],
     }).compileComponents();

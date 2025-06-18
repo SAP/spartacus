@@ -1,0 +1,52 @@
+{
+  "myAccountV2OrderHistory": {
+    "heading": "सभी ऑर्डर ({{param}})",
+    "item": "{{param}} आइटम",
+    "items": "{{param}} आइटम",
+    "totalPrice": "कुल मूल्यः {{param}}",
+    "consignmentCode": "कन्साइनमेंट {{param}}",
+    "statusDate": "अंतिम अपडेट किया गया: {{param}}",
+    "returnProcessed": "वापसी प्रक्रियाः {{param}}",
+    "deliveryPointOfServiceDetails": {
+      "itemsToBePickUp": "लेना बाकी है - "
+    },
+    "checkoutMode": {
+      "deliveryEntries": "भेजना बाकी है - "
+    },
+    "checkoutPickupInStore": {
+      "heading": "लेना बाकी है - "
+    },
+    "orderListResults": "ऑर्डर सूची",
+    "orderListPagination": "ऑर्डर सूची पृष्ठांकन",
+    "totalPriceLabel": "कुल मूल्य",
+    "orderPlaced": "ऑर्डर करने का दिनांक",
+    "orderCodeLabel": "ऑर्डर कोड",
+    "consignmentDetailLabel": "कन्साइनमेंट जानकारी",
+    "consignmentNumberLabel": "कन्साइनमेंट संख्या",
+    "consignmentStatusLabel": "कन्साइनमेंट की स्थिति",
+    "consignmentStatusDateLabel": "अंतिम बार अपडेट करने की दिनांक",
+    "estimateDeliveryLabel": "अनुमानित वितरण दिनांकः"
+  },
+  "myAccountV2OrderDetails": {
+    "returnItems": "वापस किए गए आइटम",
+    "cancelItems": "आइटम रद्द करें",
+    "downloadInvoices": "चालान डाउनलोड करें",
+    "viewAllOrders": "सभी ऑर्डर देखें",
+    "noInvoices": "चालान अभी तक जनरेट नहीं किए गए हैं. कृपया बाद में आएं."
+  },
+  "myAccountV2Orders": {
+    "item": "{{value}} आइटम",
+    "items": "{{value}} आइटम",
+    "heading": "ऑर्डर और वापसी",
+    "orderNumber": "ऑर्डर संख्या ({{value}})",
+    "purchasedOn": "क्रय करने का दिनांकः {{value}}",
+    "orderedItems": "ऑर्डर किए गए आइटमः {{value}}",
+    "totalPrice": "कुल मूल्यः {{value}}",
+    "orderDetails": "ऑर्डर विवरण",
+    "orderDetailsLabel": "ऑर्डर संख्या {{value}} के लिए ऑर्डर विवरण दिखाएं",
+    "orderStatusLabel": "ऑर्डर की स्थिति",
+    "returnOrder": "वापसी ऑर्डर",
+    "showMore": "अधिक दिखाएं",
+    "showMoreLabel": "ऑर्डर इतिहास पर नेविगेट करें"
+  }
+}

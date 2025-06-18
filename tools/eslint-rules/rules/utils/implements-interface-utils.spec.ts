@@ -1,6 +1,6 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 
-import { TSESLint } from '@typescript-eslint/utils';
+import { RuleTester } from '@angular-eslint/test-utils';
 import {
   fixMissingImplementsInterface,
   hasImplementsInterface,
@@ -49,13 +49,7 @@ describe('implements-interface-utils', () => {
   });
 
   // Instantiate RuleTester with TypeScript parser
-  const ruleTester = new TSESLint.RuleTester({
-    parser: require.resolve('@typescript-eslint/parser'),
-    parserOptions: {
-      ecmaVersion: 2020,
-      sourceType: 'module',
-    },
-  });
+  const ruleTester = new RuleTester();
 
   ruleTester.run('hasImplementsInterface', rule, {
     valid: [

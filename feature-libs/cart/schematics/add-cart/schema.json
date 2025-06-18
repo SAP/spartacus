@@ -24,6 +24,13 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
+      "default": [
+        "Cart",
+        "WishList",
+        "Saved-Cart",
+        "Quick-Order",
+        "Import-Export"
+      ],
       "items": {
         "enum": [
           "Cart",
@@ -34,36 +41,34 @@
         ],
         "type": "string"
       },
-      "default": [
-        "Cart",
-        "WishList",
-        "Saved-Cart",
-        "Quick-Order",
-        "Import-Export"
-      ],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
         "items": [
           {
             "value": "Cart",
-            "label": "Cart"
+            "label": "Cart",
+            "checked": true
           },
           {
             "value": "WishList",
-            "label": "Wish List"
+            "label": "Wish List",
+            "checked": true
           },
           {
             "value": "Saved-Cart",
-            "label": "Saved Cart"
+            "label": "Saved Cart",
+            "checked": true
           },
           {
             "value": "Quick-Order",
-            "label": "Quick Order"
+            "label": "Quick Order",
+            "checked": true
           },
           {
             "value": "Import-Export",
-            "label": "Import/Export"
+            "label": "Import/Export",
+            "checked": true
           }
         ]
       }

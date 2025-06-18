@@ -1,0 +1,11 @@
+{
+  "myAccountV2CustomerTicketing": {
+    "heading": "Layanan Pelanggan",
+    "showMore": "Tampilkan Lebih Banyak",
+    "showMoreLabel": "Arahkan ke riwayat permintaan layanan pelanggan",
+    "changedOn": "Diubah Pada: {{value}}",
+    "ticketId": "ID: {{value}}",
+    "subjectLabel": "Subjek",
+    "idLabel": "Id Layanan Pelanggan"
+  }
+}

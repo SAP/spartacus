@@ -179,51 +179,6 @@ describe('MyAccountV2OrderHistoryService', () => {
     });
   });
 
-  describe('getOrderDetails', () => {
-    it('should load order details when not present in the store', fakeAsync(() => {
-      spyOn(userService, 'takeUserId').and.callThrough();
-      const sub = service.getOrderDetails(orderCode).subscribe();
-
-      actions$
-        .pipe(ofType(OrderActions.LOAD_ORDER_BY_ID), take(1))
-        .subscribe((action) => {
-          expect(action).toEqual(
-            new OrderActions.LoadOrderById({
-              userId: OCC_USER_ID_CURRENT,
-              code: orderCode,
-            })
-          );
-        });
-
-      tick();
-      expect(userService.takeUserId).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new OrderActions.LoadOrderById({
-          code: orderCode,
-          userId: OCC_USER_ID_CURRENT,
-        })
-      );
-      sub.unsubscribe();
-    }));
-
-    it('should be able to return order without loading when present in the store', () => {
-      spyOn(userService, 'takeUserId').and.callThrough();
-      store.dispatch(new OrderActions.LoadOrderByIdSuccess(order1));
-      service
-        .getOrderDetails(orderCode)
-        .subscribe((data) => {
-          expect(data).toEqual(order1);
-        })
-        .unsubscribe();
-      expect(userService.takeUserId).not.toHaveBeenCalled();
-      expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrderActions.LoadOrderById({
-          code: orderCode,
-          userId: OCC_USER_ID_CURRENT,
-        })
-      );
-    });
-  });
   describe('getOrderDetailsV2', () => {
     it('should load order details when not present in the store', fakeAsync(() => {
       spyOn(userService, 'takeUserId').and.callThrough();
@@ -282,6 +237,17 @@ describe('MyAccountV2OrderHistoryService', () => {
           expect(data).toEqual(undefined);
         })
         .unsubscribe();
+    });
+    it('should not emit when success and error are null or undefined', () => {
+      spyOn(service as any, 'getOrderDetailsState').and.returnValue(
+        of({ success: null, error: undefined, loading: false, value: null })
+      );
+      service.getOrderDetailsV2(orderCode).subscribe(() => {
+        fail('Should not emit any value');
+      });
+      expect((service as any).getOrderDetailsState).toHaveBeenCalledWith(
+        orderCode
+      );
     });
   });
   describe('getOrderDetailsWithTracking', () => {

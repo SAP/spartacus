@@ -16,6 +16,7 @@ import { NavigationService } from './navigation.service';
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NavigationComponent {
   node$: Observable<NavigationNode> = this.service.createNavigation(

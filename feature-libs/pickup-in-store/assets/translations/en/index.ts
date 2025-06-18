@@ -5,8 +5,6 @@
  */
 
 import pickupInStore from './pickupInStore.json';
-
-/** English language translations for pickup in store strings. */
 export const en = {
   pickupInStore,
 };

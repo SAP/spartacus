@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "注文番号",
+    "orderNumber": "注文番号",
+    "replenishmentId": "補充番号",
+    "purchaseOrderId": "発注書番号",
+    "purchaseOrderNumber": "発注書番号",
+    "emptyPurchaseOrderId": "なし",
+    "none": "なし {{value}}",
+    "placed": "注文済み",
+    "placedBy": "注文者",
+    "unit": "ユニット",
+    "costCenter": "原価センタ",
+    "costCenterAndUnit": "原価センタ/ユニット",
+    "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
+    "methodOfPayment": "支払方法",
+    "payByAccount": "アカウントで支払",
+    "paidByCreditCard": "(クレジットカードで支払)",
+    "status": "ステータス",
+    "active": "有効",
+    "shippedOn": "出荷日",
+    "shippingMethod": "配送方法",
+    "placedOn": "注文日",
+    "startOn": "開始日",
+    "nextOrderDate": "次回注文日",
+    "frequency": "頻度",
+    "cancelled": " キャンセル済み",
+    "deliveryStatus_IN_TRANSIT": "積送中",
+    "deliveryStatus_READY_FOR_PICKUP": "受け取り準備完了",
+    "deliveryStatus_READY_FOR_SHIPPING": "出荷準備完了",
+    "deliveryStatus_WAITING": "待機中",
+    "deliveryStatus_DELIVERING": "納入",
+    "deliveryStatus_PICKPACK": "配送準備中",
+    "deliveryStatus_PICKUP_COMPLETE": "受け取り完了",
+    "deliveryStatus_DELIVERY_COMPLETED": "納入完了",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "支払に関する問題",
+    "deliveryStatus_IN_PROCESS": "注文処理中",
+    "deliveryStatus_READY": "注文処理中",
+    "deliveryStatus_DELIVERY_REJECTED": "納入拒否",
+    "deliveryStatus_SHIPPED": "出荷済み",
+    "deliveryStatus_TAX_NOT_COMMITTED": "税に関する問題",
+    "deliveryStatus_CANCELLED": "キャンセル済み",
+    "statusDisplay_cancelled": "キャンセル済み",
+    "statusDisplay_cancelling": "保留をキャンセル",
+    "statusDisplay_completed": "完了",
+    "statusDisplay_created": "作成済み",
+    "statusDisplay_error": "保留中",
+    "statusDisplay_Error": "保留中",
+    "statusDisplay_processing": "保留中",
+    "statusDisplay_open": "開く",
+    "statusDisplay_pending": {
+      "approval": "承認を保留",
+      "merchant": {
+        "approval": "業者承認を保留"
+      }
+    },
+    "statusDisplay_approved": "承認済み",
+    "statusDisplay_rejected": "却下済み",
+    "statusDisplay_merchant": {
+      "approved": "業者が承認しました",
+      "rejected": "業者が拒否しました"
+    },
+    "statusDisplay_assigned": {
+      "admin": "管理者に割り当て済み"
+    },
+    "consignmentTracking": {
+      "action": "パッケージの追跡",
+      "dialog": {
+        "header": "追跡情報",
+        "shipped": "出荷済み",
+        "estimate": "納品予定",
+        "carrier": "配送サービス",
+        "trackingId": "追跡番号",
+        "noTracking": "パッケージは倉庫から発送されていません。追跡情報はパッケージの出荷後に利用できるようになります。",
+        "loadingHeader": "出荷/配送指示追跡"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "返品の依頼",
+      "cancelAction": "アイテムをキャンセル",
+      "item": "アイテム",
+      "itemPrice": "商品価格",
+      "quantity": "最大数量",
+      "returnQty": "返品数量",
+      "cancelQty": "キャンセル数量",
+      "setAll": "すべての数量を最大に設定",
+      "totalPrice": "合計",
+      "submit": "依頼の送信",
+      "submitDescription": "依頼を送信します。このページにあるアイテムは、キャンセル依頼に含まれます。",
+      "returnSuccess": "返品依頼 ({{rma}}) が送信されました",
+      "cancelSuccess": "キャンセル依頼が送信されました (オリジナル注文 {{orderCode}} が更新されます)"
+    },
+    "cancelReplenishment": {
+      "title": "補充をキャンセル",
+      "description": "将来の補充注文をすべてキャンセルしますか?",
+      "accept": "はい",
+      "reject": "いいえ",
+      "cancelSuccess": "補充注文 #{{replenishmentOrderCode}} は正常にキャンセルされました"
+    },
+    "caption": "注文の内容です。"
+  },
+  "orderHistory": {
+    "orderHistory": "注文履歴",
+    "orderId": "注文番号",
+    "emptyPurchaseOrderId": "なし",
+    "date": "日付",
+    "status": "ステータス",
+    "PONumber": "発注書番号",
+    "total": "合計",
+    "noOrders": "このアカウントには注文レコードがありません。",
+    "noReplenishmentOrders": "このアカウントには補充注文レコードがありません。",
+    "startShopping": "ショッピング開始",
+    "sortBy": "ソート基準",
+    "sortOrders": "ソート順序",
+    "replenishmentOrderHistory": "補充注文履歴",
+    "replenishmentOrderId": "補充番号",
+    "purchaseOrderNumber": "発注書番号",
+    "costCenter": "原価センタ",
+    "startOn": "開始日",
+    "frequency": "頻度",
+    "nextOrderDate": "次回注文日",
+    "cancel": "キャンセル",
+    "cancelled": "キャンセル済み",
+    "replenishmentHistory": "補充履歴",
+    "notFound": "注文はありません",
+    "actions": "アクション"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "すべての注文 ({{param}})",
+      "OrderReturnRequestListComponent": "返品 ({{param}})"
+    },
+    "tabPanelContainerRegion": "注文履歴詳細のあるグループ",
+    "tabPanelContainerRegionGroup": "注文履歴詳細のあるグループ"
+  },
+  "returnRequestList": {
+    "returnRequestId": "返品番号",
+    "orderId": "注文番号",
+    "date": "作成日",
+    "status": "ステータス",
+    "sortBy": "ソート基準",
+    "sortReturns": "返品のソート",
+    "statusDisplay_APPROVAL_PENDING": "承認保留中",
+    "statusDisplay_CANCELED": "キャンセル済み",
+    "statusDisplay_CANCELLING": "キャンセル中",
+    "statusDisplay_WAIT": "待機",
+    "statusDisplay_RECEIVED": "受け取り済み",
+    "statusDisplay_RECEIVING": "受信中",
+    "statusDisplay_APPROVING": "承認中",
+    "statusDisplay_REVERSING_PAYMENT": "支払の取消中",
+    "statusDisplay_PAYMENT_REVERSED": "取り消された支払",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "支払の取消が失敗しました",
+    "statusDisplay_REVERSING_TAX": "税の取消中",
+    "statusDisplay_TAX_REVERSED": "税が取り消されました",
+    "statusDisplay_TAX_REVERSAL_FAILED": "税の取消が失敗しました",
+    "statusDisplay_COMPLETED": "完了"
+  },
+  "returnRequest": {
+    "returnRequestId": "返品依頼番号",
+    "orderCode": "注文番号",
+    "status": "返品ステータス",
+    "cancel": "返品依頼のキャンセル",
+    "item": "説明",
+    "itemPrice": "商品価格",
+    "returnQty": "返品数量",
+    "total": "合計",
+    "summary": "返品合計",
+    "subtotal": "小計",
+    "deliveryCode": "配送費用",
+    "estimatedRefund": "見積られた払戻",
+    "note": "合計は見積であり、適用される税やその他の手数料が含まれていません。",
+    "cancelSuccess": "返品依頼 ({{rma}}) がキャンセルされました",
+    "caption": "注文の内容です。"
+  },
+  "reorder": {
+    "button": "再注文",
+    "dialog": {
+      "reorderProducts": "商品の再注文",
+      "messages": {
+        "reviewConfiguration": "\"{{ productCode}}\" の設定でエラーが発生しました。",
+        "lowStock": "{{ productName }} の数量: {{ quantity }} は {{ quantityAdded }} に削減されました。",
+        "noStock": "{{ productName }} は現在在庫がありません。",
+        "pricingError": "\"{{ productCode }}\" の価格設定の問題です。",
+        "unresolvableIssues": "\"{{ productCode }}\" の不明な問題です。",
+        "success": "商品は正常にカートに追加されました"
+      },
+      "areYouSureToReplaceCart": "現在のカートは新しいアイテムで置換されます。続行しますか?",
+      "cancel": "キャンセル",
+      "continue": "続行"
+    }
+  }
+}

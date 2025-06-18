@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsOrderDetailItemsComponent,
   I18nTestingModule,
@@ -135,6 +134,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
+  standalone: false,
 })
 class MockConsignmentTrackingComponent {
   @Input()
@@ -160,13 +160,7 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        CardModule,
-        I18nTestingModule,
-        PromotionsModule,
-        RouterTestingModule,
-        OutletModule,
-      ],
+      imports: [CardModule, I18nTestingModule, PromotionsModule, OutletModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },

@@ -1,0 +1,7 @@
+{
+  "futureStockDropdown": {
+    "header": "भावी उपलब्धता",
+    "quantity": "मात्रा",
+    "noFutureStocks": "इस उत्पाद की भविष्य में उपलब्धता की कोई जानकारी नहीं है."
+  }
+}

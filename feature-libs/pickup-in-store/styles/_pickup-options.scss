@@ -57,9 +57,7 @@
     position: relative;
     word-break: break-word;
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('7');
-    }
+    @include type('7');
 
     &::before,
     &::after {
@@ -105,15 +103,6 @@
           background-color: var(--cx-color-background);
           border: 2px solid var(--cx-color-text);
           color: var(--cx-color-text);
-        }
-      }
-
-      // native high contrast themes fix
-      @media (forced-colors: active) {
-        button.tab-btn.active {
-          &:after {
-            background-color: LinkText;
-          }
         }
       }
     }

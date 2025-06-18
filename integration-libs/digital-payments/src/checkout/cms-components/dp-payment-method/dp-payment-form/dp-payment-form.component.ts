@@ -16,6 +16,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'cx-dp-payment-form',
   templateUrl: './dp-payment-form.component.html',
+  standalone: false,
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()
@@ -29,18 +30,20 @@ export class DpPaymentFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dpPaymentService.getCardRegistrationDetails().subscribe((request) => {
-      if (request?.url) {
-        this.dpStorageService.syncCardRegistrationState(request);
-        this.redirect(request.url);
-      } else if (request) {
-        this.globalMsgService.add(
-          { key: 'dpPaymentForm.error.redirect' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.closeForm.emit();
-      }
-    });
+    this.dpPaymentService
+      .getCardRegistrationDetails()
+      .subscribe((dpPaymentRequest) => {
+        if (dpPaymentRequest?.url) {
+          this.dpStorageService.syncCardRegistrationState(dpPaymentRequest);
+          this.redirect(dpPaymentRequest.url);
+        } else if (dpPaymentRequest) {
+          this.globalMsgService.add(
+            { key: 'dpPaymentForm.error.redirect' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.closeForm.emit();
+        }
+      });
   }
 
   redirect(url: string) {

@@ -17,11 +17,6 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
-  /**
-   * @deprecated since 6.2
-   */
-  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
-
   constructor(
     protected config: OccConfig,
     protected translation: TranslationService,
@@ -153,6 +148,7 @@ export class OccConfiguratorVariantNormalizer
       validationType: sourceAttribute.validationType,
       visible: sourceAttribute.visible,
       description: sourceAttribute.longText,
+      domainOnDemand: sourceAttribute.domainOnDemand,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -260,7 +256,9 @@ export class OccConfiguratorVariantNormalizer
     if (!isRetractBlocked) {
       if (
         this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
-        (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting)
+        (this.isSourceAttributeTypeReadOnly(sourceAttribute) &&
+          isConflicting &&
+          !sourceAttribute.domainOnDemand)
       ) {
         const attributeType = this.convertAttributeType(sourceAttribute);
         if (

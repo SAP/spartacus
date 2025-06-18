@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
+import { GuardResult, Router } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthService,
@@ -26,7 +26,7 @@ export class NotCheckoutAuthGuard {
     protected router: Router
   ) {}
 
-  canActivate(): Observable<boolean | UrlTree> {
+  canActivate(): Observable<GuardResult> {
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {

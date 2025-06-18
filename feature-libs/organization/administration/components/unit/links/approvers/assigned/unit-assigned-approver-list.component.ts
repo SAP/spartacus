@@ -19,5 +19,6 @@ import { UnitAssignedApproverListService } from './unit-assigned-approver-list.s
       useExisting: UnitAssignedApproverListService,
     },
   ],
+  standalone: false,
 })
 export class UnitAssignedApproverListComponent {}

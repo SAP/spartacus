@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Megszólítás",
+    "titleOptional": "Megszólítás (opcionális)",
+    "defaultTitle": "Megszólítás",
+    "firstName": {
+      "label": "Utónév",
+      "placeholder": "Utónév"
+    },
+    "lastName": {
+      "label": "Vezetéknév",
+      "placeholder": "Vezetéknév"
+    },
+    "address1": "Cím 1",
+    "address2": "Cím 2 (opcionális)",
+    "country": "Ország/régió",
+    "city": {
+      "label": "Város",
+      "placeholder": "Város"
+    },
+    "state": "Állam",
+    "zipCode": {
+      "label": "Irányítószám",
+      "placeholder": "Irányítószám"
+    },
+    "phoneNumber": {
+      "label": "Telefonszám (opcionális)",
+      "placeholder": "pl. (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Mobilszám (opcionális)",
+      "placeholder": "pl. (###) - ### - ####"
+    },
+    "saveAsDefault": "Mentés alapértelmezettként",
+    "chooseAddress": "Cím kiválasztása",
+    "streetAddress": "Utcanév",
+    "aptSuite": "Lakásszám",
+    "selectOne": "Válasszon egyet…",
+    "setAsDefault": "Beállítás alapértelmezett kézbesítési címként",
+    "titleRequired": "A megszólítás kitöltése kötelező.",
+    "userAddressAddSuccess": "Új cím sikeresen hozzáadva!",
+    "userAddressUpdateSuccess": "Cím sikeresen frissítve!",
+    "userAddressDeleteSuccess": "Cím sikeresen törölve!",
+    "invalidAddress": "Érvénytelen cím"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Új kézbesítési cím hozzáadása",
+    "editDeliveryAddress": "Kézbesítési cím szerkesztése",
+    "areYouSureToDeleteAddress": "Biztosan törli ezt a címet?",
+    "addNewAddress": "Új cím hozzáadása",
+    "addAddress": "Cím hozzáadása",
+    "updateAddress": "Cím frissítése",
+    "backToAddressList": "Vissza a címlistához",
+    "defaultDeliveryAddress": "Alapértelmezett kézbesítési cím",
+    "additionalDeliveryAddress": "További kézbesítési cím ({{number}})"
+  },
+  "addressCard": {
+    "default": "ALAPÉRTELMEZETT",
+    "selected": "Kiválasztva",
+    "selectedAddress": "Kiválasztott cím",
+    "setAsDefault": "Beállítás alapértelmezettként",
+    "shipTo": "Szállítási cím",
+    "billTo": "Számlázási cím",
+    "phoneNumber": "P",
+    "mobileNumber": "M"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Ellenőrizze a címét",
+    "ensureAccuracySuggestChange": "A kézbesítés pontossága érdekében azt javasoljuk, hogy módosítsa az alábbiakat.",
+    "chooseAddressToUse": "Válassza ki, hogy mely címet szeretné használni:",
+    "suggestedAddress": "Javasolt cím",
+    "enteredAddress": "Megadott cím",
+    "editAddress": "Cím szerkesztése",
+    "saveAddress": "Cím mentése"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "A(z) {{ streetAddress }} cím sikeresen beállítva alapértelmezettként"
+  }
+}

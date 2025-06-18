@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
@@ -78,7 +77,6 @@ describe(`CheckoutGuard`, () => {
           useClass: MockExpressCheckoutService,
         },
       ],
-      imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(CheckoutGuard);

@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "Sie werden in Kürze zur Seite eines Drittanbieters für die Kartenregistrierung weitergeleitet",
+    "callback": "Bitte warten... Zahlungsdetails werden abgerufen...",
+    "cancelledOrFailed": "Kartenregistrierung ist fehlgeschlagen oder wurde abgebrochen",
+    "error": {
+      "redirect": "Vorgang konnte nicht initiiert werden. Versuchen Sie es erneut.",
+      "paymentFetch": "Die Zahlungsdetails konnten nicht abgerufen werden. Versuchen Sie es erneut.",
+      "unknown": "Beim Abrufen der Zahlung ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an den Support."
+    },
+    "confirmation": {
+      "heading": "Ihre Änderungen wurden noch nicht gespeichert.",
+      "text": "Wenn Sie diesen Dialog schließen, gehen alle Ihre Änderungen verloren. Möchten Sie den Dialog wirklich schließen?"
+    }
+  }
+}

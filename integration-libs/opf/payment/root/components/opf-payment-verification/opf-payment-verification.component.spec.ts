@@ -15,6 +15,7 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 

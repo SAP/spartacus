@@ -13,6 +13,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-items',
   templateUrl: './return-request-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReturnRequestItemsComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}

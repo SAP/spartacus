@@ -1,0 +1,67 @@
+{
+  "savedCartDetails": {
+    "cartName": "Nome",
+    "cartDescription": "Descrizione",
+    "cartId": "ID",
+    "dateSaved": "Data salvata",
+    "items": "Articoli",
+    "quantity": "Quantità",
+    "total": "Totale",
+    "editSavedCart": "Modifica carrello acquisti salvato",
+    "deleteSavedCart": "Elimina carrello acquisti salvato",
+    "addSelectedItems": "Aggiungi gli articoli selezionati",
+    "emptyCartItems": "Svuota articoli del carrello acquisti"
+  },
+  "savedCartList": {
+    "savedCarts": "Carrelli acquisti salvati ({{count}})",
+    "cartName": "Nome",
+    "cartId": "ID",
+    "dateSaved": "Data salvata",
+    "cartDescription": "Descrizione",
+    "quantity": "Qtà",
+    "quantityFull": "Quantità",
+    "total": "Totale",
+    "actions": "Azioni",
+    "makeCartActive": "Rendi attivo il carrello acquisti",
+    "notFound": "Nessun carrello acquisti salvato trovato",
+    "swapCartNoActiveCart": "Carrello acquisti esistente attivato correttamente da {{cartName}}.",
+    "swapCartWithActiveCart": "Carrello acquisti esistente attivato correttamente da {{cartName}}. Gli articoli precedenti sono stati salvati nel carrello {{previousCartName}}."
+  },
+  "savedCartCartPage": {
+    "messages": {
+      "cartSaved": "Gli articoli del carrello acquisti sono stati salvati correttamente per un uso successivo nel carrello acquisti \"{{cartName}}\""
+    }
+  },
+  "savedCartDialog": {
+    "saveForLater": "Salva per uso successivo",
+    "itemsSavedForLater": "Tutti gli articoli nel carrello acquisti verranno salvati per un uso successivo",
+    "savedCartName": "Nome carrello acquisti salvato",
+    "savedCartDescription": "Descrizione carrello acquisti salvato",
+    "optional": "facoltativa",
+    "charactersLeft": "caratteri rimanenti: {{count}}",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "restore": "Ripristina",
+    "followingCartDelete": "Il seguente carrello acquisti salvato verrà eliminato",
+    "followingCartRestore": "Il seguente carrello acquisti salvato verrà ripristinato come carrello acquisti attivo",
+    "delete": "Elimina",
+    "deleteCartSuccess": "Carrello acquisti eliminato correttamente",
+    "editCartSuccess": "Carrello acquisti modificato correttamente",
+    "editSavedCart": "Modifica carrello acquisti salvato",
+    "deleteSavedCart": "Elimina carrello acquisti salvato",
+    "restoreSavedCart": "Ripristina carrello acquisti salvato",
+    "name": "Nome",
+    "id": "ID",
+    "description": "Descrizione",
+    "quantity": "QTÀ",
+    "quantityFull": "Quantità",
+    "total": "Totale",
+    "keepCopySavedCart": "Conserva una copia di questo carrello acquisti nella lista dei carrelli acquisti salvati",
+    "defaultCloneCartName": "Copia di {{name}}",
+    "nameOfCloneCart": "Nome del carrello acquisti copiato"
+  },
+  "addToSavedCart": {
+    "savedCarts": "Carrelli acquisti salvati",
+    "saveCartForLater": "Salva carrello acquisti per uso successivo"
+  }
+}

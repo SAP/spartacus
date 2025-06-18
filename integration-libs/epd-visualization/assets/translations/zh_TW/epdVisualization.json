@@ -1,0 +1,71 @@
+{
+  "epdVisualization": {
+    "visualViewer": {
+      "contentType": {
+        "drawing2D": "2D",
+        "model3D": "3D"
+      },
+      "toolbar": {
+        "homeButton": {
+          "label": "首頁"
+        },
+        "zoomButton": {
+          "label": "縮放"
+        },
+        "panButton": {
+          "label": "平移"
+        },
+        "rotateButton": {
+          "label": "旋轉"
+        },
+        "isolateButton": {
+          "label": "隔離"
+        },
+        "playButton": {
+          "label": "播放"
+        },
+        "pauseButton": {
+          "label": "暫停"
+        },
+        "hotspotsButton": {
+          "label": "熱點",
+          "show": "顯示",
+          "hide": "隱藏"
+        },
+        "visualViewerAnimationSlider": {
+          "label": "動畫幻燈片",
+          "role": "幻燈片"
+        }
+      }
+    },
+    "visualPicking": {
+      "visualPickingTab": {
+        "noProductReferences": "此產品沒有備用零件。"
+      },
+      "visualPickingProductList": {
+        "description": "說明",
+        "itemPrice": "價格",
+        "outOfStock": "缺貨",
+        "id": "ID"
+      },
+      "visualPickingProductFilter": {
+        "input": {
+          "placeholder": "按名稱或 ID 篩選"
+        },
+        "searchButton": {
+          "label": "搜尋"
+        },
+        "resetButton": {
+          "label": "重設"
+        }
+      }
+    },
+    "errors": {
+      "visualLoad": {
+        "noMatchingVisualFound": "找不到符合的視覺化",
+        "multipleMatchingVisualsFound": "找不到多個符合的視覺化",
+        "unexpectedLoadError": "載入視覺化時發生錯誤"
+      }
+    }
+  }
+}

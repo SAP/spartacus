@@ -4,31 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Optional,
-  inject,
-} from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-date-range-cell',
   templateUrl: './date-range-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DateRangeCellComponent extends CellComponent {
-  @Optional() featuteConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
-
   get linkable(): boolean {
-    // TODO: (CXSPA-7155) - Remove feature flag next major release
-    if (this.featuteConfigService?.isEnabled('a11yOrganizationLinkableCells')) {
-      return this.hasRange && (this.cellOptions.linkable ?? false);
-    }
-    return this.hasRange && (this.cellOptions.linkable ?? true);
+    return this.hasRange && (this.cellOptions.linkable ?? false);
   }
 
   get hasRange(): boolean {

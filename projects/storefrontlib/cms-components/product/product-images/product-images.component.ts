@@ -19,6 +19,7 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductImagesComponent {
   protected mainMediaContainer = new BehaviorSubject<any>(null);

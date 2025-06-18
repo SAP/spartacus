@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "無",
+    "poNumber": "採購單號碼 (選擇性)",
+    "costCenter": "成本中心",
+    "placeholder": "輸入採購單",
+    "availableLabel": "您可用的交貨地址取決於成本中心的單位",
+    "invalid": {
+      "accountType": "您的帳戶不允許您在此結帳。"
+    },
+    "methodOfPayment": {
+      "paymentType": "付款類型"
+    },
+    "review": {
+      "poNumber": "採購單號碼"
+    },
+    "progress": {
+      "methodOfPayment": "付款方法"
+    },
+    "invalidCostCenter": "成本中心無效。"
+  }
+}

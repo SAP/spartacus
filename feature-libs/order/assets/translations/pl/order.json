@@ -1,0 +1,192 @@
+{
+  "orderDetails": {
+    "orderId": "Zamówienie nr",
+    "orderNumber": "Numer zamówienia",
+    "replenishmentId": "Uzupełnianie nr",
+    "purchaseOrderId": "Zamówienie nr",
+    "purchaseOrderNumber": "Numer zamówienia",
+    "emptyPurchaseOrderId": "Brak",
+    "none": "Brak {{value}}",
+    "placed": "Złożone",
+    "placedBy": "Złożone przez",
+    "unit": "Jednostka",
+    "costCenter": "Miejsce powstawania kosztów",
+    "costCenterAndUnit": "Miejsce powstawania kosztów/jednostka",
+    "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
+    "methodOfPayment": "Metoda płatności",
+    "payByAccount": "Płatność przez konto",
+    "paidByCreditCard": "(zapłacono kartą kredytową)",
+    "status": "Status",
+    "active": "Aktywne",
+    "shippedOn": "Data wysłania",
+    "shippingMethod": "Metoda wysyłki",
+    "placedOn": "Data złożenia",
+    "startOn": "Data rozpoczęcia",
+    "nextOrderDate": "Data następnego zamówienia",
+    "frequency": "Częstotliwość",
+    "cancelled": " Anulowane",
+    "deliveryStatus_IN_TRANSIT": "W drodze",
+    "deliveryStatus_READY_FOR_PICKUP": "Gotowe do pobrania",
+    "deliveryStatus_READY_FOR_SHIPPING": "Gotowe do wysyłki",
+    "deliveryStatus_WAITING": "Oczekujące",
+    "deliveryStatus_DELIVERING": "Dostarczanie",
+    "deliveryStatus_PICKPACK": "Przygotowanie do wysyłki",
+    "deliveryStatus_PICKUP_COMPLETE": "Odbiór zakończony",
+    "deliveryStatus_DELIVERY_COMPLETED": "Dostawa zakończona",
+    "deliveryStatus_PAYMENT_NOT_CAPTURED": "Problem z płatnością",
+    "deliveryStatus_IN_PROCESS": "Przetwarzanie zamówienia",
+    "deliveryStatus_READY": "Przetwarzanie zamówienia",
+    "deliveryStatus_DELIVERY_REJECTED": "Dostawa odrzucona",
+    "deliveryStatus_SHIPPED": "Wysłane",
+    "deliveryStatus_TAX_NOT_COMMITTED": "Problem podatkowy",
+    "deliveryStatus_CANCELLED": "Anulowane",
+    "statusDisplay_cancelled": "Anulowane",
+    "statusDisplay_cancelling": "Anuluj oczekujące",
+    "statusDisplay_completed": "Zakończone",
+    "statusDisplay_created": "Utworzone",
+    "statusDisplay_error": "Oczekujące",
+    "statusDisplay_Error": "Oczekujące",
+    "statusDisplay_processing": "Oczekujące",
+    "statusDisplay_open": "Otwarte",
+    "statusDisplay_pending": {
+      "approval": "Oczekuje na zatwierdzenie",
+      "merchant": {
+        "approval": "Oczekuje na zatwierdzenie przez sprzedawcę"
+      }
+    },
+    "statusDisplay_approved": "Zatwierdzone",
+    "statusDisplay_rejected": "Odrzucone",
+    "statusDisplay_merchant": {
+      "approved": "Zatwierdzone przez sprzedawcę",
+      "rejected": "Odrzucone przez sprzedawcę"
+    },
+    "statusDisplay_assigned": {
+      "admin": "Przypisane do administratora"
+    },
+    "consignmentTracking": {
+      "action": "Śledź pakiet",
+      "dialog": {
+        "header": "Informacje śledzenia",
+        "shipped": "Wysłane",
+        "estimate": "Szacowana dostawa",
+        "carrier": "Usługa dostawy",
+        "trackingId": "Numer śledzenia",
+        "noTracking": "Pakiet nie został wysłany z magazynu. Informacje o śledzeniu przesyłki będą dostępne po jej wysłaniu.",
+        "loadingHeader": "Śledzenie konsygnacji"
+      }
+    },
+    "cancellationAndReturn": {
+      "returnAction": "Żądaj zwrotu",
+      "cancelAction": "Anuluj pozycje",
+      "item": "Pozycja",
+      "itemPrice": "Cena pozycji",
+      "quantity": "Maks. ilość",
+      "returnQty": "Ilość do zwrotu",
+      "cancelQty": "Ilość do anulowania",
+      "setAll": "Ustaw wszystkie ilości na maksimum",
+      "totalPrice": "Suma",
+      "submit": "Prześlij zapytanie",
+      "submitDescription": "Prześlij żądanie. Elementy na tej stronie zostaną uwzględnione w żądaniu anulowania.",
+      "returnSuccess": "Żądanie zwrotu ({{rma}}) zostało przesłane",
+      "cancelSuccess": "Żądanie anulowania zostało przesłane (oryginalne zamówienie {{orderCode}} zostanie zaktualizowane)"
+    },
+    "cancelReplenishment": {
+      "title": "Anuluj uzupełnienie",
+      "description": "Czy anulować przyszłe zlecenie uzupełnienia?",
+      "accept": "Tak",
+      "reject": "Nie",
+      "cancelSuccess": "Zlecenie uzupełnienia zapasów nr {{replenishmentOrderCode}} zostało pomyślnie anulowane"
+    },
+    "caption": "Treść zamówienia."
+  },
+  "orderHistory": {
+    "orderHistory": "Historia zamówienia",
+    "orderId": "Zamówienie nr",
+    "emptyPurchaseOrderId": "Brak",
+    "date": "Data",
+    "status": "Status",
+    "PONumber": "Nr zamówienia",
+    "total": "Suma",
+    "noOrders": "Nie mamy rekordów zamówień dla tego konta.",
+    "noReplenishmentOrders": "Nie mamy rekordów zamówień uzupełnienia dla tego konta.",
+    "startShopping": "Rozpocznij zakupy",
+    "sortBy": "Sortuj według",
+    "sortOrders": "Sortuj zamówienia",
+    "replenishmentOrderHistory": "Historia zleceń uzupełnienia",
+    "replenishmentOrderId": "Uzupełnienie nr",
+    "purchaseOrderNumber": "Zamówienie nr",
+    "costCenter": "Miejsce powstawania kosztów",
+    "startOn": "Data rozpoczęcia",
+    "frequency": "Częstotliwość",
+    "nextOrderDate": "Data następnego zamówienia",
+    "cancel": "Anuluj",
+    "cancelled": "Anulowane",
+    "replenishmentHistory": "Historia uzupełniania",
+    "notFound": "Nie znaleziono zamówień",
+    "actions": "Czynności"
+  },
+  "AccountOrderHistoryTabContainer": {
+    "tabs": {
+      "AccountOrderHistoryComponent": "WSZYSTKIE ZAMÓWIENIA ({{param}})",
+      "OrderReturnRequestListComponent": "ZWROTY ({{param}})"
+    },
+    "tabPanelContainerRegion": "Grupa ze szczegółami historii zamówień",
+    "tabPanelContainerRegionGroup": "Grupa ze szczegółami historii zamówień"
+  },
+  "returnRequestList": {
+    "returnRequestId": "Zwrot nr",
+    "orderId": "Zamówienie nr",
+    "date": "Data utworzenia",
+    "status": "Status",
+    "sortBy": "Sortuj według",
+    "sortReturns": "Sortuj zwroty",
+    "statusDisplay_APPROVAL_PENDING": "Oczekuje na zatwierdzenie",
+    "statusDisplay_CANCELED": "Anulowane",
+    "statusDisplay_CANCELLING": "Anulowanie",
+    "statusDisplay_WAIT": "Oczekuje",
+    "statusDisplay_RECEIVED": "Otrzymane",
+    "statusDisplay_RECEIVING": "Odbieranie",
+    "statusDisplay_APPROVING": "Zatwierdzanie",
+    "statusDisplay_REVERSING_PAYMENT": "Stornowanie płatności",
+    "statusDisplay_PAYMENT_REVERSED": "Płatność wystornowana",
+    "statusDisplay_PAYMENT_REVERSAL_FAILED": "Stornowanie płatności nie powiodło się",
+    "statusDisplay_REVERSING_TAX": "Stornowanie podatku",
+    "statusDisplay_TAX_REVERSED": "Podatek wystornowany",
+    "statusDisplay_TAX_REVERSAL_FAILED": "Stornowanie podatku nie powiodło się",
+    "statusDisplay_COMPLETED": "Zakończone"
+  },
+  "returnRequest": {
+    "returnRequestId": "Żądanie zwrotu nr",
+    "orderCode": "Dla zamówienia nr",
+    "status": "Status zwrotu",
+    "cancel": "Anuluj żądanie zwrotu",
+    "item": "Opis",
+    "itemPrice": "Cena pozycji",
+    "returnQty": "Ilość zwrotów",
+    "total": "Suma",
+    "summary": "Sumy zwrotów",
+    "subtotal": "Suma częściowa",
+    "deliveryCode": "Koszt dostawy",
+    "estimatedRefund": "Szacowany zwrot",
+    "note": "Łączne kwoty są szacunkowe i mogą nie obejmować obowiązujących podatków lub innych opłat.",
+    "cancelSuccess": "Żądanie zwrotu ({{rma}}) zostało anulowane",
+    "caption": "Treść zamówienia."
+  },
+  "reorder": {
+    "button": "Zamów ponownie",
+    "dialog": {
+      "reorderProducts": "Zamów produkty ponownie",
+      "messages": {
+        "reviewConfiguration": "Wystąpił błąd w konfiguracji \"{{ productCode}}\".",
+        "lowStock": "Ilość dla {{ productName }}: {{ quantity }} została zmniejszona do {{ quantityAdded }}.",
+        "noStock": "{{ productName }} jest obecnie niedostępny w magazynie.",
+        "pricingError": "Problem z wyceną z \"{{ productCode }}\".",
+        "unresolvableIssues": "Niezidentyfikowany problem z \"{{ productCode }}\".",
+        "success": "Produkty zostały dodane do koszyka"
+      },
+      "areYouSureToReplaceCart": "Bieżący koszyk zostanie zastąpiony nowymi pozycjami. Czy chcesz kontynuować?",
+      "cancel": "Anuluj",
+      "continue": "Kontynuuj"
+    }
+  }
+}

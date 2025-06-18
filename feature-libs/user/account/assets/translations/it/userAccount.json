@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Password dimenticata?",
+    "signIn": "Accedi",
+    "register": "Registrati",
+    "dontHaveAccount": "Non si dispone di un account?",
+    "guestCheckout": "Check-out ospite",
+    "emailAddress": {
+      "label": "Indirizzo e-mail",
+      "placeholder": "Inserisci l'indirizzo e-mail"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Inserisci la password"
+    },
+    "wrongEmailFormat": "Formato e-mail non valido."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Codice di verifica inviato a {{target}}. Controllare e inserire il codice.",
+    "needInputCredentials": "Per continuare, inserire le credenziali.",
+    "sendRateLime": "tra {{waitTime}} secondi",
+    "resend": "Invia nuovamente",
+    "verificationCode": {
+      "label": "Codice di verifica",
+      "placeholder": "Inserisci codice di verifica"
+    },
+    "noReceiveCode": "Codice non ricevuto?",
+    "verify": "Verifica",
+    "back": "Indietro",
+    "tokenInputHint": "È possibile richiedere un nuovo codice. Parte un timer che indica tra quanti secondi è possibile inviare nuovamente la richiesta."
+  },
+  "verificationTokenDialog": {
+    "title": "Codice non ricevuto?",
+    "noReceiveCode": "Se il codice non è stato ricevuto, i motivi potrebbero essere i seguenti:",
+    "contentLine1": "1. L'e-mail non è ancora stata ricevuta.",
+    "contentLine2": "2. L'e-mail ricevuta è stata ritenuta posta indesiderata.",
+    "contentLine3": "3. L'indirizzo e-mail o la password inseriti non sono corretti.",
+    "close": "Chiudi"
+  },
+  "miniLogin": {
+    "userGreeting": "Ciao, {{name}}",
+    "signInRegister": "Accedi/Registrati"
+  },
+  "myAccountV2User": {
+    "signOut": "Esci"
+  }
+}

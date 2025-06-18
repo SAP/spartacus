@@ -1,0 +1,9 @@
+{
+  "productVariants": {
+    "style": "样式",
+    "selectedStyle": "所选样式",
+    "size": "大小",
+    "color": "颜色",
+    "sizeGuideLabel": "样式指南"
+  }
+}

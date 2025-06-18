@@ -13,6 +13,7 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
   selector: 'cx-opf-cta-scripts',
   templateUrl: './opf-cta-scripts.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OpfCtaScriptsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);

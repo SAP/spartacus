@@ -1,0 +1,22 @@
+{
+  "checkoutB2B": {
+    "noPoNumber": "Brak",
+    "poNumber": "Numer zamówienia (opcjonalny)",
+    "costCenter": "Miejsce powstawania kosztów",
+    "placeholder": "Wprowadź zamówienie",
+    "availableLabel": "Dostępne adresy dostawy zależą od jednostki miejsca powstawania kosztów",
+    "invalid": {
+      "accountType": "Twoje konto nie pozwala na dokonanie płatności w tym miejscu."
+    },
+    "methodOfPayment": {
+      "paymentType": "Rodzaj płatności"
+    },
+    "review": {
+      "poNumber": "Numer zamówienia"
+    },
+    "progress": {
+      "methodOfPayment": "Metoda płatności"
+    },
+    "invalidCostCenter": "Nieprawidłowe miejsce powstawania kosztów"
+  }
+}

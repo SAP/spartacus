@@ -1,0 +1,16 @@
+{
+  "dpPaymentForm": {
+    "redirect": "Hamarosan átirányítjuk egy külső oldalra, ahol regisztrálhatja a kártyáját",
+    "callback": "Várjon... Folyamatban a fizetési adatok lekérése...",
+    "cancelledOrFailed": "A kártyaregisztráció sikertelen volt vagy megszakították",
+    "error": {
+      "redirect": "Nem sikerült elindítani a műveletet. Próbálja újra.",
+      "paymentFetch": "Nem sikerült lekérni a fizetési adatokat. Próbálja újra.",
+      "unknown": "Ismeretlen hiba történt a fizetés lekérésekor. Forduljon a támogatáshoz."
+    },
+    "confirmation": {
+      "heading": "Nem mentette a módosításait.",
+      "text": "Ha bezárja ezt a párbeszédablakot, elveszíti az összes végrehajtott módosítást. Biztosan szeretné bezárni?"
+    }
+  }
+}

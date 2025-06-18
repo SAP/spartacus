@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlTree } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RedirectCommand, UrlTree } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
@@ -44,7 +43,6 @@ describe('AuthGuard', () => {
           useClass: MockAuthRedirectService,
         },
       ],
-      imports: [RouterTestingModule],
     });
     guard = TestBed.inject(AuthGuard);
     authService = TestBed.inject(AuthService);
@@ -57,12 +55,12 @@ describe('AuthGuard', () => {
     });
 
     it('should return login url to redirect', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
         .unsubscribe();
-      expect(result.toString()).toBe('/login');
+      expect(result?.toString()).toBe('/login');
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
@@ -77,7 +75,7 @@ describe('AuthGuard', () => {
     });
 
     it('should return true', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))

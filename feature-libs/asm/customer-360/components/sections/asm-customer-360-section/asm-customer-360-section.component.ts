@@ -29,6 +29,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
       useExisting: AsmCustomer360SectionContextSource,
     },
   ],
+  standalone: false,
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {
   @Input()

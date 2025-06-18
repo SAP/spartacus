@@ -111,6 +111,7 @@ class MockQuoteHeaderSellerEditComponentService {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-date-picker',
   template: '',
+  standalone: false,
 })
 class MockDatePickerComponent {
   @Input() control: FormControl;
@@ -122,6 +123,7 @@ class MockDatePickerComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

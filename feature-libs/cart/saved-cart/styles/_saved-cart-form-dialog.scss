@@ -2,12 +2,7 @@ cx-saved-cart-form-dialog {
   background-color: rgba(0, 0, 0, 0.5);
 
   .cx-saved-cart-form-dialog {
-    @extend .modal-dialog;
-    @extend .modal-dialog-centered;
-
     .cx-saved-cart-form-container {
-      @extend .modal-content;
-
       .cx-saved-cart-form-header {
         .cx-saved-cart-form-title {
           font-size: var(--cx-font-size, 1.375rem);
@@ -17,8 +12,6 @@ cx-saved-cart-form-dialog {
       }
 
       .cx-saved-cart-form-body {
-        @extend .modal-body;
-
         .cx-saved-cart-form-row {
           margin-bottom: 1.5rem;
 

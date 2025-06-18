@@ -1,5 +1,4 @@
 @import '../../theme';
-@import 'bootstrap/scss/card';
 
 .card {
   border-radius: 0;
@@ -25,6 +24,10 @@
 
   &:first-child {
     border-radius: 0;
+  }
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
   }
 }
 

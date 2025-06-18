@@ -2,12 +2,11 @@ import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartModificationList,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   ICON_TYPE,
@@ -89,6 +88,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -97,20 +97,16 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
+  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
-}
-
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
 }
 
 describe('ReorderDialogComponent', () => {
@@ -124,7 +120,6 @@ describe('ReorderDialogComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
@@ -144,10 +139,6 @@ describe('ReorderDialogComponent', () => {
         {
           provide: MultiCartFacade,
           useClass: MockMultiCartService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

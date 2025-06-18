@@ -1,0 +1,79 @@
+{
+  "addressForm": {
+    "title": "Обращение",
+    "titleOptional": "Обращение (необязательно)",
+    "defaultTitle": "Обращение",
+    "firstName": {
+      "label": "Имя",
+      "placeholder": "Имя"
+    },
+    "lastName": {
+      "label": "Фамилия",
+      "placeholder": "Фамилия"
+    },
+    "address1": "Адрес 1",
+    "address2": "Адрес 2 (необязательно)",
+    "country": "Страна/регион",
+    "city": {
+      "label": "Город",
+      "placeholder": "Город"
+    },
+    "state": "Статус",
+    "zipCode": {
+      "label": "Почтовый индекс",
+      "placeholder": "Почтовый индекс"
+    },
+    "phoneNumber": {
+      "label": "Телефон (необязательно)",
+      "placeholder": "например: (###) - ### - ####"
+    },
+    "cellphone": {
+      "label": "Мобильный телефон (необязательно)",
+      "placeholder": "например: (###) - ### - ####"
+    },
+    "saveAsDefault": "Сохранить как значение по умолчанию",
+    "chooseAddress": "Выбрать адрес",
+    "streetAddress": "Адрес: улица",
+    "aptSuite": "Номер квартиры",
+    "selectOne": "Выберите...",
+    "setAsDefault": "Установить как адрес доставки по умолчанию",
+    "titleRequired": "Обращение обязательно.",
+    "userAddressAddSuccess": "Новый адрес добавлен.",
+    "userAddressUpdateSuccess": "Адрес обновлен.",
+    "userAddressDeleteSuccess": "Адрес удален.",
+    "invalidAddress": "Неправильный адрес"
+  },
+  "addressBook": {
+    "addNewDeliveryAddress": "Добавьте новый адрес доставки",
+    "editDeliveryAddress": "Редактировать адрес доставки",
+    "areYouSureToDeleteAddress": "Действительно удалить этот адрес?",
+    "addNewAddress": "Добавить новый адрес",
+    "addAddress": "Добавить адрес",
+    "updateAddress": "Обновить адрес",
+    "backToAddressList": "Назад к списку адресов",
+    "defaultDeliveryAddress": "Адрес доставки по умолчанию",
+    "additionalDeliveryAddress": "Дополнительный адрес доставки {{number}}"
+  },
+  "addressCard": {
+    "default": "ПО УМОЛЧАНИЮ",
+    "selected": "Выбрано",
+    "selectedAddress": "Выбранный адрес",
+    "setAsDefault": "Установить по умолчанию",
+    "shipTo": "Адрес доставки",
+    "billTo": "Адрес для счета",
+    "phoneNumber": "Т",
+    "mobileNumber": "М"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Проверьте адрес",
+    "ensureAccuracySuggestChange": "Для обеспечения точности доставки мы предлагаем выбранное ниже изменение.",
+    "chooseAddressToUse": "Выберите адрес, который вы хотите использовать.",
+    "suggestedAddress": "Предлагаемый адрес",
+    "enteredAddress": "Введенный адрес",
+    "editAddress": "Редактировать адрес",
+    "saveAddress": "Сохранить адрес"
+  },
+  "addressMessages": {
+    "setAsDefaultSuccessfully": "Адрес {{ streetAddress }} установлен по умолчанию"
+  }
+}

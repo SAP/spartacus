@@ -1,0 +1,8 @@
+{
+  "estimatedDeliveryDate": {
+    "quantity": "数量-",
+    "quantityFull": "数量-",
+    "ETA": "预计交付日期：",
+    "estimatedDeliveryDateEntryInfo": "{{ quantity }} 数量将由 {{ date }} 交付"
+  }
+}

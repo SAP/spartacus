@@ -12,7 +12,6 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -101,6 +100,7 @@ const mockOrderEntries: OrderEntry[] = [
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -118,6 +118,7 @@ class MockRoutingService implements Partial<RoutingService> {
 @Component({
   selector: 'cx-cart-item',
   template: '',
+  standalone: false,
 })
 class MockCartItemComponent {
   @Input() compact = false;
@@ -129,6 +130,7 @@ class MockCartItemComponent {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -147,7 +149,6 @@ describe('AddedToCartDialogComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
@@ -267,7 +268,7 @@ describe('AddedToCartDialogComponent', () => {
 
   it('should display cart total', () => {
     component.cart$ = of({
-      deliveryItemsQuantity: 1,
+      totalUnitCount: 1,
       totalPrice: {
         formattedValue: '$100.00',
       },

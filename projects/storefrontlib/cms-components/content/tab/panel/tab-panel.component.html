@@ -2,7 +2,9 @@
   [attr.role]="mode === TAB_MODE.ACCORDIAN ? 'region' : 'tabpanel'"
   [tabindex]="tab.disableBorderFocus ? -1 : 0"
   [attr.aria-labelledby]="tab.id ?? null"
-  [attr.id]="tab.id ? 'section-' + tab.id : null"
+  [attr.id]="
+    tab.id !== null && tab.id !== undefined ? 'section-' + tab.id : null
+  "
   class="active"
   [cxFocus]="{ focusOnEscape: !tab.disableBorderFocus }"
 >

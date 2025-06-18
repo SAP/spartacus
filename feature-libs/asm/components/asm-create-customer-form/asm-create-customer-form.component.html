@@ -49,10 +49,16 @@
                   placeholder="{{
                     'asm.createCustomerForm.firstName.placeholder' | cxTranslate
                   }}"
+                  [attr.aria-invalid]="
+                    registerForm.get('firstName')?.touched &&
+                    registerForm.get('firstName')?.invalid
+                  "
+                  [attr.aria-errormessage]="'firstNameError'"
                   formControlName="firstName"
                   name="text"
                 />
                 <cx-form-errors
+                  id="firstNameError"
                   [control]="registerForm.get('firstName')"
                 ></cx-form-errors>
               </label>
@@ -69,10 +75,16 @@
                   placeholder="{{
                     'asm.createCustomerForm.lastName.placeholder' | cxTranslate
                   }}"
+                  [attr.aria-invalid]="
+                    registerForm.get('lastName')?.touched &&
+                    registerForm.get('lastName')?.invalid
+                  "
+                  [attr.aria-errormessage]="'lastNameError'"
                   name="text"
                   formControlName="lastName"
                 />
                 <cx-form-errors
+                  id="lastNameError"
                   [control]="registerForm.get('lastName')"
                 ></cx-form-errors>
               </label>
@@ -90,10 +102,16 @@
                     'asm.createCustomerForm.emailAddress.placeholder'
                       | cxTranslate
                   }}"
+                  [attr.aria-invalid]="
+                    registerForm.get('email')?.touched &&
+                    registerForm.get('email')?.invalid
+                  "
+                  [attr.aria-errormessage]="'emailError'"
                   name="email"
                   formControlName="email"
                 />
                 <cx-form-errors
+                  id="emailError"
                   [control]="registerForm.get('email')"
                 ></cx-form-errors>
               </label>

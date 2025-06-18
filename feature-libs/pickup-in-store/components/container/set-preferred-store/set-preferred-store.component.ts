@@ -5,7 +5,6 @@
  */
 
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 
 import {
   PointOfServiceNames,
@@ -17,6 +16,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-set-preferred-store',
   templateUrl: './set-preferred-store.component.html',
+  standalone: false,
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   readonly ICON_TYPE = ICON_TYPE;
@@ -29,9 +29,7 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   constructor(
     protected preferredStoreFacade: PreferredStoreFacade,
     @Optional() protected outlet: OutletContextData<PointOfServiceNames>
-  ) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
-  }
+  ) {}
 
   ngOnInit() {
     this.subscription.add(
@@ -44,8 +42,15 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
   setAsPreferred(): boolean {
     this.preferredStoreFacade.setPreferredStore(this.pointOfServiceName);
     return false;
+  }
+
+  getSetStoreButtonLabel(storeName: string): string {
+    return this.pointOfServiceName.name === storeName
+      ? 'setPreferredStore.myStore'
+      : 'setPreferredStore.makeThisMyStore';
   }
 }

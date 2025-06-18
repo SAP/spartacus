@@ -1,0 +1,11 @@
+{
+  "myAccountV2UserProfile": {
+    "myEmailAddress": "Alamat Email Saya",
+    "myInformation": "Informasi Saya",
+    "name": "Nama",
+    "customerId": "Id Pelanggan",
+    "title": "Gelar/Sapaan",
+    "firstName": "Nama depan",
+    "lastName": "Nama belakang"
+  }
+}

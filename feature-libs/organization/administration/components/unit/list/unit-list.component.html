@@ -1,9 +1,9 @@
 <cx-org-list [hideAddButton]="!isUpdatingUnitAllowed">
   <ng-container actions>
-    <button class="link" (click)="expandAll()">
+    <button class="link btn btn-link btn-sm" (click)="expandAll()">
       {{ 'orgUnit.tree.expandAll' | cxTranslate }}
     </button>
-    <button class="link" (click)="collapseAll()">
+    <button class="link btn btn-link btn-sm" (click)="collapseAll()">
       {{ 'orgUnit.tree.collapseAll' | cxTranslate }}
     </button>
   </ng-container>

@@ -1,7 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { I18nTestingModule } from '@spartacus/core';
@@ -28,6 +27,7 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
 
 @Pipe({
   name: 'cxUrl',
+  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -36,6 +36,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() max: number;
@@ -46,6 +47,7 @@ class MockItemCounterComponent {
 @Component({
   template: '',
   selector: 'cx-media',
+  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -59,7 +61,7 @@ describe('QuickOrderItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         QuickOrderItemComponent,
         MockUrlPipe,

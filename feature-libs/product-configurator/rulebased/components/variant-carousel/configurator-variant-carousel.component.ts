@@ -16,6 +16,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-variant-carousel',
   templateUrl: './configurator-variant-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ConfiguratorVariantCarouselComponent {
   configuration$: Observable<Configurator.Configuration> =

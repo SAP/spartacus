@@ -1,11 +1,11 @@
 <div
   [cxFocus]="focusConfig"
   (esc)="close('Escape clicked')"
-  class="cx-import-entries-dialog"
+  class="modal-dialog modal-dialog-centered cx-import-entries-dialog"
   role="dialog"
   aria-labelledby="dialogTitle"
 >
-  <div class="cx-import-entries-container">
+  <div class="modal-content cx-import-entries-container">
     <!-- Modal Header -->
     <div class="modal-header cx-import-entries-header">
       <ng-container>
@@ -43,12 +43,14 @@
     <ng-container *ngIf="context$ | async as context">
       <ng-container *ngIf="formState; else importSummary">
         <cx-import-to-new-saved-cart-form
+          class="modal-body"
           *ngIf="isNewCartForm(context); else reducedForm"
           [type]="context.type"
           (submitEvent)="importProducts(context, $event)"
         ></cx-import-to-new-saved-cart-form>
         <ng-template #reducedForm>
           <cx-import-entries-form
+            class="modal-body"
             [type]="context.type"
             (submitEvent)="importProducts(context, $event)"
           ></cx-import-entries-form>
@@ -57,6 +59,7 @@
 
       <ng-template #importSummary>
         <cx-import-entries-summary
+          class="modal-body"
           [summary]="summary$ | async"
           [type]="context.type"
           (closeEvent)="close('Close Import Products Dialog')"

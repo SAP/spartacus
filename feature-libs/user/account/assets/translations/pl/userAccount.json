@@ -1,0 +1,47 @@
+{
+  "loginForm": {
+    "forgotPassword": "Zapomniałeś(-aś) hasła?",
+    "signIn": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "dontHaveAccount": "Nie masz konta?",
+    "guestCheckout": "Kup jako gość",
+    "emailAddress": {
+      "label": "Adres e-mail",
+      "placeholder": "Wprowadź adres e-mail."
+    },
+    "password": {
+      "label": "Hasło",
+      "placeholder": "Wprowadź swoje hasło"
+    },
+    "wrongEmailFormat": "To nie jest prawidłowy format adresu e-mail."
+  },
+  "verificationTokenForm": {
+    "createVerificationToken": "Kod weryfikacyjny wysłany do {{target}}. Proszę sprawdź i wprowadź kod.",
+    "needInputCredentials": "Proszę wprowadź swoje dane uwierzytelniające, by kontynuować.",
+    "sendRateLime": "Za {{waitTime}} sekund(y)",
+    "resend": "Wyślij ponownie",
+    "verificationCode": {
+      "label": "Kod weryfikacyjny",
+      "placeholder": "Wprowadź kod weryfikacji"
+    },
+    "noReceiveCode": "Kod nie dotarł?",
+    "verify": "Zweryfikuj",
+    "back": "Wstecz",
+    "tokenInputHint": "Możesz poprosić o nowy kod. Uruchomi się licznik czasu wskazujący sekundy pozostałe do ponownego wysłania żądania."
+  },
+  "verificationTokenDialog": {
+    "title": "Kod nie dotarł?",
+    "noReceiveCode": "Jeśli nie otrzymałeś kodu, powodem tego może być:",
+    "contentLine1": "1. E-mail jeszcze nie dotarł.",
+    "contentLine2": "2. Otrzymany e-mail został potraktowany jako spam.",
+    "contentLine3": "3. Wprowadzony adres e-mail lub hasło są nieprawidłowe.",
+    "close": "Zamknij"
+  },
+  "miniLogin": {
+    "userGreeting": "Witaj, {{name}}",
+    "signInRegister": "Zaloguj się / Zarejestruj"
+  },
+  "myAccountV2User": {
+    "signOut": "Wyloguj się"
+  }
+}

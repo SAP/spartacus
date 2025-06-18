@@ -29,6 +29,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   templateUrl: './configurator-attribute-single-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
+  standalone: false,
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
@@ -54,7 +55,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    useFeatureStyles('productConfiguratorAttributeTypesV2');
     this.initPriceChangedEvent(
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
@@ -91,10 +91,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   }
 
   getValueDescriptionStyleClasses(): string {
-    if (this.featureConfigService?.isEnabled('a11yImproveContrast')) {
-      return 'cx-value-description santorini-updated';
-    } else {
-      return 'cx-value-description';
-    }
+    return 'cx-value-description santorini-updated';
   }
 }

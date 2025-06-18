@@ -16,7 +16,11 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
@@ -33,6 +37,8 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     FormErrorsModule,
     ItemActiveModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [CostCenterFormComponent],
   exports: [CostCenterFormComponent],

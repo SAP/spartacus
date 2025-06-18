@@ -55,7 +55,7 @@ function runExtractor(libPath: string) {
   } else {
     console.error(
       `API Extractor completed with ${extractorResult.errorCount} errors` +
-      ` and ${extractorResult.warningCount} warnings`
+        ` and ${extractorResult.warningCount} warnings`
     );
     process.exitCode = 1;
   }

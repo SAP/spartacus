@@ -1,0 +1,75 @@
+{
+  "cartDetails": {
+    "id": "ID",
+    "proceedToCheckout": "Passa al check-out",
+    "cartName": "Carrello n. {{code}}"
+  },
+  "cartItems": {
+    "id": "ID",
+    "description": "Descrizione",
+    "item": "Articolo",
+    "itemPrice": "Prezzo articolo",
+    "quantity": "Qtà",
+    "quantityFull": "Quantità",
+    "quantityTitle": "La quantità rappresenta il numero totale di questo articolo nel carrello acquisti.",
+    "total": "Totale",
+    "actions": "Azioni",
+    "cartTotal": "Totale carrello acquisti ({{count}} articolo)",
+    "cartTotal_other": "Totale carrello acquisti ({{count}} articoli)",
+    "itemRemoved": "L'articolo selezionato è stato rimosso. Il totale del carrello acquisti è stato aggiornato.",
+    "caption": "Contenuto del carrello acquisti."
+  },
+  "orderCost": {
+    "orderSummary": "Riepilogo dell'ordine",
+    "subtotal": "Totale parziale dopo gli sconti:",
+    "shipping": "Spedizione:",
+    "estimatedShipping": "Spedizione stimata:",
+    "discount": "Risparmio:",
+    "salesTax": "IVA:",
+    "grossTax": "Il totale dell'ordine non include l'imposta pari a",
+    "grossIncludeTax": "Il totale dell'ordine include l'imposta pari a",
+    "total": "Totale:",
+    "toBeDetermined": "Da definire"
+  },
+  "voucher": {
+    "coupon": "Hai un coupon?",
+    "coupon_other": "Codici coupon",
+    "couponLabel": "Inserisci qui un codice promozionale",
+    "addCoupon": "Aggiungi un coupon",
+    "apply": "Applica",
+    "placeholder": "Codice promozionale",
+    "applyVoucherSuccess": "{{voucherCode}} è stato applicato.",
+    "removeVoucherSuccess": "{{voucherCode}} è stato rimosso.",
+    "anchorLabel": "Inserisci o rimuovi il codice coupon",
+    "vouchersApplied": "Coupon applicati",
+    "availableCoupons": "Coupon disponibili",
+    "availableCouponsLabel": "È possibile aggiungere questi coupon a questo ordine."
+  },
+  "saveForLaterItems": {
+    "itemTotal": "Salvato per uso successivo ({{count}} articolo)",
+    "itemTotal_other": "Salvato per uso successivo ({{count}} articoli)",
+    "cartTitle": "Carrello acquisti",
+    "saveForLater": "Salva per uso successivo",
+    "moveToCart": "Sposta nel carrello acquisti",
+    "stock": "Stock",
+    "forceInStock": "In stock"
+  },
+  "clearCart": {
+    "clearCart": "Svuota carrello acquisti",
+    "clearingCart": "Svuotamento del carrello acquisti in corso...",
+    "cartClearedSuccessfully": "Carrello acquisti attivo svuotato correttamente.",
+    "areYouSureToClearCart": "Confermare lo svuotamento di questo carrello acquisti?",
+    "allItemsWillBeRemoved": "Tutti gli articoli nel carrello acquisti verranno rimossi."
+  },
+  "validation": {
+    "cartEntriesChangeDuringCheckout": "Durante il check-out sono stati rilevati problemi con le voci. Rivedere il carrello acquisti.",
+    "cartEntryRemoved": "{{name}} è stato rimosso dal carrello acquisti perché non disponibile.",
+    "productOutOfStock": "{{name}} è stato rimosso dal carrello acquisti a causa di scorte insufficienti.",
+    "lowStock": "Quantità ridotta di {{quantity}} a causa di scorte insufficienti.",
+    "reviewConfiguration": "Risolvere innanzitutto i problemi nella configurazione della voce nel carrello acquisti.",
+    "configurationError": "Risolvere innanzitutto i problemi nella configurazione delle voci nel carrello acquisti.",
+    "pricingError": "Determinazione del prezzo con configuratore al momento non disponibile; impossibile procedere al check-out o inviare offerte. Riprovare più tardi.",
+    "unresolvableIssues": "La configurazione del prodotto richiede voci supplementari nel back-end. Di conseguenza, non è possibile procedere. Contattare il supporto.",
+    "inProgress": "In elaborazione"
+  }
+}

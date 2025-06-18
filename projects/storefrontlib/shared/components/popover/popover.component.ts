@@ -31,6 +31,7 @@ import { PopoverEvent, PopoverPosition } from './popover.model';
   selector: 'cx-popover',
   templateUrl: './popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**

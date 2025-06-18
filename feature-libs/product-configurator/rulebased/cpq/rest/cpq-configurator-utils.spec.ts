@@ -8,7 +8,6 @@ import {
   productConfiguration,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { CpqConfiguratorUtils } from './cpq-configurator-utils';
 
 describe('CpqConfiguratorUtils', () => {
@@ -16,7 +15,7 @@ describe('CpqConfiguratorUtils', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    classUnderTest = TestBed.inject(CpqConfiguratorEndpointService);
+    classUnderTest = new CpqConfiguratorUtils();
   });
 
   it('should be created', () => {

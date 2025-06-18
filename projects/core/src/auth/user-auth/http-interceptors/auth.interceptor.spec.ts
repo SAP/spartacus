@@ -4,11 +4,13 @@ import {
   HttpRequest,
   HttpUserEvent,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, of, Subscription } from 'rxjs';
@@ -54,7 +56,7 @@ describe('AuthInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         { provide: AuthHttpHeaderService, useClass: MockAuthHeaderService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
@@ -63,6 +65,8 @@ describe('AuthInterceptor', () => {
           useClass: AuthInterceptor,
           multi: true,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

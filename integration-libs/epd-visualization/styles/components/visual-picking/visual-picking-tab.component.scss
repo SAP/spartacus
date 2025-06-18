@@ -1,12 +1,16 @@
 %cx-epd-visualization-visual-picking-tab {
   .container-fluid:not(.no-product-references),
   .container:not(.no-product-references) {
-    padding: 1em 0;
+    padding: 0em;
     background-color: $body-bg;
 
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    @include media-breakpoint-up(sm) {
+      padding: 1em;
+    }
 
     @include media-breakpoint-up(md) {
       flex-direction: row;

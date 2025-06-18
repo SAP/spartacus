@@ -52,6 +52,7 @@ export interface SavedCartFormDialogOptions {
   selector: 'cx-saved-cart-form-dialog',
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
@@ -99,7 +100,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
     useFeatureStyles('a11yQTY2Quantity');
   }
 

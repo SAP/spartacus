@@ -1,12 +1,10 @@
 <cx-org-form i18nRoot="orgBudget">
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <p *cxFeature="'a11yRequiredAsterisks'" class="form-legend">
-      {{ 'formLegend.required' | cxTranslate }}
-    </p>
+    <cx-form-required-legend />
     <label>
       <span class="label-content required">
         {{ 'orgBudget.name' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         type="text"
@@ -15,11 +13,16 @@
         placeholder="{{ 'orgBudget.name' | cxTranslate }}"
         formControlName="name"
         (blur)="createCodeWithName(form.get('name'), form.get('code'))"
+        [attr.aria-invalid]="
+          form.get('name')?.touched && form.get('name')?.invalid
+        "
+        [attr.aria-errormessage]="'nameError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="nameError"
         [translationParams]="{
           label: 'orgBudget.name' | cxTranslate,
         }"
@@ -35,7 +38,7 @@
     <label>
       <span class="label-content required">
         {{ 'orgBudget.code' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         class="form-control"
@@ -43,11 +46,16 @@
         required
         placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
+        [attr.aria-invalid]="
+          form.get('code')?.touched && form.get('code')?.invalid
+        "
+        [attr.aria-errormessage]="'codeError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="codeError"
         [translationParams]="{
           label: 'orgBudget.code' | cxTranslate,
         }"
@@ -63,7 +71,7 @@
     <label>
       <span class="label-content">
         {{ 'orgBudget.startDate' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <cx-date-picker
         [control]="$any(form.get('startDate'))"
@@ -77,7 +85,7 @@
     <label>
       <span class="label-content">
         {{ 'orgBudget.endDate' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -106,6 +114,10 @@
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
+        [attr.aria-invalid]="
+          form.get('isocode')?.touched && form.get('isocode')?.invalid
+        "
+        [attr.aria-errormessage]="'isocodeError'"
         [searchable]="false"
         [clearable]="false"
         [items]="currencies$ | async"
@@ -120,6 +132,7 @@
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="isocodeError"
         [translationParams]="{
           label: 'orgBudget.currency' | cxTranslate,
         }"
@@ -134,7 +147,7 @@
     <label>
       <span class="label-content">
         {{ 'orgBudget.amount' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <input
         required="true"
@@ -143,11 +156,16 @@
         placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
         formControlName="budget"
         min="0"
+        [attr.aria-invalid]="
+          form.get('budget')?.touched && form.get('budget')?.invalid
+        "
+        [attr.aria-errormessage]="'budgetError'"
       />
 
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="budgetError"
         [translationParams]="{
           label: 'orgBudget.amount' | cxTranslate,
         }"
@@ -166,11 +184,15 @@
     >
       <span class="label-content required">
         {{ 'orgBudget.businessUnits' | cxTranslate }}
-        <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
+        <cx-form-required-asterisks />
       </span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
+        [attr.aria-invalid]="
+          form.get('uid')?.touched && form.get('uid')?.invalid
+        "
+        [attr.aria-errormessage]="'uidError'"
         [searchable]="true"
         [clearable]="false"
         [items]="units"
@@ -185,6 +207,7 @@
       <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
         *cxFeature="'formErrorsDescriptiveMessages'"
+        id="uidError"
         [translationParams]="{
           label: 'orgBudget.businessUnits' | cxTranslate,
         }"
@@ -198,13 +221,3 @@
     </label>
   </ng-container>
 </cx-org-form>
-
-<ng-template #requiredAsterisk>
-  <abbr
-    *cxFeature="'a11yRequiredAsterisks'"
-    class="text-decoration-none required-asterisk"
-    aria-hidden="true"
-    title="{{ 'common.required' | cxTranslate }}"
-    >*</abbr
-  >
-</ng-template>

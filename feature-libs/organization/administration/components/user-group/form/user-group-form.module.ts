@@ -10,7 +10,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { UserGroupFormComponent } from './user-group-form.component';
 
@@ -25,6 +29,8 @@ import { UserGroupFormComponent } from './user-group-form.component';
     FormErrorsModule,
     FormModule,
     FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
   ],
   declarations: [UserGroupFormComponent],
 })

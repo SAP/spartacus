@@ -1,11 +1,12 @@
 %buttons {
-  @import 'bootstrap/scss/buttons';
   a.link,
   button.link {
-    @extend .btn, .btn-link, .btn-sm;
+    border-radius: 0.2rem;
+
     &:focus {
       @include visible-focus();
     }
+
     color: var(--cx-color-primary);
 
     padding: 0;
@@ -28,7 +29,7 @@
 
   button.button,
   a.button {
-    @extend .btn, .btn-sm;
+    border-radius: 0.2rem;
 
     &:focus {
       @include visible-focus();
@@ -39,10 +40,6 @@
     &.primary:focus:active,
     &:not(:disabled):not(.disabled):active:focus {
       box-shadow: none;
-    }
-
-    &.secondary {
-      @extend .btn-secondary;
     }
 
     padding: var(--cx-spatial-base);
@@ -65,19 +62,21 @@
       color: var(--cx-color-primary);
     }
   }
+
   a.button.primary,
   a.button.primary.disabled,
   a.button.primary:not(:disabled):not(.disabled),
   button.button.primary,
   button.button.primary.disabled,
   button.button.primary:active:not(:disabled):not(.disabled) {
-    @extend .btn-primary;
     background-color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);
+
     &:hover {
       background-color: var(--cx-color-primary-accent);
       border-color: var(--cx-color-primary-accent);
     }
+
     @include cx-highContrastTheme-dark {
       color: var(--cx-color-medium);
     }
@@ -90,6 +89,7 @@
     @include media-breakpoint-down(md) {
       flex-direction: column;
     }
+
     button,
     a {
       flex: 1;

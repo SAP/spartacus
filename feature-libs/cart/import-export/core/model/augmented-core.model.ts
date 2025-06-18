@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import '@spartacus/storefront';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 declare module '@spartacus/storefront' {
-  const enum LAUNCH_CALLER {
+  enum LAUNCH_CALLER {
     IMPORT_TO_CART = 'IMPORT_TO_CART',
   }
 }
+
+(LAUNCH_CALLER as any)['IMPORT_TO_CART'] = 'IMPORT_TO_CART';

@@ -102,7 +102,7 @@ export function getExclusionKeys(key: string, excludeKeys: string[]): string[] {
 }
 
 export function filterKeysByType(
-  keys: { [key: string]: StorageSyncType | StateTransferType },
+  keys: { [key: string]: StorageSyncType | StateTransferType | undefined },
   type: StorageSyncType | StateTransferType
 ): string[] {
   if (!keys) {

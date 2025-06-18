@@ -11,6 +11,10 @@
       margin-inline-start: 2.1875rem;
       color: var(--cx-color-light);
       border-right-width: 1px;
+
+      @include cx-highContrastTheme {
+        color: var(--cx-color-dark);
+      }
     }
 
     .cx-messages {
@@ -26,9 +30,7 @@
         margin-bottom: 0;
         font-size: var(--cx-font-size, 0.875rem);
 
-        @include forFeature('a11yImproveContrast') {
-          @include type('4');
-        }
+        @include type('4');
       }
 
       .cx-message-card {
@@ -38,6 +40,10 @@
 
         div {
           width: 100%;
+          @include cx-highContrastTheme {
+            background-color: var(--cx-color-background);
+            border-color: var(--cx-color-dark);
+          }
         }
       }
 
@@ -149,9 +155,7 @@
           text-align: end;
           margin: 0;
 
-          @include forFeature('a11yImproveContrast') {
-            @include type('8');
-          }
+          @include type('8');
         }
       }
     }

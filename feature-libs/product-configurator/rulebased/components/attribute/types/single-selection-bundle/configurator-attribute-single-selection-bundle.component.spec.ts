@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+
+import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, ProductConnector } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
@@ -23,6 +24,7 @@ import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configura
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
+  standalone: false,
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -31,6 +33,7 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -39,6 +42,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -58,6 +62,10 @@ function getFirstValue(
   return values ? values[0] : { valueCode: 'a' };
 }
 class MockProductConnector {}
+
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
+}
 
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
@@ -98,7 +106,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        RouterTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
@@ -112,6 +119,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         MockConfiguratorAttributeQuantityComponent,
       ],
       providers: [
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),

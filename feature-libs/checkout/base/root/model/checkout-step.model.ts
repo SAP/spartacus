@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const enum CheckoutStepType {
+export enum CheckoutStepType {
   DELIVERY_ADDRESS = 'deliveryAddress',
   DELIVERY_MODE = 'deliveryMode',
   PAYMENT_DETAILS = 'paymentDetails',
   REVIEW_ORDER = 'reviewOrder',
 }
 
-export const enum CheckoutStepState {
+export enum CheckoutStepState {
   COMPLETED = 'completed',
   SELECTED = 'selected',
   DISABLED = 'disabled',

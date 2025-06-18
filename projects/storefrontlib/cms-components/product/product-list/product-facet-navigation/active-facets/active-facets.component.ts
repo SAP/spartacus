@@ -24,6 +24,7 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
+  standalone: false,
 })
 export class ActiveFacetsComponent {
   @HostBinding('attr.role') role = 'group';

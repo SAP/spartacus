@@ -10,7 +10,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
@@ -25,6 +24,7 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   selector: 'cx-schedule-replenishment-order',
   templateUrl: './checkout-schedule-replenishment-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy
@@ -49,10 +49,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
 
   constructor(
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {
-    useFeatureStyles('a11yReplenishmentOrderFieldset');
-    useFeatureStyles('a11yScheduleReplenishment');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

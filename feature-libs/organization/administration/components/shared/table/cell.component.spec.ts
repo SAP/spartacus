@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   OutletContextData,
@@ -12,7 +11,11 @@ import { CellComponent } from './cell.component';
 const mockContext: TableDataOutletContext = {
   _field: 'name',
   _type: 'myType',
-  _options: {},
+  _options: {
+    cells: {
+      name: { linkable: true },
+    },
+  },
   name: 'my name',
   code: 'my code',
 };
@@ -24,7 +27,7 @@ describe('CellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CellComponent],
-      imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: OutletContextData,

@@ -5,7 +5,6 @@
  */
 
 import organization from './organization.json';
-
 export const en = {
   organization,
 };

@@ -1,0 +1,176 @@
+{
+  "asm": {
+    "mainLogoLabel": "SAP",
+    "mainTitle": "सहायक सेवा मोड",
+    "logout": "साइन आउट करें",
+    "hideUi": "ASM बंद करें",
+    "helpPortalUrl": "सहायता",
+    "customers": "ग्राहक",
+    "asmCustomer360Button": "ग्राहक 360 दृश्य",
+    "asmCustomer360ViewButton": "ग्राहक 360°",
+    "createCustomerSuccessfullyAlert": "ग्राहक खाता बनाया गया और ग्राहक सत्र शुरू किया गया.",
+    "saveInactiveCartAlertInfo": "पहचानी गई कार्ट निष्क्रिय कार्ट है. इस कार्ट पर अन्य कार्रवाईयां करें, इसे पहले सहेजें.",
+    "activeCartAlertInfo": "पहचानी गई कार्ट सक्रिय कार्ट है.",
+    "startCustomerEmulationAlertInfo": "ग्राहक अनुकरण प्रारंभ हुआ. आपके द्वारा की गई कोई भी कार्रवाई ग्राहक खाते पर प्रभाव दर्शाएगी.",
+    "toggleUi": {
+      "collapse": "ASM छिपाएं",
+      "expand": "ASM दिखाएं"
+    },
+    "loginForm": {
+      "submit": "साइन इन करें",
+      "userId": {
+        "label": "एजेंट ID या ईमेल"
+      },
+      "password": {
+        "label": "पासवर्ड"
+      }
+    },
+    "customerSearch": {
+      "searchTerm": {
+        "label": "ग्राहक का नाम/ ईमेल पता"
+      },
+      "searchCustomer": {
+        "label": "नाम या ईमेल पते द्वारा खोजें"
+      },
+      "searchOrder": {
+        "label": "पूर्ण ऑर्डर ID द्वारा खोजें"
+      },
+      "submit": "सत्र आरंभ करें",
+      "startEmulation": "अनुकरण प्रारंभ करें",
+      "noMatch": "कोई ग्राहक नहीं मिला",
+      "noMatchResult": "यह खाता नहीं मिल सकता.",
+      "noCustomerMatchResult": "कोई मेल खाता ग्राहक नहीं मिला.",
+      "noOrderMatchResult": "पूर्ण ऑर्डर ID द्वारा खोजें.",
+      "createCustomer": "नया ग्राहक बनाएं",
+      "customer": "ग्राहक",
+      "orderID": "ऑर्डर ID"
+    },
+    "createCustomerForm": {
+      "title": "नया ग्राहक बनाएं",
+      "createAccount": "बनाएं",
+      "cancel": "रद्द करें",
+      "firstName": {
+        "label": "पहला नाम",
+        "placeholder": "प्रथम नाम"
+      },
+      "lastName": {
+        "label": "अंतिम नाम",
+        "placeholder": "अंतिम नाम"
+      },
+      "emailAddress": {
+        "label": "ईमेल पता",
+        "placeholder": "ईमेल पता"
+      },
+      "createAccountAlert": "आपके द्वारा ग्राहक खाता बनाने पर ग्राहक सत्र प्रारंभ होता है.",
+      "validationErrors": {
+        "firstName": "मान्य प्रथम नाम दर्ज करें.",
+        "lastName": "मान्य अंतिम नाम दर्ज करें.",
+        "emailAddress": "कोई मान्य ईमेल पता दर्ज करें."
+      },
+      "badRequestDuplicatedEmail": "{{ emailAddress }} पहले से मौजूद होने के कारण भिन्न ईमेल पता दर्ज करें."
+    },
+    "customerList": {
+      "title": "ग्राहक सूची",
+      "description": "प्रदत्त अनेक सूचियों में से एक से ग्राहक चुनें.",
+      "createCustomer": "नया ग्राहक बनाएं",
+      "cancel": "रद्द करें",
+      "tableHeader": {
+        "customer": "ग्राहक",
+        "customerName": "ग्राहक का नाम",
+        "name": "नाम",
+        "email": "ईमेल",
+        "emailId": "ईमेल/ID",
+        "phone": "फोन",
+        "account": "खाता",
+        "cart": "कार्ट",
+        "order": "ऑर्डर",
+        "view": "360 दृश्य",
+        "activeCart": "सक्रिय कार्ट",
+        "viewActiveCart": "सक्रिय कार्ट देखें",
+        "orders": "ऑर्डर",
+        "viewOrders": "ऑर्डर देखें",
+        "customer360": "ग्राहक 360°",
+        "viewCustomer360": "ग्राहक 360° देखें"
+      },
+      "tableSort": {
+        "sortBy": "इसके द्वारा क्रमित",
+        "byName": "नाम (आरोही क्रम में)",
+        "byNameAsc": "नाम (आरोही क्रम में)",
+        "byNameDesc": "नाम (अवरोही क्रम में)",
+        "byDateAsc": "दिनांक (आरोही क्रम में)",
+        "byDateDesc": "दिनांक (अवरोही क्रम में)",
+        "byOrderDateAsc": "ऑर्डर दिनांक (आरोही क्रम में)",
+        "byOrderDateDesc": "ऑर्डर दिनांक (अवरोही क्रम में)",
+        "byUnit": "खाता(आरोही क्रम में)",
+        "byUnitDesc": "खाता(अवरोही क्रम में)"
+      },
+      "page": {
+        "page": "पृष्ठ {{count}}",
+        "previous": "पिछला",
+        "next": "अगला"
+      },
+      "noOfCustomers": "{{count}} ग्राहक",
+      "oneCustomer": "1 ग्राहक",
+      "noCustomers": "वर्तमान में इस ग्राहक सूची में कोई ग्राहक नहीं हैं.",
+      "noLists": "वर्तमान में कोई ग्राहक सूचियां उपलब्ध नहीं हैं. अपने सिस्टम व्यवस्थापक से संपर्क करें.",
+      "listsError": "ग्राहक सूचियां पुनर्प्राप्त नहीं की जा सकीं. कृपया बाद में फिर से कोशिश करें.",
+      "searchBox": "खोजें",
+      "enterSearchBox": "ग्राहक का नाम या ईमेल दर्ज करें"
+    },
+    "switchCustomer": {
+      "dialog": {
+        "title": "चेतावनी",
+        "body": "\"ग्राहक स्विच करें\" पर क्लिक करने से \"{{ customerA }}\" के लिए अनुकरण समाप्त होगा और \"{{ customerB }}\" प्रारंभ होगा. \"{{ customerA }}\" हेतु कोई भी सहेजे न गए परिवर्तन खो जाएंगे.",
+        "actions": {
+          "switch": "ग्राहक स्विच करें"
+        }
+      }
+    },
+    "saveCart": {
+      "saveCartBtn": "बाद के लिए सहेजे",
+      "dialog": {
+        "saveInfo": "अगली कार्रवाई करने से पहले कार्ट सहेजें.",
+        "disableInfo": "कार्ट रिक्त होने से सहेजी नहीं जा सकती.",
+        "title": "कार्ट सहेजें",
+        "row": {
+          "id": "ID",
+          "qty": "मात्रा",
+          "qtyFull": "मात्रा",
+          "total": "कुल"
+        },
+        "actions": {
+          "save": "बाद के लिए सहेजे"
+        }
+      }
+    },
+    "bindCart": {
+      "cartNumber": "कार्ट संख्या",
+      "bindCartToCustomer": "ग्राहक को कार्ट असाइन करें",
+      "success": "कार्ट सफलतापूर्वक असाइ किया गया",
+      "assignCartId": "ग्राहक को कार्ट id असाइन करें",
+      "enterCartId": "कार्ट  id दर्ज करें",
+      "resetCartId": "रीसेट करें",
+      "dialog": {
+        "title": "अज्ञात कार्ट असाइन करें",
+        "body": "क्या आप वर्तमान सक्रिय कार्ट को अज्ञात कार्ट से बदलना चाहते हैं? यदि आपने वर्तमान सक्रिय कार्ट बदली, यह सहेजी गई कार्ट के रूप में सहेजी जाएगी.",
+        "actions": {
+          "replace": "कार्ट प्रतिस्थापित करें"
+        }
+      }
+    },
+    "csagentTokenExpired": "आपका ग्राहक सहायता एजेंट सत्र समाप्त हुआ.",
+    "endSession": "समाप्ति सत्र",
+    "endEmulation": "अनुकरण समाप्ति",
+    "agentSessionTimer": {
+      "label": "सत्र समय समाप्ति",
+      "minutes": "मिनट",
+      "reset": "रीसेट करें"
+    },
+    "auth": {
+      "agentLoggedInError": "सक्रिय CS एजेंट सत्र होने पर उपयोगकर्ता के रूप में लॉगिन नहीं कर सकते. कृपया या तो उपयोगकर्ता का अनुकरण करें या CS एजेंट से लॉगआउट करें."
+    },
+    "error": {
+      "noCustomerId": "चयनित उपयोगकर्ता के लिए कोई ग्राहक नहीं मिला. सत्र प्रारंभ नहीं किया जा सकता."
+    }
+  }
+}

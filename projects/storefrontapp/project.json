@@ -7,21 +7,28 @@
   "generators": {},
   "targets": {
     "build": {
-      "executor": "@angular-builders/custom-webpack:browser",
+      "executor": "@angular-builders/custom-esbuild:application",
       "options": {
-        "customWebpackConfig": {
-          "path": "./extra-webpack.config.js"
-        },
+        "preserveSymlinks": true,
+        "plugins": ["./projects/storefrontapp/esbuild/plugins.ts"],
         "aot": true,
+        "allowedCommonJsDependencies": [
+          "whatwg-url",
+          "encoding",
+          "cross-fetch"
+        ],
         "outputPath": "dist/storefrontapp",
         "index": "projects/storefrontapp/src/index.html",
-        "main": "projects/storefrontapp/src/main.ts",
-        "polyfills": ["core-js/es/reflect", "zone.js"],
+        "browser": "projects/storefrontapp/src/main.ts",
+        "polyfills": ["zone.js"],
         "tsConfig": "projects/storefrontapp/tsconfig.app.json",
         "assets": [
-          "projects/storefrontapp/src/favicon.ico",
-          "projects/storefrontapp/src/assets",
           "projects/storefrontapp/src/manifest.json",
+          {
+            "glob": "**/*",
+            "input": "projects/storefrontapp/public",
+            "output": "assets/"
+          },
           {
             "glob": "**/*",
             "input": "feature-libs/smartedit/assets",
@@ -112,9 +119,22 @@
           {
             "input": "projects/storefrontapp/src/styles/lib-s4-service.scss",
             "bundleName": "s4-service"
+          },
+          {
+            "input": "projects/storefrontapp/src/styles/lib-punchout.scss",
+            "bundleName": "punchout"
           }
         ],
-        "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
+        "stylePreprocessorOptions": {
+          "sass": {
+            "silenceDeprecations": ["import"]
+          }
+        },
+        "server": "projects/storefrontapp/src/main.server.ts",
+        "prerender": false,
+        "ssr": {
+          "entry": "projects/storefrontapp/src/server.ts"
+        },
         "scripts": []
       },
       "configurations": {
@@ -137,32 +157,63 @@
           "namedChunks": false,
           "aot": true,
           "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
           "serviceWorker": false,
           "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
+          "sourceMap": true
+        },
+        "noSsr": {
+          "ssr": false,
+          "prerender": false
+        },
+        "withPrerender": {
+          "prerender": {
+            "discoverRoutes": false,
+            "routesFile": "projects/storefrontapp/prerender.txt"
+          }
         }
-      }
+      },
+      "defaultConfiguration": "production"
+    },
+    "build-csr": {
+      "executor": "@angular-devkit/architect:concat",
+      "configurations": {
+        "development": {
+          "targets": [{ "target": "storefrontapp:build:development,noSsr" }]
+        },
+        "production": {
+          "targets": [{ "target": "storefrontapp:build:production,noSsr" }]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "prerender": {
+      "executor": "@angular-devkit/architect:concat",
+      "configurations": {
+        "development": {
+          "targets": [
+            { "target": "storefrontapp:build:development,withPrerender" }
+          ]
+        },
+        "production": {
+          "targets": [
+            { "target": "storefrontapp:build:production,withPrerender" }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-builders/custom-webpack:dev-server",
-      "options": {
-        "buildTarget": "storefrontapp:build"
-      },
+      "executor": "@angular-builders/custom-esbuild:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "storefrontapp:build:production"
+          "buildTarget": "storefrontapp:build:production,noSsr"
         },
         "development": {
-          "buildTarget": "storefrontapp:build:development",
+          "buildTarget": "storefrontapp:build:development,noSsr",
           "sslKey": "/Users/I569942/SAPDevelop/Spartacus/localhost.key",
           "sslCert": "/Users/I569942/SAPDevelop/Spartacus/localhost.crt",
           "port": 4200,
@@ -190,9 +241,11 @@
         "styles": ["projects/storefrontapp/src/styles.scss"],
         "scripts": [],
         "assets": [
-          "projects/storefrontapp/src/favicon.ico",
-          "projects/storefrontapp/src/assets",
           "projects/storefrontapp/src/manifest.json",
+          {
+            "glob": "**/*",
+            "input": "public"
+          },
           {
             "glob": "**/*",
             "input": "feature-libs/smartedit/assets",
@@ -210,67 +263,6 @@
           "projects/storefrontapp/**/*.html"
         ]
       }
-    },
-    "server": {
-      "executor": "@angular-builders/custom-webpack:server",
-      "options": {
-        "customWebpackConfig": {
-          "path": "./extra-webpack.config.js"
-        },
-        "outputPath": "dist/storefrontapp-server",
-        "main": "projects/storefrontapp/server.ts",
-        "tsConfig": "projects/storefrontapp/tsconfig.server.json"
-      },
-      "configurations": {
-        "development": {
-          "sourceMap": true,
-          "optimization": false
-        },
-        "production": {
-          "outputHashing": "media",
-          "fileReplacements": [
-            {
-              "replace": "projects/storefrontapp/src/environments/environment.ts",
-              "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-            }
-          ],
-          "sourceMap": false,
-          "optimization": true,
-          "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve-ssr": {
-      "executor": "@angular-devkit/build-angular:ssr-dev-server",
-      "configurations": {
-        "development": {
-          "browserTarget": "storefrontapp:build:development",
-          "serverTarget": "storefrontapp:server:development"
-        },
-        "production": {
-          "browserTarget": "storefrontapp:build:production",
-          "serverTarget": "storefrontapp:server:production"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "prerender": {
-      "executor": "@angular-devkit/build-angular:prerender",
-      "options": {
-        "routes": ["/"]
-      },
-      "configurations": {
-        "production": {
-          "browserTarget": "storefrontapp:build:production",
-          "serverTarget": "storefrontapp:server:production"
-        },
-        "development": {
-          "browserTarget": "storefrontapp:build:development",
-          "serverTarget": "storefrontapp:server:development"
-        }
-      },
-      "defaultConfiguration": "production"
     }
   },
   "tags": ["type:app"]

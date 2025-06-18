@@ -101,9 +101,11 @@ export class VisualViewerService implements OnDestroy {
 
   private selectedNodeIdsSubscription?: Subscription;
 
+  /* istanbul ignore next */
   private get sceneNodeToProductLookupService(): SceneNodeToProductLookupService {
     return this._sceneNodeToProductLookupService;
   }
+  /* istanbul ignore next */
   private set sceneNodeToProductLookupService(
     value: SceneNodeToProductLookupService
   ) {
@@ -111,17 +113,21 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private _scene: Scene;
+  /* istanbul ignore next */
   private get scene(): Scene {
     return this._scene;
   }
+  /* istanbul ignore next */
   private set scene(value: Scene) {
     this._scene = value;
   }
 
   private _nodeHierarchy: NodeHierarchy;
+  /* istanbul ignore next */
   private get nodeHierarchy(): NodeHierarchy {
     return this._nodeHierarchy;
   }
+  /* istanbul ignore next */
   private set nodeHierarchy(value: NodeHierarchy) {
     this._nodeHierarchy = value;
   }
@@ -175,41 +181,51 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private _sceneId: string;
+  /* istanbul ignore next */
   private get sceneId(): string {
     return this._sceneId;
   }
+  /* istanbul ignore next */
   private set sceneId(value: string) {
     this._sceneId = value;
   }
 
   private _contentType: ContentType;
+  /* istanbul ignore next */
   private get contentType(): ContentType {
     return this._contentType;
   }
+  /* istanbul ignore next */
   private set contentType(value: ContentType) {
     this._contentType = value;
   }
 
   private _initialViewInfo: ViewInfo;
+  /* istanbul ignore next */
   private get initialViewInfo(): ViewInfo {
     return this._initialViewInfo;
   }
+  /* istanbul ignore next */
   private set initialViewInfo(value: ViewInfo) {
     this._initialViewInfo = value;
   }
 
   private _leafNodeRefs: NodeRef[];
+  /* istanbul ignore next */
   private get leafNodeRefs(): NodeRef[] {
     return this._leafNodeRefs;
   }
+  /* istanbul ignore next */
   private set leafNodeRefs(value: NodeRef[]) {
     this._leafNodeRefs = value;
   }
 
   private _viewPriorToIsolateViewInfo: any;
+  /* istanbul ignore next */
   private get viewPriorToIsolateViewInfo(): any {
     return this._viewPriorToIsolateViewInfo;
   }
+  /* istanbul ignore next */
   private set viewPriorToIsolateViewInfo(value: any) {
     this._viewPriorToIsolateViewInfo = value;
   }
@@ -593,11 +609,7 @@ export class VisualViewerService implements OnDestroy {
     this._navigationMode = navigationMode;
     this.executeWhenSceneLoaded(() => {
       if (this.drawerToolbar && this.viewport) {
-        // sap.ui.vk library will have a public API to set the navigation mode in a future UI5 version
-        (this.drawerToolbar as any)._activateGesture(
-          (this.viewport as any).getImplementation(),
-          navigationMode
-        );
+        this.drawerToolbar.setNavigationMode(navigationMode);
       }
     });
   }

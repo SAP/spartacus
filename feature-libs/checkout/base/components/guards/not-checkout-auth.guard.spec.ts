@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UrlTree } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RedirectCommand, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthService, SemanticPathService } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
@@ -36,7 +35,6 @@ describe('NotCheckoutAuthGuard', () => {
           useClass: CartServiceStub,
         },
       ],
-      imports: [RouterTestingModule],
     });
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
@@ -51,7 +49,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return homepage url', () => {
-      let result: boolean | UrlTree | undefined;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
@@ -68,7 +66,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return cart page url', () => {
-      let result: boolean | UrlTree | undefined;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
@@ -85,7 +83,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return true', () => {
-      let result: boolean | UrlTree | undefined;
+      let result: boolean | UrlTree | RedirectCommand | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))

@@ -8,6 +8,7 @@ import { ProductViewComponent, ViewModes } from './product-view.component';
 @Component({
   selector: 'cx-icon',
   template: '',
+  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;

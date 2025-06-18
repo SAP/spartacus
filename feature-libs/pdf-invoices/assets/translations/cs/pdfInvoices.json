@@ -1,0 +1,31 @@
+{
+  "pdfInvoices": {
+    "featureNotEnabled": "Nelze získat faktury. Zkontrolujte, zda jsou povoleny funkce SAP Invoice a API pro faktury.",
+    "invoicesLoadingError": "Něco se pokazilo. Nelze zobrazit faktury k objednávce.",
+    "invoicesTable": {
+      "header": "Faktury",
+      "label": "Tabulka faktur",
+      "invoiceId": "Číslo faktury",
+      "createdAt": "Datum",
+      "netAmount": "Částka netto",
+      "totalAmount": "Celková částka",
+      "attachment": "Stáhnout fakturu",
+      "download": "Stáhnout",
+      "attachmentDescription": "Stáhnout PDF pro fakturu {{id}}.",
+      "noneFound": "Nebyly nalezeny žádné faktury."
+    },
+    "downloadPDFError": "Něco se pokazilo. Nelze získat fakturu v PDF.",
+    "sortBy": "Řadit podle",
+    "sortInvoices": "Řadit faktury",
+    "sorts": {
+      "byCreatedAtAsc": "Datum vzestupně",
+      "byCreatedAtDesc": "Datum sestupně",
+      "byInvoiceIdAsc": "Číslo faktury vzestupně",
+      "byInvoiceIdDesc": "Číslo faktury sestupně",
+      "byNetAmountAsc": "Částka netto vzestupně",
+      "byNetAmountDesc": "Částka netto sestupně",
+      "byTotalAmountAsc": "Celková částka vzestupně",
+      "byTotalAmountDesc": "Celková částka sestupně"
+    }
+  }
+}

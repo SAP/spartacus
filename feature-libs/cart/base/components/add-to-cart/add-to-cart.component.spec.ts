@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartFacade,
   Cart,
@@ -68,6 +67,11 @@ const mockNoStockProduct: Product = {
   stock: { stockLevel: 0, stockLevelStatus: 'outOfStock' },
 };
 
+const mockSavedCart: Cart = {
+  code: 'cartId',
+  entries: [{ product: { code: productCode }, quantity: 7 }],
+};
+
 class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
@@ -106,6 +110,7 @@ class MockProductAvailabilityAdapter {}
 @Component({
   template: '',
   selector: 'cx-item-counter',
+  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min;
@@ -132,7 +137,6 @@ describe('AddToCartComponent', () => {
     return TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
@@ -336,6 +340,27 @@ describe('AddToCartComponent', () => {
         addToCartComponent.addToCart();
 
         expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
+      });
+    });
+
+    describe('Saved cart', () => {
+      it('should add to cart with correct quantity', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.savedCart = mockSavedCart;
+        addToCartComponent.showQuantity = false;
+        addToCartComponent.ngOnInit();
+        spyOn(activeCartFacade, 'addEntry').and.callThrough();
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([mockCartEntry])
+        );
+        spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          productCode,
+          7,
+          undefined
+        );
       });
     });
 

@@ -9,12 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import {
-  Config,
-  I18nTestingModule,
-  FeatureConfigService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -23,15 +20,15 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { Observable, of } from 'rxjs';
+import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
 
 @Directive({
   selector: '[cxFocus]',
+  standalone: false,
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
@@ -40,6 +37,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
+  standalone: false,
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -55,10 +53,6 @@ class MockConfiguratorAttributePriceChangeService {
   }
 }
 
-class MockConfig {
-  features = [{ productConfiguratorAttributeTypesV2: false }];
-}
-
 describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionImageComponent>;
@@ -66,8 +60,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const ownerKey = 'theOwnerKey';
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
-  let config: Config;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(
@@ -110,7 +102,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-        { provide: Config, useClass: MockConfig },
         {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
@@ -181,9 +172,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       values: values,
     };
     component.ownerKey = ownerKey;
-    config = TestBed.inject(Config);
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = false;
-    featureConfigService = TestBed.inject(FeatureConfigService);
     fixture.detectChanges();
   });
 
@@ -199,7 +187,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should render info icon at value level if value has a description', () => {
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -209,7 +196,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should render popover with description at value level after clicking on info icon', () => {
-    (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
     fixture.detectChanges();
     const infoButton = fixture.debugElement.query(
       By.css('button[ng-reflect-cx-popover]')
@@ -246,23 +232,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('select single image', () => {
-    it('should call service for update when productConfiguratorAttributeTypesV2 feature flag is disabled', () => {
-      spyOn(
-        component['configuratorCommonsService'],
-        'updateConfiguration'
-      ).and.callThrough();
-      component.onClick(value2.valueCode);
-      expect(
-        component['configuratorCommonsService'].updateConfiguration
-      ).toHaveBeenCalledWith(
-        ownerKey,
-        { ...component.attribute, selectedSingleValue: value2.valueCode },
-        Configurator.UpdateType.ATTRIBUTE
-      );
-    });
-
-    it('should not call service for update and in case attribute is read-only and productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
-      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    it('should not call service for update and in case attribute is read-only', () => {
       spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
@@ -290,8 +260,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('label styling', () => {
-    it('should set cursor to default in case productConfiguratorAttributeTypesV2 feature flag is enabled', () => {
-      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
+    it('should set cursor to default', () => {
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
@@ -306,14 +275,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('value description styling', () => {
-    it('should return default style class if a11yImproveContrast feature flag is disabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-      expect(component.getValueDescriptionStyleClasses()).toEqual(
-        'cx-value-description'
-      );
-    });
-    it('should return additional style class if a11yImproveContrast feature flag is enabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    it('should return additional style class', () => {
       expect(component.getValueDescriptionStyleClasses()).toEqual(
         'cx-value-description santorini-updated'
       );
@@ -361,7 +323,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     });
 
     it("should contain button elements with 'aria-label' attribute that point out that there is a description for the current value", () => {
-      (config.features ?? {}).productConfiguratorAttributeTypesV2 = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
