@@ -42,7 +42,7 @@ import { CarouselService } from './carousel.service';
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {ngSkipHydration: 'true'},
+  host: { ngSkipHydration: 'true' },
   standalone: false,
 })
 export class CarouselComponent implements OnInit, OnChanges {
