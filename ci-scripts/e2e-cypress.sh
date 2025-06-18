@@ -29,6 +29,15 @@ run_tests_for_suite() {
   fi
 }
 
+run_a11y_tests_with_docs_on_failure_no_record() {
+    if npm run e2e:run:ci:a11y:no-record; then
+        return 0
+    else
+        display_a11y_docs_link
+        return 1
+    fi
+}
+
 SKIP_BUILD=false
 
 while [ "${1:0:1}" == "-" ]; do
