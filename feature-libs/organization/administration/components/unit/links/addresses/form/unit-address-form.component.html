@@ -26,15 +26,8 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUnitAddress.country' | cxTranslate }"
-        [control]="form.get('country.isocode')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('country.isocode')"
       ></cx-form-errors>
     </label>
@@ -73,18 +66,11 @@
         [attr.aria-errormessage]="'firstNameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
         [translationParams]="{
           label: 'orgUnitAddress.firstName' | cxTranslate,
         }"
-        [control]="form.get('firstName')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('firstName')"
       ></cx-form-errors>
     </label>
@@ -105,16 +91,9 @@
         [attr.aria-errormessage]="'lastNameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
         [translationParams]="{ label: 'orgUnitAddress.lastName' | cxTranslate }"
-        [control]="form.get('lastName')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('lastName')"
       ></cx-form-errors>
     </label>
@@ -136,16 +115,9 @@
         [attr.aria-errormessage]="'line1Error'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="line1Error"
         [translationParams]="{ label: 'orgUnitAddress.address1' | cxTranslate }"
-        [control]="form.get('line1')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('line1')"
       ></cx-form-errors>
     </label>
@@ -191,16 +163,9 @@
         [attr.aria-errormessage]="'townError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="townError"
         [translationParams]="{ label: 'orgUnitAddress.city' | cxTranslate }"
-        [control]="form.get('town')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('town')"
       ></cx-form-errors>
     </label>
@@ -222,16 +187,9 @@
         [attr.aria-errormessage]="'postalCodeError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="postalCodeError"
         [translationParams]="{ label: 'orgUnitAddress.zipCode' | cxTranslate }"
-        [control]="form.get('postalCode')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('postalCode')"
       ></cx-form-errors>
     </label>
@@ -262,15 +220,8 @@
         >
         </ng-select>
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{ label: 'orgUnitAddress.state' | cxTranslate }"
-          [control]="form.get('region.isocode')"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="form.get('region.isocode')"
         ></cx-form-errors>
       </label>
