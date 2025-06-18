@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
-import { AuthGuard, CmsConfig, FeatureToggles } from '@spartacus/core';
+import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
@@ -74,15 +73,10 @@ export const permissionCmsConfig: CmsConfig = {
 };
 
 export function permissionTableConfigFactory(): TableConfig {
-  // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
-  const featureToggles = inject(FeatureToggles);
-  if (featureToggles.a11yOrganizationLinkableCells) {
-    return newPermissionTableConfig;
-  }
   return permisionTableConfig;
 }
 
-export const newPermissionTableConfig: TableConfig = {
+export const permisionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: {
       cells: ['code', 'active', 'limit', 'unit'],
@@ -107,26 +101,7 @@ export const newPermissionTableConfig: TableConfig = {
   },
 };
 
-export const permisionTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.PERMISSION]: {
-      cells: ['code', 'active', 'limit', 'unit'],
-      options: {
-        cells: {
-          code: {
-            dataComponent: ActiveLinkCellComponent,
-          },
-          active: {
-            dataComponent: StatusCellComponent,
-          },
-          unit: {
-            dataComponent: UnitCellComponent,
-          },
-          limit: {
-            dataComponent: LimitCellComponent,
-          },
-        },
-      },
-    },
-  },
-};
+/**
+ * @deprecated Use `permisionTableConfig` instead.
+ */
+export const newPermissionTableConfig: TableConfig = permisionTableConfig;

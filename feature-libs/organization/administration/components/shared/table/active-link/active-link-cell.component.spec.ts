@@ -7,7 +7,13 @@ import { ActiveLinkCellComponent } from '..';
 const mockContext = {
   _field: 'name',
   _type: 'myType',
-  _options: {},
+  _options: {
+    cells: {
+      name: {
+        linkable: true,
+      },
+    },
+  },
   name: 'my name',
   code: 'my code',
 };
