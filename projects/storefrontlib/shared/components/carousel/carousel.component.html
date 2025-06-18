@@ -67,6 +67,7 @@
 
   <div *ngIf="!hideIndicators && size < items.length" class="indicators">
     <ng-container *ngFor="let _ of items; let i = index">
+      <div>
       <button
         *ngIf="i % size === 0"
         (click)="$event.stopPropagation(); activeSlide = i"
@@ -91,6 +92,7 @@
       >
         <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
       </button>
+      </div>
     </ng-container>
   </div>
 </ng-container>
