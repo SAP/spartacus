@@ -108,24 +108,11 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
     });
 }
 
-function goToPdpAndAddToCart(productId) {
-  const pdpUrl = `/${Cypress.env('BASE_SITE')}/en/USD/product/${productId}`;
-  cy.location('pathname').should('contain', pdpUrl);
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
-}
-
-export function addProductAndClickCheckout(productId) {
-  goToPdpAndAddToCart(productId);
-  cy.get('.cx-dialog-buttons').within(() => {
-    cy.get('button').contains(' view cart ').should('be.visible');
-    cy.get('button').contains(' proceed to checkout ').should('not.be.visible');
-    cy.get('button')
-      .contains(' proceed to checkout ')
-      .invoke('css', 'display', 'block');
-    cy.get('button').contains(' proceed to checkout ').click();
-  });
+export function hackAddToCartModalStyleAndGoToCheckout() {
+  cy.get('button')
+    .contains(' proceed to checkout ')
+    .invoke('css', 'display', 'block');
+  cy.get('button').contains(' proceed to checkout ').click();
 }
 
 export function verifyBackToAriba(discardCartEntries?: boolean) {

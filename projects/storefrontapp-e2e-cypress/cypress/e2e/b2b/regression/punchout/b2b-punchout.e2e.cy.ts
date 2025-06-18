@@ -5,10 +5,10 @@
  */
 
 import {
-  addProductAndClickCheckout,
   createOauthRevokeIntercept,
   createPunchoutRequisitionIntercept,
   deleteStaleCart,
+  hackAddToCartModalStyleAndGoToCheckout,
   hardCopyPunchoutSession,
   mockPunchoutSession,
   openPunchoutSession,
@@ -57,7 +57,21 @@ describe('PRODUCT level and CREATE operation', () => {
     }).then((punchoutSession) => {
       localPunchoutSession = hardCopyPunchoutSession(punchoutSession);
 
-      addProductAndClickCheckout(punchoutSession.selectedItem);
+      cy.location('pathname').should(
+        'contain',
+        `/${Cypress.env('BASE_SITE')}/en/USD/product/${punchoutSession.selectedItem}`
+      );
+      cy.get('cx-add-to-cart')
+        .findByText(/Add To Cart/i)
+        .click();
+      cy.get('.cx-dialog-buttons').within(() => {
+        cy.get('button').contains(' view cart ').should('be.visible');
+        cy.get('button')
+          .contains(' proceed to checkout ')
+          .should('not.be.visible');
+      });
+
+      hackAddToCartModalStyleAndGoToCheckout();
       cy.get('cx-global-message').should(
         'contain',
         'No sufficient permissions to access this page'
