@@ -5,38 +5,32 @@
  */
 
 import * as productDetails from '../../../helpers/product-details';
-import { formats } from '../../../sample-data/viewports';
 import { isolateTests } from '../../../support/utils/test-isolation';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Product details', { testIsolation: false }, () => {
-  isolateTests();
-  describe('Electronics', () => {
-    before(productDetails.configureDefaultProduct);
+  viewportContext(['desktop'], () => {
+    isolateTests();
 
-    productDetails.productDetailsTest();
-    productDetails.verifyTabKeyboardNavigation();
-  });
+    describe('Electronics', () => {
+      before(productDetails.configureDefaultProduct);
 
-  describe('Apparel', () => {
-    before(productDetails.configureApparelProduct);
+      productDetails.productDetailsTest();
+      productDetails.verifyTabKeyboardNavigation();
+    });
 
-    productDetails.apparelProductDetailsTest();
-    productDetails.verifyTabKeyboardNavigation();
+    describe('Apparel', () => {
+      before(productDetails.configureApparelProduct);
+
+      productDetails.apparelProductDetailsTest();
+      productDetails.verifyTabKeyboardNavigation();
+    });
   });
 });
 
-//TODO split this test in two files (one for mobile)
-context(
-  `${formats.mobile.width + 1}p resolution - Product details`,
-  { testIsolation: false },
-  () => {
+context('Product details', { testIsolation: false }, () => {
+  viewportContext(['mobile'], () => {
     isolateTests();
-    before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-    });
-    beforeEach(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-    });
 
     describe('Electronics', () => {
       before(productDetails.configureDefaultProduct);
@@ -51,5 +45,5 @@ context(
       productDetails.apparelProductDetailsTest();
       productDetails.verifyTabKeyboardNavigation(true);
     });
-  }
-);
+  });
+});
