@@ -41,6 +41,10 @@
       min-width: 0;
     }
   }
+  .BodyContent {
+    min-height: calc(100vh - 200px);
+  }
+
   min-height: calc(100vh - 1px);
 }
 
