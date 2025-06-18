@@ -479,25 +479,5 @@ describe('RegisterComponent', () => {
         cxMaxCharactersLength: true,
       });
     });
-
-    it('should have old validators when feature flag is not enabled', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-
-      fixture = TestBed.createComponent(RegisterComponent);
-      component = fixture.componentInstance;
-
-      fixture.detectChanges();
-
-      const passwordControl = component.registerForm.get(
-        'password'
-      ) as UntypedFormControl;
-      const validators = passwordControl.validator
-        ? passwordControl.validator({} as any)
-        : [];
-
-      expect(passwordControl).toBeTruthy();
-      expect(validators).toEqual({ required: true, cxInvalidPassword: true });
-    });
   });
 });

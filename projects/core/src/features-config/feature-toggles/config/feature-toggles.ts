@@ -16,20 +16,6 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In `FormErrorsComponent` it uses more descriptive validation error messages
-   * in all UI form fields existing before v2211.25.
-   *
-   * 1. The `FormErrorsComponent` uses new i18n keys:
-   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
-   * for example `formErrors.labeled.required` instead of `formErrors.required`.
-   *
-   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
-   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
-   * (with the plural `...Validators`)
-   */
-  formErrorsDescriptiveMessages?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
@@ -728,7 +714,6 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
-  formErrorsDescriptiveMessages: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,

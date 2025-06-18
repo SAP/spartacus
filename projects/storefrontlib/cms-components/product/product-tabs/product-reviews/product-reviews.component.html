@@ -99,18 +99,11 @@
             [attr.aria-errormessage]="'titleError'"
           />
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="titleError"
             [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate,
             }"
-            [control]="reviewForm.get('title')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('title')"
           ></cx-form-errors>
         </label>
@@ -133,18 +126,11 @@
             [attr.aria-errormessage]="'commentError'"
           ></textarea>
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="commentError"
             [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate,
             }"
-            [control]="reviewForm.get('comment')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
         </label>
@@ -173,18 +159,11 @@
             [disabled]="false"
           ></cx-star-rating>
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="ratingError"
             [translationParams]="{
               label: 'productReview.rating' | cxTranslate,
             }"
-            [control]="reviewForm.get('rating')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('rating')"
           ></cx-form-errors>
         </label>

@@ -3,16 +3,9 @@
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.startRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputFrom">
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-date-picker
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [control]="formGroup.controls.from"
           label="orgAccountSummary.filter.startRange"
-        ></cx-date-picker>
-
-        <cx-date-picker
-          *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="formGroup.controls.from"
         ></cx-date-picker>
       </ng-container>
       <ng-template #inputFrom>
@@ -26,18 +19,11 @@
           [attr.aria-errormessage]="'fromError'"
         />
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           id="fromError"
           [translationParams]="{
             label: 'orgAccountSummary.filter.startRange' | cxTranslate,
           }"
-          [control]="formGroup.controls.from"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="formGroup.controls.from"
         ></cx-form-errors>
       </ng-template>
@@ -46,16 +32,9 @@
     <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.endRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputTo">
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-date-picker
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [control]="formGroup.controls.to"
           label="orgAccountSummary.filter.endRange"
-        ></cx-date-picker>
-
-        <cx-date-picker
-          *cxFeature="'!formErrorsDescriptiveMessages'"
-          [control]="formGroup.controls.to"
         ></cx-date-picker>
       </ng-container>
       <ng-template #inputTo>
@@ -69,18 +48,11 @@
           [attr.aria-errormessage]="'toError'"
         />
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           id="toError"
           [translationParams]="{
             label: 'orgAccountSummary.filter.endRange' | cxTranslate,
           }"
-          [control]="formGroup.controls.to"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="formGroup.controls.to"
         ></cx-form-errors>
       </ng-template>
@@ -113,17 +85,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgAccountSummary.filter.status' | cxTranslate,
         }"
-        [control]="filterForm.controls.status"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [control]="filterForm.controls.status"
       ></cx-form-errors>
     </label>
@@ -144,17 +109,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgAccountSummary.filter.filterBy' | cxTranslate,
         }"
-        [control]="filterForm.controls.filterBy"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="filterForm.controls.filterBy"
       ></cx-form-errors>
     </label>
@@ -174,17 +132,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgAccountSummary.filter.documentType' | cxTranslate,
         }"
-        [control]="filterForm.controls.documentType"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="filterForm.controls.documentType"
       ></cx-form-errors>
     </label>
@@ -204,18 +155,11 @@
         [attr.aria-errormessage]="'documentNumberError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="documentNumberError"
         [translationParams]="{
           label: 'orgAccountSummary.filter.documentNumber' | cxTranslate,
         }"
-        [control]="filterForm.controls.documentNumber"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="filterForm.controls.documentNumber"
       ></cx-form-errors>
     </label>

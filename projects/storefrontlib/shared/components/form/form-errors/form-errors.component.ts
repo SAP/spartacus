@@ -57,11 +57,7 @@ export class FormErrorsComponent implements DoCheck {
   /**
    * Prefix prepended to the translation key.
    */
-  @Input() prefix = this.featureConfigService.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? 'formErrors.labeled'
-    : 'formErrors';
+  @Input() prefix = 'formErrors.labeled';
 
   /**
    * Fallback prefix prepended to the translation key.

@@ -293,7 +293,6 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
-        formErrorsDescriptiveMessages: true,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
