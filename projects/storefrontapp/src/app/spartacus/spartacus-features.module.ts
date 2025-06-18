@@ -390,6 +390,7 @@ if (environment.cpq) {
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
         a11yNgSelectAriaControls: true,
+        a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
