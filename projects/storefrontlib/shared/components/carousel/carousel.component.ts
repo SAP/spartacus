@@ -37,6 +37,10 @@ import { CarouselService } from './carousel.service';
  *
  * To allow for flexible rendering of items, the rendering is delegated to the
  * given `template`. This allows for maximum flexibility.
+ *
+ * Hydration is disabled for this component (`ngSkipHydration: 'true'`) due to inconsistencies between
+ * client-side rendering (CSR) and server-side rendering (SSR). The differences in rendered output
+ * can cause issues during the hydration process, so this component is excluded from Angular hydration.
  */
 @Component({
   selector: 'cx-carousel',
