@@ -121,9 +121,7 @@
   button.cx-card-read-more {
     font-size: 1rem;
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-    }
+    @include type('8');
   }
   @include cx-highContrastTheme {
     .card {

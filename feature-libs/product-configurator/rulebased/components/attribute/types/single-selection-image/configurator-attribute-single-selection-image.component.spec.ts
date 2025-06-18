@@ -9,8 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { I18nTestingModule, FeatureConfigService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -19,9 +20,8 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { Observable, of } from 'rxjs';
+import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -60,7 +60,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const ownerKey = 'theOwnerKey';
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(
@@ -173,7 +172,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       values: values,
     };
     component.ownerKey = ownerKey;
-    featureConfigService = TestBed.inject(FeatureConfigService);
     fixture.detectChanges();
   });
 
@@ -277,14 +275,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('value description styling', () => {
-    it('should return default style class if a11yImproveContrast feature flag is disabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-      expect(component.getValueDescriptionStyleClasses()).toEqual(
-        'cx-value-description'
-      );
-    });
-    it('should return additional style class if a11yImproveContrast feature flag is enabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    it('should return additional style class', () => {
       expect(component.getValueDescriptionStyleClasses()).toEqual(
         'cx-value-description santorini-updated'
       );
