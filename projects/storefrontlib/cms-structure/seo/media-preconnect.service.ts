@@ -19,14 +19,22 @@ export class MediaPreconnectService {
   private windowRef = inject(WindowRef);
 
   addPreconnectLink(): void {
-    if (!this.featureToggles.createMediaPreconnectLinkInSsr) {
+    if (!this.featureToggles.createMediaPreconnectLink) {
       return;
     }
 
-    if (!this.windowRef.isBrowser()) {
-      return;
-    }
     const url = this.mediaService.getBaseUrl();
-    this.pageMetaLinkService.addPreconnectLink(url);
+    let domain: string | undefined;
+    try {
+      domain = new URL(url).origin;
+    } catch {
+      domain = undefined;
+    }
+
+    if (domain && domain !== this.windowRef.location.origin) {
+      this.pageMetaLinkService.addPreconnectLink(url);
+    } else if (domain) {
+      console.log('The media preconnect link URL matches the domain, so the preconnect URL has not been added.');
+    }
   }
 }

@@ -400,7 +400,7 @@ if (environment.cpq) {
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
-        createMediaPreconnectLinkInSsr: true,
+        createMediaPreconnectLink: true,
       };
       return appFeatureToggles;
     }),

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Renderer2, RendererFactory2, Inject } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, Inject, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -12,10 +12,11 @@ import { DOCUMENT } from '@angular/common';
   providedIn: 'root',
 })
 export class PageMetaLinkService {
+  @Inject(DOCUMENT) protected document: Document = inject(DOCUMENT);
+
   constructor(
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) protected document: Document
   ) {}
 
   /**
@@ -47,6 +48,14 @@ export class PageMetaLinkService {
   }
 
   addPreconnectLink(url: string): void {
+    // Check if a preconnect link with the same href already exists
+    const existing = this.document.head.querySelector(
+      `link[rel="preconnect"][href="${url}"]`
+    );
+    if (existing) {
+      console.log("Existing link", url);
+      return; // Preconnect link already exists, do nothing
+    }
     const preconnect = this.renderer.createElement('link');
     this.renderer.setAttribute(preconnect, 'rel', 'preconnect');
     this.renderer.setAttribute(preconnect, 'href', url);

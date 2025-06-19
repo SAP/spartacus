@@ -14,13 +14,10 @@ class MockMediaService {
     .and.returnValue('https://media.example.com');
 }
 class MockFeatureToggles {
-  createMediaPreconnectLinkInSsr = true;
+  createMediaPreconnectLink = true;
 }
 class MockWindowRef {
-  isBrowser() {
-    return true;
-  }
-  document = window.document;
+  location = { origin: 'https://storefront.example.com' };
 }
 
 describe('MediaPreconnectService', () => {
@@ -48,11 +45,28 @@ describe('MediaPreconnectService', () => {
     windowRef = TestBed.inject(WindowRef) as any;
   });
 
+  afterEach(() => {
+    // Restore global URL if it was mocked
+    if ((globalThis as any)._originalURL) {
+      (globalThis as any).URL = (globalThis as any)._originalURL;
+      delete (globalThis as any)._originalURL;
+    }
+  });
+
+  function mockURLConstructor(origin: string) {
+    (globalThis as any)._originalURL = globalThis.URL;
+    globalThis.URL = function (_url: string) {
+      return { origin };
+    } as any;
+  }
+
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add preconnect link if feature toggle is enabled and in browser', () => {
+  it('should add preconnect link if feature toggle is enabled and media domain is different', () => {
+    windowRef.location.origin = 'https://storefront.example.com';
+    mockURLConstructor('https://media.example.com');
     service.addPreconnectLink();
     expect(mediaService.getBaseUrl).toHaveBeenCalled();
     expect(pageMetaLinkService.addPreconnectLink).toHaveBeenCalledWith(
@@ -61,14 +75,33 @@ describe('MediaPreconnectService', () => {
   });
 
   it('should not add preconnect link if feature toggle is disabled', () => {
-    featureToggles.createMediaPreconnectLinkInSsr = false;
+    featureToggles.createMediaPreconnectLink = false;
+    windowRef.location.origin = 'https://storefront.example.com';
     service.addPreconnectLink();
     expect(pageMetaLinkService.addPreconnectLink).not.toHaveBeenCalled();
   });
 
-  it('should not add preconnect link if not in browser', () => {
-    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+  it('should not add preconnect link if media domain is same as window origin', () => {
+    windowRef.location.origin = 'https://storefront.example.com';
+    mockURLConstructor('https://storefront.example.com');
     service.addPreconnectLink();
+    expect(pageMetaLinkService.addPreconnectLink).not.toHaveBeenCalled();
+  });
+
+  it('should add preconnect link if media domain is different from window origin', () => {
+    windowRef.location.origin = 'https://another.example.com';
+    mockURLConstructor('https://media.example.com');
+    service.addPreconnectLink();
+    expect(pageMetaLinkService.addPreconnectLink).toHaveBeenCalledWith(
+      'https://media.example.com'
+    );
+  });
+
+  it('should handle invalid URL gracefully', () => {
+    windowRef.location.origin = 'https://storefront.example.com';
+    (globalThis as any)._originalURL = globalThis.URL;
+    globalThis.URL = function () { throw new Error('Invalid URL'); } as any;
+    expect(() => service.addPreconnectLink()).not.toThrow();
     expect(pageMetaLinkService.addPreconnectLink).not.toHaveBeenCalled();
   });
 });

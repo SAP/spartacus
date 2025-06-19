@@ -736,7 +736,7 @@ export interface FeatureTogglesInterface {
    * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
    * has already been completed by the time the browser requests them.
    */
-  createMediaPreconnectLinkInSsr?: boolean;
+  createMediaPreconnectLink?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -843,5 +843,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
-  createMediaPreconnectLinkInSsr: false,
+  createMediaPreconnectLink: false,
 };

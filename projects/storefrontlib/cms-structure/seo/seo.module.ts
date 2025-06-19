@@ -10,7 +10,6 @@ import { defaultSeoConfig } from './config';
 import { htmlLangProvider } from './html-lang-provider';
 import { SeoMetaService } from './seo-meta.service';
 import { StructuredDataModule } from './structured-data/structured-data.module';
-import { MediaPreconnectService } from './media-preconnect.service';
 
 export function initSeoService(injector: Injector): () => void {
   const result = () => {
@@ -18,12 +17,6 @@ export function initSeoService(injector: Injector): () => void {
     service.init();
   };
   return result;
-}
-
-export function mediaPreconnectInitializer(
-  mediaPreconnectService: MediaPreconnectService
-): () => void {
-  return () => mediaPreconnectService.addPreconnectLink();
 }
 
 @NgModule({
@@ -34,12 +27,6 @@ export function mediaPreconnectInitializer(
       provide: APP_INITIALIZER,
       useFactory: initSeoService,
       deps: [Injector],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: mediaPreconnectInitializer,
-      deps: [MediaPreconnectService],
       multi: true,
     },
     htmlLangProvider,
