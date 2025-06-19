@@ -1,6 +1,8 @@
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '**.md'
 name: Config check
 jobs:
   configCheck:
