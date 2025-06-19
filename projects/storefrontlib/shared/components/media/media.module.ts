@@ -33,7 +33,7 @@ export class MediaModule {
           deps: [MediaPreconnectService],
           multi: true,
         },
-      ]
+      ],
     };
   }
 }

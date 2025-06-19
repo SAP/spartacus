@@ -100,7 +100,9 @@ describe('MediaPreconnectService', () => {
   it('should handle invalid URL gracefully', () => {
     windowRef.location.origin = 'https://storefront.example.com';
     (globalThis as any)._originalURL = globalThis.URL;
-    globalThis.URL = function () { throw new Error('Invalid URL'); } as any;
+    globalThis.URL = function () {
+      throw new Error('Invalid URL');
+    } as any;
     expect(() => service.addPreconnectLink()).not.toThrow();
     expect(pageMetaLinkService.addPreconnectLink).not.toHaveBeenCalled();
   });

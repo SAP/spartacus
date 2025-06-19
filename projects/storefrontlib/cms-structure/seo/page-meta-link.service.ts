@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Renderer2, RendererFactory2, Inject, inject } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -12,11 +12,11 @@ import { DOCUMENT } from '@angular/common';
   providedIn: 'root',
 })
 export class PageMetaLinkService {
-  @Inject(DOCUMENT) protected document: Document = inject(DOCUMENT);
+  protected document: Document = inject(DOCUMENT);
 
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2,
+    protected rendererFactory: RendererFactory2
   ) {}
 
   /**
