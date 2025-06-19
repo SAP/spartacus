@@ -53,7 +53,6 @@ export class PageMetaLinkService {
       `link[rel="preconnect"][href="${url}"]`
     );
     if (existing) {
-      console.log("Existing link", url);
       return; // Preconnect link already exists, do nothing
     }
     const preconnect = this.renderer.createElement('link');

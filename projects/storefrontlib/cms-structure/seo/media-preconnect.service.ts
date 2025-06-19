@@ -33,8 +33,6 @@ export class MediaPreconnectService {
 
     if (domain && domain !== this.windowRef.location.origin) {
       this.pageMetaLinkService.addPreconnectLink(url);
-    } else if (domain) {
-      console.log('The media preconnect link URL matches the domain, so the preconnect URL has not been added.');
     }
   }
 }

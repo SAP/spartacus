@@ -729,7 +729,7 @@ export interface FeatureTogglesInterface {
    * Feature flag to enable using <link rel=preconnect> in the index.html.
    *
    * ## Why this flag exists
-* 1. **Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
+   * 1. **Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
    *
    * ## When enabled:
    * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
