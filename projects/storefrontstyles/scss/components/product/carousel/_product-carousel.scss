@@ -28,6 +28,12 @@
     align-self: center;
     width: 60%;
 
+    @include forFeature('scrollableProductCarousel') {
+      height: auto;
+      aspect-ratio: 1/1;
+      background-color: #f5f5f5;
+    }
+
     &.is-missing {
       min-height: 255px;
       align-self: auto;

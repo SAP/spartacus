@@ -6,13 +6,14 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  CmsProductCarouselComponent as model,
   FeatureConfigService,
+  CmsProductCarouselComponent as model,
   Product,
   ProductScope,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of, switchMap, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -82,7 +83,9 @@ export class ProductCarouselComponent {
   constructor(
     protected componentData: CmsComponentData<model>,
     protected productService: ProductService
-  ) {}
+  ) {
+    useFeatureStyles('scrollableProductCarousel');
+  }
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');
 
