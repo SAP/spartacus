@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -31,6 +32,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { CmsMediaPriorityService } from '../../media-priority/cms-media-priority.service';
+import { MediaPriorityContext } from '../../media-priority/media-priority-context.model';
 import { PageSlotService } from './page-slot.service';
 
 /**
@@ -118,6 +121,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected pageSlotService: PageSlotService
   ) {}
 
+  protected cmsMediaPriorityService = inject(CmsMediaPriorityService);
+
   ngOnInit() {
     this.subscription.add(
       this.slot$.pipe(tap((slot) => this.decorate(slot))).subscribe((value) => {
@@ -203,6 +208,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
           (el, index) => el.uid !== current.components?.[index].uid
         )
     );
+  }
+
+  getMediaPriorityContext(
+    component: ContentSlotComponentData
+  ): Observable<MediaPriorityContext> {
+    return this.cmsMediaPriorityService.getContext(component);
   }
 
   ngOnDestroy() {

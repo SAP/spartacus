@@ -11,7 +11,10 @@
       [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
       (loaded)="isLoaded($event)"
     >
-      <ng-container [cxComponentWrapper]="component"></ng-container>
+      <ng-container
+        [cxComponentWrapper]="component"
+        [cxMediaPriorityContext]="getMediaPriorityContext(component) | async"
+      ></ng-container>
     </ng-template>
   </ng-container>
 </ng-template>
