@@ -15,7 +15,6 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
-  provideAuthorizationCodeFlowByDefault,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -98,6 +97,7 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ProductImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { PunchoutFeatureModule } from './features/punchout/punchout-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -152,6 +152,9 @@ if (environment.s4om) {
 }
 if (environment.opf) {
   featureModules.push(OpfFeatureModule);
+}
+if (environment.punchout) {
+  featureModules.push(PunchoutFeatureModule);
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
@@ -287,16 +290,10 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideAuthorizationCodeFlowByDefault(false),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
         formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: true,
-        showStyleChangesInASM: false,
-        shouldHideAddToCartForUnpurchasableProducts: false,
-        useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -317,32 +314,18 @@ if (environment.cpq) {
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
         a11yKeyboardAccessibleZoom: true,
-        a11yOrganizationLinkableCells: true,
-        a11yPreventSRFocusOnHiddenElements: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
-        a11ySemanticPaginationLabel: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yNotificationPreferenceFieldset: true,
-        a11yImproveContrast: true,
-        a11yScreenReaderBloatFix: true,
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
-        a11yNotificationsOnConsentChange: true,
-        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
-          true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
-        a11yStoreFinderAlerts: true,
-        a11yFormErrorMuteIcon: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
-        a11yCxMessageFocus: true,
-        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
-        a11yDeliveryModeRadiogroup: true,
         /**
          * Defaults to false cause ng-select options ariaLabels are working as expected
          * since Spartacus 2211.33
@@ -354,7 +337,6 @@ if (environment.cpq) {
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
-        a11yNgSelectMobileReadout: true,
         a11yDeliveryMethodFieldset: true,
         a11yShowMoreReviewsBtnFocus: true,
         a11yQuickOrderAriaControls: true,
@@ -394,7 +376,6 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
@@ -412,7 +393,13 @@ if (environment.cpq) {
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
+        storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
+        reserveHorizontalSpaceStarRating: true,
+        topProgressBarUseTransformAnimation: true,
+        disableCxPageSlotMarginAnimation: true,
       };
       return appFeatureToggles;
     }),

@@ -53,6 +53,7 @@
           "Digital-Payments",
           "EPD-Visualization",
           "OPF-Checkout",
+          "Punchout",
           "Customer-Ticketing",
           "Administration",
           "Order-Approval",
@@ -173,6 +174,10 @@
           {
             "value": "OPF-Checkout",
             "label": "Open Payment Framework Checkout Integration"
+          },
+          {
+            "value": "Punchout",
+            "label": "Punchout Integration (b2b feature)"
           },
           {
             "value": "Administration",

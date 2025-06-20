@@ -10,3 +10,4 @@ export * from './order.facade';
 export * from './reorder-order.facade';
 export * from './replenishment-order-history.facade';
 export * from './scheduled-replenishment-order.facade';
+export * from './order-attachments.facade';

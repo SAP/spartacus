@@ -13,6 +13,7 @@ import {
   ReorderOrderAdapter,
   ReplenishmentOrderHistoryAdapter,
   ScheduledReplenishmentOrderAdapter,
+  OrderAttachmentsAdapter,
 } from '@spartacus/order/core';
 import {
   ORDER_NORMALIZER,
@@ -32,6 +33,7 @@ import { OccReorderOrderAdapter } from './adapters/occ-reorder-order.adapter';
 import { OccReplenishmentOrderHistoryAdapter } from './adapters/occ-replenishment-order-history.adapter';
 import { OccScheduledReplenishmentOrderAdapter } from './adapters/occ-scheduled-replenishment-order.adapter';
 import { defaultOccOrderConfig } from './config/default-occ-order-config';
+import { OccOrderAttachmentsAdapter } from './adapters/occ-order-attachments.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -53,6 +55,10 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
     {
       provide: ReorderOrderAdapter,
       useClass: OccReorderOrderAdapter,
+    },
+    {
+      provide: OrderAttachmentsAdapter,
+      useClass: OccOrderAttachmentsAdapter,
     },
     {
       provide: ORDER_RETURN_REQUEST_NORMALIZER,

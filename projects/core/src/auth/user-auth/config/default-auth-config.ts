@@ -11,6 +11,7 @@ const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
   'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
   {
     factory: () => false,
+    providedIn: 'root',
   }
 );
 
@@ -39,10 +40,9 @@ export function provideAuthorizationCodeFlowByDefault(
   };
 }
 
-const defaultAuthConfig: AuthConfig = {
+export const defaultAuthConfig: AuthConfig = {
   authentication: {
     client_id: 'mobile_android',
-    client_secret: 'secret',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
@@ -51,9 +51,10 @@ const defaultAuthConfig: AuthConfig = {
       customTokenParameters: ['token_type'],
       strictDiscoveryDocumentValidation: false,
       skipIssuerCheck: true,
-      disablePKCE: true,
+      disablePKCE: false,
       oidc: false,
       clearHashAfterLogin: false,
+      responseType: 'code',
     },
   },
 };
@@ -64,25 +65,22 @@ export function defaultAuthConfigFactory(): AuthConfig {
   );
 
   if (useAuthorizationCodeFlowByDefault) {
+    return defaultAuthConfig;
+  } else {
     const config = {
       authentication: {
         ...defaultAuthConfig.authentication,
-
-        // CXSPA-9984: Endpoints may change
-        tokenEndpoint: '/authserver/oauth2/token',
-        revokeEndpoint: '/authserver/oauth2/revoke',
-        loginUrl: '/authserver/oauth2/authorize',
-
+        client_secret: 'secret',
+        sendAuthHeaderOnRevoke: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
-          disablePKCE: false,
-          responseType: 'code',
+          disablePKCE: true,
         },
       },
-    };
-    delete config.authentication.client_secret;
+    } satisfies AuthConfig;
+
+    delete config.authentication.OAuthLibConfig.responseType;
+
     return config;
-  } else {
-    return defaultAuthConfig;
   }
 }

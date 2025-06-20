@@ -72,7 +72,8 @@
       "cancelConfiguration": "Cancel Configuration",
       "cancelConfigurationMobile": "Cancel",
       "filterOverview": "Filter",
-      "filterOverviewWithCount": "Filter ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Filter ({{numAppliedFilters}})",
+      "showOptions": "Show Options"
     },
     "icon": {
       "groupComplete": "Complete",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Filter configuration overview by group {{groupName}}",
       "closeConflictSolverModal": "Close conflict solver modal",
       "closeRestartDialog": "Close the \"Unfinished Configuration\" dialog and navigate back to the product details page",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Click to see a description for value {{ value }}",
+      "showOptionsForAttribute": "Show options for attribute {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Pre-configured Versions"

@@ -11,7 +11,11 @@ import { CellComponent } from './cell.component';
 const mockContext: TableDataOutletContext = {
   _field: 'name',
   _type: 'myType',
-  _options: {},
+  _options: {
+    cells: {
+      name: { linkable: true },
+    },
+  },
   name: 'my name',
   code: 'my code',
 };
