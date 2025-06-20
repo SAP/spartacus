@@ -14,9 +14,9 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
-  CLIENT_TOKENS_DISABLED,
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../../occ/utils/interceptor-util';
@@ -30,7 +30,7 @@ import { ClientTokenService } from '../services/client-token.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
-  protected disableClientToken = inject(CLIENT_TOKENS_DISABLED);
+  protected disableClientToken = !!inject(FeatureToggles).disableClientTokens;
 
   constructor(
     protected clientTokenService: ClientTokenService,

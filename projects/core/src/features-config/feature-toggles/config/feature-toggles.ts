@@ -804,6 +804,26 @@ export interface FeatureTogglesInterface {
    * but now also a shorter alias (without product name) is accepted when matching the URL.
    */
   defaultProductPageRouteAllowsNoProductName?: boolean;
+
+  /**
+   * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
+   * This results in a more secure authorization scheme as the default configuration.
+   *
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server only supports Authorization Code
+   * flow for public clients from that version and onwards.
+   */
+  authorizationCodeFlowByDefault?: boolean;
+
+  /**
+   * Disables the retrieval and use of client tokens for endpoints with `USE_CLIENT_TOKEN` set on the
+   * request.
+   *
+   * NOTE: This flag should be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server does not support client tokens
+   * for public clients from that version and onwards.
+   */
+  disableClientTokens?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -925,4 +945,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  authorizationCodeFlowByDefault: false,
+  disableClientTokens: false,
 };

@@ -5,12 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  type AuthConfig,
-  CmsConfig,
-  I18nConfig,
-  provideConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   userAccountTranslationChunksConfig,
   userAccountTranslationsDe,
@@ -97,11 +92,6 @@ import { environment } from '../../../../environments/environment';
         },
         chunks: userProfileTranslationChunksConfig,
         fallbackLang: 'en',
-      },
-    }),
-    provideConfig(<AuthConfig>{
-      authentication: {
-        client_id: 'mobile_android_public',
       },
     }),
   ],
