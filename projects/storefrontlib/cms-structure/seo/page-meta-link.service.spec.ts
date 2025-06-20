@@ -20,8 +20,10 @@ describe('PageMetaLinkService', () => {
 
   afterEach(() => {
     // Clean up any preconnect links added to the document head
-    const links = Array.from(winRef.document.head.querySelectorAll('link[rel="preconnect"]'));
-    links.forEach(link => link.remove());
+    const links = Array.from(
+      winRef.document.head.querySelectorAll('link[rel="preconnect"]')
+    );
+    links.forEach((link) => link.remove());
   });
 
   it('should inject service', () => {
