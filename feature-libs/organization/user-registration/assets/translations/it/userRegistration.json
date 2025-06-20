@@ -7,7 +7,7 @@
       },
       "titleCodeOnOTPForm" : {
         "label" : "Titolo",
-        "placeholder" : "Seleziona titolo"
+        "placeholder" : "Seleziona un titolo"
       },
       "firstName" : {
         "label" : "Nome",
@@ -27,11 +27,11 @@
       },
       "city" : {
         "label" : "Città (facoltativo)",
-        "placeholder" : "Seleziona la città"
+        "placeholder" : "Seleziona una città"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
-        "placeholder" : "Seleziona la città"
+        "label" : "Città",
+        "placeholder" : "Seleziona una città"
       },
       "country" : {
         "label" : "Paese (facoltativo)",
@@ -42,12 +42,12 @@
         "placeholder" : "Seleziona un paese"
       },
       "state" : {
-        "label" : "Stato/Provincia (facoltativo)",
-        "placeholder" : "Seleziona Stato/Provincia"
+        "label" : "Stato/provincia (facoltativo)",
+        "placeholder" : "Seleziona uno stato/provincia"
       },
       "stateOnOTPForm" : {
-        "label" : "Stato/Provincia",
-        "placeholder" : "Seleziona Stato/Provincia"
+        "label" : "Stato/provincia",
+        "placeholder" : "Seleziona uno stato/provincia"
       },
       "postalCode" : {
         "label" : "CAP/Codice postale (facoltativo)",

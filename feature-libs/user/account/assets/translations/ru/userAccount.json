@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "Недействительный формат электронной почты."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "Код верификации отправлен на {{target}}. Введите код.",
     "needInputCredentials" : "Чтобы продолжить, введите ваши учетные данные.",
     "sendRateLime" : "через {{waitTime}} сек.",
     "resend" : "Отправить повторно",

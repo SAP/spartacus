@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "Toto není platný formát e-mailu."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "Ověřovací kód zaslán na {{target}}. Zadejte kód.",
     "needInputCredentials" : "Chcete-li pokračovat, zadejte své přihlašovací údaje.",
     "sendRateLime" : "{{waitTime}} s",
     "resend" : "Odeslat znovu",

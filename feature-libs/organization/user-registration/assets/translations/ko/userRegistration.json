@@ -30,7 +30,7 @@
         "placeholder" : "시/구/군을 선택하십시오."
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "시/구/군",
         "placeholder" : "시/구/군을 선택하십시오."
       },
       "country" : {

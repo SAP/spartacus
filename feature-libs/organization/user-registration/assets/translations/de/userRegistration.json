@@ -26,11 +26,11 @@
         "placeholder" : "E-Mail"
       },
       "city" : {
-        "label" : "Ort/Land (optional)",
-        "placeholder" : "Ort/Land auswählen"
+        "label" : "Ort/Stadt (optional)",
+        "placeholder" : "Ort/Stadt auswählen"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "Ort/Stadt",
         "placeholder" : "Ort/Land auswählen"
       },
       "country" : {
@@ -46,7 +46,7 @@
         "placeholder" : "Bundesland/Kanton auswählen"
       },
       "stateOnOTPForm" : {
-        "label" : "Staat/Provinz",
+        "label" : "Bundesland/Kanton",
         "placeholder" : "Bundesland/Kanton auswählen"
       },
       "postalCode" : {

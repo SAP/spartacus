@@ -58,10 +58,10 @@
     "bothPasswordMustMatch" : "Ambas contraseñas deben coincidir",
     "titleRequired" : "Se requiere un título.",
     "postRegisterMessage" : "Inicie sesión con las credenciales provistas.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "Su cuenta se creó correctamente. Inicie sesión con las credenciales provistas",
+    "rateLimitForRegistrationMessage" : "Alcanzó el límite de envíos de código de verificación. Espere {{seconds}} segundos antes de volver a intentar o use otra dirección de correo electrónico.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "El código de verificación se envió a {{target}}. Ingrese el código.",
       "sendRateLime" : "En {{waitTime}} segundos",
       "resend" : "Reenviar",
       "verificationCode" : {

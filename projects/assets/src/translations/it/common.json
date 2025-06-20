@@ -21,7 +21,7 @@
     "search" : "Cerca",
     "add" : "Aggiungi",
     "breadcrumbs" : "percorsi di navigazione",
-    "breadcrumbsCurrentPage" : "Current Page",
+    "breadcrumbsCurrentPage" : "Pagina corrente",
     "selectFile" : "Seleziona file",
     "clear" : "Cancella",
     "loaded" : "Caricato",
@@ -66,7 +66,7 @@
     "navigateTo" : "Naviga a {{nav}}",
     "scrollToTop" : "Scorri nuovamente verso la parte superiore della pagina",
     "linkItemInList" : "{{title}}. {{position}} di {{listLength}}",
-    "menuButonTitle" : "{{title}} Menu"
+    "menuButonTitle" : "Menu {{title}}"
   },
   "searchBox" : {
     "placeholder" : "Inserisci nome prodotto o SKU",
@@ -90,7 +90,8 @@
       "exactMatch" : "{{ term }}",
       "empty" : "Chiedi a noi"
     },
-    "closeSearchPanel" : "Chiudi"
+    "closeSearchPanel" : "Chiudi",
+    "queryError" : "La query di ricerca non è formattata correttamente. Rimuovere caratteri speciali come \":\" e riprovare."
   },
   "sorting" : {
     "date" : "Data",
@@ -190,7 +191,7 @@
       "cxMaxCharactersLength" : "La password non può contenere più di 128 caratteri",
       "cxContainsSpecialCharacters" : "La password non può contenere caratteri speciali",
       "cxNoConsecutiveCharacters" : "La password non può contenere caratteri identici consecutivi",
-      "invalidTokenCodeError" : "This code is not valid",
+      "invalidTokenCodeError" : "Questo codice non è valido",
       "date" : {
         "required" : "Campo {{label}} obbligatorio",
         "min" : "Il campo {{label}} non può precedere {{min}}",

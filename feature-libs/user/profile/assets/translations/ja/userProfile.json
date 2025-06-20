@@ -58,10 +58,10 @@
     "bothPasswordMustMatch" : "両方のパスワードが一致する必要があります",
     "titleRequired" : "タイトルは必須です。",
     "postRegisterMessage" : "指定された認証情報を使用してログインしてください。",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "アカウントが正常に作成されました。指定された認証情報を使用してログインしてください",
+    "rateLimitForRegistrationMessage" : "認証コード送信の制限に達しました。{{seconds}} 秒間待機してからもう一度実行するか、または別の電子メールアドレスを使用してください。",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "認証コードが {{target}} に送信されました。コードを入力してください。",
       "sendRateLime" : "{{waitTime}} 秒以内",
       "resend" : "再送信",
       "verificationCode" : {

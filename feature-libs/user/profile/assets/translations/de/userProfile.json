@@ -58,10 +58,10 @@
     "bothPasswordMustMatch" : "Beide Kennwörter müssen übereinstimmen",
     "titleRequired" : "Anrede ist erforderlich.",
     "postRegisterMessage" : "Melden Sie sich mit den angegebenen Anmeldedaten an.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "Ihr Konto wurde erfolgreich erstellt! Mit bereitgestellten Anmeldedaten anmelden",
+    "rateLimitForRegistrationMessage" : "Sie haben das Limit für das Senden des Verifizierungscodes erreicht. Warten Sie {{seconds}} Sekunden, bevor Sie es erneut versuchen, oder verwenden Sie eine andere E-Mail-Adresse.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "Verifizierungscode wurde an {{target}} gesendet. Geben Sie den Code ein.",
       "sendRateLime" : "in {{waitTime}} Sekunden",
       "resend" : "Erneut senden",
       "verificationCode" : {

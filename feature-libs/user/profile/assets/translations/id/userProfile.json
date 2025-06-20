@@ -58,12 +58,12 @@
     "bothPasswordMustMatch" : "Kedua kata sandi harus sama",
     "titleRequired" : "Gelar/sapaan wajib diisi.",
     "postRegisterMessage" : "Silakan masuk dengan kredensial yang diberikan.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "Akun Anda telah berhasil dibuat! Silakan masuk menggunakan kredensial yang diberikan",
+    "rateLimitForRegistrationMessage" : "Batas pengiriman kode verifikasi telah mencapai batas maksimum. Harap tunggu selama {{seconds}} detik sebelum mencoba lagi atau gunakan alamat email yang lain.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
-      "sendRateLime" : "dalam {{waitTime}} detik ",
-      "resend" : "Kirimkan Ulang",
+      "createVerificationToken" : "Kode verifikasi telah dikirimkan ke {{target}}. Silakan masukkan kode tersebut.",
+      "sendRateLime" : "dalam {{waitTime}} detik",
+      "resend" : "Kirim Ulang",
       "verificationCode" : {
         "label" : "Kode Verifikasi",
         "placeholder" : "Masukkan Kode Verifikasi"

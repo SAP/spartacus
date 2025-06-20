@@ -7,7 +7,7 @@
       },
       "titleCodeOnOTPForm" : {
         "label" : "Civilité",
-        "placeholder" : "Sélectionner un titre"
+        "placeholder" : "Sélectionner la civilité"
       },
       "firstName" : {
         "label" : "Prénom",
@@ -30,8 +30,8 @@
         "placeholder" : "Veuillez sélectionner une ville/localité"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
-        "placeholder" : "Veuillez sélectionner une ville/localité"
+        "label" : "Ville/Localité",
+        "placeholder" : "Veuillez sélectionner une ville/localité."
       },
       "country" : {
         "label" : "Pays (facultatif)",
@@ -54,8 +54,8 @@
         "placeholder" : "Code postal/ZIP"
       },
       "postalCodeOnOTPForm" : {
-        "label" : "Code postal/ZIP",
-        "placeholder" : "Code postal/ZIP"
+        "label" : "Code postal",
+        "placeholder" : "Code postal"
       },
       "addressLine" : {
         "label" : "Adresse (facultatif)",

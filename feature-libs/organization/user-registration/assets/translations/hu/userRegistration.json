@@ -30,7 +30,7 @@
         "placeholder" : "Válassza ki a települést"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "Település",
         "placeholder" : "Válassza ki a települést"
       },
       "country" : {

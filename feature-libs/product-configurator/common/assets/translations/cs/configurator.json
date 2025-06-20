@@ -72,7 +72,8 @@
       "cancelConfiguration" : "Zrušit konfiguraci",
       "cancelConfigurationMobile" : "Zrušit",
       "filterOverview" : "Filtrovat",
-      "filterOverviewWithCount" : "Filtr ({{numAppliedFilters}})"
+      "filterOverviewWithCount" : "Filtr ({{numAppliedFilters}})",
+      "showOptions" : "Zobrazit možnosti"
     },
     "icon" : {
       "groupComplete" : "Dokončeno",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup" : "Filtrovat přehled konfigurace podle skupiny {{groupName}}",
       "closeConflictSolverModal" : "Zavřít modální okno pro řešení konfliktů",
       "closeRestartDialog" : "Zavřít dialogové okno „Nedokončená konfigurace“ a přejít zpět na stránku s detaily produktu.",
-      "description" : "Popis této hodnoty zobrazíte kliknutím {{ value }}"
+      "description" : "Popis této hodnoty zobrazíte kliknutím {{ value }}",
+      "showOptionsForAttribute" : "Zobrazit možnosti atributu {{ attribute }}"
     },
     "variantCarousel" : {
       "title" : "Předkonfigurované verze"

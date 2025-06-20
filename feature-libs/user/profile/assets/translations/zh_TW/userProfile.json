@@ -58,10 +58,10 @@
     "bothPasswordMustMatch" : "兩者密碼必須相符",
     "titleRequired" : "稱謂為必要。",
     "postRegisterMessage" : "請使用提供的憑證登入。",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "您的帳戶已成功建立！請使用提供的憑證登入",
+    "rateLimitForRegistrationMessage" : "您已達到傳送驗證代碼的限制。請稍候 {{seconds}} 秒再重試，或使用不同的電子郵件地址。",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "驗證代碼已傳送至 {{target}}，請輸入代碼。",
       "sendRateLime" : "{{waitTime}} 秒內",
       "resend" : "重新傳送",
       "verificationCode" : {

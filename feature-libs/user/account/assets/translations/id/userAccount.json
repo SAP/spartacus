@@ -16,10 +16,10 @@
     "wrongEmailFormat" : "Format email ini tidak valid."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "Kode verifikasi telah dikirimkan ke {{target}}. Silakan masukkan kode tersebut.",
     "needInputCredentials" : "Silakan masukkan kredensial Anda untuk melanjutkan.",
-    "sendRateLime" : "dalam {{waitTime}} detik ",
-    "resend" : "Kirimkan Ulang",
+    "sendRateLime" : "dalam {{waitTime}} detik",
+    "resend" : "Kirim Ulang",
     "verificationCode" : {
       "label" : "Kode Verifikasi",
       "placeholder" : "Masukkan Kode Verifikasi"

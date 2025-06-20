@@ -58,15 +58,15 @@
     "bothPasswordMustMatch" : "Пароли должны совпадать",
     "titleRequired" : "Обращение обязательно.",
     "postRegisterMessage" : "Войдите в систему с предоставленными учетными данными.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "Ваша учетная запись создана. Войдите в систему с предоставленными учетными данными.",
+    "rateLimitForRegistrationMessage" : "Достигнут лимит отправки кодов верификации. Подождите {{seconds}} сек. и повторите попытку или используйте другой адрес электронной почты.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "Код верификации отправлен на {{target}}. Введите код.",
       "sendRateLime" : "через {{waitTime}} сек.",
       "resend" : "Отправить повторно",
       "verificationCode" : {
-        "label" : "Верификационный код",
-        "placeholder" : "Введите верификационный код"
+        "label" : "Код верификации",
+        "placeholder" : "Введите код верификации"
       },
       "back" : "Назад"
     }

@@ -30,7 +30,7 @@
         "placeholder" : "市区町村を選択してください"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "市区町村",
         "placeholder" : "市区町村を選択してください"
       },
       "country" : {
@@ -51,11 +51,11 @@
       },
       "postalCode" : {
         "label" : "郵便番号 (オプション)",
-        "placeholder" : "郵便番号を選択してください"
+        "placeholder" : "郵便番号"
       },
       "postalCodeOnOTPForm" : {
-        "label" : "郵便番号を選択してください",
-        "placeholder" : "郵便番号を選択してください"
+        "label" : "郵便番号",
+        "placeholder" : "郵便番号"
       },
       "addressLine" : {
         "label" : "住所 (オプション)",

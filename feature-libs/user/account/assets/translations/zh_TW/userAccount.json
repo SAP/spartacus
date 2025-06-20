@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "這不是有效的電子郵件格式。"
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "驗證代碼已傳送至 {{target}}，請輸入代碼。",
     "needInputCredentials" : "請輸入憑證以繼續。",
     "sendRateLime" : "{{waitTime}} 秒內",
     "resend" : "重新傳送",

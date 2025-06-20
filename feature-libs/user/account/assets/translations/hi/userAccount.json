@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "यह मान्य ई-मेल स्वरूप नहीं है."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "{{target}} को सत्यापन कोड भेजा गया. कृपया कोड दर्ज करें.",
     "needInputCredentials" : "जारी रखने के लिए कृपया अपना परिचय दर्ज करें.",
     "sendRateLime" : "{{waitTime}} सेकंड में",
     "resend" : "पुनः भेजें",

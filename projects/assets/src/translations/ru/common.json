@@ -21,7 +21,7 @@
     "search" : "Поиск",
     "add" : "Добавить",
     "breadcrumbs" : "история навигации",
-    "breadcrumbsCurrentPage" : "Current Page",
+    "breadcrumbsCurrentPage" : "Текущая страница",
     "selectFile" : "Выбрать файл",
     "clear" : "Очистить",
     "loaded" : "Загружено",
@@ -66,7 +66,7 @@
     "navigateTo" : "Перейти к {{nav}}",
     "scrollToTop" : "Прокрутка назад к началу страницы",
     "linkItemInList" : "{{title}}. {{position}} из {{listLength}}",
-    "menuButonTitle" : "{{title}} Menu"
+    "menuButonTitle" : "Меню {{title}}"
   },
   "searchBox" : {
     "placeholder" : "Введите продукт или SKU",
@@ -90,7 +90,8 @@
       "exactMatch" : "{{ term }}",
       "empty" : "Спросите нас о чем-нибудь"
     },
-    "closeSearchPanel" : "Закрыть"
+    "closeSearchPanel" : "Закрыть",
+    "queryError" : "Ваш поисковый запрос сформулирован некорректно. Удалите специальные символы (например, \":\") и повторите попытку."
   },
   "sorting" : {
     "date" : "Дата",
@@ -190,7 +191,7 @@
       "cxMaxCharactersLength" : "Пароль не может содержать более 128 символов",
       "cxContainsSpecialCharacters" : "Пароль не может содержать спецсимволы",
       "cxNoConsecutiveCharacters" : "Пароль не может содержать стоящие рядом одинаковые символы",
-      "invalidTokenCodeError" : "This code is not valid",
+      "invalidTokenCodeError" : "Код недействителен",
       "date" : {
         "required" : "Поле {{label}} является обязательным",
         "min" : "Поле {{label}} не может быть до {{min}}",

@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "Ez nem egy érvényes e-mail-formátum."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "Ellenőrző kód elküldve a következő címre: {{target}}. Adja meg a kódot.",
     "needInputCredentials" : "A folytatáshoz adja meg a hitelesítő adatait.",
     "sendRateLime" : "{{waitTime}} másodpercen belül",
     "resend" : "Újraküldés",

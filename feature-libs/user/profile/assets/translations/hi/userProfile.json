@@ -58,10 +58,10 @@
     "bothPasswordMustMatch" : "दोनों पासवर्ड मेल खाना चाहिए",
     "titleRequired" : "शीर्षक आवश्यक है.",
     "postRegisterMessage" : "कृपया प्रदत्त परिचय द्वारा लॉगिन करें.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "आपका खाता सफलतापूर्वक बनाया गया! कृपया प्रदत्त क्रेडेंशियल के साथ लॉग इन करें",
+    "rateLimitForRegistrationMessage" : "आपने सत्यापन कोड भेजने की सीमा प्राप्त कर ली है. पुनः कोशिश करने के लिए कृपया {{seconds}} सेकंड प्रतीक्षा करें या अलग ईमेल पते का उपयोग करें.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "{{target}} को सत्यापन कोड भेजा गया. कृपया कोड दर्ज करें.",
       "sendRateLime" : "{{waitTime}} सेकंड में",
       "resend" : "पुनः भेजें",
       "verificationCode" : {

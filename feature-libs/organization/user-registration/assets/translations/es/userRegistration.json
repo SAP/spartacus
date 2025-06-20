@@ -7,7 +7,7 @@
       },
       "titleCodeOnOTPForm" : {
         "label" : "Tratamiento",
-        "placeholder" : "Seleccionar título"
+        "placeholder" : "Seleccionar tratamiento"
       },
       "firstName" : {
         "label" : "Nombre",
@@ -30,7 +30,7 @@
         "placeholder" : "Seleccionar una ciudad o un pueblo"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "Ciudad/Pueblo",
         "placeholder" : "Seleccionar una ciudad o un pueblo"
       },
       "country" : {
@@ -46,7 +46,7 @@
         "placeholder" : "Seleccionar un estado o una provincia"
       },
       "stateOnOTPForm" : {
-        "label" : "Estado/provincia",
+        "label" : "Estado/Provincia",
         "placeholder" : "Seleccionar un estado o una provincia"
       },
       "postalCode" : {

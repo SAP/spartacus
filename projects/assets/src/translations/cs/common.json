@@ -21,7 +21,7 @@
     "search" : "Hledat",
     "add" : "Přidat",
     "breadcrumbs" : "Navigační cesty",
-    "breadcrumbsCurrentPage" : "Current Page",
+    "breadcrumbsCurrentPage" : "Aktuální stránka",
     "selectFile" : "Vyberte soubor",
     "clear" : "Vymazat",
     "loaded" : "Načteno",
@@ -90,7 +90,8 @@
       "exactMatch" : "{{ term }}",
       "empty" : "Zeptejte se nás na cokoliv"
     },
-    "closeSearchPanel" : "Zavřít"
+    "closeSearchPanel" : "Zavřít",
+    "queryError" : "Váš vyhledávací dotaz je nesprávně naformátován. Odstraňte speciální znaky jako \":\" a zkuste to znovu."
   },
   "sorting" : {
     "date" : "Datum",
@@ -190,7 +191,7 @@
       "cxMaxCharactersLength" : "Heslo nesmí mít víc jak 128 znaků",
       "cxContainsSpecialCharacters" : "Heslo nesmí obsahovat symboly.",
       "cxNoConsecutiveCharacters" : "Heslo nesmí obsahovat stejné znaky následující po sobě",
-      "invalidTokenCodeError" : "This code is not valid",
+      "invalidTokenCodeError" : "Tento kód je neplatný",
       "date" : {
         "required" : "Pole {{label}} je povinné",
         "min" : "Pole {{label}} nesmí být před {{min}}",

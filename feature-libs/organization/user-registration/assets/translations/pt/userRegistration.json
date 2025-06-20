@@ -30,7 +30,7 @@
         "placeholder" : "Selecione a cidade"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "Cidade",
         "placeholder" : "Selecione a cidade"
       },
       "country" : {
@@ -46,8 +46,8 @@
         "placeholder" : "Selecione o estado/município"
       },
       "stateOnOTPForm" : {
-        "label" : "Estado/Município",
-        "placeholder" : "Selecione o estado/município"
+        "label" : "Estado/província",
+        "placeholder" : "Selecione o estado/província"
       },
       "postalCode" : {
         "label" : "CEP/código postal (opcional)",

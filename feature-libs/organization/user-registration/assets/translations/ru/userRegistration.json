@@ -30,7 +30,7 @@
         "placeholder" : "Выберите город"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "Город",
         "placeholder" : "Выберите город"
       },
       "country" : {
@@ -46,7 +46,7 @@
         "placeholder" : "Выберите регион/область"
       },
       "stateOnOTPForm" : {
-        "label" : "Штат/Область",
+        "label" : "Регион/Область",
         "placeholder" : "Выберите регион/область"
       },
       "postalCode" : {

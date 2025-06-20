@@ -58,11 +58,11 @@
     "bothPasswordMustMatch" : "Obě hesla se musí shodovat",
     "titleRequired" : "Oslovení je povinné.",
     "postRegisterMessage" : "Přihlaste se s poskytnutými přihlašovacími údaji.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "Váš účet byl úspěšně vytvořen! Přihlaste se pomocí poskytnutých přihlašovacích údajů",
+    "rateLimitForRegistrationMessage" : "Dosáhli jste limitu pro odeslání ověřovacího kódu. Před dalším pokusem vyčkejte {{seconds}} sekund nebo použijte jinou e-mailovou adresu.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
-      "sendRateLime" : "{{waitTime}} s",
+      "createVerificationToken" : "Ověřovací kód zaslán na {{target}}. Zadejte kód.",
+      "sendRateLime" : "za {{waitTime}} s",
       "resend" : "Odeslat znovu",
       "verificationCode" : {
         "label" : "Ověřovací kód",

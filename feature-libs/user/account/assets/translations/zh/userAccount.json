@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "电子邮件格式无效。"
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "验证码已发送至 {{target}}。请输入验证码。",
     "needInputCredentials" : "请输入您的凭据以继续。",
     "sendRateLime" : "{{waitTime}} 秒后",
     "resend" : "重新发送",

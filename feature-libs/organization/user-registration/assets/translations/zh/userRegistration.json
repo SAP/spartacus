@@ -30,7 +30,7 @@
         "placeholder" : "请选择市/镇"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "市/镇",
         "placeholder" : "请选择市/镇"
       },
       "country" : {
@@ -46,7 +46,7 @@
         "placeholder" : "选择州/省"
       },
       "stateOnOTPForm" : {
-        "label" : "省/市/自治区",
+        "label" : "州/省",
         "placeholder" : "选择州/省"
       },
       "postalCode" : {

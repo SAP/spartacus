@@ -30,7 +30,7 @@
         "placeholder" : "Harap pilih Kota/Kabupaten"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "Kota/Kabupaten",
         "placeholder" : "Harap pilih Kota/Kabupaten"
       },
       "country" : {

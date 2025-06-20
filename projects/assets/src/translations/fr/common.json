@@ -21,7 +21,7 @@
     "search" : "Rechercher",
     "add" : "Ajouter",
     "breadcrumbs" : "Chemin de navigation",
-    "breadcrumbsCurrentPage" : "Current Page",
+    "breadcrumbsCurrentPage" : "Page actuelle",
     "selectFile" : "Sélectionner le fichier",
     "clear" : "Effacer",
     "loaded" : "Chargé",
@@ -66,7 +66,7 @@
     "navigateTo" : "Naviguer vers {{nav}}",
     "scrollToTop" : "Revenir en haut de la page",
     "linkItemInList" : "{{title}}. {{position}} sur {{listLength}}",
-    "menuButonTitle" : "{{title}} Menu"
+    "menuButonTitle" : "Menu {{title}}"
   },
   "searchBox" : {
     "placeholder" : "Saisir le nom du produit ou l'UGS",
@@ -90,7 +90,8 @@
       "exactMatch" : "{{ term }}",
       "empty" : "Demandez-nous ce que vous voulez"
     },
-    "closeSearchPanel" : "Fermer"
+    "closeSearchPanel" : "Fermer",
+    "queryError" : "Votre requête de recherche n'est pas correctement formatée. Supprimez les caractères spéciaux comme \":\" et réessayez."
   },
   "sorting" : {
     "date" : "Date",
@@ -190,7 +191,7 @@
       "cxMaxCharactersLength" : "Le mot de passe ne peut pas avoir plus de 128 caractères.",
       "cxContainsSpecialCharacters" : "Le mot de passe ne doit pas contenir de caractères spéciaux.",
       "cxNoConsecutiveCharacters" : "Le mot de passe ne doit pas contenir de caractères identiques consécutifs.",
-      "invalidTokenCodeError" : "This code is not valid",
+      "invalidTokenCodeError" : "Ce code n'est pas valide.",
       "date" : {
         "required" : "La zone {{label}} est obligatoire.",
         "min" : "La zone {{label}} ne peut pas être avant le {{min}}.",

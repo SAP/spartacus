@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "Formato e-mail non valido."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "Il codice di verifica è stato inviato a {{target}}. Inserire il codice.",
     "needInputCredentials" : "Per continuare, inserire le credenziali.",
     "sendRateLime" : "tra {{waitTime}} secondi",
     "resend" : "Invia nuovamente",

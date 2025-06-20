@@ -30,7 +30,7 @@
         "placeholder" : "請選擇城市/城鎮"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "城市/城鎮",
         "placeholder" : "請選擇城市/城鎮"
       },
       "country" : {
@@ -38,7 +38,7 @@
         "placeholder" : "選擇國家/地區"
       },
       "countryOnOTPForm" : {
-        "label" : "國家",
+        "label" : "國家/地區",
         "placeholder" : "選擇國家/地區"
       },
       "state" : {

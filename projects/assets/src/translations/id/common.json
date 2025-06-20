@@ -21,14 +21,14 @@
     "search" : "Cari",
     "add" : "Tambahkan",
     "breadcrumbs" : "jejak navigasi",
-    "breadcrumbsCurrentPage" : "Current Page",
+    "breadcrumbsCurrentPage" : "Halaman Saat Ini",
     "selectFile" : "Pilih file",
     "clear" : "Hapus",
     "loaded" : "Dimuat",
     "results" : "Hasil",
     "of" : "dari",
     "ngSelectDropdownOptionsList" : "Pilihan",
-    "required" : "diwajibkan",
+    "required" : "wajib",
     "zoomIn" : "Perbesar",
     "zoomOut" : "Perkecil",
     "selected" : "Dipilih",
@@ -66,7 +66,7 @@
     "navigateTo" : "Arahkan ke {{nav}}",
     "scrollToTop" : "Kembali ke bagian atas halaman",
     "linkItemInList" : "{{title}}. {{position}} dari {{listLength}}",
-    "menuButonTitle" : "{{title}} Menu"
+    "menuButonTitle" : "Menu {{title}}"
   },
   "searchBox" : {
     "placeholder" : "Masukkan nama produk atau SKU",
@@ -90,11 +90,12 @@
       "exactMatch" : "{{ term }}",
       "empty" : "Tanyakan apa saja kepada kami"
     },
-    "closeSearchPanel" : "Tutup"
+    "closeSearchPanel" : "Tutup",
+    "queryError" : "Format kueri pencarian Anda salah. Harap hapus karakter khusus, seperti \":\", lalu coba lagi."
   },
   "sorting" : {
     "date" : "Tanggal",
-    "orderNumber" : "Nomor Pemesanan",
+    "orderNumber" : "Nomor Pesanan",
     "rma" : "Nomor Pengembalian",
     "replenishmentNumber" : "Nomor Pengadaan Ulang",
     "nextOrderDate" : "Tanggal Pemesanan Berikutnya",
@@ -190,7 +191,7 @@
       "cxMaxCharactersLength" : "Kata sandi tidak boleh lebih dari 128 karakter",
       "cxContainsSpecialCharacters" : "Kata sandi tidak boleh berisi karakter khusus",
       "cxNoConsecutiveCharacters" : "Kata sandi tidak boleh berisi karakter identik yang berurutan",
-      "invalidTokenCodeError" : "This code is not valid",
+      "invalidTokenCodeError" : "Kode ini tidak valid",
       "date" : {
         "required" : "Bidang {{label}} wajib diisi",
         "min" : "Bidang {{label}} tidak boleh sebelum {{min}}",

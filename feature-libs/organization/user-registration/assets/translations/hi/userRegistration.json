@@ -30,7 +30,7 @@
         "placeholder" : "कृपया शहर/नगर चुनें"
       },
       "cityOnOTPForm" : {
-        "label" : "City/Town",
+        "label" : "शहर/कस्बा",
         "placeholder" : "कृपया शहर/नगर चुनें"
       },
       "country" : {
@@ -46,7 +46,7 @@
         "placeholder" : "राज्य/ प्रांत चुनें"
       },
       "stateOnOTPForm" : {
-        "label" : "राज्य/ प्रदेश",
+        "label" : "राज्य/ प्रांत",
         "placeholder" : "राज्य/ प्रांत चुनें"
       },
       "postalCode" : {

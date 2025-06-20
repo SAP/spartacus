@@ -58,10 +58,10 @@
     "bothPasswordMustMatch" : "두 개의 암호가 일치해야 합니다.",
     "titleRequired" : "칭호는 필수 항목입니다.",
     "postRegisterMessage" : "제공된 자격 증명으로 로그인하십시오.",
-    "postRegisterSuccessMessage" : "Your account has been successfully created! Please log in with provided credentials",
-    "rateLimitForRegistrationMessage" : "You have reached the limit of sending verification code. Please wait {{seconds}} seconds before retrying or use a different email address.",
+    "postRegisterSuccessMessage" : "계정이 생성되었습니다. 제공된 자격 증명으로 로그인하십시오. ",
+    "rateLimitForRegistrationMessage" : "인증 코드 전송 한도에 도달했습니다. {{seconds}}초 후에 다시 시도하거나 다른 이메일 주소를 사용하십시오.",
     "verificationTokenForm" : {
-      "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+      "createVerificationToken" : "{{target}}에 인증 코드를 보냈습니다. 코드를 입력하십시오.",
       "sendRateLime" : "{{waitTime}}초 후",
       "resend" : "다시 보내기",
       "verificationCode" : {

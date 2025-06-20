@@ -16,7 +16,7 @@
     "wrongEmailFormat" : "올바른 이메일 형식이 아닙니다."
   },
   "verificationTokenForm" : {
-    "createVerificationToken" : "Verification code has been sent to {{target}}. Please enter the code.",
+    "createVerificationToken" : "{{target}}에 인증 코드를 보냈습니다. 코드를 입력하십시오.",
     "needInputCredentials" : "계속하려면 자격 증명을 입력하십시오.",
     "sendRateLime" : "{{waitTime}}초 후",
     "resend" : "다시 보내기",
