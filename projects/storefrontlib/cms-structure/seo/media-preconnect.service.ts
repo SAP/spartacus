@@ -16,7 +16,7 @@ export class MediaPreconnectService {
   protected pageMetaLinkService = inject(PageMetaLinkService);
   protected mediaService = inject(MediaService);
   private featureToggles = inject(FeatureToggles);
-  private windowRef = inject(WindowRef);
+  protected windowRef = inject(WindowRef);
 
   addPreconnectLink(): void {
     if (!this.featureToggles.createMediaPreconnectLink) {
