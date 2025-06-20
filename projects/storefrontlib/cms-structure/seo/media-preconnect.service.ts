@@ -31,6 +31,8 @@ export class MediaPreconnectService {
       domain = undefined;
     }
 
+    // Preconnecting is not needed (and won't be performed) if the domain of the media base url
+    // is the same as the storefront's domain
     if (domain && domain !== this.windowRef.location.origin) {
       this.pageMetaLinkService.addPreconnectLink(url);
     }
