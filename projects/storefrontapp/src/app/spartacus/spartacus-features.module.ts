@@ -401,6 +401,11 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
+        /*
+         * JDK21 feature flags
+         */
+        authorizationCodeFlowByDefault: true,
+        disableClientTokens: true,
       };
       return appFeatureToggles;
     }),

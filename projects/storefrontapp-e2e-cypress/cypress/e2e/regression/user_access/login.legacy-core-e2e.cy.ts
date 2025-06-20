@@ -7,16 +7,15 @@
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('Login', () => {
+describe('Legacy Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.visit('/login/register');
-      login.registerUserFromRegisterPage();
+      cy.visit('/login');
+      login.registerUserFromLoginPage();
     });
 
     it('should login and logout successfully', () => {
-      cy.visit('/login');
-      login.loginUser();
+      login.legacyLogin();
 
       const tokenRevocationRequestAlias =
         login.listenForTokenRevocationRequest();

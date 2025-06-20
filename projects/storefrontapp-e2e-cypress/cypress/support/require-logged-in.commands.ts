@@ -5,7 +5,13 @@
  */
 
 import { generateMail, randomString } from '../helpers/user';
-import { config, login, setSessionData } from './utils/login';
+import {
+  config,
+  login,
+  loginJDK17,
+  loginJDK21,
+  setSessionData,
+} from './utils/login';
 
 declare global {
   namespace Cypress {
@@ -45,10 +51,18 @@ export interface RequireLoggedInDebugOptions {
   freshUserOnTestRefresh?: boolean;
 }
 
+export interface LegacyLoginOptions {
+  legacyLogin?: boolean;
+}
+
 Cypress.Commands.add(
   'requireLoggedIn',
-  (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
-    function loginAsGuest() {
+  (
+    accountData?: AccountData,
+    options: RequireLoggedInDebugOptions & LegacyLoginOptions = {}
+  ) => {
+    /** @deprecated Not supported in JDK17 */
+    function loginAsGuest_legacy() {
       return cy.request({
         method: 'POST',
         url: config.tokenUrl,
@@ -59,12 +73,21 @@ Cypress.Commands.add(
         form: true,
       });
     }
+    function loginAsGuest() {
+      return cy.wrap<Promise<never>, never>(
+        Promise.resolve(undefined as never)
+      );
+    }
 
     function registerUser(
       uid: string,
       registrationData: RegistrationData,
-      access_token: string
+      options: { access_token?: string }
     ) {
+      const headers: Record<string, string> = {};
+      if (options.access_token) {
+        headers.Authorization = `bearer ${options.access_token}`;
+      }
       return cy.request({
         method: 'POST',
         url: config.newUserUrl,
@@ -75,9 +98,7 @@ Cypress.Commands.add(
           titleCode: registrationData.titleCode,
           uid,
         },
-        headers: {
-          Authorization: `bearer ${access_token}`,
-        },
+        headers,
       });
     }
 
@@ -90,12 +111,13 @@ Cypress.Commands.add(
         titleCode: 'mr',
       },
     };
-    const account = accountData || defaultAccount;
+    const account = accountData ?? defaultAccount;
     const username =
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
 
-    login(username, account.registrationData.password, false).then((res) => {
+    const password = account.registrationData.password;
+    loginJDK21(username, password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
         setSessionData(res.body);
@@ -105,15 +127,20 @@ Cypress.Commands.add(
            2. Create new user
            3. Login as a new user
         */
-        loginAsGuest()
+        (options.legacyLogin ? loginAsGuest_legacy() : loginAsGuest())
           .then((response) =>
-            registerUser(
+            registerUser(username, account.registrationData, {
+              access_token: options.legacyLogin
+                ? response.body.access_token
+                : undefined,
+            })
+          )
+          .then(() =>
+            (options.legacyLogin ? loginJDK17 : login)(
               username,
-              account.registrationData,
-              response.body.access_token
+              account.registrationData.password
             )
           )
-          .then(() => login(username, account.registrationData.password))
           .then((response) => {
             setSessionData(response.body);
             Cypress.log({

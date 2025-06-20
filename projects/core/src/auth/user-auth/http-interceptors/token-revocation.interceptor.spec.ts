@@ -112,7 +112,6 @@ describe('TokenRevocationInterceptor', () => {
     spyOn(mockAuthConfigService, 'sendAuthHeaderOnRevoke').and.returnValue(
       false
     );
-
     const sub: Subscription = http.get('/revoke').subscribe((result) => {
       expect(result).toBeTruthy();
       done();

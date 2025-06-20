@@ -8,23 +8,24 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 30000,
+  defaultCommandTimeout: 10000,
 
-  requestTimeout: 30000,
+  requestTimeout: 10000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
-  video: true,
+  video: false,
   retries: {
-    runMode: 2,
+    runMode: 0,
   },
   videoUploadOnPasses: false,
   env: {
-    API_URL: 'https://20.83.184.244:9002',
+    API_URL:
+      'https://api.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
-    CLIENT_ID: 'mobile_android',
+    CLIENT_ID: 'mobile_android_public',
     CLIENT_SECRET: 'secret',
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',

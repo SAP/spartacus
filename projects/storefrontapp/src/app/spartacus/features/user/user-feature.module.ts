@@ -8,20 +8,20 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   userAccountTranslationChunksConfig,
+  userAccountTranslationsDe,
   userAccountTranslationsEn,
   userAccountTranslationsJa,
-  userAccountTranslationsDe,
   userAccountTranslationsZh,
 } from '@spartacus/user/account/assets';
 import {
-  UserAccountRootModule,
   USER_ACCOUNT_FEATURE,
+  UserAccountRootModule,
 } from '@spartacus/user/account/root';
 import {
   userProfileTranslationChunksConfig,
+  userProfileTranslationsDe,
   userProfileTranslationsEn,
   userProfileTranslationsJa,
-  userProfileTranslationsDe,
   userProfileTranslationsZh,
 } from '@spartacus/user/profile/assets';
 import {
@@ -30,8 +30,8 @@ import {
   USE_MY_ACCOUNT_V2_PROFILE,
 } from '@spartacus/user/profile/components';
 import {
-  UserProfileRootModule,
   USER_PROFILE_FEATURE,
+  UserProfileRootModule,
 } from '@spartacus/user/profile/root';
 import { environment } from '../../../../environments/environment';
 

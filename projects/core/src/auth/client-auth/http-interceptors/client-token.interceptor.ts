@@ -11,9 +11,10 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -29,6 +30,8 @@ import { ClientTokenService } from '../services/client-token.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
+  protected disableClientToken = !!inject(FeatureToggles).disableClientTokens;
+
   constructor(
     protected clientTokenService: ClientTokenService,
     protected clientErrorHandlingService: ClientErrorHandlingService,
@@ -42,6 +45,9 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     const isClientTokenRequest = this.isClientTokenRequest(request);
     if (isClientTokenRequest) {
       request = InterceptorUtil.removeHeader(USE_CLIENT_TOKEN, request);
+    }
+    if (this.disableClientToken) {
+      return next.handle(request);
     }
 
     return this.getClientToken(isClientTokenRequest).pipe(
@@ -98,6 +104,8 @@ export class ClientTokenInterceptor implements HttpInterceptor {
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
-    return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
+    return ['InvalidBearerTokenError', 'InvalidTokenError'].includes(
+      resp.error?.errors?.[0]?.type
+    );
   }
 }
