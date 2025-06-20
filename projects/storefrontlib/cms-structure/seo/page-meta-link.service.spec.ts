@@ -7,6 +7,7 @@ describe('PageMetaLinkService', () => {
   let winRef: WindowRef;
 
   const pageUrl = 'https://www.myurl.com/en/USD';
+  const preconnectUrl = 'https://media.example.com';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,6 +16,12 @@ describe('PageMetaLinkService', () => {
 
     service = TestBed.inject(PageMetaLinkService);
     winRef = TestBed.inject(WindowRef);
+  });
+
+  afterEach(() => {
+    // Clean up any preconnect links added to the document head
+    const links = Array.from(winRef.document.head.querySelectorAll('link[rel="preconnect"]'));
+    links.forEach(link => link.remove());
   });
 
   it('should inject service', () => {
@@ -45,5 +52,40 @@ describe('PageMetaLinkService', () => {
       'cxCanonical'
     ) as HTMLLinkElement;
     expect(linkElement).toBeNull();
+  });
+
+  it('should add a preconnect link to the document head', () => {
+    service.addPreconnectLink(preconnectUrl);
+    const linkElement = winRef.document.head.querySelector(
+      `link[rel="preconnect"][href="${preconnectUrl}"]`
+    ) as HTMLLinkElement;
+    expect(linkElement).toBeTruthy();
+    expect(linkElement.rel).toBe('preconnect');
+    //URL constructor is used for normalizing href
+    expect(new URL(linkElement.href).origin).toBe(preconnectUrl);
+  });
+
+  it('should not add duplicate preconnect links', () => {
+    service.addPreconnectLink(preconnectUrl);
+    service.addPreconnectLink(preconnectUrl);
+    const links = winRef.document.head.querySelectorAll(
+      `link[rel="preconnect"][href="${preconnectUrl}"]`
+    );
+    expect(links.length).toBe(1);
+  });
+
+  it('should insert the preconnect link at the top of the head', () => {
+    // Add another element to head first
+    const dummy = winRef.document.createElement('meta');
+    dummy.setAttribute('name', 'dummy');
+    winRef.document.head.appendChild(dummy);
+
+    service.addPreconnectLink(preconnectUrl);
+
+    const firstChild = winRef.document.head.firstChild as HTMLLinkElement;
+    expect(firstChild.tagName.toLowerCase()).toBe('link');
+    expect(firstChild.rel).toBe('preconnect');
+    //URL constructor is used for normalizing href
+    expect(new URL(firstChild.href).origin).toBe(preconnectUrl);
   });
 });
