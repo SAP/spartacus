@@ -724,6 +724,17 @@ export interface FeatureTogglesInterface {
    * Enabling this flag removes the margin animation to improve performance and user experience.
    */
   disableCxPageSlotMarginAnimation?: boolean;
+
+  /**
+   * When enabled, the `ProductCarouselComponent` will use a scrollable carousel `<cx-carousel-v2>`,
+   * which has has number of advantages over the previous implementation (`<cx-carousel>`):
+   * - It's swipe-friendly on touch devices thanks to its scrollable nature
+   * - It's loading only the visible items (when `ImageLoadingStrategy.LAZY` is configured in Spartacus),
+   *    which helps to improve performance, including the Web Vital LCP (Largest Contentful Paint)
+   * - Prevents layout shifts while transitioning from the Server-Side-Rendered HTML to
+   *     the Client-Side-Rendered HTML, which helps to improve Web Vital CLS (Cumulative Layout Shift)
+   */
+  scrollableProductCarousel?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -830,4 +841,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
+  scrollableProductCarousel: false,
 };

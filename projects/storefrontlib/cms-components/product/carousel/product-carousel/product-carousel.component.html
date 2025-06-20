@@ -1,15 +1,31 @@
-<cx-carousel
-  *ngIf="items$ | async as items"
-  role="region"
-  [attr.aria-label]="
-    'productCarousel.carouselLabel' | cxTranslate: { title: title$ | async }
-  "
-  [items]="items"
-  [title]="title$ | async"
-  [template]="carouselItem"
-  itemWidth="285px"
->
-</cx-carousel>
+<ng-container *cxFeature="'!scrollableProductCarousel'">
+  <cx-carousel
+    *ngIf="items$ | async as items"
+    role="region"
+    [attr.aria-label]="
+      'productCarousel.carouselLabel' | cxTranslate: { title: title$ | async }
+    "
+    [items]="items"
+    [title]="title$ | async"
+    [template]="carouselItem"
+    itemWidth="285px"
+  >
+  </cx-carousel>
+</ng-container>
+
+<ng-container *cxFeature="'scrollableProductCarousel'">
+  <cx-carousel-v2
+    *ngIf="items$ | async as items"
+    role="region"
+    [attr.aria-label]="
+      'productCarousel.carouselLabel' | cxTranslate: { title: title$ | async }
+    "
+    [items]="items"
+    [title]="title$ | async"
+    [template]="carouselItem"
+  >
+  </cx-carousel-v2>
+</ng-container>
 
 <ng-template #carouselItem let-item="item">
   <cx-product-carousel-item [item]="item"></cx-product-carousel-item>

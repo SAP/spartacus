@@ -1,0 +1,19 @@
+<ng-container *ngIf="items && items.length > 0">
+  <h2 *ngIf="title">{{ title }}</h2>
+
+  <ul class="carousel-panel" role="list">
+    <ng-container *ngFor="let item of items; let i = index">
+      <li
+        *ngIf="item | async as data"
+        class="item"
+        role="listitem"
+        (keydown)="onItemKeydown($event)"
+        (focus)="onItemFocus($event)"
+      >
+        <ng-container
+          *ngTemplateOutlet="template; context: { item: data }"
+        ></ng-container>
+      </li>
+    </ng-container>
+  </ul>
+</ng-container>
