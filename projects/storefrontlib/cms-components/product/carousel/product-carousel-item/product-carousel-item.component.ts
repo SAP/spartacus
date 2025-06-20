@@ -7,11 +7,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
+import { MEDIA_PRIORITY_CONTEXT } from 'projects/storefrontlib/cms-structure/media-priority/media-priority-context.token';
+import { map } from 'rxjs';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -32,6 +35,13 @@ import {
 })
 export class ProductCarouselItemComponent implements OnChanges {
   @Input() item: Product;
+
+  @Input() itemIndex?: number;
+
+  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
+  fetchPriority$ = this.mediaPriorityContext$.pipe(
+    map((context) => context.fetchPriority)
+  );
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource

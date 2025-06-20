@@ -1,5 +1,8 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media [container]="main"></cx-media>
+  <cx-media
+    [container]="main"
+    [fetchPriority]="fetchPriority$ | async"
+  ></cx-media>
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">

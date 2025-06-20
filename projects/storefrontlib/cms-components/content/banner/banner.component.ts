@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  inject,
+} from '@angular/core';
 import {
   CmsBannerComponent,
   CmsService,
@@ -13,8 +18,9 @@ import {
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
+import { MEDIA_PRIORITY_CONTEXT } from 'projects/storefrontlib/cms-structure/media-priority/media-priority-context.token';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -40,6 +46,11 @@ export class BannerComponent {
     protected urlService: SemanticPathService,
     protected cmsService: CmsService
   ) {}
+
+  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
+  fetchPriority$ = this.mediaPriorityContext$.pipe(
+    map((context) => context.fetchPriority)
+  );
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the

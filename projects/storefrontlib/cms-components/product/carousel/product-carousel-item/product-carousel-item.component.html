@@ -3,6 +3,7 @@
     [container]="item.images?.PRIMARY"
     format="product"
     [alt]="item.name ?? ''"
+    [fetchPriority]="itemIndex === 0 ? (fetchPriority$ | async) : undefined"
   ></cx-media>
   <h3 class="cx-product-name">
     {{ item.name }}

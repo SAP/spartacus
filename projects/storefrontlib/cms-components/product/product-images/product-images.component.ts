@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   ImageGroup,
   Product,
   isNotNullable,
   useFeatureStyles,
 } from '@spartacus/core';
+import { MEDIA_PRIORITY_CONTEXT } from 'projects/storefrontlib/cms-structure/media-priority/media-priority-context.token';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
@@ -100,4 +101,9 @@ export class ProductImagesComponent {
 
     return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
   }
+
+  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
+  fetchPriority$ = this.mediaPriorityContext$.pipe(
+    map((context) => context.fetchPriority)
+  );
 }

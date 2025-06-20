@@ -1,5 +1,9 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media [container]="main" (click)="triggerZoom(true)"></cx-media>
+  <cx-media
+    [container]="main"
+    (click)="triggerZoom(true)"
+    [fetchPriority]="fetchPriority$ | async"
+  ></cx-media>
   <cx-product-image-zoom-trigger
     [expandImage]="expandImage.value"
     [galleryIndex]="selectedIndex"

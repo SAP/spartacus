@@ -12,6 +12,8 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
+import { map } from 'rxjs';
+import { MEDIA_PRIORITY_CONTEXT } from '../../../../cms-structure/media-priority/media-priority-context.token';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -37,6 +39,8 @@ export class ProductListItemComponent implements OnChanges {
   readonly ProductListOutlets = ProductListOutlets;
   @Input() product: any;
 
+  @Input() itemIndex?: number;
+
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
   ) {}
@@ -48,4 +52,9 @@ export class ProductListItemComponent implements OnChanges {
       this.productListItemContextSource.product$.next(this.product);
     }
   }
+
+  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
+  fetchPriority$ = this.mediaPriorityContext$.pipe(
+    map((context) => context.fetchPriority)
+  );
 }

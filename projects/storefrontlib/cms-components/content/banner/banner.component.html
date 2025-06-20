@@ -12,10 +12,12 @@
       *cxFeature="'useExtendedMediaComponentConfiguration'"
       [container]="getImage(data)"
       [elementType]="'picture'"
+      [fetchPriority]="fetchPriority$ | async"
     ></cx-media>
     <cx-media
       *cxFeature="'!useExtendedMediaComponentConfiguration'"
       [container]="getImage(data)"
+      [fetchPriority]="fetchPriority$ | async"
     ></cx-media>
     <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
   </ng-container>
@@ -27,10 +29,12 @@
         *cxFeature="'useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
         [elementType]="'picture'"
+        [fetchPriority]="fetchPriority$ | async"
       ></cx-media>
       <cx-media
         *cxFeature="'!useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
+        [fetchPriority]="fetchPriority$ | async"
       ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </div>
