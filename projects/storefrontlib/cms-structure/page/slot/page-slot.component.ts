@@ -10,7 +10,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -32,7 +31,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
-import { LcpContextForCmsService } from '../../lcp-context/lcp-context-for-cms.service';
 import { PageSlotService } from './page-slot.service';
 
 /**
@@ -119,8 +117,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected pageSlotService: PageSlotService
   ) {}
-
-  protected cmsMediaPriorityService = inject(LcpContextForCmsService);
 
   ngOnInit() {
     this.subscription.add(
