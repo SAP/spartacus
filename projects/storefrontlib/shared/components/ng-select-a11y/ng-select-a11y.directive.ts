@@ -142,11 +142,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.renderer.setAttribute(inputCombobox, 'aria-controls', ariaControls);
     }
 
-    if (
-      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputCombobox.readOnly &&
-      isPlatformBrowser(this.platformId)
-    ) {
+    if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
         .pipe(filter(Boolean), take(1))
