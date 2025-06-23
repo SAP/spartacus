@@ -5,6 +5,7 @@
  */
 
 import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
+import { loginB2bUser } from './helpers/a11y-b2b.checkout';
 
 const MY_COMPANY_URL = '/organization/users';
 const firstRusticSelector =
@@ -66,6 +67,7 @@ describe(
     });
 
     it('user details / approvers panel (non-empty)', () => {
+      // loginB2bUser();
       const assignTableRowCel =
         'cx-org-user-approver-list cx-org-sub-list .main table tr:nth-child(4) td';
       cy.get(`${assignTableRowCel} cx-org-assign-cell button`).click();
@@ -107,7 +109,7 @@ describe(
 
     it('user details / purchase limits panel (non-empty)', () => {
       cy.get(allUsersBreadcrumb).click();
-      selectUser(9);
+      selectUser(11);
       cy.get(`${detailsActionsListSelector} a:nth-child(3)`).click();
       cy.get(
         'cx-org-user-assigned-permission-list .main cx-org-assign-cell button'
