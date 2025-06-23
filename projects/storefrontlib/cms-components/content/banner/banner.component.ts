@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerComponent,
   CmsService,
@@ -18,10 +13,8 @@ import {
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { LcpToFetchPriorityService } from 'projects/storefrontlib/cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
-import { LCP_CONTEXT } from '../../../cms-structure/lcp-context';
+import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -107,12 +100,4 @@ export class BannerComponent {
 
     return data.headline ?? imgAltText;
   }
-
-  protected lcpContext$ = inject(LCP_CONTEXT);
-
-  // SPIKE TODO: replace with a separate directive
-  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
-  protected fetchPriority$ = this.lcpContext$.pipe(
-    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
-  );
 }

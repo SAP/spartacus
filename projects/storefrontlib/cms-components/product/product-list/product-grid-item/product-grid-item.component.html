@@ -8,7 +8,11 @@
     [container]="product.images?.PRIMARY"
     format="product"
     [alt]="product.name || product.summary"
-    [fetchPriority]="itemIndex === 0 ? (fetchPriority$ | async) : undefined"
+    cxLcpContextGetter
+    #cxLcpContextGetter="cxLcpContextGetter"
+    [fetchPriority]="
+      itemIndex === 0 ? (cxLcpContextGetter.fetchPriority$ | async) : undefined
+    "
   ></cx-media>
 </a>
 <a

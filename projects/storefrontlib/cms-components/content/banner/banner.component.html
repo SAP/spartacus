@@ -1,4 +1,8 @@
-<ng-container *ngIf="data$ | async as data">
+<ng-container
+  *ngIf="data$ | async as data"
+  cxLcpContextGetter
+  #cxLcpContextGetter="cxLcpContextGetter"
+>
   <ng-container *ngIf="routerLink">
     <cx-generic-link
       [url]="routerLink"
@@ -12,12 +16,12 @@
       *cxFeature="'useExtendedMediaComponentConfiguration'"
       [container]="getImage(data)"
       [elementType]="'picture'"
-      [fetchPriority]="fetchPriority$ | async"
+      [fetchPriority]="cxLcpContextGetter.fetchPriority$ | async"
     ></cx-media>
     <cx-media
       *cxFeature="'!useExtendedMediaComponentConfiguration'"
       [container]="getImage(data)"
-      [fetchPriority]="fetchPriority$ | async"
+      [fetchPriority]="cxLcpContextGetter.fetchPriority$ | async"
     ></cx-media>
     <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
   </ng-container>
@@ -29,12 +33,12 @@
         *cxFeature="'useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
         [elementType]="'picture'"
-        [fetchPriority]="fetchPriority$ | async"
+        [fetchPriority]="cxLcpContextGetter.fetchPriority$ | async"
       ></cx-media>
       <cx-media
         *cxFeature="'!useExtendedMediaComponentConfiguration'"
         [container]="getImage(data)"
-        [fetchPriority]="fetchPriority$ | async"
+        [fetchPriority]="cxLcpContextGetter.fetchPriority$ | async"
       ></cx-media>
       <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
     </div>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { GetLcpContextDirective } from './get-lcp-context.directive';
+import { GetLcpContextDirective } from './lcp-context-getter.directive';
 import { LcpContextDirective } from './lcp-context.directive';
 
 @NgModule({

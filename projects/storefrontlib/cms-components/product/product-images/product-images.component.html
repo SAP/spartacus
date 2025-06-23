@@ -1,7 +1,9 @@
 <ng-container *ngIf="mainImage$ | async as main">
   <cx-media
     [container]="main"
-    [fetchPriority]="fetchPriority$ | async"
+    cxLcpContextGetter
+    #cxLcpContextGetter="cxLcpContextGetter"
+    [fetchPriority]="cxLcpContextGetter.fetchPriority$ | async"
   ></cx-media>
 </ng-container>
 

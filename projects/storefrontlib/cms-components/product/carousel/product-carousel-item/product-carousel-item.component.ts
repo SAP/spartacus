@@ -7,15 +7,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   Input,
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { map } from 'rxjs';
-import { LCP_CONTEXT } from '../../../../cms-structure/lcp-context/lcp-context.model';
-import { LcpToFetchPriorityService } from '../../../../cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -48,12 +44,4 @@ export class ProductCarouselItemComponent implements OnChanges {
       this.productListItemContextSource.product$.next(this.item);
     }
   }
-
-  protected lcpContext$ = inject(LCP_CONTEXT);
-
-  // SPIKE TODO: replace with a separate directive
-  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
-  protected fetchPriority$ = this.lcpContext$.pipe(
-    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
-  );
 }

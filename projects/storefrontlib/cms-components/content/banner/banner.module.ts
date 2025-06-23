@@ -12,6 +12,7 @@ import {
   FeaturesConfigModule,
   provideDefaultConfig,
 } from '@spartacus/core';
+import { LcpContextDirectiveModule } from '../../../cms-structure/lcp-context/lcp-context-directive.module';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { BannerComponent } from './banner.component';
@@ -23,6 +24,7 @@ import { BannerComponent } from './banner.component';
     GenericLinkModule,
     MediaModule,
     FeaturesConfigModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

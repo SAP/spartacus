@@ -4,15 +4,17 @@ import { LCP_CONTEXT } from './lcp-context.model';
 import { LcpToFetchPriorityService } from './lcp-to-fetch-priority.service';
 
 @Directive({
-  selector: '[cxGetLcpContext]',
+  selector: '[cxLcpContextGetter]',
+  exportAs: 'cxLcpContextGetter',
   standalone: false,
-  exportAs: 'lcpContext',
 })
 export class GetLcpContextDirective {
-  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
+  protected readonly lcpToFetchPriorityService = inject(
+    LcpToFetchPriorityService
+  );
 
-  protected lcpContext$ = inject(LCP_CONTEXT);
-  protected fetchPriority$ = this.lcpContext$.pipe(
+  readonly lcpContext$ = inject(LCP_CONTEXT);
+  readonly fetchPriority$ = this.lcpContext$.pipe(
     map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
   );
 }

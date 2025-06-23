@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ImageGroup,
   Product,
@@ -13,8 +13,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
-import { LCP_CONTEXT } from '../../../cms-structure/lcp-context/lcp-context.model';
-import { LcpToFetchPriorityService } from '../../../cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -102,12 +100,4 @@ export class ProductImagesComponent {
 
     return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
   }
-
-  protected lcpContext$ = inject(LCP_CONTEXT);
-
-  // SPIKE TODO: replace with a separate directive
-  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
-  protected fetchPriority$ = this.lcpContext$.pipe(
-    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
-  );
 }

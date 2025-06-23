@@ -3,10 +3,11 @@ import { ImageFetchPriority } from '@spartacus/storefront';
 import { LcpContext } from './lcp-context.model';
 
 /**
- * Easy extension point for the LcpToFetchPriorityPipe.
+ * Easy extension point for the mapping the LCP context to the
+ * image fetch priority.
  *
  * It's provided in the root injector, so can be easily overwritten,
- * as opposed to the pipe.
+ * as opposed to the directive.
  */
 @Injectable({ providedIn: 'root' })
 export class LcpToFetchPriorityService {

@@ -14,12 +14,13 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageComponentModule } from '../../../../cms-structure';
+import { LcpContextDirectiveModule } from '../../../../cms-structure/lcp-context/lcp-context-directive.module';
 import {
   CarouselModule,
   MediaModule,
 } from '../../../../shared/components/index';
-import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
+import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
     UrlModule,
     I18nModule,
     PageComponentModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

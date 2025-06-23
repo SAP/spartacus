@@ -12,9 +12,6 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { map } from 'rxjs';
-import { LCP_CONTEXT } from '../../../../cms-structure/lcp-context/lcp-context.model';
-import { LcpToFetchPriorityService } from '../../../../cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -53,12 +50,4 @@ export class ProductGridItemComponent implements OnChanges {
       this.productListItemContextSource.product$.next(this.product);
     }
   }
-
-  protected lcpContext$ = inject(LCP_CONTEXT);
-
-  // SPIKE TODO: replace with a separate directive
-  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
-  protected fetchPriority$ = this.lcpContext$.pipe(
-    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
-  );
 }
