@@ -20,7 +20,7 @@ import { LCP_CONTEXT } from './lcp-context.model';
   standalone: false,
 })
 export class LcpContextForCmsDirective {
-  @Input() cxCmsLcpContext: ContentSlotComponentData;
+  @Input() cxLcpContextForCms: ContentSlotComponentData;
 
   protected lcpContextForCmsService = inject(LcpContextForCmsService);
 

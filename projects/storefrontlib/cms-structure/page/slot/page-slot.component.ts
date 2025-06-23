@@ -31,7 +31,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { LcpContext } from '../../../cms-structure/lcp-context/lcp-context.model';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { LcpContextForCmsService } from '../../lcp-context/lcp-context-for-cms.service';
 import { PageSlotService } from './page-slot.service';
@@ -208,10 +207,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
           (el, index) => el.uid !== current.components?.[index].uid
         )
     );
-  }
-
-  getLcpContext(component: ContentSlotComponentData): Observable<LcpContext> {
-    return this.cmsMediaPriorityService.get(component);
   }
 
   ngOnDestroy() {
