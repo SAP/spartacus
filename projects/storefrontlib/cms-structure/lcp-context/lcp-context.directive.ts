@@ -1,5 +1,5 @@
 import { Directive, inject, Input, OnChanges } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, ReplaySubject } from 'rxjs';
 import { LCP_CONTEXT, LcpContext } from './lcp-context.model';
 
 @Directive({
@@ -22,6 +22,6 @@ export class LcpContextDirective implements OnChanges {
     this._value$.next(value);
   }
 
-  protected _value$ = new BehaviorSubject<LcpContext>(LcpContext.NONE);
-  protected readonly value$ = this._value$.asObservable();
+  protected _value$ = new ReplaySubject<LcpContext>(1);
+  protected readonly value$ = this._value$.pipe(distinctUntilChanged());
 }
