@@ -389,6 +389,8 @@ if (environment.cpq) {
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        readMoreDirective: true,
+        productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
