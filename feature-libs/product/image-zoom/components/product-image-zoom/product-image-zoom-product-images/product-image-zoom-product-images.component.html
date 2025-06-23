@@ -2,9 +2,9 @@
   <cx-media
     [container]="main"
     (click)="triggerZoom(true)"
-    cxLcpContextGetter
-    #cxLcpContextGetter="cxLcpContextGetter"
-    [fetchPriority]="cxLcpContextGetter.fetchPriority$ | async"
+    cxLcpContext
+    #cxLcpContext="cxLcpContext"
+    [fetchPriority]="cxLcpContext.fetchPriority$ | async"
   ></cx-media>
   <cx-product-image-zoom-trigger
     [expandImage]="expandImage.value"

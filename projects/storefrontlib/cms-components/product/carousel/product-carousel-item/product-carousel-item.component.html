@@ -3,10 +3,10 @@
     [container]="item.images?.PRIMARY"
     format="product"
     [alt]="item.name ?? ''"
-    cxLcpContextGetter
-    #cxLcpContextGetter="cxLcpContextGetter"
+    cxLcpContext
+    #cxLcpContext="cxLcpContext"
     [fetchPriority]="
-      itemIndex === 0 ? (cxLcpContextGetter.fetchPriority$ | async) : undefined
+      itemIndex === 0 ? (cxLcpContext.fetchPriority$ | async) : undefined
     "
   ></cx-media>
   <h3 class="cx-product-name">

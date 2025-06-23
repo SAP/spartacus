@@ -1,27 +1,20 @@
-import { Directive, inject, Input, OnChanges } from '@angular/core';
-import { distinctUntilChanged, ReplaySubject } from 'rxjs';
-import { LCP_CONTEXT, LcpContext } from './lcp-context.model';
+import { Directive, inject } from '@angular/core';
+import { map } from 'rxjs';
+import { LCP_CONTEXT } from './lcp-context.model';
+import { LcpToFetchPriorityMappingService } from './lcp-to-fetch-priority-mapping.service';
 
 @Directive({
   selector: '[cxLcpContext]',
-  providers: [
-    {
-      provide: LCP_CONTEXT,
-      useFactory: () => inject(LcpContextDirective).value$,
-    },
-  ],
+  exportAs: 'cxLcpContext',
   standalone: false,
 })
-export class LcpContextDirective implements OnChanges {
-  // SPIKE TODO: eliminate the need to handle `null`
+export class LcpContextDirective {
+  protected readonly lcpToFetchPriorityService = inject(
+    LcpToFetchPriorityMappingService
+  );
 
-  @Input() cxLcpContext: LcpContext | null = LcpContext.NONE;
-
-  ngOnChanges(): void {
-    let value = this.cxLcpContext ?? LcpContext.NONE;
-    this._value$.next(value);
-  }
-
-  protected _value$ = new ReplaySubject<LcpContext>(1);
-  protected readonly value$ = this._value$.pipe(distinctUntilChanged());
+  readonly lcpContext$ = inject(LCP_CONTEXT);
+  readonly fetchPriority$ = this.lcpContext$.pipe(
+    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
+  );
 }

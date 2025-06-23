@@ -10,17 +10,17 @@ import { LCP_CONTEXT } from './lcp-context.model';
  * contains an LCP (Largest Contentful Paint) element.
  */
 @Directive({
-  selector: '[cxLcpContextForCms]',
+  selector: '[cxProvideLcpContextForCms]',
   providers: [
     {
       provide: LCP_CONTEXT,
-      useFactory: () => inject(LcpContextForCmsDirective).value$,
+      useFactory: () => inject(ProvideLcpContextForCmsDirective).value$,
     },
   ],
   standalone: false,
 })
-export class LcpContextForCmsDirective {
-  @Input() cxLcpContextForCms: ContentSlotComponentData;
+export class ProvideLcpContextForCmsDirective {
+  @Input() cxProvideLcpContextForCms: ContentSlotComponentData;
 
   protected lcpContextForCmsService = inject(LcpContextForCmsService);
 
