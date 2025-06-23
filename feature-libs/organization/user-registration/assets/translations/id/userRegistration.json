@@ -1,66 +1,103 @@
 {
-  "userRegistrationForm": {
-    "fields": {
-      "titleCode": {
-        "label": "Gelar/Sapaan (opsional)",
-        "placeholder": "Gelar/Sapaan"
+  "userRegistrationForm" : {
+    "fields" : {
+      "titleCode" : {
+        "label" : "Gelar/Sapaan (opsional)",
+        "placeholder" : "Gelar/Sapaan"
       },
-      "firstName": {
-        "label": "Nama depan",
-        "placeholder": "Nama depan"
+      "titleCodeOnOTPForm" : {
+        "label" : "Gelar/Sapaan",
+        "placeholder" : "Pilih Gelar/Sapaan"
       },
-      "lastName": {
-        "label": "Nama belakang",
-        "placeholder": "Nama belakang"
+      "firstName" : {
+        "label" : "Nama depan",
+        "placeholder" : "Nama depan"
       },
-      "companyName": {
-        "label": "Nama perusahaan",
-        "placeholder": "Nama perusahaan"
+      "lastName" : {
+        "label" : "Nama belakang",
+        "placeholder" : "Nama belakang"
       },
-      "email": {
-        "label": "E-mail",
-        "placeholder": "E-mail"
+      "companyName" : {
+        "label" : "Nama perusahaan",
+        "placeholder" : "Nama perusahaan"
       },
-      "city": {
-        "label": "Kota/Kabupaten (opsional)",
-        "placeholder": "Harap pilih Kota/Kabupaten"
+      "email" : {
+        "label" : "E-mail",
+        "placeholder" : "E-mail"
       },
-      "country": {
-        "label": "Negara (opsional)",
-        "placeholder": "Pilih Negara"
+      "city" : {
+        "label" : "Kota/Kabupaten (opsional)",
+        "placeholder" : "Harap pilih Kota/Kabupaten"
       },
-      "state": {
-        "label": "Negara Bagian/Provinsi (opsional)",
-        "placeholder": "Pilih Negara Bagian/Provinsi"
+      "cityOnOTPForm" : {
+        "label" : "Kota/Kabupaten",
+        "placeholder" : "Harap pilih Kota/Kabupaten"
       },
-      "postalCode": {
-        "label": "Kode Pos (opsional)",
-        "placeholder": "Kode Pos"
+      "country" : {
+        "label" : "Negara (opsional)",
+        "placeholder" : "Pilih Negara"
       },
-      "addressLine": {
-        "label": "Alamat (opsional)",
-        "placeholder": "Alamat"
+      "countryOnOTPForm" : {
+        "label" : "Negara",
+        "placeholder" : "Pilih Negara"
       },
-      "secondAddressLine": {
-        "label": "Baris alamat 2 (opsional)",
-        "placeholder": "Baris alamat 2"
+      "state" : {
+        "label" : "Negara Bagian/Provinsi (opsional)",
+        "placeholder" : "Pilih Negara Bagian/Provinsi"
       },
-      "phoneNumber": {
-        "label": "Nomor telepon (opsional)",
-        "placeholder": "Nomor telepon"
+      "stateOnOTPForm" : {
+        "label" : "Negara Bagian/Provinsi",
+        "placeholder" : "Pilih Negara Bagian/Provinsi"
       },
-      "message": {
-        "label": "Pesan (opsional)",
-        "placeholder": "Contoh data pada bidang pesan: \"Departemen: Pelayanan Pesawat Udara di Darat; Posisi: Kepala Pengamanan; Melapor kepada: Steve Jackson; Komentar: Mohon buatkan akun baru untuk saya.\""
+      "postalCode" : {
+        "label" : "Kode Pos (opsional)",
+        "placeholder" : "Kode Pos"
+      },
+      "postalCodeOnOTPForm" : {
+        "label" : "Kode Pos",
+        "placeholder" : "Kode Pos"
+      },
+      "addressLine" : {
+        "label" : "Alamat (opsional)",
+        "placeholder" : "Alamat"
+      },
+      "addressLineOnOTPForm" : {
+        "label" : "Alamat",
+        "placeholder" : "Alamat"
+      },
+      "secondAddressLine" : {
+        "label" : "Baris alamat 2 (opsional)",
+        "placeholder" : "Baris alamat 2"
+      },
+      "secondAddressLineOnOTPForm" : {
+        "label" : "Baris alamat 2",
+        "placeholder" : "Baris alamat 2"
+      },
+      "phoneNumber" : {
+        "label" : "Nomor telepon (opsional)",
+        "placeholder" : "Nomor telepon"
+      },
+      "phoneNumberOnOTPForm" : {
+        "label" : "Nomor telepon",
+        "placeholder" : "Nomor telepon"
+      },
+      "message" : {
+        "label" : "Pesan (opsional)",
+        "placeholder" : "Contoh data pada bidang pesan: \"Departemen: Pelayanan Pesawat Udara di Darat; Posisi: Kepala Pengamanan; Melapor kepada: Steve Jackson; Komentar: Mohon buatkan akun baru untuk saya.\""
+      },
+      "messageOnOTPForm" : {
+        "label" : "Pesan",
+        "placeholder" : "Contoh data pada bidang pesan: \"Departemen: Pelayanan Pesawat Udara di Darat; Posisi: Kepala Pengamanan; Melapor kepada: Steve Jackson; Komentar: Mohon buatkan akun baru untuk saya.\""
       }
     },
-    "messageToApproverTemplate": "Nama perusahaan: {{companyName}},\n  Nomor telepon: {{phoneNumber}},\n  Alamat: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Pesan: {{message}}",
-    "successFormSubmitMessage": "Terima kasih sudah mendaftar! Seorang perwakilan akan segera menghubungi Anda untuk mengonfirmasi informasi akses Anda.",
-    "formSubmitButtonLabel": "Daftar",
-    "goToLoginButtonLabel": "Sudah terdaftar? Klik Masuk",
-    "httpHandlers": {
-      "conflict": "Pengguna dengan alamat email ini sudah ada."
+    "messageToApproverTemplate" : "Nama perusahaan: {{companyName}},\n  Nomor telepon: {{phoneNumber}},\n  Alamat: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Pesan: {{message}}",
+    "successFormSubmitMessage" : "Terima kasih sudah mendaftar! Seorang perwakilan akan segera menghubungi Anda untuk mengonfirmasi informasi akses Anda.",
+    "formSubmitButtonLabel" : "Daftar",
+    "continueWithOTP" : "Lanjutkan",
+    "goToLoginButtonLabel" : "Sudah terdaftar? Klik Masuk",
+    "httpHandlers" : {
+      "conflict" : "Pengguna dengan alamat email ini sudah ada."
     },
-    "messageToFailedToRegister": "Gagal mendaftar. Silakan hubungi admin untuk bantuan lebih lanjut."
+    "messageToFailedToRegister" : "Gagal mendaftar. Silakan hubungi admin untuk bantuan lebih lanjut."
   }
 }

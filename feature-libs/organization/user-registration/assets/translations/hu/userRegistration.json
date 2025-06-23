@@ -1,66 +1,103 @@
 {
-  "userRegistrationForm": {
-    "fields": {
-      "titleCode": {
-        "label": "Megszólítás (opcionális)",
-        "placeholder": "Megszólítás"
+  "userRegistrationForm" : {
+    "fields" : {
+      "titleCode" : {
+        "label" : "Megszólítás (opcionális)",
+        "placeholder" : "Megszólítás"
       },
-      "firstName": {
-        "label": "Utónév",
-        "placeholder": "Utónév"
+      "titleCodeOnOTPForm" : {
+        "label" : "Megszólítás",
+        "placeholder" : "Megszólítás kiválasztása"
       },
-      "lastName": {
-        "label": "Vezetéknév",
-        "placeholder": "Vezetéknév"
+      "firstName" : {
+        "label" : "Utónév",
+        "placeholder" : "Utónév"
       },
-      "companyName": {
-        "label": "Vállalat neve",
-        "placeholder": "Vállalat neve"
+      "lastName" : {
+        "label" : "Vezetéknév",
+        "placeholder" : "Vezetéknév"
       },
-      "email": {
-        "label": "E-mail",
-        "placeholder": "E-mail"
+      "companyName" : {
+        "label" : "Vállalat neve",
+        "placeholder" : "Vállalat neve"
       },
-      "city": {
-        "label": "Település (opcionális)",
-        "placeholder": "Válassza ki a települést"
+      "email" : {
+        "label" : "E-mail",
+        "placeholder" : "E-mail"
       },
-      "country": {
-        "label": "Ország (opcionális)",
-        "placeholder": "Válassza ki az országot"
+      "city" : {
+        "label" : "Település (opcionális)",
+        "placeholder" : "Válassza ki a települést"
       },
-      "state": {
-        "label": "Állam/tartomány (opcionális)",
-        "placeholder": "Válassza ki az államot/tartományt"
+      "cityOnOTPForm" : {
+        "label" : "Település",
+        "placeholder" : "Válassza ki a települést"
       },
-      "postalCode": {
-        "label": "Irányítószám (opcionális)",
-        "placeholder": "Irányítószám"
+      "country" : {
+        "label" : "Ország (opcionális)",
+        "placeholder" : "Válassza ki az országot"
       },
-      "addressLine": {
-        "label": "Cím (opcionális)",
-        "placeholder": "Cím"
+      "countryOnOTPForm" : {
+        "label" : "Ország",
+        "placeholder" : "Válassza ki az országot"
       },
-      "secondAddressLine": {
-        "label": "Cím 2. sora (opcionális)",
-        "placeholder": "Cím 2. sora"
+      "state" : {
+        "label" : "Állam/tartomány (opcionális)",
+        "placeholder" : "Válassza ki az államot/tartományt"
       },
-      "phoneNumber": {
-        "label": "Telefonszám (opcionális)",
-        "placeholder": "Telefonszám"
+      "stateOnOTPForm" : {
+        "label" : "Állam/tartomány",
+        "placeholder" : "Válassza ki az államot/tartományt"
       },
-      "message": {
-        "label": "Üzenet (opcionális)",
-        "placeholder": "Az üzenet mező példaadata: „Osztály: szárazföldi támogatás; Pozíció: vezető biztonsági hivatalnok; Felettes: Steve Jackson; Megjegyzés: Új fiók létrehozását szeretném igényelni”."
+      "postalCode" : {
+        "label" : "Irányítószám (opcionális)",
+        "placeholder" : "Irányítószám"
+      },
+      "postalCodeOnOTPForm" : {
+        "label" : "Irányítószám",
+        "placeholder" : "Irányítószám"
+      },
+      "addressLine" : {
+        "label" : "Cím (opcionális)",
+        "placeholder" : "Cím"
+      },
+      "addressLineOnOTPForm" : {
+        "label" : "Cím",
+        "placeholder" : "Cím"
+      },
+      "secondAddressLine" : {
+        "label" : "Cím 2. sora (opcionális)",
+        "placeholder" : "Cím 2. sora"
+      },
+      "secondAddressLineOnOTPForm" : {
+        "label" : "Cím 2. sora",
+        "placeholder" : "Cím 2. sora"
+      },
+      "phoneNumber" : {
+        "label" : "Telefonszám (opcionális)",
+        "placeholder" : "Telefonszám"
+      },
+      "phoneNumberOnOTPForm" : {
+        "label" : "Telefonszám",
+        "placeholder" : "Telefonszám"
+      },
+      "message" : {
+        "label" : "Üzenet (opcionális)",
+        "placeholder" : "Az üzenet mező példaadata: „Osztály: szárazföldi támogatás; Pozíció: vezető biztonsági hivatalnok; Felettes: Steve Jackson; Megjegyzés: Új fiók létrehozását szeretném igényelni”."
+      },
+      "messageOnOTPForm" : {
+        "label" : "Üzenet",
+        "placeholder" : "Az üzenet mező példaadata: „Osztály: szárazföldi támogatás; Pozíció: vezető biztonsági hivatalnok; Felettes: Steve Jackson; Megjegyzés: Új fiók létrehozását szeretném igényelni”."
       }
     },
-    "messageToApproverTemplate": "Vállalat neve: {{companyName}},\n  Telefonszám: {{phoneNumber}},\n  Cím: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Üzenet: {{message}}",
-    "successFormSubmitMessage": "Köszönjük a regisztrációt! Egy képviselőnk hamarosan felveszi Önnel a kapcsolatot, és tájékoztatja a hozzáférési információkról.",
-    "formSubmitButtonLabel": "Regisztráció",
-    "goToLoginButtonLabel": "Már regisztrált? Lépjen be.",
-    "httpHandlers": {
-      "conflict": "Már létezik felhasználó ezzel az e-mail-címmel."
+    "messageToApproverTemplate" : "Vállalat neve: {{companyName}},\n  Telefonszám: {{phoneNumber}},\n  Cím: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Üzenet: {{message}}",
+    "successFormSubmitMessage" : "Köszönjük a regisztrációt! Egy képviselőnk hamarosan felveszi Önnel a kapcsolatot, és tájékoztatja a hozzáférési információkról.",
+    "formSubmitButtonLabel" : "Regisztráció",
+    "continueWithOTP" : "Folytatás",
+    "goToLoginButtonLabel" : "Már regisztrált? Lépjen be.",
+    "httpHandlers" : {
+      "conflict" : "Már létezik felhasználó ezzel az e-mail-címmel."
     },
-    "messageToFailedToRegister": "Sikertelen regisztráció. További segítségért forduljon a rendszergazdájához."
+    "messageToFailedToRegister" : "Sikertelen regisztráció. További segítségért forduljon a rendszergazdájához."
   }
 }

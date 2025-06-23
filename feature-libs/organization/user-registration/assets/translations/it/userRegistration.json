@@ -1,66 +1,103 @@
 {
-  "userRegistrationForm": {
-    "fields": {
-      "titleCode": {
-        "label": "Titolo (facoltativo)",
-        "placeholder": "Titolo"
+  "userRegistrationForm" : {
+    "fields" : {
+      "titleCode" : {
+        "label" : "Titolo (facoltativo)",
+        "placeholder" : "Titolo"
       },
-      "firstName": {
-        "label": "Nome",
-        "placeholder": "Nome"
+      "titleCodeOnOTPForm" : {
+        "label" : "Titolo",
+        "placeholder" : "Seleziona un titolo"
       },
-      "lastName": {
-        "label": "Cognome",
-        "placeholder": "Cognome"
+      "firstName" : {
+        "label" : "Nome",
+        "placeholder" : "Nome"
       },
-      "companyName": {
-        "label": "Nome della società",
-        "placeholder": "Nome della società"
+      "lastName" : {
+        "label" : "Cognome",
+        "placeholder" : "Cognome"
       },
-      "email": {
-        "label": "E-mail",
-        "placeholder": "E-mail"
+      "companyName" : {
+        "label" : "Nome della società",
+        "placeholder" : "Nome della società"
       },
-      "city": {
-        "label": "Città (facoltativo)",
-        "placeholder": "Seleziona la città"
+      "email" : {
+        "label" : "E-mail",
+        "placeholder" : "E-mail"
       },
-      "country": {
-        "label": "Paese (facoltativo)",
-        "placeholder": "Seleziona un paese"
+      "city" : {
+        "label" : "Città (facoltativo)",
+        "placeholder" : "Seleziona una città"
       },
-      "state": {
-        "label": "Stato/Provincia (facoltativo)",
-        "placeholder": "Seleziona Stato/Provincia"
+      "cityOnOTPForm" : {
+        "label" : "Città",
+        "placeholder" : "Seleziona una città"
       },
-      "postalCode": {
-        "label": "CAP/Codice postale (facoltativo)",
-        "placeholder": "CAP/codice postale"
+      "country" : {
+        "label" : "Paese (facoltativo)",
+        "placeholder" : "Seleziona un paese"
       },
-      "addressLine": {
-        "label": "Indirizzo (facoltativo)",
-        "placeholder": "Indirizzo"
+      "countryOnOTPForm" : {
+        "label" : "Paese",
+        "placeholder" : "Seleziona un paese"
       },
-      "secondAddressLine": {
-        "label": "Riga 2 indirizzo (facoltativa)",
-        "placeholder": "Riga 2 indirizzo"
+      "state" : {
+        "label" : "Stato/provincia (facoltativo)",
+        "placeholder" : "Seleziona uno stato/provincia"
       },
-      "phoneNumber": {
-        "label": "Numero di telefono (facoltativo)",
-        "placeholder": "Numero di telefono"
+      "stateOnOTPForm" : {
+        "label" : "Stato/provincia",
+        "placeholder" : "Seleziona uno stato/provincia"
       },
-      "message": {
-        "label": "Messaggio (facoltativo)",
-        "placeholder": "Dati di esempio per il campo messaggio: \"Reparto: supporto a terra; posizione: capo della sicurezza; superiore: Paolo Rossi; commento: crea nuovo account per me\"."
+      "postalCode" : {
+        "label" : "CAP/Codice postale (facoltativo)",
+        "placeholder" : "CAP/codice postale"
+      },
+      "postalCodeOnOTPForm" : {
+        "label" : "CAP/codice postale",
+        "placeholder" : "CAP/codice postale"
+      },
+      "addressLine" : {
+        "label" : "Indirizzo (facoltativo)",
+        "placeholder" : "Indirizzo"
+      },
+      "addressLineOnOTPForm" : {
+        "label" : "Indirizzo",
+        "placeholder" : "Indirizzo"
+      },
+      "secondAddressLine" : {
+        "label" : "Riga 2 indirizzo (facoltativa)",
+        "placeholder" : "Riga 2 indirizzo"
+      },
+      "secondAddressLineOnOTPForm" : {
+        "label" : "Riga 2 indirizzo",
+        "placeholder" : "Riga 2 indirizzo"
+      },
+      "phoneNumber" : {
+        "label" : "Numero di telefono (facoltativo)",
+        "placeholder" : "Numero di telefono"
+      },
+      "phoneNumberOnOTPForm" : {
+        "label" : "Numero di telefono",
+        "placeholder" : "Numero di telefono"
+      },
+      "message" : {
+        "label" : "Messaggio (facoltativo)",
+        "placeholder" : "Dati di esempio per il campo messaggio: \"Reparto: supporto a terra; posizione: capo della sicurezza; superiore: Paolo Rossi; commento: crea nuovo account per me\"."
+      },
+      "messageOnOTPForm" : {
+        "label" : "Messaggio",
+        "placeholder" : "Dati di esempio per il campo messaggio: \"Reparto: supporto a terra; posizione: capo della sicurezza; superiore: Paolo Rossi; commento: crea nuovo account per me\"."
       }
     },
-    "messageToApproverTemplate": "Nome società: {{companyName}},\n  Numero di telefono: {{phoneNumber}},\n  Indirizzo: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Messaggio: {{message}}",
-    "successFormSubmitMessage": "Grazie della registrazione. Un rappresentante ti contatterà a breve e confermerà le tue informazioni di accesso.",
-    "formSubmitButtonLabel": "Registrati",
-    "goToLoginButtonLabel": "Hai già effettuato la registrazione? Passa all'accesso",
-    "httpHandlers": {
-      "conflict": "Un utente con questo indirizzo e-mail esiste già."
+    "messageToApproverTemplate" : "Nome società: {{companyName}},\n  Numero di telefono: {{phoneNumber}},\n  Indirizzo: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},\n  Messaggio: {{message}}",
+    "successFormSubmitMessage" : "Grazie della registrazione. Un rappresentante ti contatterà a breve e confermerà le tue informazioni di accesso.",
+    "formSubmitButtonLabel" : "Registrati",
+    "continueWithOTP" : "Continua",
+    "goToLoginButtonLabel" : "Hai già effettuato la registrazione? Passa all'accesso",
+    "httpHandlers" : {
+      "conflict" : "Un utente con questo indirizzo e-mail esiste già."
     },
-    "messageToFailedToRegister": "Registrazione non riuscita. Contatta l'amministratore per ulteriore assistenza."
+    "messageToFailedToRegister" : "Registrazione non riuscita. Contatta l'amministratore per ulteriore assistenza."
   }
 }
