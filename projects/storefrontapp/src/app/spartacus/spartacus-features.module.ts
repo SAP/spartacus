@@ -383,12 +383,14 @@ if (environment.cpq) {
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
-        showRealTimeStockInPDP: false,
+        showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        readMoreDirective: true,
+        productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
@@ -400,6 +402,7 @@ if (environment.cpq) {
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
+        createMediaPreconnectLink: true,
       };
       return appFeatureToggles;
     }),
