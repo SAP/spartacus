@@ -1,3 +1,4 @@
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -5,7 +6,14 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { delay, Observable, of, switchMap, throwError, timer } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { I18nTestingModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  OrderAttachments,
+  OrderAttachmentsFacade,
+  OrderConfig,
+} from '@spartacus/order/root';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -13,16 +21,9 @@ import {
   MessageComponentModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { I18nTestingModule, provideDefaultConfig } from '@spartacus/core';
+import { delay, Observable, of, switchMap, throwError, timer } from 'rxjs';
 import { OrderAttachmentsDialogComponent } from './order-attachments-dialog.component';
-import { By } from '@angular/platform-browser';
-import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import createSpy = jasmine.createSpy;
-import {
-  OrderAttachments,
-  OrderAttachmentsFacade,
-} from '@spartacus/order/root';
-import { OrderConfig } from '@spartacus/order/root';
 
 const orderCode = '00001004';
 
@@ -97,6 +98,7 @@ describe('OrderAttachmentsDialogComponent', () => {
         SpinnerModule,
         KeyboardFocusModule,
         MessageComponentModule,
+        StoreModule.forRoot({}),
       ],
       declarations: [OrderAttachmentsDialogComponent],
       providers: [

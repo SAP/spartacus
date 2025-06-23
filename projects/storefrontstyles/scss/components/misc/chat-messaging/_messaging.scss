@@ -30,9 +30,7 @@
         margin-bottom: 0;
         font-size: var(--cx-font-size, 0.875rem);
 
-        @include forFeature('a11yImproveContrast') {
-          @include type('4');
-        }
+        @include type('4');
       }
 
       .cx-message-card {
@@ -157,9 +155,7 @@
           text-align: end;
           margin: 0;
 
-          @include forFeature('a11yImproveContrast') {
-            @include type('8');
-          }
+          @include type('8');
         }
       }
     }
