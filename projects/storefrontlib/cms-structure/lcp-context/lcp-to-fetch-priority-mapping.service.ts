@@ -10,7 +10,7 @@ import { LcpContext } from './lcp-context.model';
  * as opposed to the directive.
  */
 @Injectable({ providedIn: 'root' })
-export class LcpToFetchPriorityService {
+export class LcpToFetchPriorityMappingService {
   map(lcpContext: LcpContext): ImageFetchPriority | undefined {
     if (lcpContext === LcpContext.CONTAINS_LCP) {
       return ImageFetchPriority.HIGH;

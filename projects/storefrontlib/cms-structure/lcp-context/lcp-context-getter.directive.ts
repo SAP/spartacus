@@ -1,7 +1,7 @@
 import { Directive, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { LCP_CONTEXT } from './lcp-context.model';
-import { LcpToFetchPriorityService } from './lcp-to-fetch-priority.service';
+import { LcpToFetchPriorityMappingService } from './lcp-to-fetch-priority-mapping.service';
 
 @Directive({
   selector: '[cxLcpContextGetter]',
@@ -10,7 +10,7 @@ import { LcpToFetchPriorityService } from './lcp-to-fetch-priority.service';
 })
 export class GetLcpContextDirective {
   protected readonly lcpToFetchPriorityService = inject(
-    LcpToFetchPriorityService
+    LcpToFetchPriorityMappingService
   );
 
   readonly lcpContext$ = inject(LCP_CONTEXT);

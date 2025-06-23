@@ -33,7 +33,7 @@ import {
 } from 'rxjs/operators';
 import { LcpContext } from '../../../cms-structure/lcp-context/lcp-context.model';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
-import { CmsMediaPriorityService } from '../../lcp-context/cms-media-priority.service';
+import { LcpContextForCmsService } from '../../lcp-context/lcp-context-for-cms.service';
 import { PageSlotService } from './page-slot.service';
 
 /**
@@ -121,7 +121,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected pageSlotService: PageSlotService
   ) {}
 
-  protected cmsMediaPriorityService = inject(CmsMediaPriorityService);
+  protected cmsMediaPriorityService = inject(LcpContextForCmsService);
 
   ngOnInit() {
     this.subscription.add(
@@ -211,7 +211,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   }
 
   getLcpContext(component: ContentSlotComponentData): Observable<LcpContext> {
-    return this.cmsMediaPriorityService.getContext(component);
+    return this.cmsMediaPriorityService.get(component);
   }
 
   ngOnDestroy() {
