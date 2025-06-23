@@ -85,7 +85,6 @@ export function openPunchoutSession(punchoutSession, addItem?: boolean): any {
     })
     .then((cart) => {
       punchoutSession.cartId = (cart as any).body.code;
-      mockPunchoutSession.cartId = punchoutSession.cartId;
       if (addItem) {
         return addProductToB2BCart(
           punchoutSession.cartId,

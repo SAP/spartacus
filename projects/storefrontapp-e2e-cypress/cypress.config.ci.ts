@@ -31,7 +31,6 @@ export default defineConfig({
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
     MAIL_CCV2_URL: 'http://mail-ccv2.westeurope.azurecontainer.io:8025',
     MAIL_CCV2_PREFIX: '/api/v2',
-    PUNCHOUT: true,
   },
   e2e: {
     // We've imported your old cypress plugins here.
