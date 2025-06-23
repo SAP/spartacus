@@ -143,19 +143,23 @@ const isContinuumAvailable = () => {
 // We assume that unconfirmed violations are not critical, so we log them instead of failing the test.
 const getConfirmedConcerns = (
   accessibilityConcerns,
-  logPossibleConcerns = true
+  logPotentialConcerns = true
 ) => {
   return accessibilityConcerns.filter((concern) => {
-    if (concern._needsReview && logPossibleConcerns) {
-      cy.get(concern.path, { log: false }).then((node) => {
-        const originalNodeShadow = node.css('box-shadow');
-        node.css('box-shadow', '0 0 10px 10px orange');
-        cy.a11yWarning(concern).then(() => {
-          node.css('box-shadow', originalNodeShadow);
-        });
-      });
+    if (concern._needsReview && logPotentialConcerns) {
+      displayPotentialConcern(concern);
     }
     return !concern._needsReview;
+  });
+};
+
+const displayPotentialConcern = (concern) => {
+  cy.get(concern.path, { log: false }).then((node) => {
+    const originalNodeShadow = node.css('box-shadow');
+    node.css('box-shadow', '0 0 10px 10px orange');
+    cy.a11yWarning(concern).then(() => {
+      node.css('box-shadow', originalNodeShadow);
+    });
   });
 };
 
@@ -206,6 +210,7 @@ const a11yWarning = (concern) => {
         attribute: concern.attribute,
         description: concern.bestPracticeDescription,
         url: concern.bestPracticeDetailsUrl,
+        bestPracticeId: concern._bestPracticeId,
       }),
     });
   });
