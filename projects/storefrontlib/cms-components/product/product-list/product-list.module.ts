@@ -15,6 +15,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { LcpContextDirectiveModule } from '../../../cms-structure/lcp-context/lcp-context-directive.module';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
@@ -32,8 +33,8 @@ import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
-import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductListService } from './product-list.service';
+import { ProductViewComponent } from './product-view/product-view.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { ProductListService } from './product-list.service';
     StarRatingModule,
     UrlModule,
     FeaturesConfigModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     ProductListService,

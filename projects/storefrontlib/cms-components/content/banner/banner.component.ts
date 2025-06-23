@@ -18,9 +18,10 @@ import {
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { MEDIA_PRIORITY_CONTEXT } from 'projects/storefrontlib/cms-structure/media-priority/media-priority-context.token';
+import { LcpToFetchPriorityService } from 'projects/storefrontlib/cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { LCP_CONTEXT } from '../../../cms-structure/lcp-context';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -46,11 +47,6 @@ export class BannerComponent {
     protected urlService: SemanticPathService,
     protected cmsService: CmsService
   ) {}
-
-  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
-  fetchPriority$ = this.mediaPriorityContext$.pipe(
-    map((context) => context.fetchPriority)
-  );
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the
@@ -111,4 +107,12 @@ export class BannerComponent {
 
     return data.headline ?? imgAltText;
   }
+
+  protected lcpContext$ = inject(LCP_CONTEXT);
+
+  // SPIKE TODO: replace with a separate directive
+  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
+  protected fetchPriority$ = this.lcpContext$.pipe(
+    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
+  );
 }

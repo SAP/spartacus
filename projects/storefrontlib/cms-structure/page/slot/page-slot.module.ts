@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MediaPriorityContextDirectiveModule } from '../../media-priority/media-priority-context-directive.module';
+import { LcpContextDirectiveModule } from '../../lcp-context/lcp-context-directive.module';
 import { OutletModule } from '../../outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
 import { PageSlotComponent } from './page-slot.component';
@@ -17,7 +17,7 @@ import { PageSlotService } from './page-slot.service';
     CommonModule,
     OutletModule,
     PageComponentModule,
-    MediaPriorityContextDirectiveModule,
+    LcpContextDirectiveModule,
   ],
   declarations: [PageSlotComponent],
   exports: [PageSlotComponent],

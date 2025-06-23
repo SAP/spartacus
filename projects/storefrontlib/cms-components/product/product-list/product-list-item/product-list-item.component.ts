@@ -13,7 +13,8 @@ import {
   inject,
 } from '@angular/core';
 import { map } from 'rxjs';
-import { MEDIA_PRIORITY_CONTEXT } from '../../../../cms-structure/media-priority/media-priority-context.token';
+import { LCP_CONTEXT } from '../../../../cms-structure/lcp-context/lcp-context.model';
+import { LcpToFetchPriorityService } from '../../../../cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -53,8 +54,11 @@ export class ProductListItemComponent implements OnChanges {
     }
   }
 
-  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
-  fetchPriority$ = this.mediaPriorityContext$.pipe(
-    map((context) => context.fetchPriority)
+  protected lcpContext$ = inject(LCP_CONTEXT);
+
+  // SPIKE TODO: replace with a separate directive
+  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
+  protected fetchPriority$ = this.lcpContext$.pipe(
+    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
   );
 }

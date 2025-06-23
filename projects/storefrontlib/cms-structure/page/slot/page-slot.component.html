@@ -13,7 +13,7 @@
     >
       <ng-container
         [cxComponentWrapper]="component"
-        [cxMediaPriorityContext]="getMediaPriorityContext(component) | async"
+        [cxLcpContext]="getLcpContext(component) | async"
       ></ng-container>
     </ng-template>
   </ng-container>

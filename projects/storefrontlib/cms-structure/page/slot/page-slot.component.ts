@@ -31,9 +31,9 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { LcpContext } from '../../../cms-structure/lcp-context/lcp-context.model';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
-import { CmsMediaPriorityService } from '../../media-priority/cms-media-priority.service';
-import { MediaPriorityContext } from '../../media-priority/media-priority-context.model';
+import { CmsMediaPriorityService } from '../../lcp-context/cms-media-priority.service';
 import { PageSlotService } from './page-slot.service';
 
 /**
@@ -210,9 +210,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  getMediaPriorityContext(
-    component: ContentSlotComponentData
-  ): Observable<MediaPriorityContext> {
+  getLcpContext(component: ContentSlotComponentData): Observable<LcpContext> {
     return this.cmsMediaPriorityService.getContext(component);
   }
 

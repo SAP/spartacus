@@ -13,8 +13,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { MEDIA_PRIORITY_CONTEXT } from 'projects/storefrontlib/cms-structure/media-priority/media-priority-context.token';
 import { map } from 'rxjs';
+import { LCP_CONTEXT } from '../../../../cms-structure/lcp-context/lcp-context.model';
+import { LcpToFetchPriorityService } from '../../../../cms-structure/lcp-context/lcp-to-fetch-priority.service';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -38,11 +39,6 @@ export class ProductCarouselItemComponent implements OnChanges {
 
   @Input() itemIndex?: number;
 
-  protected mediaPriorityContext$ = inject(MEDIA_PRIORITY_CONTEXT);
-  fetchPriority$ = this.mediaPriorityContext$.pipe(
-    map((context) => context.fetchPriority)
-  );
-
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
   ) {}
@@ -52,4 +48,12 @@ export class ProductCarouselItemComponent implements OnChanges {
       this.productListItemContextSource.product$.next(this.item);
     }
   }
+
+  protected lcpContext$ = inject(LCP_CONTEXT);
+
+  // SPIKE TODO: replace with a separate directive
+  protected lcpToFetchPriorityService = inject(LcpToFetchPriorityService);
+  protected fetchPriority$ = this.lcpContext$.pipe(
+    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext))
+  );
 }
