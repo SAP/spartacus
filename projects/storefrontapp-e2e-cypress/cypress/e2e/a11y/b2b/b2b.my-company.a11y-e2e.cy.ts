@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
+import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
 
 const MY_COMPANY_URL = '/organization';
 

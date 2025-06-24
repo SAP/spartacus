@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
+import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
 import { SKELETON_SELECTOR } from './b2b.my-company-account-summaries.a11y-e2e.cy';
 
 const MY_COMPANY_URL = '/organization/units';

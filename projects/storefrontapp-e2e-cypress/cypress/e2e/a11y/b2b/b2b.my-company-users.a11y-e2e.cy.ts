@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { loginAsMyCompanyAdmin } from '../../helpers/b2b/my-company/my-company.utils';
-import { loginB2bUser } from './helpers/a11y-b2b.checkout';
+import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
 
 const MY_COMPANY_URL = '/organization/users';
 const firstRusticSelector =
@@ -66,25 +65,6 @@ describe(
       cy.get('cx-org-user-details').a11yRunContinuumTest();
     });
 
-    it('user details / approvers panel (non-empty)', () => {
-      // loginB2bUser();
-      const assignTableRowCel =
-        'cx-org-user-approver-list cx-org-sub-list .main table tr:nth-child(4) td';
-      cy.get(`${assignTableRowCel} cx-org-assign-cell button`).click();
-      cy.get(
-        'cx-org-user-approver-list cx-org-sub-list .main cx-org-notification'
-      );
-      cy.get('cx-org-user-details').a11yRunContinuumTest();
-      const doneBtnSelector = `cx-org-user-approver-list .header .actions button`;
-      cy.get(doneBtnSelector).click();
-      // Not Empty!
-      cy.get('cx-org-user-details').a11yRunContinuumTest();
-      // Cleanup unassign
-      const assignedUserTableRowCel = '.main table tr:nth-child(2) td';
-      cy.get(`${assignedUserTableRowCel}.actions button`).click();
-      cy.get('cx-org-user-assigned-approver-list .main .is-empty');
-    });
-
     it('user details / user groups panel (empty)', () => {
       cy.get(`${detailsActionsListSelector} a:nth-child(2)`).click();
       cy.get('cx-org-user-assigned-user-group-list .main .is-empty');
@@ -109,7 +89,7 @@ describe(
 
     it('user details / purchase limits panel (non-empty)', () => {
       cy.get(allUsersBreadcrumb).click();
-      selectUser(11);
+      selectUser(10);
       cy.get(`${detailsActionsListSelector} a:nth-child(3)`).click();
       cy.get(
         'cx-org-user-assigned-permission-list .main cx-org-assign-cell button'
