@@ -22,6 +22,30 @@ export class CmsLcpService {
    * - statically in the Spartacus configuration `config.lcpCmsComponents.ids`
    * - and dynamically configuring a special marker `config.lcpCmsComponentIdMarker`
    *    (i.e. when the CMS component ID contains a specific marker, for example "__cxLCP__").
+   *
+   * If a certain component is shared across multiple pages, but it's the LCP only on some of them,
+   * you can extend this service to implement custom logic. The following is an example of marking
+   * a 'SharedBanner` component as LCP only on the homepage, but not on other pages:
+   * ```typescript
+   * export class CustomCmsLcpService extends CmsLcpService {
+   *   routingService = inject(RoutingService);
+   *   getLcpPresence(
+   *     componentData: ContentSlotComponentData
+   *   ): Observable<LcpPresence> {
+   *     return this.routingService.getRouterState().pipe(
+   *       switchMap((routerState) => {
+   *         const semanticRoute = routerState?.state?.semanticRoute;
+   *         if (componentData?.uid === 'SharedBanner') {
+   *           return of(
+   *             semanticRoute === 'home' ? LcpPresence.HAS_LCP : LcpPresence.NO_LCP
+   *           );
+   *         }
+   *         return super.getLcpPresence(componentData);
+   *       })
+   *     );
+   *   }
+   * }
+   * ```
    */
   getLcpPresence(
     componentData: ContentSlotComponentData
