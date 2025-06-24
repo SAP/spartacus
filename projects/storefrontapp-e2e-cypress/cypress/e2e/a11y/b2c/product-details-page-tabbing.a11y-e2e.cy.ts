@@ -14,12 +14,12 @@ context('Product details', { testIsolation: false }, () => {
 
     describe('Electronics', () => {
       before(productDetails.configureDefaultProduct);
-      productDetails.productDetailsTest();
+      productDetails.verifyTabKeyboardNavigation();
     });
 
     describe('Apparel', () => {
-      before(productDetails.configureApparelProduct);
-      productDetails.apparelProductDetailsTest();
+      productDetails.configureApparelProduct;
+      productDetails.verifyTabKeyboardNavigation();
     });
   });
 });
@@ -30,12 +30,12 @@ context('Product details', { testIsolation: false }, () => {
 
     describe('Electronics', () => {
       before(productDetails.configureDefaultProduct);
-      productDetails.productDetailsTest();
+      productDetails.verifyTabKeyboardNavigation(true);
     });
 
     describe('Apparel', () => {
-      before(productDetails.configureApparelProduct);
-      productDetails.apparelProductDetailsTest();
+      productDetails.configureApparelProduct;
+      productDetails.verifyTabKeyboardNavigation(true);
     });
   });
 });
