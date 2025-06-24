@@ -3,7 +3,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  RoutingService,
+  FeatureConfigService,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -138,11 +143,15 @@ class MockConfiguratorPriceComponent {
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
-
         MockConfiguratorPriceComponent,
       ],
       providers: [
@@ -437,11 +446,30 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('Accessibility', () => {
-    beforeEach(() => {
+    function setFeatureToggle(negated = false) {
+      spyOn(TestBed.inject(FeatureConfigService), 'isEnabled').and.callFake(
+        (feature: string) => {
+          if (negated) {
+            return feature === '!a11yConfiguratorOverviewHeaderVPC';
+          }
+          return feature === 'a11yConfiguratorOverviewHeaderVPC';
+        }
+      );
       initialize();
-    });
+    }
+
+    function expectSpan(
+      container: HTMLElement,
+      selector: string,
+      expectedText: string
+    ) {
+      const span = container.querySelector(selector);
+      expect(span).toBeDefined();
+      expect(span?.textContent?.trim()).toBe(expectedText);
+    }
 
     it("should contain action span element with class name 'cx-visually-hidden' that hides element on the UI", () => {
+      initialize();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -454,17 +482,28 @@ describe('ConfigurationOverviewFormComponent', () => {
       );
     });
 
-    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        'cx-visually-hidden',
-        1,
-        undefined,
-        undefined,
+    it("should contain action span element with class name 'cx-visually-hidden' within a H2 section, that hides span element content on the UI", () => {
+      setFeatureToggle();
+
+      const h2s = htmlElem.querySelectorAll('h2');
+      expectSpan(
+        h2s[0] as HTMLElement,
+        'span.cx-visually-hidden',
         'configurator.a11y.group group:Group 1'
       );
+      expectSpan(h2s[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
+    });
+
+    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+      setFeatureToggle(false);
+
+      const divs = htmlElem.querySelectorAll('div.cx-group.topLevel');
+      expectSpan(
+        divs[0] as HTMLElement,
+        'span.cx-visually-hidden',
+        'configurator.a11y.group group:Group 1'
+      );
+      expectSpan(divs[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
     });
   });
 
