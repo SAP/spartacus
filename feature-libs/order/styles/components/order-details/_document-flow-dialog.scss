@@ -26,11 +26,6 @@
       overflow-y: auto;
 
       .cx-dialog-message {
-        button.close {
-          @include type('4');
-          align-self: start;
-        }
-
         .cx-message-text {
           @include type('8');
         }
@@ -78,6 +73,10 @@
 
         tbody {
           tr {
+            &.selected {
+              background-color: var(--cx-color-background);
+            }
+
             td {
               padding: .5rem;
 
@@ -109,11 +108,8 @@
       }
 
       .cx-mobile-header {
+        padding-inline-end: .3rem;
         font-weight: bold;
-
-        &::after {
-          content: ': ';
-        }
       }
 
       .cx-desktop-only {

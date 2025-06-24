@@ -24,6 +24,7 @@ export class OrderSubsequentDocumentList {
   iconTypes = ICON_TYPE;
 
   @Input() documents: SapOrderSubsequentDocument[];
+  @Input() selectedDocument?: SapOrderSubsequentDocument;
   @Output() documentSelected = new EventEmitter<SapOrderSubsequentDocument>;
 
   onDocumentSelection(document: SapOrderSubsequentDocument): void {

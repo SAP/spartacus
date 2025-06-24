@@ -9,19 +9,16 @@
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div id="dialogTitle" class="cx-dialog-title modal-title">
-        <ng-container *ngIf="!(selectedDocument$ | async)">
-          <div>
+        <ng-container *ngIf="!displayDocumentEntries() else entriesHeader">
             <span>
               {{ 'documentFlow.dialog.title' | cxTranslate }}
             </span>
-          </div>
         </ng-container>
-        <ng-container *ngIf="selectedDocument$ | async as selectedDocument">
-          <div>
+        <ng-template #entriesHeader>
             <span>
               <button
                 class="btn-tertiary back"
-                title="{{ 'documentFlow.dialog.orderItems' | cxTranslate }}"
+                title="{{ 'common.back' | cxTranslate }}"
                 (click)="goBack()"
               >
                 <cx-icon
@@ -30,9 +27,9 @@
                 ></cx-icon>
               </button>
             </span>
-            <span>{{ selectedDocument.sapDocumentCategory + ' ' + selectedDocument.sapDocumentId }}</span>
-          </div>
-        </ng-container>
+          <span
+            *ngIf="selectedDocument$ | async as document">{{ document.sapDocumentCategory + ' ' + document.sapDocumentId }}</span>
+        </ng-template>
       </div>
       <button
         type="button"
@@ -49,12 +46,13 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body" #scrollContainer>
-      <ng-container *ngIf="!(selectedDocument$ | async) else entries">
-        <ng-container *ngIf="documents$ | async as documents else spinner">
-          <ng-container *ngIf="!loadError() else error">
+      <ng-container *ngIf="!loadError() else error">
+        <ng-container *ngIf="!displayDocumentEntries() else entries">
+          <ng-container *ngIf="documents$ | async as documents else spinner">
             <ng-container *ngIf="documents.length > 0 else empty">
               <cx-order-subsequent-document-list
                 [documents]="documents"
+                [selectedDocument]="selectedDocument$ | async"
                 (documentSelected)="onDocumentSelection($event)"
               ></cx-order-subsequent-document-list>
             </ng-container>
@@ -64,10 +62,8 @@
 
       <ng-template #entries>
         <ng-container *ngIf="selectedDocumentEntries$ | async as entries else spinner">
-          <ng-container *ngIf="!loadError() else error">
-            <ng-container *ngIf="entries.length > 0 else empty">
-              <cx-order-document-order-entry-list [entries]="entries"></cx-order-document-order-entry-list>
-            </ng-container>
+          <ng-container *ngIf="entries.length > 0 else empty">
+            <cx-order-document-order-entry-list [entries]="entries"></cx-order-document-order-entry-list>
           </ng-container>
         </ng-container>
       </ng-template>

@@ -214,9 +214,8 @@
       "orderItems": "Order Items",
       "deliveryItemId": "Delivery Item ID",
       "orderItemId": "Order Item ID",
-      "fetchError": "An error has occurred. Refresh the page or try again later.",
-      "empty": "Documents are unavailable. You can view the documents here once they are added.",
-      "documentFetchError": "An error occurred while fetching documents. Refresh the page or try again later."
+      "error": "Please try again later as an error occurred while retrieving the documents.",
+      "empty": "Documents are available here after they are added to an order in the backend SAP S/4HANA system."
     }
   }
 }

@@ -10,7 +10,7 @@ import {
   Component,
   DestroyRef, ElementRef,
   inject,
-  signal, ViewChild,
+  signal, ViewChild
 } from '@angular/core';
 import { GlobalMessageType, TranslationService, isNotNullable } from '@spartacus/core';
 import {
@@ -52,14 +52,12 @@ export class OrderDocumentFlowDialogComponent {
     focusOnEscape: true,
   };
 
-  loadError = signal(false);
-  protected selectedDocumentSubject =
-    new BehaviorSubject<SapOrderSubsequentDocument | undefined>(undefined);
-  selectedDocument$ = this.selectedDocumentSubject.asObservable();
+  displayDocumentEntries = signal(false);
 
   orderCode$: Observable<string> = this.launchDialogService.data$.pipe(
     map((data) => data.orderCode),
   );
+
   documents$: Observable<SapOrderSubsequentDocument[]> = this.orderCode$.pipe(
     switchMap(orderId => this.orderDocumentFlowFacade.getOrderSubsequentDocuments(orderId)),
     map(documents => documents.sapOrderSubsequentDocuments ?? []),
@@ -69,6 +67,11 @@ export class OrderDocumentFlowDialogComponent {
     }),
     shareReplay(),
   );
+  loadError = signal(false);
+
+  protected selectedDocumentSubject =
+    new BehaviorSubject<SapOrderSubsequentDocument | undefined>(undefined);
+  selectedDocument$: Observable<SapOrderSubsequentDocument | undefined> = this.selectedDocumentSubject.asObservable();
 
   protected documentEntriesCache = new Map<string, SapOrderSubsequentDocumentEntry[]>;
   selectedDocumentEntries$: Observable<SapOrderSubsequentDocumentEntry[]> = this.selectedDocument$.pipe(
@@ -94,12 +97,13 @@ export class OrderDocumentFlowDialogComponent {
   onDocumentSelection(document: SapOrderSubsequentDocument): void {
     this.saveScrollPosition();
     this.selectedDocumentSubject.next(document);
+    this.displayDocumentEntries.set(true);
   }
 
   goBack(): void {
-    this.restoreScrollPosition();
-    this.selectedDocumentSubject.next(undefined);
+    this.displayDocumentEntries.set(false);
     this.loadError.set(false);
+    this.restoreScrollPosition();
   }
 
   close(reason: string): void {
