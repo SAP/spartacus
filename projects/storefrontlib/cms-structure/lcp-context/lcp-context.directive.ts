@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { ImageFetchPriority } from '../shared/components/media/media.model';
+import { ImageFetchPriority } from '../../shared/components/media/media.model';
 import { LCP_CONTEXT, LcpContext } from './lcp-context.model';
 import { LcpToFetchPriorityMappingService } from './lcp-to-fetch-priority-mapping.service';
 
