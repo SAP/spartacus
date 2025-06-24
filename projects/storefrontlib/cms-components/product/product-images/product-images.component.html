@@ -1,10 +1,10 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media
-    [container]="main"
-    cxLcpContext
-    #cxLcpContext="cxLcpContext"
-    [fetchPriority]="cxLcpContext.fetchPriority$ | async"
-  ></cx-media>
+  <ng-container *cxLcpContext="let lcpContext">
+    <cx-media
+      [container]="main"
+      [fetchPriority]="lcpContext.fetchPriority$ | async"
+    ></cx-media>
+  </ng-container>
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">

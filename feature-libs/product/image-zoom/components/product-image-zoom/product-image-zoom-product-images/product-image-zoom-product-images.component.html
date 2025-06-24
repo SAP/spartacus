@@ -1,11 +1,11 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media
-    [container]="main"
-    (click)="triggerZoom(true)"
-    cxLcpContext
-    #cxLcpContext="cxLcpContext"
-    [fetchPriority]="cxLcpContext.fetchPriority$ | async"
-  ></cx-media>
+  <ng-container *cxLcpContext="let lcpContext">
+    <cx-media
+      [container]="main"
+      (click)="triggerZoom(true)"
+      [fetchPriority]="lcpContext.fetchPriority$ | async"
+    ></cx-media>
+  </ng-container>
   <cx-product-image-zoom-trigger
     [expandImage]="expandImage.value"
     [galleryIndex]="selectedIndex"
