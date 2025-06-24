@@ -1,6 +1,6 @@
 import { Directive, inject, Input, OnChanges } from '@angular/core';
-import { distinctUntilChanged, ReplaySubject } from 'rxjs';
-import { LcpPresence } from './lcp-context.model';
+import { distinctUntilChanged, ReplaySubject, shareReplay } from 'rxjs';
+import { LcpContext, LcpPresence } from './lcp-context.model';
 import { LCP_CONTEXT } from './lcp-context.token';
 
 @Directive({
@@ -8,21 +8,28 @@ import { LCP_CONTEXT } from './lcp-context.token';
   providers: [
     {
       provide: LCP_CONTEXT,
-      useFactory: () => inject(ProvideLcpContextDirective).value$,
+      useFactory: (): LcpContext =>
+        inject(ProvideLcpContextDirective).lcpContext,
     },
   ],
   standalone: false,
 })
 export class ProvideLcpContextDirective implements OnChanges {
-  // SPIKE TODO: eliminate the need to handle `null`
+  @Input() cxProvideLcpContext?: LcpPresence | null;
 
-  @Input() cxProvideLcpContext: LcpPresence | null = LcpPresence.NONE;
+  protected _lcpPresence$ = new ReplaySubject<LcpPresence>(1);
 
   ngOnChanges(): void {
-    let value = this.cxProvideLcpContext ?? LcpPresence.NONE;
-    this._value$.next(value);
+    const value = this.cxProvideLcpContext ?? LcpPresence.NONE;
+    this._lcpPresence$.next(value);
   }
 
-  protected _value$ = new ReplaySubject<LcpPresence>(1);
-  protected readonly value$ = this._value$.pipe(distinctUntilChanged());
+  protected lcpPresence$ = this._lcpPresence$.pipe(
+    distinctUntilChanged(),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
+  protected lcpContext: LcpContext = {
+    lcpPresence$: this.lcpPresence$,
+  };
 }
