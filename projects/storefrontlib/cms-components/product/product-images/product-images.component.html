@@ -2,7 +2,7 @@
   <ng-container *cxLcpContext="let lcpContext">
     <cx-media
       [container]="main"
-      [fetchPriority]="lcpContext.lcpFetchPriority$ | async"
+      [fetchPriority]="lcpContext.fetchPriority$ | async"
     ></cx-media>
   </ng-container>
 </ng-container>

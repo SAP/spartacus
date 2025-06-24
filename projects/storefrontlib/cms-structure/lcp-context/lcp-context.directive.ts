@@ -20,7 +20,7 @@ import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 interface LcpContextDirectiveTemplateContext {
   $implicit: {
     lcpPresence$: Observable<LcpPresence>;
-    lcpFetchPriority$: Observable<ImageFetchPriority | null | undefined>;
+    fetchPriority$: Observable<ImageFetchPriority | null | undefined>;
   };
 }
 
@@ -50,7 +50,7 @@ export class LcpContextDirective implements OnInit {
     this.viewContainer.createEmbeddedView(this.templateRef, {
       $implicit: {
         lcpPresence$: this.lcpContext.lcpPresence$,
-        lcpFetchPriority$: this.fetchPriority$,
+        fetchPriority$: this.fetchPriority$,
       },
     });
   }

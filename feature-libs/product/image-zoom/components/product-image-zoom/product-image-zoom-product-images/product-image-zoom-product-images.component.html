@@ -3,7 +3,7 @@
     <cx-media
       [container]="main"
       (click)="triggerZoom(true)"
-      [fetchPriority]="lcpContext.lcpFetchPriority$ | async"
+      [fetchPriority]="lcpContext.fetchPriority$ | async"
     ></cx-media>
   </ng-container>
   <cx-product-image-zoom-trigger
