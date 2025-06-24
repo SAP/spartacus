@@ -4,10 +4,10 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
 import { ImageFetchPriority } from '../../shared/components/media/media.model';
 import { LCP_CONTEXT, LcpPresence } from './lcp-context.model';
-import { LcpToFetchPriorityMappingService } from './lcp-to-fetch-priority-mapping.service';
+import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 
 interface LcpContextDirectiveTemplateContext {
   $implicit: {
@@ -21,15 +21,17 @@ interface LcpContextDirectiveTemplateContext {
   standalone: false,
 })
 export class LcpContextDirective {
-  protected readonly lcpToFetchPriorityService = inject(
-    LcpToFetchPriorityMappingService
+  protected readonly lcpPresenceMappingService = inject(
+    LcpPresenceMappingService
   );
   readonly lcpContext = inject(LCP_CONTEXT);
   readonly fetchPriority$ = this.lcpContext.lcpPresence$.pipe(
     map(
       (lcpElementInfo) =>
-        this.lcpToFetchPriorityService.map(lcpElementInfo) ?? null
-    )
+        this.lcpPresenceMappingService.getFetchPriority(lcpElementInfo) ?? null
+    ),
+    distinctUntilChanged(),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(

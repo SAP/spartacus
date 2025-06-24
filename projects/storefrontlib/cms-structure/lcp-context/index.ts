@@ -8,7 +8,6 @@ export * from './cms-lcp.service';
 export * from './lcp-context-directive.module';
 export * from './lcp-context.directive';
 export * from './lcp-context.model';
-export * from './lcp-to-fetch-priority-mapping.service';
+export * from './lcp-presence-mapping.service';
 export * from './provide-lcp-context-directive.module';
-export * from './provide-lcp-context-for-cms.directive';
 export * from './provide-lcp-context.directive';
