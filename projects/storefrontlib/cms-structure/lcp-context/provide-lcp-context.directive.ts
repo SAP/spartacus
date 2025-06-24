@@ -1,6 +1,7 @@
 import { Directive, inject, Input, OnChanges } from '@angular/core';
 import { distinctUntilChanged, ReplaySubject } from 'rxjs';
-import { LCP_CONTEXT, LcpPresence } from './lcp-context.model';
+import { LcpPresence } from './lcp-context.model';
+import { LCP_CONTEXT } from './lcp-context.token';
 
 @Directive({
   selector: '[cxProvideLcpContext]',

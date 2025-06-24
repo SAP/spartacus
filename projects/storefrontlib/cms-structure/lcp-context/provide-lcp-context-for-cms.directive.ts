@@ -7,8 +7,8 @@ import {
   switchMap,
 } from 'rxjs';
 import { CmsLcpService } from './cms-lcp.service';
-import { LCP_CONTEXT, LcpContext } from './lcp-context.model';
-
+import { LCP_CONTEXT } from './lcp-context.token';
+import { LcpContext } from './lcp-context.model';
 /**
  * Provides the LCP (Largest Contentful Paint) context for descendant components,
  * based on the CMS component data.
