@@ -11,7 +11,13 @@ import {
   SemanticPathService,
   UrlCommand,
 } from '@spartacus/core';
-import { LcpContextDirectiveModule } from '@spartacus/storefront';
+import {
+  ImageFetchPriority,
+  LCP_CONTEXT,
+  LcpContext,
+  LcpContextDirectiveModule,
+  LcpPresence,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -74,14 +80,18 @@ class MockSemanticPathService {
 class MockMediaComponent {
   @Input() container: any;
   @Input() elementType: 'img' | 'picture' = 'img';
+  @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
 
 describe('BannerComponent', () => {
   let bannerComponent: BannerComponent;
   let fixture: ComponentFixture<BannerComponent>;
   let el: DebugElement;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(() => {
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, LcpContextDirectiveModule],
       declarations: [
@@ -91,6 +101,10 @@ describe('BannerComponent', () => {
         MockFeatureDirective,
       ],
       providers: [
+        {
+          provide: LCP_CONTEXT,
+          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+        },
         {
           provide: CmsComponentData,
           useClass: MockCmsComponentData,
@@ -116,9 +130,43 @@ describe('BannerComponent', () => {
     expect(bannerComponent).toBeTruthy();
   });
 
-  it('should contain cx-media', () => {
-    fixture.detectChanges();
-    expect(el.query(By.css('cx-media'))).toBeTruthy();
+  describe('cx-media', () => {
+    it('should contain cx-media', () => {
+      fixture.detectChanges();
+      expect(el.query(By.css('cx-media'))).toBeTruthy();
+    });
+
+    describe('when contains LCP element', () => {
+      beforeEach(() => {
+        mockLcpPresence$.next(LcpPresence.HAS_LCP);
+      });
+
+      it('should prioritize downloading the image', () => {
+        fixture.detectChanges();
+        const mediaComponents = fixture.debugElement.queryAll(
+          By.directive(MockMediaComponent)
+        );
+        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+          ImageFetchPriority.HIGH
+        );
+      });
+    });
+
+    describe('when does NOT contain LCP element', () => {
+      beforeEach(() => {
+        mockLcpPresence$.next(LcpPresence.NO_LCP);
+      });
+
+      it('should NOT prioritize downloading the image', () => {
+        fixture.detectChanges();
+        const mediaComponents = fixture.debugElement.queryAll(
+          By.directive(MockMediaComponent)
+        );
+        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+          undefined
+        );
+      });
+    });
   });
 
   describe('setRouterLink()', () => {
