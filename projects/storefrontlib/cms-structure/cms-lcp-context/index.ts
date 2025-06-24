@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './cms-lcp.module';
 export * from './cms-lcp.service';
+export * from './lcp-cms-components.config';
 export * from './provide-lcp-context-for-cms-directive.module';
 export * from './provide-lcp-context-for-cms.directive';

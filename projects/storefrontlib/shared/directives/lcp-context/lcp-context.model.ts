@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
  * Tells whether the component contains LCP (Largest Contentful Paint) element.
  */
 export enum LcpPresence {
-  CONTAINS_LCP = 'CONTAINS_LCP',
-  NONE = 'NONE',
+  HAS_LCP = 'HAS_LCP',
+  NO_LCP = 'NO_LCP',
 }
 
 /**

@@ -14,7 +14,7 @@ import { LcpPresence } from './lcp-context.model';
 @Injectable({ providedIn: 'root' })
 export class LcpPresenceMappingService {
   getFetchPriority(lcpContext: LcpPresence): ImageFetchPriority | undefined {
-    if (lcpContext === LcpPresence.CONTAINS_LCP) {
+    if (lcpContext === LcpPresence.HAS_LCP) {
       return ImageFetchPriority.HIGH;
     }
     return undefined;

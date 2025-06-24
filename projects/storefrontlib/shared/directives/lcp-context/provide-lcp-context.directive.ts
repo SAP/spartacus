@@ -25,7 +25,7 @@ export class ProvideLcpContextDirective implements OnChanges {
   protected _lcpPresence$ = new ReplaySubject<LcpPresence>(1);
 
   ngOnChanges(): void {
-    const value = this.cxProvideLcpContext ?? LcpPresence.NONE;
+    const value = this.cxProvideLcpContext ?? LcpPresence.NO_LCP;
     this._lcpPresence$.next(value);
   }
 

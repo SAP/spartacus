@@ -4,29 +4,42 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ContentSlotComponentData } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LcpPresence } from '../../shared/directives/lcp-context/lcp-context.model';
+import { LcpCmsComponentsConfig } from './lcp-cms-components.config';
 
 @Injectable({ providedIn: 'root' })
 export class CmsLcpService {
   // SPIKE TODO: document this custom marker!
-  protected readonly LCP_MARKER = '_CX_LCP_';
+  protected readonly config = inject(LcpCmsComponentsConfig);
 
   /**
    * Tells whether the given CMS component is marked as containing
    * the LCP (Largest Contentful Paint) element.
    *
-   * It can be marked in various ways - for example, by using CMS component data
-   * or by Spartacus configuration.
+   * The list of CMS component IDs can be specified in 2 ways:
+   * - statically in the Spartacus configuration `config.lcpCmsComponents.ids`
+   * - and dynamically configuring a special marker `config.lcpCmsComponentIdMarker`
+   *    (i.e. when the CMS component ID contains a specific marker, for example "__cxLCP__").
    */
   getLcpPresence(
     componentData: ContentSlotComponentData
   ): Observable<LcpPresence> {
-    if (componentData?.uid?.includes(this.LCP_MARKER)) {
-      return of(LcpPresence.CONTAINS_LCP);
+    const idMarker = this.config?.lcpCmsComponents?.idMarker;
+    const ids = this.config?.lcpCmsComponents?.ids || [];
+
+    // Check if ID contains a special marker
+    if (idMarker && componentData?.uid?.includes(idMarker)) {
+      return of(LcpPresence.HAS_LCP);
     }
-    return of(LcpPresence.NONE);
+
+    // Check if ID is on the configured list of IDs
+    if (ids?.length && componentData?.uid && ids.includes(componentData?.uid)) {
+      return of(LcpPresence.HAS_LCP);
+    }
+
+    return of(LcpPresence.NO_LCP);
   }
 }

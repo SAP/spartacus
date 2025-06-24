@@ -21,7 +21,7 @@ export const LCP_CONTEXT = new InjectionToken<LcpContext>('LCP_CONTEXT', {
   providedIn: 'root',
   factory: () => {
     return {
-      lcpPresence$: of(LcpPresence.NONE),
+      lcpPresence$: of(LcpPresence.NO_LCP),
     };
   },
 });
