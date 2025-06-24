@@ -27,7 +27,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleValidationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
     this.handleUnknownIdentifierError(request, response);
-    this.handleValidationErrorIleggalArgument(request, response);;
+    this.handleValidationErrorIleggalArgument(request, response);
   }
 
   protected handleBadPassword(
@@ -79,9 +79,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter(
-        (e) => e.type === 'ValidationError'
-      )
+      .filter((e) => e.type === 'ValidationError')
       .forEach((error) => {
         this.globalMessageService.add(
           {
@@ -97,9 +95,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter(
-        (e) => e.type === 'IllegalArgumentError'
-      )
+      .filter((e) => e.type === 'IllegalArgumentError')
       .forEach((error) => {
         this.globalMessageService.add(
           error.message as string | Translatable,
