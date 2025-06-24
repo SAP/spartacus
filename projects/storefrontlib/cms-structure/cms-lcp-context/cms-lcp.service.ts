@@ -9,17 +9,17 @@ import { ContentSlotComponentData } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LcpPresence } from '../../shared/directives/lcp-context/lcp-context.model';
 
-/**
- * Extension point allowing for custom logic to mark whether a CMS component
- * contains LCP (Largest Contentful Paint) element.
- */
 @Injectable({ providedIn: 'root' })
 export class CmsLcpService {
   // SPIKE TODO: document this custom marker!
-  protected readonly LCP_MARKER = '__CX_LCP__';
+  protected readonly LCP_MARKER = '_CX_LCP_';
 
   /**
-   * Tells whether the given CMS component contains an LCP (Largest Contentful Paint) element.
+   * Tells whether the given CMS component is marked as containing
+   * the LCP (Largest Contentful Paint) element.
+   *
+   * It can be marked in various ways - for example, by using CMS component data
+   * or by Spartacus configuration.
    */
   getLcpPresence(
     componentData: ContentSlotComponentData
