@@ -5,44 +5,41 @@
  */
 
 import * as login from '../../../helpers/login';
-import { viewportContext } from '../../../helpers/viewport-context';
 
 function assertNavigationButtonsAttributes(buttonsSelector: string) {
   cy.get(buttonsSelector).each(($btn) => {
-    const btnAriaControl = $btn.attr('aria-controls');
-    cy.wrap($btn)
-      .should('have.attr', 'aria-label', btnAriaControl)
-      .and('have.attr', 'aria-controls', btnAriaControl);
+    const btnAriaLabel = $btn.attr('aria-label');
+    const btnAriaControls = $btn.attr('aria-controls');
+    cy.get('a').contains(btnAriaLabel).should('exist');
+    expect(btnAriaLabel + ' Menu').to.equal($btn.attr('title'));
+    cy.get(`div#${btnAriaControls}`).should('exist');
   });
 }
 
 describe('Navigation Login', () => {
   let user;
-  viewportContext(['desktop'], () => {
-    before(() => {
-      cy.visit('/login');
-      user = login.registerUserFromLoginPage();
-    });
+  before(() => {
+    cy.visit('/login');
+    user = login.registerUserFromLoginPage();
+  });
 
-    it('should login and logout successfully and have correct Navigation Menu buttons values', () => {
-      login.loginUser();
+  it('should login and logout successfully and have correct Navigation Menu buttons values', () => {
+    login.loginUser();
 
-      const tokenRevocationRequestAlias =
-        login.listenForTokenRevocationRequest();
+    const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
 
-      cy.get('cx-login button')
-        .as('myAccountBtn')
-        .invoke('attr', 'ariaLabel')
-        .contains(`Hi, ${user.firstName} ${user.lastName}`);
+    cy.get('cx-login button')
+      .as('myAccountBtn')
+      .invoke('attr', 'ariaLabel')
+      .contains(`Hi, ${user.firstName} ${user.lastName}`);
 
-      const mainCategoryMenuBrandsRootBtnSelector =
-        'cx-category-navigation button[aria-controls]';
-      assertNavigationButtonsAttributes(mainCategoryMenuBrandsRootBtnSelector);
+    const mainCategoryMenuBrandsRootBtnSelector =
+      'cx-category-navigation button[aria-controls]';
+    assertNavigationButtonsAttributes(mainCategoryMenuBrandsRootBtnSelector);
 
-      login.signOutUser();
-      cy.wait(tokenRevocationRequestAlias);
-      cy.get('@myAccountBtn').should('not.exist');
-      assertNavigationButtonsAttributes(mainCategoryMenuBrandsRootBtnSelector);
-    });
+    login.signOutUser();
+    cy.wait(tokenRevocationRequestAlias);
+    cy.get('@myAccountBtn').should('not.exist');
+    assertNavigationButtonsAttributes(mainCategoryMenuBrandsRootBtnSelector);
   });
 });

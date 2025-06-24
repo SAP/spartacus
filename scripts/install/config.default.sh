@@ -41,6 +41,7 @@ SPARTACUS_PROJECTS=(
         "dist/opps:integration-libs/opps"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/opf:integration-libs/opf"
+        "dist/punchout:integration-libs/punchout"
         "dist/product-configurator:feature-libs/product-configurator"
         "dist/product-multi-dimensional:feature-libs/product-multi-dimensional"
         "dist/pickup-in-store:feature-libs/pickup-in-store"
@@ -51,7 +52,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop' 
+BRANCH='develop'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -86,6 +87,7 @@ ADD_OPF=false
 ADD_CPQ_QUOTE=false
 ADD_S4_SERVICE=false
 ADD_PRODUCT_MULTI_DIMENSIONAL=false
+ADD_PUNCHOUT=false
 
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=

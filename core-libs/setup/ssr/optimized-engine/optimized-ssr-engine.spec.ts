@@ -190,6 +190,8 @@ describe('OptimizedSsrEngine', () => {
     options: {
       cache: false,
       cacheSize: 3000,
+      cacheSizeMemory: 800000000,
+      cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
       ttl: undefined,
       concurrency: 10,
       timeout: 50,
@@ -203,7 +205,7 @@ describe('OptimizedSsrEngine', () => {
       renderKeyResolver: 'function getRequestUrl(req) {\\n' +
         '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
         '}',
-      ssrFeatureToggles: { avoidCachingErrors: true }
+      ssrFeatureToggles: { avoidCachingErrors: true, limitCacheByMemory: false }
     }
   }
 }",
@@ -1471,7 +1473,9 @@ describe('OptimizedSsrEngine', () => {
   {
     "options": {
       "cache": false,
+      "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
       "cacheSize": 3000,
+      "cacheSizeMemory": 800000000,
       "concurrency": 10,
       "forcedSsrTimeout": 60000,
       "logger": "MockExpressServerLogger",
@@ -1492,6 +1496,7 @@ describe('OptimizedSsrEngine', () => {
         Boolean(entry.err))",
       "ssrFeatureToggles": {
         "avoidCachingErrors": true,
+        "limitCacheByMemory": false,
       },
       "timeout": 3000,
       "ttl": undefined,

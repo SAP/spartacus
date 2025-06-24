@@ -16,7 +16,12 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import { Config, Image, ImageGroup } from '@spartacus/core';
-import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
+import {
+  ImageFetchPriority,
+  ImageLoadingStrategy,
+  Media,
+  MediaContainer,
+} from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
@@ -83,6 +88,14 @@ export class MediaComponent implements OnChanges {
    * Use 'lazy' or 'eager' strategies.
    */
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
+
+  /**
+   * Provides a hint to the browser about the fetch priority of the image.
+   * When set to 'high', the browser may prioritize loading this image earlier,
+   * and it will automatically use `loading="eager"` for optimal performance.
+   * Valid values are: 'low', 'auto', or 'high'.
+   */
+  @Input() fetchPriority?: ImageFetchPriority;
 
   /**
    * Works only when `useExtendedMediaComponentConfiguration` toggle is true
@@ -209,5 +222,19 @@ export class MediaComponent implements OnChanges {
     this.isInitialized = true;
     this.isMissing = true;
     this.loaded.emit(false);
+  }
+
+  /**
+   * If the media has a high fetch priority, we load the image eagerly,
+   * no matter what the explicit loading strategy is.
+   *
+   * It's for convenience to not set explicitly `loading="eager"`,
+   * when we already know that the image has a high fetch priority.
+   */
+  protected get effectiveLoadingStrategy(): ImageLoadingStrategy | null {
+    if (this.fetchPriority === ImageFetchPriority.HIGH) {
+      return ImageLoadingStrategy.EAGER;
+    }
+    return this.loading ?? this.loadingStrategy;
   }
 }

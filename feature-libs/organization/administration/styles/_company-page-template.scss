@@ -17,6 +17,13 @@
   cx-banner cx-media {
     --cx-img-filter: invert(34%) sepia(61%) saturate(1353%) hue-rotate(178deg)
       brightness(90%) contrast(90%);
+    grid-area: media;
+
+    img {
+      filter: var(--cx-img-filter);
+      width: 50px;
+      height: 50px;
+    }
   }
 
   @include cx-highContrastTheme-dark {
@@ -45,11 +52,15 @@
     all: unset;
   }
 
-  // TODO: (CXSPA-6362) - Remove feature flag + redundant styles
   cx-banner {
-    flex: 100%;
-
     margin-top: 20px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: min-content 1fr;
+    gap: 3% 30px;
+    grid-template-areas: 'media heading' 'media content';
+    padding: 25px 25px 25px 30px;
+    border: solid 1px var(--cx-color-light);
 
     @include media-breakpoint-up(md) {
       flex: 0 0 calc(33% - 10px);
@@ -71,85 +82,19 @@
       height: 100%;
     }
 
-    a {
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      grid-template-rows: min-content 1fr;
-      gap: 3% 30px;
-      grid-template-areas: 'media .' 'media .';
-
-      padding: 25px 25px 25px 30px;
-
-      border: solid 1px var(--cx-color-light);
-      &:hover {
-        text-decoration: none;
-        border-color: var(--cx-color-background);
-        background: var(--cx-color-background);
-      }
-
-      cx-media {
-        grid-area: media;
-        img {
-          filter: var(--cx-img-filter);
-          width: 50px;
-          height: 50px;
-        }
-      }
-
-      p {
-        color: var(--cx-color-text);
-        &.headline {
-          font-weight: bold;
-        }
-      }
+    &:hover {
+      text-decoration: none;
+      border-color: var(--cx-color-background);
+      background: var(--cx-color-background);
     }
-  }
 
-  @include forFeature('a11yOrganizationsBanner') {
-    cx-banner {
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      grid-template-rows: min-content 1fr;
-      gap: 3% 30px;
-      grid-template-areas: 'media heading' 'media content';
-      padding: 25px 25px 25px 30px;
-      border: solid 1px var(--cx-color-light);
+    .content {
+      grid-area: content;
+    }
 
-      a {
-        display: unset;
-        border: unset;
-        padding: unset;
-        &:hover {
-          border-color: unset;
-          background: unset;
-        }
-      }
-
-      &:hover {
-        text-decoration: none;
-        border-color: var(--cx-color-background);
-        background: var(--cx-color-background);
-      }
-
-      cx-media {
-        grid-area: media;
-
-        img {
-          filter: var(--cx-img-filter);
-          width: 50px;
-          height: 50px;
-        }
-      }
-
-      .content {
-        grid-area: content;
-      }
-
-      .headline {
-        grid-area: heading;
-        font-weight: bold;
-      }
+    .headline {
+      grid-area: heading;
+      font-weight: bold;
     }
   }
 }

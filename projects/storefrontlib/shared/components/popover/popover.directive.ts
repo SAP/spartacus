@@ -185,16 +185,7 @@ export class PopoverDirective implements OnInit {
         this.close();
       }
       if (this.focusDirectiveTriggerEvents.includes(event)) {
-        // TODO: (CXSPA-6594) - Remove feature flag next major release.
-        if (this.featureConfigService?.isEnabled('a11yPopoverFocus')) {
-          this.popoverService.setFocusOnElement(this.element);
-        } else {
-          this.popoverService.setFocusOnElement(
-            this.element,
-            this.focusConfig,
-            this.cxPopoverOptions?.appendToBody
-          );
-        }
+        this.popoverService.setFocusOnElement(this.element);
       }
     });
   }

@@ -17,11 +17,7 @@
     padding: 0;
     color: var(--cx-color-inverse);
     font-size: 0.875rem;
-
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-      color: var(--cx-color-inverse);
-    }
+    @include type('8');
 
     &:not(:hover) {
       text-decoration: none;

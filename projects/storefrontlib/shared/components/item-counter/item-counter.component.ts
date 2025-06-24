@@ -8,15 +8,13 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -82,20 +80,9 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Subscription responsible for auto-correcting control's value when it's invalid.
    */
   private sub: Subscription;
-  protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor() {
-    useFeatureStyles('a11yVisibleFocusOverflows');
     useFeatureStyles('a11yItemCounterFocus');
-  }
-
-  // TODO: (CXSPA-6034) Remove HostListener next major release
-  @HostListener('click') handleClick() {
-    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
-      this.input.nativeElement.focus();
-    }
   }
 
   ngOnInit() {

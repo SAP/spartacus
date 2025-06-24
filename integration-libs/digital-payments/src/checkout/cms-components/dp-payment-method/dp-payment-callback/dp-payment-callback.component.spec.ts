@@ -8,7 +8,6 @@ import {
 import { StoreModule } from '@ngrx/store';
 import {
   Address,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
@@ -33,12 +32,6 @@ class MockDpCheckoutPaymentService
 class MockDpLocalStorageService implements Partial<DpLocalStorageService> {
   readCardRegistrationState(): DpPaymentRequest {
     return {};
-  }
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return false;
   }
 }
 
@@ -99,7 +92,6 @@ describe('DpPaymentCallbackComponent with success query param', () => {
   let dpPaymentService: DpCheckoutPaymentService;
   let dpStorageService: DpLocalStorageService;
   let msgService: GlobalMessageService;
-  let featureConfig: FeatureConfigService;
   let billingAddressService: CheckoutBillingAddressFormService;
   let launchDialogService: LaunchDialogService;
 
@@ -115,10 +107,6 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         {
           provide: DpPaymentCallbackComponent,
           useClass: DpPaymentCallbackComponent,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         {
           provide: ActivatedRoute,
@@ -148,7 +136,6 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     dpStorageService = TestBed.inject(DpLocalStorageService);
     msgService = TestBed.inject(GlobalMessageService);
-    featureConfig = TestBed.inject(FeatureConfigService);
     billingAddressService = TestBed.inject(CheckoutBillingAddressFormService);
     spyOn(msgService, 'add').and.stub();
   });
@@ -166,92 +153,6 @@ describe('DpPaymentCallbackComponent with success query param', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit()', () => {
-    it('should fetch payment details', () => {
-      const mockDpPaymentRequest: DpPaymentRequest = {
-        sessionId: mockSessionId,
-        signature: mockSignature,
-      };
-      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        mockDpPaymentRequest
-      );
-      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
-        of(mockPaymentDetails)
-      );
-
-      component.ngOnInit();
-
-      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
-      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
-        mockSessionId,
-        mockSignature,
-        undefined
-      );
-    });
-
-    it('should show payment fetch error when empty payment details', () => {
-      const mockDpPaymentRequest: DpPaymentRequest = {
-        sessionId: mockSessionId,
-        signature: mockSignature,
-      };
-      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        mockDpPaymentRequest
-      );
-      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(of({}));
-
-      component.ngOnInit();
-
-      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
-      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
-        mockSessionId,
-        mockSignature,
-        undefined
-      );
-      expect(msgService.add).toHaveBeenCalledWith(
-        { key: 'dpPaymentForm.error.paymentFetch' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      expect(component.closeCallback.emit).toHaveBeenCalled();
-    });
-
-    it('should show unknown error when empty payment request', () => {
-      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue({});
-
-      component.ngOnInit();
-
-      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
-      expect(msgService.add).toHaveBeenCalledWith(
-        { key: 'dpPaymentForm.error.unknown' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      expect(component.closeCallback.emit).toHaveBeenCalled();
-    });
-    it('should show no error when correct payment details', () => {
-      const mockDpPaymentRequest: DpPaymentRequest = {
-        sessionId: mockSessionId,
-        signature: mockSignature,
-      };
-      spyOn(dpStorageService, 'readCardRegistrationState').and.returnValue(
-        mockDpPaymentRequest
-      );
-      spyOn(dpPaymentService, 'createPaymentDetails').and.returnValue(
-        of(mockPaymentDetails)
-      );
-
-      component.ngOnInit();
-
-      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
-      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
-        mockSessionId,
-        mockSignature,
-        undefined
-      );
-      expect(component.paymentDetailsAdded.emit).toHaveBeenCalledWith(
-        mockPaymentDetails
-      );
-    });
-  });
-
   describe('Billing Address Form', () => {
     beforeEach(() => {
       const mockDpPaymentRequest: DpPaymentRequest = {
@@ -265,23 +166,11 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         of(mockPaymentDetails)
       );
     });
-    it('should show billing address when feature flag is set and card added successfully', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+    it('should show billing address when card added successfully', () => {
       component.ngOnInit();
       expect(component.showBillingAddressForm).toEqual(true);
       expect(dpStorageService.readCardRegistrationState).not.toHaveBeenCalled();
       expect(dpPaymentService.createPaymentDetails).not.toHaveBeenCalledWith(
-        mockSessionId,
-        mockSignature,
-        undefined
-      );
-    });
-    it('should not show billing address when feature flag is not set', () => {
-      spyOn(featureConfig, 'isEnabled').and.returnValue(false);
-      component.ngOnInit();
-      expect(component.showBillingAddressForm).toEqual(false);
-      expect(dpStorageService.readCardRegistrationState).toHaveBeenCalled();
-      expect(dpPaymentService.createPaymentDetails).toHaveBeenCalledWith(
         mockSessionId,
         mockSignature,
         undefined
@@ -419,6 +308,10 @@ describe('DpPaymentCallbackComponent without query param', () => {
         GlobalMessageType.MSG_TYPE_WARNING
       );
       expect(component.closeCallback.emit).toHaveBeenCalled();
+      const billingForm = fixture.nativeElement.querySelector(
+        'cx-checkout-billing-address-form'
+      );
+      expect(billingForm).toBeNull();
     });
   });
 });

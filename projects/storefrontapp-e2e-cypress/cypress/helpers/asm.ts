@@ -96,7 +96,7 @@ export function listenForAuthenticationRequest(): string {
 }
 
 export function listenForCustomerSearchRequest(): string {
-  return interceptGet(
+  return interceptPost(
     'customerSearch',
     '/assistedservicewebservices/customers/search?*',
     false

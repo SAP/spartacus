@@ -20,12 +20,7 @@
           {{ 'quote.links.quotes' | cxTranslate }}
         </a>
       </li>
-      <li
-        *ngIf="
-          hasAttachment(quoteDetails.sapAttachments!) &&
-          isShowDownloadProposalButtonFeatureEnabled()
-        "
-      >
+      <li *ngIf="hasAttachment(quoteDetails.sapAttachments!)">
         <button
           [attr.aria-label]="'quote.links.a11y.download' | cxTranslate"
           type="button"
@@ -40,6 +35,22 @@
           {{ 'quote.links.download' | cxTranslate }}
         </button>
       </li>
+      <ng-container *ngIf="orderConfig.showOrderQuoteLink">
+        <li *ngIf="quoteDetails.sapOrderCode">
+          <a
+            [attr.aria-label]="'quote.links.a11y.order' | cxTranslate"
+            class="link cx-action-link"
+            [routerLink]="
+              {
+                cxRoute: 'orderDetails',
+                params: { code: quoteDetails.sapOrderCode },
+              } | cxUrl
+            "
+          >
+            {{ 'quote.links.order' | cxTranslate }}</a
+          >
+        </li>
+      </ng-container>
     </ul>
   </section>
 </ng-container>

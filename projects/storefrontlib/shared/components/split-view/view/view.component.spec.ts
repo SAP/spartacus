@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { ViewComponent } from './view.component';
@@ -35,12 +31,6 @@ class MockGlobalMessageService {
   add() {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('ViewComponent', () => {
   let component: ViewComponent;
   let fixture: ComponentFixture<ViewComponent>;
@@ -53,7 +43,6 @@ describe('ViewComponent', () => {
       providers: [
         { provide: SplitViewService, useClass: MockSplitViewService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(ViewComponent, {

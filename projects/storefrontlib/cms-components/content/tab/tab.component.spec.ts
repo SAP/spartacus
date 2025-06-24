@@ -352,7 +352,7 @@ describe('TabComponent', () => {
 
     it('should display menu buttons for tabs', () => {
       const accordianEl = document.querySelector('div[class="accordian"]');
-      expect(accordianEl?.role).toEqual('presentation');
+      expect(accordianEl?.role).toBeFalsy();
       const buttonEls = document.querySelectorAll('button[role="button"]');
       expect(buttonEls.length).toEqual(4);
 

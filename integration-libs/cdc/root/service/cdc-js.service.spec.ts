@@ -1052,6 +1052,29 @@ describe('CdcJsService', () => {
       expect(userProfileFacade.update).not.toHaveBeenCalled();
     });
 
+    it('should update personal details and logout the user when password update has been triggered', () => {
+      const response = {
+        profile: {
+          firstName: 'firstName',
+          lastName: 'lastName',
+        },
+        response: {
+          errorCode: 0,
+        },
+        screen: 'gigya-change-password-screen',
+      };
+      const isPasswordReset = true;
+      userProfileFacade.get = createSpy().and.returnValue(
+        of({ uid: newEmail })
+      );
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      spyOn(authService, 'logout');
+      service.onProfileUpdateEventHandler(response, isPasswordReset);
+
+      expect(authService.logout).toHaveBeenCalled();
+      expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
+    });
+
     it('should update personal details and logout the user when response has an updated email', () => {
       const response = {
         profile: {

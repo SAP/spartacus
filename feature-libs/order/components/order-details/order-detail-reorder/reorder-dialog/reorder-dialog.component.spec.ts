@@ -6,7 +6,7 @@ import {
   CartModificationList,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   ICON_TYPE,
@@ -109,12 +109,6 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
-}
-
 describe('ReorderDialogComponent', () => {
   let component: ReorderDialogComponent;
   let fixture: ComponentFixture<ReorderDialogComponent>;
@@ -145,10 +139,6 @@ describe('ReorderDialogComponent', () => {
         {
           provide: MultiCartFacade,
           useClass: MockMultiCartService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

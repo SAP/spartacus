@@ -5,10 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
+import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-page-layout',
@@ -42,6 +42,6 @@ export class PageLayoutComponent {
     );
 
   constructor(protected pageLayoutService: PageLayoutService) {
-    useFeatureStyles('a11yOrganizationsBanner');
+    useFeatureStyles('disableCxPageSlotMarginAnimation');
   }
 }

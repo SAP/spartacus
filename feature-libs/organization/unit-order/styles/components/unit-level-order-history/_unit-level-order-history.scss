@@ -219,10 +219,8 @@
       padding: 1.25rem;
       width: 100%;
     }
-    @include forFeature('a11yTruncatedTextForResponsiveView') {
-      @include media-breakpoint-down(xs) {
-        display: block;
-      }
+    @include media-breakpoint-down(xs) {
+      display: block;
     }
   }
 

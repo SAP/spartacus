@@ -9,7 +9,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   NODES_RESPONSE_NORMALIZER,
@@ -80,7 +80,7 @@ export class StorageV1Adapter implements SceneAdapter {
   }
 
   /**
-   * Used for getting information about scene nodes (such as metadata used to store usage ID values).
+   * Used for getting information about scene nodes (such as usage ID values).
    * @param sceneId The scene id to use as the sceneId path parameter.
    * @param nodeIds An array of scene node ids to pass in id query parameters.
    * @param $expand A set of strings to combine to form the $expand query parameter.
@@ -99,7 +99,7 @@ export class StorageV1Adapter implements SceneAdapter {
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
       );

@@ -79,9 +79,7 @@ $space: 0.5rem;
     }
     justify-content: flex-start;
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-    }
+    @include type('8');
   }
 
   .SiteLinks {

@@ -293,5 +293,22 @@ describe('OAuthLibWrapperService', () => {
         tokenReceived: false,
       });
     });
+
+    it('should reject promise if oAuthService.tryLogin throws an error', async () => {
+      const error = new Error('Login failed');
+
+      spyOn(oAuthService, 'tryLogin').and.returnValue(Promise.reject(error));
+
+      try {
+        await service.tryLogin();
+        fail('Expected tryLogin() to throw');
+      } catch (err) {
+        expect(err).toEqual(error);
+      }
+
+      expect(oAuthService.tryLogin).toHaveBeenCalledWith({
+        disableOAuth2StateCheck: true,
+      });
+    });
   });
 });

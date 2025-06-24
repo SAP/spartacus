@@ -13,6 +13,7 @@ export const defaultOccOrderConfig: OccConfig = {
         /* eslint-disable max-len */
         orderHistory: 'users/${userId}/orders',
         orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        quoteCode: 'users/${userId}/orders/${orderId}?fields=sapQuoteCode',
         consignmentTracking:
           'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
         cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
@@ -40,6 +41,12 @@ export const defaultOccOrderConfig: OccConfig = {
         placePaymentAuthorizedOrder:
           'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
         /** placing an order endpoints end **/
+
+        /** order attachments endpoints start **/
+        orderAttachments: 'users/${userId}/orders/${orderId}/attachments',
+        downloadOrderAttachment:
+          'users/${userId}/orders/${orderId}/attachments/${attachmentId}/download',
+        /** order attachments endpoints end **/
       },
     },
   },

@@ -64,7 +64,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {
-    useFeatureStyles('a11ySavedCartsZoom');
     useFeatureStyles('a11yQTY2Quantity');
     useFeatureStyles('a11yHighContrastBorders');
   }

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.38.0-1",
+  "version": "2211.41.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -17,20 +17,20 @@
     "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^19.1.9",
-    "@angular/ssr": "^19.1.9",
+    "@angular/pwa": "^19.0.4",
+    "@angular/ssr": "^19.0.4",
     "semver": "^7.5.2",
     "ts-morph": "^23.0.0",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^19.1.9",
-    "@angular-devkit/schematics": "^19.1.9",
-    "@angular/compiler": "^19.1.8",
-    "@schematics/angular": "^19.1.9",
+    "@angular-devkit/core": "^19.0.4",
+    "@angular-devkit/schematics": "^19.0.4",
+    "@angular/compiler": "^19.0.3",
+    "@schematics/angular": "^19.0.4",
     "jsonc-parser": "^3.3.1",
     "parse5": "^7.2.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.6.3"
   },
   "peerDependenciesMeta": {
     "canvas": {
@@ -74,7 +74,8 @@
       "@spartacus/s4om",
       "@spartacus/customer-ticketing",
       "@spartacus/opf",
-      "@spartacus/estimated-delivery-date"
+      "@spartacus/estimated-delivery-date",
+      "@spartacus/punchout"
     ]
   },
   "schematics": "./src/collection.json"

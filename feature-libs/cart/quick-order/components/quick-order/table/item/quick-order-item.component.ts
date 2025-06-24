@@ -51,7 +51,6 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade
   ) {
-    useFeatureStyles('a11yCartItemsLinksStyles');
     useFeatureStyles('a11yQTY2Quantity');
   }
 

@@ -21,7 +21,6 @@ import {
   Config,
   FeatureConfigService,
   Product,
-  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -62,10 +61,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
-  ) {
-    useFeatureStyles('a11yTruncatedTextForResponsiveView');
-    useFeatureStyles('a11yPreventSRFocusOnHiddenElements');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();

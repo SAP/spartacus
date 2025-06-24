@@ -45,7 +45,6 @@
             </ng-container>
             |
             <button
-              *cxFeature="'a11yUseButtonsForBtnLinks'"
               #dialogTriggerEl
               [attr.data-store-location-link]="
                 displayPickupLocation ? 'change' : 'select'
@@ -60,23 +59,6 @@
                 ) | cxTranslate
               }}
             </button>
-            <a
-              *cxFeature="'!a11yUseButtonsForBtnLinks'"
-              role="button"
-              #dialogTriggerEl
-              [attr.data-store-location-link]="
-                displayPickupLocation ? 'change' : 'select'
-              "
-              class="cx-action-link"
-              (click)="onPickupLocationChange()"
-              tabindex="0"
-              >{{
-                (displayPickupLocation
-                  ? 'pickupOptions.changeStore'
-                  : 'pickupOptions.selectStore'
-                ) | cxTranslate
-              }}</a
-            >
           </p>
         </label>
       </div>
@@ -125,7 +107,6 @@
             </ng-container>
             |
             <button
-              *cxFeature="'a11yUseButtonsForBtnLinks'"
               #dialogTriggerEl
               [attr.data-store-location-link]="
                 displayPickupLocation ? 'change' : 'select'
@@ -140,23 +121,6 @@
                 ) | cxTranslate
               }}
             </button>
-            <a
-              *cxFeature="'!a11yUseButtonsForBtnLinks'"
-              #dialogTriggerEl
-              role="button"
-              [attr.data-store-location-link]="
-                displayPickupLocation ? 'change' : 'select'
-              "
-              class="cx-action-link"
-              (click)="onPickupLocationChange()"
-              tabindex="0"
-              >{{
-                (displayPickupLocation
-                  ? 'pickupOptions.changeStore'
-                  : 'pickupOptions.selectStore'
-                ) | cxTranslate
-              }}</a
-            >
           </p>
         </label>
       </div>

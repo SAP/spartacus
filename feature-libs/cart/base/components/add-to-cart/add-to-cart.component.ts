@@ -21,6 +21,7 @@ import {
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
+  Cart,
   CartItemComponentOptions,
   CartOutlets,
   CartUiEventAddToCart,
@@ -56,6 +57,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() showQuantity = true;
   @Input() options: CartItemComponentOptions;
   @Input() pickupStore: string | undefined;
+  @Input() savedCart: Cart | undefined;
+
   /**
    * As long as we do not support #5026, we require product input, as we need
    *  a reference to the product model to fetch the stock data.
@@ -102,10 +105,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    // TODO: (CXSPA-6034) Remove Feature flag next major release
-    if (!this.featureConfigService?.isEnabled('a11yQuantityOrderTabbing')) {
-      return;
-    }
     const eventTarget = event.target as HTMLElement;
     const isQuantityInput =
       eventTarget.ariaLabel === 'Quantity' && eventTarget.tagName === 'INPUT';
@@ -149,6 +148,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.subscription.add(
         product$.pipe(filter(isNotNullable)).subscribe((product) => {
           this.productCode = product.code ?? '';
+          this.product = product;
           this.setStockInfo(product);
         })
       );
@@ -211,7 +211,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   addToCart() {
-    const quantity = this.addToCartForm.get('quantity')?.value;
+    let quantity = 0;
+
+    if (this.savedCart) {
+      quantity = this.getQuantityFromSavedCart(this.productCode);
+    } else {
+      quantity = this.addToCartForm.get('quantity')?.value;
+    }
+
     if (!this.productCode || quantity <= 0) {
       return;
     }
@@ -290,6 +297,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         )
       );
     }
+  }
+
+  protected getQuantityFromSavedCart(productCode: string): number {
+    return (
+      this.savedCart?.entries?.find((e) => e?.product?.code === productCode)
+        ?.quantity ?? 0
+    );
   }
 
   ngOnDestroy() {

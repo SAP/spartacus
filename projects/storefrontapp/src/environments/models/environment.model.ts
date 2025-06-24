@@ -25,4 +25,5 @@ export interface Environment {
   myAccountV2: boolean;
   estimatedDeliveryDate: boolean;
   s4Service: boolean;
+  punchout: boolean;
 }

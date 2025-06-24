@@ -20,6 +20,11 @@ import {
 import { Observable } from 'rxjs';
 import { OpfPaymentAdapter } from './opf-payment.adapter';
 
+/**
+ * Connector that facilitates communication between Spartacus Storefront and the OPF Commerce Cloud Adapter.
+ * Handles payment session management, payment request submission, and payment flow orchestration
+ * including redirects and verification processes required by the OPF payment system.
+ */
 @Injectable()
 export class OpfPaymentConnector {
   protected adapter = inject(OpfPaymentAdapter);

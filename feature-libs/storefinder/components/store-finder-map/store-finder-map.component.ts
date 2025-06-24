@@ -14,7 +14,6 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 
 @Component({
@@ -30,9 +29,7 @@ export class StoreFinderMapComponent implements OnChanges {
   @Output()
   selectedStoreItem: EventEmitter<number> = new EventEmitter();
 
-  constructor(private googleMapRendererService: GoogleMapRendererService) {
-    useFeatureStyles('a11yStoreFinderOverflow');
-  }
+  constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.locations && this.locations) {

@@ -5,7 +5,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { PointOfService, useFeatureStyles } from '@spartacus/core';
+import { PointOfService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
@@ -20,6 +20,5 @@ export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemCompo
 
   constructor(protected storeFinderService: StoreFinderService) {
     super(storeFinderService);
-    useFeatureStyles('a11yStoreFinderOverflow');
   }
 }

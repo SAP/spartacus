@@ -158,13 +158,15 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(sort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
-    expect(mockReq.request.params.get('customerListId')).toBe(customerListId);
+    expect(mockReq.request.body).toEqual({
+      query: searchQuery,
+      customerListId: customerListId,
+    });
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -196,12 +198,14 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.body).toEqual({
+      query: searchQuery,
+    });
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -228,12 +232,13 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
     expect(mockReq.request.params.get('query')).toBeNull();
+    expect(mockReq.request.body).toEqual({});
     expect(mockReq.request.params.get('pageSize')).toBeNull();
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -265,12 +270,14 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.body).toEqual({
+      query: searchQuery,
+    });
     expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -299,12 +306,15 @@ describe('OccAsmAdapter', () => {
       result = data;
     });
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      return req.method === 'POST';
     });
 
     expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
     expect(mockReq.request.params.get('sort')).toBeNull();
-    expect(mockReq.request.params.get('query')).toBeNull();
+
+    expect(mockReq.request.body).toEqual({
+      customerListId: 'instoreCustomers',
+    });
     expect(mockReq.request.params.get('pageSize')).toBeNull();
 
     expect(mockReq.cancelled).toBeFalsy();

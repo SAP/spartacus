@@ -134,6 +134,10 @@ export class CardComponent implements OnInit {
     // Intentional empty method
   }
 
+  protected get isHeaderVisible(): boolean {
+    return !!this.content?.header && !this.editMode;
+  }
+
   /**
    * ariaDescribedBy: Computes the value for the 'aria-describedby' attribute.
    * If `content` has a `title`, it returns a string including the title and container IDs, with index if available.

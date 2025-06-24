@@ -19,24 +19,12 @@
     </a>
   </div>
   <div class="col-12 col-md-8">
-    <ng-container *cxFeature="'a11yExpandedFocusIndicator'">
-      <h2 [id]="product.code + '_header'" class="cx-product-name">
-        <a
-          [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-          [innerHtml]="product.nameHtml"
-        ></a>
-      </h2>
-    </ng-container>
-
-    <!-- TODO: (CXSPA-5709) Remove feature flag next major -->
-    <ng-container *cxFeature="'!a11yExpandedFocusIndicator'">
+    <h2 class="cx-product-name">
       <a
         [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-        class="cx-product-name"
-      >
-        <h2 [innerHtml]="product.nameHtml"></h2>
-      </a>
-    </ng-container>
+        [innerHTML]="product.nameHtml"
+      ></a>
+    </h2>
 
     <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
       <cx-star-rating
@@ -56,9 +44,7 @@
 
     <div class="row">
       <div class="col-12 col-md-7 col-xl-7">
-        <p class="cx-product-summary" [innerHtml]="product.summary">
-          {{ product.summary }}
-        </p>
+        <p class="cx-product-summary" [innerHTML]="product.summary"></p>
       </div>
       <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">

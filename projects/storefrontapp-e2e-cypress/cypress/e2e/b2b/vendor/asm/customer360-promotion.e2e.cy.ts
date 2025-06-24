@@ -46,7 +46,7 @@ context('Assisted Service Module', () => {
         .contains('Coupons')
         .should('be.visible');
     });
-    it('should be able to apply coupon to cart (CXSPA-3906)', () => {
+    it('should be able to apply & remove coupon to cart (CXSPA-3906)', () => {
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
@@ -55,12 +55,6 @@ context('Assisted Service Module', () => {
           cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
           cy.get('button').should('not.contain', 'Apply to Cart');
           cy.get('button').contains('Remove').should('be.visible');
-        });
-    });
-    it('should be able to remove coupon from cart (CXSPA-3906)', () => {
-      cy.get('.cx-asm-customer-360-promotion-listing-row')
-        .first()
-        .within(() => {
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
           cy.get('button').contains('Remove').click();
           cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);

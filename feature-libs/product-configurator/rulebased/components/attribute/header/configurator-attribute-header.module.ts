@@ -13,6 +13,7 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCompositionConfig } from '../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
+import { ConfiguratorShowOptionsModule } from '../show-options/configurator-show-options.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-mo
     IconModule,
     NgSelectModule,
     ConfiguratorShowMoreModule,
+    ConfiguratorShowOptionsModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
