@@ -6,13 +6,13 @@ import {
 } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ImageFetchPriority } from '../../shared/components/media/media.model';
-import { LCP_CONTEXT, LcpContext } from './lcp-context.model';
+import { LCP_CONTEXT, LcpElementInfo } from './lcp-context.model';
 import { LcpToFetchPriorityMappingService } from './lcp-to-fetch-priority-mapping.service';
 
 interface LcpContextDirectiveTemplateContext {
   $implicit: {
-    fetchPriority$: Observable<ImageFetchPriority | null | undefined>;
-    lcpContext$: Observable<LcpContext>;
+    lcpElementInfo$: Observable<LcpElementInfo>;
+    lcpFetchPriority$: Observable<ImageFetchPriority | null | undefined>;
   };
 }
 
@@ -24,9 +24,12 @@ export class LcpContextDirective {
   protected readonly lcpToFetchPriorityService = inject(
     LcpToFetchPriorityMappingService
   );
-  readonly lcpContext$ = inject(LCP_CONTEXT);
-  readonly fetchPriority$ = this.lcpContext$.pipe(
-    map((lcpContext) => this.lcpToFetchPriorityService.map(lcpContext) ?? null)
+  readonly lcpContext = inject(LCP_CONTEXT);
+  readonly fetchPriority$ = this.lcpContext.lcpElementInfo$.pipe(
+    map(
+      (lcpElementInfo) =>
+        this.lcpToFetchPriorityService.map(lcpElementInfo) ?? null
+    )
   );
 
   constructor(
@@ -35,8 +38,8 @@ export class LcpContextDirective {
   ) {
     this.viewContainer.createEmbeddedView(this.templateRef, {
       $implicit: {
-        fetchPriority$: this.fetchPriority$,
-        lcpContext$: this.lcpContext$,
+        lcpFetchPriority$: this.fetchPriority$,
+        lcpElementInfo$: this.lcpContext.lcpElementInfo$,
       },
     });
   }

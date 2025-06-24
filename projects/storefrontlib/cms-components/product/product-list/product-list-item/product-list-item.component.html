@@ -17,7 +17,7 @@
           format="product"
           [alt]="product.name || product.summary"
           [fetchPriority]="
-            itemIndex === 0 ? (lcpContext.fetchPriority$ | async) : undefined
+            itemIndex === 0 ? (lcpContext.lcpFetchPriority$ | async) : undefined
           "
         ></cx-media>
       </ng-container>
