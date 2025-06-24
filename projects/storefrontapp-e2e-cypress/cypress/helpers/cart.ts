@@ -6,9 +6,10 @@
 
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
-import { clickHamburger, waitForPage } from './checkout-flow';
+import { clickHamburger } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
+import { waitForPage } from './navigation';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 

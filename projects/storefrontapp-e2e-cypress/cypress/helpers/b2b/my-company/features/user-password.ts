@@ -5,8 +5,8 @@
  */
 
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
-import { fillLoginForm, LoginUser } from '../../../auth-forms';
-import { waitForPage } from '../../../checkout-flow';
+import { login, LoginUser } from '../../../auth-forms';
+import { waitForPage } from '../../../navigation';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
 import { completeForm, FormType } from './utils/form';

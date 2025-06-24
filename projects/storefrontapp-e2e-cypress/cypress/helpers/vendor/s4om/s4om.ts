@@ -31,7 +31,8 @@ import {
   interceptPutDeliveryModeEndpoint,
 } from '../../b2b/b2b-checkout';
 import { clearActiveCart, goToCart, validateEmptyCart } from '../../cart';
-import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { waitForProductPage } from '../../checkout-flow';
+import { waitForPage } from '../../navigation';
 import { LOCATORS } from '../../pickup-in-store-utils';
 
 export const s4omB2BUser: AccountData = {

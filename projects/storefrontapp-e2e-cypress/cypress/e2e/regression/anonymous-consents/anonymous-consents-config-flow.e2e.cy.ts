@@ -16,7 +16,7 @@ import {
   showAnonymousConfigTest,
   STORE_USER_INFORMATION,
 } from '../../../helpers/anonymous-consents';
-import { waitForPage } from '../../../helpers/checkout-flow';
+import { waitForPage } from '../../../helpers/navigation';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { isolateTests } from '../../../support/utils/test-isolation';
 

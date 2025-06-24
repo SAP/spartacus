@@ -9,9 +9,10 @@ import { SampleUser } from '../sample-data/checkout-flow';
 import { standardUser } from '../sample-data/shared-users';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login, register } from './auth-forms';
-import { clickHamburger, waitForPage } from './checkout-flow';
+import { clickHamburger } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { signOutUser } from './login';
+import { waitForPage } from './navigation';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 

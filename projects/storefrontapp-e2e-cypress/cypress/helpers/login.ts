@@ -6,8 +6,8 @@
 
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { legacyLogin, login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
+import { waitForPage } from './navigation';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';

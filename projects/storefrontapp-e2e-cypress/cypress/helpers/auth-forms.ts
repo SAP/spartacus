@@ -8,7 +8,7 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 export interface LoginUser {
   username: string;
