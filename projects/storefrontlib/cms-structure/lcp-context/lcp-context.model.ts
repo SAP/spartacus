@@ -7,13 +7,13 @@ import { Observable, of } from 'rxjs';
  * It helps in applying different behaviors based on the presence of LCP,
  * such as prioritizing the loading of a main image within the component.
  */
-export enum LcpElementInfo {
+export enum LcpPresence {
   CONTAINS_LCP = 'CONTAINS_LCP',
   NONE = 'NONE',
 }
 
 export interface LcpContext {
-  lcpElementInfo$: Observable<LcpElementInfo>;
+  lcpPresence$: Observable<LcpPresence>;
 }
 
 /**
@@ -25,7 +25,7 @@ export const LCP_CONTEXT = new InjectionToken<LcpContext>('LCP_CONTEXT', {
   providedIn: 'root',
   factory: () => {
     return {
-      lcpElementInfo$: of(LcpElementInfo.NONE),
+      lcpPresence$: of(LcpPresence.NONE),
     };
   },
 });

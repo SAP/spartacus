@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ImageFetchPriority } from '@spartacus/storefront';
-import { LcpElementInfo } from './lcp-context.model';
+import { LcpPresence } from './lcp-context.model';
 
 /**
  * Easy extension point for the mapping the LCP context to the
@@ -11,8 +11,8 @@ import { LcpElementInfo } from './lcp-context.model';
  */
 @Injectable({ providedIn: 'root' })
 export class LcpToFetchPriorityMappingService {
-  map(lcpContext: LcpElementInfo): ImageFetchPriority | undefined {
-    if (lcpContext === LcpElementInfo.CONTAINS_LCP) {
+  map(lcpContext: LcpPresence): ImageFetchPriority | undefined {
+    if (lcpContext === LcpPresence.CONTAINS_LCP) {
       return ImageFetchPriority.HIGH;
     }
     return undefined;

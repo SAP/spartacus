@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ContentSlotComponentData } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { LcpElementInfo } from './lcp-context.model';
+import { LcpPresence } from './lcp-context.model';
 
 /**
  * Extension point allowing for custom logic to mark whether a CMS component
@@ -21,10 +21,10 @@ export class LcpContextForCmsService {
   /**
    * Returns LCP context for the given component data
    */
-  get(componentData: ContentSlotComponentData): Observable<LcpElementInfo> {
+  get(componentData: ContentSlotComponentData): Observable<LcpPresence> {
     if (componentData?.uid?.includes(this.LCP_MARKER)) {
-      return of(LcpElementInfo.CONTAINS_LCP);
+      return of(LcpPresence.CONTAINS_LCP);
     }
-    return of(LcpElementInfo.NONE);
+    return of(LcpPresence.NONE);
   }
 }

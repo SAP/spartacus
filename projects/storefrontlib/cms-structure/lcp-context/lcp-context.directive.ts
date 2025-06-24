@@ -6,12 +6,12 @@ import {
 } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ImageFetchPriority } from '../../shared/components/media/media.model';
-import { LCP_CONTEXT, LcpElementInfo } from './lcp-context.model';
+import { LCP_CONTEXT, LcpPresence } from './lcp-context.model';
 import { LcpToFetchPriorityMappingService } from './lcp-to-fetch-priority-mapping.service';
 
 interface LcpContextDirectiveTemplateContext {
   $implicit: {
-    lcpElementInfo$: Observable<LcpElementInfo>;
+    lcpPresence$: Observable<LcpPresence>;
     lcpFetchPriority$: Observable<ImageFetchPriority | null | undefined>;
   };
 }
@@ -25,7 +25,7 @@ export class LcpContextDirective {
     LcpToFetchPriorityMappingService
   );
   readonly lcpContext = inject(LCP_CONTEXT);
-  readonly fetchPriority$ = this.lcpContext.lcpElementInfo$.pipe(
+  readonly fetchPriority$ = this.lcpContext.lcpPresence$.pipe(
     map(
       (lcpElementInfo) =>
         this.lcpToFetchPriorityService.map(lcpElementInfo) ?? null
@@ -38,8 +38,8 @@ export class LcpContextDirective {
   ) {
     this.viewContainer.createEmbeddedView(this.templateRef, {
       $implicit: {
+        lcpPresence$: this.lcpContext.lcpPresence$,
         lcpFetchPriority$: this.fetchPriority$,
-        lcpElementInfo$: this.lcpContext.lcpElementInfo$,
       },
     });
   }
