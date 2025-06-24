@@ -16,7 +16,6 @@ import { LCP_CONTEXT } from './lcp-context.token';
 })
 export class ProvideLcpContextDirective implements OnChanges {
   @Input() cxProvideLcpContext?: LcpPresence | null;
-
   protected _lcpPresence$ = new ReplaySubject<LcpPresence>(1);
 
   ngOnChanges(): void {
