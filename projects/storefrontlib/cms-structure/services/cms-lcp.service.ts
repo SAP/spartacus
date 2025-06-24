@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ContentSlotComponentData } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { LcpPresence } from './lcp-context.model';
+import { LcpPresence } from '../lcp-context/lcp-context.model';
 
 /**
  * Extension point allowing for custom logic to mark whether a CMS component
