@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { defaultLcpCmsComponentsConfig } from './default-lcp-cms-components.config';
+import { defaultLcpCmsComponentsConfig } from './config/default-lcp-cms-components.config';
 
 @NgModule({})
 export class CmsLcpModule {

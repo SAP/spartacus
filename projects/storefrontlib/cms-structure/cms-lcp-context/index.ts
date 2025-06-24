@@ -6,6 +6,6 @@
 
 export * from './cms-lcp.module';
 export * from './cms-lcp.service';
-export * from './lcp-cms-components.config';
+export * from './config/index';
 export * from './provide-lcp-context-for-cms-directive.module';
 export * from './provide-lcp-context-for-cms.directive';

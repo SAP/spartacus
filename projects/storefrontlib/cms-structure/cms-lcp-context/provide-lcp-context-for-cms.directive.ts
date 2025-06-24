@@ -15,11 +15,11 @@ import {
 import { LcpContext } from '../../shared/directives/lcp-context/lcp-context.model';
 import { LCP_CONTEXT } from '../../shared/directives/lcp-context/lcp-context.token';
 import { CmsLcpService } from './cms-lcp.service';
+
 /**
- * Provides the LCP (Largest Contentful Paint) context for descendant components,
- * based on the CMS component data.
- * It uses the `CmsLcpService` to determine if a CMS component
- * contains an LCP (Largest Contentful Paint) element.
+ * Directive that provides the LCP (Largest Contentful Paint) context to descendant components
+ * based on the given CMS component data.
+ * Uses the `CmsLcpService` to determine whether the CMS component contains an LCP element.
  */
 @Directive({
   selector: '[cxProvideLcpContextForCms]',

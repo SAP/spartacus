@@ -8,11 +8,10 @@ import { inject, Injectable } from '@angular/core';
 import { ContentSlotComponentData } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LcpPresence } from '../../shared/directives/lcp-context/lcp-context.model';
-import { LcpCmsComponentsConfig } from './lcp-cms-components.config';
+import { LcpCmsComponentsConfig } from './config/lcp-cms-components.config';
 
 @Injectable({ providedIn: 'root' })
 export class CmsLcpService {
-  // SPIKE TODO: document this custom marker!
   protected readonly config = inject(LcpCmsComponentsConfig);
 
   /**
