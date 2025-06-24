@@ -9,12 +9,14 @@ import { of } from 'rxjs';
 import { LcpContext, LcpPresence } from './lcp-context.model';
 
 /**
- * Injection token for the LCP (Largest Contentful Paint) context.
- * It's provided on DOM level by an ancestor component (likely CMS component)
- * and can be injected into a descendant component which should react to the LCP presence.
- * For example, a descendant component can set higher image fetch priority.
+ * Context for LCP (Largest Contentful Paint) presence in the component subtree.
  *
- * It's also provided in root injector with default value of `LcpPresence.NONE`,
+ * It's provided on DOM level by an ancestor component (likely a CMS component)
+ *
+ * A descendant component can use this context for possible performance optimizations
+ * related to LCP (Largest Contentful Paint) element.
+ *
+ * Note: It's also provided in root injector with default value of `LcpPresence.NO_LCP`,
  * to avoid errors when no ancestor component provides it.
  */
 export const LCP_CONTEXT = new InjectionToken<LcpContext>('LCP_CONTEXT', {

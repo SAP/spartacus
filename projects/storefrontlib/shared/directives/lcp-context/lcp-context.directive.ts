@@ -17,6 +17,9 @@ import { LcpPresence } from './lcp-context.model';
 import { LCP_CONTEXT } from './lcp-context.token';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 
+/**
+ * Context provided by the `*cxLcpContext` directive.
+ */
 interface LcpContextDirectiveTemplateContext {
   $implicit: {
     lcpPresence$: Observable<LcpPresence>;
@@ -24,6 +27,21 @@ interface LcpContextDirectiveTemplateContext {
   };
 }
 
+/**
+ * Directive that allows reading the LCP (Largest Contentful Paint) context
+ * provided via the `LCP_CONTEXT` injection token by the ancestor component.
+ *
+ * It tells whether the ancestor component is known to contain an LCP (Largest Contentful Paint) element,
+ * which can be used for performance optimizations in some descendant component.
+ *
+ * @usage
+ * ```html
+ * <ng-container *cxLcpContext="let lcpContext">
+ *   LCP Presence: {{ lcpContext.lcpPresence$ }}
+ *
+ *   <cx-media [fetchPriority]="lcpContext.fetchPriority$ | async">
+ * </ng-container>
+ */
 @Directive({
   selector: '[cxLcpContext]',
   standalone: false,
@@ -33,6 +51,11 @@ export class LcpContextDirective implements OnInit {
   protected readonly lcpPresenceMappingService = inject(
     LcpPresenceMappingService
   );
+
+  /**
+   * Convenience observable that maps the LCP presence to the fetch priority
+   * for the image element, which can be used directly e.g. in the `<cx-media>` component.
+   */
   protected readonly fetchPriority$ = this.lcpContext.lcpPresence$.pipe(
     map((lcpElementInfo) =>
       this.lcpPresenceMappingService.getFetchPriority(lcpElementInfo)

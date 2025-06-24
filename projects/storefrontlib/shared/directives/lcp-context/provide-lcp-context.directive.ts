@@ -9,6 +9,12 @@ import { distinctUntilChanged, ReplaySubject, shareReplay } from 'rxjs';
 import { LcpContext, LcpPresence } from './lcp-context.model';
 import { LCP_CONTEXT } from './lcp-context.token';
 
+/**
+ * Directive that provides the LCP (Largest Contentful Paint) context to descendant components
+ * based on the given input.
+ *
+ * For CMS components, please use `ProvideLcpContextForCmsDirective` instead.
+ */
 @Directive({
   selector: '[cxProvideLcpContext]',
   providers: [

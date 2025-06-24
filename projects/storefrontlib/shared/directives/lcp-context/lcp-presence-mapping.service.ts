@@ -9,7 +9,7 @@ import { ImageFetchPriority } from '@spartacus/storefront';
 import { LcpPresence } from './lcp-context.model';
 
 /**
- * Maps the information about the LCP (Largest Contentful Paint) presence to the image fetch priority.
+ * Maps the information about the LCP (Largest Contentful Paint) presence to fetch priority.
  */
 @Injectable({ providedIn: 'root' })
 export class LcpPresenceMappingService {

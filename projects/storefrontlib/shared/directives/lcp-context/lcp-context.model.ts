@@ -7,7 +7,7 @@
 import { Observable } from 'rxjs';
 
 /**
- * Tells whether the component contains LCP (Largest Contentful Paint) element.
+ * Tells whether the component contains LCP (Largest Contentful Paint) element or not.
  */
 export enum LcpPresence {
   HAS_LCP = 'HAS_LCP',
@@ -15,7 +15,7 @@ export enum LcpPresence {
 }
 
 /**
- * Context for LCP (Largest Contentful Paint) presence in a component.
+ * Context for LCP (Largest Contentful Paint) presence in the component subtree.
  */
 export interface LcpContext {
   lcpPresence$: Observable<LcpPresence>;
