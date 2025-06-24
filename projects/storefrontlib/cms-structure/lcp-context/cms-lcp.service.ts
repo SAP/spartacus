@@ -14,14 +14,16 @@ import { LcpPresence } from './lcp-context.model';
  * contains LCP (Largest Contentful Paint) element.
  */
 @Injectable({ providedIn: 'root' })
-export class LcpContextForCmsService {
+export class CmsLcpService {
   // SPIKE TODO: document this custom marker!
   protected readonly LCP_MARKER = '__CX_LCP__';
 
   /**
-   * Returns LCP context for the given component data
+   * Tells whether the given CMS component contains an LCP (Largest Contentful Paint) element.
    */
-  get(componentData: ContentSlotComponentData): Observable<LcpPresence> {
+  getLcpPresence(
+    componentData: ContentSlotComponentData
+  ): Observable<LcpPresence> {
     if (componentData?.uid?.includes(this.LCP_MARKER)) {
       return of(LcpPresence.CONTAINS_LCP);
     }

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './cms-lcp.service';
 export * from './lcp-context-directive.module';
-export * from './lcp-context-for-cms.service';
 export * from './lcp-context.directive';
 export * from './lcp-context.model';
 export * from './lcp-to-fetch-priority-mapping.service';

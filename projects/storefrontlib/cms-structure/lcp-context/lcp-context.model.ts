@@ -2,24 +2,25 @@ import { InjectionToken } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 /**
- * Possible values for the LCP context.
- * This enum is used to indicate whether a component contains an LCP (Largest Contentful Paint) element.
- * It helps in applying different behaviors based on the presence of LCP,
- * such as prioritizing the loading of a main image within the component.
+ * Tells whether the component contains LCP (Largest Contentful Paint) element.
  */
 export enum LcpPresence {
   CONTAINS_LCP = 'CONTAINS_LCP',
   NONE = 'NONE',
 }
 
+/**
+ * Context for LCP (Largest Contentful Paint) presence in a component.
+ */
 export interface LcpContext {
   lcpPresence$: Observable<LcpPresence>;
 }
 
 /**
- * Tells whether the component contains LCP (Largest Contentful Paint) element.
- * This is used to apply different behaviors based on the presence of LCP,
- * for example, to prioritize loading of a main image inside of the component.
+ * Injection token for the LCP (Largest Contentful Paint) context.
+ * It's provided on DOM level by an ancestor component (likely CMS component)
+ * and can be injected into a descendant component which should react to the LCP presence.
+ * For example, a descendant component can set higher image fetch priority.
  */
 export const LCP_CONTEXT = new InjectionToken<LcpContext>('LCP_CONTEXT', {
   providedIn: 'root',

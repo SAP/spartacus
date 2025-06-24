@@ -1,12 +1,18 @@
-import { Directive, inject, Input } from '@angular/core';
+import { Directive, inject, Input, OnChanges } from '@angular/core';
 import { ContentSlotComponentData } from '@spartacus/core';
-import { distinctUntilChanged, map, ReplaySubject } from 'rxjs';
-import { LcpContextForCmsService } from './lcp-context-for-cms.service';
-import { LCP_CONTEXT } from './lcp-context.model';
+import {
+  distinctUntilChanged,
+  ReplaySubject,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
+import { CmsLcpService } from './cms-lcp.service';
+import { LCP_CONTEXT, LcpContext } from './lcp-context.model';
 
 /**
- * Provides LCP context for child components based on the CMS component data.
- * It uses the `LcpContextForCmsService` to determine if a CMS component
+ * Provides the LCP (Largest Contentful Paint) context for descendant components,
+ * based on the CMS component data.
+ * It uses the `CmsLcpService` to determine if a CMS component
  * contains an LCP (Largest Contentful Paint) element.
  */
 @Directive({
@@ -14,23 +20,31 @@ import { LCP_CONTEXT } from './lcp-context.model';
   providers: [
     {
       provide: LCP_CONTEXT,
-      useFactory: () => inject(ProvideLcpContextForCmsDirective).value$,
+      useFactory: (): LcpContext =>
+        inject(ProvideLcpContextForCmsDirective).lcpContext,
     },
   ],
   standalone: false,
 })
-export class ProvideLcpContextForCmsDirective {
+export class ProvideLcpContextForCmsDirective implements OnChanges {
+  protected cmsLcpService = inject(CmsLcpService);
+
   @Input() cxProvideLcpContextForCms: ContentSlotComponentData;
+  protected _cmsComponentData$ = new ReplaySubject<ContentSlotComponentData>(1);
 
-  protected lcpContextForCmsService = inject(LcpContextForCmsService);
+  ngOnChanges(): void {
+    this._cmsComponentData$.next(this.cxProvideLcpContextForCms);
+  }
 
-  protected _input$ = new ReplaySubject<ContentSlotComponentData>(1);
-
-  protected _value$ = this._input$.pipe(
-    map((cmsComponentData) =>
-      this.lcpContextForCmsService.get(cmsComponentData)
-    )
+  protected lcpPresence$ = this._cmsComponentData$.pipe(
+    switchMap((componentData) =>
+      this.cmsLcpService.getLcpPresence(componentData)
+    ),
+    distinctUntilChanged(),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  protected readonly value$ = this._value$.pipe(distinctUntilChanged());
+  protected lcpContext: LcpContext = {
+    lcpPresence$: this.lcpPresence$,
+  };
 }

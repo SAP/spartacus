@@ -3,11 +3,7 @@ import { ImageFetchPriority } from '@spartacus/storefront';
 import { LcpPresence } from './lcp-context.model';
 
 /**
- * Easy extension point for the mapping the LCP context to the
- * image fetch priority.
- *
- * It's provided in the root injector, so can be easily overwritten,
- * as opposed to the directive.
+ * Maps the information about the LCP (Largest Contentful Paint) presence to the image fetch priority.
  */
 @Injectable({ providedIn: 'root' })
 export class LcpToFetchPriorityMappingService {
