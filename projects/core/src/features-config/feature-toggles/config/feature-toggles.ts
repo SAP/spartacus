@@ -629,6 +629,18 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * Introduces read more directive for presenting elements with long text.
+   * Affects: ProductReviewsComponent
+   */
+  readMoreDirective?: boolean;
+
+  /**
+   * Introduces characters left for product review form elements.
+   * Affects: ProductReviewsComponent
+   */
+  productReviewCharactersLeft?: boolean;
+
+  /**
    * The optional `aria-controls` attribute will override on the NgSelect implementation.
    * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
    * This change ensures we can still use a custom id if preferable.
@@ -831,6 +843,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
+  readMoreDirective: false,
+  productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
   enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: true,
