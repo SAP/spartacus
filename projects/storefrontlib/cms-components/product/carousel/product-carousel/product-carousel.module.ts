@@ -14,11 +14,11 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageComponentModule } from '../../../../cms-structure';
-import { LcpContextDirectiveModule } from '../../../../cms-structure/lcp-context/lcp-context-directive.module';
 import {
   CarouselModule,
   MediaModule,
 } from '../../../../shared/components/index';
+import { LcpContextDirectiveModule } from '../../../../shared/directives/lcp-context/lcp-context-directive.module';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
 import { ProductCarouselComponent } from './product-carousel.component';
 

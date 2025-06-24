@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ProvideLcpContextForCmsDirectiveModule } from '../../lcp-context/provide-lcp-context-for-cms-directive.module';
+import { ProvideLcpContextForCmsDirectiveModule } from '../../cms-lcp-context/provide-lcp-context-for-cms-directive.module';
 import { OutletModule } from '../../outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
 import { PageSlotComponent } from './page-slot.component';

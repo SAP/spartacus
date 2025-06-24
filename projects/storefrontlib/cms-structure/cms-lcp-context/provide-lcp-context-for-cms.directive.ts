@@ -12,9 +12,9 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs';
-import { CmsLcpService } from '../services/cms-lcp.service';
-import { LcpContext } from './lcp-context.model';
-import { LCP_CONTEXT } from './lcp-context.token';
+import { LcpContext } from '../../shared/directives/lcp-context/lcp-context.model';
+import { LCP_CONTEXT } from '../../shared/directives/lcp-context/lcp-context.token';
+import { CmsLcpService } from './cms-lcp.service';
 /**
  * Provides the LCP (Largest Contentful Paint) context for descendant components,
  * based on the CMS component data.

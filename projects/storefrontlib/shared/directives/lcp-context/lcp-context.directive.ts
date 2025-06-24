@@ -12,7 +12,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
-import { ImageFetchPriority } from '../../shared/components/media/media.model';
+import { ImageFetchPriority } from '../../components/media/media.model';
 import { LcpPresence } from './lcp-context.model';
 import { LCP_CONTEXT } from './lcp-context.token';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';

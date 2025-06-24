@@ -15,10 +15,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { LcpContextDirectiveModule } from '../../../cms-structure/lcp-context/lcp-context-directive.module';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
+import { LcpContextDirectiveModule } from '../../../shared/directives/lcp-context/lcp-context-directive.module';
 import {
   AtMessageModule,
   ItemCounterModule,
