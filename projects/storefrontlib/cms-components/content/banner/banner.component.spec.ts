@@ -11,6 +11,7 @@ import {
   SemanticPathService,
   UrlCommand,
 } from '@spartacus/core';
+import { LcpContextDirectiveModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -82,7 +83,7 @@ describe('BannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FeaturesConfigModule],
+      imports: [FeaturesConfigModule, LcpContextDirectiveModule],
       declarations: [
         BannerComponent,
         MockMediaComponent,

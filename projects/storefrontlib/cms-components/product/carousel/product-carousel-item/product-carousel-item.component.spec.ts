@@ -15,6 +15,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  LcpContextDirectiveModule,
   OutletDirective,
   OutletModule,
   ProductListItemContext,
@@ -76,7 +77,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
       declarations: [
         ProductCarouselItemComponent,
         MockUrlPipe,

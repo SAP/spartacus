@@ -14,7 +14,11 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { OutletDirective, OutletModule } from '@spartacus/storefront';
+import {
+  LcpContextDirectiveModule,
+  OutletDirective,
+  OutletModule,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -101,7 +105,7 @@ describe('ProductGridItemComponent in product-list', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
       declarations: [
         ProductGridItemComponent,
         MockMediaComponent,
