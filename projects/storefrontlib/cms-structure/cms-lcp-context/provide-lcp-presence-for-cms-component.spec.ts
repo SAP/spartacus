@@ -32,7 +32,7 @@ describe('provideLcpContextForCmsComponent', () => {
     });
   });
 
-  it('should provide LCP_CONTEXT with lcpPresence$ observable returning HAS_LCP', (done) => {
+  it('should provide LCP_PRESENCE with lcpPresence$ observable returning HAS_LCP', (done) => {
     mockCmsLcpService.getLcpPresence.and.returnValue(of(LcpPresence.HAS_LCP));
     const lcpPresence$ = TestBed.inject(LCP_PRESENCE);
     const sub = lcpPresence$.subscribe((lcpPresence) => {
@@ -45,7 +45,7 @@ describe('provideLcpContextForCmsComponent', () => {
     sub.unsubscribe();
   });
 
-  it('should provide LCP_CONTEXT with lcpPresence$ observable returning NO_LCP', (done) => {
+  it('should provide LCP_PRESENCE with lcpPresence$ observable returning NO_LCP', (done) => {
     mockCmsLcpService.getLcpPresence.and.returnValue(of(LcpPresence.NO_LCP));
     const lcpPresence$ = TestBed.inject(LCP_PRESENCE);
     const sub = lcpPresence$.subscribe((lcpPresence) => {

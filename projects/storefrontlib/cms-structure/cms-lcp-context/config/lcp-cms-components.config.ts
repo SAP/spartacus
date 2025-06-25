@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 
 /**
- * Configuration for recognizing certain CMS components as containing
+ * Configuration for recognizing which CMS components are containing
  * the LCP (Largest Contentful Paint) element.
  */
 @Injectable({

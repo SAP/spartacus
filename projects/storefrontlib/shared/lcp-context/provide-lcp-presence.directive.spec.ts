@@ -51,7 +51,7 @@ describe('ProvideLcpContextDirective', () => {
       .nativeElement.textContent.trim();
   }
 
-  it('should provide something, but not fallback to DEFAULT_LCP_CONTEXT', () => {
+  it('should provide something, but not fallback to DEFAULT_LCP_PRESENCE', () => {
     const child = fixture.debugElement.query(By.directive(ChildComponent));
     expect(child.componentInstance.lcpPresence$).toBeTruthy();
     expect(child.componentInstance.lcpPresence$).not.toBe(DEFAULT_LCP_PRESENCE);

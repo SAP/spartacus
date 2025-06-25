@@ -5,22 +5,22 @@
  */
 
 import { FactoryProvider, inject } from '@angular/core';
-import { distinctUntilChanged, shareReplay, switchMap } from 'rxjs';
-import { LcpContext } from '../../shared/lcp-context/lcp-presence.model';
+import { distinctUntilChanged, Observable, shareReplay, switchMap } from 'rxjs';
+import { LcpPresence } from '../../shared/lcp-context/lcp-presence.model';
 import { LCP_PRESENCE } from '../../shared/lcp-context/lcp-presence.token';
 import { CmsComponentData } from '../page/model/cms-component-data';
 import { CmsLcpService } from './cms-lcp.service';
 
 /**
- * Provides the LCP (Largest Contentful Paint) context for a given CMS component,
+ * Provides the information whether the given CMS component contains the LCP (Largest Contentful Paint) element,
  * based on the `CmsComponentData` injection token.
  *
- * It's used in the `CmsInjectorService` to provide the `LCP_CONTEXT` at the DOM level of each CMS component.
+ * It's used in the `CmsInjectorService` to provide the `LCP_PRESENCE` at the DOM level of each CMS component.
  */
 export const provideLcpPresenceForCmsComponent = (): FactoryProvider => {
   return {
     provide: LCP_PRESENCE,
-    useFactory: () => {
+    useFactory: (): Observable<LcpPresence> => {
       const cmsComponentData = inject(CmsComponentData);
       const cmsLcpService = inject(CmsLcpService);
 
@@ -32,9 +32,7 @@ export const provideLcpPresenceForCmsComponent = (): FactoryProvider => {
         shareReplay({ bufferSize: 1, refCount: true })
       );
 
-      // SPIKE TODO SIMPLIFY
-      const lcpContext: LcpContext = lcpPresence$;
-      return lcpContext;
+      return lcpPresence$;
     },
   };
 };

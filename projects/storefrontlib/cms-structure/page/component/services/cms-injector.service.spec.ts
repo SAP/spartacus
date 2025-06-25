@@ -51,7 +51,7 @@ describe('CmsInjectorService', () => {
       expect(mockCmsComponentsService.getMapping).toHaveBeenCalled();
     });
 
-    it('should provide LCP_CONTEXT from the injector', () => {
+    it('should provide LCP_PRESENCEE from the injector', () => {
       const injector = service.getInjector('aaa', 'sampleUid');
       const lcpContext = injector.get(LCP_PRESENCE);
       expect(lcpContext).toBeDefined();

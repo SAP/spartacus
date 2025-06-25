@@ -29,10 +29,10 @@ interface LcpContextDirectiveTemplateContext {
 
 /**
  * Directive that allows reading the LCP (Largest Contentful Paint) context
- * provided via the `LCP_CONTEXT` injection token by the ancestor component.
+ * provided via the `LCP_PRESENCE` injection token by the ancestor component.
  *
- * It tells whether the ancestor component is known to contain an LCP (Largest Contentful Paint) element,
- * which can be used for performance optimizations in some descendant component.
+ * The knowledge about the containing the LCP (Largest Contentful Paint) element
+ * can be used for performance optimizations in some descendant component.
  *
  * @usage
  * ```html

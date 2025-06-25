@@ -5,23 +5,29 @@
  */
 
 import { Directive, inject, Input, OnChanges } from '@angular/core';
-import { distinctUntilChanged, ReplaySubject, shareReplay } from 'rxjs';
-import { LcpContext, LcpPresence } from './lcp-presence.model';
+import {
+  distinctUntilChanged,
+  Observable,
+  ReplaySubject,
+  shareReplay,
+} from 'rxjs';
+import { LcpPresence } from './lcp-presence.model';
 import { LCP_PRESENCE } from './lcp-presence.token';
 
 /**
- * Directive that provides the LCP (Largest Contentful Paint) context to descendant components
- * based on the given input.
+ * Directive that provides the information whether the template contains
+ * the LCP (Largest Contentful Paint) element.
  *
- * For CMS components, please use `ProvideLcpContextForCmsDirective` instead.
+ * For CMS components, it's already defined by the `[cxComponentWrapper]` directive,
+ * based on the dynamic CMS component data.
  */
 @Directive({
   selector: '[cxProvideLcpPresence]',
   providers: [
     {
       provide: LCP_PRESENCE,
-      useFactory: (): LcpContext =>
-        inject(ProvideLcpPresenceDirective).lcpContext,
+      useFactory: (): Observable<LcpPresence> =>
+        inject(ProvideLcpPresenceDirective).lcpPresence$,
     },
   ],
   standalone: false,
@@ -39,6 +45,4 @@ export class ProvideLcpPresenceDirective implements OnChanges {
     distinctUntilChanged(),
     shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  protected lcpContext: LcpContext = this.lcpPresence$;
 }

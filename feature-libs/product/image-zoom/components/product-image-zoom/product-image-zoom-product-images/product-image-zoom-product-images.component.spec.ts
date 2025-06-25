@@ -6,7 +6,6 @@ import {
   CurrentProductService,
   ImageFetchPriority,
   LCP_PRESENCE,
-  LcpContext,
   LcpContextDirectiveModule,
   LcpPresence,
 } from '@spartacus/storefront';
@@ -131,7 +130,7 @@ describe('ProductImagesComponent', () => {
       providers: [
         {
           provide: LCP_PRESENCE,
-          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+          useValue: mockLcpPresence$,
         },
         {
           provide: CurrentProductService,
