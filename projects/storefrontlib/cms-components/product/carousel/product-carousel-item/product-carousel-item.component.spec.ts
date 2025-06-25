@@ -118,7 +118,6 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     component.item = mockProduct;
 
     component.ngOnChanges({});
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -126,6 +125,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   });
 
   it('should display product name', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
@@ -133,32 +133,38 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   });
 
   it('should display product formatted price', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.price').textContent
     ).toContain(component.item.price.formattedValue);
   });
 
   it('should display product image', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
   });
 
   it('should have defined instance of list item context', () => {
+    fixture.detectChanges();
     expect(component['productListItemContextSource']).toBeDefined();
   });
 
   it('should provide ProductListItemContextSource', () => {
+    fixture.detectChanges();
     expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
   });
 
   it('should provide ProductListItemContext', () => {
+    fixture.detectChanges();
     expect(componentInjector.get(ProductListItemContext)).toBe(
       componentInjector.get(ProductListItemContextSource)
     );
   });
 
   it('should push changes of input"product" to context', () => {
+    fixture.detectChanges();
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
@@ -172,23 +178,27 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
 
   describe('UI test', () => {
     it('should render product name in template', waitForAsync(() => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('h3'));
       expect(el.nativeElement).toBeTruthy();
       expect(el.nativeElement.innerText).toEqual('Test product');
     }));
 
     it('should render product price in template', waitForAsync(() => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('.price'));
       expect(el.nativeElement).toBeTruthy();
       expect(el.nativeElement.innerText).toEqual('$100,00');
     }));
 
     it('should render product primary image for the first item', waitForAsync(() => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
     }));
 
     it('should render missing product image for the 2nd item as well', waitForAsync(() => {
+      fixture.detectChanges();
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
     }));
