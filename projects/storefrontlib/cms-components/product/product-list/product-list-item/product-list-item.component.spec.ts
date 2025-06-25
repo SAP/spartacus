@@ -17,6 +17,8 @@ import {
 } from '@spartacus/core';
 import {
   ImageFetchPriority,
+  LCP_CONTEXT,
+  LcpContext,
   LcpContextDirectiveModule,
   LcpPresence,
   OutletDirective,
@@ -125,6 +127,10 @@ describe('ProductListItemComponent in product-list', () => {
         MockOutletDirective,
       ],
       providers: [
+        {
+          provide: LCP_CONTEXT,
+          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+        },
         {
           provide: RoutingService,
           useClass: MockRoutingService,
