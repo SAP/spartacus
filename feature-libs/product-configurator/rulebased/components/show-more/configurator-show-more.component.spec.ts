@@ -112,13 +112,13 @@ describe('ConfiguratorShowMoreComponent', () => {
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      component.text = 'Here is a short description to the product';
-      component.productName = 'Camera bundle';
       component.ngAfterViewInit();
       fixture.detectChanges();
     });
 
     it("should contain button element with a content 'configurator.button.less'", () => {
+      component.toggleShowMore();
+      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -132,8 +132,6 @@ describe('ConfiguratorShowMoreComponent', () => {
     });
 
     it("should contain button element with a content 'configurator.button.more'", () => {
-      component.toggleShowMore();
-      fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
