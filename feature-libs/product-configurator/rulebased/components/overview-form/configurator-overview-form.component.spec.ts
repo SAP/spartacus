@@ -445,14 +445,14 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
   });
 
-  describe('Accessibility', () => {
-    function setFeatureToggle(negated = false) {
+  fdescribe('Accessibility', () => {
+    function setFeatureToggle(featureToggleEnabled: boolean) {
       spyOn(TestBed.inject(FeatureConfigService), 'isEnabled').and.callFake(
         (feature: string) => {
-          if (negated) {
-            return feature === '!a11yConfiguratorOverviewHeaderVPC';
+          if (featureToggleEnabled) {
+            return feature === 'a11yConfiguratorOverviewHeaderVPC';
           }
-          return feature === 'a11yConfiguratorOverviewHeaderVPC';
+          return feature === '!a11yConfiguratorOverviewHeaderVPC';
         }
       );
       initialize();
@@ -483,7 +483,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
 
     it("should contain action span element with class name 'cx-visually-hidden' within a H2 section, that hides span element content on the UI", () => {
-      setFeatureToggle();
+      setFeatureToggle(true);
 
       const h2s = htmlElem.querySelectorAll('h2');
       expectSpan(
@@ -503,7 +503,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         'span.cx-visually-hidden',
         'configurator.a11y.group group:Group 1'
       );
-      expectSpan(divs[0] as HTMLElement, 'span[aria-hidden="true"]', 'Group 1');
+      expectSpan(divs[0] as HTMLElement, 'h2[aria-hidden="true"]', 'Group 1');
     });
   });
 
