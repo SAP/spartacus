@@ -9,17 +9,21 @@ import {
   SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
 import {
+  ImageFetchPriority,
   LcpContextDirectiveModule,
+  LcpPresence,
   OutletDirective,
   OutletModule,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
@@ -48,7 +52,7 @@ class MockStarRatingComponent {
   template: 'mock picture component',
   standalone: false,
 })
-class MockPictureComponent {
+class MockMediaComponent {
   @Input() container;
   @Input() alt;
 }
@@ -85,6 +89,7 @@ describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let componentInjector: Injector;
   let fixture: ComponentFixture<ProductListItemComponent>;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   const mockProduct = {
     name: 'Test product',
@@ -104,11 +109,13 @@ describe('ProductListItemComponent in product-list', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
       declarations: [
         ProductListItemComponent,
-        MockPictureComponent,
+        MockMediaComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
         MockUrlPipe,
@@ -221,5 +228,49 @@ describe('ProductListItemComponent in product-list', () => {
       product: { currentValue: component.product } as SimpleChange,
     });
     expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
+  });
+
+  describe('when contains LCP element', () => {
+    beforeEach(() => {
+      mockLcpPresence$.next(LcpPresence.HAS_LCP);
+    });
+
+    it('should prioritize downloading the image of the FIRST carousel item', () => {
+      fixture.componentInstance.itemIndex = 0;
+      fixture.detectChanges();
+      const mediaComponents = fixture.debugElement.queryAll(
+        By.directive(MockMediaComponent)
+      );
+      expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        ImageFetchPriority.HIGH
+      );
+    });
+
+    it('should NOT prioritize downloading the image of the carousel items other than the first', () => {
+      fixture.componentInstance.itemIndex = 1;
+      fixture.detectChanges();
+      const mediaComponents = fixture.debugElement.queryAll(
+        By.directive(MockMediaComponent)
+      );
+      expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        undefined
+      );
+    });
+  });
+
+  describe('when does NOT contain LCP element', () => {
+    beforeEach(() => {
+      mockLcpPresence$.next(LcpPresence.NO_LCP);
+    });
+
+    it('should NOT prioritize downloading the image', () => {
+      fixture.detectChanges();
+      const mediaComponents = fixture.debugElement.queryAll(
+        By.directive(MockMediaComponent)
+      );
+      expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+        undefined
+      );
+    });
   });
 });
