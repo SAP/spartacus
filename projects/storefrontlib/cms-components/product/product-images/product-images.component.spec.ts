@@ -2,8 +2,14 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
-import { LcpContextDirectiveModule } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import {
+  ImageFetchPriority,
+  LCP_CONTEXT,
+  LcpContext,
+  LcpContextDirectiveModule,
+  LcpPresence,
+} from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
 
@@ -60,6 +66,7 @@ class MockCurrentProductService {
 })
 class MockMediaComponent {
   @Input() container;
+  @Input() fetchPriority: ImageFetchPriority | undefined | null;
 }
 
 @Component({
@@ -84,8 +91,11 @@ describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
   let currentProductService: CurrentProductService;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(waitForAsync(() => {
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
     TestBed.configureTestingModule({
       imports: [LcpContextDirectiveModule],
       declarations: [
@@ -94,6 +104,10 @@ describe('ProductImagesComponent', () => {
         MockCarouselComponent,
       ],
       providers: [
+        {
+          provide: LCP_CONTEXT,
+          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+        },
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
@@ -151,6 +165,57 @@ describe('ProductImagesComponent', () => {
         );
         expect(el.length).toEqual(2);
       }));
+
+      describe('when contains LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+        });
+
+        it('should prioritize downloading the main image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            ImageFetchPriority.HIGH
+          );
+        });
+
+        it('should NOT prioritize downloading images other than the main one', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+          expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
+      });
+
+      describe('when does NOT contain LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
+        });
+
+        it('should NOT prioritize downloading any image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+          expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+          expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
+      });
     });
   });
 
@@ -188,6 +253,38 @@ describe('ProductImagesComponent', () => {
 
         const carousel = fixture.debugElement.query(By.css('cx-carousel'));
         expect(carousel).toBeNull();
+      });
+
+      describe('when contains LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+        });
+
+        it('should prioritize downloading the main image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            ImageFetchPriority.HIGH
+          );
+        });
+      });
+
+      describe('when does NOT contain LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
+        });
+
+        it('should NOT prioritize downloading any image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
       });
     });
   });
