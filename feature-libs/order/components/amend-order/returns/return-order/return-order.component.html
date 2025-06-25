@@ -1,5 +1,4 @@
 <ng-container *ngIf="form$ | async as form">
-  <ng-container *ngTemplateOutlet="actions"></ng-container>
 
   <cx-amend-order-items *ngIf="entries$ | async as entries" [entries]="entries">
   </cx-amend-order-items>
