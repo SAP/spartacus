@@ -1,0 +1,83 @@
+import { Component, inject } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { LcpPresence } from './lcp-context.model';
+import { DEFAULT_LCP_CONTEXT, LCP_CONTEXT } from './lcp-context.token';
+import { ProvideLcpContextDirective } from './provide-lcp-context.directive';
+
+@Component({
+  selector: 'cx-test-host',
+  template: `Parent:
+    <div [cxProvideLcpContext]="lcpPresence">
+      <cx-child></cx-child>
+    </div>`,
+  standalone: false,
+})
+class TestHostComponent {
+  lcpPresence: LcpPresence = LcpPresence.HAS_LCP;
+}
+
+@Component({
+  selector: 'cx-child',
+  template: `Child:
+    <div class="lcpPresence">
+      {{ lcpContext.lcpPresence$ | async }}
+    </div>`,
+  standalone: false,
+})
+class ChildComponent {
+  lcpContext = inject(LCP_CONTEXT);
+}
+
+describe('ProvideLcpContextDirective', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        TestHostComponent,
+        ChildComponent,
+        ProvideLcpContextDirective,
+      ],
+      providers: [],
+    });
+    fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+  });
+
+  function getInjectedLcpPresence(): string {
+    return fixture.debugElement
+      .query(By.css('.lcpPresence'))
+      .nativeElement.textContent.trim();
+  }
+
+  it('should provide something, but not fallback to DEFAULT_LCP_CONTEXT', () => {
+    const child = fixture.debugElement.query(By.directive(ChildComponent));
+    expect(child.componentInstance.lcpContext).toBeTruthy();
+    expect(child.componentInstance.lcpContext).not.toEqual(DEFAULT_LCP_CONTEXT);
+  });
+
+  it('should provide default NO_LCP when input is null', () => {
+    const injectedLcpPresence = getInjectedLcpPresence();
+    expect(injectedLcpPresence).toBe(LcpPresence.HAS_LCP);
+  });
+
+  it('should provide the input value when set', () => {
+    fixture.componentInstance.lcpPresence = LcpPresence.NO_LCP;
+    fixture.detectChanges();
+    const injectedLcpPresence = getInjectedLcpPresence();
+    expect(injectedLcpPresence).toBe(LcpPresence.NO_LCP);
+  });
+
+  it('should emit new value when input changes', () => {
+    fixture.componentInstance.lcpPresence = LcpPresence.NO_LCP;
+    fixture.detectChanges();
+    let injectedLcpPresence = getInjectedLcpPresence();
+    expect(injectedLcpPresence).toBe(LcpPresence.NO_LCP);
+
+    fixture.componentInstance.lcpPresence = LcpPresence.HAS_LCP;
+    fixture.detectChanges();
+    injectedLcpPresence = getInjectedLcpPresence();
+    expect(injectedLcpPresence).toBe(LcpPresence.HAS_LCP);
+  });
+});
