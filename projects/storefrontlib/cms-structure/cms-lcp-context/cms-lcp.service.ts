@@ -51,18 +51,6 @@ export class CmsLcpService {
     const idMarker = this.config?.lcpCmsComponents?.idMarker;
     const ids = this.config?.lcpCmsComponents?.ids || [];
 
-    // SPIKE TODO REMOVE:
-    // Count invocations per component UID
-    if (typeof window !== 'undefined') {
-      if (!(window as any).spikeCounter) {
-        (window as any).spikeCounter = {};
-      }
-      if (!(window as any).spikeCounter[componentData.uid || '']) {
-        (window as any).spikeCounter[componentData.uid || ''] = 0;
-      }
-      (window as any).spikeCounter[componentData.uid || '']++;
-    }
-
     // Check if ID contains a special marker
     if (idMarker && componentData?.uid?.includes(idMarker)) {
       return of(LcpPresence.HAS_LCP);
