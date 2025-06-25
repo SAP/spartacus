@@ -116,7 +116,7 @@ describe('ConfiguratorShowMoreComponent', () => {
       fixture.detectChanges();
     });
 
-    it("should contain button element with a content 'configurator.button.less'", () => {
+    it("should contain button element with a content 'configurator.button.less' in case toggle has been invoked", () => {
       component.toggleShowMore();
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -131,7 +131,7 @@ describe('ConfiguratorShowMoreComponent', () => {
       );
     });
 
-    it("should contain button element with a content 'configurator.button.more'", () => {
+    it("should contain button element with a content 'configurator.button.more' in the initial state", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
