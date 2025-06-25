@@ -445,7 +445,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
   });
 
-  fdescribe('Accessibility', () => {
+  describe('Accessibility', () => {
     function setFeatureToggle(featureToggleEnabled: boolean) {
       spyOn(TestBed.inject(FeatureConfigService), 'isEnabled').and.callFake(
         (feature: string) => {
