@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LcpPresence } from './lcp-context.model';
-import { DEFAULT_LCP_CONTEXT, LCP_CONTEXT } from './lcp-context.token';
-import { ProvideLcpContextDirective } from './provide-lcp-context.directive';
+import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-context.token';
+import { ProvideLcpPresenceDirective } from './provide-lcp-context.directive';
 
 @Component({
   selector: 'cx-test-host',
   template: `Parent:
-    <div [cxProvideLcpContext]="lcpPresence">
+    <div [cxProvideLcpPresence]="lcpPresence">
       <cx-child></cx-child>
     </div>`,
   standalone: false,
@@ -21,12 +21,12 @@ class TestHostComponent {
   selector: 'cx-child',
   template: `Child:
     <div class="lcpPresence">
-      {{ lcpContext.lcpPresence$ | async }}
+      {{ lcpPresence$ | async }}
     </div>`,
   standalone: false,
 })
 class ChildComponent {
-  lcpContext = inject(LCP_CONTEXT);
+  lcpPresence$ = inject(LCP_PRESENCE);
 }
 
 describe('ProvideLcpContextDirective', () => {
@@ -37,7 +37,7 @@ describe('ProvideLcpContextDirective', () => {
       declarations: [
         TestHostComponent,
         ChildComponent,
-        ProvideLcpContextDirective,
+        ProvideLcpPresenceDirective,
       ],
       providers: [],
     });
@@ -53,8 +53,8 @@ describe('ProvideLcpContextDirective', () => {
 
   it('should provide something, but not fallback to DEFAULT_LCP_CONTEXT', () => {
     const child = fixture.debugElement.query(By.directive(ChildComponent));
-    expect(child.componentInstance.lcpContext).toBeTruthy();
-    expect(child.componentInstance.lcpContext).not.toEqual(DEFAULT_LCP_CONTEXT);
+    expect(child.componentInstance.lcpPresence$).toBeTruthy();
+    expect(child.componentInstance.lcpPresence$).not.toBe(DEFAULT_LCP_PRESENCE);
   });
 
   it('should provide default NO_LCP when input is null', () => {

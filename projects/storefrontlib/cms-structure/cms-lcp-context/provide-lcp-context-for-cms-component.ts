@@ -7,7 +7,7 @@
 import { FactoryProvider, inject } from '@angular/core';
 import { distinctUntilChanged, shareReplay, switchMap } from 'rxjs';
 import { LcpContext } from '../../shared/lcp-context/lcp-context.model';
-import { LCP_CONTEXT } from '../../shared/lcp-context/lcp-context.token';
+import { LCP_PRESENCE } from '../../shared/lcp-context/lcp-context.token';
 import { CmsComponentData } from '../page/model/cms-component-data';
 import { CmsLcpService } from './cms-lcp.service';
 
@@ -17,9 +17,9 @@ import { CmsLcpService } from './cms-lcp.service';
  *
  * It's used in the `CmsInjectorService` to provide the `LCP_CONTEXT` at the DOM level of each CMS component.
  */
-export const provideLcpContextForCmsComponent = (): FactoryProvider => {
+export const provideLcpPresenceForCmsComponent = (): FactoryProvider => {
   return {
-    provide: LCP_CONTEXT,
+    provide: LCP_PRESENCE,
     useFactory: () => {
       const cmsComponentData = inject(CmsComponentData);
       const cmsLcpService = inject(CmsLcpService);
@@ -32,9 +32,8 @@ export const provideLcpContextForCmsComponent = (): FactoryProvider => {
         shareReplay({ bufferSize: 1, refCount: true })
       );
 
-      const lcpContext: LcpContext = {
-        lcpPresence$: lcpPresence$,
-      };
+      // SPIKE TODO SIMPLIFY
+      const lcpContext: LcpContext = lcpPresence$;
       return lcpContext;
     },
   };

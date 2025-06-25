@@ -5,10 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ProvideLcpContextDirective } from './provide-lcp-context.directive';
+import { ProvideLcpPresenceDirective } from './provide-lcp-context.directive';
 
 @NgModule({
-  declarations: [ProvideLcpContextDirective],
-  exports: [ProvideLcpContextDirective],
+  declarations: [ProvideLcpPresenceDirective],
+  exports: [ProvideLcpPresenceDirective],
 })
 export class ProvideLcpContextDirectiveModule {}

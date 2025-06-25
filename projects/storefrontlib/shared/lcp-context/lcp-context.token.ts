@@ -8,9 +8,7 @@ import { InjectionToken } from '@angular/core';
 import { of } from 'rxjs';
 import { LcpContext, LcpPresence } from './lcp-context.model';
 
-export const DEFAULT_LCP_CONTEXT: LcpContext = {
-  lcpPresence$: of(LcpPresence.NO_LCP),
-};
+export const DEFAULT_LCP_PRESENCE: LcpContext = of(LcpPresence.NO_LCP);
 
 /**
  * Context for LCP (Largest Contentful Paint) presence in the component subtree.
@@ -23,7 +21,7 @@ export const DEFAULT_LCP_CONTEXT: LcpContext = {
  * Note: It's also provided in root injector with default value of `LcpPresence.NO_LCP`,
  * to avoid errors when no ancestor component provides it.
  */
-export const LCP_CONTEXT = new InjectionToken<LcpContext>('LCP_CONTEXT', {
+export const LCP_PRESENCE = new InjectionToken<LcpContext>('LCP_PRESENCE', {
   providedIn: 'root',
-  factory: () => DEFAULT_LCP_CONTEXT,
+  factory: () => DEFAULT_LCP_PRESENCE,
 });

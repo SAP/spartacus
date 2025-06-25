@@ -5,7 +5,7 @@ import { I18nTestingModule, ImageGroup, Product } from '@spartacus/core';
 import {
   CurrentProductService,
   ImageFetchPriority,
-  LCP_CONTEXT,
+  LCP_PRESENCE,
   LcpContext,
   LcpContextDirectiveModule,
   LcpPresence,
@@ -130,7 +130,7 @@ describe('ProductImagesComponent', () => {
       ],
       providers: [
         {
-          provide: LCP_CONTEXT,
+          provide: LCP_PRESENCE,
           useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
         },
         {

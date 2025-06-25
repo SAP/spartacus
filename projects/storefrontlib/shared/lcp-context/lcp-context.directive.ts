@@ -14,7 +14,7 @@ import {
 import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
 import { ImageFetchPriority } from '../components/media/media.model';
 import { LcpPresence } from './lcp-context.model';
-import { LCP_CONTEXT } from './lcp-context.token';
+import { LCP_PRESENCE } from './lcp-context.token';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 
 /**
@@ -47,7 +47,7 @@ interface LcpContextDirectiveTemplateContext {
   standalone: false,
 })
 export class LcpContextDirective implements OnInit {
-  protected readonly lcpContext = inject(LCP_CONTEXT);
+  protected readonly lcpPresence$ = inject(LCP_PRESENCE);
   protected readonly lcpPresenceMappingService = inject(
     LcpPresenceMappingService
   );
@@ -56,7 +56,7 @@ export class LcpContextDirective implements OnInit {
    * Convenience observable that maps the LCP presence to the fetch priority
    * for the image element, which can be used directly e.g. in the `<cx-media>` component.
    */
-  protected readonly fetchPriority$ = this.lcpContext.lcpPresence$.pipe(
+  protected readonly fetchPriority$ = this.lcpPresence$.pipe(
     map((lcpElementInfo) =>
       this.lcpPresenceMappingService.getFetchPriority(lcpElementInfo)
     ),
@@ -72,7 +72,7 @@ export class LcpContextDirective implements OnInit {
   ngOnInit(): void {
     this.viewContainer.createEmbeddedView(this.templateRef, {
       $implicit: {
-        lcpPresence$: this.lcpContext.lcpPresence$,
+        lcpPresence$: this.lcpPresence$,
         fetchPriority$: this.fetchPriority$,
       },
     });

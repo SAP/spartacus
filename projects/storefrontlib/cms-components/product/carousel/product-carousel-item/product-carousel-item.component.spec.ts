@@ -17,8 +17,7 @@ import {
 } from '@spartacus/core';
 import {
   ImageFetchPriority,
-  LCP_CONTEXT,
-  LcpContext,
+  LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
   OutletDirective,
@@ -96,8 +95,8 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       ],
       providers: [
         {
-          provide: LCP_CONTEXT,
-          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
           provide: RoutingService,

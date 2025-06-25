@@ -7,7 +7,7 @@
 import { Directive, inject, Input, OnChanges } from '@angular/core';
 import { distinctUntilChanged, ReplaySubject, shareReplay } from 'rxjs';
 import { LcpContext, LcpPresence } from './lcp-context.model';
-import { LCP_CONTEXT } from './lcp-context.token';
+import { LCP_PRESENCE } from './lcp-context.token';
 
 /**
  * Directive that provides the LCP (Largest Contentful Paint) context to descendant components
@@ -16,22 +16,22 @@ import { LCP_CONTEXT } from './lcp-context.token';
  * For CMS components, please use `ProvideLcpContextForCmsDirective` instead.
  */
 @Directive({
-  selector: '[cxProvideLcpContext]',
+  selector: '[cxProvideLcpPresence]',
   providers: [
     {
-      provide: LCP_CONTEXT,
+      provide: LCP_PRESENCE,
       useFactory: (): LcpContext =>
-        inject(ProvideLcpContextDirective).lcpContext,
+        inject(ProvideLcpPresenceDirective).lcpContext,
     },
   ],
   standalone: false,
 })
-export class ProvideLcpContextDirective implements OnChanges {
-  @Input() cxProvideLcpContext?: LcpPresence | null;
+export class ProvideLcpPresenceDirective implements OnChanges {
+  @Input() cxProvideLcpPresence?: LcpPresence | null;
   protected _lcpPresence$ = new ReplaySubject<LcpPresence>(1);
 
   ngOnChanges(): void {
-    const value = this.cxProvideLcpContext ?? LcpPresence.NO_LCP;
+    const value = this.cxProvideLcpPresence ?? LcpPresence.NO_LCP;
     this._lcpPresence$.next(value);
   }
 
@@ -40,7 +40,5 @@ export class ProvideLcpContextDirective implements OnChanges {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  protected lcpContext: LcpContext = {
-    lcpPresence$: this.lcpPresence$,
-  };
+  protected lcpContext: LcpContext = this.lcpPresence$;
 }

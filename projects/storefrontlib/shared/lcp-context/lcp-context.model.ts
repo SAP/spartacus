@@ -17,6 +17,4 @@ export enum LcpPresence {
 /**
  * Context for LCP (Largest Contentful Paint) presence in the component subtree.
  */
-export interface LcpContext {
-  lcpPresence$: Observable<LcpPresence>;
-}
+export type LcpContext = Observable<LcpPresence>;

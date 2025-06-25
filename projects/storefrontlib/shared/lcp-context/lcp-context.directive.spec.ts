@@ -4,8 +4,8 @@ import { By } from '@angular/platform-browser';
 import { ReplaySubject } from 'rxjs';
 import { ImageFetchPriority } from '../components/media/media.model';
 import { LcpContextDirective } from './lcp-context.directive';
-import { LcpContext, LcpPresence } from './lcp-context.model';
-import { LCP_CONTEXT } from './lcp-context.token';
+import { LcpPresence } from './lcp-context.model';
+import { LCP_PRESENCE } from './lcp-context.token';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 
 class MockLcpPresenceMappingService {
@@ -42,8 +42,8 @@ describe('LcpContextDirective', () => {
       declarations: [TestHostComponent, LcpContextDirective],
       providers: [
         {
-          provide: LCP_CONTEXT,
-          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
           provide: LcpPresenceMappingService,

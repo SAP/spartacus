@@ -4,8 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
 import {
   ImageFetchPriority,
-  LCP_CONTEXT,
-  LcpContext,
+  LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
 } from '@spartacus/storefront';
@@ -105,8 +104,8 @@ describe('ProductImagesComponent', () => {
       ],
       providers: [
         {
-          provide: LCP_CONTEXT,
-          useValue: { lcpPresence$: mockLcpPresence$ } satisfies LcpContext,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
           provide: CurrentProductService,
