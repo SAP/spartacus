@@ -59,6 +59,7 @@ class MockStarRatingComponent {
 class MockMediaComponent {
   @Input() container;
   @Input() alt;
+  @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
 
 @Component({
