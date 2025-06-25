@@ -36,7 +36,13 @@
               (keydown)="onItemKeydown($event, size)"
             >
               <ng-container
-                *ngTemplateOutlet="template; context: { item: data, index: i }"
+                *ngTemplateOutlet="
+                  template;
+                  context: {
+                    item: data,
+                    itemIndex: i + j,
+                  }
+                "
               ></ng-container>
             </div>
           </ng-container>
