@@ -26,7 +26,10 @@ import { ProductCarouselComponent } from './product-carousel.component';
   template: `
     <ng-container *ngFor="let item$ of items; let i = index">
       <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async, index: i }"
+        *ngTemplateOutlet="
+          template;
+          context: { item: item$ | async, itemIndex: i }
+        "
       ></ng-container>
     </ng-container>
   `,
