@@ -6,8 +6,8 @@
 
 import { FactoryProvider, inject } from '@angular/core';
 import { distinctUntilChanged, shareReplay, switchMap } from 'rxjs';
-import { LcpContext } from '../../shared/directives/lcp-context/lcp-context.model';
-import { LCP_CONTEXT } from '../../shared/directives/lcp-context/lcp-context.token';
+import { LcpContext } from '../../shared/lcp-context/lcp-context.model';
+import { LCP_CONTEXT } from '../../shared/lcp-context/lcp-context.token';
 import { CmsComponentData } from '../page/model/cms-component-data';
 import { CmsLcpService } from './cms-lcp.service';
 

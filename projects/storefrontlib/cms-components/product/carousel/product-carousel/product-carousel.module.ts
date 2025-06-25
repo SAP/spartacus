@@ -18,7 +18,7 @@ import {
   CarouselModule,
   MediaModule,
 } from '../../../../shared/components/index';
-import { LcpContextDirectiveModule } from '../../../../shared/directives/lcp-context/lcp-context-directive.module';
+import { LcpContextDirectiveModule } from '../../../../shared/lcp-context/lcp-context-directive.module';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
 import { ProductCarouselComponent } from './product-carousel.component';
 

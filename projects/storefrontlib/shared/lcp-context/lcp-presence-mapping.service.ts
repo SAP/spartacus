@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ImageFetchPriority } from '../../components/media/media.model';
+import { ImageFetchPriority } from '../components/media/media.model';
 import { LcpPresence } from './lcp-context.model';
 
 /**

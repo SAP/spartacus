@@ -18,7 +18,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
-import { LcpContextDirectiveModule } from '../../../shared/directives/lcp-context/lcp-context-directive.module';
 import {
   AtMessageModule,
   ItemCounterModule,
@@ -27,6 +26,7 @@ import {
   SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
+import { LcpContextDirectiveModule } from '../../../shared/lcp-context/lcp-context-directive.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';

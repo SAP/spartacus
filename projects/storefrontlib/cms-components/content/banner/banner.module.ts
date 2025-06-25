@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
-import { LcpContextDirectiveModule } from '../../../shared/directives/lcp-context/lcp-context-directive.module';
+import { LcpContextDirectiveModule } from '../../../shared/lcp-context/lcp-context-directive.module';
 import { BannerComponent } from './banner.component';
 
 @NgModule({

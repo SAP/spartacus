@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LcpPresence } from '@spartacus/storefront';
 import { BehaviorSubject, defer, of } from 'rxjs';
-import { LCP_CONTEXT } from '../../shared/directives/lcp-context/lcp-context.token';
+import { LCP_CONTEXT } from '../../shared/lcp-context/lcp-context.token';
 import { CmsComponentData } from '../page/model/cms-component-data';
 import { CmsLcpService } from './cms-lcp.service';
 import { provideLcpContextForCmsComponent } from './provide-lcp-context-for-cms-component';
