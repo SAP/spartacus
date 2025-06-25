@@ -25,32 +25,40 @@ export class ReturnOrderComponent {
     .getForm()
     .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
-  consigments$: Observable<Consignment[]> = this.orderAmendService.getOrder().pipe(map(order=>order.consignments ?? []));
+  consigments$: Observable<Consignment[]> = this.orderAmendService
+    .getOrder()
+    .pipe(map((order) => order.consignments ?? []));
 
   entries$: Observable<OrderEntry[]> = combineLatest([
     this.orderAmendService.getEntries(),
-    this.consigments$
+    this.consigments$,
   ]).pipe(
     map(([entries, consignments]) => {
       // Flatten all consignment entries
-      const consignmentEntries = consignments
-        .flatMap(consignment => consignment.entries || []);
+      const consignmentEntries = consignments.flatMap(
+        (consignment) => consignment.entries || []
+      );
 
       return entries
-        .map<OrderEntry | null>(entry => {
+        .map<OrderEntry | null>((entry) => {
           // Find matching consignment entry by product code
           const consignmentEntry = consignmentEntries.find(
-            ce => ce.orderEntry?.product?.code === entry.product?.code
+            (ce) => ce.orderEntry?.product?.code === entry.product?.code
           );
           // If found, update the max quantity with shippedQuantity
           return consignmentEntry
-            ? { ...entry, returnableQuantity: consignmentEntry.shippedQuantity ?? 0 }
+            ? {
+                ...entry,
+                returnableQuantity: consignmentEntry.shippedQuantity ?? 0,
+              }
             : null;
         })
-        .filter((entry): entry is OrderEntry => !!entry && entry.returnableQuantity !== 0);
+        .filter(
+          (entry): entry is OrderEntry =>
+            !!entry && entry.returnableQuantity !== 0
+        );
     })
   );
-
 
   constructor(protected orderAmendService: OrderAmendService) {}
 }
