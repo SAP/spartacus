@@ -203,47 +203,49 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       expect(el.nativeElement).toBeTruthy();
     }));
 
-    describe('when contains LCP element', () => {
-      beforeEach(() => {
-        mockLcpPresence$.next(LcpPresence.HAS_LCP);
+    describe('LCP context handling', () => {
+      describe('when contains LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+        });
+
+        it('should prioritize downloading the image of the FIRST carousel item', () => {
+          fixture.componentInstance.itemIndex = 0;
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            ImageFetchPriority.HIGH
+          );
+        });
+
+        it('should NOT prioritize downloading the image of the carousel items other than the first', () => {
+          fixture.componentInstance.itemIndex = 1;
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
       });
 
-      it('should prioritize downloading the image of the FIRST carousel item', () => {
-        fixture.componentInstance.itemIndex = 0;
-        fixture.detectChanges();
-        const mediaComponents = fixture.debugElement.queryAll(
-          By.directive(MockMediaComponent)
-        );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-          ImageFetchPriority.HIGH
-        );
-      });
+      describe('when does NOT contain LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
+        });
 
-      it('should NOT prioritize downloading the image of the carousel items other than the first', () => {
-        fixture.componentInstance.itemIndex = 1;
-        fixture.detectChanges();
-        const mediaComponents = fixture.debugElement.queryAll(
-          By.directive(MockMediaComponent)
-        );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-          undefined
-        );
-      });
-    });
-
-    describe('when does NOT contain LCP element', () => {
-      beforeEach(() => {
-        mockLcpPresence$.next(LcpPresence.NO_LCP);
-      });
-
-      it('should NOT prioritize downloading the image', () => {
-        fixture.detectChanges();
-        const mediaComponents = fixture.debugElement.queryAll(
-          By.directive(MockMediaComponent)
-        );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-          undefined
-        );
+        it('should NOT prioritize downloading the image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
       });
     });
   });

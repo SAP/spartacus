@@ -136,35 +136,37 @@ describe('BannerComponent', () => {
       expect(el.query(By.css('cx-media'))).toBeTruthy();
     });
 
-    describe('when contains LCP element', () => {
-      beforeEach(() => {
-        mockLcpPresence$.next(LcpPresence.HAS_LCP);
+    describe('LCP context handling', () => {
+      describe('when contains LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+        });
+
+        it('should prioritize downloading the image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            ImageFetchPriority.HIGH
+          );
+        });
       });
 
-      it('should prioritize downloading the image', () => {
-        fixture.detectChanges();
-        const mediaComponents = fixture.debugElement.queryAll(
-          By.directive(MockMediaComponent)
-        );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-          ImageFetchPriority.HIGH
-        );
-      });
-    });
+      describe('when does NOT contain LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
+        });
 
-    describe('when does NOT contain LCP element', () => {
-      beforeEach(() => {
-        mockLcpPresence$.next(LcpPresence.NO_LCP);
-      });
-
-      it('should NOT prioritize downloading the image', () => {
-        fixture.detectChanges();
-        const mediaComponents = fixture.debugElement.queryAll(
-          By.directive(MockMediaComponent)
-        );
-        expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-          undefined
-        );
+        it('should NOT prioritize downloading the image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
       });
     });
   });

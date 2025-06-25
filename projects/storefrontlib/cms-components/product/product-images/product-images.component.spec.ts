@@ -165,55 +165,56 @@ describe('ProductImagesComponent', () => {
         );
         expect(el.length).toEqual(2);
       }));
+      describe('LCP context handling', () => {
+        describe('when contains LCP element', () => {
+          beforeEach(() => {
+            mockLcpPresence$.next(LcpPresence.HAS_LCP);
+          });
 
-      describe('when contains LCP element', () => {
-        beforeEach(() => {
-          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+          it('should prioritize downloading the main image', () => {
+            fixture.detectChanges();
+            const mediaComponents = fixture.debugElement.queryAll(
+              By.directive(MockMediaComponent)
+            );
+            expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+              ImageFetchPriority.HIGH
+            );
+          });
+
+          it('should NOT prioritize downloading images other than the main one', () => {
+            fixture.detectChanges();
+            const mediaComponents = fixture.debugElement.queryAll(
+              By.directive(MockMediaComponent)
+            );
+            expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+            expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+          });
         });
 
-        it('should prioritize downloading the main image', () => {
-          fixture.detectChanges();
-          const mediaComponents = fixture.debugElement.queryAll(
-            By.directive(MockMediaComponent)
-          );
-          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-            ImageFetchPriority.HIGH
-          );
-        });
+        describe('when does NOT contain LCP element', () => {
+          beforeEach(() => {
+            mockLcpPresence$.next(LcpPresence.NO_LCP);
+          });
 
-        it('should NOT prioritize downloading images other than the main one', () => {
-          fixture.detectChanges();
-          const mediaComponents = fixture.debugElement.queryAll(
-            By.directive(MockMediaComponent)
-          );
-          expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
-            undefined
-          );
-          expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
-            undefined
-          );
-        });
-      });
-
-      describe('when does NOT contain LCP element', () => {
-        beforeEach(() => {
-          mockLcpPresence$.next(LcpPresence.NO_LCP);
-        });
-
-        it('should NOT prioritize downloading any image', () => {
-          fixture.detectChanges();
-          const mediaComponents = fixture.debugElement.queryAll(
-            By.directive(MockMediaComponent)
-          );
-          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
-            undefined
-          );
-          expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
-            undefined
-          );
-          expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
-            undefined
-          );
+          it('should NOT prioritize downloading any image', () => {
+            fixture.detectChanges();
+            const mediaComponents = fixture.debugElement.queryAll(
+              By.directive(MockMediaComponent)
+            );
+            expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+            expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+            expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+          });
         });
       });
     });
