@@ -389,7 +389,10 @@ if (environment.cpq) {
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        readMoreDirective: true,
+        productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,
+        a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
@@ -400,6 +403,7 @@ if (environment.cpq) {
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
+        createMediaPreconnectLink: true,
       };
       return appFeatureToggles;
     }),

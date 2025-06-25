@@ -629,11 +629,29 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * Introduces read more directive for presenting elements with long text.
+   * Affects: ProductReviewsComponent
+   */
+  readMoreDirective?: boolean;
+
+  /**
+   * Introduces characters left for product review form elements.
+   * Affects: ProductReviewsComponent
+   */
+  productReviewCharactersLeft?: boolean;
+
+  /**
    * The optional `aria-controls` attribute will override on the NgSelect implementation.
    * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
    * This change ensures we can still use a custom id if preferable.
    */
   a11yNgSelectAriaControls?: boolean;
+
+  /**
+   * Ensures on configurator overview page, that group titles are recognized as heading
+   * in VPC mode when navigating with the 'H' key.
+   */
+  a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
    * Enables the product carousel to include products based on specified category codes.
@@ -724,6 +742,18 @@ export interface FeatureTogglesInterface {
    * Enabling this flag removes the margin animation to improve performance and user experience.
    */
   disableCxPageSlotMarginAnimation?: boolean;
+
+  /**
+   * Feature flag to enable using <link rel=preconnect> in the index.html.
+   *
+   * ## When enabled:
+   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
+   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
+   * has already been completed by the time the browser requests them.
+   *
+   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
+   */
+  createMediaPreconnectLink?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -819,7 +849,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
+  readMoreDirective: false,
+  productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
+  a11yConfiguratorOverviewHeaderVPC: false,
   enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
@@ -830,4 +863,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
+  createMediaPreconnectLink: false,
 };
