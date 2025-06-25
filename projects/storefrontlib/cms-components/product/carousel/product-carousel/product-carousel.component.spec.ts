@@ -24,9 +24,9 @@ import { ProductCarouselComponent } from './product-carousel.component';
 @Component({
   selector: 'cx-carousel',
   template: `
-    <ng-container *ngFor="let item$ of items">
+    <ng-container *ngFor="let item$ of items; let i = index">
       <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
+        *ngTemplateOutlet="template; context: { item: item$ | async, index: i }"
       ></ng-container>
     </ng-container>
   `,
@@ -45,6 +45,7 @@ class MockCarouselComponent {
 })
 class MockProductCarouselItemComponent {
   @Input() item: any;
+  @Input() itemIndex: number;
 }
 
 @Pipe({
@@ -297,10 +298,20 @@ describe('ProductCarouselComponent', () => {
 
   describe('UI test', () => {
     it('should have 2 rendered templates', waitForAsync(() => {
+      fixture.detectChanges();
       const el = fixture.debugElement.queryAll(
         By.css('cx-product-carousel-item')
       );
       expect(el.length).toEqual(2);
+    }));
+
+    it('should pass `itemIndex` input to child components', waitForAsync(() => {
+      fixture.detectChanges();
+      const el = fixture.debugElement.queryAll(
+        By.css('cx-product-carousel-item')
+      );
+      expect(el[0].componentInstance.itemIndex).toEqual(0);
+      expect(el[1].componentInstance.itemIndex).toEqual(1);
     }));
   });
 
