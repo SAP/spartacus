@@ -32,7 +32,7 @@ class MockLcpPresenceMappingService {
 })
 class TestHostComponent {}
 
-fdescribe('LcpContextDirective', () => {
+describe('LcpContextDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let mockLcpPresence$: ReplaySubject<LcpPresence>;
 
