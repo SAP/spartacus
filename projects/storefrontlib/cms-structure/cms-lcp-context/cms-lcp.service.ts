@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CmsComponent } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { LcpPresence } from '../../shared/lcp-context/lcp-context.model';
+import { LcpPresence } from '../../shared/lcp-context/lcp-presence.model';
 import { LcpCmsComponentsConfig } from './config/lcp-cms-components.config';
 
 @Injectable({ providedIn: 'root' })

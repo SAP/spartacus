@@ -6,7 +6,7 @@
 
 import { InjectionToken } from '@angular/core';
 import { of } from 'rxjs';
-import { LcpContext, LcpPresence } from './lcp-context.model';
+import { LcpContext, LcpPresence } from './lcp-presence.model';
 
 export const DEFAULT_LCP_PRESENCE: LcpContext = of(LcpPresence.NO_LCP);
 

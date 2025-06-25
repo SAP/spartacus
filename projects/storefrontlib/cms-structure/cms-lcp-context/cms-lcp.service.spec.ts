@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { LcpPresence } from '../../shared/lcp-context/lcp-context.model';
+import { LcpPresence } from '../../shared/lcp-context/lcp-presence.model';
 import { CmsLcpService } from './cms-lcp.service';
 import { LcpCmsComponentsConfig } from './config/lcp-cms-components.config';
 

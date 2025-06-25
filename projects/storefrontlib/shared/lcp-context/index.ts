@@ -6,8 +6,8 @@
 
 export * from './lcp-context-directive.module';
 export * from './lcp-context.directive';
-export * from './lcp-context.model';
-export { LCP_PRESENCE } from './lcp-context.token';
 export * from './lcp-presence-mapping.service';
-export * from './provide-lcp-context-directive.module';
-export * from './provide-lcp-context.directive';
+export * from './lcp-presence.model';
+export { LCP_PRESENCE } from './lcp-presence.token';
+export * from './provide-lcp-presence-directive.module';
+export * from './provide-lcp-presence.directive';

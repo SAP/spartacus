@@ -13,9 +13,9 @@ import {
 } from '@angular/core';
 import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
 import { ImageFetchPriority } from '../components/media/media.model';
-import { LcpPresence } from './lcp-context.model';
-import { LCP_PRESENCE } from './lcp-context.token';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
+import { LcpPresence } from './lcp-presence.model';
+import { LCP_PRESENCE } from './lcp-presence.token';
 
 /**
  * Context provided by the `*cxLcpContext` directive.

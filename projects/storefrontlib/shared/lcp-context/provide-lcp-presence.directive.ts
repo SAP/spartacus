@@ -6,8 +6,8 @@
 
 import { Directive, inject, Input, OnChanges } from '@angular/core';
 import { distinctUntilChanged, ReplaySubject, shareReplay } from 'rxjs';
-import { LcpContext, LcpPresence } from './lcp-context.model';
-import { LCP_PRESENCE } from './lcp-context.token';
+import { LcpContext, LcpPresence } from './lcp-presence.model';
+import { LCP_PRESENCE } from './lcp-presence.token';
 
 /**
  * Directive that provides the LCP (Largest Contentful Paint) context to descendant components

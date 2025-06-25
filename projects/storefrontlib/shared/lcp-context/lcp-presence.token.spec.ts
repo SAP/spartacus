@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { LcpPresence } from './lcp-context.model';
-import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-context.token';
+import { LcpPresence } from './lcp-presence.model';
+import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-presence.token';
 
 describe('LCP_CONTEXT InjectionToken', () => {
   it('should be provided in root with the default value DEFAULT_LCP_CONTEXT', () => {

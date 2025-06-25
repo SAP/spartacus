@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { ImageFetchPriority } from '../components/media/media.model';
-import { LcpPresence } from './lcp-context.model';
+import { LcpPresence } from './lcp-presence.model';
 
 /**
  * Maps the information about the LCP (Largest Contentful Paint) presence to fetch priority.

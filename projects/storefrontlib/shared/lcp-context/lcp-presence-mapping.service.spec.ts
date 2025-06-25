@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ImageFetchPriority } from '../components/media/media.model';
-import { LcpPresence } from './lcp-context.model';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
+import { LcpPresence } from './lcp-presence.model';
 
 describe('LcpPresenceMappingService', () => {
   let service: LcpPresenceMappingService;

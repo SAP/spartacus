@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { LcpPresence } from '@spartacus/storefront';
 import { BehaviorSubject, defer, of } from 'rxjs';
-import { LCP_PRESENCE } from '../../shared/lcp-context/lcp-context.token';
+import { LCP_PRESENCE } from '../../shared/lcp-context/lcp-presence.token';
 import { CmsComponentData } from '../page/model/cms-component-data';
 import { CmsLcpService } from './cms-lcp.service';
-import { provideLcpPresenceForCmsComponent } from './provide-lcp-context-for-cms-component';
+import { provideLcpPresenceForCmsComponent } from './provide-lcp-presence-for-cms-component';
 
 const testComponentData = { uid: 'test-component' };
 

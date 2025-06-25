@@ -7,4 +7,4 @@
 export * from './cms-lcp.module';
 export * from './cms-lcp.service';
 export * from './config/index';
-export * from './provide-lcp-context-for-cms-component';
+export * from './provide-lcp-presence-for-cms-component';

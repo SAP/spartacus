@@ -4,9 +4,9 @@ import { By } from '@angular/platform-browser';
 import { ReplaySubject } from 'rxjs';
 import { ImageFetchPriority } from '../components/media/media.model';
 import { LcpContextDirective } from './lcp-context.directive';
-import { LcpPresence } from './lcp-context.model';
-import { LCP_PRESENCE } from './lcp-context.token';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
+import { LcpPresence } from './lcp-presence.model';
+import { LCP_PRESENCE } from './lcp-presence.token';
 
 class MockLcpPresenceMappingService {
   getFetchPriority(lcpPresence: LcpPresence): ImageFetchPriority | undefined {

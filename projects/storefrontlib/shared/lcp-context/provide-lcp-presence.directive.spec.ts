@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { LcpPresence } from './lcp-context.model';
-import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-context.token';
-import { ProvideLcpPresenceDirective } from './provide-lcp-context.directive';
+import { LcpPresence } from './lcp-presence.model';
+import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-presence.token';
+import { ProvideLcpPresenceDirective } from './provide-lcp-presence.directive';
 
 @Component({
   selector: 'cx-test-host',
