@@ -15,7 +15,7 @@ export class ConfiguratorMainAriaLabelledByDirective
 {
   @Input('cxConfiguratorMainAriaLabelledBy') labelledbyId: string;
 
-  private mainEl: HTMLElement | null = null;
+  protected mainEl: HTMLElement | null = null;
 
   ngOnInit() {
     this.mainEl = document.querySelector('main');
