@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { ContentSlotComponentData } from '@spartacus/core';
+import { CmsComponent } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LcpPresence } from '../../shared/directives/lcp-context/lcp-context.model';
 import { LcpCmsComponentsConfig } from './config/lcp-cms-components.config';
@@ -47,11 +47,21 @@ export class CmsLcpService {
    * }
    * ```
    */
-  getLcpPresence(
-    componentData: ContentSlotComponentData
-  ): Observable<LcpPresence> {
+  getLcpPresence(componentData: CmsComponent): Observable<LcpPresence> {
     const idMarker = this.config?.lcpCmsComponents?.idMarker;
     const ids = this.config?.lcpCmsComponents?.ids || [];
+
+    // SPIKE TODO REMOVE:
+    // Count invocations per component UID
+    if (typeof window !== 'undefined') {
+      if (!(window as any).spikeCounter) {
+        (window as any).spikeCounter = {};
+      }
+      if (!(window as any).spikeCounter[componentData.uid || '']) {
+        (window as any).spikeCounter[componentData.uid || ''] = 0;
+      }
+      (window as any).spikeCounter[componentData.uid || '']++;
+    }
 
     // Check if ID contains a special marker
     if (idMarker && componentData?.uid?.includes(idMarker)) {

@@ -5,6 +5,7 @@
  */
 
 import { Injectable, Injector } from '@angular/core';
+import { provideLcpContextForCmsComponent } from 'projects/storefrontlib/cms-structure/cms-lcp-context/provide-lcp-context-for-cms-component';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsComponentData } from '../../model/cms-component-data';
 import { ComponentDataProvider } from './component-data.provider';
@@ -41,6 +42,7 @@ export class CmsInjectorService {
           }),
           deps: [ComponentDataProvider],
         },
+        provideLcpContextForCmsComponent(),
         ...configProviders,
       ],
       parent: parentInjector ?? this.injector,
