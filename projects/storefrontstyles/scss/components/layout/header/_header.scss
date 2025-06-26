@@ -171,6 +171,10 @@ $space: 0.5rem;
 
     .SiteLinks {
       padding: $space / 2 $space * 2 $space;
+      flex-direction: column;
+      a {
+        line-height: 48px;
+      }
     }
   }
 
