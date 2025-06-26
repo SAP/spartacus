@@ -11,7 +11,6 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
-        --skip-build                            Skip Spartacus build step
 "
 
 display_a11y_docs_link() {
@@ -21,6 +20,7 @@ display_a11y_docs_link() {
     echo -e "\033[36m🔗 https://wiki.one.int.sap/wiki/display/spar/Spartacus+Accessibility+Feature+Compliance\033[0m"
     echo ""
 }
+
 
 # Function to run a11y tests and print documentation link if they fail
 run_a11y_tests_with_docs_on_failure() {
@@ -32,14 +32,9 @@ run_a11y_tests_with_docs_on_failure() {
     fi
 }
 
-SKIP_BUILD=false
 
 while [ "${1:0:1}" == "-" ]; do
     case "$1" in
-    '--skip-build')
-        SKIP_BUILD=true
-        shift
-        ;;
     '--suite' | '-s')
         SUITE=":$2"
         shift
@@ -78,34 +73,29 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
 fi
 
-if [ "$SKIP_BUILD" == "true" ]; then
-    echo "⏩ Skipping build as requested with --skip-build"
+echo '-----'
+echo "Building Spartacus libraries"
+
+export NODE_OPTIONS=--dns-result-order=ipv4first
+
+npm ci
+
+(cd projects/storefrontapp-e2e-cypress && npm ci)
+
+npm run build:libs 2>&1 | tee build.log
+
+results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
+if [[ -z "${results}" ]]; then
+    echo "Success: Spartacus production build was successful."
+    rm build.log
 else
-    echo '-----'
-    echo "Building Spartacus libraries"
-
-    export NODE_OPTIONS=--dns-result-order=ipv4first
-
-    npm ci
-    (cd projects/storefrontapp-e2e-cypress && npm ci)
-
-    npm run build:libs 2>&1 | tee build.log
-
-    results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
-    if [[ -z "${results}" ]]; then
-        echo "Success: Spartacus production build was successful."
-        rm build.log
-    else
-        echo "ERROR: Spartacus production build failed."
-        echo "Check for 'Warning: Can't resolve all parameters for ...' in the build log."
-        rm build.log
-        exit 1
-    fi
-
-    echo '-----'
-    echo "📦 Building Spartacus storefrontapp"
-    npm run build:csr
+    echo "ERROR: Spartacus production build failed. Check the import statements. 'Warning: Can't resolve all parameters for ...' found in the build log."
+    rm build.log
+    exit 1
 fi
+echo '-----'
+echo "Building Spartacus storefrontapp"
+npm run build
 
 is_bot_commit() {
     LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
