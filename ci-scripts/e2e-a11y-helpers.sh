@@ -22,23 +22,97 @@ run_a11y_tests_with_docs_on_failure() {
 }
 
 stop_pwa_app() {
-    echo "Stopping PWA application..."
     pkill -f "http-server" || true
     sleep 5
 }
 
 build_and_start_pwa() {
     export SPA_ENV="$1"
-
     npm run build:csr
     npm run start:pwa &
     sleep 10
 }
 
+get_dynamic_spec_pattern() {
+    local test_type="$1"
+    local container="$2"
+    local total_containers="${3:-2}"
+
+    local base_path="projects/storefrontapp-e2e-cypress/cypress/e2e/a11y/$test_type"
+    local all_files=($(find "$base_path" -name "*.a11y-e2e.cy.ts" | sort))
+    local total_files=${#all_files[@]}
+
+    if [[ $total_files -eq 0 ]]; then
+        echo ""
+        return
+    fi
+
+    local selected_files=()
+    for ((i=0; i<total_files; i++)); do
+        if [[ $((i % total_containers)) -eq $((container - 1)) ]]; then
+            local relative_path="${all_files[i]#projects/storefrontapp-e2e-cypress/}"
+            selected_files+=("$relative_path")
+        fi
+    done
+
+    if [[ ${#selected_files[@]} -eq 0 ]]; then
+        echo ""
+        return
+    fi
+
+    local spec_pattern=""
+    for file in "${selected_files[@]}"; do
+        if [[ -n "$spec_pattern" ]]; then
+            spec_pattern="$spec_pattern,$file"
+        else
+            spec_pattern="$file"
+        fi
+    done
+
+    echo "$spec_pattern"
+}
+
+run_a11y_container_tests() {
+    local container="$1"
+    local total_containers="${2:-2}"
+
+    echo "Running A11Y tests: Container $container/$total_containers"
+
+    local b2c_spec=$(get_dynamic_spec_pattern "b2c" "$container" "$total_containers")
+
+    if [[ -n "$b2c_spec" ]]; then
+        export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
+
+        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
+            return 1
+        fi
+    fi
+
+    stop_pwa_app
+
+    build_and_start_pwa "ci,b2b"
+
+    local b2b_spec=$(get_dynamic_spec_pattern "b2b" "$container" "$total_containers")
+
+    if [[ -n "$b2b_spec" ]]; then
+        export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
+
+        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
+            stop_pwa_app
+            return 1
+        fi
+    fi
+
+    stop_pwa_app
+    return 0
+}
+
 run_dual_a11y_tests() {
-    echo "=========================================="
-    echo "🔵 Running B2C Accessibility Tests"
-    echo "=========================================="
+    if [[ -n "$GITHUB_MATRIX_CONTAINER" ]]; then
+        local total_containers="${GITHUB_MATRIX_TOTAL:-2}"
+        run_a11y_container_tests "$GITHUB_MATRIX_CONTAINER" "$total_containers"
+        return $?
+    fi
 
     local b2c_result=0
     if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
@@ -46,11 +120,6 @@ run_dual_a11y_tests() {
     fi
 
     stop_pwa_app
-
-    echo "=========================================="
-    echo "🔶 Running B2B Accessibility Tests"
-    echo "=========================================="
-
     build_and_start_pwa "ci,b2b"
 
     local b2b_result=0
@@ -61,20 +130,13 @@ run_dual_a11y_tests() {
     stop_pwa_app
 
     if [[ $b2c_result -ne 0 ]] || [[ $b2b_result -ne 0 ]]; then
-        echo "=========================================="
-        echo "❌ A11Y Tests Summary:"
+        echo "A11Y Tests Summary:"
         [[ $b2c_result -ne 0 ]] && echo "   - B2C a11y tests: FAILED"
         [[ $b2c_result -eq 0 ]] && echo "   - B2C a11y tests: PASSED"
         [[ $b2b_result -ne 0 ]] && echo "   - B2B a11y tests: FAILED"
         [[ $b2b_result -eq 0 ]] && echo "   - B2B a11y tests: PASSED"
-        echo "=========================================="
         return 1
-    else
-        echo "=========================================="
-        echo "✅ All A11Y Tests Passed!"
-        echo "   - B2C a11y tests: PASSED"
-        echo "   - B2B a11y tests: PASSED"
-        echo "=========================================="
-        return 0
     fi
+
+    return 0
 }
