@@ -1,5 +1,9 @@
 %cx-product-carousel {
   display: flex;
+
+  // SPIKE TODO ADD WITH FEATURE TOGGLE:
+  max-width: 100%;
+
   a {
     display: flex;
     flex-direction: column;
