@@ -15,6 +15,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  TrackByFunction,
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -102,8 +103,7 @@ export class CarouselComponent implements OnInit, OnChanges {
    * If the returned value is not unique, it may lead to unexpected behavior,
    * such as unwanted destroying and re-creating child templates on items array changes.
    */
-  @Input() trackByFn: (index: number, item: any) => any = (_index, item) =>
-    item;
+  @Input() trackByFn: TrackByFunction<any> = (_index, item) => item;
 
   activeSlide: number;
   size$: Observable<number>;
