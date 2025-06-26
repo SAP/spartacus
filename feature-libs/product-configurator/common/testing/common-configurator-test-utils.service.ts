@@ -207,6 +207,7 @@ export class CommonConfiguratorTestUtilsService {
       tagClass,
       tagIndex
     );
+    expect(item).toBeDefined();
     const attributes = item?.attributes;
     if (a11yAttr) {
       expect(attributes?.hasOwnProperty(a11yAttr)).toBe(true);
