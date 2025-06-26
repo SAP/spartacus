@@ -644,7 +644,7 @@ describe('Carousel Component', () => {
   describe('default @Input trackByFn', () => {
     it('should return the item', () => {
       const item = { id: '123' };
-      expect(component.trackByFn(123, item)).toBe(item);
+      expect(component.trackByFn(999, item)).toBe(item);
     });
   });
 });
