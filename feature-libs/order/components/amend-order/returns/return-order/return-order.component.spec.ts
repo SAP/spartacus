@@ -104,7 +104,7 @@ describe('ReturnOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(1);
+    ).toEqual(2);
   });
 
   it('should render cx-amend-order-items component', () => {
@@ -112,7 +112,7 @@ describe('ReturnOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(1);
+    ).toEqual(2);
   });
 
   it('should filter and map entries with returnable quantities', () => {
