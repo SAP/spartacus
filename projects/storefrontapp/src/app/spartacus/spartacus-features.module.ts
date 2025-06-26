@@ -392,6 +392,7 @@ if (environment.cpq) {
         readMoreDirective: true,
         productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,
+        a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
