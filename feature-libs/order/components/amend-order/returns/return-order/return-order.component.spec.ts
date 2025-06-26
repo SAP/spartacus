@@ -99,7 +99,7 @@ describe('ReturnOrderComponent', () => {
     expect(component.orderCode).toEqual('123');
   });
 
-  it('should render one cx-amend-order-actions components', () => {
+  it('should render two cx-amend-order-actions components', () => {
     fixture.detectChanges();
 
     expect(
