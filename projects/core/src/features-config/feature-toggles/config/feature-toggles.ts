@@ -648,6 +648,12 @@ export interface FeatureTogglesInterface {
   a11yNgSelectAriaControls?: boolean;
 
   /**
+   * Ensures on configurator overview page, that group titles are recognized as heading
+   * in VPC mode when navigating with the 'H' key.
+   */
+  a11yConfiguratorOverviewHeaderVPC?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -846,6 +852,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: false,
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
+  a11yConfiguratorOverviewHeaderVPC: false,
   enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
