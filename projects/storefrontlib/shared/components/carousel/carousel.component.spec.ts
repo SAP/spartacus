@@ -642,20 +642,9 @@ describe('Carousel Component', () => {
   });
 
   describe('default @Input trackByFn', () => {
-    it('should handle property "id"', () => {
-      expect(component.trackByFn(0, { id: '123' })).toEqual('123');
-    });
-
-    it('should handle property "uid"', () => {
-      expect(component.trackByFn(0, { uid: '123' })).toEqual('123');
-    });
-
-    it('should handle property "code"', () => {
-      expect(component.trackByFn(0, { code: '123' })).toEqual('123');
-    });
-
-    it('should fallback to index', () => {
-      expect(component.trackByFn(123, { whatever: 'xxx' })).toEqual(123);
+    it('should return the item', () => {
+      const item = { id: '123' };
+      expect(component.trackByFn(123, item)).toBe(item);
     });
   });
 });
@@ -700,7 +689,7 @@ class TestParentComponent {
   carouselTrackByFn = (_index: number, item: any) => item.customID;
 }
 
-fdescribe('Carousel Component tested in TestParentComponent', () => {
+describe('Carousel Component tested in TestParentComponent', () => {
   let fixture: ComponentFixture<TestParentComponent>;
   let parent: TestParentComponent;
   let service: CarouselService;
@@ -736,7 +725,7 @@ fdescribe('Carousel Component tested in TestParentComponent', () => {
     expect(childEls[0].nativeElement.textContent).toContain('A');
   });
 
-  it('should not destroy child components when getting new array copy (thanks to trackBy)', () => {
+  it('should not destroy child components when getting a new deep copy of the array, while trackByFn is used', () => {
     fixture.detectChanges();
     const oldChildEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
     // Replace with a new array (same objects/ids)
