@@ -285,6 +285,6 @@
     "webpack-cli": "^5.0.0"
   },
   "overrides": {
-    "vite": "5.4.19"
+    "vite": "7.0.0"
   }
 }
