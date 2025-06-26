@@ -17,11 +17,11 @@ const mockConsignments = [
   {
     entries: [
       {
-        orderEntry: { product: { code: 'prod1' }},
-        shippedQuantity: 5
+        orderEntry: { product: { code: 'prod1' } },
+        shippedQuantity: 5,
       },
       {
-        orderEntry: { product: { code: 'prod2' }},
+        orderEntry: { product: { code: 'prod2' } },
         shippedQuantity: 3,
       },
     ],
