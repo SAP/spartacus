@@ -25,20 +25,19 @@ export class ReturnOrderComponent {
     .getForm()
     .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
-  consigments$: Observable<Consignment[]> = this.orderAmendService
+  consignments$: Observable<Consignment[]> = this.orderAmendService
     .getOrder()
     .pipe(map((order) => order.consignments ?? []));
 
   entries$: Observable<OrderEntry[]> = combineLatest([
     this.orderAmendService.getEntries(),
-    this.consigments$,
+    this.consignments$,
   ]).pipe(
     map(([entries, consignments]) => {
       // Flatten all consignment entries
       const consignmentEntries = consignments.flatMap(
         (consignment) => consignment.entries || []
       );
-
       return entries
         .map<OrderEntry | null>((entry) => {
           // Find matching consignment entry by product code
