@@ -64,6 +64,9 @@ export class CarouselV2Component implements OnInit {
    */
   @Input() template: TemplateRef<any>;
 
+  @Input() trackByFn: (index: number, item: any) => any = (index, item) =>
+    item?.id || item?.uid || item?.code || index; // Default trackBy function
+
   protected logger = inject(LoggerService);
   protected el = inject(ElementRef);
 

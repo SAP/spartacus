@@ -2,7 +2,7 @@
   <h2 *ngIf="title">{{ title }}</h2>
 
   <ul class="carousel-panel" role="list">
-    <ng-container *ngFor="let item of items; let i = index">
+    <ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">
       <li
         *ngIf="item | async as data"
         class="item"
