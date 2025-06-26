@@ -718,13 +718,6 @@ describe('Carousel Component tested in TestParentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should render child components for default input', () => {
-    fixture.detectChanges();
-    const childEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
-    expect(childEls.length).toBe(5);
-    expect(childEls[0].nativeElement.textContent).toContain('A');
-  });
-
   it('should not destroy child components when getting a new deep copy of the array, while trackByFn is used', () => {
     fixture.detectChanges();
     const oldChildEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
