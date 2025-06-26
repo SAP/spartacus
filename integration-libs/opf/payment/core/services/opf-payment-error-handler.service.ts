@@ -14,6 +14,8 @@ import {
 import {
   OpfPaymentError,
   OpfPaymentErrorType,
+  OpfPaymentMerchantCallback,
+  OpfPaymentSubmitResponse,
   opfDefaultPaymentError,
 } from '@spartacus/opf/payment/root';
 
@@ -54,7 +56,8 @@ export class OpfPaymentErrorHandlerService {
 
   handlePaymentError(
     error: OpfPaymentError | undefined,
-    returnPath?: string
+    returnPath?: string,
+    onFailureCallback?: OpfPaymentMerchantCallback
   ): void {
     let message = opfDefaultPaymentError.message;
     if (error?.status === HttpResponseStatus.BAD_REQUEST) {
@@ -65,6 +68,9 @@ export class OpfPaymentErrorHandlerService {
       }
     }
     this.displayError(error ? { ...error, message } : undefined);
+    if (onFailureCallback) {
+      onFailureCallback(error as unknown as OpfPaymentSubmitResponse);
+    }
     if (returnPath?.length) {
       this.routingService.go({ cxRoute: returnPath });
     }
