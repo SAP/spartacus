@@ -10,7 +10,12 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Legacy Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.visit('/login');
+      cy.whenJDK17(() => {
+        cy.visit('/login'); // JDK17
+      });
+      cy.whenJDK21(() => {
+        cy.visit('/login/register'); // JDK21
+      });
       login.registerUserFromLoginPage();
     });
 

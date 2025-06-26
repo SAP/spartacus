@@ -10,8 +10,13 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.visit('/login/register');
-      login.registerUserFromRegisterPage();
+      cy.whenJDK17(() => {
+        cy.visit('/login');
+      });
+      cy.whenJDK21(() => {
+        cy.visit('/login/register');
+      });
+      login.registerUserFromLoginPage();
     });
 
     it('should login and logout successfully', () => {

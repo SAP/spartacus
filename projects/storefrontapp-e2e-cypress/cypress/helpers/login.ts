@@ -5,7 +5,7 @@
  */
 
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
-import { legacyLogin, login, register } from './auth-forms';
+import { login, register } from './auth-forms';
 import * as alerts from './global-message';
 import { waitForPage } from './navigation';
 
@@ -27,20 +27,18 @@ export const defaultUser = {
  * @returns Newly registered user
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
-  const registerPage = waitForPage('/login', 'getRegisterPage');
-  cy.get('cx-page-layout > cx-page-slot > cx-login-register')
-    .findByText('Register')
-    .click();
-  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    const registerPage = waitForPage('/login', 'getRegisterPage');
+    cy.get('cx-page-layout > cx-page-slot > cx-login-register')
+      .findByText('Register')
+      .click();
+    cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  });
 
-  const loginUser = uniqueUser ? getSampleUser() : user;
-  register(loginUser);
-  return loginUser;
-}
-
-export function registerUserFromRegisterPage(uniqueUser?: boolean) {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK21(() => {
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  });
 
   const loginUser = uniqueUser ? getSampleUser() : user;
   register(loginUser);
@@ -55,10 +53,15 @@ export function registerUserFromRegisterPage(uniqueUser?: boolean) {
  * @returns Newly registered user
  */
 export function registerUser(uniqueUser?: boolean) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-
+  cy.whenJDK17(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage'); // login issue here
+    findLoginLink().click();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    const loginPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
   return registerUserFromLoginPage(uniqueUser);
 }
 
@@ -70,6 +73,11 @@ export function signOutUser() {
   cy.get(userGreetSelector).should('not.exist');
 }
 
+/**
+ * From the login page
+ * - Fill in the login form with default user
+ * - Submit the form
+ */
 export function loginUser() {
   login(user.email, user.password);
 }
@@ -78,7 +86,7 @@ export function loginUser() {
 export function legacy_loginWithBadCredentialsFromLoginPage() {
   listenForTokenAuthenticationRequest();
 
-  legacyLogin(user.email, 'Password321');
+  login(user.email, 'Password321');
 
   cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
 
@@ -108,17 +116,34 @@ export function loginWithBadCredentialsFromLoginPage() {
 }
 
 export function loginWithBadCredentials() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  navigateToLoginPage();
 
   loginWithBadCredentialsFromLoginPage();
 }
 
+/**
+ * Navigate to login page
+ * - For JDK17, it waits for the login page to load.
+ */
+export function navigateToLoginPage() {
+  cy.whenJDK17(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage'); // conflict with JDK21
+    findLoginLink().click();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    findLoginLink().click();
+    // conflict with JDK21: Assert auth server page loaded?
+  });
+}
+
+export function findLoginLink() {
+  // clickHamburger();
+  return cy.get(loginLinkSelector);
+}
+
 export function loginAsDefaultUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  navigateToLoginPage();
 
   login(defaultUser.name, defaultUser.password);
 }

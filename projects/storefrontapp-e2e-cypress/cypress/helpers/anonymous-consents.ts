@@ -11,7 +11,7 @@ import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
 import { checkBanner } from './homepage';
-import { signOutUser } from './login';
+import { findLoginLink, signOutUser } from './login';
 import { waitForPage } from './navigation';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
@@ -251,7 +251,7 @@ export function movingFromAnonymousToRegisteredUser() {
     cy.onMobile(() => {
       clickHamburger();
     });
-    cy.get('cx-login [role="link"]').click({ force: true });
+    findLoginLink().click({ force: true });
     cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);

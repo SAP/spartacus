@@ -100,3 +100,9 @@ export function navigateToAMyAccountPage(
   });
   cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
 }
+
+export function clickHamburger() {
+  cy.onMobile(() => {
+    cy.get('cx-hamburger-menu button', { timeout: 15000 }).click();
+  });
+}

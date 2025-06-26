@@ -234,9 +234,7 @@ export function clearItemsFromCart() {
   validateEmptyCart();
 }
 
-export function goToCart() {
-  goToCart();
-}
+export { goToCart };
 
 export function verifyScheduleLineInfo() {
   let scheduleLines = window.sessionStorage.getItem('TG11-scheduleLines');
