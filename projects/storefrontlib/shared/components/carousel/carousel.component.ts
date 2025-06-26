@@ -92,6 +92,19 @@ export class CarouselComponent implements OnInit, OnChanges {
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
+  /**
+   * Angular's trackBy function for iterating over carousel items.
+   *
+   * For a given item it should return an unique identifier.
+   * If not provided, it will fallback to returning the item directly
+   * (like Angular's naive default trackBy).
+   *
+   * If the returned value is not unique, it may lead to unexpected behavior,
+   * such as unwanted destroying and re-creating child templates on items array changes.
+   */
+  @Input() trackByFn: (index: number, item: any) => any = (_index, item) =>
+    item;
+
   activeSlide: number;
   size$: Observable<number>;
 
