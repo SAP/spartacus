@@ -5,6 +5,7 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -14,8 +15,10 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
@@ -44,7 +47,7 @@ import { disableTabbingForTick } from '../../../layout/a11y';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselV2Component implements OnInit {
+export class CarouselV2Component implements OnInit, AfterViewInit {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
@@ -63,6 +66,10 @@ export class CarouselV2Component implements OnInit {
    * view can be given by the compoent that uses the `CarouselV2Component`.
    */
   @Input() template: TemplateRef<any>;
+
+  @Input() indicatorIcon = ICON_TYPE.CIRCLE;
+  @Input() previousIcon = ICON_TYPE.CARET_LEFT;
+  @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
   @Input() trackByFn: (index: number, item: any) => any = (index, item) =>
     item?.id || item?.uid || item?.code || index; // Default trackBy function
@@ -169,5 +176,65 @@ export class CarouselV2Component implements OnInit {
     } catch (error) {
       this.logger.error('Failed to scroll carousel item into view', error);
     }
+  }
+
+  //////////////////////////////////////////
+
+  @ViewChild('carousel') carousel!: ElementRef;
+  @ViewChild('startSentinel') startSentinel!: ElementRef;
+  @ViewChild('endSentinel') endSentinel!: ElementRef;
+
+  private isScrollStartSubject = new BehaviorSubject(true);
+  private isScrollEndSubject = new BehaviorSubject(false);
+
+  isScrollStart$ = this.isScrollStartSubject.asObservable();
+  isScrollEnd$ = this.isScrollEndSubject.asObservable();
+
+  // SPIKE TODO IMPLEMENT
+  $needsScroll$: Observable<boolean>;
+
+  /**
+   * Scrolls the carousel forward by a width of a carousel
+   * (so the items that were invisible previously are now visible).
+   */
+  scrollForward() {
+    // SPIKE TODO: scroll full width of the carousel
+
+    this.carousel.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
+  }
+
+  /**
+   * Scrolls the carousel backward by a width of a carousel
+   * (so the items that were invisible previously are now invisible).
+   */
+  scrollBackward() {
+    // SPIKE TODO: scroll full width of the carousel
+    this.carousel.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
+  }
+
+  private observer?: IntersectionObserver;
+
+  ngAfterViewInit() {
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === this.startSentinel.nativeElement) {
+            this.isScrollStartSubject.next(entry.isIntersecting);
+          } else if (entry.target === this.endSentinel.nativeElement) {
+            this.isScrollEndSubject.next(entry.isIntersecting);
+          }
+        });
+      },
+      { root: this.carousel.nativeElement, threshold: 1 }
+    );
+
+    if (!this.startSentinel || !this.endSentinel) {
+      this.logger.error(
+        'Start or end sentinel elements are not available in the carousel.'
+      );
+      return;
+    }
+    this.observer.observe(this.startSentinel.nativeElement);
+    this.observer.observe(this.endSentinel.nativeElement);
   }
 }

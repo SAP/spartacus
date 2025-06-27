@@ -1,19 +1,45 @@
 <ng-container *ngIf="items && items.length > 0">
   <h2 *ngIf="title">{{ title }}</h2>
 
-  <ul class="carousel-panel" role="list">
-    <ng-container *ngFor="let item of items; let i = index; trackBy: trackByFn">
-      <li
-        *ngIf="item | async as data"
-        class="item"
-        role="listitem"
-        (keydown)="onItemKeydown($event)"
-        (focus)="onItemFocus($event)"
+  <div class="carousel-panel" role="list">
+    <button
+      class="previous"
+      (click)="scrollBackward()"
+      [attr.aria-disabled]="isScrollStart$ | async"
+      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+      [attr.title]="'carousel.previousSlide' | cxTranslate"
+    >
+      <cx-icon [type]="previousIcon"></cx-icon>
+    </button>
+    <div class="carousel-items" #carousel>
+      <div #startSentinel class="carousel-start-sentinel"></div>
+
+      <ng-container
+        *ngFor="let item of items; let i = index; trackBy: trackByFn"
       >
-        <ng-container
-          *ngTemplateOutlet="template; context: { item: data }"
-        ></ng-container>
-      </li>
-    </ng-container>
-  </ul>
+        <div
+          *ngIf="item | async as data"
+          class="item"
+          role="listitem"
+          (keydown)="onItemKeydown($event)"
+          (focus)="onItemFocus($event)"
+        >
+          <ng-container
+            *ngTemplateOutlet="template; context: { item: data }"
+          ></ng-container>
+        </div>
+      </ng-container>
+
+      <div #endSentinel class="carousel-end-sentinel"></div>
+    </div>
+    <button
+      class="next"
+      (click)="scrollForward()"
+      [attr.aria-disabled]="isScrollEnd$ | async"
+      [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
+      [attr.title]="'carousel.nextSlide' | cxTranslate"
+    >
+      <cx-icon [type]="nextIcon"></cx-icon>
+    </button>
+  </div>
 </ng-container>

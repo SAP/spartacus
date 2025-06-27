@@ -20,12 +20,20 @@
 
   .carousel-panel {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // .carousel-panel {
+  .carousel-items {
+    display: flex;
     gap: 2rem;
     width: 100%;
-    max-width: 100vw;
+    // max-width: 100vw;
+    max-width: calc(100vw - 6rem);
     min-width: 0;
     box-sizing: border-box;
-    padding-inline: 2rem;
+    // padding-inline: 2rem;
     padding-bottom: 1rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -43,6 +51,59 @@
     .item {
       flex: 0 0 240px;
       scroll-snap-align: start;
+    }
+
+    .carousel-start-sentinel,
+    .carousel-end-sentinel {
+      display: block;
+      flex: 0 0 0px;
+      scroll-snap-type: start;
+    }
+
+    .carousel-start-sentinel {
+      margin-inline-end: -2rem;
+    }
+
+    .carousel-end-sentinel {
+      margin-inline-start: -2rem;
+    }
+  }
+
+  button {
+    // SPIKE OLD:
+    // color: var(--cx-color-inverse);
+
+    &[aria-disabled='false'] {
+      cursor: pointer;
+    }
+  }
+
+  .previous,
+  .next {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+
+    // SPIKE OLD:
+    // color: var(--cx-color-primary);
+
+    // SPIKE NEW:
+    color: cyan;
+
+    &[aria-disabled='true'] {
+      // SPIKE OLD:
+      // opacity: 0.5;
+
+      // SPIKE NEW
+      color: red;
+    }
+
+    &[aria-disabled='false']:hover {
+      // color: var(--cx-color-primary-accent);
+    }
+
+    @include media-breakpoint-down(sm) {
+      min-width: 48px;
     }
   }
 }
