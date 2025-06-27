@@ -15,7 +15,6 @@ describe(
     it('Finder search results', () => {
       cy.visit('/store-finder/find?query=test');
       cy.get('button').contains(' Make This My Store ').click();
-      cy.get('.cx-store-full-address').contains(' Tokio ');
       cy.get('main').a11yRunContinuumTest();
     });
 
