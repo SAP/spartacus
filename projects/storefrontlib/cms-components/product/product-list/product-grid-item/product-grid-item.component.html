@@ -3,17 +3,16 @@
   class="cx-product-image-container"
   tabindex="-1"
 >
-  <ng-container *cxLcpContext="let lcpContext">
-    <cx-media
-      class="cx-product-image"
-      [container]="product.images?.PRIMARY"
-      format="product"
-      [alt]="product.name || product.summary"
-      [fetchPriority]="
-        itemIndex === 0 ? (lcpContext.fetchPriority$ | async) : undefined
-      "
-    ></cx-media>
-  </ng-container>
+  <cx-media
+    class="cx-product-image"
+    [container]="product.images?.PRIMARY"
+    format="product"
+    [alt]="product.name || product.summary"
+    *cxLcpContext="let lcpContext"
+    [fetchPriority]="
+      itemIndex === 0 ? (lcpContext.fetchPriority$ | async) : undefined
+    "
+  ></cx-media>
 </a>
 <a
   [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
