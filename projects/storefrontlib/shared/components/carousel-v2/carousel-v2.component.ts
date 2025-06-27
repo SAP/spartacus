@@ -12,14 +12,15 @@ import {
   inject,
   Input,
   isDevMode,
+  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
 /**
@@ -47,7 +48,7 @@ import { disableTabbingForTick } from '../../../layout/a11y';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselV2Component implements OnInit, AfterViewInit {
+export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
@@ -193,28 +194,45 @@ export class CarouselV2Component implements OnInit, AfterViewInit {
   // SPIKE TODO IMPLEMENT
   $needsScroll$: Observable<boolean>;
 
-  /**
-   * Scrolls the carousel forward by a width of a carousel
-   * (so the items that were invisible previously are now visible).
-   */
-  scrollForward() {
-    // SPIKE TODO: scroll full width of the carousel
+  protected carouselWidth: number;
+  protected windowRef = inject(WindowRef);
+  protected sub: Subscription;
 
-    this.carousel.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
+  ngOnDestroy() {
+    this.sub?.unsubscribe?.();
   }
 
   /**
-   * Scrolls the carousel backward by a width of a carousel
-   * (so the items that were invisible previously are now invisible).
+   * Scrolls the carousel forward by a width of the carousel's visible area
+   * (so the items that were invisible previously are now visible).
+   */
+  scrollForward() {
+    this.carousel.nativeElement.scrollBy({
+      left: this.carouselWidth,
+      behavior: 'smooth',
+    });
+  }
+
+  /**
+   * Scrolls the carousel backward by a width of the carousel's visible area
+   * (so the items that were visible previously are now invisible).
    */
   scrollBackward() {
-    // SPIKE TODO: scroll full width of the carousel
-    this.carousel.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
+    this.carousel.nativeElement.scrollBy({
+      left: -this.carouselWidth,
+      behavior: 'smooth',
+    });
   }
 
   private observer?: IntersectionObserver;
 
   ngAfterViewInit() {
+    this.sub = this.windowRef.resize$.subscribe(() => {
+      if (this.carousel?.nativeElement) {
+        this.carouselWidth = this.carousel.nativeElement.clientWidth;
+      }
+    });
+
     this.observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
