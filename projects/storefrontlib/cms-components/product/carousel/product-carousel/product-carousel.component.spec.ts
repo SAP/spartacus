@@ -4,6 +4,7 @@ import {
   Pipe,
   PipeTransform,
   TemplateRef,
+  TrackByFunction,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -39,6 +40,7 @@ class MockCarouselComponent {
   @Input() title: string;
   @Input() template: TemplateRef<any>;
   @Input() items: any[];
+  @Input() trackByFn: TrackByFunction<any>;
 }
 
 @Component({
@@ -413,5 +415,16 @@ describe('ProductCarouselComponent', () => {
         done();
       });
     });
+  });
+
+  it('should pass trackByFn to the carousel and return product.code', () => {
+    const carouselComponent = fixture.debugElement.query(
+      By.directive(MockCarouselComponent)
+    ).componentInstance;
+    expect(carouselComponent.trackByFn).toBeDefined();
+
+    const mockProduct = { code: 'test123', name: 'Test Product' };
+    const result = carouselComponent.trackByFn(999, mockProduct);
+    expect(result).toBe('test123');
   });
 });

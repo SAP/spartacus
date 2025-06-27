@@ -2540,7 +2540,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.LINK,
-      value: ' ··· ',
+      value: '···',
     },
     {
       type: TabbingOrderTypes.LINK,

@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, OnDestroy, TemplateRef } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -639,6 +639,107 @@ describe('Carousel Component', () => {
         });
       }));
     });
+  });
+
+  describe('default @Input trackByFn', () => {
+    it('should return the item', () => {
+      const item = { id: '123' };
+      expect(component.trackByFn(999, item)).toBe(item);
+    });
+  });
+});
+
+@Component({
+  selector: 'cx-test-child',
+  template: '<span class="child-content">{{ item.testProperty }}</span>',
+  standalone: false,
+})
+class TestChildComponent implements OnDestroy {
+  @Input() item: any;
+  static destroyedCount = 0;
+  ngOnDestroy() {
+    TestChildComponent.destroyedCount++;
+  }
+}
+
+@Component({
+  selector: 'cx-test-parent',
+  template: `
+    <cx-carousel
+      [items]="mockItems"
+      [title]="mockTitle"
+      [template]="carouselItem"
+      [trackByFn]="carouselTrackByFn"
+    ></cx-carousel>
+    <ng-template #carouselItem let-item="item">
+      <cx-test-child [item]="item"></cx-test-child>
+    </ng-template>
+  `,
+  standalone: false,
+})
+class TestParentComponent {
+  mockTitle = 'Test Carousel';
+  mockItems = [
+    of({ testProperty: 'A', customID: 1 }),
+    of({ testProperty: 'B', customID: 2 }),
+    of({ testProperty: 'C', customID: 3 }),
+    of({ testProperty: 'D', customID: 4 }),
+    of({ testProperty: 'E', customID: 5 }),
+  ];
+  carouselTrackByFn = (_index: number, item: any) => item.customID;
+}
+
+describe('Carousel Component tested in TestParentComponent', () => {
+  let fixture: ComponentFixture<TestParentComponent>;
+  let parent: TestParentComponent;
+  let service: CarouselService;
+
+  beforeEach(waitForAsync(() => {
+    TestChildComponent.destroyedCount = 0;
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CarouselComponent,
+        MockCxIconComponent,
+        MockTemplateComponent,
+        TestParentComponent,
+        TestChildComponent,
+      ],
+      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+    }).compileComponents();
+
+    service = TestBed.inject(CarouselService);
+    spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TestParentComponent);
+    parent = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should not destroy child components when getting a new deep copy of the array, while trackByFn is used', () => {
+    fixture.detectChanges();
+    const oldChildEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
+    // Replace with a new array (same objects/ids)
+    parent.mockItems = [
+      of({ testProperty: 'A', customID: 1 }),
+      of({ testProperty: 'B', customID: 2 }),
+      of({ testProperty: 'C', customID: 3 }),
+      of({ testProperty: 'D', customID: 4 }),
+      of({ testProperty: 'E', customID: 5 }),
+    ];
+    fixture.detectChanges();
+
+    expect(TestChildComponent.destroyedCount).toBe(0);
+
+    const newChildEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
+    expect(newChildEls.length).toEqual(oldChildEls.length);
+    expect(newChildEls[0].nativeElement.textContent).toContain('A');
+    expect(newChildEls[1].nativeElement.textContent).toContain('B');
+    expect(newChildEls[2].nativeElement.textContent).toContain('C');
+    expect(newChildEls[3].nativeElement.textContent).toContain('D');
+    expect(newChildEls[4].nativeElement.textContent).toContain('E');
   });
 });
 
