@@ -54,6 +54,10 @@ export class OAuthLibWrapperService {
           : ''),
       ...this.authConfigService.getOAuthLibConfig(),
     });
+
+    if (this.authConfigService.getOAuthLibConfig()?.useSilentRefresh) {
+      this.oAuthService.setupAutomaticSilentRefresh();
+    }
   }
 
   /**
@@ -159,6 +163,24 @@ export class OAuthLibWrapperService {
         })
         .finally(() => {
           subscription.unsubscribe();
+        });
+    });
+  }
+
+  trySilentLogin(): Promise<any> {
+    console.log('trySilentLogin()');
+    return new Promise((resolve, reject) => {
+      this.oAuthService
+        .silentRefresh()
+        .then((result) => {
+          console.log('silentRefresh', result);
+          resolve({
+            result: result,
+          });
+        })
+        .catch((error) => {
+          console.error('Error during silentRefresh', error);
+          reject(error);
         });
     });
   }

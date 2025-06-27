@@ -11,7 +11,7 @@ export interface AuthToken {
   /**
    * Token used for `Authorization` header.
    */
-  access_token: string;
+  access_token?: string;
   /**
    * Token to refresh the `access_token` when it expires.
    */
