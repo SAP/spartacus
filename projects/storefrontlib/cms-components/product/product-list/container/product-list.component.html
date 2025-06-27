@@ -51,8 +51,9 @@
               <ng-container *ngIf="viewMode === ViewModes.Grid">
                 <div class="row">
                   <cx-product-grid-item
-                    *ngFor="let product of model?.products"
+                    *ngFor="let product of model?.products; let i = index"
                     [product]="product"
+                    [itemIndex]="i"
                     class="col-12 col-sm-6 col-md-4"
                   ></cx-product-grid-item>
                 </div>
@@ -60,8 +61,9 @@
 
               <ng-container *ngIf="viewMode === ViewModes.List">
                 <cx-product-list-item
-                  *ngFor="let product of model?.products"
+                  *ngFor="let product of model?.products; let i = index"
                   [product]="product"
+                  [itemIndex]="i"
                   class="cx-product-search-list"
                 ></cx-product-list-item>
               </ng-container>
