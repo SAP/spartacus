@@ -651,11 +651,21 @@ describe('Carousel Component', () => {
 
 @Component({
   selector: 'cx-test-child',
-  template: '<span class="child-content">{{ item.testProperty }}</span>',
+  template: ` Test Carousel Item
+    <div>
+      Item testProperty:
+      <span class="child-item">{{ item.testProperty }}</span>
+    </div>
+    <div>
+      itemIndex:
+      <span class="child-itemIndex">{{ itemIndex }}</span>
+    </div>`,
   standalone: false,
 })
 class TestChildComponent implements OnDestroy {
   @Input() item: any;
+  @Input() itemIndex: number;
+
   static destroyedCount = 0;
   ngOnDestroy() {
     TestChildComponent.destroyedCount++;
@@ -671,8 +681,8 @@ class TestChildComponent implements OnDestroy {
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
     ></cx-carousel>
-    <ng-template #carouselItem let-item="item">
-      <cx-test-child [item]="item"></cx-test-child>
+    <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+      <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
     </ng-template>
   `,
   standalone: false,
@@ -690,8 +700,7 @@ class TestParentComponent {
 }
 
 describe('Carousel Component tested in TestParentComponent', () => {
-  let fixture: ComponentFixture<TestParentComponent>;
-  let parent: TestParentComponent;
+  let parentFixture: ComponentFixture<TestParentComponent>;
   let service: CarouselService;
 
   beforeEach(waitForAsync(() => {
@@ -713,127 +722,64 @@ describe('Carousel Component tested in TestParentComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestParentComponent);
-    parent = fixture.componentInstance;
-    fixture.detectChanges();
+    parentFixture = TestBed.createComponent(TestParentComponent);
+    parentFixture.detectChanges();
+  });
+
+  it('should render 5 items', () => {
+    const items = parentFixture.debugElement.queryAll(By.css('.item'));
+    expect(items.length).toBe(5);
+  });
+
+  it(`should pass item's data to each child template context`, () => {
+    const itemsData = parentFixture.debugElement.queryAll(
+      By.css('.child-item')
+    );
+    expect(itemsData.length).toBe(5);
+    expect(itemsData[0].nativeElement.textContent).toBe('A');
+    expect(itemsData[1].nativeElement.textContent).toBe('B');
+    expect(itemsData[2].nativeElement.textContent).toBe('C');
+    expect(itemsData[3].nativeElement.textContent).toBe('D');
+    expect(itemsData[4].nativeElement.textContent).toBe('E');
+  });
+
+  it(`should pass itemIndex to child each template context`, () => {
+    const itemIndexes = parentFixture.debugElement.queryAll(
+      By.css('.child-itemIndex')
+    );
+    expect(itemIndexes.length).toBe(5);
+    expect(itemIndexes[0].nativeElement.textContent).toBe('0');
+    expect(itemIndexes[1].nativeElement.textContent).toBe('1');
+    expect(itemIndexes[2].nativeElement.textContent).toBe('2');
+    expect(itemIndexes[3].nativeElement.textContent).toBe('3');
+    expect(itemIndexes[4].nativeElement.textContent).toBe('4');
   });
 
   it('should not destroy child components when getting a new deep copy of the array, while trackByFn is used', () => {
-    fixture.detectChanges();
-    const oldChildEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
+    parentFixture.detectChanges();
+    const oldChildEls = parentFixture.debugElement.queryAll(
+      By.css('cx-test-child')
+    );
     // Replace with a new array (same objects/ids)
-    parent.mockItems = [
+    parentFixture.componentInstance.mockItems = [
       of({ testProperty: 'A', customID: 1 }),
       of({ testProperty: 'B', customID: 2 }),
       of({ testProperty: 'C', customID: 3 }),
       of({ testProperty: 'D', customID: 4 }),
       of({ testProperty: 'E', customID: 5 }),
     ];
-    fixture.detectChanges();
+    parentFixture.detectChanges();
 
     expect(TestChildComponent.destroyedCount).toBe(0);
 
-    const newChildEls = fixture.debugElement.queryAll(By.css('cx-test-child'));
+    const newChildEls = parentFixture.debugElement.queryAll(
+      By.css('cx-test-child')
+    );
     expect(newChildEls.length).toEqual(oldChildEls.length);
     expect(newChildEls[0].nativeElement.textContent).toContain('A');
     expect(newChildEls[1].nativeElement.textContent).toContain('B');
     expect(newChildEls[2].nativeElement.textContent).toContain('C');
     expect(newChildEls[3].nativeElement.textContent).toContain('D');
     expect(newChildEls[4].nativeElement.textContent).toContain('E');
-  });
-});
-
-@Component({
-  selector: 'cx-test-parent',
-  template: `
-    <cx-carousel
-      [items]="mockItems"
-      [title]="mockTitle"
-      [template]="carouselItem"
-    ></cx-carousel>
-    <ng-template
-      #carouselItem
-      let-item="item"
-      let-slideItemIndex="slideItemIndex"
-      let-itemIndex="itemIndex"
-    >
-      Test Carousel Item
-      <div>
-        Item testProperty:
-        <span class="test-carousel-item">{{ item.testProperty }}</span>
-      </div>
-      <div>
-        itemIndex:
-        <span class="test-carousel-itemIndex">{{ itemIndex }}</span>
-      </div>
-    </ng-template>
-  `,
-  standalone: false,
-})
-class TestParentComponent {
-  mockTitle = 'Test Carousel';
-  mockItems = [
-    of({ testProperty: 'A' }),
-    of({ testProperty: 'B' }),
-    of({ testProperty: 'C' }),
-    of({ testProperty: 'D' }),
-    of({ testProperty: 'E' }),
-  ];
-}
-describe('Carousel Component tested in TestParentComponent', () => {
-  let service: CarouselService;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-        TestParentComponent,
-      ],
-      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
-
-    service = TestBed.inject(CarouselService);
-    spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));
-  }));
-
-  describe('passing item index to child template', () => {
-    let parentFixture: ComponentFixture<TestParentComponent>;
-
-    beforeEach(() => {
-      parentFixture = TestBed.createComponent(TestParentComponent);
-      parentFixture.detectChanges();
-    });
-
-    it('should render 5 items', () => {
-      const items = parentFixture.debugElement.queryAll(By.css('.item'));
-      expect(items.length).toBe(5);
-    });
-
-    it(`should pass item's data to each item's template context`, () => {
-      const itemsData = parentFixture.debugElement.queryAll(
-        By.css('.test-carousel-item')
-      );
-      expect(itemsData.length).toBe(5);
-      expect(itemsData[0].nativeElement.textContent).toBe('A');
-      expect(itemsData[1].nativeElement.textContent).toBe('B');
-      expect(itemsData[2].nativeElement.textContent).toBe('C');
-      expect(itemsData[3].nativeElement.textContent).toBe('D');
-      expect(itemsData[4].nativeElement.textContent).toBe('E');
-    });
-
-    it(`should pass itemIndex to item's template context`, () => {
-      const itemIndexes = parentFixture.debugElement.queryAll(
-        By.css('.test-carousel-itemIndex')
-      );
-      expect(itemIndexes.length).toBe(5);
-      expect(itemIndexes[0].nativeElement.textContent).toBe('0');
-      expect(itemIndexes[1].nativeElement.textContent).toBe('1');
-      expect(itemIndexes[2].nativeElement.textContent).toBe('2');
-      expect(itemIndexes[3].nativeElement.textContent).toBe('3');
-      expect(itemIndexes[4].nativeElement.textContent).toBe('4');
-    });
   });
 });
