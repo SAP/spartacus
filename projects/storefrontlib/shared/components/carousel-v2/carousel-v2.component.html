@@ -3,6 +3,7 @@
 
   <div class="carousel-panel" role="list">
     <button
+      tabindex="-1"
       class="previous"
       (click)="scrollBackward()"
       [attr.aria-disabled]="isScrollStart$ | async"
@@ -33,6 +34,7 @@
       <div #endSentinel class="carousel-end-sentinel"></div>
     </div>
     <button
+      tabindex="-1"
       class="next"
       (click)="scrollForward()"
       [attr.aria-disabled]="isScrollEnd$ | async"
