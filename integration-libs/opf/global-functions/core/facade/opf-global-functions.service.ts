@@ -17,6 +17,8 @@ import {
   OpfKeyValueMap,
   OpfPage,
   defaultOpfErrorDialogOptions,
+  OpfMetadataStoreService,
+  OpfMetadataModel,
 } from '@spartacus/opf/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import {
@@ -29,6 +31,7 @@ import {
   OpfPaymentGlobalMethods,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subject, lastValueFrom } from 'rxjs';
@@ -41,12 +44,20 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected opfCtaFacade = inject(OpfCtaFacade);
+  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected loaderSpinnerCpntRef: void | Observable<
     ComponentRef<any> | undefined
   >;
   protected _readyForScriptEvent: Subject<string> = new Subject();
   readyForScriptEvent$: Observable<string> =
     this._readyForScriptEvent.asObservable();
+
+  // Event for re-initiating payment form
+  protected _reinitiatePaymentEvent: Subject<number | undefined> =
+    new Subject();
+  reinitiatePaymentEvent$: Observable<number | undefined> =
+    this._reinitiatePaymentEvent.asObservable();
 
   registerGlobalFunctions({
     domain,
@@ -65,6 +76,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerThrowPaymentError(domain, vcr);
         this.registerStartLoadIndicator(domain, vcr);
         this.registerStopLoadIndicator(domain);
+        this.registerReinitiatePaymentForm(domain);
         break;
       case OpfGlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
@@ -363,6 +375,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       );
     };
   }
+
   protected registerCtaScriptReady(domain: OpfGlobalFunctionsDomain): void {
     this.getGlobalFunctionContainer(domain).scriptReady = (
       scriptIdentifier: string
@@ -371,5 +384,49 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.opfCtaFacade.emitScriptReadyEvent(scriptIdentifier);
       });
     };
+  }
+
+  protected registerReinitiatePaymentForm(
+    domain: OpfGlobalFunctionsDomain
+  ): void {
+    this.getGlobalFunctionContainer(domain).reinitiatePaymentForm = (
+      paymentOptionId?: number
+    ): Promise<boolean> => {
+      return this.ngZone.run(() => {
+        // Emit the event using the payment events service
+        this.opfPaymentEventsService.emitReinitiatePaymentEvent(
+          paymentOptionId
+        );
+
+        return Promise.resolve(true);
+      });
+    };
+  }
+
+  protected getPaymentOptionId(providedId?: number): Observable<number> {
+    if (providedId) {
+      return new Observable((observer) => {
+        observer.next(providedId);
+        observer.complete();
+      });
+    }
+
+    // Get from metadata store (local storage)
+    return new Observable((observer) => {
+      this.opfMetadataStoreService
+        .getOpfMetadataState()
+        .pipe(take(1))
+        .subscribe((metadata: OpfMetadataModel) => {
+          const storedId =
+            metadata.selectedPaymentOptionId ||
+            metadata.defaultSelectedPaymentOptionId;
+          if (storedId) {
+            observer.next(storedId);
+          } else {
+            observer.error(new Error('No payment option ID found in storage'));
+          }
+          observer.complete();
+        });
+    });
   }
 }
