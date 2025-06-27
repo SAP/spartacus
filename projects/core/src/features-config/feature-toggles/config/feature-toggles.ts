@@ -754,6 +754,20 @@ export interface FeatureTogglesInterface {
    * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
    */
   createMediaPreconnectLink?: boolean;
+
+  /**
+   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
+   *
+   * When enabled, it ensures that appropriate space is reserved for images before they load,
+   * maintaining layout stability across the following contexts:
+   *
+   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
+   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
+   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
+   *
+   * This helps improve Core Web Vitals by preventing layout shifts as images load.
+   */
+  reserveSpaceForImagesOnPdpAndPlp?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -864,4 +878,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  reserveSpaceForImagesOnPdpAndPlp: false,
 };

@@ -404,6 +404,7 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
+        reserveSpaceForImagesOnPdpAndPlp: true,
       };
       return appFeatureToggles;
     }),
