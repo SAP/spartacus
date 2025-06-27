@@ -24,15 +24,13 @@ export const provideLcpPresenceForCmsComponent = (): FactoryProvider => {
       const cmsComponentData = inject(CmsComponentData);
       const cmsLcpService = inject(CmsLcpService);
 
-      const lcpPresence$ = cmsComponentData.data$.pipe(
+      return cmsComponentData.data$.pipe(
         switchMap((componentData) =>
           cmsLcpService.getLcpPresence(componentData)
         ),
         distinctUntilChanged(),
         shareReplay({ bufferSize: 1, refCount: true })
       );
-
-      return lcpPresence$;
     },
   };
 };
