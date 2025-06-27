@@ -17,14 +17,14 @@ $productThumbSize: 75px !default;
     position: relative;
 
     img {
+      @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
+        aspect-ratio: 1 / 1;
+      }
       object-fit: scale-down;
     }
   }
 
   cx-media {
-    @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
-      aspect-ratio: 1 / 1;
-    }
     outline: none;
     text-align: center;
     cursor: zoom-in;
