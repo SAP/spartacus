@@ -71,7 +71,7 @@
 
   button {
     // SPIKE OLD:
-    // color: var(--cx-color-inverse);
+    color: var(--cx-color-inverse);
 
     &[aria-disabled='false'] {
       cursor: pointer;
@@ -85,21 +85,21 @@
     font-size: 2rem;
 
     // SPIKE OLD:
-    // color: var(--cx-color-primary);
+    color: var(--cx-color-primary);
 
     // SPIKE NEW:
-    color: cyan;
+    // color: cyan;
 
     &[aria-disabled='true'] {
       // SPIKE OLD:
-      // opacity: 0.5;
+      opacity: 0.5;
 
       // SPIKE NEW
-      color: red;
+      // color: red;
     }
 
     &[aria-disabled='false']:hover {
-      // color: var(--cx-color-primary-accent);
+      color: var(--cx-color-primary-accent);
     }
 
     @include media-breakpoint-down(sm) {
