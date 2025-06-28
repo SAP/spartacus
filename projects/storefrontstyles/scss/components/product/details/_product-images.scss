@@ -15,7 +15,11 @@ $productThumbSize: 75px !default;
     height: 100%;
     width: 100%; // required to support horizontal layouts
     position: relative;
-
+    @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
+      @include media-breakpoint-down(md) {
+        aspect-ratio: 1 / 1;
+      }
+    }
     img {
       @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
         aspect-ratio: 1 / 1;
