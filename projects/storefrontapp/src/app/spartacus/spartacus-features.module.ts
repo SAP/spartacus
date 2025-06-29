@@ -404,6 +404,7 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
+        lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;
     }),
