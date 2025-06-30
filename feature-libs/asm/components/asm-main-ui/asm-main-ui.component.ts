@@ -13,6 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
+import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import {
   AsmDeepLinkParameters,
   AsmUi,
@@ -46,7 +47,6 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -169,9 +169,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                   take(1)
                 )
                 .subscribe((customer) => {
-                  setTimeout(() => {
-                    this.showC360Dialog(customer);
-                  }, 500);
+                  this.showC360Dialog(customer);
                 });
             }
           }
