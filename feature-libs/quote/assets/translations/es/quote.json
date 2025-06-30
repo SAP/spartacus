@@ -176,10 +176,12 @@
       "newCart": "Nueva cesta",
       "quotes": "Ofertas",
       "download": "Descargar propuesta",
+      "order": "Detalles del pedido",
       "a11y": {
         "newCart": "Crear una cesta nueva vacía e ir hasta ella.",
         "quotes": "Ir a la lista de resultados de búsqueda de ofertas.",
-        "download": "Comenzar a descargar la propuesta de oferta"
+        "download": "Comenzar a descargar la propuesta de oferta",
+        "order": "Navegar a pedido asociado a esta oferta"
       }
     },
     "list": {
