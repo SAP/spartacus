@@ -16,7 +16,7 @@
     "wrongEmailFormat": "Dies ist kein gültiges E-Mail-Format."
   },
   "verificationTokenForm": {
-    "createVerificationToken": "Verifizierungscode wurde an {{target}} gesendet. Überprüfen Sie den Code, und geben Sie ihn ein.",
+    "createVerificationToken": "Verifizierungscode wurde an {{target}} gesendet. Geben Sie den Code ein.",
     "needInputCredentials": "Geben Sie Ihre Anmeldedaten ein, um fortzufahren.",
     "sendRateLime": "in {{waitTime}} Sekunden",
     "resend": "Erneut senden",
@@ -26,6 +26,7 @@
     },
     "noReceiveCode": "Haben Sie den Code nicht erhalten?",
     "verify": "Verifizieren",
+    "registerVerify": "Registrieren",
     "back": "Zurück",
     "tokenInputHint": "Sie können jetzt einen neuen Code anfordern. Ein Timer startet und zeigt die verbleibenden Sekunden an, bis Sie Ihre Anforderung erneut senden können. "
   },
