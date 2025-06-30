@@ -176,10 +176,12 @@
       "newCart": "Neuer Warenkorb",
       "quotes": "Angebote",
       "download": "Vorschlag herunterladen",
+      "order": "Bestelldetails",
       "a11y": {
         "newCart": "Erstellen Sie einen neuen leeren Warenkorb, und wechseln Sie zu ihm.",
         "quotes": "Navigieren Sie zur Ergebnisliste für die Angebotssuche.",
-        "download": "Herunterladen eines Angebotsvorschlags starten"
+        "download": "Herunterladen eines Angebotsvorschlags starten",
+        "order": "Zur Bestellung navigieren, die zu diesem Angebot gehört"
       }
     },
     "list": {

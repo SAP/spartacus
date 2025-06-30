@@ -10,6 +10,8 @@
     "placed": "Podáno",
     "placedBy": "Podal/a",
     "unit": "Jednotka",
+    "quoteCode": "ID nabídky {{id}}",
+    "quoteDetail": "Detail nabídky",
     "costCenter": "Nákladové středisko",
     "costCenterAndUnit": "Nákladové středisko / jednotka",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "Stávající košík bude nahrazen novými položkami. Přejete si pokračovat?",
       "cancel": "Zrušit",
       "continue": "Pokračovat"
+    }
+  },
+  "attachments": {
+    "button": "Zobrazit přílohy objednávky",
+    "dialog": {
+      "title": "Přílohy",
+      "preview": "Náhled souboru",
+      "closeModal": "Zavřít modální okno",
+      "error": "Došlo k chybě. Obnovte stránku nebo to zkuste později.",
+      "empty": "Dokumenty nejsou k dispozici. Jakmile budou dokumenty přidány, můžete si je prohlédnout zde.",
+      "downloadError": "Došlo k chybě. Obnovte stránku nebo to zkuste později."
     }
   }
 }

@@ -19,7 +19,7 @@
     "fromStoresFound": "{{ count }} से स्टोर मिला",
     "fromStoresFound_other": "{{ count }} से स्टोर मिले",
     "findStore": "स्टोर खोजें",
-    "findStoreBy": "Find store by",
+    "findStoreBy": "इसके द्वारा स्टोर खोजें",
     "useMyLocation": "मेरे स्थान का उपयोग करें",
     "viewAllStores": "सभी स्टोर देखें",
     "contactUs": "हमसे संपर्क करें",

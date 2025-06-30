@@ -27,6 +27,7 @@
     "termsAndConditions": "Conditions générales",
     "signIn": "J'ai déjà un compte. Connexion",
     "register": "S'inscrire",
+    "furtherRegistration": "Poursuivre",
     "confirmNewPassword": "Confirmer le nouveau mot de passe",
     "resetPassword": "Réinitialiser le mot de passe",
     "createAccount": "Créer un compte",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Les deux mots de passe doivent correspondre",
     "titleRequired": "Le titre est obligatoire.",
     "postRegisterMessage": "Veuillez vous connecter avec les identifiants fournis.",
-    "postRegisterSuccessMessage": "Enregistrement réussi : Veuillez vous connecter avec les identifiants fournis"
+    "postRegisterSuccessMessage": "Votre compte a été correctement créé ! Connectez-vous à l'aide des identifiants fournis.",
+    "rateLimitForRegistrationMessage": "Vous avez atteint la limite d'envoi du code de vérification. Patientez {{seconds}} secondes avant de réessayer. Vous pouvez également utiliser une autre adresse e-mail.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Un code de vérification a été envoyé à {{target}}. Veuillez saisir le code.",
+      "sendRateLime": "dans {{waitTime}} secondes",
+      "resend": "Renvoyer",
+      "verificationCode": {
+        "label": "Code de vérification",
+        "placeholder": "Saisir le code de vérification"
+      },
+      "back": "Retour"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Réinitialiser le mot de passe",

@@ -21,7 +21,7 @@
     "search": "Suchen",
     "add": "Hinzufügen",
     "breadcrumbs": "Breadcrumbs",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "Aktuelle Seite",
     "selectFile": "Datei auswählen",
     "clear": "Entfernen",
     "loaded": "Geladen",
@@ -66,7 +66,7 @@
     "navigateTo": "Navigieren zu: {{nav}}",
     "scrollToTop": "An den Anfang der Seite zurückblättern",
     "linkItemInList": "{{title}}. {{position}} von {{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "{{title}}-Menü"
   },
   "searchBox": {
     "placeholder": "Produktname oder SKU eingeben",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Stellen Sie uns eine Frage"
     },
-    "closeSearchPanel": "Schließen"
+    "closeSearchPanel": "Schließen",
+    "queryError": "Ihre Suchanfrage ist nicht korrekt formatiert. Entfernen Sie Sonderzeichen wie \":\", und versuchen Sie es erneut."
   },
   "sorting": {
     "date": "Datum",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "Kennwort darf nicht mehr als 128 Zeichen haben",
       "cxContainsSpecialCharacters": "Kennwort darf keine Sonderzeichen enthalten",
       "cxNoConsecutiveCharacters": "Kennwort darf keine aufeinanderfolgende identische Zeichen enthalten",
+      "invalidTokenCodeError": "Dieser Code ist nicht gültig.",
       "date": {
         "required": "Feld {{label}} ist erforderlich",
         "min": "Feld {{label}} darf nicht vor dem {{min}} sein",
