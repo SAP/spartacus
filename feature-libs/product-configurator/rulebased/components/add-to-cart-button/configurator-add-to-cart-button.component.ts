@@ -63,30 +63,31 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected activeCartFacade = inject(ActiveCartFacade);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
+  addToCardButtonDisabled = false;
 
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
     hasPendingChanges: boolean;
   }> = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService
-        .getConfiguration(routerData.owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService
+            .getConfiguration(routerData.owner)
         .pipe(map((configuration) => ({ routerData, configuration })))
-        .pipe(
-          switchMap((cont) =>
-            this.configuratorCommonsService
-              .hasPendingChanges(cont.configuration.owner)
-              .pipe(
-                map((hasPendingChanges) => ({
-                  routerData: cont.routerData,
-                  configuration: cont.configuration,
-                  hasPendingChanges,
-                }))
+            .pipe(
+              switchMap((cont) =>
+                this.configuratorCommonsService
+                  .hasPendingChanges(cont.configuration.owner)
+                  .pipe(
+                    map((hasPendingChanges) => ({
+                      routerData: cont.routerData,
+                      configuration: cont.configuration,
+                      hasPendingChanges,
+                    }))
+                  )
               )
-          )
+            )
         )
-    )
   );
 
   constructor(
@@ -328,6 +329,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean,
     productCode?: string
   ) {
+    this.addToCardButtonDisabled = true;
     const quantity = this.quantityControl.value;
     this.configuratorCartService.addToCart(
       owner.id,
