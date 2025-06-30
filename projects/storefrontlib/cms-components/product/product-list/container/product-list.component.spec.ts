@@ -1,9 +1,15 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
+import { By } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  ProductSearchPage,
+} from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
 import {
   ListNavigationModule,
@@ -13,15 +19,18 @@ import {
 import { ViewConfig } from '../../../../shared/config/view-config';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
-import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
   ProductViewComponent,
   ViewModes,
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
-import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 import createSpy = jasmine.createSpy;
+
+const mockProducts = [
+  { code: 'p1', name: 'Product 1' },
+  { code: 'p2', name: 'Product 2' },
+];
 
 @Component({
   selector: 'cx-star-rating',
@@ -48,9 +57,26 @@ class MockPageLayoutService {
   standalone: false,
 })
 class MockProductListItemComponent {
-  @Input()
-  product;
+  @Input() product: any;
+  @Input() itemIndex: number;
 }
+
+@Component({
+  template: '',
+  selector: 'cx-product-grid-item',
+  standalone: false,
+})
+class MockProductGridItemComponent {
+  @Input() product: any;
+  @Input() itemIndex: number;
+}
+
+@Component({
+  selector: 'cx-product-scroll',
+  template: '',
+  standalone: false,
+})
+class MockProductScrollComponent {}
 
 @Pipe({
   name: 'cxUrl',
@@ -79,13 +105,6 @@ class MockAddToCartComponent {
   @Input() showQuantity;
 }
 
-class MockProductListComponentService {
-  setQuery = createSpy('setQuery');
-  viewPage = createSpy('viewPage');
-  sort = createSpy('sort');
-  model$ = of({});
-}
-
 class MockViewConfig {
   view = {
     infiniteScroll: {
@@ -104,8 +123,21 @@ describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
+  let mockModel$: BehaviorSubject<ProductSearchPage>;
 
   beforeEach(waitForAsync(() => {
+    mockModel$ = new BehaviorSubject<ProductSearchPage>({
+      products: mockProducts,
+    } as ProductSearchPage);
+
+    class MockProductListComponentService {
+      setQuery = createSpy('setQuery');
+      viewPage = createSpy('viewPage');
+      sort = createSpy('sort');
+      getPageItems = createSpy('getPageItems');
+      model$ = mockModel$;
+    }
+
     TestBed.configureTestingModule({
       imports: [
         ListNavigationModule,
@@ -115,6 +147,7 @@ describe('ProductListComponent', () => {
         SpinnerModule,
       ],
       providers: [
+        provideRouter([]),
         {
           provide: PageLayoutService,
           useClass: MockPageLayoutService,
@@ -135,16 +168,16 @@ describe('ProductListComponent', () => {
       declarations: [
         ProductListComponent,
         ProductFacetNavigationComponent,
-        ProductGridItemComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
         MediaComponent,
         ProductViewComponent,
         MockProductListItemComponent,
+        MockProductGridItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
-        ProductScrollComponent,
         MockFeatureLevelDirective,
+        MockProductScrollComponent,
       ],
     }).compileComponents();
   }));
@@ -153,6 +186,7 @@ describe('ProductListComponent', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     componentService = TestBed.inject(ProductListComponentService);
+    fixture.detectChanges();
   });
 
   describe('ngOnInit', () => {
@@ -180,5 +214,100 @@ describe('ProductListComponent', () => {
 
     component.setViewMode(ViewModes.Grid);
     expect(component.viewMode$.value).toBe(ViewModes.Grid);
+  });
+
+  describe('UI test', () => {
+    beforeEach(() => {
+      mockModel$.next({ products: mockProducts });
+    });
+
+    describe('when infinite scroll is enabled', () => {
+      beforeEach(() => {
+        component.isInfiniteScroll = true;
+      });
+
+      it('should render product scroll component', () => {
+        fixture.detectChanges();
+        const productScrollComponent = fixture.debugElement.query(
+          By.css('cx-product-scroll')
+        );
+        expect(productScrollComponent).not.toBeNull();
+      });
+    });
+
+    describe('when infinite scroll is disabled', () => {
+      beforeEach(() => {
+        component.isInfiniteScroll = false;
+      });
+
+      it('should not render product scroll component', () => {
+        fixture.detectChanges();
+        const productScrollComponent = fixture.debugElement.query(
+          By.css('cx-product-scroll')
+        );
+        expect(productScrollComponent).toBeNull();
+      });
+
+      describe('when viewMode is List', () => {
+        beforeEach(() => {
+          component.setViewMode(ViewModes.List);
+        });
+
+        it('should render product list item components', () => {
+          fixture.detectChanges();
+          const listItems = fixture.debugElement.queryAll(
+            By.directive(MockProductListItemComponent)
+          );
+          expect(listItems.length).toBe(2);
+          expect(listItems[0].componentInstance.product).toEqual(
+            mockProducts[0]
+          );
+          expect(listItems[0].componentInstance.itemIndex).toEqual(0);
+          expect(listItems[1].componentInstance.product).toEqual(
+            mockProducts[1]
+          );
+          expect(listItems[1].componentInstance.itemIndex).toEqual(1);
+        });
+
+        it('should NOT render product grid item components', () => {
+          fixture.detectChanges();
+          const gridItems = fixture.debugElement.queryAll(
+            By.directive(MockProductGridItemComponent)
+          );
+          expect(gridItems.length).toBe(0);
+        });
+      });
+
+      describe('when viewMode is Grid', () => {
+        beforeEach(() => {
+          component.setViewMode(ViewModes.Grid);
+        });
+
+        it('should render product grid item components', () => {
+          fixture.detectChanges();
+
+          const gridItems = fixture.debugElement.queryAll(
+            By.directive(MockProductGridItemComponent)
+          );
+          expect(gridItems.length).toBe(2);
+          expect(gridItems[0].componentInstance.product).toEqual(
+            mockProducts[0]
+          );
+          expect(gridItems[0].componentInstance.itemIndex).toEqual(0);
+          expect(gridItems[1].componentInstance.product).toEqual(
+            mockProducts[1]
+          );
+          expect(gridItems[1].componentInstance.itemIndex).toEqual(1);
+        });
+
+        it('should NOT render product list item components', () => {
+          fixture.detectChanges();
+          const listItems = fixture.debugElement.queryAll(
+            By.directive(MockProductListItemComponent)
+          );
+          expect(listItems.length).toBe(0);
+        });
+      });
+    });
   });
 });
