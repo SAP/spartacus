@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# E2E Accessibility test helpers
-
-# Source test distribution utilities and configuration
 source "$(dirname "$0")/test-distribution.sh"
 
 display_a11y_docs_link() {
@@ -58,9 +55,8 @@ run_a11y_container_tests() {
     local container="$1"
     local total_containers="${2:-2}"
 
-    echo "Running A11Y tests: Container $container/$total_containers (Strategy: $TEST_DISTRIBUTION_STRATEGY)"
+    echo "Running A11Y tests: Container $container/$total_containers"
 
-    # Check if this container has any tests assigned
     local b2c_spec=$(get_a11y_spec_pattern "b2c" "$container" "$total_containers")
     local b2b_spec=$(get_a11y_spec_pattern "b2b" "$container" "$total_containers")
 
