@@ -13,10 +13,26 @@
   }
 
   &.start-navigating {
-    @extend %progress-bar, %progress-bar-loading !optional;
+    @extend %progress-bar !optional;
+
+    @extend %progress-bar-loading !optional;
+    @include forFeature(
+      'topProgressBarUseTransformAnimation',
+      'currentSelector'
+    ) {
+      @extend %progress-bar-loading-animation !optional;
+    }
   }
   &.stop-navigating {
-    @extend %progress-bar, %progress-bar-loaded !optional;
+    @extend %progress-bar !optional;
+
+    @extend %progress-bar-loaded !optional;
+    @include forFeature(
+      'topProgressBarUseTransformAnimation',
+      'currentSelector'
+    ) {
+      @extend %progress-bar-loaded-animation !optional;
+    }
   }
 
   > footer {
@@ -34,10 +50,8 @@
     :focus,
     .ng-select-focused {
       --cx-visual-focus-width: 0;
-      @include forFeature('a11yImproveContrast') {
-        // this change is not kicking-in, minor issue, it does work work when unwraping, unwrap in next major
-        box-shadow: 0 0 0 0;
-      }
+      // this change is not kicking-in, minor issue, it does work work when unwraping, unwrap in next major
+      box-shadow: 0 0 0 0;
     }
 
     @include forFeature('a11yKeyboardFocusInSearchBox') {

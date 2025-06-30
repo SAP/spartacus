@@ -24,10 +24,7 @@
     color: var(--cx-color-text);
     font-size: var(--cx-font-size, 0.92rem);
     background: var(--cx-color-background);
-
-    @include forFeature('a11yImproveContrast') {
-      @include type('7');
-    }
+    @include type('7');
 
     &:hover {
       background: var(--cx-color-light);

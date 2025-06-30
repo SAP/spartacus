@@ -210,9 +210,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         key: 'consentManagementForm.message.success.given',
       });
-    } else if (
-      this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
-    ) {
+    } else {
       this.globalMessageService?.add(
         { key: 'consentManagementForm.message.success.given' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -228,9 +226,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         key: 'consentManagementForm.message.success.withdrawn',
       });
-    } else if (
-      this.featureConfigService.isEnabled('a11yNotificationsOnConsentChange')
-    ) {
+    } else {
       this.globalMessageService?.add(
         { key: 'consentManagementForm.message.success.withdrawn' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

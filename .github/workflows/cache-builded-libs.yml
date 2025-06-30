@@ -5,6 +5,9 @@ on:
       - develop-*
       - 'epic/**'
       - release/*
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:
