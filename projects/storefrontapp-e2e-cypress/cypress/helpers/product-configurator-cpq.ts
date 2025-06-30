@@ -7,6 +7,7 @@
 import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
+import { findLoginLink } from './login';
 import * as configuration from './product-configurator';
 import * as configurationVc from './product-configurator-vc';
 import * as productSearch from './product-search';
@@ -303,7 +304,7 @@ export function clickAddToCartBtn(): void {
 export function login(email: string, password: string, name: string): void {
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
-  cy.get('cx-login [role="link"]')
+  findLoginLink()
     .click()
     .then(() => {
       cy.get('cx-login-form').should('be.visible');

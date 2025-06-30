@@ -15,11 +15,13 @@ describe(
       cy.a11yContinuumSetup();
     });
 
-    it('should pass a11y scan for the Login Page', () => {
-      cy.visit('/login');
-      cy.get('input[formControlName="userId"]');
-      cy.get('form').submit();
-      cy.get('main').a11yRunContinuumTest();
+    cy.whenJDK17(() => {
+      it('should pass a11y scan for the Login Page', () => {
+        cy.visit('/login'); // JDK17, CustomLoginPage
+        cy.get('input[formControlName="userId"]');
+        cy.get('form').submit();
+        cy.get('main').a11yRunContinuumTest();
+      });
     });
 
     it('should pass a11y scan for the Forgot Password Page', () => {

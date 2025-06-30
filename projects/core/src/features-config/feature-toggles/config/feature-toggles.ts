@@ -724,6 +724,38 @@ export interface FeatureTogglesInterface {
    * Enabling this flag removes the margin animation to improve performance and user experience.
    */
   disableCxPageSlotMarginAnimation?: boolean;
+
+  /**
+   * Feature flag to enable using <link rel=preconnect> in the index.html.
+   *
+   * ## When enabled:
+   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
+   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
+   * has already been completed by the time the browser requests them.
+   *
+   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
+   */
+  createMediaPreconnectLink?: boolean;
+
+  /**
+   * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
+   * This results in a more secure authorization scheme as the default configuration.
+   *
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server only supports Authorization Code
+   * flow for public clients from that version and onwards.
+   */
+  authorizationCodeFlowByDefault?: boolean;
+
+  /**
+   * Disables the retrieval and use of client tokens for endpoints with `USE_CLIENT_TOKEN` set on the
+   * request.
+   *
+   * NOTE: This flag should be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server does not support client tokens
+   * for public clients from that version and onwards.
+   */
+  disableClientTokens?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -830,4 +862,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
+  createMediaPreconnectLink: false,
+  authorizationCodeFlowByDefault: false,
+  disableClientTokens: false,
 };

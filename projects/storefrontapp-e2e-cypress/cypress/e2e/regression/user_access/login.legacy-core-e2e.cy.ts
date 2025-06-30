@@ -7,26 +7,20 @@
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('Login', () => {
+describe('Legacy Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-<<<<<<< HEAD
-      cy.visit('/login/register');
-      login.registerUserFromRegisterPage();
-=======
       cy.whenJDK17(() => {
-        cy.visit('/login');
+        cy.visit('/login'); // JDK17
       });
       cy.whenJDK21(() => {
-        cy.visit('/login/register');
+        cy.visit('/login/register'); // JDK21
       });
       login.registerUserFromLoginPage();
->>>>>>> origin/feature-CXSPA_9984_jdk21-WIP
     });
 
     it('should login and logout successfully', () => {
-      cy.visit('/login');
-      login.loginUser();
+      login.legacyLogin();
 
       const tokenRevocationRequestAlias =
         login.listenForTokenRevocationRequest();

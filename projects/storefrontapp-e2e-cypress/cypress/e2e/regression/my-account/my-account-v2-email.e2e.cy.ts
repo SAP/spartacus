@@ -69,7 +69,7 @@ describe('My Account - Update Email', () => {
       // Below test depends on core test for setup.
       it('should not allow login with old email address (CXSPA-4442)', () => {
         signOut();
-        cy.visit('/login');
+        cy.visit('/login'); // JDK17, JDK21
         login(
           standardUser.registrationData.email,
           standardUser.registrationData.password

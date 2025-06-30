@@ -16,7 +16,8 @@ import {
   showAnonymousConfigTest,
   STORE_USER_INFORMATION,
 } from '../../../helpers/anonymous-consents';
-import { waitForPage } from '../../../helpers/checkout-flow';
+import { findLoginLink } from '../../../helpers/login';
+import { waitForPage } from '../../../helpers/navigation';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
@@ -46,7 +47,7 @@ context('Anonymous consents - config flow', () => {
         cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 
         // Make sure anonymous user is loaded
-        cy.get('cx-login [role="link"]').should('be.visible');
+        findLoginLink().should('be.visible');
         seeBannerAsAnonymous();
 
         // Make sure user is logged in after saving it in storage

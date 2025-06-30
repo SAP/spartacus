@@ -8,6 +8,7 @@ import * as asm from '../asm';
 import * as authentication from '../auth-forms';
 import * as cart from '../cart';
 import * as common from '../common';
+import { findLoginLink } from '../login';
 import * as productConfigurator from '../product-configurator';
 export const READ_VENDOR_QUOTE = '@READ_VENDOR_QUOTE';
 export const READ_QUOTE = '@READ_QUOTE';
@@ -224,7 +225,7 @@ export function clickOnRequestQuote(cartHasIssues = false): void {
  */
 export function login(email: string, password: string, name: string): void {
   log('Uses a cx-login-form to login a user', login.name);
-  cy.get('cx-login [role="link"]')
+  findLoginLink()
     .click()
     .then(() => {
       cy.get('cx-login-form').should('be.visible');
@@ -240,7 +241,7 @@ export function login(email: string, password: string, name: string): void {
 export function logout(): void {
   log('Logout buyer user', logout.name);
   cy.visit(`${SHOP_NAME}/en/USD/logout`).then(() => {
-    cy.get('cx-login [role="link"]');
+    findLoginLink();
   });
 }
 

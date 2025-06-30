@@ -7,7 +7,7 @@
 import * as cart from '../../helpers/cart';
 import * as checkout from '../../helpers/checkout-flow';
 
-describe('Focus managment for a11y', () => {
+describe('Focus management for a11y', () => {
   context('Checkout - Delivery modes', () => {
     it('preserves focus when selecting a delivery mode with a keyboard', () => {
       cy.requireLoggedIn().then(() => {

@@ -7,8 +7,8 @@
 import { user } from '../../sample-data/checkout-flow';
 import { focusableSelectors } from '../../support/utils/a11y-tab';
 import { register as authRegister } from '../auth-forms';
-import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
+import { waitForPage } from '../navigation';
 import { TabbingOrderTypes, TabElement } from './tabbing-order.model';
 
 export const testProductUrl = '/product/779841';

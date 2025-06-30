@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from '../../../helpers/checkout-flow';
+import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
@@ -14,36 +14,38 @@ context('Password Visibility', () => {
       clearAllStorage();
     });
 
-    it('should hide password by default', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login');
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.whenJDK17(() => {
+      it('should hide password by default', () => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        cy.visit('/login'); // JDK17, CustomLoginPage
+        cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.get('button[aria-label="Show password"]').should('be.visible');
+        cy.get('button[aria-label="Show password"]').should('be.visible');
 
-      //type password and assert
-      cy.get('input[aria-label="Enter Your Password"]').should(
-        'have.attr',
-        'type',
-        'password'
-      );
-      cy.get('input[aria-label="Enter Your Password"]').type('abc');
-      cy.get('input[aria-label="Enter Your Password"]').should(
-        'have.value',
-        'abc'
-      );
+        //type password and assert
+        cy.get('input[aria-label="Enter Your Password"]').should(
+          'have.attr',
+          'type',
+          'password'
+        );
+        cy.get('input[aria-label="Enter Your Password"]').type('abc');
+        cy.get('input[aria-label="Enter Your Password"]').should(
+          'have.value',
+          'abc'
+        );
 
-      cy.get('button[aria-label="Show password"]').click();
-      cy.get('input[aria-label="Enter Your Password"]').should(
-        'have.attr',
-        'type',
-        'text'
-      );
-      cy.get('input[aria-label="Enter Your Password"]').should(
-        'have.value',
-        'abc'
-      );
-      cy.get('button[aria-label="Hide password"]').should('be.visible');
+        cy.get('button[aria-label="Show password"]').click();
+        cy.get('input[aria-label="Enter Your Password"]').should(
+          'have.attr',
+          'type',
+          'text'
+        );
+        cy.get('input[aria-label="Enter Your Password"]').should(
+          'have.value',
+          'abc'
+        );
+        cy.get('button[aria-label="Hide password"]').should('be.visible');
+      });
     });
 
     it('should verify password is hidden by default on registration page', () => {

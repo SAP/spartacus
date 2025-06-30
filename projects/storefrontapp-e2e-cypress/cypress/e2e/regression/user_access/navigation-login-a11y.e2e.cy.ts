@@ -19,7 +19,12 @@ function assertNavigationButtonsAttributes(buttonsSelector: string) {
 describe('Navigation Login', () => {
   let user;
   before(() => {
-    cy.visit('/login');
+    cy.whenJDK17(() => {
+      cy.visit('/login'); // JDK17
+    });
+    cy.whenJDK21(() => {
+      cy.visit('/login/register'); // JDK21
+    });
     user = login.registerUserFromLoginPage();
   });
 

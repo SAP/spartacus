@@ -12,33 +12,36 @@ describe('Tabbing order for OTP login', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  describe('OTP login', () => {
-    context('OTP Login page', () => {
-      beforeEach(() => {
-        cy.visit('/login');
-        cy.get('cx-otp-login-form').should('exist');
-        cy.get('cx-otp-login-form form').should('exist');
-      });
-      it('should allow to navigate with tab key for otp login form(empty form) (CXSPA-6672)', () => {
-        verifyTabbingOrder('cx-otp-login-form', config.otpLogin);
-      });
-
-      it('should allow to navigate with tab key for otp login form(filled out form) (CXSPA-6672)', () => {
-        const { email: username, password } = user;
-        cy.get('cx-otp-login-form form').within(() => {
-          cy.get('[formcontrolname="userId"]').clear().type(username);
-          cy.get('[formcontrolname="password"]').clear().type(password);
+  // move suite to legacy file
+  cy.whenJDK17(() => {
+    describe('OTP login', () => {
+      context('OTP Login page', () => {
+        beforeEach(() => {
+          cy.visit('/login'); // JDK17, CustomLoginPage
+          cy.get('cx-otp-login-form').should('exist');
+          cy.get('cx-otp-login-form form').should('exist');
         });
-        verifyTabbingOrder('cx-otp-login-form', config.otpLogin);
+        it('should allow to navigate with tab key for otp login form(empty form) (CXSPA-6672)', () => {
+          verifyTabbingOrder('cx-otp-login-form', config.otpLogin);
+        });
+
+        it('should allow to navigate with tab key for otp login form(filled out form) (CXSPA-6672)', () => {
+          const { email: username, password } = user;
+          cy.get('cx-otp-login-form form').within(() => {
+            cy.get('[formcontrolname="userId"]').clear().type(username);
+            cy.get('[formcontrolname="password"]').clear().type(password);
+          });
+          verifyTabbingOrder('cx-otp-login-form', config.otpLogin);
+        });
       });
-    });
 
-    it('should allow to navigate with tab key for otp verification token form (CXSPA-6689)', () => {
-      cy.visit('/login/verify-token');
-      cy.get('cx-verification-token-form').should('exist');
-      cy.get('cx-verification-token-form form').should('exist');
+      it('should allow to navigate with tab key for otp verification token form (CXSPA-6689)', () => {
+        cy.visit('/login/verify-token');
+        cy.get('cx-verification-token-form').should('exist');
+        cy.get('cx-verification-token-form form').should('exist');
 
-      verifyTabbingOrder('cx-verification-token-form', config.verifyToken);
+        verifyTabbingOrder('cx-verification-token-form', config.verifyToken);
+      });
     });
   });
 });

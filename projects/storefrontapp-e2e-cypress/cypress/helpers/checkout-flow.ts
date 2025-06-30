@@ -25,6 +25,7 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 import { DeepPartial } from './form';
+import { waitForPage } from './navigation';
 import { productItemSelector } from './product-search';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
@@ -51,35 +52,6 @@ export function clickHamburger() {
   cy.onMobile(() => {
     cy.get('cx-hamburger-menu button').click();
   });
-}
-
-/**
- * Creates a routing alias for a given page
- * @param page Suffix of the url (page) to wait for
- * @param alias Name of the routing alias to obtain
- * @returns a Routing alias
- */
-export function waitForPage(page: string, alias: string): string {
-  // homepage is not explicitly being asked as it's driven by the backend.
-  const route =
-    page === 'homepage'
-      ? {
-          method: 'GET',
-          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/cms/pages?lang=en&curr=*`,
-        }
-      : {
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/cms/pages`,
-          query: {
-            pageLabelOrId: page,
-          },
-        };
-  cy.intercept(route).as(alias);
-  return alias;
 }
 
 export function waitForProductPage(productCode: string, alias: string): string {

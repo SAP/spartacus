@@ -15,8 +15,6 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
-  provideAuthorizationCodeFlowByDefault,
-  provideClientTokensDisabled,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -292,8 +290,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideAuthorizationCodeFlowByDefault(true),
-    provideClientTokensDisabled(),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -387,7 +383,7 @@ if (environment.cpq) {
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
-        showRealTimeStockInPDP: false,
+        showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
         a11yWrapReviewOrderInSection: true,
@@ -404,6 +400,12 @@ if (environment.cpq) {
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
+        createMediaPreconnectLink: true,
+        /*
+         * JDK21 feature flags
+         */
+        authorizationCodeFlowByDefault: true,
+        disableClientTokens: true,
       };
       return appFeatureToggles;
     }),
