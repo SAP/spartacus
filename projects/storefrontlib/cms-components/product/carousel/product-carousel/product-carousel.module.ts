@@ -18,8 +18,9 @@ import {
   CarouselModule,
   MediaModule,
 } from '../../../../shared/components/index';
-import { ProductCarouselComponent } from './product-carousel.component';
+import { LcpContextDirectiveModule } from '../../../../shared/lcp-context/lcp-context-directive.module';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
+import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
     UrlModule,
     I18nModule,
     PageComponentModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
