@@ -227,6 +227,10 @@ export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
 
   ngAfterViewInit() {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+
     this.sub = this.windowRef.resize$.subscribe(() => {
       if (this.carousel?.nativeElement) {
         this.carouselWidth = this.carousel.nativeElement.clientWidth;
