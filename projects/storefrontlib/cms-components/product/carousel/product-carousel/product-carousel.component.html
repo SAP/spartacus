@@ -9,6 +9,7 @@
     [title]="title$ | async"
     [template]="carouselItem"
     itemWidth="285px"
+    [trackByFn]="trackByFn"
   >
   </cx-carousel>
 </ng-container>
@@ -23,10 +24,14 @@
     [items]="items"
     [title]="title$ | async"
     [template]="carouselItem"
+    [trackByFn]="trackByFn"
   >
   </cx-carousel-v2>
 </ng-container>
 
-<ng-template #carouselItem let-item="item">
-  <cx-product-carousel-item [item]="item"></cx-product-carousel-item>
+<ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+  <cx-product-carousel-item
+    [item]="item"
+    [itemIndex]="itemIndex"
+  ></cx-product-carousel-item>
 </ng-template>

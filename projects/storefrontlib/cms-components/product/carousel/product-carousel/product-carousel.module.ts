@@ -20,6 +20,7 @@ import {
   CarouselV2Module,
   MediaModule,
 } from '../../../../shared/components/index';
+import { LcpContextDirectiveModule } from '../../../../shared/lcp-context/lcp-context-directive.module';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
 import { ProductCarouselComponent } from './product-carousel.component';
 
@@ -34,6 +35,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
     I18nModule,
     PageComponentModule,
     FeaturesConfigModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -9,7 +9,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ProductGridItemComponent } from '../..';
 import { MediaComponent } from '../../../../../shared/components/media';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { ViewConfig } from '../../../../../shared/config/view-config';
@@ -99,6 +98,29 @@ const mockModel2: ProductSearchPage = {
   products: [],
 };
 
+const mockModel3: ProductSearchPage = {
+  breadcrumbs: [
+    {
+      facetCode: 'mock3',
+      facetName: 'Mock3',
+      facetValueCode: 'mockValueCode3',
+      removeQuery: {
+        query: {
+          value: 'relevance',
+        },
+      },
+    },
+  ],
+  pagination: {
+    currentPage: 0,
+    totalPages: 1,
+  },
+  products: [
+    { averageRating: 1, code: 'mockCode1-3', name: 'mockName1-3' },
+    { averageRating: 1, code: 'mockCode2-3', name: 'mockName2-3' },
+  ],
+};
+
 const backToTopBtn = 'productList.backToTopBtn';
 const showMoreBtn = 'productList.showMoreBtn';
 
@@ -118,8 +140,18 @@ class MockStarRatingComponent {
   standalone: false,
 })
 class MockProductListItemComponent {
-  @Input()
-  product: any;
+  @Input() product: any;
+  @Input() itemIndex: number;
+}
+
+@Component({
+  template: '',
+  selector: 'cx-product-grid-item',
+  standalone: false,
+})
+class MockProductGridItemComponent {
+  @Input() product: any;
+  @Input() itemIndex: number;
 }
 
 @Pipe({
@@ -167,7 +199,7 @@ describe('ProductScrollComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ProductScrollComponent,
-        ProductGridItemComponent,
+        MockProductGridItemComponent,
         MockProductListItemComponent,
         MockUrlPipe,
         MediaComponent,
@@ -347,6 +379,71 @@ describe('ProductScrollComponent', () => {
         const buttons = el.queryAll(By.css('.btn-secondary'));
         expect(buttons[0].nativeElement.innerHTML.trim()).toEqual(backToTopBtn);
         expect(buttons[1]).toBeUndefined();
+      });
+    });
+  });
+
+  describe('when rendering items', () => {
+    describe('when viewMode is List', () => {
+      beforeEach(() => {
+        component.model = mockModel3;
+        component.setViewMode = ViewModes.List;
+      });
+
+      it('should render product List item components', () => {
+        fixture.detectChanges();
+        const listItems = fixture.debugElement.queryAll(
+          By.directive(MockProductListItemComponent)
+        );
+        expect(listItems.length).toBe(2);
+        expect(listItems[0].componentInstance.product).toEqual(
+          mockModel3.products?.[0]
+        );
+        expect(listItems[0].componentInstance.itemIndex).toEqual(0);
+        expect(listItems[1].componentInstance.product).toEqual(
+          mockModel3.products?.[1]
+        );
+        expect(listItems[1].componentInstance.itemIndex).toEqual(1);
+      });
+
+      it('should NOT render product Grid item components', () => {
+        fixture.detectChanges();
+        const gridItems = fixture.debugElement.queryAll(
+          By.directive(MockProductGridItemComponent)
+        );
+        expect(gridItems.length).toBe(0);
+      });
+    });
+
+    describe('when viewMode is Grid', () => {
+      beforeEach(() => {
+        component.model = mockModel3;
+        component.setViewMode = ViewModes.Grid;
+      });
+
+      it('should render product Grid item components', () => {
+        fixture.detectChanges();
+
+        const gridItems = fixture.debugElement.queryAll(
+          By.directive(MockProductGridItemComponent)
+        );
+        expect(gridItems.length).toBe(2);
+        expect(gridItems[0].componentInstance.product).toEqual(
+          mockModel3.products?.[0]
+        );
+        expect(gridItems[0].componentInstance.itemIndex).toEqual(0);
+        expect(gridItems[1].componentInstance.product).toEqual(
+          mockModel3.products?.[1]
+        );
+        expect(gridItems[1].componentInstance.itemIndex).toEqual(1);
+      });
+
+      it('should NOT render product List item components', () => {
+        fixture.detectChanges();
+        const listItems = fixture.debugElement.queryAll(
+          By.directive(MockProductListItemComponent)
+        );
+        expect(listItems.length).toBe(0);
       });
     });
   });
