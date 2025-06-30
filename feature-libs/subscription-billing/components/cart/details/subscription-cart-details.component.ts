@@ -1,16 +1,26 @@
 /* eslint-disable linebreak-style */
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CartDetailsComponent, CartSharedModule, CartValidationWarningsModule } from '@spartacus/cart/base/components';
+import {
+  CartDetailsComponent,
+  CartSharedModule,
+  CartValidationWarningsModule,
+} from '@spartacus/cart/base/components';
 import { I18nModule } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
+import { SubscriptionCartItemListComponent } from '../item-list/subscription-cart-item-list.component';
 
 @Component({
   selector: 'cx-subscription-cart-details',
-  imports: [CommonModule, I18nModule, CartValidationWarningsModule, PromotionsModule, CartSharedModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    CartValidationWarningsModule,
+    PromotionsModule,
+    CartSharedModule,
+    SubscriptionCartItemListComponent,
+  ],
   standalone: true,
-  templateUrl: './subscription-cart-details.component.html'
+  templateUrl: './subscription-cart-details.component.html',
 })
-export class SubscriptionCartDetailsComponent extends CartDetailsComponent {
-
-}
+export class SubscriptionCartDetailsComponent extends CartDetailsComponent {}

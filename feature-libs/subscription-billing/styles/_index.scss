@@ -3,9 +3,10 @@
 @import './product/subscription-product-usage-charge';
 @import './list/subscription-list';
 @import './details/subscription-details';
+@import './cart/subscription-cart-item-list';
 $subscription-billing-components-allowlist: cx-subscription-product-price,
   cx-subscription-product-usage-charge, cx-subscription-list,
-  cx-subscription-details !default;
+  cx-subscription-details, cx-subscription-cart-item-list !default;
 
 $skipComponentStyles: () !default;
 

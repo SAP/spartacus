@@ -11,13 +11,15 @@ import { SubscriptionProductPriceComponent } from './product/price/subscription-
 import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
 import { SubscriptionCartDetailsComponent } from './cart/details/subscription-cart-details.component';
+import { SubscriptionCartItemListComponent } from './cart/item-list/subscription-cart-item-list.component';
 
 @NgModule({
   imports: [
     SubscriptionListComponent,
     SubscriptionProductPriceComponent,
     SubscriptionProductUsageChargeComponent,
-    SubscriptionCartDetailsComponent
+    SubscriptionCartDetailsComponent,
+    SubscriptionCartItemListComponent
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,7 +37,14 @@ import { SubscriptionCartDetailsComponent } from './cart/details/subscription-ca
         },
         CartComponent: {
           component: SubscriptionCartDetailsComponent,
-        }
+        },
+        AccountOrderDetailsItemsComponent: {
+          component: SubscriptionCartItemListComponent,
+          guards: [AuthGuard],
+          data: {
+            enableAddToCart: true,
+          },
+        },
       },
     }),
   ],

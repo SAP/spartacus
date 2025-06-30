@@ -1,6 +1,9 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
-    <div *ngIf="cart.totalItems && cart.totalItems > 0" class="cart-details-wrapper">
+    <div
+      *ngIf="cart.totalItems && cart.totalItems > 0"
+      class="cart-details-wrapper"
+    >
       <cx-cart-validation-warnings></cx-cart-validation-warnings>
 
       <h2 class="cx-total">
@@ -24,6 +27,15 @@
           optionalBtn: saveForLaterBtn,
         }"
       ></cx-cart-item-list>
+      <cx-subscription-cart-item-list
+        [items]="entries"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="promotionLocation"
+        [options]="{
+          isSaveForLater: false,
+          optionalBtn: saveForLaterBtn,
+        }"
+      ></cx-subscription-cart-item-list>
     </div>
   </ng-container>
 </ng-container>
