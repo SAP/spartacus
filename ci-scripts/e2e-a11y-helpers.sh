@@ -28,16 +28,9 @@ stop_pwa_app() {
 
 build_and_start_pwa() {
     export SPA_ENV="$1"
-
-    local port=$((4200 + ${GITHUB_MATRIX_CONTAINER:-1} - 1))
-    echo "Starting PWA on port $port for container ${GITHUB_MATRIX_CONTAINER:-1}"
-
-    export CYPRESS_BASE_URL="http://localhost:$port"
-
     npm run build:csr
-    cd ./dist/storefrontapp/browser && http-server -p $port --silent --proxy http://localhost:$port? &
+    npm run start:pwa &
     sleep 10
-    cd - > /dev/null
 }
 
 get_dynamic_spec_pattern() {
@@ -48,8 +41,6 @@ get_dynamic_spec_pattern() {
     local base_path="projects/storefrontapp-e2e-cypress/cypress/e2e/a11y/$test_type"
     local all_files=($(find "$base_path" -name "*.a11y-e2e.cy.ts" | sort))
     local total_files=${#all_files[@]}
-
-    echo "DEBUG: Found $total_files $test_type files for container $container/$total_containers" >&2
 
     if [[ $total_files -eq 0 ]]; then
         echo ""
@@ -63,8 +54,6 @@ get_dynamic_spec_pattern() {
             selected_files+=("$relative_path")
         fi
     done
-
-    echo "DEBUG: Container $container selected ${#selected_files[@]} files" >&2
 
     if [[ ${#selected_files[@]} -eq 0 ]]; then
         echo ""
@@ -89,11 +78,14 @@ run_a11y_container_tests() {
 
     echo "Running A11Y tests: Container $container/$total_containers"
 
-    # Set port for B2C tests
-    local port=$((4200 + ${GITHUB_MATRIX_CONTAINER:-1} - 1))
-    export CYPRESS_BASE_URL="http://localhost:$port"
-
+    # Check if this container has any tests assigned
     local b2c_spec=$(get_dynamic_spec_pattern "b2c" "$container" "$total_containers")
+    local b2b_spec=$(get_dynamic_spec_pattern "b2b" "$container" "$total_containers")
+
+    if [[ -z "$b2c_spec" && -z "$b2b_spec" ]]; then
+        echo "No tests assigned to container $container - skipping execution"
+        return 0
+    fi
 
     if [[ -n "$b2c_spec" ]]; then
         export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
@@ -105,20 +97,17 @@ run_a11y_container_tests() {
 
     stop_pwa_app
 
-    build_and_start_pwa "ci,b2b"
-
-    local b2b_spec=$(get_dynamic_spec_pattern "b2b" "$container" "$total_containers")
-
     if [[ -n "$b2b_spec" ]]; then
+        build_and_start_pwa "ci,b2b"
         export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
 
         if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
             stop_pwa_app
             return 1
         fi
+        stop_pwa_app
     fi
 
-    stop_pwa_app
     return 0
 }
 
