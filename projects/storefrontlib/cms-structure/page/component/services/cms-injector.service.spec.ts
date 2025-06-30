@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { CmsService } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import { CmsComponentData, LCP_PRESENCE } from '@spartacus/storefront';
+import { DEFAULT_LCP_PRESENCE } from 'projects/storefrontlib/shared/lcp-context/lcp-presence.token';
 import { of } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsInjectorService } from './cms-injector.service';
@@ -48,6 +49,13 @@ describe('CmsInjectorService', () => {
     it('should call getMapping from CmsComponentsService', () => {
       service.getInjector('aaa', 'sampleUid');
       expect(mockCmsComponentsService.getMapping).toHaveBeenCalled();
+    });
+
+    it('should provide LCP_PRESENCEE from the injector', () => {
+      const injector = service.getInjector('aaa', 'sampleUid');
+      const lcpContext = injector.get(LCP_PRESENCE);
+      expect(lcpContext).toBeDefined();
+      expect(lcpContext).not.toEqual(DEFAULT_LCP_PRESENCE);
     });
   });
 });
