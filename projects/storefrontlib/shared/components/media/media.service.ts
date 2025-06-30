@@ -398,7 +398,7 @@ export class MediaService {
    *
    * Defaults to empty string in case no config is provided.
    */
-  protected getBaseUrl(): string {
+  public getBaseUrl(): string {
     return (
       this.config.backend?.media?.baseUrl ??
       this.config.backend?.occ?.baseUrl ??
