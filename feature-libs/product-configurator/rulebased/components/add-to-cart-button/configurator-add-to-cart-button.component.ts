@@ -70,24 +70,24 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     configuration: Configurator.Configuration;
     hasPendingChanges: boolean;
   }> = this.configRouterExtractorService.extractRouterData().pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService
-            .getConfiguration(routerData.owner)
+    switchMap((routerData) =>
+      this.configuratorCommonsService
+        .getConfiguration(routerData.owner)
         .pipe(map((configuration) => ({ routerData, configuration })))
-            .pipe(
-              switchMap((cont) =>
-                this.configuratorCommonsService
-                  .hasPendingChanges(cont.configuration.owner)
-                  .pipe(
-                    map((hasPendingChanges) => ({
-                      routerData: cont.routerData,
-                      configuration: cont.configuration,
-                      hasPendingChanges,
-                    }))
-                  )
+        .pipe(
+          switchMap((cont) =>
+            this.configuratorCommonsService
+              .hasPendingChanges(cont.configuration.owner)
+              .pipe(
+                map((hasPendingChanges) => ({
+                  routerData: cont.routerData,
+                  configuration: cont.configuration,
+                  hasPendingChanges,
+                }))
               )
-            )
+          )
         )
+    )
   );
 
   constructor(

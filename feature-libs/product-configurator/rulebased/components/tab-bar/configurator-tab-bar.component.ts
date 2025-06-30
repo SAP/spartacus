@@ -12,7 +12,7 @@ import {
   ViewChild,
   inject,
   OnInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
@@ -34,7 +34,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.Default,
   standalone: false,
 })
-export class ConfiguratorTabBarComponent implements OnInit, OnDestroy{
+export class ConfiguratorTabBarComponent implements OnInit, OnDestroy {
   @HostBinding('class.ghost') ghostStyle = true;
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
@@ -111,7 +111,10 @@ export class ConfiguratorTabBarComponent implements OnInit, OnDestroy{
    * @param routerData - Router data
    * @param replaceNavigationUrlInHistory - If true, the navigation will replace the current URL in the browser history.
    */
-  navigateToConfiguration(routerData: ConfiguratorRouter.Data, replaceNavigationUrlInHistory = false) {
+  navigateToConfiguration(
+    routerData: ConfiguratorRouter.Data,
+    replaceNavigationUrlInHistory = false
+  ) {
     this.routingService
       .go(
         {
@@ -121,8 +124,10 @@ export class ConfiguratorTabBarComponent implements OnInit, OnDestroy{
             ownerType: routerData.owner.type,
           },
         },
-        { queryParams: { productCode: routerData.productCode },
-          replaceUrl: replaceNavigationUrlInHistory }
+        {
+          queryParams: { productCode: routerData.productCode },
+          replaceUrl: replaceNavigationUrlInHistory,
+        }
       )
       .then(() => {
         this.focusConfigurationInTabBar();
@@ -221,12 +226,15 @@ export class ConfiguratorTabBarComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.configuration$.pipe(take(1)).subscribe();
 
-    this.routerEventsSub = this.router.events.subscribe(event => {
+    this.routerEventsSub = this.router.events.subscribe((event) => {
       if (
         event instanceof NavigationStart &&
         event.navigationTrigger === 'popstate'
       ) {
-        if (event.url.includes('/configure/') && this.router.url.includes('/configure-overview')) {
+        if (
+          event.url.includes('/configure/') &&
+          this.router.url.includes('/configure-overview')
+        ) {
           if (!this.isHandlingBackNavigation) {
             this.isHandlingBackNavigation = true;
             this.configRouterExtractorService
@@ -234,7 +242,11 @@ export class ConfiguratorTabBarComponent implements OnInit, OnDestroy{
               .pipe(take(1))
               .subscribe((routerData) => {
                 console.log('Router data extracted:', routerData);
-                const targetPath = '/configure' + routerData.owner.configuratorType + '/' + routerData.owner.id;
+                const targetPath =
+                  '/configure' +
+                  routerData.owner.configuratorType +
+                  '/' +
+                  routerData.owner.id;
                 if (!this.router.url.startsWith(targetPath)) {
                   this.navigateToConfiguration(routerData, true);
                 } else {
@@ -243,7 +255,10 @@ export class ConfiguratorTabBarComponent implements OnInit, OnDestroy{
               });
           }
         }
-      } else if (event.constructor.name === 'NavigationEnd' && this.isHandlingBackNavigation) {
+      } else if (
+        event.constructor.name === 'NavigationEnd' &&
+        this.isHandlingBackNavigation
+      ) {
         this.isHandlingBackNavigation = false;
       }
     });
