@@ -2,6 +2,9 @@
 
 # E2E Accessibility test helpers
 
+# Source test distribution utilities and configuration
+source "$(dirname "$0")/test-distribution.sh"
+
 display_a11y_docs_link() {
     echo ""
     echo -e "\033[31m⚠️  Accessibility tests failed\033[0m"
@@ -33,54 +36,33 @@ build_and_start_pwa() {
     sleep 10
 }
 
-get_dynamic_spec_pattern() {
+get_a11y_spec_pattern() {
     local test_type="$1"
     local container="$2"
     local total_containers="${3:-2}"
 
-    local base_path="projects/storefrontapp-e2e-cypress/cypress/e2e/a11y/$test_type"
-    local all_files=($(find "$base_path" -name "*.a11y-e2e.cy.ts" | sort))
-    local total_files=${#all_files[@]}
-
-    if [[ $total_files -eq 0 ]]; then
-        echo ""
-        return
-    fi
-
-    local selected_files=()
-    for ((i=0; i<total_files; i++)); do
-        if [[ $((i % total_containers)) -eq $((container - 1)) ]]; then
-            local relative_path="${all_files[i]#projects/storefrontapp-e2e-cypress/}"
-            selected_files+=("$relative_path")
-        fi
-    done
-
-    if [[ ${#selected_files[@]} -eq 0 ]]; then
-        echo ""
-        return
-    fi
-
-    local spec_pattern=""
-    for file in "${selected_files[@]}"; do
-        if [[ -n "$spec_pattern" ]]; then
-            spec_pattern="$spec_pattern,$file"
-        else
-            spec_pattern="$file"
-        fi
-    done
-
-    echo "$spec_pattern"
+    case "$test_type" in
+        "b2c")
+            distribute_tests "$A11Y_TEST_PATTERN" "$container" "$total_containers" "$A11Y_B2C_PATH"
+            ;;
+        "b2b")
+            distribute_tests "$A11Y_TEST_PATTERN" "$container" "$total_containers" "$A11Y_B2B_PATH"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
 }
 
 run_a11y_container_tests() {
     local container="$1"
     local total_containers="${2:-2}"
 
-    echo "Running A11Y tests: Container $container/$total_containers"
+    echo "Running A11Y tests: Container $container/$total_containers (Strategy: $TEST_DISTRIBUTION_STRATEGY)"
 
     # Check if this container has any tests assigned
-    local b2c_spec=$(get_dynamic_spec_pattern "b2c" "$container" "$total_containers")
-    local b2b_spec=$(get_dynamic_spec_pattern "b2b" "$container" "$total_containers")
+    local b2c_spec=$(get_a11y_spec_pattern "b2c" "$container" "$total_containers")
+    local b2b_spec=$(get_a11y_spec_pattern "b2b" "$container" "$total_containers")
 
     if [[ -z "$b2c_spec" && -z "$b2b_spec" ]]; then
         echo "No tests assigned to container $container - skipping execution"
