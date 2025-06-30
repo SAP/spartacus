@@ -176,10 +176,12 @@
       "newCart": "Új kosár",
       "quotes": "Ajánlatok",
       "download": "Javaslat letöltése",
+      "order": "Rendelés részletei",
       "a11y": {
         "newCart": "Hozzon létre egy új üres kosarat, és nyissa meg.",
         "quotes": "Lépjen az ajánlatkeresés találatainak listájára.",
-        "download": "Az ajánlatjavaslat letöltésének megkezdése"
+        "download": "Az ajánlatjavaslat letöltésének megkezdése",
+        "order": "Navigálás az ajánlathoz társított rendeléshez"
       }
     },
     "list": {

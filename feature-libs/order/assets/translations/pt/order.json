@@ -10,6 +10,8 @@
     "placed": "Feito",
     "placedBy": "Feito por",
     "unit": "Unidade",
+    "quoteCode": "ID da cotação {{id}}",
+    "quoteDetail": "Detalhe da cotação",
     "costCenter": "Centro de custo",
     "costCenterAndUnit": "Centro de custo/unidade",
     "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "O carrinho atual será substituído por novos itens. Continuar?",
       "cancel": "Cancelar",
       "continue": "Continuar"
+    }
+  },
+  "attachments": {
+    "button": "Exibir anexos do pedido",
+    "dialog": {
+      "title": "Anexos",
+      "preview": "Arquivo de visualização",
+      "closeModal": "Fechar modal",
+      "error": "Ocorreu um erro. Atualize a página ou tente novamente.",
+      "empty": "Os documentos não estão disponíveis. Você pode visualizar os documentos aqui assim que forem adicionados.",
+      "downloadError": "Ocorreu um erro ao chamar documentos. Atualize a página ou tente novamente."
     }
   }
 }
