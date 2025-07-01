@@ -10,6 +10,8 @@
     "placed": "Dipesan",
     "placedBy": "Dipesan Oleh",
     "unit": "Unit",
+    "quoteCode": "ID Penawaran {{id}}",
+    "quoteDetail": "Rincian Penawaran",
     "costCenter": "Pusat Biaya",
     "costCenterAndUnit": "Pusat Biaya / Unit",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -180,13 +182,24 @@
         "reviewConfiguration": "Terjadi kesalahan dengan konfigurasi \"{{ productCode}}\".",
         "lowStock": "Jumlah untuk {{ productName }}: {{ quantity }} telah dikurangi menjadi {{ quantityAdded }}.",
         "noStock": "Stok {{ productName }} saat ini telah habis.",
-        "pricingError": "Terdapat masalah penetapan harga pada \"{{ productCode }}\"",
+        "pricingError": "Terdapat masalah penetapan harga pada \"{{ productCode }}\".",
         "unresolvableIssues": "Terdapat masalah yang tidak dikenal pada \"{{ productCode }}\".",
         "success": "Produk telah berhasil ditambahkan ke keranjang"
       },
       "areYouSureToReplaceCart": "Keranjang saat ini akan diganti dengan item yang baru. Apakah Anda ingin melanjutkan?",
       "cancel": "Batalkan",
       "continue": "Lanjutkan"
+    }
+  },
+  "attachments": {
+    "button": "Lihat Lampiran Pesanan",
+    "dialog": {
+      "title": "Lampiran",
+      "preview": "Pratinjau file",
+      "closeModal": "Tutup Modal",
+      "error": "Terjadi kesalahan. Segarkan halaman atau coba lagi nanti.",
+      "empty": "Dokumen tidak tersedia. Anda dapat melihat dokumen di sini setelah berhasil ditambahkan.",
+      "downloadError": "Terjadi kesalahan saat mengakses dokumen. Segarkan halaman atau coba lagi nanti."
     }
   }
 }

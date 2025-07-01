@@ -176,10 +176,12 @@
       "newCart": "Nowy koszyk",
       "quotes": "Oferty",
       "download": "Pobierz propozycję",
+      "order": "Szczegóły zamówienia",
       "a11y": {
         "newCart": "Utwórz nowy pusty koszyk i przejdź do niego.",
         "quotes": "Przejdź do listy wyników wyszukiwania ofert.",
-        "download": "Pobierz proponowaną wycenę"
+        "download": "Pobierz proponowaną wycenę",
+        "order": "Przejdź do zamówienia powiązanego z tą ofertą"
       }
     },
     "list": {

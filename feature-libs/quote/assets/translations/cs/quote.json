@@ -176,10 +176,12 @@
       "newCart": "Nový košík",
       "quotes": "Nabídky",
       "download": "Stáhnout dokument návrhu",
+      "order": "Detail objednávky",
       "a11y": {
         "newCart": "Vytvořit nový prázdný košík a přejít k němu.",
         "quotes": "Přejít k seznamu výsledků vyhledávání nabídek.",
-        "download": "Zahájit stahování návrhu nabídky."
+        "download": "Zahájit stahování návrhu nabídky.",
+        "order": "Přejít na objednávku spojenou s touto nabídkou"
       }
     },
     "list": {
