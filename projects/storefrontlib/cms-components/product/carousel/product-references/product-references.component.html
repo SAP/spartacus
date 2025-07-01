@@ -11,14 +11,16 @@
   </ng-container>
 </ng-container>
 <ng-container *cxFeature="'!productCarouselScrolling'">
-  <cx-carousel
-    *ngIf="items$ | async as items"
-    [title]="title$ | async"
-    [items]="items"
-    [template]="carouselItem"
-    [trackByFn]="trackByFn"
-  >
-  </cx-carousel>
+  <ng-container *ngIf="items$ | async as items">
+    <cx-carousel
+      *ngIf="items$ | async as items"
+      [title]="title$ | async"
+      [items]="items"
+      [template]="carouselItem"
+      [trackByFn]="trackByFn"
+    >
+    </cx-carousel>
+  </ng-container>
 </ng-container>
 
 <ng-template #carouselItem let-item="item">
