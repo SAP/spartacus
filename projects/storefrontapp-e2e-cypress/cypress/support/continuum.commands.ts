@@ -146,11 +146,22 @@ const getConfirmedConcerns = (
   logPotentialConcerns = true
 ) => {
   return accessibilityConcerns.filter((concern) => {
-    if (concern._needsReview && logPotentialConcerns) {
+    if (
+      concern._needsReview &&
+      logPotentialConcerns &&
+      !isBestPracticeDisabled(concern)
+    ) {
       displayPotentialConcern(concern);
     }
-    return !concern._needsReview;
+    return !concern._needsReview && !isBestPracticeDisabled(concern);
   });
+};
+
+const isBestPracticeDisabled = (concern) => {
+  const bestPracticesIds = Cypress.env('disabledBestPracticeIds');
+  if (bestPracticesIds) {
+    return bestPracticesIds.includes(concern._bestPracticeId);
+  }
 };
 
 const displayPotentialConcern = (concern) => {
@@ -216,6 +227,10 @@ const a11yWarning = (concern) => {
   });
 };
 
+const disableBestPractices = (bestPracticesIds: number[]) => {
+  Cypress.env('disabledBestPracticeIds', bestPracticesIds);
+};
+
 Cypress.Commands.add('a11yContinuumSetup', a11yContinuumSetup);
 Cypress.Commands.add(
   'a11yRunContinuumTest',
@@ -226,3 +241,4 @@ Cypress.Commands.add(
     a11yRunContinuumTest(prevSubject, failIfConcerns, includeIframe)
 );
 Cypress.Commands.add('a11yWarning', a11yWarning);
+Cypress.Commands.add('disableBestPractices', disableBestPractices);

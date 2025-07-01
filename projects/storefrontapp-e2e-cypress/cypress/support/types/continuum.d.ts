@@ -56,6 +56,20 @@ declare global {
        * @param concern - The accessibility concern object returned by Access Continuum.
        */
       a11yWarning(concern): Chainable<void>;
+
+      /**
+       * Can be used to disable specific best practices by their IDs.
+       * This is useful for cases where certain best practices are not applicable or cause false positives.
+       * The practice IDs can be found in the Cypress log by inspecting possible concern warnings.
+       * @param {number[]} [bestPracticesIds] - Array of best practice IDs to disable.
+       *
+       * @example
+       * before(() => {
+       *  cy.a11yContinuumSetup();
+       *  cy.disableBestPractices([1775]); // Disables "table element used for layout" best practice.
+       * });
+       */
+      disableBestPractices(bestPracticesIds: number[]): Chainable<void>;
     }
   }
 
