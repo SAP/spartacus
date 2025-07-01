@@ -11,30 +11,32 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
+        --skip-build                            Skip Spartacus build step
 "
 
-display_a11y_docs_link() {
-    echo ""
-    echo -e "\033[31m⚠️  Accessibility tests failed\033[0m"
-    echo -e "\033[33mℹ️  For guidance on resolving issues, see:\033[0m"
-    echo -e "\033[36m🔗 https://wiki.one.int.sap/wiki/display/spar/Spartacus+Accessibility+Feature+Compliance\033[0m"
-    echo ""
+run_tests_for_suite() {
+  local suite="$1"
+  local scope="$2"
+
+  if [ "$suite" == ":a11y" ]; then
+    # Source a11y functions when needed
+    source "$(dirname "$0")/e2e-a11y-helpers.sh"
+    run_dual_a11y_tests
+  elif [ "$scope" == "core" ]; then
+    npm run e2e:run:ci:core"${suite}"
+  else
+    npm run e2e:run:ci"${suite}"
+  fi
 }
 
-
-# Function to run a11y tests and print documentation link if they fail
-run_a11y_tests_with_docs_on_failure() {
-    if npm run e2e:run:ci:a11y; then
-        return 0
-    else
-        display_a11y_docs_link
-        return 1
-    fi
-}
-
+SKIP_BUILD=false
 
 while [ "${1:0:1}" == "-" ]; do
     case "$1" in
+    '--skip-build')
+        SKIP_BUILD=true
+        shift
+        ;;
     '--suite' | '-s')
         SUITE=":$2"
         shift
@@ -73,29 +75,38 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
 fi
 
-echo '-----'
-echo "Building Spartacus libraries"
-
-export NODE_OPTIONS=--dns-result-order=ipv4first
-
-npm ci
-
-(cd projects/storefrontapp-e2e-cypress && npm ci)
-
-npm run build:libs 2>&1 | tee build.log
-
-results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
-if [[ -z "${results}" ]]; then
-    echo "Success: Spartacus production build was successful."
-    rm build.log
-else
-    echo "ERROR: Spartacus production build failed. Check the import statements. 'Warning: Can't resolve all parameters for ...' found in the build log."
-    rm build.log
-    exit 1
+if [ "$SUITE" == ":a11y" ]; then
+    export SPA_ENV='ci,b2c'
 fi
-echo '-----'
-echo "Building Spartacus storefrontapp"
-npm run build:csr #csr build is necessary here, npm run build creates index.csr.html which cannot be found by http-server
+
+if [ "$SKIP_BUILD" == "true" ]; then
+    echo "⏩ Skipping build as requested with --skip-build"
+else
+    echo '-----'
+    echo "Building Spartacus libraries"
+
+    export NODE_OPTIONS=--dns-result-order=ipv4first
+
+    npm ci
+    (cd projects/storefrontapp-e2e-cypress && npm ci)
+
+    npm run build:libs 2>&1 | tee build.log
+
+    results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
+    if [[ -z "${results}" ]]; then
+        echo "Success: Spartacus production build was successful."
+        rm build.log
+    else
+        echo "ERROR: Spartacus production build failed."
+        echo "Check for 'Warning: Can't resolve all parameters for ...' in the build log."
+        rm build.log
+        exit 1
+    fi
+
+    echo '-----'
+    echo "📦 Building Spartacus storefrontapp"
+    npm run build:csr
+fi
 
 is_bot_commit() {
     LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
@@ -157,15 +168,10 @@ else
 
         if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
             echo "Running full Cypress end-to-end tests for epic branch"
-            npm run e2e:run:ci"${SUITE}"
+            run_tests_for_suite "${SUITE}" "full"
         else
-            if [[ "${SUITE}" == ":a11y" ]]; then
-                echo "Running a11y Cypress end-to-end tests for pull requests"
-                run_a11y_tests_with_docs_on_failure
-            else
-                echo "Running core Cypress end-to-end tests for pull requests"
-                npm run e2e:run:ci:core"${SUITE}"
-            fi
+            echo "Running core Cypress end-to-end tests for pull requests"
+            run_tests_for_suite "${SUITE}" "core"
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
@@ -173,21 +179,13 @@ else
 
         if is_bot_commit; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core"${SUITE}"
+            run_tests_for_suite "${SUITE}" "core"
         else
             echo "Running full Cypress end-to-end tests"
-            if [[ "${SUITE}" == ":a11y" ]]; then
-                run_a11y_tests_with_docs_on_failure
-            else
-                npm run e2e:run:ci"${SUITE}"
-            fi
+            run_tests_for_suite "${SUITE}" "full"
         fi
     else
         echo "Running full Cypress end-to-end tests"
-        if [[ "${SUITE}" == ":a11y" ]]; then
-            run_a11y_tests_with_docs_on_failure
-        else
-            npm run e2e:run:ci"${SUITE}"
-        fi
+        run_tests_for_suite "${SUITE}" "full"
     fi
 fi

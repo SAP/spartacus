@@ -1,7 +1,7 @@
 {
   "pickupInfo": {
     "inStorePickup": "In Filiale abholen",
-    "pickupBy": "Abholen durch",
+    "pickupBy": "Abholen am",
     "pickupFrom": "Abholen von"
   },
   "pickupOptionDialog": {
@@ -38,7 +38,7 @@
   "storeSearch": {
     "findAStore": "Filiale suchen",
     "findStores": "Filialen suchen",
-    "hideOutOfStockOptions": "Optionen für nicht vorrätig ausblenden",
+    "hideOutOfStockOptions": "Nicht-Vorrätig-Optionen ausblenden",
     "searchPlaceholder": "Postleitzahl oder Stadt oder Adresse eingeben",
     "useMyLocation": "Meinen Standort verwenden"
   },

@@ -31,7 +31,15 @@ import {
   standalone: false,
 })
 export class ProductCarouselItemComponent implements OnChanges {
+  /**
+   * The product item to be displayed in the carousel.
+   */
   @Input() item: Product;
+
+  /**
+   * The index of the item in the carousel.
+   */
+  @Input() itemIndex: number;
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource

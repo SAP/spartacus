@@ -16,16 +16,17 @@
     "wrongEmailFormat": "Format email ini tidak valid."
   },
   "verificationTokenForm": {
-    "createVerificationToken": "Kode verifikasi telah dikirim ke {{target}}. Silakan periksa dan masukkan kode tersebut.",
+    "createVerificationToken": "Kode verifikasi telah dikirimkan ke {{target}}. Silakan masukkan kode tersebut.",
     "needInputCredentials": "Silakan masukkan kredensial Anda untuk melanjutkan.",
-    "sendRateLime": "dalam {{waitTime}} detik ",
-    "resend": "Kirimkan Ulang",
+    "sendRateLime": "dalam {{waitTime}} detik",
+    "resend": "Kirim Ulang",
     "verificationCode": {
       "label": "Kode Verifikasi",
       "placeholder": "Masukkan Kode Verifikasi"
     },
     "noReceiveCode": "Tidak menerima kode?",
     "verify": "Verifikasi",
+    "registerVerify": "Daftar",
     "back": "Kembali",
     "tokenInputHint": "Anda dapat meminta kode baru. Penghitung waktu akan mulai menampilkan berapa lama Anda perlu menunggu sebelum dapat meminta kode baru."
   },
