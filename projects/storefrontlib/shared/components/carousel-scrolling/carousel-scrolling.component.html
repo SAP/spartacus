@@ -10,7 +10,7 @@
       [attr.aria-label]="'carousel.scrollBackward' | cxTranslate"
       [attr.title]="'carousel.scrollBackward' | cxTranslate"
     >
-      <cx-icon [type]="previousIcon"></cx-icon>
+      <cx-icon [type]="backwardIcon"></cx-icon>
     </button>
     <div class="carousel-items" #carousel>
       <div #startSentinel class="carousel-start-sentinel"></div>
@@ -41,7 +41,7 @@
       [attr.aria-label]="'carousel.scrollForward' | cxTranslate"
       [attr.title]="'carousel.scrollForward' | cxTranslate"
     >
-      <cx-icon [type]="nextIcon"></cx-icon>
+      <cx-icon [type]="forwardIcon"></cx-icon>
     </button>
   </div>
 </ng-container>

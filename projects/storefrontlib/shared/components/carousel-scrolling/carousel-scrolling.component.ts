@@ -71,9 +71,8 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
    */
   @Input() template: TemplateRef<any>;
 
-  @Input() indicatorIcon = ICON_TYPE.CIRCLE;
-  @Input() previousIcon = ICON_TYPE.CARET_LEFT;
-  @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
+  @Input() backwardIcon = ICON_TYPE.CARET_LEFT;
+  @Input() forwardIcon = ICON_TYPE.CARET_RIGHT;
 
   @Input() trackByFn: (index: number, item: any) => any = (index, item) =>
     item?.id || item?.uid || item?.code || index; // Default trackBy function
