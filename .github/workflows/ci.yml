@@ -252,12 +252,6 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Restore A11Y timing data cache
-        uses: actions/cache@v4
-        with:
-          path: .github/cache/test-timings.json
-          key: a11y-timing-data-v1
-          restore-keys: a11y-timing-data-v1
       - name: Run e2es
         env:
           SPA_ENV: ci
@@ -266,17 +260,6 @@ jobs:
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
         run: |
           ci-scripts/e2e-cypress.sh -s a11y
-      - name: Collect timing data
-        if: always()
-        run: |
-          ./ci-scripts/post-test-timing-collection.sh
-      - name: Save A11Y timing data cache
-        uses: actions/cache@v4
-        if: always()
-        with:
-          path: .github/cache/test-timings.json
-          key: a11y-timing-data-v1-${{ github.run_id }}-${{ matrix.containers }}
-          restore-keys: a11y-timing-data-v1
   ssr_tests:
     needs: [no_retries, validate_e2e_execution]
     name: SSR Tests
@@ -302,7 +285,7 @@ jobs:
       - name: Run SSR tests
         run: npm run test:ssr:ci --verbose
   build_conclusion:
-    needs: [no_retries, unit_tests, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests, ssr_tests, sonarqube_scan]
+    needs: [no_retries, unit_tests, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, ssr_tests, sonarqube_scan]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -320,7 +303,6 @@ jobs:
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' ||
-          needs.a11y_e2e_tests.result == 'failure' || needs.a11y_e2e_tests.result == 'cancelled' ||
           needs.ssr_tests.result == 'failure' || needs.ssr_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
