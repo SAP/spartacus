@@ -1,12 +1,21 @@
-<ng-container *ngIf="items && items.length > 0">
+<ng-container
+  *ngIf="items && items.length > 0"
+  cxHorizontalScrollingPosition
+  #cxHorizontalScrollingPosition="cxHorizontalScrollingPosition"
+  [scrollingArea]="scrollingArea"
+  [scrollingAreaStart]="scrollingAreaStart"
+  [scrollingAreaEnd]="scrollingAreaEnd"
+>
   <h2 *ngIf="title">{{ title }}</h2>
 
   <div class="carousel-panel" role="list">
     <button
       tabindex="-1"
       class="previous"
-      (click)="scrollBackward()"
-      [attr.aria-disabled]="isScrollStart$ | async"
+      (click)="cxHorizontalScrollingPosition.scrollBackward()"
+      [attr.aria-disabled]="
+        cxHorizontalScrollingPosition.isScrollStart$ | async
+      "
       [attr.aria-label]="'carousel.scrollBackward' | cxTranslate"
       [attr.title]="'carousel.scrollBackward' | cxTranslate"
     >
@@ -36,8 +45,8 @@
     <button
       tabindex="-1"
       class="next"
-      (click)="scrollForward()"
-      [attr.aria-disabled]="isScrollEnd$ | async"
+      (click)="cxHorizontalScrollingPosition.scrollForward()"
+      [attr.aria-disabled]="cxHorizontalScrollingPosition.isScrollEnd$ | async"
       [attr.aria-label]="'carousel.scrollForward' | cxTranslate"
       [attr.title]="'carousel.scrollForward' | cxTranslate"
     >

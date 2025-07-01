@@ -11,6 +11,7 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MediaModule } from '../media/media.module';
 import { CarouselScrollingComponent } from './carousel-scrolling.component';
+import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @NgModule({
   imports: [
@@ -21,7 +22,11 @@ import { CarouselScrollingComponent } from './carousel-scrolling.component';
     UrlModule,
     I18nModule,
   ],
-  declarations: [CarouselScrollingComponent],
-  exports: [CarouselScrollingComponent],
+  // SPIKE TODO: move scrolling state to separate module
+  declarations: [
+    CarouselScrollingComponent,
+    HorizontalScrollingPositionDirective,
+  ],
+  exports: [CarouselScrollingComponent, HorizontalScrollingPositionDirective],
 })
 export class CarouselScrollingModule {}
