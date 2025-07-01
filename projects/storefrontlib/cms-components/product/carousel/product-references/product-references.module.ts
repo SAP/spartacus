@@ -7,7 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import { CarouselScrollingModule } from '@spartacus/storefront';
 import { CarouselModule } from '../../../../shared/components/carousel/carousel.module';
 import { MediaModule } from '../../../../shared/components/media/media.module';
@@ -21,6 +26,7 @@ import { ProductReferencesComponent } from './product-references.component';
     MediaModule,
     RouterModule,
     UrlModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
