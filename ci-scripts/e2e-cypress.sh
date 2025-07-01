@@ -60,7 +60,7 @@ while [ "${1:0:1}" == "-" ]; do
         shift
         ;;
     '--record' | '-r')
-        RECORD=false
+        RECORD=true
         shift
         ;;
     '--environment' | '--env')
