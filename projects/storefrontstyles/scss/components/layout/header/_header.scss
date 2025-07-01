@@ -12,6 +12,13 @@ $space: 0.5rem;
     );
   }
 
+  @include media-breakpoint-up(lg) {
+    .header > :nth-child(3).SearchBox:not(.SiteLinks) {
+      padding-top: 47.11px; // 33.11 + 14px (first bar height + original margin on searchbox)
+      padding-bottom: 81.59px; // $header-height + 14px (original margin on searchbox)
+    }
+  }
+
   .header {
     max-width: var(--cx-page-width-max);
     margin: auto;
