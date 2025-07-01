@@ -15,7 +15,7 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { LoggerService, useFeatureStyles } from '@spartacus/core';
+import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { disableTabbingForTick } from '../../../layout/a11y';
@@ -50,10 +50,6 @@ export interface CarouselScrollingTemplateContext<TItem> {
 export class CarouselScrollingComponent<TItem = any> implements OnInit {
   protected logger = inject(LoggerService);
   protected el = inject(ElementRef);
-
-  constructor() {
-    useFeatureStyles('productCarouselScrolling');
-  }
 
   /**
    * The title is rendered as the carousel heading.

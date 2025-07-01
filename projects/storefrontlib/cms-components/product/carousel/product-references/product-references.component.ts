@@ -15,6 +15,7 @@ import {
   Product,
   ProductReference,
   ProductReferenceService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -32,7 +33,9 @@ export class ProductReferencesComponent {
     protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
     protected currentProductService: CurrentProductService,
     protected productReferenceService: ProductReferenceService
-  ) {}
+  ) {
+    useFeatureStyles('productCarouselScrolling');
+  }
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
     return this.cmsComponentData.data$.pipe(filter((data) => Boolean(data)));
