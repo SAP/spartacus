@@ -744,13 +744,16 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
-   * When enabled, the `ProductCarouselComponent` will use a scrollable carousel `<cx-carousel-v2>`,
+   * When enabled, the `ProductCarouselComponent` and `ProductReferencesComponent`
+   * will use a scrolling carousel `<cx-carousel-v2>`,
    * which has has number of advantages over the previous implementation (`<cx-carousel>`):
-   * - It's swipe-friendly on touch devices thanks to its scrollable nature
+   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
    * - It's loading only the visible items (when `ImageLoadingStrategy.LAZY` is configured in Spartacus),
+   *    but lazy loads invisible items (only when you scroll to them),
    *    which helps to improve performance, including the Web Vital LCP (Largest Contentful Paint)
-   * - Prevents layout shifts while transitioning from the Server-Side-Rendered HTML to
+   * - Displays the same number of items while transitioning from the Server-Side-Rendered HTML to
    *     the Client-Side-Rendered HTML, which helps to improve Web Vital CLS (Cumulative Layout Shift)
+   *     (in previous implementation, the number of items was different in SSR and CSR)
    */
   productCarouselScrolling?: boolean;
 
