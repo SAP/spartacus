@@ -19,7 +19,7 @@ run_tests_for_suite() {
   local scope="$2"
   local record="$3"
 
-  if [[ "$suite" == "*a11y*" ]]; then
+  if [ "$suite" == ":a11y" ]; then
     if [ "$record" = true ]; then
       # todo replace with ${suite}
       echo "running A11Y with RECORD"
