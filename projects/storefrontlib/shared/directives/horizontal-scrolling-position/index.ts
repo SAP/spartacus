@@ -3,5 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 export * from './horizontal-scrolling-position-directive.module';
 export * from './horizontal-scrolling-position.directive';
