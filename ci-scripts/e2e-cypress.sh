@@ -17,12 +17,13 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
 run_tests_for_suite() {
   local suite="$1"
   local scope="$2"
+  local record="$3"
 
   if [ "$suite" == ":a11y" ]; then
-    if [[ "${RECORD}" = true ]]; then
+    if [ "$record" = true ]; then
       # todo replace with ${suite}
       echo "running A11Y with RECORD"
-      npm run e2e:run:ci:a11y
+      npm run cy:run:ci"${suite}":record
     else
       # Source a11y functions when needed
       echo "running A11Y with NO RECORD"
@@ -191,7 +192,7 @@ else
             run_tests_for_suite "${SUITE}" "full"
         else
             echo "Running core Cypress end-to-end tests for pull requests"
-            run_tests_for_suite "${SUITE}" "core"
+            run_tests_for_suite "${SUITE}" "core" "${RECORD}"
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
