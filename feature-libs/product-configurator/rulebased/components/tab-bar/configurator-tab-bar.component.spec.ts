@@ -11,7 +11,7 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
 
 import {
   I18nTestingModule,
@@ -24,7 +24,7 @@ import {
   ConfiguratorRouter,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
-import { NEVER, Observable, of } from 'rxjs';
+import { NEVER, Observable, of, Subject } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -105,10 +105,12 @@ describe('ConfigTabBarComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let routingService: RoutingService;
   let keyboardFocusService: KeyboardFocusService;
+  let routerEvents$: Subject<any>;
 
   beforeEach(waitForAsync(() => {
     mockRouterState = structuredClone(mockRouterStateBase);
     mockRouterState.state.params.displayOnly = false;
+    routerEvents$ = new Subject<any>();
 
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
@@ -131,6 +133,13 @@ describe('ConfigTabBarComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
+        {
+          provide: Router,
+          useValue: {
+            events: routerEvents$.asObservable(),
+            url: '/configure-overview/CONF_LAPTOP',
+          },
+        },
       ],
     })
       .overrideComponent(ConfiguratorTabBarComponent, {
@@ -141,6 +150,7 @@ describe('ConfigTabBarComponent', () => {
       .compileComponents();
   }));
   beforeEach(() => {
+    console.log('ConfigTabBarComponent: beforeEach');
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -558,11 +568,47 @@ describe('ConfigTabBarComponent', () => {
             ownerType: mockRouterData.owner.type,
           },
         },
-        { queryParams: { productCode: mockRouterData.productCode } }
+        {
+          queryParams: { productCode: mockRouterData.productCode },
+          replaceUrl: false,
+        }
       );
       expect(
         configuratorStorefrontUtilsService.focusFirstActiveElement
       ).toHaveBeenCalledTimes(1);
+    }));
+
+    it('navigateToConfiguration should be done when a NavigationStart event with "popstate" is triggered on overview page', fakeAsync(() => {
+      spyOn(
+        component['configRouterExtractorService'],
+        'extractRouterData'
+      ).and.returnValue(of(mockRouterData));
+      spyOn(
+        component['configuratorCommonsService'],
+        'getConfiguration'
+      ).and.returnValue(of(configWithOverview));
+      spyOn(routingService, 'go').and.callThrough();
+      fixture.detectChanges();
+      const navEvent = new NavigationStart(
+        1,
+        '/configure/CONF_LAPTOP',
+        'popstate'
+      );
+      routerEvents$.next(navEvent);
+      tick(1);
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'configure' + mockRouterData.owner.configuratorType,
+          params: {
+            entityKey: mockRouterData.owner.id,
+            ownerType: mockRouterData.owner.type,
+          },
+        },
+        {
+          queryParams: { productCode: mockRouterData.productCode },
+          replaceUrl: true,
+        }
+      );
     }));
   });
 });
