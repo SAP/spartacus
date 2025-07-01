@@ -7,8 +7,8 @@
       class="previous"
       (click)="scrollBackward()"
       [attr.aria-disabled]="isScrollStart$ | async"
-      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
-      [attr.title]="'carousel.previousSlide' | cxTranslate"
+      [attr.aria-label]="'carousel.scrollBackward' | cxTranslate"
+      [attr.title]="'carousel.scrollBackward' | cxTranslate"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -38,8 +38,8 @@
       class="next"
       (click)="scrollForward()"
       [attr.aria-disabled]="isScrollEnd$ | async"
-      [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
-      [attr.title]="'carousel.nextSlide' | cxTranslate"
+      [attr.aria-label]="'carousel.scrollForward' | cxTranslate"
+      [attr.title]="'carousel.scrollForward' | cxTranslate"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
