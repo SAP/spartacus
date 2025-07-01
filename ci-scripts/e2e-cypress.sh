@@ -20,16 +20,16 @@ run_tests_for_suite() {
   local record="$3"
 
   if [ "$suite" == ":a11y" ]; then
-    if [ "$record" = true ]; then
-      # todo replace with ${suite}
-      echo "running A11Y with RECORD"
-      npm run e2e:run:ci"${suite}":record
-    else
+#    if [ "$record" = true ]; then
+#      # todo replace with ${suite}
+#      echo "running A11Y with RECORD"
+#      npm run e2e:run:ci"${suite}":record
+#    else
       # Source a11y functions when needed
-      echo "running A11Y with NO RECORD"
+      echo "running A11Y with RECORD"
       source "$(dirname "$0")/e2e-a11y-helpers.sh"
-      run_dual_a11y_tests
-    fi
+      run_dual_a11y_tests "${record}"
+#    fi
   elif [ "$scope" == "core" ]; then
     npm run e2e:run:ci:core"${suite}"
   else

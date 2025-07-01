@@ -36,13 +36,20 @@ build_and_start_pwa() {
 }
 
 run_dual_a11y_tests() {
+    local record="$1"
     echo "=========================================="
     echo "🔵 Running B2C Accessibility Tests"
     echo "=========================================="
 
     local b2c_result=0
-    if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
-        b2c_result=1
+    if [ "$record" = true ]; then
+       if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:record"; then
+               b2c_result=1
+           fi
+    else
+      if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
+              b2c_result=1
+          fi
     fi
 
     stop_pwa_app
@@ -54,9 +61,16 @@ run_dual_a11y_tests() {
     build_and_start_pwa "ci,b2b"
 
     local b2b_result=0
-    if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
-        b2b_result=1
-    fi
+
+    if [ "$record" = true ]; then
+           if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b:record"; then
+                   b2c_result=1
+               fi
+        else
+          if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
+                  b2c_result=1
+              fi
+        fi
 
     stop_pwa_app
 
