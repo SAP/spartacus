@@ -1,8 +1,9 @@
 %cx-product-carousel {
   display: flex;
 
-  // SPIKE TODO ADD WITH FEATURE TOGGLE:
-  max-width: 100%;
+  @include forFeature('productCarouselScrolling') {
+    max-width: 100%;
+  }
 
   a {
     display: flex;
@@ -29,8 +30,10 @@
     }
   }
 
-  item {
-    flex: 0 0 240px;
+  cx-carousel-scrolling {
+    .item {
+      flex: 0 0 240px;
+    }
   }
 
   cx-media {
