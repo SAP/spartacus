@@ -753,7 +753,7 @@ export interface FeatureTogglesInterface {
    *    which helps to improve performance, including the Web Vital LCP (Largest Contentful Paint)
    * - Displays the same number of items while transitioning from the Server-Side-Rendered HTML to
    *     the Client-Side-Rendered HTML, which helps to improve Web Vital CLS (Cumulative Layout Shift)
-   *     (in previous implementation, the number of items was different in SSR and CSR)
+   *     (in previous implementation, the number of items was different in SSR and CSR on desktop)
    */
   productCarouselScrolling?: boolean;
 
