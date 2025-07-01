@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source "$(dirname "$0")/test-distribution.sh"
+
 display_a11y_docs_link() {
     echo ""
     echo -e "\033[31m⚠️  Accessibility tests failed\033[0m"
@@ -31,11 +33,67 @@ build_and_start_pwa() {
     sleep 10
 }
 
-run_dual_a11y_tests() {
-    echo "Running A11Y tests with cypress-split distribution"
+get_a11y_spec_pattern() {
+    local test_type="$1"
+    local container="$2"
+    local total_containers="${3:-2}"
 
-    if [[ -n "$SPLIT" ]]; then
-        echo "cypress-split enabled: Container $((SPLIT_INDEX + 1))/$SPLIT"
+    case "$test_type" in
+        "b2c")
+            distribute_tests "$A11Y_TEST_PATTERN" "$container" "$total_containers" "$A11Y_B2C_PATH"
+            ;;
+        "b2b")
+            distribute_tests "$A11Y_TEST_PATTERN" "$container" "$total_containers" "$A11Y_B2B_PATH"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+run_a11y_container_tests() {
+    local container="$1"
+    local total_containers="${2:-2}"
+
+    echo "Running A11Y tests: Container $container/$total_containers"
+
+    local b2c_spec=$(get_a11y_spec_pattern "b2c" "$container" "$total_containers")
+    local b2b_spec=$(get_a11y_spec_pattern "b2b" "$container" "$total_containers")
+
+    if [[ -z "$b2c_spec" && -z "$b2b_spec" ]]; then
+        echo "No tests assigned to container $container - skipping execution"
+        return 0
+    fi
+
+    if [[ -n "$b2c_spec" ]]; then
+        export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
+
+        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
+            return 1
+        fi
+    fi
+
+    stop_pwa_app
+
+    if [[ -n "$b2b_spec" ]]; then
+        build_and_start_pwa "ci,b2b"
+        export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
+
+        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
+            stop_pwa_app
+            return 1
+        fi
+        stop_pwa_app
+    fi
+
+    return 0
+}
+
+run_dual_a11y_tests() {
+    if [[ -n "$GITHUB_MATRIX_CONTAINER" ]]; then
+        local total_containers="${GITHUB_MATRIX_TOTAL:-2}"
+        run_a11y_container_tests "$GITHUB_MATRIX_CONTAINER" "$total_containers"
+        return $?
     fi
 
     local b2c_result=0

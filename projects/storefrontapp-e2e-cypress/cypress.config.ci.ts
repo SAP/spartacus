@@ -7,9 +7,6 @@
 
 import { defineConfig } from 'cypress';
 
-// cypress-split for parallel test distribution
-const cypressSplit = require('cypress-split');
-
 export default defineConfig({
   defaultCommandTimeout: 30000,
 
@@ -39,14 +36,7 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      // Add cypress-split for parallel test distribution
-      cypressSplit(on, config);
-
-      // Call the existing plugins
-      const existingConfig = require('./cypress/plugins/index.js')(on, config);
-
-      // IMPORTANT: return the config object with any modifications from cypress-split
-      return existingConfig;
+      return require('./cypress/plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:4200',
     excludeSpecPattern: '**/*.example-e2e.cy.ts',
