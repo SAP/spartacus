@@ -67,8 +67,7 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
   @Input() items: Observable<TItem>[];
 
   /**
-   * The template is rendered for each item, so that the actual
-   * view can be given by the component that uses the `CarouselScrollingComponent`.
+   * The template rendered for each carousel item
    */
   @Input() template: TemplateRef<CarouselScrollingTemplateContext<TItem>>;
 
@@ -158,8 +157,9 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
   }
 
   /**
-   * When a carousel item receives focus (e.g. via Tab key), it scrolls it fully into view
-   * if partially visible. Improves accessibility by ensuring the focused item is not clipped or hidden.
+   * When a carousel item receives focus (e.g. via keyboard navigation),
+   * but it's only partially visible in the viewport (not fully scrolled into),
+   * this method ensures the item is scrolled into view.
    */
   onItemFocus(event: FocusEvent): void {
     const target = event.target as HTMLElement;
