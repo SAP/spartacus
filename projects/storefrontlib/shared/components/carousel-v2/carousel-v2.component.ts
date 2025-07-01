@@ -5,7 +5,6 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -48,7 +47,7 @@ import { disableTabbingForTick } from '../../../layout/a11y';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
+export class CarouselV2Component implements OnInit, OnDestroy {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
@@ -181,9 +180,20 @@ export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
 
   //////////////////////////////////////////
 
-  @ViewChild('carousel') carousel!: ElementRef;
-  @ViewChild('startSentinel') startSentinel!: ElementRef;
-  @ViewChild('endSentinel') endSentinel!: ElementRef;
+  @ViewChild('startSentinel') startSentinel: ElementRef;
+  @ViewChild('endSentinel') endSentinel: ElementRef;
+
+  carousel: ElementRef;
+  @ViewChild('carousel')
+  set carouselSetter(element: ElementRef) {
+    this.carousel = element;
+    console.log('#carousel element set:', this.title);
+    if (element) {
+      this.subscribeToScrollPosition();
+    } else {
+      this.unsubscribeFromScrollPosition();
+    }
+  }
 
   private isScrollStartSubject = new BehaviorSubject(true);
   private isScrollEndSubject = new BehaviorSubject(false);
@@ -196,10 +206,10 @@ export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
 
   protected carouselWidth: number;
   protected windowRef = inject(WindowRef);
-  protected sub: Subscription;
+  protected windowWidthSubscription: Subscription;
 
   ngOnDestroy() {
-    this.sub?.unsubscribe?.();
+    this.unsubscribeFromScrollPosition();
   }
 
   /**
@@ -224,20 +234,19 @@ export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private observer?: IntersectionObserver;
+  protected intersectionObserver?: IntersectionObserver;
 
-  ngAfterViewInit() {
+  subscribeToScrollPosition() {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-
-    this.sub = this.windowRef.resize$.subscribe(() => {
+    this.windowWidthSubscription = this.windowRef.resize$.subscribe(() => {
       if (this.carousel?.nativeElement) {
         this.carouselWidth = this.carousel.nativeElement.clientWidth;
       }
     });
 
-    this.observer = new IntersectionObserver(
+    this.intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.target === this.startSentinel.nativeElement) {
@@ -256,7 +265,16 @@ export class CarouselV2Component implements OnInit, AfterViewInit, OnDestroy {
       );
       return;
     }
-    this.observer.observe(this.startSentinel.nativeElement);
-    this.observer.observe(this.endSentinel.nativeElement);
+    this.intersectionObserver.observe(this.startSentinel.nativeElement);
+    this.intersectionObserver.observe(this.endSentinel.nativeElement);
+  }
+
+  unsubscribeFromScrollPosition() {
+    this.windowWidthSubscription?.unsubscribe();
+
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = undefined;
+    }
   }
 }
