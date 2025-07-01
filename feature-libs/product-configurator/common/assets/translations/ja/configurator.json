@@ -72,7 +72,8 @@
       "cancelConfiguration": "設定のキャンセル",
       "cancelConfigurationMobile": "キャンセル",
       "filterOverview": "フィルタ",
-      "filterOverviewWithCount": "フィルタ ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "フィルタ ({{numAppliedFilters}})",
+      "showOptions": "オプションを表示"
     },
     "icon": {
       "groupComplete": "完了",
@@ -196,8 +197,8 @@
       "iconIncomplete": "グループに値が選択されていない必須属性があります。",
       "iconComplete": "グループは完了しています。",
       "iconSubGroup": "グループにはサブグループがあります。",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "次のグループにナビゲートします: {{ group }}",
+      "previous": "前のグループにナビゲートします: {{ group }}",
       "showMoreProductInfo": "商品 {{ product }} の情報をさらに表示するか、または設定を続行します。",
       "showLessProductInfo": "商品 {{ product }} の情報をより少なく表示するか、または設定を続行します。",
       "productName": "商品名",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "グループ {{groupName}} 別のフィルタ設定概要",
       "closeConflictSolverModal": "不整合ソルバのモーダルを閉じます",
       "closeRestartDialog": "\"完了していない設定\" ダイアログを閉じて、商品の詳細ページに戻ります",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "クリックして値 {{ value }} の説明を表示します",
+      "showOptionsForAttribute": "属性 {{ attribute }} のオプションを表示します"
     },
     "variantCarousel": {
       "title": "事前設定済みバージョン"

@@ -27,6 +27,7 @@
     "termsAndConditions": "Allgemeine Geschäftsbedingungen",
     "signIn": "Ich habe bereits ein Konto. Anmelden",
     "register": "Registrieren",
+    "furtherRegistration": "Weiter",
     "confirmNewPassword": "Neues Kennwort bestätigen",
     "resetPassword": "Kennwort zurücksetzen",
     "createAccount": "Konto erstellen",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Beide Kennwörter müssen übereinstimmen",
     "titleRequired": "Anrede ist erforderlich.",
     "postRegisterMessage": "Melden Sie sich mit den angegebenen Anmeldedaten an.",
-    "postRegisterSuccessMessage": "Registrierung erfolgreich. Melden Sie sich mit den angegebenen Anmeldedaten an."
+    "postRegisterSuccessMessage": "Ihr Konto wurde erfolgreich erstellt! Mit bereitgestellten Anmeldedaten anmelden",
+    "rateLimitForRegistrationMessage": "Sie haben das Limit für das Senden des Verifizierungscodes erreicht. Warten Sie {{seconds}} Sekunden, bevor Sie es erneut versuchen, oder verwenden Sie eine andere E-Mail-Adresse.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Verifizierungscode wurde an {{target}} gesendet. Geben Sie den Code ein.",
+      "sendRateLime": "in {{waitTime}} Sekunden",
+      "resend": "Erneut senden",
+      "verificationCode": {
+        "label": "Verifizierungscode",
+        "placeholder": "Verifizierungscode eingeben"
+      },
+      "back": "Zurück"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Kennwort zurücksetzen",

@@ -4,8 +4,8 @@
   },
   "productImageZoomDialog": {
     "zoomedInImage": "放大圖像",
-    "previousSlide": "上一張投影片",
-    "nextSlide": "下一張投影片",
+    "previousSlide": "上一張",
+    "nextSlide": "下一張",
     "close": "關閉"
   }
 }

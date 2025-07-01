@@ -72,7 +72,8 @@
       "cancelConfiguration": "Anuluj konfigurację",
       "cancelConfigurationMobile": "Anuluj",
       "filterOverview": "Filtr",
-      "filterOverviewWithCount": "Filtr ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Filtr ({{numAppliedFilters}})",
+      "showOptions": "Pokaż opcje"
     },
     "icon": {
       "groupComplete": "Zakończ",
@@ -196,8 +197,8 @@
       "iconIncomplete": "Grupa ma wymagane atrybuty bez wybranych wartości.",
       "iconComplete": "Grupa jest kompletna.",
       "iconSubGroup": "Grupa ma podgrupę.",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "Przejdź do następnej grupy: {{ group }}",
+      "previous": "Przejdź do poprzedniej grupy: {{ group }}",
       "showMoreProductInfo": "Wyświetl więcej informacji o produkcie {{ product }} lub kontynuuj konfigurację.",
       "showLessProductInfo": "Wyświetl mniej informacji o produkcie {{ product }} lub kontynuuj konfigurację.",
       "productName": "Nazwa produktu",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Filtruj przegląd konfiguracji według grup {{groupName}}",
       "closeConflictSolverModal": "Zamknij moduł rozwiązywania konfliktów",
       "closeRestartDialog": "Zamknij okno dialogowe „Niedokończona konfiguracja” i wróć do strony szczegółów produktu",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Kliknij, aby zobaczyć opis wartości {{ value }}",
+      "showOptionsForAttribute": "Pokaż opcje dla atrybutu {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Wstępnie skonfigurowane wersje"
