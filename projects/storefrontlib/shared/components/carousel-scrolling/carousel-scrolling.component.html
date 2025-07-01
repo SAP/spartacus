@@ -12,8 +12,8 @@
     >
       <cx-icon [type]="backwardIcon"></cx-icon>
     </button>
-    <div class="carousel-items" #carousel>
-      <div #startSentinel class="carousel-start-sentinel"></div>
+    <div class="carousel-items" #scrollingArea>
+      <div #scrollingAreaStart class="carousel-items-start"></div>
 
       <ng-container
         *ngFor="let item of items; let i = index; trackBy: trackByFn"
@@ -31,7 +31,7 @@
         </div>
       </ng-container>
 
-      <div #endSentinel class="carousel-end-sentinel"></div>
+      <div #scrollingAreaEnd class="carousel-items-end"></div>
     </div>
     <button
       tabindex="-1"

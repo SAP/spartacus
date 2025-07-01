@@ -29,22 +29,21 @@
     display: flex;
     gap: 2rem;
     width: 100%;
-    // max-width: 100vw;
+    // leave space for the forward/backward buttons
     max-width: calc(100vw - 6rem);
     min-width: 0;
     box-sizing: border-box;
-    // padding-inline: 2rem;
     padding-bottom: 1rem;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
     list-style: none;
+    scroll-snap-type: x mandatory;
 
-    // Hide scrollbar for all browsers
+    // Hide scrollbar for all browsers:
     overflow-x: auto;
     scrollbar-width: none; // Firefox
     -ms-overflow-style: none; // old IE/Edge
-    // WebKit browsers
     &::-webkit-scrollbar {
+      // WebKit browsers
       display: none;
     }
 
@@ -52,24 +51,23 @@
       scroll-snap-align: start;
     }
 
-    .carousel-start-sentinel,
-    .carousel-end-sentinel {
+    // Dummy elements for detecting scroll start/end position
+    // with the Intersection Observer:
+    .carousel-items-start,
+    .carousel-items-end {
       display: block;
       flex: 0 0 0px;
       scroll-snap-type: start;
     }
-
-    .carousel-start-sentinel {
+    .carousel-items-start {
       margin-inline-end: -2rem;
     }
-
-    .carousel-end-sentinel {
+    .carousel-items-end {
       margin-inline-start: -2rem;
     }
   }
 
   button {
-    // SPIKE OLD:
     color: var(--cx-color-inverse);
 
     &[aria-disabled='false'] {
@@ -83,18 +81,10 @@
     border: none;
     font-size: 2rem;
 
-    // SPIKE OLD:
     color: var(--cx-color-primary);
 
-    // SPIKE NEW:
-    // color: cyan;
-
     &[aria-disabled='true'] {
-      // SPIKE OLD:
       opacity: 0.5;
-
-      // SPIKE NEW
-      // color: red;
     }
 
     &[aria-disabled='false']:hover {

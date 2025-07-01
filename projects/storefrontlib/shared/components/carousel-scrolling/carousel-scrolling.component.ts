@@ -183,18 +183,17 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
 
   //////////////////////////////////////////
 
-  @ViewChild('startSentinel') startSentinel: ElementRef;
-  @ViewChild('endSentinel') endSentinel: ElementRef;
+  @ViewChild('startDetector') scrollingAreaStart: ElementRef;
+  @ViewChild('endDetector') scrollingAreaEnd: ElementRef;
 
-  carousel: ElementRef;
-  @ViewChild('carousel')
-  set carouselSetter(element: ElementRef) {
-    this.carousel = element;
-    console.log('#carousel element set:', this.title);
+  scrollingArea: ElementRef;
+  @ViewChild('scrollingArea')
+  set scrollingAreaSetter(element: ElementRef) {
+    this.scrollingArea = element;
     if (element) {
-      this.subscribeToScrollPosition();
+      this.subscribeScrollingArea();
     } else {
-      this.unsubscribeFromScrollPosition();
+      this.unsubscribeScrollingArea();
     }
   }
 
@@ -207,12 +206,12 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
   // SPIKE TODO IMPLEMENT
   $needsScroll$: Observable<boolean>;
 
-  protected carouselWidth: number;
+  protected scrollingAreaWidth: number;
   protected windowRef = inject(WindowRef);
-  protected windowWidthSubscription: Subscription;
+  protected scrollingAreaWidthSubscription: Subscription;
 
   ngOnDestroy() {
-    this.unsubscribeFromScrollPosition();
+    this.unsubscribeScrollingArea();
   }
 
   /**
@@ -220,8 +219,8 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
    * (so the items that were invisible previously are now visible).
    */
   scrollForward() {
-    this.carousel.nativeElement.scrollBy({
-      left: this.carouselWidth,
+    this.scrollingArea.nativeElement.scrollBy({
+      left: this.scrollingAreaWidth,
       behavior: 'smooth',
     });
   }
@@ -231,53 +230,68 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
    * (so the items that were visible previously are now invisible).
    */
   scrollBackward() {
-    this.carousel.nativeElement.scrollBy({
-      left: -this.carouselWidth,
+    this.scrollingArea.nativeElement.scrollBy({
+      left: -this.scrollingAreaWidth,
       behavior: 'smooth',
     });
   }
 
-  protected intersectionObserver?: IntersectionObserver;
+  protected scrollingAreaIntersectionObserver?: IntersectionObserver;
 
-  subscribeToScrollPosition() {
+  subscribeScrollingArea() {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    this.windowWidthSubscription = this.windowRef.resize$.subscribe(() => {
-      if (this.carousel?.nativeElement) {
-        this.carouselWidth = this.carousel.nativeElement.clientWidth;
+    this.scrollingAreaWidthSubscription = this.windowRef.resize$.subscribe(
+      () => {
+        // For performance reasons (to avoid browser layout trashing), we don't want
+        // to read `.clientWidth` of the scrollingArea on every scroll event.
+        // Instead, we read it only on window resize and store it for later use.
+        // It will be used by scrollForward() and scrollBackward() methods.
+        if (this.scrollingArea?.nativeElement) {
+          this.scrollingAreaWidth =
+            this.scrollingArea.nativeElement.clientWidth;
+        }
       }
-    });
+    );
 
-    this.intersectionObserver = new IntersectionObserver(
+    // Observe when user scrolls to the start or end of the carousel
+    // and then enable/disable the backward or forward scroll buttons accordingly.
+    this.scrollingAreaIntersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target === this.startSentinel.nativeElement) {
+          if (entry.target === this.scrollingAreaStart.nativeElement) {
             this.isScrollStartSubject.next(entry.isIntersecting);
-          } else if (entry.target === this.endSentinel.nativeElement) {
+          } else if (entry.target === this.scrollingAreaEnd.nativeElement) {
             this.isScrollEndSubject.next(entry.isIntersecting);
           }
         });
       },
-      { root: this.carousel.nativeElement, threshold: 1 }
+      { root: this.scrollingArea.nativeElement, threshold: 1 }
     );
 
-    if (!this.startSentinel || !this.endSentinel) {
+    if (!this.scrollingAreaStart || !this.scrollingAreaEnd) {
       this.logger.error(
-        'Start or end sentinel elements are not available in the carousel.'
+        'scrollingAreaStart/End element is not available in the <cx-scrolling-carousel>.'
       );
       return;
     }
-    this.intersectionObserver.observe(this.startSentinel.nativeElement);
-    this.intersectionObserver.observe(this.endSentinel.nativeElement);
+    this.scrollingAreaIntersectionObserver.observe(
+      this.scrollingAreaStart.nativeElement
+    );
+    this.scrollingAreaIntersectionObserver.observe(
+      this.scrollingAreaEnd.nativeElement
+    );
   }
 
-  unsubscribeFromScrollPosition() {
-    this.windowWidthSubscription?.unsubscribe();
-
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-      this.intersectionObserver = undefined;
+  unsubscribeScrollingArea() {
+    if (!this.windowRef.isBrowser()) {
+      return;
     }
+
+    this.scrollingAreaWidthSubscription?.unsubscribe();
+
+    this.scrollingAreaIntersectionObserver?.disconnect();
+    this.scrollingAreaIntersectionObserver = undefined;
   }
 }
