@@ -15,7 +15,8 @@
       />
 
       <img
-        [loading]="loading"
+        [loading]="effectiveLoadingStrategy"
+        [attr.fetchpriority]="fetchPriority"
         [alt]="media.alt"
         [title]="media.alt"
         [src]="media.src"
@@ -30,7 +31,8 @@
     <ng-template #imageElementTmp>
       <img
         *ngIf="media.src"
-        [loading]="loading"
+        [loading]="effectiveLoadingStrategy"
+        [attr.fetchpriority]="fetchPriority"
         [alt]="media.alt"
         [title]="media.alt"
         [src]="media.src"
@@ -55,9 +57,9 @@
         [srcset]="source.srcset"
         [media]="source.media"
       />
-
       <img
-        [loading]="loading"
+        [loading]="effectiveLoadingStrategy"
+        [attr.fetchpriority]="fetchPriority"
         [alt]="media.alt"
         [title]="media.alt"
         [src]="media.src"
@@ -70,7 +72,8 @@
     <ng-template #legacyImgTmp>
       <img
         *ngIf="media.src"
-        [loading]="loading"
+        [loading]="effectiveLoadingStrategy"
+        [attr.fetchpriority]="fetchPriority"
         [alt]="media.alt"
         [title]="media.alt"
         [src]="media.src"

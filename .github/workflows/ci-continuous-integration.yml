@@ -6,6 +6,9 @@ on:
       - develop-*
       - release/*
       - epic/**
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   

@@ -15,6 +15,7 @@ import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
   AsmCustomerListFacade,
+  CLOSE_DIALOG_REASON,
   CustomerListColumnActionType,
   CustomerListsPage,
   CustomerSearchOptions,
@@ -26,6 +27,7 @@ import {
   User,
   OccConfig,
   useFeatureStyles,
+  HttpResponseStatus,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -96,6 +98,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   searchBox: UntypedFormControl = new UntypedFormControl();
 
+  forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
+
   protected teardown: Subscription = new Subscription();
 
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
@@ -121,6 +125,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       this.asmCustomerListFacade.getCustomerListsState().pipe(
         tap((state) => (this.listsError = !!state.error)),
         map((state) => {
+          if (
+            state.error &&
+            typeof state.error === 'object' &&
+            'status' in state.error &&
+            state.error.status === this.forbiddenResponseStatus
+          ) {
+            this.launchDialogService.closeDialog(CLOSE_DIALOG_REASON.FORBIDDEN);
+          }
           if (state?.data?.userGroups?.length === 0) {
             this.listsEmpty = true;
             return undefined;

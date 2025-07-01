@@ -706,6 +706,19 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
+    it("should contain span element with 'aria-level' attribute that defines an accessible level for the heading", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        0,
+        'aria-level',
+        '1',
+        mockProduct.name
+      );
+    });
+
     it("should contain span element with 'title' attribute for product name that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
