@@ -17,6 +17,7 @@ import {
   CarouselModule,
   IconModule,
   KeyboardFocusModule,
+  LcpContextDirectiveModule,
   MediaModule,
   OutletModule,
 } from '@spartacus/storefront';
@@ -38,6 +39,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
     OutletModule,
     RouterModule,
     FeaturesConfigModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(defaultProductImageZoomLayoutConfig),

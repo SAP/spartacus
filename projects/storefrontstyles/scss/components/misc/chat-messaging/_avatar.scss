@@ -7,13 +7,10 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    border: 1px solid var(--cx-color-light);
+    border: 1px solid var(--cx-color-medium);
     font-size: var(--cx-font-size, 2rem);
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('1');
-      border: 1px solid var(--cx-color-medium);
-    }
+    @include type('1');
   }
 
   .right-align {

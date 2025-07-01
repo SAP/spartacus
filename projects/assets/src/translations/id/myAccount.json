@@ -27,7 +27,7 @@
     "accessDeniedError": "Akses ditolak"
   },
   "updateProfileForm": {
-    "title": "Gelar",
+    "title": "Gelar/Sapaan",
     "none": "",
     "firstName": {
       "label": "Nama depan",
@@ -63,13 +63,13 @@
     "findProducts": "Cari Produk",
     "status": "Status:",
     "dialogTitle": "Kupon",
-    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCoupondialogTitle": "Tambahkan Ke Daftar Kupon Anda",
     "claimCouponCode": {
       "label": "Kode Kupon",
-      "placeholder": "Enter the coupon code to claim a coupon"
+      "placeholder": "Masukkan kode kupon untuk mengklaim kupon"
     },
-    "reset": "RESET",
-    "claim": "CLAIM",
+    "reset": "ATUR ULANG",
+    "claim": "KLAIM",
     "claimCustomerCoupon": "Anda telah berhasil mengeklaim kupon ini.",
     "myCoupons": "Kupon saya",
     "startDateAsc": "Tanggal Mulai (urutkan naik)",
@@ -85,7 +85,7 @@
   "notificationPreference": {
     "message": "Pilih saluran notifikasi favorit Anda",
     "note": "Catatan: ",
-    "noteMessage": "Jika Anda menonaktifkan semua saluran, notifikasi selanjutnya tidak akan diterima.",
+    "noteMessage": "Jika menonaktifkan semua saluran, Anda tidak akan dapat menerima notifikasi lebih lanjut.",
     "EMAIL": "Email:",
     "SMS": "SMS:",
     "SITE_MESSAGE": "Pesan Situs"
