@@ -24,13 +24,14 @@
     align-items: center;
   }
 
-  // .carousel-panel {
   .carousel-items {
     display: flex;
     gap: 2rem;
     width: 100%;
-    // leave space for the forward/backward buttons
+
+    // Leave space for the forward/backward buttons:
     max-width: calc(100vw - 6rem);
+
     min-width: 0;
     box-sizing: border-box;
     padding-bottom: 1rem;
@@ -72,6 +73,10 @@
 
     &[aria-disabled='false'] {
       cursor: pointer;
+    }
+
+    &.hidden {
+      visibility: hidden;
     }
   }
 

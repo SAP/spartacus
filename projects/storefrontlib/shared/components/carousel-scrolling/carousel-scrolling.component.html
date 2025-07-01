@@ -18,6 +18,7 @@
       "
       [attr.aria-label]="'carousel.scrollBackward' | cxTranslate"
       [attr.title]="'carousel.scrollBackward' | cxTranslate"
+      [class.hidden]="!(cxHorizontalScrollingPosition.isScrollNeeded$ | async)"
     >
       <cx-icon [type]="backwardIcon"></cx-icon>
     </button>
@@ -49,6 +50,7 @@
       [attr.aria-disabled]="cxHorizontalScrollingPosition.isScrollEnd$ | async"
       [attr.aria-label]="'carousel.scrollForward' | cxTranslate"
       [attr.title]="'carousel.scrollForward' | cxTranslate"
+      [class.hidden]="!(cxHorizontalScrollingPosition.isScrollNeeded$ | async)"
     >
       <cx-icon [type]="forwardIcon"></cx-icon>
     </button>
