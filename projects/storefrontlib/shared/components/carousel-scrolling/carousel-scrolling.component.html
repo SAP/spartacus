@@ -18,7 +18,7 @@
       "
       [attr.aria-label]="'carousel.scrollBackward' | cxTranslate"
       [attr.title]="'carousel.scrollBackward' | cxTranslate"
-      [class.button-visible]="
+      [class.scroll-possible]="
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
     >
@@ -52,7 +52,7 @@
       [attr.aria-disabled]="cxHorizontalScrollingPosition.isScrollEnd$ | async"
       [attr.aria-label]="'carousel.scrollForward' | cxTranslate"
       [attr.title]="'carousel.scrollForward' | cxTranslate"
-      [class.button-visible]="
+      [class.scroll-possible]="
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
     >
