@@ -20,7 +20,13 @@ import {
 } from '@angular/core';
 import { LoggerService, useFeatureStyles, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
 /**
@@ -186,9 +192,42 @@ export class CarouselScrollingComponent<TItem = any>
 
   //////////////////////////////////////////
 
+  /**
+   * Tells whether the carousel is at the start of the scrolling area.
+   */
+  protected isScrollStart$ = new BehaviorSubject(true);
+
+  /**
+   * Tells whether the carousel is at the end of the scrolling area.
+   */
+  protected isScrollEnd$ = new BehaviorSubject(false);
+
+  /**
+   * Tells whether the carousel needs to be scrolled (i.e. whether the
+   * all items are visible in the scrollable area).
+   */
+  protected needsScroll$: Observable<boolean> = combineLatest([
+    this.isScrollStart$,
+    this.isScrollEnd$,
+  ]).pipe(map(([isScrollStart, isScrollEnd]) => isScrollStart && !isScrollEnd));
+
+  /**
+   * Dummy element to detect when the user scrolls to the start of the carousel.
+   * It is used to enable/disable the backward scroll button.
+   */
   @ViewChild('scrollingAreaStart') scrollingAreaStart: ElementRef;
+
+  /**
+   * Dummy element to detect when the user scrolls to the end of the carousel.
+   * It is used to enable/disable the forward scroll button.
+   */
   @ViewChild('scrollingAreaEnd') scrollingAreaEnd: ElementRef;
 
+  /**
+   * The scrolling area is the element that contains the carousel items.
+   * It is used to scroll the carousel items horizontally and to detect when the user
+   * scrolls to the start or end of the carousel.
+   */
   scrollingArea: ElementRef;
   // IMPORTANT: The `@ViewChild('scrollingArea')` has to be defined after
   //   the `@ViewChild('scrollingAreaStart')` and `@ViewChild('scrollingAreaEnd')`,
@@ -203,15 +242,6 @@ export class CarouselScrollingComponent<TItem = any>
     }
   }
 
-  private isScrollStartSubject = new BehaviorSubject(true);
-  private isScrollEndSubject = new BehaviorSubject(false);
-
-  isScrollStart$ = this.isScrollStartSubject.asObservable();
-  isScrollEnd$ = this.isScrollEndSubject.asObservable();
-
-  // SPIKE TODO IMPLEMENT
-  $needsScroll$: Observable<boolean>;
-
   protected scrollingAreaWidth: number;
   protected windowRef = inject(WindowRef);
   protected scrollingAreaWidthSubscription: Subscription;
@@ -221,8 +251,7 @@ export class CarouselScrollingComponent<TItem = any>
   }
 
   /**
-   * Scrolls the carousel forward by a width of the carousel's visible area
-   * (so the items that were invisible previously are now visible).
+   * Scrolls the carousel forward by a width of the carousel's visible area.
    */
   scrollForward() {
     this.scrollingArea.nativeElement.scrollBy({
@@ -232,8 +261,7 @@ export class CarouselScrollingComponent<TItem = any>
   }
 
   /**
-   * Scrolls the carousel backward by a width of the carousel's visible area
-   * (so the items that were visible previously are now invisible).
+   * Scrolls the carousel backward by a width of the carousel's visible area.
    */
   scrollBackward() {
     this.scrollingArea.nativeElement.scrollBy({
@@ -242,8 +270,17 @@ export class CarouselScrollingComponent<TItem = any>
     });
   }
 
+  /**
+   * Intersection Observer used to detect when the scrolling area start or end
+   * is visible in the viewport.
+   * It is used to enable/disable the backward or forward scroll buttons accordingly.
+   */
   protected scrollingAreaIntersectionObserver?: IntersectionObserver;
 
+  /**
+   * Starts observing the width of the scrolling area and
+   * whether the user has scrolled to the start or end of the carousel.
+   */
   subscribeScrollingArea() {
     if (!this.windowRef.isBrowser()) {
       return;
@@ -267,9 +304,9 @@ export class CarouselScrollingComponent<TItem = any>
       (entries) => {
         entries.forEach((entry) => {
           if (entry.target === this.scrollingAreaStart.nativeElement) {
-            this.isScrollStartSubject.next(entry.isIntersecting);
+            this.isScrollStart$.next(entry.isIntersecting);
           } else if (entry.target === this.scrollingAreaEnd.nativeElement) {
-            this.isScrollEndSubject.next(entry.isIntersecting);
+            this.isScrollEnd$.next(entry.isIntersecting);
           }
         });
       },
@@ -290,6 +327,10 @@ export class CarouselScrollingComponent<TItem = any>
     );
   }
 
+  /**
+   * Stops observing the width of the scrolling area and
+   * whether the user has scrolled to the start or end of the carousel.
+   */
   unsubscribeScrollingArea() {
     if (!this.windowRef.isBrowser()) {
       return;
