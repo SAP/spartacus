@@ -23,6 +23,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
+  distinctUntilChanged,
   map,
   Observable,
   Subscription,
@@ -190,7 +191,7 @@ export class CarouselScrollingComponent<TItem = any>
     }
   }
 
-  //////////////////////////////////////////
+  ///////////////////// SCROLLING STATE MANAGEMENT: /////////////////////
 
   /**
    * Tells whether the carousel is at the start of the scrolling area.
@@ -209,7 +210,10 @@ export class CarouselScrollingComponent<TItem = any>
   protected needsScroll$: Observable<boolean> = combineLatest([
     this.isScrollStart$,
     this.isScrollEnd$,
-  ]).pipe(map(([isScrollStart, isScrollEnd]) => isScrollStart && !isScrollEnd));
+  ]).pipe(
+    map(([isScrollStart, isScrollEnd]) => isScrollStart && isScrollEnd),
+    distinctUntilChanged()
+  );
 
   /**
    * Dummy element to detect when the user scrolls to the start of the carousel.
@@ -228,7 +232,7 @@ export class CarouselScrollingComponent<TItem = any>
    * It is used to scroll the carousel items horizontally and to detect when the user
    * scrolls to the start or end of the carousel.
    */
-  scrollingArea: ElementRef;
+  scrollingArea: ElementRef<HTMLElement>;
   // IMPORTANT: The `@ViewChild('scrollingArea')` has to be defined after
   //   the `@ViewChild('scrollingAreaStart')` and `@ViewChild('scrollingAreaEnd')`,
   //   so their values can be used in the setter's logic of `@ViewChild('scrollingArea')`
