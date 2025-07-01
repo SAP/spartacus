@@ -114,7 +114,7 @@ testConfig.forEach((config) => {
     });
 
     describe('Navigate to Product Configuration Page', () => {
-      it('should be able to navigate from the product search result', () => {
+      it.skip('skipped due to JDK-21 (CXSPA-10506): should be able to navigate from the product search result', () => {
         configurationCpq.searchForProduct(PROD_CODE_CAM);
         configurationCpq.clickOnConfigureBtnInCatalog();
       });
