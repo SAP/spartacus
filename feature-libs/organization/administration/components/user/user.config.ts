@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
-import { AuthGuard, CmsConfig, FeatureToggles } from '@spartacus/core';
+import { AuthGuard, CmsConfig } from '@spartacus/core';
 import {
   AdminGuard,
   UserGuard,
@@ -143,11 +142,6 @@ export const userCmsConfig: CmsConfig = {
 };
 
 export function userTableConfigFactory(): TableConfig {
-  // TODO: (CXSPA-7155) - Remove feature flag and legacy config next major release
-  const featureToggles = inject(FeatureToggles);
-  if (featureToggles.a11yOrganizationLinkableCells) {
-    return newUserTableConfig;
-  }
   return userTableConfig;
 }
 
@@ -159,7 +153,7 @@ const pagination = {
   pageSize: MAX_OCC_INTEGER_VALUE,
 };
 
-export const newUserTableConfig: TableConfig = {
+export const userTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER]: {
       cells: ['name', 'active', 'uid', 'roles', 'unit'],
@@ -256,98 +250,7 @@ export const newUserTableConfig: TableConfig = {
   },
 };
 
-export const userTableConfig: TableConfig = {
-  table: {
-    [OrganizationTableType.USER]: {
-      cells: ['name', 'active', 'uid', 'roles', 'unit'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: ActiveLinkCellComponent,
-          },
-          active: {
-            dataComponent: StatusCellComponent,
-          },
-          uid: {
-            dataComponent: CellComponent,
-          },
-          roles: {
-            dataComponent: RolesCellComponent,
-          },
-          unit: {
-            dataComponent: UnitCellComponent,
-          },
-        },
-      },
-    },
-    [OrganizationTableType.USER_APPROVERS]: {
-      cells: ['name', 'actions'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: UserDetailsCellComponent,
-          },
-          actions,
-        },
-      },
-    },
-    [OrganizationTableType.USER_ASSIGNED_APPROVERS]: {
-      cells: ['name', 'actions'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: UserDetailsCellComponent,
-          },
-          actions,
-        },
-        pagination,
-      },
-    },
-    [OrganizationTableType.USER_USER_GROUPS]: {
-      cells: ['name', 'actions'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: UserGroupDetailsCellComponent,
-          },
-          actions,
-        },
-      },
-    },
-    [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
-      cells: ['name', 'actions'],
-      options: {
-        cells: {
-          name: {
-            dataComponent: UserGroupDetailsCellComponent,
-          },
-          actions,
-        },
-        pagination,
-      },
-    },
-    [OrganizationTableType.USER_PERMISSIONS]: {
-      cells: ['code', 'actions'],
-      options: {
-        cells: {
-          code: {
-            dataComponent: PermissionDetailsCellComponent,
-          },
-          actions,
-        },
-      },
-    },
-    [OrganizationTableType.USER_ASSIGNED_PERMISSIONS]: {
-      cells: ['code', 'actions'],
-      options: {
-        cells: {
-          code: {
-            dataComponent: PermissionDetailsCellComponent,
-          },
-          actions,
-        },
-        pagination,
-      },
-    },
-  },
-};
+/**
+ * @deprecated Use `userTableConfig` instead.
+ */
+export const newUserTableConfig: TableConfig = userTableConfig;

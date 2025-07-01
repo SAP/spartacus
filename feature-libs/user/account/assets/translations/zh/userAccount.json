@@ -16,7 +16,7 @@
     "wrongEmailFormat": "电子邮件格式无效。"
   },
   "verificationTokenForm": {
-    "createVerificationToken": "验证码已发送至 {{target}}。请查看并输入验证码。",
+    "createVerificationToken": "验证码已发送至 {{target}}。请输入验证码。",
     "needInputCredentials": "请输入您的凭据以继续。",
     "sendRateLime": "{{waitTime}} 秒后",
     "resend": "重新发送",
@@ -26,6 +26,7 @@
     },
     "noReceiveCode": "没有收到验证码？",
     "verify": "验证",
+    "registerVerify": "注册",
     "back": "返回",
     "tokenInputHint": "您可以请求新代码。计时器启动，指示可重新发送请求的剩余秒数。"
   },

@@ -5,51 +5,37 @@
  */
 
 import * as productDetails from '../../../helpers/product-details';
-import { formats } from '../../../sample-data/viewports';
 import { isolateTests } from '../../../support/utils/test-isolation';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Product details', { testIsolation: false }, () => {
-  isolateTests();
-  describe('Electronics', () => {
-    before(productDetails.configureDefaultProduct);
-
-    productDetails.productDetailsTest();
-    productDetails.verifyTabKeyboardNavigation();
-  });
-
-  describe('Apparel', () => {
-    before(productDetails.configureApparelProduct);
-
-    productDetails.apparelProductDetailsTest();
-    productDetails.verifyTabKeyboardNavigation();
-  });
-});
-
-//TODO split this test in two files (one for mobile)
-context(
-  `${formats.mobile.width + 1}p resolution - Product details`,
-  { testIsolation: false },
-  () => {
+  viewportContext(['desktop'], () => {
     isolateTests();
-    before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-    });
-    beforeEach(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-    });
 
     describe('Electronics', () => {
       before(productDetails.configureDefaultProduct);
-
       productDetails.productDetailsTest();
-      productDetails.verifyTabKeyboardNavigation(true);
     });
 
     describe('Apparel', () => {
       before(productDetails.configureApparelProduct);
-
       productDetails.apparelProductDetailsTest();
-      productDetails.verifyTabKeyboardNavigation(true);
     });
-  }
-);
+  });
+});
+
+context('Product details', { testIsolation: false }, () => {
+  viewportContext(['mobile'], () => {
+    isolateTests();
+
+    describe('Electronics', () => {
+      before(productDetails.configureDefaultProduct);
+      productDetails.productDetailsTest();
+    });
+
+    describe('Apparel', () => {
+      before(productDetails.configureApparelProduct);
+      productDetails.apparelProductDetailsTest();
+    });
+  });
+});

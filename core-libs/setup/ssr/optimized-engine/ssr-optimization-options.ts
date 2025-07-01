@@ -7,11 +7,11 @@
 import { Request } from 'express';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
-import { DefaultCacheEntrySizeCalculator } from './default-cache-entry-size-calculator';
+import { DefaultCacheEntrySizeCalculator } from './rendering-cache/default-cache-entry-size-calculator';
 import {
   CacheEntrySizeCalculator,
   RenderingEntry,
-} from './rendering-cache.model';
+} from './rendering-cache/rendering-cache.model';
 import { defaultRenderingStrategyResolver } from './rendering-strategy-resolver';
 import { defaultRenderingStrategyResolverOptions } from './rendering-strategy-resolver-options';
 

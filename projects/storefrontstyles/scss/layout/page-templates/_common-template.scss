@@ -24,10 +24,7 @@ cx-page-layout {
   }
 
   &.footer {
-    background-color: var(--cx-color-dark);
-    @include forFeature('a11yImproveContrast') {
-      background-color: var(--cx-color-secondary);
-    }
+    background-color: var(--cx-color-secondary);
 
     color: var(--cx-color, var(--cx-color-inverse));
 
@@ -52,11 +49,9 @@ cx-category-navigation {
 }
 
 cx-page-slot.cx-bottom-header-slot {
-  @include forFeature('cmsBottomHeaderSlotUsingFlexStyles') {
-    display: flex;
+  display: flex;
 
-    > * {
-      flex: 1 1 var(--cx-flex-basis, 100%);
-    }
+  > * {
+    flex: 1 1 var(--cx-flex-basis, 100%);
   }
 }

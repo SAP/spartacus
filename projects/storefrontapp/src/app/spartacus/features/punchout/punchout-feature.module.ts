@@ -8,7 +8,10 @@ import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   punchoutTranslationChunksConfig,
+  punchoutTranslationsDe,
   punchoutTranslationsEn,
+  punchoutTranslationsJa,
+  punchoutTranslationsZh,
 } from '@spartacus/punchout/assets';
 import { PUNCHOUT_FEATURE, PunchoutRootModule } from '@spartacus/punchout/root';
 
@@ -19,6 +22,9 @@ import { PUNCHOUT_FEATURE, PunchoutRootModule } from '@spartacus/punchout/root';
       i18n: {
         resources: {
           en: punchoutTranslationsEn,
+          ja: punchoutTranslationsJa,
+          de: punchoutTranslationsDe,
+          zh: punchoutTranslationsZh,
         },
         chunks: punchoutTranslationChunksConfig,
         fallbackLang: 'en',
