@@ -111,7 +111,7 @@ export class HorizontalScrollingPositionDirective
     this.isScrollStart$,
     this.isScrollEnd$,
   ]).pipe(
-    map(([isScrollStart, isScrollEnd]) => isScrollStart && isScrollEnd),
+    map(([isScrollStart, isScrollEnd]) => !isScrollStart || !isScrollEnd),
     distinctUntilChanged()
   );
 
