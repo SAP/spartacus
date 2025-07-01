@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { configureInventoryDisplay } from '../../helpers/inventory-display';
-import { inventoryDisplayB2B } from '../../sample-data/inventory-display';
+import { configureInventoryDisplay } from '../../../helpers/inventory-display';
+import { inventoryDisplayB2B } from '../../../sample-data/inventory-display';
 
 describe(
   'Inventory display - Access Continuum test',
