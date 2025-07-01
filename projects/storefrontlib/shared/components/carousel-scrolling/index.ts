@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './carousel-v2.component';
-export * from './carousel-v2.module';
+export * from './carousel-scrolling.component';
+export * from './carousel-scrolling.module';

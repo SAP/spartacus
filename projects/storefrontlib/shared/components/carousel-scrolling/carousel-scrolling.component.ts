@@ -42,8 +42,8 @@ import { disableTabbingForTick } from '../../../layout/a11y';
  * can cause issues during the hydration process, so this component is excluded from Angular hydration.
  */
 @Component({
-  selector: 'cx-carousel-v2',
-  templateUrl: './carousel-v2.component.html',
+  selector: 'cx-carousel-scrolling',
+  templateUrl: './carousel-scrolling.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
@@ -84,7 +84,7 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (!this.template && isDevMode()) {
       this.logger.error(
-        'No template reference provided to render the carousel items for the `cx-carousel-v2`'
+        'No template reference provided to render the carousel items for the `cx-carousel-scrolling`'
       );
     }
   }

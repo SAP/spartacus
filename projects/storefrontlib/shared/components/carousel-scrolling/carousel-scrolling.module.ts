@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MediaModule } from '../media/media.module';
-import { CarouselScrollingComponent } from './carousel-v2.component';
+import { CarouselScrollingComponent } from './carousel-scrolling.component';
 
 @NgModule({
   imports: [

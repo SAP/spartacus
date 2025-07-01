@@ -745,7 +745,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, the `ProductCarouselComponent` and `ProductReferencesComponent`
-   * will use a scrolling carousel `<cx-carousel-v2>`,
+   * will use a scrolling carousel `<cx-carousel-scrolling>`,
    * which has has number of advantages over the previous implementation (`<cx-carousel>`):
    * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
    * - It's loading only the visible items (when `ImageLoadingStrategy.LAZY` is configured in Spartacus),

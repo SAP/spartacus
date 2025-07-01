@@ -1,5 +1,5 @@
 <ng-container *cxFeature="'productCarouselScrolling'">
-  <cx-carousel-v2
+  <cx-carousel-scrolling
     *ngIf="items$ | async as items"
     role="region"
     [attr.aria-label]="
@@ -10,7 +10,7 @@
     [template]="carouselItem"
     [trackByFn]="trackByFn"
   >
-  </cx-carousel-v2>
+  </cx-carousel-scrolling>
 </ng-container>
 <ng-container *cxFeature="'!productCarouselScrolling'">
   <cx-carousel
