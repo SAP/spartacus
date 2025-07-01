@@ -73,10 +73,10 @@ export class HorizontalScrollingPositionDirective
     this._scrollingAreaWidth$.asObservable();
 
   /**
-   * The scrolling area is the element that contains:
-   * - the dummy item at the start of the carousel (`scrollingAreaStart`),
+   * The scrolling area is the element that contains all of those in the following order:
+   * - the dummy item at the start of the scrolling area (`scrollingAreaStart`),
    * - the list of items to scroll through,
-   * - the dummy item at the end of the carousel (`scrollingAreaEnd`).
+   * - the dummy item at the end of the scrolling area (`scrollingAreaEnd`).
    *
    * It is used to scroll the carousel items horizontally and to detect when the user
    * scrolls to the start or end of the carousel.
