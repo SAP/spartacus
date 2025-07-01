@@ -6,13 +6,13 @@
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ASM_CUSTOMER_360_FEATURE } from '@spartacus/asm/customer-360/root';
 import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { ASM_CUSTOMER_360_FEATURE } from '../customer-360/root/feature-name';
 import { AsmLoaderModule } from './asm-loader.module';
 import { defaultAsmConfig } from './config/default-asm-config';
 import { ASM_FEATURE } from './feature-name';
