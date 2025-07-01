@@ -23,7 +23,7 @@ run_tests_for_suite() {
     if [ "$record" = true ]; then
       # todo replace with ${suite}
       echo "running A11Y with RECORD"
-      npm run cy:run:ci"${suite}":record
+      npm run e2e:run:ci"${suite}":record
     else
       # Source a11y functions when needed
       echo "running A11Y with NO RECORD"
@@ -192,6 +192,7 @@ else
             run_tests_for_suite "${SUITE}" "full"
         else
             echo "Running core Cypress end-to-end tests for pull requests"
+            echo "Running core Cypress end-to-end tests for pull requests with RECORD ${RECORD}"
             run_tests_for_suite "${SUITE}" "core" "${RECORD}"
         fi
 
