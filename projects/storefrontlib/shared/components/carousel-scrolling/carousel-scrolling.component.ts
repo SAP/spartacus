@@ -186,10 +186,13 @@ export class CarouselScrollingComponent<TItem = any>
 
   //////////////////////////////////////////
 
-  @ViewChild('startDetector') scrollingAreaStart: ElementRef;
-  @ViewChild('endDetector') scrollingAreaEnd: ElementRef;
+  @ViewChild('scrollingAreaStart') scrollingAreaStart: ElementRef;
+  @ViewChild('scrollingAreaEnd') scrollingAreaEnd: ElementRef;
 
   scrollingArea: ElementRef;
+  // IMPORTANT: The `@ViewChild('scrollingArea')` has to be defined after
+  //   the `@ViewChild('scrollingAreaStart')` and `@ViewChild('scrollingAreaEnd')`,
+  //   so their values can be used in the setter's logic of `@ViewChild('scrollingArea')`
   @ViewChild('scrollingArea')
   set scrollingAreaSetter(element: ElementRef) {
     this.scrollingArea = element;
