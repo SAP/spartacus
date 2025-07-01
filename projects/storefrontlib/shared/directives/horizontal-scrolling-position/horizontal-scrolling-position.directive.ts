@@ -29,7 +29,8 @@ import {
  *
  * @usage
  * ```html
- * <ng-container cxHorizontalScrollingPosition
+ * <ng-container
+ *   cxHorizontalScrollingPosition
  *   #cxHorizontalScrollingPosition="cxHorizontalScrollingPosition"
  *   [scrollingArea]="scrollingArea"
  *   [scrollingAreaStart]="scrollingAreaStart"
