@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as sampleData from '../../sample-data/b2b-checkout';
-import { clearAllStorage } from '../../support/utils/clear-all-storage';
+import * as sampleData from '../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
   beforeEach(() => {
