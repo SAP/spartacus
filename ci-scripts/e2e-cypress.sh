@@ -19,9 +19,16 @@ run_tests_for_suite() {
   local scope="$2"
 
   if [ "$suite" == ":a11y" ]; then
-    # Source a11y functions when needed
-    source "$(dirname "$0")/e2e-a11y-helpers.sh"
-    run_dual_a11y_tests
+    if [[ "${RECORD}" = true ]]; then
+      # todo replace with ${suite}
+      echo "running A11Y with RECORD"
+      npm run e2e:run:ci:a11y
+    else
+      # Source a11y functions when needed
+      echo "running A11Y with NO RECORD"
+      source "$(dirname "$0")/e2e-a11y-helpers.sh"
+      run_dual_a11y_tests
+    fi
   elif [ "$scope" == "core" ]; then
     npm run e2e:run:ci:core"${suite}"
   else
@@ -49,6 +56,10 @@ while [ "${1:0:1}" == "-" ]; do
     '--suite' | '-s')
         SUITE=":$2"
         shift
+        shift
+        ;;
+    '--record' | '-r')
+        RECORD=false
         shift
         ;;
     '--environment' | '--env')

@@ -226,6 +226,9 @@ jobs:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for A11Y
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [ 1, 2 ]
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
@@ -254,7 +257,7 @@ jobs:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s a11y
+          ci-scripts/e2e-cypress.sh -s a11y --record
       - name: Upload Cypress failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4
