@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { loginB2bUser } from './helpers/a11y-b2b.checkout';
+import { loginB2bUser } from '../helpers/a11y-b2b.checkout';
 import {
   fillPaymentDetails,
   fillShippingAddress,
-} from '../../helpers/checkout-forms';
-import { user } from '../../sample-data/checkout-flow';
-import * as b2bCheckout from '../../helpers/b2b/b2b-checkout';
-import { products } from '../../sample-data/b2b-checkout';
-import { viewportContext } from '../../helpers/viewport-context';
+} from '../../../helpers/checkout-forms';
+import { user } from '../../../sample-data/checkout-flow';
+import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
+import { products } from '../../../sample-data/b2b-checkout';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 function proceedToCheckout(): void {
   cy.visit(`product/${products[0].code}`);
