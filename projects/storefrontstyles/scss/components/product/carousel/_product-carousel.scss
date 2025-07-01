@@ -37,7 +37,7 @@
     align-self: center;
     width: 60%;
 
-    @include forFeature('scrollableProductCarousel') {
+    @include forFeature('productCarouselScrolling') {
       img {
         width: 100%;
         height: auto;

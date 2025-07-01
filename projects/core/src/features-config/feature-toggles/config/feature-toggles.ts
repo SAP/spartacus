@@ -752,7 +752,7 @@ export interface FeatureTogglesInterface {
    * - Prevents layout shifts while transitioning from the Server-Side-Rendered HTML to
    *     the Client-Side-Rendered HTML, which helps to improve Web Vital CLS (Cumulative Layout Shift)
    */
-  scrollableProductCarousel?: boolean;
+  productCarouselScrolling?: boolean;
 
   /**
    * Feature flag to enable using <link rel=preconnect> in the index.html.
@@ -874,6 +874,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
-  scrollableProductCarousel: false,
+  productCarouselScrolling: false,
   createMediaPreconnectLink: false,
 };

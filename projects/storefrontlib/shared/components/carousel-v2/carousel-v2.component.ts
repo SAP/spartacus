@@ -17,7 +17,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { LoggerService, WindowRef } from '@spartacus/core';
+import { LoggerService, useFeatureStyles, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { disableTabbingForTick } from '../../../layout/a11y';
@@ -48,6 +48,10 @@ import { disableTabbingForTick } from '../../../layout/a11y';
   standalone: false,
 })
 export class CarouselV2Component implements OnInit, OnDestroy {
+  constructor() {
+    useFeatureStyles('productCarouselScrolling');
+  }
+
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.

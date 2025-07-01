@@ -1,7 +1,7 @@
 %cx-product-references {
   padding-bottom: 50px;
 
-  @include forFeature('scrollableProductCarousel') {
+  @include forFeature('productCarouselScrolling') {
     max-width: 100%;
   }
 
@@ -24,7 +24,7 @@
     align-self: center;
     width: 60%;
 
-    @include forFeature('scrollableProductCarousel') {
+    @include forFeature('productCarouselScrolling') {
       width: 300px;
     }
 

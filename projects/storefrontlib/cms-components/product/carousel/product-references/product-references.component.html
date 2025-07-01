@@ -1,4 +1,4 @@
-<ng-container *cxFeature="'scrollableProductCarousel'">
+<ng-container *cxFeature="'productCarouselScrolling'">
   <ng-container *ngIf="items$ | async as items">
     <cx-carousel-v2
       *ngIf="items.length"
@@ -10,7 +10,7 @@
     </cx-carousel-v2>
   </ng-container>
 </ng-container>
-<ng-container *cxFeature="'!scrollableProductCarousel'">
+<ng-container *cxFeature="'!productCarouselScrolling'">
   <cx-carousel
     *ngIf="items$ | async as items"
     [title]="title$ | async"

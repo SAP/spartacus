@@ -403,7 +403,7 @@ if (environment.cpq) {
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
-        scrollableProductCarousel: true,
+        productCarouselScrolled: true,
         createMediaPreconnectLink: true,
       };
       return appFeatureToggles;
