@@ -287,10 +287,9 @@ export class CarouselScrollingComponent<TItem = any>
     }
     this.scrollingAreaWidthSubscription = this.windowRef.resize$.subscribe(
       () => {
-        // For performance reasons (to avoid browser layout trashing), we don't want
-        // to read `.clientWidth` of the scrollingArea on every scroll event.
-        // Instead, we read it only on window resize and store it for later use.
-        // It will be used by scrollForward() and scrollBackward() methods.
+        // We don't want to read `.clientWidth` of the `scrollingArea` on every
+        // call of `scrollForward()` and `scrollBackward()` methods for performance reasons.
+        // Instead, we read it only when the window is resized.
         if (this.scrollingArea?.nativeElement) {
           this.scrollingAreaWidth =
             this.scrollingArea.nativeElement.clientWidth;
