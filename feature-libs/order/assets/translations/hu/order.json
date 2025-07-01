@@ -10,6 +10,8 @@
     "placed": "Megrendelve",
     "placedBy": "Megrendelő:",
     "unit": "Egység",
+    "quoteCode": "Ajánlatazonosító: {{id}}",
+    "quoteDetail": "Ajánlat részletei",
     "costCenter": "Költséghely",
     "costCenterAndUnit": "Költséghely/egység",
     "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "Az új tételek az aktuális kosár helyére lépnek. Szeretné folytatni?",
       "cancel": "Mégse",
       "continue": "Folytatás"
+    }
+  },
+  "attachments": {
+    "button": "Rendelés mellékleteinek megtekintése",
+    "dialog": {
+      "title": "Mellékletek",
+      "preview": "Fájl előnézete",
+      "closeModal": "Párbeszédpanel bezárása",
+      "error": "Hiba történt. Frissítse az oldalt, vagy próbálja újra később.",
+      "empty": "A bizonylatok nem elérhetők. A hozzáadást követően itt tekintheti meg a bizonylatokat.",
+      "downloadError": "Hiba történt a bizonylatok lekérése során. Frissítse az oldalt, vagy próbálja újra később."
     }
   }
 }
