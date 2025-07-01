@@ -8,7 +8,7 @@ import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-compan
 
 const MY_COMPANY_URL = '/organization/user-groups';
 const rowCellSelector =
-  'main cx-view cx-table table tr:nth-child(3) .uid cx-org-cell .text';
+  'main cx-view cx-table table tr:last-child .uid cx-org-cell .text';
 const detailsActionsListSelector = 'cx-org-user-group-details .main .link-list';
 export const SKELETON_SELECTOR =
   'main cx-view cx-table table cx-org-cell:not(:has(a))';

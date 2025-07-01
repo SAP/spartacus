@@ -8,7 +8,7 @@ import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-compan
 
 const MY_COMPANY_URL = '/organization/budgets';
 const rowCellSelector =
-  'cx-org-list.orgBudget table tr:nth-child(3) cx-org-status-cell span';
+  'cx-org-list.orgBudget table tr:last-child cx-org-status-cell span';
 const detailsActionsListSelector = 'cx-org-list.orgBudget .main .link-list';
 
 /**
