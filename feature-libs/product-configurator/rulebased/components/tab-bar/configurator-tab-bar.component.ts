@@ -232,28 +232,26 @@ export class ConfiguratorTabBarComponent implements OnInit, OnDestroy {
         event.navigationTrigger === 'popstate'
       ) {
         if (
+          !this.isHandlingBackNavigation &&
           event.url.includes('/configure/') &&
           this.router.url.includes('/configure-overview')
         ) {
-          if (!this.isHandlingBackNavigation) {
-            this.isHandlingBackNavigation = true;
-            this.configRouterExtractorService
-              .extractRouterData()
-              .pipe(take(1))
-              .subscribe((routerData) => {
-                console.log('Router data extracted:', routerData);
-                const targetPath =
-                  '/configure' +
-                  routerData.owner.configuratorType +
-                  '/' +
-                  routerData.owner.id;
-                if (!this.router.url.startsWith(targetPath)) {
-                  this.navigateToConfiguration(routerData, true);
-                } else {
-                  this.isHandlingBackNavigation = false;
-                }
-              });
-          }
+          this.isHandlingBackNavigation = true;
+          this.configRouterExtractorService
+            .extractRouterData()
+            .pipe(take(1))
+            .subscribe((routerData) => {
+              const targetPath =
+                '/configure' +
+                routerData.owner.configuratorType +
+                '/' +
+                routerData.owner.id;
+              if (!this.router.url.startsWith(targetPath)) {
+                this.navigateToConfiguration(routerData, true);
+              } else {
+                this.isHandlingBackNavigation = false;
+              }
+            });
         }
       } else if (
         event.constructor.name === 'NavigationEnd' &&
