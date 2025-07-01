@@ -17,7 +17,7 @@ import {
 import { PageComponentModule } from '../../../../cms-structure';
 import {
   CarouselModule,
-  CarouselV2Module,
+  CarouselScrollingModule,
   MediaModule,
 } from '../../../../shared/components/index';
 import { LcpContextDirectiveModule } from '../../../../shared/lcp-context/lcp-context-directive.module';
@@ -28,7 +28,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
   imports: [
     CommonModule,
     CarouselModule,
-    CarouselV2Module,
+    CarouselScrollingModule,
     MediaModule,
     RouterModule,
     UrlModule,

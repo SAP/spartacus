@@ -47,7 +47,7 @@ import { disableTabbingForTick } from '../../../layout/a11y';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselV2Component implements OnInit, OnDestroy {
+export class CarouselScrollingComponent implements OnInit, OnDestroy {
   constructor() {
     useFeatureStyles('productCarouselScrolling');
   }
@@ -67,7 +67,7 @@ export class CarouselV2Component implements OnInit, OnDestroy {
 
   /**
    * The template is rendered for each item, so that the actual
-   * view can be given by the compoent that uses the `CarouselV2Component`.
+   * view can be given by the compoent that uses the `CarouselScrollingComponent`.
    */
   @Input() template: TemplateRef<any>;
 

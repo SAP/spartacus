@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { MediaModule } from '../media/media.module';
-import { CarouselV2Component } from './carousel-v2.component';
+import { CarouselScrollingComponent } from './carousel-v2.component';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { CarouselV2Component } from './carousel-v2.component';
     UrlModule,
     I18nModule,
   ],
-  declarations: [CarouselV2Component],
-  exports: [CarouselV2Component],
+  declarations: [CarouselScrollingComponent],
+  exports: [CarouselScrollingComponent],
 })
-export class CarouselV2Module {}
+export class CarouselScrollingModule {}
