@@ -26,7 +26,7 @@
           (focus)="onItemFocus($event)"
         >
           <ng-container
-            *ngTemplateOutlet="template; context: { item: data }"
+            *ngTemplateOutlet="template; context: { item: data, itemIndex: i }"
           ></ng-container>
         </div>
       </ng-container>

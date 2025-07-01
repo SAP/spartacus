@@ -15,6 +15,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  TrackByFunction,
   ViewChild,
 } from '@angular/core';
 import { LoggerService, useFeatureStyles, WindowRef } from '@spartacus/core';
@@ -23,23 +24,25 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
 /**
+ * Context passed to the `template` for each carousel item.
+ */
+export interface CarouselScrollingTemplateContext<TItem> {
+  item: TItem;
+  itemIndex: number;
+}
+
+/**
  * Generic carousel component that can be used to render any carousel items,
  * such as products, images, banners, or any component. Carousel items are
- * rendered in so-called carousel slides, and the previous/next buttons as well as
- * the indicator-buttons can used to navigate the slides.
+ * rendered in a horizontal list which can be scrolled horizontally with
+ * a touch screen or touch pad or the forward/backward buttons a the edges
+ * of the carousel.
  *
  * The component uses an array of Observables (`items$`) as an input, to allow
  * for lazy loading of items.
  *
- * The number of items per slide is calculated with the `itemWidth`, which can given
- * in pixels or percentage.
- *
  * To allow for flexible rendering of items, the rendering is delegated to the
  * given `template`. This allows for maximum flexibility.
- *
- * Hydration is disabled for this component (`ngSkipHydration: 'true'`) due to inconsistencies between
- * client-side rendering (CSR) and server-side rendering (SSR). The differences in rendered output
- * can cause issues during the hydration process, so this component is excluded from Angular hydration.
  */
 @Component({
   selector: 'cx-carousel-scrolling',
@@ -47,38 +50,50 @@ import { disableTabbingForTick } from '../../../layout/a11y';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselScrollingComponent implements OnInit, OnDestroy {
+export class CarouselScrollingComponent<TItem = any>
+  implements OnInit, OnDestroy
+{
+  protected logger = inject(LoggerService);
+  protected el = inject(ElementRef);
+
   constructor() {
     useFeatureStyles('productCarouselScrolling');
   }
 
-  @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
+  @Output() keyboardEvent = new BehaviorSubject<KeyboardEvent | null>(null);
+
   /**
    * The title is rendered as the carousel heading.
    */
   @Input() title: string | undefined | null;
 
   /**
-   * The items$ represent the carousel items. The items$ are
+   * The items represent the carousel items. The items are
    * observables so that the items can be loaded on demand.
    */
-  @Input('items')
-  items: Observable<any>[];
+  @Input()
+  items: Observable<TItem>[];
 
   /**
    * The template is rendered for each item, so that the actual
-   * view can be given by the compoent that uses the `CarouselScrollingComponent`.
+   * view can be given by the component that uses the `CarouselScrollingComponent`.
    */
-  @Input() template: TemplateRef<any>;
+  @Input() template: TemplateRef<CarouselScrollingTemplateContext<TItem>>;
 
   @Input() backwardIcon = ICON_TYPE.CARET_LEFT;
   @Input() forwardIcon = ICON_TYPE.CARET_RIGHT;
 
-  @Input() trackByFn: (index: number, item: any) => any = (index, item) =>
-    item?.id || item?.uid || item?.code || index; // Default trackBy function
-
-  protected logger = inject(LoggerService);
-  protected el = inject(ElementRef);
+  /**
+   * Angular's trackBy function for iterating over carousel items.
+   *
+   * For a given item it should return an unique identifier.
+   * If not provided, it will fallback to returning the item directly
+   * (like Angular's naive default trackBy).
+   *
+   * If the returned value is not unique, it may lead to unexpected behavior,
+   * such as unwanted destroying and re-creating child templates on items array changes.
+   */
+  @Input() trackByFn: TrackByFunction<any> = (_index, item) => item;
 
   ngOnInit() {
     if (!this.template && isDevMode()) {
@@ -148,18 +163,6 @@ export class CarouselScrollingComponent implements OnInit, OnDestroy {
 
     const targetElement = focusableElements[nextIndex] as HTMLElement;
     targetElement.focus();
-  }
-
-  getSlideNumber(size: number, currentIndex: number): number {
-    const normalizedCurrentIndex = currentIndex + 1;
-    return Math.ceil(normalizedCurrentIndex / size);
-  }
-
-  shareEvent(event: KeyboardEvent) {
-    if (!event) {
-      throw new Error('Missing Event');
-    }
-    this.keybordEvent.next(event);
   }
 
   /**
