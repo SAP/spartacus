@@ -18,6 +18,7 @@ $space: 0.5rem;
 
     @include media-breakpoint-up(lg) {
       padding: 0 10px;
+      min-height: 220.3px;
     }
 
     display: flex;
@@ -128,6 +129,7 @@ $space: 0.5rem;
   .NavigationBar {
     flex: 100%;
     min-height: $header-height;
+    align-self: flex-end;
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-color-background);
