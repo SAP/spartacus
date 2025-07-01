@@ -72,7 +72,8 @@
       "cancelConfiguration": "Batalkan Konfigurasi",
       "cancelConfigurationMobile": "Batalkan",
       "filterOverview": "Filter",
-      "filterOverviewWithCount": "Filter ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Filter ({{numAppliedFilters}})",
+      "showOptions": "Tampilkan Opsi"
     },
     "icon": {
       "groupComplete": "Lengkap",
@@ -196,8 +197,8 @@
       "iconIncomplete": "Terdapat atribut wajib dalam grup meskipun tanpa nilai yang dipilih.",
       "iconComplete": "Grup sudah lengkap.",
       "iconSubGroup": "Terdapat subgrup dalam grup.",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "Arahkan ke grup berikutnya: {{ group }}",
+      "previous": "Arahkan ke grup sebelumnya: {{ group }}",
       "showMoreProductInfo": "Tampilkan lebih banyak informasi untuk produk {{ product }} atau lanjutkan ke konfigurasi.",
       "showLessProductInfo": "Tampilkan lebih sedikit informasi untuk produk {{ product }} atau lanjutkan ke konfigurasi.",
       "productName": "Nama Produk",
@@ -211,7 +212,7 @@
       "configurationPageLink": "Arahkan ke halaman konfigurasi.",
       "overviewPage": "Anda berada di halaman gambaran umum. Periksa atribut dan nilai yang dipilih menggunakan mode baca dari pembaca layar Anda.",
       "overviewPageLink": "Arahkan ke halaman gambaran umum konfigurasi.",
-      "navigateToConflict": "Ikuti tautan untuk mendapatkan rincian selengkapnya tentang ketidaksesuaian atribut {{ attribute }}. ",
+      "navigateToConflict": "Ikuti tautan untuk mendapatkan rincian selengkapnya tentang ketidaksesuaian atribut {{ attribute }}.",
       "numericIntervalStandard": "Masukkan nilai antara {{ minValue }} dan {{ maxValue }}",
       "numericIntervalStandardOpen": "(Titik akhir tidak termasuk)",
       "numericIntervalStandardLowerEndpointNotIncluded": "(Titik akhir bawah tidak termasuk)",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Filter gambaran umum konfigurasi berdasarkan grup {{groupName}}",
       "closeConflictSolverModal": "Tutup modal fitur penyelesaian ketidaksesuaian",
       "closeRestartDialog": "Tutup dialog \"Konfigurasi yang Belum Selesai\" dan arahkan kembali ke halaman rincian produk",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Klik untuk melihat deskripsi nilai {{ value }}",
+      "showOptionsForAttribute": "Tampilkan opsi untuk atribut {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Versi yang Telah Dikonfigurasi Sebelumnya"

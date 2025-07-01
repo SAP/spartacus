@@ -98,7 +98,8 @@ export class OpfPaymentHostedFieldsService {
       catchError((error: OpfPaymentError | undefined) => {
         this.opfPaymentErrorHandlerService.handlePaymentError(
           error,
-          returnPath
+          returnPath,
+          submitInput?.callbacks?.onFailure
         );
         return throwError(error);
       }),
@@ -143,7 +144,8 @@ export class OpfPaymentHostedFieldsService {
       catchError((error: OpfPaymentError | undefined) => {
         this.opfPaymentErrorHandlerService.handlePaymentError(
           error,
-          returnPath
+          returnPath,
+          submitCompleteInput?.callbacks?.onFailure
         );
         return throwError(() => error);
       }),

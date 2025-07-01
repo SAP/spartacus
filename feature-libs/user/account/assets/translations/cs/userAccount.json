@@ -16,7 +16,7 @@
     "wrongEmailFormat": "Toto není platný formát e-mailu."
   },
   "verificationTokenForm": {
-    "createVerificationToken": "Ověřovací kód zaslán na {{target}}. Zkontrolujte a zadejte kód.",
+    "createVerificationToken": "Ověřovací kód zaslán na {{target}}. Zadejte kód.",
     "needInputCredentials": "Chcete-li pokračovat, zadejte své přihlašovací údaje.",
     "sendRateLime": "{{waitTime}} s",
     "resend": "Odeslat znovu",
@@ -26,6 +26,7 @@
     },
     "noReceiveCode": "Neobdrželi jste kód?",
     "verify": "Ověřit",
+    "registerVerify": "Registrovat",
     "back": "Zpět",
     "tokenInputHint": "Můžete si vyžádat nový kód. Spustí se časovač, který bude ukazovat, kolik sekund zbývá, než budete moci požadavek opakovat."
   },

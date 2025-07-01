@@ -93,7 +93,7 @@ export function testCheckoutMultiDAsGuest() {
 }
 
 export function testCheckoutMultiDAsGuestAndVerifyCart() {
-  it.skip('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
+  it('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
     const multiDUser = getSampleUser();
 
     checkout.visitHomePage();

@@ -88,4 +88,17 @@ describe('PunchoutStoreService', () => {
     const response = service.getPunchoutSessionId();
     expect(response).toEqual(mockPunchoutState.punchoutSessionId);
   });
+
+  it('should updatePunchoutState', () => {
+    service.setPunchoutState(mockPunchoutState);
+    service.updatePunchoutState({
+      punchoutSessionId: 'updatedPunchoutSessionId',
+    });
+    expect(service['punchoutState'].value.punchoutSessionId).toEqual(
+      'updatedPunchoutSessionId'
+    );
+    expect(
+      service['punchoutState'].value.punchoutSession?.punchOutLevel
+    ).toEqual(mockPunchoutState.punchoutSession?.punchOutLevel);
+  });
 });

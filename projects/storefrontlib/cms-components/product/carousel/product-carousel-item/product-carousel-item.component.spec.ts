@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Directive,
   Injector,
@@ -15,11 +16,16 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  ImageFetchPriority,
+  LCP_PRESENCE,
+  LcpContextDirectiveModule,
+  LcpPresence,
   OutletDirective,
   OutletModule,
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
 
 @Pipe({
@@ -50,12 +56,14 @@ class MockMediaComponent {
   @Input() container: any;
   @Input() format: string;
   @Input() alt: string;
+  @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
 
 describe('ProductCarouselItemComponent in product-carousel', () => {
   let component: ProductCarouselItemComponent;
   let componentInjector: Injector;
   let fixture: ComponentFixture<ProductCarouselItemComponent>;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   const mockProduct = {
     name: 'Test product',
@@ -75,8 +83,10 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule],
+      imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
       declarations: [
         ProductCarouselItemComponent,
         MockUrlPipe,
@@ -84,6 +94,10 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         MockMediaComponent,
       ],
       providers: [
+        {
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
+        },
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -93,7 +107,13 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
           useClass: MockProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductCarouselItemComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -178,5 +198,52 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
     }));
+
+    describe('LCP context handling', () => {
+      describe('when contains LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+        });
+
+        it('should prioritize downloading the image of the FIRST carousel item', () => {
+          fixture.componentInstance.itemIndex = 0;
+          fixture.detectChanges();
+
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            ImageFetchPriority.HIGH
+          );
+        });
+
+        it('should NOT prioritize downloading the image of the carousel items other than the first', () => {
+          fixture.componentInstance.itemIndex = 1;
+          fixture.detectChanges();
+
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
+      });
+
+      describe('when does NOT contain LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
+        });
+
+        it('should NOT prioritize downloading the image', () => {
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
+      });
+    });
   });
 });

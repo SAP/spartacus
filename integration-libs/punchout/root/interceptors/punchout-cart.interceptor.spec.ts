@@ -12,7 +12,6 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
 import {
-  PUNCHOUT_SESSION_ID_HEADER_KEY,
   PunchOutLevel,
   PunchOutOperation,
   PunchoutSession,
@@ -21,6 +20,7 @@ import {
 import { PunchoutStoreService } from '../services';
 import { PunchoutCartInterceptor } from './punchout-cart.interceptor';
 
+const PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
 const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
   customerId: 'test@test.com',

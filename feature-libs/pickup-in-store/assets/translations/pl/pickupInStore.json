@@ -16,7 +16,7 @@
     "shipIt": "Wysyłka",
     "selectStore": "Wybierz sklep",
     "freeReturn": "Darmowy zwrot",
-    "storeIsNotSelected": "Sklep do odbioru nie został wybrany"
+    "storeIsNotSelected": "Nie wybrano sklepu do odbioru."
   },
   "setPreferredStore": {
     "makeThisMyStore": "Zapisz jako Mój Sklep",
@@ -24,7 +24,7 @@
   },
   "store": {
     "pickupFromHere": "Odbiór tutaj",
-    "stockLevel_inStock": "{{ count }} dostępny",
+    "stockLevel_inStock": "{{ count }} w magazynie",
     "stockLevel_outOfStock": "Zapas wyczerpany",
     "viewHours": "Zobacz godziny"
   },

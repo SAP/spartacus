@@ -14,7 +14,12 @@ import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+  withEventReplay,
+  withNoHttpTransferCache,
+} from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -62,6 +67,7 @@ if (!environment.production) {
   ],
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
     provideConfig(<OccConfig>{
       backend: {
         occ: {

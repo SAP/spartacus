@@ -35,7 +35,14 @@
             {{ review.alias ? review.alias : review.principal?.name }}
           </div>
           <div class="date">{{ review.date | cxDate }}</div>
-          <div class="text">{{ review.comment }}</div>
+          <div *cxFeature="'!readMoreDirective'" class="text">
+            {{ review.comment }}
+          </div>
+          <cx-read-more
+            *cxFeature="'readMoreDirective'"
+            class="text"
+            [text]="review.comment!"
+          ></cx-read-more>
         </div>
         <div *ngIf="reviews.length > initialMaxListItems">
           <button
@@ -87,6 +94,7 @@
             <cx-form-required-asterisks />
           </span>
           <input
+            *cxFeature="'!productReviewCharactersLeft'"
             required="true"
             #titleInput
             type="text"
@@ -97,6 +105,20 @@
               reviewForm.get('title')?.invalid
             "
             [attr.aria-errormessage]="'titleError'"
+          />
+          <input
+            *cxFeature="'productReviewCharactersLeft'"
+            required="true"
+            #titleInput
+            type="text"
+            class="form-control"
+            formControlName="title"
+            [attr.aria-invalid]="
+              reviewForm.get('title')?.touched &&
+              reviewForm.get('title')?.invalid
+            "
+            [attr.aria-errormessage]="'titleError'"
+            [maxLength]="maxLengthReviewTitle"
           />
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -113,6 +135,21 @@
             *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('title')"
           ></cx-form-errors>
+
+          <p
+            *cxFeature="'productReviewCharactersLeft'"
+            class="cx-customer-ticket-input-hint text-right"
+          >
+            {{
+              'productReview.charactersLeft'
+                | cxTranslate
+                  : {
+                      count:
+                        maxLengthReviewTitle -
+                        (reviewForm.get('title')?.value?.length || 0),
+                    }
+            }}
+          </p>
         </label>
       </div>
       <div class="form-group">
@@ -122,6 +159,7 @@
             <cx-form-required-asterisks />
           </span>
           <textarea
+            *cxFeature="'!productReviewCharactersLeft'"
             required="true"
             class="form-control"
             rows="3"
@@ -131,6 +169,20 @@
               reviewForm.get('comment')?.invalid
             "
             [attr.aria-errormessage]="'commentError'"
+          ></textarea>
+          <textarea
+            *cxFeature="'productReviewCharactersLeft'"
+            required="true"
+            class="form-control"
+            rows="3"
+            [placeholder]="'productReview.commentPlaceholder' | cxTranslate"
+            formControlName="comment"
+            [attr.aria-invalid]="
+              reviewForm.get('comment')?.touched &&
+              reviewForm.get('comment')?.invalid
+            "
+            [attr.aria-errormessage]="'commentError'"
+            [maxLength]="maxLengthReviewComment"
           ></textarea>
 
           <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
@@ -147,6 +199,21 @@
             *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
+
+          <p
+            *cxFeature="'productReviewCharactersLeft'"
+            class="cx-customer-ticket-input-hint text-right"
+          >
+            {{
+              'productReview.charactersLeft'
+                | cxTranslate
+                  : {
+                      count:
+                        maxLengthReviewComment -
+                        (reviewForm.get('comment')?.value?.length || 0),
+                    }
+            }}
+          </p>
         </label>
       </div>
       <div class="form-group">
@@ -195,13 +262,49 @@
             >{{ 'productReview.reviewerName' | cxTranslate }}
           </span>
           <input
+            *cxFeature="'!productReviewCharactersLeft'"
             type="text"
             class="form-control"
             formControlName="reviewerName"
           />
+          <input
+            *cxFeature="'productReviewCharactersLeft'"
+            type="text"
+            class="form-control"
+            formControlName="reviewerName"
+            [maxLength]="maxLengthReviewerName"
+          />
+          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+          <cx-form-errors
+            *cxFeature="'formErrorsDescriptiveMessages'"
+            id="titleError"
+            [translationParams]="{
+              label: 'productReview.reviewerName' | cxTranslate,
+            }"
+            [control]="reviewForm.get('reviewerName')"
+          ></cx-form-errors>
+
+          <cx-form-errors
+            *cxFeature="'!formErrorsDescriptiveMessages'"
+            [control]="reviewForm.get('reviewerName')"
+          ></cx-form-errors>
+          <p
+            *cxFeature="'productReviewCharactersLeft'"
+            class="cx-customer-ticket-input-hint text-right"
+          >
+            {{
+              'productReview.charactersLeft'
+                | cxTranslate
+                  : {
+                      count:
+                        maxLengthReviewerName -
+                        (reviewForm.get('reviewerName')?.value?.length ?? 0),
+                    }
+            }}
+          </p>
         </label>
       </div>
-      <div class="form-group row">
+      <div class="form-group row justify-content-md-end">
         <div class="col-12 col-md-4">
           <button
             type="button"

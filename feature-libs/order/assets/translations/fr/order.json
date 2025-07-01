@@ -10,6 +10,8 @@
     "placed": "Passée",
     "placedBy": "Passée par",
     "unit": "Unité",
+    "quoteCode": "ID du devis {{id}}",
+    "quoteDetail": "Détails du devis",
     "costCenter": "Centre de coûts",
     "costCenterAndUnit": "Centre de coûts / Unité",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "Le panier actuel sera remplacé par de nouveaux articles. Voulez-vous poursuivre ?",
       "cancel": "Annuler",
       "continue": "Poursuivre"
+    }
+  },
+  "attachments": {
+    "button": "Afficher les pièces jointes de la commande",
+    "dialog": {
+      "title": "Pièces jointes",
+      "preview": "Aperçu du fichier",
+      "closeModal": "Fermer la boîte de dialogue modale",
+      "error": "Une erreur s'est produite. Actualisez la page ou réessayez ultérieurement.",
+      "empty": "Documents indisponibles. Vous pouvez afficher ici les documents une fois qu'ils ont été ajoutés.",
+      "downloadError": "Une erreur s'est produite lors de la récupération des documents. Actualisez la page ou réessayez ultérieurement."
     }
   }
 }

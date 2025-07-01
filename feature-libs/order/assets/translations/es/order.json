@@ -10,6 +10,8 @@
     "placed": "Realizado",
     "placedBy": "Realizado por",
     "unit": "Unidad",
+    "quoteCode": "ID de oferta {{id}}",
+    "quoteDetail": "Detalle de oferta",
     "costCenter": "Centro de costes",
     "costCenterAndUnit": "Centro de costes / Unidad",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -184,9 +186,20 @@
         "unresolvableIssues": "Problema no reconocido con \"{{ productCode }}\".",
         "success": "Los productos se han añadido a la cesta correctamente"
       },
-      "areYouSureToReplaceCart": "La ces actual se reemplazará con artículos nuevos. ¿Desea continuar?ta",
+      "areYouSureToReplaceCart": "La cesta actual se reemplazará con artículos nuevos. ¿Desea continuar?",
       "cancel": "Cancelar",
       "continue": "Continuar"
+    }
+  },
+  "attachments": {
+    "button": "Ver anexos de pedido",
+    "dialog": {
+      "title": "Anexos",
+      "preview": "Vista previa del fichero",
+      "closeModal": "Cerrar modal",
+      "error": "Se ha producido un error. Actualice la página o inténtelo de nuevo más tarde.",
+      "empty": "Los documentos no están disponibles. Podrá ver los documentos aquí una vez que se añadan.",
+      "downloadError": "Se ha producido un error al obtener los documentos. Actualice la página o inténtelo de nuevo más tarde."
     }
   }
 }

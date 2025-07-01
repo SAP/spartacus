@@ -27,6 +27,7 @@
     "termsAndConditions": "條款和條件",
     "signIn": "我已有帳號。登入",
     "register": "註冊",
+    "furtherRegistration": "繼續",
     "confirmNewPassword": "確認新密碼",
     "resetPassword": "重設密碼",
     "createAccount": "建立帳戶",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "兩者密碼必須相符",
     "titleRequired": "稱謂為必要。",
     "postRegisterMessage": "請使用提供的憑證登入。",
-    "postRegisterSuccessMessage": "註冊成功：請使用提供的憑證登入"
+    "postRegisterSuccessMessage": "您的帳戶已成功建立！請使用提供的憑證登入",
+    "rateLimitForRegistrationMessage": "您已達到傳送驗證代碼的限制。請稍候 {{seconds}} 秒再重試，或使用不同的電子郵件地址。",
+    "verificationTokenForm": {
+      "createVerificationToken": "驗證代碼已傳送至 {{target}}，請輸入代碼。",
+      "sendRateLime": "{{waitTime}} 秒內",
+      "resend": "重新傳送",
+      "verificationCode": {
+        "label": "驗證代碼",
+        "placeholder": "輸入驗證代碼"
+      },
+      "back": "返回"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "重設密碼",
