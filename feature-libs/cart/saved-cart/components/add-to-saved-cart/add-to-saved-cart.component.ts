@@ -17,7 +17,7 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-add-to-saved-cart',
@@ -62,17 +62,18 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
 
   saveCart(cart: Cart): void {
     this.subscription.add(
-      this.disableSaveCartForLater$.subscribe((isDisabled) => {
-        if (isDisabled) {
-          return;
-        }
-
-        if (this.loggedIn) {
-          this.openDialog(cart);
-        } else {
-          this.routingService.go({ cxRoute: 'login' });
-        }
-      })
+      this.disableSaveCartForLater$
+        .pipe(
+          distinctUntilChanged(),
+          filter((isDisabled) => !isDisabled)
+        )
+        .subscribe(() => {
+          if (this.loggedIn) {
+            this.openDialog(cart);
+          } else {
+            this.routingService.go({ cxRoute: 'login' });
+          }
+        })
     );
   }
 
