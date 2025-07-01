@@ -49,11 +49,11 @@ export const layoutConfig: LayoutConfig = {
     LandingPage2Template: {
       pageFold: 'Section2B',
       slots: [
-        'Section3', // SPIKE TODO UNDO
         'Section1',
         'Section2A',
         'Section2B',
         'Section2C',
+        'Section3',
         'Section4',
         'Section5',
       ],
