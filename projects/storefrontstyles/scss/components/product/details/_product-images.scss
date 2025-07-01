@@ -10,6 +10,10 @@ $productThumbSize: 75px !default;
   display: flex;
   flex-direction: column;
 
+  @include forFeature('productCarouselScrolling') {
+    overflow: auto;
+  }
+
   height: 100%;
   > cx-media {
     height: 100%;
@@ -25,6 +29,15 @@ $productThumbSize: 75px !default;
     outline: none;
     text-align: center;
     cursor: zoom-in;
+
+    @include forFeature('productCarouselScrolling') {
+      img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: scale-down;
+      }
+    }
 
     &.is-missing {
       min-height: 30vh;
@@ -63,6 +76,10 @@ $productThumbSize: 75px !default;
     cx-media {
       margin: 0.5vw;
       padding: 0.5vw;
+
+      @include forFeature('productCarouselScrolling') {
+        width: 120px;
+      }
 
       cursor: pointer;
 
