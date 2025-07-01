@@ -26,6 +26,33 @@ import {
  * Allows for observing the events of user reaching the horizontal scroll position
  * start or end.
  * Moreover, it exposes methods for scrolling left and right programmatically.
+ *
+ * @usage
+ * ```html
+ * <ng-container cxHorizontalScrollingPosition
+ *   #cxHorizontalScrollingPosition="cxHorizontalScrollingPosition"
+ *   [scrollingArea]="scrollingArea"
+ *   [scrollingAreaStart]="scrollingAreaStart"
+ *   [scrollingAreaEnd]="scrollingAreaEnd">
+ *
+ *   <button
+ *     (click)="cxHorizontalScrollingPosition.scrollBackward()"
+ *     [disabled]="cxHorizontalScrollingPosition.isScrollStart$ | async">
+ *     (Icon arrow backward)
+ *   </button>
+ *
+ *   <div #scrollingArea>
+ *     <div #scrollingAreaStart></div>
+ *     <div *ngFor="let item of items" class="item">{{ item }}</div>
+ *     <div #scrollingAreaEnd></div>
+ *   </div>
+ *
+ *   <button
+ *     (click)="cxHorizontalScrollingPosition.scrollForward()"
+ *     [disabled]="cxHorizontalScrollingPosition.isScrollEnd$ | async">
+ *     (Icon arrow forward)
+ *   </button>
+ * </ng-container>
  */
 @Directive({
   selector: '[cxHorizontalScrollingPosition]',
