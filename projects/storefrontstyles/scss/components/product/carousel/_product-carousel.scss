@@ -28,6 +28,11 @@
       z-index: 1;
     }
   }
+
+  item {
+    flex: 0 0 240px;
+  }
+
   cx-media {
     align-self: center;
     width: 60%;
