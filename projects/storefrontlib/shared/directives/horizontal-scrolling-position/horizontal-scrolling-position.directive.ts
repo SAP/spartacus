@@ -72,7 +72,11 @@ export class HorizontalScrollingPositionDirective
     this._scrollingAreaWidth$.asObservable();
 
   /**
-   * The scrolling area is the element that contains the carousel items.
+   * The scrolling area is the element that contains:
+   * - the dummy item at the start of the carousel (`scrollingAreaStart`),
+   * - the list of items to scroll through,
+   * - the dummy item at the end of the carousel (`scrollingAreaEnd`).
+   *
    * It is used to scroll the carousel items horizontally and to detect when the user
    * scrolls to the start or end of the carousel.
    */
@@ -80,29 +84,27 @@ export class HorizontalScrollingPositionDirective
 
   /**
    * Dummy element to detect when the user scrolls to the start of the carousel.
-   * It is used to enable/disable the backward scroll button.
    */
   @Input() scrollingAreaStart: HTMLElement;
 
   /**
    * Dummy element to detect when the user scrolls to the end of the carousel.
-   * It is used to enable/disable the forward scroll button.
    */
   @Input() scrollingAreaEnd: HTMLElement;
 
   /**
-   * Tells whether the carousel is at the start of the scrolling area.
+   * Tells whether the start of the scrolling area is visible.
    */
   readonly isScrollStart$ = new BehaviorSubject(true);
 
   /**
-   * Tells whether the carousel is at the end of the scrolling area.
+   * Tells whether the end of the scrolling area is visible.
    */
   readonly isScrollEnd$ = new BehaviorSubject(false);
 
   /**
-   * Tells whether the carousel needs to be scrolled (i.e. whether the
-   * all items are visible in the scrollable area).
+   * Tells whether the carousel needs scrolling
+   * (i.e. whether the all items are visible in the scrollable area).
    */
   readonly isScrollNeeded$: Observable<boolean> = combineLatest([
     this.isScrollStart$,
@@ -112,6 +114,10 @@ export class HorizontalScrollingPositionDirective
     distinctUntilChanged()
   );
 
+  /**
+   * When the `scrollingArea` is appearing (or disappearing),
+   * it subscribes (or unsubscribes) to the scrolling position.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.scrollingArea) {
       return;
