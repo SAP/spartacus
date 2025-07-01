@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TrackByFunction,
+} from '@angular/core';
 import {
   CmsProductReferencesComponent,
   isNotNullable,
@@ -87,4 +91,7 @@ export class ProductReferencesComponent {
         )
       );
   }
+
+  trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
+    item?.code;
 }

@@ -8,12 +8,20 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import { CarouselV2Module } from '@spartacus/storefront';
 import { CarouselModule } from '../../../../shared/components/carousel/carousel.module';
 import { MediaModule } from '../../../../shared/components/media/media.module';
 import { ProductReferencesComponent } from './product-references.component';
 
 @NgModule({
-  imports: [CommonModule, CarouselModule, MediaModule, RouterModule, UrlModule],
+  imports: [
+    CommonModule,
+    CarouselModule,
+    CarouselV2Module,
+    MediaModule,
+    RouterModule,
+    UrlModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
