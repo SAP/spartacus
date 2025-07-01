@@ -27,6 +27,7 @@
     "termsAndConditions": "Warunki",
     "signIn": "Masz już konto? Zaloguj się",
     "register": "Zarejestruj się",
+    "furtherRegistration": "Kontynuuj",
     "confirmNewPassword": "Potwierdź nowe hasło",
     "resetPassword": "Zresetuj hasło",
     "createAccount": "Utwórz konto",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Oba hasła muszą być zgodne",
     "titleRequired": "Tytuł jest wymagany.",
     "postRegisterMessage": "Zaloguj się przy użyciu podanych danych.",
-    "postRegisterSuccessMessage": "Rejestracja udana: zaloguj się przy użyciu podanych danych."
+    "postRegisterSuccessMessage": "Konto zostało utworzone. Zaloguj się przy użyciu otrzymanych danych.",
+    "rateLimitForRegistrationMessage": "Osiągnięto limit wysyłania kodu weryfikacyjnego. Spróbuj ponownie za {{seconds}} sekund(y) lub skorzystaj z innego adresu e-mail.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Kod weryfikacyjny został wysłany do {{target}}. Proszę wprowadź kod.",
+      "sendRateLime": "za {{waitTime}} sekund(y)",
+      "resend": "Wyślij ponownie",
+      "verificationCode": {
+        "label": "Kod weryfikacyjny",
+        "placeholder": "Wprowadź kod weryfikacyjny"
+      },
+      "back": "Wstecz"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Zresetuj hasło",
