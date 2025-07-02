@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# E2E Accessibility test helpers
-
-# Source test distribution utilities and configuration
 source "$(dirname "$0")/test-distribution.sh"
 
 display_a11y_docs_link() {
