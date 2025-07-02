@@ -13,7 +13,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CarouselScrollingModule } from '@spartacus/storefront';
+import { CarouselScrollingModule } from '../../../../shared/components/carousel-scrolling/carousel-scrolling.module';
 import { CarouselModule } from '../../../../shared/components/carousel/carousel.module';
 import { MediaModule } from '../../../../shared/components/media/media.module';
 import { ProductReferencesComponent } from './product-references.component';

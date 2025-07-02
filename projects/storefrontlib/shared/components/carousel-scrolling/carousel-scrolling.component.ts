@@ -16,8 +16,8 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
 /**
