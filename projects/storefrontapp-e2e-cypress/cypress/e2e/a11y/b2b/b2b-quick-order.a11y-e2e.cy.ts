@@ -19,7 +19,8 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
   });
 
   it('scan empty Quick Order page', () => {
-    cy.get('cx-quick-order').a11yRunContinuumTest();
+    cy.get('main', { timeout: 10000 });
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('scan after adding a product', () => {
@@ -28,12 +29,10 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
       .type(`${sampleData.b2bProduct2.code}`);
 
     cy.get('.quick-order-results-products', { timeout: 10000 });
-
     cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
-
     cy.get('.cx-quick-order-table-row', { timeout: 10000 });
 
-    cy.get('cx-quick-order').a11yRunContinuumTest();
+    cy.get('main').a11yRunContinuumTest();
   });
 
   it('scan after deleting the product', () => {
@@ -55,7 +54,10 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
     cy.get('.quick-order-deletions-message').a11yRunContinuumTest();
   });
 
-  it('scan Quick Order footer', () => {
-    cy.get('.quick-order-footer', { timeout: 10000 }).a11yRunContinuumTest();
+  it('scan import modal after opening it', () => {
+    cy.get('.cx-import-btn').click();
+    cy.get('cx-import-entries-dialog', { timeout: 10000 });
+    cy.get('cx-import-entries-dialog').a11yRunContinuumTest();
+    cy.get('cx-import-entries-dialog button.close').click();
   });
 });
