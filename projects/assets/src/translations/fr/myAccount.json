@@ -63,13 +63,13 @@
     "findProducts": "Trouver des produits",
     "status": "Statut :",
     "dialogTitle": "Bon de réduction",
-    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCoupondialogTitle": "Ajouter à votre liste de bons de réduction",
     "claimCouponCode": {
       "label": "Code du bon de réduction",
-      "placeholder": "Enter the coupon code to claim a coupon"
+      "placeholder": "Saisir le code de bon de réduction pour réclamer un bon de réduction"
     },
-    "reset": "RESET",
-    "claim": "CLAIM",
+    "reset": "RÉINITIALISER",
+    "claim": "RÉCLAMER",
     "claimCustomerCoupon": "Vous avez demandé avec succès ce bon de réduction.",
     "myCoupons": "Mes bons de réduction",
     "startDateAsc": "Date de début (croissant)",

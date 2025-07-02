@@ -16,7 +16,7 @@
     "wrongEmailFormat": "यह मान्य ई-मेल स्वरूप नहीं है."
   },
   "verificationTokenForm": {
-    "createVerificationToken": "सत्यापन कोड {{target}} को भेजा गया. कृपया जांचें और कोड दर्ज करें.",
+    "createVerificationToken": "{{target}} को सत्यापन कोड भेजा गया. कृपया कोड दर्ज करें.",
     "needInputCredentials": "जारी रखने के लिए कृपया अपना परिचय दर्ज करें.",
     "sendRateLime": "{{waitTime}} सेकंड में",
     "resend": "पुनः भेजें",
@@ -26,6 +26,7 @@
     },
     "noReceiveCode": "कोड प्राप्त नहीं हुआ?",
     "verify": "सत्यापित करें",
+    "registerVerify": "पंजीकृत करें",
     "back": "वापस जाएं",
     "tokenInputHint": "आप नए कोड का अनुरोध कर सकते हैं.  एक टाइमर आरंभ होता है जो ये बताता है कि आपके पास अपना अनुरोध पुनः भेजने के लिए कितने सेकंड शेष हैं."
   },

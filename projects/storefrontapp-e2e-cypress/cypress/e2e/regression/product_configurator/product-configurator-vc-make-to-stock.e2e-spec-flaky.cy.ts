@@ -6,7 +6,6 @@ import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
-import { checkAmountOfFilterOptions } from '../../../helpers/product-configurator-overview-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL-STD-METALLIC';
@@ -71,7 +70,7 @@ context('Product Configuration', () => {
       });
     });
 
-    describe('support back navigation to the checkout page after clicking Display Configuration link', () => {
+    describe.skip('skipped due to JDK-21 (CXSPA-10506): support back navigation to the checkout page after clicking Display Configuration link', () => {
       it('should proceed to checkout and display a product overview', () => {
         configuration.completeOrderProcess(testProduct, true);
       });

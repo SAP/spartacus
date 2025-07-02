@@ -176,10 +176,12 @@
       "newCart": "Keranjang Baru",
       "quotes": "Penawaran",
       "download": "Unduh Proposal",
+      "order": "Rincian Pesanan",
       "a11y": {
         "newCart": "Buat keranjang kosong baru dan buka keranjang tersebut.",
         "quotes": "Arahkan ke daftar hasil pencarian penawaran.",
-        "download": "Mulai mengunduh proposal penawaran"
+        "download": "Mulai mengunduh proposal penawaran",
+        "order": "Arahkan ke pesanan yang berkaitan dengan penawaran ini"
       }
     },
     "list": {
