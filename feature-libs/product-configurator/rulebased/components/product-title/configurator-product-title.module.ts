@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
+import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-title.directive';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ConfiguratorProductTitleComponent } from './configurator-product-title.
     I18nModule,
     IconModule,
     MediaModule,
+    ConfiguratorMainAriaLabelledByDirective,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

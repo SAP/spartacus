@@ -35,7 +35,16 @@ export class ProductGridItemComponent implements OnChanges {
   hideAddToCartButton = false;
 
   readonly ProductListOutlets = ProductListOutlets;
+
+  /**
+   * The product item to be displayed in the grid.
+   */
   @Input() product: any;
+
+  /**
+   * The index of the item in the product grid.
+   */
+  @Input() itemIndex?: number;
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource

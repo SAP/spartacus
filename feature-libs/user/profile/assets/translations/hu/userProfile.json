@@ -27,6 +27,7 @@
     "termsAndConditions": "Használati feltételek",
     "signIn": "Már van fiókom. Bejelentkezés",
     "register": "Regisztráció",
+    "furtherRegistration": "Folytatás",
     "confirmNewPassword": "Új jelszó megerősítése",
     "resetPassword": "Jelszó visszaállítása",
     "createAccount": "Fiók létrehozása",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "A két jelszónak egyeznie kell.",
     "titleRequired": "A megszólítás kitöltése kötelező.",
     "postRegisterMessage": "Jelentkezzen be a megadott azonosító adatokkal.",
-    "postRegisterSuccessMessage": "Sikeres regisztráció: Jelentkezzen be a megadott azonosító adatokkal."
+    "postRegisterSuccessMessage": "Fiókja sikeresen létrejött! Jelentkezzen be a megadott azonosító adatokkal",
+    "rateLimitForRegistrationMessage": "Elérte az ellenőrző kód küldésének korlátját. Várjon {{seconds}} másodpercet, mielőtt újrapróbálkozna, vagy használjon egy másik e-mail-címet.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Ellenőrző kód elküldve a következő címre: {{target}}. Adja meg a kódot.",
+      "sendRateLime": "{{waitTime}} másodpercen belül",
+      "resend": "Újraküldés",
+      "verificationCode": {
+        "label": "Ellenőrző kód",
+        "placeholder": "Adja meg az ellenőrző kódot"
+      },
+      "back": "Vissza"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Jelszó visszaállítása",

@@ -12,6 +12,9 @@
 >
 </cx-carousel>
 
-<ng-template #carouselItem let-item="item">
-  <cx-product-carousel-item [item]="item"></cx-product-carousel-item>
+<ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+  <cx-product-carousel-item
+    [item]="item"
+    [itemIndex]="itemIndex"
+  ></cx-product-carousel-item>
 </ng-template>

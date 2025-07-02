@@ -10,6 +10,8 @@
     "placed": "已下单",
     "placedBy": "订货人",
     "unit": "单位",
+    "quoteCode": "报价标识 {{id}}",
+    "quoteDetail": "报价详细信息",
     "costCenter": "成本中心",
     "costCenterAndUnit": "成本中心/单位",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "当前购物车将由新项目替换。是否要继续？",
       "cancel": "取消",
       "continue": "继续"
+    }
+  },
+  "attachments": {
+    "button": "查看订单附件",
+    "dialog": {
+      "title": "附件",
+      "preview": "预览文件",
+      "closeModal": "关闭模式",
+      "error": "出现错误。请刷新页面或稍后重试。",
+      "empty": "凭证不可用。添加凭证后，您可以在此处查看。",
+      "downloadError": "获取凭证时出错。请刷新页面或稍后重试。"
     }
   }
 }

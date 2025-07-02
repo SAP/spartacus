@@ -21,7 +21,7 @@
     "search": "Szukaj",
     "add": "Dodaj",
     "breadcrumbs": "Ścieżka nawigacji",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "Bieżąca strona",
     "selectFile": "Wybierz plik",
     "clear": "Wyczyść",
     "loaded": "Załadowane",
@@ -66,7 +66,7 @@
     "navigateTo": "Przejdź do {{nav}}",
     "scrollToTop": "Przewiń na górę strony",
     "linkItemInList": "{{title}}. {{position}} z {{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "Menu {{title}} "
   },
   "searchBox": {
     "placeholder": "Wprowadź nazwę produktu lub SKU",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Zapytaj nas o cokolwiek"
     },
-    "closeSearchPanel": "Zamknij"
+    "closeSearchPanel": "Zamknij",
+    "queryError": "Twoje zapytanie wyszukiwania ma nieprawidłowy format. Usuń znaki specjalne, takie jak \":\" , i spróbuj ponownie."
   },
   "sorting": {
     "date": "Data",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "Hasło nie może mieć więcej niż 128 znaków",
       "cxContainsSpecialCharacters": "Hasło nie może zawierać znaków specjalnych",
       "cxNoConsecutiveCharacters": "Hasło nie może zawierać następujących po sobie identycznych znaków",
+      "invalidTokenCodeError": "Kod jest nieprawidłowy",
       "date": {
         "required": "Pole {{label}} jest wymagane",
         "min": "Pole {{label}} nie może być przed {{min}}",

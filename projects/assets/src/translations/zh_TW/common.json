@@ -21,7 +21,7 @@
     "search": "搜尋",
     "add": "新增",
     "breadcrumbs": "路徑指引",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "目前頁面",
     "selectFile": "選擇檔案",
     "clear": "清除",
     "loaded": "已載入",
@@ -66,7 +66,7 @@
     "navigateTo": "瀏覽至 {{nav}}",
     "scrollToTop": "捲動回頁面頂端",
     "linkItemInList": "{{title}}。{{position}}/{{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "{{title}} 功能表"
   },
   "searchBox": {
     "placeholder": "輸入產品名稱或 SKU",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "有任何問題都可向我們詢問"
     },
-    "closeSearchPanel": "關閉"
+    "closeSearchPanel": "關閉",
+    "queryError": "您的搜尋查詢格式不正確。請移除特殊字元 (例如 \":\") 並再試一次。"
   },
   "sorting": {
     "date": "日期",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "密碼不能超過 128 個字元",
       "cxContainsSpecialCharacters": "密碼不能包含特殊字元",
       "cxNoConsecutiveCharacters": "密碼不能包含連續相同字元",
+      "invalidTokenCodeError": "此代碼無效",
       "date": {
         "required": "欄位 {{label}} 為必要",
         "min": "欄位 {{label}} 不能早於 {{min}}",
