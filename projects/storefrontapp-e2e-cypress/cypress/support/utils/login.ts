@@ -38,7 +38,7 @@ export function loginJDK17(
   password: string,
   failOnStatusCode: boolean = true
 ) {
-  return cy.request({
+  return cy.request<TokenResponse>({
     method: 'POST',
     url: config.tokenUrl,
     body: {

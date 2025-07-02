@@ -51,16 +51,9 @@ export interface RequireLoggedInDebugOptions {
   freshUserOnTestRefresh?: boolean;
 }
 
-export interface LegacyLoginOptions {
-  legacyLogin?: boolean;
-}
-
 Cypress.Commands.add(
   'requireLoggedIn',
-  (
-    accountData?: AccountData,
-    options: RequireLoggedInDebugOptions & LegacyLoginOptions = {}
-  ) => {
+  (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
     /** @deprecated Not supported in JDK17 */
     function loginAsGuest_legacy() {
       return cy.request({
@@ -117,7 +110,11 @@ Cypress.Commands.add(
       generateMail(account.user, options.freshUserOnTestRefresh);
 
     const password = account.registrationData.password;
-    loginJDK21(username, password, false).then((res) => {
+
+    cy.whenJDK17(
+      () => loginJDK17(username, password, false),
+      () => loginJDK21(username, password, false)
+    ).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
         setSessionData(res.body);
@@ -127,18 +124,16 @@ Cypress.Commands.add(
            2. Create new user
            3. Login as a new user
         */
-        (options.legacyLogin ? loginAsGuest_legacy() : loginAsGuest())
+        cy.whenJDK17(loginAsGuest_legacy, loginAsGuest)
           .then((response) =>
             registerUser(username, account.registrationData, {
-              access_token: options.legacyLogin
-                ? response.body.access_token
-                : undefined,
+              access_token: response?.body?.access_token,
             })
           )
           .then(() =>
-            (options.legacyLogin ? loginJDK17 : login)(
-              username,
-              account.registrationData.password
+            cy.whenJDK17(
+              () => loginJDK17(username, account.registrationData.password),
+              () => login(username, account.registrationData.password)
             )
           )
           .then((response) => {

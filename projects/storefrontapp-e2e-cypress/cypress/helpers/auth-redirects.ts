@@ -82,10 +82,7 @@ export function revokeAccessToken() {
   });
 }
 
-export function testRedirectBackAfterLogin(
-  kyma = false,
-  authServerLogin = false
-) {
+export function testRedirectBackAfterLogin(kyma = false) {
   it('should redirect back after the login', () => {
     const user = createUser();
     cy.visit(`/contact`);
@@ -93,19 +90,20 @@ export function testRedirectBackAfterLogin(
     cy.get('cx-login').click();
 
     if (!kyma) {
-      if (authServerLogin) {
+      cy.whenJDK21(() => {
         cy.log('auth server code flow');
         authForms.fillAuthServerLoginForm({
           username: user.registrationData.email,
           password: user.registrationData.password,
         });
-      } else {
+      });
+      cy.whenJDK17(() => {
         cy.location('pathname').should('contain', '/login');
         authForms.login(
           user.registrationData.email,
           user.registrationData.password
         );
-      }
+      });
     } else {
       authForms.fillKymaLoginForm({
         username: user.registrationData.email,
@@ -139,20 +137,15 @@ export function testRedirectAfterForcedLogin(kyma = false) {
   });
 }
 
-export function authFlowTests(
-  name: string,
-  config: any,
-  testConfig?: { legacy: boolean }
-) {
+export function authFlowTests(name: string, config: any) {
   describe(name, () => {
     beforeEach(() => {
       cy.cxConfig(config);
     });
 
     const useKyma = config?.authentication?.client_id === 'client4kyma';
-    const useAuthServerForm = !testConfig?.legacy;
 
-    testRedirectBackAfterLogin(useKyma, useAuthServerForm);
+    testRedirectBackAfterLogin(useKyma);
     // testRedirectAfterForcedLogin(useKyma);
   });
 }
