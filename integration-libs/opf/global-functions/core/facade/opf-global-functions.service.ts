@@ -34,8 +34,8 @@ import {
   OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, Subject, lastValueFrom } from 'rxjs';
-import { finalize, last, take } from 'rxjs/operators';
+import { Observable, Subject, lastValueFrom, of, throwError } from 'rxjs';
+import { finalize, last, take, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -52,12 +52,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected _readyForScriptEvent: Subject<string> = new Subject();
   readyForScriptEvent$: Observable<string> =
     this._readyForScriptEvent.asObservable();
-
-  // Event for re-initiating payment form
-  protected _reinitiatePaymentEvent: Subject<number | undefined> =
-    new Subject();
-  reinitiatePaymentEvent$: Observable<number | undefined> =
-    this._reinitiatePaymentEvent.asObservable();
 
   registerGlobalFunctions({
     domain,
@@ -405,28 +399,22 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
   protected getPaymentOptionId(providedId?: number): Observable<number> {
     if (providedId) {
-      return new Observable((observer) => {
-        observer.next(providedId);
-        observer.complete();
-      });
+      return of(providedId);
     }
 
-    // Get from metadata store (local storage)
-    return new Observable((observer) => {
-      this.opfMetadataStoreService
-        .getOpfMetadataState()
-        .pipe(take(1))
-        .subscribe((metadata: OpfMetadataModel) => {
-          const storedId =
-            metadata.selectedPaymentOptionId ||
-            metadata.defaultSelectedPaymentOptionId;
-          if (storedId) {
-            observer.next(storedId);
-          } else {
-            observer.error(new Error('No payment option ID found in storage'));
-          }
-          observer.complete();
-        });
-    });
+    return this.opfMetadataStoreService.getOpfMetadataState().pipe(
+      take(1),
+      switchMap((metadata: OpfMetadataModel) => {
+        const storedId =
+          metadata.selectedPaymentOptionId ||
+          metadata.defaultSelectedPaymentOptionId;
+
+        return storedId
+          ? of(storedId)
+          : throwError(
+              () => new Error('No payment option ID found in storage')
+            );
+      })
+    );
   }
 }
