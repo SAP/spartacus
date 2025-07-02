@@ -98,7 +98,6 @@ export function register(
     () => waitForPage('/login', 'getLoginPageAfterRegister'),
     () => waitForPage('/homepage', 'getHomepageAfterRegister')
   ).then((homepage) => {
-    cy.log(`!!!!!!got ${homepage}`);
     cy.get('cx-register form').within(() => {
       cy.get('button[type="submit"]').click();
       cy.wait(`@${homepage}`).its('response.statusCode').should('eq', 200);

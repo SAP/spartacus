@@ -8,7 +8,7 @@ import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
-import { signOutUser } from '../../../helpers/login';
+import { navigateToLoginPage, signOutUser } from '../../../helpers/login';
 import { doPlaceOrder } from '../../../helpers/order-history';
 import * as savedCart from '../../../helpers/saved-cart';
 import * as sampleData from '../../../sample-data/saved-cart';
@@ -55,6 +55,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        navigateToLoginPage();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -103,6 +106,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        navigateToLoginPage();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -148,6 +154,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        navigateToLoginPage();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -362,6 +371,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        navigateToLoginPage();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -412,6 +424,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        navigateToLoginPage();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -461,6 +476,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        navigateToLoginPage();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
