@@ -10,10 +10,6 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-<<<<<<< HEAD
-      cy.visit('/login/register');
-      login.registerUserFromRegisterPage();
-=======
       cy.whenJDK17(() => {
         cy.visit('/login');
       });
@@ -21,7 +17,6 @@ describe('Login', () => {
         cy.visit('/login/register');
       });
       login.registerUserFromLoginPage();
->>>>>>> origin/feature-CXSPA_9984_jdk21-WIP
     });
 
     it('should login and logout successfully', () => {

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isJDK17 } from './utils/jdk-versions';
+
 declare namespace Cypress {
   interface Chainable {
     /**
@@ -83,5 +85,5 @@ Cypress.Commands.addAll({
 });
 
 function isChainable(obj: any): obj is Cypress.Chainable<unknown> {
-  return obj && 'and' in obj && 'wrap' in obj;
+  return !!(obj && obj['and'] && obj['wrap']);
 }

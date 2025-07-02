@@ -31,7 +31,7 @@ type TokenResponse = {
 /**
  * ResourceOwnerPasswordCredentials
  *
- * @deprecated Not supported for JDK21
+ * Note: Not supported for JDK21
  */
 export function loginJDK17(
   uid: string,

@@ -21,8 +21,6 @@ export const defaultUser = {
  * Use only if you already are on the `/login` page.
  * Redirects to `/register` page and registers the user.
  *
- * @deprecated Not supported for JDK21.
- *
  * @param uniqueUser if true creates a unique user, otherwise the default sample user is used.
  * @returns Newly registered user
  */
@@ -91,49 +89,24 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-/** @deprecated Not supported for JDK21. */
-export function legacy_loginWithBadCredentialsFromLoginPage() {
-  listenForTokenAuthenticationRequest();
-
-  legacyLogin(user.email, 'Password321');
-
-  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
-
-  cy.get(userGreetSelector).should('not.exist');
-
-  alerts
-    .getErrorAlert()
-    .should('contain', 'Bad credentials. Please login again');
-}
-
+/**
+ * Supports JDK17 only.
+ */
 export function loginWithBadCredentialsFromLoginPage() {
   const alias = listenForAuthServerLoginRequest();
 
   login(user.email, 'Password321');
 
-  cy.wait(alias)
-    .its('response.statusCode')
-    .should('eq', 302)
-    .its('response.headers.location')
-    .should('have.string', '?error');
-
-  cy.get(userGreetSelector).should('not.exist');
-
-  alerts
-    .getErrorAlert()
-    .should('contain', 'Bad credentials. Please login again');
-}
-
-export function loginWithBadCredentialsFromLoginPage() {
-  const alias = listenForAuthServerLoginRequest();
-
-  login(user.email, 'Password321');
-
-  cy.wait(alias)
-    .its('response.statusCode')
-    .should('eq', 302)
-    .its('response.headers.location')
-    .should('have.string', '?error');
+  cy.whenJDK17(() => {
+    cy.wait(alias).its('response.statusCode').should('eq', 400);
+  });
+  cy.whenJDK21(() => {
+    cy.wait(alias)
+      .its('response.statusCode')
+      .should('eq', 302)
+      .its('response.headers.location')
+      .should('have.string', '?error');
+  });
 
   cy.get(userGreetSelector).should('not.exist');
 
