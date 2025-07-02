@@ -1,4 +1,6 @@
 $space: 0.5rem;
+$temp-top-padding: 33.11px + 14px; //(first bar height + original margin on searchbox)
+$temp-bottom-padding: $header-height + 14px; // $header-height + 14px (original margin on searchbox)
 
 %header {
   background-color: var(--cx-color-light);
@@ -14,8 +16,8 @@ $space: 0.5rem;
 
   @include media-breakpoint-up(lg) {
     .header > :nth-child(3).SearchBox:not(.SiteLinks) {
-      padding-top: 47.11px; // 33.11 + 14px (first bar height + original margin on searchbox)
-      padding-bottom: 81.59px; // $header-height + 14px (original margin on searchbox)
+      padding-top: $temp-top-padding;
+      padding-bottom: $temp-bottom-padding;
     }
   }
 
