@@ -12,6 +12,7 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
         --skip-build                            Skip Spartacus build step
+        --skip-libs-build                       Skip Spartacus libraries build step (but still build app)
 "
 
 run_tests_for_suite() {
@@ -30,11 +31,16 @@ run_tests_for_suite() {
 }
 
 SKIP_BUILD=false
+SKIP_LIBS_BUILD=false
 
 while [ "${1:0:1}" == "-" ]; do
     case "$1" in
     '--skip-build')
         SKIP_BUILD=true
+        shift
+        ;;
+    '--skip-libs-build')
+        SKIP_LIBS_BUILD=true
         shift
         ;;
     '--suite' | '-s')
@@ -90,17 +96,21 @@ else
     npm ci
     (cd projects/storefrontapp-e2e-cypress && npm ci)
 
-    npm run build:libs 2>&1 | tee build.log
-
-    results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
-    if [[ -z "${results}" ]]; then
-        echo "Success: Spartacus production build was successful."
-        rm build.log
+    if [ "$SKIP_LIBS_BUILD" == "true" ]; then
+        echo "⏩ Skipping libraries build as requested with --skip-libs-build"
     else
-        echo "ERROR: Spartacus production build failed."
-        echo "Check for 'Warning: Can't resolve all parameters for ...' in the build log."
-        rm build.log
-        exit 1
+        npm run build:libs 2>&1 | tee build.log
+
+        results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
+        if [[ -z "${results}" ]]; then
+            echo "Success: Spartacus production build was successful."
+            rm build.log
+        else
+            echo "ERROR: Spartacus production build failed."
+            echo "Check for 'Warning: Can't resolve all parameters for ...' in the build log."
+            rm build.log
+            exit 1
+        fi
     fi
 
     echo '-----'

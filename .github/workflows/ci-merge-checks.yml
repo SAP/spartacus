@@ -51,8 +51,54 @@ jobs:
         run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
-  b2c_e2e_tests:
+  build_libs:
     needs: [no_retries, validate_e2e_execution]
+    name: MC - Build Spartacus libraries
+    runs-on: ubuntu-latest
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Package installation
+        run: |
+          npm ci
+          (cd projects/storefrontapp-e2e-cypress && npm ci)
+      - name: Build Spartacus libraries
+        run: |
+          export NODE_OPTIONS=--dns-result-order=ipv4first
+          npm run build:libs 2>&1 | tee build.log
+
+          results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
+          if [[ -z "${results}" ]]; then
+            echo "Success: Spartacus production build was successful."
+            rm build.log
+          else
+            echo "ERROR: Spartacus production build failed."
+            echo "Check for 'Warning: Can't resolve all parameters for ...' in the build log."
+            rm build.log
+            exit 1
+          fi
+      - name: Cache built libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+  b2c_e2e_tests:
+    needs: [no_retries, validate_e2e_execution, build_libs]
     name: MC - E2E B2C core
     runs-on: ubuntu-latest
     strategy:
@@ -81,14 +127,21 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Restore built libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh
+          ci-scripts/e2e-cypress.sh --skip-libs-build
   b2c_ssr_e2e_tests:
-    needs: [no_retries, validate_e2e_execution]
+    needs: [no_retries, validate_e2e_execution, build_libs]
     name: MC - E2E SSR core (B2C)
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
@@ -114,14 +167,21 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Restore built libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh --ssr
+          ci-scripts/e2e-cypress.sh --ssr --skip-libs-build
   b2b_e2e_tests:
-    needs: [no_retries, validate_e2e_execution]
+    needs: [no_retries, validate_e2e_execution, build_libs]
     name: MC - E2E B2B core
     runs-on: ubuntu-latest
     strategy:
@@ -150,14 +210,21 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Restore built libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s b2b
+          ci-scripts/e2e-cypress.sh -s b2b --skip-libs-build
   a11y_e2e_tests:
-    needs: [no_retries, validate_e2e_execution]
+    needs: [no_retries, validate_e2e_execution, build_libs]
     name: MC - E2E A11Y
     runs-on: ubuntu-latest
     strategy:
@@ -186,6 +253,13 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Restore built libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci
@@ -193,9 +267,9 @@ jobs:
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
         run: |
-          ci-scripts/e2e-cypress.sh -s a11y
+          ci-scripts/e2e-cypress.sh -s a11y --skip-libs-build
   merge_checks_result:
-    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
+    needs: [build_libs, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -214,6 +288,7 @@ jobs:
             })
             core.setFailed('Please push a commit to re-trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: |
+          needs.build_libs.result == 'failure' || needs.build_libs.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' ||
