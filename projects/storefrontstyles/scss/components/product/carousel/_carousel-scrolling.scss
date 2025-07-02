@@ -30,7 +30,7 @@
     width: 100%;
 
     // Leave space for the forward/backward buttons:
-    max-width: calc(100vw - 6rem);
+    max-width: calc(100vw - 112px);
 
     min-width: 0;
     box-sizing: border-box;
@@ -107,8 +107,6 @@
       color: var(--cx-color-primary-accent);
     }
 
-    @include media-breakpoint-down(sm) {
-      min-width: 48px;
-    }
+    min-width: 48px;
   }
 }
