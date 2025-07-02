@@ -11,6 +11,7 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import { CarouselModule } from '../../../shared/components/carousel/index';
 import { MediaModule } from '../../../shared/components/media/media.module';
+import { LcpContextDirectiveModule } from '../../../shared/lcp-context/lcp-context-directive.module';
 import { ProductImagesComponent } from './product-images.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ProductImagesComponent } from './product-images.component';
     MediaModule,
     OutletModule,
     CarouselModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

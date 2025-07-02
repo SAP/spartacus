@@ -10,6 +10,8 @@
     "placed": "注文済み",
     "placedBy": "注文者",
     "unit": "ユニット",
+    "quoteCode": "見積 ID {{id}}",
+    "quoteDetail": "見積の詳細",
     "costCenter": "原価センタ",
     "costCenterAndUnit": "原価センタ/ユニット",
     "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "現在のカートは新しいアイテムで置換されます。続行しますか?",
       "cancel": "キャンセル",
       "continue": "続行"
+    }
+  },
+  "attachments": {
+    "button": "注文添付ファイルの表示",
+    "dialog": {
+      "title": "添付ファイル",
+      "preview": "ファイルのプレビュー",
+      "closeModal": "モーダルを閉じる",
+      "error": "エラーが発生しました。ページをリフレッシュするか、後でもう一度実行してください。",
+      "empty": "文書を使用できません。文書が追加されると、ここに文書を表示することができます。",
+      "downloadError": "文書の取得中にエラーが発生しました。ページをリフレッシュするか、後でもう一度実行してください。"
     }
   }
 }

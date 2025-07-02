@@ -1,7 +1,7 @@
 {
   "myAccountV2NotificationPreference": {
     "header": "Kanały powiadomień",
-    "message": "Wybierz swoje kanały powiadomień",
+    "message": "Wybierz preferowane kanały powiadomień",
     "note": "Uwaga: ",
     "noteMessage": "Jeżeli wyłączysz wszystkie kanały, nie otrzymasz kolejnych powiadomień.",
     "EMAIL": "E-mail:"

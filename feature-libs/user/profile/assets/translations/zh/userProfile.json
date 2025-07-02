@@ -27,6 +27,7 @@
     "termsAndConditions": "条款和条件",
     "signIn": "我已有帐户。登录",
     "register": "注册",
+    "furtherRegistration": "继续",
     "confirmNewPassword": "确认新密码",
     "resetPassword": "重设密码",
     "createAccount": "创建帐户",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "两个密码必须一致",
     "titleRequired": "标题为必填项。",
     "postRegisterMessage": "请使用提供的凭据进行登录。",
-    "postRegisterSuccessMessage": "注册成功：请使用提供的凭据进行登录"
+    "postRegisterSuccessMessage": "您的帐户已成功创建！请使用提供的凭据登录",
+    "rateLimitForRegistrationMessage": "您已达到发送验证码的次数限制。请等候 {{seconds}} 秒，然后重新尝试或使用其他电子邮件地址。",
+    "verificationTokenForm": {
+      "createVerificationToken": "验证码已发送至 {{target}}。请输入验证码。",
+      "sendRateLime": "{{waitTime}} 秒后",
+      "resend": "重新发送",
+      "verificationCode": {
+        "label": "验证码",
+        "placeholder": "输入验证码"
+      },
+      "back": "返回"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "重置密码",

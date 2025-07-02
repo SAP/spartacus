@@ -21,7 +21,7 @@
     "search": "검색",
     "add": "추가",
     "breadcrumbs": "탐색 경로",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "현재 페이지",
     "selectFile": "파일 선택",
     "clear": "지우기",
     "loaded": "로드됨",
@@ -66,7 +66,7 @@
     "navigateTo": "{{nav}}(으)로 이동",
     "scrollToTop": "페이지 맨 위로 이동",
     "linkItemInList": "{{title}}. {{position}}/{{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "{{title}} 메뉴"
   },
   "searchBox": {
     "placeholder": "제품 이름이나 SKU 입력",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "무엇이든지 물어보세요"
     },
-    "closeSearchPanel": "닫기"
+    "closeSearchPanel": "닫기",
+    "queryError": "검색 쿼리의 형식이 잘못되었습니다. \":\"과 같은 특수 문자를 삭제하고 다시 시도하십시오."
   },
   "sorting": {
     "date": "날짜",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "암호가 128자보다 길면 안 됩니다.",
       "cxContainsSpecialCharacters": "암호에 특수 문자가 있으면 안 됩니다.",
       "cxNoConsecutiveCharacters": "암호에 같은 문자가 연속되면 안 됩니다.",
+      "invalidTokenCodeError": "코드가 올바르지 않습니다.",
       "date": {
         "required": "필드 {{label}}은(는) 필수 필드입니다.",
         "min": "필드 {{label}}이(가) {{min}} 앞에 있으면 안 됩니다.",
