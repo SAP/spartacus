@@ -188,7 +188,7 @@ jobs:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s a11y
+          ci-scripts/e2e-cypress.sh -s a11y --record
       - name: Upload Cypress failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4
