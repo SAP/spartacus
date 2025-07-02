@@ -188,13 +188,13 @@ jobs:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s a11y --record
+          ci-scripts/e2e-cypress.sh -s a11y
       - name: Upload Cypress failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: a11y-failure-screenshots
-          path: /home/runner/work/spartacus/spartacus/projects/storefrontapp-e2e-cypress/cypress/screenshots
+          path: storefrontapp-e2e-cypress/cypress/screenshots
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Result
