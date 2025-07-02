@@ -68,12 +68,9 @@ export class HorizontalScrollingPositionDirective
 
   protected windowResizeSubscription: Subscription;
   protected _scrollingAreaWidth$ = new BehaviorSubject<number>(0);
-  protected _scrollingItemWidth$ = new BehaviorSubject<number>(0);
 
   public readonly scrollingAreaWidth$ =
     this._scrollingAreaWidth$.asObservable();
-  public readonly scrollingItemWidth$ =
-    this._scrollingItemWidth$.asObservable();
 
   /**
    * The scrolling area is the element that contains all of those in the following order:
@@ -145,10 +142,7 @@ export class HorizontalScrollingPositionDirective
     distance?: number;
     behavior?: 'auto' | 'instant' | 'smooth';
   }) {
-    const distance =
-      options?.distance ??
-      this._scrollingAreaWidth$.value - this._scrollingItemWidth$.value * 0.49;
-
+    const distance = options?.distance ?? this._scrollingAreaWidth$.value;
     const behavior = options?.behavior ?? 'smooth';
 
     this.scrollingArea.scrollBy({
@@ -164,10 +158,7 @@ export class HorizontalScrollingPositionDirective
     distance?: number;
     behavior?: 'auto' | 'instant' | 'smooth';
   }) {
-    const distance =
-      options?.distance ??
-      this._scrollingAreaWidth$.value - this._scrollingItemWidth$.value * 0.49;
-
+    const distance = options?.distance ?? this._scrollingAreaWidth$.value;
     const behavior = options?.behavior ?? 'smooth';
 
     this.scrollingArea.scrollBy({
@@ -197,13 +188,6 @@ export class HorizontalScrollingPositionDirective
       // Instead, we read it only when the window is resized.
       if (this.scrollingArea) {
         this._scrollingAreaWidth$.next(this.scrollingArea.clientWidth);
-
-        const items = [...this.scrollingArea.children].filter(
-          (child) =>
-            child !== this.scrollingAreaStart && child !== this.scrollingAreaEnd
-        );
-        const itemWidth = items.length > 0 ? items[0].clientWidth : 0;
-        this._scrollingItemWidth$.next(itemWidth);
       }
     });
 
