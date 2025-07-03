@@ -42,7 +42,7 @@ run_dual_a11y_tests() {
     echo "=========================================="
 
     local b2c_result=0
-    local b2c_test_command ="e2e:run:ci:a11y"
+    local b2c_test_command="e2e:run:ci:a11y"
 
     if [ "$record" = true ]; then
       b2c_test_command="e2e:run:ci:a11y:record"
