@@ -21,7 +21,7 @@
     "search": "खोजें",
     "add": "जोड़ें",
     "breadcrumbs": "ब्रेडक्रंब",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "वर्तमान पृष्ठ",
     "selectFile": "फाइल चुनें",
     "clear": "साफ़ करें",
     "loaded": "लोड किया गया",
@@ -66,7 +66,7 @@
     "navigateTo": "{{nav}} पर नेविगेट करें",
     "scrollToTop": "पृष्ठ के शीर्ष पर वापस स्क्रोल करें",
     "linkItemInList": "{{listLength}} का {{title}}. {{position}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "{{title}} मेनू"
   },
   "searchBox": {
     "placeholder": "उत्पाद नाम या SKU दर्ज करें",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "हमसे कुछ भी पूछें"
     },
-    "closeSearchPanel": "बंद करें"
+    "closeSearchPanel": "बंद करें",
+    "queryError": "आपकी खोज क्वेरी को गलत तरीके से स्वरूपित किया गया है. कृपया \":\" तरह के विशेष वर्ण निकालें और पुनः प्रयास करें."
   },
   "sorting": {
     "date": "दिनांक",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "पासवर्ड में 128 वर्णों से अधिक नहीं हो सकते",
       "cxContainsSpecialCharacters": "पासवर्ड में विशेष वर्ण शामिल नहीं कर सकते",
       "cxNoConsecutiveCharacters": "पासवर्ड में क्रमागत समान वर्ण शामिल नहीं कर सकते",
+      "invalidTokenCodeError": "यह कोड मान्य नहीं है.",
       "date": {
         "required": "फ़ील्ड {{label}} आवश्यक है.",
         "min": "फील्ड {{label}} {{min}} से पहले नहीं हो सकती",

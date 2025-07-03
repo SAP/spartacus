@@ -95,7 +95,7 @@ export class MediaComponent implements OnChanges {
    * and it will automatically use `loading="eager"` for optimal performance.
    * Valid values are: 'low', 'auto', or 'high'.
    */
-  @Input() fetchPriority?: ImageFetchPriority;
+  @Input() fetchPriority?: ImageFetchPriority | null;
 
   /**
    * Works only when `useExtendedMediaComponentConfiguration` toggle is true

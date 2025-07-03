@@ -10,6 +10,8 @@
     "placed": "Realizado",
     "placedBy": "Realizado por",
     "unit": "Unidad",
+    "quoteCode": "ID de oferta {{id}}",
+    "quoteDetail": "Detalle de oferta",
     "costCenter": "Centro de costos",
     "costCenterAndUnit": "Centro de costos / Unidad",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -184,9 +186,20 @@
         "unresolvableIssues": "Problema no reconocido con \"{{ productCode }}\".",
         "success": "Los productos se agregaron al carro correctamente"
       },
-      "areYouSureToReplaceCart": "El carro actual se reemplezará con nuevos artículos. ¿Desea continuar?",
+      "areYouSureToReplaceCart": "El carro actual se reemplazará con nuevos artículos. ¿Desea continuar?",
       "cancel": "Cancelar",
       "continue": "Continuar"
+    }
+  },
+  "attachments": {
+    "button": "Ver archivos adjuntos de pedido",
+    "dialog": {
+      "title": "Archivos adjuntos",
+      "preview": "Vista previa del archivo",
+      "closeModal": "Cerrar modal",
+      "error": "Se produjo un error. Actualice la página o inténtelo de nuevo más tarde.",
+      "empty": "Los documentos no están disponibles. Podrá ver los documentos aquí una vez que se agreguen.",
+      "downloadError": "Se produjo un error al obtener los documentos. Actualice la página o inténtelo de nuevo más tarde."
     }
   }
 }

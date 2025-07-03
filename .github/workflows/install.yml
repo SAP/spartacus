@@ -5,6 +5,11 @@ on:
       - 'epic/**'
       - 'develop'
       - 'develop-*'
+
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
 name: Installation
 jobs:
   install:
