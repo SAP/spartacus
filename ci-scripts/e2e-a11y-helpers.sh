@@ -42,14 +42,14 @@ run_dual_a11y_tests() {
     echo "=========================================="
 
     local b2c_result=0
+    local b2c_test_command ="e2e:run:ci:a11y"
+
     if [ "$record" = true ]; then
-       if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:record"; then
-               b2c_result=1
-           fi
-    else
-      if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
-              b2c_result=1
-          fi
+      b2c_test_command="e2e:run:ci:a11y:record"
+    fi
+
+    if ! run_a11y_tests_with_docs_on_failure b2c_test_command; then
+      b2c_result=1
     fi
 
     stop_pwa_app
@@ -61,16 +61,15 @@ run_dual_a11y_tests() {
     build_and_start_pwa "ci,b2b"
 
     local b2b_result=0
+    local b2b_test_command="e2e:run:ci:a11y:b2b"
 
     if [ "$record" = true ]; then
-           if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b:record"; then
-                   b2c_result=1
-               fi
-        else
-          if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
-                  b2c_result=1
-              fi
-        fi
+      b2b_test_command="e2e:run:ci:a11y:b2b:record"
+    fi
+
+    if ! run_a11y_tests_with_docs_on_failure b2b_test_command; then
+        b2b_result=1
+    fi
 
     stop_pwa_app
 
