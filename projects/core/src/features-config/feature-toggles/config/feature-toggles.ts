@@ -758,7 +758,7 @@ export interface FeatureTogglesInterface {
   /**
    * Feature flag to control the default image loading strategy.
    *
-   * By default, the `MediaComponent` uses the `loading="eager"` attribute for all images,
+   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
    * due to the fallback logic in the `MediaService`, which defaults to
    * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
    *
@@ -769,6 +769,12 @@ export interface FeatureTogglesInterface {
    * Lazy loading frees up bandwidth to prioritize more important assets,
    * such as the largest content element on the page, which can positively
    * impact the LCP (Largest Contentful Paint) metric.
+   *
+   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
+   * by specifying CMS component IDs via the Spartacus config:
+   * `provideConfig({ lcpCmsComponents: ... })`
+   * ... or by passing the special input directly to the `MediaComponent`:
+   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
    *
    * Set to `true` to enable lazy loading by default.
    */
