@@ -405,6 +405,7 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
+        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
       };
       return appFeatureToggles;
     }),

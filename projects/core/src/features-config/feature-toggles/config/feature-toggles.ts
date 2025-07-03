@@ -760,6 +760,19 @@ export interface FeatureTogglesInterface {
    * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
    */
   createMediaPreconnectLink?: boolean;
+
+  /**
+   * Feature flag to enable using the same header slots are used to preventing visual shifts after CSR and improving CLS.
+   *
+   * On desktop devices (non-mobile), some header and navigation elements currently render
+   * only after client-side rendering (CSR), leading to a significant layout shift. This
+   * negatively impacts the user experience and results in a poor Cumulative Layout Shift (CLS)
+   *
+   * When enabled:
+   * - Desktop uses the same header slot structure as mobile.
+   * - Reduces layout shift and improves perceived performance and visual stability.
+   */
+  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -871,4 +884,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
 };
