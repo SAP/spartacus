@@ -48,7 +48,7 @@ run_dual_a11y_tests() {
       b2c_test_command="e2e:run:ci:a11y:record"
     fi
 
-    if ! run_a11y_tests_with_docs_on_failure b2c_test_command; then
+    if ! run_a11y_tests_with_docs_on_failure "${b2c_test_command}"; then
       b2c_result=1
     fi
 
@@ -67,7 +67,7 @@ run_dual_a11y_tests() {
       b2b_test_command="e2e:run:ci:a11y:b2b:record"
     fi
 
-    if ! run_a11y_tests_with_docs_on_failure b2b_test_command; then
+    if ! run_a11y_tests_with_docs_on_failure "${b2b_test_command}"; then
         b2b_result=1
     fi
 
