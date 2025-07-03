@@ -86,6 +86,7 @@ export class OAuthLibWrapperService {
    * Revoke access tokens and clear tokens in lib state.
    */
   revokeAndLogout(): Promise<void> {
+    console.log('revokeAndLogout()');
     return new Promise((resolve) => {
       this.oAuthService
         .revokeTokenAndLogout(true)
@@ -103,6 +104,7 @@ export class OAuthLibWrapperService {
    * Clear tokens in library state (no revocation).
    */
   logout(): void {
+    console.log('logout()');
     this.oAuthService.logOut(true);
   }
 
@@ -136,6 +138,7 @@ export class OAuthLibWrapperService {
    * In cases where we don't receive this event, the token has been obtained from storage.
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
+    console.log('tryLogin()');
     return new Promise((resolve, reject) => {
       // We use the 'token_received' event to check if we have returned
       // from the auth server.

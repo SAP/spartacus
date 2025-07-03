@@ -145,6 +145,9 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<void> {
+    console.log('coreLogout');
+    //TODO: cleanup
+
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {

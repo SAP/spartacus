@@ -10,7 +10,7 @@ import { AuthConfig } from './auth-config';
 const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
   'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
   {
-    factory: () => false,
+    factory: () => true,
     providedIn: 'root',
   }
 );
