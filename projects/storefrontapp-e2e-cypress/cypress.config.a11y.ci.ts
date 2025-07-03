@@ -15,11 +15,9 @@ export default defineConfig({
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
   video: false,
-  screenshotsFolder: 'cypress/a11y-test-failure',
   retries: {
     runMode: 2,
   },
-  videoUploadOnPasses: false,
   env: {
     API_URL: 'https://20.83.184.244:9002',
     BASE_SITE: 'electronics-spa',

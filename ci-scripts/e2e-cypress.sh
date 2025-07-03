@@ -12,6 +12,7 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
         --skip-build                            Skip Spartacus build step
+        --record, r                             Whether to record A11Y test on Cypress Dashboard
 "
 
 run_tests_for_suite() {
@@ -20,13 +21,7 @@ run_tests_for_suite() {
   local record="$3"
 
   if [ "$suite" == ":a11y" ]; then
-#    if [ "$record" = true ]; then
-#      # todo replace with ${suite}
-#      echo "running A11Y with RECORD"
-#      npm run e2e:run:ci"${suite}":record
-#    else
       # Source a11y functions when needed
-      echo "running A11Y with RECORD"
       source "$(dirname "$0")/e2e-a11y-helpers.sh"
       run_dual_a11y_tests "${record}"
 #    fi
@@ -35,15 +30,6 @@ run_tests_for_suite() {
   else
     npm run e2e:run:ci"${suite}"
   fi
-}
-
-run_a11y_tests_with_docs_on_failure_no_record() {
-    if npm run e2e:run:ci:a11y:no-record; then
-        return 0
-    else
-        display_a11y_docs_link
-        return 1
-    fi
 }
 
 SKIP_BUILD=false
@@ -192,7 +178,6 @@ else
             run_tests_for_suite "${SUITE}" "full"
         else
             echo "Running core Cypress end-to-end tests for pull requests"
-            echo "Running core Cypress end-to-end tests for pull requests with RECORD ${RECORD}"
             run_tests_for_suite "${SUITE}" "core" "${RECORD}"
         fi
 
