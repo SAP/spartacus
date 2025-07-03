@@ -21,13 +21,13 @@
     "search": "Keresés",
     "add": "Hozzáadás",
     "breadcrumbs": "útkövetések",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "Aktuális oldal",
     "selectFile": "Fájl kiválasztása",
     "clear": "Törlés",
     "loaded": "Betöltve",
     "results": "Eredmények",
     "of": "/",
-    "ngSelectDropdownOptionsList": "Opciók",
+    "ngSelectDropdownOptionsList": "Beállítások",
     "required": "kötelező",
     "zoomIn": "Nagyítás",
     "zoomOut": "Kicsinyítés",
@@ -66,7 +66,7 @@
     "navigateTo": "Navigálás: {{nav}}",
     "scrollToTop": "Visszagörgetés az oldal tetejére",
     "linkItemInList": "{{title}}. {{position}}/{{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "{{title}} menü"
   },
   "searchBox": {
     "placeholder": "Adja meg a terméknevet vagy cikkszámot",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Kérdezzen bármit"
     },
-    "closeSearchPanel": "Bezárás"
+    "closeSearchPanel": "Bezárás",
+    "queryError": "A keresési lekérdezésének formátuma nem megfelelő. Távolítsa el a speciális karaktereket (például „:”), és próbálja újra."
   },
   "sorting": {
     "date": "Dátum",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "A jelszó nem tartalmazhat 128 karakternél többet",
       "cxContainsSpecialCharacters": "A jelszó nem tartalmazhat speciális karaktereket",
       "cxNoConsecutiveCharacters": "A jelszó nem tartalmazhat egymást követő azonos karaktereket",
+      "invalidTokenCodeError": "A kód nem érvényes.",
       "date": {
         "required": "A(z) {{label}} mező kötelező",
         "min": "A(z) {{label}} mező nem eshet {{min}} elé",

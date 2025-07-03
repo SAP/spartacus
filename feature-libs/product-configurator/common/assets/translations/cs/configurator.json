@@ -72,7 +72,8 @@
       "cancelConfiguration": "Zrušit konfiguraci",
       "cancelConfigurationMobile": "Zrušit",
       "filterOverview": "Filtrovat",
-      "filterOverviewWithCount": "Filtr ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Filtr ({{numAppliedFilters}})",
+      "showOptions": "Zobrazit možnosti"
     },
     "icon": {
       "groupComplete": "Dokončeno",
@@ -196,8 +197,8 @@
       "iconIncomplete": "Skupina má požadované atributy bez vybraných hodnot.",
       "iconComplete": "Skupina je kompletní.",
       "iconSubGroup": "Skupina má podskupiny.",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "Přejít na další skupinu: {{ group }}",
+      "previous": "Přejít na předchozí skupinu: {{ group }}",
       "showMoreProductInfo": "Zobrazit další informace pro produkt  {{ product }} nebo pokračovat v konfiguraci.",
       "showLessProductInfo": "Zobrazte méně informací pro produkt  {{ product }} nebo pokračovat v konfiguraci.",
       "productName": "Název produktu",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Filtrovat přehled konfigurace podle skupiny {{groupName}}",
       "closeConflictSolverModal": "Zavřít modální okno pro řešení konfliktů",
       "closeRestartDialog": "Zavřít dialogové okno „Nedokončená konfigurace“ a přejít zpět na stránku s detaily produktu.",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Popis této hodnoty zobrazíte kliknutím {{ value }}",
+      "showOptionsForAttribute": "Zobrazit možnosti atributu {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Předkonfigurované verze"

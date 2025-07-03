@@ -27,6 +27,7 @@
     "termsAndConditions": "Términos y condiciones",
     "signIn": "Ya tengo cuenta. Iniciar sesión.",
     "register": "Registrarme",
+    "furtherRegistration": "Continuar",
     "confirmNewPassword": "Confirmar nueva contraseña",
     "resetPassword": "Restablecer contraseña",
     "createAccount": "Crear una cuenta",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Ambas contraseñas deben coincidir",
     "titleRequired": "Se requiere un tratamiento.",
     "postRegisterMessage": "Inicie sesión con las credenciales provistas.",
-    "postRegisterSuccessMessage": "Registro exitoso: inicie sesión con las credenciales provistas"
+    "postRegisterSuccessMessage": "Su cuenta se ha creado correctamente. Inicie sesión con las credenciales provistas",
+    "rateLimitForRegistrationMessage": "Ha alcanzado el límite de envíos de código de verificación. Espere {{seconds}} segundos antes de volver a intentar o utilice otra dirección de correo electrónico.",
+    "verificationTokenForm": {
+      "createVerificationToken": "El código de verificación se ha enviado a {{target}}. Introduzca el código.",
+      "sendRateLime": "En {{waitTime}} segundos",
+      "resend": "Reenviar",
+      "verificationCode": {
+        "label": "Código de verificación",
+        "placeholder": "Introduzca código de verificación"
+      },
+      "back": "Atrás"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Restablecer contraseña",
