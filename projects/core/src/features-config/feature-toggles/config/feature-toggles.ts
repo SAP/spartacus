@@ -708,6 +708,12 @@ export interface FeatureTogglesInterface {
   defaultProductPageRouteAllowsNoProductName?: boolean;
 
   /**
+   * When enabled, the product cards in the product list page will have a forced consistent size.
+   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
+   */
+  consistentSizeProductCards?: boolean;
+
+  /**
    * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
    * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
    * Otherwise the component has no width initially, and gets wider only after a delay.
@@ -860,6 +866,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  consistentSizeProductCards: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
