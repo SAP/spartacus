@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
 import {
   provideConfig,
-  provideDefaultConfigFactory,
+  provideConfigFactory,
   SiteContextConfig,
 } from '@spartacus/core';
 import {
@@ -35,7 +35,7 @@ const baseSite = environment.epdVisualization
 
 @NgModule({
   providers: [
-    provideDefaultConfigFactory(layoutConfigFactory),
+    provideConfigFactory(layoutConfigFactory),
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
     provideConfig(<SiteContextConfig>{

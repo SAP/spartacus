@@ -762,15 +762,19 @@ export interface FeatureTogglesInterface {
   createMediaPreconnectLink?: boolean;
 
   /**
-   * Feature flag to enable using the same header slots are used to preventing visual shifts after CSR and improving CLS.
+   * Feature flag to enable consistent header slot structure across breakpoints to reduce
+   * layout shift and improve Cumulative Layout Shift (CLS) scores.
    *
-   * On desktop devices (non-mobile), some header and navigation elements currently render
-   * only after client-side rendering (CSR), leading to a significant layout shift. This
-   * negatively impacts the user experience and results in a poor Cumulative Layout Shift (CLS)
+   * On desktop devices (non-mobile), some header and navigation elements were rendered
+   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
+   * affected the user experience and CLS performance.
    *
    * When enabled:
    * - Desktop uses the same header slot structure as mobile.
    * - Reduces layout shift and improves perceived performance and visual stability.
+   *
+   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
+   * with `provideConfigFactory(layoutConfigFactory)`.
    */
   unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
 }

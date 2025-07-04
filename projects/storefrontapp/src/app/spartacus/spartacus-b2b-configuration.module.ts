@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import {
   provideConfig,
-  provideDefaultConfigFactory,
+  provideConfigFactory,
   SiteContextConfig,
 } from '@spartacus/core';
 import { defaultB2bOccConfig } from '@spartacus/setup';
@@ -29,7 +29,7 @@ if (environment.epdVisualization) {
 @NgModule({
   providers: [
     // b2c
-    provideDefaultConfigFactory(layoutConfigFactory),
+    provideConfigFactory(layoutConfigFactory),
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
     // b2b
