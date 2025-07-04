@@ -1,5 +1,5 @@
-import { loginB2bUser } from './helpers/a11y-b2b.checkout';
-import { setAddToCartQuantity } from '../../helpers/b2b/b2b-quote';
+import { loginB2bUser } from '../helpers/a11y-b2b.checkout';
+import { setAddToCartQuantity } from '../../../helpers/b2b/b2b-quote';
 
 const TEST_PRODUCT_HAMMER_DRILLING_ID = '3887130';
 const PRODUCT_AMOUNT_30: number = 30;
