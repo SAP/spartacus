@@ -14,8 +14,8 @@ context('Access Continuum examples', () => {
     cy.a11yContinuumSetup();
   });
 
-  describe('Homepage', () => {
-    beforeEach(() => {
+  describe('Homepage', { testIsolation: false }, () => {
+    before(() => {
       // We make sure that the content is loaded before we run the test.
       cy.visit('/').get('cx-carousel');
     });
@@ -32,8 +32,8 @@ context('Access Continuum examples', () => {
     });
   });
 
-  describe('PDP', () => {
-    beforeEach(() => {
+  describe('PDP', { testIsolation: false }, () => {
+    before(() => {
       cy.visit('/product/300938/').get('cx-product-details-tab');
     });
 
