@@ -76,6 +76,9 @@ jobs:
           - suite: vendor:requested-delivery-date
             spa_env: requested-delivery-date,b2c
             test_name: E2E tests for requested delivery date
+          - suite: vendor:punchout
+            spa_env: punchout,b2b
+            test_name: E2E tests for punchout
 
     steps:
       - uses: actions/checkout@v4

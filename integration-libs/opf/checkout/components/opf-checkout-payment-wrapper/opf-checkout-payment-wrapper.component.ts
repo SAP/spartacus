@@ -25,6 +25,7 @@ import {
 import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
+  OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
 import { Subscription } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
@@ -39,6 +40,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected service = inject(OpfCheckoutPaymentWrapperService);
   protected sanitizer = inject(DomSanitizer);
   protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected vcr = inject(ViewContainerRef);
 
   @Input() selectedPaymentId: number;
@@ -59,6 +61,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initiatePaymentMode();
+    this.listenForReinitiatePaymentEvent();
   }
 
   ngOnDestroy() {
@@ -72,9 +75,27 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.service.reloadPaymentMode();
   }
 
-  protected initiatePaymentMode(): void {
+  protected listenForReinitiatePaymentEvent(): void {
     this.sub.add(
-      this.service.initiatePayment(this.selectedPaymentId).subscribe({
+      this.opfPaymentEventsService?.reinitiatePaymentEvent$.subscribe(
+        (paymentOptionId) => {
+          this.handleReinitiatePayment(paymentOptionId);
+        }
+      )
+    );
+  }
+
+  protected handleReinitiatePayment(paymentOptionId?: number): void {
+    const idToUse = paymentOptionId || this.selectedPaymentId;
+    if (idToUse) {
+      this.initiatePaymentMode(idToUse);
+    }
+  }
+
+  protected initiatePaymentMode(paymentOptionId?: number): void {
+    const idToUse = paymentOptionId || this.selectedPaymentId;
+    this.sub.add(
+      this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {
           if (this.isHostedFields(paymentSessionData)) {
             this.globalFunctionsService.registerGlobalFunctions({
