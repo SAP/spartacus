@@ -778,7 +778,7 @@ export interface FeatureTogglesInterface {
    */
   unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
 
-   /**
+  /**
    * Feature flag to control the default image loading strategy.
    *
    * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
