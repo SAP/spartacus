@@ -342,7 +342,7 @@ export function logOutAndNavigateToEmptyCart() {
   checkBanner();
   clickHamburger();
 
-  cy.get('cx-login [role="link"]').should('contain', 'Sign In');
+  cy.loginRegisterLinkSelect(false).should('contain', 'Sign In');
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
@@ -430,12 +430,9 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
 
-  const loginPage = waitForPage('/login', 'getLoginPage');
-
   clickHamburger();
 
-  cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  cy.loginRegisterLinkSelect(true);
 
   login(
     standardUser.registrationData.email,

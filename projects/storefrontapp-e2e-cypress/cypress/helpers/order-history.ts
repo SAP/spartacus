@@ -101,7 +101,7 @@ export const orderHistoryTest = {
     it('should redirect to login page if user is not logged in', () => {
       cy.visit(url);
       cy.url().should('contain', '/login');
-      cy.get('cx-login').should('contain', 'Sign In / Register');
+      cy.loginRegisterLinkSelect(false).should('contain', 'Sign In / Register');
     });
   },
   checkRedirectLoggedInUser(

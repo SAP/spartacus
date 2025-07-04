@@ -44,9 +44,7 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
  * @returns Newly registered user
  */
 export function registerUser(uniqueUser?: boolean) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  cy.loginRegisterLinkSelect(true);
 
   return registerUserFromLoginPage(uniqueUser);
 }
@@ -78,18 +76,12 @@ export function loginWithBadCredentialsFromLoginPage() {
 }
 
 export function loginWithBadCredentials() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-
+  cy.loginRegisterLinkSelect(true);
   loginWithBadCredentialsFromLoginPage();
 }
 
 export function loginAsDefaultUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-
+  cy.loginRegisterLinkSelect(true);
   login(defaultUser.name, defaultUser.password);
 }
 

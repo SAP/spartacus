@@ -155,10 +155,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     checkout.signOut();
 
-    const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-
-    cy.findByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.loginRegisterLinkSelect(true);
 
     cy.intercept(
       'GET',

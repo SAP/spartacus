@@ -111,7 +111,7 @@ export function fillAndSubmitRegistrationForm(cdcUser) {
 }
 
 export function registerUserWithoutScreenSet(cdcUser) {
-  cy.findByText(/Sign in \/ Register/i).click();
+  cy.loginRegisterLinkSelect(true);
   cy.get('cx-login-register').findByText('Register').click();
   fillRegistrationForm(cdcUser, false);
   cy.get('button[type="submit"]').click();
