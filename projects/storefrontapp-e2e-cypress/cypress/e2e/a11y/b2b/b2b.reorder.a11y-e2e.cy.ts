@@ -1,9 +1,15 @@
-import { clearAllStorage } from '../../support/utils/clear-all-storage';
-import { POWERTOOLS_BASESITE } from '../../sample-data/b2b-checkout';
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import {
   loginB2bUser,
   navigateToReviewOrderPage,
-} from './helpers/a11y-b2b.checkout';
+} from '../helpers/a11y-b2b.checkout';
 
 export function waitUntilOrderIsPlaced() {
   cy.get('input[formcontrolname="termsAndConditions"]').check();
