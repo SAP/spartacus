@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fillOrganizationUserRegistrationForm } from '../../helpers/b2b/b2b-user-registration';
-import { getSampleUser } from '../../sample-data/checkout-flow';
+import { fillOrganizationUserRegistrationForm } from '../../../helpers/b2b/b2b-user-registration';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 function clickRegisterButton() {
   cy.get('main button').contains(' Register ').scrollIntoView().click();
