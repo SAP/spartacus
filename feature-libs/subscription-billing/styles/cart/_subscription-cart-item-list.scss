@@ -28,6 +28,10 @@
       padding-inline-end: 16px;
       text-align: end;
     }
+    &.cx-item-list-price {
+      text-align: start;
+      padding: 1.25rem 0.5rem 1.25rem 0.1rem;
+    }
   }
   tr {
     border-top: 1px solid var(--cx-color-medium);
@@ -43,6 +47,11 @@
 
     &:nth-of-type(1) {
       text-align: start;
+    }
+
+    &.cx-item-list-price {
+      text-align: start;
+      padding: 1.25rem 0.5rem 1.25rem 0.1rem;
     }
   }
   .cx-table-item-container {
@@ -71,5 +80,23 @@
   .cx-mobile-only,
   .cx-mobile-header {
     display: none;
+  }
+
+  [cx-subscription-cart-item-list-row] {
+    .cx-recurring-charges .cx-value {
+      // font-size: 0.9rem;
+      line-height: 1.1rem;
+      margin-bottom: 8px;
+      span.cx-billing-name {
+        font-size: 0.9rem;
+      }
+    }
+    cx-item-counter.readonly input {
+      border: 1px solid var(--cx-color-medium);
+      cursor: text;
+      width: 45px;
+      height: 45px;
+      background: var(--cx-color-background);
+    }
   }
 }

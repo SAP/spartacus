@@ -8,6 +8,7 @@ import {
 } from '@spartacus/cart/base/components';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
+import { SubscriptionCartItemListRowComponent } from '../item-list-row/subscription-cart-item-list-row.component';
 
 @Component({
   selector: 'cx-subscription-cart-item-list',
@@ -18,8 +19,16 @@ import { OutletModule } from '@spartacus/storefront';
     ReactiveFormsModule,
     CartSharedModule,
     OutletModule,
+    SubscriptionCartItemListRowComponent,
   ],
   standalone: true,
   templateUrl: './subscription-cart-item-list.component.html',
 })
-export class SubscriptionCartItemListComponent extends CartItemListComponent {}
+export class SubscriptionCartItemListComponent extends CartItemListComponent {
+  containsSubscriptions(): boolean {
+    let subscriptionProducts = this.items.filter(
+      (item) => item.product?.productTypes === 'SUBSCRIPTION'
+    );
+    return subscriptionProducts.length > 0;
+  }
+}

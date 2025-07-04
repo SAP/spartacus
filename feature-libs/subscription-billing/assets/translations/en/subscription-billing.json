@@ -36,5 +36,9 @@
     "extendSubscription": "Extend Subscription",
     "reSubscribe": "Re-subscribe",
     "back": "View All Subscriptions"
+  },
+  "subscriptionCartItemList": {
+    "itemPriceHeader": "Item Price",
+    "dueNowHeader": "Due Now"
   }
 }

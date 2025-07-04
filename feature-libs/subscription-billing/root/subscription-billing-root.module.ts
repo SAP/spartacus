@@ -23,13 +23,7 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [SUBSCRIPTION_BILLING_FEATURE]: {
-        cmsComponents: [
-          'SubscriptionHistoryComponent',
-          'SubscriptionProductPriceComponent',
-          'SubscriptionDetailsComponent',
-          'CartComponent',
-          'AccountOrderDetailsItemsComponent',
-        ],
+        cmsComponents: [],
       },
       [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,
     },
