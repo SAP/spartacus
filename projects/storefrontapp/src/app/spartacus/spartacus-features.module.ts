@@ -406,6 +406,7 @@ if (environment.cpq) {
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
+        lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;
     }),
