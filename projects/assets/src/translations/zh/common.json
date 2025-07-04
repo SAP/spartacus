@@ -21,7 +21,7 @@
     "search": "搜索",
     "add": "添加",
     "breadcrumbs": "面包屑导航",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "当前页面",
     "selectFile": "选择文件",
     "clear": "清除",
     "loaded": "已加载",
@@ -66,7 +66,7 @@
     "navigateTo": "导航到 {{nav}}",
     "scrollToTop": "滚动回页面顶部",
     "linkItemInList": "{{title}}。{{position}}/{{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "{{title}} 菜单"
   },
   "searchBox": {
     "placeholder": "输入产品名称或 SKU",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "询问我们"
     },
-    "closeSearchPanel": "关闭"
+    "closeSearchPanel": "关闭",
+    "queryError": "搜索查询的格式不正确。请移除 \":\" 等特殊字符并重试。"
   },
   "sorting": {
     "date": "日期",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "密码长度不能超过 128 个字符",
       "cxContainsSpecialCharacters": "密码不能包含特殊字符",
       "cxNoConsecutiveCharacters": "密码不能包含连续的相同字符",
+      "invalidTokenCodeError": "此代码无效",
       "date": {
         "required": "字段 {{label}} 为必填字段",
         "min": "字段 {{label}} 不能早于 {{min}}",

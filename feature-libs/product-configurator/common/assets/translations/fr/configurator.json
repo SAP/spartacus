@@ -72,7 +72,8 @@
       "cancelConfiguration": "Annuler la configuration",
       "cancelConfigurationMobile": "Annuler",
       "filterOverview": "Filtrer",
-      "filterOverviewWithCount": "Filtrer ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Filtrer ({{numAppliedFilters}})",
+      "showOptions": "Afficher les options"
     },
     "icon": {
       "groupComplete": "Terminé",
@@ -196,8 +197,8 @@
       "iconIncomplete": "Le groupe a des attributs obligatoires sans valeurs sélectionnées.",
       "iconComplete": "Le groupe est terminé.",
       "iconSubGroup": "Le groupe a des sous-groupes.",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "Naviguez vers le groupe suivant : {{ group }}",
+      "previous": "Naviguez vers le groupe précédent : {{ group }}",
       "showMoreProductInfo": "Affichez plus d'informations sur le produit {{ product }} ou poursuivez vers la configuration.",
       "showLessProductInfo": "Affichez moins d'informations sur le produit {{ product }} ou poursuivez vers la configuration.",
       "productName": "Nom du produit",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Filtrer la synthèse de la configuration par groupe {{groupName}}",
       "closeConflictSolverModal": "Fermer la boîte de dialogue modale du solutionneur de conflits",
       "closeRestartDialog": "Fermer la boîte de dialogue modale \"Configuration inachevée\" et revenir à la page des détails du produit",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Cliquer pour afficher une description de la valeur {{ value }}",
+      "showOptionsForAttribute": "Afficher les options de l'attribut {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Versions préconfigurées"

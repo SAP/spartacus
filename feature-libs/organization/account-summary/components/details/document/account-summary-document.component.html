@@ -13,6 +13,11 @@
         [documentTypeOptions]="documentTypeOptions"
         [initialFilters]="_queryParams"
         (filterListEvent)="filterChange($event)"
+        [cxNgSelectA11yAriaControls]="
+          (accountSummary.orgDocuments ?? []).length > 0
+            ? 'cx-account-summary-document-table'
+            : undefined
+        "
       >
       </cx-account-summary-document-filter>
 

@@ -42,6 +42,7 @@ export interface OpfPaymentGlobalMethods {
   startLoadIndicator?(): void;
   stopLoadIndicator?(): void;
   scriptReady?(scriptIdentifier: string): void;
+  reinitiatePaymentForm?(paymentOptionId?: number): Promise<boolean>;
 }
 
 export interface OpfPaymentBrowserInfo {
