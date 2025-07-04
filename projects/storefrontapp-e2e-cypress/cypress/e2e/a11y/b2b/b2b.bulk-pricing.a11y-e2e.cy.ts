@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../support/utils/clear-all-storage';
-import { POWERTOOLS_BASESITE } from '../../sample-data/b2b-checkout';
-import * as sampleData from '../../sample-data/b2b-bulk-pricing';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
+import * as sampleData from '../../../sample-data/b2b-bulk-pricing';
 
 describe('Bulk pricing accessibility', () => {
   before(() => {
