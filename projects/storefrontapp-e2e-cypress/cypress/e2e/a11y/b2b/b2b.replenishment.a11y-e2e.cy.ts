@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../support/utils/clear-all-storage';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
   b2bUser,
   order_type,
   POWERTOOLS_BASESITE,
   products,
   recurrencePeriod,
-} from '../../sample-data/b2b-checkout';
-import { myCompanyAdminUser } from '../../sample-data/shared-users';
-import { addB2bUser, setB2bPassword } from '../../helpers/b2b/b2b-checkout';
-import { login } from '../../support/utils/login';
-import { getSampleUser } from '../../sample-data/checkout-flow';
+} from '../../../sample-data/b2b-checkout';
+import { myCompanyAdminUser } from '../../../sample-data/shared-users';
+import { addB2bUser, setB2bPassword } from '../../../helpers/b2b/b2b-checkout';
+import { login } from '../../../support/utils/login';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 function loginB2bUser() {
   let adminToken;
