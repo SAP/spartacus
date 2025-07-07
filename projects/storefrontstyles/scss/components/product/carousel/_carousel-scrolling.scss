@@ -26,8 +26,12 @@
 
   .carousel-items {
     display: flex;
-    gap: 2rem;
     width: 100%;
+
+    gap: 1.75rem;
+    @include media-breakpoint-down(md) {
+      gap: 1rem;
+    }
 
     // Leave space for the forward/backward buttons:
     max-width: calc(100vw - 112px);
@@ -63,10 +67,16 @@
       flex: 0 0 0px;
     }
     .carousel-items-start {
-      margin-inline-end: -2rem;
+      margin-inline-end: -1.75rem;
+      @include media-breakpoint-down(md) {
+        margin-inline-end: -1rem;
+      }
     }
     .carousel-items-end {
-      margin-inline-start: -2rem;
+      margin-inline-start: -1.75rem;
+      @include media-breakpoint-down(md) {
+        margin-inline-start: -1rem;
+      }
     }
   }
 
