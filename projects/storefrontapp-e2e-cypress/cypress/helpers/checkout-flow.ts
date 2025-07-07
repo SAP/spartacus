@@ -143,7 +143,7 @@ export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
 
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.findByText('Register').click();
@@ -155,7 +155,7 @@ export function registerUser(
 }
 
 export function signInUser(sampleUser: SampleUser = user) {
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
   login(sampleUser.email, sampleUser.password);
 }
 

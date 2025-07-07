@@ -21,7 +21,7 @@ describe('Register', () => {
       cy.onMobile(() => {
         clickHamburger();
       });
-      cy.loginRegisterLinkSelect(true);
+      cy.getLoginRegisterLink({ clickAndWait: true });
       cy.get('cx-login-register').findByText('Register').click();
       register(user);
       registerHelpers.verifyGlobalMessageAfterRegistration();

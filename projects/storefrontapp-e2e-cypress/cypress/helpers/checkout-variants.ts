@@ -153,7 +153,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
 
     checkout.signOut();
 
-    cy.loginRegisterLinkSelect(true);
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
     login(variantUser.email, variantUser.password);
 
