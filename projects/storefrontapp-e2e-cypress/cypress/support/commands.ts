@@ -31,4 +31,4 @@ import './select-user-menu-option.commands';
 import './storage.commands';
 import './vendor/cds/merchandising-carousel.commands';
 import './viewport.commands';
-import './login-register-link-select.commands';
+import './get-login-register-link.commands';
