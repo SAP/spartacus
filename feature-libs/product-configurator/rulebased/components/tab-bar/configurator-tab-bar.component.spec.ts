@@ -150,7 +150,6 @@ describe('ConfigTabBarComponent', () => {
       .compileComponents();
   }));
   beforeEach(() => {
-    console.log('ConfigTabBarComponent: beforeEach');
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
