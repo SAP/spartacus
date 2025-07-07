@@ -35,7 +35,7 @@
           class="item"
           role="listitem"
           (keydown)="onItemKeydown($event)"
-          (focus)="onItemFocus($event)"
+          (focusin)="onItemFocusIn($event)"
         >
           <ng-container
             *ngTemplateOutlet="template; context: { item: data, itemIndex: i }"

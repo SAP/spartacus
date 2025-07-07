@@ -157,14 +157,14 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
    * but it's only partially visible in the viewport (not fully scrolled into),
    * this method ensures the item is scrolled into view.
    */
-  onItemFocus(event: FocusEvent): void {
+  onItemFocusIn(event: FocusEvent): void {
     const target = event.target as HTMLElement;
     try {
       if (target && typeof target.scrollIntoView === 'function') {
         target.scrollIntoView({
           block: 'nearest',
           inline: 'nearest',
-          behavior: 'smooth',
+          behavior: 'instant',
         });
       }
     } catch (error) {
