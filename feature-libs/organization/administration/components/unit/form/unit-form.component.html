@@ -18,18 +18,12 @@
         "
         [attr.aria-errormessage]="'nameError'"
       />
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
-        [control]="form.get('name')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>
@@ -51,18 +45,11 @@
         [attr.aria-errormessage]="'uidError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="uidError"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"
-        [control]="form.get('uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('uid')"
       ></cx-form-errors>
     </label>
@@ -105,18 +92,11 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
         [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
-        [control]="form.get('approvalProcess.code')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
     </label>
@@ -162,18 +142,11 @@
         >
         </ng-select>
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           id="parentUnitUidError"
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
           }"
-          [control]="form.get('parentOrgUnit.uid')"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="form.get('parentOrgUnit.uid')"
         ></cx-form-errors>
       </label>

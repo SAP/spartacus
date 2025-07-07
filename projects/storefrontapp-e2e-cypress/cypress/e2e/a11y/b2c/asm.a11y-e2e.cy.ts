@@ -42,7 +42,7 @@ describe('ASM Continuum tests', { testIsolation: false }, () => {
     cy.get('input').first().type('test-user-with-orders@sap.cx.com');
     cy.get('.asm-results button').eq(1).click();
     cy.get('button').contains(' Start Session ').click();
-    cy.get('.cx-asm-assignCart-input-show-no-button');
+    cy.get('.cx-asm-assignCart');
     cy.get('cx-customer-emulation').a11yRunContinuumTest();
   });
 

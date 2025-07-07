@@ -40,18 +40,11 @@
       [attr.aria-errormessage]="'firstNameError'"
     />
 
-    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
-      *cxFeature="'formErrorsDescriptiveMessages'"
       id="firstNameError"
       [translationParams]="{
         label: 'updateProfileForm.firstName.label' | cxTranslate,
       }"
-      [control]="form.get('firstName')"
-    ></cx-form-errors>
-
-    <cx-form-errors
-      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="form.get('firstName')"
     ></cx-form-errors>
   </label>
@@ -74,18 +67,11 @@
       [attr.aria-errormessage]="'lastNameError'"
     />
 
-    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
-      *cxFeature="'formErrorsDescriptiveMessages'"
       id="lastNameError"
       [translationParams]="{
         label: 'updateProfileForm.lastName.label' | cxTranslate,
       }"
-      [control]="form.get('lastName')"
-    ></cx-form-errors>
-
-    <cx-form-errors
-      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="form.get('lastName')"
     ></cx-form-errors>
   </label>
@@ -107,18 +93,11 @@
       readonly
     />
 
-    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
     <cx-form-errors
-      *cxFeature="'formErrorsDescriptiveMessages'"
       id="customerIdError"
       [translationParams]="{
         label: 'updateProfileForm.customerId' | cxTranslate,
       }"
-      [control]="form.get('customerId')"
-    ></cx-form-errors>
-
-    <cx-form-errors
-      *cxFeature="'!formErrorsDescriptiveMessages'"
       [control]="form.get('customerId')"
     ></cx-form-errors>
   </label>
