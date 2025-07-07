@@ -41,7 +41,7 @@ context('Restart dialog for product configuration', () => {
     configuration.checkValueSelected(RB, 'CAMERA_COLOR', 'BLACK');
   });
 
-  it('should create a new default configuration on restart (CXSPA-1786)', () => {
+  it.skip('skipped due to JDK-21 (CXSPA-10506): should create a new default configuration on restart (CXSPA-1786)', () => {
     restartDialog.restart(commerceRelease.isPricingEnabled);
 
     restartDialog.checkIsClosed();
@@ -52,7 +52,7 @@ context('Restart dialog for product configuration', () => {
     restartDialog.checkIsClosed();
   });
 
-  it('should navigate back to product details page without a decision on close (CXSPA-1786)', () => {
+  it.skip('skipped due to JDK-21 (CXSPA-10506): should navigate back to product details page without a decision on close (CXSPA-1786)', () => {
     restartDialog.close(testProduct);
 
     configurationVc.clickOnConfigureBtnInCatalog();
