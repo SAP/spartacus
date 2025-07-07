@@ -42,7 +42,7 @@ export function provideAuthorizationCodeFlowByDefault(
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    client_id: 'client4kyma',
     client_secret: 'secret',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
