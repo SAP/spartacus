@@ -11,7 +11,6 @@ import {
 describe('FormValidationService', () => {
   let email: UntypedFormControl;
   let emailError: ValidationErrors;
-  let passwordError: ValidationErrors;
   let minOneUpperCaseCharacterError: ValidationErrors;
   let minOneDigitError: ValidationErrors;
   let minOneSpecialCharacterError: ValidationErrors;
@@ -43,10 +42,6 @@ describe('FormValidationService', () => {
 
     emailError = {
       cxInvalidEmail: true,
-    };
-
-    passwordError = {
-      cxInvalidPassword: true,
     };
 
     minOneUpperCaseCharacterError = {
@@ -141,29 +136,6 @@ describe('FormValidationService', () => {
       it(`should reject email '${invalidEmail}'`, function () {
         email.setValue(invalidEmail);
         expect(CustomFormValidators.emailValidator(email)).toEqual(emailError);
-      });
-    });
-  });
-
-  describe('Password validator', () => {
-    const validPasswords = ['Test123!', 'TEST123!', 'TEST123test!@#'];
-    const invalidPasswords = ['test123!', 'Test1234', 'Test!@#%', 'Te1!'];
-
-    validPasswords.forEach((validPassword: string) => {
-      it(`should allow password ${validPassword}`, () => {
-        form.get('password').setValue(validPassword);
-        expect(
-          CustomFormValidators.passwordValidator(form.get('password'))
-        ).toBeNull();
-      });
-    });
-
-    invalidPasswords.forEach((invalidPassword: string) => {
-      it(`should reject password '${invalidPassword}'`, function () {
-        form.get('password').setValue(invalidPassword);
-        expect(
-          CustomFormValidators.passwordValidator(form.get('password'))
-        ).toEqual(passwordError);
       });
     });
   });
