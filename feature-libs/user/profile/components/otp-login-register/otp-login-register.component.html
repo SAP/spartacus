@@ -48,17 +48,10 @@
                 formControlName="firstName"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
                   label: 'register.firstName.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('firstName')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('firstName')"
               ></cx-form-errors>
             </label>
@@ -81,17 +74,10 @@
                 formControlName="lastName"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
                   label: 'register.lastName.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('lastName')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('lastName')"
               ></cx-form-errors>
             </label>
@@ -114,17 +100,10 @@
                 formControlName="email"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('email')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('email')"
               ></cx-form-errors>
             </label>
@@ -195,17 +174,10 @@
                   <cx-form-required-asterisks />
                 </span>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"
-                  [control]="registerForm.get('termsandconditions')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="registerForm.get('termsandconditions')"
                 ></cx-form-errors>
               </label>

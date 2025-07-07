@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GeoPoint } from '@spartacus/core';
+import { GeoPoint, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,9 @@ export class StoreFinderGridComponent implements OnInit {
   constructor(
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    useFeatureStyles('a11yStoreFinderAlerts');
+  }
 
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getStoresLoading();
