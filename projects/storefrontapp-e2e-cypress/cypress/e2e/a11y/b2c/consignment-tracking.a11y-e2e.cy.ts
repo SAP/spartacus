@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+const disabledBestPracticesIds = [1775]; // Confirmed to not use table element for layout.
+
 describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.a11yContinuumSetup();
+    cy.disableBestPractices(disabledBestPracticesIds);
     const username = 'test-user-with-orders@sap.cx.com';
     const password = 'pw4all';
     cy.login(username, password);

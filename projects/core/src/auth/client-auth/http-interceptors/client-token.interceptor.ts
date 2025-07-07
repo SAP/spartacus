@@ -98,6 +98,8 @@ export class ClientTokenInterceptor implements HttpInterceptor {
   }
 
   protected isExpiredToken(resp: HttpErrorResponse): boolean {
-    return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
+    return ['InvalidBearerTokenError', 'InvalidTokenError'].includes(
+      resp.error?.errors?.[0]?.type
+    );
   }
 }

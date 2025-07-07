@@ -67,6 +67,7 @@
 
   <button
     class="button btn btn-sm text"
+    ariaLabel="{model?.name ?? ('orgUser.name' | cxTranslate)}"
     [cxPopover]="details"
     [cxPopoverOptions]="{
       placement: 'auto',

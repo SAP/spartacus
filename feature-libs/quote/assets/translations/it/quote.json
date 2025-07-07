@@ -176,10 +176,12 @@
       "newCart": "Nuovo carrello acquisti",
       "quotes": "Offerte",
       "download": "Scarica proposta",
+      "order": "Dettagli ordine",
       "a11y": {
         "newCart": "Creare nuovo carrello acquisti vuoto e visualizzarlo.",
         "quotes": "Passare alla lista dei risultati della ricerca di offerta.",
-        "download": "Inizia a caricare una proposta di offerta"
+        "download": "Inizia a caricare una proposta di offerta",
+        "order": "Passa all'ordine associato a questa offerta"
       }
     },
     "list": {

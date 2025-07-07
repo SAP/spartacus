@@ -63,13 +63,13 @@
     "findProducts": "商品検索",
     "status": "ステータス: ",
     "dialogTitle": "クーポン",
-    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCoupondialogTitle": "クーポン一覧に追加",
     "claimCouponCode": {
       "label": "クーポンコード",
-      "placeholder": "Enter the coupon code to claim a coupon"
+      "placeholder": "クーポンを請求するにはクーポンコードを入力します"
     },
-    "reset": "RESET",
-    "claim": "CLAIM",
+    "reset": "リセット",
+    "claim": "請求",
     "claimCustomerCoupon": "このクーポンを請求できました。",
     "myCoupons": "マイクーポン",
     "startDateAsc": "開始日付 (昇順)",
