@@ -52,17 +52,7 @@
       scroll-snap-align: start;
 
       a {
-        margin-top: 4px; // show _top_ visual focus outline, even when container has overflow-x: auto
-      }
-    }
-    .item-first {
-      a {
-        margin-inline-start: 4px; // show _left_ visual focus outline, even when container has overflow-x: auto
-      }
-    }
-    .item-last {
-      a {
-        margin-inline-end: 4px; // show _right_ visual focus outline, even when container has overflow-x: auto
+        margin: 4px 4px 0 4px; // show visual focus outline, even when container has overflow-x: auto
       }
     }
 

@@ -33,8 +33,6 @@
         <div
           *ngIf="item | async as data"
           class="item"
-          [class.item-first]="i === 0"
-          [class.item-last]="i === items.length - 1"
           role="listitem"
           (keydown)="onItemKeydown($event)"
           (focus)="onItemFocus($event)"
