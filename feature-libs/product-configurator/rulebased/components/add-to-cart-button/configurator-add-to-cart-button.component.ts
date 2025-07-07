@@ -329,7 +329,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean,
     productCode?: string
   ) {
-    this.addToCardButtonDisabled = true;
+    this.addToCartButtonDisabled = true;
     const quantity = this.quantityControl.value;
     this.configuratorCartService.addToCart(
       owner.id,
