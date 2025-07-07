@@ -87,7 +87,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('cmsBottomHeaderSlotUsingFlexStyles');
     useFeatureStyles('headerLayoutForSmallerViewports');
     useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
