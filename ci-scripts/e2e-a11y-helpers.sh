@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
+#
+# Spartacus E2E Accessibility Test Distribution Helper
+#
+# This script implements parallel a11y test execution by distributing test files
+# across multiple CI containers using the test-distribution.sh strategy.
+#
+# Usage:
+# - Set GITHUB_MATRIX_CONTAINER and GITHUB_MATRIX_TOTAL for parallel execution
+#
+
 source "$(dirname "$0")/test-distribution.sh"
 
+# Display accessibility documentation link when tests fail
 display_a11y_docs_link() {
     echo ""
     echo -e "\033[31m⚠️  Accessibility tests failed\033[0m"
@@ -10,6 +21,7 @@ display_a11y_docs_link() {
     echo ""
 }
 
+# Wrapper function that runs a11y tests and displays helpful docs on failure
 run_a11y_tests_with_docs_on_failure() {
     local test_command="$1"
 
@@ -21,11 +33,13 @@ run_a11y_tests_with_docs_on_failure() {
     fi
 }
 
+# Clean shutdown of PWA application
 stop_pwa_app() {
     pkill -f "http-server" || true
     sleep 5
 }
 
+# Build and start PWA application with specified environment configuration
 build_and_start_pwa() {
     export SPA_ENV="$1"
     npm run build:csr
@@ -33,6 +47,7 @@ build_and_start_pwa() {
     sleep 10
 }
 
+# Get the distributed test file pattern for a specific container
 get_a11y_spec_pattern() {
     local test_type="$1"
     local container="$2"
@@ -51,6 +66,7 @@ get_a11y_spec_pattern() {
     esac
 }
 
+# Execute accessibility tests for a specific container in the test matrix
 run_a11y_container_tests() {
     local container="$1"
     local total_containers="${2:-2}"
@@ -66,6 +82,7 @@ run_a11y_container_tests() {
         return 0
     fi
 
+    # Run B2C accessibility tests if assigned to this container
     if [[ -n "$b2c_spec" ]]; then
         export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
 
@@ -76,6 +93,7 @@ run_a11y_container_tests() {
 
     stop_pwa_app
 
+    # Run B2B accessibility tests if assigned to this container
     if [[ -n "$b2b_spec" ]]; then
         build_and_start_pwa "ci,b2b"
         export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
@@ -90,36 +108,15 @@ run_a11y_container_tests() {
     return 0
 }
 
+# Main entry point for accessibility test execution
 run_dual_a11y_tests() {
-    if [[ -n "$GITHUB_MATRIX_CONTAINER" ]]; then
-        local total_containers="${GITHUB_MATRIX_TOTAL:-2}"
-        run_a11y_container_tests "$GITHUB_MATRIX_CONTAINER" "$total_containers"
-        return $?
-    fi
+    local container="${GITHUB_MATRIX_CONTAINER}"
+    local total_containers="${GITHUB_MATRIX_TOTAL:-2}"
 
-    local b2c_result=0
-    if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
-        b2c_result=1
-    fi
-
-    stop_pwa_app
-    build_and_start_pwa "ci,b2b"
-
-    local b2b_result=0
-    if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
-        b2b_result=1
-    fi
-
-    stop_pwa_app
-
-    if [[ $b2c_result -ne 0 ]] || [[ $b2b_result -ne 0 ]]; then
-        echo "A11Y Tests Summary:"
-        [[ $b2c_result -ne 0 ]] && echo "   - B2C a11y tests: FAILED"
-        [[ $b2c_result -eq 0 ]] && echo "   - B2C a11y tests: PASSED"
-        [[ $b2b_result -ne 0 ]] && echo "   - B2B a11y tests: FAILED"
-        [[ $b2b_result -eq 0 ]] && echo "   - B2B a11y tests: PASSED"
+    if [[ -z "$container" ]]; then
+        echo "Error: GITHUB_MATRIX_CONTAINER must be set for parallel execution"
         return 1
     fi
 
-    return 0
+    run_a11y_container_tests "$container" "$total_containers"
 }
