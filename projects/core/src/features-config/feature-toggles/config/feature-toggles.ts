@@ -708,6 +708,12 @@ export interface FeatureTogglesInterface {
   defaultProductPageRouteAllowsNoProductName?: boolean;
 
   /**
+   * When enabled, the product cards in the product list page will have a forced consistent size.
+   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
+   */
+  consistentSizeProductCards?: boolean;
+
+  /**
    * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
    * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
    * Otherwise the component has no width initially, and gets wider only after a delay.
@@ -754,6 +760,31 @@ export interface FeatureTogglesInterface {
    * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
    */
   createMediaPreconnectLink?: boolean;
+
+  /**
+   * Feature flag to control the default image loading strategy.
+   *
+   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
+   * due to the fallback logic in the `MediaService`, which defaults to
+   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
+   *
+   * This flag, when enabled, changes the default image loading behavior to use
+   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
+   * immediately, reducing unnecessary network usage and improving performance.
+   *
+   * Lazy loading frees up bandwidth to prioritize more important assets,
+   * such as the largest content element on the page, which can positively
+   * impact the LCP (Largest Contentful Paint) metric.
+   *
+   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
+   * by specifying CMS component IDs via the Spartacus config:
+   * `provideConfig({ lcpCmsComponents: ... })`
+   * ... or by passing the special input directly to the `MediaComponent`:
+   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
+   *
+   * Set to `true` to enable lazy loading by default.
+   */
+  lazyLoadImagesByDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -860,8 +891,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  consistentSizeProductCards: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  lazyLoadImagesByDefault: false,
 };

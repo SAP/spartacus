@@ -163,9 +163,14 @@ export class MediaService {
    * Defaults to `ImageLoadingStrategy.EAGER`.
    */
   get loadingStrategy(): ImageLoadingStrategy {
+    const fallbackStrategy = this.featureConfigService.isEnabled(
+      'lazyLoadImagesByDefault'
+    )
+      ? ImageLoadingStrategy.LAZY
+      : ImageLoadingStrategy.EAGER;
+
     return (
-      (this.config as MediaConfig)?.imageLoadingStrategy ??
-      ImageLoadingStrategy.EAGER
+      (this.config as MediaConfig)?.imageLoadingStrategy ?? fallbackStrategy
     );
   }
 

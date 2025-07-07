@@ -400,10 +400,12 @@ if (environment.cpq) {
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
+        consistentSizeProductCards: true,
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
+        lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;
     }),
