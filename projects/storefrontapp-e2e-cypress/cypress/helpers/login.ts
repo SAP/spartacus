@@ -44,7 +44,7 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
  * @returns Newly registered user
  */
 export function registerUser(uniqueUser?: boolean) {
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
 
   return registerUserFromLoginPage(uniqueUser);
 }
@@ -76,12 +76,12 @@ export function loginWithBadCredentialsFromLoginPage() {
 }
 
 export function loginWithBadCredentials() {
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
   loginWithBadCredentialsFromLoginPage();
 }
 
 export function loginAsDefaultUser() {
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
   login(defaultUser.name, defaultUser.password);
 }
 

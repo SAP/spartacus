@@ -44,7 +44,7 @@ context('Checkout as guest', { testIsolation: false }, () => {
 
       checkout.clickHamburger();
 
-      cy.loginRegisterLinkSelect(true);
+      cy.getLoginRegisterLink({ clickAndWait: true });
 
       login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
       cy.wait(`@${deliveryAddressPage}`)

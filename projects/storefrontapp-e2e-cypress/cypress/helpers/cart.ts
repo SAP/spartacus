@@ -342,7 +342,7 @@ export function logOutAndNavigateToEmptyCart() {
   checkBanner();
   clickHamburger();
 
-  cy.loginRegisterLinkSelect(false).should('contain', 'Sign In');
+  cy.getLoginRegisterLink().should('contain', 'Sign In');
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
@@ -432,7 +432,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
   clickHamburger();
 
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
 
   login(
     standardUser.registrationData.email,

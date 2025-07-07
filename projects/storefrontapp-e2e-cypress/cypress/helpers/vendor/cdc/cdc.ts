@@ -111,7 +111,7 @@ export function fillAndSubmitRegistrationForm(cdcUser) {
 }
 
 export function registerUserWithoutScreenSet(cdcUser) {
-  cy.loginRegisterLinkSelect(true);
+  cy.getLoginRegisterLink({ clickAndWait: true });
   cy.get('cx-login-register').findByText('Register').click();
   fillRegistrationForm(cdcUser, false);
   cy.get('button[type="submit"]').click();

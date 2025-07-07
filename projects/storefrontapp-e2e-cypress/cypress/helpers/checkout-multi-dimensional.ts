@@ -155,7 +155,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     checkout.signOut();
 
-    cy.loginRegisterLinkSelect(true);
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
     cy.intercept(
       'GET',

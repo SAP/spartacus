@@ -50,7 +50,7 @@ describe('Future Stock', { testIsolation: false }, () => {
       cy.visit(`/product/${productIdWithFutureStock}`);
       cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.loginRegisterLinkSelect(true);
+      cy.getLoginRegisterLink({ clickAndWait: true });
       login(b2bUser.email, b2bUser.password);
 
       cy.get('cx-future-stock-accordion').should('be.visible');
@@ -63,7 +63,7 @@ describe('Future Stock', { testIsolation: false }, () => {
 
     it('when choosing other product, future stock dropdown should contain no information (CXSPA-236)', () => {
       cy.visit(`/product/${productIdWithoutFutureStock}`);
-      cy.loginRegisterLinkSelect(true);
+      cy.getLoginRegisterLink({ clickAndWait: true });
       login(b2bUser.email, b2bUser.password);
 
       cy.get('cx-future-stock-accordion').should('be.visible');
