@@ -50,10 +50,23 @@
 
     .item {
       scroll-snap-align: start;
+
+      a {
+        margin-top: 4px; // show _top_ visual focus outline, even when container has overflow-x: auto
+      }
+    }
+    .item-first {
+      a {
+        margin-inline-start: 4px; // show _left_ visual focus outline, even when container has overflow-x: auto
+      }
+    }
+    .item-last {
+      a {
+        margin-inline-end: 4px; // show _right_ visual focus outline, even when container has overflow-x: auto
+      }
     }
 
-    // Dummy elements for detecting scroll start/end position
-    // with the Intersection Observer:
+    // Dummy elements for detecting scroll start/end position with the Intersection Observer:
     .carousel-items-start,
     .carousel-items-end {
       display: block;
@@ -77,13 +90,13 @@
     visibility: hidden;
   }
 
-  // On touch devices, show next/previous buttons always
+  // On touch devices, show next/previous buttons: always
   @media (hover: none) {
     .scroll-possible {
       visibility: visible;
     }
   }
-  // On non-touch devices, show next/previous buttons only when hovering or focusing the carousel
+  // On non-touch devices, show next/previous buttons: only when hovering or focusing the carousel
   &:hover,
   &:focus-within {
     .scroll-possible {
