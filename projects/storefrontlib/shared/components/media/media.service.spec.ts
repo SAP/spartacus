@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Config, Image } from '@spartacus/core';
+import { Config, FeatureConfigService, Image } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
@@ -43,6 +43,12 @@ const MockStorefrontConfig: Config = {
     pictureFormatsOrder: ['format1', 'format200', 'format400', 'format600'],
   },
 };
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
 
 const mockUnknownMediaContainer = {
   unknownFormat1: {
@@ -582,10 +588,8 @@ describe('MediaService', () => {
     });
 
     describe('loadingStrategy', () => {
-      it('should resolve eager loading strategy', () => {
-        expect(mediaService.loadingStrategy).toEqual(
-          ImageLoadingStrategy.EAGER
-        );
+      it('should resolve lazy loading strategy', () => {
+        expect(mediaService.loadingStrategy).toEqual(ImageLoadingStrategy.LAZY);
       });
     });
   });
@@ -602,9 +606,7 @@ describe('MediaService', () => {
     });
     describe('loadingStrategy', () => {
       it('should resolve lazy loading strategy', () => {
-        expect(mediaService.loadingStrategy).toEqual(
-          ImageLoadingStrategy.EAGER
-        );
+        expect(mediaService.loadingStrategy).toEqual(ImageLoadingStrategy.LAZY);
       });
     });
   });
@@ -802,6 +804,7 @@ function configureTestingModule(config: Config): void {
         useValue: config,
       },
       { provide: LayoutConfig, useValue: {} },
+      { provide: FeatureConfigService, useClass: MockFeatureConfigService },
     ],
   });
 }

@@ -64,8 +64,6 @@ export class OrderReturnService extends OrderAmendService {
           }) as CancelOrReturnRequestEntryInput
       );
 
-    this.form.reset();
-
     this.returnRequestService.createOrderReturnRequest({
       orderCode,
       returnRequestEntryInputs: inputs,
@@ -74,7 +72,10 @@ export class OrderReturnService extends OrderAmendService {
     this.returnRequestService
       .getReturnRequestSuccess()
       .pipe(first(Boolean))
-      .subscribe(() => this.afterSave());
+      .subscribe(() => {
+        this.form.reset();
+        this.afterSave();
+      });
   }
 
   private afterSave(): void {
