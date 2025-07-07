@@ -15,15 +15,7 @@ $productThumbSize: 75px !default;
     height: 100%;
     width: 100%; // required to support horizontal layouts
     position: relative;
-    @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
-      @include media-breakpoint-down(md) {
-        aspect-ratio: 1 / 1;
-      }
-    }
     img {
-      @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
-        aspect-ratio: 1 / 1;
-      }
       object-fit: scale-down;
     }
   }
@@ -32,6 +24,13 @@ $productThumbSize: 75px !default;
     outline: none;
     text-align: center;
     cursor: zoom-in;
+
+    @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: scale-down;
+    }
 
     &.is-missing {
       min-height: 30vh;
