@@ -18,16 +18,9 @@
         [attr.aria-errormessage]="'codeError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
         [translationParams]="{ label: 'orgPurchaseLimit.code' | cxTranslate }"
-        [control]="form.get('code')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('code')"
       ></cx-form-errors>
     </label>
@@ -56,17 +49,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate,
         }"
-        [control]="form.get('orderApprovalPermissionType.code')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('orderApprovalPermissionType.code')"
       ></cx-form-errors>
     </label>
@@ -87,17 +73,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgPurchaseLimit.periodRange' | cxTranslate,
         }"
-        [control]="form.get('periodRange')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('periodRange')"
       ></cx-form-errors>
     </label>
@@ -123,17 +102,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgPurchaseLimit.currency' | cxTranslate,
         }"
-        [control]="form.get('currency.isocode')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('currency.isocode')"
       ></cx-form-errors>
     </label>
@@ -155,18 +127,11 @@
         [attr.aria-errormessage]="'thresholdError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="thresholdError"
         [translationParams]="{
           label: 'orgPurchaseLimit.threshold' | cxTranslate,
         }"
-        [control]="form.get('threshold')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('threshold')"
       ></cx-form-errors>
     </label>
@@ -190,17 +155,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgPurchaseLimit.orgUnit' | cxTranslate,
         }"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('orgUnit.uid')"
       ></cx-form-errors>
     </label>
