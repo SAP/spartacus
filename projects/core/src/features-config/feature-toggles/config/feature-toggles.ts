@@ -16,23 +16,19 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In `FormErrorsComponent` it uses more descriptive validation error messages
-   * in all UI form fields existing before v2211.25.
-   *
-   * 1. The `FormErrorsComponent` uses new i18n keys:
-   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
-   * for example `formErrors.labeled.required` instead of `formErrors.required`.
-   *
-   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
-   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
-   * (with the plural `...Validators`)
+   * In `ASM` it shows searching customer by order ID.
    */
-  formErrorsDescriptiveMessages?: boolean;
+  showSearchingCustomerByOrderInASM?: boolean;
 
   /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
+
+  /**
+   * Some Changes for input of cart Number and text of Customer360View in ASM view
+   */
+  showStyleChangesInASM?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the trending searches.
@@ -210,6 +206,14 @@ export interface FeatureTogglesInterface {
   a11yPickupOptionsTabs?: boolean;
 
   /**
+   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
+   * will be displayed
+   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
+   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
+   */
+  a11yNotificationsOnConsentChange?: boolean;
+
+  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
@@ -221,15 +225,36 @@ export interface FeatureTogglesInterface {
   headerLayoutForSmallerViewports?: boolean;
 
   /**
+   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
+   * and further improves its screen reader readout.
+   */
+  a11yDeliveryModeRadiogroup?: boolean;
+
+  /**
+   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
+   */
+  a11yStoreFinderAlerts?: boolean;
+
+  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
+
+  /**
+   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
+   */
+  a11yFormErrorMuteIcon?: boolean;
 
   /**
    * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
    *  together with aria-live="atomic"
    */
   a11yImprovedErrorMessage?: boolean;
+
+  /**
+   * `MessageComponent` gets focused after a message with an action is rendered.
+   */
+  a11yCxMessageFocus?: boolean;
 
   /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
@@ -281,6 +306,11 @@ export interface FeatureTogglesInterface {
    * Improves its screen reader readout.
    */
   a11yAddedToCartActiveDialog?: boolean;
+
+  /**
+   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
+   */
+  a11yNgSelectMobileReadout?: boolean;
 
   /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
@@ -504,6 +534,19 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
+   * In OCC cart requests, it puts parameters of a cart name and cart description
+   * into a request body, instead of query params.
+   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  occCartNameAndDescriptionInHttpRequestBody?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
+
+  /**
    * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
    * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
    * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
@@ -708,6 +751,12 @@ export interface FeatureTogglesInterface {
   defaultProductPageRouteAllowsNoProductName?: boolean;
 
   /**
+   * When enabled, the product cards in the product list page will have a forced consistent size.
+   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
+   */
+  consistentSizeProductCards?: boolean;
+
+  /**
    * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
    * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
    * Otherwise the component has no width initially, and gets wider only after a delay.
@@ -768,11 +817,37 @@ export interface FeatureTogglesInterface {
    * This helps improve Core Web Vitals by preventing layout shifts as images load.
    */
   reserveSpaceForImagesOnPdpAndPlp?: boolean;
+
+  /**
+   * Feature flag to control the default image loading strategy.
+   *
+   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
+   * due to the fallback logic in the `MediaService`, which defaults to
+   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
+   *
+   * This flag, when enabled, changes the default image loading behavior to use
+   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
+   * immediately, reducing unnecessary network usage and improving performance.
+   *
+   * Lazy loading frees up bandwidth to prioritize more important assets,
+   * such as the largest content element on the page, which can positively
+   * impact the LCP (Largest Contentful Paint) metric.
+   *
+   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
+   * by specifying CMS component IDs via the Spartacus config:
+   * `provideConfig({ lcpCmsComponents: ... })`
+   * ... or by passing the special input directly to the `MediaComponent`:
+   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
+   *
+   * Set to `true` to enable lazy loading by default.
+   */
+  lazyLoadImagesByDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
-  formErrorsDescriptiveMessages: true,
+  showSearchingCustomerByOrderInASM: true,
+  showStyleChangesInASM: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -800,17 +875,23 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
+  a11yNotificationsOnConsentChange: true,
   headerLayoutForSmallerViewports: true,
+  a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
+  a11yFormErrorMuteIcon: true,
   a11yImprovedErrorMessage: false,
+  a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
+  a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
+  a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
   a11yQuickOrderAriaControls: true,
@@ -851,6 +932,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
+  occCartNameAndDescriptionInHttpRequestBody: true,
+  cmsBottomHeaderSlotUsingFlexStyles: true,
   useSiteThemeService: true,
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
@@ -874,9 +957,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  consistentSizeProductCards: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
+  lazyLoadImagesByDefault: false,
 };
