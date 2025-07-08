@@ -18,6 +18,7 @@ import {
 import {
   AuthService,
   FeatureConfigService,
+  FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -144,6 +145,16 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
+
+class mockFeatureModulesService implements Partial<FeatureModulesService> {
+  isConfigured(): boolean {
+    return true;
+  }
+  resolveFeature(featureName: string): Observable<any> {
+    return of(featureName);
+  }
+}
+
 @Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
@@ -164,6 +175,7 @@ const mockAsmUi: AsmUi = {
 };
 
 describe('AsmMainUiComponent', () => {
+  let featureModulesService: FeatureModulesService;
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
@@ -192,6 +204,10 @@ describe('AsmMainUiComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
+        {
+          provide: FeatureModulesService,
+          useClass: mockFeatureModulesService,
+        },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
@@ -216,6 +232,7 @@ describe('AsmMainUiComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     featureConfig = TestBed.inject(FeatureConfigService);
     asmEnablerService = TestBed.inject(AsmEnablerService);
+    featureModulesService = TestBed.inject(FeatureModulesService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -466,6 +483,7 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should be able to open c360 dialog', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
     spyOn(launchDialogService, 'openDialogAndSubscribe');
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userAccountFacade, 'get').and.returnValue(
