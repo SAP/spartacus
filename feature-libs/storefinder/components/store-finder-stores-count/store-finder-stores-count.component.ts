@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit, Optional, inject } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 
@@ -22,7 +22,9 @@ export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
-  constructor(private storeFinderService: StoreFinderService) {}
+  constructor(private storeFinderService: StoreFinderService) {
+    useFeatureStyles('a11yStoreFinderAlerts');
+  }
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();

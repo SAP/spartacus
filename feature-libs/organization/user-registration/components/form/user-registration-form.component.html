@@ -51,18 +51,11 @@
         [attr.aria-errormessage]="'firstNameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.firstName.label' | cxTranslate,
         }"
-        [control]="registerForm.get('firstName')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('firstName')"
       ></cx-form-errors>
     </label>
@@ -88,18 +81,11 @@
         [attr.aria-errormessage]="'lastNameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.lastName.label' | cxTranslate,
         }"
-        [control]="registerForm.get('lastName')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('lastName')"
       ></cx-form-errors>
     </label>
@@ -125,15 +111,10 @@
         [attr.aria-errormessage]="'companyNameError'"
       />
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="companyNameError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.companyName.label' | cxTranslate,
         }"
-        [control]="registerForm.get('companyName')"
-      ></cx-form-errors>
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('companyName')"
       ></cx-form-errors>
     </label>
@@ -159,18 +140,11 @@
         [attr.aria-errormessage]="'emailError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="emailError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.email.label' | cxTranslate,
         }"
-        [control]="registerForm.get('email')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('email')"
       ></cx-form-errors>
     </label>
@@ -202,17 +176,10 @@
         >
         </ng-select>
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
             label: 'userRegistrationForm.fields.country.label' | cxTranslate,
           }"
-          [control]="registerForm.get('country.isocode')"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="registerForm.get('country.isocode')"
         ></cx-form-errors>
       </label>
@@ -236,18 +203,11 @@
         [attr.aria-errormessage]="'line1Error'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="line1Error"
         [translationParams]="{
           label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate,
         }"
-        [control]="registerForm.get('line1')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('line1')"
       ></cx-form-errors>
     </label>
@@ -316,18 +276,11 @@
         [attr.aria-errormessage]="'postalCodeError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="postalCodeError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate,
         }"
-        [control]="registerForm.get('postalCode')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('postalCode')"
       ></cx-form-errors>
     </label>
@@ -355,17 +308,10 @@
         >
         </ng-select>
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
             label: 'userRegistrationForm.fields.state.label' | cxTranslate,
           }"
-          [control]="registerForm.get('region.isocode')"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="registerForm.get('region.isocode')"
         ></cx-form-errors>
       </label>
@@ -389,18 +335,11 @@
         [attr.aria-errormessage]="'phoneNumberError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="phoneNumberError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate,
         }"
-        [control]="registerForm.get('phoneNumber')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('phoneNumber')"
       ></cx-form-errors>
     </label>
@@ -423,18 +362,11 @@
         [attr.aria-errormessage]="'messageError'"
       ></textarea>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="messageError"
         [translationParams]="{
           label: 'userRegistrationForm.fields.message.label' | cxTranslate,
         }"
-        [control]="registerForm.get('message')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('message')"
       ></cx-form-errors>
     </label>

@@ -19,18 +19,11 @@
         [attr.aria-errormessage]="'nameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
         [translationParams]="{
           label: 'orgCostCenter.name' | cxTranslate,
         }"
-        [control]="form.get('name')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>
@@ -51,18 +44,11 @@
         [attr.aria-errormessage]="'codeError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
         [translationParams]="{
           label: 'orgCostCenter.code' | cxTranslate,
         }"
-        [control]="form.get('code')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('code')"
       ></cx-form-errors>
     </label>
@@ -86,17 +72,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgCostCenter.currency' | cxTranslate,
         }"
-        [control]="form.get('currency.isocode')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('currency.isocode')"
       ></cx-form-errors>
     </label>
@@ -119,17 +98,10 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'orgCostCenter.unit' | cxTranslate,
         }"
-        [control]="form.get('unit.uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('unit.uid')"
       ></cx-form-errors>
     </label>
