@@ -12,11 +12,12 @@ import {
   Input,
   isDevMode,
   OnInit,
+  Output,
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
@@ -50,6 +51,8 @@ export interface CarouselScrollingTemplateContext<TItem> {
 export class CarouselScrollingComponent<TItem = any> implements OnInit {
   protected logger = inject(LoggerService);
   protected el = inject(ElementRef);
+
+  @Output() keyboardEvent = new BehaviorSubject<KeyboardEvent | null>(null);
 
   /**
    * The title is rendered as the carousel heading.
@@ -170,5 +173,12 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
     } catch (error) {
       this.logger.error('Failed to scroll carousel item into view', error);
     }
+  }
+
+  shareEvent(event: KeyboardEvent) {
+    if (!event) {
+      throw new Error('Missing Event');
+    }
+    this.keyboardEvent.next(event);
   }
 }

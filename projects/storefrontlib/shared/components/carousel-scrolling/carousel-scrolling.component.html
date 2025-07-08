@@ -12,7 +12,9 @@
     <button
       tabindex="-1"
       class="previous"
-      (click)="cxHorizontalScrollingPosition.scrollBackward()"
+      (click)="
+        $event.stopPropagation(); cxHorizontalScrollingPosition.scrollBackward()
+      "
       [attr.aria-disabled]="
         cxHorizontalScrollingPosition.isScrollStart$ | async
       "
@@ -21,6 +23,10 @@
       [class.scroll-possible]="
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
+      (keydown.arrowleft)="shareEvent($any($event))"
+      (keydown.arrowright)="shareEvent($any($event))"
+      (keydown.arrowup)="shareEvent($any($event))"
+      (keydown.arrowdown)="shareEvent($any($event))"
     >
       <cx-icon [type]="backwardIcon"></cx-icon>
     </button>
@@ -48,13 +54,19 @@
     <button
       tabindex="-1"
       class="next"
-      (click)="cxHorizontalScrollingPosition.scrollForward()"
+      (click)="
+        $event.stopPropagation(); cxHorizontalScrollingPosition.scrollForward()
+      "
       [attr.aria-disabled]="cxHorizontalScrollingPosition.isScrollEnd$ | async"
       [attr.aria-label]="'carousel.scrollForward' | cxTranslate"
       [attr.title]="'carousel.scrollForward' | cxTranslate"
       [class.scroll-possible]="
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
+      (keydown.arrowleft)="shareEvent($any($event))"
+      (keydown.arrowright)="shareEvent($any($event))"
+      (keydown.arrowup)="shareEvent($any($event))"
+      (keydown.arrowdown)="shareEvent($any($event))"
     >
       <cx-icon [type]="forwardIcon"></cx-icon>
     </button>
