@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+// import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MockResponseInterceptor } from './mock-interceptor/mock-response.interceptor';
+// import { MockResponseInterceptor } from './mock-interceptor/mock-response.interceptor';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -23,7 +23,12 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [SUBSCRIPTION_BILLING_FEATURE]: {
-        cmsComponents: [],
+        cmsComponents: [
+          'SubscriptionHistoryComponent',
+          'SubscriptionProductPriceComponent',
+          'SubscriptionDetailsComponent',
+          'QuoteCartGuardComponent'
+        ],
       },
       [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,
     },
@@ -34,13 +39,17 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
 @NgModule({
   imports: [SubscriptionBillingEventModule],
   providers: [
-    {
+   /*  {
       provide: HTTP_INTERCEPTORS,
       useClass: MockResponseInterceptor,
       multi: true,
-    },
+    }, */
     provideDefaultConfigFactory(defaultSubscriptionBillingComponentsConfig),
     provideDefaultConfig(defaultSubscriptionBillingRoutingConfig),
   ],
 })
-export class SubscriptionBillingRootModule {}
+export class SubscriptionBillingRootModule {
+  constructor() {
+    console.log('SubscriptionBillingRootModule loaded');
+  }
+}
