@@ -160,6 +160,9 @@ jobs:
     needs: [no_retries, validate_e2e_execution]
     name: MC - E2E A11Y
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
@@ -187,6 +190,8 @@ jobs:
         env:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
+          GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
         run: |
           ci-scripts/e2e-cypress.sh -s a11y
       - name: Upload Cypress failure screenshots
