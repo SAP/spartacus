@@ -142,6 +142,10 @@ export class HorizontalScrollingPositionDirective
     distance?: number;
     behavior?: 'auto' | 'instant' | 'smooth';
   }) {
+    if (this.isScrollEnd$.value === true) {
+      return;
+    }
+
     const distance = options?.distance ?? this._scrollingAreaWidth$.value;
     const behavior = options?.behavior ?? 'smooth';
 
@@ -158,6 +162,10 @@ export class HorizontalScrollingPositionDirective
     distance?: number;
     behavior?: 'auto' | 'instant' | 'smooth';
   }) {
+    if (this.isScrollStart$.value === true) {
+      return;
+    }
+
     const distance = options?.distance ?? this._scrollingAreaWidth$.value;
     const behavior = options?.behavior ?? 'smooth';
 
