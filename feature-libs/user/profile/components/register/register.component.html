@@ -55,18 +55,11 @@
                 [attr.aria-errormessage]="'firstNameError'"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="firstNameError"
                 [translationParams]="{
                   label: 'register.firstName.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('firstName')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('firstName')"
               ></cx-form-errors>
             </label>
@@ -94,18 +87,11 @@
                 [attr.aria-errormessage]="'lastNameError'"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="lastNameError"
                 [translationParams]="{
                   label: 'register.lastName.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('lastName')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('lastName')"
               ></cx-form-errors>
             </label>
@@ -133,18 +119,11 @@
                 [attr.aria-errormessage]="'emailError'"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="emailError"
                 [translationParams]="{
                   label: 'register.emailAddress.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('email')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('email')"
               ></cx-form-errors>
             </label>
@@ -175,17 +154,10 @@
                 {{ 'register.passwordMinRequirements' | cxTranslate }}
               </p>
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 [translationParams]="{
                   label: 'register.password.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('password')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
             </label>
@@ -217,18 +189,11 @@
                 cxPasswordVisibilitySwitch
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="passwordconfError"
                 [translationParams]="{
                   label: 'register.confirmPassword.label' | cxTranslate,
                 }"
-                [control]="registerForm.get('passwordconf')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>
             </label>
@@ -314,18 +279,11 @@
                   <cx-form-required-asterisks />
                 </span>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   id="termsandconditionsError"
                   [translationParams]="{
                     label: 'register.termsAndConditions' | cxTranslate,
                   }"
-                  [control]="registerForm.get('termsandconditions')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="registerForm.get('termsandconditions')"
                 ></cx-form-errors>
               </label>

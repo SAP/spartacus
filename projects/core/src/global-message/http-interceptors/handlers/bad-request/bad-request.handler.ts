@@ -11,6 +11,7 @@ import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
+import { Translatable } from '../../../../i18n/translatable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -26,6 +27,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleValidationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
     this.handleUnknownIdentifierError(request, response);
+    this.handleValidationErrorIleggalArgument(request, response);
   }
 
   protected handleBadPassword(
@@ -83,6 +85,20 @@ export class BadRequestHandler extends HttpErrorHandler {
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
           },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleValidationErrorIleggalArgument(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'IllegalArgumentError')
+      .forEach((error) => {
+        this.globalMessageService.add(
+          error.message as string | Translatable,
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
