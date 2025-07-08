@@ -208,6 +208,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitFailure = (): void => {
         // this is intentional
       },
+      submitCancel = (): void => {
+        // this is intentional
+      },
       paymentMethod,
     }: {
       cartId: string;
@@ -215,6 +218,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
+      submitCancel?: OpfPaymentMerchantCallback;
       paymentMethod: OpfPaymentMethod;
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
@@ -226,10 +230,12 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           onSuccess: OpfPaymentMerchantCallback;
           onPending: OpfPaymentMerchantCallback;
           onFailure: OpfPaymentMerchantCallback;
+          onCancel?: OpfPaymentMerchantCallback;
         } = {
           onSuccess: submitSuccess,
           onPending: submitPending,
           onFailure: submitFailure,
+          onCancel: submitCancel,
         };
 
         return lastValueFrom(
@@ -266,6 +272,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       onSuccess: OpfPaymentMerchantCallback;
       onPending: OpfPaymentMerchantCallback;
       onFailure: OpfPaymentMerchantCallback;
+      onCancel?: OpfPaymentMerchantCallback;
     },
     paymentSessionId: string,
     returnPath?: string | undefined,
@@ -312,12 +319,16 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitFailure = (): void => {
         // this is intentional
       },
+      submitCancel = (): void => {
+        // this is intentional
+      },
     }: {
       cartId: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
+      submitCancel?: OpfPaymentMerchantCallback;
     }): Promise<boolean> => {
       return this.runSubmitComplete(
         additionalData,
@@ -325,6 +336,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           onSuccess: submitSuccess,
           onPending: submitPending,
           onFailure: submitFailure,
+          onCancel: submitCancel,
         },
         paymentSessionId,
         undefined,
@@ -349,12 +361,16 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitFailure = (): void => {
         // this is intentional
       },
+      submitCancel = (): void => {
+        // this is intentional
+      },
     }: {
       cartId: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
+      submitCancel?: OpfPaymentMerchantCallback;
     }): Promise<boolean> => {
       return this.runSubmitComplete(
         additionalData,
@@ -362,6 +378,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           onSuccess: submitSuccess,
           onPending: submitPending,
           onFailure: submitFailure,
+          onCancel: submitCancel,
         },
         paymentSessionId,
         OpfPage.CHECKOUT_REVIEW_PAGE,
