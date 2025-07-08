@@ -63,13 +63,13 @@
     "findProducts": "Hledat produkty",
     "status": "Status:",
     "dialogTitle": "Kupón",
-    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCoupondialogTitle": "Přidat do vašeho seznamu kupónů",
     "claimCouponCode": {
       "label": "Kód kupónu",
-      "placeholder": "Enter the coupon code to claim a coupon"
+      "placeholder": "Pro vyžádání kupónu zadejte kód kupónu"
     },
     "reset": "RESET",
-    "claim": "CLAIM",
+    "claim": "VYŽÁDAT",
     "claimCustomerCoupon": "Úspěšně jste uplatnili tento kupón.",
     "myCoupons": "Moje kupóny",
     "startDateAsc": "Datum zahájení (vzestupně)",
@@ -80,7 +80,7 @@
     "sortCoupons": "Řadit kupóny",
     "notesPreffix": "Můžete nastavit preferované kanály pro příjem oznámení o kupónech na stránce ",
     "notesLink": "Kanály oznámení",
-    "notesSuffix": " ."
+    "notesSuffix": " strana."
   },
   "notificationPreference": {
     "message": "Nastavte si preferované kanály oznámení",

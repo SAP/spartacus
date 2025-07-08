@@ -25,14 +25,9 @@
           >
           </ng-select>
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             [translationParams]="{
               label: 'addressForm.country' | cxTranslate,
             }"
-            [control]="addressForm.get('country.isocode')"
-          ></cx-form-errors>
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="addressForm.get('country.isocode')"
           ></cx-form-errors>
         </label>
@@ -83,15 +78,10 @@
         [attr.aria-errormessage]="'firstNameError'"
       />
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
         [translationParams]="{
           label: 'addressForm.firstName.label' | cxTranslate,
         }"
-        [control]="addressForm.get('firstName')"
-      ></cx-form-errors>
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="addressForm.get('firstName')"
       ></cx-form-errors>
     </label>
@@ -115,15 +105,10 @@
         [attr.aria-errormessage]="'lastNameError'"
       />
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
         [translationParams]="{
           label: 'addressForm.lastName.label' | cxTranslate,
         }"
-        [control]="addressForm.get('lastName')"
-      ></cx-form-errors>
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="addressForm.get('lastName')"
       ></cx-form-errors>
     </label>
@@ -146,15 +131,10 @@
         [attr.aria-errormessage]="'line1Error'"
       />
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="line1Error"
         [translationParams]="{
           label: 'addressForm.address1' | cxTranslate,
         }"
-        [control]="addressForm.get('line1')"
-      ></cx-form-errors>
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="addressForm.get('line1')"
       ></cx-form-errors>
     </label>
@@ -192,15 +172,10 @@
           [attr.aria-errormessage]="'townError'"
         />
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           id="townError"
           [translationParams]="{
             label: 'addressForm.city.label' | cxTranslate,
           }"
-          [control]="addressForm.get('town')"
-        ></cx-form-errors>
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="addressForm.get('town')"
         ></cx-form-errors>
       </label>
@@ -225,15 +200,10 @@
           [attr.aria-errormessage]="'postalCodeError'"
         />
         <cx-form-errors
-          *cxFeature="'formErrorsDescriptiveMessages'"
           id="postalCodeError"
           [translationParams]="{
             label: 'addressForm.zipCode.label' | cxTranslate,
           }"
-          [control]="addressForm.get('postalCode')"
-        ></cx-form-errors>
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="addressForm.get('postalCode')"
         ></cx-form-errors>
       </label>

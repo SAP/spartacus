@@ -16,7 +16,7 @@
     "wrongEmailFormat": "これは有効な電子メール形式ではありません。"
   },
   "verificationTokenForm": {
-    "createVerificationToken": "認証コードが {{target}} に送信されました。確認してコードを入力してください。",
+    "createVerificationToken": "認証コードが {{target}} に送信されました。コードを入力してください。",
     "needInputCredentials": "続行するには、認証情報を入力してください。",
     "sendRateLime": "{{waitTime}} 秒以内",
     "resend": "再送信",
@@ -26,6 +26,7 @@
     },
     "noReceiveCode": "コードが受信されない場合",
     "verify": "認証",
+    "registerVerify": "登録",
     "back": "戻る",
     "tokenInputHint": "新しいコードを依頼することができます。依頼を再送信できる残りの秒数を示すタイマーが開始されます。"
   },
