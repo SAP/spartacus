@@ -145,6 +145,9 @@ export function layoutConfigFactory(): LayoutConfig {
     config.layoutSlots.header &&
     'slots' in config.layoutSlots.header
   ) {
+    if ('lg' in config.layoutSlots.header) {
+      delete config.layoutSlots.header.lg;
+    }
     config.layoutSlots.header.slots = [
       'PreHeader',
       'SiteContext',
