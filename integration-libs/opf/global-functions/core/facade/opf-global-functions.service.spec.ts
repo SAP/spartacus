@@ -170,6 +170,37 @@ describe('OpfGlobalFunctionsService', () => {
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
 
+    it('should handle registerSubmit event with submitCancel callback', () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      const submitSuccess = (): void => {};
+      const submitPending = (): void => {};
+      const submitFailure = (): void => {};
+      const submitCancel = (): void => {};
+      const additionalData = [
+        { key: 'returnUrl', value: 'https://returnUrl/' },
+        { key: 'allow3DS2', value: 'true' },
+        { key: 'originUrl', value: 'https://originUrl/' },
+      ];
+      const cartId = 'mock-cart';
+
+      windowOpf.payments['checkout'].submit({
+        cartId,
+        additionalData,
+        submitSuccess,
+        submitPending,
+        submitFailure,
+        submitCancel,
+        paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
+      });
+      expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
+    });
+
     it('should handle registerSubmitComplete event', () => {
       opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
       spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
@@ -194,6 +225,36 @@ describe('OpfGlobalFunctionsService', () => {
         paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
       });
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+    });
+
+    it('should handle registerSubmitComplete event with submitCancel callback', () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      const submitSuccess = (): void => {};
+      const submitPending = (): void => {};
+      const submitFailure = (): void => {};
+      const submitCancel = (): void => {};
+      const additionalData = [
+        { key: 'returnUrl', value: 'https://returnUrl/' },
+        { key: 'allow3DS2', value: 'true' },
+        { key: 'originUrl', value: 'https://originUrl/' },
+      ];
+      const cartId = 'mock-cart';
+
+      windowOpf.payments['checkout'].submitComplete({
+        cartId,
+        additionalData,
+        submitSuccess,
+        submitPending,
+        submitFailure,
+        submitCancel,
+      });
+      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
     it('should handle throwPaymentError event', () => {
@@ -301,6 +362,40 @@ describe('OpfGlobalFunctionsService', () => {
         submitFailure,
       });
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+    });
+
+    it('should handle submitCompleteRedirect event with submitCancel callback', () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      const submitSuccess = (): void => {};
+      const submitPending = (): void => {};
+      const submitFailure = (): void => {};
+      const submitCancel = (): void => {};
+      const additionalData = [
+        { key: 'returnUrl', value: 'https://returnUrl/' },
+        { key: 'allow3DS2', value: 'true' },
+        { key: 'originUrl', value: 'https://originUrl/' },
+      ];
+      const cartId = 'mock-cart';
+
+      windowOpf.payments[
+        OpfGlobalFunctionsDomain.REDIRECT
+      ].submitCompleteRedirect({
+        cartId,
+        additionalData,
+        submitSuccess,
+        submitPending,
+        submitFailure,
+        submitCancel,
+      });
+      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
+      expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
     });
 
     it('should handle getRedirectParams event', () => {
