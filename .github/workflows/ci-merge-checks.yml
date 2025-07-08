@@ -198,8 +198,9 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: a11y-failure-screenshots
-          path: home/runner/work/spartacus/spartacus/projects/storefrontapp-e2e-cypress/cypress/screenshots
+          name: a11y-failure-screenshots-${{ matrix.containers }}
+          path: projects/storefrontapp-e2e-cypress/cypress/screenshots
+          if-no-files-found: ignore
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Result
