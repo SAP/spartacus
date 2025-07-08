@@ -10,7 +10,7 @@ import { AuthConfig } from './auth-config';
 const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
   'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
   {
-    factory: () => true,
+    factory: () => false,
     providedIn: 'root',
   }
 );
@@ -42,8 +42,7 @@ export function provideAuthorizationCodeFlowByDefault(
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'client4kyma',
-    client_secret: 'secret',
+    client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
