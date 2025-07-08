@@ -750,16 +750,27 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
-   * When enabled, the `ProductCarouselComponent` and `ProductReferencesComponent`
-   * will use a scrolling carousel `<cx-carousel-scrolling>`,
-   * which has has number of advantages over the previous implementation (`<cx-carousel>`):
+   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
+   * in the following components instead of the old `<cx-carousel>`:
+   * - `ProductCarouselComponent`
+   * - `ProductReferencesComponent`
+   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
+   *
+   * The previous carousel had number of issues:
+   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
+   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
+   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
+   * - Eagerly-loaded images from also from invisible slides, even when Spartacus was configured
+   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
+   * - Was not swipe-friendly on mobile devices
+   *
+   * The new carousel:
+   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
+   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
+   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
+   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
+   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
    * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
-   * - It's loading only the visible items (when `ImageLoadingStrategy.LAZY` is configured in Spartacus),
-   *    but lazy loads invisible items (only when you scroll to them),
-   *    which helps to improve performance, including the Web Vital LCP (Largest Contentful Paint)
-   * - Displays the same number of items while transitioning from the Server-Side-Rendered HTML to
-   *     the Client-Side-Rendered HTML, which helps to improve Web Vital CLS (Cumulative Layout Shift)
-   *     (in previous implementation, the number of items was different in SSR and CSR on desktop)
    */
   productCarouselScrolling?: boolean;
 
