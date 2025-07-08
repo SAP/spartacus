@@ -41,7 +41,9 @@
       min-width: 0;
     }
   }
-  min-height: calc(100vh - 1px);
+  .BodyContent {
+    min-height: calc(100vh - 200px);
+  }
 }
 
 .cxPunchoutSessionActive {

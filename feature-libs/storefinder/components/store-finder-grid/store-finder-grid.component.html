@@ -10,7 +10,8 @@
     [attr.aria-label]="'common.loaded' | cxTranslate"
   ></div>
   <div class="container">
-    <div class="cx-counter">
+    <!-- TODO: (CXSPA-7581) - Remove feature flag next major release -->
+    <div *cxFeature="'a11yStoreFinderAlerts'" class="cx-counter">
       <h3 class="cx-counter-title">
         {{ 'storeFinder.storesFoundTitle' | cxTranslate }}
       </h3>
@@ -20,6 +21,12 @@
             | cxTranslate: { count: locations?.stores?.length }
         }}
       </span>
+    </div>
+    <div *cxFeature="'!a11yStoreFinderAlerts'" class="cx-visually-hidden">
+      {{
+        'storeFinder.storesFound'
+          | cxTranslate: { count: locations?.stores?.length }
+      }}
     </div>
     <div class="row">
       <div
