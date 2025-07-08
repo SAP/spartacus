@@ -188,4 +188,8 @@ else
         echo "Running full Cypress end-to-end tests"
         run_tests_for_suite "${SUITE}" "full"
     fi
+
+    #Force run vendor tests. 
+    run_tests_for_suite ":vendor:product-configurator" "full"
+    run_tests_for_suite ":vendor:cpq" "full"
 fi
