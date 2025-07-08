@@ -30,6 +30,7 @@ $productThumbSize: 75px !default;
     text-align: center;
     cursor: zoom-in;
 
+    // SPIKE TODO REMOVE - it should be introduced in another PR https://github.com/SAP/spartacus/pull/20491
     @include forFeature('productCarouselScrolling') {
       img {
         width: 100%;

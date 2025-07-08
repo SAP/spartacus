@@ -41,13 +41,6 @@
     width: 60%;
 
     @include forFeature('productCarouselScrolling') {
-      img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1/1;
-        object-fit: scale-down;
-      }
-
       &.is-loading {
         background-color: #f5f5f5;
       }

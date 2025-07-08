@@ -58,6 +58,15 @@
       a {
         margin: 4px 4px 0 4px; // show visual focus outline, even when container has overflow-x: auto
       }
+
+      @include forFeature('productCarouselScrolling') {
+        img {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 1/1;
+          object-fit: scale-down;
+        }
+      }
     }
 
     // Dummy elements for detecting scroll start/end position with the Intersection Observer:
