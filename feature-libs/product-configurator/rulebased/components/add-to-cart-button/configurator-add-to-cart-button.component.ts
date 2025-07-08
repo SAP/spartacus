@@ -63,6 +63,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected activeCartFacade = inject(ActiveCartFacade);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
+  addToCartButtonDisabled = false;
 
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
@@ -328,6 +329,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean,
     productCode?: string
   ) {
+    this.addToCartButtonDisabled = true;
     const quantity = this.quantityControl.value;
     this.configuratorCartService.addToCart(
       owner.id,
