@@ -28,7 +28,7 @@ export function navigateToOrganizationUserRegisterPage() {
   cy.onMobile(() => {
     clickHamburger();
   });
-  cy.getLoginRegisterLink({ clickAndWait: true });
+  cy.getLoginRegisterLink().click();
   cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
 }
 

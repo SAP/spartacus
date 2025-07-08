@@ -120,7 +120,7 @@ const PASSWORD = `Password-1234`;
 
 export const register = (clickLoginLink = true) => {
   if (clickLoginLink) {
-    cy.getLoginRegisterLink({ clickAndWait: true });
+    cy.getLoginRegisterLink().click();
   }
   cy.get(LOCATORS.REGISTER_BUTTON).click();
   cy.get(LOCATORS.FORM_TITLE).click();
@@ -136,7 +136,7 @@ export const register = (clickLoginLink = true) => {
 };
 export const login = (clickLoginLink = true) => {
   if (clickLoginLink) {
-    cy.getLoginRegisterLink({ clickAndWait: true });
+    cy.getLoginRegisterLink().click();
   }
   cy.get(LOCATORS.SIGNIN_USERNAME).type(EMAIL_ADDRESS);
   cy.get(LOCATORS.SIGNIN_PASSWORD).type(PASSWORD);

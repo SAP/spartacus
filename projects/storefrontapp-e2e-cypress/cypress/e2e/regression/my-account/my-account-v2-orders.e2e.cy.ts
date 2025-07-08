@@ -24,7 +24,7 @@ describe(
       });
 
       it('should navigate to login page and SignIn with user details', () => {
-        cy.getLoginRegisterLink({ clickAndWait: true });
+        cy.getLoginRegisterLink().click();
         fillLoginForm({ username: 'cdp.user@sap.com', password: 'Test@1' });
       });
 
