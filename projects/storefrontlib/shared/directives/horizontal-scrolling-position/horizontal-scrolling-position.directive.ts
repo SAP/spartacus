@@ -38,7 +38,7 @@ import {
  *
  *   <button
  *     (click)="cxHorizontalScrollingPosition.scrollBackward()"
- *     [disabled]="cxHorizontalScrollingPosition.isScrollStart$ | async">
+ *     [disabled]="cxHorizontalScrollingPosition._isScrollStart$ | async">
  *     (Icon arrow backward)
  *   </button>
  *
@@ -50,7 +50,7 @@ import {
  *
  *   <button
  *     (click)="cxHorizontalScrollingPosition.scrollForward()"
- *     [disabled]="cxHorizontalScrollingPosition.isScrollEnd$ | async">
+ *     [disabled]="cxHorizontalScrollingPosition._isScrollEnd$ | async">
  *     (Icon arrow forward)
  *   </button>
  * </ng-container>
@@ -93,23 +93,25 @@ export class HorizontalScrollingPositionDirective
    */
   @Input() scrollingAreaEnd: HTMLElement;
 
+  protected readonly _isScrollStart$ = new BehaviorSubject(true);
   /**
    * Tells whether the start of the scrolling area is visible.
    */
-  readonly isScrollStart$ = new BehaviorSubject(true);
+  readonly isScrollStart$ = this._isScrollStart$.asObservable();
 
+  readonly _isScrollEnd$ = new BehaviorSubject(false);
   /**
    * Tells whether the end of the scrolling area is visible.
    */
-  readonly isScrollEnd$ = new BehaviorSubject(false);
+  readonly isScrollEnd$ = this._isScrollEnd$.asObservable();
 
   /**
    * Tells whether the carousel needs scrolling
    * (i.e. whether the all items are visible in the scrollable area).
    */
   readonly isScrollNeeded$: Observable<boolean> = combineLatest([
-    this.isScrollStart$,
-    this.isScrollEnd$,
+    this._isScrollStart$,
+    this._isScrollEnd$,
   ]).pipe(
     map(([isScrollStart, isScrollEnd]) => !isScrollStart || !isScrollEnd),
     distinctUntilChanged()
@@ -142,7 +144,7 @@ export class HorizontalScrollingPositionDirective
     distance?: number;
     behavior?: 'auto' | 'instant' | 'smooth';
   }) {
-    if (this.isScrollEnd$.value === true) {
+    if (this._isScrollEnd$.value === true) {
       return;
     }
 
@@ -162,7 +164,7 @@ export class HorizontalScrollingPositionDirective
     distance?: number;
     behavior?: 'auto' | 'instant' | 'smooth';
   }) {
-    if (this.isScrollStart$.value === true) {
+    if (this._isScrollStart$.value === true) {
       return;
     }
 
@@ -205,9 +207,9 @@ export class HorizontalScrollingPositionDirective
       (entries) => {
         entries.forEach((entry) => {
           if (entry.target === this.scrollingAreaStart) {
-            this.isScrollStart$.next(entry.isIntersecting);
+            this._isScrollStart$.next(entry.isIntersecting);
           } else if (entry.target === this.scrollingAreaEnd) {
-            this.isScrollEnd$.next(entry.isIntersecting);
+            this._isScrollEnd$.next(entry.isIntersecting);
           }
         });
       },
