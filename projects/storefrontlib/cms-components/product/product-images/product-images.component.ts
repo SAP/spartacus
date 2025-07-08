@@ -49,6 +49,7 @@ export class ProductImagesComponent {
 
   constructor(protected currentProductService: CurrentProductService) {
     useFeatureStyles('a11yDifferentiateFocusedAndSelected');
+    useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
     useFeatureStyles('productCarouselScrolling');
   }
 

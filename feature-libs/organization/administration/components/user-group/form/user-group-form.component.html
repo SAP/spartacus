@@ -19,16 +19,9 @@
         [attr.aria-errormessage]="'nameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
         [translationParams]="{ label: 'orgUserGroup.name' | cxTranslate }"
-        [control]="form.get('name')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>
@@ -50,16 +43,9 @@
         [attr.aria-errormessage]="'uidError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="uidError"
         [translationParams]="{ label: 'orgUserGroup.uid' | cxTranslate }"
-        [control]="form.get('uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('uid')"
       ></cx-form-errors>
     </label>
@@ -83,15 +69,8 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUserGroup.orgUnit' | cxTranslate }"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('orgUnit.uid')"
       ></cx-form-errors>
     </label>

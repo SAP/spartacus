@@ -85,6 +85,7 @@ export enum OpfPaymentSubmitStatus {
   ACCEPTED = 'ACCEPTED',
   PENDING = 'PENDING',
   DELAYED = 'DELAYED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum OpfPaymentMethod {
