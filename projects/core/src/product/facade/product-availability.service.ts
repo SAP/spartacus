@@ -27,34 +27,29 @@ import { ProductAvailabilityConnector } from '../connectors';
 export class ProductAvailabilityService {
   protected connector = inject(ProductAvailabilityConnector);
   protected command = inject(CommandService);
+
   /**
-   * Command to get real-time stock data for a product.
+   * Command to get real-time stock data for one or more products.
    */
   protected getRealTimeStockCommand: Command<
-    { productCode: string; unitSapCode: string },
+    { productCode: string; unitCode: string }[],
     ProductAvailabilities
   > = this.command.create(
-    (payload) =>
-      this.connector.getRealTimeStock(payload.productCode, payload.unitSapCode),
+    (payload) => this.connector.getRealTimeStock(payload),
     {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
 
   /**
-   * Executes the command to fetch real-time stock data.
+   * Executes the command to fetch real-time stock data for multiple products.
    *
-   * @param productCode The product code for which to fetch stock data.
-   * @param unitSapCode The SAP code associated with the product.
+   * @param productUnitPairs Array of { productCode, unitCode }
    * @returns An observable of `ProductAvailabilities`.
    */
   getRealTimeStock(
-    productCode: string,
-    unitSapCode: string
+    productUnitPairs: { productCode: string; unitCode: string }[]
   ): Observable<ProductAvailabilities> {
-    return this.getRealTimeStockCommand.execute({
-      productCode,
-      unitSapCode,
-    });
+    return this.getRealTimeStockCommand.execute(productUnitPairs);
   }
 }
