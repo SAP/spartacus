@@ -116,7 +116,7 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         'variantCode',
       ]);
 
-      guard['findValidProductCodeAndReturnUrlTree'](product, undefined).subscribe(
+      guard['findValidProductCodeAndReturnUrlTree'](product).subscribe(
         (result) => {
           expect(result).toBe(urlTree);
           expect(router.createUrlTree).toHaveBeenCalledWith([
@@ -141,7 +141,7 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         'variantCode',
       ]);
 
-      guard['findValidProductCodeAndReturnUrlTree'](product, undefined).subscribe(
+      guard['findValidProductCodeAndReturnUrlTree'](product).subscribe(
         (result) => {
           expect(result).toBe(urlTree);
           expect(router.createUrlTree).toHaveBeenCalledWith([
@@ -158,7 +158,7 @@ describe('ProductMultiDimensionalSelectorGuard', () => {
         variantOptions: [],
       };
 
-      guard['findValidProductCodeAndReturnUrlTree'](product, undefined).subscribe(
+      guard['findValidProductCodeAndReturnUrlTree'](product).subscribe(
         (result) => {
           expect(result).toBe(false);
         }

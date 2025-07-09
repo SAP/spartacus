@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, of, take } from 'rxjs';
+import { catchError, map, Observable, of, take } from 'rxjs';
 import { ProductAvailabilities } from '../../../model/product.model';
 import { ProductAvailabilityAdapter } from '../../../product/connectors/product/prduct-availability.adapter';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -19,22 +19,28 @@ export class OccProductAvailabilityAdapter
   protected occEndpoints = inject(OccEndpointsService);
 
   loadRealTimeStock(
-    productUnitPairs: { productCode: string; unitCode: string }[]
+    productCode: string,
+    unitSapCode: string
   ): Observable<ProductAvailabilities> {
-    const filtersParam = productUnitPairs
-      .map((pair) => `${pair.productCode}:${pair.unitCode}`)
-      .join(';');
-
     const availabilityUrl = this.occEndpoints.buildUrl(
       'productAvailabilities',
       {
-        queryParams: { filters: filtersParam },
+        urlParams: {
+          productCode: productCode,
+          unitSapCode: unitSapCode,
+        },
       }
     );
 
-    return this.http.get<ProductAvailabilities>(availabilityUrl).pipe(
+    return this.http.get(availabilityUrl).pipe(
       take(1),
-      catchError(() => of({ availabilityItems: [] } as ProductAvailabilities))
+      map(
+        (availabilities: any) =>
+          availabilities?.availabilityItems?.[0]?.unitAvailabilities?.[0] || {}
+      ),
+      catchError(() => {
+        return of({});
+      })
     );
   }
 }

@@ -18,9 +18,7 @@ export const defaultOccProductMultiDimensionalSelectorConfig: OccConfig = {
             'products/${productCode}?fields=multidimensional,categories,' +
             variantMatrix,
           multi_dimensional_availability:
-            'products/${productCode}?fields=variantOptions(code),purchasable',
-          multi_dimensional_realtime_availability:
-            'products/${productCode}?fields=variantOptions(code),purchasable',
+            'products/${productCode}?fields=variantOptions(stock(stockLevel),code),purchasable',
         },
       },
     },

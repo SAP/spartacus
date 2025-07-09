@@ -130,7 +130,7 @@
     {
       "files": [ "*.ts"],
       "rules": {
-        //"@nx/workspace/no-const-enum": "error"
+        "@nx/workspace/no-const-enum": "error"
       }
     }
   ]

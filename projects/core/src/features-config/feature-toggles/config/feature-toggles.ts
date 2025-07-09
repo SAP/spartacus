@@ -927,7 +927,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
   useExtendedMediaComponentConfiguration: true,
-  showRealTimeStockInPDP: false,
+  showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,

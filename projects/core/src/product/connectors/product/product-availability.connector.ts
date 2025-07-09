@@ -15,13 +15,10 @@ import { ProductAvailabilityAdapter } from './prduct-availability.adapter';
 export class ProductAvailabilityConnector {
   constructor(protected adapter: ProductAvailabilityAdapter) {}
 
-  /**
-   * Gets real-time stock for one or more product-unit pairs.
-   * @param productUnitPairs Array of { productCode, unitCode }
-   */
   getRealTimeStock(
-    productUnitPairs: { productCode: string; unitCode: string }[]
+    productCode: string,
+    unitSapCode: string
   ): Observable<ProductAvailabilities> {
-    return this.adapter.loadRealTimeStock(productUnitPairs);
+    return this.adapter.loadRealTimeStock(productCode, unitSapCode);
   }
 }

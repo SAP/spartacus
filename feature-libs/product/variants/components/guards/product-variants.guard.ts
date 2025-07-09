@@ -34,7 +34,7 @@ export class ProductVariantsGuard {
     if (!productCode) {
       return of(true);
     }
-    return this.productService.get(productCode, ProductScope.UNIT).pipe(
+    return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
       filter(isNotUndefined),
       switchMap((product: Product) => {
         if (!product.purchasable) {

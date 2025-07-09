@@ -11,18 +11,8 @@ describe('ProductAvailabilityConnector', () => {
   const mockProductCode = '12345';
   const mockUnitSapCode = 'SAP001';
   const mockProductAvailabilities: ProductAvailabilities = {
-    availabilityItems: [
-      {
-        productCode: mockProductCode,
-        unitAvailabilities: [
-          {
-            quantity: 10,
-            status: 'inStock',
-            unit: mockUnitSapCode,
-          },
-        ],
-      },
-    ],
+    quantity: '10',
+    status: 'inStock',
   };
 
   beforeEach(() => {
@@ -51,9 +41,7 @@ describe('ProductAvailabilityConnector', () => {
     adapter.loadRealTimeStock.and.returnValue(of(mockProductAvailabilities));
 
     connector
-      .getRealTimeStock([
-        { productCode: mockProductCode, unitCode: mockUnitSapCode },
-      ])
+      .getRealTimeStock(mockProductCode, mockUnitSapCode)
       .subscribe((data) => {
         expect(data).toEqual(mockProductAvailabilities);
         expect(adapter.loadRealTimeStock).toHaveBeenCalledWith(
@@ -65,14 +53,12 @@ describe('ProductAvailabilityConnector', () => {
   });
 
   it('should handle an empty response gracefully', (done) => {
-    adapter.loadRealTimeStock.and.returnValue(of({ availabilityItems: [] }));
+    adapter.loadRealTimeStock.and.returnValue(of(null as any));
 
     connector
-      .getRealTimeStock([
-        { productCode: mockProductCode, unitCode: mockUnitSapCode },
-      ])
+      .getRealTimeStock(mockProductCode, mockUnitSapCode)
       .subscribe((data) => {
-        expect(data).toEqual({ availabilityItems: [] });
+        expect(data).toBeNull();
         expect(adapter.loadRealTimeStock).toHaveBeenCalledWith(
           mockProductCode,
           mockUnitSapCode

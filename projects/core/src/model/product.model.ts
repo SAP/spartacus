@@ -259,14 +259,6 @@ export interface StoreFinderStockSearchPage {
 }
 
 export interface ProductAvailabilities {
-  availabilityItems: ProductAvailabilityItem[];
-}
-
-export interface ProductAvailabilityItem {
-  productCode: string;
-  unitAvailabilities: {
-    quantity: number;
-    status: string;
-    unit: string;
-  }[];
+  quantity?: string;
+  status?: string;
 }

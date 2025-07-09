@@ -22,15 +22,15 @@ import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import { OccProductAdapter } from './occ-product.adapter';
 import { ProductNameNormalizer } from './converters/product-name-normalizer';
-import { defaultOccProductConfigFactory } from './default-occ-product-config-factory';
+import { defaultOccProductConfig } from './default-occ-product-config';
 import './product-occ-config';
-import { provideDefaultConfigFactory } from '../../../config/config-providers';
+import { provideDefaultConfig } from '../../../config/config-providers';
 import { OccProductAvailabilityAdapter } from './occ-product-availability-adapter';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfigFactory(defaultOccProductConfigFactory),
+    provideDefaultConfig(defaultOccProductConfig),
     {
       provide: ProductAdapter,
       useClass: OccProductAdapter,

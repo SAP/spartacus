@@ -37,55 +37,41 @@ describe('ProductAvailabilityService', () => {
 
   describe('getRealTimeStock', () => {
     it('should call getRealTimeStockCommand.execute with correct parameters', (done) => {
-      const productUnitPairs = [
-        { productCode: 'testProductCode', unitCode: 'testUnitSapCode' },
-      ];
+      const productCode = 'testProductCode';
+      const unitSapCode = 'testUnitSapCode';
       const expectedStockData: ProductAvailabilities = {
-        availabilityItems: [
-          {
-            productCode: 'testProductCode',
-            unitAvailabilities: [
-              {
-                quantity: 100,
-                status: 'IN_STOCK',
-                unit: 'testUnitSapCode',
-              },
-            ],
-          },
-        ],
+        quantity: '100',
+        status: 'IN_STOCK',
       };
+
+      connector.getRealTimeStock.and.returnValue(of(expectedStockData));
 
       commandSpy.execute.and.returnValue(of(expectedStockData));
 
-      service.getRealTimeStock(productUnitPairs).subscribe((stockData) => {
-        expect(commandSpy.execute).toHaveBeenCalledWith(productUnitPairs);
-        expect(stockData).toEqual(expectedStockData);
-        done();
-      });
+      service
+        .getRealTimeStock(productCode, unitSapCode)
+        .subscribe((stockData) => {
+          expect(commandSpy.execute).toHaveBeenCalledWith({
+            productCode,
+            unitSapCode,
+          });
+          expect(stockData).toEqual(expectedStockData);
+          done();
+        });
     });
 
     it('should return observable of ProductAvailabilities when command executes successfully', (done) => {
-      const productUnitPairs = [
-        { productCode: 'testProductCode', unitCode: 'testUnitSapCode' },
-      ];
+      const productCode = 'testProductCode';
+      const unitSapCode = 'testUnitSapCode';
       const mockStockData: ProductAvailabilities = {
-        availabilityItems: [
-          {
-            productCode: 'testProductCode',
-            unitAvailabilities: [
-              {
-                quantity: 100,
-                status: 'IN_STOCK',
-                unit: 'testUnitSapCode',
-              },
-            ],
-          },
-        ],
+        quantity: '100',
+        status: 'IN_STOCK',
       };
 
+      connector.getRealTimeStock.and.returnValue(of(mockStockData));
       commandSpy.execute.and.returnValue(of(mockStockData));
 
-      service.getRealTimeStock(productUnitPairs).subscribe((result) => {
+      service.getRealTimeStock(productCode, unitSapCode).subscribe((result) => {
         expect(result).toEqual(mockStockData);
         done();
       });

@@ -36,7 +36,7 @@ import { AddToCartComponent } from './add-to-cart.component';
         ProductAddToCartComponent: {
           component: AddToCartComponent,
           data: {
-            inventoryDisplay: true,
+            inventoryDisplay: false,
           },
         },
       },

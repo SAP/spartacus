@@ -138,7 +138,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       if (this.productListItemContext) {
         product$ = this.productListItemContext.product$;
       } else if (this.featureToggles.showRealTimeStockInPDP) {
-        product$ = this.currentProductService.getProduct(ProductScope.UNIT);
+        product$ = this.currentProductService.getProduct([
+          ProductScope.UNIT,
+          ProductScope.DETAILS,
+        ]);
       } else {
         product$ = this.currentProductService.getProduct();
       }
@@ -170,21 +173,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       product.sapUnit?.sapCode
     ) {
       this.productAvailabilityService
-        .getRealTimeStock([
-          {
-            productCode: this.productCode,
-            unitCode: product.sapUnit?.sapCode ?? '',
-          },
-        ])
+        .getRealTimeStock(this.productCode, product.sapUnit?.sapCode)
         .pipe(take(1))
-        .subscribe((availabilities) => {
-          const availabilityItem = availabilities?.availabilityItems?.find(
-            (item: { productCode: string }) =>
-              item.productCode === this.productCode
-          );
-          const unitAvailability = availabilityItem?.unitAvailabilities?.[0];
-          const quantity = unitAvailability?.quantity;
-          const status = unitAvailability?.status;
+        .subscribe(({ quantity, status }) => {
           this.maxQuantity = Number(quantity);
           this.hasStock = Boolean(status && status !== 'OUT_OF_STOCK');
           this.cd.markForCheck();

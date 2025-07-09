@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
-import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config-factory';
+import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
 import createSpy = jasmine.createSpy;
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
