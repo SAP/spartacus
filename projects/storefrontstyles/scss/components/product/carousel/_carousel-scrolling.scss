@@ -97,20 +97,6 @@
     }
   }
 
-  // On touch devices, show next/previous buttons: always
-  @media (hover: none) {
-    .scroll-possible {
-      visibility: visible;
-    }
-  }
-  // On non-touch devices, show next/previous buttons: only when hovering or focusing the carousel
-  &:hover,
-  &:focus-within {
-    .scroll-possible {
-      visibility: visible;
-    }
-  }
-
   .previous,
   .next {
     visibility: hidden;
@@ -130,5 +116,19 @@
     }
 
     min-width: 48px;
+  }
+
+  // On touch devices, show next/previous buttons: always
+  @media (hover: none) {
+    .scroll-possible {
+      visibility: visible;
+    }
+  }
+  // On non-touch devices, show next/previous buttons: only when hovering or focusing the carousel
+  &:hover,
+  &:focus-within {
+    .scroll-possible {
+      visibility: visible;
+    }
   }
 }
