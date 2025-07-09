@@ -87,7 +87,7 @@ export function testRedirectBackfterLogin(kyma = false) {
     const user = createUser();
     cy.visit(`/contact`);
 
-    cy.get('cx-login').click();
+    cy.getLoginRegisterLink().click();
 
     if (!kyma) {
       cy.location('pathname').should('contain', '/login');
