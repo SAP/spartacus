@@ -190,6 +190,9 @@ else
     fi
 
     #Force run vendor tests. 
+    echo "Force Running Cypress Vendor Product Configurator end-to-end tests"
     run_tests_for_suite ":vendor:product-configurator" "full"
+
+    echo "Force Running Cypress Vendor CPQ end-to-end tests"
     run_tests_for_suite ":vendor:cpq" "full"
 fi
