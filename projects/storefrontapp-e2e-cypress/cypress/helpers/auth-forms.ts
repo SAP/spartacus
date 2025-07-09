@@ -119,14 +119,12 @@ export function registerWithCaptcha(
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   let pageAlias: string;
-  cy.whenJDK17(
-    () => {
-      pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
-    },
-    () => {
-      pageAlias = waitForPage('/homepage', 'getHomepageAfterRegister');
-    }
-  );
+  cy.whenJDK17(() => {
+    pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
+  });
+  cy.whenJDK21(() => {
+    pageAlias = waitForPage('/homepage', 'getHomepageAfterRegister');
+  });
 
   cy.get('button[type="submit"]').click();
   // Register a user without confirming captcha will have an error.

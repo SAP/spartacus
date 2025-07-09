@@ -17,7 +17,11 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Registers a new user and logs him in. Returns user (generated) email.
+       * Registers a new user, if necessary; logs in; and sets the user token into local storage.
+       *
+       * Note: The session data will be stored on the domain currently visited.
+       *
+       * @returns The user (generated) email.
        *
        * @memberof Cypress.Chainable
        *
