@@ -16,23 +16,19 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In `FormErrorsComponent` it uses more descriptive validation error messages
-   * in all UI form fields existing before v2211.25.
-   *
-   * 1. The `FormErrorsComponent` uses new i18n keys:
-   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
-   * for example `formErrors.labeled.required` instead of `formErrors.required`.
-   *
-   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
-   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
-   * (with the plural `...Validators`)
+   * In `ASM` it shows searching customer by order ID.
    */
-  formErrorsDescriptiveMessages?: boolean;
+  showSearchingCustomerByOrderInASM?: boolean;
 
   /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
+
+  /**
+   * Some Changes for input of cart Number and text of Customer360View in ASM view
+   */
+  showStyleChangesInASM?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the trending searches.
@@ -504,6 +500,19 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
+   * In OCC cart requests, it puts parameters of a cart name and cart description
+   * into a request body, instead of query params.
+   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
+   */
+  occCartNameAndDescriptionInHttpRequestBody?: boolean;
+
+  /**
+   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
+   * customization buttons in the BottomHeaderSlot in SmartEdit.
+   */
+  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
+
+  /**
    * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
    * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
    * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
@@ -762,6 +771,20 @@ export interface FeatureTogglesInterface {
   createMediaPreconnectLink?: boolean;
 
   /**
+   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
+   *
+   * When enabled, it ensures that appropriate space is reserved for images before they load,
+   * maintaining layout stability across the following contexts:
+   *
+   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
+   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
+   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
+   *
+   * This helps improve Core Web Vitals by preventing layout shifts as images load.
+   */
+  reserveSpaceForImagesOnPdpAndPlp?: boolean;
+
+  /**
    * Feature flag to control the default image loading strategy.
    *
    * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
@@ -789,7 +812,8 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
-  formErrorsDescriptiveMessages: true,
+  showSearchingCustomerByOrderInASM: true,
+  showStyleChangesInASM: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -868,6 +892,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
+  occCartNameAndDescriptionInHttpRequestBody: true,
+  cmsBottomHeaderSlotUsingFlexStyles: true,
   useSiteThemeService: true,
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
@@ -896,5 +922,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
 };
