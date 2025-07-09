@@ -66,23 +66,27 @@ context('Product carousel', () => {
           });
         }
 
-        function secureDigitalCardRequestHandler(
+        function searchRequestHandler(
           request: CyHttpMessages.IncomingHttpRequest
         ): void {
           request.continue((res: CyHttpMessages.IncomingHttpResponse) => {
             const body = res.body;
-
-            body.stock = {
-              ...body.stock,
-              stockLevelStatus: 'outOfStock',
-              stockLevel: 0,
-            };
+            body.products = body.products.map((product) => {
+              if (product.code === secureDigitalCard2gb) {
+                return {
+                  ...product,
+                  stock: {
+                    ...product.stock,
+                    stockLevelStatus: 'outOfStock',
+                  },
+                };
+              }
+              return product;
+            });
 
             res.send(body);
           });
         }
-
-        visitHomepage();
 
         cy.intercept(
           {
@@ -99,31 +103,28 @@ context('Product carousel', () => {
             method: 'GET',
             pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
               'BASE_SITE'
-            )}/products/${secureDigitalCard2gb}`,
+            )}/products/search`,
           },
-          secureDigitalCardRequestHandler
-        );
+          searchRequestHandler
+        ).as('searchProducts');
 
-        function clickNextButton(): void {
-          const cypressButton = cy.get(
-            'cx-product-carousel:first-of-type button.next'
-          );
+        visitHomepage();
 
-          cypressButton.then((button) => {
-            if (!button.is('[aria-disabled="true"]')) {
-              cypressButton.click();
-              clickNextButton();
-            }
-          });
-        }
+        cy.wait('@searchProducts'); // Verify the call was made
 
-        // Continue clicking next in the carousel until we are at the last slide.
-        clickNextButton();
-
-        const lastSlide = cy
+        // Verify that the Add to Cart button is visible at least for the first item
+        const firstItemAddToCartButton = cy
           .get('cx-product-carousel:first-of-type cx-product-carousel-item')
-          .last();
-        lastSlide.find('cx-add-to-cart button').should('not.exist');
+          .first()
+          .find('cx-add-to-cart button');
+        firstItemAddToCartButton.should('be.visible');
+
+        // Verify that the Add to Cart button is not visible for the item that is out of stock (the last item):
+        const lastItemAddToCartButton = cy
+          .get('cx-product-carousel:first-of-type cx-product-carousel-item')
+          .last()
+          .find('cx-add-to-cart button');
+        lastItemAddToCartButton.should('not.exist');
       });
     });
   });
