@@ -310,11 +310,13 @@ describe('ProductImagesComponent', () => {
     }));
 
     describe('(UI test)', () => {
-      it('should not render cx-carousel for one GALLERY image', () => {
+      it('should not render cx-carousel-scrolling for one GALLERY image', () => {
         component.thumbs$.subscribe();
         fixture.detectChanges();
 
-        const carousel = fixture.debugElement.query(By.css('cx-carousel'));
+        const carousel = fixture.debugElement.query(
+          By.css('cx-carousel-scrolling')
+        );
         expect(carousel).toBeNull();
       });
 
