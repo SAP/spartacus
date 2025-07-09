@@ -25,13 +25,8 @@ import {
 } from './tokens/context';
 import { defaultOrderConfig } from './config/default-order-config';
 
-// TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultOrderComponentsConfig(): CmsConfig {
-  const config: CmsConfig = {
-    featureModules: {
-      [ORDER_FEATURE]: {
-        cmsComponents: [
-          'CancelOrderComponent',
+export const ORDER_CMS_COMPONENTS: string[] = [
+  'CancelOrderComponent',
           'CancelOrderConfirmationComponent',
           'ReturnOrderComponent',
           'ReturnOrderConfirmationComponent',
@@ -67,7 +62,14 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReplenishmentConfirmationTotalsComponent',
           'MyAccountViewOrderComponent',
           'AccountOrderAttachmentsComponent',
-        ],
+];
+
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
+export function defaultOrderComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
+    featureModules: {
+      [ORDER_FEATURE]: {
+        cmsComponents: ORDER_CMS_COMPONENTS,
         dependencies: [CART_BASE_FEATURE],
       },
       // by default core is bundled together with components
