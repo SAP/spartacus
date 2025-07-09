@@ -18,4 +18,5 @@ export enum ProductScope {
   LIST_ITEM = 'list_item',
   MULTI_DIMENSIONAL = 'multi_dimensional',
   MULTI_DIMENSIONAL_AVAILABILITY = 'multi_dimensional_availability',
+  MULTI_DIMENSIONAL_REALTIME_AVAILABILITY = "multi_dimensional_realtime_availability",
 }

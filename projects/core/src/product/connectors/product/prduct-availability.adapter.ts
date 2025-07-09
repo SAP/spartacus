@@ -9,14 +9,13 @@ import { ProductAvailabilities } from '../../../model/product.model';
 
 export abstract class ProductAvailabilityAdapter {
   /**
-   * Abstract method used to load real time stock data for a product
-   * @param productCode
-   * @param unitSapCode
-   * @returns {Observable<ProductAvailabilities>}
+   * Abstract method used to load real time stock data
+   * for one or more product/unit combinations.
+   *
+   * @param productUnitPairs Array of { productCode, unitCode } pairs
+   * @returns Observable<ProductAvailabilities>
    */
-
   abstract loadRealTimeStock(
-    productCode: string,
-    unitSapCode: string
+    productUnitPairs: { productCode: string; unitCode: string }[]
   ): Observable<ProductAvailabilities>;
 }

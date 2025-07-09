@@ -7,8 +7,10 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, GuardResult, Router } from '@angular/router';
 import {
+  FeatureToggles,
   isNotUndefined,
   Product,
+  ProductAvailabilityAdapter,
   ProductScope,
   ProductService,
   SemanticPathService,
@@ -26,15 +28,18 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
  * from the available variants and redirects to the appropriate variant product URL.
  *
  * Without this guard, users could access a product detail page (PDP) for products that are not available for purchase.
+ * NOTE: While removing the featuretoggle check, do not remove the sapUnit check.
+ * The sapUnit is required for productAvailabilities API calls and must be present.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class ProductMultiDimensionalSelectorGuard {
-  protected productService: ProductService = inject(ProductService);
-  protected semanticPathService: SemanticPathService =
-    inject(SemanticPathService);
-  protected router: Router = inject(Router);
+  protected productService = inject(ProductService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+  protected featureToggle = inject(FeatureToggles);
+  protected availabilityAdapter = inject(ProductAvailabilityAdapter);
 
   canActivate(activatedRoute: ActivatedRouteSnapshot): Observable<GuardResult> {
     const productCode = activatedRoute.params?.productCode;
@@ -44,57 +49,102 @@ export class ProductMultiDimensionalSelectorGuard {
       return of(!!activatedRoute.queryParams?.cmsTicketId);
     }
 
-    return this.productService
-      .get(productCode, ProductScope.MULTI_DIMENSIONAL_AVAILABILITY)
-      .pipe(
-        filter(isNotUndefined),
-        switchMap((multiDimensionalProduct: Product) => {
-          const isNotPurchasableAndHasVariantOptions =
-            !multiDimensionalProduct.purchasable &&
-            !!multiDimensionalProduct.variantOptions?.length;
+    const scope = this.featureToggle.showRealTimeStockInPDP
+      ? [
+          ProductScope.MULTI_DIMENSIONAL_REALTIME_AVAILABILITY,
+          ProductScope.UNIT,
+        ]
+      : ProductScope.MULTI_DIMENSIONAL_AVAILABILITY;
 
-          return isNotPurchasableAndHasVariantOptions
-            ? this.findValidProductCodeAndReturnUrlTree(multiDimensionalProduct)
-            : of(!!multiDimensionalProduct.purchasable);
-        })
-      );
+    return this.productService.get(productCode, scope).pipe(
+      filter(isNotUndefined),
+      switchMap((multiDimensionalProduct: Product) => {
+        const isNotPurchasableAndHasVariantOptions =
+          !multiDimensionalProduct.purchasable &&
+          !!multiDimensionalProduct.variantOptions?.length;
+        const useRealTimeStock =
+          this.featureToggle.showRealTimeStockInPDP &&
+          multiDimensionalProduct.sapUnit?.sapCode;
+
+        return isNotPurchasableAndHasVariantOptions
+          ? this.findValidProductCodeAndReturnUrlTree(
+              multiDimensionalProduct,
+              useRealTimeStock
+            )
+          : of(!!multiDimensionalProduct.purchasable);
+      })
+    );
   }
 
   /**
-   * Finds a valid product code from variant options and returns a URL tree for redirection.
-   *
-   * @param {Product} product - The product with variant options.
-   * @returns {Observable<GuardResult>} - An observable that resolves to a `UrlTree` for
-   * redirection if a valid product code is found, or `false` if no valid code is available.
-   *
-   * @description
-   * This method examines the product's variant options to find one with available stock. If a valid
-   * variant is found, it fetches the corresponding product and generates a URL for redirection. If
-   * no valid variant code is found, it resolves to `false`.
+   * Determines the appropriate variant to redirect to, based on availability.
    */
   protected findValidProductCodeAndReturnUrlTree(
-    product: Product
+    product: Product,
+    useRealTimeStock: string | boolean | undefined
   ): Observable<GuardResult> {
-    const validVariantCode = this.getValidVariantCode(product);
-    const fallbackProductCode = this.getFallbackProductCode(product);
+    const fallbackCode = this.getFallbackProductCode(product);
 
-    const productCode = validVariantCode ?? fallbackProductCode;
+    const variantCode$ = useRealTimeStock
+      ? this.getValidVariantCodeAsync(product)
+      : of(this.getValidVariantCode(product));
 
-    if (productCode) {
-      return this.productService.get(productCode, ProductScope.LIST).pipe(
-        filter(isNotUndefined),
-        take(1),
-        map((multiDimensionalProduct: Product) =>
-          this.router.createUrlTree(
-            this.semanticPathService.transform({
-              cxRoute: 'product',
-              params: multiDimensionalProduct,
-            })
+    return variantCode$.pipe(
+      switchMap((validVariantCode) => {
+        const productCode = validVariantCode ?? fallbackCode;
+
+        if (!productCode) {
+          return of(false);
+        }
+
+        return this.productService.get(productCode, ProductScope.LIST).pipe(
+          filter(isNotUndefined),
+          take(1),
+          map((multiDimensionalProduct: Product) =>
+            this.router.createUrlTree(
+              this.semanticPathService.transform({
+                cxRoute: 'product',
+                params: multiDimensionalProduct,
+              })
+            )
           )
-        )
-      );
+        );
+      })
+    );
+  }
+
+  /**
+   * Uses  productAvailabilities API to find the first in-stock variant code.
+   */
+  protected getValidVariantCodeAsync(
+    product: Product
+  ): Observable<string | undefined> {
+    const variantCodes =
+      product.variantOptions
+        ?.map((variant) => variant.code)
+        .filter((code): code is string => !!code) ?? [];
+
+    const unitCode = product.sapUnit?.sapCode;
+    if (!variantCodes.length || !unitCode) {
+      return of(undefined);
     }
-    return of(false);
+
+    const productUnitPairs = variantCodes.map((code) => ({
+      productCode: code,
+      unitCode,
+    }));
+
+    return this.availabilityAdapter.loadRealTimeStock(productUnitPairs).pipe(
+      take(1),
+      map((availability) => {
+        const inStockVariant = availability.availabilityItems.find((item) => {
+          const unitAvailability = item.unitAvailabilities?.[0];
+          return unitAvailability?.quantity;
+        });
+
+        return inStockVariant?.productCode;
+      })
+    );
   }
 
   protected getValidVariantCode(product: Product): string | undefined {

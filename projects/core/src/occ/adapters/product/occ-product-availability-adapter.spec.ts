@@ -67,7 +67,9 @@ describe('OccProductAvailabilityAdapter', () => {
     let result: ProductAvailabilities | undefined;
 
     adapter
-      .loadRealTimeStock(mockProductCode, mockUnitSapCode)
+      .loadRealTimeStock([
+        { productCode: mockProductCode, unitCode: mockUnitSapCode },
+      ])
       .subscribe((data) => {
         result = data;
       });
@@ -76,15 +78,12 @@ describe('OccProductAvailabilityAdapter', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
 
-    expect(result).toEqual(
-      mockResponse.availabilityItems[0].unitAvailabilities[0]
-    );
+    expect(result).toEqual(mockResponse);
     expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'productAvailabilities',
       {
-        urlParams: {
-          productCode: mockProductCode,
-          unitSapCode: mockUnitSapCode,
+        queryParams: {
+          filters: `${mockProductCode}:${mockUnitSapCode}`,
         },
       }
     );
@@ -95,7 +94,9 @@ describe('OccProductAvailabilityAdapter', () => {
     let result: ProductAvailabilities | undefined;
 
     adapter
-      .loadRealTimeStock(mockProductCode, mockUnitSapCode)
+      .loadRealTimeStock([
+        { productCode: mockProductCode, unitCode: mockUnitSapCode },
+      ])
       .subscribe((data) => {
         result = data;
       });
@@ -103,6 +104,6 @@ describe('OccProductAvailabilityAdapter', () => {
     const req = httpMock.expectOne(mockAvailabilityUrl);
     req.flush(mockEmptyResponse);
 
-    expect(result).toEqual({});
+    expect(result).toEqual({ availabilityItems: [] });
   });
 });
