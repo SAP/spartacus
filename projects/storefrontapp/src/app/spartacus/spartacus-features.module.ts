@@ -321,18 +321,13 @@ if (environment.cpq) {
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
-        a11yNotificationsOnConsentChange: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
-        a11yStoreFinderAlerts: true,
-        a11yFormErrorMuteIcon: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
-        a11yCxMessageFocus: true,
         occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
-        a11yDeliveryModeRadiogroup: true,
         /**
          * Defaults to false cause ng-select options ariaLabels are working as expected
          * since Spartacus 2211.33
@@ -344,7 +339,6 @@ if (environment.cpq) {
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
-        a11yNgSelectMobileReadout: true,
         a11yDeliveryMethodFieldset: true,
         a11yShowMoreReviewsBtnFocus: true,
         a11yQuickOrderAriaControls: true,
@@ -414,6 +408,7 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         createMediaPreconnectLink: true,
+        reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;

@@ -206,14 +206,6 @@ export interface FeatureTogglesInterface {
   a11yPickupOptionsTabs?: boolean;
 
   /**
-   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
-   * will be displayed
-   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
-   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
-   */
-  a11yNotificationsOnConsentChange?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
@@ -225,36 +217,15 @@ export interface FeatureTogglesInterface {
   headerLayoutForSmallerViewports?: boolean;
 
   /**
-   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
-   * and further improves its screen reader readout.
-   */
-  a11yDeliveryModeRadiogroup?: boolean;
-
-  /**
-   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
-   */
-  a11yStoreFinderAlerts?: boolean;
-
-  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
-
-  /**
-   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
-   */
-  a11yFormErrorMuteIcon?: boolean;
 
   /**
    * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
    *  together with aria-live="atomic"
    */
   a11yImprovedErrorMessage?: boolean;
-
-  /**
-   * `MessageComponent` gets focused after a message with an action is rendered.
-   */
-  a11yCxMessageFocus?: boolean;
 
   /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
@@ -306,11 +277,6 @@ export interface FeatureTogglesInterface {
    * Improves its screen reader readout.
    */
   a11yAddedToCartActiveDialog?: boolean;
-
-  /**
-   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
-   */
-  a11yNgSelectMobileReadout?: boolean;
 
   /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
@@ -805,6 +771,20 @@ export interface FeatureTogglesInterface {
   createMediaPreconnectLink?: boolean;
 
   /**
+   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
+   *
+   * When enabled, it ensures that appropriate space is reserved for images before they load,
+   * maintaining layout stability across the following contexts:
+   *
+   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
+   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
+   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
+   *
+   * This helps improve Core Web Vitals by preventing layout shifts as images load.
+   */
+  reserveSpaceForImagesOnPdpAndPlp?: boolean;
+
+  /**
    * Feature flag to control the default image loading strategy.
    *
    * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
@@ -861,23 +841,17 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
-  a11yNotificationsOnConsentChange: true,
   headerLayoutForSmallerViewports: true,
-  a11yStoreFinderAlerts: true,
   a11yStoreFinderLabel: false,
-  a11yFormErrorMuteIcon: true,
   a11yImprovedErrorMessage: false,
-  a11yCxMessageFocus: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yRepeatedPageTitleFix: true,
-  a11yDeliveryModeRadiogroup: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yRepeatedCancelOrderError: true,
   a11yAddedToCartActiveDialog: true,
-  a11yNgSelectMobileReadout: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
   a11yQuickOrderAriaControls: true,
@@ -948,5 +922,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
 };
