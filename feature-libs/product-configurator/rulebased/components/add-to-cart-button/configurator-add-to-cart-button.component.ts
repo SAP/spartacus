@@ -134,6 +134,10 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     owner: CommonConfigurator.Owner,
     productCode?: string
   ): void {
+    // When navigating to the overview page, we change the browser history,
+    // by changing the owner type and entity key (cart entry) in the configure URL.
+    // With that the user can return to the configuration page
+    // by using the browser back button.
     this.routingService
       .go(
         {
