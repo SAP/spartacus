@@ -95,8 +95,6 @@
     &[aria-disabled='false'] {
       cursor: pointer;
     }
-
-    visibility: hidden;
   }
 
   // On touch devices, show next/previous buttons: always
@@ -115,6 +113,8 @@
 
   .previous,
   .next {
+    visibility: hidden;
+
     background-color: transparent;
     border: none;
     font-size: 2rem;
