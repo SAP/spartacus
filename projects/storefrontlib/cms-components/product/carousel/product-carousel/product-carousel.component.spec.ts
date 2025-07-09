@@ -310,9 +310,8 @@ describe('ProductCarouselComponent', () => {
       mockFeatureToggles.productCarouselScrolling = false;
     });
 
-    fit('should render cx-carousel component', () => {
+    it('should render cx-carousel component', () => {
       fixture.detectChanges();
-      debugger;
       const carouselComponent = fixture.debugElement.query(
         By.css('cx-carousel')
       );
