@@ -132,8 +132,6 @@ describe('ProductImagesComponent', () => {
   }
   beforeEach(waitForAsync(() => {
     mockFeatureToggles = {
-      useProductCarouselBatchApi: true,
-      enableCarouselCategoryProducts: false,
       productCarouselScrolling: true,
     };
 
