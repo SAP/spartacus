@@ -59,6 +59,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     let httpParams: HttpParams = new HttpParams();
 
     httpParams = httpParams.set('name', saveCartName);
+
     const endpoint = this.getCloneSavedCartEndpoint(
       userId,
       cartId,

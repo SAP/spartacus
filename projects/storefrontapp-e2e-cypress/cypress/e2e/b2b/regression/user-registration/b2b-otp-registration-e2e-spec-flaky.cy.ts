@@ -68,7 +68,7 @@ describe('Tabbing order for B2B OTP registration', () => {
           cy.get('cx-global-message').contains(
             'Thank you for registering! A representative will contact you shortly and confirm your access information.'
           );
-          cy.get('cx-login').should('exist');
+          cy.getLoginRegisterLink().should('exist');
         });
       });
     });

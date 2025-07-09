@@ -13,15 +13,14 @@ import {
 import {
   CONSECUTIVE_CHARACTERS,
   EMAIL_PATTERN,
+  MAX_CHARACTERS_PATTERN,
+  MIN_EIGHT_CHARACTERS_PATTERN,
   MIN_ONE_DIGIT_PATTERN,
   MIN_ONE_SPECIAL_CHARACTER_PATTERN,
   MIN_ONE_UPPER_CASE_CHARACTER_PATTERN,
   MIN_SIX_CHARACTERS_PATTERN,
-  MIN_EIGHT_CHARACTERS_PATTERN,
-  MAX_CHARACTERS_PATTERN,
-  PASSWORD_PATTERN,
-  STRONG_PASSWORD_PATTERN,
   SECURE_PASSWORD_PATTERN,
+  STRONG_PASSWORD_PATTERN,
 } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -41,26 +40,6 @@ export class CustomFormValidators {
     return email && (!email.length || email.match(EMAIL_PATTERN))
       ? null
       : { cxInvalidEmail: true };
-  }
-
-  // TODO: (CXSPA-7567) Remove after removing formErrorsDescriptiveMessages feature toggle
-  /**
-   * Checks control's value with predefined password regexp
-   *
-   * NOTE: Use it as a control validator
-   *
-   * @deprecated Use passwordValidators instead
-   * @static
-   * @param {AbstractControl} control
-   * @returns {(ValidationErrors | null)} Uses 'cxInvalidPassword' validator error
-   * @memberof CustomFormValidators
-   */
-  static passwordValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.value as string;
-
-    return password && (!password.length || password.match(PASSWORD_PATTERN))
-      ? null
-      : { cxInvalidPassword: true };
   }
 
   static securePasswordValidator(

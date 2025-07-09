@@ -323,7 +323,6 @@ export class SearchBoxComponentService {
    */
   launchSearchPage(query: string): void {
     // Reset the completed state before starting new search
-    this.searchCompleted.next(false);
     this.searchCompleted
       .pipe(
         filter((complete) => complete), // Only proceed when true
