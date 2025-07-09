@@ -3,7 +3,7 @@
 # Install pngquant if missing
 if ! command -v pngquant &> /dev/null; then
   echo "pngquant not found. Installing..."
-  apt-get update && apt-get install -y pngquant
+  sudo apt-get update && sudo apt-get install -y pngquant
 fi
 
 SCREENSHOT_DIR="projects/storefrontapp-e2e-cypress/cypress/screenshots"
