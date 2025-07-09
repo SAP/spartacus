@@ -153,10 +153,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
 
     checkout.signOut();
 
-    const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-
-    cy.findByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
     login(variantUser.email, variantUser.password);
 

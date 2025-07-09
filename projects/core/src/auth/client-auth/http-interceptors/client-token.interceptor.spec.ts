@@ -1,14 +1,14 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClient,
   HttpHeaders,
-  HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
   HttpTestingController,
-  TestRequest,
   provideHttpClientTesting,
+  TestRequest,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
@@ -127,6 +127,41 @@ describe('ClientTokenInterceptor', () => {
   });
 
   it(`should catch 401 error for a client token`, inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
+      const options = {
+        headers,
+      };
+      http.get('/test', options).subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
+      spyOn(
+        clientErrorHandlingService,
+        'handleExpiredClientToken'
+      ).and.callThrough();
+
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
+        return req.method === 'GET';
+      });
+      mockReq.flush(
+        {
+          errors: [
+            {
+              type: 'InvalidBearerTokenError',
+              message: 'Invalid access token: some token',
+            },
+          ],
+        },
+        { status: 401, statusText: 'Error' }
+      );
+      expect(
+        clientErrorHandlingService.handleExpiredClientToken
+      ).toHaveBeenCalled();
+    }
+  ));
+
+  it(`should catch 401 error for a client token for legacy auth server`, inject(
     [HttpClient],
     (http: HttpClient) => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');

@@ -47,16 +47,20 @@ describe('Header and Footer Continuum tests', { testIsolation: false }, () => {
     viewportContext(['mobile'], () => {
       it('Hamburger menu', () => {
         cy.get('cx-hamburger-menu button').click();
-        cy.get('a').contains('Brands');
+        cy.get('.navigation a').contains('Brands');
         cy.get('header').a11yRunContinuumTest();
 
-        cy.get('button[aria-label="Brands"]').click();
-        cy.get('button').contains('Cameras');
-        cy.get('nav[aria-label="Category menu"]').a11yRunContinuumTest();
+        cy.get('.navigation button[aria-label="Brands"]').click();
+        cy.get('.navigation button').contains('Cameras');
+        cy.get(
+          '.navigation nav[aria-label="Category menu"]'
+        ).a11yRunContinuumTest();
 
-        cy.get('button').contains('Cameras').click();
-        cy.get('a').contains('Canon');
-        cy.get('nav[aria-label="Category menu"]').a11yRunContinuumTest();
+        cy.get('.navigation button').contains('Cameras').click();
+        cy.get('.navigation a').contains('Canon');
+        cy.get(
+          '.navigation nav[aria-label="Category menu"]'
+        ).a11yRunContinuumTest();
       });
     });
   });

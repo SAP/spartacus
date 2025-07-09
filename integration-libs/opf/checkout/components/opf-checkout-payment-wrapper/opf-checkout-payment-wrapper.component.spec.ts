@@ -8,14 +8,17 @@ import {
   OpfRegisterGlobalFunctionsInput,
 } from '@spartacus/opf/global-functions/root';
 import { OpfPaymentRenderPattern } from '@spartacus/opf/payment/root';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapper.component';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+
 describe('OpfCheckoutPaymentWrapperComponent', () => {
   let component: OpfCheckoutPaymentWrapperComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentWrapperComponent>;
   let mockService: jasmine.SpyObj<OpfCheckoutPaymentWrapperService>;
   let mockGlobalFunctionsService: jasmine.SpyObj<OpfGlobalFunctionsService>;
+  let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
   let domSanitizer: DomSanitizer;
 
   beforeEach(() => {
@@ -30,6 +33,14 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       ['registerGlobalFunctions', 'unregisterGlobalFunctions']
     );
 
+    mockPaymentEventsService = jasmine.createSpyObj(
+      'OpfPaymentEventsService',
+      [],
+      {
+        reinitiatePaymentEvent$: of(123),
+      }
+    );
+
     TestBed.configureTestingModule({
       declarations: [OpfCheckoutPaymentWrapperComponent],
       providers: [
@@ -37,6 +48,10 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
         {
           provide: OpfGlobalFunctionsFacade,
           useValue: mockGlobalFunctionsService,
+        },
+        {
+          provide: OpfPaymentEventsService,
+          useValue: mockPaymentEventsService,
         },
         {
           provide: ViewContainerRef,
@@ -131,14 +146,104 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     expect(result).toBeTruthy();
   });
 
-  it('should return false if paymentSessionData is not HOSTED_FIELDS', () => {
-    const mockPaymentSessionData = {
+  it('should handle undefined paymentSessionData', () => {
+    mockService.initiatePayment.and.returnValue(of(undefined));
+
+    component.selectedPaymentId = 123;
+    component.ngOnInit();
+
+    expect(mockService.initiatePayment).toHaveBeenCalledWith(123);
+    expect(
+      mockGlobalFunctionsService.registerGlobalFunctions
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should handle isHostedFields with case-insensitive pattern matching', () => {
+    const mockPaymentSessionData1 = {
       paymentSessionId: 'session123',
-      pattern: 'NON_HOSTED_FIELDS',
+      pattern: 'hosted_fields',
     };
 
-    const result = (component as any)?.isHostedFields(mockPaymentSessionData);
+    const mockPaymentSessionData2 = {
+      paymentSessionId: 'session123',
+      pattern: 'HOSTED_FIELDS',
+    };
 
-    expect(result).toBeFalsy();
+    const mockPaymentSessionData3 = {
+      paymentSessionId: 'session123',
+      pattern: 'Hosted_Fields',
+    };
+
+    const result1 = (component as any)?.isHostedFields(mockPaymentSessionData1);
+    const result2 = (component as any)?.isHostedFields(mockPaymentSessionData2);
+    const result3 = (component as any)?.isHostedFields(mockPaymentSessionData3);
+
+    expect(result1).toBeFalsy(); // Should be case-sensitive
+    expect(result2).toBeTruthy();
+    expect(result3).toBeFalsy();
+  });
+
+  it('should handle bypassSecurityTrustHtml with null input', () => {
+    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    component.bypassSecurityTrustHtml(null as any);
+
+    expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(null);
+  });
+
+  it('should handle bypassSecurityTrustHtml with empty string', () => {
+    spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+    component.bypassSecurityTrustHtml('');
+
+    expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith('');
+  });
+
+  it('should handle bypassSecurityTrustResourceUrl with null input', () => {
+    spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').and.stub();
+    component.bypassSecurityTrustResourceUrl(null as any);
+
+    expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+      null
+    );
+  });
+
+  it('should handle bypassSecurityTrustResourceUrl with empty string', () => {
+    spyOn(domSanitizer, 'bypassSecurityTrustResourceUrl').and.stub();
+    component.bypassSecurityTrustResourceUrl('');
+
+    expect(domSanitizer.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+      ''
+    );
+  });
+
+  it('should handle ngOnInit with undefined selectedPaymentId', () => {
+    mockService.initiatePayment.and.returnValue(of(null));
+    component.selectedPaymentId = undefined as any;
+    component.ngOnInit();
+
+    expect(mockService.initiatePayment).toHaveBeenCalledWith(undefined);
+  });
+
+  it('should handle null paymentSessionData', () => {
+    mockService.initiatePayment.and.returnValue(of(null));
+
+    component.selectedPaymentId = 123;
+    component.ngOnInit();
+
+    expect(mockService.initiatePayment).toHaveBeenCalledWith(123);
+    expect(
+      mockGlobalFunctionsService.registerGlobalFunctions
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should handle undefined paymentSessionData', () => {
+    mockService.initiatePayment.and.returnValue(of(undefined));
+
+    component.selectedPaymentId = 123;
+    component.ngOnInit();
+
+    expect(mockService.initiatePayment).toHaveBeenCalledWith(123);
+    expect(
+      mockGlobalFunctionsService.registerGlobalFunctions
+    ).not.toHaveBeenCalled();
   });
 });

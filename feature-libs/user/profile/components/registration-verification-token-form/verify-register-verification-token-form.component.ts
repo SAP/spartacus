@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,14 +20,6 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  CustomFormValidators,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
-import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
-import {
   AuthConfigService,
   FeatureConfigService,
   GlobalMessageService,
@@ -34,12 +27,19 @@ import {
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
-import { UserSignUp } from '@spartacus/user/profile/root';
-import { HttpErrorResponse } from '@angular/common/http';
+import {
+  CustomFormValidators,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import {
   VerificationToken,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
+import { UserSignUp } from '@spartacus/user/profile/root';
+import { BehaviorSubject } from 'rxjs';
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
+import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 
 @Component({
   selector: 'cx-registration-verification-token-form',
@@ -67,30 +67,18 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
-    if (this.featureConfigService?.isEnabled('formErrorsDescriptiveMessages')) {
-      if (
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ) {
-        return CustomFormValidators.securePasswordValidators;
-      } else {
-        if (
-          this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ) {
-          return [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ];
-        } else {
-          return CustomFormValidators.passwordValidators;
-        }
-      }
+    if (this.featureConfigService.isEnabled('enableSecurePasswordValidation')) {
+      return CustomFormValidators.securePasswordValidators;
     } else {
       if (
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
+        this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
       ) {
-        return CustomFormValidators.securePasswordValidator;
+        return [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ];
       } else {
         return CustomFormValidators.passwordValidators;
       }
