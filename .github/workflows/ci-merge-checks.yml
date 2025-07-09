@@ -194,19 +194,10 @@ jobs:
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
         run: |
           ci-scripts/e2e-cypress.sh -s a11y
-      - name: Install pngquant - img compressing tool
-        if: failure()
-        run: sudo apt-get update && sudo apt-get install -y pngquant
-
-      - name: Compress Cypress PNG screenshots
+      - name: Compress Cypress Screenshots
         if: failure()
         run: |
-          SCREENSHOT_DIR="projects/storefrontapp-e2e-cypress/cypress/screenshots"
-          if [ -d "$SCREENSHOT_DIR" ]; then
-            find "$SCREENSHOT_DIR" -type f -name "*.png" -exec pngquant --quality=60-80 --ext .png --force {} \;
-          else
-            echo "No screenshots directory found."
-          fi
+          ci-scripts/compress-cypress-screenshots.sh
       - name: Upload Cypress failure screenshots
         if: failure()
         uses: actions/upload-artifact@v4
