@@ -325,7 +325,6 @@ describe('ProductCarouselComponent', () => {
     mockFeatureToggles.enableCarouselCategoryProducts = false;
     spyOn(featureConfigService, 'isEnabled').and.callThrough();
     spyOn(productService, 'get').and.callThrough();
-    fixture.detectChanges();
 
     const scopes = [ProductScope.LIST_ITEM];
 
@@ -497,6 +496,7 @@ describe('ProductCarouselComponent', () => {
   });
 
   it('should pass trackByFn to the carousel and return product.code', () => {
+    fixture.detectChanges();
     const carouselComponent = fixture.debugElement.query(
       By.directive(MockCarouselScrollingComponent)
     ).componentInstance;
