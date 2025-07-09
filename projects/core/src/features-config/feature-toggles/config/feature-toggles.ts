@@ -758,6 +758,23 @@ export interface FeatureTogglesInterface {
   createMediaPreconnectLink?: boolean;
 
   /**
+   * Feature flag to enable consistent header slot structure across breakpoints to reduce
+   * layout shift and improve Cumulative Layout Shift (CLS) scores.
+   *
+   * On desktop devices (non-mobile), some header and navigation elements were rendered
+   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
+   * affected the user experience and CLS performance.
+   *
+   * When enabled:
+   * - Desktop uses the same header slot structure as mobile.
+   * - Reduces layout shift and improves perceived performance and visual stability.
+   *
+   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
+   * with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
+
+  /**
    * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
    *
    * When enabled, it ensures that appropriate space is reserved for images before they load,
@@ -907,6 +924,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
 };
