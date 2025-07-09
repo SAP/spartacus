@@ -136,13 +136,23 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     this.routingService
       .go(
         {
-          cxRoute: 'configureOverview' + configuratorType,
+          cxRoute: 'configure' + configuratorType,
           params: { ownerType: 'cartEntry', entityKey: owner.id },
         },
-        { queryParams: { productCode: productCode } }
+        { replaceUrl: true }
       )
       .then(() => {
-        this.focusOverviewInTabBar();
+        this.routingService
+          .go(
+            {
+              cxRoute: 'configureOverview' + configuratorType,
+              params: { ownerType: 'cartEntry', entityKey: owner.id },
+            },
+            { queryParams: { productCode: productCode } }
+          )
+          .then(() => {
+            this.focusOverviewInTabBar();
+          });
       });
   }
 
