@@ -265,15 +265,15 @@ describe('ProductCarouselComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule(testBedDefaults).compileComponents();
+  }));
+
+  beforeEach(() => {
     mockFeatureToggles = {
       useProductCarouselBatchApi: true,
       enableCarouselCategoryProducts: false,
       productCarouselScrolling: true,
     };
-    TestBed.configureTestingModule(testBedDefaults).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
     component = fixture.componentInstance;
     featureConfigService = TestBed.inject(
