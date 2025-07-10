@@ -9,7 +9,6 @@ import * as checkout from '../helpers/checkout-flow';
 import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as productDetails from '../helpers/product-details';
 import { SampleUser, getSampleUser } from '../sample-data/checkout-flow';
-import { navigateToLoginPage } from './login';
 import { subscribeStockNotification } from './notification';
 
 let user: SampleUser | undefined;
@@ -47,7 +46,7 @@ function registerUser(): SampleUser {
   checkout.visitHomePage();
   const user = checkout.registerUser(false, getSampleUser());
   cy.whenJDK21(() => {
-    navigateToLoginPage();
+    cy.getLoginRegisterLink({ clickAndWait: true });
   });
   checkout.loginUser(user);
   return user;

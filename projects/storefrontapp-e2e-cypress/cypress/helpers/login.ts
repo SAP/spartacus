@@ -119,18 +119,20 @@ export function loginWithBadCredentials() {
   loginWithBadCredentialsFromLoginPage();
 }
 
-// TODO: remove this
 /**
  * Navigate to login page
  * - For JDK17, it waits for the login page to load.
  */
 export function navigateToLoginPage() {
-  cy.getLoginRegisterLink({ clickAndWait: true });
-}
-
-// TODO: remove this
-export function findLoginLink() {
-  return cy.getLoginRegisterLink();
+  cy.whenJDK17(() => {
+    const alias = waitForPage('/login', 'getLoginPage');
+    cy.visit('/login');
+    cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    cy.visit('/login');
+    cy.url().should('contain', '/login');
+  });
 }
 
 export function loginAsDefaultUser() {

@@ -529,7 +529,7 @@ describe('Cart merging on login', () => {
     anonymousConsents.clickAllowAllFromBanner();
     loginHelper.registerUser();
     cy.whenJDK21(() => {
-      loginHelper.navigateToLoginPage();
+      cy.getLoginRegisterLink({ clickAndWait: true });
     });
     loginHelper.loginUser();
     cy.wait(`@${loginAlias}`);
