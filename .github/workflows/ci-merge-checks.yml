@@ -106,10 +106,13 @@ jobs:
         include:
           - spa_env: ci,b2c
             build_type: csr
+            cache_key: ci-b2c
           - spa_env: ci,b2b
             build_type: csr
+            cache_key: ci-b2b
           - spa_env: ci,b2c
             build_type: ssr
+            cache_key: ci-b2c
     steps:
       - uses: actions/checkout@v4
       - name: Setup node
@@ -149,7 +152,7 @@ jobs:
         with:
           path: |
             dist/storefrontapp
-          key: spartacus-app-${{ matrix.spa_env }}-${{ matrix.build_type }}-${{ github.event.pull_request.head.sha || github.run_id }}
+          key: spartacus-app-${{ matrix.cache_key }}-${{ matrix.build_type }}-${{ github.event.pull_request.head.sha || github.run_id }}
   b2c_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: MC - E2E B2C core
@@ -192,7 +195,7 @@ jobs:
         with:
           path: |
             dist/storefrontapp
-          key: spartacus-app-ci,b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          key: spartacus-app-ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
       - name: Run e2es
         env:
@@ -239,7 +242,7 @@ jobs:
         with:
           path: |
             dist/storefrontapp
-          key: spartacus-app-ci,b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
+          key: spartacus-app-ci-b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
       - name: Run e2es
         env:
@@ -289,7 +292,7 @@ jobs:
         with:
           path: |
             dist/storefrontapp
-          key: spartacus-app-ci,b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          key: spartacus-app-ci-b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
       - name: Run e2es
         env:
@@ -339,7 +342,7 @@ jobs:
         with:
           path: |
             dist/storefrontapp
-          key: spartacus-app-ci,b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          key: spartacus-app-ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
       - name: Run e2es
         env:
