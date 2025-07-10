@@ -12,52 +12,7 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
-  build_libs:
-    name: Build Spartacus libraries
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: |
-          npm ci
-          (cd projects/storefrontapp-e2e-cypress && npm ci)
-      - name: Build Spartacus libraries
-        run: |
-          export NODE_OPTIONS=--dns-result-order=ipv4first
-          npm run build:libs 2>&1 | tee build.log
-
-          results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
-          if [[ -z "${results}" ]]; then
-            echo "Success: Spartacus production build was successful."
-            rm build.log
-          else
-            echo "ERROR: Spartacus production build failed."
-            echo "Check for 'Warning: Can't resolve all parameters for ...' in the build log."
-            rm build.log
-            exit 1
-          fi
-      - name: Cache built libraries
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
   vendor_e2e_tests:
-    needs: [build_libs]
     name: Run ${{ matrix.test_name }}
     runs-on: ubuntu-latest
     strategy:
@@ -143,22 +98,14 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
 
-      - name: Restore built libraries
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
-
       - name: Run ${{ matrix.test_name }}
         env:
           SPA_ENV: ${{ matrix.spa_env }}
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s ${{ matrix.suite }} --skip-libs-build
+          ci-scripts/e2e-cypress.sh -s ${{ matrix.suite }}
   build_conclusion:
-    needs: [build_libs, vendor_e2e_tests]
+    needs: [vendor_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -169,7 +116,6 @@ jobs:
           script: |
             core.setFailed('Build failed')
         if: |
-          needs.build_libs.result == 'failure' || needs.build_libs.result == 'cancelled' ||
           needs.vendor_e2e_tests.result == 'failure' || needs.vendor_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion

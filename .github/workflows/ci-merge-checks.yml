@@ -97,8 +97,61 @@ jobs:
           path: |
             dist
           key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+  build_apps:
+    needs: [build_libs]
+    name: MC - Build Spartacus apps
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - spa_env: ci,b2c
+            build_type: csr
+          - spa_env: ci,b2b
+            build_type: csr
+          - spa_env: ci,b2c
+            build_type: ssr
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Restore built libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
+      - name: Build Spartacus app for ${{ matrix.spa_env }} (${{ matrix.build_type }})
+        env:
+          SPA_ENV: ${{ matrix.spa_env }}
+          NODE_OPTIONS: --dns-result-order=ipv4first
+        run: |
+          echo "Building ${{ matrix.build_type }} app for SPA_ENV: ${{ matrix.spa_env }}"
+          if [ "${{ matrix.build_type }}" == "ssr" ]; then
+            npm run build:ssr:ci
+          else
+            npm run build:csr
+          fi
+      - name: Cache built app (${{ matrix.spa_env }}-${{ matrix.build_type }})
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/storefrontapp
+          key: spartacus-app-${{ matrix.spa_env }}-${{ matrix.build_type }}-${{ github.event.pull_request.head.sha || github.run_id }}
   b2c_e2e_tests:
-    needs: [no_retries, validate_e2e_execution, build_libs]
+    needs: [no_retries, validate_e2e_execution, build_apps]
     name: MC - E2E B2C core
     runs-on: ubuntu-latest
     strategy:
@@ -134,14 +187,21 @@ jobs:
             dist
           key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
+      - name: Restore built app (ci,b2c)
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/storefrontapp
+          key: spartacus-app-ci,b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh --skip-libs-build
+          ci-scripts/e2e-cypress.sh --skip-build
   b2c_ssr_e2e_tests:
-    needs: [no_retries, validate_e2e_execution, build_libs]
+    needs: [no_retries, validate_e2e_execution, build_apps]
     name: MC - E2E SSR core (B2C)
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
@@ -174,14 +234,21 @@ jobs:
             dist
           key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
+      - name: Restore built app (ci,b2c-ssr)
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/storefrontapp
+          key: spartacus-app-ci,b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh --ssr --skip-libs-build
+          ci-scripts/e2e-cypress.sh --ssr --skip-build
   b2b_e2e_tests:
-    needs: [no_retries, validate_e2e_execution, build_libs]
+    needs: [no_retries, validate_e2e_execution, build_apps]
     name: MC - E2E B2B core
     runs-on: ubuntu-latest
     strategy:
@@ -217,14 +284,21 @@ jobs:
             dist
           key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
+      - name: Restore built app (ci,b2b)
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/storefrontapp
+          key: spartacus-app-ci,b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh -s b2b --skip-libs-build
+          ci-scripts/e2e-cypress.sh -s b2b --skip-build
   a11y_e2e_tests:
-    needs: [no_retries, validate_e2e_execution, build_libs]
+    needs: [no_retries, validate_e2e_execution, build_apps]
     name: MC - E2E A11Y
     runs-on: ubuntu-latest
     strategy:
@@ -260,6 +334,13 @@ jobs:
             dist
           key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
+      - name: Restore built app (ci,b2c)
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist/storefrontapp
+          key: spartacus-app-ci,b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          fail-on-cache-miss: true
       - name: Run e2es
         env:
           SPA_ENV: ci
@@ -267,9 +348,9 @@ jobs:
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
         run: |
-          ci-scripts/e2e-cypress.sh -s a11y --skip-libs-build
+          ci-scripts/e2e-cypress.sh -s a11y --skip-build
   merge_checks_result:
-    needs: [build_libs, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
+    needs: [build_libs, build_apps, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -289,6 +370,7 @@ jobs:
             core.setFailed('Please push a commit to re-trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: |
           needs.build_libs.result == 'failure' || needs.build_libs.result == 'cancelled' ||
+          needs.build_apps.result == 'failure' || needs.build_apps.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' ||
