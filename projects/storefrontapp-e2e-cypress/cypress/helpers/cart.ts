@@ -9,7 +9,7 @@ import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
-import { findLoginLink, userGreetSelector } from './login';
+import { userGreetSelector } from './login';
 import { waitForPage } from './navigation';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
@@ -344,7 +344,7 @@ export function logOutAndNavigateToEmptyCart() {
   checkBanner();
   clickHamburger();
 
-  findLoginLink().should('contain', 'Sign In');
+  cy.getLoginRegisterLink().should('contain', 'Sign In');
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
@@ -432,18 +432,9 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
 
-  cy.whenJDK17(() => {
-    const loginPage = waitForPage('/login', 'getLoginPage');
+  clickHamburger();
 
-    clickHamburger();
-
-    findLoginLink().click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-  });
-  cy.whenJDK21(() => {
-    clickHamburger();
-    findLoginLink().click();
-  });
+  cy.getLoginRegisterLink({ clickAndWait: true });
 
   login(
     standardUser.registrationData.email,

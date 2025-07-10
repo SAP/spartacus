@@ -7,7 +7,6 @@
 import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
-import { findLoginLink } from './login';
 import * as configuration from './product-configurator';
 import * as configurationVc from './product-configurator-vc';
 import * as productSearch from './product-search';
@@ -304,7 +303,7 @@ export function clickAddToCartBtn(): void {
 export function login(email: string, password: string, name: string): void {
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
-  findLoginLink()
+  cy.getLoginRegisterLink()
     .click()
     .then(() => {
       cy.get('cx-login-form').should('be.visible');
@@ -314,7 +313,7 @@ export function login(email: string, password: string, name: string): void {
   // Verify whether the user logged in successfully,
   // namely the logged in user should be greeted
   cy.get('.cx-login-greet').should('contain', name);
-  cy.get('cx-login').should('not.contain', 'Sign In');
+  cy.getLoginRegisterLink().should('not.contain', 'Sign In');
 }
 
 /**

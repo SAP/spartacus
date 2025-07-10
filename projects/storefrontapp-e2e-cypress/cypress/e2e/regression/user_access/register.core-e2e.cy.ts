@@ -5,7 +5,6 @@
  */
 
 import { register } from '../../../helpers/auth-forms';
-import { clickHamburger } from '../../../helpers/homepage';
 import * as registerHelpers from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
@@ -19,8 +18,7 @@ describe('Register', () => {
 
     it('should register and redirect to login page', () => {
       cy.whenJDK17(() => {
-        clickHamburger();
-        cy.findByText(/Sign in \/ Register/i).click();
+        cy.getLoginRegisterLink().click();
         cy.get('cx-login-register').findByText('Register').click();
       });
       cy.whenJDK21(() => {

@@ -16,19 +16,9 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In `ASM` it shows searching customer by order ID.
-   */
-  showSearchingCustomerByOrderInASM?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
-
-  /**
-   * Some Changes for input of cart Number and text of Customer360View in ASM view
-   */
-  showStyleChangesInASM?: boolean;
 
   /**
    * In `SearchBoxComponent` it shows the trending searches.
@@ -500,19 +490,6 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
-   * In OCC cart requests, it puts parameters of a cart name and cart description
-   * into a request body, instead of query params.
-   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
-   */
-  occCartNameAndDescriptionInHttpRequestBody?: boolean;
-
-  /**
-   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
-   * customization buttons in the BottomHeaderSlot in SmartEdit.
-   */
-  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
-
-  /**
    * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
    * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
    * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
@@ -789,7 +766,24 @@ export interface FeatureTogglesInterface {
    * for public clients from that version and onwards.
    */
   disableClientTokens?: boolean;
-  
+
+  /**
+   * Feature flag to enable consistent header slot structure across breakpoints to reduce
+   * layout shift and improve Cumulative Layout Shift (CLS) scores.
+   *
+   * On desktop devices (non-mobile), some header and navigation elements were rendered
+   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
+   * affected the user experience and CLS performance.
+   *
+   * When enabled:
+   * - Desktop uses the same header slot structure as mobile.
+   * - Reduces layout shift and improves perceived performance and visual stability.
+   *
+   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
+   * with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
+
   /**
    * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
    *
@@ -832,8 +826,6 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
-  showSearchingCustomerByOrderInASM: true,
-  showStyleChangesInASM: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -912,8 +904,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
-  occCartNameAndDescriptionInHttpRequestBody: true,
-  cmsBottomHeaderSlotUsingFlexStyles: true,
   useSiteThemeService: true,
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
@@ -942,6 +932,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   createMediaPreconnectLink: false,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
   authorizationCodeFlowByDefault: false,

@@ -11,7 +11,7 @@ import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
 import { checkBanner } from './homepage';
-import { findLoginLink, signOutUser } from './login';
+import { signOutUser } from './login';
 import { waitForPage } from './navigation';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
@@ -247,12 +247,8 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeAnonymousConsentsDialog();
 
-    const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.onMobile(() => {
-      clickHamburger();
-    });
-    findLoginLink().click({ force: true });
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    clickHamburger();
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);
 

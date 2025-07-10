@@ -61,9 +61,7 @@ export function registerUserFromRegisterPage(uniqueUser?: boolean) {
  */
 export function registerUser(uniqueUser?: boolean) {
   cy.whenJDK17(() => {
-    const loginPage = waitForPage('/login', 'getLoginPage'); // login issue here
-    findLoginLink().click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.getLoginRegisterLink({ clickAndWait: true });
   });
   cy.whenJDK21(() => {
     const loginPage = waitForPage('/login/register', 'getRegisterPage');
@@ -121,25 +119,18 @@ export function loginWithBadCredentials() {
   loginWithBadCredentialsFromLoginPage();
 }
 
+// TODO: remove this
 /**
  * Navigate to login page
  * - For JDK17, it waits for the login page to load.
  */
 export function navigateToLoginPage() {
-  cy.whenJDK17(() => {
-    const loginPage = waitForPage('/login', 'getLoginPage'); // conflict with JDK21
-    findLoginLink().click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-  });
-  cy.whenJDK21(() => {
-    findLoginLink().click();
-    // conflict with JDK21: Assert auth server page loaded?
-  });
+  cy.getLoginRegisterLink({ clickAndWait: true });
 }
 
+// TODO: remove this
 export function findLoginLink() {
-  // clickHamburger();
-  return cy.get(loginLinkSelector);
+  return cy.getLoginRegisterLink();
 }
 
 export function loginAsDefaultUser() {

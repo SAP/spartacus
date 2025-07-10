@@ -9,7 +9,7 @@ import { verifyTabbingOrder as tabbingOrder } from '../../helpers/accessibility/
 import { SampleUser } from '../../sample-data/checkout-flow';
 import { interceptPost } from '../../support/utils/intercept';
 import * as alerts from '../global-message';
-import { clickHamburger } from '../homepage';
+import { clickHamburger } from '../navigation';
 
 export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
   'cx-link.cx-organization-user-register-button';
@@ -25,10 +25,8 @@ export enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
 const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
 
 export function navigateToOrganizationUserRegisterPage() {
-  cy.onMobile(() => {
-    clickHamburger();
-  });
-  cy.findByText(/Sign in \/ Register/i).click();
+  clickHamburger();
+  cy.getLoginRegisterLink().click();
   cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
 }
 
