@@ -202,7 +202,7 @@ export function checkWishListPersisted(product: TestProduct) {
   });
   cy.location('pathname').should('equal', '/electronics-spa/en/USD/');
 
-  cy.findByText(/Sign in \/ Register/i).click();
+  cy.getLoginRegisterLink().click();
 
   loginWishListUser();
 
