@@ -21,7 +21,7 @@ describe('My Account Version-2 Landing Page', { testIsolation: false }, () => {
     });
 
     it('should navigate to login page and SignIn with user details', () => {
-      cy.findByText(/Sign in \/ Register/i).click();
+      cy.getLoginRegisterLink().click();
       fillLoginForm({ username: 'cdp.user@sap.com', password: 'Test@1' });
     });
 

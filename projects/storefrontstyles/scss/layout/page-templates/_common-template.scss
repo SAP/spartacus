@@ -49,11 +49,9 @@ cx-category-navigation {
 }
 
 cx-page-slot.cx-bottom-header-slot {
-  @include forFeature('cmsBottomHeaderSlotUsingFlexStyles') {
-    display: flex;
+  display: flex;
 
-    > * {
-      flex: 1 1 var(--cx-flex-basis, 100%);
-    }
+  > * {
+    flex: 1 1 var(--cx-flex-basis, 100%);
   }
 }
