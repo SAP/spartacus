@@ -293,8 +293,6 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
-        showSearchingCustomerByOrderInASM: true,
-        showStyleChangesInASM: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
