@@ -41,8 +41,8 @@ export class GigyaRaasGuard implements CanActivate {
           return of(false);
         }
         // Run guard checks for each component
-        const guardResults$ = componentData.map((componentData) =>
-          this.checksToProcess(componentData)
+        const guardResults$ = componentData.map((data) =>
+          this.checksToProcess(data)
         );
 
         // Allow activation only if all checks pass, else return first non-true value
