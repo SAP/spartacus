@@ -15,7 +15,15 @@ import {
   RoutingService,
   isNotUndefined,
 } from '@spartacus/core';
-import { Observable, catchError, filter, of, switchMap, take } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  combineLatest,
+  filter,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,19 +37,43 @@ export class GigyaRaasGuard implements CanActivate {
   canActivate(): Observable<GuardResult> {
     return this.getComponentData().pipe(
       switchMap((componentData) => {
-        if (Object.keys(componentData).length === 0) {
+        if (!componentData.length) {
           return of(false);
         }
-        if (componentData.showAnonymous === 'false') {
-          return this.authGuard.canActivate();
-        }
-        if (componentData.showLoggedIn === 'false') {
-          return this.notAuthGuard.canActivate();
-        }
-        return of(true);
+        // Run guard checks for each component
+        const guardResults$ = componentData.map((componentData) =>
+          this.checksToProcess(componentData)
+        );
+
+        // Allow activation only if all checks pass, else return first non-true value
+        return combineLatest(guardResults$).pipe(
+          switchMap((results) => {
+            const firstNonTrue = results.find(
+              (result: GuardResult) => result !== true
+            );
+            return of(firstNonTrue ?? true);
+          })
+        );
       }),
       catchError(() => of(false))
     );
+  }
+
+  private checksToProcess(
+    componentData: GigyaRaasComponentData
+  ): Observable<GuardResult> {
+    if (Object.keys(componentData).length === 0) {
+      return of(false);
+    }
+
+    if (componentData.showAnonymous === 'false') {
+      return this.authGuard.canActivate();
+    }
+
+    if (componentData.showLoggedIn === 'false') {
+      return this.notAuthGuard.canActivate();
+    }
+    return of(true);
   }
 
   private getComponentsByType(
@@ -63,20 +95,27 @@ export class GigyaRaasGuard implements CanActivate {
     );
   }
 
-  private getComponentData(): Observable<GigyaRaasComponentData> {
+  private getComponentData(): Observable<GigyaRaasComponentData[]> {
     return this.routingService.getNextPageContext().pipe(
       filter(isNotUndefined),
       take(1),
       switchMap((pageContext) =>
         this.getComponentsByType(pageContext, 'GigyaRaasComponent')
       ),
-      switchMap((components) => {
-        if (components.length === 1 && components[0]) {
-          return this.cmsService.getComponentData<GigyaRaasComponentData>(
-            components[0]
-          );
+      switchMap((componentUids) => {
+        if (!componentUids.length) {
+          return of([]);
         }
-        return of({} as GigyaRaasComponentData);
+
+        const componentData$ = componentUids
+          .filter((uid): uid is string => Boolean(uid))
+          .map((uid) =>
+            this.cmsService
+              .getComponentData<GigyaRaasComponentData>(uid)
+              .pipe(catchError(() => of({} as GigyaRaasComponentData)))
+          );
+
+        return combineLatest(componentData$);
       })
     );
   }
