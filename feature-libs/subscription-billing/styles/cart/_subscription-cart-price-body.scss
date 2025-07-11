@@ -1,0 +1,20 @@
+%cx-subscription-cart-price-body {
+  .cx-item-list-charges {
+    text-align: start !important;
+  }
+
+  .cx-item-list-charges {
+    .cx-recurring-charges {
+      margin-bottom: 1rem;
+    }
+    .cx-value {
+      font-size: 0.9rem;
+      line-height: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .cx-billing-name {
+      font-weight: 600;
+    }
+  }
+}

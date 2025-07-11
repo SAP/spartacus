@@ -27,6 +27,7 @@ import {
   OutletService,
 } from '@spartacus/storefront';
 import { SubscriptionCartPriceHeadingComponent } from './cart/price-heading/subscription-cart-price-heading.component';
+import { SubscriptionCartPriceBodyComponent } from './cart/price-body/subscription-cart-price-body.component';
 
 export function registerSubscriptionOutletFactory(): () => void {
   const outletService = inject(OutletService);
@@ -35,13 +36,21 @@ export function registerSubscriptionOutletFactory(): () => void {
     console.log(
       'Registering SubscriptionCartPriceHeadingComponent in CartOutlets'
     );
-    const template = componentFactoryResolver.resolveComponentFactory(
+    const priceHeadingTemplate = componentFactoryResolver.resolveComponentFactory(
         SubscriptionCartPriceHeadingComponent
+      );
+    const priceBodyTemplate = componentFactoryResolver.resolveComponentFactory(
+        SubscriptionCartPriceBodyComponent
       );
     outletService.add(
       CartOutlets.SUBSCRIPTION_PRICE_HEADING,
-      template,
-      OutletPosition.AFTER
+      priceHeadingTemplate,
+      OutletPosition.REPLACE
+    );
+    outletService.add(
+      CartOutlets.SUBSCRIPTION_PRICE_BODY,
+      priceBodyTemplate,
+      OutletPosition.REPLACE
     );
   };
 }
@@ -54,8 +63,9 @@ export function registerSubscriptionOutletFactory(): () => void {
     SubscriptionCartDetailsComponent,
     SubscriptionCartItemListComponent,
     SubscriptionCartPriceHeadingComponent,
+    SubscriptionCartPriceBodyComponent
   ],
-  exports: [SubscriptionCartPriceHeadingComponent],
+  exports: [SubscriptionCartPriceHeadingComponent, SubscriptionCartPriceBodyComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
