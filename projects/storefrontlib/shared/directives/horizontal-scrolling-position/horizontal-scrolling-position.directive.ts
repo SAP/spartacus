@@ -81,17 +81,17 @@ export class HorizontalScrollingPositionDirective
    * It is used to scroll the carousel items horizontally and to detect when the user
    * scrolls to the start or end of the carousel.
    */
-  @Input() scrollingArea: HTMLElement;
+  @Input() scrollingArea: HTMLElement | undefined;
 
   /**
    * Dummy element to detect when the user scrolls to the start of the carousel.
    */
-  @Input() scrollingAreaStart: HTMLElement;
+  @Input() scrollingAreaStart: HTMLElement | undefined;
 
   /**
    * Dummy element to detect when the user scrolls to the end of the carousel.
    */
-  @Input() scrollingAreaEnd: HTMLElement;
+  @Input() scrollingAreaEnd: HTMLElement | undefined;
 
   protected readonly _isScrollStart$ = new BehaviorSubject(true);
   /**
@@ -151,7 +151,7 @@ export class HorizontalScrollingPositionDirective
     const distance = options?.distance ?? this._scrollingAreaWidth$.value;
     const behavior = options?.behavior ?? 'smooth';
 
-    this.scrollingArea.scrollBy({
+    this.scrollingArea?.scrollBy({
       left: distance,
       behavior,
     });
@@ -171,7 +171,7 @@ export class HorizontalScrollingPositionDirective
     const distance = options?.distance ?? this._scrollingAreaWidth$.value;
     const behavior = options?.behavior ?? 'smooth';
 
-    this.scrollingArea.scrollBy({
+    this.scrollingArea?.scrollBy({
       left: -distance,
       behavior,
     });
@@ -192,6 +192,7 @@ export class HorizontalScrollingPositionDirective
     if (!this.windowRef.isBrowser()) {
       return;
     }
+
     this.windowResizeSubscription = this.windowRef.resize$.subscribe(() => {
       // We don't want to read `.clientWidth` of the `scrollingArea` on every
       // call of `scrollForward()` and `scrollBackward()` methods for performance reasons.
@@ -231,6 +232,10 @@ export class HorizontalScrollingPositionDirective
    * whether the user has scrolled to the start or end of the carousel.
    */
   protected unsubscribeScrollingArea() {
+    this._isScrollStart$.complete();
+    this._isScrollEnd$.complete();
+    this._scrollingAreaWidth$.complete();
+
     if (!this.windowRef.isBrowser()) {
       return;
     }
