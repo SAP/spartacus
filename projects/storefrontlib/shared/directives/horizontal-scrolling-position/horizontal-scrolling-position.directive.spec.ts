@@ -211,25 +211,94 @@ describe('HorizontalScrollingPositionDirective', () => {
   });
 
   describe('scrollForward', () => {
-    it('should scroll forward by default width and behavior');
-    it('should scroll forward by provided distance and behavior');
-    it('should not scroll if already at end');
-    it('should not scroll if scrollingArea is undefined');
-    it('should handle rapid calls and input changes');
+    it('should scroll forward by default width and behavior', () => {
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+      directive.scrollForward();
+      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+        left: scrollingArea.nativeElement.clientWidth,
+        behavior: 'smooth',
+      });
+    });
+
+    it('should scroll forward by provided distance and behavior', () => {
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+      directive.scrollForward({
+        distance: 100,
+        behavior: 'instant',
+      });
+      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+        left: 100,
+        behavior: 'instant',
+      });
+    });
+
+    it('should not scroll if already at end', () => {
+      directive['_isScrollEnd$'].next(true);
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+      directive.scrollForward();
+      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+    });
+
+    it('should not scroll if scrollingArea is undefined', () => {
+      directive['_isScrollEnd$'].next(false);
+      directive.scrollingArea = undefined;
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+      directive.scrollForward();
+      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+    });
   });
 
   describe('scrollBackward', () => {
-    it('should scroll backward by default width and behavior');
-    it('should scroll backward by provided distance and behavior');
-    it('should not scroll if already at start');
-    it('should not scroll if scrollingArea is undefined');
-    it('should handle rapid calls and input changes');
+    it('should scroll backward by default width and behavior', () => {
+      directive['_isScrollStart$'].next(false);
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+      directive.scrollBackward();
+      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+        left: -scrollingArea.nativeElement.clientWidth,
+        behavior: 'smooth',
+      });
+    });
+
+    it('should scroll forward by provided distance and behavior', () => {
+      directive['_isScrollStart$'].next(false);
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+      directive.scrollBackward({
+        distance: 100,
+        behavior: 'instant',
+      });
+      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+        left: -100,
+        behavior: 'instant',
+      });
+    });
+
+    it('should not scroll if already at end', () => {
+      directive['_isScrollStart$'].next(true);
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+      directive.scrollBackward();
+      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+    });
+
+    it('should not scroll if scrollingArea is undefined', () => {
+      directive['_isScrollStart$'].next(true);
+      directive.scrollingArea = undefined;
+
+      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+      directive.scrollBackward();
+      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+    });
   });
 
-  describe('IntersectionObserver', () => {
-    it('should observe scrollingAreaStart and scrollingAreaEnd');
-    it('should disconnect observer on destroy');
-    it('should not create observer if not in browser');
+  describe('subscribeScrollingArea', () => {
+    it('TODO ADD TESTS');
+  });
+  describe('unsubscribeScrollingArea', () => {
+    it('TODO ADD TESTS');
   });
 
   describe('error handling', () => {
