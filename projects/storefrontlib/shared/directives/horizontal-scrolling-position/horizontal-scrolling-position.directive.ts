@@ -99,7 +99,7 @@ export class HorizontalScrollingPositionDirective
    */
   readonly isScrollStart$ = this._isScrollStart$.asObservable();
 
-  readonly _isScrollEnd$ = new BehaviorSubject(false);
+  protected readonly _isScrollEnd$ = new BehaviorSubject(false);
   /**
    * Tells whether the end of the scrolling area is visible.
    */
