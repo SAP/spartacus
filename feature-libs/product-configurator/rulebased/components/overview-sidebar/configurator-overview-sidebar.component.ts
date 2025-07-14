@@ -6,7 +6,7 @@
 
 import { Component, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable, OperatorFunction } from 'rxjs';
+import { from, Observable, OperatorFunction } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -22,6 +22,23 @@ export class ConfiguratorOverviewSidebarComponent {
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;
+  serviceUrl = 'http://localhost:3000/api/generate_image';
+  body = new URLSearchParams({ attribute: 'value', color: 'blue' });
+
+  imagePath$ = from(
+    fetch(this.serviceUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ attribute: 'value', color: 'blue' }),
+    })
+  ).pipe(
+    switchMap((response) => from(response.json())),
+    tap((data) => {
+      if (data) {
+        this.ghostStyle = false;
+      }
+    })
+  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

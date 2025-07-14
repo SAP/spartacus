@@ -1,46 +1,7 @@
 <ng-container
-  *ngIf="configurationWithOv$ | async as configurationWithOv; else ghostSidebar"
+  *ngIf="imagePath$ | async as imagePath; else ghostSidebar"
 >
-  <div class="cx-menu-bar" role="tablist">
-    <button
-      #menuTab
-      [tabindex]="getTabIndexForMenuTab()"
-      role="tab"
-      [attr.aria-selected]="!showFilter"
-      [class.active]="!showFilter"
-      (keydown)="switchTabOnArrowPress($event, '#menuTab')"
-      (keydown.enter)="onMenu()"
-      (keydown.space)="onMenu()"
-      (click)="onMenu()"
-    >
-      {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
-    </button>
-    <button
-      #filterTab
-      [tabindex]="getTabIndexForFilterTab()"
-      role="tab"
-      [attr.aria-selected]="showFilter"
-      [class.active]="showFilter"
-      (keydown)="switchTabOnArrowPress($event, '#filterTab')"
-      (keydown.enter)="onFilter()"
-      (keydown.space)="onFilter()"
-      (click)="onFilter()"
-    >
-      {{ 'configurator.overviewSidebar.filter' | cxTranslate }}
-    </button>
-  </div>
-
-  <cx-configurator-overview-filter
-    *ngIf="showFilter"
-    [config]="configurationWithOv"
-  >
-  </cx-configurator-overview-filter>
-
-  <cx-configurator-overview-menu
-    *ngIf="!showFilter"
-    [config]="configurationWithOv"
-  >
-  </cx-configurator-overview-menu>
+    <img [src]="imagePath.imageUrl" alt= "huh" class="cx-overview-image" />
 </ng-container>
 
 <ng-template #ghostSidebar>
