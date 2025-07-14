@@ -70,8 +70,8 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
    */
   @Input() template: TemplateRef<CarouselScrollingTemplateContext<TItem>>;
 
-  @Input() backwardIcon = ICON_TYPE.CARET_LEFT;
-  @Input() forwardIcon = ICON_TYPE.CARET_RIGHT;
+  @Input() previousIcon = ICON_TYPE.CARET_LEFT;
+  @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
   /**
    * Angular's trackBy function for iterating over carousel items.

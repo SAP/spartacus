@@ -28,7 +28,7 @@
       (keydown.arrowup)="shareEvent($any($event))"
       (keydown.arrowdown)="shareEvent($any($event))"
     >
-      <cx-icon [type]="backwardIcon"></cx-icon>
+      <cx-icon [type]="previousIcon"></cx-icon>
     </button>
     <div class="carousel-items" #scrollingArea>
       <span #scrollingAreaStart class="carousel-items-start"></span>
@@ -67,7 +67,7 @@
       (keydown.arrowup)="shareEvent($any($event))"
       (keydown.arrowdown)="shareEvent($any($event))"
     >
-      <cx-icon [type]="forwardIcon"></cx-icon>
+      <cx-icon [type]="nextIcon"></cx-icon>
     </button>
   </div>
 </ng-container>
