@@ -79,6 +79,15 @@ const navParamsOverview: any = {
   params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
 };
 
+const navParamsConfig: any = {
+  cxRoute: 'configure' + configuratorType,
+  params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
+};
+
+const replaceUrlParam: any = {
+  replaceUrl: true,
+};
+
 const queryParams: any = {
   queryParams: {
     productCode: ConfigurationTestData.PRODUCT_CODE,
@@ -429,6 +438,17 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   let configuratorQuantityService: ConfiguratorQuantityService;
   let keyboardFocusService: KeyboardFocusService;
 
+  function checkNavigationFlow() {
+    tick();
+    expect(routingService.go).toHaveBeenCalledTimes(2);
+
+    const allArgs = (routingService.go as jasmine.Spy).calls.allArgs();
+    expect(allArgs[0][0]).toEqual(navParamsConfig);
+    expect(allArgs[0][1]).toEqual(replaceUrlParam);
+    expect(allArgs[1][0]).toEqual(navParamsOverview);
+    expect(allArgs[1][1]).toEqual(queryParams);
+  }
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -616,17 +636,16 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('onAddToCart', () => {
-    it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
+    it('should navigate to OV in case configuration is cart bound and we are on product config page', fakeAsync(() => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        queryParams
-      );
+
+      checkNavigationFlow();
+
       expect(
         configuratorGroupsService.setGroupStatusVisited
       ).toHaveBeenCalled();
-    });
+    }));
 
     it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {
       performUpdateOnOV();
@@ -665,14 +684,15 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
-    it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
+    it('should navigate to overview in case configuration has not been added yet and we are on configuration page', fakeAsync(() => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        queryParams
-      );
-    });
+
+      checkNavigationFlow();
+      expect(
+        configuratorGroupsService.setGroupStatusVisited
+      ).toHaveBeenCalled();
+    }));
 
     it('should remove one configuration (cart bound) in case configuration has not yet been added and we are on configuration page', () => {
       ensureProductBound();
@@ -711,7 +731,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
   });
 
   describe('navigateForProductBound', () => {
-    it('should navigate to OV in case configuration is product bound and we are on product config page', () => {
+    it('should navigate to OV in case configuration is product bound and we are on product config page', fakeAsync(() => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       ensureProductBound();
 
@@ -721,13 +741,10 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         false,
         mockProductConfiguration.productCode
       );
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        queryParams
-      );
-    });
+      checkNavigationFlow();
+    }));
 
-    it('should handle case that next owner is not defined', () => {
+    it('should handle case that next owner is not defined', fakeAsync(() => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       ensureProductBound();
 
@@ -737,14 +754,22 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         false,
         mockProductConfiguration.productCode
       );
-      expect(routingService.go).toHaveBeenCalledWith(
-        {
-          ...navParamsOverview,
-          params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
-        },
-        queryParams
-      );
-    });
+
+      tick();
+      expect(routingService.go).toHaveBeenCalledTimes(2);
+
+      const allArgs = (routingService.go as jasmine.Spy).calls.allArgs();
+      expect(allArgs[0][0]).toEqual({
+        ...navParamsConfig,
+        params: { ...navParamsConfig.params, entityKey: 'INITIAL' },
+      });
+      expect(allArgs[0][1]).toEqual(replaceUrlParam);
+      expect(allArgs[1][0]).toEqual({
+        ...navParamsOverview,
+        params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
+      });
+      expect(allArgs[1][1]).toEqual(queryParams);
+    }));
   });
 
   describe('performNavigation', () => {
