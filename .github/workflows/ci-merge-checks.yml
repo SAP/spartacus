@@ -99,7 +99,7 @@ jobs:
           key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
   build_apps:
     needs: [build_libs]
-    name: MC - Build Spartacus apps
+    name: MC - Build Spartacus apps - ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -107,12 +107,15 @@ jobs:
           - spa_env: ci,b2c
             build_type: csr
             cache_key: ci-b2c
+            name: B2C CSR
           - spa_env: ci,b2b
             build_type: csr
             cache_key: ci-b2b
+            name: B2B CSR
           - spa_env: ci,b2c
             build_type: ssr
             cache_key: ci-b2c
+            name: B2C SSR
     steps:
       - uses: actions/checkout@v4
       - name: Setup node
