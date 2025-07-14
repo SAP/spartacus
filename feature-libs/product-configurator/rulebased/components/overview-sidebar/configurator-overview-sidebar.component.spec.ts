@@ -183,6 +183,4 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       expect(component.getTabIndexForFilterTab()).toBe(-1);
     });
   });
-
- 
 });
