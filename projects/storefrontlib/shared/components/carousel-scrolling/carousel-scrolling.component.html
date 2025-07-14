@@ -8,7 +8,7 @@
 >
   <h2 *ngIf="title">{{ title }}</h2>
 
-  <div class="carousel-panel" role="list">
+  <div class="carousel-panel">
     <button
       tabindex="-1"
       class="previous"
@@ -39,7 +39,6 @@
         <div
           *ngIf="item | async as data"
           class="item"
-          role="listitem"
           (keydown)="onItemKeydown($event)"
           (focusin)="onItemFocusIn($event)"
         >
