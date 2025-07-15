@@ -16,6 +16,12 @@ const KEY_NAME_ARROW_RIGHT = 'ArrowRight';
 const KEY_NAME_ARROW_LEFT = 'ArrowLeft';
 const KEY_NAME_ENTER = 'Enter';
 
+const createKeyboardEvent = (key: string) =>
+  new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+    key,
+    bubbles: true,
+  });
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -497,33 +503,34 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('keyboard navigation', () => {
+      let items: HTMLElement[];
+      let children: HTMLElement[];
+
+      beforeEach(() => {
+        items = parentFixture.debugElement
+          .queryAll(By.css('.item'))
+          .map((item) => item.nativeElement);
+        children = parentFixture.debugElement
+          .queryAll(By.css('cx-test-child'))
+          .map((child) => child.nativeElement);
+      });
+
       describe('onItemKeyDown', () => {
         describe('on Tab key', () => {
           it('should NOT set tabindex="-1" on children (i.e. should allow for tab-navigation)', () => {
-            const firstItem = parentFixture.debugElement.queryAll(
-              By.css('.item')
-            )[0].nativeElement;
-            const secondChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[1].nativeElement;
+            const firstItem = items[0];
+            const secondChild = children[1];
 
             expect(secondChild.tabIndex).toBe(0);
-            firstItem.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, { key: KEY_NAME_TAB })
-            );
+            firstItem.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
             expect(secondChild.tabIndex).toBe(0);
           });
         });
 
         describe('on ArrowRight key', () => {
           it('should prevent default behavior', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
-            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-              key: KEY_NAME_ARROW_RIGHT,
-              bubbles: true,
-            });
+            const firstChild = children[0];
+            const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
@@ -545,12 +552,7 @@ describe('CarouselScrollingComponent', () => {
             ).and.callThrough();
 
             spyOn(secondChild, 'focus').and.callThrough();
-            firstChild.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-                key: KEY_NAME_ARROW_RIGHT,
-                bubbles: true,
-              })
-            );
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
 
             expect(secondChild.focus).not.toHaveBeenCalled();
             expect(
@@ -564,10 +566,7 @@ describe('CarouselScrollingComponent', () => {
             const firstChild = parentFixture.debugElement.queryAll(
               By.css('cx-test-child')
             )[0].nativeElement;
-            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-              key: KEY_NAME_ARROW_LEFT,
-              bubbles: true,
-            });
+            const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
@@ -589,12 +588,7 @@ describe('CarouselScrollingComponent', () => {
             ).and.callThrough();
 
             spyOn(firstChild, 'focus').and.callThrough();
-            secondChild.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-                key: KEY_NAME_ARROW_LEFT,
-                bubbles: true,
-              })
-            );
+            secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
 
             expect(firstChild.focus).not.toHaveBeenCalled();
             expect(
@@ -631,8 +625,6 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('keyboard navigation', () => {
-      const EVENT_NAME_KEYDOWN = 'keydown';
-
       describe('onItemKeyDown', () => {
         describe('on Tab key', () => {
           const KEY_NAME_TAB = 'Tab';
@@ -647,9 +639,7 @@ describe('CarouselScrollingComponent', () => {
             )[1].nativeElement;
             expect(secondChild.tabIndex).toBe(0);
 
-            firstItem.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, { key: KEY_NAME_TAB })
-            );
+            firstItem.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
             expect(firstItem.tabIndex).toBe(-1);
 
             requestAnimationFrame(() => {
@@ -664,10 +654,7 @@ describe('CarouselScrollingComponent', () => {
             const firstChild = parentFixture.debugElement.queryAll(
               By.css('cx-test-child')
             )[0].nativeElement;
-            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-              key: KEY_NAME_ARROW_RIGHT,
-              bubbles: true,
-            });
+            const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
@@ -689,12 +676,7 @@ describe('CarouselScrollingComponent', () => {
             ).and.callThrough();
 
             spyOn(secondChild, 'focus').and.callThrough();
-            firstChild.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-                key: KEY_NAME_ARROW_RIGHT,
-                bubbles: true,
-              })
-            );
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
 
             expect(secondChild.focus).toHaveBeenCalled();
             expect(
@@ -708,10 +690,7 @@ describe('CarouselScrollingComponent', () => {
             const firstChild = parentFixture.debugElement.queryAll(
               By.css('cx-test-child')
             )[0].nativeElement;
-            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-              key: KEY_NAME_ARROW_LEFT,
-              bubbles: true,
-            });
+            const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
@@ -733,12 +712,7 @@ describe('CarouselScrollingComponent', () => {
             ).and.callThrough();
 
             spyOn(firstChild, 'focus').and.callThrough();
-            secondChild.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-                key: KEY_NAME_ARROW_LEFT,
-                bubbles: true,
-              })
-            );
+            secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
 
             expect(firstChild.focus).toHaveBeenCalled();
             expect(
@@ -752,10 +726,7 @@ describe('CarouselScrollingComponent', () => {
             const firstChild = parentFixture.debugElement.queryAll(
               By.css('cx-test-child')
             )[0].nativeElement;
-            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-              key: KEY_NAME_ENTER,
-              bubbles: true,
-            });
+            const event = createKeyboardEvent(KEY_NAME_ENTER);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).not.toHaveBeenCalled();
@@ -773,12 +744,7 @@ describe('CarouselScrollingComponent', () => {
               'focusNextPrevItem'
             ).and.callThrough();
 
-            firstChild.dispatchEvent(
-              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
-                key: KEY_NAME_ENTER,
-                bubbles: true,
-              })
-            );
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ENTER));
 
             expect(
               carouselScrollingComponent.focusNextPrevItem
