@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-} from '@angular/core';
+import { Directive, inject, Input, OnChanges, OnDestroy } from '@angular/core';
 import { LoggerService, WindowRef } from '@spartacus/core';
 import {
   BehaviorSubject,
@@ -118,23 +111,31 @@ export class HorizontalScrollingPositionDirective
   );
 
   /**
-   * When the `scrollingArea` is appearing (or disappearing),
+   * When the scrolling area is appearing (or disappearing),
    * it subscribes (or unsubscribes) to the scrolling position.
    */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.scrollingArea) {
+  ngOnChanges(): void {
+    if (!this.windowRef.isBrowser()) {
       return;
     }
 
-    if (this.scrollingArea) {
+    this.unsubscribeScrollingArea();
+
+    if (
+      this.scrollingArea &&
+      this.scrollingAreaStart &&
+      this.scrollingAreaEnd
+    ) {
       this.subscribeScrollingArea();
-    } else {
-      this.unsubscribeScrollingArea();
     }
   }
 
   ngOnDestroy() {
     this.unsubscribeScrollingArea();
+
+    this._isScrollStart$.complete();
+    this._isScrollEnd$.complete();
+    this._scrollingAreaWidth$.complete();
   }
 
   /**
@@ -189,10 +190,6 @@ export class HorizontalScrollingPositionDirective
    * whether the user has scrolled to the start or end of the carousel.
    */
   protected subscribeScrollingArea() {
-    if (!this.windowRef.isBrowser()) {
-      return;
-    }
-
     this.windowResizeSubscription = this.windowRef.resize$.subscribe(() => {
       // We don't want to read `.clientWidth` of the `scrollingArea` on every
       // call of `scrollForward()` and `scrollBackward()` methods for performance reasons.
@@ -240,14 +237,6 @@ export class HorizontalScrollingPositionDirective
    * whether the user has scrolled to the start or end of the carousel.
    */
   protected unsubscribeScrollingArea() {
-    this._isScrollStart$.complete();
-    this._isScrollEnd$.complete();
-    this._scrollingAreaWidth$.complete();
-
-    if (!this.windowRef.isBrowser()) {
-      return;
-    }
-
     this.windowResizeSubscription?.unsubscribe();
     this.windowResizeSubscription = undefined;
 
