@@ -8,7 +8,7 @@ import {
   HorizontalScrollingPositionDirective,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 const EVENT_NAME_KEYDOWN = 'keydown';
 const KEY_NAME_TAB = 'Tab';
@@ -75,7 +75,6 @@ class TestChildComponent implements OnDestroy {
       [title]="mockTitle"
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
-      (keyboardEvent)="mockKeyboardEventHandler.next($event)"
     ></cx-carousel-scrolling>
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
       <cx-test-child
@@ -88,7 +87,6 @@ class TestChildComponent implements OnDestroy {
   standalone: false,
 })
 class TestParentComponent {
-  mockKeyboardEventHandler = new ReplaySubject<KeyboardEvent>();
   mockTitle: string | undefined = 'Test Carousel Title';
   mockItems = [
     of({ testProperty: 'A', customID: 1 }),
@@ -108,7 +106,6 @@ class TestParentComponent {
       [title]="mockTitle"
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
-      (keyboardEvent)="mockKeyboardEventHandler.next($event)"
     ></cx-carousel-scrolling>
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
       <cx-test-child
@@ -122,7 +119,6 @@ class TestParentComponent {
   standalone: false,
 })
 class TestParentWithCxFocusableCarouselItemComponent {
-  mockKeyboardEventHandler = new ReplaySubject<KeyboardEvent>();
   mockTitle: string | undefined = 'Test Carousel With cxFocusableCarouselItem';
   mockItems = [
     of({ testProperty: 'A', customID: 1 }),
