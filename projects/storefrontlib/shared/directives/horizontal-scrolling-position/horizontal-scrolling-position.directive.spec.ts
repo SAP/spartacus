@@ -117,7 +117,6 @@ describe('HorizontalScrollingPositionDirective', () => {
           jasmine.objectContaining({ target: mockScrollingAreaStart }),
           jasmine.objectContaining({ target: mockScrollingAreaEnd }),
         ]);
-
         expect(directive['scrollingAreaResizeObserver']).not.toBe(
           mockResizeObserver
         );
