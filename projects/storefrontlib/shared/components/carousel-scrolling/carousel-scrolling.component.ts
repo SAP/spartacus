@@ -28,6 +28,12 @@ export interface CarouselScrollingTemplateContext<Item> {
   itemIndex: number;
 }
 
+enum KeyboardEventKeys {
+  ARROW_LEFT = 'ArrowLeft',
+  ARROW_RIGHT = 'ArrowRight',
+  TAB = 'Tab',
+}
+
 /**
  * Generic carousel component that can be used to render any carousel items,
  * such as products, images, banners, or any component. Carousel items are
@@ -92,15 +98,15 @@ export class CarouselScrollingComponent<Item = any> implements OnInit {
 
   onItemKeydown(event: KeyboardEvent): void {
     switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowLeft':
+      case KeyboardEventKeys.ARROW_RIGHT:
+      case KeyboardEventKeys.ARROW_LEFT:
         event.preventDefault();
         this.focusNextPrevItem(
           event.target,
-          event.key === 'ArrowRight' ? 1 : -1
+          event.key === KeyboardEventKeys.ARROW_RIGHT ? 1 : -1
         );
         break;
-      case 'Tab':
+      case KeyboardEventKeys.TAB:
         this.skipTabForCarouselItems();
         break;
     }
