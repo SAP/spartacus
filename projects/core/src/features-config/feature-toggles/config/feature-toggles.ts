@@ -769,7 +769,7 @@ export interface FeatureTogglesInterface {
    * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
    *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
    *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
-   * - Eagerly-loaded images from also from invisible slides, even when Spartacus was configured
+   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
    *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
    * - Was not swipe-friendly on mobile devices
    *
