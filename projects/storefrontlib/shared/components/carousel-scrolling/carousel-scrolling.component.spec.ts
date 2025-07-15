@@ -503,33 +503,28 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('keyboard navigation', () => {
-      let items: HTMLElement[];
-      let children: HTMLElement[];
+      let firstChild: HTMLElement;
+      let secondChild: HTMLElement;
 
       beforeEach(() => {
-        items = parentFixture.debugElement
-          .queryAll(By.css('.item'))
-          .map((item) => item.nativeElement);
-        children = parentFixture.debugElement
-          .queryAll(By.css('cx-test-child'))
-          .map((child) => child.nativeElement);
+        const children = parentFixture.debugElement.queryAll(
+          By.css('cx-test-child')
+        );
+        firstChild = children[0].nativeElement;
+        secondChild = children[1].nativeElement;
       });
 
       describe('onItemKeyDown', () => {
         describe('on Tab key', () => {
           it('should NOT set tabindex="-1" on children (i.e. should allow for tab-navigation)', () => {
-            const firstItem = items[0];
-            const secondChild = children[1];
-
             expect(secondChild.tabIndex).toBe(0);
-            firstItem.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
             expect(secondChild.tabIndex).toBe(0);
           });
         });
 
         describe('on ArrowRight key', () => {
           it('should prevent default behavior', () => {
-            const firstChild = children[0];
             const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
@@ -537,12 +532,6 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should NOT focus the next item', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
-            const secondChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[1].nativeElement;
             const carouselScrollingComponent = parentFixture.debugElement.query(
               By.directive(CarouselScrollingComponent)
             ).componentInstance;
@@ -563,9 +552,6 @@ describe('CarouselScrollingComponent', () => {
 
         describe('on ArrowLeft key', () => {
           it('should prevent default behavior', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
             const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
@@ -573,12 +559,6 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should NOT focus the previous child directive', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
-            const secondChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[1].nativeElement;
             const carouselScrollingComponent = parentFixture.debugElement.query(
               By.directive(CarouselScrollingComponent)
             ).componentInstance;
@@ -625,22 +605,26 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('keyboard navigation', () => {
+      let firstChild: HTMLElement;
+      let secondChild: HTMLElement;
+
+      beforeEach(() => {
+        const children = parentFixture.debugElement.queryAll(
+          By.css('cx-test-child')
+        );
+        firstChild = children[0].nativeElement;
+        secondChild = children[1].nativeElement;
+      });
+
       describe('onItemKeyDown', () => {
         describe('on Tab key', () => {
           const KEY_NAME_TAB = 'Tab';
 
           it('should set tabindex="-1" on children with cxFocusableCarouselItem until next animation frame', (done) => {
-            const firstItem = parentFixture.debugElement.queryAll(
-              By.css('.item')
-            )[0].nativeElement;
-
-            const secondChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[1].nativeElement;
             expect(secondChild.tabIndex).toBe(0);
 
-            firstItem.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
-            expect(firstItem.tabIndex).toBe(-1);
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
+            expect(firstChild.tabIndex).toBe(-1);
 
             requestAnimationFrame(() => {
               expect(secondChild.tabIndex).toBe(0);
@@ -651,9 +635,6 @@ describe('CarouselScrollingComponent', () => {
 
         describe('on ArrowRight key', () => {
           it('should prevent default behavior', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
             const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
@@ -661,12 +642,6 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should focus the next item with cxFocusableCarouselItem directive', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
-            const secondChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[1].nativeElement;
             const carouselScrollingComponent = parentFixture.debugElement.query(
               By.directive(CarouselScrollingComponent)
             ).componentInstance;
@@ -687,9 +662,6 @@ describe('CarouselScrollingComponent', () => {
 
         describe('on ArrowLeft key', () => {
           it('should prevent default behavior', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
             const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
@@ -697,12 +669,6 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should focus the previous child with cxFocusableCarouselItem directive', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
-            const secondChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[1].nativeElement;
             const carouselScrollingComponent = parentFixture.debugElement.query(
               By.directive(CarouselScrollingComponent)
             ).componentInstance;
@@ -723,9 +689,6 @@ describe('CarouselScrollingComponent', () => {
 
         describe('on other keys', () => {
           it('should not prevent default behavior', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
             const event = createKeyboardEvent(KEY_NAME_ENTER);
             spyOn(event, 'preventDefault').and.callThrough();
             firstChild.dispatchEvent(event);
@@ -733,9 +696,6 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should not call focusNextPrevItem', () => {
-            const firstChild = parentFixture.debugElement.queryAll(
-              By.css('cx-test-child')
-            )[0].nativeElement;
             const carouselScrollingComponent = parentFixture.debugElement.query(
               By.directive(CarouselScrollingComponent)
             ).componentInstance;
