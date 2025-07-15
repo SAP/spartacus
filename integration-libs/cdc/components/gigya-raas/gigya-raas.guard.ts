@@ -49,8 +49,10 @@ export class GigyaRaasGuard implements CanActivate {
         // Allow activation only if all checks pass, else return first non-true value
         return combineLatest(guardResults$).pipe(
           map((results) => {
-            const firstNonTrue = results.find((result: GuardResult) => result !== true);
-            return (firstNonTrue ?? true);
+            const firstNonTrue = results.find(
+              (result: GuardResult) => result !== true
+            );
+            return firstNonTrue ?? true;
           })
         );
       }),
