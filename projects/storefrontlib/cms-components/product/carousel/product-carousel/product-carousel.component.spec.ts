@@ -207,28 +207,29 @@ class MockProductSearchByCategoryService
   }
 }
 
+let mockFeatureToggles: FeatureToggles;
+
+class MockFeatureConfigService {
+  isEnabled(
+    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+  ): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = (
+      hasNegation ? feature.slice(1) : feature
+    ) as keyof FeatureToggles;
+
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let featureConfigService: MockFeatureConfigService;
   let productSearchByCodeService: MockProductSearchByCodeService;
   let productSearchByCategoryService: MockProductSearchByCategoryService;
-  let mockFeatureToggles: FeatureToggles;
-
-  class MockFeatureConfigService {
-    isEnabled(
-      feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-    ): boolean {
-      const hasNegation = feature.startsWith('!');
-      const featureName = (
-        hasNegation ? feature.slice(1) : feature
-      ) as keyof FeatureToggles;
-
-      return hasNegation
-        ? !mockFeatureToggles[featureName]
-        : !!mockFeatureToggles[featureName];
-    }
-  }
 
   const testBedDefaults = {
     imports: [I18nTestingModule, FeaturesConfigModule],
