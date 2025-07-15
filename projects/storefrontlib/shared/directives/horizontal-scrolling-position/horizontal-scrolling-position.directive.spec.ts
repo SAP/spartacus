@@ -6,7 +6,7 @@ import { BehaviorSubject, filter, Subscription } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @Component({
-  selector: 'test-component',
+  selector: 'cx-test-component',
   standalone: false,
   template: `
     <ng-container
