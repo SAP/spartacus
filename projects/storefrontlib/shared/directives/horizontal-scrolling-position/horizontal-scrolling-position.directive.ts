@@ -66,7 +66,7 @@ export class HorizontalScrollingPositionDirective
   protected logger = inject(LoggerService);
   protected windowRef = inject(WindowRef);
 
-  protected windowResizeSubscription: Subscription;
+  protected windowResizeSubscription: Subscription | undefined;
   protected _scrollingAreaWidth$ = new BehaviorSubject<number>(0);
 
   public readonly scrollingAreaWidth$ =
@@ -182,7 +182,7 @@ export class HorizontalScrollingPositionDirective
    * is visible in the viewport.
    * It is used to enable/disable the backward or forward scroll buttons accordingly.
    */
-  protected scrollingAreaIntersectionObserver?: IntersectionObserver;
+  protected scrollingAreaIntersectionObserver: IntersectionObserver | undefined;
 
   /**
    * Starts observing the width of the scrolling area and
@@ -249,6 +249,7 @@ export class HorizontalScrollingPositionDirective
     }
 
     this.windowResizeSubscription?.unsubscribe();
+    this.windowResizeSubscription = undefined;
 
     this.scrollingAreaIntersectionObserver?.disconnect();
     this.scrollingAreaIntersectionObserver = undefined;
