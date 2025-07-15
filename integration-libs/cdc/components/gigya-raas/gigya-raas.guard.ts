@@ -20,6 +20,7 @@ import {
   catchError,
   combineLatest,
   filter,
+  map,
   of,
   switchMap,
   take,
@@ -47,11 +48,9 @@ export class GigyaRaasGuard implements CanActivate {
 
         // Allow activation only if all checks pass, else return first non-true value
         return combineLatest(guardResults$).pipe(
-          switchMap((results) => {
-            const firstNonTrue = results.find(
-              (result: GuardResult) => result !== true
-            );
-            return of(firstNonTrue ?? true);
+          map((results) => {
+            const firstNonTrue = results.find((result: GuardResult) => result !== true);
+            return (firstNonTrue ?? true);
           })
         );
       }),
