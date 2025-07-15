@@ -187,6 +187,7 @@ describe('CarouselScrollingComponent', () => {
   describe('with child template', () => {
     let parentFixture: ComponentFixture<TestParentComponent>;
     let horizontalScrollingPositionDirective: MockHorizontalScrollingPositionDirective;
+    let carouselScrollingComponent: CarouselScrollingComponent;
 
     beforeEach(waitForAsync(() => {
       TestChildComponent.destroyedCount = 0;
@@ -209,6 +210,10 @@ describe('CarouselScrollingComponent', () => {
       horizontalScrollingPositionDirective = parentFixture.debugElement
         .query(By.css('.carousel-panel'))
         .injector.get(MockHorizontalScrollingPositionDirective);
+
+      carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
     });
 
     describe('items', () => {
@@ -532,20 +537,17 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should NOT focus the next item', () => {
-            const carouselScrollingComponent = parentFixture.debugElement.query(
-              By.directive(CarouselScrollingComponent)
-            ).componentInstance;
             spyOn(
-              carouselScrollingComponent,
+              carouselScrollingComponent as any,
               'focusNextPrevItem'
             ).and.callThrough();
-
             spyOn(secondChild, 'focus').and.callThrough();
+
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
 
             expect(secondChild.focus).not.toHaveBeenCalled();
             expect(
-              carouselScrollingComponent.focusNextPrevItem
+              carouselScrollingComponent['focusNextPrevItem']
             ).toHaveBeenCalledWith(firstChild, 1);
           });
         });
@@ -559,20 +561,17 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should NOT focus the previous child directive', () => {
-            const carouselScrollingComponent = parentFixture.debugElement.query(
-              By.directive(CarouselScrollingComponent)
-            ).componentInstance;
             spyOn(
-              carouselScrollingComponent,
+              carouselScrollingComponent as any,
               'focusNextPrevItem'
             ).and.callThrough();
-
             spyOn(firstChild, 'focus').and.callThrough();
+
             secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
 
             expect(firstChild.focus).not.toHaveBeenCalled();
             expect(
-              carouselScrollingComponent.focusNextPrevItem
+              carouselScrollingComponent['focusNextPrevItem']
             ).toHaveBeenCalledWith(secondChild, -1);
           });
         });
@@ -582,6 +581,7 @@ describe('CarouselScrollingComponent', () => {
 
   describe('with [cxFocusableCarouselItem] directive on children', () => {
     let parentFixture: ComponentFixture<TestParentWithCxFocusableCarouselItemComponent>;
+    let carouselScrollingComponent: CarouselScrollingComponent;
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -602,6 +602,9 @@ describe('CarouselScrollingComponent', () => {
         TestParentWithCxFocusableCarouselItemComponent
       );
       parentFixture.detectChanges();
+      carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
     });
 
     describe('keyboard navigation', () => {
@@ -642,11 +645,8 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should focus the next item with cxFocusableCarouselItem directive', () => {
-            const carouselScrollingComponent = parentFixture.debugElement.query(
-              By.directive(CarouselScrollingComponent)
-            ).componentInstance;
             spyOn(
-              carouselScrollingComponent,
+              carouselScrollingComponent as any,
               'focusNextPrevItem'
             ).and.callThrough();
 
@@ -655,7 +655,7 @@ describe('CarouselScrollingComponent', () => {
 
             expect(secondChild.focus).toHaveBeenCalled();
             expect(
-              carouselScrollingComponent.focusNextPrevItem
+              carouselScrollingComponent['focusNextPrevItem']
             ).toHaveBeenCalledWith(firstChild, 1);
           });
         });
@@ -669,11 +669,8 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should focus the previous child with cxFocusableCarouselItem directive', () => {
-            const carouselScrollingComponent = parentFixture.debugElement.query(
-              By.directive(CarouselScrollingComponent)
-            ).componentInstance;
             spyOn(
-              carouselScrollingComponent,
+              carouselScrollingComponent as any,
               'focusNextPrevItem'
             ).and.callThrough();
 
@@ -682,7 +679,7 @@ describe('CarouselScrollingComponent', () => {
 
             expect(firstChild.focus).toHaveBeenCalled();
             expect(
-              carouselScrollingComponent.focusNextPrevItem
+              carouselScrollingComponent['focusNextPrevItem']
             ).toHaveBeenCalledWith(secondChild, -1);
           });
         });
@@ -696,18 +693,15 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should not call focusNextPrevItem', () => {
-            const carouselScrollingComponent = parentFixture.debugElement.query(
-              By.directive(CarouselScrollingComponent)
-            ).componentInstance;
             spyOn(
-              carouselScrollingComponent,
+              carouselScrollingComponent as any,
               'focusNextPrevItem'
             ).and.callThrough();
 
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ENTER));
 
             expect(
-              carouselScrollingComponent.focusNextPrevItem
+              carouselScrollingComponent['focusNextPrevItem']
             ).not.toHaveBeenCalled();
           });
         });
@@ -748,6 +742,7 @@ describe('CarouselScrollingComponent', () => {
 
   describe('without trackByFn input', () => {
     let parentFixture: ComponentFixture<TestParentWithoutTrackByComponent>;
+    let carouselScrollingComponent: CarouselScrollingComponent;
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -767,12 +762,13 @@ describe('CarouselScrollingComponent', () => {
         TestParentWithoutTrackByComponent
       );
       parentFixture.detectChanges();
+
+      carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
     });
 
     it('should use default trackByFn', () => {
-      const carouselScrollingComponent = parentFixture.debugElement.query(
-        By.directive(CarouselScrollingComponent)
-      ).componentInstance;
       const item = { id: '123' };
       expect(carouselScrollingComponent.trackByFn(999, item)).toBe(item);
     });
