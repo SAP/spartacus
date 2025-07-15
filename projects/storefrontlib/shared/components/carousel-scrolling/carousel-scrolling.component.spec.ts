@@ -131,6 +131,36 @@ class TestParentWithCxFocusableCarouselItemComponent {
 }
 
 @Component({
+  selector: 'cx-test-parent-without-track-by',
+  template: `
+    <cx-carousel-scrolling
+      [items]="mockItems"
+      [title]="mockTitle"
+      [template]="carouselItem"
+    ></cx-carousel-scrolling>
+    <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+      <cx-test-child
+        [item]="item"
+        [itemIndex]="itemIndex"
+        tabindex="0"
+      ></cx-test-child>
+    </ng-template>
+  `,
+  standalone: false,
+})
+class TestParentWithoutTrackByComponent {
+  mockTitle: string | undefined = 'Test Carousel Without TrackBy';
+  mockItems = [
+    of({ testProperty: 'A', customID: 1 }),
+    of({ testProperty: 'B', customID: 2 }),
+    of({ testProperty: 'C', customID: 3 }),
+    of({ testProperty: 'D', customID: 4 }),
+    of({ testProperty: 'E', customID: 5 }),
+  ];
+  carouselTrackByFn = (_index: number, item: any) => item.customID;
+}
+
+@Component({
   selector: 'cx-test-parent-without-child-template',
   template: `
     <cx-carousel-scrolling
@@ -724,6 +754,38 @@ describe('CarouselScrollingComponent', () => {
       expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel-scrolling`'
       );
+    });
+  });
+
+  describe('without trackByFn input', () => {
+    let parentFixture: ComponentFixture<TestParentWithoutTrackByComponent>;
+
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithoutTrackByComponent,
+          TestChildComponent,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      parentFixture = TestBed.createComponent(
+        TestParentWithoutTrackByComponent
+      );
+      parentFixture.detectChanges();
+    });
+
+    it('should use default trackByFn', () => {
+      const carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
+      const item = { id: '123' };
+      expect(carouselScrollingComponent.trackByFn(999, item)).toBe(item);
     });
   });
 });
