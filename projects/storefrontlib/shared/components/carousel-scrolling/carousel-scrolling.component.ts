@@ -24,8 +24,8 @@ import { disableTabbingForTick } from '../../../layout/a11y';
 /**
  * Context passed to the `template` for each carousel item.
  */
-export interface CarouselScrollingTemplateContext<TItem> {
-  item: TItem;
+export interface CarouselScrollingTemplateContext<Item> {
+  item: Item;
   itemIndex: number;
 }
 
@@ -48,7 +48,7 @@ export interface CarouselScrollingTemplateContext<TItem> {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselScrollingComponent<TItem = any> implements OnInit {
+export class CarouselScrollingComponent<Item = any> implements OnInit {
   protected logger = inject(LoggerService);
   protected el = inject(ElementRef);
 
@@ -63,12 +63,12 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
    * The items represent the carousel items. The items are
    * observables so that the items can be loaded on demand.
    */
-  @Input() items: Observable<TItem>[];
+  @Input() items: Observable<Item>[];
 
   /**
    * The template rendered for each carousel item
    */
-  @Input() template: TemplateRef<CarouselScrollingTemplateContext<TItem>>;
+  @Input() template: TemplateRef<CarouselScrollingTemplateContext<Item>>;
 
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
