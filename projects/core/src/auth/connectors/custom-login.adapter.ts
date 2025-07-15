@@ -20,12 +20,14 @@ export class CustomLoginPageAdapter {
 
   /** DEBUG: flag to switch between sending the login form data via _fetch_ or _form action_ */
   DEBUG_useFetch = true;
+  // DEBUG_useFetch = false;
 
   getCustomLoginCsrf() {
     const { baseUrl } = this.config.authentication ?? {};
+    const { csfrPath } = this.config.authentication?.customLoginPage ?? {};
 
     return this.http
-      .get<CSRFResponse>(`${baseUrl}/authserver/csrf`, {
+      .get<CSRFResponse>(`${baseUrl}${csfrPath}`, {
         withCredentials: true,
       })
       .pipe(

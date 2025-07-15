@@ -46,6 +46,9 @@ export const defaultAuthConfig: AuthConfig = {
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
+    baseUrl:
+      'https://api.c432wmya2v-teamspart3-s1-public.model-t.myhybris.cloud',
+    // 'https://backoffice.jcx-platform1-d5-public.model-t.myhybris.cloud',
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],
