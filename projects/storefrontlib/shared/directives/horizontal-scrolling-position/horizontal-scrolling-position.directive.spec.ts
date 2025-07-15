@@ -212,15 +212,6 @@ describe('HorizontalScrollingPositionDirective', () => {
       fixture.detectChanges(); // trigger initial rendering
     });
 
-    // SPIKE TODO ADD MISSING TESTS
-    describe('inputs', () => {
-      it(
-        'should handle scrollingArea, scrollingAreaStart, scrollingAreaEnd being undefined'
-      );
-      it('should handle input mutation after initialization');
-      it('should handle DOM mutation after initialization');
-    });
-
     describe('public observables', () => {
       describe('isScrollStart$', () => {
         it('should emit true when scroll position is at the start', () => {
@@ -399,20 +390,6 @@ describe('HorizontalScrollingPositionDirective', () => {
         directive.scrollBackward();
         expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });
-    });
-
-    describe('error handling', () => {
-      it(
-        'should log error if scrollingAreaStart or scrollingAreaEnd is missing'
-      );
-      it('should not log error if both are present');
-    });
-
-    describe('memory and concurrency', () => {
-      it(
-        'should clean up all subscriptions and observers to prevent memory leaks'
-      );
-      it('should handle concurrent input changes and scrolling');
     });
   });
 });
