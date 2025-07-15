@@ -239,42 +239,42 @@ describe('CarouselScrollingComponent', () => {
 
     describe('scrolling position tracking', () => {
       it('should bind .carousel-items-start element to horizontalScrollingPositionDirective.scrollingAreaStart', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsStart = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-start')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsStart.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingAreaStart).toBe(
-          items[0].nativeElement
+          carouselItemsStart[0].nativeElement
         );
       });
 
       it('should bind .carousel-items-end element to horizontalScrollingPositionDirective.scrollingAreaEnd', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsEnd = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-end')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsEnd.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingAreaEnd).toBe(
-          items[0].nativeElement
+          carouselItemsEnd[0].nativeElement
         );
       });
 
       it('should bind .carousel-items element to horizontalScrollingPositionDirective.scrollingArea', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsContainer = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsContainer.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingArea).toBe(
-          items[0].nativeElement
+          carouselItemsContainer[0].nativeElement
         );
       });
 
       it('should bind .carousel-items-end element to horizontalScrollingPositionDirective.scrollingAreaEnd', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsEnd = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-end')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsEnd.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingAreaEnd).toBe(
-          items[0].nativeElement
+          carouselItemsEnd[0].nativeElement
         );
       });
     });
@@ -606,7 +606,7 @@ describe('CarouselScrollingComponent', () => {
     });
   });
 
-  describe('with [cxFocusableCarouselItem] directive inside', () => {
+  describe('with [cxFocusableCarouselItem] directive on children', () => {
     let parentFixture: ComponentFixture<TestParentWithCxFocusableCarouselItemComponent>;
 
     beforeEach(waitForAsync(() => {
