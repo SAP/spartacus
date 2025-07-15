@@ -303,7 +303,7 @@ export function clickAddToCartBtn(): void {
 export function login(email: string, password: string, name: string): void {
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
-  cy.get('cx-login [role="link"]')
+  cy.getLoginRegisterLink()
     .click()
     .then(() => {
       cy.get('cx-login-form').should('be.visible');
@@ -313,7 +313,7 @@ export function login(email: string, password: string, name: string): void {
   // Verify whether the user logged in successfully,
   // namely the logged in user should be greeted
   cy.get('.cx-login-greet').should('contain', name);
-  cy.get('cx-login').should('not.contain', 'Sign In');
+  cy.getLoginRegisterLink().should('not.contain', 'Sign In');
 }
 
 /**

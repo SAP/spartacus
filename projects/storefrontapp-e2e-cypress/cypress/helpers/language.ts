@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isMobile } from './viewport-context';
+
 // Use language switcher to change language
 
 export function switchLanguage(lang: string) {
-  cy.get('.SiteContext label')
+  const selector = isMobile()
+    ? '.navigation .SiteContext label'
+    : '.header .SiteContext label';
+
+  cy.get(selector)
     .contains('Language')
     .parent()
     .children('select')
