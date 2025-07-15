@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "baseUrl": "../node_modules",
+    "strict": false,
+    "types": ["cypress", "@testing-library/cypress", "cypress-file-upload"],
+    "target": "es5",
+    "lib": ["esnext", "dom"]
+  },
+  "include": ["**/*.*"],
+  "exclude": ["./dist"]
+}

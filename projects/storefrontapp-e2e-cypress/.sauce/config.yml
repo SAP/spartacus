@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: cypress
+sauce:
+  region: eu-central-1
+  concurrency: 2 # Controls how many suites are executed at the same time.
+  retries: 0
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Github Run $GITHUB_RUN_ID
+cypress:
+  version: 14.0.0 # See https://docs.saucelabs.com/web-apps/automated-testing/cypress/#supported-testing-platforms for a list of supported versions.
+  configFile: "cypress.config.ts"
+# Controls what files are available in the context of a test run (unless explicitly excluded by .sauceignore).
+rootDir: ./
+suites:
+  - name: "Chrome on Windows"
+    browser: "chrome"
+    platformName: "Windows 11"
+    screenResolution: "1920x1080" # (optional)
+    shard: spec
+#    passThreshold: 2
+    config:
+      specPattern: ["cypress/e2e/regression/homepage/*.cy.ts"] # Cypress native glob support.
+#      specPattern: ["cypress/e2e/regression/homepage/**/*.*"] # Cypress native glob support.
+# spartacus/projects/storefrontapp-e2e-cypress/cypress/e2e/regression/homepage
+
+# Controls what artifacts to fetch when the suites have finished.
+artifacts:
+  download:
+    when: always
+    match:
+      - console.log
+    directory: ./artifacts/
+
+# https://docs.saucelabs.com/web-apps/automated-testing/cypress/advanced/#including-node-dependencies
+# Any additional dependencies need to be configured here so that they are packaged on demand.
+# These dependencies are picked up from the node_modules folder, so they need to be already installed locally.
+# Select only what you truly need to get your tests running, as installing dependencies takes time.
+npm:
+  dependencies:
+    - typescript
+
+reporters:
+  spotlight: # Prints an overview of failed or otherwise interesting jobs.
+    enabled: true
