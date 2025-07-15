@@ -1,8 +1,8 @@
-import { Component, DebugElement, SimpleChange } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
-import { BehaviorSubject, filter } from 'rxjs';
+import { BehaviorSubject, filter, Subscription } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @Component({
@@ -49,7 +49,6 @@ describe('HorizontalScrollingPositionDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      // teardown: { destroyAfterEach: true },
       declarations: [HorizontalScrollingPositionDirective, TestComponent],
       providers: [
         {
@@ -67,249 +66,353 @@ describe('HorizontalScrollingPositionDirective', () => {
       HorizontalScrollingPositionDirective
     );
     mockWindowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
-    fixture.detectChanges();
   });
 
-  describe('scrollingArea input', () => {
-    it('should subscribe to scrolling area on input set', () => {
+  describe('ngOnChanges', () => {
+    describe('in CSR', () => {
+      beforeEach(() => {
+        spyOn(mockWindowRef, 'isBrowser').and.returnValue(true);
+      });
+
+      it('should subscribe to new inputs scrolling position', () => {
+        const mockIntersectionObserver = new IntersectionObserver(() => {});
+        const mockWindowRefSubscription = new Subscription();
+        directive['scrollingAreaIntersectionObserver'] =
+          mockIntersectionObserver;
+        directive['windowResizeSubscription'] = mockWindowRefSubscription;
+
+        const mockScrollingArea = document.createElement('div');
+        const mockScrollingAreaStart = document.createElement('div');
+        const mockScrollingAreaEnd = document.createElement('div');
+        directive.scrollingArea = mockScrollingArea;
+        directive.scrollingAreaStart = mockScrollingAreaStart;
+        directive.scrollingAreaEnd = mockScrollingAreaEnd;
+
+        spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
+        spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+
+        directive.ngOnChanges();
+
+        // should unsubscribe from previous scrolling position
+        expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
+        expect(mockIntersectionObserver.takeRecords().length).toEqual(0);
+        expect(mockWindowRefSubscription.closed).toBeTruthy();
+
+        // should subscribe to new scrolling position
+        expect(directive['subscribeScrollingArea']).toHaveBeenCalled();
+        expect(directive['scrollingAreaIntersectionObserver']).not.toBe(
+          mockIntersectionObserver
+        );
+        expect(directive['scrollingAreaIntersectionObserver']).toBeInstanceOf(
+          IntersectionObserver
+        );
+        expect(directive['scrollingAreaIntersectionObserver'].root).toEqual(
+          mockScrollingArea
+        );
+        expect(
+          directive['scrollingAreaIntersectionObserver'].takeRecords()
+        ).toEqual([
+          jasmine.objectContaining({ target: mockScrollingAreaStart }),
+          jasmine.objectContaining({ target: mockScrollingAreaEnd }),
+        ]);
+
+        expect(directive['windowResizeSubscription']).not.toBe(
+          mockWindowRefSubscription
+        );
+        expect(directive['windowResizeSubscription']).toBeInstanceOf(
+          Subscription
+        );
+        expect(directive['windowResizeSubscription'].closed).toBeFalsy();
+      });
+
+      it('should unsubscribe from previous inputs scrolling position', () => {
+        const mockObservedElement = document.createElement('div');
+        const mockIntersectionObserver = new IntersectionObserver(() => {});
+        mockIntersectionObserver.observe(mockObservedElement);
+
+        const mockWindowRefSubscription = new Subscription();
+        directive['scrollingAreaIntersectionObserver'] =
+          mockIntersectionObserver;
+        directive['windowResizeSubscription'] = mockWindowRefSubscription;
+
+        expect(mockIntersectionObserver.takeRecords().length).toEqual(1);
+        expect(mockWindowRefSubscription.closed).toBeFalsy();
+
+        spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+        spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
+        directive.scrollingArea = undefined;
+        directive.scrollingAreaStart = undefined;
+        directive.scrollingAreaEnd = undefined;
+
+        directive.ngOnChanges();
+
+        expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
+        expect(directive['scrollingAreaIntersectionObserver']).toBeUndefined();
+        expect(mockIntersectionObserver.takeRecords().length).toEqual(0);
+        expect(mockWindowRefSubscription.closed).toBeTruthy();
+        expect(directive['windowResizeSubscription']).toBeUndefined();
+
+        expect(directive['subscribeScrollingArea']).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('in SSR', () => {
+      beforeEach(() => {
+        spyOn(mockWindowRef, 'isBrowser').and.returnValue(false);
+      });
+
+      it('should NOT subscribe to new inputs scrolling position', () => {
+        const mockScrollingArea = document.createElement('div');
+        const mockScrollingAreaStart = document.createElement('div');
+        const mockScrollingAreaEnd = document.createElement('div');
+        directive.scrollingArea = mockScrollingArea;
+        directive.scrollingAreaStart = mockScrollingAreaStart;
+        directive.scrollingAreaEnd = mockScrollingAreaEnd;
+
+        spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
+
+        directive.ngOnChanges();
+
+        expect(directive['subscribeScrollingArea']).not.toHaveBeenCalled();
+        expect(directive['scrollingAreaIntersectionObserver']).toBeUndefined();
+        expect(directive['windowResizeSubscription']).toBeUndefined();
+      });
+
+      it('should NOT unsubscribe from old inputs scrolling position', () => {
+        const mockScrollingArea = document.createElement('div');
+        const mockScrollingAreaStart = document.createElement('div');
+        const mockScrollingAreaEnd = document.createElement('div');
+        directive.scrollingArea = mockScrollingArea;
+        directive.scrollingAreaStart = mockScrollingAreaStart;
+        directive.scrollingAreaEnd = mockScrollingAreaEnd;
+
+        spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+
+        directive.ngOnChanges();
+
+        expect(directive['unsubscribeScrollingArea']).not.toHaveBeenCalled();
+        expect(directive['scrollingAreaIntersectionObserver']).toBeUndefined();
+        expect(directive['windowResizeSubscription']).toBeUndefined();
+      });
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe from scrolling position', () => {
       spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
-      const newScrollingAreaElement = document.createElement('div');
-      directive.scrollingArea = newScrollingAreaElement;
-      directive.ngOnChanges({
-        scrollingArea: new SimpleChange(
-          newScrollingAreaElement,
-          undefined,
-          false
-        ),
-      });
-      expect(directive['subscribeScrollingArea']).toHaveBeenCalled();
-    });
-
-    it('should unsubscribe from scrolling area on input unset', () => {
-      spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
-      const previousScrollingAreaElement = document.createElement('div');
-
-      directive.scrollingArea = undefined;
-      directive.ngOnChanges({
-        scrollingArea: new SimpleChange(
-          previousScrollingAreaElement,
-          undefined,
-          false
-        ),
-      });
-      expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
-    });
-
-    it('should clean up subscriptions and observers on destroy', () => {
       spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
       directive.ngOnDestroy();
       expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
+      expect(directive['subscribeScrollingArea']).not.toHaveBeenCalled();
     });
   });
 
-  describe('subscribeScrollingArea', () => {
-    it('should do nothing if running in SSR', () => {
-      spyOn(directive['windowRef'], 'isBrowser').and.returnValue(false);
-      directive['subscribeScrollingArea']();
-      expect(directive['windowRef'].isBrowser).toHaveBeenCalled();
-
-      // SPIKE TODO: Add more tests for SSR behavior
-    });
-  });
-
-  describe('unsubscribeScrollingArea', () => {
-    it('should do nothing if running in SSR', () => {
-      spyOn(directive['windowRef'], 'isBrowser').and.returnValue(false);
-      directive['unsubscribeScrollingArea']();
-      expect(directive['windowRef'].isBrowser).toHaveBeenCalled();
-
-      // SPIKE TODO: Add more tests for SSR behavior
-    });
-  });
-
-  describe('inputs', () => {
-    it(
-      'should handle scrollingArea, scrollingAreaStart, scrollingAreaEnd being undefined'
-    );
-    it('should handle input mutation after initialization');
-    it('should handle DOM mutation after initialization');
-  });
-
-  describe('public observables', () => {
-    describe('isScrollStart$', () => {
-      it('should emit true when scroll position is at the start', () => {
-        let isScrollStart;
-        directive.isScrollStart$.subscribe((value) => (isScrollStart = value));
-        expect(isScrollStart).toBe(true);
-      });
-
-      it('should emit false when scroll position is NOT the start', (done) => {
-        scrollingArea.nativeElement.scrollLeft = 100; // scroll a bit to the right
-
-        directive.isScrollStart$
-          .pipe(filter((value) => value === false)) // wait, because IntersectionObserver kicks after some delay
-          .subscribe((value) => {
-            expect(value).toBe(false);
-            done();
-          });
-      });
+  describe('after initial rendering', () => {
+    beforeEach(() => {
+      fixture.detectChanges(); // trigger initial rendering
     });
 
-    describe('isScrollEnd$', () => {
-      it('should emit false when scroll position is NOT the end', () => {
-        let isScrollEnd;
-        directive.isScrollEnd$.subscribe((value) => (isScrollEnd = value));
-        expect(isScrollEnd).toBe(false);
-      });
-
-      it('should emit true when scroll position is at the end', (done) => {
-        scrollingArea.nativeElement.scrollLeft = 400; // scroll until end to the right
-
-        directive.isScrollEnd$
-          .pipe(filter((value) => value === true)) // wait, because IntersectionObserver kicks after some delay
-          .subscribe((value) => {
-            expect(value).toBe(true);
-            done();
-          });
-      });
+    // SPIKE TODO ADD MISSING TESTS
+    describe('inputs', () => {
+      it(
+        'should handle scrollingArea, scrollingAreaStart, scrollingAreaEnd being undefined'
+      );
+      it('should handle input mutation after initialization');
+      it('should handle DOM mutation after initialization');
     });
 
-    describe('isScrollNeeded$', () => {
-      it('should emit true when not all elements fit into the container', () => {
-        let isScrollNeeded;
-        directive.isScrollNeeded$.subscribe(
-          (value) => (isScrollNeeded = value)
-        );
-        expect(isScrollNeeded).toBe(true);
-      });
-
-      it('should emit false when all elements fit into the container', (done) => {
-        scrollingArea.nativeElement.style.width = '500px'; // make it wider to fit all items
-
-        directive.isScrollNeeded$
-          .pipe(filter((value) => value === false)) // wait, because IntersectionObserver kicks after some delay
-          .subscribe((value) => {
-            expect(value).toBe(false);
-            done();
-          });
-      });
-    });
-
-    describe('scrollingAreaWidth$', () => {
-      it('should emit and update on WindowRef.resize$ emission', () => {
-        const scrollingAreaWidthsHistory = [];
-        directive.scrollingAreaWidth$.subscribe((width) => {
-          scrollingAreaWidthsHistory.push(width);
+    describe('public observables', () => {
+      describe('isScrollStart$', () => {
+        it('should emit true when scroll position is at the start', () => {
+          let isScrollStart;
+          directive.isScrollStart$.subscribe(
+            (value) => (isScrollStart = value)
+          );
+          expect(isScrollStart).toBe(true);
         });
-        expect(scrollingAreaWidthsHistory.length).toBe(1);
-        mockWindowRef.resize$.next({});
-        expect(scrollingAreaWidthsHistory.length).toBe(2);
-        mockWindowRef.resize$.next({});
-        expect(scrollingAreaWidthsHistory.length).toBe(3);
+
+        it('should emit false when scroll position is NOT the start', (done) => {
+          scrollingArea.nativeElement.scrollLeft = 100; // scroll a bit to the right
+
+          directive.isScrollStart$
+            .pipe(filter((value) => value === false)) // wait, because IntersectionObserver kicks after some delay
+            .subscribe((value) => {
+              expect(value).toBe(false);
+              done();
+            });
+        });
+
+        it('should be completed in ngOnDestroy', () => {
+          let completed;
+          directive.isScrollStart$.subscribe({
+            complete: () => (completed = true),
+          });
+          directive.ngOnDestroy();
+          expect(completed).toBe(true);
+        });
+      });
+
+      describe('isScrollEnd$', () => {
+        it('should emit false when scroll position is NOT the end', () => {
+          let isScrollEnd;
+          directive.isScrollEnd$.subscribe((value) => (isScrollEnd = value));
+          expect(isScrollEnd).toBe(false);
+        });
+
+        it('should emit true when scroll position is at the end', (done) => {
+          scrollingArea.nativeElement.scrollLeft = 400; // scroll until end to the right
+
+          directive.isScrollEnd$
+            .pipe(filter((value) => value === true)) // wait, because IntersectionObserver kicks after some delay
+            .subscribe((value) => {
+              expect(value).toBe(true);
+              done();
+            });
+        });
+
+        it('should be completed in ngOnDestroy', () => {
+          let completed;
+          directive.isScrollEnd$.subscribe({
+            complete: () => (completed = true),
+          });
+          directive.ngOnDestroy();
+          expect(completed).toBe(true);
+        });
+      });
+
+      describe('isScrollNeeded$', () => {
+        it('should emit true when not all elements fit into the container', () => {
+          let isScrollNeeded;
+          directive.isScrollNeeded$.subscribe(
+            (value) => (isScrollNeeded = value)
+          );
+          expect(isScrollNeeded).toBe(true);
+        });
+
+        it('should emit false when all elements fit into the container', (done) => {
+          scrollingArea.nativeElement.style.width = '500px'; // make it wider to fit all items
+
+          directive.isScrollNeeded$
+            .pipe(filter((value) => value === false)) // wait, because IntersectionObserver kicks after some delay
+            .subscribe((value) => {
+              expect(value).toBe(false);
+              done();
+            });
+        });
+      });
+
+      describe('scrollingAreaWidth$', () => {
+        it('should emit and update on WindowRef.resize$ emission', () => {
+          const scrollingAreaWidthsHistory = [];
+          directive.scrollingAreaWidth$.subscribe((width) => {
+            scrollingAreaWidthsHistory.push(width);
+          });
+          expect(scrollingAreaWidthsHistory.length).toBe(1);
+          mockWindowRef.resize$.next({});
+          expect(scrollingAreaWidthsHistory.length).toBe(2);
+          mockWindowRef.resize$.next({});
+          expect(scrollingAreaWidthsHistory.length).toBe(3);
+        });
       });
     });
-  });
 
-  describe('scrollForward', () => {
-    it('should scroll forward by default width and behavior', () => {
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+    describe('scrollForward', () => {
+      it('should scroll forward by default width and behavior', () => {
+        directive['_isScrollEnd$'].next(false);
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
 
-      directive.scrollForward();
-      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
-        left: scrollingArea.nativeElement.clientWidth,
-        behavior: 'smooth',
+        directive.scrollForward();
+        expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+          left: scrollingArea.nativeElement.clientWidth,
+          behavior: 'smooth',
+        });
+      });
+
+      it('should scroll forward by provided distance and behavior', () => {
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+        directive.scrollForward({
+          distance: 100,
+          behavior: 'instant',
+        });
+        expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+          left: 100,
+          behavior: 'instant',
+        });
+      });
+
+      it('should not scroll if already at end', () => {
+        directive['_isScrollEnd$'].next(true);
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        directive.scrollForward();
+        expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+      });
+
+      it('should not scroll if scrollingArea is undefined', () => {
+        directive['_isScrollEnd$'].next(false);
+        directive.scrollingArea = undefined;
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        directive.scrollForward();
+        expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });
     });
 
-    it('should scroll forward by provided distance and behavior', () => {
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+    describe('scrollBackward', () => {
+      it('should scroll backward by default width and behavior', () => {
+        directive['_isScrollStart$'].next(false);
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
 
-      directive.scrollForward({
-        distance: 100,
-        behavior: 'instant',
+        directive.scrollBackward();
+        expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+          left: -scrollingArea.nativeElement.clientWidth,
+          behavior: 'smooth',
+        });
       });
-      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
-        left: 100,
-        behavior: 'instant',
+
+      it('should scroll forward by provided distance and behavior', () => {
+        directive['_isScrollStart$'].next(false);
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+
+        directive.scrollBackward({
+          distance: 100,
+          behavior: 'instant',
+        });
+        expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
+          left: -100,
+          behavior: 'instant',
+        });
       });
-    });
 
-    it('should not scroll if already at end', () => {
-      directive['_isScrollEnd$'].next(true);
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
-      directive.scrollForward();
-      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
-    });
+      it('should not scroll if already at end', () => {
+        directive['_isScrollStart$'].next(true);
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
 
-    it('should not scroll if scrollingArea is undefined', () => {
-      directive['_isScrollEnd$'].next(false);
-      directive.scrollingArea = undefined;
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
-      directive.scrollForward();
-      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('scrollBackward', () => {
-    it('should scroll backward by default width and behavior', () => {
-      directive['_isScrollStart$'].next(false);
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
-
-      directive.scrollBackward();
-      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
-        left: -scrollingArea.nativeElement.clientWidth,
-        behavior: 'smooth',
+        directive.scrollBackward();
+        expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });
-    });
 
-    it('should scroll forward by provided distance and behavior', () => {
-      directive['_isScrollStart$'].next(false);
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+      it('should not scroll if scrollingArea is undefined', () => {
+        directive['_isScrollStart$'].next(true);
+        directive.scrollingArea = undefined;
 
-      directive.scrollBackward({
-        distance: 100,
-        behavior: 'instant',
-      });
-      expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
-        left: -100,
-        behavior: 'instant',
+        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        directive.scrollBackward();
+        expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });
     });
 
-    it('should not scroll if already at end', () => {
-      directive['_isScrollStart$'].next(true);
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
-
-      directive.scrollBackward();
-      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+    describe('error handling', () => {
+      it(
+        'should log error if scrollingAreaStart or scrollingAreaEnd is missing'
+      );
+      it('should not log error if both are present');
     });
 
-    it('should not scroll if scrollingArea is undefined', () => {
-      directive['_isScrollStart$'].next(true);
-      directive.scrollingArea = undefined;
-
-      spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
-      directive.scrollBackward();
-      expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
+    describe('memory and concurrency', () => {
+      it(
+        'should clean up all subscriptions and observers to prevent memory leaks'
+      );
+      it('should handle concurrent input changes and scrolling');
     });
-  });
-
-  describe('subscribeScrollingArea', () => {
-    it('TODO ADD TESTS');
-  });
-  describe('unsubscribeScrollingArea', () => {
-    it('TODO ADD TESTS');
-  });
-
-  describe('error handling', () => {
-    it('should log error if scrollingAreaStart or scrollingAreaEnd is missing');
-    it('should not log error if both are present');
-  });
-
-  describe('memory and concurrency', () => {
-    it(
-      'should clean up all subscriptions and observers to prevent memory leaks'
-    );
-    it('should handle concurrent input changes and scrolling');
   });
 });
