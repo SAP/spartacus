@@ -214,7 +214,15 @@ export class HorizontalScrollingPositionDirective
           }
         });
       },
-      { root: this.scrollingArea, threshold: 1 }
+      {
+        root: this.scrollingArea,
+        threshold: 0,
+        // In highly zoomed-out viewports (e.g., 25% zoom), the `scrollingAreaStart`
+        // and `scrollingAreaEnd` elements that have 0px width might not be detected
+        // by the IntersectionObserver. To workaround this, we add an arbitrary 2px
+        // margin to improve the detection in such cases.
+        rootMargin: '2px',
+      }
     );
 
     if (!this.scrollingAreaStart || !this.scrollingAreaEnd) {
