@@ -19,7 +19,7 @@ import { GigyaRaasGuard } from './gigya-raas.guard';
       cmsComponents: {
         GigyaRaasComponent: {
           component: GigyaRaasComponent,
-          guards: [GigyaRaasGuard],
+          guards: [GigyaRaasGuard], //adding guard
         },
       },
       layoutSlots: {
