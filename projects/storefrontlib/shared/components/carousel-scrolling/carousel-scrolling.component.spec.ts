@@ -4,10 +4,17 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, LoggerService } from '@spartacus/core';
 import {
   CarouselScrollingComponent,
+  FocusableCarouselItemDirective,
   HorizontalScrollingPositionDirective,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
+
+const EVENT_NAME_KEYDOWN = 'keydown';
+const KEY_NAME_TAB = 'Tab';
+const KEY_NAME_ARROW_RIGHT = 'ArrowRight';
+const KEY_NAME_ARROW_LEFT = 'ArrowLeft';
+const KEY_NAME_ENTER = 'Enter';
 
 @Component({
   selector: 'cx-icon',
@@ -94,6 +101,40 @@ class TestParentComponent {
 }
 
 @Component({
+  selector: 'cx-test-parent-with-cx-focusable-carousel-item',
+  template: `
+    <cx-carousel-scrolling
+      [items]="mockItems"
+      [title]="mockTitle"
+      [template]="carouselItem"
+      [trackByFn]="carouselTrackByFn"
+      (keyboardEvent)="mockKeyboardEventHandler.next($event)"
+    ></cx-carousel-scrolling>
+    <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+      <cx-test-child
+        [item]="item"
+        [itemIndex]="itemIndex"
+        tabindex="0"
+        cxFocusableCarouselItem
+      ></cx-test-child>
+    </ng-template>
+  `,
+  standalone: false,
+})
+class TestParentWithCxFocusableCarouselItemComponent {
+  mockKeyboardEventHandler = new ReplaySubject<KeyboardEvent>();
+  mockTitle: string | undefined = 'Test Carousel With cxFocusableCarouselItem';
+  mockItems = [
+    of({ testProperty: 'A', customID: 1 }),
+    of({ testProperty: 'B', customID: 2 }),
+    of({ testProperty: 'C', customID: 3 }),
+    of({ testProperty: 'D', customID: 4 }),
+    of({ testProperty: 'E', customID: 5 }),
+  ];
+  carouselTrackByFn = (_index: number, item: any) => item.customID;
+}
+
+@Component({
   selector: 'cx-test-parent-without-child-template',
   template: `
     <cx-carousel-scrolling
@@ -105,7 +146,7 @@ class TestParentComponent {
   standalone: false,
 })
 class TestParentWithoutChildTemplateComponent {
-  mockTitle = 'Test Carousel';
+  mockTitle = 'Test Carousel Without Child Template';
   mockItems = [];
   carouselTrackByFn = (_index: number, item: any) => item.customID;
 }
@@ -275,7 +316,7 @@ describe('CarouselScrollingComponent', () => {
           ).toHaveBeenCalled();
         });
 
-        it('should hide previous button when no scroll is needed (all items fit into container)', () => {
+        it('should hide previous button when no scroll is needed (all items are visible in the container)', () => {
           horizontalScrollingPositionDirective.isScrollNeeded$.next(false);
           parentFixture.detectChanges();
           const prevButton = parentFixture.debugElement.query(
@@ -337,7 +378,7 @@ describe('CarouselScrollingComponent', () => {
           expect(nextButton.attributes['aria-disabled']).toBe('false');
         });
 
-        it('should hide next button when no scroll is needed (all items fit into container)', () => {
+        it('should hide next button when no scroll is needed (all items are visible in the container)', () => {
           horizontalScrollingPositionDirective.isScrollNeeded$.next(false);
           parentFixture.detectChanges();
           const nextButton = parentFixture.debugElement.query(
@@ -414,6 +455,247 @@ describe('CarouselScrollingComponent', () => {
         expect(newChildEls[2].nativeElement.textContent).toContain('C');
         expect(newChildEls[3].nativeElement.textContent).toContain('D');
         expect(newChildEls[4].nativeElement.textContent).toContain('E');
+      });
+    });
+
+    describe('when an item is focused in', () => {
+      it('should scroll it into view', () => {
+        const items = parentFixture.debugElement.queryAll(By.css('.item'));
+        const secondItem = items[1].nativeElement as HTMLElement;
+        spyOn(secondItem, 'scrollIntoView').and.callThrough();
+
+        secondItem.dispatchEvent(new FocusEvent('focusin'));
+
+        expect(secondItem.scrollIntoView).toHaveBeenCalled();
+      });
+    });
+
+    describe('keyboard navigation', () => {
+      describe('onItemKeyDown', () => {
+        describe('on Tab key', () => {
+          it('should NOT set tabindex="-1" on children (i.e. should allow for tab-navigation)', () => {
+            const firstItem = parentFixture.debugElement.queryAll(
+              By.css('.item')
+            )[0].nativeElement;
+            const secondChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[1].nativeElement;
+
+            expect(secondChild.tabIndex).toBe(0);
+            firstItem.dispatchEvent(
+              new KeyboardEvent(EVENT_NAME_KEYDOWN, { key: KEY_NAME_TAB })
+            );
+            expect(secondChild.tabIndex).toBe(0);
+          });
+        });
+
+        // SPIKE TODO: add tests for ArrowRight/ArrowLeft keys
+      });
+    });
+  });
+
+  describe('with [cxFocusableCarouselItem] directive inside', () => {
+    let parentFixture: ComponentFixture<TestParentWithCxFocusableCarouselItemComponent>;
+
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithCxFocusableCarouselItemComponent,
+          TestChildComponent,
+          FocusableCarouselItemDirective,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      parentFixture = TestBed.createComponent(
+        TestParentWithCxFocusableCarouselItemComponent
+      );
+      parentFixture.detectChanges();
+    });
+
+    describe('keyboard navigation', () => {
+      const EVENT_NAME_KEYDOWN = 'keydown';
+
+      describe('onItemKeyDown', () => {
+        describe('on Tab key', () => {
+          const KEY_NAME_TAB = 'Tab';
+
+          it('should set tabindex="-1" on children with cxFocusableCarouselItem until next animation frame', (done) => {
+            const firstItem = parentFixture.debugElement.queryAll(
+              By.css('.item')
+            )[0].nativeElement;
+
+            const secondChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[1].nativeElement;
+            expect(secondChild.tabIndex).toBe(0);
+
+            firstItem.dispatchEvent(
+              new KeyboardEvent(EVENT_NAME_KEYDOWN, { key: KEY_NAME_TAB })
+            );
+            expect(firstItem.tabIndex).toBe(-1);
+
+            requestAnimationFrame(() => {
+              expect(secondChild.tabIndex).toBe(0);
+              done();
+            });
+          });
+        });
+
+        describe('on ArrowRight key', () => {
+          it('should prevent default behavior', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+              key: KEY_NAME_ARROW_RIGHT,
+              bubbles: true,
+            });
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).toHaveBeenCalled();
+          });
+
+          it('should focus the next item with cxFocusableCarouselItem directive', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const secondChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[1].nativeElement;
+            const carouselScrollingComponent = parentFixture.debugElement.query(
+              By.directive(CarouselScrollingComponent)
+            ).componentInstance;
+            spyOn(
+              carouselScrollingComponent,
+              'focusNextPrevItem'
+            ).and.callThrough();
+
+            spyOn(secondChild, 'focus').and.callThrough();
+            firstChild.dispatchEvent(
+              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+                key: KEY_NAME_ARROW_RIGHT,
+                bubbles: true,
+              })
+            );
+
+            expect(secondChild.focus).toHaveBeenCalled();
+            expect(
+              carouselScrollingComponent.focusNextPrevItem
+            ).toHaveBeenCalledWith(firstChild, 1);
+          });
+        });
+
+        describe('on ArrowLeft key', () => {
+          it('should prevent default behavior', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+              key: KEY_NAME_ARROW_LEFT,
+              bubbles: true,
+            });
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).toHaveBeenCalled();
+          });
+
+          it('should call focusNextPrevItem with "-1" direction as second argument', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const carouselScrollingComponent = parentFixture.debugElement.query(
+              By.directive(CarouselScrollingComponent)
+            ).componentInstance;
+            //
+            spyOn(
+              carouselScrollingComponent,
+              'focusNextPrevItem'
+            ).and.callThrough();
+            firstChild.dispatchEvent(
+              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+                key: KEY_NAME_ARROW_LEFT,
+                bubbles: true,
+              })
+            );
+            expect(
+              carouselScrollingComponent.focusNextPrevItem
+            ).toHaveBeenCalledWith(firstChild, -1);
+          });
+
+          it('should focus the previous child with cxFocusableCarouselItem directive', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const secondChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[1].nativeElement;
+            const carouselScrollingComponent = parentFixture.debugElement.query(
+              By.directive(CarouselScrollingComponent)
+            ).componentInstance;
+            spyOn(
+              carouselScrollingComponent,
+              'focusNextPrevItem'
+            ).and.callThrough();
+
+            spyOn(firstChild, 'focus').and.callThrough();
+            secondChild.dispatchEvent(
+              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+                key: KEY_NAME_ARROW_LEFT,
+                bubbles: true,
+              })
+            );
+
+            expect(firstChild.focus).toHaveBeenCalled();
+            expect(
+              carouselScrollingComponent.focusNextPrevItem
+            ).toHaveBeenCalledWith(secondChild, -1);
+          });
+        });
+
+        describe('on other keys', () => {
+          it('should not prevent default behavior', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const event = new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+              key: KEY_NAME_ENTER,
+              bubbles: true,
+            });
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).not.toHaveBeenCalled();
+          });
+
+          it('should not call focusNextPrevItem', () => {
+            const firstChild = parentFixture.debugElement.queryAll(
+              By.css('cx-test-child')
+            )[0].nativeElement;
+            const carouselScrollingComponent = parentFixture.debugElement.query(
+              By.directive(CarouselScrollingComponent)
+            ).componentInstance;
+            spyOn(
+              carouselScrollingComponent,
+              'focusNextPrevItem'
+            ).and.callThrough();
+
+            firstChild.dispatchEvent(
+              new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+                key: KEY_NAME_ENTER,
+                bubbles: true,
+              })
+            );
+
+            expect(
+              carouselScrollingComponent.focusNextPrevItem
+            ).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
