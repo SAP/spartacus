@@ -95,6 +95,20 @@ context('Product Configuration', () => {
       configurationCart.clickOnEditConfigurationLink(0);
     });
 
+    it('should be able to navigate via browser back from overview to configuration and back', () => {
+      clickAllowAllFromBanner();
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
+      configurationVc.clickAddToCartBtn();
+      cy.log('Go back to configuration page using browser back button');
+      cy.go('back');
+      configurationVc.clickAddToCartBtn();
+      configurationOverview.clickContinueToCartBtnOnOP();
+      configurationCart.clickOnEditConfigurationLink(0);
+    });
+
     it('should increase quantity of a configured product via a quantity stepper (CXSPA-3193)', () => {
       configurationCart.registerQuantityPatchRoute();
       configurationCart.registerCartRoute();
