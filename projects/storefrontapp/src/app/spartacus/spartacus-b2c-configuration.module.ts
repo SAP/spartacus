@@ -6,10 +6,15 @@
 
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
-import { AuthConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
+import {
+  provideConfig,
+  provideConfigFactory,
+  SiteContextConfig,
+  AuthConfig
+} from '@spartacus/core';
 import {
   defaultCmsContentProviders,
-  layoutConfig,
+  layoutConfigFactory,
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
@@ -31,7 +36,7 @@ const baseSite = environment.epdVisualization
 
 @NgModule({
   providers: [
-    provideConfig(layoutConfig),
+    provideConfigFactory(layoutConfigFactory),
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
     provideConfig(<SiteContextConfig>{
@@ -59,7 +64,6 @@ const baseSite = environment.epdVisualization
           enabled: true,
           loginForm: '/authorizationserver/login', // TODO: Does this need to be absolute?
           csfrPath: '/authorizationserver/csrf',
-          // csfrPath: '/authserver/csrf',
         },
       },
     }),

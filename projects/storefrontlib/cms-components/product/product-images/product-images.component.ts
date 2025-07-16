@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TrackByFunction,
+} from '@angular/core';
 import {
   ImageGroup,
   Product,
@@ -46,6 +50,7 @@ export class ProductImagesComponent {
   constructor(protected currentProductService: CurrentProductService) {
     useFeatureStyles('a11yDifferentiateFocusedAndSelected');
     useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
+    useFeatureStyles('productCarouselScrolling');
   }
 
   openImage(item: any): void {
@@ -101,4 +106,7 @@ export class ProductImagesComponent {
 
     return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
   }
+
+  trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
+    item?.code;
 }
