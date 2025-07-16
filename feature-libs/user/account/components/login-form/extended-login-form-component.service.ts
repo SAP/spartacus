@@ -22,7 +22,9 @@ export class ExtendedLoginFormComponentService extends LoginFormComponentService
 
     const { userId, password } = this.form.value;
     if (this.config.authentication?.customLoginPage?.enabled) {
-      this.auth.customLoginForm(userId, password).subscribe();
+      this.auth
+        .customLoginForm(userId, password)
+        .subscribe(() => this.busy$.next(false));
     }
   }
 }

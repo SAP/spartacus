@@ -19,8 +19,8 @@ export class CustomLoginPageAdapter {
   protected http = inject(HttpClient);
 
   /** DEBUG: flag to switch between sending the login form data via _fetch_ or _form action_ */
-  DEBUG_useFetch = true;
-  // DEBUG_useFetch = false;
+  // DEBUG_useFetch = true;
+  DEBUG_useFetch = false;
 
   getCustomLoginCsrf() {
     const { baseUrl } = this.config.authentication ?? {};

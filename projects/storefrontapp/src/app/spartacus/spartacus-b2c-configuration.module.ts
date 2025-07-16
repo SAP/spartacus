@@ -57,7 +57,7 @@ const baseSite = environment.epdVisualization
       authentication: {
         customLoginPage: {
           enabled: true,
-          loginForm: '/authserver/login', // TODO: Does this need to be absolute?
+          loginForm: '/authorizationserver/login', // TODO: Does this need to be absolute?
           csfrPath: '/authorizationserver/csrf',
           // csfrPath: '/authserver/csrf',
         },
