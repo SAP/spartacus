@@ -31,7 +31,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
         <!-- Item Price -->
-        <ng-container *ngIf="isFlagQuote">
+        <ng-container *ngIf="isFlagQuote && item.product?.productTypes !== 'SUBSCRIPTION'">
           <div *ngIf="item.basePrice" class="cx-price">
             <div *ngIf="item.basePrice" class="cx-value">
               {{ item.basePrice?.formattedValue }}
@@ -92,14 +92,18 @@
   </td>
 
   <!-- Subscription Charges -->
-  <ng-template
-    role="cell"
-    [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
-    [cxOutletContext]="{
-      items: item,
-    }"
-  >
-</ng-template>
+  <ng-container *ngIf="displayItemPriceColumn">
+    <td role="cell" class="cx-item-list-charges">
+      <ng-template
+        role="cell"
+        [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
+        [cxOutletContext]="{
+          items: item,
+        }"
+      >
+    </ng-template>
+    </td>
+  </ng-container>
 
   <!-- item price with discount -->
   <ng-template

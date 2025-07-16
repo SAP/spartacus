@@ -10,10 +10,14 @@
         {{ 'cartItems.item' | cxTranslate }}
       </th>
 
-      <ng-template
-        role="columnheader"
-        [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
-      ></ng-template>
+      <ng-container *ngIf="displayItemPriceColumn">
+        <th role="columnheader" scope="col" class="cx-item-list-charges">
+          <ng-template
+            role="columnheader"
+            [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
+          ></ng-template>
+        </th>
+      </ng-container>
 
       <ng-template
         role="columnheader"
@@ -60,6 +64,7 @@
           cx-cart-item-list-row
           role="row"
           class="cx-item-list-row"
+          [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"
           [readonly]="readonly"
