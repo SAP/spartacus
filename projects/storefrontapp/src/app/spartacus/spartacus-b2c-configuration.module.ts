@@ -10,7 +10,8 @@ import {
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
-  AuthConfig
+  AuthConfig,
+  provideAuthorizationCodeFlowByDefault,
 } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
@@ -58,12 +59,13 @@ const baseSite = environment.epdVisualization
         },
       },
     }),
+    provideAuthorizationCodeFlowByDefault(),
     provideConfig(<AuthConfig>{
       authentication: {
         customLoginPage: {
           enabled: true,
-          loginForm: '/authorizationserver/login', // TODO: Does this need to be absolute?
-          csfrPath: '/authorizationserver/csrf',
+          loginForm: '/login',
+          csfrPath: '/csrf',
         },
       },
     }),

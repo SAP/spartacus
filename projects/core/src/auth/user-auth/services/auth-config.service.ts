@@ -138,4 +138,6 @@ export class AuthConfigService {
     }
     return OAuthFlow.ResourceOwnerPasswordFlow;
   }
+
+  //TODO : add some getters
 }

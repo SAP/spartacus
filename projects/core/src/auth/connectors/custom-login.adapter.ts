@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { AuthConfigService, Config } from '@spartacus/core';
 
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EMPTY } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
 
@@ -17,13 +17,14 @@ type CSRFResponse = {
 export class CustomLoginPageAdapter {
   protected config = inject(Config);
   protected http = inject(HttpClient);
+  protected authConfigService = inject(AuthConfigService);
 
   /** DEBUG: flag to switch between sending the login form data via _fetch_ or _form action_ */
   // DEBUG_useFetch = true;
-  DEBUG_useFetch = false;
+  // DEBUG_useFetch = false;
 
   getCustomLoginCsrf() {
-    const { baseUrl } = this.config.authentication ?? {};
+    const baseUrl = this.authConfigService.getBaseUrl();
     const { csfrPath } = this.config.authentication?.customLoginPage ?? {};
 
     return this.http
@@ -46,25 +47,26 @@ export class CustomLoginPageAdapter {
     // DEBUG: adjust values
     // - baseUrl in projects/core/src/auth/user-auth/config/default-auth-config.ts
     // - loginForm in projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts:53
-    const destination = `${this.config.authentication?.baseUrl}${this.config.authentication?.customLoginPage?.loginForm}`;
+    const baseUrl = this.authConfigService.getBaseUrl();
+    const destination = `${baseUrl}${this.config.authentication?.customLoginPage?.loginForm}`;
 
     return this.getCustomLoginCsrf().pipe(
       concatMap((csrf) => {
-        if (this.DEBUG_useFetch) {
-          return this.fetchApiPostForm({
-            destination,
-            username,
-            password,
-            csrf,
-          });
-        } else {
-          return this.formActionSubmit({
-            destination,
-            username,
-            password,
-            csrf,
-          });
-        }
+        // if (this.DEBUG_useFetch) {
+        //   return this.fetchApiPostForm({
+        //     destination,
+        //     username,
+        //     password,
+        //     csrf,
+        //   });
+        // } else {
+        return this.formActionSubmit({
+          destination,
+          username,
+          password,
+          csrf,
+        });
+        // }
       })
     );
   }
@@ -123,46 +125,46 @@ export class CustomLoginPageAdapter {
    * Note: incomplete, only intended to get the 302 redirect to auth server or error page.
    *   Processing the location to follow later
    */
-  fetchApiPostForm({
-    destination,
-    csrf,
-    username,
-    password,
-  }: {
-    destination: string;
-    csrf: { parameterName: string; token: string };
-    username: string;
-    password: string;
-  }) {
-    // make CORS fetch request to POST login form data
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-
-    const body = new HttpParams({
-      fromObject: {
-        username,
-        password,
-        [csrf.parameterName]: csrf.token,
-      },
-    });
-
-    return this.http
-      .post(destination, body.toString(), {
-        headers,
-        withCredentials: true,
-        observe: 'response',
-      })
-      .pipe(
-        tap({
-          next: (response) => {
-            console.log('redirect location', response.headers.get('location'));
-            debugger;
-          },
-          error: (error) => {
-            console.log(error);
-          },
-        })
-      );
-  }
+  // fetchApiPostForm({
+  //   destination,
+  //   csrf,
+  //   username,
+  //   password,
+  // }: {
+  //   destination: string;
+  //   csrf: { parameterName: string; token: string };
+  //   username: string;
+  //   password: string;
+  // }) {
+  //   // make CORS fetch request to POST login form data
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/x-www-form-urlencoded',
+  //   });
+  //
+  //   const body = new HttpParams({
+  //     fromObject: {
+  //       username,
+  //       password,
+  //       [csrf.parameterName]: csrf.token,
+  //     },
+  //   });
+  //
+  //   return this.http
+  //     .post(destination, body.toString(), {
+  //       headers,
+  //       withCredentials: true,
+  //       observe: 'response',
+  //     })
+  //     .pipe(
+  //       tap({
+  //         next: (response) => {
+  //           console.log('redirect location', response.headers.get('location'));
+  //           debugger;
+  //         },
+  //         error: (error) => {
+  //           console.log(error);
+  //         },
+  //       })
+  //     );
+  // }
 }
