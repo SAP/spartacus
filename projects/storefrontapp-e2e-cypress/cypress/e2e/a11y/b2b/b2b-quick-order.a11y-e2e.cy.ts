@@ -19,7 +19,6 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
   });
 
   it('scan empty Quick Order page', () => {
-    cy.get('main', { timeout: 10000 });
     cy.get('main').a11yRunContinuumTest();
   });
 
@@ -28,9 +27,9 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
       .clear()
       .type(`${sampleData.b2bProduct2.code}`);
 
-    cy.get('.quick-order-results-products', { timeout: 10000 });
+    cy.get('.quick-order-results-products');
     cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
-    cy.get('.cx-quick-order-table-row', { timeout: 10000 });
+    cy.get('.cx-quick-order-table-row');
 
     cy.get('main').a11yRunContinuumTest();
   });
@@ -40,9 +39,9 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
       .clear()
       .type(`${sampleData.b2bProduct2.code}`);
 
-    cy.get('.quick-order-results-products', { timeout: 10000 });
+    cy.get('.quick-order-results-products');
     cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
-    cy.get('.cx-quick-order-table-row', { timeout: 10000 });
+    cy.get('.cx-quick-order-table-row');
 
     cy.get('.cx-quick-order-table-row')
       .first()
@@ -50,13 +49,11 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
         cy.get('button.btn-tertiary').click();
       });
 
-    cy.get('.quick-order-deletions-message', { timeout: 10000 });
     cy.get('.quick-order-deletions-message').a11yRunContinuumTest();
   });
 
   it('scan import modal after opening it', () => {
     cy.get('.cx-import-btn').click();
-    cy.get('cx-import-entries-dialog', { timeout: 10000 });
     cy.get('cx-import-entries-dialog').a11yRunContinuumTest();
     cy.get('cx-import-entries-dialog button.close').click();
   });
