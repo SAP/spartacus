@@ -5,8 +5,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { SapOrderSubsequentDocuments } from '@spartacus/order/root';
-import { SapOrderSubsequentDocumentEntry } from '../../root/model';
+import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
 
 export abstract class OrderDocumentFlowAdapter {
   /**
@@ -18,7 +17,7 @@ export abstract class OrderDocumentFlowAdapter {
   abstract getOrderSubsequentDocuments(
     userId: string,
     orderId: string
-  ): Observable<SapOrderSubsequentDocuments>;
+  ): Observable<SapOrderSubsequentDocument[]>;
 
   /**
    * Abstract method used to fetch subsequent document entries.
@@ -30,6 +29,7 @@ export abstract class OrderDocumentFlowAdapter {
   abstract getOrderSubsequentDocumentEntries(
     userId: string,
     orderId: string,
+    documentCategory: string,
     documentId: string
   ): Observable<SapOrderSubsequentDocumentEntry[]>;
 }

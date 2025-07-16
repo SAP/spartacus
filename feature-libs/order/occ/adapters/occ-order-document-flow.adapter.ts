@@ -5,18 +5,20 @@
  */
 
 import {
-  HttpClient,
+  HttpClient, HttpErrorResponse,
+  HttpHeaders,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
-import { delay, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { OrderDocumentFlowAdapter } from '@spartacus/order/core';
-import { SapOrderSubsequentDocuments } from '@spartacus/order/root';
-import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '../../root/model';
+import { catchError } from 'rxjs/operators';
+import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
 
 @Injectable()
 export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
@@ -28,82 +30,52 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
   getOrderSubsequentDocuments(
     userId: string,
     orderId: string,
-  ): Observable<SapOrderSubsequentDocuments> {
-    console.log(userId, orderId);
+  ): Observable<SapOrderSubsequentDocument[]> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    const hugeTestObject: SapOrderSubsequentDocuments = {
-      sapOrderSubsequentDocuments: generateTestData(5)
-    };
-
-    return of(hugeTestObject).pipe(
-      delay(2000)
-    );;
-
-    //const headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    // return this.http
-    //   .get(this.getOrderAttachmentsUrl(orderId, userId), { headers })
-    //   .pipe(
-    //     catchError((error) => {
-    //       throw tryNormalizeHttpError(error, this.logger);
-    //     })
-    //   );
+    return this.http
+      .get<SapOrderSubsequentDocument[]>(this.getSubsequentDocumentsUrl(orderId, userId), { headers })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+      );
   }
 
   getOrderSubsequentDocumentEntries(
     userId: string,
     orderId: string,
+    documentCategory: string,
     documentId: string,
   ): Observable<SapOrderSubsequentDocumentEntry[]> {
-    console.log(userId, orderId, documentId);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    const sapOrderSubsequentDocumentEntries: SapOrderSubsequentDocumentEntry[] = [];
-
-    for (let i = 1; i <= 1; i++) {
-      sapOrderSubsequentDocumentEntries.push({
-        sapSubsequentDocumentEntryNumber: `Entry${i}`,
-        sapOrderEntryNumber: `Order${i}`,
-        sapCreatedAt: new Date(),
-        sapStatus: i % 2 === 0 ? "Active" : "Pending"
-      });
-    }
-
-
-    return of(sapOrderSubsequentDocumentEntries).pipe(
-      delay(1000)
-    );
+    return this.http
+      .get<SapOrderSubsequentDocumentEntry[]>(this.getSubsequentDocumentsEntriesUrl(orderId, userId, documentCategory, documentId), { headers })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+      );
   }
 
-  // protected getOrderAttachmentsUrl(orderId: string, userId: string): string {
-  //   return this.occEndpoints.buildUrl('orderAttachments', {
-  //     urlParams: {
-  //       userId,
-  //       orderId,
-  //     },
-  //   });
-  // }
+  protected getSubsequentDocumentsUrl(orderId: string, userId: string): string {
+    return this.occEndpoints.buildUrl('subsequentDocuments', {
+      urlParams: {
+        userId,
+        orderId,
+      },
+    });
+  }
+
+  protected getSubsequentDocumentsEntriesUrl(orderId: string, userId: string, documentCategory: string, documentId: string): string {
+    return this.occEndpoints.buildUrl('subsequentDocumentsEntries', {
+      urlParams: {
+        userId,
+        orderId,
+        documentCategory,
+        documentId,
+      },
+    });
+  }
 }
-
-
-const generateTestData = (depth: number, currentDepth: number = 0): SapOrderSubsequentDocument[] => {
-  const testData: SapOrderSubsequentDocument[] = [];
-  const numEntries = currentDepth === 0 ? 2 : 1;
-
-  for (let i = 1; i <= numEntries; i++) {
-    const entry: SapOrderSubsequentDocument = {
-      sapDocumentId: `${currentDepth}-${i}`,
-      sapDocumentCategory: `Category `,
-      sapDocumentEntryIdColumnName: `Entry-${currentDepth}-${i}`,
-      sapCreatedAt: new Date(),
-      sapStatus: i % 2 === 0 ? 'Active' : 'Pending',
-    };
-
-    if (currentDepth < depth) {
-      entry.sapSubsequentDocuments = generateTestData(depth, currentDepth + 1);
-    }
-
-    testData.push(entry);
-  }
-
-  return testData;
-};

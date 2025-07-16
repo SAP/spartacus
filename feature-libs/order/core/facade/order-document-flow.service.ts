@@ -8,40 +8,31 @@ import { inject, Injectable } from '@angular/core';
 import { UserIdService } from '@spartacus/core';
 import { Observable, switchMap, take } from 'rxjs';
 import {
-  SapOrderSubsequentDocuments,
   OrderDocumentFlowFacade,
 } from '@spartacus/order/root';
-import { OrderDocumentFlowConnector } from '../connectors';
-import { SapOrderSubsequentDocumentEntry } from '../../root/model';
+import { OrderDocumentFlowConnector } from '@spartacus/order/core';
+import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
 
 @Injectable()
 export class OrderDocumentFlowService implements OrderDocumentFlowFacade {
   protected orderAttachmentsConnector = inject(OrderDocumentFlowConnector);
   protected userIdService = inject(UserIdService);
 
-  getOrderSubsequentDocuments(orderId: string): Observable<SapOrderSubsequentDocuments> {
+  getOrderSubsequentDocuments(orderId: string): Observable<SapOrderSubsequentDocument[]> {
     return this.userIdService.takeUserId().pipe(
       take(1),
       switchMap((userId) =>
-        this.orderAttachmentsConnector.getOrderSubsequentDocuments(userId, orderId)
+        this.orderAttachmentsConnector.getOrderSubsequentDocuments(userId, orderId),
       ),
-      // map(() => {
-      //   throw new Error('')
-      // }),
-      //map(() => ({sapOrderSubsequentDocuments: []})),
     );
   }
 
-  getOrderSubsequentDocumentEntries(orderId: string, documentId: string): Observable<SapOrderSubsequentDocumentEntry[]> {
+  getOrderSubsequentDocumentEntries(orderId: string, documentCategory: string, documentId: string): Observable<SapOrderSubsequentDocumentEntry[]> {
     return this.userIdService.takeUserId().pipe(
       take(1),
       switchMap((userId) =>
-        this.orderAttachmentsConnector.getOrderSubsequentDocumentEntries(userId, orderId, documentId)
+        this.orderAttachmentsConnector.getOrderSubsequentDocumentEntries(userId, orderId, documentCategory, documentId),
       ),
-      // map(() => {
-      //   throw new Error('')
-      // })
-      //map(() => []),
     );
   }
 }

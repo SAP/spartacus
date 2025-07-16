@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface SapOrderSubsequentDocuments {
-  sapOrderSubsequentDocuments: SapOrderSubsequentDocument[]
-}
-
 export interface SapOrderSubsequentDocument {
   sapDocumentId?: string;
   sapDocumentCategory?: string;

@@ -26,6 +26,7 @@ import {
   SapOrderSubsequentDocument,
   SapOrderSubsequentDocumentEntry,
 } from '@spartacus/order/root';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cx-order-document-flow-dialog',
@@ -60,11 +61,11 @@ export class OrderDocumentFlowDialogComponent {
 
   documents$: Observable<SapOrderSubsequentDocument[]> = this.orderCode$.pipe(
     switchMap(orderId => this.orderDocumentFlowFacade.getOrderSubsequentDocuments(orderId)),
-    map(documents => documents.sapOrderSubsequentDocuments ?? []),
     catchError(() => {
       this.loadError.set(true);
       return of([]);
     }),
+    takeUntilDestroyed(this.destroyRef),
     shareReplay(),
   );
   loadError = signal(false);
@@ -83,7 +84,7 @@ export class OrderDocumentFlowDialogComponent {
           return of(cachedEntries);
         }
 
-        return this.orderDocumentFlowFacade.getOrderSubsequentDocumentEntries(orderCode, document.sapDocumentId ?? '').pipe(
+        return this.orderDocumentFlowFacade.getOrderSubsequentDocumentEntries(orderCode, document.sapDocumentCategory ?? '', document.sapDocumentId ?? '').pipe(
           tap((entries) => this.cacheDocumentEntries(document.sapDocumentId ?? '', entries)),
         );
       },
@@ -126,4 +127,3 @@ export class OrderDocumentFlowDialogComponent {
     }, 0);
   }
 }
-

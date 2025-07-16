@@ -99,6 +99,16 @@ export interface OrderOccEndpoints {
    * Download order attachment blob
    */
   downloadOrderAttachment?: string | OccEndpoint;
+
+  /**
+   * Get order subsequent documents
+   */
+  subsequentDocuments?: string | OccEndpoint;
+
+  /**
+   * Get order subsequent document entries
+   */
+  subsequentDocumentsEntries?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

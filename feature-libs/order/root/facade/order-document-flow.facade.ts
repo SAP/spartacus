@@ -6,8 +6,8 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ORDER_CORE_FEATURE } from '../feature-name';
-import { SapOrderSubsequentDocumentEntry, SapOrderSubsequentDocuments } from '../model';
+import { ORDER_CORE_FEATURE } from '@spartacus/order/root';
+import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
 import { facadeFactory } from '@spartacus/core';
 
 @Injectable({
@@ -23,10 +23,10 @@ export abstract class OrderDocumentFlowFacade {
   /**
    * Get order document flow
    */
-  abstract getOrderSubsequentDocuments(orderId: string): Observable<SapOrderSubsequentDocuments>;
+  abstract getOrderSubsequentDocuments(orderId: string): Observable<SapOrderSubsequentDocument[]>;
 
   /**
    * Get order document entries
    */
-  abstract getOrderSubsequentDocumentEntries(orderId: string, documentId: string): Observable<SapOrderSubsequentDocumentEntry[]>;
+  abstract getOrderSubsequentDocumentEntries(orderId: string, documentCategory: string, documentId: string): Observable<SapOrderSubsequentDocumentEntry[]>;
 }
