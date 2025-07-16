@@ -15,6 +15,7 @@ import { WindowRef } from '@spartacus/core';
 import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -46,12 +47,17 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 describe('OpfGlobalFunctionsService', () => {
   let service: OpfGlobalFunctionsService;
   let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
+  let opfPaymentEventsServiceMock: jasmine.SpyObj<OpfPaymentEventsService>;
   let windowRef: WindowRef;
   opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
     'submitPayment',
     'submitCompletePayment',
     'getActiveConfigurationsState',
   ]);
+  opfPaymentEventsServiceMock = jasmine.createSpyObj(
+    'OpfPaymentEventsService',
+    ['emitReinitiatePaymentEvent']
+  );
   let componentRef: ComponentRef<TestContainerComponent>;
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
@@ -61,6 +67,10 @@ describe('OpfGlobalFunctionsService', () => {
         OpfGlobalFunctionsService,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
+        {
+          provide: OpfPaymentEventsService,
+          useValue: opfPaymentEventsServiceMock,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     });
@@ -68,6 +78,9 @@ describe('OpfGlobalFunctionsService', () => {
     windowRef = TestBed.inject(WindowRef);
     componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
     launchDialogService = TestBed.inject(LaunchDialogService);
+    opfPaymentEventsServiceMock.emitReinitiatePaymentEvent.and.returnValue(
+      undefined
+    );
   });
 
   it('should be created', () => {
@@ -112,7 +125,7 @@ describe('OpfGlobalFunctionsService', () => {
         paymentSessionId: mockPaymentSessionId,
         vcr: {} as ViewContainerRef,
       });
-      windowOpf = windowRef.nativeWindow['Opf'];
+      windowOpf = windowRef.nativeWindow?.['Opf'] as any;
     });
 
     it('should register global functions for CHECKOUT', () => {
@@ -125,6 +138,9 @@ describe('OpfGlobalFunctionsService', () => {
       ).toBeDefined();
       expect(
         windowOpf['payments']['checkout']['stopLoadIndicator']
+      ).toBeDefined();
+      expect(
+        windowOpf['payments']['checkout']['reinitiatePaymentForm']
       ).toBeDefined();
     });
 
@@ -154,6 +170,37 @@ describe('OpfGlobalFunctionsService', () => {
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
 
+    it('should handle registerSubmit event with submitCancel callback', () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      const submitSuccess = (): void => {};
+      const submitPending = (): void => {};
+      const submitFailure = (): void => {};
+      const submitCancel = (): void => {};
+      const additionalData = [
+        { key: 'returnUrl', value: 'https://returnUrl/' },
+        { key: 'allow3DS2', value: 'true' },
+        { key: 'originUrl', value: 'https://originUrl/' },
+      ];
+      const cartId = 'mock-cart';
+
+      windowOpf.payments['checkout'].submit({
+        cartId,
+        additionalData,
+        submitSuccess,
+        submitPending,
+        submitFailure,
+        submitCancel,
+        paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
+      });
+      expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
+    });
+
     it('should handle registerSubmitComplete event', () => {
       opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
       spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
@@ -178,6 +225,36 @@ describe('OpfGlobalFunctionsService', () => {
         paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
       });
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+    });
+
+    it('should handle registerSubmitComplete event with submitCancel callback', () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      const submitSuccess = (): void => {};
+      const submitPending = (): void => {};
+      const submitFailure = (): void => {};
+      const submitCancel = (): void => {};
+      const additionalData = [
+        { key: 'returnUrl', value: 'https://returnUrl/' },
+        { key: 'allow3DS2', value: 'true' },
+        { key: 'originUrl', value: 'https://originUrl/' },
+      ];
+      const cartId = 'mock-cart';
+
+      windowOpf.payments['checkout'].submitComplete({
+        cartId,
+        additionalData,
+        submitSuccess,
+        submitPending,
+        submitFailure,
+        submitCancel,
+      });
+      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
     it('should handle throwPaymentError event', () => {
@@ -214,6 +291,19 @@ describe('OpfGlobalFunctionsService', () => {
       windowOpf.payments['checkout'].startLoadIndicator();
       windowOpf.payments['checkout'].stopLoadIndicator();
       expect(launchDialogService.clear).toHaveBeenCalled();
+    });
+
+    it('should handle reinitiatePaymentForm event with payment option ID', async () => {
+      const testPaymentOptionId = 123;
+
+      const result = await (
+        windowOpf.payments['checkout'] as any
+      ).reinitiatePaymentForm(testPaymentOptionId);
+
+      expect(
+        opfPaymentEventsServiceMock.emitReinitiatePaymentEvent
+      ).toHaveBeenCalledWith(testPaymentOptionId);
+      expect(result).toBe(true);
     });
 
     it('should remove global function for REDIRECT', () => {
@@ -272,6 +362,40 @@ describe('OpfGlobalFunctionsService', () => {
         submitFailure,
       });
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+    });
+
+    it('should handle submitCompleteRedirect event with submitCancel callback', () => {
+      opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
+
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      const submitSuccess = (): void => {};
+      const submitPending = (): void => {};
+      const submitFailure = (): void => {};
+      const submitCancel = (): void => {};
+      const additionalData = [
+        { key: 'returnUrl', value: 'https://returnUrl/' },
+        { key: 'allow3DS2', value: 'true' },
+        { key: 'originUrl', value: 'https://originUrl/' },
+      ];
+      const cartId = 'mock-cart';
+
+      windowOpf.payments[
+        OpfGlobalFunctionsDomain.REDIRECT
+      ].submitCompleteRedirect({
+        cartId,
+        additionalData,
+        submitSuccess,
+        submitPending,
+        submitFailure,
+        submitCancel,
+      });
+      expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
+      const callArgs =
+        opfPaymentFacadeMock.submitCompletePayment.calls.mostRecent().args[0];
+      expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
+      expect(callArgs.returnPath).toBe('opfCheckoutPaymentAndReview');
     });
 
     it('should handle getRedirectParams event', () => {

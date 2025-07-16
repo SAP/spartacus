@@ -1,16 +1,16 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClient,
   HttpParams,
   HttpRequest,
   HttpUserEvent,
-  HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
   HttpTestingController,
-  TestRequest,
   provideHttpClientTesting,
+  TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, of, Subscription } from 'rxjs';
@@ -123,6 +123,33 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 401 error for expired token occ calls`, (done) => {
+    // JDK21 response
+    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+      (_, next) => next.handle(new HttpRequest('GET', '/test'))
+    );
+    const sub: Subscription = http.get('/occ').subscribe((result) => {
+      expect(result).toEqual('someText');
+      done();
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/occ';
+    });
+
+    mockReq.flush(
+      { errors: [{ type: 'InvalidBearerTokenError' }] },
+      { status: 401, statusText: 'Unauthorized' }
+    );
+
+    const mockReq2: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/test';
+    });
+    mockReq2.flush('someText');
+    sub.unsubscribe();
+  });
+
+  it(`Should handle 401 error for expired token occ calls for legacy auth server`, (done) => {
+    // JDK17 response
     spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
       (_, next) => next.handle(new HttpRequest('GET', '/test'))
     );

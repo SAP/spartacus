@@ -109,7 +109,7 @@ context('Product Configuration', () => {
       configurationVc.checkConfigPageDisplayed();
     });
 
-    it('should be able to navigate from the add-to-cart dialog by clicking on "Resolve Issues" link', () => {
+    it.skip('skipped due to JDK-21 (CXSPA-10506): should be able to navigate from the add-to-cart dialog by clicking on "Resolve Issues" link', () => {
       clickAllowAllFromBanner();
       common.goToPDPage(electronicsShop, testProduct);
       common.clickOnAddToCartBtnOnPD();

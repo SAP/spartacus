@@ -224,14 +224,14 @@ export function clickOnRequestQuote(cartHasIssues = false): void {
  */
 export function login(email: string, password: string, name: string): void {
   log('Uses a cx-login-form to login a user', login.name);
-  cy.get('cx-login [role="link"]')
+  cy.getLoginRegisterLink()
     .click()
     .then(() => {
       cy.get('cx-login-form').should('be.visible');
     });
   authentication.login(email, password);
   cy.get('.cx-login-greet').should('contain', name);
-  cy.get('cx-login').should('not.contain', 'Sign In');
+  cy.getLoginRegisterLink().should('not.contain', 'Sign In');
 }
 
 /**
@@ -240,7 +240,7 @@ export function login(email: string, password: string, name: string): void {
 export function logout(): void {
   log('Logout buyer user', logout.name);
   cy.visit(`${SHOP_NAME}/en/USD/logout`).then(() => {
-    cy.get('cx-login [role="link"]');
+    cy.getLoginRegisterLink();
   });
 }
 

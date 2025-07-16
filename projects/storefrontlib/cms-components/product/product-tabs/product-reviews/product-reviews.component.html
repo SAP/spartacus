@@ -121,35 +121,13 @@
             [maxLength]="maxLengthReviewTitle"
           />
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="titleError"
             [translationParams]="{
               label: 'productReview.reviewTitle' | cxTranslate,
             }"
             [control]="reviewForm.get('title')"
           ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
-            [control]="reviewForm.get('title')"
-          ></cx-form-errors>
-
-          <p
-            *cxFeature="'productReviewCharactersLeft'"
-            class="cx-customer-ticket-input-hint text-right"
-          >
-            {{
-              'productReview.charactersLeft'
-                | cxTranslate
-                  : {
-                      count:
-                        maxLengthReviewTitle -
-                        (reviewForm.get('title')?.value?.length || 0),
-                    }
-            }}
-          </p>
         </label>
       </div>
       <div class="form-group">
@@ -185,35 +163,13 @@
             [maxLength]="maxLengthReviewComment"
           ></textarea>
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="commentError"
             [translationParams]="{
               label: 'productReview.writeYourComments' | cxTranslate,
             }"
             [control]="reviewForm.get('comment')"
           ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
-            [control]="reviewForm.get('comment')"
-          ></cx-form-errors>
-
-          <p
-            *cxFeature="'productReviewCharactersLeft'"
-            class="cx-customer-ticket-input-hint text-right"
-          >
-            {{
-              'productReview.charactersLeft'
-                | cxTranslate
-                  : {
-                      count:
-                        maxLengthReviewComment -
-                        (reviewForm.get('comment')?.value?.length || 0),
-                    }
-            }}
-          </p>
         </label>
       </div>
       <div class="form-group">
@@ -240,18 +196,11 @@
             [disabled]="false"
           ></cx-star-rating>
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="ratingError"
             [translationParams]="{
               label: 'productReview.rating' | cxTranslate,
             }"
-            [control]="reviewForm.get('rating')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('rating')"
           ></cx-form-errors>
         </label>
