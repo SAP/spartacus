@@ -199,7 +199,7 @@ jobs:
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: ci-scripts/e2e-cypress.sh -s b2c --skip-build
+        run: ci-scripts/e2e-cypress.sh --skip-build
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: E2E tests for SSR B2C
@@ -218,7 +218,7 @@ jobs:
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: ci-scripts/e2e-cypress.sh -s b2c --skip-build --ssr
+        run: ci-scripts/e2e-cypress.sh --skip-build --ssr
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: E2E tests for B2B
