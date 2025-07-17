@@ -55,25 +55,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run unit tests
-        run: |
-          ci-scripts/unit-tests.sh
+        run: ci-scripts/unit-tests.sh
   sonarqube_scan:
     needs: no_retries
     name: SonarQube Scan
@@ -98,25 +86,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run linting validation
-        run: |
-          ci-scripts/validate-lint.sh
+        run: ci-scripts/validate-lint.sh
   build_libs:
     needs: [no_retries, validate_e2e_execution]
     name: Build Spartacus libraries
@@ -124,28 +100,18 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: |
-          npm ci
-          (cd projects/storefrontapp-e2e-cypress && npm ci)
+          cache-key: ${{ github.event.pull_request.base.sha }}
+      - name: Install Cypress packages
+        run: (cd projects/storefrontapp-e2e-cypress && npm ci)
       - name: Build Spartacus libraries
         run: |
+          source ci-scripts/npm-commands.sh
           export NODE_OPTIONS=--dns-result-order=ipv4first
-          npm run build:libs 2>&1 | tee build.log
+          build_libs 2>&1 | tee build.log
 
           results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
           if [[ -z "${results}" ]]; then
@@ -184,37 +150,27 @@ jobs:
             name: B2C SSR
     steps:
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Restore built libraries
-        uses: actions/cache@v4
+        uses: ./.github/actions/restore-built-libraries
         with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
       - name: Build Spartacus app for ${{ matrix.spa_env }} (${{ matrix.build_type }})
         env:
           SPA_ENV: ${{ matrix.spa_env }}
           NODE_OPTIONS: --dns-result-order=ipv4first
         run: |
+          source ci-scripts/npm-commands.sh
           echo "Building ${{ matrix.build_type }} app for SPA_ENV: ${{ matrix.spa_env }}"
           if [ "${{ matrix.build_type }}" == "ssr" ]; then
-            npm run build:ssr:ci
+            build_ssr
           else
-            npm run build:csr
+            build_csr
           fi
       - name: Cache built app (${{ matrix.spa_env }}-${{ matrix.build_type }})
         uses: actions/cache@v4
@@ -231,94 +187,38 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: E2E Test Setup
+        uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Restore built libraries
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
-      - name: Restore built app (ci,b2c)
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist/storefrontapp
-          key: spartacus-app-ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
+          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
+          app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh --skip-build
+        run: ci-scripts/e2e-cypress.sh -s b2c --skip-build
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: E2E Test Setup
+        uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Restore built libraries
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
-      - name: Restore built app (ci,b2c-ssr)
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist/storefrontapp
-          key: spartacus-app-ci-b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
+          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
+          app-cache-key: ci-b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh --ssr --skip-build
+        run: ci-scripts/e2e-cypress.sh -s b2c --skip-build --ssr
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: E2E tests for B2B
@@ -328,47 +228,19 @@ jobs:
         containers: [1, 2, 3, 4]
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: E2E Test Setup
+        uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Restore built libraries
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
-      - name: Restore built app (ci,b2b)
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist/storefrontapp
-          key: spartacus-app-ci-b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
+          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
+          app-cache-key: ci-b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh -s b2b --skip-build
+        run: ci-scripts/e2e-cypress.sh -s b2b --skip-build
   a11y_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: E2E tests for A11Y
@@ -378,78 +250,41 @@ jobs:
         containers: [1, 2, 3]
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: E2E Test Setup
+        uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Restore built libraries
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
-      - name: Restore built app (ci,b2c)
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist/storefrontapp
-          key: spartacus-app-ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
+          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
+          app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
         env:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
-        run: |
-          ci-scripts/e2e-cypress.sh -s a11y --skip-build
+        run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
   ssr_tests:
     needs: [no_retries, validate_e2e_execution, build_libs]
     name: SSR Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Setup Node and Cache
+        uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Restore built libraries
-        uses: actions/cache@v4
+        uses: ./.github/actions/restore-built-libraries
         with:
-          path: |
-            dist
-          key: spartacus-libs-${{ github.event.pull_request.head.sha || github.run_id }}
+          cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           fail-on-cache-miss: true
       - name: Build SSR Server
-        run: npm run build:ssr:local-http-backend
+        run: |
+          source ci-scripts/npm-commands.sh
+          build_ssr_local_http
       - name: Run SSR tests
         run: npm run test:ssr:ci --verbose
   build_conclusion:
