@@ -41,7 +41,7 @@
       <td class="cx-order-item-id cx-desktop-only">{{ entry.sapSubsequentDocumentEntryNumber }}</td>
       <td class="cx-desktop-only text-center">{{ entry.sapCreatedAt | cxDate: 'shortDate' }}</td>
       <td class="cx-desktop-only text-center">{{ entry.sapCreatedAt | cxDate: 'shortTime' }}</td>
-      <td>{{ entry.sapStatus }}</td>
+      <td>{{ 'documentFlow.dialog.status_' + entry.sapStatus | cxTranslate }}</td>
     </tr>
   </ng-container>
   </tbody>

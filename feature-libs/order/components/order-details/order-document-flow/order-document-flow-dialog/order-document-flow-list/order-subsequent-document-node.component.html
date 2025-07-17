@@ -2,7 +2,7 @@
   <tr [ngClass]="{'selected': document === selectedDocument}">
     <td [style.padding-left.rem]="depth + 1">
       <div>
-        <span>{{ document.sapDocumentCategory + ' ' + document.sapDocumentId }}</span>
+        <span>{{ document.sapDocumentEntryIdColumnName + ' ' + document.sapDocumentId }}</span>
       </div>
       <div>
         <span class="cx-mobile-header">{{ 'documentFlow.dialog.date' | cxTranslate }}</span>
@@ -14,14 +14,14 @@
       </div>
       <div class="cx-mobile-only">
         <span class="cx-mobile-header">{{ 'documentFlow.dialog.status' | cxTranslate }}</span>
-        <span class="cx-status">{{ document.sapStatus }}</span>
+        <span class="cx-status">{{ 'documentFlow.dialog.status_' + document.sapStatus | cxTranslate }}</span>
       </div>
     </td>
     <td class="cx-desktop-only">
       {{ document.sapCreatedAt | cxDate: 'shortTime' }}
     </td>
     <td class="cx-desktop-only">
-      {{ document.sapStatus }}
+      {{ 'documentFlow.dialog.status_' + document.sapStatus | cxTranslate }}
     </td>
     <td class="text-center">
       <button
