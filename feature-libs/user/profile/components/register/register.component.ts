@@ -136,8 +136,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR];
 
           if (
-            messages &&
-            messages.some(
+            messages?.some(
               (message) => message.raw === 'This field is required.'
             )
           ) {
@@ -195,7 +194,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
-        complete: () => this.isLoading$.next(false),
+        complete: () =>
+          this.isLoading$.next(
+            this.authConfigService.getOAuthFlow() ===
+              OAuthFlow.AuthorizationCode
+          ),
         error: () => this.isLoading$.next(false),
       });
   }
@@ -231,6 +234,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
+    }
+    if (this.authConfigService.getOAuthFlow() === OAuthFlow.AuthorizationCode) {
+      this.router.go('homepage');
     }
     this.registerComponentService.postRegisterMessage();
   }

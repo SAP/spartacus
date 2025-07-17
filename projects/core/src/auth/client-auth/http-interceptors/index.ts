@@ -5,8 +5,20 @@
  */
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Provider } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { ClientTokenInterceptor } from './client-token.interceptor';
+
+export const CLIENT_TOKENS_DISABLED = new InjectionToken<boolean>(
+  'CLIENT_TOKENS_DISABLED',
+  {
+    providedIn: 'root',
+    factory: () => false,
+  }
+);
+
+export function provideEnableClientTokens(): boolean {
+  return true;
+}
 
 export const interceptors: Provider[] = [
   {

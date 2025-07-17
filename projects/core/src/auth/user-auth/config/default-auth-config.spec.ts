@@ -7,7 +7,7 @@ import {
 
 const expectedAuthorizationCodeDefault: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',

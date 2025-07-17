@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -22,6 +22,7 @@ import {
 import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
+import { CLIENT_TOKENS_ENABLED } from './provide-disable-client-tokens';
 
 /**
  * Interceptor for handling requests with `USE_CLIENT_TOKEN` header.
@@ -29,6 +30,8 @@ import { ClientTokenService } from '../services/client-token.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
+  protected enableClientToken = inject(CLIENT_TOKENS_ENABLED);
+
   constructor(
     protected clientTokenService: ClientTokenService,
     protected clientErrorHandlingService: ClientErrorHandlingService,
@@ -42,6 +45,9 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     const isClientTokenRequest = this.isClientTokenRequest(request);
     if (isClientTokenRequest) {
       request = InterceptorUtil.removeHeader(USE_CLIENT_TOKEN, request);
+    }
+    if (!this.enableClientToken) {
+      return next.handle(request);
     }
 
     return this.getClientToken(isClientTokenRequest).pipe(

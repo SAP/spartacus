@@ -7,8 +7,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';
-import { generateMail, randomString } from './user';
 import * as authForms from './auth-forms';
+import { generateMail, randomString } from './user';
 
 const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
 
@@ -22,7 +22,7 @@ export function createUser(): AccountData {
       ...standardUser.registrationData,
       email: generateMail(randomString(), true),
     },
-  };
+  } satisfies AccountData;
 
   // TODO: optimize below code to avoid unnecessary login and logout
   // we just need to register
@@ -82,7 +82,7 @@ export function revokeAccessToken() {
   });
 }
 
-export function testRedirectBackfterLogin(kyma = false) {
+export function testRedirectBackAfterLogin(kyma = false) {
   it('should redirect back after the login', () => {
     const user = createUser();
     cy.visit(`/contact`);
@@ -90,11 +90,19 @@ export function testRedirectBackfterLogin(kyma = false) {
     cy.getLoginRegisterLink().click();
 
     if (!kyma) {
-      cy.location('pathname').should('contain', '/login');
-      authForms.login(
-        user.registrationData.email,
-        user.registrationData.password
-      );
+      cy.whenJDK21(() => {
+        authForms.fillAuthServerLoginForm({
+          username: user.registrationData.email,
+          password: user.registrationData.password,
+        });
+      });
+      cy.whenJDK17(() => {
+        cy.location('pathname').should('contain', '/login');
+        authForms.login(
+          user.registrationData.email,
+          user.registrationData.password
+        );
+      });
     } else {
       authForms.fillKymaLoginForm({
         username: user.registrationData.email,
@@ -125,6 +133,19 @@ export function testRedirectAfterForcedLogin(kyma = false) {
     }
 
     cy.location('pathname').should('contain', '/my-account/address-book');
+  });
+}
+
+export function authFlowTests(name: string, config: any) {
+  describe(name, () => {
+    beforeEach(() => {
+      cy.cxConfig(config);
+    });
+
+    const useKyma = config?.authentication?.client_id === 'client4kyma';
+
+    testRedirectBackAfterLogin(useKyma);
+    // testRedirectAfterForcedLogin(useKyma);
   });
 }
 

@@ -22,6 +22,7 @@ import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
 import { ClientTokenInterceptor } from './client-token.interceptor';
+import { CLIENT_TOKENS_ENABLED } from './provide-disable-client-tokens';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics`;
 
@@ -83,116 +84,154 @@ describe('ClientTokenInterceptor', () => {
       ],
     });
     httpMock = TestBed.inject(HttpTestingController);
-    clientTokenService = TestBed.inject(ClientTokenService);
     clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
   });
 
-  describe('Client Token', () => {
-    it('Should only add token to specified requests', inject(
+  describe('when client tokens are enabled', () => {
+    beforeEach(() => {
+      clientTokenService = TestBed.inject(ClientTokenService);
+    });
+    describe('Client Token', () => {
+      it('Should only add token to specified requests', inject(
+        [HttpClient],
+        (http: HttpClient) => {
+          spyOn(clientTokenService, 'getClientToken').and.returnValue(
+            of(testToken)
+          );
+
+          http
+            .get(`${OccUrl}/test`)
+            .subscribe((result) => {
+              expect(result).toBeTruthy();
+            })
+            .unsubscribe();
+          let mockReq: TestRequest = httpMock.expectOne(`${OccUrl}/test`);
+          let authHeader: string = mockReq.request.headers.get('Authorization');
+          expect(authHeader).toBe(null);
+
+          spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
+            true
+          );
+          http
+            .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
+            .subscribe((result) => {
+              expect(result).toBeTruthy();
+            })
+            .unsubscribe();
+
+          mockReq = httpMock.expectOne(
+            `${OccUrl}/somestore/forgottenpasswordtokens`
+          );
+          authHeader = mockReq.request.headers.get('Authorization');
+          expect(authHeader).toBe(
+            `${testToken.token_type} ${testToken.access_token}`
+          );
+        }
+      ));
+    });
+
+    it(`should catch 401 error for a client token`, inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn(clientTokenService, 'getClientToken').and.returnValue(
-          of(testToken)
-        );
+        const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
+        const options = {
+          headers,
+        };
+        http.get('/test', options).subscribe((result) => {
+          expect(result).toBeTruthy();
+        });
+        spyOn(
+          clientErrorHandlingService,
+          'handleExpiredClientToken'
+        ).and.callThrough();
 
-        http
-          .get(`${OccUrl}/test`)
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-          })
-          .unsubscribe();
-        let mockReq: TestRequest = httpMock.expectOne(`${OccUrl}/test`);
-        let authHeader: string = mockReq.request.headers.get('Authorization');
-        expect(authHeader).toBe(null);
+        const mockReq: TestRequest = httpMock.expectOne((req) => {
+          return req.method === 'GET';
+        });
+        mockReq.flush(
+          {
+            errors: [
+              {
+                type: 'InvalidBearerTokenError',
+                message: 'Invalid access token: some token',
+              },
+            ],
+          },
+          { status: 401, statusText: 'Error' }
+        );
+        expect(
+          clientErrorHandlingService.handleExpiredClientToken
+        ).toHaveBeenCalled();
+      }
+    ));
 
-        spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
-          true
-        );
-        http
-          .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-          })
-          .unsubscribe();
+    it(`should catch 401 error for a client token for legacy auth server`, inject(
+      [HttpClient],
+      (http: HttpClient) => {
+        const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
+        const options = {
+          headers,
+        };
+        http.get('/test', options).subscribe((result) => {
+          expect(result).toBeTruthy();
+        });
+        spyOn(
+          clientErrorHandlingService,
+          'handleExpiredClientToken'
+        ).and.callThrough();
 
-        mockReq = httpMock.expectOne(
-          `${OccUrl}/somestore/forgottenpasswordtokens`
+        const mockReq: TestRequest = httpMock.expectOne((req) => {
+          return req.method === 'GET';
+        });
+        mockReq.flush(
+          {
+            errors: [
+              {
+                type: 'InvalidTokenError',
+                message: 'Invalid access token: some token',
+              },
+            ],
+          },
+          { status: 401, statusText: 'Error' }
         );
-        authHeader = mockReq.request.headers.get('Authorization');
-        expect(authHeader).toBe(
-          `${testToken.token_type} ${testToken.access_token}`
-        );
+        expect(
+          clientErrorHandlingService.handleExpiredClientToken
+        ).toHaveBeenCalled();
       }
     ));
   });
 
-  it(`should catch 401 error for a client token`, inject(
-    [HttpClient],
-    (http: HttpClient) => {
-      const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
-      const options = {
-        headers,
-      };
-      http.get('/test', options).subscribe((result) => {
-        expect(result).toBeTruthy();
-      });
-      spyOn(
-        clientErrorHandlingService,
-        'handleExpiredClientToken'
-      ).and.callThrough();
+  describe('when client tokens are disabled', () => {
+    let http: HttpClient;
 
-      const mockReq: TestRequest = httpMock.expectOne((req) => {
-        return req.method === 'GET';
+    beforeEach(() => {
+      TestBed.overrideProvider(CLIENT_TOKENS_ENABLED, {
+        useValue: false,
       });
-      mockReq.flush(
-        {
-          errors: [
-            {
-              type: 'InvalidBearerTokenError',
-              message: 'Invalid access token: some token',
-            },
-          ],
-        },
-        { status: 401, statusText: 'Error' }
+
+      clientTokenService = TestBed.inject(ClientTokenService);
+      http = TestBed.inject(HttpClient);
+    });
+
+    it('Should not add tokens when disabled', () => {
+      spyOn(clientTokenService, 'getClientToken').and.returnValue(
+        of(testToken)
       );
-      expect(
-        clientErrorHandlingService.handleExpiredClientToken
-      ).toHaveBeenCalled();
-    }
-  ));
 
-  it(`should catch 401 error for a client token for legacy auth server`, inject(
-    [HttpClient],
-    (http: HttpClient) => {
-      const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
-      const options = {
-        headers,
-      };
-      http.get('/test', options).subscribe((result) => {
-        expect(result).toBeTruthy();
-      });
-      spyOn(
-        clientErrorHandlingService,
-        'handleExpiredClientToken'
-      ).and.callThrough();
+      spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(true);
+      http
+        .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+        })
+        .unsubscribe();
 
-      const mockReq: TestRequest = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-      mockReq.flush(
-        {
-          errors: [
-            {
-              type: 'InvalidTokenError',
-              message: 'Invalid access token: some token',
-            },
-          ],
-        },
-        { status: 401, statusText: 'Error' }
+      let mockReq = httpMock.expectOne(
+        `${OccUrl}/somestore/forgottenpasswordtokens`
       );
-      expect(
-        clientErrorHandlingService.handleExpiredClientToken
-      ).toHaveBeenCalled();
-    }
-  ));
+      let authHeader = mockReq.request.headers.get('Authorization');
+      expect(authHeader).toBe(null);
+      expect(clientTokenService.getClientToken).not.toHaveBeenCalled();
+    });
+  });
 });

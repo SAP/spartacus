@@ -12,6 +12,10 @@ context('Group Skipping - Not Logged In', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
+  cy.whenJDK21(() => {
+    delete groupSkippingConfigNotLoggedIn.login; // may cause crash-- see if need non-cy methods
+  });
+
   verifyGroupSkippingFromConfig(groupSkippingConfigNotLoggedIn);
 });
 

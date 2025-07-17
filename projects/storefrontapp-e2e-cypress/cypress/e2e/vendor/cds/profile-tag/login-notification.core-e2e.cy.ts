@@ -31,6 +31,7 @@ describe('login notification', () => {
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
   });
+
   it('should not call the login endpoint of EC on a failed login', () => {
     loginHelper.loginWithBadCredentials();
     navigation

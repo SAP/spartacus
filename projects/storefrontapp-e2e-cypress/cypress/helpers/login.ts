@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { user, getSampleUser, SampleUser } from '../sample-data/checkout-flow';
+import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
+import { waitForPage } from './navigation';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
@@ -25,11 +25,18 @@ export const defaultUser = {
  * @returns Newly registered user
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.get('cx-page-layout > cx-page-slot > cx-login-register')
-    .findByText('Register')
-    .click();
-  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    const registerPage = waitForPage('/login', 'getRegisterPage');
+    cy.get('cx-page-layout > cx-page-slot > cx-login-register')
+      .findByText('Register')
+      .click();
+    cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  });
+
+  cy.whenJDK21(() => {
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  });
 
   const loginUser = uniqueUser ? getSampleUser() : user;
   register(loginUser);
@@ -44,8 +51,13 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
  * @returns Newly registered user
  */
 export function registerUser(uniqueUser?: boolean) {
-  cy.getLoginRegisterLink({ clickAndWait: true });
-
+  cy.whenJDK17(() => {
+    cy.getLoginRegisterLink({ clickAndWait: true });
+  });
+  cy.whenJDK21(() => {
+    const loginPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
   return registerUserFromLoginPage(uniqueUser);
 }
 
@@ -57,16 +69,33 @@ export function signOutUser() {
   cy.get(userGreetSelector).should('not.exist');
 }
 
+/**
+ * From the login page
+ * - Fill in the login form with default user
+ * - Submit the form
+ */
 export function loginUser() {
   login(user.email, user.password);
 }
 
+/**
+ * Supports JDK17 only.
+ */
 export function loginWithBadCredentialsFromLoginPage() {
-  listenForTokenAuthenticationRequest();
+  const alias = listenForAuthServerLoginRequest();
 
   login(user.email, 'Password321');
 
-  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
+  cy.whenJDK17(() => {
+    cy.wait(alias).its('response.statusCode').should('eq', 400);
+  });
+  cy.whenJDK21(() => {
+    cy.wait(alias)
+      .its('response.statusCode')
+      .should('eq', 302)
+      .its('response.headers.location')
+      .should('have.string', '?error');
+  });
 
   cy.get(userGreetSelector).should('not.exist');
 
@@ -78,6 +107,22 @@ export function loginWithBadCredentialsFromLoginPage() {
 export function loginWithBadCredentials() {
   cy.getLoginRegisterLink({ clickAndWait: true });
   loginWithBadCredentialsFromLoginPage();
+}
+
+/**
+ * Navigate to login page
+ * - For JDK17, it waits for the login page to load.
+ */
+export function navigateToLoginPage() {
+  cy.whenJDK17(() => {
+    const alias = waitForPage('/login', 'getLoginPage');
+    cy.visit('/login');
+    cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    cy.visit('/login');
+    cy.url().should('contain', '/login');
+  });
 }
 
 export function loginAsDefaultUser() {
@@ -100,6 +145,16 @@ export function listenForTokenAuthenticationRequest(): string {
   cy.intercept({
     method: 'POST',
     path: '/authorizationserver/oauth/token',
+  }).as(aliasName);
+
+  return `@${aliasName}`;
+}
+
+export function listenForAuthServerLoginRequest(): string {
+  const aliasName = 'loginRequest';
+  cy.intercept({
+    method: 'POST',
+    path: '/authorizationserver/login',
   }).as(aliasName);
 
   return `@${aliasName}`;
