@@ -19,6 +19,7 @@ export class CheckoutFlowOrchestratorService {
 
   constructor() {
     this.getPaymentProvider().subscribe((paymentProvider) => {
+      console.log('paymentProvider', paymentProvider);
       this.paymentProviderName = paymentProvider;
     });
   }
@@ -28,18 +29,30 @@ export class CheckoutFlowOrchestratorService {
   getPaymentProvider(): Observable<string | undefined> {
     return this.baseSiteService.get().pipe(
       take(1),
-      map((baseSite) => baseSite?.baseStore?.paymentProvider)
+      map((baseSite) => {
+        console.log('baseSite', baseSite);
+
+        console.log(
+          'baseSite?.baseStore?.paymentProvider',
+          baseSite?.baseStore?.paymentProvider
+        );
+        return baseSite?.baseStore?.paymentProvider;
+      })
     );
   }
 
   getCheckoutFlow(): CheckoutFlow | undefined {
+    console.log('getCheckoutFlow', this.paymentProviderName);
     if (this.paymentProviderName) {
+      console.log('this.paymentProviderName', this.paymentProviderName);
       const flow =
         this.checkoutConfig.checkout?.flows?.[this.paymentProviderName];
       if (flow) {
+        console.log('flow', flow);
         return flow;
       }
     }
+    console.log('this.checkoutConfig.checkout', this.checkoutConfig.checkout);
     return this.checkoutConfig.checkout;
   }
 }
