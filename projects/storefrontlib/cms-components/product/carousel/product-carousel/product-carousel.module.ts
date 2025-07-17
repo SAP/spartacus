@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -16,6 +17,7 @@ import {
 import { PageComponentModule } from '../../../../cms-structure';
 import {
   CarouselModule,
+  CarouselScrollingModule,
   MediaModule,
 } from '../../../../shared/components/index';
 import { LcpContextDirectiveModule } from '../../../../shared/lcp-context/lcp-context-directive.module';
@@ -26,11 +28,13 @@ import { ProductCarouselComponent } from './product-carousel.component';
   imports: [
     CommonModule,
     CarouselModule,
+    CarouselScrollingModule,
     MediaModule,
     RouterModule,
     UrlModule,
     I18nModule,
     PageComponentModule,
+    FeaturesConfigModule,
     LcpContextDirectiveModule,
   ],
   providers: [
