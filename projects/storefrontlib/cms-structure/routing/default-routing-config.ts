@@ -23,6 +23,11 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
           protected: false,
           authFlow: true,
         },
+        customLogin: {
+          paths: ['custom-login'],
+          protected: false,
+          authFlow: true,
+        },
         verifyToken: {
           paths: ['login/verify-token'],
           protected: false,
