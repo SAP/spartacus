@@ -83,12 +83,12 @@ describe('ClientTokenInterceptor', () => {
         provideHttpClientTesting(),
       ],
     });
-    httpMock = TestBed.inject(HttpTestingController);
-    clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
   });
 
   describe('when client tokens are enabled', () => {
     beforeEach(() => {
+      httpMock = TestBed.inject(HttpTestingController);
+      clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
       clientTokenService = TestBed.inject(ClientTokenService);
     });
     describe('Client Token', () => {
@@ -209,6 +209,8 @@ describe('ClientTokenInterceptor', () => {
         useValue: false,
       });
 
+      httpMock = TestBed.inject(HttpTestingController);
+      clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
       clientTokenService = TestBed.inject(ClientTokenService);
       http = TestBed.inject(HttpClient);
     });
