@@ -88,7 +88,13 @@
 
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
-    [explicitTermsAndConditions]="explicitTermsAndConditions.value"
+    [renderPaymentWrapper]="
+      !explicitTermsAndConditions.value ||
+      (explicitTermsAndConditions.value && !termsAndConditionInvalid)
+    "
+    [noRenderPaymentWrapperMessage]="
+      'opfCheckout.termsAndConditionsDisclaimer' | cxTranslate
+    "
     (selectedPaymentProviderName)="onPaymentProviderSelected($event)"
     [hideOnlyOnePaymentProviderLabel]="true"
   >
