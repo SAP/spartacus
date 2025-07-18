@@ -27,6 +27,7 @@ import {
 } from '@spartacus/assets';
 import { 
   CmsConfig,
+  AuthConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
