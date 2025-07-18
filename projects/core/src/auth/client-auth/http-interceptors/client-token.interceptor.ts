@@ -12,7 +12,6 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AuthConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -20,6 +19,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../../occ/utils/interceptor-util';
+import { AuthConfig } from '../../user-auth/config/auth-config';
 import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
