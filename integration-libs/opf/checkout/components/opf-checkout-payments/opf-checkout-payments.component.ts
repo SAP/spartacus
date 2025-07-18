@@ -88,6 +88,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   forceDefaultPaymentOptionInputSelection? = false;
 
+  @Input()
+  renderPaymentWrapper? = true;
+
+  @Input()
+  noRenderPaymentWrapperMessage?: string;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
