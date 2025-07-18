@@ -180,8 +180,14 @@ $space: 0.5rem;
       padding: $space $space * 2 $space / 2;
     }
 
-    .SiteLinks {
-      padding: $space / 2 $space * 2 $space;
+    @include forFeature('headerLayoutForSmallerViewports') {
+      .SiteLinks {
+        flex-direction: column;
+        a {
+          padding: $space / 2 $space * 2 $space;
+          line-height: 48px;
+        }
+      }
     }
   }
 
