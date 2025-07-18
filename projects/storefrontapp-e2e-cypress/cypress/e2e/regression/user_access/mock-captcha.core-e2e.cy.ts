@@ -32,7 +32,7 @@ describe('Register', () => {
       cy.onMobile(() => {
         clickHamburger();
       });
-      cy.findByText(/Sign in \/ Register/i).click();
+      cy.getLoginRegisterLink().click();
       cy.get('cx-login-register').findByText('Register').click();
       cy.get('cx-captcha').should('exist');
       registerWithCaptcha(user);

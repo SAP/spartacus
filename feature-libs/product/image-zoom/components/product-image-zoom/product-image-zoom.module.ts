@@ -15,8 +15,10 @@ import {
 } from '@spartacus/core';
 import {
   CarouselModule,
+  CarouselScrollingModule,
   IconModule,
   KeyboardFocusModule,
+  LcpContextDirectiveModule,
   MediaModule,
   OutletModule,
 } from '@spartacus/storefront';
@@ -30,6 +32,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
 @NgModule({
   imports: [
     CarouselModule,
+    CarouselScrollingModule,
     CommonModule,
     I18nModule,
     IconModule,
@@ -38,6 +41,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
     OutletModule,
     RouterModule,
     FeaturesConfigModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(defaultProductImageZoomLayoutConfig),

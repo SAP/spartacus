@@ -45,6 +45,7 @@ const integrationLibsFolders: string[] = [
   'opps',
   's4-service',
   'cpq-quote',
+  'punchout',
 ];
 
 const commands = [
@@ -80,6 +81,7 @@ const commands = [
   'build user/schematics',
   'build customer-ticketing/schematics',
   'build cpq-quote/schematics',
+  'build punchout/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -418,6 +420,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
     case 'build opf/schematics':
+    case 'build punchout/schematics':
     case 'build organization/schematics':
     case 'build pdf-invoices/schematics':
     case 'build pickup-in-store/schematics':

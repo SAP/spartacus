@@ -1,7 +1,8 @@
 <section [attr.aria-label]="'opfCheckout.paymentOption' | cxTranslate">
-  <h3>
-    {{ 'opfCheckout.paymentOption' | cxTranslate }}
+  <h3 *ngIf="isHeadingDisplayed">
+    {{ headingTranslationKey || 'opfCheckout.paymentOption' | cxTranslate }}
   </h3>
+
   <ng-container
     *ngIf="activeConfigurations$ | async as activeConfigurationsState"
   >
@@ -12,10 +13,18 @@
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
           <ng-container>
-            <ng-container *ngIf="isOnlyOnePaymentOptionAvailable">
+            <ng-container
+              *ngIf="
+                isOnlyOnePaymentOptionAvailable &&
+                !hideOnlyOnePaymentProviderLabel &&
+                !forceRadioInputsView
+              "
+            >
               {{ configuration.displayName }}
             </ng-container>
-            <ng-container *ngIf="!isOnlyOnePaymentOptionAvailable">
+            <ng-container
+              *ngIf="!isOnlyOnePaymentOptionAvailable || forceRadioInputsView"
+            >
               <div class="form-check">
                 <input
                   id="paymentId-{{ configuration.id }}"
@@ -72,17 +81,26 @@
             </ng-container>
           </ng-container>
 
+          <ng-container *ngIf="customPaymentTemplate">
+            <ng-container
+              *ngTemplateOutlet="customPaymentTemplate"
+            ></ng-container>
+          </ng-container>
+
           <cx-opf-checkout-payment-wrapper
-            *ngIf="selectedPaymentId && configuration.id === selectedPaymentId"
+            *ngIf="
+              !customPaymentTemplate &&
+              isPaymentRenderBelow &&
+              selectedPaymentId &&
+              configuration.id === selectedPaymentId
+            "
             [selectedPaymentId]="selectedPaymentId"
           ></cx-opf-checkout-payment-wrapper>
         </div>
 
         <cx-pagination
           class="cx-payment-options-list-pagination"
-          [pagination]="
-            getPaginationModel(activeConfigurationsState?.data?.page)
-          "
+          [pagination]="paginationModel"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination></div
     ></ng-container>

@@ -55,7 +55,7 @@
   "myCoupons": {
     "noCouponsMessage": "आपके पास कोई कूप उपलब्ध नहीं है.",
     "effectiveTitle": "प्रभावी:",
-    "Effective": "प्रभावी:",
+    "Effective": "प्रभावी",
     "PreSession": "जल्द ही प्रभावी होगा",
     "ExpireSoon": "जल्दी समाप्त हो रहा है",
     "readMore": "अधिक पढ़ें",
@@ -63,13 +63,13 @@
     "findProducts": "उत्पाद खोजें",
     "status": "स्थिति:",
     "dialogTitle": "कूपन",
-    "claimCoupondialogTitle": "Add To Your Coupon List",
+    "claimCoupondialogTitle": "अपनी कूपन सूची दर्ज करें",
     "claimCouponCode": {
       "label": "कूपन कोड",
-      "placeholder": "Enter the coupon code to claim a coupon"
+      "placeholder": "कूपन का दावा करने के लिए कूपन कोड दर्ज करें"
     },
-    "reset": "RESET",
-    "claim": "CLAIM",
+    "reset": "रीसेट करें",
+    "claim": "दावा",
     "claimCustomerCoupon": "आपने सफलतापूर्वक इस कूपन का दावा किया है.",
     "myCoupons": "मेरे कूपन",
     "startDateAsc": "प्रारंभ दिनांक (आरोही)",

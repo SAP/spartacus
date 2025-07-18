@@ -18,12 +18,18 @@ export interface CustomerSearchOptions {
   pageSize?: number;
   customerListId?: string;
   currentPage?: number;
+  page?: number;
   sort?: string;
 }
 
 export interface AsmUi {
+  status?: number;
   collapsed?: boolean;
 }
+
+export const CLOSE_DIALOG_REASON = {
+  FORBIDDEN: 'forbidden',
+};
 
 export interface AsmDeepLinkParameters {
   customerId?: string;

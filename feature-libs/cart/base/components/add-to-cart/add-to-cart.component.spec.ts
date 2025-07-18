@@ -67,6 +67,11 @@ const mockNoStockProduct: Product = {
   stock: { stockLevel: 0, stockLevelStatus: 'outOfStock' },
 };
 
+const mockSavedCart: Cart = {
+  code: 'cartId',
+  entries: [{ product: { code: productCode }, quantity: 7 }],
+};
+
 class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
@@ -335,6 +340,27 @@ describe('AddToCartComponent', () => {
         addToCartComponent.addToCart();
 
         expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
+      });
+    });
+
+    describe('Saved cart', () => {
+      it('should add to cart with correct quantity', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.savedCart = mockSavedCart;
+        addToCartComponent.showQuantity = false;
+        addToCartComponent.ngOnInit();
+        spyOn(activeCartFacade, 'addEntry').and.callThrough();
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([mockCartEntry])
+        );
+        spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          productCode,
+          7,
+          undefined
+        );
       });
     });
 

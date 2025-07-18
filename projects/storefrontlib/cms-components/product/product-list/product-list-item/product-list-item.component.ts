@@ -36,12 +36,21 @@ export class ProductListItemComponent implements OnChanges {
   hideAddToCartButton = false;
 
   readonly ProductListOutlets = ProductListOutlets;
+
+  /**
+   * The product item to be displayed in the list.
+   */
   @Input() product: any;
+
+  /**
+   * The index of the item in the product list.
+   */
+  @Input() itemIndex?: number;
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
   ) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
+    useFeatureStyles('consistentSizeProductCards');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {

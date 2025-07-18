@@ -13,7 +13,6 @@ import {
   ProductImportStatus,
   ProductImportSummary,
 } from '@spartacus/cart/base/root';
-import { useFeatureStyles } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -53,9 +52,7 @@ export class ImportEntriesDialogComponent {
       map((data) => data.orderEntriesContext)
     );
 
-  constructor(protected launchDialogService: LaunchDialogService) {
-    useFeatureStyles('a11yVisibleFocusOverflows');
-  }
+  constructor(protected launchDialogService: LaunchDialogService) {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

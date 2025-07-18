@@ -5,6 +5,7 @@
  */
 
 import {
+  OPF_B2B_CHECKOUT_FEATURE_NAME,
   OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
   OPF_CTA_FEATURE_NAME,
@@ -16,6 +17,8 @@ import {
   SPARTACUS_BOOTSTRAP_MIXINS,
   SPARTACUS_BOOTSTRAP_VARIABLES,
   SPARTACUS_OPF,
+  SPARTACUS_OPF_B2B_CHECKOUT,
+  SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
   SPARTACUS_OPF_BASE,
   SPARTACUS_OPF_BASE_ROOT,
   SPARTACUS_OPF_CHECKOUT,
@@ -53,6 +56,13 @@ export const OPF_CHECKOUT_ROOT_MODULE = 'OpfCheckoutRootModule';
 export const OPF_CHECKOUT_TRANSLATIONS = 'opfCheckoutTranslations';
 export const OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG =
   'opfCheckoutTranslationChunksConfig';
+
+export const OPF_B2B_CHECKOUT_FEATURE_NAME_CONSTANT =
+  'OPF_B2B_CHECKOUT_FEATURE';
+export const OPF_B2B_CHECKOUT_MODULE = 'OpfB2bCheckoutModule';
+export const OPF_B2B_CHECKOUT_ROOT_MODULE = 'OpfB2bCheckoutRootModule';
+export const OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG =
+  'defaultOpfB2bCheckoutOccEndpointsConfig';
 
 export const OPF_BASE_FEATURE_NAME_CONSTANT = 'OPF_BASE_FEATURE';
 export const OPF_BASE_MODULE = 'OpfBaseModule';
@@ -205,6 +215,60 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
   ],
 };
 
+export const OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: OPF_B2B_CHECKOUT_FEATURE_NAME,
+    mainScope: SPARTACUS_OPF,
+    featureScope: SPARTACUS_OPF_B2B_CHECKOUT,
+    b2b: true,
+  },
+  folderName: OPF_FOLDER_NAME,
+  moduleName: OPF_MODULE_NAME,
+  featureModule: [
+    {
+      name: OPF_B2B_CHECKOUT_MODULE,
+      importPath: SPARTACUS_OPF_B2B_CHECKOUT,
+    },
+    {
+      name: OPF_ORDER_MODULE,
+      importPath: SPARTACUS_OPF_ORDER,
+    },
+  ],
+  rootModule: {
+    name: OPF_B2B_CHECKOUT_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
+    namedImports: [OPF_B2B_CHECKOUT_FEATURE_NAME_CONSTANT],
+  },
+  styles: {
+    scssFileName: OPF_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
+  },
+  customConfig: buildOpfB2bConfig,
+  dependencyFeatures: [
+    OPF_PAYMENT_FEATURE_NAME,
+    OPF_BASE_FEATURE_NAME,
+    OPF_CTA_FEATURE_NAME,
+    OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
+    OPF_QUICK_BUY_FEATURE_NAME,
+    OPF_CHECKOUT_FEATURE_NAME,
+    ORDER_FEATURE_NAME,
+  ],
+  importAfter: [
+    {
+      markerModuleName: ORDER_MODULE,
+      featureModuleName: OPF_ORDER_MODULE,
+    },
+  ],
+};
+
 export const OPF_CTA_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: OPF_CTA_FEATURE_NAME,
@@ -318,6 +382,22 @@ function buildOpfConfig(
             }",
           },
         }`,
+    },
+  };
+}
+
+function buildOpfB2bConfig(
+  _options: SpartacusOpfOptions
+): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_OPF_B2B_CHECKOUT_ROOT,
+          namedImports: [OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG],
+        },
+      ],
+      content: `${OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG}`,
     },
   };
 }

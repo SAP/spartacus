@@ -125,6 +125,8 @@ export const s4ServiceFeatureModulePath =
   'src/app/spartacus/features/s4-service/s4-service-feature.module.ts';
 export const subscriptionBillingFeatureModulePath =
   'src/app/spartacus/features/subscription-billing/subscription-billing-feature.module.ts';
+export const punchoutFeatureModulePath =
+  'src/app/spartacus/features/punchout/punchout-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,

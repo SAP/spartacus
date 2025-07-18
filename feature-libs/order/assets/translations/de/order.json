@@ -10,6 +10,8 @@
     "placed": "Aufgegeben",
     "placedBy": "Aufgegeben von",
     "unit": "Einheit",
+    "quoteCode": "Angebots-ID {{id}}",
+    "quoteDetail": "Angebotsdetails",
     "costCenter": "Kostenstelle",
     "costCenterAndUnit": "Kostenstelle / Einheit",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "Der derzeitige Warenkorb wird durch neue Positionen ersetzt. Möchten Sie fortfahren?",
       "cancel": "Abbrechen",
       "continue": "Weiter"
+    }
+  },
+  "attachments": {
+    "button": "Anhänge zur Bestellung anzeigen",
+    "dialog": {
+      "title": "Anhänge",
+      "preview": "Dateivorschau anzeigen",
+      "closeModal": "Modalen Dialog schließen",
+      "error": "Es ist ein Fehler aufgetreten. Aktualisieren Sie die Seite, oder versuchen Sie es später erneut.",
+      "empty": "Belege sind nicht verfügbar. Sobald diese hinzugefügt wurden, werden sie hier angezeigt.",
+      "downloadError": "Beim Abrufen der Belege ist ein Fehler aufgetreten. Aktualisieren Sie die Seite, oder versuchen Sie es später erneut."
     }
   }
 }

@@ -17,15 +17,8 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUser.title' | cxTranslate }"
-        [control]="form.get('titleCode')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('titleCode')"
       ></cx-form-errors>
     </label>
@@ -46,16 +39,9 @@
         [attr.aria-errormessage]="'firstNameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="firstNameError"
         [translationParams]="{ label: 'orgUser.firstName' | cxTranslate }"
-        [control]="form.get('firstName')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('firstName')"
       ></cx-form-errors>
     </label>
@@ -77,16 +63,9 @@
         [attr.aria-errormessage]="'lastNameError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="lastNameError"
         [translationParams]="{ label: 'orgUser.lastName' | cxTranslate }"
-        [control]="form.get('lastName')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('lastName')"
       ></cx-form-errors>
     </label>
@@ -108,16 +87,9 @@
         [attr.aria-errormessage]="'emailError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="emailError"
         [translationParams]="{ label: 'orgUser.email' | cxTranslate }"
-        [control]="form.get('email')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('email')"
       ></cx-form-errors>
     </label>
@@ -186,15 +158,8 @@
       >
       </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{ label: 'orgUser.orgUnit' | cxTranslate }"
-        [control]="form.get('orgUnit.uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('orgUnit.uid')"
       ></cx-form-errors>
     </label>

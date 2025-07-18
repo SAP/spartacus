@@ -43,19 +43,27 @@ for file in $changed_files; do
 
     changed_lines=$(echo "$diff_output" | grep -E '^[-+]' | grep -vE '^[-+]{3}')
 
-    if [ -n "$changed_lines" ]; then
-        echo "❌ peerDependencies changed in $file"
-        echo "$changed_lines"
+    if [ -z "$changed_lines" ]; then
+        echo "✔️ No change in peerDependencies in $file"
+        continue
+    fi
+
+    # Check if any change is related to non-Spartacus packages
+    non_spartacus_change=$(echo "$changed_lines" | grep -vE '^[-+] *"@spartacus/')
+
+    if [ -n "$non_spartacus_change" ]; then
+        echo "❌ Invalid peerDependencies change in $file"
+        echo "$non_spartacus_change"
 
         {
-            echo "❌ peerDependencies changed in $file"
-            echo "$changed_lines"
+            echo "❌ Invalid peerDependencies change in $file"
+            echo "$non_spartacus_change"
             echo ""
         } >>"$result_file"
 
         failed=1
     else
-        echo "✔️ No change in peerDependencies in $file"
+        echo "✔️ Only allowed changes (Spartacus packages) in $file"
     fi
 done
 

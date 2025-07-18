@@ -42,6 +42,7 @@ export interface OpfPaymentGlobalMethods {
   startLoadIndicator?(): void;
   stopLoadIndicator?(): void;
   scriptReady?(scriptIdentifier: string): void;
+  reinitiatePaymentForm?(paymentOptionId?: number): Promise<boolean>;
 }
 
 export interface OpfPaymentBrowserInfo {
@@ -84,6 +85,7 @@ export enum OpfPaymentSubmitStatus {
   ACCEPTED = 'ACCEPTED',
   PENDING = 'PENDING',
   DELAYED = 'DELAYED',
+  CANCELLED = 'CANCELLED',
 }
 
 export enum OpfPaymentMethod {

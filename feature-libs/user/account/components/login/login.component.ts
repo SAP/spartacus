@@ -5,11 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {
-  AuthService,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { AuthService, TranslationService } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -27,9 +23,7 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private userAccount: UserAccountFacade,
     private translation: TranslationService
-  ) {
-    useFeatureStyles('a11yMyAccountLinkOutline');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(
