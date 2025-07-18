@@ -78,11 +78,16 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-/**
- * Supports JDK17 only.
- */
 export function loginWithBadCredentialsFromLoginPage() {
-  const alias = listenForAuthServerLoginRequest();
+  let alias: string;
+  cy.whenJDK17(
+    () => {
+      alias = listenForTokenAuthenticationRequest();
+    },
+    () => {
+      alias = listenForAuthServerLoginRequest();
+    }
+  );
 
   login(user.email, 'Password321');
 
@@ -90,6 +95,7 @@ export function loginWithBadCredentialsFromLoginPage() {
     cy.wait(alias).its('response.statusCode').should('eq', 400);
   });
   cy.whenJDK21(() => {
+    login(user.email, 'Password321');
     cy.wait(alias)
       .its('response.statusCode')
       .should('eq', 302)
