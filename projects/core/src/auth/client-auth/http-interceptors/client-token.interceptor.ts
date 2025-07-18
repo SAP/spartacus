@@ -12,6 +12,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { AuthConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -22,7 +23,6 @@ import {
 import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
-import { CLIENT_TOKENS_ENABLED } from './provide-disable-client-tokens';
 
 /**
  * Interceptor for handling requests with `USE_CLIENT_TOKEN` header.
@@ -30,7 +30,8 @@ import { CLIENT_TOKENS_ENABLED } from './provide-disable-client-tokens';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
-  protected enableClientToken = inject(CLIENT_TOKENS_ENABLED);
+  protected enableClientToken =
+    inject(AuthConfig).authentication?.useClientTokens ?? false;
 
   constructor(
     protected clientTokenService: ClientTokenService,
