@@ -26,7 +26,7 @@ export const defaultUser = {
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
   cy.whenJDK17(() => {
-    const registerPage = waitForPage('/login', 'getRegisterPage');
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
     cy.get('cx-page-layout > cx-page-slot > cx-login-register')
       .findByText('Register')
       .click();
