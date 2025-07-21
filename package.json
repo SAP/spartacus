@@ -115,7 +115,6 @@
     "e2e:run:ci:vendor:opf": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:opf",
     "e2e:run:ci:vendor:pdf-invoices": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:pdf-invoices",
     "e2e:run:ci:vendor:pickup-in-store": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:pickup-in-store",
-    "e2e:run:ci:vendor:product-configurator": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:product-configurator",
     "e2e:run:ci:vendor:requested-delivery-date": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:requested-delivery-date",
     "e2e:run:ci:vendor:s4om": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:s4om",
     "e2e:run:ci:release": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:release",
