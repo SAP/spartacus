@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
+  AuthConfig,
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
@@ -15,6 +16,8 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
+  provideAuthorizationCodeFlowByDefault,
+  provideConfig,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -411,6 +414,18 @@ if (environment.cpq) {
       };
       return appFeatureToggles;
     }),
+    provideAuthorizationCodeFlowByDefault(),
+    provideConfig(<AuthConfig>{
+      authentication: {
+          client_id: 'mobile_android_public', // change to your public client ID
+          client_secret: undefined,
+          sendAuthHeaderOnRevoke: false,
+          OAuthLibConfig: {
+              disablePKCE: false,
+              responseType: 'code',
+          },
+      },
+  }),
   ],
 })
 export class SpartacusFeaturesModule {}
