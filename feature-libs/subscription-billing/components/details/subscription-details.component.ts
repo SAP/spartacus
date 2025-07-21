@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   EventService,
@@ -8,7 +8,7 @@ import {
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
-import { Card, CardModule } from '@spartacus/storefront';
+import { Card, CardModule, LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
@@ -36,6 +36,9 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscription = new Subscription();
   protected routingService = inject(RoutingService);
   protected translation = inject(TranslationService);
+  protected launchDialogService = inject(LaunchDialogService);
+  @ViewChild('extendSubscriptionBtn') extendSubscriptionBtn: ElementRef;
+  subscriptionContractFrequency: string;
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
   getSubscriptionCodeFromRoute(): Observable<string | undefined> {
@@ -53,11 +56,15 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       this.subscriptionFacade.getSubscriptionCodeFromRoute(),
     ])
       .pipe(
-        take(1),
+        take(2),
         tap(([subscription, subscriptionCode]) => {
           if (subscription && subscription.id !== subscriptionCode) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
+        }),
+        tap(([subscription, _]) => {
+          this.subscriptionContractFrequency =
+            subscription?.contractFrequency || '';
         })
       )
       .subscribe();
@@ -110,6 +117,15 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
           }) as Card
       )
     );
+  }
+
+  showExtendSubscriptionDialog() {
+    this.launchDialogService
+      .openDialogAndSubscribe(
+        LAUNCH_CALLER.EXTEND_SUBSCRIPTION,
+        this.extendSubscriptionBtn,
+        this.subscriptionContractFrequency
+      );
   }
 
   isSubscriptionActive(status: string | undefined) {

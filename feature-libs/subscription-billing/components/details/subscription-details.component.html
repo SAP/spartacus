@@ -62,9 +62,11 @@
         </span>
         <span class="cx-action-button">
           <a
+            #extendSubscriptionBtn
             *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
+            (click)="showExtendSubscriptionDialog()"
           >
             {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
           </a>

@@ -12,3 +12,4 @@ export * from './product/price/subscription-product-price.component';
 export * from './product/usage/subscription-product-usage-charge.component';
 
 export * from './details/subscription-details.component';
+export * from './details/extend-subscription/extend-subscription-dialog.component';

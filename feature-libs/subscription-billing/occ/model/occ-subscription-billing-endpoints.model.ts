@@ -19,6 +19,18 @@ export interface SubscriptionBillingOccEndpoints {
    * @member {string}
    */
   subscriptionByCode?: string | OccEndpoint;
+  /**
+   * Endpoint for the extension validity date of one user's subscription
+   *
+   * @member {string}
+   */
+  extensionEffectiveDate?: string | OccEndpoint;
+  /**
+   * Endpoint for the extending one user's subscription
+   *
+   * @member {string}
+   */
+  extendSubscription?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

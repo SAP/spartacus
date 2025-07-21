@@ -10,6 +10,7 @@ import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
 import { SubscriptionProductPriceComponent } from './product/price/subscription-product-price.component';
 import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
+import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-billing-layout-config';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { SubscriptionDetailsComponent } from './details/subscription-details.com
         },
       },
     }),
+    provideDefaultConfig(defaultSubscriptionBillingLayoutConfig),
   ],
 })
 export class SubscriptionBillingComponentsModule {}

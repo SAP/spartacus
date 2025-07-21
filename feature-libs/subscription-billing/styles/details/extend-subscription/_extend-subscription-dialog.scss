@@ -1,0 +1,27 @@
+%cx-extend-subscription-dialog {
+    .extend-subscription-dialog {
+        .modal-content {
+            max-width: 390px;
+
+            .modal-header {
+                display: flex;
+                align-items: center;
+                padding-left: 30px;
+                padding-right: 30px;
+                button {
+                    height: fit-content;
+                    font-size: 20px;
+                }
+            }
+
+            .extend-subscription-dialog-footer {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            #extendDurationInput {
+                outline: none;;
+            }
+        }
+    }
+}
