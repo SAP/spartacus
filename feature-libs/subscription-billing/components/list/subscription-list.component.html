@@ -20,121 +20,16 @@
         ></cx-sorting>
       </label>
     </div>
-    <!--OLD WAY OF SHOWING TRADITIONAL TABLE-->
-    <!-- <table
-      id="subscription-list-table"
-      class="table cx-subscription-list-table"
-      aria-hidden="true"
-    >
-      <thead class="cx-subscription-list-thead-mobile">
-        <tr>
-          <th scope="col">{{ 'subscriptionList.id' | cxTranslate }}</th>
-          <th scope="col">
-            {{ 'subscriptionList.productCode' | cxTranslate }}
-          </th>
-          <th scope="col">{{ 'subscriptionList.startDate' | cxTranslate }}</th>
-          <th scope="col">{{ 'subscriptionList.endDate' | cxTranslate }}</th>
-          <th scope="col">{{ 'subscriptionList.status' | cxTranslate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (subscription of list.subscriptions; track $index) {
-          <tr>
-            <td class="cx-subscription-list-data cx-subscription-list-id">
-              <div class="cx-subscription-list-label">
-                {{ 'subscriptionList.id' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'subscriptionDetails',
-                    params: { id: subscription.id },
-                  } | cxUrl
-                "
-                class="cx-subscription-list-value"
-              >
-                {{ subscription.id }}
-              </a>
-            </td>
-            <td class="cx-subscription-list-data cx-subscription-list-id">
-              <div class="cx-subscription-list-label">
-                {{ 'subscriptionList.productCode' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'product',
-                    params: { code: subscription.productCode },
-                  } | cxUrl
-                "
-                class="cx-subscription-list-value"
-              >
-                {{ subscription.productCode }}
-              </a>
-            </td>
-            <td class="cx-subscription-list-data">
-              <div class="cx-subscription-list-label">
-                {{ 'subscriptionList.startDate' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'subscriptionDetails',
-                    params: { id: subscription.id },
-                  } | cxUrl
-                "
-                class="cx-subscription-list-value"
-              >
-                {{ subscription.startDate | cxDate }}
-              </a>
-            </td>
-            <td class="cx-subscription-list-data">
-              <div class="cx-subscription-list-label">
-                {{ 'subscriptionList.endDate' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'subscriptionDetails',
-                    params: { id: subscription.id },
-                  } | cxUrl
-                "
-                class="cx-subscription-list-value"
-              >
-                {{ subscription.endDate | cxDate }}
-              </a>
-            </td>
-            <td class="cx-subscription-list-data">
-              <div class="cx-subscription-list-label">
-                {{ 'subscriptionList.status' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'subscriptionDetails',
-                    params: { id: subscription.id },
-                  } | cxUrl
-                "
-                class="cx-subscription-list-value"
-              >
-                {{ subscription.subscriptionStatus }}
-              </a>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table> -->
-
     <div class="cx-subscription-list-content">
       <ng-container *ngFor="let subscription of list.subscriptions">
         <div class="cx-subscription-list-item">
           <div class="cx-subscription-list-item-header">
             <div
-              class="cx-subscription-list-item-id"
-              *ngIf="subscription.id"
-              [attr.aria-label]="'subscriptionList.id' | cxTranslate"
+              class="cx-subscription-list-item-name"
+              *ngIf="subscription.name"
+              [attr.aria-label]="'subscriptionList.product' | cxTranslate"
             >
-              {{ subscription.id }}
+            {{ subscription.name }}
             </div>
             <div
               class="cx-subscription-list-item-status"
@@ -149,28 +44,17 @@
           <div class="cx-subscription-list-item-body">
             <div class="cx-subscription-list-item-column-1">
               <div>
-                {{ 'subscriptionList.product' | cxTranslate }}
-                <a
-                  [routerLink]="
-                    {
-                      cxRoute: 'product',
-                      params: { code: subscription.productCode },
-                    } | cxUrl
-                  "
-                >
-                  {{ subscription.name }}
-                </a>
+                {{
+                  'subscriptionList.id' | cxTranslate: { id: subscription.id }
+                }}
+              </div>
+              <div>
+                {{ 'subscriptionList.amount' | cxTranslate: { amount: null } }}
               </div>
               <div>
                 {{
                   'subscriptionList.startDate'
-                    | cxTranslate: { date: subscription.startDate | cxDate }
-                }}
-              </div>
-              <div>
-                {{
-                  'subscriptionList.endDate'
-                    | cxTranslate: { date: subscription.endDate | cxDate }
+                    | cxTranslate: { date: subscription.startAt | cxDate }
                 }}
               </div>
             </div>
@@ -178,7 +62,7 @@
               <span>
                 <a
                   class="btn-link cx-action-link"
-                  [attr.aria-label]="'subscriptionList.manageSubscription'"
+                  [attr.aria-label]="'subscriptionList.manageService'"
                   [routerLink]="
                     {
                       cxRoute: 'subscriptionDetails',
@@ -186,7 +70,7 @@
                     } | cxUrl
                   "
                 >
-                  {{ 'subscriptionList.manageSubscription' | cxTranslate }}
+                  {{ 'subscriptionList.manageService' | cxTranslate }}
                 </a>
               </span>
             </div>

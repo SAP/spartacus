@@ -15,23 +15,22 @@
     "percentageUsage": "Included Ratio {{ ratio }} at {{ price }} per {{ usage }}"
   },
   "subscriptionList": {
-    "id": "Subscription ID",
+    "id": "Subscription ID: {{ id }}",
+    "product": "Subscription Product",
     "title": "All Subscriptions",
     "sortSubtitle": "Sort By",
-    "product": "Product: {{ value }}",
-    "startDate": "Start Date: {{ date }}",
-    "endDate": "End Date: {{ date }}",
+    "startDate": "Subscription Start Date: {{ date }}",
     "status": "Status: {{ value }}",
     "noSubscriptions": "You don't have any subscriptions",
     "sortOrders": "Sort orders",
-    "manageSubscription": "Manage Subscription"
+    "manageService": "Manage Service",
+    "amount": "Billing Amount: {{ amount }}"
   },
   "subscriptionDetails": {
-    "id": "Subscription ID",
-    "product": "Product",
-    "startDate": "Start Date",
-    "endDate": "End Date",
-    "status": "Status",
+    "info": "Subscription/Contract Details:",
+    "productCode": "Subscription Service (Product) Code: {{code }}",
+    "endDate": "Subscription End Date: {{ date }}",
+    "cycle": "Current Billing Cycle: {{ cycle }}",
     "cancelSubscription": "Cancel Subscription",
     "extendSubscription": "Extend Subscription",
     "reSubscribe": "Re-subscribe",
