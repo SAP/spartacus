@@ -7,6 +7,7 @@
 import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { whenJDK17 } from '../../../support/utils/jdk-versions';
 
 context('Password Visibility', () => {
   viewportContext(['mobile'], () => {
@@ -14,7 +15,7 @@ context('Password Visibility', () => {
       clearAllStorage();
     });
 
-    cy.whenJDK17(() => {
+    whenJDK17(() => {
       it('should hide password by default', () => {
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login');
