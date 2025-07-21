@@ -33,6 +33,7 @@
     "cycle": "Current Billing Cycle: {{ cycle }}",
     "cancelSubscription": "Cancel Subscription",
     "extendSubscription": "Extend Subscription",
+    "withdrawSubscription": "Withdraw Subscription",
     "reSubscribe": "Re-subscribe",
     "back": "View All Subscriptions"
   }
