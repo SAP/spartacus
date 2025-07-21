@@ -18,7 +18,7 @@ import {
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
 export class MockPickupLocationsSearchService
-  implements PickupLocationsSearchFacade
+  implements Partial<PickupLocationsSearchFacade>
 {
   stockLevelAtStore(_productCode: string, _storeName: string): void {}
 
@@ -58,6 +58,10 @@ export class MockPickupLocationsSearchService
   }
 
   loadStoreDetails(_name: string): void {}
+
+  loadAndGetStoreDetails(_name: string): Observable<PointOfService> {
+    return EMPTY;
+  }
 }
 
 describe('PickupLocationsSearchService', () => {

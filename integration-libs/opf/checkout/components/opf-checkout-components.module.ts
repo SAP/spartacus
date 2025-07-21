@@ -10,6 +10,7 @@ import { OpfCheckoutEmailUpdateModule } from './opf-checkout-email-update/opf-ch
 import { OpfCheckoutPaymentAndReviewModule } from './opf-checkout-payment-and-review/opf-checkout-payment-and-review.module';
 import { OpfCheckoutPaymentWrapperModule } from './opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.module';
 import { OpfCheckoutPaymentsModule } from './opf-checkout-payments/opf-checkout-payments.module';
+import { OpfCheckoutReviewCardModule } from './opf-checkout-review-card/opf-checkout-review-card.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { OpfCheckoutPaymentsModule } from './opf-checkout-payments/opf-checkout-
     OpfCheckoutPaymentsModule,
     OpfCheckoutBillingAddressFormModule,
     OpfCheckoutPaymentWrapperModule,
+    OpfCheckoutReviewCardModule,
     OpfCheckoutEmailUpdateModule,
   ],
 })

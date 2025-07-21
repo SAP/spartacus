@@ -107,10 +107,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // TODO: (CXSPA-7321) - Remove feature flag next major release
-    if (this.featureConfigService?.isEnabled('a11yFacetsDialogFocusHandling')) {
-      this.enableFocusHandlingOnFacetListChanges();
-    }
+    this.enableFocusHandlingOnFacetListChanges();
 
     // Required to load facets when initial load in side panel.
     this.updateTabs();

@@ -32,6 +32,7 @@ export class ConfiguratorStorefrontUtilsService {
    */
   protected readonly CX_PREFIX = 'cx';
   protected readonly SEPARATOR = '--';
+  protected readonly CONFIGURATOR_PREFIX = this.CX_PREFIX + '-configurator';
   /**
    * Height of a CSS box model of an 'add-to-cart' button
    * See _configurator-add-to-cart-button.scss
@@ -205,6 +206,22 @@ export class ConfiguratorStorefrontUtilsService {
     valueId: string
   ): string {
     return attributeId + this.SEPARATOR + valueId;
+  }
+
+  /**
+   * Creates unique key for config attribute on the UI
+   *
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId
+   */
+  createAttributeUiKey(prefix: string, attributeId: string): string {
+    return (
+      this.CONFIGURATOR_PREFIX +
+      this.SEPARATOR +
+      prefix +
+      this.SEPARATOR +
+      attributeId
+    );
   }
 
   /**

@@ -24,23 +24,12 @@
   </div>
   <div class="cx-find-a-store-link-container">
     <button
-      *cxFeature="'a11yUseButtonsForBtnLinks'"
       class="link cx-find-a-store-link"
       id="lnkUseMyLocation"
       (click)="useMyLocation()"
     >
       {{ 'storeSearch.useMyLocation' | cxTranslate }}
     </button>
-    <a
-      *cxFeature="'!a11yUseButtonsForBtnLinks'"
-      class="cx-find-a-store-link"
-      id="lnkUseMyLocation"
-      (click)="useMyLocation()"
-      tabindex="0"
-      role="button"
-    >
-      {{ 'storeSearch.useMyLocation' | cxTranslate }}
-    </a>
   </div>
   <div class="cx-find-a-store-hide-out-of-stock">
     <div class="cx-find-a-store-checkbox-group form-check">

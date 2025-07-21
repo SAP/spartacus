@@ -17,7 +17,11 @@ import { Card, CmsComponentData } from '@spartacus/storefront';
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderOutlets, paymentMethodCard } from '@spartacus/order/root';
+import {
+  OrderConfig,
+  OrderOutlets,
+  paymentMethodCard,
+} from '@spartacus/order/root';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({
@@ -30,6 +34,7 @@ export class OrderOverviewComponent {
   protected orderOverviewComponentService = inject(
     OrderOverviewComponentService
   );
+  protected orderConfig = inject(OrderConfig);
   readonly cartOutlets = CartOutlets;
   readonly orderOutlets = OrderOutlets;
 

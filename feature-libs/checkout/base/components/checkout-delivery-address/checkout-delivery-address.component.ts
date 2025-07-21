@@ -116,10 +116,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     textPhone: string,
     textMobile: string
   ): Card {
-    // TODO: (CXSPA-6956) - Remove feature flag in next major release
-    const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
-      'a11yHideSelectBtnForSelectedAddrOrPayment'
-    );
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
@@ -141,10 +137,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.postalCode,
         numbers,
       ],
-      actions:
-        hideSelectActionForSelected && isSelected
-          ? []
-          : [{ name: textShipToThisAddress, event: 'send' }],
+      actions: isSelected
+        ? []
+        : [{ name: textShipToThisAddress, event: 'send' }],
       header: isSelected ? textSelected : '',
       label: address.defaultAddress
         ? 'addressBook.defaultDeliveryAddress'

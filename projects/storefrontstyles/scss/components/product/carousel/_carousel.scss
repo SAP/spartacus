@@ -88,14 +88,12 @@
   }
 
   button {
+    color: var(--cx-color-inverse);
+
     &:focus {
       @include visible-focus();
-
-      @include forFeature('a11yVisibleFocusOverflows') {
-        z-index: 10;
-      }
+      z-index: 10;
     }
-    color: var(--cx-color-inverse);
 
     &[aria-disabled='false'] {
       cursor: pointer;

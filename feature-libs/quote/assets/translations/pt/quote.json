@@ -176,10 +176,12 @@
       "newCart": "Novo carrinho",
       "quotes": "Cotações",
       "download": "Baixar proposta",
+      "order": "Detalhe do pedido",
       "a11y": {
         "newCart": "Crie um novo carrinho vazio e navegue para o mesmo.",
         "quotes": "Navegue para a lista de resultados da pesquisa de cotações.",
-        "download": "Inicie o download de uma proposta de cotação"
+        "download": "Inicie o download de uma proposta de cotação",
+        "order": "Navegue para a ordem associada com esta cotação"
       }
     },
     "list": {

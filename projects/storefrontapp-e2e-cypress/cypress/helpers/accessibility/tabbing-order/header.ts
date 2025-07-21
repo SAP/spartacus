@@ -7,6 +7,7 @@
 import { verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 import { TabElement } from '../tabbing-order.model';
+import { isMobile } from '../../viewport-context';
 
 const containerSelector = 'header';
 
@@ -22,7 +23,12 @@ export function headerTabbingOrder(
   }
 
   // Ensures components are loaded before tabbing
-  cy.get('.SiteContext')
+
+  const selector = isMobile()
+    ? '.navigation .SiteContext'
+    : '.header .SiteContext';
+
+  cy.get(selector)
     .find('cx-site-context-selector select')
     .should('have.length', 2);
 

@@ -71,6 +71,7 @@ const cartEntryNo = '1';
 const configId = '1234-56-7890';
 const CONFIG_ID_TEMPLATE = '1234-56-abcd';
 const groupId = 'GROUP1';
+const attributeKey = 'attribute123';
 const documentEntryNumber = '3';
 const userId = 'Anony';
 const documentId = '82736353';
@@ -357,7 +358,50 @@ describe('OccConfigurationVariantAdapter', () => {
       'readVariantConfiguration',
       {
         urlParams: { configId },
-        queryParams: { groupId, expMode },
+        queryParams: {
+          groupId,
+          expMode,
+          attributeKeyRequiresDomain: undefined,
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+      sendUserIdAsHeader: true,
+    });
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_NORMALIZER
+    );
+    mockReq.flush(productConfigurationOcc);
+  });
+
+  it('should call readConfiguration endpoint with attribute key for domain values', (done) => {
+    expMode = false;
+    configExpertModeService.setExpModeRequested(expMode);
+    productConfigurationOcc.kbKey = undefined;
+    spyOn(converterService, 'pipeable').and.callThrough();
+    occConfiguratorVariantAdapter
+      .readConfiguration(configId, groupId, configuration.owner, attributeKey)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === 'readVariantConfiguration';
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'readVariantConfiguration',
+      {
+        urlParams: { configId },
+        queryParams: {
+          groupId,
+          expMode,
+          attributeKeyRequiresDomain: attributeKey,
+        },
       }
     );
 
@@ -395,7 +439,11 @@ describe('OccConfigurationVariantAdapter', () => {
       'readVariantConfiguration',
       {
         urlParams: { configId },
-        queryParams: { groupId, expMode },
+        queryParams: {
+          groupId,
+          expMode,
+          attributeKeyRequiresDomain: undefined,
+        },
       }
     );
 

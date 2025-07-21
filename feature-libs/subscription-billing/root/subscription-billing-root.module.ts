@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MockResponseInterceptor } from './mock-interceptor/mock-response.interceptor';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -38,11 +36,11 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
 @NgModule({
   imports: [SubscriptionBillingEventModule],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MockResponseInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: MockResponseInterceptor,
+    //   multi: true,
+    // },
     provideDefaultConfigFactory(defaultSubscriptionBillingComponentsConfig),
     provideDefaultConfig(defaultSubscriptionBillingRoutingConfig),
   ],

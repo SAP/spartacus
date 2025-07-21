@@ -1,9 +1,9 @@
 @if (productDetail(); as product) {
   @if (isCurrentProductSubscription()) {
     <div class="subscription">
-      @if (product.sapPricePlan?.name) {
+      <!-- @if (product.sapPricePlan?.name) {
         <div class="subscription-name">{{ product.sapPricePlan?.name }}:</div>
-      }
+      } -->
       @if (oneTimeCharges().length > 0) {
         <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
       }
