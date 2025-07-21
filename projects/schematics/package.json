@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2211.38.1",
+  "version": "2211.42.0-3",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -75,7 +75,8 @@
       "@spartacus/customer-ticketing",
       "@spartacus/subscription-billing",
       "@spartacus/opf",
-      "@spartacus/estimated-delivery-date"
+      "@spartacus/estimated-delivery-date",
+      "@spartacus/punchout"
     ]
   },
   "schematics": "./src/collection.json"

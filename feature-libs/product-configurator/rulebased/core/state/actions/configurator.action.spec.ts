@@ -13,6 +13,7 @@ const CONFIG_ID_TEMPLATE = 'abcde-5464-9852-54682';
 const CONFIG_ID = '15468-5464-9852-54682';
 const GROUP_ID = 'GROUP1';
 const OWNER_KEY = 'product/' + PRODUCT_CODE;
+const ATTRIBUTE_KEY = 'ATTRIBUTE_KEY';
 const OWNER: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: CommonConfigurator.OwnerType.PRODUCT,
@@ -77,6 +78,23 @@ describe('ConfiguratorActions', () => {
       });
     });
 
+    describe('ReadConfiguration', () => {
+      it('Should create the action', () => {
+        const action = new ConfiguratorActions.ReadConfiguration({
+          configuration: CONFIGURATION,
+          groupId: GROUP_ID,
+        });
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.READ_CONFIGURATION,
+          payload: {
+            configuration: CONFIGURATION,
+            groupId: GROUP_ID,
+          },
+          meta: StateUtils.entityLoadMeta(CONFIGURATOR_DATA, OWNER_KEY),
+        });
+      });
+    });
+
     describe('ReadConfigurationFail', () => {
       it('Should create the action', () => {
         const error = { message: 'anError' };
@@ -100,15 +118,21 @@ describe('ConfiguratorActions', () => {
       });
     });
 
-    describe('ReadConfigurationSuccess', () => {
-      it('Should create the action', () => {
-        const action = new ConfiguratorActions.ReadConfigurationSuccess(
-          CONFIGURATION
-        );
+    describe('ReadAttributeDomain', () => {
+      it('should create the action', () => {
+        const action = new ConfiguratorActions.ReadAttributeDomain({
+          configuration: CONFIGURATION,
+          groupId: GROUP_ID,
+          attributeKey: ATTRIBUTE_KEY,
+        });
         expect({ ...action }).toEqual({
-          type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
-          payload: CONFIGURATION,
-          meta: StateUtils.entitySuccessMeta(CONFIGURATOR_DATA, OWNER_KEY),
+          type: ConfiguratorActions.READ_ATTRIBUTE_DOMAIN,
+          payload: {
+            configuration: CONFIGURATION,
+            groupId: GROUP_ID,
+            attributeKey: ATTRIBUTE_KEY,
+          },
+          meta: StateUtils.entityLoadMeta(CONFIGURATOR_DATA, OWNER_KEY),
         });
       });
     });

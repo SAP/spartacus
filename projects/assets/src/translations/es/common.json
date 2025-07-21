@@ -21,7 +21,7 @@
     "search": "Buscar",
     "add": "Añadir",
     "breadcrumbs": "rutas de navegación",
-    "breadcrumbsCurrentPage": "Current Page",
+    "breadcrumbsCurrentPage": "Página actual",
     "selectFile": "Seleccionar fichero",
     "clear": "Borrar",
     "loaded": "Cargado",
@@ -66,7 +66,7 @@
     "navigateTo": "Navegue a {{nav}}",
     "scrollToTop": "Desplácese hacia arriba al principio de la página",
     "linkItemInList": "{{title}}. {{position}} de {{listLength}}",
-    "menuButonTitle": "{{title}} Menu"
+    "menuButonTitle": "Menú de {{title}}"
   },
   "searchBox": {
     "placeholder": "Introducir nombre de producto o SKU",
@@ -90,7 +90,8 @@
       "exactMatch": "{{ term }}",
       "empty": "Háganos preguntas"
     },
-    "closeSearchPanel": "Cerrar"
+    "closeSearchPanel": "Cerrar",
+    "queryError": "Su consulta de búsqueda tiene formato incorrecto. Elimine los caracteres especiales como \":\" y vuelva a intentarlo."
   },
   "sorting": {
     "date": "Fecha",
@@ -190,6 +191,7 @@
       "cxMaxCharactersLength": "La contraseña no puede contener más de 128 caracteres",
       "cxContainsSpecialCharacters": "La contraseña no puede contener caracteres especiales",
       "cxNoConsecutiveCharacters": "La contraseña no puede contener caracteres idénticos consecutivos",
+      "invalidTokenCodeError": "Este código no es válido",
       "date": {
         "required": "El campo {{label}} es obligatorio",
         "min": "El campo {{label}} no puede estar antes de {{min}}",

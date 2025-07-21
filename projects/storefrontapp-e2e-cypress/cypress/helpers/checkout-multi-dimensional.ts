@@ -93,7 +93,7 @@ export function testCheckoutMultiDAsGuest() {
 }
 
 export function testCheckoutMultiDAsGuestAndVerifyCart() {
-  it.skip('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
+  it('should perform checkout as guest, create an account and verify guest data, and verify cart persists after registering', () => {
     const multiDUser = getSampleUser();
 
     checkout.visitHomePage();
@@ -155,10 +155,7 @@ export function testCheckoutMultiDAsGuestAndVerifyCart() {
 
     checkout.signOut();
 
-    const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-
-    cy.findByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
     cy.intercept(
       'GET',

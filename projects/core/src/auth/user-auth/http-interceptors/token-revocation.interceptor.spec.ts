@@ -1,13 +1,13 @@
 import {
-  HttpClient,
   HTTP_INTERCEPTORS,
+  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
   HttpTestingController,
-  TestRequest,
   provideHttpClientTesting,
+  TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, Subscription } from 'rxjs';
@@ -29,12 +29,16 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   getRevokeEndpoint() {
     return '/revoke';
   }
+  public sendAuthHeaderOnRevoke(): boolean {
+    return true;
+  }
 }
 
 describe('TokenRevocationInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
   let tokenRevocationInterceptor: TokenRevocationInterceptor;
+  let mockAuthConfigService: AuthConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,6 +62,7 @@ describe('TokenRevocationInterceptor', () => {
       ],
     });
 
+    mockAuthConfigService = TestBed.inject(AuthConfigService);
     httpMock = TestBed.inject(HttpTestingController);
     tokenRevocationInterceptor = TestBed.inject(TokenRevocationInterceptor);
     http = TestBed.inject(HttpClient);
@@ -98,6 +103,28 @@ describe('TokenRevocationInterceptor', () => {
     const authHeader: string = mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeTruthy();
     expect(authHeader).toEqual(`Bearer acc_token`);
+
+    mockReq.flush('someData');
+    sub.unsubscribe();
+  });
+
+  it(`Should not add 'Authorization' header for revoke request when disabled`, (done) => {
+    spyOn(mockAuthConfigService, 'sendAuthHeaderOnRevoke').and.returnValue(
+      false
+    );
+
+    const sub: Subscription = http.get('/revoke').subscribe((result) => {
+      expect(result).toBeTruthy();
+      done();
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET';
+    });
+
+    const authHeader: string = mockReq.request.headers.get('Authorization');
+    expect(authHeader).toBeFalsy();
+    expect(authHeader).toEqual(null);
 
     mockReq.flush('someData');
     sub.unsubscribe();

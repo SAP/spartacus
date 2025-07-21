@@ -10,6 +10,8 @@
     "placed": "Effettuato",
     "placedBy": "Effettuato da",
     "unit": "Unità",
+    "quoteCode": "ID offerta {{id}}",
+    "quoteDetail": "Dettagli offerta",
     "costCenter": "Centro di costo",
     "costCenterAndUnit": "Centro di costo/unità",
     "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "Il carrello acquisti attuale verrà sostituito da altri articoli. Continuare?",
       "cancel": "Annulla",
       "continue": "Continua"
+    }
+  },
+  "attachments": {
+    "button": "Visualizza allegati ordine",
+    "dialog": {
+      "title": "Allegati",
+      "preview": "Anteprima file",
+      "closeModal": "Chiudi finestra modale",
+      "error": "Si è verificato un errore. Aggiornare la pagina o riprovare più tardi.",
+      "empty": "Documenti non disponibili. È possibile visualizzare i documenti qui dopo che sono stati aggiunti.",
+      "downloadError": "Si è verificato un errore di recupero dei documenti. Aggiornare la pagina o riprovare più tardi."
     }
   }
 }

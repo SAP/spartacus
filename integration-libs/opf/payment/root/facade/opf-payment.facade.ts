@@ -17,7 +17,7 @@ import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '../model';
-
+import { Cart } from '@spartacus/cart/base/root';
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
@@ -30,6 +30,7 @@ import {
         'submitCompletePayment',
         'getAfterRedirectScripts',
         'initiatePayment',
+        'setCartPaymentOption',
       ],
     }),
 })
@@ -89,4 +90,19 @@ export abstract class OpfPaymentFacade {
   abstract initiatePayment(
     paymentConfig: OpfPaymentInitiationConfig
   ): Observable<OpfPaymentSessionData>;
+
+  /**
+   * Abstract method to set the payment option for the cart
+   *
+   * @param {string} userId
+   * @param {string} cartId
+   * @param {string} sapPaymentOptionId
+   * @param {string} purchaseOrderNumber
+   */
+  abstract setCartPaymentOption(
+    userId: string,
+    cartId: string,
+    sapPaymentOptionId: string,
+    purchaseOrderNumber?: string
+  ): Observable<Cart>;
 }

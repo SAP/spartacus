@@ -14,7 +14,7 @@
     "saveAsDefault": "Gravar como padrão",
     "setAsDefault": "Definir como forma de pagamento padrão",
     "billingAddress": "Endereço de faturamento",
-    "editBillingAddress": "Edit billing Address",
+    "editBillingAddress": "Editar endereço de faturamento",
     "sameAsDeliveryAddress": "Igual ao endereço de entrega",
     "billingAddressSameAsShipping": "O endereço de faturamento é igual ao endereço de entrega",
     "selectOne": "Selecionar um...",

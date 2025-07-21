@@ -97,6 +97,7 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ProductImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { PunchoutFeatureModule } from './features/punchout/punchout-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -152,6 +153,9 @@ if (environment.s4om) {
 }
 if (environment.opf) {
   featureModules.push(OpfFeatureModule);
+}
+if (environment.punchout) {
+  featureModules.push(PunchoutFeatureModule);
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
@@ -291,13 +295,6 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
-        formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: true,
-        showStyleChangesInASM: false,
-        shouldHideAddToCartForUnpurchasableProducts: false,
-        useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
-        showDownloadProposalButton: false,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -313,48 +310,23 @@ if (environment.cpq) {
         a11yAnonymousConsentMessageInDialog: true,
         a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11ySearchBoxMobileFocus: true,
-        a11yFacetKeyboardNavigation: true,
         a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
-        a11yHideSelectBtnForSelectedAddrOrPayment: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yUseTrapTabInsteadOfTrapInDialogs: true,
-        cmsGuardsServiceUseGuardsComposer: true,
         a11yKeyboardAccessibleZoom: true,
-        a11yOrganizationLinkableCells: true,
-        a11yPreventSRFocusOnHiddenElements: true,
-        a11yVisibleFocusOverflows: true,
-        a11yTruncatedTextForResponsiveView: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
-        a11ySemanticPaginationLabel: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yMyAccountLinkOutline: true,
-        a11yCloseProductImageBtnFocus: true,
-        a11yNotificationPreferenceFieldset: true,
-        a11yImproveContrast: true,
-        a11yEmptyWishlistHeading: true,
-        a11yScreenReaderBloatFix: true,
-        a11yUseButtonsForBtnLinks: true,
         a11yTabComponent: true,
         a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
-        a11yNotificationsOnConsentChange: true,
-        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
-          true,
-        a11yFacetsDialogFocusHandling: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
-        a11yStoreFinderAlerts: true,
-        a11yFormErrorMuteIcon: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
-        a11yCxMessageFocus: true,
-        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yRepeatedPageTitleFix: true,
-        a11yDeliveryModeRadiogroup: true,
         /**
          * Defaults to false cause ng-select options ariaLabels are working as expected
          * since Spartacus 2211.33
@@ -366,7 +338,6 @@ if (environment.cpq) {
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yRepeatedCancelOrderError: true,
         a11yAddedToCartActiveDialog: true,
-        a11yNgSelectMobileReadout: true,
         a11yDeliveryMethodFieldset: true,
         a11yShowMoreReviewsBtnFocus: true,
         a11yQuickOrderAriaControls: true,
@@ -406,7 +377,6 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        cmsBottomHeaderSlotUsingFlexStyles: true,
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
@@ -414,16 +384,32 @@ if (environment.cpq) {
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
-        showRealTimeStockInPDP: false,
+        showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
         a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        readMoreDirective: true,
+        productReviewCharactersLeft: true,
+        a11yNgSelectAriaControls: true,
+        a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
         enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
+        storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
+        consistentSizeProductCards: true,
+        reserveHorizontalSpaceStarRating: true,
+        topProgressBarUseTransformAnimation: true,
+        disableCxPageSlotMarginAnimation: true,
+        productCarouselScrolling: true,
+        createMediaPreconnectLink: true,
+        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
+        reserveSpaceForImagesOnPdpAndPlp: true,
+        lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;
     }),

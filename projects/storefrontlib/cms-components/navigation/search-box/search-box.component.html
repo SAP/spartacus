@@ -4,28 +4,22 @@
   role="search"
 >
   <label class="searchbox" [class.dirty]="!!searchInput.value">
-    <!-- TODO: (CXSPA-6929) - Remove feature flag next major release -->
     <input
       #searchInput
       [placeholder]="'searchBox.placeholder' | cxTranslate"
       autocomplete="off"
       aria-describedby="initialDescription"
       aria-controls="results"
-      [attr.tabindex]="
-        a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
-      "
+      [attr.tabindex]="getTabIndex(isMobile | async)"
       [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
       (click)="search(searchInput.value)"
-      (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
       (input)="search(searchInput.value)"
-      (blur)="close($any($event))"
-      (keydown.tab)="
-        a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
-      "
-      (keydown.escape)="close($any($event))"
+      (blur)="close()"
+      (keydown.tab)="close()"
+      (keydown.escape)="close()"
       (keydown.enter)="
-        close($any($event), true);
-        launchSearchResult($any($event), searchInput.value);
+        close(true);
+        launchSearchResult(searchInput.value);
         updateChosenWord(searchInput.value)
       "
       (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -79,20 +73,15 @@
         autocomplete="off"
         aria-describedby="initialDescription"
         aria-controls="results"
-        [attr.tabindex]="
-          a11ySearchBoxMobileFocusEnabled ? getTabIndex(isMobile | async) : null
-        "
-        (focus)="a11ySearchBoxMobileFocusEnabled ? null : open()"
+        [attr.tabindex]="getTabIndex(isMobile | async)"
         (click)="open()"
         (input)="search(searchInput.value)"
-        (blur)="close($any($event))"
-        (keydown.tab)="
-          a11ySearchBoxMobileFocusEnabled ? close($any($event)) : null
-        "
-        (keydown.escape)="close($any($event))"
+        (blur)="close()"
+        (keydown.tab)="close()"
+        (keydown.escape)="close()"
         (keydown.enter)="
-          close($any($event), true);
-          launchSearchResult($any($event), searchInput.value);
+          close(true);
+          launchSearchResult(searchInput.value);
           updateChosenWord(searchInput.value)
         "
         (keydown.arrowup)="focusPreviousChild($any($event))"
@@ -133,7 +122,7 @@
   *ngIf="results$ | async as result"
   class="results"
   id="results"
-  (click)="close($any($event), true)"
+  (click)="close(true)"
   [class.no-headers]="
     !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
     !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
@@ -143,7 +132,7 @@
     *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
     class="btn btn-tertiary search-panel-close-btn"
     (keydown.arrowdown)="focusPreviousGroup($any($event))"
-    (click)="close($any($event))"
+    (click)="close()"
   >
     {{ 'searchBox.closeSearchPanel' | cxTranslate }}
   </button>
@@ -188,9 +177,9 @@
           (keydown.arrowdown)="focusNextChild($any($event))"
           (keydown.arrowleft)="focusPreviousGroup($any($event))"
           (keydown.arrowright)="focusNextGroup($any($event))"
-          (keydown.enter)="close($any($event), true)"
-          (keydown.escape)="close($any($event), true)"
-          (blur)="close($event)"
+          (keydown.enter)="close(true)"
+          (keydown.escape)="close(true)"
+          (blur)="close()"
           (mousedown)="preventDefault($event)"
           (click)="
             dispatchSuggestionEvent({
@@ -265,9 +254,9 @@
           (keydown.arrowdown)="focusNextChild($any($event))"
           (keydown.arrowleft)="focusPreviousGroup($any($event))"
           (keydown.arrowright)="focusNextGroup($any($event))"
-          (keydown.enter)="close($any($event), true)"
-          (keydown.escape)="close($any($event), true)"
-          (blur)="close($any($event))"
+          (keydown.enter)="close(true)"
+          (keydown.escape)="close(true)"
+          (blur)="close()"
           (mousedown)="preventDefault($event)"
           (click)="
             dispatchProductEvent({
@@ -307,8 +296,8 @@
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
-          (keydown.enter)="close($any($event), true)"
-          (keydown.escape)="close($any($event), true)"
+          (keydown.enter)="close(true)"
+          (keydown.escape)="close(true)"
           (keydown.arrowleft)="carouselEventPropagator($any($event))"
           (keydown.arrowright)="carouselEventPropagator($any($event))"
           (keydown.arrowup)="carouselEventPropagator($any($event))"
@@ -369,7 +358,7 @@
     <button
       class="btn btn-tertiary search-panel-close-btn"
       (keydown.arrowdown)="focusPreviousGroup($any($event))"
-      (click)="close($any($event))"
+      (click)="close()"
     >
       {{ 'searchBox.closeSearchPanel' | cxTranslate }}
     </button>

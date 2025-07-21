@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/order",
-  "version": "2211.38.1",
+  "version": "2211.42.0-3",
   "description": "Order feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -12,8 +12,8 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/order",
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "scripts": {
@@ -33,13 +33,13 @@
     "@ng-select/ng-select": "^14.1.0",
     "@ngrx/effects": "^19.0.0",
     "@ngrx/store": "^19.0.0",
-    "@spartacus/cart": "2211.38.1",
-    "@spartacus/core": "2211.38.1",
-    "@spartacus/pdf-invoices": "2211.38.1",
-    "@spartacus/schematics": "2211.38.1",
-    "@spartacus/storefront": "2211.38.1",
-    "@spartacus/styles": "2211.38.1",
-    "@spartacus/user": "2211.38.1",
+    "@spartacus/cart": "2211.42.0-3",
+    "@spartacus/core": "2211.42.0-3",
+    "@spartacus/pdf-invoices": "2211.42.0-3",
+    "@spartacus/schematics": "2211.42.0-3",
+    "@spartacus/storefront": "2211.42.0-3",
+    "@spartacus/styles": "2211.42.0-3",
+    "@spartacus/user": "2211.42.0-3",
     "rxjs": "^7.8.0"
   },
   "engines": {

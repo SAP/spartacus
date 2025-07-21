@@ -1,1 +1,4 @@
-<i [outerHTML]="icon"></i><ng-content></ng-content>
+<ng-container *ngIf="icon">
+  <i [outerHTML]="icon"></i>
+</ng-container>
+<ng-content></ng-content>

@@ -118,6 +118,7 @@ export interface CartItemComponentOptions {
   displayAddToCart?: boolean;
   addToCartString?: string;
   cartType?: CartType;
+  disableItemLink?: boolean;
 }
 /**
  * A key that identifies an 'abstract order', that in OO terms can be understood

@@ -21,16 +21,12 @@
     .quick-order-form-reset-icon {
       background: transparent;
       border: none;
-      color: var(--cx-color-medium);
+      color: var(--cx-color-secondary);
       display: block;
       font-size: 24px;
       position: absolute;
       right: 6px;
       top: 4px;
-
-      @include forFeature('a11yImproveContrast') {
-        color: var(--cx-color-secondary);
-      }
     }
 
     .quick-order-form-reset-icon {
@@ -59,11 +55,8 @@
     width: 330px;
     z-index: 20;
 
-    // TODO: (CXSPA-6003) Remove feature flags next major
-    @include forFeature('a11yTruncatedTextForResponsiveView') {
-      @include media-breakpoint-only(xs) {
-        width: 95%;
-      }
+    @include media-breakpoint-only(xs) {
+      width: 95%;
     }
 
     .quick-order-results-products {
@@ -121,9 +114,7 @@
   }
 
   .quick-order-form-description {
-    @include forFeature('a11yPreventSRFocusOnHiddenElements') {
-      visibility: hidden;
-    }
+    visibility: hidden;
   }
 }
 

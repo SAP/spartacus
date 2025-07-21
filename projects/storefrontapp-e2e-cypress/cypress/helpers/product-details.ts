@@ -208,14 +208,16 @@ export function productDetailsTest() {
     verifyProductDetails();
     verifyCorrectTabs();
     verifyTextInTabs();
+  });
+
+  it('should verify content of Reviews tab, functionality of Show Reviews button and submit a review', () => {
+    cy.log('VERIFY CONTENT IN REVIEWS TAB:');
     verifyContentInReviewTab();
-  });
 
-  it('should jump to reviews section when Show Reviews clicked', () => {
+    cy.log('VERIFY SHOW REVIEWS LINK:');
     verifyShowReviewsLink();
-  });
 
-  it('should submit a review', () => {
+    cy.log('VERIFY REVIEW FORM:');
     verifyReviewForm();
   });
 
@@ -225,12 +227,16 @@ export function productDetailsTest() {
 }
 
 export function apparelProductDetailsTest() {
-  it('should be able to select style / size variant', () => {
+  it('should be able to select style / size variant, and show out of stock label when size variant without stock was selected', () => {
+    cy.log('IT IS POSSIBLE TO SELECT STYLE VARIANT:');
     selectProductStyleVariant();
-    selectProductSizeVariant();
-  });
 
-  it('should show out of stock label when size variant without stock was selected', () => {
+    cy.log('IT IS POSSIBLE TO SELECT SIZE VARIANT:');
+    selectProductSizeVariant();
+
+    cy.log(
+      'OUT OF STOCK LABEL SHOWS WHEN SIZE VARIANT WITHOUT STOCK IS SELECTED:'
+    );
     selectProductSizeVariantWithoutStock();
   });
 }

@@ -11,6 +11,9 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  Output,
+  EventEmitter,
+  TemplateRef,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -50,6 +53,18 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected paginationIndex = 0;
 
   @Input()
+  isHeadingDisplayed? = true;
+
+  @Input()
+  headingTranslationKey?: string;
+
+  @Input()
+  isPaymentRenderBelow? = true;
+
+  @Input()
+  isPaymentInfoMessageEnabled? = true;
+
+  @Input()
   elementsPerPage?: number;
 
   @Input()
@@ -57,6 +72,21 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   @Input()
   explicitTermsAndConditions: boolean | null | undefined;
+
+  @Input()
+  onlyPaymentWrapperMode? = false;
+
+  @Input()
+  customPaymentTemplate?: TemplateRef<any>;
+
+  @Input()
+  hideOnlyOnePaymentProviderLabel? = false;
+
+  @Input()
+  forceRadioInputsView? = false;
+
+  @Input()
+  forceDefaultPaymentOptionInputSelection? = false;
 
   selectedPaymentId?: number;
 
@@ -67,6 +97,51 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   >;
 
   iconTypes = ICON_TYPE;
+
+  @Output() paymentChange = new EventEmitter<OpfActiveConfiguration>();
+
+  @Output() selectedPaymentProviderName = new EventEmitter<string>();
+
+  protected paginationModel: PaginationModel | undefined;
+
+  protected isStateEmpty(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ) {
+    return !state?.loading && !Boolean(state?.data?.value?.length);
+  }
+
+  protected handleDefaultPaymentOptionInputSelection(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ) {
+    const firstPaymentOption = state.data?.value?.[0];
+
+    if (this.isOnlyOnePaymentOptionAvailable) {
+      this.selectedPaymentId = firstPaymentOption?.id;
+      const providerName = firstPaymentOption?.displayName;
+      if (providerName) {
+        this.selectedPaymentProviderName.emit(providerName);
+      }
+    }
+
+    this.opfMetadataStoreService.updateOpfMetadata({
+      defaultSelectedPaymentOptionId: firstPaymentOption?.id,
+    });
+
+    if (
+      this.forceDefaultPaymentOptionInputSelection &&
+      !this.selectedPaymentId
+    ) {
+      this.selectedPaymentId = firstPaymentOption?.id;
+    }
+  }
+
+  protected checkIfOnlyOnePaymentOptionAvailable(
+    state: QueryState<OpfActiveConfigurationsResponse | undefined>
+  ): boolean {
+    return (
+      state.data?.value?.length === 1 && state.data?.page?.totalPages === 1
+    );
+  }
 
   getActiveConfigurations(): Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
@@ -81,21 +156,23 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
           (state: QueryState<OpfActiveConfigurationsResponse | undefined>) => {
             if (state.error) {
               this.displayError('loadActiveConfigurations');
-            } else if (!state.loading && !Boolean(state.data?.value?.length)) {
+            } else if (this.isStateEmpty(state)) {
               this.displayError('noActiveConfigurations');
             }
 
             if (state.data?.value && !state.error && !state.loading) {
-              this.isOnlyOnePaymentOptionAvailable =
-                state.data.value.length === 1;
+              this.paginationModel = this.getPaginationModel(state.data?.page);
 
-              if (this.isOnlyOnePaymentOptionAvailable) {
-                this.selectedPaymentId = state.data?.value[0]?.id;
+              if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
+                state.data.value = state.data.value.filter(
+                  (config) => config.id === this.selectedPaymentId
+                );
               }
 
-              this.opfMetadataStoreService.updateOpfMetadata({
-                defaultSelectedPaymentOptionId: state.data?.value[0]?.id,
-              });
+              this.isOnlyOnePaymentOptionAvailable =
+                this.checkIfOnlyOnePaymentOptionAvailable(state);
+
+              this.handleDefaultPaymentOptionInputSelection(state);
             }
           }
         )
@@ -118,7 +195,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   get isPaymentInfoMessageVisible(): boolean {
-    return Boolean(this.opfConfig?.opf?.paymentOption?.enableInfoMessage);
+    return Boolean(
+      this.opfConfig?.opf?.paymentOption?.enableInfoMessage &&
+        this.isPaymentInfoMessageEnabled
+    );
   }
 
   /**
@@ -166,19 +246,22 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
+    this.paymentChange.emit(payment);
   }
 
   getPaginationModel(
     pagination?: OpfActiveConfigurationsPagination
   ): PaginationModel {
-    const paginationModel: PaginationModel = {
+    if (pagination?.number !== undefined) {
+      this.paginationIndex = pagination.number - 1;
+    }
+
+    return {
       currentPage: this.paginationIndex,
       pageSize: pagination?.size,
       totalPages: pagination?.totalPages,
       totalResults: pagination?.totalElements,
     };
-
-    return paginationModel;
   }
 
   pageChange(page: number): void {

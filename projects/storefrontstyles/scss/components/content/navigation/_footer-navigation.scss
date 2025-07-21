@@ -3,9 +3,7 @@
   a {
     font-size: var(--cx-font-small, 0.8rem);
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-    }
+    @include type('8');
 
     &:hover {
       color: var(--cx-color-inverse);
@@ -36,10 +34,8 @@
       }
     }
 
-    @include forFeature('a11yImproveContrast') {
-      nav ul.childs > li > cx-generic-link > a:hover {
-        color: var(--cx-color-inverse);
-      }
+    nav ul.childs > li > cx-generic-link > a:hover {
+      color: var(--cx-color-inverse);
     }
     @include cx-highContrastTheme {
       background-color: var(--cx-color-background);

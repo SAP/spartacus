@@ -298,7 +298,7 @@ describe('CustomerListComponent', () => {
     const expectedOptions: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: expectedSize,
-      currentPage: 0,
+      page: 0,
     };
 
     fixture.detectChanges();
@@ -324,7 +324,7 @@ describe('CustomerListComponent', () => {
     ).toHaveBeenCalledWith({
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
-      currentPage: 0,
+      page: 0,
       sort: 'byNameAsc',
     });
   });
@@ -338,7 +338,7 @@ describe('CustomerListComponent', () => {
     const expectedOptions: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
-      currentPage: 0,
+      page: 0,
     };
 
     fixture.detectChanges();
@@ -362,7 +362,7 @@ describe('CustomerListComponent', () => {
     ).toHaveBeenCalledWith({
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
-      currentPage: 0,
+      page: 0,
       sort: 'byNameAsc',
       query: query.queryParams.query,
     });
@@ -464,7 +464,7 @@ describe('CustomerListComponent', () => {
       const expectedOptions: CustomerSearchOptions = {
         customerListId: mockCustomerListPage?.userGroups?.[0].uid,
         pageSize: config.asm?.customerList?.pageSize,
-        currentPage: 1,
+        page: 1,
         sort: 'byNameAsc',
       };
       component.loaded = true;
@@ -500,7 +500,7 @@ describe('CustomerListComponent', () => {
       const expectedOptions: CustomerSearchOptions = {
         customerListId: mockCustomerListPage?.userGroups?.[0].uid,
         pageSize: config.asm?.customerList?.pageSize,
-        currentPage: 0,
+        page: 0,
         sort: 'byNameAsc',
       };
       resultsPageController.next(mockCustomerSearchPage2);
@@ -589,7 +589,7 @@ describe('CustomerListComponent', () => {
     const expectedOptions: CustomerSearchOptions = {
       customerListId: component.selectedUserGroupId,
       pageSize: component.pageSize,
-      currentPage: 1,
+      page: 1,
       sort: component.sortCode,
       query: component.searchBox?.value,
     };
@@ -607,7 +607,7 @@ describe('CustomerListComponent', () => {
     const expectedOptions: CustomerSearchOptions = {
       customerListId: component.selectedUserGroupId,
       pageSize: component.pageSize,
-      currentPage: 1,
+      page: 1,
       sort: component.sortCode,
     };
     expect(

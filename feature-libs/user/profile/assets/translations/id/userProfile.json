@@ -27,6 +27,7 @@
     "termsAndConditions": "Syarat & Ketentuan",
     "signIn": "Saya sudah memiliki akun. Masuk",
     "register": "Daftar",
+    "furtherRegistration": "Lanjutkan",
     "confirmNewPassword": "Konfirmasi Kata Sandi Baru",
     "resetPassword": "Atur Ulang Kata Sandi",
     "createAccount": "Buat akun",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Kedua kata sandi harus sama",
     "titleRequired": "Gelar/sapaan wajib diisi.",
     "postRegisterMessage": "Silakan masuk dengan kredensial yang diberikan.",
-    "postRegisterSuccessMessage": "Pendaftaran Berhasil: Silakan masuk dengan kredensial yang diberikan"
+    "postRegisterSuccessMessage": "Akun Anda telah berhasil dibuat! Silakan masuk menggunakan kredensial yang diberikan",
+    "rateLimitForRegistrationMessage": "Batas pengiriman kode verifikasi telah mencapai batas maksimum. Harap tunggu selama {{seconds}} detik sebelum mencoba lagi atau gunakan alamat email yang lain.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Kode verifikasi telah dikirimkan ke {{target}}. Silakan masukkan kode tersebut.",
+      "sendRateLime": "dalam {{waitTime}} detik",
+      "resend": "Kirim Ulang",
+      "verificationCode": {
+        "label": "Kode Verifikasi",
+        "placeholder": "Masukkan Kode Verifikasi"
+      },
+      "back": "Kembali"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Atur ulang kata sandi",

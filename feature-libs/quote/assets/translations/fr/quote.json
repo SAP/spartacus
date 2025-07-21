@@ -176,10 +176,12 @@
       "newCart": "Nouveau panier",
       "quotes": "Devis",
       "download": "Télécharger la proposition",
+      "order": "Détails de la commande",
       "a11y": {
         "newCart": "Créez un nouveau panier vide et naviguez vers celui-ci.",
         "quotes": "Naviguez vers la liste des résultats de la recherche de devis.",
-        "download": "Commencer par télécharger une proposition de devis."
+        "download": "Commencer par télécharger une proposition de devis.",
+        "order": "Naviguer vers la commande associée à ce devis"
       }
     },
     "list": {

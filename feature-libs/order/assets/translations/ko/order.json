@@ -10,6 +10,8 @@
     "placed": "주문함",
     "placedBy": "주문자",
     "unit": "단위",
+    "quoteCode": "견적 ID {{id}}",
+    "quoteDetail": "견적 세부사항",
     "costCenter": "코스트 센터",
     "costCenterAndUnit": "코스트 센터/단위",
     "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "현재 장바구니가 새 품목으로 바뀌게 됩니다. 계속하시겠습니까?",
       "cancel": "취소",
       "continue": "계속"
+    }
+  },
+  "attachments": {
+    "button": "오더 첨부 파일 보기",
+    "dialog": {
+      "title": "첨부 파일",
+      "preview": "미리보기 파일",
+      "closeModal": "모달 닫기",
+      "error": "오류가 발생했습니다. 페이지를 새로 고치거나 나중에 다시 시도하십시오.",
+      "empty": "문서를 사용할 수 없습니다. 문서가 추가되면 여기에서 볼 수 있습니다.",
+      "downloadError": "문서를 가져오는 중 오류가 발생했습니다. 페이지를 새로 고치거나 나중에 다시 시도하십시오."
     }
   }
 }

@@ -15,7 +15,6 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
@@ -88,13 +87,14 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "dist/checkout/scheduled-replenishment/root"
       ],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/core": ["dist/core"],
       "@spartacus/order/assets": ["dist/order/assets"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
       "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
       "@spartacus/user/account/core": ["dist/user/account/core"],

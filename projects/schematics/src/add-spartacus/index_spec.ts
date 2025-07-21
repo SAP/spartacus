@@ -595,10 +595,13 @@ describe('add-spartacus', () => {
       );
 
       // test the `provideConfig` configs
-      expect(configurationModule).toContain(`provideConfig(layoutConfig)`);
+      expect(configurationModule).toContain(
+        `provideConfigFactory(layoutConfigFactory)`
+      );
       const provideConfigOccurrences =
-        configurationModule.match(/provideConfig\(layoutConfig\)/gm)?.length ??
-        -1;
+        configurationModule.match(
+          /provideConfigFactory\(layoutConfigFactory\)/gm
+        )?.length ?? -1;
       expect(provideConfigOccurrences).toBe(1);
 
       // test other Spartacus-related configs (i.e. NON `provideConfig` configs)

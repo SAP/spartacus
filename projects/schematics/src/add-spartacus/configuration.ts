@@ -15,6 +15,7 @@ import {
   FEATURES_CONFIG,
   I18N_CONFIG,
   OCC_CONFIG,
+  PROVIDE_CONFIG_FACTORY_FUNCTION,
   PROVIDE_CONFIG_FUNCTION,
   SITE_CONTEXT_CONFIG,
 } from '../shared/constants';
@@ -87,14 +88,14 @@ function addCommonConfiguration(
     import: [
       {
         moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
+        namedImports: [PROVIDE_CONFIG_FACTORY_FUNCTION],
       },
       {
         moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-        namedImports: ['layoutConfig'],
+        namedImports: ['layoutConfigFactory'],
       },
     ],
-    content: `provideConfig(layoutConfig)`,
+    content: `provideConfigFactory(layoutConfigFactory)`,
   });
   addModuleProvider(sourceFile, {
     import: [
