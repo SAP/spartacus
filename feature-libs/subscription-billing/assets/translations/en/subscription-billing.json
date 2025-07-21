@@ -33,9 +33,15 @@
     "cycle": "Current Billing Cycle: {{ cycle }}",
     "cancelSubscription": "Cancel Subscription",
     "extendSubscription": "Extend Subscription",
+    "reSubscribe": "Re-subscribe",
     "back": "View All Subscriptions",
     "withdrawal": "Withdraw",
-    "resubscribe": "Renew"
+    "resubscribe": "Renew",
+    "withdrawSubscription": "Withdraw Subscription"
+  },
+  "subscriptionCartItemList": {
+    "itemPriceHeader": "Item Price",
+    "dueNowHeader": "Due Now"
   },
   "cancelSubscription": {
     "cancel": "Cancel",
@@ -44,7 +50,7 @@
     "withdrawSuccess": "The service has been cancelled sucessfully",
     "reverseCancellationSuccess": "The service has been Withdraw sucessfully",
     "unknownError": "An unknown error occurred. Please contact support.",
-"askConfirm": "cancel your subscription?",
+    "askConfirm": "cancel your subscription?",
     "closeModal": "Close modal",
     "loseSubscription": "If you confirm, you will lose access to the subscription features on {{ date }}. You won't be charged again.",
     "changeMind": "If you change your mind, you can reactivate your subscription before the end of the billing period."

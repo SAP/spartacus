@@ -12,12 +12,17 @@ import { SubscriptionProductUsageChargeComponent } from './product/usage/subscri
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
 import { SubscriptionCancelComponent } from './cancel-subscrption/subscription-cancel.component';
 import { subscriptionCancelPopupConfig } from './subscription-billing-cancel-popup.config';
+import { SubscriptionCartDetailsComponent } from './cart/details/subscription-cart-details.component';
+import { SubscriptionCartItemListComponent } from './cart/item-list/subscription-cart-item-list.component';
 
 @NgModule({
   imports: [
     SubscriptionListComponent,
     SubscriptionProductPriceComponent,
-    SubscriptionProductUsageChargeComponent,SubscriptionCancelComponent,
+    SubscriptionCancelComponent,
+    SubscriptionProductUsageChargeComponent,
+    SubscriptionCartDetailsComponent,
+    SubscriptionCartItemListComponent,
   ],
   exports: [SubscriptionCancelComponent,
   ],
@@ -44,4 +49,5 @@ import { subscriptionCancelPopupConfig } from './subscription-billing-cancel-pop
     }),
   ],
 })
-export class SubscriptionBillingComponentsModule {}
+export class SubscriptionBillingComponentsModule {
+}

@@ -10,27 +10,22 @@
         {{ 'cartItems.item' | cxTranslate }}
       </th>
 
-      <ng-container *ngIf="displayItemPriceColumn">
-        <th role="columnheader" scope="col" class="cx-item-list-charges">
-          <ng-template
-            role="columnheader"
-            [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
-          ></ng-template>
+      @if (containsSubscriptions()) {
+        <th role="columnheader" scope="col" class="cx-item-list-price">
+          {{ 'subscriptionCartItemList.itemPriceHeader' | cxTranslate }}
         </th>
-      </ng-container>
-
-      <ng-template
-        role="columnheader"
-        [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
-        [cxOutletContext]="items"
-      ></ng-template>
+      }
       <th
         *cxFeature="'a11yQTY2Quantity'"
         role="columnheader"
         scope="col"
         class="cx-item-list-qty"
       >
-        {{ 'cartItems.quantityFull' | cxTranslate }}
+        @if (containsSubscriptions()) {
+          {{ 'cartItems.quantity' | cxTranslate | uppercase }}
+        }@else {
+          {{ 'cartItems.quantityFull' | cxTranslate }}
+        }
       </th>
       <th
         *cxFeature="'!a11yQTY2Quantity'"
@@ -58,19 +53,19 @@
     <ng-container *ngFor="let item of items; let i = index">
       <ng-container
         *ngIf="getControl(item) | async as control"
-        [class.is-changed]="control.get('quantity').disabled"
+        [class.is-changed]="control.get('quantity')?.disabled"
       >
         <tr
-          cx-cart-item-list-row
+          cx-subscription-cart-item-list-row
           role="row"
           class="cx-item-list-row"
-          [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
           [options]="options"
           [attr.aria-rowindex]="i + 1"
+          [subscriptionProducts]="containsSubscriptions()"
         ></tr>
       </ng-container>
     </ng-container>
@@ -79,6 +74,10 @@
 
 <ng-template #totalHeader>
   <th role="columnheader" scope="col" class="cx-item-list-total">
-    {{ 'cartItems.total' | cxTranslate }}
+    @if (containsSubscriptions()) {
+      {{ 'subscriptionCartItemList.dueNowHeader' | cxTranslate }}
+    } @else {
+      {{ 'cartItems.total' | cxTranslate }}
+    }
   </th>
 </ng-template>
