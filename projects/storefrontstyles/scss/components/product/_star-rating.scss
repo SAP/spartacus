@@ -1,9 +1,8 @@
 %cx-star-rating {
-  padding: 15px 0;
-  // TODO: (CXSPA-7208) Remove feature flag next major
-  @include forFeature('a11yVisibleFocusOverflows') {
-    padding: unset;
-    margin: 15px 0;
+  margin: 15px 0;
+
+  @include forFeature('reserveHorizontalSpaceStarRating') {
+    width: 9rem;
   }
 
   &:not([disabled='true']) {

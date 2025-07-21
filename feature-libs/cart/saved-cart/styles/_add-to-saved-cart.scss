@@ -10,11 +10,8 @@ cx-add-to-saved-cart {
       &:nth-child(n + 2) {
         position: relative;
         margin-inline-start: 1rem;
-
-        @include forFeature('a11yUseButtonsForBtnLinks') {
-          display: flex;
-          align-items: start;
-        }
+        display: flex;
+        align-items: start;
 
         &:before {
           content: '|' / '';

@@ -246,12 +246,10 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeAnonymousConsentsDialog();
 
-    const loginPage = waitForPage('/login', 'getLoginPage');
     cy.onMobile(() => {
       clickHamburger();
     });
-    cy.get('cx-login [role="link"]').click({ force: true });
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);
 

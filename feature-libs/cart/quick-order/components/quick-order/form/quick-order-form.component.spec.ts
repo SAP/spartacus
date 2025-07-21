@@ -224,18 +224,18 @@ describe('QuickOrderFormComponent', () => {
       expect(ev.preventDefault).toHaveBeenCalled();
     });
 
-    it('sets focus back to the input if results box was open', (done) => {
+    it('clears input and closes the suggestion box', () => {
       const inputSearch: HTMLElement = fixture.debugElement.query(
         By.css('input')
       ).nativeElement;
-
       component.open();
       expect(inputSearch).not.toBe(getFocusedElement());
+
       component.clear();
-      requestAnimationFrame(() => {
-        expect(inputSearch).toBe(getFocusedElement());
-        done();
-      });
+      expect(
+        document.body.classList.contains('quick-order-searchbox-is-active')
+      ).toBeFalsy();
+      expect(component.form.get('product')?.value).toBeNull();
     });
   });
 

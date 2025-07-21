@@ -1,17 +1,12 @@
 import { PaginationModel, SortModel } from '@spartacus/core';
+import { PricePlan, RenewalTerm, UsageCharge } from './subscription-product.model';
 
-export interface SubscriptionItem {
-  id?: string;
-  name?: string;
-  productCode?: string;
-  startDate?: string;
-  endDate?: string;
-  subscriptionStatus?: string;
-}
 export interface SubscriptionDetail {
   id?: string;
   name?: string;
   productCode?: string;
+  startAt?: string;
+  endAt?: string;
   subscriptionStatus?: string;
   startDate?: string;
   endDate?: string;
@@ -23,9 +18,15 @@ export interface SubscriptionDetail {
   effectiveDate?: string;
   ratePlanId?: string;
   withdrawnAt?: string;
+   contractFrequency?: string;
+  customerId?: string;
+  documentNumber?: string;
+  pricePlan?: PricePlan;
+  currentUsages?: UsageCharge[];
+  renewalTerm?: RenewalTerm;
 }
 export interface SubscriptionList {
-  subscriptions?: SubscriptionItem[];
+  subscriptions?: SubscriptionDetail[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }

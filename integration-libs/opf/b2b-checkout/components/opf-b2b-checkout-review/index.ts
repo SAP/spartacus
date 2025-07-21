@@ -1,0 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export * from './opf-b2b-checkout-review.component';
+export * from './opf-b2b-checkout-review.module';

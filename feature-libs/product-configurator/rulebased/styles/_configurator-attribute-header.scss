@@ -51,4 +51,9 @@
     padding-block-start: 5px;
     display: block;
   }
+
+  .cx-header-label-container {
+    display: flex;
+    flex-direction: column;
+  }
 }

@@ -63,6 +63,13 @@
             [content]="getOrderStatusCardContent(order.statusDisplay) | async"
           ></cx-card>
 
+          <ng-container
+            *ngTemplateOutlet="
+              showQuoteCode;
+              context: { sapQuoteCode: order.sapQuoteCode }
+            "
+          ></ng-container>
+
           <ng-template
             [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
             [cxOutletContext]="{ item: order, readonly: true }"
@@ -153,6 +160,13 @@
           [content]="getOrderStatusCardContent(order.statusDisplay) | async"
         ></cx-card>
 
+        <ng-container
+          *ngTemplateOutlet="
+            showQuoteCode;
+            context: { sapQuoteCode: order.sapQuoteCode }
+          "
+        ></ng-container>
+
         <ng-template
           [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
           [cxOutletContext]="{ item: order, readonly: true }"
@@ -168,3 +182,23 @@
     </div>
   </ng-container>
 </div>
+
+<ng-template #showQuoteCode let-quoteCode="sapQuoteCode">
+  <div
+    id="quote-container"
+    class="card-body cx-card-body"
+    *ngIf="orderConfig.showOrderQuoteLink && quoteCode"
+  >
+    <div class="cx-card-title">
+      {{ 'orderDetails.quoteCode' | cxTranslate: { id: quoteCode } }}
+    </div>
+    <a
+      [routerLink]="
+        { cxRoute: 'quoteDetails', params: { quoteId: quoteCode } } | cxUrl
+      "
+      class="cx-card-actions"
+    >
+      {{ 'orderDetails.quoteDetail' | cxTranslate }}
+    </a>
+  </div>
+</ng-template>

@@ -1,6 +1,11 @@
 %cx-product-carousel-item {
   .actions {
     width: 60%;
+
+    @include forFeature('productCarouselScrolling') {
+      width: 70%;
+    }
+
     margin: auto;
 
     > *:not(:first-child) {

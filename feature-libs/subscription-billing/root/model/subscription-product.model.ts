@@ -12,6 +12,11 @@ export enum UsageChargeType {
   TIER = 'each_respective_tier',
 }
 
+export interface RenewalTerm {
+  period?: number;
+  endAt?: string;
+}
+
 export interface SubscriptionTerm {
   renewalTerm?: TermType;
   minimumTerm?: TermType;
@@ -21,9 +26,7 @@ export interface SubscriptionTerm {
 }
 
 export interface BillingTime {
-  id?: string;
   name?: string;
-  description?: string;
   namePastTense?: string;
 }
 
@@ -36,7 +39,6 @@ export interface TermType {
 }
 
 export interface PricePlan {
-  name?: string;
   oneTimeCharges?: OneTimeCharge[];
   recurringCharges?: RecurringCharge[];
   perUnitUsageCharges?: PerUnitUsageCharge[];
@@ -53,23 +55,22 @@ export interface RecurringCharge {
   price?: Price;
 }
 
-export interface PerUnitUsageCharge {
+export interface UsageCharge{
   usageUnit?: UsageUnit;
   minBlocks?: number;
-  ratio?: string;
-  usageChargeType?: string;
   blockSize?: number;
-  includedQty?: number;
-  perUnitUsageChargeEntries?: UsageChargeEntry[];
   tierUsageChargeEntries?: TierUsageChargeEntry[];
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
 }
 
-export interface VolumeUsageCharge {
-  usageUnit?: UsageUnit;
-  tierUsageChargeEntries?: TierUsageChargeEntry[];
-  overageUsageChargeEntries?: OverageUsageChargeEntry[];
+export interface PerUnitUsageCharge extends UsageCharge{
+  includedQty?: number;
+  ratio?: string;
+  usageChargeType?: string;
+  perUnitUsageChargeEntries?: UsageChargeEntry[];
 }
+
+export interface VolumeUsageCharge extends UsageCharge {}
 
 export interface UsageChargeEntry {
   price?: Price;
@@ -86,7 +87,6 @@ export interface TierUsageChargeEntry extends UsageChargeEntry {
 }
 
 export interface UsageUnit {
-  id?: string;
   name?: string;
   namePlural?: string;
 }

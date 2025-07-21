@@ -20,10 +20,8 @@
       }
     }
 
-    @include forFeature('a11yVisibleFocusOverflows') {
-      .cx-remove-btn {
-        margin-top: 0.5rem;
-      }
+    .cx-remove-btn {
+      margin-top: 0.5rem;
     }
   }
 
