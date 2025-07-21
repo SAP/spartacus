@@ -93,6 +93,7 @@ if (!environment.production) {
             responseType: 'code',
         },
     },
+    redirectUri: 'https://spartacusstore.cg79x9wuu9-eccommerc1-s9-public.model-t.myhybris.cloud',
 }),
     provideConfig(<I18nConfig>{
       // we bring in static translations to be up and running soon right away
