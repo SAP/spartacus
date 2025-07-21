@@ -30,6 +30,11 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const isEnabled = this.authConfigService.sendAuthHeaderOnRevoke();
+    if (!isEnabled) {
+      return next.handle(request);
+    }
+
     const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
     return this.authStorageService.getToken().pipe(
       take(1),

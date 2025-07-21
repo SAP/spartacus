@@ -91,10 +91,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   }
 
   getValueDescriptionStyleClasses(): string {
-    if (this.featureConfigService?.isEnabled('a11yImproveContrast')) {
-      return 'cx-value-description santorini-updated';
-    } else {
-      return 'cx-value-description';
-    }
+    return 'cx-value-description santorini-updated';
   }
 }

@@ -27,6 +27,7 @@
     "termsAndConditions": "नियम & शर्तें",
     "signIn": "मेरा पहले से खाता है. साइन इन",
     "register": "पंजीकृत करें",
+    "furtherRegistration": "जारी रखें",
     "confirmNewPassword": "नए पासवर्ड की पुष्टि करें",
     "resetPassword": "पासवर्ड रीसेट करें",
     "createAccount": "एक खाता बनाएं",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "दोनों पासवर्ड मेल खाना चाहिए",
     "titleRequired": "शीर्षक आवश्यक है.",
     "postRegisterMessage": "कृपया प्रदत्त परिचय द्वारा लॉगिन करें.",
-    "postRegisterSuccessMessage": "सफल पंजीकरणः कृपया प्रदत्त परिचय द्वारा लॉगिन करें."
+    "postRegisterSuccessMessage": "आपका खाता सफलतापूर्वक बनाया गया! कृपया प्रदत्त क्रेडेंशियल के साथ लॉग इन करें",
+    "rateLimitForRegistrationMessage": "आपने सत्यापन कोड भेजने की सीमा प्राप्त कर ली है. पुनः कोशिश करने के लिए कृपया {{seconds}} सेकंड प्रतीक्षा करें या अलग ईमेल पते का उपयोग करें.",
+    "verificationTokenForm": {
+      "createVerificationToken": "{{target}} को सत्यापन कोड भेजा गया. कृपया कोड दर्ज करें.",
+      "sendRateLime": "{{waitTime}} सेकंड में",
+      "resend": "पुनः भेजें",
+      "verificationCode": {
+        "label": "सत्यापन कोड",
+        "placeholder": "सत्यापन कोड दाखिल करें"
+      },
+      "back": "वापस जाएं"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "पासवर्ड रीसेट करें",

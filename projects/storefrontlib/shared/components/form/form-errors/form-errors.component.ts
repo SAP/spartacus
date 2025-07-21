@@ -9,18 +9,14 @@ import {
   ChangeDetectorRef,
   Component,
   DoCheck,
+  ElementRef,
+  HostAttributeToken,
   HostBinding,
   Input,
   inject,
-  HostAttributeToken,
-  ElementRef,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import {
-  FeatureConfigService,
-  isObject,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { FeatureConfigService, isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -47,9 +43,7 @@ export class FormErrorsComponent implements DoCheck {
     optional: true,
   });
 
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
-    useFeatureStyles('a11yFormErrorMuteIcon');
-  }
+  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
 
   _control: UntypedFormControl | AbstractControl;
 
@@ -59,15 +53,10 @@ export class FormErrorsComponent implements DoCheck {
    */
   errorsDetails$: Observable<Array<[string, string | boolean]>>;
 
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   /**
    * Prefix prepended to the translation key.
    */
-  @Input() prefix = this.featureConfigService.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? 'formErrors.labeled'
-    : 'formErrors';
+  @Input() prefix = 'formErrors.labeled';
 
   /**
    * Fallback prefix prepended to the translation key.

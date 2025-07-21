@@ -2,12 +2,9 @@
   outline-style: solid;
   outline-color: var(--cx-color-visual-focus);
   outline-width: var(--cx-visual-focus-width, 2px);
-  outline-offset: 4px;
+  outline-offset: 2px;
   transition: none;
-  @include forFeature('a11yImproveContrast') {
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px var(--cx-color-inverse);
-  }
+  box-shadow: 0 0 0 2px var(--cx-color-inverse);
 
   @include media-breakpoint-down(md) {
     outline-offset: -2px;

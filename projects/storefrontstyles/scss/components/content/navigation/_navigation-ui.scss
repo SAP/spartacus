@@ -93,13 +93,7 @@
       color: currentColor;
 
       &:hover {
-        color: var(--cx-color-primary);
-      }
-
-      @include forFeature('a11yImproveContrast') {
-        &:hover {
-          color: var(--cx-color-text);
-        }
+        color: var(--cx-color-text);
       }
 
       &:focus {
@@ -117,16 +111,14 @@
       }
     }
 
-    @include forFeature('a11yImproveContrast') {
-      // arrow down caret to stay white on desktop
-      // adding outline to convey button's definition
-      button:hover {
-        color: var(--cx-color-inverse);
-        outline: 1px solid var(--cx-color-inverse);
-      }
-      cx-generic-link:hover {
-        color: var(--cx-color-inverse);
-      }
+    // arrow down caret to stay white on desktop
+    // adding outline to convey button's definition
+    button:hover {
+      color: var(--cx-color-inverse);
+      outline: 1px solid var(--cx-color-inverse);
+    }
+    cx-generic-link:hover {
+      color: var(--cx-color-inverse);
     }
 
     @include media-breakpoint-down(md) {
@@ -159,12 +151,10 @@
       cx-generic-link a {
         padding: 1rem;
 
-        @include forFeature('a11yImproveContrast') {
-          // adjust style for mobile menu, has diff background colour
-          &:hover {
-            color: var(--cx-color-primary);
-            outline: 0;
-          }
+        // adjust style for mobile menu, has diff background colour
+        &:hover {
+          color: var(--cx-color-primary);
+          outline: 0;
         }
       }
     }
@@ -175,19 +165,13 @@
         // top level headings
         > span,
         > button {
-          padding-top: 20px;
-          padding-bottom: 22px;
-          padding-inline-start: 0;
-          padding-inline-end: 0;
-          @include forFeature('a11yImproveContrast') {
-            margin-top: 2px;
-            margin-bottom: 2px;
-            margin-inline-start: 5px;
-            padding-top: 18px;
-            padding-bottom: 20px;
-            padding-inline-end: 8px;
-            padding-inline-start: 8px;
-          }
+          margin-top: 2px;
+          margin-bottom: 2px;
+          margin-inline-start: 5px;
+          padding-top: 18px;
+          padding-bottom: 20px;
+          padding-inline-end: 8px;
+          padding-inline-start: 8px;
         }
         // first level headings will be bold in desktop
         ul > li > span,
@@ -210,12 +194,12 @@
 @include media-breakpoint-up(lg) {
   cx-navigation-ui nav {
     li {
-      //padding-inline-end: 15px;
-
       > cx-generic-link > a {
-        padding-top: 20px;
-        padding-bottom: 22px;
+        padding-top: 10px;
+        padding-bottom: 12px;
         padding-inline-start: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
     }
     li > div > cx-generic-link {
@@ -227,21 +211,12 @@
         padding: 0;
       }
     }
-    @include forFeature('a11yImproveContrast') {
-      li > cx-generic-link > a {
-        padding-top: 10px;
-        padding-bottom: 12px;
-        padding-inline-start: 0;
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-      ul.childs > li > button:hover {
-        color: var(--cx-color-text);
-      }
-      ul.childs > li > cx-generic-link > a:hover {
-        color: var(--cx-color-text);
-        text-decoration: underline;
-      }
+    ul.childs > li > button:hover {
+      color: var(--cx-color-text);
+    }
+    ul.childs > li > cx-generic-link > a:hover {
+      color: var(--cx-color-text);
+      text-decoration: underline;
     }
   }
 }
@@ -254,13 +229,9 @@
   }
   @include media-breakpoint-up(lg) {
     cx-icon {
-      padding-inline-start: 7px;
+      padding-inline-start: 0;
       &:before {
         font-size: 1rem;
-      }
-
-      @include forFeature('a11yImproveContrast') {
-        padding-inline-start: 0;
       }
     }
   }
@@ -279,10 +250,8 @@
         }
       }
 
-      @include forFeature('a11yImproveContrast') {
-        cx-generic-link:hover {
-          color: var(--cx-color-text);
-        }
+      cx-generic-link:hover {
+        color: var(--cx-color-text);
       }
     }
   }
@@ -298,11 +267,9 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    @include forFeature('a11yImproveContrast') {
-      a:hover {
-        color: var(--cx-color-inverse);
-        text-decoration: underline;
-      }
+    a:hover {
+      color: var(--cx-color-inverse);
+      text-decoration: underline;
     }
   }
 }
@@ -459,12 +426,10 @@
     &.accNavComponent {
       background-color: transparent;
 
-      @include forFeature('a11yImproveContrast') {
-        // my account button has text, this fixes white hover on desktop
-        button:hover {
-          color: var(--cx-color-primary);
-          outline: 0;
-        }
+      // my account button has text, this fixes white hover on desktop
+      button:hover {
+        color: var(--cx-color-primary);
+        outline: 0;
       }
 
       nav {

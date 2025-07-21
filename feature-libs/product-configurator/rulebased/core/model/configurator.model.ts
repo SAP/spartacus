@@ -42,6 +42,7 @@ export namespace Configurator {
     key?: string;
     validationType?: string;
     visible?: boolean;
+    domainOnDemand?: boolean;
   }
 
   export interface Value {

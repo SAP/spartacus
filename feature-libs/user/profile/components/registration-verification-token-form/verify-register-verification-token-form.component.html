@@ -83,17 +83,10 @@
         {{ 'register.passwordMinRequirements' | cxTranslate }}
       </p>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'register.password.label' | cxTranslate,
         }"
-        [control]="registerForm.get('password')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('password')"
       ></cx-form-errors>
     </label>
@@ -117,17 +110,10 @@
         cxPasswordVisibilitySwitch
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         [translationParams]="{
           label: 'register.confirmPassword.label' | cxTranslate,
         }"
-        [control]="registerForm.get('passwordconf')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="registerForm.get('passwordconf')"
       ></cx-form-errors>
     </label>

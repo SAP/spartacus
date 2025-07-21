@@ -8,7 +8,12 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
+import {
+  ConverterService,
+  OccConfig,
+  OccEndpoints,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
@@ -31,6 +36,7 @@ import {
 import { take } from 'rxjs/operators';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { OccQuoteAdapter } from './occ-quote.adapter';
+import { OrderConfig } from '@spartacus/order/root';
 
 const userId = '111111';
 const cartId = '222222';
@@ -106,10 +112,17 @@ const mockQuoteAttachment = (): File => {
   return blob as File;
 };
 
+const MockOrderConfig = {
+  get showOrderQuoteLink() {
+    return false;
+  },
+};
+
 describe(`OccQuoteAdapter`, () => {
   let classUnderTest: OccQuoteAdapter;
   let httpTestingController: HttpTestingController;
   let converterService: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -117,6 +130,7 @@ describe(`OccQuoteAdapter`, () => {
       providers: [
         OccQuoteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OrderConfig, useValue: MockOrderConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -124,10 +138,12 @@ describe(`OccQuoteAdapter`, () => {
     classUnderTest = TestBed.inject(OccQuoteAdapter);
     httpTestingController = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -182,7 +198,37 @@ describe(`OccQuoteAdapter`, () => {
     );
   });
 
+  it('getQuote should return quote details based on provided quoteCode without orderCode', (done) => {
+    classUnderTest
+      .getQuote(userId, mockQuote.code)
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual(mockQuote);
+        done();
+      });
+
+    const mockReq = httpTestingController.expectOne((req) =>
+      isQuoteReq(req, 'GET')
+    );
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('getQuote', {
+      urlParams: { userId, quoteCode: mockQuote.code },
+    });
+    expect(occEnpointsService.buildUrl).not.toHaveBeenCalledWith(
+      'getOrderCode',
+      {
+        urlParams: { userId, quoteCode: mockQuote.code },
+      }
+    );
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(mockQuote);
+    expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
+  });
+
   it('getQuote should return quote details based on provided quoteCode', (done) => {
+    spyOnProperty(MockOrderConfig, 'showOrderQuoteLink', 'get').and.returnValue(
+      true
+    );
     classUnderTest
       .getQuote(userId, mockQuote.code)
       .pipe(take(1))
@@ -199,6 +245,12 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
     expect(converterService.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('getQuote', {
+      urlParams: { userId, quoteCode: mockQuote.code },
+    });
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('getOrderCode', {
+      urlParams: { userId, quoteCode: mockQuote.code },
+    });
   });
 
   it('getQuote should call httpErrorHandler on error', (done) => {

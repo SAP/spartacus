@@ -244,6 +244,9 @@ export const SPARTACUS_OPF_CHECKOUT = `@spartacus/opf/checkout`;
 export const SPARTACUS_OPF_CHECKOUT_ROOT = `@spartacus/opf/checkout/root`;
 export const SPARTACUS_OPF_CHECKOUT_ASSETS = `@spartacus/opf/checkout/assets`;
 
+export const SPARTACUS_OPF_B2B_CHECKOUT = `@spartacus/opf/b2b-checkout`;
+export const SPARTACUS_OPF_B2B_CHECKOUT_ROOT = `@spartacus/opf/b2b-checkout/root`;
+
 export const SPARTACUS_OPF_PAYMENT = `@spartacus/opf/payment`;
 export const SPARTACUS_OPF_PAYMENT_ROOT = `@spartacus/opf/payment/root`;
 export const SPARTACUS_OPF_PAYMENT_ASSETS = `@spartacus/opf/payment/assets`;
@@ -378,6 +381,7 @@ export const OMF_FEATURE_NAME = 'OMF';
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
 export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
+export const OPF_B2B_CHECKOUT_FEATURE_NAME = 'OPF-B2B-Checkout';
 export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
 export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
 export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
@@ -396,6 +400,11 @@ export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
 export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
+
+export const SPARTACUS_PUNCHOUT = `@spartacus/punchout`;
+export const SPARTACUS_PUNCHOUT_ROOT = `@spartacus/punchout/root`;
+export const SPARTACUS_PUNCHOUT_ASSETS = `@spartacus/punchout/assets`;
+export const PUNCHOUT_FEATURE_NAME = 'Punchout';
 
 export const SPARTACUS_BOOTSTRAP_FUNCTIONS =
   '@spartacus/styles/vendor/bootstrap/scss/functions';

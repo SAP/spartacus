@@ -72,7 +72,8 @@
       "cancelConfiguration": "Отменить конфигурацию",
       "cancelConfigurationMobile": "Отменить",
       "filterOverview": "Фильтр",
-      "filterOverviewWithCount": "Фильтр ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Фильтр ({{numAppliedFilters}})",
+      "showOptions": "Показать опции"
     },
     "icon": {
       "groupComplete": "Завершено",
@@ -196,8 +197,8 @@
       "iconIncomplete": "Группа содержит обязательные атрибуты без выбранных значений.",
       "iconComplete": "Группа завершена.",
       "iconSubGroup": "Группа имеет подгруппу.",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "Переход к следующей группе: {{ group }}",
+      "previous": "Переход к предыдущей группе: {{ group }}",
       "showMoreProductInfo": "Просмотрите больше информации о продукте {{ product }} или перейдите к конфигурации.",
       "showLessProductInfo": "Просмотрите меньше информации о продукте {{ product }} или перейдите к конфигурации.",
       "productName": "Имя продукта",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Обзор конфигурации фильтров по группе {{groupName}}",
       "closeConflictSolverModal": "Закрыть модуль средства устранения конфликтов",
       "closeRestartDialog": "Закрыть диалоговое окно \"Незавершенная конфигурация\" и вернуться на страницу сведений продукта",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Щелкните, чтобы просмотреть описание значения {{ value }}",
+      "showOptionsForAttribute": "Показать опции для атрибута {{ attribute }}"
     },
     "variantCarousel": {
       "title": "Предварительно настроенные версии"

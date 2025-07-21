@@ -5,26 +5,19 @@
  */
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Cart,
   CART_NORMALIZER,
   SaveCartResult,
 } from '@spartacus/cart/base/root';
 import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import {
-  ConverterService,
-  FeatureConfigService,
-  Occ,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
-  private featureConfigService = inject(FeatureConfigService);
-
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -64,13 +57,9 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     saveCartName: string
   ): Observable<Cart> {
     let httpParams: HttpParams = new HttpParams();
-    if (
-      this.featureConfigService?.isEnabled(
-        'occCartNameAndDescriptionInHttpRequestBody'
-      )
-    ) {
-      httpParams = httpParams.set('name', saveCartName);
-    }
+
+    httpParams = httpParams.set('name', saveCartName);
+
     const endpoint = this.getCloneSavedCartEndpoint(
       userId,
       cartId,

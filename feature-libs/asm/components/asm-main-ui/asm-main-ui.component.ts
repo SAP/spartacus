@@ -8,22 +8,27 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
+import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import {
   AsmDeepLinkParameters,
   AsmUi,
+  CLOSE_DIALOG_REASON,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  HttpResponseStatus,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -33,7 +38,13 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, Subscription, combineLatest, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -44,7 +55,6 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -64,6 +74,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+  forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -83,6 +94,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
+  isAsmCustomer360Configured: boolean | undefined = false;
+  isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
+  protected featureModules = inject(FeatureModulesService);
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -95,6 +110,15 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isAsmCustomer360Configured =
+      this.featureModules.isConfigured('asmCustomer360');
+    if (this.isAsmCustomer360Configured) {
+      // trigger lazy loading of the Customer 360 feature:
+      this.featureModules.resolveFeature('asmCustomer360').subscribe(() => {
+        this.isAsmCustomer360Loaded$.next(true);
+      });
+    }
+
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(
@@ -125,6 +149,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
+    this.asmService.getAsmUiState().subscribe((state) => {
+      if (state.status === this.forbiddenResponseStatus) {
+        this.logout();
+        this.hideUi();
+        this.asmService.updateAsmUiState({ status: undefined });
+      }
+    });
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
@@ -159,11 +190,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                   take(1)
                 )
                 .subscribe((customer) => {
-                  setTimeout(() => {
-                    this.showC360Dialog(customer);
-                  }, 500);
+                  this.showC360Dialog(customer);
                 });
             }
+          }
+          if (result === CLOSE_DIALOG_REASON.FORBIDDEN) {
+            this.logout();
+            this.hideUi();
           }
         })
     );
@@ -171,12 +204,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   protected showC360Dialog(customer: User | undefined): void {
-    const data = { customer: customer };
-    this.launchDialogService.openDialogAndSubscribe(
-      LAUNCH_CALLER.ASM_CUSTOMER_360,
-      this.element,
-      data
-    );
+    this.isAsmCustomer360Loaded$
+      .pipe(filter((isReady) => Boolean(isReady)))
+      .subscribe(() => {
+        const data = { customer: customer };
+        this.launchDialogService.openDialogAndSubscribe(
+          LAUNCH_CALLER.ASM_CUSTOMER_360,
+          this.element,
+          data
+        );
+      });
 
     this.subscription.add(
       this.launchDialogService.dialogClose

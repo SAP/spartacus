@@ -72,7 +72,8 @@
       "cancelConfiguration": "Konfiguration abbrechen",
       "cancelConfigurationMobile": "Abbrechen",
       "filterOverview": "Filter",
-      "filterOverviewWithCount": "Filter ({{numAppliedFilters}})"
+      "filterOverviewWithCount": "Filter ({{numAppliedFilters}})",
+      "showOptions": "Optionen anzeigen"
     },
     "icon": {
       "groupComplete": "Vollständig",
@@ -196,8 +197,8 @@
       "iconIncomplete": "Gruppe hat erforderliche Attribute ohne ausgewählte Werte.",
       "iconComplete": "Gruppe ist vollständig.",
       "iconSubGroup": "Gruppe hat eine Untergruppe.",
-      "next": "Navigate to next group: {{ group }}",
-      "previous": "Navigate to previous group: {{ group }}",
+      "next": "Navigieren Sie zur nächsten Gruppe: {{ group }}",
+      "previous": "Navigieren Sie zur vorigen Gruppe: {{ group }}",
       "showMoreProductInfo": "Zeigen Sie mehr Informationen für das Produkt {{ product }} an, oder fahren Sie mit der Konfiguration fort.",
       "showLessProductInfo": "Zeigen Sie weniger Informationen für das Produkt {{ product }} an, oder fahren Sie mit der Konfiguration fort.",
       "productName": "Produktname",
@@ -232,7 +233,8 @@
       "filterOverviewByGroup": "Konfigurationsübersicht nach Gruppe {{groupName}} filtern",
       "closeConflictSolverModal": "Modalen Dialog zum Auflösen von Konflikten schließen",
       "closeRestartDialog": "Dialog \"Unbeendete Konfiguration\" schließen und zur Seite der Produktdetails zurückkehren",
-      "description": "Click to see a description for value {{ value }}"
+      "description": "Klicken, um eine Beschreibung für Wert {{ value }} anzuzeigen",
+      "showOptionsForAttribute": "Optionen für Attribut {{ attribute }} anzeigen"
     },
     "variantCarousel": {
       "title": "Vorkonfigurierte Versionen"

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/opps",
-  "version": "2211.38.1",
+  "version": "2211.42.0-3",
   "description": "OPPS (Omni-Channel Personalization and Promotions Services) library for Spartacus",
   "keywords": [
     "spartacus",
@@ -12,8 +12,8 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/opps",
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "scripts": {
@@ -29,9 +29,9 @@
     "@angular/common": "^19.0.3",
     "@angular/core": "^19.0.3",
     "@angular/router": "^19.0.3",
-    "@spartacus/core": "2211.38.1",
-    "@spartacus/schematics": "2211.38.1",
-    "@spartacus/storefront": "2211.38.1",
+    "@spartacus/core": "2211.42.0-3",
+    "@spartacus/schematics": "2211.42.0-3",
+    "@spartacus/storefront": "2211.42.0-3",
     "rxjs": "^7.8.0"
   },
   "engines": {
