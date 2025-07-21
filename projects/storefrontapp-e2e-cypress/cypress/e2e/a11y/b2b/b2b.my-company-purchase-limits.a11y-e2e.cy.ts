@@ -27,6 +27,7 @@ describe(
 
     it('list page loaded', () => {
       cy.get(rowCellSelector);
+      cy.get('Selector-to-cause-cypress-failure');
       cy.get('main').a11yRunContinuumTest();
     });
 

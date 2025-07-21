@@ -205,6 +205,7 @@ jobs:
           name: a11y-failure-screenshots-${{ matrix.containers }}
           path: projects/storefrontapp-e2e-cypress/cypress/screenshots
           if-no-files-found: ignore
+          compression-level: 0
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Result
@@ -229,3 +230,62 @@ jobs:
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' ||
           needs.a11y_e2e_tests.result == 'failure' || needs.a11y_e2e_tests.result == 'cancelled'
+
+  post_a11y_screenshots:
+    needs: [a11y_e2e_tests]
+    name: MC - Post A11Y Screenshots
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.a11y_e2e_tests.result == 'failure' && github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all a11y screenshot artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: a11y-failure-screenshots-*
+          path: ./screenshots
+          merge-multiple: true
+
+      - name: Generate and post A11Y comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            try {
+              // Run the simplified script to generate comment content
+              const output = execSync('node ci-scripts/post-a11y-screenshots.js', {
+                encoding: 'utf8',
+                cwd: process.cwd()
+              });
+
+              // Extract the comment body from the script output
+              const lines = output.split('\n');
+              const startIndex = lines.findIndex(line => line === 'COMMENT_BODY<<EOF');
+              const endIndex = lines.findIndex(line => line === 'EOF');
+
+              if (startIndex === -1 || endIndex === -1) {
+                console.log('No comment body generated - no screenshots found');
+                return;
+              }
+
+              const commentBody = lines.slice(startIndex + 1, endIndex).join('\n');
+
+              // Post the comment
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentBody
+              });
+
+              console.log('Posted A11Y screenshot comment successfully');
+
+            } catch (error) {
+              if (error.stdout && error.stdout.includes('No screenshots found')) {
+                console.log('No screenshots found - skipping comment');
+              } else {
+                console.error('Error generating A11Y comment:', error.message);
+                throw error;
+              }
+            }
