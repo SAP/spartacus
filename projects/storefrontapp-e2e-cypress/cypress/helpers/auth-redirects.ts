@@ -145,7 +145,7 @@ export function authFlowTests(name: string, config: any) {
     const useKyma = config?.authentication?.client_id === 'client4kyma';
 
     testRedirectBackAfterLogin(useKyma);
-    // testRedirectAfterForcedLogin(useKyma);
+    testRedirectAfterForcedLogin(useKyma);
   });
 }
 
