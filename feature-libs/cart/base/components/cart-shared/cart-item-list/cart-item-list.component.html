@@ -79,6 +79,17 @@
 
 <ng-template #totalHeader>
   <th role="columnheader" scope="col" class="cx-item-list-total">
-    {{ 'cartItems.total' | cxTranslate }}
+    <span *ngIf="outlet?.context$ | async as outletContext; else dueNowHeader">
+      {{ 'cartItems.total' | cxTranslate }}
+    </span>
   </th>
+</ng-template>
+
+<ng-template #dueNowHeader>
+  <span *ngIf="displayItemPriceColumn">
+    {{ 'cartItems.dueNow' | cxTranslate }}
+  </span>
+  <span *ngIf="!displayItemPriceColumn">
+    {{ 'cartItems.total' | cxTranslate }}
+  </span>
 </ng-template>

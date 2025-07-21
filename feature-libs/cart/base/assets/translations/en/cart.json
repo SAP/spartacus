@@ -13,6 +13,7 @@
     "quantityFull": "Quantity",
     "quantityTitle": "The quantity represents the total number of this item in your cart.",
     "total": "Total",
+    "dueNow": "Due now",
     "actions": "Actions",
     "cartTotal": "Cart total ({{count}} item)",
     "cartTotal_other": "Cart total ({{count}} items)",
