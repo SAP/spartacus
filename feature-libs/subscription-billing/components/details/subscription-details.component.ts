@@ -1,28 +1,38 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   EventService,
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nModule,
   RoutingService,
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
-import { Card, CardModule } from '@spartacus/storefront';
+import { Card, CardModule, LaunchDialogService } from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
   SubscriptionStatus,
+  withdrawal,
+  CancelSubscriptionFacade,
+  CancelPopupEvent,
+  CancelData,
 } from '@spartacus/subscription-billing/root';
 import {
+  catchError,
   combineLatest,
   filter,
   map,
   Observable,
   Subscription,
+  switchMap,
   take,
   tap,
+  throwError,
 } from 'rxjs';
 
 @Component({
@@ -36,8 +46,21 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscription = new Subscription();
   protected routingService = inject(RoutingService);
   protected translation = inject(TranslationService);
+
+  protected subscriptionCancelFacade = inject(CancelSubscriptionFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
+
+  //comented for now
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
+
+
+//Added for check
+  // subscriptionDetails$: Observable<SubscriptionDetail> = this.subscriptionFacade.getSubscriptionByCode().pipe(
+  //   map((data) => data ?? this.fallbackSubscription)
+  // );
+//Added for check
   getSubscriptionCodeFromRoute(): Observable<string | undefined> {
     return this.routingService.getRouterState().pipe(
       map((route) => {
@@ -115,7 +138,168 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   isSubscriptionActive(status: string | undefined) {
     return status?.toUpperCase() === SubscriptionStatus.active ? true : false;
   }
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+
+
+
+
+
+  shouldShowWithdrawal(subscription: any): boolean {
+    const isActive =
+      subscription.subscriptionStatus?.toUpperCase() === 'ACTIVE';
+    const endDate = subscription.withdrawalPeriodEndAt;
+    return isActive && !!endDate && new Date(endDate) > new Date();
   }
+
+  withdrawal(): void {
+    combineLatest([
+      this.getSubscriptionCodeFromRoute(),
+      this.subscriptionDetails$,
+    ])
+      .pipe(
+        take(1),
+        switchMap(([code, subscription]) => {
+          // if (!code || !subscription) {
+          //   this.globalMessageService.add(
+          //     { key: 'cancelSubscription.missingCode' },
+          //     GlobalMessageType.MSG_TYPE_ERROR
+          //   );
+          //   return throwError(() => new Error('Missing subscription code'));
+          // }
+
+          const payload: withdrawal = {
+            subscriptionId: subscription?.id,
+            version: subscription?.version,
+            withdrawnAt: subscription?.withdrawnAt,
+            withdrawalPeriodEndDate: subscription?.withdrawalPeriodEndDate,
+          };
+
+          console.log('[withdrawal] Using payload:', payload);
+
+          return this.subscriptionCancelFacade.withdrawal(payload, code).pipe(
+            catchError((err) => {
+              this.onError();
+              return throwError(() => err);
+            })
+          );
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.globalMessageService.add(
+            { key: 'cancelSubscription.withdrawSuccess' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        },
+        error: () => this.onError(),
+      });
+  }
+
+  onResubscribe(): void {
+    combineLatest([
+      this.getSubscriptionCodeFromRoute(),
+      // this.subscriptionDetails$,
+    ])
+      .pipe(
+        take(1),
+        switchMap(([code]) => {
+          // if (!code || !subscription) {
+          //   this.globalMessageService.add(
+          //     { key: 'cancelSubscription.missingCode' },
+          //     GlobalMessageType.MSG_TYPE_ERROR
+          //   );
+          //   return throwError(() => new Error('Missing subscription code'));
+          // }
+
+          // const payload: reverseCancellation = {
+          //   subscriptionId: subscription?.id,
+          //   version: subscription?.version,
+          // };
+
+          return this.subscriptionCancelFacade.reverseCancellation(code).pipe(
+            catchError((err) => {
+              this.onError();
+              return throwError(() => err);
+            })
+          );
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.globalMessageService.add(
+            { key: 'cancelSubscription.reverseCancellationSuccess' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+          this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
+        },
+        error: () => this.onError(),
+      });
+  }
+  protected onError(): void {
+    this.globalMessageService.add(
+      { key: 'cancelSubscription.unknownError' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  }
+
+  //Popup
+
+protected launchDialogService = inject(LaunchDialogService);
+protected featureConfigService = inject(FeatureConfigService);
+
+@ViewChild('cancelTriggerEl', { static: false })
+cancelTriggerEl?: ElementRef;
+openCancelPopup(): void {
+  const newEvent = new CancelPopupEvent();
+
+  if (
+    this.featureConfigService.isEnabled('a11yDialogTriggerRefocus') &&
+    this.cancelTriggerEl
+  ) {
+    newEvent.triggerElementRef = this.cancelTriggerEl;
+  }
+
+  combineLatest([
+    this.getSubscriptionCodeFromRoute(),
+    this.subscriptionDetails$,
+  ])
+    .pipe(
+      take(1),
+      switchMap(([code, subscription]) => {
+        if (!code || !subscription) return [];
+        return this.subscriptionCancelFacade
+          .cancellationSubscriptionEffectiveDate(code)
+          .pipe(
+            catchError(() =>
+              [this.fallbackCancelData]
+            ),
+            map((cancelData) => ({
+              subscription,
+              cancelData: cancelData,
+              code
+            }))
+          );
+      })
+    )
+    .subscribe(({ subscription, cancelData,code }) => {
+      newEvent.data = {
+        ...subscription,
+        cancelData,
+        code
+      };
+
+      this.eventService.dispatch(newEvent);
+    });
+}
+
+// fallback
+readonly fallbackCancelData: CancelData = {
+  // validTillDate: '31-01-2020',
+  // endDate: '2024-08-06T12:47:28+05:30',
+  subscriptionEndAt:'2026-02-01T05:00:00+0000'
+};
+
+
+ngOnDestroy(): void {
+  this.subscription?.unsubscribe();
+}
 }

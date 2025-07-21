@@ -16,6 +16,10 @@ export const defaultSubscriptionBillingRoutingConfig: RoutingConfig = {
         paths: ['my-account/subscription/:susbcriptionId'],
         paramsMapping: { susbcriptionId: 'susbcriptionId' },
       },
+      cancelSubscription: {
+        paths: ['my-account/cancelsubscription/:subscriptionId'],
+        paramsMapping: { subscriptionId: 'subscriptionId' },
+      },
     },
   },
 };

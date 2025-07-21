@@ -1,0 +1,36 @@
+%cx-subscription-cancel {
+  .modal-dialog, cx-claim-dialog .cx-coupon-dialog {
+    pointer-events: auto;
+}
+  .cancel-card {
+    margin-top: 2rem;
+      background-color: var(--cx-color-background);
+      min-height: 256px;
+      border: 1px solid #D3D6DB;
+      border-radius: 10px;
+      padding: 1rem;
+
+    .cx-other-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    
+      button {
+        flex: 1;
+        font-weight: normal;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      cx-card .cx-card {
+        min-height: auto;
+        padding: 0.75rem;
+      }
+
+      .cx-other-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  }
+}

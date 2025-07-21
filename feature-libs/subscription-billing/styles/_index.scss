@@ -3,9 +3,11 @@
 @import './product/subscription-product-usage-charge';
 @import './list/subscription-list';
 @import './details/subscription-details';
+@import './cancel/subscription-cancel';
+
 $subscription-billing-components-allowlist: cx-subscription-product-price,
   cx-subscription-product-usage-charge, cx-subscription-list,
-  cx-subscription-details !default;
+  cx-subscription-details,cx-subscription-cancel !default;
 
 $skipComponentStyles: () !default;
 

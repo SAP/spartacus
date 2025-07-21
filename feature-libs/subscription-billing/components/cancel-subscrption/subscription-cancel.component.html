@@ -1,0 +1,62 @@
+<div
+  #modalDialog
+  class="modal-dialog modal-dialog-centered cx-clear-cart-dialog"
+  role="dialog"
+  [cxFocus]="focusConfig"
+  (esc)="onDialogClose('Escape pressed')"
+  aria-labelledby="dialogTitle"
+>
+  <div class="cx-modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
+        <h4>
+          <strong>{{ 'cancelSubscription.askConfirm' | cxTranslate }}</strong>
+        </h4>
+      </div>
+      <button
+        type="button"
+        class="close pt-0"
+        attr.aria-label="{{ 'cancelSubscription.closeModal' | cxTranslate }}"
+        (click)="onDialogClose('Cross click')"
+      >
+        <span><small><cx-icon [type]="iconTypes.CLOSE"></cx-icon></small></span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <p *ngIf="cancelData()?.subscriptionEndAt">
+            {{ 'cancelSubscription.loseSubscription' | cxTranslate: { date: getFormattedCancelValidTillDate(cancelData()) } }}
+          </p>
+
+          <p>
+            {{ 'cancelSubscription.changeMind' | cxTranslate }}
+          </p>
+          <div class="row justify-content-end mt-3">
+            <div class="cx-quote col-sm-12 col-md-6 p-1">
+              <button
+                type="button"
+                class="btn btn-block btn-secondary"
+                (click)="onDialogClose('Cancel click')"
+              >
+                {{ 'cancelSubscription.cancel' | cxTranslate }}
+              </button>
+            </div>
+            <div class="cx-quote col-sm-12 col-md-6 p-1">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                (click)="onConfirm()"
+              >
+                {{ 'cancelSubscription.confirm' | cxTranslate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
