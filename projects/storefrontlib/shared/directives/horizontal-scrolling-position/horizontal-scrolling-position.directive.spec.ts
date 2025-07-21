@@ -2,7 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
-import { BehaviorSubject, filter, Subscription } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @Component({
@@ -76,10 +76,12 @@ describe('HorizontalScrollingPositionDirective', () => {
 
       it('should subscribe to new inputs scrolling position', () => {
         const mockIntersectionObserver = new IntersectionObserver(() => {});
-        const mockWindowRefSubscription = new Subscription();
+        spyOn(mockIntersectionObserver, 'disconnect').and.callThrough();
+        const mockResizeObserver = new ResizeObserver(() => {});
+        spyOn(mockResizeObserver, 'disconnect').and.callThrough();
         directive['scrollingAreaIntersectionObserver'] =
           mockIntersectionObserver;
-        directive['windowResizeSubscription'] = mockWindowRefSubscription;
+        directive['scrollingAreaResizeObserver'] = mockResizeObserver;
 
         const mockScrollingArea = document.createElement('div');
         const mockScrollingAreaStart = document.createElement('div');
@@ -95,8 +97,8 @@ describe('HorizontalScrollingPositionDirective', () => {
 
         // should unsubscribe from previous scrolling position
         expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
-        expect(mockIntersectionObserver.takeRecords().length).toEqual(0);
-        expect(mockWindowRefSubscription.closed).toBeTruthy();
+        expect(mockIntersectionObserver.disconnect).toHaveBeenCalled();
+        expect(mockResizeObserver.disconnect).toHaveBeenCalled();
 
         // should subscribe to new scrolling position
         expect(directive['subscribeScrollingArea']).toHaveBeenCalled();
@@ -115,28 +117,22 @@ describe('HorizontalScrollingPositionDirective', () => {
           jasmine.objectContaining({ target: mockScrollingAreaStart }),
           jasmine.objectContaining({ target: mockScrollingAreaEnd }),
         ]);
-
-        expect(directive['windowResizeSubscription']).not.toBe(
-          mockWindowRefSubscription
+        expect(directive['scrollingAreaResizeObserver']).not.toBe(
+          mockResizeObserver
         );
-        expect(directive['windowResizeSubscription']).toBeInstanceOf(
-          Subscription
+        expect(directive['scrollingAreaResizeObserver']).toBeInstanceOf(
+          ResizeObserver
         );
-        expect(directive['windowResizeSubscription'].closed).toBeFalsy();
       });
 
       it('should unsubscribe from previous inputs scrolling position', () => {
-        const mockObservedElement = document.createElement('div');
         const mockIntersectionObserver = new IntersectionObserver(() => {});
-        mockIntersectionObserver.observe(mockObservedElement);
-
-        const mockWindowRefSubscription = new Subscription();
+        spyOn(mockIntersectionObserver, 'disconnect').and.callThrough();
+        const mockResizeObserver = new ResizeObserver(() => {});
+        spyOn(mockResizeObserver, 'disconnect').and.callThrough();
         directive['scrollingAreaIntersectionObserver'] =
           mockIntersectionObserver;
-        directive['windowResizeSubscription'] = mockWindowRefSubscription;
-
-        expect(mockIntersectionObserver.takeRecords().length).toEqual(1);
-        expect(mockWindowRefSubscription.closed).toBeFalsy();
+        directive['scrollingAreaResizeObserver'] = mockResizeObserver;
 
         spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
         spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
@@ -148,9 +144,9 @@ describe('HorizontalScrollingPositionDirective', () => {
 
         expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
         expect(directive['scrollingAreaIntersectionObserver']).toBeUndefined();
-        expect(mockIntersectionObserver.takeRecords().length).toEqual(0);
-        expect(mockWindowRefSubscription.closed).toBeTruthy();
-        expect(directive['windowResizeSubscription']).toBeUndefined();
+        expect(mockIntersectionObserver.disconnect).toHaveBeenCalled();
+        expect(mockResizeObserver.disconnect).toHaveBeenCalled();
+        expect(directive['scrollingAreaResizeObserver']).toBeUndefined();
 
         expect(directive['subscribeScrollingArea']).not.toHaveBeenCalled();
       });
@@ -175,7 +171,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
         expect(directive['subscribeScrollingArea']).not.toHaveBeenCalled();
         expect(directive['scrollingAreaIntersectionObserver']).toBeUndefined();
-        expect(directive['windowResizeSubscription']).toBeUndefined();
+        expect(directive['scrollingAreaResizeObserver']).toBeUndefined();
       });
 
       it('should NOT unsubscribe from old inputs scrolling position', () => {
@@ -192,7 +188,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
         expect(directive['unsubscribeScrollingArea']).not.toHaveBeenCalled();
         expect(directive['scrollingAreaIntersectionObserver']).toBeUndefined();
-        expect(directive['windowResizeSubscription']).toBeUndefined();
+        expect(directive['scrollingAreaResizeObserver']).toBeUndefined();
       });
     });
   });
@@ -293,16 +289,11 @@ describe('HorizontalScrollingPositionDirective', () => {
       });
 
       describe('scrollingAreaWidth$', () => {
-        it('should emit and update on WindowRef.resize$ emission', () => {
-          const scrollingAreaWidthsHistory = [];
+        it('should emit and update on scrollingArea resize', (done) => {
           directive.scrollingAreaWidth$.subscribe((width) => {
-            scrollingAreaWidthsHistory.push(width);
+            expect(width).toBe(scrollingArea.nativeElement.clientWidth);
+            done();
           });
-          expect(scrollingAreaWidthsHistory.length).toBe(1);
-          mockWindowRef.resize$.next({});
-          expect(scrollingAreaWidthsHistory.length).toBe(2);
-          mockWindowRef.resize$.next({});
-          expect(scrollingAreaWidthsHistory.length).toBe(3);
         });
       });
     });
