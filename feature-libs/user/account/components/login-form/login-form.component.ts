@@ -5,6 +5,7 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -13,7 +14,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { AuthConfigService, Config, useFeatureStyles } from '@spartacus/core';
+import { Config, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -23,8 +24,9 @@ import { LoginFormComponentService } from './login-form-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements AfterViewInit {
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
+  @ViewChild('csrf') csrf: ElementRef<HTMLElementTagNameMap['input']>;
 
   constructor(protected service: LoginFormComponentService) {
     useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
@@ -44,15 +46,7 @@ export class LoginFormComponent {
     this.service.login();
   }
 
-  setCustom() {
-    if (this.config?.authentication?.customLoginPage?.enabled) {
-      const configService = inject(AuthConfigService);
-
-      if (this.loginForm?.nativeElement) {
-        this.loginForm.nativeElement.method = 'POST';
-        this.loginForm.nativeElement.action =
-          configService?.getCustomLoginFormEndpoint();
-      }
-    }
+  ngAfterViewInit() {
+    this.service.initialize(this.loginForm?.nativeElement);
   }
 }

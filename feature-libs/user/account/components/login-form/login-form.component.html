@@ -15,6 +15,7 @@
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
       [attr.aria-label]="'loginForm.emailAddress.label' | cxTranslate"
       formControlName="userId"
+      name="username"
       [attr.aria-invalid]="
         form.get('userId')?.touched && form.get('userId')?.invalid
       "
@@ -41,6 +42,7 @@
       class="form-control"
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
+      name="password"
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
       [attr.aria-invalid]="
         form.get('password')?.touched && form.get('password')?.invalid
@@ -57,6 +59,14 @@
       [control]="form.get('password')"
     ></cx-form-errors>
   </label>
+
+  <input
+    *ngIf="!!form.get('csrf')"
+    type="hidden"
+    name="_csrf"
+    formControlName="csrf"
+    #csrf
+  />
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
     {{ 'loginForm.forgotPassword' | cxTranslate }}

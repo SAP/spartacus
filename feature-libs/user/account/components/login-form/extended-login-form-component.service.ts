@@ -5,13 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  AuthService,
-  Config,
-  CSRFResponse,
-  WindowRef,
-  GlobalMessageService,
-} from '@spartacus/core';
+import { Config, CSRFResponse, AuthConfigService } from '@spartacus/core';
 import { LoginFormComponentService } from './login-form-component.service';
 import {
   UntypedFormControl,
@@ -24,14 +18,18 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class ExtendedLoginFormComponentService extends LoginFormComponentService {
   config = inject(Config);
+  authConfigService = inject(AuthConfigService);
 
   form: UntypedFormGroup = new UntypedFormGroup({
-    username: new UntypedFormControl('', [
+    userId: new UntypedFormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,
     ]),
     password: new UntypedFormControl('', Validators.required),
+    csrf: new UntypedFormControl('', Validators.required),
   });
+
+  nativeForm;
 
   // login() {
   //   if (!this.form.valid) {
@@ -48,25 +46,34 @@ export class ExtendedLoginFormComponentService extends LoginFormComponentService
   //   }
   // }
 
-  constructor(
-    protected auth: AuthService,
-    protected globalMessage: GlobalMessageService,
-    protected winRef: WindowRef
-  ) {
-    super(auth, globalMessage, winRef);
+  login() {
+    if (!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
-    this.auth
-      .getCsrf()
-      .pipe(
-        tap((csrf: CSRFResponse) => {
-          // csrfInput.name = csrf.parameterName;
-          // csrfInput.value = csrf.token;
-          if (csrf) {
-            this.form.addControl(csrf?.parameterName, new UntypedFormControl());
-            this.form.get(csrf.parameterName)?.setValue(csrf?.token);
-          }
-        })
-      )
-      .subscribe();
+    this.busy$.next(true);
+    this.nativeForm?.submit();
+  }
+
+  initialize(nativeForm) {
+    this.nativeForm = nativeForm;
+    if (nativeForm) {
+      this.nativeForm.method = 'POST';
+      this.nativeForm.action =
+        this.authConfigService?.getCustomLoginFormEndpoint();
+      console.log(this.nativeForm);
+      this.auth
+        .getCsrf()
+        .pipe(
+          tap((csrf: CSRFResponse) => {
+            if (csrf) {
+              //TODO: csrfNativeElement.name = csrf?.parameterName;
+              this.form.get('csrf')?.setValue(csrf?.token);
+            }
+          })
+        )
+        .subscribe();
+    }
   }
 }

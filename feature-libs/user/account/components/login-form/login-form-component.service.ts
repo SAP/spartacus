@@ -81,4 +81,6 @@ export class LoginFormComponentService {
 
     this.busy$.next(false);
   }
+
+  initialize(_) {}
 }
