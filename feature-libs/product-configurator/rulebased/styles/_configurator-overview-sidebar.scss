@@ -1,4 +1,8 @@
 %cx-configurator-overview-sidebar {
+  .cx-overview-image {
+  width: 100%;
+  height: auto;
+}
   &:not(:empty) {
     display: flex;
     flex-direction: column;

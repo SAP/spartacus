@@ -20,10 +20,14 @@ import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
+import { ConfiguratorImageGenerationService } from './configurator-image-generation.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
   protected logger = inject(LoggerService);
+  protected configuratorImageGenerationService = inject(
+    ConfiguratorImageGenerationService
+  );
 
   constructor(
     protected store: Store<StateWithConfigurator>,
@@ -80,6 +84,22 @@ export class ConfiguratorCommonsService {
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
         this.configuratorUtils.isConfigurationCreated(configuration)
+      ),
+      tap((configuration) =>
+        this.configuratorImageGenerationService.checkForImageGenerationOnChanges(
+          configuration
+        )
+      )
+    );
+  }
+
+  getConfigurationWithKey(
+    ownerKey: string
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
+      filter((configuration) =>
+        this.configuratorUtils.isConfigurationCreated(configuration)
       )
     );
   }
@@ -127,6 +147,7 @@ export class ConfiguratorCommonsService {
     changedAttribute: Configurator.Attribute,
     updateType?: Configurator.UpdateType
   ): void {
+    this.configuratorImageGenerationService.setImageGenerationNeeded(true);
     if (!updateType) {
       updateType = Configurator.UpdateType.ATTRIBUTE;
     }

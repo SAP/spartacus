@@ -1,7 +1,7 @@
 <ng-container
   *ngIf="imagePath$ | async as imagePath; else ghostSidebar"
 >
-    <img [src]="imagePath.imageUrl" alt= "huh" class="cx-overview-image" />
+    <img [src]="imagePath" alt= "huh" class="cx-overview-image" />
 </ng-container>
 
 <ng-template #ghostSidebar>
