@@ -15,13 +15,22 @@ export interface SubscriptionDetail {
   startAt?: string;
   endAt?: string;
   subscriptionStatus?: string;
-  contractFrequency?: string;
+  startDate?: string;
+  endDate?: string;
+  orderCode?: string;
+
+
+  version?: string;
+  withdrawalPeriodEndDate?: string;
+  effectiveDate?: string;
+  ratePlanId?: string;
+  withdrawnAt?: string;
+   contractFrequency?: string;
   customerId?: string;
   documentNumber?: string;
   pricePlan?: PricePlan;
   currentUsages?: UsageCharge[];
   renewalTerm?: RenewalTerm;
-  withdrawalPeriodEndAt?: string;
 }
 export interface SubscriptionList {
   subscriptions?: SubscriptionDetail[];
@@ -35,6 +44,32 @@ export enum SubscriptionStatus {
   active = 'ACTIVE',
   withdrawn = 'WITHDRAWN',
   expired = 'EXPIRED'
+}
+export interface CancelData{
+  // validTillDate?: string;
+  // endDate?: string;
+  subscriptionEndAt?: string;
+}
+export interface CancellationDetails {
+  // subscriptionId?: string;
+  // validTillDate?: string;
+  // ratePlanId?: string;
+  // version?: string;
+  subscriptionEndAt?: string;
+}
+export interface reverseCancellation {
+  subscriptionId?: string;
+  version?: string;
+}
+export interface withdrawal {
+  subscriptionId?: string;
+  version?: string;
+  withdrawnAt?: string;
+  withdrawalPeriodEndDate?: string;
+}
+
+export interface ExtendDetails {
+  extendReason?: string; //name in request
 }
 
 export interface SubscriptionExtensionEffectiveDate {

@@ -67,3 +67,24 @@ INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];positi
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid, $contentCV)
 ;;BodyContentSlot-subscription-details;Body Content Slot for subscription details;true;SubscriptionDetailsComponent
+
+
+
+
+################# for subscription cancel page
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false'];title[lang=$lang]
+;;subscription-cancel;Subscription cancel page;AccountPageTemplate;/my-account/cancelsubscription;;;;Cancel Subscription
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+;;SubscriptionCancelComponent;Subscription Cancel Component;SubscriptionCancelComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+;;BodyContent-subscription-cancel;BodyContent;subscription-cancel;BodyContentSlot-subscription-cancel
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid, $contentCV)
+;;BodyContentSlot-subscription-cancel;Body Content Slot for subscription cancel;true;SubscriptionCancelComponent
+
+################# for subscription cancel page
+
+

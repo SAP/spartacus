@@ -108,13 +108,44 @@
       <span class="col-xs-12 col-md-4 col-lg-3">
         <span class="cx-action-button">
           <a
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
-            cxBtnLikeLink
-            class="btn btn-block btn-secondary"
-          >
-            {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
-          </a>
+          *ngIf="subscription.subscriptionStatus !== 'CANCELLED'"
+          #cancelTriggerEl
+          class="btn btn-block btn-secondary"
+          (click)="openCancelPopup()"
+        [attr.aria-label]="'subscriptionDetails.cancelSubscription' | cxTranslate"
+        
+        >
+        {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
+        </a>
+
         </span>
+
+        <!-- Resubscribe -->
+        <span class="cx-action-button">
+          <a *ngIf="!isSubscriptionActive(subscription.subscriptionStatus)"
+           cxBtnLikeLink
+    class="btn btn-block btn-primary"
+    [attr.aria-label]="'subscriptionDetails.resubscribe' | cxTranslate"
+    (click)="onResubscribe()"
+  >
+    {{ 'subscriptionDetails.resubscribe' | cxTranslate }}
+  </a>
+        </span>
+
+        <!-- Withdrawal -->
+          <span class="cx-action-button">
+          <a
+          *ngIf="shouldShowWithdrawal(subscription)"
+          [attr.aria-label]="'subscriptionDetails.withdrawal'"
+          (click)="withdrawal()"
+            cxBtnLikeLink
+            class="btn btn-block btn-primary"
+          >
+          {{ 'subscriptionDetails.withdrawal' | cxTranslate }}
+          </a>
+
+        </span>
+        <!-- Withdrawal -->
         <span class="cx-action-button">
           <a
             #extendSubscriptionBtn
