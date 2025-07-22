@@ -26,7 +26,7 @@ export const defaultUser = {
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
   cy.whenJDK17(() => {
-    const registerPage = waitForPage('/login', 'getRegisterPage');
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
     cy.get('cx-page-layout > cx-page-slot > cx-login-register')
       .findByText('Register')
       .click();
@@ -37,15 +37,6 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
     const registerPage = waitForPage('/login/register', 'getRegisterPage');
     cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
   });
-
-  const loginUser = uniqueUser ? getSampleUser() : user;
-  register(loginUser);
-  return loginUser;
-}
-
-export function registerUserFromRegisterPage(uniqueUser?: boolean) {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
   const loginUser = uniqueUser ? getSampleUser() : user;
   register(loginUser);
@@ -87,11 +78,16 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-/**
- * Supports JDK17 only.
- */
 export function loginWithBadCredentialsFromLoginPage() {
-  const alias = listenForAuthServerLoginRequest();
+  let alias: string;
+  cy.whenJDK17(
+    () => {
+      alias = listenForTokenAuthenticationRequest();
+    },
+    () => {
+      alias = listenForAuthServerLoginRequest();
+    }
+  );
 
   login(user.email, 'Password321');
 

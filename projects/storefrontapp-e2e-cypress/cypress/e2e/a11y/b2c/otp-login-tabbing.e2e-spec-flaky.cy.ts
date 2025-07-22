@@ -12,12 +12,11 @@ describe('Tabbing order for OTP login', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  // move suite to legacy file
   cy.whenJDK17(() => {
     describe('OTP login', () => {
       context('OTP Login page', () => {
         beforeEach(() => {
-          cy.visit('/login'); // JDK17, CustomLoginPage
+          cy.visit('/login');
           cy.get('cx-otp-login-form').should('exist');
           cy.get('cx-otp-login-form form').should('exist');
         });

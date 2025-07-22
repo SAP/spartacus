@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { whenJDK17 } from '../../../support/utils/jdk-versions';
+
 /**
  * This test checks accessibility concerns on the pages for Login, Forgot Password, and Register
  */
@@ -15,9 +17,9 @@ describe(
       cy.a11yContinuumSetup();
     });
 
-    cy.whenJDK17(() => {
+    whenJDK17(() => {
       it('should pass a11y scan for the Login Page', () => {
-        cy.visit('/login'); // JDK17, CustomLoginPage
+        cy.visit('/login');
         cy.get('input[formControlName="userId"]');
         cy.get('form').submit();
         cy.get('main').a11yRunContinuumTest();

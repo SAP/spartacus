@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { whenJDK17 } from './jdk-versions';
+
 export const USERID_CURRENT = 'current';
 export const config = {
   authorizeUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/authorize`,
   loginUrl: `${Cypress.env('API_URL')}/authorizationserver/login`,
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
   revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
+  returnUri: 'http://localhost:4200/cy',
   newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users?lang=en&curr=${Cypress.env(
@@ -28,12 +31,17 @@ type TokenResponse = {
   expires_in: number;
 };
 
+type PKCE = {
+  code_verifier: string;
+  code_challenge: string;
+};
+
 /**
- * ResourceOwnerPasswordCredentials
+ * Log in using  ResourceOwnerPasswordCredentials flow
  *
  * Note: Not supported for JDK21
  */
-export function loginJDK17(
+export function resourceOwnerPasswordCredentialsGrant(
   uid: string,
   password: string,
   failOnStatusCode: boolean = true
@@ -52,14 +60,16 @@ export function loginJDK17(
   });
 }
 
-/** JDK21 */
-export function loginJDK21(
+/**
+ * Log in using AuthorizationCodeGrant flow
+ *
+ * Note: only flow JDK21 supports.
+ */
+export function authorizationCodeGrant(
   uid: string,
   password: string,
   failOnStatusCode: boolean = true
 ) {
-  const returnUri = 'http://localhost:4200/cy';
-
   return cy.wrap<Promise<PKCE>, PKCE>(createPKCE()).then((pkce) => {
     return cy
       .request({
@@ -71,7 +81,7 @@ export function loginJDK21(
           client_id: config.client.client_id,
           code_challenge: pkce.code_challenge,
           code_challenge_method: 'S256',
-          redirect_uri: returnUri,
+          redirect_uri: config.returnUri,
         },
         headers: {
           Origin: 'http://localhost:4200',
@@ -119,7 +129,7 @@ export function loginJDK21(
                       client_id: config.client.client_id,
                       grant_type: 'authorization_code',
                       code,
-                      redirect_uri: returnUri,
+                      redirect_uri: config.returnUri,
                       code_verifier: pkce.code_verifier,
                     },
                   });
@@ -192,10 +202,6 @@ function toBase64url(uint8Array: Uint8Array): string {
     .replace(/\//g, '_');
 }
 
-type PKCE = {
-  code_verifier: string;
-  code_challenge: string;
-};
 export async function createPKCE(): Promise<PKCE> {
   const randomNumber = await crypto.getRandomValues(new Uint8Array(32));
 
@@ -212,4 +218,20 @@ export async function createPKCE(): Promise<PKCE> {
   return { code_verifier, code_challenge };
 }
 
-export { loginJDK21 as login };
+/**
+ * Login function to get access token.
+ *
+ * This function is version-aware and will select between resourceOwnerPasswordCredentialsGrant for JDK17
+ * and authorizationCodeGrant for JDK21.
+ */
+export function login(
+  uid: string,
+  password: string,
+  failOnStatusCode: boolean = true
+) {
+  return whenJDK17(
+    () =>
+      resourceOwnerPasswordCredentialsGrant(uid, password, failOnStatusCode),
+    () => authorizationCodeGrant(uid, password, failOnStatusCode)
+  );
+}

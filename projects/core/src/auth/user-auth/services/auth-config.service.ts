@@ -87,7 +87,8 @@ export class AuthConfigService {
    */
   public sendAuthHeaderOnRevoke() {
     return !!this.config?.sendAuthHeaderOnRevoke;
-  } 
+  }
+
   /**
    * Returns logout url to redirect to on logout.
    */

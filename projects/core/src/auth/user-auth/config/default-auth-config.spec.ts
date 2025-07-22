@@ -31,6 +31,7 @@ const expectedResourceOwnerDefault: AuthConfig = {
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
     sendAuthHeaderOnRevoke: true,
+    useClientTokens: true,
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],
@@ -54,7 +55,7 @@ describe('defaultAuthConfigFactory', () => {
     expect(actual).toEqual(expectedResourceOwnerDefault);
   });
 
-  describe('with authorizationCodeFlowByDefaultProvider', () => {
+  describe('with authorizationCodeFlowByDefault flag', () => {
     it('should provide the authorization code default configuration', () => {
       TestBed.configureTestingModule({
         providers: [

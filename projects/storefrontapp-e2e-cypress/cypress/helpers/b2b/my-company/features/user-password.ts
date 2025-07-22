@@ -41,7 +41,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
     });
 
     it('should log in with set password', () => {
-      cy.visit('/login'); // JDK17, JDK21
+      cy.visit('/login');
       login(user.username, user.password);
       cy.get('cx-login .cx-login-greet').contains(
         `Hi, ${firstNameRow.updateValue}`
@@ -58,7 +58,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
         setUserPasswordAsAdmin(codeRow.updateValue, TEST_PASSWORD_2);
       }
 
-      cy.visit('/login'); // JDK17, JDK21
+      cy.visit('/login');
       login(user.username, user.password);
       cy.get('cx-global-message').contains(
         'Bad credentials. Please login again.'

@@ -20,10 +20,10 @@ describe('Navigation Login', () => {
   let user;
   before(() => {
     cy.whenJDK17(() => {
-      cy.visit('/login'); // JDK17
+      cy.visit('/login');
     });
     cy.whenJDK21(() => {
-      cy.visit('/login/register'); // JDK21
+      cy.visit('/login/register');
     });
     user = login.registerUserFromLoginPage();
   });

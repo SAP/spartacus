@@ -6,13 +6,14 @@ import {
 } from '../../../helpers/accessibility/group-skipping/group-skipping.config';
 import { checkoutNextStep } from '../../../helpers/accessibility/tabbing-order';
 import * as checkout from '../../../helpers/checkout-flow';
+import { whenJDK21 } from '../../../support/utils/jdk-versions';
 
 context('Group Skipping - Not Logged In', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  cy.whenJDK21(() => {
+  whenJDK21(() => {
     delete groupSkippingConfigNotLoggedIn.login;
   });
 

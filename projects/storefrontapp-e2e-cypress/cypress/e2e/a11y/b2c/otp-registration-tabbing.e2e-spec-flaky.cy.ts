@@ -5,14 +5,14 @@
  */
 import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
+import { whenJDK17 } from '../../../support/utils/jdk-versions';
 
 describe('Tabbing order for B2C OTP registration', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  // move suite to legacy file
-  cy.whenJDK17(() => {
+  whenJDK17(() => {
     describe('B2C OTP registration', () => {
       context('B2C OTP registration page', () => {
         beforeEach(() => {

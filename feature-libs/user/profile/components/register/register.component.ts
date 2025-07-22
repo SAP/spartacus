@@ -136,8 +136,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR];
 
           if (
-            messages &&
-            messages.some(
+            messages?.some(
               (message) => message.raw === 'This field is required.'
             )
           ) {

@@ -91,7 +91,6 @@ export function testRedirectBackAfterLogin(kyma = false) {
 
     if (!kyma) {
       cy.whenJDK21(() => {
-        cy.log('auth server code flow');
         authForms.fillAuthServerLoginForm({
           username: user.registrationData.email,
           password: user.registrationData.password,
@@ -146,7 +145,7 @@ export function authFlowTests(name: string, config: any) {
     const useKyma = config?.authentication?.client_id === 'client4kyma';
 
     testRedirectBackAfterLogin(useKyma);
-    // testRedirectAfterForcedLogin(useKyma);
+    testRedirectAfterForcedLogin(useKyma);
   });
 }
 

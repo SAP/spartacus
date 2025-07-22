@@ -5,13 +5,7 @@
  */
 
 import { generateMail, randomString } from '../helpers/user';
-import {
-  config,
-  login,
-  loginJDK17,
-  loginJDK21,
-  setSessionData,
-} from './utils/login';
+import { config, login, setSessionData } from './utils/login';
 
 declare global {
   namespace Cypress {
@@ -19,7 +13,8 @@ declare global {
       /**
        * Registers a new user, if necessary; logs in; and sets the user token into local storage.
        *
-       * Note: The session data will be stored on the domain currently visited.
+       * Note: The session data will be stored on the domain currently visited.  This may require
+       * you to visit the domain first, before calling this command.
        *
        * @returns The user (generated) email.
        *
@@ -58,8 +53,8 @@ export interface RequireLoggedInDebugOptions {
 Cypress.Commands.add(
   'requireLoggedIn',
   (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
-    /** @deprecated Not supported in JDK17 */
-    function loginAsGuest_legacy() {
+    /** Not supported in JDK21 */
+    function clientCredentialGuestLogin() {
       return cy.request({
         method: 'POST',
         url: config.tokenUrl,
@@ -70,16 +65,14 @@ Cypress.Commands.add(
         form: true,
       });
     }
-    function loginAsGuest() {
-      return cy.wrap<Promise<never>, never>(
-        Promise.resolve(undefined as never)
-      );
+    function skipRequest() {
+      return cy.wrap<Promise<undefined>, undefined>(Promise.resolve(undefined));
     }
 
     function registerUser(
       uid: string,
       registrationData: RegistrationData,
-      options: { access_token?: string }
+      access_token?: string
     ) {
       const headers: Record<string, string> = {};
       if (options.access_token) {
@@ -95,7 +88,11 @@ Cypress.Commands.add(
           titleCode: registrationData.titleCode,
           uid,
         },
-        headers,
+        headers: access_token
+          ? {
+              Authorization: `bearer ${access_token}`,
+            }
+          : {},
       });
     }
 
@@ -113,12 +110,7 @@ Cypress.Commands.add(
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
 
-    const password = account.registrationData.password;
-
-    cy.whenJDK17(
-      () => loginJDK17(username, password, false),
-      () => loginJDK21(username, password, false)
-    ).then((res) => {
+    login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
         setSessionData(res.body);
@@ -128,18 +120,15 @@ Cypress.Commands.add(
            2. Create new user
            3. Login as a new user
         */
-        cy.whenJDK17(loginAsGuest_legacy, loginAsGuest)
+        cy.whenJDK17(clientCredentialGuestLogin, skipRequest)
           .then((response) =>
-            registerUser(username, account.registrationData, {
-              access_token: response?.body?.access_token,
-            })
-          )
-          .then(() =>
-            cy.whenJDK17(
-              () => loginJDK17(username, account.registrationData.password),
-              () => login(username, account.registrationData.password)
+            registerUser(
+              username,
+              account.registrationData,
+              response?.body?.access_token
             )
           )
+          .then(() => login(username, account.registrationData.password))
           .then((response) => {
             setSessionData(response.body);
             Cypress.log({

@@ -12,41 +12,16 @@ context('Authentication Flows', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  whenJDK21(() => {
-    authFlowTests('Authentication Code', {});
-  });
-
-  /*
-  authFlowTests('Kyma Authentication Code', {
-    authentication: {
-      client_id: 'client4kyma',
-      client_secret: 'secret',
-      tokenEndpoint: '/oauth/token',
-      revokeEndpoint: '/oauth/revoke',
-      loginUrl: '/oauth/authorize',
-      sendAuthHeaderOnRevoke: true,
-      OAuthLibConfig: {
-        responseType: 'code',
-        scope: '',
-        customTokenParameters: ['token_type'],
-        strictDiscoveryDocumentValidation: false,
-        skipIssuerCheck: true,
-        disablePKCE: true,
-        oidc: false,
-        clearHashAfterLogin: false,
-      },
-    },
-  });
-  */
-
   whenJDK17(() => {
-    authFlowTests('Resource Owner Password (Redirection flow)', {
+    // Redirection flow
+    authFlowTests('Resource Owner Password Grant', {
       authentication: {
         client_id: 'mobile_android',
         client_secret: 'secret',
         tokenEndpoint: '/oauth/token',
         revokeEndpoint: '/oauth/revoke',
         loginUrl: '/oauth/authorize',
+        sendAuthHeaderOnRevoke: true,
         OAuthLibConfig: {
           scope: '',
           customTokenParameters: ['token_type'],
@@ -55,19 +30,18 @@ context('Authentication Flows', () => {
           disablePKCE: true,
           oidc: false,
           clearHashAfterLogin: false,
-          responseType: undefined,
-          sendAuthHeaderOnRevoke: true,
         },
       },
     });
 
-    authFlowTests('Implicit', {
+    authFlowTests('Implicit flow', {
       authentication: {
         client_id: 'client4kyma',
         client_secret: 'secret',
         tokenEndpoint: '/oauth/token',
         revokeEndpoint: '/oauth/revoke',
         loginUrl: '/oauth/authorize',
+        sendAuthHeaderOnRevoke: true,
         OAuthLibConfig: {
           responseType: 'token',
           scope: '',
@@ -77,9 +51,34 @@ context('Authentication Flows', () => {
           disablePKCE: true,
           oidc: false,
           clearHashAfterLogin: false,
-          sendAuthHeaderOnRevoke: true,
         },
       },
     });
+
+    // code flow
+    authFlowTests('Kyma Authentication Code Grant', {
+      authentication: {
+        client_id: 'client4kyma',
+        client_secret: 'secret',
+        tokenEndpoint: '/oauth/token',
+        revokeEndpoint: '/oauth/revoke',
+        loginUrl: '/oauth/authorize',
+        sendAuthHeaderOnRevoke: true,
+        OAuthLibConfig: {
+          responseType: 'code',
+          scope: '',
+          customTokenParameters: ['token_type'],
+          strictDiscoveryDocumentValidation: false,
+          skipIssuerCheck: true,
+          disablePKCE: true,
+          oidc: false,
+          clearHashAfterLogin: false,
+        },
+      },
+    });
+  });
+
+  whenJDK21(() => {
+    authFlowTests('Authentication Code', {});
   });
 });

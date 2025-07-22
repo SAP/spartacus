@@ -39,6 +39,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
         client_id: 'mobile_android',
         client_secret: 'secret',
         sendAuthHeaderOnRevoke: true,
+        useClientTokens: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
           disablePKCE: true,

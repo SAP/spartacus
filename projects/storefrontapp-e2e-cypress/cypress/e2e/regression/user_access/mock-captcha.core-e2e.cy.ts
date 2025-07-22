@@ -29,10 +29,9 @@ describe('Register', () => {
           res.send(res.body);
         });
       });
-      // Conflict with JDK21 behavior: cannot access register from auth server login page
       cy.whenJDK17(() => {
         clickHamburger();
-        cy.getLoginRegisterLink();
+        cy.getLoginRegisterLink().click();
         cy.get('cx-login-register').findByText('Register').click();
       });
       cy.whenJDK21(() => {
