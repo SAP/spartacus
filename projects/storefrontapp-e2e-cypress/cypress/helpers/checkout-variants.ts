@@ -14,6 +14,7 @@ import { assertAddressForm } from './address-book';
 import { login } from './auth-forms';
 import * as guestCheckout from './checkout-as-guest';
 import * as checkout from './checkout-flow';
+import { waitForPage } from './navigation';
 import { validateUpdateProfileForm } from './update-profile';
 import {
   addMutipleProductWithoutVariantToCart,
@@ -134,7 +135,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
     );
     guestCheckout.createAccountFromGuest(variantUser.password);
 
-    const deliveryAddressPage = checkout.waitForPage(
+    const deliveryAddressPage = waitForPage(
       '/checkout/delivery-address',
       'getDeliveryAddressPage'
     );
@@ -160,7 +161,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
     cy.get('cx-login div.cx-login-greet').should('exist');
     cy.get('cx-mini-cart .count').contains('1');
 
-    const cartPage = checkout.waitForPage('/cart', 'getCartPage');
+    const cartPage = waitForPage('/cart', 'getCartPage');
     cy.get('cx-mini-cart').click();
     cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 

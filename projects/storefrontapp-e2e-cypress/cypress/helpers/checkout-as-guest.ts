@@ -7,7 +7,7 @@
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 import { validateUpdateProfileForm } from './update-profile';
 
 export let guestUser;
@@ -17,16 +17,13 @@ export function generateGuestUser() {
 }
 
 export function loginAsGuest(sampleUser: SampleUser = user) {
-  const guestLoginPage = checkout.waitForPage(
-    '/checkout-login',
-    'getGuestLoginPage'
-  );
+  const guestLoginPage = waitForPage('/checkout-login', 'getGuestLoginPage');
   cy.get('.register')
     .findByText(/Guest Checkout/i)
     .click();
   cy.wait(`@${guestLoginPage}`).its('response.statusCode').should('eq', 200);
 
-  const deliveryAddressPage = checkout.waitForPage(
+  const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
     'getDeliveryAddressPage'
   );
