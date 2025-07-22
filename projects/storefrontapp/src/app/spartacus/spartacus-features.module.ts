@@ -417,13 +417,7 @@ if (environment.cpq) {
     provideAuthorizationCodeFlowByDefault(),
     provideConfig(<AuthConfig>{
       authentication: {
-          client_id: 'mobile_android_public', // change to your public client ID
-          client_secret: undefined,
-          sendAuthHeaderOnRevoke: false,
-          OAuthLibConfig: {
-              disablePKCE: false,
-              responseType: 'code',
-          },
+        useClientTokens: false
       },
   }),
   ],
