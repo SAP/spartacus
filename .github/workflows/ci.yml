@@ -56,7 +56,7 @@ jobs:
         uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key: ${{ github.event.pull_request.base.sha }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Run unit tests
         run: ci-scripts/unit-tests.sh
   sonarqube_scan:
@@ -87,7 +87,7 @@ jobs:
         uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key: ${{ github.event.pull_request.base.sha }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Run linting validation
         run: ci-scripts/validate-lint.sh
   build_libs:
@@ -101,7 +101,7 @@ jobs:
         uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key: ${{ github.event.pull_request.base.sha }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Install Cypress packages
         run: (cd projects/storefrontapp-e2e-cypress && npm ci)
       - name: Build Spartacus libraries
@@ -151,7 +151,7 @@ jobs:
         uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key: ${{ github.event.pull_request.base.sha }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Restore built libraries
         uses: ./.github/actions/restore-built-libraries
         with:
@@ -189,7 +189,7 @@ jobs:
         uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          cache-key-base: ${{ github.event.pull_request.base.sha || github.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
@@ -208,7 +208,7 @@ jobs:
         uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          cache-key-base: ${{ github.event.pull_request.base.sha || github.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
@@ -230,7 +230,7 @@ jobs:
         uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          cache-key-base: ${{ github.event.pull_request.base.sha || github.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
@@ -252,7 +252,7 @@ jobs:
         uses: ./.github/actions/e2e-setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          cache-key-base: ${{ github.event.pull_request.base.sha || github.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
       - name: Run e2es
@@ -272,7 +272,7 @@ jobs:
         uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache-key: ${{ github.event.pull_request.base.sha }}
+          cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Restore built libraries
         uses: ./.github/actions/restore-built-libraries
         with:
