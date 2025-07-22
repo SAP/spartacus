@@ -74,6 +74,12 @@ export class AuthConfigService {
     return this.prefixEndpoint(loginUrl);
   }
 
+  public getCustomLoginFormEndpoint(): string {
+    const customLoginFormEndpoint =
+      this.config?.customLoginPage?.loginForm ?? '';
+    return this.prefixEndpoint(customLoginFormEndpoint);
+  }
+
   /**
    * Returns endpoint for token revocation (both access and refresh token).
    */

@@ -1,15 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthConfigService, Config } from '@spartacus/core';
 
 import { HttpClient } from '@angular/common/http';
-import { EMPTY } from 'rxjs';
-import { concatMap, tap } from 'rxjs/operators';
-
-type CSRFResponse = {
-  headerName: string;
-  parameterName: string;
-  token: string;
-};
+// import { EMPTY } from 'rxjs';
+import { tap } from 'rxjs/operators';
+// import { UntypedFormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -43,33 +37,34 @@ export class CustomLoginPageAdapter {
       );
   }
 
-  login(username: string, password: string) {
-    // DEBUG: adjust values
-    // - baseUrl in projects/core/src/auth/user-auth/config/default-auth-config.ts
-    // - loginForm in projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts:53
-    const baseUrl = this.authConfigService.getBaseUrl();
-    const destination = `${baseUrl}${this.config.authentication?.customLoginPage?.loginForm}`;
-
-    return this.getCustomLoginCsrf().pipe(
-      concatMap((csrf) => {
-        // if (this.DEBUG_useFetch) {
-        //   return this.fetchApiPostForm({
-        //     destination,
-        //     username,
-        //     password,
-        //     csrf,
-        //   });
-        // } else {
-        return this.formActionSubmit({
-          destination,
-          username,
-          password,
-          csrf,
-        });
-        // }
-      })
-    );
-  }
+  // login(form: UntypedFormGroup) {
+  //   // DEBUG: adjust values
+  //   // - baseUrl in projects/core/src/auth/user-auth/config/default-auth-config.ts
+  //   // - loginForm in projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts:53
+  //   // const { userId, password } = this.form.value;
+  //
+  //   const baseUrl = this.authConfigService.getBaseUrl();
+  //   const destination = `${baseUrl}${this.config.authentication?.customLoginPage?.loginForm}`;
+  //
+  //   return this.getCustomLoginCsrf().pipe(
+  //     concatMap((csrf) => {
+  //       // if (this.DEBUG_useFetch) {
+  //       //   return this.fetchApiPostForm({
+  //       //     destination,
+  //       //     username,
+  //       //     password,
+  //       //     csrf,
+  //       //   });
+  //       // } else {
+  //       return this.formActionSubmit({
+  //         destination,
+  //         csrf,
+  //         form,
+  //       });
+  //       // }
+  //     })
+  //   );
+  // }
 
   // Note: This is poor UX.  An HTTP POST is an outdated process and contrary to the SPA web application
   // paradigm.  Additionally, there are performance issues.  The entire application is will need to be
@@ -81,43 +76,47 @@ export class CustomLoginPageAdapter {
    * submittable form.
    *
    */
-  formActionSubmit({
-    destination,
-    csrf,
-    username,
-    password,
-  }: {
-    destination: string;
-    csrf: { parameterName: string; token: string };
-    username: string;
-    password: string;
-  }) {
-    const form = document.createElement('form');
-    form.action = destination;
-    form.method = 'POST';
+  // formActionSubmit({
+  //   destination,
+  //   csrf,
+  //   username,
+  //   password,
+  //   form,
+  // }: {
+  //   destination: string;
+  //   csrf: { parameterName: string; token: string };
+  //   username: string;
+  //   password: string;
+  //   form: UntypedFormGroup;
+  // }) {
+  // const form = document.createElement('form');
+  // form.action = destination;
+  // form.method = 'POST';
+  //
+  // const csrfInput = document.createElement('input');
+  // csrfInput.type = 'hidden';
+  // csrfInput.name = csrf.parameterName;
+  // csrfInput.value = csrf.token;
+  // form.appendChild(csrfInput);
 
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = csrf.parameterName;
-    csrfInput.value = csrf.token;
-    form.appendChild(csrfInput);
+  // const usernameInput = document.createElement('input');
+  // usernameInput.name = 'username';
+  // usernameInput.value = username;
+  // form.appendChild(usernameInput);
+  //
+  // const pwInput = document.createElement('input');
+  // pwInput.type = 'password';
+  // pwInput.name = 'password';
+  // pwInput.value = password;
+  // form.appendChild(pwInput);
 
-    const usernameInput = document.createElement('input');
-    usernameInput.name = 'username';
-    usernameInput.value = username;
-    form.appendChild(usernameInput);
+  // document.body.appendChild(form);
+  // form.ngSubmit.emit();
 
-    const pwInput = document.createElement('input');
-    pwInput.type = 'password';
-    pwInput.name = 'password';
-    pwInput.value = password;
-    form.appendChild(pwInput);
-
-    document.body.appendChild(form);
-    form.submit();
-
-    return EMPTY;
-  }
+  // form.submit();
+  //
+  //   return EMPTY;
+  // }
 
   /**
    * Use fetch API to post from details to server.

@@ -14,6 +14,7 @@ export * from './http-interceptors/token-revocation.interceptor';
 export * from './models/auth-token.model';
 export * from './models/oauth-flow';
 export * from './models/oauth-try-login-response';
+export * from './models/csfr-response';
 export * from './services/index';
 export * from './store/actions';
 export { UserAuthModule } from './user-auth.module';

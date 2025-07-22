@@ -46,8 +46,6 @@ export const defaultAuthConfig: AuthConfig = {
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
-    // baseUrl:
-    //   'https://api.c432wmya2v-teamspart3-s1-public.model-t.myhybris.cloud/authorizationserver',
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],

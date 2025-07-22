@@ -113,8 +113,12 @@ export class AuthService {
     } catch {}
   }
 
-  customLoginForm(userId: string, password: string) {
-    return this.customLoginPageAdapter.login(userId, password);
+  // customLoginForm(form) {
+  //   return this.customLoginPageAdapter.login(form);
+  // }
+
+  getCsrf() {
+    return this.customLoginPageAdapter.getCustomLoginCsrf();
   }
 
   /**

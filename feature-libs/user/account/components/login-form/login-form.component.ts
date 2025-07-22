@@ -7,11 +7,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   inject,
+  ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Config, useFeatureStyles } from '@spartacus/core';
+import { AuthConfigService, Config, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -22,6 +24,8 @@ import { LoginFormComponentService } from './login-form-component.service';
   standalone: false,
 })
 export class LoginFormComponent {
+  @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
+
   constructor(protected service: LoginFormComponentService) {
     useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
@@ -30,12 +34,25 @@ export class LoginFormComponent {
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   config = inject(Config);
-  action = this.config?.authentication?.customLoginPage?.loginForm;
-  customLogin = this.config?.authentication?.customLoginPage?.enabled;
+
+  // action = this.config?.authentication?.customLoginPage?.loginForm;
+  // customLogin = this.config?.authentication?.customLoginPage?.enabled;
 
   @HostBinding('class.user-form') style = true;
 
   onSubmit(): void {
     this.service.login();
+  }
+
+  setCustom() {
+    if (this.config?.authentication?.customLoginPage?.enabled) {
+      const configService = inject(AuthConfigService);
+
+      if (this.loginForm?.nativeElement) {
+        this.loginForm.nativeElement.method = 'POST';
+        this.loginForm.nativeElement.action =
+          configService?.getCustomLoginFormEndpoint();
+      }
+    }
   }
 }
