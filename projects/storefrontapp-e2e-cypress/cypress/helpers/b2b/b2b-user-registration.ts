@@ -8,8 +8,9 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/ta
 import { verifyTabbingOrder as tabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { SampleUser } from '../../sample-data/checkout-flow';
 import { interceptPost } from '../../support/utils/intercept';
+import { whenJDK17, whenJDK21 } from '../../support/utils/jdk-versions';
 import * as alerts from '../global-message';
-import { clickHamburger } from '../navigation';
+import { clickHamburger, waitForPage } from '../navigation';
 
 export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
   'cx-link.cx-organization-user-register-button';
@@ -26,8 +27,15 @@ const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
 
 export function navigateToOrganizationUserRegisterPage() {
   clickHamburger();
-  cy.getLoginRegisterLink().click();
-  cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
+  whenJDK17(() => {
+    cy.getLoginRegisterLink().click();
+    cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
+  });
+  whenJDK21(() => {
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.visit('/login/register');
+    cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function fillOrganizationUserRegistrationForm(
