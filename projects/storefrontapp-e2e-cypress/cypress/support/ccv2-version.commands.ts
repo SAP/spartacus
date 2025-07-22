@@ -53,15 +53,9 @@ declare namespace Cypress {
 Cypress.Commands.addAll({
   whenJDK17(cb: () => unknown, elseCb?: () => unknown) {
     if (isJDK17()) {
-      cy.log('using JDK17 path');
-
       const result = cb?.();
       return isChainable(result) ? result : cy.wrap(result);
     } else {
-      if (elseCb) {
-        cy.log('using alternate JDK21 path');
-      }
-
       const result = elseCb?.();
       return isChainable(result) ? result : cy.wrap(result);
     }
@@ -69,15 +63,9 @@ Cypress.Commands.addAll({
 
   whenJDK21(cb: () => unknown, elseCb?: () => unknown) {
     if (!isJDK17()) {
-      cy.log('using JDK21 path');
-
       const result = cb?.();
       return isChainable(result) ? result : cy.wrap(result);
     } else {
-      if (elseCb) {
-        cy.log('using alternate JDK17 path');
-      }
-
       const result = elseCb?.();
       return isChainable(result) ? result : cy.wrap(result);
     }

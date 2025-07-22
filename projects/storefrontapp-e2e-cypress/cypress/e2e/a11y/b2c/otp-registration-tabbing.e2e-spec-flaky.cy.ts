@@ -11,7 +11,10 @@ describe('Tabbing order for B2C OTP registration', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
+<<<<<<< HEAD
   // move suite to legacy file
+=======
+>>>>>>> develop
   cy.whenJDK17(() => {
     describe('B2C OTP registration', () => {
       context('B2C OTP registration page', () => {

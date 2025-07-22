@@ -18,6 +18,7 @@ describe('Register', () => {
 
     it('should register and redirect to login page', () => {
       cy.whenJDK17(() => {
+        clickHamburger();
         cy.getLoginRegisterLink().click();
         cy.get('cx-login-register').findByText('Register').click();
       });

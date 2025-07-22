@@ -106,6 +106,7 @@ export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
+<<<<<<< HEAD
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.whenJDK17(() => {
     cy.getLoginRegisterLink({ clickAndWait: true });
@@ -115,6 +116,20 @@ export function registerUser(
     cy.visit('/login/register');
   });
   cy.wait(`@${registerPage}`);
+=======
+  cy.whenJDK17(() => {
+    cy.getLoginRegisterLink({ clickAndWait: true });
+
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.findByText('Register').click();
+    cy.wait(`@${registerPage}`);
+  });
+  cy.whenJDK21(() => {
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.visit('/login/register');
+    cy.wait(`@${registerPage}`);
+  });
+>>>>>>> develop
 
   register(sampleUser, giveRegistrationConsent);
 

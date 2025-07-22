@@ -20,6 +20,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../../occ/utils/interceptor-util';
+import { AuthConfig } from '../../user-auth/config/auth-config';
 import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
@@ -30,7 +31,8 @@ import { ClientTokenService } from '../services/client-token.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
-  protected disableClientToken = !!inject(FeatureToggles).disableClientTokens;
+  protected enableClientToken =
+    inject(AuthConfig).authentication?.useClientTokens ?? false;
 
   constructor(
     protected clientTokenService: ClientTokenService,
@@ -46,7 +48,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     if (isClientTokenRequest) {
       request = InterceptorUtil.removeHeader(USE_CLIENT_TOKEN, request);
     }
-    if (this.disableClientToken) {
+    if (!this.enableClientToken) {
       return next.handle(request);
     }
 

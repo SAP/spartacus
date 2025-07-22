@@ -8,6 +8,10 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
+<<<<<<< HEAD
+=======
+import { whenJDK17, whenJDK21 } from '../support/utils/jdk-versions';
+>>>>>>> develop
 import { waitForPage } from './navigation';
 
 export interface LoginUser {
@@ -119,10 +123,17 @@ export function registerWithCaptcha(
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   let pageAlias: string;
+<<<<<<< HEAD
   cy.whenJDK17(() => {
     pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
   });
   cy.whenJDK21(() => {
+=======
+  whenJDK17(() => {
+    pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
+  });
+  whenJDK21(() => {
+>>>>>>> develop
     pageAlias = waitForPage('/homepage', 'getHomepageAfterRegister');
   });
 

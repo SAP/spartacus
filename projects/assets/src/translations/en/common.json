@@ -177,6 +177,8 @@
   "carousel": {
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
+    "scrollForward": "Scroll forward",
+    "scrollBackward": "Scroll backward",
     "slideNumber": "Slide {{currentSlideNumber}} contains {{numberOfSlides}} items",
     "carouselForProduct": "Carousel, Images for {{product}}"
   },

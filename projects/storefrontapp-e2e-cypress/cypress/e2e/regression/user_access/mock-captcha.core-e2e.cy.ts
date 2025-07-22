@@ -6,7 +6,7 @@
  */
 
 import { registerWithCaptcha } from '../../../helpers/auth-forms';
-import { clickHamburger } from '../../../helpers/navigation';
+import { clickHamburger } from '../../../helpers/homepage';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
@@ -29,10 +29,11 @@ describe('Register', () => {
           res.send(res.body);
         });
       });
-      // Conflict with JDK21 behavior: cannot access register from auth server login page
       cy.whenJDK17(() => {
-        clickHamburger();
-        cy.getLoginRegisterLink();
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        cy.getLoginRegisterLink().click();
         cy.get('cx-login-register').findByText('Register').click();
       });
       cy.whenJDK21(() => {

@@ -26,7 +26,11 @@ export const defaultUser = {
  */
 export function registerUserFromLoginPage(uniqueUser?: boolean) {
   cy.whenJDK17(() => {
+<<<<<<< HEAD
     const registerPage = waitForPage('/login', 'getRegisterPage');
+=======
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+>>>>>>> develop
     cy.get('cx-page-layout > cx-page-slot > cx-login-register')
       .findByText('Register')
       .click();
@@ -37,6 +41,7 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
     const registerPage = waitForPage('/login/register', 'getRegisterPage');
     cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
   });
+<<<<<<< HEAD
 
   const loginUser = uniqueUser ? getSampleUser() : user;
   register(loginUser);
@@ -46,6 +51,8 @@ export function registerUserFromLoginPage(uniqueUser?: boolean) {
 export function registerUserFromRegisterPage(uniqueUser?: boolean) {
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+=======
+>>>>>>> develop
 
   const loginUser = uniqueUser ? getSampleUser() : user;
   register(loginUser);
@@ -91,7 +98,19 @@ export function loginUser() {
  * Supports JDK17 only.
  */
 export function loginWithBadCredentialsFromLoginPage() {
+<<<<<<< HEAD
   const alias = listenForAuthServerLoginRequest();
+=======
+  let alias: string;
+  cy.whenJDK17(
+    () => {
+      alias = listenForTokenAuthenticationRequest();
+    },
+    () => {
+      alias = listenForAuthServerLoginRequest();
+    }
+  );
+>>>>>>> develop
 
   login(user.email, 'Password321');
 
@@ -99,6 +118,10 @@ export function loginWithBadCredentialsFromLoginPage() {
     cy.wait(alias).its('response.statusCode').should('eq', 400);
   });
   cy.whenJDK21(() => {
+<<<<<<< HEAD
+=======
+    login(user.email, 'Password321');
+>>>>>>> develop
     cy.wait(alias)
       .its('response.statusCode')
       .should('eq', 302)
