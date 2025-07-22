@@ -55,6 +55,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -103,6 +106,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -148,6 +154,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -362,6 +371,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -412,6 +424,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -461,6 +476,9 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 

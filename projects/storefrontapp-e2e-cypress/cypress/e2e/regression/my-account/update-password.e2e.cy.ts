@@ -47,8 +47,9 @@ describe('My Account - Update Password', () => {
             randomString(),
             true
           );
-          cy.requireLoggedIn(standardUser);
           cy.visit('/');
+          cy.requireLoggedIn(standardUser);
+          cy.reload();
         });
 
         beforeEach(() => {

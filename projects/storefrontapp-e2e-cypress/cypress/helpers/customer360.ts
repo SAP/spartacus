@@ -45,6 +45,9 @@ function asmCustomerEmulation(user: SampleUser) {
 function registerUser(): SampleUser {
   checkout.visitHomePage();
   const user = checkout.registerUser(false, getSampleUser());
+  cy.whenJDK21(() => {
+    cy.getLoginRegisterLink({ clickAndWait: true });
+  });
   checkout.loginUser(user);
   return user;
 }

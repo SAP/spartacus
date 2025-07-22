@@ -42,7 +42,7 @@ export function provideAuthorizationCodeFlowByDefault(
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
@@ -70,8 +70,10 @@ export function defaultAuthConfigFactory(): AuthConfig {
     const config = {
       authentication: {
         ...defaultAuthConfig.authentication,
+        client_id: 'mobile_android',
         client_secret: 'secret',
         sendAuthHeaderOnRevoke: true,
+        useClientTokens: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
           disablePKCE: true,
