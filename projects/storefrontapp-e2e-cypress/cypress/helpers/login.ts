@@ -97,20 +97,18 @@ export function loginWithBadCredentialsFromLoginPage() {
 
   cy.whenJDK17(() => {
     cy.wait(alias).its('response.statusCode').should('eq', 400);
+    alerts
+      .getErrorAlert()
+      .should('contain', 'Bad credentials. Please login again');
   });
   cy.whenJDK21(() => {
-    cy.wait(alias)
-      .its('response.statusCode')
-      .should('eq', 302)
-      .its('response.headers.location')
-      .should('have.string', '?error');
+    cy.wait(alias).then((interception) => {
+      expect(interception.response?.statusCode).to.eq(302);
+      expect(interception.response?.headers.location).to.include('?error');
+    });
   });
 
   cy.get(userGreetSelector).should('not.exist');
-
-  alerts
-    .getErrorAlert()
-    .should('contain', 'Bad credentials. Please login again');
 }
 
 export function loginWithBadCredentials() {
