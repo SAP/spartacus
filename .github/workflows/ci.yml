@@ -27,12 +27,9 @@ jobs:
     name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
-      - name: Forcefully fail build if jobs are all retried
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
+      - uses: actions/checkout@v4
+      - name: Prevent retries
+        uses: ./.github/actions/prevent-retries
   validate_e2e_execution:
     name: Validate pull_request files
     runs-on: ubuntu-latest
@@ -286,7 +283,9 @@ jobs:
           source ci-scripts/npm-commands.sh
           build_ssr_local_http
       - name: Run SSR tests
-        run: npm run test:ssr:ci --verbose
+        run: |
+          source ci-scripts/npm-commands.sh
+          test_ssr
   build_conclusion:
     needs: [no_retries, unit_tests, linting, build_libs, build_apps, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests, ssr_tests, sonarqube_scan]
     name: Build Conclusion

@@ -17,8 +17,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Prevent E2E retries
-      uses: ./.github/actions/prevent-e2e-retries
+    - name: Prevent retries
+      uses: ./.github/actions/prevent-retries
 
     - name: Setup Node and Cache
       uses: ./.github/actions/setup-node-and-cache

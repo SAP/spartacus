@@ -1,9 +1,10 @@
-name: 'Prevent E2E Retries'
-description: 'Forcefully fail build if e2e job is retried'
+name: 'Prevent Retries'
+description: 'Forcefully fail build if job is retried'
+
 runs:
   using: 'composite'
   steps:
-    - name: Forcefully fail build if e2e job is retried
+    - name: Forcefully fail build if job is retried
       uses: actions/github-script@v7
       with:
         script: |

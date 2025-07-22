@@ -23,6 +23,11 @@ build_ssr_local_http() {
     npm run build:ssr:local-http-backend
 }
 
+# Test commands
+test_ssr() {
+    npm run test:ssr:ci --verbose
+}
+
 # Usage function
 show_usage() {
     echo "Usage: source ci-scripts/npm-commands.sh"
@@ -32,6 +37,7 @@ show_usage() {
     echo "  build_csr                   - Build CSR application"
     echo "  build_ssr                   - Build SSR application for CI"
     echo "  build_ssr_local_http        - Build SSR with local HTTP backend"
+    echo "  test_ssr                    - Run SSR tests"
     echo ""
 }
 
