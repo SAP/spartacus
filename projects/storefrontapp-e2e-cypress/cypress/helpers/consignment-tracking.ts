@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 export function loginUsingUserWithOrder() {
   const username = 'test-user-with-orders@sap.cx.com';

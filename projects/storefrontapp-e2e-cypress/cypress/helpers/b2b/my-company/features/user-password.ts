@@ -5,8 +5,8 @@
  */
 
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
-import { fillLoginForm, LoginUser } from '../../../auth-forms';
-import { waitForPage } from '../../../checkout-flow';
+import { login, LoginUser } from '../../../auth-forms';
+import { waitForPage } from '../../../navigation';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
 import { completeForm, FormType } from './utils/form';
@@ -42,7 +42,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
 
     it('should log in with set password', () => {
       cy.visit('/login');
-      fillLoginForm(user);
+      login(user.username, user.password);
       cy.get('cx-login .cx-login-greet').contains(
         `Hi, ${firstNameRow.updateValue}`
       );
@@ -59,11 +59,11 @@ export function userPasswordTest(config: MyCompanyConfig): void {
       }
 
       cy.visit('/login');
-      fillLoginForm(user);
+      login(user.username, user.password);
       cy.get('cx-global-message').contains(
         'Bad credentials. Please login again.'
       );
-      fillLoginForm(user2);
+      login(user2.username, user2.password);
       cy.get('cx-login .cx-login-greet').contains(
         `Hi, ${firstNameRow.updateValue}`
       );

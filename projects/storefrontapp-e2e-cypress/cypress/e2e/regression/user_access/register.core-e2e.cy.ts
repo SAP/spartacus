@@ -18,11 +18,14 @@ describe('Register', () => {
     });
 
     it('should register and redirect to login page', () => {
-      cy.onMobile(() => {
+      cy.whenJDK17(() => {
         clickHamburger();
+        cy.getLoginRegisterLink().click();
+        cy.get('cx-login-register').findByText('Register').click();
       });
-      cy.getLoginRegisterLink().click();
-      cy.get('cx-login-register').findByText('Register').click();
+      cy.whenJDK21(() => {
+        cy.visit('/login/register');
+      });
       register(user);
       registerHelpers.verifyGlobalMessageAfterRegistration();
       const termsLink = `/${Cypress.env(

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as sampleData from '../sample-data/order-cancellations-returns';
 import {
   cancellableOrder,
   cancelledReturnRequest,
@@ -13,10 +14,9 @@ import {
   returnRequestList,
   RMA,
 } from '../sample-data/order-cancellations-returns';
-import { waitForPage } from './checkout-flow';
 import { verifyTabbingOrder } from './accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from './accessibility/tabbing-order.config';
-import * as sampleData from '../sample-data/order-cancellations-returns';
+import { waitForPage } from './navigation';
 
 export function visitOrderDetailPage() {
   const alias = waitForPage(
