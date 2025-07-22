@@ -106,7 +106,7 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
         cy.visit(
           `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
         );
-        cy.get('.cx-asm-assignCart').should('exist');
+        cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
         cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
         cy.get(
           'cx-customer-emulation input[formcontrolname="cartNumber"]'
