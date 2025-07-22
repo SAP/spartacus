@@ -22,7 +22,10 @@ export interface SubscriptionList {
   sorts?: SortModel[];
 }
 
+//re-check if this will be needed after jdk21 upgrade
 export enum SubscriptionStatus {
   cancelled = 'CANCELLED',
   active = 'ACTIVE',
+  withdrawn = 'WITHDRAWN',
+  expired = 'EXPIRED'
 }
