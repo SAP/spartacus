@@ -10,9 +10,9 @@ import {
   replenishmentOrderHistoryHeaderValue,
   replenishmentOrderHistoryUrl,
 } from './b2b/b2b-replenishment-order-history';
-import { waitForPage } from './checkout-flow';
 import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
+import { waitForPage } from './navigation';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';

@@ -5,11 +5,11 @@
  */
 
 import { user } from '../../../../sample-data/checkout-flow';
-import { waitForPage } from '../../../checkout-flow';
 import {
   fillBillingAddress,
   fillPaymentDetails,
 } from '../../../checkout-forms';
+import { waitForPage } from '../../../navigation';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 

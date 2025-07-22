@@ -11,6 +11,7 @@ import { AUTH_STORAGE_KEY, getStateAuth } from '../auth';
 import { cartUser } from '../cart';
 import { loginAsGuest } from '../checkout-as-guest';
 import * as checkout from '../checkout-flow';
+import { waitForPage } from '../navigation';
 import { generateMail, randomString } from '../user';
 
 export const productCode1 = '300938';
@@ -447,7 +448,7 @@ function registerReviewOrderRoute(cartId?: string) {
 }
 
 function visitReviewOrderPage() {
-  const reviewOrderPage = checkout.waitForPage(
+  const reviewOrderPage = waitForPage(
     '/checkout/review-order',
     'getReviewOrder'
   );
@@ -456,13 +457,13 @@ function visitReviewOrderPage() {
 }
 
 function visitOrdersPage() {
-  const ordersPage = checkout.waitForPage('/my-account/orders', 'getOrders');
+  const ordersPage = waitForPage('/my-account/orders', 'getOrders');
   cy.visit('my-account/orders');
   cy.wait(`@${ordersPage}`).its('response.statusCode').should('eq', 200);
 }
 
 function visitCartPage() {
-  const cartPage = checkout.waitForPage('cart', 'cartPage');
+  const cartPage = waitForPage('cart', 'cartPage');
   cy.visit('cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 }
@@ -474,7 +475,7 @@ export function verifyRefreshCart(userType: string) {
 }
 
 function verifyLoginPageForGuestCheckout() {
-  const loginPage = checkout.waitForPage('login', 'getLoginPage');
+  const loginPage = waitForPage('login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 }
