@@ -43,7 +43,7 @@ export enum SubscriptionStatus {
   cancelled = 'CANCELLED',
   active = 'ACTIVE',
   withdrawn = 'WITHDRAWN',
-  expired = 'EXPIRED'
+  expired = 'EXPIRED',
 }
 export interface CancelData{
   // validTillDate?: string;
