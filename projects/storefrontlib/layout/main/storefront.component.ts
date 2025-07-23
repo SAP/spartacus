@@ -34,6 +34,8 @@ import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
 
+// TODO:ga do not merge it. it's just a change to create a PR and test the pipeline
+
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
