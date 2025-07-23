@@ -290,6 +290,7 @@
     "webpack-cli": "^5.0.0"
   },
   "overrides": {
-    "vite": "5.4.19"
+    "vite": "5.4.19",
+    "stylus": "0.0.1-security"
   }
 }
