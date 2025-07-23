@@ -289,6 +289,7 @@
     "webpack-cli": "^5.0.0"
   },
   "overrides": {
-    "vite": "5.4.19"
+    "vite": "5.4.19",
+    "stylus": "https://github.com/stylus/stylus/archive/refs/tags/0.64.0.tar.gz"
   }
 }
