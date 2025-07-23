@@ -23,19 +23,18 @@ export class ConfiguratorOverviewSidebarComponent {
   protected configguratorImageGenerationService = inject(
     ConfiguratorImageGenerationService
   );
-  @HostBinding('class.ghost') ghostStyle = true;
+  @HostBinding('class.ghost') ghostStyle = false;
   @ViewChild('menuTab') menuTab: ElementRef<HTMLElement>;
   @ViewChild('filterTab') filterTab: ElementRef<HTMLElement>;
   showFilter: boolean = false;
 
   imagePath$ = this.configguratorImageGenerationService.isImagePresent().pipe(
     filter((isImagePresent) => isImagePresent),
-    switchMap(() => this.configguratorImageGenerationService.getImageUrl()),
-
-    tap(() => {
-      this.ghostStyle = false;
-    })
+    switchMap(() => this.configguratorImageGenerationService.getImageUrl())
   );
+
+  imageSketchPath$ =
+    this.configguratorImageGenerationService.getImageUrlSketch();
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

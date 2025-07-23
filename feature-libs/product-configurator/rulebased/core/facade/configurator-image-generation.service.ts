@@ -8,8 +8,12 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorImageGenerationService {
-  private serviceUrl = 'http://localhost:3000/api/generate_image';
-  private imageUrl: Observable<string> = new ReplaySubject<string>(1);
+  private readonly serviceUrl = 'http://localhost:3000/api/generate_image';
+  private readonly serviceUrlSketch =
+    'http://localhost:3000/api/generate_sketch_image';
+  private readonly imageUrl: Observable<string> = new ReplaySubject<string>(1);
+  private readonly imageUrlSketch: Observable<string> =
+    new ReplaySubject<string>(1);
   private readonly isImagePresent$: Observable<boolean> =
     new ReplaySubject<boolean>(1);
   private readonly isImageGenerationNeeded$: Observable<boolean> =
@@ -18,6 +22,7 @@ export class ConfiguratorImageGenerationService {
   constructor() {
     (this.isImagePresent$ as ReplaySubject<boolean>).next(false);
     (this.isImageGenerationNeeded$ as ReplaySubject<boolean>).next(true);
+    this.generateSketchImage();
   }
 
   /**
@@ -48,6 +53,27 @@ export class ConfiguratorImageGenerationService {
       });
   }
 
+  /**
+   * Generates sketch image.
+   */
+  protected generateSketchImage(): void {
+    from(
+      fetch(this.serviceUrlSketch, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    )
+      .pipe(
+        switchMap((response) => from(response.json())),
+        take(1)
+      )
+      .subscribe((data) => {
+        if (data?.imageUrl) {
+          (this.imageUrlSketch as ReplaySubject<string>).next(data.imageUrl);
+        }
+      });
+  }
+
   protected getAttributeFromConfiguration(
     configuration: Configurator.Configuration,
     attributeName: string
@@ -69,13 +95,18 @@ export class ConfiguratorImageGenerationService {
         );
         const attributeRubber = this.getAttributeFromConfiguration(
           configuration,
-          'TT_RACKET_RUBBER'
+          'TT_RUBBER'
         );
 
-        if (attributeColor && attributeRubber) {
+        const attributeType = this.getAttributeFromConfiguration(
+          configuration,
+          'TT_TYPE'
+        );
+        if (attributeColor && attributeRubber && attributeType) {
           const attributes = {
             color: attributeColor.selectedSingleValue,
             rubber: attributeRubber.selectedSingleValue,
+            type: attributeType.selectedSingleValue,
           };
           this.generateImage(attributes);
         }
@@ -95,5 +126,9 @@ export class ConfiguratorImageGenerationService {
 
   getImageUrl(): Observable<string> {
     return this.imageUrl;
+  }
+
+  getImageUrlSketch(): Observable<string> {
+    return this.imageUrlSketch;
   }
 }
