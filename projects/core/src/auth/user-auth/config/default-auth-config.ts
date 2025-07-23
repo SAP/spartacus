@@ -42,7 +42,7 @@ export function provideAuthorizationCodeFlowByDefault(
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android_public',
+    client_id: 'customloginpage_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',

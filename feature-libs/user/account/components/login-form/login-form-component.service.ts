@@ -30,6 +30,9 @@ export class LoginFormComponentService {
 
   protected busy$ = new BehaviorSubject(false);
 
+  action?: string;
+  method?: string;
+
   isUpdating$ = this.busy$.pipe(
     tap((state) => {
       const userId = this.winRef.nativeWindow?.history?.state?.['newUid'];
@@ -48,7 +51,7 @@ export class LoginFormComponentService {
     password: new UntypedFormControl('', Validators.required),
   });
 
-  login() {
+  login(_nativeForm?: HTMLFormElement) {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
@@ -82,5 +85,5 @@ export class LoginFormComponentService {
     this.busy$.next(false);
   }
 
-  initialize(_) {}
+  getCsrf = this.auth.getCsrf();
 }

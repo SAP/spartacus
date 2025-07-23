@@ -1,6 +1,12 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="form" #loginForm>
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="form"
+  [method]="method"
+  [action]="action"
+  #loginForm
+>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <label>
@@ -61,11 +67,11 @@
   </label>
 
   <input
-    *ngIf="!!form.get('csrf')"
+    *ngIf="!!form.get('csrf') && (getCsrf | async) as csrf"
+    [name]="csrf?.parameterName"
+    [attr.data-value]="csrf.token"
     type="hidden"
-    name="_csrf"
     formControlName="csrf"
-    #csrf
   />
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
