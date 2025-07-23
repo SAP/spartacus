@@ -7,7 +7,7 @@
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login } from './auth-forms';
 import * as cart from './cart';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 interface TestProduct {
   code: string;

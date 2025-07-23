@@ -528,6 +528,9 @@ describe('Cart merging on login', () => {
   it('should send a CartSnapshot event when a cart gets merged after a successful login', () => {
     anonymousConsents.clickAllowAllFromBanner();
     loginHelper.registerUser();
+    cy.whenJDK21(() => {
+      cy.getLoginRegisterLink({ clickAndWait: true });
+    });
     loginHelper.loginUser();
     cy.wait(`@${loginAlias}`);
 

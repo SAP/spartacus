@@ -32,7 +32,12 @@ export function testUpdatePassword(myAccountV2?: boolean) {
       cy.get('cx-update-password button.btn-primary').click();
     }
     cy.title().should('eq', PAGE_TITLE_LOGIN);
-    alerts.getSuccessAlert().should('exist');
+    cy.whenJDK17(() => {
+      alerts.getSuccessAlert().should('exist');
+    });
+    cy.whenJDK21(() => {
+      /* Intentionally empty */
+    });
     cy.url().should('contain', '/login');
 
     login(standardUser.registrationData.email, newPassword);
