@@ -16,6 +16,7 @@ import {
   UserModule,
   UserOccModule,
   provideFeatureTogglesFactory,
+  provideAuthorizationCodeFlowByDefault
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -412,6 +413,7 @@ if (environment.cpq) {
       };
       return appFeatureToggles;
     }),
+    provideAuthorizationCodeFlowByDefault(),
   ],
 })
 export class SpartacusFeaturesModule {}
