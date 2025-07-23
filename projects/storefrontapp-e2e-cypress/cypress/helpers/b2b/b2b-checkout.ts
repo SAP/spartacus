@@ -38,9 +38,9 @@ import {
   addCheapProductToCart,
   verifyReviewOrderPage,
   visitHomePage,
-  waitForPage,
   waitForProductPage,
 } from '../checkout-flow';
+import { waitForPage } from '../navigation';
 
 export function loginB2bUser() {
   let adminToken;

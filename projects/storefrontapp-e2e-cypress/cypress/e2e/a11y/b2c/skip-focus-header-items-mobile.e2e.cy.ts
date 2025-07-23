@@ -75,8 +75,10 @@ describe('Skipping elements from tab navigation in header', () => {
 
   it('restores header item tabbing after navigation', () => {
     cy.get('button.cx-hamburger').click();
-    cy.pressTab(true);
-    cy.focused().click();
+    cy.get('cx-generic-link > a')
+      .contains(/Film Cameras/i)
+      .first()
+      .click({ force: true });
 
     // elements are available for tabbing again
     mobileHeaderVisibleElements.forEach((selector) => {

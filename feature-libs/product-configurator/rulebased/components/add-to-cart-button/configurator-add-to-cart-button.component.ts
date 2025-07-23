@@ -63,6 +63,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected activeCartFacade = inject(ActiveCartFacade);
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
+  addToCartButtonDisabled = false;
 
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
@@ -133,16 +134,30 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     owner: CommonConfigurator.Owner,
     productCode?: string
   ): void {
+    // When navigating to the overview page, we change the browser history,
+    // by changing the owner type and entity key (cart entry) in the configure URL.
+    // With that the user can return to the configuration page
+    // by using the browser back button.
     this.routingService
       .go(
         {
-          cxRoute: 'configureOverview' + configuratorType,
+          cxRoute: 'configure' + configuratorType,
           params: { ownerType: 'cartEntry', entityKey: owner.id },
         },
-        { queryParams: { productCode: productCode } }
+        { replaceUrl: true }
       )
       .then(() => {
-        this.focusOverviewInTabBar();
+        this.routingService
+          .go(
+            {
+              cxRoute: 'configureOverview' + configuratorType,
+              params: { ownerType: 'cartEntry', entityKey: owner.id },
+            },
+            { queryParams: { productCode: productCode } }
+          )
+          .then(() => {
+            this.focusOverviewInTabBar();
+          });
       });
   }
 
@@ -328,6 +343,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean,
     productCode?: string
   ) {
+    this.addToCartButtonDisabled = true;
     const quantity = this.quantityControl.value;
     this.configuratorCartService.addToCart(
       owner.id,

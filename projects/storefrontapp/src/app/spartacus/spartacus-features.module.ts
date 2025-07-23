@@ -293,7 +293,6 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
-        formErrorsDescriptiveMessages: true,
         searchBoxV2: false,
         trendingSearches: false,
         useProductCarouselBatchApi: true,
@@ -404,7 +403,11 @@ if (environment.cpq) {
         reserveHorizontalSpaceStarRating: true,
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
+        productCarouselScrolling: true,
         createMediaPreconnectLink: true,
+        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
+        reserveSpaceForImagesOnPdpAndPlp: true,
+        lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;
     }),

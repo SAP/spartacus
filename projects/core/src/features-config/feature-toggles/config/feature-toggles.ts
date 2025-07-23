@@ -16,20 +16,6 @@ export interface FeatureTogglesInterface {
   showDeliveryOptionsTranslation?: boolean;
 
   /**
-   * In `FormErrorsComponent` it uses more descriptive validation error messages
-   * in all UI form fields existing before v2211.25.
-   *
-   * 1. The `FormErrorsComponent` uses new i18n keys:
-   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
-   * for example `formErrors.labeled.required` instead of `formErrors.required`.
-   *
-   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
-   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
-   * (with the plural `...Validators`)
-   */
-  formErrorsDescriptiveMessages?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
@@ -750,6 +736,31 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
+   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
+   * in the following components instead of the old `<cx-carousel>`:
+   * - `ProductCarouselComponent`
+   * - `ProductReferencesComponent`
+   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
+   *
+   * The previous carousel had number of issues:
+   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
+   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
+   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
+   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
+   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
+   * - Was not swipe-friendly on mobile devices
+   *
+   * The new carousel:
+   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
+   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
+   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
+   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
+   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
+   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
+   */
+  productCarouselScrolling?: boolean;
+
+  /**
    * Feature flag to enable using <link rel=preconnect> in the index.html.
    *
    * ## When enabled:
@@ -760,11 +771,66 @@ export interface FeatureTogglesInterface {
    * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
    */
   createMediaPreconnectLink?: boolean;
+
+  /**
+   * Feature flag to enable consistent header slot structure across breakpoints to reduce
+   * layout shift and improve Cumulative Layout Shift (CLS) scores.
+   *
+   * On desktop devices (non-mobile), some header and navigation elements were rendered
+   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
+   * affected the user experience and CLS performance.
+   *
+   * When enabled:
+   * - Desktop uses the same header slot structure as mobile.
+   * - Reduces layout shift and improves perceived performance and visual stability.
+   *
+   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
+   * with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
+
+  /**
+   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
+   *
+   * When enabled, it ensures that appropriate space is reserved for images before they load,
+   * maintaining layout stability across the following contexts:
+   *
+   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
+   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
+   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
+   *
+   * This helps improve Core Web Vitals by preventing layout shifts as images load.
+   */
+  reserveSpaceForImagesOnPdpAndPlp?: boolean;
+
+  /**
+   * Feature flag to control the default image loading strategy.
+   *
+   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
+   * due to the fallback logic in the `MediaService`, which defaults to
+   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
+   *
+   * This flag, when enabled, changes the default image loading behavior to use
+   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
+   * immediately, reducing unnecessary network usage and improving performance.
+   *
+   * Lazy loading frees up bandwidth to prioritize more important assets,
+   * such as the largest content element on the page, which can positively
+   * impact the LCP (Largest Contentful Paint) metric.
+   *
+   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
+   * by specifying CMS component IDs via the Spartacus config:
+   * `provideConfig({ lcpCmsComponents: ... })`
+   * ... or by passing the special input directly to the `MediaComponent`:
+   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
+   *
+   * Set to `true` to enable lazy loading by default.
+   */
+  lazyLoadImagesByDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showDeliveryOptionsTranslation: true,
-  formErrorsDescriptiveMessages: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -870,5 +936,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
+  productCarouselScrolling: false,
   createMediaPreconnectLink: false,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
+  reserveSpaceForImagesOnPdpAndPlp: false,
+  lazyLoadImagesByDefault: false,
 };

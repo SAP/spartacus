@@ -35,7 +35,7 @@ describe('Wish list', () => {
   describe('Logged in', () => {
     beforeEach(() => {
       visitHomePage();
-      cy.get('cx-login').click();
+      cy.getLoginRegisterLink().click();
       wishList.loginWishListUser();
     });
 
@@ -71,7 +71,7 @@ describe('Wish list', () => {
   describe('checkout', () => {
     beforeEach(() => {
       visitHomePage();
-      cy.get('cx-login').click();
+      cy.getLoginRegisterLink().click();
       wishList.loginWishListUser();
     });
 

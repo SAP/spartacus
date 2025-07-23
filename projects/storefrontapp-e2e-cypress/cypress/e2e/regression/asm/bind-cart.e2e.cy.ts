@@ -64,9 +64,14 @@ context('Assisted Service Module', () => {
 
     it(`Verify anonymous cart is now the user's active cart for bind cart (CXSAP-153)`, () => {
       cy.log('--> Log in as customer');
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login');
-      cy.wait(`@${loginPage}`);
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        cy.visit('/login');
+        cy.wait(`@${loginPage}`);
+      });
+      cy.whenJDK21(() => {
+        cy.visit('/login');
+      });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -156,9 +161,14 @@ context('Assisted Service Module', () => {
 
     it(`Verify anonymous cart is now the user's active cart for replace bind cart (CXSAP-153)`, () => {
       cy.log('--> Log in as customer');
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login');
-      cy.wait(`@${loginPage}`);
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        cy.visit('/login');
+        cy.wait(`@${loginPage}`);
+      });
+      cy.whenJDK21(() => {
+        cy.visit('/login');
+      });
       login(
         customerForReplaceBindCart.email,
         customerForReplaceBindCart.password
