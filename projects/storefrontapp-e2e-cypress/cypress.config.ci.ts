@@ -7,8 +7,8 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 10000,
-  requestTimeout: 10000,
+  defaultCommandTimeout: 30000,
+  requestTimeout: 30000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
@@ -20,7 +20,7 @@ export default defineConfig({
   env: {
     API_URL:
       //'https://api.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
-      'https://api.c432wmya2v-teamspart3-s1-public.model-t.myhybris.cloud',
+      'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
