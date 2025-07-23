@@ -11,7 +11,6 @@ import * as checkout from './checkout-flow';
 import {
   interceptCheckoutB2CDetailsEndpoint,
   verifyReviewOrderPage,
-  waitForPage,
   waitForProductPage,
 } from './checkout-flow';
 import {
@@ -20,6 +19,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { waitForPage } from './navigation';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -202,7 +202,7 @@ export function checkWishListPersisted(product: TestProduct) {
   });
   cy.location('pathname').should('equal', '/electronics-spa/en/USD/');
 
-  cy.findByText(/Sign in \/ Register/i).click();
+  cy.getLoginRegisterLink().click();
 
   loginWishListUser();
 

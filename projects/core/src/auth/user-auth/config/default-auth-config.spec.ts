@@ -7,7 +7,7 @@ import {
 
 const expectedAuthorizationCodeDefault: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
@@ -33,6 +33,7 @@ const expectedResourceOwnerDefault: AuthConfig = {
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
     sendAuthHeaderOnRevoke: true,
+    useClientTokens: true,
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],

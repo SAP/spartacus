@@ -10,8 +10,8 @@ import {
   provideHttpClientTesting,
   TestRequest,
 } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
-import { OccConfig } from '@spartacus/core';
+import { TestBed } from '@angular/core/testing';
+import { AuthConfig, OccConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { defaultOccConfig } from '../../../occ/config/default-occ-config';
 import {
@@ -46,7 +46,7 @@ class MockClientErrorHandlingService
   }
 }
 
-const MockAuthModuleConfig: OccConfig = {
+const MockAuthModuleConfig: OccConfig & AuthConfig = {
   backend: {
     occ: {
       baseUrl: 'https://localhost:9002',
@@ -56,10 +56,14 @@ const MockAuthModuleConfig: OccConfig = {
   context: {
     baseSite: ['electronics'],
   },
+  authentication: {
+    useClientTokens: true,
+  },
 };
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
+  let http: HttpClient;
   let clientTokenService: ClientTokenService;
   let clientErrorHandlingService: ClientErrorHandlingService;
 
@@ -68,6 +72,7 @@ describe('ClientTokenInterceptor', () => {
       imports: [],
       providers: [
         { provide: OccConfig, useValue: MockAuthModuleConfig },
+        { provide: AuthConfig, useExisting: OccConfig },
         { provide: ClientTokenService, useClass: MockClientTokenService },
         {
           provide: ClientErrorHandlingService,
@@ -82,15 +87,17 @@ describe('ClientTokenInterceptor', () => {
         provideHttpClientTesting(),
       ],
     });
-    httpMock = TestBed.inject(HttpTestingController);
-    clientTokenService = TestBed.inject(ClientTokenService);
-    clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
   });
 
-  describe('Client Token', () => {
-    it('Should only add token to specified requests', inject(
-      [HttpClient],
-      (http: HttpClient) => {
+  describe('when client tokens are enabled', () => {
+    beforeEach(() => {
+      httpMock = TestBed.inject(HttpTestingController);
+      http = TestBed.inject(HttpClient);
+      clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
+      clientTokenService = TestBed.inject(ClientTokenService);
+    });
+    describe('Client Token', () => {
+      it('Should only add token to specified requests', () => {
         spyOn(clientTokenService, 'getClientToken').and.returnValue(
           of(testToken)
         );
@@ -102,7 +109,7 @@ describe('ClientTokenInterceptor', () => {
           })
           .unsubscribe();
         let mockReq: TestRequest = httpMock.expectOne(`${OccUrl}/test`);
-        let authHeader: string = mockReq.request.headers.get('Authorization');
+        let authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
         spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
@@ -122,13 +129,10 @@ describe('ClientTokenInterceptor', () => {
         expect(authHeader).toBe(
           `${testToken.token_type} ${testToken.access_token}`
         );
-      }
-    ));
-  });
+      });
+    });
 
-  it(`should catch 401 error for a client token`, inject(
-    [HttpClient],
-    (http: HttpClient) => {
+    it(`should catch 401 error for a client token`, () => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
       const options = {
         headers,
@@ -158,12 +162,9 @@ describe('ClientTokenInterceptor', () => {
       expect(
         clientErrorHandlingService.handleExpiredClientToken
       ).toHaveBeenCalled();
-    }
-  ));
+    });
 
-  it(`should catch 401 error for a client token for legacy auth server`, inject(
-    [HttpClient],
-    (http: HttpClient) => {
+    it(`should catch 401 error for a client token for legacy auth server`, () => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
       const options = {
         headers,
@@ -193,6 +194,40 @@ describe('ClientTokenInterceptor', () => {
       expect(
         clientErrorHandlingService.handleExpiredClientToken
       ).toHaveBeenCalled();
-    }
-  ));
+    });
+  });
+
+  describe('when client tokens are disabled', () => {
+    let http: HttpClient;
+
+    beforeEach(() => {
+      let authConfig = TestBed.inject(OccConfig) as AuthConfig;
+      authConfig.authentication.useClientTokens = false;
+      httpMock = TestBed.inject(HttpTestingController);
+      clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
+      clientTokenService = TestBed.inject(ClientTokenService);
+      http = TestBed.inject(HttpClient);
+    });
+
+    it('Should not add tokens when disabled', () => {
+      spyOn(clientTokenService, 'getClientToken').and.returnValue(
+        of(testToken)
+      );
+
+      spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(true);
+      http
+        .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+        })
+        .unsubscribe();
+
+      let mockReq = httpMock.expectOne(
+        `${OccUrl}/somestore/forgottenpasswordtokens`
+      );
+      let authHeader = mockReq.request.headers.get('Authorization');
+      expect(authHeader).toBe(null);
+      expect(clientTokenService.getClientToken).not.toHaveBeenCalled();
+    });
+  });
 });

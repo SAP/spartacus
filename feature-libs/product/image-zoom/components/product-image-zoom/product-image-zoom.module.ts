@@ -15,6 +15,7 @@ import {
 } from '@spartacus/core';
 import {
   CarouselModule,
+  CarouselScrollingModule,
   IconModule,
   KeyboardFocusModule,
   LcpContextDirectiveModule,
@@ -31,6 +32,7 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
 @NgModule({
   imports: [
     CarouselModule,
+    CarouselScrollingModule,
     CommonModule,
     I18nModule,
     IconModule,

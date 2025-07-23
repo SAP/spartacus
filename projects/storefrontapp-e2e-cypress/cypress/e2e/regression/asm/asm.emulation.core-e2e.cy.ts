@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeaturesConfig } from '@spartacus/core';
 import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
@@ -20,11 +19,6 @@ context('Assisted Service Module', () => {
     asm.testCustomerEmulation();
 
     it('should checkout as customer (CXSPA-7026)', () => {
-      cy.cxConfig({
-        features: {
-          showSearchingCustomerByOrderInASM: true,
-        },
-      } as FeaturesConfig);
       const customer = getSampleUser();
 
       cy.log('--> Agent logging in');

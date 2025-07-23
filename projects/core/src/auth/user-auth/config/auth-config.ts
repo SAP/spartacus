@@ -60,10 +60,20 @@ export abstract class AuthConfig {
      *
      * In particular, you must set this property to `true` when using the legacy Authorization
      * Server from SAP Commerce Cloud versions prior to September 2025. For SAP Commerce Cloud
-     * versions from September 2025 onwards, which include the rebuilt Authorization server,
+     * versions from September 2025 onwards, which includes the rebuilt Authorization server,
      * set `sendAuthHeaderOnRevoke` to `false`.
      */
     sendAuthHeaderOnRevoke?: boolean;
+    /**
+     * Determine if client tokens should be requested and sent with the correspondingly marked
+     * connector requests.
+     *
+     * In particular, you must set this property to `true` when using the legacy Authorization
+     * Server from SAP Commerce Cloud versions prior to September 2025. For SAP Commerce Cloud
+     * versions from September 2025 onwards, which includes the rebuilt Authorization server,
+     * set `useClientTokens` to `false`.
+     */
+    useClientTokens?: boolean;
     /**
      * Url for login redirect for Implicit and Authorization Code Flow.
      */
