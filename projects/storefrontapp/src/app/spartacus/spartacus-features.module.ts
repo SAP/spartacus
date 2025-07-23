@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
+  AuthConfig,
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
@@ -15,6 +16,7 @@ import {
   ProductOccModule,
   UserModule,
   UserOccModule,
+  provideConfig,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -410,6 +412,24 @@ if (environment.cpq) {
         lazyLoadImagesByDefault: true,
       };
       return appFeatureToggles;
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        client_id: 'mobile_android',
+        client_secret: 'secret',
+        tokenEndpoint: '/oauth/token',
+        revokeEndpoint: '/oauth/revoke',
+        loginUrl: '/oauth/authorize',
+        OAuthLibConfig: {
+          scope: '',
+          customTokenParameters: ['token_type'],
+          strictDiscoveryDocumentValidation: false,
+          skipIssuerCheck: true,
+          disablePKCE: true,
+          oidc: false,
+          clearHashAfterLogin: false,
+        },
+      },
     }),
   ],
 })
