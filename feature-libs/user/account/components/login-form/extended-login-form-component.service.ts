@@ -38,6 +38,7 @@ export class ExtendedLoginFormComponentService extends LoginFormComponentService
     const dataValue = (
       nativeForm.elements as unknown as HTMLInputElement[]
     ).find((element) => !!element.attributes['data-value']);
+    console.log(nativeForm.elements);
     this.form.get('csrf')?.setValue(dataValue);
 
     if (!this.form.valid) {
