@@ -7,9 +7,9 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { GlobalMessageService, GlobalMessageType, I18nModule } from "@spartacus/core";
+import { EventService, GlobalMessageService, GlobalMessageType, I18nModule } from "@spartacus/core";
 import { LaunchDialogService, ICON_TYPE, IconModule, FocusConfig, KeyboardFocusModule } from "@spartacus/storefront";
-import { SubscriptionBillingFacade } from "@spartacus/subscription-billing/root";
+import { GetSubscriptionByCodeReloadEvent, SubscriptionBillingFacade } from "@spartacus/subscription-billing/root";
 
 @Component({
     selector: 'cx-extend-subscription-dialog',
@@ -20,6 +20,7 @@ export class ExtendSubscriptionDialog {
     private launchDialogService = inject(LaunchDialogService);
     private subscriptionBillingService = inject(SubscriptionBillingFacade);
     private globalMessageService = inject(GlobalMessageService);
+    private eventService = inject(EventService);
 
     iconTypes = ICON_TYPE;
     extendDuration: number;
@@ -61,12 +62,12 @@ export class ExtendSubscriptionDialog {
             confirmedExtendDuration,
             this.isUnlimitedDurationSelected
         ).subscribe(
-            (info) => {
-                console.log('info', info);
+            () => {
                 this.globalMessageService.add(
                     { key: 'extendSubscription.extendedSuccessfully' },
                     GlobalMessageType.MSG_TYPE_CONFIRMATION
                 );
+                this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
                 this.close('extendSubscription.extendedSuccessfully');
             }, (error) => {
                 this.errorHandler(error);
