@@ -47,9 +47,9 @@
   "cancelSubscription": {
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "cancelSuccess": "The service has been cancelled sucessfully",
-    "withdrawSuccess": "The service has been cancelled sucessfully",
-    "reverseCancellationSuccess": "The service has been Withdraw sucessfully",
+    "cancelSuccess": "The subscription has been cancelled sucessfully.",
+    "withdrawSuccess": "The subscription has been withdrawn successfully.",
+    "reverseCancellationSuccess": "The subscription has been Withdraw sucessfully.",
     "unknownError": "An unknown error occurred. Please contact support.",
     "askConfirm": "Cancel your subscription?",
     "closeModal": "Close modal",

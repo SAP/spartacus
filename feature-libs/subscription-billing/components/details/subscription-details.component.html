@@ -74,7 +74,8 @@
       <span class="col-xs-12 col-md-4 col-lg-3">
         <span class="action-button-right">
           <a
-          *ngIf="subscription.subscriptionStatus !== 'CANCELLED'"
+           *ngIf="subscription.subscriptionStatus !== 'CANCELLED' && subscription.subscriptionStatus !== 'WITHDRAWN'"
+
           #cancelTriggerEl
           class="btn btn-block btn-secondary"
           (click)="openCancelPopup()"
@@ -88,7 +89,7 @@
 
         <!-- Resubscribe -->
         <span class="cx-action-button">
-          <a *ngIf="!isSubscriptionActive(subscription.subscriptionStatus)"
+          <a *ngIf="subscription.subscriptionStatus === 'CANCELLED'"
            cxBtnLikeLink
     class="btn btn-block btn-primary"
     [attr.aria-label]="'subscriptionDetails.resubscribe' | cxTranslate"

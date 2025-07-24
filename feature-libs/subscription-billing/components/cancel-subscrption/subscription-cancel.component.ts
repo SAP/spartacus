@@ -9,6 +9,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import {  catchError,  Subscription, throwError } from 'rxjs';
 import {
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   I18nModule,
@@ -20,6 +21,7 @@ import {
   CancellationDetails,
   SubscriptionDetail,
   CancelData,
+  GetSubscriptionByCodeReloadEvent,
 } from '@spartacus/subscription-billing/root';
 import {
   CardModule,
@@ -71,6 +73,7 @@ export class SubscriptionCancelComponent implements OnInit, OnDestroy {
   private launchDialogService = inject(LaunchDialogService);
   protected routingService = inject(RoutingService);
 
+  protected eventService = inject(EventService);
   private subscriptions = new Subscription();
 
   cancelData = signal<CancelData | undefined>(undefined);
@@ -136,9 +139,7 @@ getFormattedCancelValidTillDate(cancelData: CancelData | undefined): string {
       .subscribe({
         next: () => {
           this.onDialogClose('Success');
-          this.routingService.go({
-            cxRoute: 'subscriptions',
-          });
+          this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           this.globalMessageService.add(
             { key: 'cancelSubscription.cancelSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION

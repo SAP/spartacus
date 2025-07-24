@@ -180,22 +180,12 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         take(1),
         switchMap(([code, subscription]) => {
-          // if (!code || !subscription) {
-          //   this.globalMessageService.add(
-          //     { key: 'cancelSubscription.missingCode' },
-          //     GlobalMessageType.MSG_TYPE_ERROR
-          //   );
-          //   return throwError(() => new Error('Missing subscription code'));
-          // }
-
           const payload: withdrawal = {
             subscriptionId: subscription?.id,
             version: subscription?.version,
             withdrawnAt: subscription?.withdrawnAt,
             withdrawalPeriodEndDate: subscription?.withdrawalPeriodEndDate,
           };
-
-          console.log('[withdrawal] Using payload:', payload);
 
           return this.subscriptionCancelFacade.withdrawal(payload, code).pipe(
             catchError((err) => {
@@ -211,6 +201,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
             { key: 'cancelSubscription.withdrawSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
+          this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
         },
         error: () => this.onError(),
       });
@@ -224,19 +215,6 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         take(1),
         switchMap(([code]) => {
-          // if (!code || !subscription) {
-          //   this.globalMessageService.add(
-          //     { key: 'cancelSubscription.missingCode' },
-          //     GlobalMessageType.MSG_TYPE_ERROR
-          //   );
-          //   return throwError(() => new Error('Missing subscription code'));
-          // }
-
-          // const payload: reverseCancellation = {
-          //   subscriptionId: subscription?.id,
-          //   version: subscription?.version,
-          // };
-
           return this.subscriptionCancelFacade.reverseCancellation(code).pipe(
             catchError((err) => {
               this.onError();
