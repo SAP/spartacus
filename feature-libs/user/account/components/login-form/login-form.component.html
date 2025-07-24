@@ -68,8 +68,8 @@
 
   <input
     *ngIf="!!form.get('csrf') && (getCsrf | async) as csrf"
-    [name]="csrf?.parameterName"
-    [attr.data-value]="csrf.token"
+    [name]="csrf.parameterName"
+    [attr.data-csrf]="csrf.token"
     type="hidden"
     formControlName="csrf"
   />

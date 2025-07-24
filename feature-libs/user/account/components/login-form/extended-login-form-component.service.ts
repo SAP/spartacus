@@ -25,21 +25,17 @@ export class ExtendedLoginFormComponentService extends LoginFormComponentService
       CustomFormValidators.emailValidator,
     ]),
     password: new UntypedFormControl('', Validators.required),
-    csrf: new UntypedFormControl(''),
-    // csrf: new UntypedFormControl('', Validators.required),
+    csrf: new UntypedFormControl('', Validators.required),
   });
 
   method = 'POST';
   action = this.authConfigService?.getCustomLoginFormEndpoint();
 
   login(nativeForm: HTMLFormElement) {
-    console.log(nativeForm.elements);
-
-    const dataValue = (
-      nativeForm.elements as unknown as HTMLInputElement[]
-    ).find((element) => !!element.attributes['data-value']);
-    console.log(nativeForm.elements);
-    this.form.get('csrf')?.setValue(dataValue);
+    const csrf = [...nativeForm.elements].find(
+      (element) => !!element.attributes['data-csrf']
+    );
+    this.form.get('csrf')?.setValue(csrf?.attributes['data-csrf'].value);
 
     if (!this.form.valid) {
       this.form.markAllAsTouched();
