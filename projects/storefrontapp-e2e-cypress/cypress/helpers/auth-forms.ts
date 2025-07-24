@@ -8,7 +8,8 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
-import { waitForPage } from './checkout-flow';
+import { whenJDK17, whenJDK21 } from '../support/utils/jdk-versions';
+import { waitForPage } from './navigation';
 
 export interface LoginUser {
   username: string;
@@ -41,7 +42,25 @@ export function fillRegistrationForm(
   });
 }
 
-export function fillLoginForm({ username, password }: LoginUser) {
+/**
+ * Fill in Spartacus Login page
+ * @deprecated Old authentication process
+ */
+export function fillLoginForm(credentials: LoginUser) {
+  return fillCustomLoginForm(credentials);
+}
+
+/** New Authorization server login */
+export function fillAuthServerLoginForm({ username, password }: LoginUser) {
+  cy.log(`🛒 Logging in user ${username} from the login form`);
+  cy.get('input[name=username]').clear().type(username);
+  cy.get('input[name=password]').clear().type(password);
+
+  cy.get('button[type=submit]').click();
+}
+
+/** New Authorization server login */
+export function fillCustomLoginForm({ username, password }: LoginUser) {
   cy.log(`🛒 Logging in user ${username} from the login form`);
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').clear().type(username);
@@ -64,26 +83,50 @@ export function fillKymaLoginForm({ username, password }: LoginUser) {
   );
 }
 
+/**
+ * Starting from the registration page
+ * - Fill out the registration form
+ * - Submit the form
+ * - Wait for the success page to load
+ */
 export function register(
   user: SampleUser,
   giveRegistrationConsent = false,
   hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get('cx-register form').within(() => {
-    cy.get('button[type="submit"]').click();
-    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(
+    () => waitForPage('/login', 'getLoginPageAfterRegister'),
+    () => waitForPage('/homepage', 'getHomepageAfterRegister')
+  ).then((homepage) => {
+    cy.get('cx-register form').within(() => {
+      cy.get('button[type="submit"]').click();
+      cy.wait(`@${homepage}`).its('response.statusCode').should('eq', 200);
+    });
   });
 }
 
+/**
+ * Starting from the registration page
+ * - fill out the registration form
+ * - submit the form without supplying captcha
+ * - resubmit form with captcha
+ * - wait for the success page to load
+ */
 export function registerWithCaptcha(
   user: SampleUser,
   giveRegistrationConsent = false,
   hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  let pageAlias: string;
+  whenJDK17(() => {
+    pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
+  });
+  whenJDK21(() => {
+    pageAlias = waitForPage('/homepage', 'getHomepageAfterRegister');
+  });
+
   cy.get('button[type="submit"]').click();
   // Register a user without confirming captcha will have an error.
   cy.get('cx-form-errors.control-invalid').should('exist');
@@ -92,9 +135,19 @@ export function registerWithCaptcha(
   cy.contains('label', 'Verified', { timeout: 10000 }).should('be.visible');
   cy.get('cx-form-errors.control-invalid').should('not.exist');
   cy.get('button[type="submit"]').click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
 }
 
+/**
+ * From the login page
+ * - Fill in the login form
+ * - Submit the form
+ */
 export function login(username: string, password: string) {
-  fillLoginForm({ username, password });
+  cy.whenJDK17(() => {
+    fillLoginForm({ username, password });
+  });
+  cy.whenJDK21(() => {
+    fillAuthServerLoginForm({ username, password });
+  });
 }

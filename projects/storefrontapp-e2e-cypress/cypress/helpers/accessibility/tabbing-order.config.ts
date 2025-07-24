@@ -2532,6 +2532,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: '1',
     },
     {
@@ -2545,6 +2548,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.LINK,
       value: '7',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
     },
     {
       type: TabbingOrderTypes.LINK,

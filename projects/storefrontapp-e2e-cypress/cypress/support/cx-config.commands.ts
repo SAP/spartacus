@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { type Config as SpartacusConfig } from '@spartacus/core';
+import { Config as SpartacusConfig } from '@spartacus/core';
 
 declare global {
   namespace Cypress {

@@ -70,8 +70,10 @@ export function defaultAuthConfigFactory(): AuthConfig {
     const config = {
       authentication: {
         ...defaultAuthConfig.authentication,
+        client_id: 'mobile_android',
         client_secret: 'secret',
         sendAuthHeaderOnRevoke: true,
+        useClientTokens: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
           disablePKCE: true,

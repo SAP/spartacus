@@ -19,8 +19,8 @@ import {
   interceptCheckoutB2BDetailsEndpoint,
   interceptPutDeliveryModeEndpoint,
 } from '../../b2b/b2b-checkout';
-import { waitForPage } from '../../checkout-flow';
 import * as alerts from '../../global-message';
+import { waitForPage } from '../../navigation';
 
 export const poNumber = '777';
 

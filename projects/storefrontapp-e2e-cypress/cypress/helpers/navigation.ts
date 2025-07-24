@@ -100,3 +100,12 @@ export function navigateToAMyAccountPage(
   });
   cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
 }
+
+/**
+ * When on mobile, will click the hamburger menu button.
+ */
+export function clickHamburger() {
+  cy.onMobile(() => {
+    cy.get('cx-hamburger-menu button', { timeout: 15000 }).click();
+  });
+}

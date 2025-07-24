@@ -5,10 +5,8 @@
  */
 
 import { login } from '../../../../helpers/auth-forms';
-import {
-  waitForPage,
-  waitForProductPage,
-} from '../../../../helpers/checkout-flow';
+import { waitForProductPage } from '../../../../helpers/checkout-flow';
+import { waitForPage } from '../../../../helpers/navigation';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import { isolateTests } from '../../../../support/utils/test-isolation';
 
