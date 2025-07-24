@@ -41,4 +41,5 @@ export const environment: Environment = {
   myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
   s4Service: buildProcess.env.CX_S4_SERVICE ?? false,
   punchout: buildProcess.env.CX_PUNCHOUT ?? false,
+  newAuthFlow: buildProcess.env.CX_NEW_AUTH_FLOW ?? false,
 };

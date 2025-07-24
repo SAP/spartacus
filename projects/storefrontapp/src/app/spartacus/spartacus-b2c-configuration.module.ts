@@ -10,7 +10,6 @@ import {
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
-  AuthConfig,
   provideAuthorizationCodeFlowByDefault,
 } from '@spartacus/core';
 import {
@@ -34,6 +33,11 @@ const defaultBaseSite = [
 const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
   : defaultBaseSite;
+
+console.log('zxxxx', environment, environment.newAuthFlow);
+const newAuthFlowProviders = environment.newAuthFlow
+  ? [provideAuthorizationCodeFlowByDefault()]
+  : [];
 
 @NgModule({
   providers: [
@@ -59,15 +63,7 @@ const baseSite = environment.epdVisualization
         },
       },
     }),
-    provideAuthorizationCodeFlowByDefault(),
-    provideConfig(<AuthConfig>{
-      authentication: {
-        customLoginPage: {
-          csrfEndpoint: '/csrf',
-          loginFormEndpoint: '/login',
-        },
-      },
-    }),
+    ...newAuthFlowProviders,
   ],
 })
 export class SpartacusB2cConfigurationModule {}
