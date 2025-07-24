@@ -93,17 +93,6 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getConfigurationWithKey(
-    ownerKey: string
-  ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
-      filter((configuration) =>
-        this.configuratorUtils.isConfigurationCreated(configuration)
-      )
-    );
-  }
-
   /**
    * Returns a configuration if it exists or creates a new one.
    * Emits if there is a valid configuration available and triggers

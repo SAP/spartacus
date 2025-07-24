@@ -103,6 +103,9 @@ export class ConfiguratorImageGenerationService {
           'TT_TYPE'
         );
         if (attributeColor && attributeRubber && attributeType) {
+          //all attributes that influence the image generation are in one group,
+          //otherwise we would need to access the overview or cache the relevant attributes
+          //in this service
           const attributes = {
             color: attributeColor.selectedSingleValue,
             rubber: attributeRubber.selectedSingleValue,
