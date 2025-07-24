@@ -1,0 +1,49 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
+import { AuthConfigService } from '../../user-auth/services/auth-config.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
+import { CSRFResponse } from '../../user-auth/models/csfr-response';
+
+/**
+ * Service to handle CSRF (Cross-Site Request Forgery) protection mechanisms
+ * by retrieving CSRF tokens as needed.
+ *
+ * This service provides a method to fetch the CSRF token from a configured
+ * endpoint, which can be used to ensure secure communication by protecting
+ * against CSRF attacks.
+ */
+@Injectable({
+  providedIn: 'root',
+})
+export class CrossSiteRequestForgeryService {
+  protected http = inject(HttpClient);
+  protected authConfigService = inject(AuthConfigService);
+  protected routingService = inject(RoutingService);
+
+  /**
+   * Returns CSRF Token
+   */
+  getCsrfToken() {
+    const url: string = this.authConfigService.getCsfrEndpoint();
+
+    return this.http
+      .get<CSRFResponse>(url, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap({
+          error: (e) => {
+            console.log('Failed to get csrf token', e);
+            this.routingService.go({ cxRoute: 'login' });
+          },
+        })
+      );
+  }
+}

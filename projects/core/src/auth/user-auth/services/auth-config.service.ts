@@ -74,10 +74,21 @@ export class AuthConfigService {
     return this.prefixEndpoint(loginUrl);
   }
 
+  /**
+   * Retrieves the custom login form endpoint from the configuration.
+   */
   public getCustomLoginFormEndpoint(): string {
     const customLoginFormEndpoint =
       this.config?.customLoginPage?.loginForm ?? '';
     return this.prefixEndpoint(customLoginFormEndpoint);
+  }
+
+  /**
+   * Retrieves the CSRF endpoint for custom login based on the configuration settings.
+   */
+  public getCsfrEndpoint(): string {
+    const csfrEndpoint = this.config?.customLoginPage?.csfrPath ?? '';
+    return this.prefixEndpoint(csfrEndpoint);
   }
 
   /**

@@ -11,7 +11,6 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { CustomLoginPageAdapter } from '../../connectors/custom-login.adapter';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
@@ -19,6 +18,7 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
+import { CrossSiteRequestForgeryService } from '../../client-auth';
 
 /**
  * Auth service for normal user authentication.
@@ -28,6 +28,7 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  crossSiteRequestForgeryService = inject(CrossSiteRequestForgeryService);
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -36,9 +37,6 @@ export class AuthService {
    * Indicates whether the logout is being performed
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
-
-  // Should probably import a service, not adapter directly
-  customLoginPageAdapter = inject(CustomLoginPageAdapter);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -113,12 +111,13 @@ export class AuthService {
     } catch {}
   }
 
-  // customLoginForm(form) {
-  //   return this.customLoginPageAdapter.login(form);
-  // }
-
-  getCsrf() {
-    return this.customLoginPageAdapter.getCustomLoginCsrf();
+  /**
+   * Retrieves the CSRF (Cross-Site Request Forgery) token from the service.
+   *
+   * @return {string} The CSRF token used for preventing cross-site request forgery attacks.
+   */
+  getCsrfToken() {
+    return this.crossSiteRequestForgeryService.getCsrfToken();
   }
 
   /**

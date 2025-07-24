@@ -31,13 +31,13 @@ export class LoginFormComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  getCsrf = this.service.getCsrf;
+  csfr$ = this.service.csfr$;
   action = this.service.action;
   method = this.service.method;
 
   @HostBinding('class.user-form') style = true;
 
   onSubmit(): void {
-    this.service.login(this.loginForm.nativeElement);
+    this.service.login(this.loginForm?.nativeElement);
   }
 }

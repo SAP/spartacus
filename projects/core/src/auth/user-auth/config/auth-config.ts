@@ -82,7 +82,7 @@ export abstract class AuthConfig {
     OAuthLibConfig?: AuthLibConfig;
 
     customLoginPage?: {
-      enabled: boolean;
+      /** auth server's csfr endpoint */
       csfrPath: string;
       /** auth server's login form action */
       loginForm?: string;

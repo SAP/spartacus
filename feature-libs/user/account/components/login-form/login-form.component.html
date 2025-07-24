@@ -67,11 +67,11 @@
   </label>
 
   <input
-    *ngIf="!!form.get('csrf') && (getCsrf | async) as csrf"
+    *ngIf="!!form.get('csrf') && (csfr$ | async) as csrf"
+    formControlName="csrf"
+    type="hidden"
     [name]="csrf.parameterName"
     [attr.data-csrf]="csrf.token"
-    type="hidden"
-    formControlName="csrf"
   />
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
