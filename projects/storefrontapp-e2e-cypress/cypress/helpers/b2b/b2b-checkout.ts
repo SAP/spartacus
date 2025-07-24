@@ -206,7 +206,6 @@ export function selectAccountPayment() {
       xhr?.response?.body?.costCenters[0].unit.addresses[0].id
     ) {
       // first element of Cost Center is the default one, always match the combo-box selection
-
       b2bDeliveryAddress.id =
         xhr.response.body.costCenters[0].unit.addresses[0].id;
     }
@@ -228,41 +227,7 @@ export function selectCreditCardPayment() {
     .should('eq', 200);
 }
 
-export function selectAccountCostCenter() {
-  cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
-  cy.get('cx-cost-center').within(() => {
-    cy.get('select').then((select) => {
-      if (select.find(`option:contains("${costCenter}")`).length) {
-        cy.get('select').select(costCenter, { force: true });
-      } else {
-        cy.get('select').select(0);
-      }
-      cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
-    });
-  });
-  // need to wait the Cost Center being visible on UI with bold border style.
-  // No other alternative found.
-  cy.wait(2000);
-}
-
-// handling use case where CostCenter ia not pre-selecte and needs to be selected.
 export function selectAccountShippingAddress() {
-  cy.get('cx-cost-center select')
-    .find('option:selected')
-    .invoke('text')
-    .then((text) => {
-      if (text.trim() !== costCenter) {
-        selectAccountCostCenter();
-        selectAccountShippingAddressWithCostCenter(false);
-      } else {
-        selectAccountShippingAddressWithCostCenter();
-      }
-    });
-}
-
-export function selectAccountShippingAddressWithCostCenter(
-  isCostCenterPreSelected = true
-) {
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryAddressStub,
     b2bDeliveryAddress.id
@@ -275,11 +240,9 @@ export function selectAccountShippingAddressWithCostCenter(
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  if (isCostCenterPreSelected) {
-    cy.wait(`@${getCheckoutDetails}`)
-      .its('response.statusCode')
-      .should('eq', 200);
-  }
+  cy.wait(`@${getCheckoutDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
