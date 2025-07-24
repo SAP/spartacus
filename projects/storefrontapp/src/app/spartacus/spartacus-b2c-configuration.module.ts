@@ -63,7 +63,7 @@ const baseSite = environment.epdVisualization
     provideConfig(<AuthConfig>{
       authentication: {
         customLoginPage: {
-          csfrEndpoint: '/csrf',
+          csrfEndpoint: '/csrf',
           loginFormEndpoint: '/login',
         },
       },

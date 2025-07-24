@@ -67,7 +67,7 @@
   </label>
 
   <input
-    *ngIf="!!form.get('csrf') && (csfr$ | async) as csrf"
+    *ngIf="!!form.get('csrf') && (csrf$ | async) as csrf"
     formControlName="csrf"
     type="hidden"
     [name]="csrf.parameterName"

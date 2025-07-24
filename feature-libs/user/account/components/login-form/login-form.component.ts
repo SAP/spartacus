@@ -31,7 +31,7 @@ export class LoginFormComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  csfr$ = this.service.csfr$;
+  csrf$ = this.service.csrf$;
   action = this.service.action;
   method = this.service.method;
 

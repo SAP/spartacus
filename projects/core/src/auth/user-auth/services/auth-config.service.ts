@@ -86,9 +86,9 @@ export class AuthConfigService {
   /**
    * Retrieves the CSRF endpoint for custom login based on the configuration settings.
    */
-  public getCsfrEndpoint(): string {
-    const csfrEndpoint = this.config?.customLoginPage?.csfrEndpoint ?? '';
-    return this.prefixEndpoint(csfrEndpoint);
+  public getCsrfEndpoint(): string {
+    const csrfEndpoint = this.config?.customLoginPage?.csrfEndpoint ?? '';
+    return this.prefixEndpoint(csrfEndpoint);
   }
 
   /**

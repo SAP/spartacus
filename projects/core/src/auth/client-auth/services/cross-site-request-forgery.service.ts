@@ -6,10 +6,9 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
 import { AuthConfigService } from '../../user-auth/services/auth-config.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { CSRFResponse } from '../../user-auth/models/csfr-response';
+import { CSRFResponse } from '../../user-auth/models/csrf-response';
 
 /**
  * Service to handle CSRF (Cross-Site Request Forgery) protection mechanisms
@@ -31,19 +30,9 @@ export class CrossSiteRequestForgeryService {
    * Returns CSRF Token
    */
   getCsrfToken() {
-    const url: string = this.authConfigService.getCsfrEndpoint();
-
-    return this.http
-      .get<CSRFResponse>(url, {
-        withCredentials: true,
-      })
-      .pipe(
-        tap({
-          error: (e) => {
-            console.log('Failed to get csrf token', e);
-            this.routingService.go({ cxRoute: 'login' });
-          },
-        })
-      );
+    const url = this.authConfigService.getCsrfEndpoint();
+    return this.http.get<CSRFResponse>(url, {
+      withCredentials: true,
+    });
   }
 }

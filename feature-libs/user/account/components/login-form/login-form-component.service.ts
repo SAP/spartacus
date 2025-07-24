@@ -32,7 +32,7 @@ export class LoginFormComponentService {
 
   action?: string;
   method?: string;
-  csfr$ = this.auth.getCsrfToken();
+  csrf$ = this.auth.getCsrfToken();
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => {

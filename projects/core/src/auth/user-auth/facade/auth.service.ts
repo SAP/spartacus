@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
@@ -117,7 +117,17 @@ export class AuthService {
    * @return {string} The CSRF token used for preventing cross-site request forgery attacks.
    */
   getCsrfToken() {
-    return this.crossSiteRequestForgeryService.getCsrfToken();
+    return this.crossSiteRequestForgeryService.getCsrfToken().pipe(
+      tap({
+        error: (e) => {
+          console.log('Failed to get csrf token', e);
+          // Redirect to restart the flow if an attempt was made to manually obtain a custom form
+          if (e.status === 403) {
+            this.routingService.go({ cxRoute: 'login' });
+          }
+        },
+      })
+    );
   }
 
   /**
