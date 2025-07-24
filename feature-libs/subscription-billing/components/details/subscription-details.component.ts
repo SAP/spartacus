@@ -179,6 +179,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
             { key: 'cancelSubscription.withdrawSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
+          this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
         },
         error: () => this.onError(),
       });
