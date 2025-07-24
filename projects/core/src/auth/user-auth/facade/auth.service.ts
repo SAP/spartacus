@@ -121,8 +121,8 @@ export class AuthService {
       tap({
         error: (e) => {
           console.log('Failed to get csrf token', e);
-          // Redirect to restart the flow if an attempt was made to manually obtain a custom form
           if (e.status === 403) {
+            /* Redirect to restart the flow if an attempt was made to manually obtain a custom form */
             this.routingService.go({ cxRoute: 'login' });
           }
         },

@@ -84,7 +84,7 @@ export abstract class AuthConfig {
     customLoginPage?: {
       /** auth server's csrf endpoint */
       csrfEndpoint: string;
-      /** auth server's login form action */
+      /** auth server's login form action endpoint */
       loginFormEndpoint?: string;
     };
   };
