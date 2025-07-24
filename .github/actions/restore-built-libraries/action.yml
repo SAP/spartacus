@@ -1,0 +1,20 @@
+name: 'Restore Built Libraries'
+description: 'Restore built Spartacus libraries from cache'
+inputs:
+  cache-key:
+    description: 'Cache key for built libraries'
+    required: true
+  fail-on-cache-miss:
+    description: 'Whether to fail if cache miss occurs'
+    required: false
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - name: Restore built libraries
+      uses: actions/cache@v4
+      with:
+        path: |
+          dist
+        key: spartacus-libs-${{ inputs.cache-key }}
+        fail-on-cache-miss: ${{ inputs.fail-on-cache-miss }}
