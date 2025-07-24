@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as cart from './cart';
-import { waitForPage, waitForProductPage } from './checkout-flow';
 import { clearAllStorage } from '../support/utils/clear-all-storage';
+import * as cart from './cart';
+import { waitForProductPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;

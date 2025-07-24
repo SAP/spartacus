@@ -6,8 +6,8 @@
 
 import { SampleProduct } from '../sample-data/checkout-flow';
 import { interceptGet } from '../support/utils/intercept';
-import { waitForPage } from './checkout-flow';
 import { AddressData } from './checkout-forms';
+import { waitForPage } from './navigation';
 import { searchForProduct } from './product-search';
 
 export const product: SampleProduct = {

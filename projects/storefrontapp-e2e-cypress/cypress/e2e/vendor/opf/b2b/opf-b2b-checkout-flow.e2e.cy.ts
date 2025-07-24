@@ -5,14 +5,14 @@
  */
 
 import { interceptPutDeliveryModeEndpoint } from '../../../../helpers/b2b/b2b-checkout';
-import { waitForPage } from '../../../../helpers/checkout-flow';
 import { waitForProductPage } from '../../../../helpers/checkout-flow';
+import * as login from '../../../../helpers/login';
+import { waitForPage } from '../../../../helpers/navigation';
 import { interceptOrdersEndpoint } from '../../../../helpers/order-history';
 import {
   POWERTOOLS_BASESITE,
   products,
 } from '../../../../sample-data/b2b-checkout';
-import * as login from '../../../../helpers/login';
 
 const OPF_B2B_TEST_EMAIL = 'william.hunter@rustic-hw.com';
 const OPF_B2B_TEST_PASSWORD = 'pw4all';

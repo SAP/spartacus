@@ -8,11 +8,8 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import {
-  waitForCategoryPage,
-  waitForPage,
-  waitForProductPage,
-} from '../../checkout-flow';
+import { waitForCategoryPage, waitForProductPage } from '../../checkout-flow';
+import { waitForPage } from '../../navigation';
 
 interface StrategyRequestContext {
   language?: string;
