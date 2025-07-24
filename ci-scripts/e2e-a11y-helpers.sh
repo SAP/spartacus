@@ -70,8 +70,9 @@ get_a11y_spec_pattern() {
 run_a11y_container_tests() {
     local container="$1"
     local total_containers="${2:-2}"
+    local record="$3"
 
-    echo "Running A11Y tests: Container $container/$total_containers (Strategy: $TEST_DISTRIBUTION_STRATEGY)"
+    echo "Running A11Y tests: Container $container/$total_containers"
 
     # Check if this container has any tests assigned
     local b2c_spec=$(get_a11y_spec_pattern "b2c" "$container" "$total_containers")
@@ -85,8 +86,13 @@ run_a11y_container_tests() {
     # Run B2C accessibility tests if assigned to this container
     if [[ -n "$b2c_spec" ]]; then
         export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
+        local b2c_test_command="e2e:run:ci:a11y"
 
-        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
+        if [ "$record" = true ]; then
+          b2c_test_command="e2e:run:ci:a11y:record"
+        fi
+
+        if ! run_a11y_tests_with_docs_on_failure "${b2c_test_command}"; then
             return 1
         fi
     fi
@@ -97,8 +103,13 @@ run_a11y_container_tests() {
     if [[ -n "$b2b_spec" ]]; then
         build_and_start_pwa "ci,b2b"
         export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
+        local b2b_test_command="e2e:run:ci:a11y:b2b"
 
-        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
+        if [ "$record" = true ]; then
+          b2b_test_command="e2e:run:ci:a11y:b2b:record"
+        fi
+
+        if ! run_a11y_tests_with_docs_on_failure "${b2b_test_command}"; then
             stop_pwa_app
             return 1
         fi

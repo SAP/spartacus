@@ -16,6 +16,7 @@ describe('B2B Homepage Accessibility', { testIsolation: false }, () => {
 
   it('should not have any accessibility violations', () => {
     cy.get('cx-product-carousel-item');
+    cy.get('Selector-to-cause-cypress-failure');
     cy.get('main').a11yRunContinuumTest();
   });
 });

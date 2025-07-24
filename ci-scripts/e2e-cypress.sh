@@ -12,16 +12,19 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
         --skip-build                            Skip Spartacus build step
+        --record, r                             Whether to record A11Y test on Cypress Dashboard
 "
 
 run_tests_for_suite() {
   local suite="$1"
   local scope="$2"
+  local record="$3"
 
   if [ "$suite" == ":a11y" ]; then
-    # Source a11y functions when needed
-    source "$(dirname "$0")/e2e-a11y-helpers.sh"
-    run_dual_a11y_tests
+      # Source a11y functions when needed
+      source "$(dirname "$0")/e2e-a11y-helpers.sh"
+      run_dual_a11y_tests "${record}"
+#    fi
   elif [ "$scope" == "core" ]; then
     npm run e2e:run:ci:core"${suite}"
   else
@@ -40,6 +43,10 @@ while [ "${1:0:1}" == "-" ]; do
     '--suite' | '-s')
         SUITE=":$2"
         shift
+        shift
+        ;;
+    '--record' | '-r')
+        RECORD=true
         shift
         ;;
     '--environment' | '--env')
@@ -171,7 +178,7 @@ else
             run_tests_for_suite "${SUITE}" "full"
         else
             echo "Running core Cypress end-to-end tests for pull requests"
-            run_tests_for_suite "${SUITE}" "core"
+            run_tests_for_suite "${SUITE}" "core" "${RECORD}"
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
