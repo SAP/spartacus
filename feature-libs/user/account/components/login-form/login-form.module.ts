@@ -27,7 +27,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';
-import { ExtendedLoginFormComponentService } from './extended-login-form-component.service';
+import { CustomLoginFormComponentService } from './custom-login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 
 @NgModule({
@@ -65,7 +65,7 @@ import { LoginFormComponent } from './login-form.component';
           providers: [
             {
               provide: LoginFormComponentService,
-              useClass: ExtendedLoginFormComponentService,
+              useClass: CustomLoginFormComponentService,
               deps: [AuthService, GlobalMessageService, WindowRef],
             },
           ],

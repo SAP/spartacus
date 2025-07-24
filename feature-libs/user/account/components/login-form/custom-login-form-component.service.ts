@@ -15,9 +15,12 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 
 @Injectable()
-export class ExtendedLoginFormComponentService extends LoginFormComponentService {
+export class CustomLoginFormComponentService extends LoginFormComponentService {
   config = inject(Config);
   authConfigService = inject(AuthConfigService);
+
+  method = 'POST';
+  action = this.authConfigService?.getCustomLoginFormEndpoint();
 
   form: UntypedFormGroup = new UntypedFormGroup({
     userId: new UntypedFormControl('', [
@@ -28,14 +31,11 @@ export class ExtendedLoginFormComponentService extends LoginFormComponentService
     csrf: new UntypedFormControl('', Validators.required),
   });
 
-  method = 'POST';
-  action = this.authConfigService?.getCustomLoginFormEndpoint();
-
   login(nativeForm: HTMLFormElement) {
-    const csrf = [...nativeForm.elements].find(
-      (element) => !!element.attributes['data-csrf']
-    );
-    this.form.get('csrf')?.setValue(csrf?.attributes['data-csrf'].value);
+    const csrf = [...nativeForm.elements]
+      .find((element) => element.hasAttribute?.('data-csrf'))
+      ?.getAttribute?.('data-csrf');
+    this.form.get('csrf')?.setValue(csrf);
 
     if (!this.form.valid) {
       this.form.markAllAsTouched();
