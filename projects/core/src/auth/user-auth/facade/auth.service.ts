@@ -112,7 +112,7 @@ export class AuthService {
   }
 
   /**
-   * Retrieves the CSRF (Cross-Site Request Forgery) token from the service.
+   * Retrieves the CSRF (Cross-Site Request Forgery) token for the custom login form.
    *
    * @return {string} The CSRF token used for preventing cross-site request forgery attacks.
    */
