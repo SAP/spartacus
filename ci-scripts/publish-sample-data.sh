@@ -6,11 +6,11 @@ UNRELEASED_SPARTACUS_VERSION_NAME="spartacussampledata-version-2211-x"
 
 echo "Downloading current sample data for 2211.x"
 
-curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN_RM_PAT" \
+curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
   -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$SAMPLE_DATA_UNRELEASED_BRANCH.zip" \
   -o "$UNRELEASED_SPARTACUS_VERSION_NAME.zip"
 
-curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN_RM_PAT" \
+curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
   -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$SAMPLE_DATA_UNRELEASED_BRANCH.tar.gz" \
   -o "$UNRELEASED_SPARTACUS_VERSION_NAME.tar.gz"
 
