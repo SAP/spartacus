@@ -175,9 +175,7 @@ export function layoutConfigFactory(): LayoutConfig {
     const productDetailsPageConfig =
       (config?.layoutSlots?.ProductDetailsPageTemplate as SlotConfig) ?? {};
     delete productDetailsPageConfig.pageFold;
-    delete (
-      ((productDetailsPageConfig as SlotGroup).lg ?? {})
-    ).pageFold;
+    delete ((productDetailsPageConfig as SlotGroup).lg ?? {}).pageFold;
   }
 
   return config;
