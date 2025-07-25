@@ -81,6 +81,8 @@ fi
 
 if [ "$SKIP_BUILD" == "true" ]; then
     echo "⏩ Skipping build as requested with --skip-build"
+    # Still need to ensure dependencies are installed for Cypress
+    (cd projects/storefrontapp-e2e-cypress && npm ci)
 else
     echo '-----'
     echo "Building Spartacus libraries"
@@ -122,8 +124,12 @@ is_bot_commit() {
 }
 
 if [[ "${SSR}" = true ]]; then
-    echo "Building Spartacus storefrontapp (SSR PROD mode)"
-    npm run build:ssr:ci
+    if [ "$SKIP_BUILD" == "true" ]; then
+        echo "⏩ Skipping SSR build as requested with --skip-build, using pre-built SSR app"
+    else
+        echo "Building Spartacus storefrontapp (SSR PROD mode)"
+        npm run build:ssr:ci
+    fi
 
     echo "Starting Spartacus storefrontapp in SSR mode"
     (npm run serve:ssr:ci &)
