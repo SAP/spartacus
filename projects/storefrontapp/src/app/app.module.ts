@@ -27,6 +27,7 @@ import {
 } from '@spartacus/assets';
 import { 
   CmsConfig,
+  AuthConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
@@ -82,6 +83,18 @@ if (!environment.production) {
         },
       },
     }),
+    provideConfig(<AuthConfig>{
+    authentication: {
+        client_id: 'mobile_android_public', // change to your public client ID
+        client_secret: undefined,
+        sendAuthHeaderOnRevoke: false,
+        useClientTokens: false,             // NEW: Added 22/07
+        OAuthLibConfig: {
+            disablePKCE: false,
+            responseType: 'code',
+        },
+    },
+}),
     provideConfig(<I18nConfig>{
       // we bring in static translations to be up and running soon right away
       i18n: {
