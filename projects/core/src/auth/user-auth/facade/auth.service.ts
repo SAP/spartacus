@@ -28,7 +28,9 @@ import { CrossSiteRequestForgeryService } from '../../client-auth';
   providedIn: 'root',
 })
 export class AuthService {
-  crossSiteRequestForgeryService = inject(CrossSiteRequestForgeryService);
+  protected crossSiteRequestForgeryService = inject(
+    CrossSiteRequestForgeryService
+  );
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -120,7 +122,7 @@ export class AuthService {
     return this.crossSiteRequestForgeryService.getCsrfToken().pipe(
       tap({
         error: (e) => {
-          console.log('Failed to get csrf token', e);
+          console.error('Failed to get csrf token', e);
           if (e.status === 403) {
             /* Redirect to restart the flow if an attempt was made to manually obtain a custom form */
             this.routingService.go({ cxRoute: 'login' });
