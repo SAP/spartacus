@@ -1,9 +1,21 @@
 #!/usr/bin/env bash
 
 TAG_NAME="testsampledata"
-PREFIX="spartacussampledata"
 SAMPLE_DATA_UNRELEASED_BRANCH="release/2211.x"
-UNRELEASED_SPARTACUS_VERSION_NAME="$PREFIX-version-2211-x"
+UNRELEASED_SPARTACUS_VERSION_NAME="spartacussampledata-version-2211-x"
+
+echo "Validating GHT_PRIVATE_REPO_TOKEN..."
+
+VALIDATION_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+  -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
+  https://github.tools.sap/api/v3/user)
+
+if [[ "$VALIDATION_STATUS" != "200" ]]; then
+  echo "Invalid or unauthorized GHT_PRIVATE_REPO_TOKEN (status: $VALIDATION_STATUS)"
+  exit 1
+else
+  echo "Token is valid (status: $VALIDATION_STATUS)"
+fi
 
 echo "Downloading current sample data for 2211.x"
 
@@ -11,13 +23,9 @@ curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
   -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$SAMPLE_DATA_UNRELEASED_BRANCH.zip" \
   -o "$UNRELEASED_SPARTACUS_VERSION_NAME.zip"
 
-sleep 5
-
 curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
   -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$SAMPLE_DATA_UNRELEASED_BRANCH.tar.gz" \
   -o "$UNRELEASED_SPARTACUS_VERSION_NAME.tar.gz"
-
-sleep 5
 
 echo "-----"
 echo "Deleting existing tag (if any)"
