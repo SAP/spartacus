@@ -53,7 +53,7 @@ jobs:
       - name: create release with sample data assets
         env:
           GHT_USER: ${{ secrets.GHT_USER }}
-          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          GHT_PRIVATE_REPO_TOKEN_RM_PAT: ${{ secrets.GHT_PRIVATE_REPO_TOKEN_RM_PAT }}
           GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |
           ci-scripts/publish-sample-data.sh
