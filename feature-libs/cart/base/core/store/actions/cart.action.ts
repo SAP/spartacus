@@ -25,6 +25,7 @@ export const ADD_EMAIL_TO_CART_SUCCESS = '[Cart] Add Email to Cart Success';
 
 export const MERGE_CART = '[Cart] Merge Cart';
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
+export const MERGE_CART_ABORT = '[Cart] Merge Cart Abort';
 
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
@@ -177,9 +178,11 @@ interface MergeCartPayload {
   tempCartId: string;
 }
 
-export class MergeCart implements Action {
+export class MergeCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = MERGE_CART;
-  constructor(public payload: MergeCartPayload) {}
+  constructor(public payload: MergeCartPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 interface MergeCartSuccessPayload extends MergeCartPayload {
@@ -194,6 +197,17 @@ export class MergeCartSuccess extends StateUtils.EntityRemoveAction {
   readonly type = MERGE_CART_SUCCESS;
   constructor(public payload: MergeCartSuccessPayload) {
     super(MULTI_CART_DATA, payload.oldCartId);
+  }
+}
+
+export interface MergeCartAbortPayload {
+  cartId: string;
+}
+
+export class MergeCartAbort extends StateUtils.EntityProcessesDecrementAction {
+  readonly type = MERGE_CART_ABORT;
+  constructor(public payload: MergeCartAbortPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
