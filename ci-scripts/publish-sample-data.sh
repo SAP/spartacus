@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TAG_NAME="sampledata"
+TAG_NAME="testsampledata"
 ASSETS_FOLDER="sample-data-assets"
 PREFIX="spartacussampledata"
 
@@ -12,8 +12,12 @@ function download_sample_data_from_spartacussample_repo {
     curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.tar.gz" -o "$2.tar.gz"
 }
 
+echo "Downloading current sample data for 2211.x"
+
+download_sample_data_from_spartacussample_repo $SAMPLE_DATA_UNRELEASED_BRANCH $UNRELEASED_SPARTACUS_VERSION_NAME
+
 echo "-----"
-echo "Move all assets to a folder"
+echo "Moving all assets to a folder"
 rm -rf $ASSETS_FOLDER
 mkdir $ASSETS_FOLDER && mv $PREFIX* $ASSETS_FOLDER
 
