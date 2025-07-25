@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TAG_NAME="testsampledata"
+TAG_NAME="sampledata"
 SAMPLE_DATA_UNRELEASED_BRANCH="release/2211.x"
 UNRELEASED_SPARTACUS_VERSION_NAME="spartacussampledata-version-2211-x"
 
