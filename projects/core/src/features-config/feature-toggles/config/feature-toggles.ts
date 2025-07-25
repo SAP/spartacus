@@ -959,5 +959,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
-  defaultLayoutConfigWithoutPageFold: false
+  defaultLayoutConfigWithoutPageFold: false,
 };
