@@ -177,9 +177,11 @@ interface MergeCartPayload {
   tempCartId: string;
 }
 
-export class MergeCart implements Action {
+export class MergeCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = MERGE_CART;
-  constructor(public payload: MergeCartPayload) {}
+  constructor(public payload: MergeCartPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 interface MergeCartSuccessPayload extends MergeCartPayload {
