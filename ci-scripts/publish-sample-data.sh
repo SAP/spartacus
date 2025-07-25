@@ -25,7 +25,7 @@ echo "Creating a new release"
 gh release create "$TAG_NAME" \
   --repo SAP-samples/cloud-commerce-sample-setup \
   --title "Spartacus Sample Data" \
-  --notes "Spartacus sample data releases:\n2211-x: current release"
+  --notes "Spartacus sample data releases: 2211-x (current release)"
 
 echo "-----"
 echo "Uploading assets to the release"
