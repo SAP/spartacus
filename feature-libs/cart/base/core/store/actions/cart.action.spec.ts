@@ -217,6 +217,10 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART,
           payload,
+          meta: StateUtils.entityProcessesIncrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });

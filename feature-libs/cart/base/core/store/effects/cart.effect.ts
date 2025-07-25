@@ -16,7 +16,7 @@ import {
   tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
-import { Observable, from, of } from 'rxjs';
+import { Observable, concat, from, of, throwError } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -212,7 +212,17 @@ export class CartEffects {
                   })
                 );
               } else {
+                console.log(
+                  'cart.effect: not merging cart because',
+                  currentCart?.code,
+                  '===',
+                  payload.cartId
+                );
                 return of(
+                  // when returning from login, we don't load the cart, just issue a merge.
+                  // This utilizes the cart data loaded from teh merge to skip issuing another
+                  // load cart call.  We could alternatively create a new "merge and load" event
+                  // for use when returning from login
                   new CartActions.CreateCartSuccess({
                     userId: payload.userId,
                     cart: currentCart,
@@ -227,14 +237,18 @@ export class CartEffects {
               }
             }),
             catchError((error) =>
-              of(
-                new CartActions.MergeCartAbort({
-                  cartId: payload.cartId,
-                  error,
-                }),
-                new CartActions.RemoveCart({
-                  cartId: payload.cartId,
-                })
+              concat(
+                of(
+                  new CartActions.MergeCartAbort({
+                    cartId: payload.cartId,
+                    error,
+                  }),
+                  new CartActions.RemoveCart({
+                    // needed to remove broken cart that can't be loaded
+                    cartId: payload.cartId,
+                  })
+                ),
+                throwError(() => error) // not sure if we should throw the error
               )
             ),
             filter(isNotUndefined)

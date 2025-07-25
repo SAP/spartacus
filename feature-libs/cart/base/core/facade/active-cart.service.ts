@@ -62,6 +62,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
 
   // Stream with active cart entity
   protected cartEntity$ = this.activeCartId$.pipe(
+    tap((cartId) => console.warn('activeCartId', cartId)),
     switchMap((cartId) => this.multiCartFacade.getCartEntity(cartId))
   );
 
@@ -107,18 +108,35 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           !isTempCartId(cartId) &&
           this.shouldLoadCartOnCodeFlow
         ) {
+          console.log('loading cart');
           this.load(cartId, userId);
         }
       })
     );
 
     this.activeCart$ = using(
-      () => loading.subscribe(),
+      () => {
+        console.log('subscribing');
+        const sub = loading.subscribe();
+        return {
+          unsubscribe() {
+            console.log('unsubscribing');
+            sub.unsubscribe();
+          },
+        };
+      },
       () => cartValue$
     ).pipe(
+      tap(({ cart, isStable }) => {
+        console.warn('Cart value', cart, `stable: ${isStable}`);
+      }),
       // Normalization for empty cart value returned as empty object.
       map(({ cart }) => (cart ? cart : {})),
       distinctUntilChanged(),
+      tap((cart) => {
+        console.log('Active cart', cart);
+      }),
+
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
@@ -137,6 +155,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         .subscribe(([[previousUserId, userId], cartId]) => {
           // Only change of user and not logout (current userId !== anonymous) should trigger loading mechanism
           if (isJustLoggedIn(userId, previousUserId)) {
+            console.log('option 1');
             this.loadOrMerge(cartId, userId, previousUserId);
           }
         })
@@ -152,6 +171,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           .getUserId()
           .pipe(withLatestFrom(this.activeCartId$))
           .subscribe(([userId, cartId]) => {
+            console.log('option 2');
             this.loadOrMerge(cartId, userId, OCC_USER_ID_ANONYMOUS);
             this.winRef?.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
           })
@@ -251,6 +271,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   protected load(cartId: string, userId: string): void {
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
+      console.log('loading cart', cartId, userId);
       this.multiCartFacade.loadCart({
         userId,
         cartId,
@@ -270,12 +291,22 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     userId: string,
     previousUserId: string
   ): void {
+    console.log('merging cart', cartId, previousUserId, '->', userId);
+
     if (
       cartId === OCC_CART_ID_CURRENT ||
       // It covers the case when you are logged in and then asm user login, you don't want to merge, but only load emulated user cart
       // Similarly when you are logged in as asm user and you logout and want to resume previous user session
       previousUserId !== OCC_USER_ID_ANONYMOUS
     ) {
+      console.log(
+        'merge cart: load cart',
+        cartId,
+        previousUserId,
+        '->',
+        userId
+      );
+
       this.multiCartFacade.loadCart({
         userId,
         cartId,
@@ -284,8 +315,23 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         },
       });
     } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
+      console.log(
+        'merge cart: guest cart merge',
+        cartId,
+        previousUserId,
+        '->',
+        userId
+      );
       this.guestCartMerge(cartId);
     } else {
+      console.log(
+        'merge cart: mergeToCurrentCart',
+        cartId,
+        previousUserId,
+        '->',
+        userId
+      );
+
       // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
       this.multiCartFacade.mergeToCurrentCart({
         userId,

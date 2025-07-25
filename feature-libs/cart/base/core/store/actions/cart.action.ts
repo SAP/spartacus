@@ -202,8 +202,14 @@ export class MergeCartSuccess extends StateUtils.EntityRemoveAction {
 
 export interface MergeCartAbortPayload {
   cartId: string;
+  error?: Object; // not necessary, I was using `error` for debugging
 }
 
+// normally, merge is ended by MergeCartSuccess, which removes the temporary cart entity that
+// had the new outstanding process count
+// in the event of not merging because oldId and newId are the same (reproducible by session
+// timeout and logging back in as same user), or an error (reproduced by session timeout, logging
+// in as different user), we need to decrement the counter so the active cart can be stabilized
 export class MergeCartAbort extends StateUtils.EntityProcessesDecrementAction {
   readonly type = MERGE_CART_ABORT;
   constructor(public payload: MergeCartAbortPayload) {
