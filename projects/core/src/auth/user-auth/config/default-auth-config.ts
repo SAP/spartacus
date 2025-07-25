@@ -56,6 +56,10 @@ export const defaultAuthConfig: AuthConfig = {
       clearHashAfterLogin: false,
       responseType: 'code',
     },
+    customLoginPage: {
+      csrfEndpoint: '/csrf',
+      loginFormEndpoint: '/login',
+    },
   },
 };
 

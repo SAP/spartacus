@@ -59,6 +59,7 @@ import { LoginFormComponent } from './login-form.component';
             },
           ],
         },
+        // CustomLoginComponent: {
         OAuthLoginComponent: {
           component: LoginFormComponent,
           guards: [NotAuthGuard],

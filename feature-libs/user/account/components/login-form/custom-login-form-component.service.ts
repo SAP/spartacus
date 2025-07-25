@@ -5,24 +5,19 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { Config, AuthConfigService } from '@spartacus/core';
+import { AuthConfigService } from '@spartacus/core';
 import { LoginFormComponentService } from './login-form-component.service';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { CustomFormValidators } from '@spartacus/storefront';
 
 @Injectable()
 export class CustomLoginFormComponentService extends LoginFormComponentService {
-  config = inject(Config);
-  authConfigService = inject(AuthConfigService);
+  protected authConfigService = inject(AuthConfigService);
 
   method = 'POST';
   action = this.authConfigService?.getCustomLoginFormEndpoint();
 
-  form: UntypedFormGroup = new UntypedFormGroup({
+  form = new FormGroup({
     userId: new UntypedFormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,

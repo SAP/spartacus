@@ -25,6 +25,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
         },
         customLogin: {
           paths: ['custom-login'],
+          // paths: ['login-form'],
           protected: false,
           authFlow: true,
         },

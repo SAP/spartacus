@@ -7,11 +7,10 @@
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
 import {
+  provideAuthorizationCodeFlowByDefault,
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
-  AuthConfig,
-  provideAuthorizationCodeFlowByDefault,
 } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
@@ -59,15 +58,8 @@ const baseSite = environment.epdVisualization
         },
       },
     }),
+    // this will be under featureFlag (e2e branch)
     provideAuthorizationCodeFlowByDefault(),
-    provideConfig(<AuthConfig>{
-      authentication: {
-        customLoginPage: {
-          csrfEndpoint: '/csrf',
-          loginFormEndpoint: '/login',
-        },
-      },
-    }),
   ],
 })
 export class SpartacusB2cConfigurationModule {}
