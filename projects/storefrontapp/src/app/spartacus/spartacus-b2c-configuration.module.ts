@@ -7,10 +7,10 @@
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
 import {
-  provideAuthorizationCodeFlowByDefault,
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
+  provideAuthorizationCodeFlowByDefault,
 } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
