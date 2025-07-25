@@ -27,6 +27,18 @@ echo "Deleting tag on the remote repository to remove any tied releases"
 git push "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" :refs/tags/$TAG_NAME
 
 echo "-----"
-echo "Create a new release with tag"
+echo "Creating a new release with tag"
 
-gh release create $TAG_NAME ./$ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Spartacus Sample Data"  --notes "Spartacus sample data release: 2211-x (current release)"
+# gh release create $TAG_NAME ./$ASSETS_FOLDER/** --repo "https://$GH_TOKEN@github.com/SAP-samples/cloud-commerce-sample-setup.git" --title "Spartacus Sample Data"  --notes "Spartacus sample data release: 2211-x (current release)"
+
+gh release create "$TAG_NAME" \
+  --repo SAP-samples/cloud-commerce-sample-setup \
+  --title "Spartacus Sample Data" \
+  --notes "Spartacus sample data release: 2211-x (current release)"
+
+echo "-----"
+echo "Pushing assets to the release"  
+
+gh release upload "$TAG_NAME" ./"$ASSETS_FOLDER"/* \
+  --repo SAP-samples/cloud-commerce-sample-setup \
+  --clobber
