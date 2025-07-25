@@ -30,15 +30,13 @@ echo "$TAR_FILE is: $TAR_TYPE"
 
 if [[ "$ZIP_TYPE" != *"Zip archive data"* ]]; then
   echo "$ZIP_FILE is not a valid ZIP archive."
-  echo "First few lines of the file:"
-  head "$ZIP_FILE"
+  cat "$ZIP_FILE"
   exit 1
 fi
 
 if [[ "$TAR_TYPE" != *"gzip compressed data"* ]]; then
   echo "$TAR_FILE is not a valid tar.gz archive."
-  echo "First few lines of the file:"
-  head "$TAR_FILE"
+  cat "$TAR_FILE"
   exit 1
 fi
 
