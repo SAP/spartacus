@@ -72,6 +72,11 @@ if (!environment.production) {
         },
       },
     }),
+     provideConfig({
+    context: {
+      baseSite: ['powertools-spa'],
+    },
+  }),
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
