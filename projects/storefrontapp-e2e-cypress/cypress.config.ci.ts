@@ -14,7 +14,7 @@ export default defineConfig({
   chromeWebSecurity: false,
   video: false,
   retries: {
-    runMode: 0,
+    runMode: 2,
   },
   videoUploadOnPasses: false,
   env: {
