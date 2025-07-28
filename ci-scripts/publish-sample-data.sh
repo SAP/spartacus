@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
-TAG_NAME="sampledata"
+TAG_NAME="testsampledata"
 SAMPLE_DATA_UNRELEASED_BRANCH="release/2211.x"
 UNRELEASED_SPARTACUS_VERSION_NAME="spartacussampledata-version-2211-x"
 
 echo "Downloading current sample data for 2211.x"
 
-curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
-  -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$SAMPLE_DATA_UNRELEASED_BRANCH.zip" \
-  -o "$UNRELEASED_SPARTACUS_VERSION_NAME.zip"
+function download_sample_data_from_spartacussample_repo {
+    curl -H "Authorization: token $RM_TEST" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.zip" -o "$2.zip"
+    curl -H "Authorization: token $RM_TEST" -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$1.tar.gz" -o "$2.tar.gz"
+}
 
-curl -H "Authorization: token $GHT_PRIVATE_REPO_TOKEN" \
-  -L "https://github.tools.sap/cx-commerce/spartacussampledata/archive/$SAMPLE_DATA_UNRELEASED_BRANCH.tar.gz" \
-  -o "$UNRELEASED_SPARTACUS_VERSION_NAME.tar.gz"
+download_sample_data_from_spartacussample_repo $SAMPLE_DATA_UNRELEASED_BRANCH $UNRELEASED_SPARTACUS_VERSION_NAME
 
 echo "-----"
 echo "Deleting existing tag (if any)"
