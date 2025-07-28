@@ -13,8 +13,8 @@ export default defineConfig({
   requestTimeout: 7000,
   chromeWebSecurity: false,
   retries: {
-    runMode: 0,
-    openMode: 0
+    runMode: 2,
+    openMode: 1
   },
   videoUploadOnPasses: false,
   env: {
