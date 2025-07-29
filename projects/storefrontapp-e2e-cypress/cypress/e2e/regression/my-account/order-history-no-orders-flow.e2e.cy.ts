@@ -5,37 +5,10 @@
  */
 
 import { checkBanner } from '../../../helpers/homepage';
-import * as userAccountHelpers from '../../../helpers/login';
-import { clickHamburger, waitForPage } from '../../../helpers/navigation';
-import { orderHistoryTest } from '../../../helpers/order-history';
-import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-
-
-
-/*
-
-describe('Order History with no orders', { testIsolation: false }, () => {
-  viewportContext(['mobile', 'desktop'], () => {
-    isolateTests();
-    before(() => {
-      clearAllStorage();
-      cy.visit('/');
-      clickHamburger();
-      userAccountHelpers.registerUserFromLoginPage();
-      verifyGlobalMessageAfterRegistration();
-    });
-
-    orderHistoryTest.checkRedirectNotLoggedInUser();
-    orderHistoryTest.checkRedirectLoggedInUser();
-    orderHistoryTest.checkStartShoppingButton();
-  });
-});
-
-*/
 
 describe('Order History with no orders', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
