@@ -71,7 +71,7 @@ if (!environment.production) {
         },
       },
     }),
-  }),
+  // }),
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
