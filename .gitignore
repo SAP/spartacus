@@ -73,10 +73,4 @@ Thumbs.db
 .nx/cache
 .nx/workspace-data
 
-#GC
-projects/storefrontapp-e2e-cypress/merged-report.json
-projects/storefrontapp-e2e-cypress/cypress/reports/
-projects/storefrontapp-e2e-cypress/logs/
-projects/storefrontapp-e2e-cypress/product-search_wip_e2e.log
-projects/storefrontapp-e2e-cypress/user_access_wip_e2e.log
 

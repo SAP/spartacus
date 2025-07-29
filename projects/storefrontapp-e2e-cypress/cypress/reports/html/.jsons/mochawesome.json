@@ -1,0 +1,160 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 0,
+    "pending": 0,
+    "failures": 3,
+    "start": "2025-07-29T17:56:33.247Z",
+    "end": "2025-07-29T17:57:23.298Z",
+    "duration": 50051,
+    "testsRegistered": 3,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "0ef145ec-3c89-40cc-82df-b44b0882a100",
+      "title": "",
+      "fullFile": "cypress/e2e/ssr/pages.core-e2e.cy.ts",
+      "file": "cypress/e2e/ssr/pages.core-e2e.cy.ts",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "28ca1c57-449f-4a7e-9f2d-170002534fa8",
+          "title": "SSR",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should render homepage",
+              "fullTitle": "SSR should render homepage",
+              "timedOut": null,
+              "duration": 5519,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"cypress-mochawesome-reporter-screenshots\",\n  \"value\": [\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render homepage (failed).png\"\n    ],\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render homepage (failed) (attempt 2).png\"\n    ],\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render homepage (failed) (attempt 3).png\"\n    ]\n  ]\n}",
+              "code": "cy.visit('/');\nseoChecks();\ncy.get('.header').within(function () {\n    cy.get('cx-page-slot.SiteLogo').should('be.visible');\n    cy.get('.searchbox').should('be.visible');\n    cy.get('cx-mini-cart').should('be.visible');\n});",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 5000ms: Expected to find element: `head meta[name=\"robots\"]`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 5000ms: Expected to find element: `head meta[name=\"robots\"]`, but never found it.\n    at seoChecks (webpack://storefrontapp-e2e-cypress/./cypress/e2e/ssr/pages.core-e2e.cy.ts:15:0)\n    at Context.eval (webpack://storefrontapp-e2e-cypress/./cypress/e2e/ssr/pages.core-e2e.cy.ts:26:0)",
+                "diff": null
+              },
+              "uuid": "1a024182-82e7-4e2e-9eaa-9c899856d212",
+              "parentUUID": "28ca1c57-449f-4a7e-9f2d-170002534fa8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should render PLP",
+              "fullTitle": "SSR should render PLP",
+              "timedOut": null,
+              "duration": 5505,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"cypress-mochawesome-reporter-screenshots\",\n  \"value\": [\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render PLP (failed).png\"\n    ],\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render PLP (failed) (attempt 2).png\"\n    ],\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render PLP (failed) (attempt 3).png\"\n    ]\n  ]\n}",
+              "code": "cy.visit(plpUrl);\nseoChecks();",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 5000ms: Expected to find element: `head meta[name=\"robots\"]`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 5000ms: Expected to find element: `head meta[name=\"robots\"]`, but never found it.\n    at seoChecks (webpack://storefrontapp-e2e-cypress/./cypress/e2e/ssr/pages.core-e2e.cy.ts:15:0)\n    at Context.eval (webpack://storefrontapp-e2e-cypress/./cypress/e2e/ssr/pages.core-e2e.cy.ts:35:0)",
+                "diff": null
+              },
+              "uuid": "bb5a8cc9-d440-4cb4-a20e-ba054b046881",
+              "parentUUID": "28ca1c57-449f-4a7e-9f2d-170002534fa8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should render PDP",
+              "fullTitle": "SSR should render PDP",
+              "timedOut": null,
+              "duration": 5544,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"cypress-mochawesome-reporter-screenshots\",\n  \"value\": [\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render PDP (failed).png\"\n    ],\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render PDP (failed) (attempt 2).png\"\n    ],\n    [\n      \"/ssr/pages.core-e2e.cy.ts/SSR -- should render PDP (failed) (attempt 3).png\"\n    ]\n  ]\n}",
+              "code": "cy.visit(pdpUrl);\nseoChecks();",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 5000ms: Expected to find element: `head meta[name=\"robots\"]`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 5000ms: Expected to find element: `head meta[name=\"robots\"]`, but never found it.\n    at seoChecks (webpack://storefrontapp-e2e-cypress/./cypress/e2e/ssr/pages.core-e2e.cy.ts:15:0)\n    at Context.eval (webpack://storefrontapp-e2e-cypress/./cypress/e2e/ssr/pages.core-e2e.cy.ts:39:0)",
+                "diff": null
+              },
+              "uuid": "936df7f2-044f-4747-93dc-2e8cf74c330f",
+              "parentUUID": "28ca1c57-449f-4a7e-9f2d-170002534fa8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "1a024182-82e7-4e2e-9eaa-9c899856d212",
+            "bb5a8cc9-d440-4cb4-a20e-ba054b046881",
+            "936df7f2-044f-4747-93dc-2e8cf74c330f"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 16568,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "charts": true,
+        "reportPageTitle": "Composable Storefront Cypress E2E Test Report",
+        "embeddedScreenshots": true,
+        "inlineAssets": true,
+        "saveAllAttempts": false,
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "reportDir": "cypress/reports/html/.jsons"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
