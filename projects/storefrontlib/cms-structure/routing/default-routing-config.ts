@@ -10,8 +10,10 @@ import { inject } from '@angular/core';
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   const enableProductPageRouteAllowsNoProductName =
     inject(FeatureToggles).defaultProductPageRouteAllowsNoProductName;
+  const authorizationCodeFlowByDefault =
+    inject(FeatureToggles).authorizationCodeFlowByDefault;
 
-  return {
+  const routingConfig = {
     routing: {
       routes: {
         home: { paths: [''] },
@@ -19,12 +21,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
 
         // semantic links for login related pages
         login: {
-          paths: ['login'],
-          protected: false,
-          authFlow: true,
-        },
-        customLogin: {
-          paths: ['login-form'],
+          paths: [authorizationCodeFlowByDefault ? 'signIn' : 'login'],
           protected: false,
           authFlow: true,
         },
@@ -86,4 +83,14 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
       },
     },
   };
+
+  if (authorizationCodeFlowByDefault) {
+    routingConfig.routing.routes['customLogin'] = {
+      paths: ['login-form'],
+      protected: false,
+      authFlow: true,
+    };
+  }
+
+  return routingConfig;
 };
