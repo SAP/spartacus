@@ -10,7 +10,7 @@ import { AuthConfig } from './auth-config';
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'customloginpage_public',
+    client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
