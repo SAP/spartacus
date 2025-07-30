@@ -74,8 +74,8 @@ export class LoginFormComponentService {
         password: new UntypedFormControl('', Validators.required),
       });
 
-  login(nativeForm: HTMLFormElement) {
-    if (this.isNewAuthFlow) {
+  login(nativeForm?: HTMLFormElement) {
+    if (this.isNewAuthFlow && nativeForm) {
       const csrf =
         [...nativeForm.elements]
           .find((element) => element.hasAttribute?.('data-csrf'))
@@ -87,7 +87,7 @@ export class LoginFormComponentService {
         return;
       }
 
-      nativeForm?.submit();
+      nativeForm.submit();
       this.busy$.next(true);
     } else {
       if (!this.form.valid) {
