@@ -5,8 +5,10 @@
  */
 
 import { NgModule, inject, provideAppInitializer } from '@angular/core';
-import { CheckoutAuthGuard } from '@spartacus/checkout/base/components';
-import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
+import {
+  CheckoutAuthGuard,
+  CheckoutFlowOrchestratorService,
+} from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
   provideDefaultConfig,
