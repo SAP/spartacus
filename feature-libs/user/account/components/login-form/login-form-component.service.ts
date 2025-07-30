@@ -26,6 +26,11 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
+  protected authConfigService = inject(AuthConfigService);
+  protected isNewAuthFlow = inject(FeatureConfigService).isEnabled(
+    'authorizationCodeFlowByDefault'
+  );
+
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
@@ -36,10 +41,6 @@ export class LoginFormComponentService {
       this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     }
   }
-  protected authConfigService = inject(AuthConfigService);
-  protected isNewAuthFlow = inject(FeatureConfigService).isEnabled(
-    'authorizationCodeFlowByDefault'
-  );
 
   protected busy$ = new BehaviorSubject(false);
 
