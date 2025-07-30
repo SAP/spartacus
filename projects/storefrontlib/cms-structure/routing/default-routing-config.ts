@@ -85,8 +85,8 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   };
 
   if (authorizationCodeFlowByDefault) {
-    routingConfig.routing.routes['customLogin'] = {
-      paths: ['login-form'],
+    routingConfig.routing.routes['loginForm'] = {
+      paths: ['login'],
       protected: false,
       authFlow: true,
     };
