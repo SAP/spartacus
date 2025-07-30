@@ -7,7 +7,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthConfigService } from '../../user-auth/services/auth-config.service';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { CSRFResponse } from '../../user-auth/models/csrf-response';
 
 /**
@@ -24,7 +23,6 @@ import { CSRFResponse } from '../../user-auth/models/csrf-response';
 export class CrossSiteRequestForgeryService {
   protected http = inject(HttpClient);
   protected authConfigService = inject(AuthConfigService);
-  protected routingService = inject(RoutingService);
 
   /**
    * Returns CSRF Token
