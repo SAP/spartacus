@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { provideFeatureToggles } from '@spartacus/core';
 import { AuthConfig } from './auth-config';
-import {
-  defaultAuthConfigFactory,
-  provideAuthorizationCodeFlowByDefault,
-} from './default-auth-config';
+import { defaultAuthConfigFactory } from './default-auth-config';
 
 const expectedAuthorizationCodeDefault: AuthConfig = {
   authentication: {
@@ -57,25 +55,17 @@ describe('defaultAuthConfigFactory', () => {
     expect(actual).toEqual(expectedResourceOwnerDefault);
   });
 
-  describe('with useAuthorizationCodeFlowByDefaultProvider', () => {
+  describe('with authorizationCodeFlowByDefault flag', () => {
     it('should provide the authorization code default configuration', () => {
       TestBed.configureTestingModule({
-        providers: [provideAuthorizationCodeFlowByDefault()],
+        providers: [
+          provideFeatureToggles({ authorizationCodeFlowByDefault: true }),
+        ],
       });
 
       const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
 
       expect(actual).toEqual(expectedAuthorizationCodeDefault);
-    });
-
-    it('should provide the resource owner default configuration when the provider is disabled', () => {
-      TestBed.configureTestingModule({
-        providers: [provideAuthorizationCodeFlowByDefault(false)],
-      });
-
-      const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
-
-      expect(actual).toEqual(expectedResourceOwnerDefault);
     });
   });
 });

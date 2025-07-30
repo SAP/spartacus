@@ -247,9 +247,7 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeAnonymousConsentsDialog();
 
-    cy.onMobile(() => {
-      clickHamburger();
-    });
+    clickHamburger();
     cy.getLoginRegisterLink({ clickAndWait: true });
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);

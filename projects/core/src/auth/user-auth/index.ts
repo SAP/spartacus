@@ -5,7 +5,6 @@
  */
 
 export * from './config/auth-config';
-export { provideAuthorizationCodeFlowByDefault } from './config/default-auth-config';
 export * from './events/index';
 export * from './facade/index';
 export * from './guards/index';
