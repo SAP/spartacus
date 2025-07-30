@@ -1,7 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  AuthConfigService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   WindowRef,
@@ -20,6 +22,13 @@ class MockWinRef {
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
+  getCsrfToken = createSpy().and.returnValue(
+    of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    })
+  );
 }
 
 class MockGlobalMessageService {
@@ -27,11 +36,24 @@ class MockGlobalMessageService {
   remove = createSpy().and.stub();
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+
+class MockAuthConfigService implements Partial<AuthConfigService> {
+  getCustomLoginFormEndpoint() {
+    return 'https://localhost:9002/authorizationserver/login';
+  }
+}
+
 describe('LoginFormComponentService', () => {
   let service: LoginFormComponentService;
   let authService: AuthService;
   let winRef: WindowRef;
-
+  // let featureConfigService: FeatureConfigService;
+  // let auth: AuthConfigService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
@@ -41,6 +63,8 @@ describe('LoginFormComponentService', () => {
         { provide: WindowRef, useClass: MockWinRef },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: AuthConfigService, useClass: MockAuthConfigService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -49,6 +73,8 @@ describe('LoginFormComponentService', () => {
     service = TestBed.inject(LoginFormComponentService);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
+    // featureConfigService = TestBed.inject(FeatureConfigService);
+    // auth = TestBed.inject(AuthConfigService);
   });
 
   it('should create service', () => {
@@ -72,8 +98,9 @@ describe('LoginFormComponentService', () => {
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });
 
-    describe('success', () => {
+    describe('legacy success', () => {
       beforeEach(() => {
+        // spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
         service.form.setValue({
           userId,
           password,
@@ -96,6 +123,7 @@ describe('LoginFormComponentService', () => {
     });
 
     describe('error', () => {
+      // spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       beforeEach(() => {
         service.form.setValue({
           userId: 'invalid',

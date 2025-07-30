@@ -8,9 +8,10 @@ import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
+  const featureToggles = inject(FeatureToggles);
   const enableProductPageRouteAllowsNoProductName =
-    inject(FeatureToggles).defaultProductPageRouteAllowsNoProductName;
-  const isNewAuthFlow = inject(FeatureToggles).authorizationCodeFlowByDefault;
+    featureToggles.defaultProductPageRouteAllowsNoProductName;
+  const isNewAuthFlow = featureToggles.authorizationCodeFlowByDefault;
 
   const routingConfig = {
     routing: {
