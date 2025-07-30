@@ -18,7 +18,6 @@ import { defaultOpfPaymentRoutingConfig } from './config';
       {
         // @ts-ignore
         path: null,
-
         component: OpfPaymentVerificationComponent,
         data: {
           cxRoute: 'paymentVerificationResult',
@@ -27,7 +26,6 @@ import { defaultOpfPaymentRoutingConfig } from './config';
       {
         // @ts-ignore
         path: null,
-
         component: OpfPaymentVerificationComponent,
         data: {
           cxRoute: 'paymentVerificationCancel',
