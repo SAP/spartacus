@@ -10,7 +10,6 @@ import {
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
-  // provideAuthorizationCodeFlowByDefault,
 } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
@@ -58,8 +57,6 @@ const baseSite = environment.epdVisualization
         },
       },
     }),
-    // this will be under featureFlag (e2e branch)
-    // provideAuthorizationCodeFlowByDefault(),
   ],
 })
 export class SpartacusB2cConfigurationModule {}

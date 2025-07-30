@@ -92,7 +92,7 @@ export abstract class AuthConfig {
     OAuthLibConfig?: AuthLibConfig;
 
     customLoginPage?: {
-      csrfEndpoint: string;
+      csrfEndpoint?: string;
       loginFormEndpoint?: string;
     };
   };
