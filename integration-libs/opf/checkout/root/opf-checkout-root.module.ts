@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { CheckoutAuthGuard } from '@spartacus/checkout/base/components';
+import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -52,6 +53,9 @@ export function defaultOpfCheckoutComponentsConfig() {
     provideDefaultConfig(defaultOccOpfCheckoutConfig),
     provideDefaultConfig(defaultOpfCheckoutConfig),
     provideDefaultConfigFactory(defaultOpfCheckoutComponentsConfig),
+    provideAppInitializer(() => {
+      inject(CheckoutFlowOrchestratorService);
+    }),
   ],
 })
 export class OpfCheckoutRootModule {}
