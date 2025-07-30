@@ -7,14 +7,9 @@
 import { checkBanner } from '../../../helpers/homepage';
 import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('Order History with no orders', { testIsolation: false }, () => {
+describe('Order History with no orders', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    isolateTests();
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-    });
 
     describe('Order History for anonymous user', () => {
       it('should redirect to login page for anonymous user', () => {
@@ -32,14 +27,6 @@ describe('Order History with no orders', { testIsolation: false }, () => {
         cy.selectUserMenuOption({
           option: 'Order History',
         });
-      });
-
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-      });
-
-      afterEach(() => {
-        cy.saveLocalStorage();
       });
 
       it('should display order history page and should be able to start shopping', () => {
