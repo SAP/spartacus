@@ -5,7 +5,7 @@
  */
 
 import { defineConfig } from 'cypress';
-const mochawesome = require("cypress-mochawesome-reporter/plugin");
+const mochawesome = require('cypress-mochawesome-reporter/plugin');
 const plugins = require('./cypress/plugins/index.js');
 
 export default defineConfig({
@@ -14,7 +14,7 @@ export default defineConfig({
   chromeWebSecurity: false,
   retries: {
     runMode: 2,
-    openMode: 1
+    openMode: 1,
   },
   videoUploadOnPasses: false,
   env: {
@@ -48,8 +48,8 @@ export default defineConfig({
   reporterOptions: {
     charts: true,
     reportPageTitle: 'Composable Storefront Cypress E2E Test Report',
-    embeddedScreenshots: true,   // ✅ Needed for screenshots
-    inlineAssets: true,          // ✅ Inline CSS/JS in the report
-    saveAllAttempts: false
+    embeddedScreenshots: true, // ✅ Needed for screenshots
+    inlineAssets: true, // ✅ Inline CSS/JS in the report
+    saveAllAttempts: false,
   },
 });

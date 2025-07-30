@@ -9,7 +9,6 @@ import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-
 describe('Order History with no orders', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     isolateTests();
@@ -17,7 +16,7 @@ describe('Order History with no orders', { testIsolation: false }, () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-     describe('Order History for anonymous user', () => {
+    describe('Order History for anonymous user', () => {
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/orders');
         cy.location('pathname').should('contain', '/login');
@@ -39,21 +38,25 @@ describe('Order History with no orders', { testIsolation: false }, () => {
         cy.restoreLocalStorage();
       });
 
-      it('should display order history page', () => {
-         cy.get('.cx-order-history-header h2').should('contain','Order history');
-        cy.get('.cx-order-history-no-order').should('exist');
+      afterEach(() => {
+        cy.saveLocalStorage();
       });
 
-      it('should be able to start shopping from an empty Order History', () => {
+      it('should display order history page and should be able to start shopping', () => {
         const homePage = waitForPage('homepage', 'getHomePage');
-        
+        cy.get('.cx-order-history-header h2').should(
+          'contain',
+          'Order history'
+        );
+        cy.get('.cx-order-history-no-order').should('exist');
+
         cy.get('.btn.btn-primary.btn-block.active')
           .findByText('Start Shopping')
           .click();
-        
+
         cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
         checkBanner();
-        });
       });
+    });
   });
 });
