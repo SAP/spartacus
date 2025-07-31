@@ -318,7 +318,10 @@ export class QuoteSummaryActionsComponent
     if (action.isPrimary) {
       return 'btn-primary';
     }
-    if (this.getFilteredActions(allowedActions).length <= this.AMOUNT_OF_ACTION_BUTTONS) {
+    if (
+      this.getFilteredActions(allowedActions).length <=
+      this.AMOUNT_OF_ACTION_BUTTONS
+    ) {
       return 'btn-secondary';
     }
     return action.type === QuoteActionType.CANCEL
@@ -403,6 +406,8 @@ export class QuoteSummaryActionsComponent
   }
 
   getFilteredActions(allowedActions: QuoteAction[]): QuoteAction[] {
-    return allowedActions.filter((action) => action.type !== 'DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT');
+    return allowedActions.filter(
+      (action) => action.type !== 'DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT'
+    );
   }
 }

@@ -954,13 +954,18 @@ describe('QuoteSummaryActionsComponent', () => {
 
     it('should return false if allowed actions contains only DOWNLOAD_ACTION', () => {
       const quoteWithDownloadACtion: Quote = {
-      ...mockQuote,
-      allowedActions: [
-        { type: QuoteActionType.DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT, isPrimary: false }
-      ]
-    };
-    mockQuoteDetails$.next(quoteWithDownloadACtion);
-    expect(component.areButtonsRendered(quoteWithDownloadACtion.allowedActions)).toBe(false);
+        ...mockQuote,
+        allowedActions: [
+          {
+            type: QuoteActionType.DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT,
+            isPrimary: false,
+          },
+        ],
+      };
+      mockQuoteDetails$.next(quoteWithDownloadACtion);
+      expect(
+        component.areButtonsRendered(quoteWithDownloadACtion.allowedActions)
+      ).toBe(false);
     });
 
     it("should return 'true' if allowed actions is not empty", () => {
