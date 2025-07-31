@@ -42,7 +42,6 @@ const expectedResourceOwnerDefault: AuthConfig = {
       oidc: false,
       clearHashAfterLogin: false,
     },
-    customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
   },
 };
 

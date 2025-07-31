@@ -52,7 +52,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
     } satisfies AuthConfig;
 
     delete config.authentication.OAuthLibConfig.responseType;
-
+    delete config.authentication.customLoginPage;
     return config;
   }
 }
