@@ -163,7 +163,7 @@ export function filterUsingFacetFiltering() {
     },
   }).as(QUERY_ALIAS.FACET);
 
-  clickFacet('Price');
+  clickFacet('Price', true);
 
   cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;
