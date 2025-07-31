@@ -48,7 +48,8 @@ describe('My Account - Update Email', () => {
       it('should update email and able to login with new and not with old email', () => {
         updateEmail.testUpdateEmailAndLogin();
         signOut();
-        cy.visit('/login');
+        //cy.visit('/');
+        cy.getLoginRegisterLink({ clickAndWait: true });
         login(
           standardUser.registrationData.email,
           standardUser.registrationData.password
