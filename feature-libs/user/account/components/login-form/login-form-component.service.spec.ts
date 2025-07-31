@@ -26,7 +26,7 @@ class MockAuthService implements Partial<AuthService> {
     of({
       headerName: 'CSFR',
       parameterName: '_csfr',
-      _csrf: 'token',
+      token: 'token',
     })
   );
 }
