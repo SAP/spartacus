@@ -60,7 +60,9 @@ describe('Order details page', { testIsolation: false }, () => {
           undefined,
           orderData.body.code
         );
+        cy.intercept('GET', '**/users/**/orders**').as('getOrders');
         cy.visit('/my-account/orders');
+        cy.wait('@getOrders');
         cy.get('.cx-order-history-code > .cx-order-history-value').then(
           (el) => {
             const orderNumber = el.text().match(/\d+/)[0];
@@ -68,7 +70,7 @@ describe('Order details page', { testIsolation: false }, () => {
           }
         );
 
-        cy.get('.cx-order-history-code > .cx-order-history-value')
+        cy.get('.cx-order-history-code > .cx-order-history-value',{ timeout: 10000 })
           .should('exist')
           .first()
           .click();
