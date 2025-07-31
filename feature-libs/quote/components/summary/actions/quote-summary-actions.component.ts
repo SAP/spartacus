@@ -304,7 +304,7 @@ export class QuoteSummaryActionsComponent
    * @returns - if there are any action buttons, returns 'true', otherwise 'false'.
    */
   areButtonsRendered(allowedActions: QuoteAction[]): boolean {
-    return allowedActions.length > 0;
+    return this.getFilteredActions(allowedActions).length > 0;
   }
 
   /**
@@ -318,7 +318,7 @@ export class QuoteSummaryActionsComponent
     if (action.isPrimary) {
       return 'btn-primary';
     }
-    if (allowedActions.length <= this.AMOUNT_OF_ACTION_BUTTONS) {
+    if (this.getFilteredActions(allowedActions).length <= this.AMOUNT_OF_ACTION_BUTTONS) {
       return 'btn-secondary';
     }
     return action.type === QuoteActionType.CANCEL
@@ -400,5 +400,9 @@ export class QuoteSummaryActionsComponent
       }
     });
     return foundRole;
+  }
+
+  getFilteredActions(allowedActions: QuoteAction[]): QuoteAction[] {
+    return allowedActions.filter((action) => action.type !== 'DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT');
   }
 }
