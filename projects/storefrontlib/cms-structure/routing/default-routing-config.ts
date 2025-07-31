@@ -11,7 +11,6 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   const featureToggles = inject(FeatureToggles);
   const enableProductPageRouteAllowsNoProductName =
     featureToggles.defaultProductPageRouteAllowsNoProductName;
-  const isNewAuthFlow = featureToggles.authorizationCodeFlowByDefault;
 
   const routingConfig = {
     routing: {
@@ -26,7 +25,9 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
            * where we are redirected from oauth server.
            * Legacy path will stay, new one is updated.           *
            */
-          paths: [isNewAuthFlow ? 'signin' : 'login'],
+          paths: [
+            featureToggles.authorizationCodeFlowByDefault ? 'signin' : 'login',
+          ],
           protected: false,
           authFlow: true,
         },
@@ -88,12 +89,11 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
       },
     },
   };
-
-  if (isNewAuthFlow) {
-    /*
-     * Configuration necessary to allow customization of login form path,
-     * which have to be the same as configured in oauth client
-     */
+  /*
+   * Configuration necessary to allow customization of login form path,
+   * which have to be the same as configured in oauth client
+   */
+  if (featureToggles.authorizationCodeFlowByDefault) {
     routingConfig.routing.routes['loginForm'] = {
       paths: ['login'],
       protected: false,
