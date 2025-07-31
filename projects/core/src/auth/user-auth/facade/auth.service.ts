@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
+import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
@@ -18,6 +18,8 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
+import { CrossSiteRequestForgeryService } from '../../client-auth';
+import { LoggerService } from '../../../logger';
 
 /**
  * Auth service for normal user authentication.
@@ -27,6 +29,11 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  protected crossSiteRequestForgeryService = inject(
+    CrossSiteRequestForgeryService
+  );
+  // Todo: cleanup after verify deploy
+  protected logger = inject(LoggerService);
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -107,6 +114,28 @@ export class AuthService {
 
       this.authRedirectService.redirect();
     } catch {}
+  }
+
+  /**
+   * Retrieves the CSRF (Cross-Site Request Forgery) token for the custom login form.
+   *
+   * @return {string} The CSRF token used for preventing cross-site request forgery attacks.
+   */
+  getCsrfToken() {
+    return this.crossSiteRequestForgeryService.getCsrfToken().pipe(
+      shareReplay({ bufferSize: 1, refCount: true }),
+      tap({
+        error: (e) => {
+          // Todo: cleanup after verify deploy
+          this.logger.error('Failed to get csrf token', e);
+          const MISSING_JSESSIONID_CODE = 403;
+          if (e.status === MISSING_JSESSIONID_CODE) {
+            /* Redirect to restart the flow if an attempt was made to manually obtain a custom form */
+            this.routingService.go({ cxRoute: 'login' });
+          }
+        },
+      })
+    );
   }
 
   /**

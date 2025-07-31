@@ -13,6 +13,7 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
+import { CrossSiteRequestForgeryService } from '@spartacus/core';
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
@@ -56,6 +57,18 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockCrossSiteRequestForgeryService
+  implements Partial<CrossSiteRequestForgeryService>
+{
+  getCsrfToken() {
+    return of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    });
+  }
+}
+
 class MockAuthMultisiteIsolationService {
   getBaseSiteDecorator(): Observable<string> {
     return of('');
@@ -94,6 +107,10 @@ describe('AuthService', () => {
         {
           provide: AuthMultisiteIsolationService,
           useClass: MockAuthMultisiteIsolationService,
+        },
+        {
+          provide: CrossSiteRequestForgeryService,
+          useClass: MockCrossSiteRequestForgeryService,
         },
       ],
     });

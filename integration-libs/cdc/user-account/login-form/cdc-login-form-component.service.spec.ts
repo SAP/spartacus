@@ -24,6 +24,13 @@ class MockWinRef {
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
+  getCsrfToken = createSpy().and.returnValue(
+    of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    })
+  );
 }
 
 class MockGlobalMessageService {

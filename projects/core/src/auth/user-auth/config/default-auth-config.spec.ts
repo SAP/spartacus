@@ -19,6 +19,7 @@ const expectedAuthorizationCodeDefault: AuthConfig = {
       clearHashAfterLogin: false,
       responseType: 'code',
     },
+    customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
   },
 };
 

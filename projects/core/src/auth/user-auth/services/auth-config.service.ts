@@ -75,6 +75,23 @@ export class AuthConfigService {
   }
 
   /**
+   * Retrieves the custom login form endpoint from the configuration.
+   */
+  public getCustomLoginFormEndpoint(): string {
+    const customLoginFormEndpoint =
+      this.config?.customLoginPage?.loginFormEndpoint ?? '';
+    return this.prefixEndpoint(customLoginFormEndpoint);
+  }
+
+  /**
+   * Retrieves the CSRF endpoint for custom login based on the configuration settings.
+   */
+  public getCsrfEndpoint(): string {
+    const csrfEndpoint = this.config?.customLoginPage?.csrfEndpoint ?? '';
+    return this.prefixEndpoint(csrfEndpoint);
+  }
+
+  /**
    * Returns endpoint for token revocation (both access and refresh token).
    */
   public getRevokeEndpoint(): string {
