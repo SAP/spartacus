@@ -24,6 +24,10 @@ export const defaultAuthConfig: AuthConfig = {
       clearHashAfterLogin: false,
       responseType: 'code',
     },
+    customLoginPage: {
+      csrfEndpoint: '/csrf',
+      loginFormEndpoint: '/login',
+    },
   },
 };
 
@@ -48,7 +52,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
     } satisfies AuthConfig;
 
     delete config.authentication.OAuthLibConfig.responseType;
-
+    delete config.authentication.customLoginPage;
     return config;
   }
 }
