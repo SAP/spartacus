@@ -16,6 +16,7 @@ import {
   UserModule,
   UserOccModule,
   provideFeatureTogglesFactory,
+  provideAuthorizationCodeFlowByDefault,
 } from '@spartacus/core';
 import {
   AnonymousConsentManagementBannerModule,
@@ -290,6 +291,7 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
+    provideAuthorizationCodeFlowByDefault(),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,

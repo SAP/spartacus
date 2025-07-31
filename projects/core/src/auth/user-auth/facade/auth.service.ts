@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -18,6 +18,7 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
+import { AuthConfigService } from '../services';
 
 /**
  * Auth service for normal user authentication.
@@ -46,6 +47,8 @@ export class AuthService {
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
+  protected authConfigService = inject(AuthConfigService);
+
   /**
    * Check params in url and if there is an code/token then try to login with those.
    */
@@ -68,6 +71,10 @@ export class AuthService {
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
         if (loginResult.tokenReceived) {
           this.authRedirectService.redirect();
+        }
+      } else {
+        if (this.authConfigService.getOAuthLibConfig()?.useSilentRefresh) {
+          await this.oAuthLibWrapperService.trySilentLogin();
         }
       }
     } catch {}
@@ -138,6 +145,9 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<void> {
+    console.log('coreLogout');
+    //TODO: cleanup
+
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {

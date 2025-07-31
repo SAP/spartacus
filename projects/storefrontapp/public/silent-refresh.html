@@ -1,0 +1,12 @@
+<html>
+  <body>
+    <script>
+      (window.opener || window.parent).postMessage(
+        location.hash || '#' + location.search,
+        location.origin
+      );
+      window.localStorage.setItem('silent-refresh', 'true');
+      console.log('silent-refresh.html');
+    </script>
+  </body>
+</html>

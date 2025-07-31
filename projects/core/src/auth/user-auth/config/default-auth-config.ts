@@ -47,6 +47,7 @@ export const defaultAuthConfig: AuthConfig = {
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
     OAuthLibConfig: {
+      responseType: 'code',
       scope: '',
       customTokenParameters: ['token_type'],
       strictDiscoveryDocumentValidation: false,
@@ -54,7 +55,10 @@ export const defaultAuthConfig: AuthConfig = {
       disablePKCE: false,
       oidc: false,
       clearHashAfterLogin: false,
-      responseType: 'code',
+      silentRefreshRedirectUri:
+        'http://localhost:4200/assets/silent-refresh.html',
+      useSilentRefresh: true,
+      silentRefreshTimeout: 3000,
     },
   },
 };
