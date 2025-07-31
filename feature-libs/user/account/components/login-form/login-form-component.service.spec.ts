@@ -54,20 +54,20 @@ function createForm(username: string, password: string, csrf: string) {
   form.method = 'POST';
 
   const csrfInput = document.createElement('input');
-  csrfInput.type = 'hidden';
-  csrfInput.name = '_csrf';
-  csrfInput.value = csrf;
+  csrfInput.setAttribute('type', 'hidden');
+  csrfInput.setAttribute('name', '_csrf');
+  csrfInput.setAttribute('data-csrf', csrf);
   form.appendChild(csrfInput);
 
   const usernameInput = document.createElement('input');
-  usernameInput.name = 'username';
-  usernameInput.value = username;
+  usernameInput.setAttribute('name', 'username');
+  usernameInput.setAttribute('value', username);
   form.appendChild(usernameInput);
 
   const pwInput = document.createElement('input');
-  pwInput.type = 'password';
-  pwInput.name = 'password';
-  pwInput.value = password;
+  pwInput.setAttribute('type', 'password');
+  pwInput.setAttribute('name', 'password');
+  pwInput.setAttribute('value', password);
   form.appendChild(pwInput);
 
   return form;
@@ -222,7 +222,7 @@ describe('LoginFormComponentService', () => {
 
         it('should request email', () => {
           const form = createForm(userId, password, csrf);
-          const submitSpy = createSpy('submit', form.submit).and.stub();
+          const submitSpy = spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).toHaveBeenCalledWith();
         });
@@ -248,13 +248,16 @@ describe('LoginFormComponentService', () => {
         });
 
         it('should not login', () => {
-          service.login();
-          expect(authService.loginWithCredentials).not.toHaveBeenCalled();
+          const form = createForm(userId, password, csrf);
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).not.toHaveBeenCalled();
         });
 
         it('should not reset the form', () => {
           spyOn(service.form, 'reset').and.stub();
-          service.login();
+          const form = createForm(userId, password, csrf);
+          service.login(form);
           expect(service.form.reset).not.toHaveBeenCalled();
         });
       });
