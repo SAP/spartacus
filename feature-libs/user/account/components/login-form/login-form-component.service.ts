@@ -27,26 +27,12 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 @Injectable()
 export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
-  protected isNewAuthFlow = inject(FeatureConfigService).isEnabled(
-    'authorizationCodeFlowByDefault'
-  );
-
-  constructor(
-    protected auth: AuthService,
-    protected globalMessage: GlobalMessageService,
-    protected winRef: WindowRef
-  ) {
-    if (this.isNewAuthFlow) {
-      this.method = 'POST';
-      this.action = this.authConfigService?.getCustomLoginFormEndpoint();
-    }
-  }
-
-  protected busy$ = new BehaviorSubject(false);
+  private featureConfigService = inject(FeatureConfigService);
 
   action?: string;
   method?: string;
   csrf$ = this.auth.getCsrfToken();
+  protected busy$ = new BehaviorSubject(false);
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => {
@@ -58,7 +44,9 @@ export class LoginFormComponentService {
     })
   );
 
-  form: UntypedFormGroup = this.isNewAuthFlow
+  form: UntypedFormGroup = this.featureConfigService.isEnabled(
+    'authorizationCodeFlowByDefault'
+  )
     ? new FormGroup({
         userId: new FormControl('', [
           Validators.required,
@@ -75,8 +63,19 @@ export class LoginFormComponentService {
         password: new UntypedFormControl('', Validators.required),
       });
 
+  constructor(
+    protected auth: AuthService,
+    protected globalMessage: GlobalMessageService,
+    protected winRef: WindowRef
+  ) {
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.method = 'POST';
+      this.action = this.authConfigService?.getCustomLoginFormEndpoint();
+    }
+  }
+
   login(nativeForm?: HTMLFormElement) {
-    if (this.isNewAuthFlow && nativeForm) {
+    if (nativeForm) {
       const csrf =
         [...nativeForm.elements]
           .find((element) => element.hasAttribute?.('data-csrf'))

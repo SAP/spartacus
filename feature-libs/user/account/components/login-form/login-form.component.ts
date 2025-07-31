@@ -24,18 +24,16 @@ import { LoginFormComponentService } from './login-form-component.service';
 })
 export class LoginFormComponent {
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
-
-  constructor(protected service: LoginFormComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
-
+  @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
   csrf$ = this.service.csrf$;
   action = this.service.action;
   method = this.service.method;
 
-  @HostBinding('class.user-form') style = true;
+  constructor(protected service: LoginFormComponentService) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+  }
 
   onSubmit(): void {
     this.service.login(this.loginForm?.nativeElement);

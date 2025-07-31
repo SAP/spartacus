@@ -5,7 +5,6 @@
  */
 
 import { Config as SpartacusConfig } from '@spartacus/core';
-
 declare global {
   namespace Cypress {
     interface Chainable {

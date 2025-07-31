@@ -21,7 +21,12 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
 
         // semantic links for login related pages
         login: {
-          paths: [isNewAuthFlow ? 'signIn' : 'login'],
+          /*
+           * New auth flow requires 2 paths for login trigger and login form
+           * where we are redirected from oauth server.
+           * Legacy path will stay, new one is updated.           *
+           */
+          paths: [isNewAuthFlow ? 'signin' : 'login'],
           protected: false,
           authFlow: true,
         },
@@ -85,6 +90,10 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   };
 
   if (isNewAuthFlow) {
+    /*
+     * Configuration necessary to allow customization of login form path,
+     * which have to be the same as configured in oauth client
+     */
     routingConfig.routing.routes['loginForm'] = {
       paths: ['login'],
       protected: false,
