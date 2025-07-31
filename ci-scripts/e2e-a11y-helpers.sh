@@ -91,18 +91,16 @@ run_a11y_container_tests() {
         fi
     fi
 
-    stop_pwa_app
 
     # Run B2B accessibility tests if assigned to this container
     if [[ -n "$b2b_spec" ]]; then
+        stop_pwa_app
         build_and_start_pwa "ci,b2b"
         export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
 
         if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
-            stop_pwa_app
             return 1
         fi
-        stop_pwa_app
     fi
 
     return 0
