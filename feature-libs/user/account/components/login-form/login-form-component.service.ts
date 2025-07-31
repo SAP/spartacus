@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, from } from 'rxjs';
-import { tap, withLatestFrom } from 'rxjs/operators';
+import { take, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
@@ -60,30 +60,24 @@ export class LoginFormComponentService {
       this.method = 'POST';
       this.action = this.authConfigService?.getCustomLoginFormEndpoint();
       this.form.addControl('csrf', new FormControl('', Validators.required));
+      this.csrf$.pipe(take(1)).subscribe((csrf) => {
+        this.form.get('csrf')?.setValue(csrf.token);
+      });
     }
   }
 
   login(nativeForm?: HTMLFormElement) {
-    if (nativeForm) {
-      const csrf =
-        [...nativeForm.elements]
-          .find((element) => element.hasAttribute?.('data-csrf'))
-          ?.getAttribute?.('data-csrf') ?? '';
-      this.form.get('csrf')?.setValue(csrf);
-
-      if (!this.form.valid) {
-        this.form.markAllAsTouched();
-        return;
-      }
-
+    if (!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    if (
+      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
+      nativeForm
+    ) {
       nativeForm.submit();
       this.busy$.next(true);
     } else {
-      if (!this.form.valid) {
-        this.form.markAllAsTouched();
-        return;
-      }
-
       this.busy$.next(true);
 
       from(

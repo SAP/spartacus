@@ -26,7 +26,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
            * Legacy path will stay, new one is updated.           *
            */
           paths: [
-            featureToggles.authorizationCodeFlowByDefault ? 'signin' : 'login',
+            featureToggles.authorizationCodeFlowByDefault ? 'sign-in' : 'login',
           ],
           protected: false,
           authFlow: true,

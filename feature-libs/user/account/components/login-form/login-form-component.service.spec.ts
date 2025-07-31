@@ -56,7 +56,7 @@ function createForm(username: string, password: string, csrf: string) {
   const csrfInput = document.createElement('input');
   csrfInput.setAttribute('type', 'hidden');
   csrfInput.setAttribute('name', '_csrf');
-  csrfInput.setAttribute('data-csrf', csrf);
+  csrfInput.setAttribute('value', csrf);
   form.appendChild(csrfInput);
 
   const usernameInput = document.createElement('input');
@@ -77,7 +77,6 @@ describe('LoginFormComponentService', () => {
   let service: LoginFormComponentService;
   let authService: AuthService;
   let winRef: WindowRef;
-  // let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -98,7 +97,6 @@ describe('LoginFormComponentService', () => {
     service = TestBed.inject(LoginFormComponentService);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
-    // featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   it('should create service', () => {
