@@ -94,7 +94,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
    * which have to be the same as configured in oauth client
    */
   if (featureToggles.authorizationCodeFlowByDefault) {
-    routingConfig.routing.routes['loginForm'] = {
+    (routingConfig.routing.routes as any)['loginForm'] = {
       paths: ['login'],
       protected: false,
       authFlow: true,
