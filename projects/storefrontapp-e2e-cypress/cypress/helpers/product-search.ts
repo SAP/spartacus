@@ -159,11 +159,11 @@ export function filterUsingFacetFiltering() {
     pathname: searchUrlPrefix,
     query: {
       fields: '*',
-      query: 'camera:relevance:availableInStores:*',
+      query: 'camera:relevance:price:*',
     },
   }).as(QUERY_ALIAS.FACET);
 
-  clickFacet('Stores');
+  clickFacet('Price');
 
   cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;

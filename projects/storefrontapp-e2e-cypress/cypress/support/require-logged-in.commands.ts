@@ -74,6 +74,10 @@ Cypress.Commands.add(
       registrationData: RegistrationData,
       access_token?: string
     ) {
+      const headers: Record<string, string> = {};
+      if (options.access_token) {
+        headers.Authorization = `bearer ${options.access_token}`;
+      }
       return cy.request({
         method: 'POST',
         url: config.newUserUrl,

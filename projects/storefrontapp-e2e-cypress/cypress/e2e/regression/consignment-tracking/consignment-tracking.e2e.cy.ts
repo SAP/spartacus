@@ -18,6 +18,7 @@ describe('consignment tracking', () => {
       cy.visit('/my-account/order/100000');
       cy.get('.cx-list').should('have.length', 3);
       cy.get('.cx-list')
+        .filter(':has(span:contains("Shipped"))')
         .first()
         .within(() => {
           cy.get('.cx-code').should('contain', '300938');
@@ -27,6 +28,7 @@ describe('consignment tracking', () => {
 
       cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
+        .filter(':has(span:contains("Shipped"))')
         .next()
         .first()
         .within(() => {
@@ -36,7 +38,8 @@ describe('consignment tracking', () => {
       cy.get('.cx-no-tracking-heading').should('have.length', 1);
       cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
-        .last()
+        .filter(':has(span:contains("Waiting"))')
+        .first()
         .within(() => {
           cy.get('.cx-code').should('contain', '1377492');
           cy.get('.btn-track').should('have.length', 0);

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clickHamburger } from '../../../helpers/homepage';
 import * as userAccountHelpers from '../../../helpers/login';
+import { clickHamburger } from '../../../helpers/navigation';
 import { orderHistoryTest } from '../../../helpers/order-history';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -18,9 +18,7 @@ describe('Order History with no orders', { testIsolation: false }, () => {
     before(() => {
       clearAllStorage();
       cy.visit('/');
-      cy.onMobile(() => {
-        clickHamburger();
-      });
+      clickHamburger();
       userAccountHelpers.registerUser();
       verifyGlobalMessageAfterRegistration();
     });
