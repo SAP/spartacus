@@ -112,7 +112,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
     @Inject(USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT)
-    private useAuthCodeFlow: boolean 
+    private useAuthCodeFlow: boolean, 
   ) {
     this.isShowOauth2AsmloginPage = this.useAuthCodeFlow;
   }
