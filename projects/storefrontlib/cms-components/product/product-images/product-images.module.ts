@@ -9,8 +9,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
+import { CarouselScrollingModule } from '../../../shared/components/carousel-scrolling/carousel-scrolling.module';
 import { CarouselModule } from '../../../shared/components/carousel/index';
 import { MediaModule } from '../../../shared/components/media/media.module';
+import { LcpContextDirectiveModule } from '../../../shared/lcp-context/lcp-context-directive.module';
 import { ProductImagesComponent } from './product-images.component';
 
 @NgModule({
@@ -20,6 +22,8 @@ import { ProductImagesComponent } from './product-images.component';
     MediaModule,
     OutletModule,
     CarouselModule,
+    CarouselScrollingModule,
+    LcpContextDirectiveModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

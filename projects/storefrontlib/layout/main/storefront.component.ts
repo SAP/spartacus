@@ -92,6 +92,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
     useFeatureStyles('a11yNgSelectLayering');
     useFeatureStyles('topProgressBarUseTransformAnimation');
+    useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
   }
 
   ngOnInit(): void {

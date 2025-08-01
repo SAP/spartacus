@@ -28,32 +28,21 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   // TODO: (CXSPA-8550) Remove feature toggle
   private featureConfigService = inject(FeatureConfigService);
 
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'enableSecurePasswordValidation'
   )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
-    : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
-      ];
+    ? CustomFormValidators.securePasswordValidators
+    : this.featureConfigService.isEnabled(
+          'enableConsecutiveCharactersPasswordRequirement'
+        )
+      ? [
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]
+      : CustomFormValidators.passwordValidators;
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

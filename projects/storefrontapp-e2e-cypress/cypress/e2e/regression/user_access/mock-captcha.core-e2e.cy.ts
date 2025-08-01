@@ -6,8 +6,8 @@
  */
 
 import { registerWithCaptcha } from '../../../helpers/auth-forms';
-import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { clickHamburger } from '../../../helpers/homepage';
+import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 
@@ -29,11 +29,16 @@ describe('Register', () => {
           res.send(res.body);
         });
       });
-      cy.onMobile(() => {
-        clickHamburger();
+      cy.whenJDK17(() => {
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        cy.getLoginRegisterLink().click();
+        cy.get('cx-login-register').findByText('Register').click();
       });
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.get('cx-login-register').findByText('Register').click();
+      cy.whenJDK21(() => {
+        cy.visit('/login/register');
+      });
       cy.get('cx-captcha').should('exist');
       registerWithCaptcha(user);
       verifyGlobalMessageAfterRegistration();

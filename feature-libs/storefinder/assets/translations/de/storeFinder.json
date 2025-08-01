@@ -19,7 +19,7 @@
     "fromStoresFound": "von {{ count }} Filiale gefunden",
     "fromStoresFound_other": "von {{ count }} Filialen gefunden",
     "findStore": "Filiale suchen",
-    "findStoreBy": "Find store by",
+    "findStoreBy": "Filiale suchen nach",
     "useMyLocation": "Meinen Standort verwenden",
     "viewAllStores": "Alle Filialen anzeigen",
     "contactUs": "Kontakt",

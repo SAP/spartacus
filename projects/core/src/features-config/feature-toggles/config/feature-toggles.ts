@@ -634,11 +634,29 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * Introduces read more directive for presenting elements with long text.
+   * Affects: ProductReviewsComponent
+   */
+  readMoreDirective?: boolean;
+
+  /**
+   * Introduces characters left for product review form elements.
+   * Affects: ProductReviewsComponent
+   */
+  productReviewCharactersLeft?: boolean;
+
+  /**
    * The optional `aria-controls` attribute will override on the NgSelect implementation.
    * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
    * This change ensures we can still use a custom id if preferable.
    */
   a11yNgSelectAriaControls?: boolean;
+
+  /**
+   * Ensures on configurator overview page, that group titles are recognized as heading
+   * in VPC mode when navigating with the 'H' key.
+   */
+  a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
    * Enables the product carousel to include products based on specified category codes.
@@ -695,6 +713,12 @@ export interface FeatureTogglesInterface {
   defaultProductPageRouteAllowsNoProductName?: boolean;
 
   /**
+   * When enabled, the product cards in the product list page will have a forced consistent size.
+   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
+   */
+  consistentSizeProductCards?: boolean;
+
+  /**
    * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
    * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
    * Otherwise the component has no width initially, and gets wider only after a delay.
@@ -729,6 +753,99 @@ export interface FeatureTogglesInterface {
    * Enabling this flag removes the margin animation to improve performance and user experience.
    */
   disableCxPageSlotMarginAnimation?: boolean;
+
+  /**
+   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
+   * in the following components instead of the old `<cx-carousel>`:
+   * - `ProductCarouselComponent`
+   * - `ProductReferencesComponent`
+   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
+   *
+   * The previous carousel had number of issues:
+   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
+   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
+   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
+   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
+   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
+   * - Was not swipe-friendly on mobile devices
+   *
+   * The new carousel:
+   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
+   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
+   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
+   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
+   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
+   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
+   */
+  productCarouselScrolling?: boolean;
+
+  /**
+   * Feature flag to enable using <link rel=preconnect> in the index.html.
+   *
+   * ## When enabled:
+   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
+   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
+   * has already been completed by the time the browser requests them.
+   *
+   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
+   */
+  createMediaPreconnectLink?: boolean;
+
+  /**
+   * Feature flag to enable consistent header slot structure across breakpoints to reduce
+   * layout shift and improve Cumulative Layout Shift (CLS) scores.
+   *
+   * On desktop devices (non-mobile), some header and navigation elements were rendered
+   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
+   * affected the user experience and CLS performance.
+   *
+   * When enabled:
+   * - Desktop uses the same header slot structure as mobile.
+   * - Reduces layout shift and improves perceived performance and visual stability.
+   *
+   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
+   * with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
+
+  /**
+   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
+   *
+   * When enabled, it ensures that appropriate space is reserved for images before they load,
+   * maintaining layout stability across the following contexts:
+   *
+   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
+   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
+   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
+   *
+   * This helps improve Core Web Vitals by preventing layout shifts as images load.
+   */
+  reserveSpaceForImagesOnPdpAndPlp?: boolean;
+
+  /**
+   * Feature flag to control the default image loading strategy.
+   *
+   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
+   * due to the fallback logic in the `MediaService`, which defaults to
+   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
+   *
+   * This flag, when enabled, changes the default image loading behavior to use
+   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
+   * immediately, reducing unnecessary network usage and improving performance.
+   *
+   * Lazy loading frees up bandwidth to prioritize more important assets,
+   * such as the largest content element on the page, which can positively
+   * impact the LCP (Largest Contentful Paint) metric.
+   *
+   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
+   * by specifying CMS component IDs via the Spartacus config:
+   * `provideConfig({ lcpCmsComponents: ... })`
+   * ... or by passing the special input directly to the `MediaComponent`:
+   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
+   *
+   * Set to `true` to enable lazy loading by default.
+   */
+  lazyLoadImagesByDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -825,7 +942,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWideScreenImprovements: false,
   a11yOptimizedMenuSpacing: false,
   a11yNgSelectLayering: false,
+  readMoreDirective: false,
+  productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
+  a11yConfiguratorOverviewHeaderVPC: false,
   enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
@@ -833,7 +953,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfEnablePreventingFromCheckoutWithoutEmail: false,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
+  consistentSizeProductCards: false,
   reserveHorizontalSpaceStarRating: false,
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
+  productCarouselScrolling: false,
+  createMediaPreconnectLink: false,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
+  reserveSpaceForImagesOnPdpAndPlp: false,
+  lazyLoadImagesByDefault: false,
 };

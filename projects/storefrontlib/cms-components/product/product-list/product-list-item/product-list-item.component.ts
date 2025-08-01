@@ -12,6 +12,7 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -35,11 +36,22 @@ export class ProductListItemComponent implements OnChanges {
   hideAddToCartButton = false;
 
   readonly ProductListOutlets = ProductListOutlets;
+
+  /**
+   * The product item to be displayed in the list.
+   */
   @Input() product: any;
+
+  /**
+   * The index of the item in the product list.
+   */
+  @Input() itemIndex?: number;
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
-  ) {}
+  ) {
+    useFeatureStyles('consistentSizeProductCards');
+  }
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.product) {
