@@ -1,8 +1,9 @@
 {
   "subscriptionProduct": {
-    "minimumTerm": "Minimum Term: {{ term }}",
-    "renewalTerm": "Renewal Term: {{ term }}",
-    "usageCharges": "Usage Charges",
+    "subscriptionTerms": "Subscription Terms:",
+    "minimumTerm": "Minimum Subscription duration is {{ term }}",
+    "renewalTerm": "Renewal after {{ term }}",
+    "usageCharges": "Pricing Details",
     "volumeUsage": "For {{ from }} to {{ to }}: {{ fixed }} plus {{ price }} per {{ usage }}",
     "volumeOverageUsage": "For {{ from }} to Unlimited: {{ fixed }} plus {{ price }} per {{ usage }}",
     "volumeUsageMessage": "*You will be charged as per the highest applicable tier",
