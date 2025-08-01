@@ -13,6 +13,7 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
+import createSpy = jasmine.createSpy;
 import { CrossSiteRequestForgeryService } from '@spartacus/core';
 
 class MockUserIdService implements Partial<UserIdService> {
