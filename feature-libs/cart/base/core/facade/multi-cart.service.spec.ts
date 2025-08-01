@@ -330,47 +330,131 @@ describe('MultiCartService', () => {
   });
 
   describe('mergeToCurrentCart', () => {
-    it('should merge cart', () => {
-      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
-      const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
+    describe('feature flag incrementProcessesCountForMergeCart is enabled', () => {
+      it('should merge cart', () => {
+        spyOn(service as any, 'generateTempCartId').and.returnValue(
+          'temp-uuid'
+        );
+        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
 
-      // incrementProcessesCountForMergeCart is enabled
-      isEnabledSpy.and.returnValue(true);
-      service.mergeToCurrentCart({
-        userId: 'userId',
-        cartId: 'cartId',
-        extraData: {},
-      });
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.MergeCartAndIncrementProcessesCount({
+        // incrementProcessesCountForMergeCart is enabled
+        isEnabledSpy.and.callFake((value: string) => {
+          if (value === 'incrementProcessesCountForMergeCart') {
+            return true;
+          }
+          return false;
+        });
+        service.mergeToCurrentCart({
           userId: 'userId',
-          extraData: {},
           cartId: 'cartId',
-          tempCartId: 'temp-uuid',
-        })
-      );
-
-      // incrementProcessesCountForMergeCart is disabled
-      isEnabledSpy.and.returnValue(false);
-      service.mergeToCurrentCart({
-        userId: 'userId',
-        cartId: 'cartId',
-        extraData: {},
+          extraData: {},
+        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.MergeCartAndIncrementProcessesCount({
+            userId: 'userId',
+            extraData: {},
+            cartId: 'cartId',
+            tempCartId: 'temp-uuid',
+          })
+        );
       });
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.MergeCart({
-          userId: 'userId',
-          extraData: {},
-          cartId: 'cartId',
-          tempCartId: 'temp-uuid',
-        })
-      );
-
-      expect(isEnabledSpy).toHaveBeenCalledWith(
-        'incrementProcessesCountForMergeCart'
-      );
-      expect(isEnabledSpy.calls.count()).toEqual(2);
     });
+    describe('feature flag authorizationCodeFlowByDefault is enabled', () => {
+      it('should merge cart', () => {
+        spyOn(service as any, 'generateTempCartId').and.returnValue(
+          'temp-uuid'
+        );
+        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
+
+        // authorizationCodeFlowByDefault is enabled
+        isEnabledSpy.and.callFake((value: string) => {
+          if (value === 'authorizationCodeFlowByDefault') {
+            return true;
+          }
+          return false;
+        });
+        service.mergeToCurrentCart({
+          userId: 'userId',
+          cartId: 'cartId',
+          extraData: {},
+        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.MergeCartAndIncrementProcessesCount({
+            userId: 'userId',
+            extraData: {},
+            cartId: 'cartId',
+            tempCartId: 'temp-uuid',
+          })
+        );
+      });
+    });
+    describe('feature flags incrementProcessesCountForMergeCart and authorizationCodeFlowByDefault are disabled', () => {
+      it('should merge cart', () => {
+        spyOn(service as any, 'generateTempCartId').and.returnValue(
+          'temp-uuid'
+        );
+        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
+
+        // incrementProcessesCountForMergeCart and authorizationCodeFlowByDefault are disabled
+        isEnabledSpy.and.callFake((_value: string) => {
+          return false;
+        });
+        service.mergeToCurrentCart({
+          userId: 'userId',
+          cartId: 'cartId',
+          extraData: {},
+        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.MergeCart({
+            userId: 'userId',
+            extraData: {},
+            cartId: 'cartId',
+            tempCartId: 'temp-uuid',
+          })
+        );
+      });
+    });
+    // it('should merge cart', () => {
+    //   spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+    //   const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
+
+    //   // incrementProcessesCountForMergeCart is enabled
+    //   isEnabledSpy.and.returnValue(true);
+    //   service.mergeToCurrentCart({
+    //     userId: 'userId',
+    //     cartId: 'cartId',
+    //     extraData: {},
+    //   });
+    //   expect(store.dispatch).toHaveBeenCalledWith(
+    //     new CartActions.MergeCartAndIncrementProcessesCount({
+    //       userId: 'userId',
+    //       extraData: {},
+    //       cartId: 'cartId',
+    //       tempCartId: 'temp-uuid',
+    //     })
+    //   );
+
+    //   // incrementProcessesCountForMergeCart is disabled
+    //   isEnabledSpy.and.returnValue(false);
+    //   service.mergeToCurrentCart({
+    //     userId: 'userId',
+    //     cartId: 'cartId',
+    //     extraData: {},
+    //   });
+    //   expect(store.dispatch).toHaveBeenCalledWith(
+    //     new CartActions.MergeCart({
+    //       userId: 'userId',
+    //       extraData: {},
+    //       cartId: 'cartId',
+    //       tempCartId: 'temp-uuid',
+    //     })
+    //   );
+
+    //   expect(isEnabledSpy).toHaveBeenCalledWith(
+    //     'incrementProcessesCountForMergeCart'
+    //   );
+    //   expect(isEnabledSpy.calls.count()).toEqual(2);
+    // });
   });
 
   describe('loadCart', () => {

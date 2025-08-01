@@ -158,7 +158,10 @@ export class MultiCartService implements MultiCartFacade {
   }) {
     const tempCartId = this.generateTempCartId();
     if (
-      this.featureConfigService.isEnabled('incrementProcessesCountForMergeCart')
+      this.featureConfigService.isEnabled(
+        'incrementProcessesCountForMergeCart'
+      ) ||
+      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
     ) {
       this.store.dispatch(
         new CartActions.MergeCartAndIncrementProcessesCount({
