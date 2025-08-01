@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
   I18nModule,
+  provideAuthorizationCodeFlowByDefault,
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
@@ -104,6 +105,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     provideDefaultConfig(defaultCustomerListLayoutConfig),
     provideDefaultConfig(defaultAsmPaginationConfig),
     provideDefaultConfig(defaultAsmCreateCustomerFormLayoutConfig),
+    provideAuthorizationCodeFlowByDefault(),
   ],
 })
 export class AsmComponentsModule {}

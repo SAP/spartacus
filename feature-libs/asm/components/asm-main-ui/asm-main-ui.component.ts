@@ -8,6 +8,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  Inject,
   inject,
   OnDestroy,
   OnInit,
@@ -24,7 +25,6 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
-  FeatureConfigService,
   FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
@@ -56,6 +56,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+import { USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT } from 'projects/core/src/auth/user-auth/config/default-auth-config';
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -76,6 +77,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
+  isShowOauth2AsmloginPage: boolean;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -95,10 +97,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
-  protected featureConfig = inject(FeatureConfigService);
-  isShowOauth2AsmloginPage = this.featureConfig.isEnabled(
-    'showOauth2AsmloginPage'
-  );
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
@@ -111,8 +109,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+    protected launchDialogService: LaunchDialogService,
+    @Inject(USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT)
+    private useAuthCodeFlow: boolean 
+  ) {
+    this.isShowOauth2AsmloginPage = this.useAuthCodeFlow;
+  }
 
   ngOnInit(): void {
     this.isAsmCustomer360Configured =
