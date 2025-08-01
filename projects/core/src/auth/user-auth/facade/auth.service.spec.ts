@@ -38,6 +38,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
     return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
+  refreshAuthConfig = createSpy().and.stub();
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -286,6 +287,13 @@ describe('AuthService', () => {
       service.logout();
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
+    });
+  });
+
+  describe('refreshAuthConfig()', () => {
+    it('should call refreshAuthConfig method', () => {
+      service.refreshAuthConfig();
+      expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
     });
   });
 });
