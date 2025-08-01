@@ -18,4 +18,4 @@ export * from './services/index';
 export * from './store/actions';
 export { UserAuthModule } from './user-auth.module';
 export * from './utils/index';
-export {USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT} from './config/default-auth-config';
+export { USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT } from './config/default-auth-config';
