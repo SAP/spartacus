@@ -16,7 +16,7 @@ import {
   tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
-import { Observable, concat, from, of, throwError } from 'rxjs';
+import { Observable, concat, from, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -195,7 +195,10 @@ export class CartEffects {
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(CartActions.MERGE_CART),
-      map((action: CartActions.MergeCart) => action.payload),
+      map(
+        (action: CartActions.MergeCartAndIncrementProcessesCount) =>
+          action.payload
+      ),
       switchMap((payload) => {
         return this.cartConnector
           .load(payload.userId, OCC_CART_ID_CURRENT)
@@ -212,17 +215,7 @@ export class CartEffects {
                   })
                 );
               } else {
-                console.log(
-                  'cart.effect: not merging cart because',
-                  currentCart?.code,
-                  '===',
-                  payload.cartId
-                );
                 return of(
-                  // when returning from login, we don't load the cart, just issue a merge.
-                  // This utilizes the cart data loaded from teh merge to skip issuing another
-                  // load cart call.  We could alternatively create a new "merge and load" event
-                  // for use when returning from login
                   new CartActions.CreateCartSuccess({
                     userId: payload.userId,
                     cart: currentCart,
@@ -241,14 +234,14 @@ export class CartEffects {
                 of(
                   new CartActions.MergeCartAbort({
                     cartId: payload.cartId,
-                    error,
-                  }),
-                  new CartActions.RemoveCart({
-                    // needed to remove broken cart that can't be loaded
-                    cartId: payload.cartId,
+                    error: tryNormalizeHttpError(error, this.logger),
                   })
                 ),
-                throwError(() => error) // not sure if we should throw the error
+                of(
+                  new CartActions.RemoveCart({
+                    cartId: payload.cartId,
+                  })
+                )
               )
             ),
             filter(isNotUndefined)

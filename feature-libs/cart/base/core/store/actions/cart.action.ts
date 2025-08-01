@@ -177,8 +177,19 @@ interface MergeCartPayload {
    */
   tempCartId: string;
 }
+/**
+ * @deprecated since 2211.44. Use the new MergeCartAndIncrementProcessesCount instead.
+ */
+export class MergeCart implements Action {
+  readonly type = MERGE_CART;
+  constructor(public payload: MergeCartPayload) {}
+}
 
-export class MergeCart extends StateUtils.EntityProcessesIncrementAction {
+/**
+ * Initialize the merge cart.
+ * Comparing to the previous implementation of MergeCart, MergeCartAndIncrementProcessesCount increments in addition processesCount to mark cart as busy and prevent premature cart loading.
+ */
+export class MergeCartAndIncrementProcessesCount extends StateUtils.EntityProcessesIncrementAction {
   readonly type = MERGE_CART;
   constructor(public payload: MergeCartPayload) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -202,18 +213,22 @@ export class MergeCartSuccess extends StateUtils.EntityRemoveAction {
 
 export interface MergeCartAbortPayload {
   cartId: string;
-  error?: Object; // not necessary, I was using `error` for debugging
+  error?: Object;
 }
 
-// normally, merge is ended by MergeCartSuccess, which removes the temporary cart entity that
-// had the new outstanding process count
-// in the event of not merging because oldId and newId are the same (reproducible by session
-// timeout and logging back in as same user), or an error (reproduced by session timeout, logging
-// in as different user), we need to decrement the counter so the active cart can be stabilized
-export class MergeCartAbort extends StateUtils.EntityProcessesDecrementAction {
+// Normally, merge is ended by MergeCartSuccess, which removes the temporary cart entity that
+// had the new outstanding process count.
+// In the event of not merging because oldId and newId are the same or an error,
+// we need to decrement the counter so the active cart can be stabilized.
+export class MergeCartAbort
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
   readonly type = MERGE_CART_ABORT;
+  public error: any;
   constructor(public payload: MergeCartAbortPayload) {
     super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 

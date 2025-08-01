@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { FeatureConfigService, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
@@ -60,9 +60,14 @@ class MockUserIdService implements Partial<UserIdService> {
   });
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy();
+}
+
 describe('MultiCartService', () => {
   let service: MultiCartService;
   let store: Store<StateWithMultiCart>;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,12 +81,13 @@ describe('MultiCartService', () => {
       providers: [
         MultiCartService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
-
+    featureConfigService = TestBed.inject(FeatureConfigService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -326,13 +332,31 @@ describe('MultiCartService', () => {
   describe('mergeToCurrentCart', () => {
     it('should merge cart', () => {
       spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+      const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
 
+      // incrementProcessesCountForMergeCart is enabled
+      isEnabledSpy.and.returnValue(true);
       service.mergeToCurrentCart({
         userId: 'userId',
         cartId: 'cartId',
         extraData: {},
       });
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.MergeCartAndIncrementProcessesCount({
+          userId: 'userId',
+          extraData: {},
+          cartId: 'cartId',
+          tempCartId: 'temp-uuid',
+        })
+      );
 
+      // incrementProcessesCountForMergeCart is disabled
+      isEnabledSpy.and.returnValue(false);
+      service.mergeToCurrentCart({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {},
+      });
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.MergeCart({
           userId: 'userId',
@@ -341,6 +365,11 @@ describe('MultiCartService', () => {
           tempCartId: 'temp-uuid',
         })
       );
+
+      expect(isEnabledSpy).toHaveBeenCalledWith(
+        'incrementProcessesCountForMergeCart'
+      );
+      expect(isEnabledSpy.calls.count()).toEqual(2);
     });
   });
 

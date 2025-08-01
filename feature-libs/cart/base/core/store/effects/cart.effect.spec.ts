@@ -289,7 +289,7 @@ describe('Cart effect', () => {
 
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
-      const action = new CartActions.MergeCart({
+      const action = new CartActions.MergeCartAndIncrementProcessesCount({
         userId: userId,
         cartId: cartId,
         tempCartId: 'temp-uuid',
@@ -309,7 +309,7 @@ describe('Cart effect', () => {
     });
 
     it('should abort merge if merged old cart is the same as session cart and apply newly fetched data', () => {
-      const action = new CartActions.MergeCart({
+      const action = new CartActions.MergeCartAndIncrementProcessesCount({
         userId: userId,
         cartId: 'xxx',
         tempCartId: 'temp-uuid',
@@ -334,7 +334,7 @@ describe('Cart effect', () => {
     });
 
     it('should abort merge and remove cart on load error', () => {
-      const action = new CartActions.MergeCart({
+      const action = new CartActions.MergeCartAndIncrementProcessesCount({
         userId: userId,
         cartId: cartId,
         tempCartId: 'temp-uuid',
@@ -343,20 +343,15 @@ describe('Cart effect', () => {
       loadMock.and.returnValue(throwError(() => error));
 
       actions$ = hot('-a', { a: action });
-      const expected = cold(
-        '-(bc#)',
-        {
-          b: new CartActions.MergeCartAbort({
-            cartId: cartId,
-            error,
-          }),
-          c: new CartActions.RemoveCart({
-            cartId: cartId,
-            // cartId: 'temp-uuid',
-          }),
-        },
-        error
-      );
+      const expected = cold('-(bc)', {
+        b: new CartActions.MergeCartAbort({
+          cartId: cartId,
+          error: tryNormalizeHttpError(error, new MockLoggerService()),
+        }),
+        c: new CartActions.RemoveCart({
+          cartId: cartId,
+        }),
+      });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
     });

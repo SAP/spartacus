@@ -217,6 +217,23 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART,
           payload,
+        });
+      });
+    });
+
+    describe('MergeCartAndIncrementProcessesCount', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId: 'xxx@xxx.xxx',
+          cartId: 'testCartId',
+          tempCartId: 'tempCartId',
+        };
+        const action = new CartActions.MergeCartAndIncrementProcessesCount(
+          payload
+        );
+        expect({ ...action }).toEqual({
+          type: CartActions.MERGE_CART,
+          payload,
           meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
             payload.cartId
@@ -238,6 +255,25 @@ describe('Cart Actions', () => {
           type: CartActions.MERGE_CART_SUCCESS,
           payload,
           meta: StateUtils.entityRemoveMeta(MULTI_CART_DATA, payload.oldCartId),
+        });
+      });
+    });
+
+    describe('MergeCartAbort', () => {
+      it('should create the action', () => {
+        const payload = {
+          cartId: 'testCartId',
+          error: { message: 'anError' },
+        };
+        const action = new CartActions.MergeCartAbort(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.MERGE_CART_ABORT,
+          payload,
+          meta: StateUtils.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
+          error: payload.error,
         });
       });
     });

@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { FeatureConfigService, OAUTH_REDIRECT_FLOW_KEY } from '@spartacus/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
-import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
 
 /**
@@ -21,6 +21,7 @@ import { AuthConfigService } from './auth-config.service';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
+  private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
   // TODO: Remove platformId dependency in 4.0
@@ -115,8 +116,12 @@ export class OAuthLibWrapperService {
    * Initialize Implicit Flow or Authorization Code flows with the redirect to OAuth login url.
    */
   initLoginFlow() {
-    if (this.winRef.localStorage) {
-      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    if (
+      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+    ) {
+      if (this.winRef.localStorage) {
+        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+      }
     }
 
     return this.oAuthService.initLoginFlow();

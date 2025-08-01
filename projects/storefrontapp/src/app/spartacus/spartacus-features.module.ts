@@ -290,12 +290,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    // provideAuthorizationCodeFlowByDefault(),
-    // provideConfig({
-    //   authentication: {
-    //     client_id: 'mobile_android_spa',
-    //   },
-    // }),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
@@ -414,6 +408,7 @@ if (environment.cpq) {
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
         /*
          * JDK21 feature flags
          */
