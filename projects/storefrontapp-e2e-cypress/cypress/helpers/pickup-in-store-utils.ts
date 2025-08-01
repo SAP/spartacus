@@ -79,7 +79,6 @@ export const LOCATORS = {
   PICKUP_OPTIONS_RADIO_PICKUP: `[data-pickup=pickup]`,
   PICKUP_OPTIONS_RADIO_PICKUP_CHECKED: `[data-pickup=pickup][aria-checked=true]`,
   PICKUP_OPTIONS_RADIO_PICKUP_UNCHECKED: `[data-pickup=pickup][aria-checked=false]`,
-  LOGIN_LINK: `cx-login a`,
   REGISTER_BUTTON: `cx-login-register a`,
   FORM_TITLE: `#title-select`,
   FORM_TITLE_ENTRY_MR: `div.ng-option:contains('Mr.')`,

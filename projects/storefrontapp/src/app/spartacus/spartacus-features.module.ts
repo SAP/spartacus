@@ -414,6 +414,11 @@ if (environment.cpq) {
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        /*
+         * JDK21 feature flags
+         */
+        authorizationCodeFlowByDefault: true,
+        disableClientTokens: true,
       };
       return appFeatureToggles;
     }),
