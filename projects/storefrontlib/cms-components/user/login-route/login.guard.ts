@@ -12,7 +12,7 @@ import {
 } from '@angular/router';
 import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 
 /**
@@ -35,14 +35,10 @@ export class LoginGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<GuardResult> {
-    return this.authService.isUserLoggedIn().pipe(
+    return this.shouldRenderCMSPage().pipe(
       take(1),
-      switchMap((isUserLoggedIn) => {
-        if (
-          this.authConfigService.getOAuthFlow() ===
-            OAuthFlow.ResourceOwnerPasswordFlow ||
-          isUserLoggedIn
-        ) {
+      switchMap((response) => {
+        if (response) {
           return this.cmsPageGuard.canActivate(route, state);
         } else {
           // This method can trigger redirect to OAuth server that's why we don't return anything in this case
@@ -52,6 +48,18 @@ export class LoginGuard {
           }
           return EMPTY;
         }
+      })
+    );
+  }
+
+  protected shouldRenderCMSPage(): Observable<Boolean> {
+    return this.authService.isUserLoggedIn().pipe(
+      take(1),
+      map((isUserLoggedIn) => {
+        return (
+          this.authConfigService.getOAuthFlow() ===
+            OAuthFlow.ResourceOwnerPasswordFlow || isUserLoggedIn
+        );
       })
     );
   }
