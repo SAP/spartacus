@@ -1,3 +1,5 @@
+d761e732582935ee0140c9aed00abb0e90bce449
+
 # Contributing to the Spartacus Storefront
 
 Thank you for your interest in the Spartacus storefront! We welcome contributions in all forms.

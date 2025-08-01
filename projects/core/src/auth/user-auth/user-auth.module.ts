@@ -20,7 +20,6 @@ import { provideDefaultConfigFactory } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
 import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { AuthConfigInitializer } from './config/auth-config-initializer';
-import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
 import { defaultAuthConfigFactory } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
@@ -28,8 +27,6 @@ import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
 import { AuthStorageService } from './services/auth-storage.service';
-import { defaultAuthConfig } from './config/default-auth-config';
-import { provideDefaultConfig } from '../../config/config-providers';
 
 /**
  * Initialize the check for `token` or `code` in the url returned from the OAuth server.
