@@ -31,6 +31,7 @@ import {
   HttpErrorModel,
   HttpResponseStatus,
   RoutingService,
+  USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
   User,
 } from '@spartacus/core';
 import {
@@ -56,7 +57,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-import { USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT } from 'projects/core/src/auth/user-auth/config/default-auth-config';
+
 interface CartTypeKey {
   [key: string]: string;
 }
