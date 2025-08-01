@@ -311,4 +311,12 @@ describe('OAuthLibWrapperService', () => {
       });
     });
   });
+
+  describe('refreshAuthConfig()', () => {
+    it('should call initialize method', () => {
+      const initializeSpy = spyOn(service as any, 'initialize');
+      service.refreshAuthConfig();
+      expect(initializeSpy).toHaveBeenCalled();
+    });
+  });
 });
