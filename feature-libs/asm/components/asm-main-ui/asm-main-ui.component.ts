@@ -8,7 +8,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Inject,
   inject,
   OnDestroy,
   OnInit,
@@ -26,12 +25,12 @@ import {
 import {
   AuthService,
   FeatureModulesService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   HttpResponseStatus,
   RoutingService,
-  USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
   User,
 } from '@spartacus/core';
 import {
@@ -78,7 +77,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
-  isShowOauth2AsmloginPage: boolean;
+  isShowOauth2AsmloginPage?: boolean;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -101,6 +100,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
+  protected featureToggles = inject(FeatureToggles);
 
   constructor(
     protected authService: AuthService,
@@ -110,11 +110,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
-    @Inject(USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT)
-    private useAuthCodeFlow: boolean
+    protected launchDialogService: LaunchDialogService
   ) {
-    this.isShowOauth2AsmloginPage = this.useAuthCodeFlow;
+    this.isShowOauth2AsmloginPage =
+      this.featureToggles.authorizationCodeFlowByDefault;
   }
 
   ngOnInit(): void {
