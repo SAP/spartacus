@@ -90,9 +90,17 @@ export abstract class AuthConfig {
      * Config for angular-oauth-oidc library.
      */
     OAuthLibConfig?: AuthLibConfig;
-
+    /**
+     * Config for custom login page
+     */
     customLoginPage?: {
+      /**
+       * Endpoint for Cross Site Request Forgery token and form name
+       */
       csrfEndpoint?: string;
+      /**
+       * Endpoint for target (action) of form
+       */
       loginFormEndpoint?: string;
     };
   };
