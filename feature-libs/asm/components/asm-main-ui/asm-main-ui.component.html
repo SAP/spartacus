@@ -120,13 +120,13 @@
     </ng-template>
   </ng-container>
 
-  <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
-    <ng-template #showLoginForm>
+  <ng-template #showLoginForm>
+    <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
       <cx-csagent-login-form
         *ngIf="notCollapsed"
         (submitEvent)="loginCustomerSupportAgent($event)"
         [csAgentTokenLoading]="csAgentTokenLoading$ | async"
       ></cx-csagent-login-form>
-    </ng-template>
-  </ng-container>
+    </ng-container>
+  </ng-template>
 </ng-container>
