@@ -25,7 +25,6 @@ import {
 import {
   AuthService,
   FeatureModulesService,
-  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -77,7 +76,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
-  isShowOauth2AsmloginPage?: boolean;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -100,7 +98,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
-  protected featureToggles = inject(FeatureToggles);
 
   constructor(
     protected authService: AuthService,
@@ -111,10 +108,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService
-  ) {
-    this.isShowOauth2AsmloginPage =
-      this.featureToggles.authorizationCodeFlowByDefault;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isAsmCustomer360Configured =
