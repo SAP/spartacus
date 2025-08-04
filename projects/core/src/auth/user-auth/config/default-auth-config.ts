@@ -4,9 +4,45 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
+import { inject, InjectionToken, ValueProvider } from '@angular/core';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { AuthConfig } from './auth-config';
+
+/**
+ * @deprecated since 2211.44. Please use the `authorizationCodeFlowByDefault` feature toggle instead.
+ */
+export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
+  new InjectionToken<boolean>('USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT', {
+    factory: () => false,
+    providedIn: 'root',
+  });
+
+/**
+ * When `authorizationCodeFlowByDefault` feature toggle is enabled, it sets the default oAuth configuration to use authorization.
+ * code flow with PKCE. This results in a more secure authorization scheme
+ * as the default configuration.
+ *
+ * NOTE: This flag should only be enabled when used with a CCv2 Authorization
+ * Server running the September 2025 update or higher. The CCv2 Authorization
+ * Server only supports Authorization Code flow for public clients from
+ * that version and onwards.
+ *
+ * @usageNotes
+ * Add to the root module providers:
+ * ```
+ * provideAuthorizationCodeFlowByDefault()
+ * ```
+ */
+export function provideAuthorizationCodeFlowByDefault(
+  enable = true
+): ValueProvider {
+  const authorizationCodeFlowByDefault =
+    inject(FeatureToggles).authorizationCodeFlowByDefault;
+  return {
+    provide: USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
+    useValue: authorizationCodeFlowByDefault ?? enable,
+  };
+}
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {

@@ -84,6 +84,43 @@ export class CsAgentAuthService {
   }
 
   /**
+   * Loads access token for a customer support agent with authorization code flow.
+   */
+  async authorizeCustomerSupportAgentWhenUseCodeFlow(): Promise<void> {
+    let userToken: AuthToken | undefined;
+    // Start emulation for currently logged in user
+    let customerId: string | undefined;
+    this.userAccountFacade
+      .get()
+      .subscribe((user) => (customerId = user?.customerId))
+      .unsubscribe();
+
+    this.authStorageService
+      .getToken()
+      .subscribe((token) => (userToken = token))
+      .unsubscribe();
+
+    this.authStorageService.switchTokenTargetToCSAgent();
+    try {
+      await this.oAuthLibWrapperService.initLoginFlow();
+      this.store.dispatch(new AuthActions.Logout());
+
+      if (customerId !== undefined && userToken !== undefined) {
+        // OCC specific user id handling. Customize when implementing different backend
+        this.userIdService.setUserId(customerId);
+        this.authStorageService.setEmulatedUserToken(userToken);
+        this.store.dispatch(new AuthActions.Login());
+      } else {
+        // When we can't get the customerId just end all current sessions
+        this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+        this.authStorageService.clearEmulatedUserToken();
+      }
+    } catch {
+      this.authStorageService.switchTokenTargetToUser();
+    }
+  }
+
+  /**
    * Starts an ASM customer emulation session.
    * A customer emulation session is stopped by calling logout().
    * @param customerId
