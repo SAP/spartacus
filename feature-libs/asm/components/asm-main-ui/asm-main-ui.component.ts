@@ -8,6 +8,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  Inject,
   inject,
   OnDestroy,
   OnInit,
@@ -30,6 +31,7 @@ import {
   HttpErrorModel,
   HttpResponseStatus,
   RoutingService,
+  USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
   User,
 } from '@spartacus/core';
 import {
@@ -55,6 +57,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -75,6 +78,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
+  isShowOauth2AsmloginPage: boolean;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -106,8 +110,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+    protected launchDialogService: LaunchDialogService,
+    @Inject(USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT)
+    private useAuthCodeFlow: boolean
+  ) {
+    this.isShowOauth2AsmloginPage = this.useAuthCodeFlow;
+  }
 
   ngOnInit(): void {
     this.isAsmCustomer360Configured =
@@ -331,6 +339,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     password: string;
   }): void {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
+  }
+
+  loginCustomerSupportAgentWithAuthorizationCodeFlow(): void {
+    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow();
   }
 
   logout(): void {
