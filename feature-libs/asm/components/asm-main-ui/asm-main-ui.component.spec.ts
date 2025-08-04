@@ -185,14 +185,13 @@ const mockAsmUi: AsmUi = {
   selector: '[cxFeature]',
   standalone: false,
 })
-export class MockFeatureDirective {
+export class MockRevertedFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
     protected viewContainer: ViewContainerRef
   ) {}
 
   @Input() set cxFeature(_feature: string) {
-    // TODO: that's not a good example to reuse, need better solution
     if (_feature.toString().includes('!')) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
@@ -227,7 +226,7 @@ describe('AsmMainUiComponent', () => {
         MockAsmSessionTimerComponent,
         MockCustomerEmulationComponent,
         MockCxIconComponent,
-        MockFeatureDirective,
+        MockRevertedFeatureDirective,
       ],
       providers: [
         {
