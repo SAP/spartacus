@@ -18,27 +18,23 @@ describe('consignment tracking', () => {
       cy.visit('/my-account/order/100000');
       cy.get('.cx-list').should('have.length', 3);
       cy.get('.cx-list')
-        .first()
+        .contains('.cx-code', '300938').parents('.cx-list')
         .within(() => {
-          cy.get('.cx-code').should('contain', '300938');
           cy.get('.btn-track').click();
         });
       cy.get('.cx-tracking-event-body').should('have.length', 3);
 
       cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
-        .next()
-        .first()
+        .contains('.cx-code', '1992693').parents('.cx-list')
         .within(() => {
-          cy.get('.cx-code').should('contain', '1992693');
           cy.get('.btn-track').click();
         });
       cy.get('.cx-no-tracking-heading').should('have.length', 1);
       cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
-        .last()
+        .contains('.cx-code', '1377492').parents('.cx-list')
         .within(() => {
-          cy.get('.cx-code').should('contain', '1377492');
           cy.get('.btn-track').should('have.length', 0);
         });
     });
