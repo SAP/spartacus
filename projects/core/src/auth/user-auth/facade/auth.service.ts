@@ -179,4 +179,8 @@ export class AuthService {
   setLogoutProgress(progress: boolean): void {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
+
+  public refreshAuthConfig() {
+    this.oAuthLibWrapperService.refreshAuthConfig();
+  }
 }
