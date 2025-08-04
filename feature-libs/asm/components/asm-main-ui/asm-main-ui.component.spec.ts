@@ -192,6 +192,7 @@ export class MockFeatureDirective {
   ) {}
 
   @Input() set cxFeature(_feature: string) {
+    // TODO: that's not a good example to reuse, need better solution
     if (_feature.toString().includes('!')) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
