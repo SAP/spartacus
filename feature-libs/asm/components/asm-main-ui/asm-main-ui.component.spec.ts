@@ -21,7 +21,6 @@ import {
 import {
   AuthService,
   FeatureConfigService,
-  FeatureDirective,
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
