@@ -8,7 +8,9 @@ import { inject, InjectionToken, ValueProvider } from '@angular/core';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { AuthConfig } from './auth-config';
 
-@deprecated since 2211.44. Please use the `authorizationCodeFlowByDefault` feature toggle instead.
+/**
+ * @deprecated since 2211.44. Please use the `authorizationCodeFlowByDefault` feature toggle instead.
+ */
 export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
   new InjectionToken<boolean>('USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT', {
     factory: () => false,
@@ -16,7 +18,7 @@ export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
   });
 
 /**
- * When enabled, sets the default oAuth configuration to use authorization
+ * When `authorizationCodeFlowByDefault` feature toggle is enabled, it sets the default oAuth configuration to use authorization.
  * code flow with PKCE. This results in a more secure authorization scheme
  * as the default configuration.
  *
