@@ -8,9 +8,7 @@ import { inject, InjectionToken, ValueProvider } from '@angular/core';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { AuthConfig } from './auth-config';
 
-/**
- * @deprecated since 2211.44 Please use feature toggle with authorizationCodeFlowByDefault flag
- */
+@deprecated since 2211.44. Please use the `authorizationCodeFlowByDefault` feature toggle instead.
 export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
   new InjectionToken<boolean>('USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT', {
     factory: () => false,
