@@ -26,7 +26,7 @@ export class CdcLoginGuard extends LoginGuard {
     super(authService, authConfigService, cmsPageGuard);
   }
 
-  protected shouldRenderCMSPage(): Observable<Boolean> {
+  protected shouldRenderCMSPage(): Observable<boolean> {
     return of(true); // always load CMS Login Page
   }
 }

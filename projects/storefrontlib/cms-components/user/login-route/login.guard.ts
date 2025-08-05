@@ -37,8 +37,8 @@ export class LoginGuard {
   ): Observable<GuardResult> {
     return this.shouldRenderCMSPage().pipe(
       take(1),
-      switchMap((response) => {
-        if (response) {
+      switchMap((shouldRenderCMSPage) => {
+        if (shouldRenderCMSPage) {
           return this.cmsPageGuard.canActivate(route, state);
         } else {
           // This method can trigger redirect to OAuth server that's why we don't return anything in this case
@@ -52,7 +52,7 @@ export class LoginGuard {
     );
   }
 
-  protected shouldRenderCMSPage(): Observable<Boolean> {
+  protected shouldRenderCMSPage(): Observable<boolean> {
     return this.authService.isUserLoggedIn().pipe(
       take(1),
       map((isUserLoggedIn) => {
