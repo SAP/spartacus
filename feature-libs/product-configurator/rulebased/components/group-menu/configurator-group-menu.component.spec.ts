@@ -130,17 +130,6 @@ const mockRouterStateIssueNavigation: any = {
   },
 };
 
-let productConfiguratorDeltaRenderingEnabled = false;
-
-class MockFeatureConfigService {
-  isEnabled(name: string): boolean {
-    if (name === 'productConfiguratorDeltaRendering') {
-      return productConfiguratorDeltaRenderingEnabled;
-    }
-    return false;
-  }
-}
-
 class MockConfiguratorGroupService {
   setMenuParentGroup(): void {}
 
@@ -293,10 +282,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -1892,15 +1877,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     describe('trackByFn', () => {
-      it('should return group itself, if performance optimization is not active', () => {
-        productConfiguratorDeltaRenderingEnabled = false;
-        expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
-          simpleConfig.groups[0]
-        );
-      });
-
-      it('should return group ID, if performance optimization is active', () => {
-        productConfiguratorDeltaRenderingEnabled = true;
+      it('should return group ID', () => {
         expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
       });
     });

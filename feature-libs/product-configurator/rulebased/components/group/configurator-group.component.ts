@@ -36,8 +36,6 @@ export class ConfiguratorGroupComponent {
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
 
-  private featureConfigService = inject(FeatureConfigService);
-
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -124,17 +122,13 @@ export class ConfiguratorGroupComponent {
 
   /**
    * track-by function for the *ngFor generating the attribute list of the current group,
-   * returning the attribute key if the 'productConfiguratorDeltaRendering' toggle is active.
+   * returning the attribute key.
    *
    * @param _index
    * @param group
-   * @returns attribute key if feature 'productConfiguratorDeltaRendering' is active, the attribute itself otherwise (same as if there were not track-by function)
+   * @returns attribute key
    */
   trackByFn = (_index: number, attribute: Configurator.Attribute) => {
-    return this.featureConfigService.isEnabled(
-      'productConfiguratorDeltaRendering'
-    )
-      ? attribute.key
-      : attribute;
+    return attribute.key;
   };
 }

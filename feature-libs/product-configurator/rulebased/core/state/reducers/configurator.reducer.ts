@@ -470,9 +470,7 @@ function takeOverPricingChanges(
   const content = { ...action.payload };
   const priceSupplements = content.priceSupplements;
   const groups =
-    !action.isDeltaRendering && // remove alongside with the feature toggle `productConfiguratorDeltaRendering`
-    priceSupplements &&
-    priceSupplements.length > 0
+    priceSupplements && priceSupplements.length > 0
       ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
           state.groups,
           priceSupplements

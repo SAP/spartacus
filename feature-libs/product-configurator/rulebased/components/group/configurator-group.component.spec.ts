@@ -290,16 +290,6 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
     },
   };
 
-let productConfiguratorDeltaRenderingEnabled = false;
-class MockFeatureConfigService {
-  isEnabled(name: string): boolean {
-    if (name === 'productConfiguratorDeltaRendering') {
-      return productConfiguratorDeltaRenderingEnabled;
-    }
-    return false;
-  }
-}
-
 describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
@@ -370,10 +360,6 @@ describe('ConfiguratorGroupComponent', () => {
         {
           provide: ProductService,
           useClass: MockProductService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         {
           provide: ConfiguratorRouterExtractorService,
@@ -824,13 +810,8 @@ describe('ConfiguratorGroupComponent', () => {
     beforeEach(() => {
       createComponent();
     });
-    it('should return attribute itself, if performance optimization is not active', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
-      expect(component.trackByFn(0, attribute)).toBe(attribute);
-    });
 
-    it('should return attribute key, if performance optimization is active', () => {
-      productConfiguratorDeltaRenderingEnabled = true;
+    it('should return attribute key', () => {
       expect(component.trackByFn(0, attribute)).toBe(attribute.key);
     });
   });

@@ -213,12 +213,7 @@ export class ConfiguratorBasicEffects {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
             return new ConfiguratorActions.UpdatePriceSummarySuccess(
-              configuration,
-              {
-                isDeltaRendering: this.featureConfigService.isEnabled(
-                  'productConfiguratorDeltaRendering'
-                ),
-              }
+              configuration
             );
           }),
           catchError((error) => {
