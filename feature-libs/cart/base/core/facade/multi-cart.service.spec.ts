@@ -337,7 +337,6 @@ describe('MultiCartService', () => {
         );
         const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
 
-        // incrementProcessesCountForMergeCart is enabled
         isEnabledSpy.and.callFake((value: string) => {
           if (value === 'incrementProcessesCountForMergeCart') {
             return true;
@@ -366,7 +365,6 @@ describe('MultiCartService', () => {
         );
         const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
 
-        // authorizationCodeFlowByDefault is enabled
         isEnabledSpy.and.callFake((value: string) => {
           if (value === 'authorizationCodeFlowByDefault') {
             return true;
