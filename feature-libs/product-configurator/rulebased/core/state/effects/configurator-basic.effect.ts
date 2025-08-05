@@ -47,7 +47,6 @@ type updateConfigurationSuccessResultType =
  */
 export class ConfiguratorBasicEffects {
   protected logger = inject(LoggerService);
-  private featureConfigService = inject(FeatureConfigService);
 
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
