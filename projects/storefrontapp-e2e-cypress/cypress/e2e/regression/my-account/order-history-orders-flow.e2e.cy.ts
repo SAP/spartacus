@@ -26,6 +26,7 @@ describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
       cy.requireLoggedIn();
     });
 
@@ -52,6 +53,7 @@ describe('Order details page', { testIsolation: false }, () => {
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
 
     before(() => {
+      cy.visit('/');
       cy.requireLoggedIn();
       doPlaceOrder().then((orderData: any) => {
         formattedValue = orderData.body.totalPrice.formattedValue;
@@ -70,7 +72,9 @@ describe('Order details page', { testIsolation: false }, () => {
           }
         );
 
-        cy.get('.cx-order-history-code > .cx-order-history-value',{ timeout: 10000 })
+        cy.get('.cx-order-history-code > .cx-order-history-value', {
+          timeout: 10000,
+        })
           .should('exist')
           .first()
           .click();
