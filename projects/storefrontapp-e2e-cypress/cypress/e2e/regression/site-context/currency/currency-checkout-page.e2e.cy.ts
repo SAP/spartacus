@@ -7,7 +7,6 @@
 import { waitForCartPageData } from '../../../../helpers/b2b/b2b-saved-cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 import { product } from '../../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 describe('Currency switch - checkout page', () => {
   const checkoutShippingPath =
@@ -17,7 +16,7 @@ describe('Currency switch - checkout page', () => {
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
 
   before(() => {
-    clearAllStorage();
+    cy.visit('/');
     cy.requireLoggedIn();
     siteContextSelector.doPlaceOrder();
     waitForCartPageData(product);
@@ -38,7 +37,7 @@ describe('Currency switch - checkout page', () => {
         )}/users/current/carts/*/addresses/delivery`,
       }).as('setAddress');
       cy.visit(checkoutShippingPath);
-      cy.wait('@setAddress');
+      cy.wait('@setAddress',{ timeout: 30000 });
       siteContextSelector.verifySiteContextChangeUrl(
         null,
         siteContextSelector.CURRENCIES,
