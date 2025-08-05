@@ -7,11 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import {
-  FeatureConfigService,
-  LoggerService,
-  tryNormalizeHttpError,
-} from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
