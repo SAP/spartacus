@@ -5,12 +5,13 @@
  */
 
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { FeatureConfigService, OAUTH_REDIRECT_FLOW_KEY } from '@spartacus/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/index';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
+import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
 
 /**

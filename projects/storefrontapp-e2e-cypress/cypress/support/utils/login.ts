@@ -10,9 +10,11 @@ export const USERID_CURRENT = 'current';
 export const config = {
   authorizeUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/authorize`,
   loginUrl: `${Cypress.env('API_URL')}/authorizationserver/login`,
+  csrfUrl: `${Cypress.env('API_URL')}/authorizationserver/csrf`,
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
   revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
-  returnUri: 'http://localhost:4200/cy',
+  customLoginOrigin: Cypress.config('baseUrl'),
+  returnUri: `${Cypress.config('baseUrl')}/cy`,
   newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users?lang=en&curr=${Cypress.env(
@@ -29,6 +31,12 @@ type TokenResponse = {
   refresh_token?: string;
   token_type: 'Bearer';
   expires_in: number;
+};
+
+type CSRFResponse = {
+  headerName: string;
+  parameterName: string;
+  token: string;
 };
 
 type PKCE = {
@@ -84,12 +92,34 @@ export function authorizationCodeGrant(
           redirect_uri: config.returnUri,
         },
         headers: {
-          Origin: 'http://localhost:4200',
+          Origin: Cypress.config('baseUrl'),
         },
+        followRedirect: false,
       })
       .then((response) => {
-        const csrfMatch = response.body.match(/_csrf"\s+value="([^"]+)"/);
-
+        if (response.status == 200) {
+          // extract CSRF token from auth server login page HTML
+          return cy.wrap(
+            (response.body as string).match(/_csrf"\s+value="([^"]+)"/)[1]
+          );
+        } else if (response.status == 302) {
+          // redirect to custom login page, fetch csrf to continue
+          return cy
+            .request<CSRFResponse>({
+              method: 'GET',
+              url: config.csrfUrl,
+              headers: {
+                Origin: config.customLoginOrigin,
+              },
+            })
+            .then((csrfResponse) => csrfResponse.body.token);
+        } else {
+          throw new Error(
+            `Unexpected /authorize response status: ${response.status}. Expected 200 or 302.`
+          );
+        }
+      })
+      .then((csrfToken) => {
         return cy
           .request({
             method: 'POST',
@@ -98,19 +128,23 @@ export function authorizationCodeGrant(
             body: {
               username: uid,
               password,
-              _csrf: csrfMatch?.[1],
+              _csrf: csrfToken,
             },
             failOnStatusCode,
             followRedirect: false,
           })
           .then((res) => {
-            if (res.redirectedToUrl.includes('login?error')) {
+            const parsedUrl = new URL(res.redirectedToUrl);
+            if (parsedUrl.searchParams.has('error')) {
+              // if the login failed, the URL will contain an error parameter
               cy.log(`login failed:`);
               return cy.wrap({
                 status: 401,
                 body: {},
               } as Cypress.Response<TokenResponse>);
             } else {
+              // the auth server issues a 302-redirect-loopback, so we must follow this redirect manually
+              // to get next redirect response that will be to the return URI.
               return cy
                 .request({
                   method: 'GET',
@@ -203,9 +237,8 @@ function toBase64url(uint8Array: Uint8Array): string {
 }
 
 export async function createPKCE(): Promise<PKCE> {
-  const randomNumber = await crypto.getRandomValues(new Uint8Array(32));
+  const code_verifier = toBase64url(crypto.getRandomValues(new Uint8Array(32)));
 
-  const code_verifier = toBase64url(randomNumber);
   // Encode the input string as a Uint8Array
   const data = new TextEncoder().encode(code_verifier);
 
