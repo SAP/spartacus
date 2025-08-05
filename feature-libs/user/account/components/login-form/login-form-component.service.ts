@@ -17,6 +17,7 @@ import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  OAUTH_REDIRECT_FLOW_KEY,
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -75,6 +76,9 @@ export class LoginFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
+      if (this.winRef.localStorage) {
+        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+      }
       nativeForm.submit();
       this.busy$.next(true);
     } else {

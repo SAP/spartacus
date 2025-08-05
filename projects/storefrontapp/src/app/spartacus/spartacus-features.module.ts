@@ -408,6 +408,7 @@ if (environment.cpq) {
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
         /*
          * JDK21 feature flags
          */
