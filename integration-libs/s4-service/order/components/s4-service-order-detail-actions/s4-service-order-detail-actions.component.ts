@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
-import { map, Observable } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
@@ -17,20 +22,21 @@ import { map, Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComponent {
+export class S4ServiceOrderDetailActionsComponent
+  extends OrderDetailActionsComponent
+  implements OnInit
+{
   protected checkoutServiceSchedulePickerService = inject(
     CheckoutServiceSchedulePickerService
   );
   protected globalMessageService = inject(GlobalMessageService);
 
-  displayActions$: Observable<boolean> = this.order$.pipe(
-    map((order) => this.checkServiceStatus(order))
-  );
+  ngOnInit(): void {
+    this.order$.pipe(tap((order) => this.checkServiceStatus(order)));
+  }
 
-  protected checkServiceStatus(order: Order): boolean {
-    if (order && order.status === 'CANCELLED') {
-      return false;
-    } else if (order && order.servicedAt) {
+  protected checkServiceStatus(order: Order): void {
+    if (order.status !== 'CANCELLED' && !!order.servicedAt) {
       const hoursFromSchedule =
         this.checkoutServiceSchedulePickerService.getHoursFromServiceSchedule(
           order.servicedAt
@@ -40,11 +46,7 @@ export class S4ServiceOrderDetailActionsComponent extends OrderDetailActionsComp
           { key: 'rescheduleService.serviceNotAmendable' },
           GlobalMessageType.MSG_TYPE_INFO
         );
-        return false;
-      } else if (hoursFromSchedule > 24) {
-        return true;
       }
     }
-    return true;
   }
 }
