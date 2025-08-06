@@ -219,14 +219,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
-   * Including this count in aria-label will help screen readers to provide more context to the user.
-   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
-   * in next major relase since ng-select now correctly handles aria-label values of select options.
-   */
-  a11yNgSelectOptionsCount?: boolean;
-
-  /**
    * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
    * when a screen reader is used.
    */
@@ -850,7 +842,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: true,
