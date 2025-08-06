@@ -155,18 +155,37 @@ describe('AuthService', () => {
 
         expect(authRedirectService.redirect).toHaveBeenCalled();
       });
+
+      it('should dispatch login action', async () => {
+        spyOn(store, 'dispatch').and.callThrough();
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      });
     });
 
     describe('when the token is NOT received', () => {
-      it('should NOT redirect', async () => {
+      beforeEach(() => {
         spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
           Promise.resolve({ result: true, tokenReceived: false })
         );
+      });
+
+      it('should NOT redirect', async () => {
         spyOn(authRedirectService, 'redirect').and.stub();
 
         await service.checkOAuthParamsInUrl();
 
         expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
+
+      it('should NOT dispatch login action', async () => {
+        spyOn(store, 'dispatch').and.callThrough();
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(store.dispatch).not.toHaveBeenCalled();
       });
     });
   });

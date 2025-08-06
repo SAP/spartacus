@@ -68,12 +68,13 @@ export class AuthService {
       // that why we also need to check if we have access_token
       if (loginResult.result && token) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-        this.store.dispatch(new AuthActions.Login());
 
         // We check if the token was received during the `tryLogin()` attempt.
         // If so, we will redirect as we can deduce we are returning from the authentication server.
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
+        // In this case we need to dispatch the login action to indicate that the user has just logged in.
         if (loginResult.tokenReceived) {
+          this.store.dispatch(new AuthActions.Login());
           this.authRedirectService.redirect();
         }
       }
