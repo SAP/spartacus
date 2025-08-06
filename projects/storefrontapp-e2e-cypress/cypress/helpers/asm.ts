@@ -88,20 +88,11 @@ export function addProductToB2BCart(
 }
 
 export function listenForAuthenticationRequest(): string {
-  cy.whenJDK17(() => {
   return interceptPost(
     'csAgentAuthentication',
     '/authorizationserver/oauth/token',
     false
   );
-  });
-  cy.whenJDK21(() => {
-  return interceptPost(
-    'csAgentAuthentication',
-    '/authorizationserver/oauth2/token',
-    false
-  );
-  });
 }
 
 export function listenForCustomerSearchRequest(): string {
