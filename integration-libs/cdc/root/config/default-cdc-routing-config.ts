@@ -22,6 +22,16 @@ export const cdcRoutesConfig: RoutesConfig = {
     protected: false,
     authFlow: true,
   },
+  login: {
+    paths: ['login'],
+    protected: false,
+    authFlow: true,
+  },
+  loginForm: {
+    paths: ['login-form'], //overriding to avoid same path in different routes
+    protected: false,
+    authFlow: true,
+  },
 };
 
 export const defaultCdcRoutingConfig: RoutingConfig = {
