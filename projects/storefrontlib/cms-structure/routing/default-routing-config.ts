@@ -12,7 +12,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   const enableProductPageRouteAllowsNoProductName =
     featureToggles.defaultProductPageRouteAllowsNoProductName;
 
-  return{
+  return {
     routing: {
       routes: {
         home: { paths: [''] },
@@ -87,6 +87,4 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
       },
     },
   };
-  /*
- 
 };
