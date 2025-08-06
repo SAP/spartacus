@@ -53,7 +53,7 @@ export class LoginFormComponentService {
     password: new UntypedFormControl('', Validators.required),
   });
 
-  initCustomLogin() {
+  protected initCustomLogin() {
     this.method = 'POST';
     this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     this.form.addControl('csrf', new FormControl('', Validators.required));
