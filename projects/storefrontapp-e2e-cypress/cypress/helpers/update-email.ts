@@ -18,7 +18,6 @@ export function registerAndLogin() {
 }
 
 export function testUpdateEmailAndLogin() {
-  it('should update his email address and login', () => {
     const newUid = generateMail(randomString(), true);
     cy.get('cx-update-email, cx-my-account-v2-email').within(() => {
       cy.get('[formcontrolname="email"]').type(newUid);
@@ -31,9 +30,8 @@ export function testUpdateEmailAndLogin() {
       .getSuccessAlert()
       .should('contain', `Success. Please sign in with ${newUid}`);
 
-    cy.get('cx-login-form').should('exist');
+    cy.location('pathname').should('contain', '/login');
     login(newUid, password);
 
     cy.get('cx-login .cx-login-greet').should('exist');
-  });
 }
