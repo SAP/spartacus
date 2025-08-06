@@ -239,12 +239,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
-   * Improves its screen reader readout.
-   */
-  a11yAddedToCartActiveDialog?: boolean;
-
-  /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
    */
   a11yDeliveryMethodFieldset?: boolean;
@@ -840,7 +834,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yAddedToCartActiveDialog: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
   a11yQuickOrderAriaControls: true,
