@@ -84,11 +84,6 @@ export interface FeatureTogglesInterface {
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
 
   /**
-   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
-   */
-  a11yNavMenuExpandStateReadout?: boolean;
-
-  /**
    * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
    */
   a11yPreventHorizontalScroll?: boolean;
@@ -838,7 +833,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   productConfiguratorDeltaRendering: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,

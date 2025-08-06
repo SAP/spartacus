@@ -300,7 +300,6 @@ if (environment.cpq) {
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yNavMenuExpandStateReadout: true,
         a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
