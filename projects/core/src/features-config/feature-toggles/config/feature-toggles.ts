@@ -219,12 +219,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
-   * This removes the repeated announcement of the page title.
-   */
-  a11yRepeatedPageTitleFix?: boolean;
-
-  /**
    * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
    * Including this count in aria-label will help screen readers to provide more context to the user.
    * Update (since 2211.33): This feature toggle and the logic behind it should be removed
@@ -856,7 +850,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yRepeatedPageTitleFix: true,
   a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
