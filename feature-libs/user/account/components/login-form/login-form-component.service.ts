@@ -14,6 +14,7 @@ import {
 import {
   AuthConfigService,
   AuthService,
+  CSRFResponse,
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
@@ -21,7 +22,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, from } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { take, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
@@ -31,7 +32,7 @@ export class LoginFormComponentService {
 
   action?: string;
   method?: string;
-  csrf$ = this.auth.getCsrfToken();
+  csrf$?: Observable<CSRFResponse>;
   protected busy$ = new BehaviorSubject(false);
 
   isUpdating$ = this.busy$.pipe(
@@ -58,12 +59,7 @@ export class LoginFormComponentService {
     protected winRef: WindowRef
   ) {
     if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
-      this.method = 'POST';
-      this.action = this.authConfigService?.getCustomLoginFormEndpoint();
-      this.form.addControl('csrf', new FormControl('', Validators.required));
-      this.csrf$.pipe(take(1)).subscribe((csrf) => {
-        this.form.get('csrf')?.setValue(csrf.token);
-      });
+      this.initCustomLogin();
     }
   }
 
@@ -109,5 +105,15 @@ export class LoginFormComponentService {
     }
 
     this.busy$.next(false);
+  }
+
+  protected initCustomLogin() {
+    this.method = 'POST';
+    this.action = this.authConfigService?.getCustomLoginFormEndpoint();
+    this.form.addControl('csrf', new FormControl('', Validators.required));
+    this.csrf$ = this.auth.getCsrfToken();
+    this.csrf$.pipe(take(1)).subscribe((csrf) => {
+      this.form.get('csrf')?.setValue(csrf.token);
+    });
   }
 }
