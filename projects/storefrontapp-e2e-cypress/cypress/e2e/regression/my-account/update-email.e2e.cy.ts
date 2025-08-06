@@ -16,10 +16,6 @@ import * as alerts from '../../../helpers/global-message';
 
 describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-    });
-
     describe('Anonymous user', () => {
       it('should redirect to login page', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);
@@ -48,7 +44,7 @@ describe('My Account - Update Email', () => {
       it('should update email and able to login with new and not with old email', () => {
         updateEmail.testUpdateEmailAndLogin();
         signOut();
-        //cy.visit('/');
+
         cy.getLoginRegisterLink({ clickAndWait: true });
         login(
           standardUser.registrationData.email,
@@ -58,7 +54,7 @@ describe('My Account - Update Email', () => {
           alerts.getErrorAlert().should('contain', 'Bad credentials');
         });
         cy.whenJDK21(() => {
-          cy.get('.fd-message-strip__text').should('contain','Bad credentials.');
+          cy.url().should('contain', '/login?error=bad_credentials');
         });
       });
     });
