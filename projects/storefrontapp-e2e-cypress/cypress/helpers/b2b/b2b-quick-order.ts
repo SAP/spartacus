@@ -203,13 +203,17 @@ export function addProductToCartWithQuickForm(
   productCode: string,
   quantity?: number
 ) {
-  const alias = this.interceptAddToCartEndpoint();
 
-  cy.get('cx-cart-quick-order-form .input-product-code').type(`${productCode}`);
+  cy.get('cx-cart-quick-order-form .input-product-code')
+    .clear()
+    .type(`${productCode}`);
 
   if (quantity) {
-    cy.get('cx-cart-quick-order-form .input-quantity').type(`${quantity}`);
+    cy.get('cx-cart-quick-order-form .input-quantity')
+    .clear()
+    .type(`${quantity}`);
   }
+  const alias = this.interceptAddToCartEndpoint();
 
   cy.get('cx-cart-quick-order-form .apply-quick-order-button').click();
 
