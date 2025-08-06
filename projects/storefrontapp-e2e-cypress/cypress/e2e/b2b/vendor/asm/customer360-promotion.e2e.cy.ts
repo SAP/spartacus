@@ -5,7 +5,7 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import * as checkout from '../../../../helpers/checkout-flow';
+import { login } from '../../../../helpers/auth-forms';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
@@ -34,8 +34,15 @@ context('Assisted Service Module', () => {
 
   describe('B2B Asm Customer360 Promotion', () => {
     beforeEach(() => {
-      checkout.visitHomePage('asm=true');
-      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+      cy.visit('/?asm=true');
+      cy.whenJDK17(() => {
+        asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+      });
+                  
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('brandon.leclair@acme.com', 'pw4all');
+      });
       asm.startCustomerEmulation(customer, true);
       cy.get('button.cx-360-button').click();
       cy.get('button.cx-tab-header').contains('Promotion').click();

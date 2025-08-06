@@ -9,6 +9,7 @@ import * as checkout from '../helpers/checkout-flow';
 import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as productDetails from '../helpers/product-details';
 import { SampleUser, getSampleUser } from '../sample-data/checkout-flow';
+import { login } from './auth-forms';
 import { subscribeStockNotification } from './notification';
 
 let user: SampleUser | undefined;
@@ -38,7 +39,14 @@ export function getUser(): SampleUser {
 
 function asmCustomerEmulation(user: SampleUser) {
   checkout.visitHomePage('asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  cy.whenJDK17(() => {
+    asm.agentLogin('asagent', 'pw4all');
+  });
+      
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    login('asagent', 'pw4all');
+  });
   asm.startCustomerEmulation(user);
 }
 
