@@ -14,32 +14,41 @@ describe('consignment tracking', () => {
       orderDetail.loginUsingUserWithOrder();
     });
 
-    it('should see tracking package button and tracking events when consignment is shipped', () => {
+    it('should display tracking button and details for shipped consignments', () => {
       cy.visit('/my-account/order/100000');
+      cy.get('.cx-list')
+        .filter(':has(.cx-list-status span:contains("Shipped"))')
+        .each(($consignment) => {
+          cy.wrap($consignment).within(() => {
+            cy.get('.cx-code').should('not.be.empty');
+            cy.get('.btn-track')
+              .should('exist')
+              .should('be.visible')
+              .scrollIntoView()
+              .click();
+          });
 
-      cy.get('.cx-list').each(($consignment) => {
-        const status = $consignment.find('.cx-list-status span').text().trim();
+          cy.get('cx-tracking-events').should('be.visible');
 
-        if (status === 'Shipped') {
-          const hasTrackButton = $consignment.find('.btn-track').length > 0;
+          cy.get('cx-tracking-events').within(() => {
+            cy.get('.cx-tracking-event-body, .cx-no-tracking-heading').should(
+              'exist'
+            );
+            cy.get('.close').click();
+          });
+        });
+    });
 
-          if (hasTrackButton) {
-            cy.wrap($consignment).find('.btn-track').click();
-            cy.wait(500);
-
-            cy.get('cx-tracking-events').should('be.visible');
-
-            cy.get('body').then(($body) => {
-              if ($body.find('.cx-tracking-event-body').length > 0) {
-                cy.get('.cx-tracking-event-body').should('have.length.at.least',1);
-              } else {
-                cy.get('.cx-no-tracking-heading').should('exist');
-              }
-            });
-            cy.get('cx-tracking-events .close').click();
-          }
-        }
-      });
+    it('should not see tracking button for waiting consignment', () => {
+      cy.visit('/my-account/order/100000');
+      cy.get('.cx-list')
+        .filter(':has(.cx-list-status span:contains("Waiting"))')
+        .each(($consignment) => {
+          cy.wrap($consignment).within(() => {
+            cy.get('.cx-code').should('not.be.empty');
+            cy.get('.btn-track').should('not.exist');
+          });
+        });
     });
 
     it('should not see tracking package button when no consignment', () => {
