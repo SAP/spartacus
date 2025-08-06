@@ -367,7 +367,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
-    it('selected value should have aria-live tag if delta rendering is active', () => {
+    it('selected value should have aria-live tag', () => {
       component.listenForPriceChanges = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -378,16 +378,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         0,
         'aria-live',
         'polite'
-      );
-    });
-
-    it('selected value should not have aria-live tag if delta rendering is not active', () => {
-      component.listenForPriceChanges = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'input[aria-live]'
       );
     });
   });
