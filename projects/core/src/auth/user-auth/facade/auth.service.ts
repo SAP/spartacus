@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -56,10 +56,13 @@ export class AuthService {
 
       const token = this.authStorageService.getItem('access_token');
 
+      const isEmulated = await firstValueFrom(this.userIdService.isEmulated());
+      
+
       // We get the value `true` of `result` in the _code flow_ even if we did not log in successfully
       // (see source code https://github.com/manfredsteyer/angular-oauth2-oidc/blob/d95d7da788e2c1390346c66de62dc31f10d2b852/projects/lib/src/oauth-service.ts#L1711),
       // that why we also need to check if we have access_token
-      if (loginResult.result && token) {
+      if (loginResult.result && token && !(isEmulated)) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.store.dispatch(new AuthActions.Login());
 
