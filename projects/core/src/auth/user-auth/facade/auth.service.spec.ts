@@ -134,6 +134,19 @@ describe('AuthService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
     });
 
+    it('when customer emulated in asm page', async () => {
+      spyOn(authStorageService, 'getItem').and.returnValue('token');
+      spyOn(userIdService, 'setUserId').and.callThrough();
+
+      spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT
+      );
+    });
+
     describe('when the token is received', () => {
       it('should redirect', async () => {
         spyOn(authRedirectService, 'redirect').and.callThrough();
