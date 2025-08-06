@@ -333,7 +333,6 @@ if (environment.cpq) {
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yDeliveryMethodFieldset: true,
         a11yShowMoreReviewsBtnFocus: true,
-        a11yDialogsHeading: true,
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,

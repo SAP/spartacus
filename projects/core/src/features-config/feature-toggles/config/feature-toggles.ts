@@ -249,11 +249,6 @@ export interface FeatureTogglesInterface {
   a11yShowMoreReviewsBtnFocus?: boolean;
 
   /**
-   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
-   */
-  a11yDialogsHeading?: boolean;
-
-  /**
    * When enabled, the focus will be returned to the trigger element after the dialog is closed.
    * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
    */
@@ -825,7 +820,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
-  a11yDialogsHeading: true,
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
