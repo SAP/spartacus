@@ -5,6 +5,7 @@
  */
 
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import { visitLoginPage } from '../../../../support/utils/login';
 import { login, LoginUser } from '../../../auth-forms';
 import { waitForPage } from '../../../navigation';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
@@ -41,7 +42,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
     });
 
     it('should log in with set password', () => {
-      cy.visit('/login');
+      visitLoginPage();
       login(user.username, user.password);
       cy.get('cx-login .cx-login-greet').contains(
         `Hi, ${firstNameRow.updateValue}`
@@ -58,7 +59,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
         setUserPasswordAsAdmin(codeRow.updateValue, TEST_PASSWORD_2);
       }
 
-      cy.visit('/login');
+      visitLoginPage();
       login(user.username, user.password);
       cy.get('cx-global-message').contains(
         'Bad credentials. Please login again.'

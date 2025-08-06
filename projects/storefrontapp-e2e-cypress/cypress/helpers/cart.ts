@@ -5,6 +5,7 @@
  */
 
 import { standardUser } from '../sample-data/shared-users';
+import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
@@ -536,11 +537,11 @@ export function registerCartUser(user = cartUser) {
 export function loginCartUser(user = cartUser) {
   cy.whenJDK17(() => {
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.visit('/login');
+    visitLoginPage();
     cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   });
   cy.whenJDK21(() => {
-    cy.visit('/login');
+    visitLoginPage();
   });
   login(user.registrationData.email, user.registrationData.password);
   cy.whenJDK21(() => {

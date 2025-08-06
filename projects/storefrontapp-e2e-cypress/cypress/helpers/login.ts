@@ -5,6 +5,7 @@
  */
 
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
+import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import * as alerts from './global-message';
 import { waitForPage } from './navigation';
@@ -120,11 +121,11 @@ export function loginWithBadCredentials() {
 export function navigateToLoginPage() {
   cy.whenJDK17(() => {
     const alias = waitForPage('/login', 'getLoginPage');
-    cy.visit('/login');
+    visitLoginPage();
     cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
   });
   cy.whenJDK21(() => {
-    cy.visit('/login');
+    visitLoginPage();
     cy.url().should('contain', '/login');
   });
 }
