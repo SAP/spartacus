@@ -19,3 +19,5 @@ import './commands.ts';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 import 'cypress-mochawesome-reporter/register';
+
+import './csrf-global-interceptor.ts';
