@@ -220,7 +220,7 @@ export class UpdatePriceSummaryFail
 export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
 
-  constructor(payload: Configurator.Configuration) {
+  constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }

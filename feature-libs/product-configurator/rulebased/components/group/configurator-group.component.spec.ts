@@ -12,7 +12,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
   I18nTestingModule,
   LanguageService,
   Product,

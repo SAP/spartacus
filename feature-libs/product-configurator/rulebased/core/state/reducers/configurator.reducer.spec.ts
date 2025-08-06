@@ -417,29 +417,7 @@ describe('Configurator reducer', () => {
       );
     });
 
-    it('should merge supplement data into existing groups if delta rendering is deactivated', () => {
-      const actionProvidingState =
-        new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
-      const firstState = StateReduce.configuratorReducer(
-        undefined,
-        actionProvidingState
-      );
-      const configurationWithPriceSummary: Configurator.Configuration = {
-        ...ConfiguratorTestUtils.createConfiguration(
-          'A',
-          ConfiguratorModelUtils.createInitialOwner()
-        ),
-        priceSupplements: priceSupplements,
-      };
-      const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary
-      );
-      const result = StateReduce.configuratorReducer(firstState, action);
-      const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
-      expect(price).toEqual(PRICE_DETAILS);
-    });
-
-    it('should NOT merge supplement data into existing groups if delta rendering is activated', () => {
+    it('should NOT merge supplement data into existing groups', () => {
       const actionProvidingState =
         new ConfiguratorActions.CreateConfigurationSuccess(CONFIGURATION);
       const firstState = StateReduce.configuratorReducer(

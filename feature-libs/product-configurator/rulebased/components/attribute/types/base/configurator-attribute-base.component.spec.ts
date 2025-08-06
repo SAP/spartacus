@@ -518,7 +518,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   });
 
   describe('$priceChanged', () => {
-    it('should emit true immediately, if delta rendering is not initialized', () => {
+    it('should emit true immediately', () => {
       let emitted = false;
       classUnderTest.changedPrices$
         .subscribe((priceChanged) => {

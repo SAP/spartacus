@@ -46,7 +46,7 @@ export class ConfiguratorAttributeBaseComponent {
   listenForPriceChanges: boolean;
   changedPrices$: Observable<Record<string, Configurator.PriceDetails>> = of(
     {}
-  ); // no delta rendering - always render directly only once with prices from configuration
+  );
 
   protected initPriceChangedEvent(
     isPricingAsync = false,
