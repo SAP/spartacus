@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { provideAuthorizationCodeFlowByDefault } from '@spartacus/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
@@ -411,6 +412,7 @@ if (environment.cpq) {
       };
       return appFeatureToggles;
     }),
+    provideAuthorizationCodeFlowByDefault(),
   ],
 })
 export class SpartacusFeaturesModule {}
