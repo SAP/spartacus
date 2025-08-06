@@ -298,7 +298,6 @@ if (environment.cpq) {
         useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
-        productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
         a11yPreventHorizontalScroll: true,

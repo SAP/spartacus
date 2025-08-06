@@ -43,7 +43,7 @@ export class ConfiguratorStorefrontUtilsService {
 
   /**
    * Last selected attribute and value.
-   * Needed for accessibility of checkboxes in delta rendering mode
+   * Needed for accessibility of checkboxes for delta rendering
    */
   protected lastSelected?: { attributeName: string; valueCode: string };
   constructor(
@@ -536,7 +536,7 @@ export class ConfiguratorStorefrontUtilsService {
 
   /**
    * Set the last selected attribute and value.
-   * Needed for accessibility of checkboxes in delta rendering mode
+   * Needed for accessibility of checkboxes for delta rendering
    *
    * @param attributeName - Attribute name
    * @param valueCode - Value code
