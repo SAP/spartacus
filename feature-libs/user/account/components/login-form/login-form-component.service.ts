@@ -53,16 +53,6 @@ export class LoginFormComponentService {
     password: new UntypedFormControl('', Validators.required),
   });
 
-  protected initCustomLogin() {
-    this.method = 'POST';
-    this.action = this.authConfigService?.getCustomLoginFormEndpoint();
-    this.form.addControl('csrf', new FormControl('', Validators.required));
-    this.csrf$ = this.auth.getCsrfToken();
-    this.csrf$.pipe(take(1)).subscribe((csrf) => {
-      this.form.get('csrf')?.setValue(csrf.token);
-    });
-  }
-
   constructor(
     protected auth: AuthService,
     protected globalMessage: GlobalMessageService,
@@ -115,5 +105,15 @@ export class LoginFormComponentService {
     }
 
     this.busy$.next(false);
+  }
+
+  protected initCustomLogin() {
+    this.method = 'POST';
+    this.action = this.authConfigService?.getCustomLoginFormEndpoint();
+    this.form.addControl('csrf', new FormControl('', Validators.required));
+    this.csrf$ = this.auth.getCsrfToken();
+    this.csrf$.pipe(take(1)).subscribe((csrf) => {
+      this.form.get('csrf')?.setValue(csrf.token);
+    });
   }
 }
