@@ -7,11 +7,6 @@
 >
   <div class="modal-content cx-clear-cart-container">
     <ng-container *ngIf="!isClearing; else loading">
-      <div
-        *cxFeature="'!a11yRemoveStatusLoadedRole'"
-        role="status"
-        [attr.aria-label]="'common.loaded' | cxTranslate"
-      ></div>
       <!-- Modal Header -->
       <div class="modal-header cx-clear-cart-header">
         <h3
