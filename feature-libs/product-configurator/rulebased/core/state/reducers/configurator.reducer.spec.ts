@@ -432,8 +432,7 @@ describe('Configurator reducer', () => {
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary,
-        { isDeltaRendering: false }
+        configurationWithPriceSummary
       );
       const result = StateReduce.configuratorReducer(firstState, action);
       const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;
@@ -455,8 +454,7 @@ describe('Configurator reducer', () => {
         priceSupplements: priceSupplements,
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
-        configurationWithPriceSummary,
-        { isDeltaRendering: true }
+        configurationWithPriceSummary
       );
       const result = StateReduce.configuratorReducer(firstState, action);
       const price = result.groups[0]?.attributes?.[0]?.values?.[0].valuePrice;

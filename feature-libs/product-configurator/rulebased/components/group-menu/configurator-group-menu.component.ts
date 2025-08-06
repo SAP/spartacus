@@ -12,7 +12,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import {   TranslationService } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
