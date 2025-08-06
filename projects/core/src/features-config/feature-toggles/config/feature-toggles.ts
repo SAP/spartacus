@@ -847,6 +847,14 @@ export interface FeatureTogglesInterface {
    * Set to `true` to enable lazy loading by default.
    */
   lazyLoadImagesByDefault?: boolean;
+
+  /**
+   * Feature flag to enable incrementing the processes count for the merge cart action.
+   *
+   * When enabled, the processes count will be incremented for the merge cart action.
+   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
+   */
+  incrementProcessesCountForMergeCart?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -963,4 +971,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   lazyLoadImagesByDefault: false,
   authorizationCodeFlowByDefault: false,
   disableClientTokens: false,
+  incrementProcessesCountForMergeCart: true,
 };
