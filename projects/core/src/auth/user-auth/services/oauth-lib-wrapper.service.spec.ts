@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { FeatureConfigService } from '@spartacus/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { BehaviorSubject } from 'rxjs';
 import { WindowRef } from '../../../window';
@@ -60,6 +61,10 @@ class MockOAuthService implements Partial<OAuthService> {
   }
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = jasmine.createSpy();
+}
+
 const store = {};
 const MockWindowRef = {
   localStorage: {
@@ -90,6 +95,7 @@ describe('OAuthLibWrapperService', () => {
   let oAuthService: OAuthService;
   let winRef: WindowRef;
   let authConfigService: AuthConfigService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -98,12 +104,14 @@ describe('OAuthLibWrapperService', () => {
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: OAuthService, useClass: MockOAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
     service = TestBed.inject(OAuthLibWrapperService);
     oAuthService = TestBed.inject(OAuthService);
     winRef = TestBed.inject(WindowRef);
     authConfigService = TestBed.inject(AuthConfigService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   describe('initialize()', () => {
@@ -247,6 +255,31 @@ describe('OAuthLibWrapperService', () => {
       expect(oAuthService.initLoginFlow).toHaveBeenCalled();
     });
 
+    it('should not set oAuth flow key in local storage when authorizationCodeFlowByDefault is enabled', () => {
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      spyOn(winRef.localStorage as Storage, 'setItem').and.callThrough();
+      service.initLoginFlow();
+
+      expect(winRef.localStorage?.setItem).not.toHaveBeenCalled();
+      expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+        'authorizationCodeFlowByDefault'
+      );
+    });
+
+    it('should set oAuth flow key in local storage when authorizationCodeFlowByDefault is disabled', () => {
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      spyOn(winRef.localStorage as Storage, 'setItem').and.callThrough();
+      service.initLoginFlow();
+
+      expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
+        'oAuthRedirectCodeFlow',
+        'true'
+      );
+      expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+        'authorizationCodeFlowByDefault'
+      );
+    });
+
     it('should set oAuth flow key in local storage', () => {
       service.initLoginFlow();
 
@@ -309,6 +342,14 @@ describe('OAuthLibWrapperService', () => {
       expect(oAuthService.tryLogin).toHaveBeenCalledWith({
         disableOAuth2StateCheck: true,
       });
+    });
+  });
+
+  describe('refreshAuthConfig()', () => {
+    it('should call initialize method', () => {
+      const initializeSpy = spyOn(service as any, 'initialize');
+      service.refreshAuthConfig();
+      expect(initializeSpy).toHaveBeenCalled();
     });
   });
 });

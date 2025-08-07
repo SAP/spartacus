@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { visitLoginPage } from '../../../support/utils/login';
 import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -17,7 +18,7 @@ export function footerTabbingOrder(config: TabElement[]) {
     )}/cms/components`,
   }).as('getComponents');
 
-  cy.visit('/login');
+  visitLoginPage();
   cy.wait('@getComponents');
 
   verifyTabbingOrder(containerSelector, config);

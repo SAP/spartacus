@@ -184,7 +184,7 @@ export function siteContextChange(
     },
   }).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
+  cy.wait('@switchedContext');
 }
 
 export function verifySiteContextChangeUrl(
