@@ -28,7 +28,7 @@ export const cdcRoutesConfig: RoutesConfig = {
     authFlow: true,
   },
   loginForm: {
-    paths: ['login-form'], //overriding to avoid same path in different routes
+    paths: [], //overriding to avoid same path in different routes
     protected: false,
     authFlow: true,
   },
