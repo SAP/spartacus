@@ -6,6 +6,7 @@
 import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
 import { user } from '../../../sample-data/checkout-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 
 describe('Tabbing order for OTP login', () => {
   before(() => {
@@ -16,7 +17,7 @@ describe('Tabbing order for OTP login', () => {
     describe('OTP login', () => {
       context('OTP Login page', () => {
         beforeEach(() => {
-          cy.visit('/login');
+          visitLoginPage();
           cy.get('cx-otp-login-form').should('exist');
           cy.get('cx-otp-login-form form').should('exist');
         });

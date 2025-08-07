@@ -5,6 +5,7 @@
  */
 
 import * as login from '../../../helpers/login';
+import { visitLoginPage } from '../../../support/utils/login';
 
 function assertNavigationButtonsAttributes(buttonsSelector: string) {
   cy.get(buttonsSelector).each(($btn) => {
@@ -20,7 +21,7 @@ describe('Navigation Login', () => {
   let user;
   before(() => {
     cy.whenJDK17(() => {
-      cy.visit('/login');
+      visitLoginPage();
     });
     cy.whenJDK21(() => {
       cy.visit('/login/register');
