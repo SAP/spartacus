@@ -240,14 +240,14 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   }
 
   protected onRegisterUserSuccess(): void {
-    const oAuthFlow = this.authConfigService.getOAuthFlow();
-    if (oAuthFlow === OAuthFlow.ResourceOwnerPasswordFlow) {
+    if (
+      this.authConfigService.getOAuthFlow() ===
+      OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
       this.router.go('login');
     }
-    if (
-      oAuthFlow === OAuthFlow.AuthorizationCode &&
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-    ) {
+
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
       this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();

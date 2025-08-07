@@ -69,14 +69,13 @@ export class RegisterVerificationTokenFormComponentService {
   /**
    * Redirects the user back to the login page.
    *
-   * This only happens in case of the `ResourceOwnerPasswordFlow` & AuthorizationCode OAuth flows.
+   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow and authorizationCodeFlowByDefault.
    */
   protected redirectToLogin(): void {
-    const oAuthFlow = this.authConfigService.getOAuthFlow();
     if (
-      oAuthFlow === OAuthFlow.ResourceOwnerPasswordFlow ||
-      (oAuthFlow === OAuthFlow.AuthorizationCode &&
-        this.featureConfigService.isEnabled('authorizationCodeFlowByDefault'))
+      this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow ||
+      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }
