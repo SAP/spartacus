@@ -14,7 +14,10 @@ import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
 import createSpy = jasmine.createSpy;
-import { CrossSiteRequestForgeryService } from '@spartacus/core';
+import {
+  CrossSiteRequestForgeryService,
+  FeatureConfigService,
+} from '@spartacus/core';
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
@@ -80,6 +83,10 @@ class MockAuthMultisiteIsolationService {
   }
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy().and.returnValue(false);
+}
+
 describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
@@ -88,6 +95,7 @@ describe('AuthService', () => {
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
+  let featureConfigService: FeatureConfigService;
   let store: Store;
 
   beforeEach(() => {
@@ -114,6 +122,10 @@ describe('AuthService', () => {
           provide: CrossSiteRequestForgeryService,
           useClass: MockCrossSiteRequestForgeryService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
@@ -126,6 +138,7 @@ describe('AuthService', () => {
     authMultisiteIsolationService = TestBed.inject(
       AuthMultisiteIsolationService
     );
+    featureConfigService = TestBed.inject(FeatureConfigService);
     store = TestBed.inject(Store);
   });
 
@@ -134,58 +147,121 @@ describe('AuthService', () => {
   });
 
   describe('checkOAuthParamsInUrl()', () => {
-    it('should login user when token is present', async () => {
-      spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
-      spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOn(authStorageService, 'getItem').and.returnValue('token');
-
-      await service.checkOAuthParamsInUrl();
-
-      expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
-      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-    });
-
-    describe('when the token is received', () => {
-      it('should redirect', async () => {
-        spyOn(authRedirectService, 'redirect').and.callThrough();
-
-        await service.checkOAuthParamsInUrl();
-
-        expect(authRedirectService.redirect).toHaveBeenCalled();
+    describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is DISABLED', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
       });
 
-      it('should dispatch login action', async () => {
+      it('should login user when token is present and dispatch login action', async () => {
+        spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
+        spyOn(userIdService, 'setUserId').and.callThrough();
         spyOn(store, 'dispatch').and.callThrough();
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
 
         await service.checkOAuthParamsInUrl();
 
+        expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+        expect(userIdService.setUserId).toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
         expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       });
+
+      describe('when the token is received', () => {
+        it('should redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).toHaveBeenCalled();
+        });
+
+        it('should dispatch login action', async () => {
+          spyOn(store, 'dispatch').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        });
+      });
+
+      describe('when the token is NOT received', () => {
+        beforeEach(() => {
+          spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+            Promise.resolve({ result: true, tokenReceived: false })
+          );
+        });
+
+        it('should NOT redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.stub();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).not.toHaveBeenCalled();
+        });
+
+        it('should dispatch login action', async () => {
+          spyOn(store, 'dispatch').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        });
+      });
     });
 
-    describe('when the token is NOT received', () => {
+    describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is ENABLED', () => {
       beforeEach(() => {
-        spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
-          Promise.resolve({ result: true, tokenReceived: false })
-        );
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
 
-      it('should NOT redirect', async () => {
-        spyOn(authRedirectService, 'redirect').and.stub();
+      describe('when the token is received', () => {
+        it('should login user and dispatch login action', async () => {
+          spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
+          spyOn(userIdService, 'setUserId').and.callThrough();
+          spyOn(store, 'dispatch').and.callThrough();
+          spyOn(authStorageService, 'getItem').and.returnValue('token');
 
-        await service.checkOAuthParamsInUrl();
+          await service.checkOAuthParamsInUrl();
 
-        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+          expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+          expect(userIdService.setUserId).toHaveBeenCalledWith(
+            OCC_USER_ID_CURRENT
+          );
+          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        });
+
+        it('should redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).toHaveBeenCalled();
+        });
       });
 
-      it('should NOT dispatch login action', async () => {
-        spyOn(store, 'dispatch').and.callThrough();
+      describe('when the token is NOT received', () => {
+        beforeEach(() => {
+          spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+            Promise.resolve({ result: true, tokenReceived: false })
+          );
+        });
 
-        await service.checkOAuthParamsInUrl();
+        it('should NOT redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.stub();
 
-        expect(store.dispatch).not.toHaveBeenCalled();
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).not.toHaveBeenCalled();
+        });
+
+        it('should NOT dispatch login action', async () => {
+          spyOn(store, 'dispatch').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(store.dispatch).not.toHaveBeenCalled();
+        });
       });
     });
   });

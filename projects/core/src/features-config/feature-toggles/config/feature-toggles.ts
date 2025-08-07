@@ -841,6 +841,20 @@ export interface FeatureTogglesInterface {
    * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
    */
   incrementProcessesCountForMergeCart?: boolean;
+
+  /**
+   * Controls when the Login action is dispatched during OAuth URL parameter checking.
+   *
+   * When set to `true`, enables the new behavior where the Login action is only dispatched when
+   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
+   *
+   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
+   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
+   * received in the current attempt or retrieved from storage (e.g., page refresh).
+   *
+   * Affects: `AuthService`
+   */
+  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -957,4 +971,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefault: false,
   disableClientTokens: false,
   incrementProcessesCountForMergeCart: true,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
 };
