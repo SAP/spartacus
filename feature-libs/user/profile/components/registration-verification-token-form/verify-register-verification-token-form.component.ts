@@ -64,6 +64,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
 
   private featureConfigService = inject(FeatureConfigService);
+
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
@@ -241,10 +242,12 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   protected onRegisterUserSuccess(): void {
     if (
-      this.authConfigService.getOAuthFlow() ===
-      OAuthFlow.ResourceOwnerPasswordFlow
+      [
+        OAuthFlow.ResourceOwnerPasswordFlow,
+        OAuthFlow.AuthorizationCode,
+      ].includes(this.authConfigService.getOAuthFlow())
     ) {
-      this.router.go('login');
+      this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();
   }
