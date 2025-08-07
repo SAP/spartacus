@@ -65,20 +65,6 @@ export interface FeatureTogglesInterface {
   ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
 
   /**
-   * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
-   * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
-   *
-   * When this feature toggle is activated, only these parts of the UI are re-rendered, that actually changed, significantly (up to factor 10) improving rendering performance for large models.
-   *
-   * Please note, this will influence how the pricing requests are processed and rendered.
-   * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
-   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
-   *
-   * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
-   */
-  productConfiguratorDeltaRendering?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -836,7 +822,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
-  productConfiguratorDeltaRendering: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
