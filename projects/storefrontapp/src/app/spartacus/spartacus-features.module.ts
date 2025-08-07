@@ -109,7 +109,6 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { provideAuthorizationCodeFlowByDefault } from 'projects/core/src/auth/user-auth/config/default-auth-config';
 
 const featureModules = [];
 
@@ -291,7 +290,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideAuthorizationCodeFlowByDefault(true),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
