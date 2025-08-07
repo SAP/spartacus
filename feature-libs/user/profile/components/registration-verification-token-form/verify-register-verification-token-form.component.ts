@@ -64,7 +64,6 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
 
   private featureConfigService = inject(FeatureConfigService);
-
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
