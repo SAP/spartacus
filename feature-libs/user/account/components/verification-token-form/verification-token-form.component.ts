@@ -90,7 +90,7 @@ export class VerificationTokenFormComponent implements OnInit {
           'verificationTokenForm.needInputCredentials',
           {}
         );
-        this.routingService.go(['/login']);
+        this.routingService.go({ cxRoute: 'login' });
       } else {
         this.startWaitTimeInterval();
         this.service.displayMessage(
