@@ -13,6 +13,7 @@ import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
@@ -103,10 +104,10 @@ context('Assisted Service Module', () => {
   //     );
   //   });
 
-  //   // TODO(#3974): fix the bug to enable e2e test for this scenario
-  //   it.skip('agent login when user is logged in should start this user emulation', () => {
-  //     cy.visit('/login');
-  //     login(customer.email, customer.password);
+    // TODO(#3974): fix the bug to enable e2e test for this scenario
+    it.skip('agent login when user is logged in should start this user emulation', () => {
+      visitLoginPage();
+      login(customer.email, customer.password);
 
   //     checkout.visitHomePage('asm=true');
 

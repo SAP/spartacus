@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { OppsConfig } from '@spartacus/core';
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
 import { interceptGet } from '../../../support/utils/intercept';
-import { OppsConfig } from '@spartacus/core';
+import { visitLoginPage } from '../../../support/utils/login';
 
 const APPAREL_BASESITE = 'apparel-uk-spa';
 const APPAREL_CURRENCY = 'GBP';
@@ -65,7 +66,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
       }).as('productPage');
     });
     it('should continue to PDP if user is already logged in', () => {
-      cy.visit('/login');
+      visitLoginPage();
       loginUser(oppsTester);
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(

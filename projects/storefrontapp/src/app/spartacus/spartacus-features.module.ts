@@ -295,12 +295,11 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
-        searchBoxV2: false,
-        trendingSearches: false,
+        searchBoxV2: true,
+        trendingSearches: true,
         useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
-        productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
         a11yPreventHorizontalScroll: true,

@@ -268,3 +268,10 @@ export function login(
     () => authorizationCodeGrant(uid, password, failOnStatusCode)
   );
 }
+
+export function visitLoginPage() {
+  whenJDK17(
+    () => cy.visit('/login'),
+    () => cy.visit('/sign-in')
+  );
+}

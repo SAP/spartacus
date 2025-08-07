@@ -10,6 +10,7 @@ import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -73,11 +74,11 @@ context('Assisted Service Module', () => {
       cy.log('--> Log in as customer');
       cy.whenJDK17(() => {
         const loginPage = waitForPage('/login', 'getLoginPage');
-        cy.visit('/login');
+        visitLoginPage();
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        cy.visit('/login');
+        visitLoginPage();
       });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
@@ -176,11 +177,11 @@ context('Assisted Service Module', () => {
       cy.log('--> Log in as customer');
       cy.whenJDK17(() => {
         const loginPage = waitForPage('/login', 'getLoginPage');
-        cy.visit('/login');
+        visitLoginPage();
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        cy.visit('/login');
+        visitLoginPage();
       });
       login(
         customerForReplaceBindCart.email,

@@ -5,6 +5,7 @@
  */
 
 import { whenJDK17 } from '../../../support/utils/jdk-versions';
+import { visitLoginPage } from '../../../support/utils/login';
 
 /**
  * This test checks accessibility concerns on the pages for Login, Forgot Password, and Register
@@ -19,7 +20,7 @@ describe(
 
     whenJDK17(() => {
       it('should pass a11y scan for the Login Page', () => {
-        cy.visit('/login');
+        visitLoginPage();
         cy.get('input[formControlName="userId"]');
         cy.get('form').submit();
         cy.get('main').a11yRunContinuumTest();

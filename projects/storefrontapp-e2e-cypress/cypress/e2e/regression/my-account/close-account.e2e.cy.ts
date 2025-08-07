@@ -11,6 +11,7 @@ import { waitForPage } from '../../../helpers/navigation';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
+import { visitLoginPage } from '../../../support/utils/login';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
@@ -97,7 +98,7 @@ describe('My Account - Close Account', () => {
         });
 
         cy.whenJDK21(() => {
-          cy.visit('/login');
+          visitLoginPage();
         });
 
         login(
