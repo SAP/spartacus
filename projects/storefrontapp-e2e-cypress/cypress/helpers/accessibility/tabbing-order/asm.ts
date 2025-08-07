@@ -58,7 +58,14 @@ export function asmTabbingOrderWithCustomerList(
   agent: string
 ) {
   cy.visit('/?asm=true');
-  asm.agentLogin(agent, 'pw4all');
+  cy.whenJDK17(() => {
+    asm.agentLogin(agent, 'pw4all');
+  });
+                    
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    login(agent, 'pw4all');
+  });
 
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();

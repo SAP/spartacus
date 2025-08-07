@@ -52,7 +52,6 @@ context('B2B - Assisted Service Module', () => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         login('brandon.leclair@acme.com', 'pw4all');
       });
-      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
       cy.log('--> Agent emulate customer');
       asm.startCustomerEmulation(customer, true);
 
