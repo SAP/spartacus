@@ -25,7 +25,7 @@ const mockSemanticPathService = {
   get: jasmine.createSpy().and.returnValue('loginForm'),
 };
 
-fdescribe('LoginAsGuestGuard', () => {
+describe('LoginAsGuestGuard', () => {
   let guard: LoginAsGuestGuard;
   let windowRef: WindowRef;
 
