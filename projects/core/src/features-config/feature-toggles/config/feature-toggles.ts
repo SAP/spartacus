@@ -10,12 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In 'CheckoutDeliveryModeComponent' and 'CheckReviewShippingComponent', it displays
-   * the new delivery options translation
-   */
-  showDeliveryOptionsTranslation?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
@@ -816,7 +810,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showDeliveryOptionsTranslation: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
