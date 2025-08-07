@@ -40,6 +40,7 @@ import { RegisterComponentService } from './register-component.service';
 export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-8550) Remove feature toggle
   private featureConfigService = inject(FeatureConfigService);
+  protected routingService: RoutingService = inject(RoutingService);
 
   protected passwordValidators = this.featureConfigService.isEnabled(
     'enableSecurePasswordValidation'
@@ -230,13 +231,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   protected onRegisterUserSuccess(): void {
     if (
-      this.authConfigService.getOAuthFlow() ===
-      OAuthFlow.ResourceOwnerPasswordFlow
+      [
+        OAuthFlow.ResourceOwnerPasswordFlow,
+        OAuthFlow.AuthorizationCode,
+      ].includes(this.authConfigService.getOAuthFlow())
     ) {
-      this.router.go('login');
-    }
-    if (this.authConfigService.getOAuthFlow() === OAuthFlow.AuthorizationCode) {
-      this.router.go('homepage');
+      this.routingService.go({ cxRoute: 'login' });
     }
     this.registerComponentService.postRegisterMessage();
   }

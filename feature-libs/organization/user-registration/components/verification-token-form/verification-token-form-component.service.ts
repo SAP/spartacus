@@ -67,12 +67,14 @@ export class RegisterVerificationTokenFormComponentService {
   /**
    * Redirects the user back to the login page.
    *
-   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow.
+   * This only happens in case of the `ResourceOwnerPasswordFlow` & AuthorizationCode OAuth flows.
    */
   protected redirectToLogin(): void {
     if (
-      this.authConfigService.getOAuthFlow() ===
-      OAuthFlow.ResourceOwnerPasswordFlow
+      [
+        OAuthFlow.ResourceOwnerPasswordFlow,
+        OAuthFlow.AuthorizationCode,
+      ].includes(this.authConfigService.getOAuthFlow())
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }
