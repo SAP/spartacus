@@ -228,6 +228,7 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
+  selectAccountCostCenter();
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryAddressStub,
     b2bDeliveryAddress.id
@@ -239,10 +240,6 @@ export function selectAccountShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-
-  cy.wait(`@${getCheckoutDetails}`)
-    .its('response.statusCode')
-    .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
@@ -273,6 +270,23 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
+}
+
+export function selectAccountCostCenter() {
+  cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
+  cy.get('cx-cost-center').within(() => {
+    cy.get('select').then((select) => {
+      if (select.find(`option:contains("${costCenter}")`).length) {
+        cy.get('select').select(costCenter, { force: true });
+      } else {
+        cy.get('select').select(0);
+      }
+      cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
+    });
+  });
+  // need to wait the Selected Address being visible on UI with bold border style.
+  // No other alternative found.
+  cy.wait(2000);
 }
 
 export function selectAccountDeliveryMode() {

@@ -294,12 +294,11 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         showDeliveryOptionsTranslation: true,
-        searchBoxV2: false,
-        trendingSearches: false,
+        searchBoxV2: true,
+        trendingSearches: true,
         useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
-        productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yNavMenuExpandStateReadout: true,
         a11yPreventHorizontalScroll: true,
@@ -379,6 +378,7 @@ if (environment.cpq) {
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
+        dispatchLoginActionOnlyWhenTokenReceived: true,
         allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
@@ -409,6 +409,12 @@ if (environment.cpq) {
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
+        /*
+         * JDK21 feature flags
+         */
+        authorizationCodeFlowByDefault: true,
+        disableClientTokens: true,
       };
       return appFeatureToggles;
     }),

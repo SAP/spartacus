@@ -22,6 +22,9 @@ import { OpfCartUserEmailCheckerService } from '../services';
 export class OpfCheckoutAuthGuard extends CheckoutAuthGuard {
   protected userIdService = inject(UserIdService);
   protected opfCartUserEmailChecker = inject(OpfCartUserEmailCheckerService);
+  /**
+   * @deprecated since 2211.44
+   */
   protected featureConfigService = inject(FeatureConfigService);
 
   /**

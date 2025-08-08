@@ -1,7 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  AuthConfigService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   WindowRef,
@@ -20,11 +22,55 @@ class MockWinRef {
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
+  getCsrfToken = createSpy().and.returnValue(
+    of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    })
+  );
 }
 
 class MockGlobalMessageService {
   add = createSpy().and.stub();
   remove = createSpy().and.stub();
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+
+class MockAuthConfigService implements Partial<AuthConfigService> {
+  getCustomLoginFormEndpoint() {
+    return 'https://localhost:9002/authorizationserver/login';
+  }
+}
+
+function createForm(username: string, password: string, csrf: string) {
+  const form = document.createElement('form');
+  form.action = 'https://localhost:9002/authorizationserver/login';
+  form.method = 'POST';
+
+  const csrfInput = document.createElement('input');
+  csrfInput.setAttribute('type', 'hidden');
+  csrfInput.setAttribute('name', '_csrf');
+  csrfInput.setAttribute('value', csrf);
+  form.appendChild(csrfInput);
+
+  const usernameInput = document.createElement('input');
+  usernameInput.setAttribute('name', 'username');
+  usernameInput.setAttribute('value', username);
+  form.appendChild(usernameInput);
+
+  const pwInput = document.createElement('input');
+  pwInput.setAttribute('type', 'password');
+  pwInput.setAttribute('name', 'password');
+  pwInput.setAttribute('value', password);
+  form.appendChild(pwInput);
+
+  return form;
 }
 
 describe('LoginFormComponentService', () => {
@@ -41,6 +87,8 @@ describe('LoginFormComponentService', () => {
         { provide: WindowRef, useClass: MockWinRef },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: AuthConfigService, useClass: MockAuthConfigService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -72,7 +120,7 @@ describe('LoginFormComponentService', () => {
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });
 
-    describe('success', () => {
+    describe('legacy success', () => {
       beforeEach(() => {
         service.form.setValue({
           userId,
@@ -95,7 +143,7 @@ describe('LoginFormComponentService', () => {
       });
     });
 
-    describe('error', () => {
+    describe('legacy error', () => {
       beforeEach(() => {
         service.form.setValue({
           userId: 'invalid',
@@ -112,6 +160,104 @@ describe('LoginFormComponentService', () => {
         spyOn(service.form, 'reset').and.stub();
         service.login();
         expect(service.form.reset).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('new flow', () => {
+      // Reset test module to reconfigure FeatureConfigService
+      beforeEach(waitForAsync(() => {
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            LoginFormComponentService,
+            {
+              provide: FeatureConfigService,
+              useClass: class {
+                isEnabled(_feature: string): boolean {
+                  return true;
+                }
+              },
+            },
+            {
+              provide: AuthConfigService,
+              useClass: MockAuthConfigService,
+            },
+            {
+              provide: AuthService,
+              useClass: MockAuthService,
+            },
+            {
+              provide: WindowRef,
+              useClass: MockWinRef,
+            },
+            {
+              provide: GlobalMessageService,
+              useClass: MockGlobalMessageService,
+            },
+          ],
+        }).compileComponents();
+      }));
+
+      beforeEach(() => {
+        service = TestBed.inject(LoginFormComponentService);
+        authService = TestBed.inject(AuthService);
+        winRef = TestBed.inject(WindowRef);
+        // featureConfigService = TestBed.inject(FeatureConfigService);
+      });
+
+      describe('success', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          service.form.setValue({
+            userId,
+            password,
+            csrf,
+          });
+        });
+
+        it('should request email', () => {
+          const form = createForm(userId, password, csrf);
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).toHaveBeenCalledWith();
+        });
+
+        it('should reset the form', () => {
+          spyOn(service.form, 'reset').and.stub();
+          service.login();
+          expect(service.form.reset).toHaveBeenCalled();
+        });
+      });
+
+      describe('error', () => {
+        const userId = 'invalid';
+        const password = '123';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          service.form.setValue({
+            userId,
+            password,
+            csrf,
+          });
+        });
+
+        it('should not login', () => {
+          const form = createForm(userId, password, csrf);
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).not.toHaveBeenCalled();
+        });
+
+        it('should not reset the form', () => {
+          spyOn(service.form, 'reset').and.stub();
+          const form = createForm(userId, password, csrf);
+          service.login(form);
+          expect(service.form.reset).not.toHaveBeenCalled();
+        });
       });
     });
   });

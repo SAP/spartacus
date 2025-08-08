@@ -13,6 +13,7 @@ import {
   POWERTOOLS_BASESITE,
   products,
 } from '../../../../sample-data/b2b-checkout';
+import { visitLoginPage } from '../../../../support/utils/login';
 
 const OPF_B2B_TEST_EMAIL = 'william.hunter@rustic-hw.com';
 const OPF_B2B_TEST_PASSWORD = 'pw4all';
@@ -25,7 +26,7 @@ context('OPF B2B - Account Checkout flow', () => {
 
   it('Should checkout using an account payment type (CXSPA-9698)', () => {
     // Login as OPF B2B user
-    cy.visit('/login');
+    visitLoginPage();
     login.listenForTokenAuthenticationRequest();
 
     cy.get('cx-login-form').within(() => {
