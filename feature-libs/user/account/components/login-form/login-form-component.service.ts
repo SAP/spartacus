@@ -14,7 +14,7 @@ import {
 import {
   AuthConfigService,
   AuthService,
-  CSRFResponse,
+  CsrfStateService,
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
@@ -22,18 +22,21 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { take, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, from } from 'rxjs';
+import { tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
   private featureConfigService = inject(FeatureConfigService);
+  protected csrfStateService = inject(CsrfStateService);
 
   action?: string;
   method?: string;
-  csrf$?: Observable<CSRFResponse>;
   protected busy$ = new BehaviorSubject(false);
+  get csrf() {
+    return this.csrfStateService.get();
+  }
 
   isUpdating$ = this.busy$.pipe(
     tap((state) => {
@@ -72,9 +75,7 @@ export class LoginFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
-      if (this.winRef.localStorage) {
-        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-      }
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
       nativeForm.submit();
       this.busy$.next(true);
     } else {
@@ -111,9 +112,6 @@ export class LoginFormComponentService {
     this.method = 'POST';
     this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     this.form.addControl('csrf', new FormControl('', Validators.required));
-    this.csrf$ = this.auth.getCsrfToken();
-    this.csrf$.pipe(take(1)).subscribe((csrf) => {
-      this.form.get('csrf')?.setValue(csrf.token);
-    });
+    this.form.get('csrf')?.setValue(this.csrf?.token);
   }
 }

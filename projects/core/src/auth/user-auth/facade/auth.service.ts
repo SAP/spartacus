@@ -10,7 +10,6 @@ import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { delayUnsubscribe } from '../../../util/delay-unsubscribe';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
@@ -32,6 +31,7 @@ export class AuthService {
   protected crossSiteRequestForgeryService = inject(
     CrossSiteRequestForgeryService
   );
+
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -43,10 +43,7 @@ export class AuthService {
 
   protected csrfToken$ = this.crossSiteRequestForgeryService
     .getCsrfToken()
-    .pipe(
-      shareReplay({ bufferSize: 1, refCount: true }),
-      delayUnsubscribe({ delayInMs: 1000 })
-    );
+    .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   constructor(
     protected store: Store<StateWithClientAuth>,

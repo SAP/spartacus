@@ -11,22 +11,23 @@ import {
   GlobalMessageType,
   StorageSyncType,
 } from '@spartacus/core';
+import { catchError, map, Observable, of, tap } from 'rxjs';
+import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import {
   getStorage,
   persistToStorage,
   readFromStorage,
-} from 'projects/core/src/state/utils/browser-storage';
-import { catchError, map, Observable, of, tap } from 'rxjs';
-import { WindowRef } from '../../..//window/window-ref';
-import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
+} from '../../../state/utils/browser-storage';
+import { WindowRef } from '../../../window/window-ref';
 import { AuthService } from '../facade/auth.service';
-import { AuthRedirectService } from '../services/auth-redirect.service';
+import { CsrfStateService } from '../facade/csrf-state.service';
 
 const MISSING_JSESSIONID_CODE = 403;
 const STORAGE_KEY = 'login_redirect_count';
 const timeout = 15_000;
 const totalRetries = 2;
-interface FlagMeta {
+
+interface CustomLoginGuardMetadata {
   /** Add timeout to recover from stale/interrupted state */
   t: number;
   /** Redirect count */
@@ -45,48 +46,41 @@ interface FlagMeta {
 })
 export class CustomLoginGuard implements CanActivate {
   authService = inject(AuthService);
-  authRedirectService = inject(AuthRedirectService);
   router = inject(Router);
   semanticPathService = inject(SemanticPathService);
   windowRef = inject(WindowRef);
   storage = getStorage(StorageSyncType.LOCAL_STORAGE, this.windowRef);
   globalMessageService = inject(GlobalMessageService);
+  csrfStateService = inject(CsrfStateService);
 
   canActivate(): Observable<GuardResult> {
     return this.authService.getCsrfToken().pipe(
-      tap(() => this.clearRedirectCount()),
+      tap((token) => {
+        this.csrfStateService.set(token);
+        this.clearRedirectCount();
+      }),
       map(() => true),
       catchError((error) => {
         const currentCount = this.getRedirectCount();
-        if (currentCount > totalRetries) {
+        if (currentCount >= totalRetries) {
+          // retry limit met, go to homepage with message
           this.clearRedirectCount();
           this.globalMessageService.add(
-            'Login config error', // TODO: replace with translation key
+            { key: 'authMessages.unrecoverableError' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-
-          const redirect = this.router.parseUrl(
-            this.semanticPathService.get('home') ?? ''
-          );
-          return of(redirect);
+          return of(this.createRoute('home'));
         }
         this.setRedirectCount(currentCount + 1);
 
         switch (error.status) {
           case MISSING_JSESSIONID_CODE: {
-            console.log('MISSING_JSESSIONID_CODE');
-            // Redirect to restart the flow if an attempt was made to manually obtain a custom form
-            const redirect = this.router.parseUrl(
-              this.semanticPathService.get('login') ?? ''
-            );
-            return of(redirect);
+            // Session is expired or missing, go to auth server for new session
+            return of(this.createRoute('login'));
           }
           default: {
-            console.log('DEFAULT');
-            const redirect = this.router.parseUrl(
-              this.semanticPathService.get('login') ?? ''
-            );
-            return of(redirect);
+            // Unknown error, retry until limit met
+            return of(this.createRoute('login'));
           }
         }
       })
@@ -94,21 +88,22 @@ export class CustomLoginGuard implements CanActivate {
   }
 
   getRedirectCount() {
-    const countMeta = readFromStorage(this.storage as Storage, STORAGE_KEY) as
-      | FlagMeta
-      | undefined;
+    const countMeta = readFromStorage<CustomLoginGuardMetadata>(
+      this.storage as Storage,
+      STORAGE_KEY
+    );
     if (countMeta) {
       if (Date.now() - countMeta.t < timeout) {
         return countMeta.c;
       }
     }
-    return 1;
+    return 0;
   }
 
   setRedirectCount(count: number) {
     return persistToStorage(
       STORAGE_KEY,
-      { t: Date.now(), c: count } satisfies FlagMeta,
+      { t: Date.now(), c: count } satisfies CustomLoginGuardMetadata,
       this.storage as Storage
     );
   }
@@ -116,8 +111,15 @@ export class CustomLoginGuard implements CanActivate {
   clearRedirectCount() {
     persistToStorage(
       STORAGE_KEY,
-      { t: Date.now(), c: 1 } satisfies FlagMeta,
+      { t: Date.now(), c: 0 } satisfies CustomLoginGuardMetadata,
       this.storage as Storage
     );
+  }
+
+  createRoute(cxRoute: string) {
+    const redirect = this.router.parseUrl(
+      this.semanticPathService.get(cxRoute) ?? ''
+    );
+    return redirect;
   }
 }

@@ -27,7 +27,7 @@ export class LoginFormComponent {
   @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  csrf$ = this.service.csrf$;
+  csrf = this.service.csrf;
   action = this.service.action;
   method = this.service.method;
 

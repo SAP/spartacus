@@ -6,8 +6,8 @@
 
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AuthConfigService } from '../../user-auth/services/auth-config.service';
 import { CSRFResponse } from '../../user-auth/models/csrf-response';
+import { AuthConfigService } from '../../user-auth/services/auth-config.service';
 
 /**
  * Service to handle CSRF (Cross-Site Request Forgery) protection mechanisms
