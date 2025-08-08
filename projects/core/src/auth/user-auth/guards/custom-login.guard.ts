@@ -6,13 +6,13 @@
 
 import { inject, Injectable } from '@angular/core';
 import { CanActivate, GuardResult, Router } from '@angular/router';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  StorageSyncType,
-} from '@spartacus/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+} from '../../../global-message';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
+import { StorageSyncType } from '../../../state/config/state-config';
 import {
   getStorage,
   persistToStorage,
