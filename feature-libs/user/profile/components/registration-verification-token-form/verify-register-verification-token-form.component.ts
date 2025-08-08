@@ -240,7 +240,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (this.authConfigService.getOAuthFlow() === OAuthFlow.AuthorizationCode) {
+    if (
+      this.authConfigService.getOAuthFlow() ===
+      OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
       this.router.go('login');
     }
 
