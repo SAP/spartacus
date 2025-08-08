@@ -593,7 +593,7 @@ export function testCustomerEmulation() {
     cy.whenJDK17(() => {
       asm.agentLogin('asagent', 'pw4all');
     });
-      
+
     cy.whenJDK21(() => {
       cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
       login('asagent', 'pw4all');
@@ -862,7 +862,7 @@ export function emulateCustomerPrepare(agentToken, agentPwd) {
   cy.whenJDK17(() => {
     asm.agentLogin(agentToken, agentPwd);
   });
-            
+
   cy.whenJDK21(() => {
     cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
     login(agentToken, agentPwd);

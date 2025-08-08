@@ -322,4 +322,4 @@ context('Assisted Service Module', () => {
       cy.get('.cx-asm-customer-360-promotion-listing-row').should('exist');
     });
   });
-})
+});

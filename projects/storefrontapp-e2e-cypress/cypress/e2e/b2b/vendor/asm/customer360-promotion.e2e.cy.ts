@@ -38,7 +38,7 @@ context('Assisted Service Module', () => {
       cy.whenJDK17(() => {
         asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
       });
-                  
+
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         login('brandon.leclair@acme.com', 'pw4all');

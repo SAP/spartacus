@@ -29,9 +29,7 @@ Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
-      url: `${Cypress.env('API_URL')}${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env(
+      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
       )}/users/current/carts/${cartCode}/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
@@ -66,9 +64,7 @@ Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
 
     return cy.request({
       method: 'POST',
-      url: `${Cypress.env('API_URL')}${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env(
+      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
       )}/users/current/carts/${cartCode}/payment/sop/response`,
       body: data,

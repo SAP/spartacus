@@ -13,7 +13,6 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 import * as alerts from '../../../helpers/global-message';
 
-
 describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
     describe('Anonymous user', () => {

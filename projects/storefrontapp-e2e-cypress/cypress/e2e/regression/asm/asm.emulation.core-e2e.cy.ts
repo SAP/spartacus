@@ -33,15 +33,15 @@ context('Assisted Service Module', () => {
       cy.whenJDK17(() => {
         asm.agentLogin('asagent', 'pw4all');
       });
-      
+
       cy.whenJDK21(() => {
-      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         login('asagent', 'pw4all');
       });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
- 
+
       cy.log('--> Add product to cart and go to checkout');
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
@@ -118,9 +118,9 @@ context('Assisted Service Module', () => {
       cy.whenJDK17(() => {
         asm.agentLogin('asagent', 'pw4all');
       });
-      
+
       cy.whenJDK21(() => {
-      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         login('asagent', 'pw4all');
       });
 
@@ -140,9 +140,9 @@ context('Assisted Service Module', () => {
       cy.whenJDK17(() => {
         asm.agentLogin('asagent', 'pw4all');
       });
-      
+
       cy.whenJDK21(() => {
-      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         login('asagent', 'pw4all');
       });
 
@@ -182,9 +182,9 @@ context('Assisted Service Module', () => {
       cy.whenJDK17(() => {
         asm.agentLogin('asagent', 'pw4all');
       });
-      
+
       cy.whenJDK21(() => {
-      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         login('asagent', 'pw4all');
       });
 

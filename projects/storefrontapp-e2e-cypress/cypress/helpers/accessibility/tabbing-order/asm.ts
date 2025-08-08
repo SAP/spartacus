@@ -61,7 +61,7 @@ export function asmTabbingOrderWithCustomerList(
   cy.whenJDK17(() => {
     asm.agentLogin(agent, 'pw4all');
   });
-                    
+
   cy.whenJDK21(() => {
     cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
     login(agent, 'pw4all');
@@ -150,7 +150,7 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
 function lanuchPromotiontab() {
   cy.visit('/?asm=true');
   cy.whenJDK17(() => {
-  asm.agentLogin('asagent', 'pw4all');
+    asm.agentLogin('asagent', 'pw4all');
   });
 
   cy.whenJDK21(() => {
