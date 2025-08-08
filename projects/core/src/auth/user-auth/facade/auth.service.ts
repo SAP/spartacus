@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
@@ -43,6 +44,8 @@ export class AuthService {
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
@@ -68,12 +71,28 @@ export class AuthService {
       // that why we also need to check if we have access_token
       if (loginResult.result && token) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-        this.store.dispatch(new AuthActions.Login());
 
+        if (
+          !this.featureConfigService.isEnabled(
+            'dispatchLoginActionOnlyWhenTokenReceived'
+          )
+        ) {
+          // When the feature flag is disabled, dispatch the login action even when the token
+          // is retrieved from storage (e.g., page refresh)
+          this.store.dispatch(new AuthActions.Login());
+        }
         // We check if the token was received during the `tryLogin()` attempt.
         // If so, we will redirect as we can deduce we are returning from the authentication server.
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
+        // In this case we need to dispatch the login action to indicate that the user has just logged in.
         if (loginResult.tokenReceived) {
+          if (
+            this.featureConfigService.isEnabled(
+              'dispatchLoginActionOnlyWhenTokenReceived'
+            )
+          ) {
+            this.store.dispatch(new AuthActions.Login());
+          }
           this.authRedirectService.redirect();
         }
       }
