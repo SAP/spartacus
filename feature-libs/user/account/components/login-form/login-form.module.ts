@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
 import {
   AuthService,
   CmsConfig,
-  CustomLoginGuard,
   FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
@@ -50,7 +49,7 @@ import { LoginFormComponent } from './login-form.component';
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,
-          guards: [NotAuthGuard, CustomLoginGuard],
+          guards: [NotAuthGuard],
           providers: [
             {
               provide: LoginFormComponentService,
