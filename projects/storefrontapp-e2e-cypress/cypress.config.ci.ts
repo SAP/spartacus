@@ -20,7 +20,7 @@ export default defineConfig({
   env: {
     API_URL:
       //'https://api.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
-      'https://api.c432wmya2v-4-public.model-t.myhybris.cloud',
+      'https://api.c432wmya2v-s4-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
