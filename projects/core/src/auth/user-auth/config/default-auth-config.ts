@@ -7,13 +7,11 @@
 import { inject, InjectionToken, ValueProvider } from '@angular/core';
 import { AuthConfig } from './auth-config';
 
-const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT = new InjectionToken<boolean>(
-  'USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT',
-  {
+export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
+  new InjectionToken<boolean>('USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT', {
     factory: () => false,
     providedIn: 'root',
-  }
-);
+  });
 
 /**
  * When enabled, sets the default oAuth configuration to use authorization
@@ -42,7 +40,7 @@ export function provideAuthorizationCodeFlowByDefault(
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
     loginUrl: '/oauth/authorize',
@@ -70,8 +68,10 @@ export function defaultAuthConfigFactory(): AuthConfig {
     const config = {
       authentication: {
         ...defaultAuthConfig.authentication,
+        client_id: 'mobile_android',
         client_secret: 'secret',
         sendAuthHeaderOnRevoke: true,
+        useClientTokens: true,
         OAuthLibConfig: {
           ...defaultAuthConfig.authentication?.OAuthLibConfig,
           disablePKCE: true,

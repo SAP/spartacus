@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as checkoutForms from './checkout-forms';
-import * as checkout from './checkout-flow';
-import * as configurationCart from './product-configurator-cart';
 import { SampleUser } from '../sample-data/checkout-flow';
+import * as checkout from './checkout-flow';
+import * as checkoutForms from './checkout-forms';
+import { waitForPage } from './navigation';
+import * as configurationCart from './product-configurator-cart';
 
 /**
  * Verifies whether the issues banner is displayed.
@@ -76,7 +77,7 @@ export function checkTermsAndConditions(): void {
  */
 export function placeOrder(): void {
   cy.log('Place order');
-  const orderConfirmationPage = checkout.waitForPage(
+  const orderConfirmationPage = waitForPage(
     '/order-confirmation',
     'getOrderConfirmationPage'
   );

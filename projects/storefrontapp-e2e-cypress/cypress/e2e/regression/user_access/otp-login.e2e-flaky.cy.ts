@@ -5,11 +5,10 @@
  */
 
 import * as login from '../../../helpers/login';
+import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 import { interceptPost } from '../../../support/utils/intercept';
-import { registerWithOtp } from '../../../helpers/auth-forms';
-import { waitForPage } from '../../../helpers/checkout-flow';
 
 export function listenForCreateVerificationToken(): string {
   return interceptPost(

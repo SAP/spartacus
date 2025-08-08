@@ -13,6 +13,7 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
+import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
@@ -20,6 +21,9 @@ class MockUserIdService implements Partial<UserIdService> {
   }
   clearUserId() {}
   setUserId() {}
+  isEmulated(): Observable<boolean> {
+    return of();
+  }
 }
 
 const oauthLibEvents = new BehaviorSubject<OAuthEvent>({
@@ -37,6 +41,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
     return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
+  refreshAuthConfig = createSpy().and.stub();
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -120,6 +125,7 @@ describe('AuthService', () => {
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(authStorageService, 'getItem').and.returnValue('token');
+      spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
       await service.checkOAuthParamsInUrl();
 
@@ -128,9 +134,23 @@ describe('AuthService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
     });
 
+    it('when customer emulated in asm page', async () => {
+      spyOn(authStorageService, 'getItem').and.returnValue('token');
+      spyOn(userIdService, 'setUserId').and.callThrough();
+
+      spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT
+      );
+    });
+
     describe('when the token is received', () => {
       it('should redirect', async () => {
         spyOn(authRedirectService, 'redirect').and.callThrough();
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
@@ -269,6 +289,13 @@ describe('AuthService', () => {
       service.logout();
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
+    });
+  });
+
+  describe('refreshAuthConfig()', () => {
+    it('should call refreshAuthConfig method', () => {
+      service.refreshAuthConfig();
+      expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
     });
   });
 });

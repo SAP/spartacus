@@ -12,7 +12,7 @@ import {
   pendingOrder,
   rejectedOrderDetails,
 } from '../../sample-data/b2b-order-approval';
-import { waitForPage } from '../checkout-flow';
+import { waitForPage } from '../navigation';
 
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
