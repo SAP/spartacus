@@ -162,4 +162,8 @@ export class OAuthLibWrapperService {
         });
     });
   }
+
+  public refreshAuthConfig() {
+    this.initialize();
+  }
 }

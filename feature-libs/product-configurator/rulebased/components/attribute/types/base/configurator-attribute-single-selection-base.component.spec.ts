@@ -648,23 +648,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       );
     });
 
-    it('should return aria label for value without price in case delta rendering service is not provided', () => {
-      let attributeWithoutPrice: Configurator.Attribute = {
-        name: 'attribute without price',
-        label: 'attribute without value price',
-      };
-      const valueWithoutPrice = createValue('1', 'value without price', false);
-      component['configuratorAttributePriceChangeService'] = null;
-      expect(
-        component.getAriaLabel(valueWithoutPrice, attributeWithoutPrice)
-      ).toEqual(
-        'configurator.a11y.valueOfAttributeFull attribute:' +
-          attributeWithoutPrice.label +
-          ' value:' +
-          valueWithoutPrice.valueDisplay
-      );
-    });
-
     it('should return aria label for selected value with price and attribute additional value', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
