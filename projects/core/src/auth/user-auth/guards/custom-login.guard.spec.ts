@@ -51,8 +51,6 @@ function mockStorage() {
 describe('CustomLoginGuard', () => {
   let guard: CustomLoginGuard;
   let authService: AuthService;
-  // let router: Router;
-  // let semanticPathService: MockSemanticPathService;
   let globalMessageService: GlobalMessageService;
   let csrfStateService: CsrfStateService;
   let storage: Storage;
@@ -83,8 +81,6 @@ describe('CustomLoginGuard', () => {
     });
     guard = TestBed.inject(CustomLoginGuard);
     authService = TestBed.inject(AuthService);
-    // router = TestBed.inject(Router);
-    // semanticPathService = TestBed.inject(SemanticPathService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     csrfStateService = TestBed.inject(CsrfStateService);
     spyOn(csrfStateService, 'set').and.callThrough();
@@ -104,10 +100,6 @@ describe('CustomLoginGuard', () => {
   });
 
   describe('when there is a valid session', () => {
-    beforeEach(() => {
-      // authService.getCsrfToken
-    });
-
     it('should resolve to true', async () => {
       const actual = await lastValueFrom(guard.canActivate());
 
