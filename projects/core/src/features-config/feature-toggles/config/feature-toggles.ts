@@ -64,11 +64,6 @@ export interface FeatureTogglesInterface {
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
 
   /**
-   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
-   */
-  a11yNavMenuExpandStateReadout?: boolean;
-
-  /**
    * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
    */
   a11yPreventHorizontalScroll?: boolean;
@@ -204,20 +199,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
-   * This removes the repeated announcement of the page title.
-   */
-  a11yRepeatedPageTitleFix?: boolean;
-
-  /**
-   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
-   * Including this count in aria-label will help screen readers to provide more context to the user.
-   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
-   * in next major relase since ng-select now correctly handles aria-label values of select options.
-   */
-  a11yNgSelectOptionsCount?: boolean;
-
-  /**
    * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
    * when a screen reader is used.
    */
@@ -238,17 +219,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Removes duplicated error message from 'CancelOrderComponent'.
-   */
-  a11yRepeatedCancelOrderError?: boolean;
-
-  /**
-   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
-   * Improves its screen reader readout.
-   */
-  a11yAddedToCartActiveDialog?: boolean;
-
-  /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
    */
   a11yDeliveryMethodFieldset?: boolean;
@@ -257,22 +227,6 @@ export interface FeatureTogglesInterface {
    * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
    */
   a11yShowMoreReviewsBtnFocus?: boolean;
-
-  /**
-   * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
-   */
-  a11yQuickOrderAriaControls?: boolean;
-
-  /**
-   * Removes the element with `role="status"` attribute from subpage components.
-   * The 'Loaded, empty status' message will no longer be present for the screen readers.
-   */
-  a11yRemoveStatusLoadedRole?: boolean;
-
-  /**
-   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
-   */
-  a11yDialogsHeading?: boolean;
 
   /**
    * When enabled, the focus will be returned to the trigger element after the dialog is closed.
@@ -816,7 +770,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
@@ -840,18 +793,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yRepeatedPageTitleFix: true,
-  a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yRepeatedCancelOrderError: true,
-  a11yAddedToCartActiveDialog: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
-  a11yQuickOrderAriaControls: true,
-  a11yRemoveStatusLoadedRole: true,
-  a11yDialogsHeading: true,
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
