@@ -6,7 +6,12 @@
 
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  lastValueFrom,
+  Observable,
+} from 'rxjs';
 import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
