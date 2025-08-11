@@ -62,11 +62,10 @@ describe('Order details page', { testIsolation: false }, () => {
           undefined,
           orderData.body.code
         );
-        cy.intercept('GET', '**/users/**/orders**').as('getOrders');
+        cy.intercept('GET', '**/users/current/orders**').as('getOrders');
         cy.visit('/my-account/orders');
-        cy.wait('@getOrders');
-        cy.get('.cx-order-history-code > .cx-order-history-value',{ timeout: 10000 })
-          .should('exist')
+        cy.wait('@getOrders').its('response.body.orders').should('have.length.greaterThan', 0);
+        cy.get('.cx-order-history-code > .cx-order-history-value',{ timeout: 30000 })
           .then((el) => {
             const orderNumber = el.text().match(/\d+/)[0];
             waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
