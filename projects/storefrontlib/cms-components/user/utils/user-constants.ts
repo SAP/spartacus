@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './auth.service';
-export * from './csrf-state.service';
-export * from './user-id.service';
+export const IS_GUEST_USER_CHECKOUT_KEY = 'isGuestUserCheckout';
