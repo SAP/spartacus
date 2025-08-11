@@ -28,13 +28,17 @@ class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy().and.returnValue(false);
+}
+
 describe('OrderGuestRegisterFormComponent', () => {
   let component: OrderGuestRegisterFormComponent;
   let fixture: ComponentFixture<OrderGuestRegisterFormComponent>;
 
   let userRegisterFacade: UserRegisterFacade;
   let routingService: RoutingService;
-
+  let featureConfigService: FeatureConfigService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -48,6 +52,7 @@ describe('OrderGuestRegisterFormComponent', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -57,7 +62,7 @@ describe('OrderGuestRegisterFormComponent', () => {
 
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
     routingService = TestBed.inject(RoutingService);
-
+    featureConfigService = TestBed.inject(FeatureConfigService);
     component = fixture.componentInstance;
   });
 
@@ -65,26 +70,54 @@ describe('OrderGuestRegisterFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should register customer and redirect to homepage when submit', () => {
-    const password = 'StrongPass123!@#';
-    component.guestRegisterForm.controls['password'].setValue(password);
-    component.guestRegisterForm.controls['passwordconf'].setValue(password);
-    component.guid = 'guid';
-    component.submit();
+  describe('submit', () => {
+    describe('when authorizationCodeFlowByDefault is enabled', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      });
 
-    expect(userRegisterFacade.registerGuest).toHaveBeenCalledWith(
-      'guid',
-      password
-    );
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      it('should register customer', () => {
+        const password = 'StrongPass123!@#';
+        component.guestRegisterForm.controls['password'].setValue(password);
+        component.guestRegisterForm.controls['passwordconf'].setValue(password);
+        component.guid = 'guid';
+        component.submit();
+
+        expect(userRegisterFacade.registerGuest).toHaveBeenCalledWith(
+          'guid',
+          password
+        );
+        expect(routingService.go).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when authorizationCodeFlowByDefault is disabled', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      });
+
+      it('should register customer and redirect to homepage when submit', () => {
+        const password = 'StrongPass123!@#';
+        component.guestRegisterForm.controls['password'].setValue(password);
+        component.guestRegisterForm.controls['passwordconf'].setValue(password);
+        component.guid = 'guid';
+        component.submit();
+
+        expect(userRegisterFacade.registerGuest).toHaveBeenCalledWith(
+          'guid',
+          password
+        );
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'authorizationCodeFlowByDefault'
+        );
+      });
+    });
   });
 
   describe('password validators', () => {
-    let featureConfigService: FeatureConfigService;
-
     it('should have new validators when feature flag is enabled', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
 
       fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
       component = fixture.componentInstance;

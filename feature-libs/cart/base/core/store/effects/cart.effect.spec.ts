@@ -289,7 +289,7 @@ describe('Cart effect', () => {
 
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
-      const action = new CartActions.MergeCart({
+      const action = new CartActions.MergeCartAndIncrementProcessesCount({
         userId: userId,
         cartId: cartId,
         tempCartId: 'temp-uuid',
@@ -308,16 +308,52 @@ describe('Cart effect', () => {
       expect(cartEffects.mergeCart$).toBeObservable(expected);
     });
 
-    it('should do nothing if merged old cart is the same as session cart', () => {
-      const action = new CartActions.MergeCart({
+    it('should abort merge if merged old cart is the same as session cart and apply newly fetched data', () => {
+      const action = new CartActions.MergeCartAndIncrementProcessesCount({
         userId: userId,
         cartId: 'xxx',
         tempCartId: 'temp-uuid',
+        extraData: { active: true },
       });
-
       actions$ = hot('-a', { a: action });
 
-      expect(cartEffects.mergeCart$).toBeObservable(cold('--'));
+      const expected = cold('-(bc)', {
+        b: new CartActions.CreateCartSuccess({
+          cart: testCart,
+          userId: userId,
+          tempCartId: 'temp-uuid',
+          cartId: 'xxx',
+          extraData: { active: true },
+        }),
+        c: new CartActions.MergeCartAbort({
+          cartId: 'xxx',
+        }),
+      });
+
+      expect(cartEffects.mergeCart$).toBeObservable(expected);
+    });
+
+    it('should abort merge and remove cart on load error', () => {
+      const action = new CartActions.MergeCartAndIncrementProcessesCount({
+        userId: userId,
+        cartId: cartId,
+        tempCartId: 'temp-uuid',
+      });
+      const error = new Error('Merge failed');
+      loadMock.and.returnValue(throwError(() => error));
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: new CartActions.MergeCartAbort({
+          cartId: cartId,
+          error: tryNormalizeHttpError(error, new MockLoggerService()),
+        }),
+        c: new CartActions.RemoveCart({
+          cartId: cartId,
+        }),
+      });
+
+      expect(cartEffects.mergeCart$).toBeObservable(expected);
     });
   });
 

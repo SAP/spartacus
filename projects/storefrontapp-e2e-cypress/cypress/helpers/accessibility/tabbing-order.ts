@@ -6,6 +6,7 @@
 
 import { user } from '../../sample-data/checkout-flow';
 import { focusableSelectors } from '../../support/utils/a11y-tab';
+import { visitLoginPage } from '../../support/utils/login';
 import { register as authRegister } from '../auth-forms';
 import { loginUser } from '../login';
 import { waitForPage } from '../navigation';
@@ -166,7 +167,7 @@ export function register() {
 
 export function login() {
   const homePage = waitForPage('homepage', 'getHomePage');
-  cy.visit('/login');
+  visitLoginPage();
   loginUser();
   cy.wait(`@${homePage}`);
 }

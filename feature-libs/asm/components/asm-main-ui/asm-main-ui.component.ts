@@ -8,7 +8,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Inject,
   inject,
   OnDestroy,
   OnInit,
@@ -31,7 +30,6 @@ import {
   HttpErrorModel,
   HttpResponseStatus,
   RoutingService,
-  USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
   User,
 } from '@spartacus/core';
 import {
@@ -78,7 +76,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
-  isShowOauth2AsmloginPage: boolean;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -110,12 +107,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
-    @Inject(USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT)
-    private useAuthCodeFlow: boolean
-  ) {
-    this.isShowOauth2AsmloginPage = this.useAuthCodeFlow;
-  }
+    protected launchDialogService: LaunchDialogService
+  ) {}
 
   ngOnInit(): void {
     this.isAsmCustomer360Configured =

@@ -753,6 +753,26 @@ export interface FeatureTogglesInterface {
   createMediaPreconnectLink?: boolean;
 
   /**
+   * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
+   * This results in a more secure authorization scheme as the default configuration.
+   *
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server only supports Authorization Code
+   * flow for public clients from that version and onwards.
+   */
+  authorizationCodeFlowByDefault?: boolean;
+
+  /**
+   * Disables the retrieval and use of client tokens for endpoints with `USE_CLIENT_TOKEN` set on the
+   * request.
+   *
+   * NOTE: This flag should be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server does not support client tokens
+   * for public clients from that version and onwards.
+   */
+  disableClientTokens?: boolean;
+
+  /**
    * Feature flag to enable consistent header slot structure across breakpoints to reduce
    * layout shift and improve Cumulative Layout Shift (CLS) scores.
    *
@@ -807,6 +827,28 @@ export interface FeatureTogglesInterface {
    * Set to `true` to enable lazy loading by default.
    */
   lazyLoadImagesByDefault?: boolean;
+
+  /**
+   * Feature flag to enable incrementing the processes count for the merge cart action.
+   *
+   * When enabled, the processes count will be incremented for the merge cart action.
+   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
+   */
+  incrementProcessesCountForMergeCart?: boolean;
+
+  /**
+   * Controls when the Login action is dispatched during OAuth URL parameter checking.
+   *
+   * When set to `true`, enables the new behavior where the Login action is only dispatched when
+   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
+   *
+   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
+   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
+   * received in the current attempt or retrieved from storage (e.g., page refresh).
+   *
+   * Affects: `AuthService`
+   */
+  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -919,4 +961,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
+  authorizationCodeFlowByDefault: false,
+  disableClientTokens: false,
+  incrementProcessesCountForMergeCart: true,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
 };

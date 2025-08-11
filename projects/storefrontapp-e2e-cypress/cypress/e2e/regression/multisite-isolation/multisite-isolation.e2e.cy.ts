@@ -4,17 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { user } from '../../../sample-data/checkout-flow';
 import { register } from '../../../helpers/auth-forms';
-import * as login from '../../../helpers/login';
 import * as alerts from '../../../helpers/global-message';
+import * as login from '../../../helpers/login';
+import { user } from '../../../sample-data/checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 import {
   ELECTRONICS_BASESITE,
   ELECTRONICS_CURRENCY,
 } from '../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
+import { visitLoginPage } from '../../../support/utils/login';
 
 export const ELECTRONICS_STANDALONE_BASESITE = 'electronics-standalone';
 export const POWERTOOLS_STANDALONE_BASESITE = 'powertools-standalone';
@@ -57,7 +58,7 @@ describe('Multisite Isolation', () => {
         },
       });
 
-      cy.visit('/login');
+      visitLoginPage();
 
       login.listenForTokenAuthenticationRequest();
       login.loginUser();
@@ -83,7 +84,7 @@ describe('Multisite Isolation', () => {
         },
       });
 
-      cy.visit('/login');
+      visitLoginPage();
 
       login.listenForTokenAuthenticationRequest();
       login.loginUser();
@@ -100,7 +101,7 @@ describe('Multisite Isolation', () => {
     });
 
     it.skip('should authenticate the customer on the isolated baseSite', () => {
-      cy.visit('/login');
+      visitLoginPage();
 
       login.listenForTokenAuthenticationRequest();
       login.loginUser();

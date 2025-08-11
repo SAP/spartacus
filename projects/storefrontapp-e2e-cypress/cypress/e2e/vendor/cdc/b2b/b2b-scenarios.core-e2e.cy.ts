@@ -9,6 +9,7 @@ import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
 import { waitForCmsComponentsToLoad } from '../../../../helpers/vendor/cdc/cdc';
 import * as b2bCheckout from '../../../../sample-data/b2b-checkout';
+import { visitLoginPage } from '../../../../support/utils/login';
 
 describe('CDC B2B scenarios', () => {
   before(() => {
@@ -153,7 +154,7 @@ describe('CDC B2B scenarios', () => {
   describe('Login existing B2B Customer with Native UI', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
     });
 
     it('should login and redirect to home page (CXSPA-3016)', () => {
@@ -203,7 +204,7 @@ describe('CDC B2B scenarios', () => {
   describe('Update profile without screenset', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
@@ -221,7 +222,7 @@ describe('CDC B2B scenarios', () => {
   describe('Update email without screenset', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
       cy.selectUserMenuOption({
         option: 'Email Address',
@@ -254,7 +255,7 @@ describe('CDC B2B scenarios', () => {
   describe('Update password without screenset', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
       cy.selectUserMenuOption({
         option: 'Password',
@@ -319,7 +320,7 @@ describe('CDC B2B scenarios', () => {
   describe('CDC My Account - Address Book', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
       cy.selectUserMenuOption({
         option: 'Address Book',
