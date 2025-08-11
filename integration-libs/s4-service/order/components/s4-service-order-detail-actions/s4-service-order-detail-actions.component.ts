@@ -14,7 +14,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
-import { tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',
@@ -31,11 +31,43 @@ export class S4ServiceOrderDetailActionsComponent
   );
   protected globalMessageService = inject(GlobalMessageService);
 
+  /**
+   * @deprecated since 2211.42.0-3 - Displaying the individual action buttons will depend on their boolean flags from API response.
+   */
+  displayActions$: Observable<boolean> = this.order$.pipe(
+    map((order) => this.checkServiceStatus(order))
+  );
+
   ngOnInit(): void {
-    this.order$.pipe(tap((order) => this.checkServiceStatus(order)));
+    this.order$.pipe(tap((order) => this.displayServiceMessage(order)));
   }
 
-  protected checkServiceStatus(order: Order): void {
+  /**
+   * @deprecated since 2211.42.0-3 - Displaying the individual action buttons will depend on their boolean flags from API response.
+   * Displaying notification for a service not amendable will be carried out by 'displayServiceMessage' instead.
+   */
+  protected checkServiceStatus(order: Order): boolean {
+    if (order && order.status === 'CANCELLED') {
+      return false;
+    } else if (order && order.servicedAt) {
+      const hoursFromSchedule =
+        this.checkoutServiceSchedulePickerService.getHoursFromServiceSchedule(
+          order.servicedAt
+        );
+      if (hoursFromSchedule > 0 && hoursFromSchedule <= 24) {
+        this.globalMessageService.add(
+          { key: 'rescheduleService.serviceNotAmendable' },
+          GlobalMessageType.MSG_TYPE_INFO
+        );
+        return false;
+      } else if (hoursFromSchedule > 24) {
+        return true;
+      }
+    }
+    return true;
+  }
+
+  protected displayServiceMessage(order: Order): void {
     if (order.status !== 'CANCELLED' && !!order.servicedAt) {
       const hoursFromSchedule =
         this.checkoutServiceSchedulePickerService.getHoursFromServiceSchedule(

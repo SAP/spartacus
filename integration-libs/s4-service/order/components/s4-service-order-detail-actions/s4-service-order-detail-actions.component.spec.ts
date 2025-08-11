@@ -136,7 +136,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
       ).and.returnValue(40);
-      (component as any).checkServiceStatus(mockOrder1);
+      (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
@@ -145,7 +145,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
       ).and.returnValue(10);
-      (component as any).checkServiceStatus(mockOrder1);
+      (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'rescheduleService.serviceNotAmendable' },
@@ -164,6 +164,13 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       const elements = fixture.debugElement.queryAll(By.css('a'));
       expect(elements.length).toEqual(0);
     });
+
+    it('should not display action buttons when service is cancelled', () => {
+      fixture.detectChanges();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(false);
+      });
+    });
   });
 
   describe('displayServiceActions', () => {
@@ -175,6 +182,13 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       fixture.detectChanges();
       const elements = el.queryAll(By.css('#cancel-service-btn'));
       expect(elements.length).toEqual(0);
+    });
+
+    it('should display action buttons row as a failsafe', () => {
+      fixture.detectChanges();
+      component.displayActions$.subscribe((res) => {
+        expect(res).toBe(true);
+      });
     });
   });
 });
