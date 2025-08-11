@@ -12,7 +12,6 @@ import {
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, switchMap, take } from 'rxjs';
-import { PUNCHOUT_SESSION_ID_HEADER_KEY } from '../model';
 import { PunchoutStoreService } from '../services';
 
 /**
@@ -22,6 +21,8 @@ import { PunchoutStoreService } from '../services';
 
 @Injectable({ providedIn: 'root' })
 export class PunchoutCartInterceptor implements HttpInterceptor {
+  protected readonly PUNCHOUT_SESSION_ID_HEADER_KEY = 'punchoutsid';
+
   protected punchoutStoreService = inject(PunchoutStoreService);
   intercept(
     request: HttpRequest<any>,
@@ -37,7 +38,7 @@ export class PunchoutCartInterceptor implements HttpInterceptor {
         ) {
           request = request.clone({
             headers: request.headers.append(
-              PUNCHOUT_SESSION_ID_HEADER_KEY,
+              this.PUNCHOUT_SESSION_ID_HEADER_KEY,
               punchoutState.punchoutSessionId
             ),
           });

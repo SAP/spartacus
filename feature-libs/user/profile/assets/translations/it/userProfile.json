@@ -27,6 +27,7 @@
     "termsAndConditions": "Termini e condizioni",
     "signIn": "Ho già un account. Accedi",
     "register": "Registrati",
+    "furtherRegistration": "Continua",
     "confirmNewPassword": "Conferma nuova password",
     "resetPassword": "Reimposta password",
     "createAccount": "Crea un account",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Le password devono coincidere",
     "titleRequired": "Il titolo è obbligatorio.",
     "postRegisterMessage": "Accedere con le credenziali fornite.",
-    "postRegisterSuccessMessage": "Registrazione corretta. Accedere con le credenziali fornite."
+    "postRegisterSuccessMessage": "L'account è stato creato correttamente. Accedere con le credenziali fornite",
+    "rateLimitForRegistrationMessage": "È stato raggiunto il limite per l'invio del codice di verifica. Attendere {{seconds}} secondi prima di riprovare o utilizzare un indirizzo e-mail diverso.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Il codice di verifica è stato inviato a {{target}}. Inserire il codice.",
+      "sendRateLime": "tra {{waitTime}} secondi",
+      "resend": "Invia nuovamente",
+      "verificationCode": {
+        "label": "Codice di verifica",
+        "placeholder": "Inserisci codice di verifica"
+      },
+      "back": "Indietro"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Reimposta password",

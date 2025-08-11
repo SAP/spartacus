@@ -33,7 +33,9 @@
     "zoomOut": "Zoom out",
     "selected": "Selected",
     "expand": "Expand",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "readMore": "Read More",
+    "readLess": "Read Less"
   },
   "pageMetaResolver": {
     "category": {
@@ -175,6 +177,8 @@
   "carousel": {
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
+    "scrollForward": "Scroll forward",
+    "scrollBackward": "Scroll backward",
     "slideNumber": "Slide {{currentSlideNumber}} contains {{numberOfSlides}} items",
     "carouselForProduct": "Carousel, Images for {{product}}"
   },

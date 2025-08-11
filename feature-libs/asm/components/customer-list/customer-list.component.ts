@@ -7,6 +7,7 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -22,20 +23,21 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
+  FeatureModulesService,
+  HttpResponseStatus,
+  OccConfig,
   SortModel,
   TranslationService,
-  User,
-  OccConfig,
   useFeatureStyles,
-  HttpResponseStatus,
+  User,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -104,6 +106,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
+  isAsmCustomer360Configured: boolean | undefined = false;
+  protected featureModules = inject(FeatureModulesService);
+
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected breakpointService: BreakpointService,
@@ -117,6 +122,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isAsmCustomer360Configured =
+      this.featureModules.isConfigured('asmCustomer360');
+
     this.pageSize =
       this.asmConfig.asm?.customerList?.pageSize ?? this.DEFAULT_PAGE_SIZE;
     this.customerListConfig = this.asmConfig?.asm?.customerList;
@@ -232,6 +240,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         column.headerLocalizationKey = this.enableAsmB2bCustomerList
           ? 'asm.customerList.tableHeader.account'
           : 'hideHeaders';
+      }
+
+      if (
+        !this.isAsmCustomer360Configured &&
+        column.headerLocalizationKey ===
+          'asm.customerList.tableHeader.customer360'
+      ) {
+        column.headerLocalizationKey = 'hideHeaders';
       }
     }
   }

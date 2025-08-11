@@ -8,8 +8,8 @@ import { CheckoutConfig } from '@spartacus/storefront';
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
-import { waitForPage } from '../../../helpers/checkout-flow';
 import * as loginHelper from '../../../helpers/login';
+import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { cheapProduct } from '../../../sample-data/checkout-flow';
 import { isolateTests } from '../../../support/utils/test-isolation';
@@ -44,9 +44,7 @@ context('Checkout as guest', { testIsolation: false }, () => {
 
       checkout.clickHamburger();
 
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+      cy.getLoginRegisterLink({ clickAndWait: true });
 
       login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
       cy.wait(`@${deliveryAddressPage}`)

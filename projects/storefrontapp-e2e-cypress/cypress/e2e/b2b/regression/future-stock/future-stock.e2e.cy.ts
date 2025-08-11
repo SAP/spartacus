@@ -5,10 +5,8 @@
  */
 
 import { login } from '../../../../helpers/auth-forms';
-import {
-  waitForPage,
-  waitForProductPage,
-} from '../../../../helpers/checkout-flow';
+import { waitForProductPage } from '../../../../helpers/checkout-flow';
+import { waitForPage } from '../../../../helpers/navigation';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import { isolateTests } from '../../../../support/utils/test-isolation';
 
@@ -42,7 +40,6 @@ describe('Future Stock', { testIsolation: false }, () => {
     });
 
     it('when logged in, future stock dropdown should be visible (CXSPA-236)', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
       const productPage = waitForProductPage(
         productIdWithFutureStock,
         'getProductPage'
@@ -51,8 +48,7 @@ describe('Future Stock', { testIsolation: false }, () => {
       cy.visit(`/product/${productIdWithFutureStock}`);
       cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+      cy.getLoginRegisterLink({ clickAndWait: true });
       login(b2bUser.email, b2bUser.password);
 
       cy.get('cx-future-stock-accordion').should('be.visible');
@@ -64,11 +60,8 @@ describe('Future Stock', { testIsolation: false }, () => {
     });
 
     it('when choosing other product, future stock dropdown should contain no information (CXSPA-236)', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
-
       cy.visit(`/product/${productIdWithoutFutureStock}`);
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+      cy.getLoginRegisterLink({ clickAndWait: true });
       login(b2bUser.email, b2bUser.password);
 
       cy.get('cx-future-stock-accordion').should('be.visible');

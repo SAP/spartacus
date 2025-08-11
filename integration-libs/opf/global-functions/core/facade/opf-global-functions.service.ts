@@ -17,6 +17,8 @@ import {
   OpfKeyValueMap,
   OpfPage,
   defaultOpfErrorDialogOptions,
+  OpfMetadataStoreService,
+  OpfMetadataModel,
 } from '@spartacus/opf/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import {
@@ -29,10 +31,11 @@ import {
   OpfPaymentGlobalMethods,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, Subject, lastValueFrom } from 'rxjs';
-import { finalize, last, take } from 'rxjs/operators';
+import { Observable, Subject, lastValueFrom, of, throwError } from 'rxjs';
+import { finalize, last, take, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -41,6 +44,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected launchDialogService = inject(LaunchDialogService);
   protected opfCtaFacade = inject(OpfCtaFacade);
+  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected loaderSpinnerCpntRef: void | Observable<
     ComponentRef<any> | undefined
   >;
@@ -65,6 +70,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerThrowPaymentError(domain, vcr);
         this.registerStartLoadIndicator(domain, vcr);
         this.registerStopLoadIndicator(domain);
+        this.registerReinitiatePaymentForm(domain);
         break;
       case OpfGlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
@@ -202,6 +208,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitFailure = (): void => {
         // this is intentional
       },
+      submitCancel = (): void => {
+        // this is intentional
+      },
       paymentMethod,
     }: {
       cartId: string;
@@ -209,6 +218,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
+      submitCancel?: OpfPaymentMerchantCallback;
       paymentMethod: OpfPaymentMethod;
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
@@ -220,10 +230,12 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           onSuccess: OpfPaymentMerchantCallback;
           onPending: OpfPaymentMerchantCallback;
           onFailure: OpfPaymentMerchantCallback;
+          onCancel?: OpfPaymentMerchantCallback;
         } = {
           onSuccess: submitSuccess,
           onPending: submitPending,
           onFailure: submitFailure,
+          onCancel: submitCancel,
         };
 
         return lastValueFrom(
@@ -260,6 +272,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       onSuccess: OpfPaymentMerchantCallback;
       onPending: OpfPaymentMerchantCallback;
       onFailure: OpfPaymentMerchantCallback;
+      onCancel?: OpfPaymentMerchantCallback;
     },
     paymentSessionId: string,
     returnPath?: string | undefined,
@@ -306,12 +319,16 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitFailure = (): void => {
         // this is intentional
       },
+      submitCancel = (): void => {
+        // this is intentional
+      },
     }: {
       cartId: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
+      submitCancel?: OpfPaymentMerchantCallback;
     }): Promise<boolean> => {
       return this.runSubmitComplete(
         additionalData,
@@ -319,6 +336,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           onSuccess: submitSuccess,
           onPending: submitPending,
           onFailure: submitFailure,
+          onCancel: submitCancel,
         },
         paymentSessionId,
         undefined,
@@ -343,12 +361,16 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitFailure = (): void => {
         // this is intentional
       },
+      submitCancel = (): void => {
+        // this is intentional
+      },
     }: {
       cartId: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
       submitFailure: OpfPaymentMerchantCallback;
+      submitCancel?: OpfPaymentMerchantCallback;
     }): Promise<boolean> => {
       return this.runSubmitComplete(
         additionalData,
@@ -356,6 +378,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           onSuccess: submitSuccess,
           onPending: submitPending,
           onFailure: submitFailure,
+          onCancel: submitCancel,
         },
         paymentSessionId,
         OpfPage.CHECKOUT_REVIEW_PAGE,
@@ -363,6 +386,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       );
     };
   }
+
   protected registerCtaScriptReady(domain: OpfGlobalFunctionsDomain): void {
     this.getGlobalFunctionContainer(domain).scriptReady = (
       scriptIdentifier: string
@@ -371,5 +395,43 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.opfCtaFacade.emitScriptReadyEvent(scriptIdentifier);
       });
     };
+  }
+
+  protected registerReinitiatePaymentForm(
+    domain: OpfGlobalFunctionsDomain
+  ): void {
+    this.getGlobalFunctionContainer(domain).reinitiatePaymentForm = (
+      paymentOptionId?: number
+    ): Promise<boolean> => {
+      return this.ngZone.run(() => {
+        // Emit the event using the payment events service
+        this.opfPaymentEventsService.emitReinitiatePaymentEvent(
+          paymentOptionId
+        );
+
+        return Promise.resolve(true);
+      });
+    };
+  }
+
+  protected getPaymentOptionId(providedId?: number): Observable<number> {
+    if (providedId) {
+      return of(providedId);
+    }
+
+    return this.opfMetadataStoreService.getOpfMetadataState().pipe(
+      take(1),
+      switchMap((metadata: OpfMetadataModel) => {
+        const storedId =
+          metadata.selectedPaymentOptionId ||
+          metadata.defaultSelectedPaymentOptionId;
+
+        return storedId
+          ? of(storedId)
+          : throwError(
+              () => new Error('No payment option ID found in storage')
+            );
+      })
+    );
   }
 }

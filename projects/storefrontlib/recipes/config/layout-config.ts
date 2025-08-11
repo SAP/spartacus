@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { inject } from '@angular/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
+import { FeatureToggles } from '@spartacus/core';
 
 /**
  * The layout configuration is used to define the overall layout of the storefront.
@@ -17,6 +19,8 @@ import { LayoutConfig } from '../../layout/config/layout-config';
  * The page slot configurations is directly related to the data in the backend. If you use the
  * Spartacus sample-data, you will have an aligned setup. However, if you introduce custom page
  * templates and/or slots, you most likely need to further adjust or replace this configuration.
+ *
+ *@deprecated Use `layoutConfigFactory` and `provideConfigFactory(layoutConfigFactory)` instead.
  */
 export const layoutConfig: LayoutConfig = {
   // deferredLoading: {
@@ -126,3 +130,35 @@ export const layoutConfig: LayoutConfig = {
     },
   },
 };
+
+/**
+ * Factory for layout configuration.
+ */
+export function layoutConfigFactory(): LayoutConfig {
+  const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
+  const unifiedDefaultHeaderSlotsAcrossBreakpoints =
+    inject(FeatureToggles).unifiedDefaultHeaderSlotsAcrossBreakpoints;
+
+  if (
+    unifiedDefaultHeaderSlotsAcrossBreakpoints &&
+    config.layoutSlots &&
+    config.layoutSlots.header &&
+    'slots' in config.layoutSlots.header
+  ) {
+    if ('lg' in config.layoutSlots.header) {
+      delete config.layoutSlots.header.lg;
+    }
+    config.layoutSlots.header.slots = [
+      'PreHeader',
+      'SiteContext',
+      'SiteLinks',
+      'SiteLogo',
+      'SearchBox',
+      'SiteLogin',
+      'MiniCart',
+      'NavigationBar',
+    ];
+  }
+
+  return config;
+}

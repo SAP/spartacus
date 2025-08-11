@@ -14,6 +14,12 @@
       margin: 0;
       min-width: 100%;
 
+      @include forFeature('a11yWideScreenImprovements') {
+        min-width: unset;
+        padding: 36px 0;
+        margin: auto;
+      }
+
       @include media-breakpoint-down(md) {
         background-color: var(--cx-color-inverse);
       }
@@ -76,9 +82,28 @@
             border-inline-end: 1px solid var(--cx-color-text);
           }
         }
+        @include forFeature('a11yWideScreenImprovements') {
+          @include media-breakpoint-up(lg) {
+            &:first-child {
+              .cx-card-body {
+                padding-inline-start: 0;
+              }
+              padding-inline-start: 15px;
+            }
+            &:last-child {
+              .cx-card-body {
+                padding-inline-end: 0;
+              }
+              padding-inline-end: 15px;
+            }
+          }
+        }
 
         @include media-breakpoint-down(md) {
           flex: 0 0 33%;
+          @include forFeature('a11yWideScreenImprovements') {
+            flex: 1;
+          }
         }
 
         @include media-breakpoint-down(sm) {

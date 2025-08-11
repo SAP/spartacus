@@ -14,11 +14,7 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  FeatureConfigService,
-  LoggerService,
-  ObjectComparisonUtils,
-} from '@spartacus/core';
+import { LoggerService, ObjectComparisonUtils } from '@spartacus/core';
 import {
   AttributeComponentAssignment,
   ConfiguratorAttributeCompositionConfig,
@@ -40,7 +36,6 @@ export class ConfiguratorAttributeCompositionDirective
   protected lastRenderedGroupId: string;
 
   protected logger = inject(LoggerService);
-  private featureConfigService = inject(FeatureConfigService);
 
   protected readonly attrComponentAssignment: AttributeComponentAssignment =
     this.configuratorAttributeCompositionConfig.productConfigurator
@@ -52,11 +47,10 @@ export class ConfiguratorAttributeCompositionDirective
   ) {}
 
   ngOnInit(): void {
-    if (
-      !this.featureConfigService.isEnabled('productConfiguratorDeltaRendering')
-    ) {
-      const key = this.context.componentKey;
-      this.renderComponent(this.attrComponentAssignment[key], key);
+    //We don't need this method but cannot remove it due to backward compatibility.
+    //on the other hand we must nothave an empty method for a lifecycle hook
+    if (isDevMode()) {
+      this.logger.debug('On init called');
     }
   }
 
@@ -66,21 +60,17 @@ export class ConfiguratorAttributeCompositionDirective
    * and only destroy and re-create the attribute component, if there are actual changes to its data. This improves performance significantly.
    */
   ngOnChanges(): void {
-    if (
-      this.featureConfigService.isEnabled('productConfiguratorDeltaRendering')
-    ) {
-      const attributeChanged = !ObjectComparisonUtils.deepEqualObjects(
-        this.lastRenderedAttribute,
-        this.context.attribute
-      );
-      const groupChanged = this.lastRenderedGroupId !== this.context.group.id;
-      // attribute can occur with same content twice in different groups
-      // for example this happens for conflicts. An attribute is rendered differently (link from/to conflict) based on
-      // if it is part of conflict group or of ordinary group
-      if (attributeChanged || groupChanged) {
-        const key = this.context.componentKey;
-        this.renderComponent(this.attrComponentAssignment[key], key);
-      }
+    const attributeChanged = !ObjectComparisonUtils.deepEqualObjects(
+      this.lastRenderedAttribute,
+      this.context.attribute
+    );
+    const groupChanged = this.lastRenderedGroupId !== this.context.group.id;
+    // attribute can occur with same content twice in different groups
+    // for example this happens for conflicts. An attribute is rendered differently (link from/to conflict) based on
+    // if it is part of conflict group or of ordinary group
+    if (attributeChanged || groupChanged) {
+      const key = this.context.componentKey;
+      this.renderComponent(this.attrComponentAssignment[key], key);
     }
   }
 

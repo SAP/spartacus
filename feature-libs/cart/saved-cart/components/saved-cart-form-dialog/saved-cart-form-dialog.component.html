@@ -237,18 +237,11 @@
                   type="text"
                 />
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   id="nameError"
                   [translationParams]="{
                     label: 'savedCartDialog.savedCartName' | cxTranslate,
                   }"
-                  [control]="form.get('name')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="form.get('name')"
                 ></cx-form-errors>
               </label>
@@ -275,18 +268,11 @@
                 rows="5"
               ></textarea>
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="descriptionError"
                 [translationParams]="{
                   label: 'savedCartDialog.savedCartDescription' | cxTranslate,
                 }"
-                [control]="form.get('description')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="form.get('description')"
               ></cx-form-errors>
 

@@ -14,22 +14,19 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --skip-build                            Skip Spartacus build step
 "
 
-display_a11y_docs_link() {
-    echo ""
-    echo -e "\033[31m⚠️  Accessibility tests failed\033[0m"
-    echo -e "\033[33mℹ️  For guidance on resolving issues, see:\033[0m"
-    echo -e "\033[36m🔗 https://wiki.one.int.sap/wiki/display/spar/Spartacus+Accessibility+Feature+Compliance\033[0m"
-    echo ""
-}
+run_tests_for_suite() {
+  local suite="$1"
+  local scope="$2"
 
-# Function to run a11y tests and print documentation link if they fail
-run_a11y_tests_with_docs_on_failure() {
-    if npm run e2e:run:ci:a11y; then
-        return 0
-    else
-        display_a11y_docs_link
-        return 1
-    fi
+  if [ "$suite" == ":a11y" ]; then
+    # Source a11y functions when needed
+    source "$(dirname "$0")/e2e-a11y-helpers.sh"
+    run_dual_a11y_tests
+  elif [ "$scope" == "core" ]; then
+    npm run e2e:run:ci:core"${suite}"
+  else
+    npm run e2e:run:ci"${suite}"
+  fi
 }
 
 SKIP_BUILD=false
@@ -78,8 +75,14 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
 fi
 
+if [ "$SUITE" == ":a11y" ]; then
+    export SPA_ENV='ci,b2c'
+fi
+
 if [ "$SKIP_BUILD" == "true" ]; then
     echo "⏩ Skipping build as requested with --skip-build"
+    # Still need to ensure dependencies are installed for Cypress
+    (cd projects/storefrontapp-e2e-cypress && npm ci)
 else
     echo '-----'
     echo "Building Spartacus libraries"
@@ -121,8 +124,12 @@ is_bot_commit() {
 }
 
 if [[ "${SSR}" = true ]]; then
-    echo "Building Spartacus storefrontapp (SSR PROD mode)"
-    npm run build:ssr:ci
+    if [ "$SKIP_BUILD" == "true" ]; then
+        echo "⏩ Skipping SSR build as requested with --skip-build, using pre-built SSR app"
+    else
+        echo "Building Spartacus storefrontapp (SSR PROD mode)"
+        npm run build:ssr:ci
+    fi
 
     echo "Starting Spartacus storefrontapp in SSR mode"
     (npm run serve:ssr:ci &)
@@ -167,15 +174,10 @@ else
 
         if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
             echo "Running full Cypress end-to-end tests for epic branch"
-            npm run e2e:run:ci"${SUITE}"
+            run_tests_for_suite "${SUITE}" "full"
         else
-            if [[ "${SUITE}" == ":a11y" ]]; then
-                echo "Running a11y Cypress end-to-end tests for pull requests"
-                run_a11y_tests_with_docs_on_failure
-            else
-                echo "Running core Cypress end-to-end tests for pull requests"
-                npm run e2e:run:ci:core"${SUITE}"
-            fi
+            echo "Running core Cypress end-to-end tests for pull requests"
+            run_tests_for_suite "${SUITE}" "core"
         fi
 
     elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
@@ -183,21 +185,13 @@ else
 
         if is_bot_commit; then
             echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            npm run e2e:run:ci:core"${SUITE}"
+            run_tests_for_suite "${SUITE}" "core"
         else
             echo "Running full Cypress end-to-end tests"
-            if [[ "${SUITE}" == ":a11y" ]]; then
-                run_a11y_tests_with_docs_on_failure
-            else
-                npm run e2e:run:ci"${SUITE}"
-            fi
+            run_tests_for_suite "${SUITE}" "full"
         fi
     else
         echo "Running full Cypress end-to-end tests"
-        if [[ "${SUITE}" == ":a11y" ]]; then
-            run_a11y_tests_with_docs_on_failure
-        else
-            npm run e2e:run:ci"${SUITE}"
-        fi
+        run_tests_for_suite "${SUITE}" "full"
     fi
 fi

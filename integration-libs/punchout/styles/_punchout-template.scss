@@ -1,8 +1,14 @@
 @import '@spartacus/styles/scss/misc/table';
 %PunchoutTemplate {
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
+
   .SiteLogin {
     @include media-breakpoint-up('lg') {
       padding: 0.5rem 1rem;
+      max-width: var(--cx-page-width-max);
+      margin: auto;
     }
 
     cx-login {
@@ -17,7 +23,9 @@
   }
 
   .SiteContext {
-    padding-inline-start: 1.5rem;
+    $padding: max(1.5rem, calc((100vw - var(--cx-page-width-max)) / 2));
+    padding-inline-start: $padding;
+    padding-inline-end: $padding;
     display: flex;
     flex-wrap: nowrap;
     background-color: var(--cx-color-background);
@@ -33,6 +41,9 @@
       min-width: 0;
     }
   }
+  .BodyContent {
+    min-height: calc(100vh - 200px);
+  }
 }
 
 .cxPunchoutSessionActive {
@@ -45,4 +56,9 @@
   cx-product-reviews .header button.btn-primary {
     display: none;
   }
+}
+
+.cxPunchoutSessionActive.cx-theme-high-contrast-dark,
+.cxPunchoutSessionActive.cx-theme-high-contrast-light {
+  background-color: var(--cx-color-background);
 }

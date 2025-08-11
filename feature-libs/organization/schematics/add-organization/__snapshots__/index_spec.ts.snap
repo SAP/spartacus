@@ -27,15 +27,15 @@ export class OrganizationAccountSummaryFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Account summary feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translationsEn } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, provideConfigFactory, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
   imports: [
   ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+  providers: [provideConfigFactory(layoutConfigFactory), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
       occ: {
         baseUrl: 'https://localhost:9002',
@@ -51,7 +51,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.40'
+      level: '2211.42'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -255,15 +255,15 @@ export class OrganizationAdministrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translationsEn } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, provideConfigFactory, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
   imports: [
   ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+  providers: [provideConfigFactory(layoutConfigFactory), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
       occ: {
         baseUrl: 'https://localhost:9002',
@@ -279,7 +279,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.40'
+      level: '2211.42'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -483,15 +483,15 @@ export class OrganizationOrderApprovalFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translationsEn } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, provideConfigFactory, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
   imports: [
   ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+  providers: [provideConfigFactory(layoutConfigFactory), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
       occ: {
         baseUrl: 'https://localhost:9002',
@@ -507,7 +507,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.40'
+      level: '2211.42'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -711,15 +711,15 @@ export class OrganizationUnitOrderFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add Unit order feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translationsEn } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, provideConfigFactory, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
   imports: [
   ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+  providers: [provideConfigFactory(layoutConfigFactory), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
       occ: {
         baseUrl: 'https://localhost:9002',
@@ -735,7 +735,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.40'
+      level: '2211.42'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -939,15 +939,15 @@ export class OrganizationUserRegistrationFeatureModule { }
 exports[`Spartacus Organization schematics: ng-add User registration feature general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translationsEn } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, provideConfigFactory, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
   imports: [
   ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+  providers: [provideConfigFactory(layoutConfigFactory), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
       occ: {
         baseUrl: 'https://localhost:9002',
@@ -963,7 +963,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.40'
+      level: '2211.42'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })

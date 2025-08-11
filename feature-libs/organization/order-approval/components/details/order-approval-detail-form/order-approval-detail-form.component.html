@@ -48,9 +48,7 @@
             [attr.aria-errormessage]="'commentError'"
           ></textarea>
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="commentError"
             [translationParams]="{
               label:
@@ -58,11 +56,6 @@
                   approvalDecision +
                   '.label' | cxTranslate,
             }"
-            [control]="approvalForm.get('comment')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="approvalForm.get('comment')"
           ></cx-form-errors>
         </label>

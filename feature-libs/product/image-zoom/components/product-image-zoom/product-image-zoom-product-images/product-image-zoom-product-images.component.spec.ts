@@ -1,12 +1,24 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, ImageGroup, Product } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import {
+  FeatureConfigService,
+  FeaturesConfigModule,
+  FeatureToggles,
+  I18nTestingModule,
+  ImageGroup,
+  Product,
+} from '@spartacus/core';
+import {
+  CurrentProductService,
+  ImageFetchPriority,
+  LCP_PRESENCE,
+  LcpContextDirectiveModule,
+  LcpPresence,
+} from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const firstImage = {
   zoom: {
@@ -71,11 +83,13 @@ class MockCurrentProductService {
 })
 class MockMediaComponent {
   @Input() container: any;
+  @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
 
 @Component({
   selector: 'cx-carousel',
   template: `
+    cx-carousel
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
@@ -85,6 +99,25 @@ class MockMediaComponent {
   standalone: false,
 })
 class MockCarouselComponent {
+  @Input() items: any;
+  @Input() itemWidth: any;
+  @Input() template: any;
+  @Input() hideIndicators: any;
+}
+
+@Component({
+  selector: 'cx-carousel-scrolling',
+  template: `
+    cx-carousel-scrolling
+    <ng-container *ngFor="let item$ of items">
+      <ng-container
+        *ngTemplateOutlet="template; context: { item: item$ | async }"
+      ></ng-container>
+    </ng-container>
+  `,
+  standalone: false,
+})
+class MockCarouselScrollingComponent {
   @Input() items: any;
   @Input() itemWidth: any;
   @Input() template: any;
@@ -102,22 +135,53 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
-describe('ProductImagesComponent', () => {
+describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
+  let mockLcpPresence$: BehaviorSubject<LcpPresence>;
+  let mockFeatureToggles: FeatureToggles;
+
+  class MockFeatureConfigService {
+    isEnabled(
+      feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+    ): boolean {
+      const hasNegation = feature.startsWith('!');
+      const featureName = (
+        hasNegation ? feature.slice(1) : feature
+      ) as keyof FeatureToggles;
+
+      return hasNegation
+        ? !mockFeatureToggles[featureName]
+        : !!mockFeatureToggles[featureName];
+    }
+  }
 
   beforeEach(waitForAsync(() => {
+    mockFeatureToggles = {
+      productCarouselScrolling: true,
+    };
+    mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
+
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [
+        I18nTestingModule,
+        LcpContextDirectiveModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         ProductImageZoomProductImagesComponent,
         MockMediaComponent,
         MockCarouselComponent,
+        MockCarouselScrollingComponent,
         MockProductImageZoomTriggerComponent,
-        MockFeatureDirective,
       ],
       providers: [
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
+        },
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
@@ -128,40 +192,42 @@ describe('ProductImagesComponent', () => {
     currentProductService = TestBed.inject(CurrentProductService);
   }));
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  }));
 
   describe('with multiple pictures', () => {
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockDataWithMultiplePictures)
       );
 
       fixture = TestBed.createComponent(ProductImageZoomProductImagesComponent);
       component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+    }));
 
     it('should be created', () => {
+      fixture.detectChanges();
       expect(component).toBeTruthy();
     });
 
     it('should have mainImage$', () => {
+      fixture.detectChanges();
       let result: any;
       component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
     it('should have 2 thumbnails', waitForAsync(() => {
+      fixture.detectChanges();
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
     }));
 
     it('should have thumb with url in first product', waitForAsync(() => {
+      fixture.detectChanges();
       let thumbs: Observable<Product>[];
       component.thumbs$.subscribe((i) => (thumbs = i));
       let thumb: any;
@@ -170,17 +236,85 @@ describe('ProductImagesComponent', () => {
     }));
 
     describe('UI test', () => {
-      it('should have cx-carousel element', () => {
-        const carousel = fixture.debugElement.query(By.css('cx-carousel'));
-        expect(carousel).toBeTruthy();
+      describe('when feature toggle "productCarouselScrolling" is enabled', () => {
+        it('should have cx-carousel-scrolling element', () => {
+          fixture.detectChanges();
+          const carousel = fixture.debugElement.query(
+            By.css('cx-carousel-scrolling')
+          );
+          expect(carousel).toBeTruthy();
+        });
       });
 
-      it('should have 2 rendered templates', waitForAsync(() => {
+      describe('when feature toggle "productCarouselScrolling" is disabled', () => {
+        it('should have cx-carousel element', () => {
+          mockFeatureToggles.productCarouselScrolling = false;
+          fixture.detectChanges();
+          const carousel = fixture.debugElement.query(By.css('cx-carousel'));
+          expect(carousel).toBeTruthy();
+        });
+      });
+
+      it('should have 2 rendered templates', () => {
+        fixture.detectChanges();
         const el = fixture.debugElement.queryAll(
-          By.css('cx-carousel cx-media')
+          By.css('cx-carousel-scrolling cx-media')
         );
         expect(el.length).toEqual(2);
-      }));
+      });
+
+      describe('LCP context handling', () => {
+        describe('when contains LCP element', () => {
+          beforeEach(() => {
+            mockLcpPresence$.next(LcpPresence.HAS_LCP);
+          });
+
+          it('should prioritize downloading the main image', () => {
+            fixture.detectChanges();
+            const mediaComponents = fixture.debugElement.queryAll(
+              By.directive(MockMediaComponent)
+            );
+            expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+              ImageFetchPriority.HIGH
+            );
+          });
+
+          it('should NOT prioritize downloading images other than the main one', () => {
+            fixture.detectChanges();
+            const mediaComponents = fixture.debugElement.queryAll(
+              By.directive(MockMediaComponent)
+            );
+            expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+            expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+          });
+        });
+
+        describe('when does NOT contain LCP element', () => {
+          beforeEach(() => {
+            mockLcpPresence$.next(LcpPresence.NO_LCP);
+          });
+
+          it('should NOT prioritize downloading any image', () => {
+            fixture.detectChanges();
+            const mediaComponents = fixture.debugElement.queryAll(
+              By.directive(MockMediaComponent)
+            );
+            expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+            expect(mediaComponents[1].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+            expect(mediaComponents[2].componentInstance.fetchPriority).toBe(
+              undefined
+            );
+          });
+        });
+      });
     });
   });
 
@@ -212,12 +346,48 @@ describe('ProductImagesComponent', () => {
     }));
 
     describe('(UI test)', () => {
-      it('should not render cx-carousel for one GALLERY image', () => {
+      it('should not render cx-carousel-scrolling for one GALLERY image', () => {
         component.thumbs$.subscribe();
         fixture.detectChanges();
 
-        const carousel = fixture.debugElement.query(By.css('cx-carousel'));
+        const carousel = fixture.debugElement.query(
+          By.css('cx-carousel-scrolling')
+        );
         expect(carousel).toBeNull();
+      });
+    });
+
+    describe('LCP context handling', () => {
+      describe('when contains LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.HAS_LCP);
+        });
+
+        it('should prioritize downloading the main image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            ImageFetchPriority.HIGH
+          );
+        });
+      });
+
+      describe('when does NOT contain LCP element', () => {
+        beforeEach(() => {
+          mockLcpPresence$.next(LcpPresence.NO_LCP);
+        });
+
+        it('should NOT prioritize downloading any image', () => {
+          fixture.detectChanges();
+          const mediaComponents = fixture.debugElement.queryAll(
+            By.directive(MockMediaComponent)
+          );
+          expect(mediaComponents[0].componentInstance.fetchPriority).toBe(
+            undefined
+          );
+        });
       });
     });
   });

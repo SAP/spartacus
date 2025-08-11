@@ -27,6 +27,7 @@
     "termsAndConditions": "Termos e Condições",
     "signIn": "Já tenho uma conta. Iniciar sessão",
     "register": "Registrar",
+    "furtherRegistration": "Continuar",
     "confirmNewPassword": "Confirmar nova senha",
     "resetPassword": "Redefinir senha",
     "createAccount": "Criar uma conta",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "As duas senhas devem corresponder",
     "titleRequired": "O título é obrigatório.",
     "postRegisterMessage": "Inicie sessão com as credenciais fornecidas.",
-    "postRegisterSuccessMessage": "Registro com êxito: inicie sessão com as credenciais fornecidas"
+    "postRegisterSuccessMessage": "Sua conta foi criada com êxito! Faça o login com as credenciais fornecidas.",
+    "rateLimitForRegistrationMessage": "Você alcançou o limite de envio do código de verificação. Aguarde {{seconds}} segundos antes de tentar novamente ou utilize um endereço de e-mail diferente.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Código de verificação enviado para {{target}}. Insira o código.",
+      "sendRateLime": "em {{waitTime}} segundos",
+      "resend": "Reenviar",
+      "verificationCode": {
+        "label": "Código de verificação",
+        "placeholder": "Inserir código de verificação"
+      },
+      "back": "Voltar"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Redefinir senha",
