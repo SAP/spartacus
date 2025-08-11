@@ -1,17 +1,8 @@
 <section [attr.aria-label]="'checkoutProgress.deliveryMode' | cxTranslate">
   <fieldset role="radiogroup">
-    <ng-container *cxFeature="'!showDeliveryOptionsTranslation'">
-      <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
-        {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
-      </legend>
-    </ng-container>
-
-    <ng-container *cxFeature="'showDeliveryOptionsTranslation'">
-      <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
-        {{ 'checkoutMode.deliveryOptions' | cxTranslate }}
-      </legend>
-    </ng-container>
-
+    <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'checkoutMode.deliveryOptions' | cxTranslate }}
+    </legend>
     <ng-container
       *ngIf="
         !(isUpdating$ | async) &&
