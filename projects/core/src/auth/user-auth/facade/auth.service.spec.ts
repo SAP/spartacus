@@ -149,7 +149,7 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  fdescribe('checkOAuthParamsInUrl()', () => {
+  describe('checkOAuthParamsInUrl()', () => {
     describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is DISABLED', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
