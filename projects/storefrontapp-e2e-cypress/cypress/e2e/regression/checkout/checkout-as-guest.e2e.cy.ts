@@ -18,10 +18,10 @@ context('Checkout as guest', { testIsolation: false }, () => {
     isolateTests();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
+      guestCheckout.generateGuestUser();
     });
 
     beforeEach(() => {
-      guestCheckout.generateGuestUser();
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
