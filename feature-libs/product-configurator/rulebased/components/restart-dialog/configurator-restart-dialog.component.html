@@ -12,20 +12,9 @@
         (esc)="backToPDP(product)"
       >
         <div class="cx-dialog-header modal-header">
-          <h3
-            *cxFeature="'a11yDialogsHeading'"
-            id="dialogTitle"
-            class="cx-dialog-title modal-title"
-          >
+          <h3 id="dialogTitle" class="cx-dialog-title modal-title">
             {{ 'configurator.restartDialog.title' | cxTranslate }}
           </h3>
-          <div
-            *cxFeature="'!a11yDialogsHeading'"
-            id="dialogTitle"
-            class="cx-dialog-title modal-title"
-          >
-            {{ 'configurator.restartDialog.title' | cxTranslate }}
-          </div>
           <button
             title="{{ 'configurator.a11y.closeRestartDialog' | cxTranslate }}"
             type="button"
