@@ -113,7 +113,7 @@ describe('My Account - Close Account', () => {
         });
 
         cy.whenJDK21(() => {
-          cy.get('#errorMessage').should('contain', 'Account is disabled');
+          cy.url().should('contain', '/login?error=account_disabled');
         });
       });
     });
