@@ -7,7 +7,6 @@
 import * as asm from '../../../../helpers/asm';
 import { login } from '../../../../helpers/auth-forms';
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
-import * as checkout from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 
