@@ -9,12 +9,19 @@ import { CanActivate, GuardResult, Router } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  StatePersistenceService,
+  StorageSyncType,
 } from '@spartacus/core';
+import {
+  getStorage,
+  persistToStorage,
+  readFromStorage,
+} from 'projects/core/src/state/utils/browser-storage';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { WindowRef } from '../../..//window/window-ref';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
+
 const MISSING_JSESSIONID_CODE = 403;
 const STORAGE_KEY = 'login_redirect_count';
 const timeout = 15_000;
@@ -41,7 +48,8 @@ export class CustomLoginGuard implements CanActivate {
   authRedirectService = inject(AuthRedirectService);
   router = inject(Router);
   semanticPathService = inject(SemanticPathService);
-  statePersistenceService = inject(StatePersistenceService);
+  windowRef = inject(WindowRef);
+  storage = getStorage(StorageSyncType.LOCAL_STORAGE, this.windowRef);
   globalMessageService = inject(GlobalMessageService);
 
   canActivate(): Observable<GuardResult> {
@@ -86,9 +94,9 @@ export class CustomLoginGuard implements CanActivate {
   }
 
   getRedirectCount() {
-    const countMeta = this.statePersistenceService.readStateFromStorage({
-      key: STORAGE_KEY,
-    }) as FlagMeta | undefined;
+    const countMeta = readFromStorage(this.storage as Storage, STORAGE_KEY) as
+      | FlagMeta
+      | undefined;
     if (countMeta) {
       if (Date.now() - countMeta.t < timeout) {
         return countMeta.c;
@@ -98,13 +106,18 @@ export class CustomLoginGuard implements CanActivate {
   }
 
   setRedirectCount(count: number) {
-    this.statePersistenceService.syncWithStorage({
-      key: STORAGE_KEY,
-      state$: of({ t: Date.now(), c: count }),
-    });
+    return persistToStorage(
+      STORAGE_KEY,
+      { t: Date.now(), c: count } satisfies FlagMeta,
+      this.storage as Storage
+    );
   }
 
   clearRedirectCount() {
-    this.setRedirectCount(1);
+    persistToStorage(
+      STORAGE_KEY,
+      { t: Date.now(), c: 1 } satisfies FlagMeta,
+      this.storage as Storage
+    );
   }
 }

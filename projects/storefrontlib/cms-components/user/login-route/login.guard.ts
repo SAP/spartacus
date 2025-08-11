@@ -19,17 +19,12 @@ import {
   GlobalMessageType,
   OAuthFlow,
   SemanticPathService,
-  // StorageSyncType,
+  StatePersistenceService,
   WindowRef,
 } from '@spartacus/core';
 import { catchError, EMPTY, Observable, of, tap } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import {
-  // getStorage,
-  persistToStorage,
-  readFromStorage,
-} from '@spartacus/core/src/state/utils/browser-storage';
 
 const MISSING_JSESSIONID_CODE = 403;
 const STORAGE_KEY = 'login_redirect_count';
@@ -56,7 +51,7 @@ export class LoginGuard {
   semanticPathService = inject(SemanticPathService);
   windowRef = inject(WindowRef);
   globalMessageService = inject(GlobalMessageService);
-  storage = this.windowRef.localStorage;
+  statePersistenceService = inject(StatePersistenceService);
 
   constructor(
     protected authService: AuthService,
@@ -143,9 +138,9 @@ export class LoginGuard {
   }
 
   getRedirectCount() {
-    const countMeta = readFromStorage(this.storage as Storage, STORAGE_KEY) as
-      | FlagMeta
-      | undefined;
+    const countMeta = this.statePersistenceService.readStateFromStorage({
+      key: STORAGE_KEY,
+    }) as FlagMeta | undefined;
     if (countMeta) {
       if (Date.now() - countMeta.t < timeout) {
         return countMeta.c;
@@ -155,18 +150,13 @@ export class LoginGuard {
   }
 
   setRedirectCount(count: number) {
-    return persistToStorage(
-      STORAGE_KEY,
-      { t: Date.now(), c: count } satisfies FlagMeta,
-      this.storage as Storage
-    );
+    this.statePersistenceService.syncWithStorage({
+      key: STORAGE_KEY,
+      state$: of({ t: Date.now(), c: count }),
+    });
   }
 
   clearRedirectCount() {
-    persistToStorage(
-      STORAGE_KEY,
-      { t: Date.now(), c: 1 } satisfies FlagMeta,
-      this.storage as Storage
-    );
+    this.setRedirectCount(1);
   }
 }
