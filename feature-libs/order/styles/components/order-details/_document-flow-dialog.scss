@@ -53,19 +53,7 @@
               padding: 1rem .5rem;
 
               &:first-child {
-                display: flex;
                 padding: 1rem .5rem 1rem 1rem;
-              }
-
-              &:last-child {
-                text-align: right;
-              }
-
-              @include media-breakpoint-down(sm) {
-                &:last-child {
-                  width: 20%;
-                  text-align: left;
-                }
               }
             }
           }
@@ -78,20 +66,11 @@
             }
 
             td {
+              height: 50px;
               padding: .5rem;
 
               &:first-child {
                 padding: .5rem .5rem .5rem 1rem;
-              }
-
-              &:last-child {
-                text-align: right;
-              }
-
-              @include media-breakpoint-down(sm) {
-                &:last-child {
-                  text-align: left;
-                }
               }
             }
           }
@@ -110,24 +89,6 @@
       .cx-mobile-header {
         padding-inline-end: .3rem;
         font-weight: bold;
-      }
-
-      .cx-desktop-only {
-        display: table-cell;
-      }
-
-      .cx-mobile-only {
-        display: none;
-      }
-
-      @include media-breakpoint-down(sm) {
-        .cx-desktop-only {
-          display: none;
-        }
-
-        .cx-mobile-only {
-          display: block;
-        }
       }
     }
 
