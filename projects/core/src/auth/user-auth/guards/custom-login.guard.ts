@@ -22,7 +22,6 @@ import { WindowRef } from '../../../window/window-ref';
 import { AuthService } from '../facade/auth.service';
 import { CsrfStateService } from '../facade/csrf-state.service';
 
-const MISSING_JSESSIONID_CODE = 403;
 const STORAGE_KEY = 'login_redirect_count';
 const timeout = 15_000;
 const totalRetries = 2;
@@ -60,7 +59,7 @@ export class CustomLoginGuard implements CanActivate {
         this.clearRedirectCount();
       }),
       map(() => true),
-      catchError((error) => {
+      catchError(() => {
         const currentCount = this.getRedirectCount();
         if (currentCount >= totalRetries) {
           // retry limit met, go to homepage with message
@@ -73,16 +72,8 @@ export class CustomLoginGuard implements CanActivate {
         }
         this.setRedirectCount(currentCount + 1);
 
-        switch (error.status) {
-          case MISSING_JSESSIONID_CODE: {
-            // Session is expired or missing, go to auth server for new session
-            return of(this.createRoute('login'));
-          }
-          default: {
-            // Unknown error, retry until limit met
-            return of(this.createRoute('login'));
-          }
-        }
+        // retry until limit met
+        return of(this.createRoute('login'));
       })
     );
   }
@@ -92,10 +83,8 @@ export class CustomLoginGuard implements CanActivate {
       this.storage as Storage,
       STORAGE_KEY
     );
-    if (countMeta) {
-      if (Date.now() - countMeta.t < timeout) {
-        return countMeta.c;
-      }
+    if (countMeta && Date.now() - countMeta.t < timeout) {
+      return countMeta.c;
     }
     return 0;
   }
@@ -117,9 +106,6 @@ export class CustomLoginGuard implements CanActivate {
   }
 
   createRoute(cxRoute: string) {
-    const redirect = this.router.parseUrl(
-      this.semanticPathService.get(cxRoute) ?? ''
-    );
-    return redirect;
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
   }
 }
