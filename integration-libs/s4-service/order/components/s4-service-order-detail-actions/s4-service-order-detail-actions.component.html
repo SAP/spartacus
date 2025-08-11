@@ -1,7 +1,5 @@
 <ng-container *ngIf="order$ | async as order">
-  <div
-    class="cx-order-details-actions row mt-3"
-  >
+  <div class="cx-order-details-actions row mt-3">
     <div class="col-12 d-flex justify-content-end">
       <span class="cx-action-button ml-2">
         <a
@@ -13,7 +11,9 @@
               params: order,
             } | cxUrl
           "
-          [attr.aria-label]="'myAccountV2OrderDetails.cancelItems' | cxTranslate"
+          [attr.aria-label]="
+            'myAccountV2OrderDetails.cancelItems' | cxTranslate
+          "
           class="btn btn-secondary"
           cxBtnLikeLink
         >
@@ -30,7 +30,9 @@
               params: order,
             } | cxUrl
           "
-          [attr.aria-label]="'myAccountV2OrderDetails.returnItems' | cxTranslate"
+          [attr.aria-label]="
+            'myAccountV2OrderDetails.returnItems' | cxTranslate
+          "
           class="btn btn-secondary"
           cxBtnLikeLink
         >

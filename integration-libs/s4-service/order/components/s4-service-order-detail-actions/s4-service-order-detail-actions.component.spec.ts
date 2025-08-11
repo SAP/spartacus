@@ -125,7 +125,9 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
     it('should show Reschedule button when service is reschedulable', () => {
       fixture.detectChanges();
-      expect(el.query(By.css('.reschedule-service-btn-container'))).toBeTruthy();
+      expect(
+        el.query(By.css('.reschedule-service-btn-container'))
+      ).toBeTruthy();
       const elements = el.queryAll(By.css('#reschedule-service-btn'));
       expect(elements.length).toEqual(1);
     });
@@ -174,6 +176,5 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       const elements = el.queryAll(By.css('#cancel-service-btn'));
       expect(elements.length).toEqual(0);
     });
-
   });
 });
