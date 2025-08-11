@@ -18,10 +18,10 @@ context('Checkout as guest', { testIsolation: false }, () => {
     isolateTests();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      guestCheckout.generateGuestUser();
     });
 
     beforeEach(() => {
+      guestCheckout.generateGuestUser();
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
@@ -45,8 +45,9 @@ context('Checkout as guest', { testIsolation: false }, () => {
       checkout.clickHamburger();
 
       cy.getLoginRegisterLink({ clickAndWait: true });
-
+      cy.intercept('GET', '**/users/current/carts**').as('getCartsAfterLogin');
       login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
+
       cy.wait(`@${deliveryAddressPage}`)
         .its('response.statusCode')
         .should('eq', 200);
@@ -54,6 +55,7 @@ context('Checkout as guest', { testIsolation: false }, () => {
       cy.get('cx-login div.cx-login-greet').should('exist');
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
 
+      cy.wait('@getCartsAfterLogin');
       cy.get('cx-mini-cart .count').contains('1');
 
       const cartPage = waitForPage('/cart', 'getCartPage');

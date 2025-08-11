@@ -90,12 +90,14 @@ export function testCheckoutAsGuest() {
 
 export function createAccountFromGuest(password: string) {
   const homePage = waitForPage('homepage', 'getHomePage');
+  cy.intercept('GET', '**/users/current/carts**').as('getCartsAfterRegister');
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
 
-  cy.wait(`@${homePage}`);
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+  cy.wait('@getCartsAfterRegister');
   cy.get('cx-page-slot.Section1 cx-banner');
 }
