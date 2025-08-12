@@ -21,7 +21,7 @@
     .cx-dialog-body {
       position: relative;
       min-height: 20rem;
-      max-height: 38rem;
+      max-height: calc(80vh - 8rem);
       padding: 0 1rem;
       overflow-y: auto;
 
