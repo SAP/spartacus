@@ -11,6 +11,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message';
+import { type Translatable } from '../../../i18n/translatable';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { StorageSyncType } from '../../../state/config/state-config';
 import {
@@ -24,7 +25,7 @@ import { CsrfStateService } from '../facade/csrf-state.service';
 
 const STORAGE_KEY = 'login_redirect_count';
 const timeout = 15_000;
-const totalRetries = 2;
+const totalRetries = 1;
 
 interface CustomLoginGuardMetadata {
   /** Add timeout to recover from stale/interrupted state */
@@ -44,13 +45,13 @@ interface CustomLoginGuardMetadata {
   providedIn: 'root',
 })
 export class CustomLoginGuard implements CanActivate {
-  authService = inject(AuthService);
-  router = inject(Router);
-  semanticPathService = inject(SemanticPathService);
-  windowRef = inject(WindowRef);
-  storage = getStorage(StorageSyncType.LOCAL_STORAGE, this.windowRef);
-  globalMessageService = inject(GlobalMessageService);
-  csrfStateService = inject(CsrfStateService);
+  protected authService = inject(AuthService);
+  protected router = inject(Router);
+  protected semanticPathService = inject(SemanticPathService);
+  protected windowRef = inject(WindowRef);
+  protected storage = getStorage(StorageSyncType.LOCAL_STORAGE, this.windowRef);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected csrfStateService = inject(CsrfStateService);
 
   canActivate(): Observable<GuardResult> {
     return this.authService.getCsrfToken().pipe(
@@ -61,24 +62,22 @@ export class CustomLoginGuard implements CanActivate {
       map(() => true),
       catchError(() => {
         const currentCount = this.getRedirectCount();
+        // check if retry limit is met
         if (currentCount >= totalRetries) {
-          // retry limit met, go to homepage with message
+          // go to homepage with message
           this.clearRedirectCount();
-          this.globalMessageService.add(
-            { key: 'authMessages.unrecoverableError' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          return of(this.createRoute('home'));
+          this.showErrorMessage({ key: 'authMessages.unrecoverableError' });
+          return this.createRoute('home');
         }
-        this.setRedirectCount(currentCount + 1);
 
         // retry until limit met
-        return of(this.createRoute('login'));
+        this.setRedirectCount(currentCount + 1);
+        return this.createRoute('login');
       })
     );
   }
 
-  getRedirectCount() {
+  protected getRedirectCount() {
     const countMeta = readFromStorage<CustomLoginGuardMetadata>(
       this.storage as Storage,
       STORAGE_KEY
@@ -89,19 +88,25 @@ export class CustomLoginGuard implements CanActivate {
     return 0;
   }
 
-  setRedirectCount(count: number) {
-    return persistToStorage(
+  protected setRedirectCount(count: number) {
+    persistToStorage(
       STORAGE_KEY,
       { t: Date.now(), c: count } satisfies CustomLoginGuardMetadata,
       this.storage as Storage
     );
   }
 
-  clearRedirectCount() {
+  protected clearRedirectCount() {
     this.setRedirectCount(0);
   }
 
-  createRoute(cxRoute: string) {
-    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
+  protected createRoute(cxRoute: string) {
+    return of(
+      this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '')
+    );
+  }
+
+  protected showErrorMessage(message: Translatable) {
+    this.globalMessageService.add(message, GlobalMessageType.MSG_TYPE_ERROR);
   }
 }
