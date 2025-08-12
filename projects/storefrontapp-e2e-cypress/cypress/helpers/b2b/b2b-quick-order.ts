@@ -8,7 +8,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/ta
 import * as sampleData from '../../sample-data/b2b-checkout';
 import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
-import { waitForPage } from '../checkout-flow';
+import { waitForPage } from '../navigation';
 
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
 export const SEARCH_PRODUCTS_ENDPOINT_ALIAS = 'searchProducts';

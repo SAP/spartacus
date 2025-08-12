@@ -17,7 +17,6 @@ import {
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -123,7 +122,6 @@ describe('CheckoutDeliveryModeComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -160,7 +158,6 @@ describe('CheckoutDeliveryModeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
     component = fixture.componentInstance;
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   it('should be created', () => {
@@ -177,8 +174,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     expect(modes).toEqual(mockSupportedDeliveryModes);
   });
 
-  it('should display delivery options when showDeliveryOptionsTranslation feature is enabled', () => {
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+  it('should display delivery options', () => {
     fixture.detectChanges();
     const legend = fixture.debugElement.query(By.css('legend')).nativeElement;
     expect(legend.textContent).toContain('checkoutMode.deliveryOptions');

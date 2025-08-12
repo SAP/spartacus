@@ -6,8 +6,8 @@
 
 import { login } from '../../../helpers/auth-forms';
 import { visitAndWaitForRedirections } from '../../../helpers/auth-redirects';
-import { waitForPage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
+import { waitForPage } from '../../../helpers/navigation';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';

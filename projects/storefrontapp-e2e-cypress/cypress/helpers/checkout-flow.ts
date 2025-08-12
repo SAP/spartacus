@@ -25,6 +25,7 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 import { DeepPartial } from './form';
+import { waitForPage } from './navigation';
 import { productItemSelector } from './product-search';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
@@ -53,35 +54,6 @@ export function clickHamburger() {
   });
 }
 
-/**
- * Creates a routing alias for a given page
- * @param page Suffix of the url (page) to wait for
- * @param alias Name of the routing alias to obtain
- * @returns a Routing alias
- */
-export function waitForPage(page: string, alias: string): string {
-  // homepage is not explicitly being asked as it's driven by the backend.
-  const route =
-    page === 'homepage'
-      ? {
-          method: 'GET',
-          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/cms/pages?lang=en&curr=*`,
-        }
-      : {
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/cms/pages`,
-          query: {
-            pageLabelOrId: page,
-          },
-        };
-  cy.intercept(route).as(alias);
-  return alias;
-}
-
 export function waitForProductPage(productCode: string, alias: string): string {
   cy.intercept({
     method: 'GET',
@@ -96,22 +68,7 @@ export function waitForProductPage(productCode: string, alias: string): string {
   return alias;
 }
 
-export function waitForCategoryPage(
-  categoryCode: string,
-  alias: string
-): string {
-  cy.intercept({
-    method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages`,
-    query: {
-      pageType: 'CategoryPage',
-      code: categoryCode,
-    },
-  }).as(alias);
-  return alias;
-}
+export { waitForCategoryPage } from './navigation';
 
 /**
  * Visits the homepage and waits for corresponding xhr call
@@ -139,18 +96,34 @@ export function signOut() {
   cy.get('cx-page-slot.Section1 cx-banner');
 }
 
+/**
+ * Navigates to the register page
+ * - Fills in the registration form
+ * - Submits the form
+ * - Verifies success page
+ */
 export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
-  cy.getLoginRegisterLink({ clickAndWait: true });
+  cy.whenJDK17(() => {
+    cy.getLoginRegisterLink({ clickAndWait: true });
 
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.findByText('Register').click();
-  cy.wait(`@${registerPage}`);
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.findByText('Register').click();
+    cy.wait(`@${registerPage}`);
+  });
+  cy.whenJDK21(() => {
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.visit('/login/register');
+    cy.wait(`@${registerPage}`);
+  });
 
   register(sampleUser, giveRegistrationConsent);
-  cy.get('cx-breadcrumb').contains('Login');
+
+  cy.whenJDK17(() => {
+    cy.get('cx-breadcrumb').contains('Login');
+  });
   return sampleUser;
 }
 
@@ -188,6 +161,13 @@ export function addProductToCart() {
   });
 }
 
+/**
+ * From the login page
+ * - Fill in the login form with sample user
+ * - Submit the form
+ * - wait for successful /token response
+ * @param sampleUser
+ */
 export function loginUser(sampleUser: SampleUser = user) {
   const succsesfulLogin = interceptPost(
     'succsesfulLogin',
@@ -353,9 +333,15 @@ export function addCheapProductToCartAndLogin(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.whenJDK17(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    clickCheckoutButton();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    clickCheckoutButton();
+  });
 
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
@@ -372,9 +358,14 @@ export function addCheapProductToCartAndProceedToCheckout(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.whenJDK17(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    clickCheckoutButton();
+    cy.wait(`@${loginPage}`);
+  });
+  cy.whenJDK21(() => {
+    clickCheckoutButton();
+  });
 }
 
 export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
@@ -386,7 +377,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
     '/checkout/delivery-address',
     'getDeliveryAddressPage'
   );
-  cy.findByText(/proceed to checkout/i).click();
+  clickCheckoutButton();
   cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
@@ -632,10 +623,14 @@ export function viewOrderHistoryWithCheapProduct() {
 
 export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
   addToCart();
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-
+  cy.whenJDK17(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    clickCheckoutButton();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    clickCheckoutButton();
+  });
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
     'getDeliveryAddressPage'
