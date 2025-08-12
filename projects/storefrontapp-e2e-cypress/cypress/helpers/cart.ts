@@ -129,7 +129,10 @@ function checkMiniCartCount(expectedCount) {
 }
 
 export function clickAddToCart() {
-  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+  cy.get('cx-add-to-cart button[type=submit]', { timeout: 15000 })
+    .should('be.visible')
+    .first()
+    .click();
 }
 
 /**

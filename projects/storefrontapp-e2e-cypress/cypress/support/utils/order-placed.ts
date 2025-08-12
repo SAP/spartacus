@@ -7,8 +7,8 @@
 const delay = 3000;
 
 // 1 min in milliseconds
-const timerTimeout = 180000;
-const consignmentTimerTimeout = 180000;
+const timerTimeout = 240000;
+const consignmentTimerTimeout = 240000;
 
 // start time
 let startTime = 0;

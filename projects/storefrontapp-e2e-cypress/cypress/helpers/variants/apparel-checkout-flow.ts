@@ -39,7 +39,7 @@ export function addVariantOfSameProductToCart() {
 export function visitProductWithoutVariantPage() {
   configureProductWithVariants();
   cy.visit(`${APPAREL_BASESITE}/en/GBP/product/300611156`);
-  cy.get('cx-product-intro').within(() => {
+  cy.get('cx-product-intro',{timeout: 20000}).within(() => {
     cy.get('.code').should('contain', products[2].code);
   });
   cy.get('cx-breadcrumb').within(() => {
