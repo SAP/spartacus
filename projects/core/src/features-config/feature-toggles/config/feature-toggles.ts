@@ -20,26 +20,6 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
-   *
-   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
-   * ```js
-   * backend: {
-   *    occ: {
-   *      endpoints: {
-   *         productSearch: {
-   *           default: '...',
-   *           carousel: '...',
-   *           carouselMinimal: '...',
-   *         },
-   *       },
-   *     },
-   *   }
-   * ```
-   */
-  useProductCarouselBatchApi?: boolean;
-
-  /**
    * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
    * (in the Angular's `ErrorHandler` class) to the server layer.
    *
@@ -766,7 +746,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: true,
   trendingSearches: true,
-  useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
