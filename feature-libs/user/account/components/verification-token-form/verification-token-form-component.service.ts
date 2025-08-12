@@ -35,12 +35,7 @@ export class VerificationTokenFormComponentService {
 
   constructor() {
     if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
-      this.method = 'POST';
-      this.action = this.authConfigService?.getCustomLoginFormEndpoint();
-      this.form.addControl('csrf', new FormControl('', Validators.required));
-      this.csrf$.pipe(take(1)).subscribe((csrf) => {
-        this.form.get('csrf')?.setValue(csrf.token);
-      });
+      this.initializeDataforAuthorizationCodeFlow();
     }
   }
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
@@ -115,5 +110,14 @@ export class VerificationTokenFormComponentService {
     }
 
     this.busy$.next(false);
+  }
+
+  protected initializeDataforAuthorizationCodeFlow(): void {
+    this.method = 'POST';
+    this.action = this.authConfigService?.getCustomLoginFormEndpoint();
+    this.form.addControl('csrf', new FormControl('', Validators.required));
+    this.csrf$.pipe(take(1)).subscribe((csrf) => {
+      this.form.get('csrf')?.setValue(csrf.token);
+    });
   }
 }
