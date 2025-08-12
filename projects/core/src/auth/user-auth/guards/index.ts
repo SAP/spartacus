@@ -5,5 +5,5 @@
  */
 
 export * from './auth.guard';
-export * from './custom-login.guard';
+export { CustomLoginGuard } from './custom-login.guard';
 export * from './not-auth.guard';

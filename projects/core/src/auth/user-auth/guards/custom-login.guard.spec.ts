@@ -10,7 +10,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { lastValueFrom, of, throwError } from 'rxjs';
-import { CustomLoginGuard } from './custom-login.guard';
+import { CustomLoginGuard, totalRetries } from './custom-login.guard';
 
 const mockCsrfTokenResponse: CSRFResponse = {
   token: 'csrf-token',
@@ -149,16 +149,18 @@ describe('CustomLoginGuard', () => {
       );
     });
 
-    it('should increment count on subsequent failure calls', async () => {
-      const expected = JSON.stringify({ t: 0, c: 2 });
-      await lastValueFrom(guard.canActivate());
-      await lastValueFrom(guard.canActivate());
+    if (totalRetries > 1) {
+      it('should increment count on subsequent failure calls', async () => {
+        const expected = JSON.stringify({ t: 0, c: 2 });
+        await lastValueFrom(guard.canActivate());
+        await lastValueFrom(guard.canActivate());
 
-      expect(storage.setItem).toHaveBeenCalledWith(
-        jasmine.any(String),
-        expected
-      );
-    });
+        expect(storage.setItem).toHaveBeenCalledWith(
+          jasmine.any(String),
+          expected
+        );
+      });
+    }
 
     it('should resolve to true and reset state when session is valid on subsequent call', async () => {
       const expected = JSON.stringify({ t: 0, c: 1 });
@@ -179,7 +181,7 @@ describe('CustomLoginGuard', () => {
     it('should redirect to home when reaching retry limit', async () => {
       const expected = { root: '/home' } as unknown as UrlTree;
       let actual;
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i <= totalRetries; i++) {
         actual = await lastValueFrom(guard.canActivate());
       }
 

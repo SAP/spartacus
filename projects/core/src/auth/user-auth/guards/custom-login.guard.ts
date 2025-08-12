@@ -6,7 +6,8 @@
 
 import { inject, Injectable } from '@angular/core';
 import { CanActivate, GuardResult, Router } from '@angular/router';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -25,7 +26,7 @@ import { CsrfStateService } from '../facade/csrf-state.service';
 
 const STORAGE_KEY = 'login_redirect_count';
 const timeout = 15_000;
-const totalRetries = 1;
+export const totalRetries = 1;
 
 interface CustomLoginGuardMetadata {
   /** Add timeout to recover from stale/interrupted state */
