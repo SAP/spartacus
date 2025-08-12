@@ -23,6 +23,7 @@ import {
 import { WindowRef } from '../../../window/window-ref';
 import { AuthService } from '../facade/auth.service';
 import { CsrfStateService } from '../facade/csrf-state.service';
+import { AuthConfigService } from '../services/auth-config.service';
 
 const STORAGE_KEY = 'login_redirect_count';
 const timeout = 15_000;
@@ -47,6 +48,7 @@ interface CustomLoginGuardMetadata {
 })
 export class CustomLoginGuard implements CanActivate {
   protected authService = inject(AuthService);
+  protected authConfigService = inject(AuthConfigService);
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
   protected windowRef = inject(WindowRef);
@@ -55,6 +57,11 @@ export class CustomLoginGuard implements CanActivate {
   protected csrfStateService = inject(CsrfStateService);
 
   canActivate(): Observable<GuardResult> {
+    if (!this.authConfigService.customLoginEnabled()) {
+      // disable guard when custom login page is not enabled
+      return of(true);
+    }
+
     return this.authService.getCsrfToken().pipe(
       tap((token) => {
         this.csrfStateService.set(token);

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, UrlTree } from '@angular/router';
 import {
+  AuthConfigService,
   AuthService,
   CSRFResponse,
   CsrfStateService,
@@ -34,6 +35,9 @@ class MockWindowRef {
 class MockGlobalMessageService {
   add = jasmine.createSpy();
 }
+class MockAuthConfigService {
+  customLoginEnabled = jasmine.createSpy().and.returnValue(true);
+}
 
 function mockStorage() {
   let store: Record<string, any> = {};
@@ -54,6 +58,7 @@ describe('CustomLoginGuard', () => {
   let globalMessageService: GlobalMessageService;
   let csrfStateService: CsrfStateService;
   let storage: Storage;
+  let authConfigService: AuthConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,6 +82,7 @@ describe('CustomLoginGuard', () => {
         CsrfStateService,
         { provide: WindowRef, useClass: MockWindowRef },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: AuthConfigService, useClass: MockAuthConfigService },
       ],
     });
     guard = TestBed.inject(CustomLoginGuard);
@@ -86,6 +92,7 @@ describe('CustomLoginGuard', () => {
     spyOn(csrfStateService, 'set').and.callThrough();
     storage = TestBed.inject(WindowRef).localStorage as Storage;
     spyOn(storage, 'setItem').and.callThrough();
+    authConfigService = TestBed.inject(AuthConfigService);
 
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date(0));
@@ -97,6 +104,20 @@ describe('CustomLoginGuard', () => {
 
   it('should be created', () => {
     expect(guard).toBeTruthy();
+  });
+
+  describe('when custom login is disabled', () => {
+    beforeEach(() => {
+      (authConfigService.customLoginEnabled as jasmine.Spy).and.returnValue(
+        false
+      );
+    });
+
+    it('should resolve to true when custom login is enabled', async () => {
+      const actual = await lastValueFrom(guard.canActivate());
+
+      expect(actual).toBe(true);
+    });
   });
 
   describe('when there is a valid session', () => {
