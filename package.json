@@ -65,6 +65,7 @@
     "build:quote": "npm --prefix feature-libs/quote run build:schematics && nx build quote --configuration production",
     "build:punchout": "npm --prefix integration-libs/punchout run build:schematics && npx nx build punchout --configuration production",
     "build:b2b": "env-cmd --no-override -e dev,b2b nx run storefrontapp:build",
+    "build:ssr:ci:b2b": "env-cmd -e ci,b2b nx run storefrontapp:build:production",
     "config:update": "ts-node ./tools/config/index.ts --fix",
     "config:check": "ts-node ./tools/config/index.ts",
     "generate:deps": "ts-node ./tools/schematics/dependency-collector.ts",
