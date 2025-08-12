@@ -12,7 +12,7 @@ import {
   FeatureConfigService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 import { LOGIN_EVENTS } from '../tokens/login-events.token';
@@ -23,7 +23,6 @@ import { LOGIN_EVENTS } from '../tokens/login-events.token';
 export class ProfileTagLifecycleService {
   private readonly loginEnvelopes$ = inject(LOGIN_EVENTS);
   private readonly featureConfigService = inject(FeatureConfigService);
-  private lastProcessedTimestamp: number | null = null;
 
   constructor(
     protected consentService: ConsentService,
@@ -57,8 +56,7 @@ export class ProfileTagLifecycleService {
     );
     if (cdsLoginEventsToken) {
       return this.loginEnvelopes$.pipe(
-        filter(({ timestamp }) => this.lastProcessedTimestamp !== timestamp),
-        tap(({ timestamp }) => (this.lastProcessedTimestamp = timestamp)),
+        distinctUntilChanged((a, b) => a.timestamp === b.timestamp),
         map(() => true)
       );
     }
