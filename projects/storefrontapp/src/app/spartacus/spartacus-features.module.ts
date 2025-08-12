@@ -412,8 +412,8 @@ if (environment.cpq) {
         /*
          * JDK21 feature flags
          */
-        authorizationCodeFlowByDefault: true,
-        disableClientTokens: true,
+        authorizationCodeFlowByDefault: false,
+        disableClientTokens: false,
       };
       return appFeatureToggles;
     }),
