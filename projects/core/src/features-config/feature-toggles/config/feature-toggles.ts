@@ -10,12 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In 'CheckoutDeliveryModeComponent' and 'CheckReviewShippingComponent', it displays
-   * the new delivery options translation
-   */
-  showDeliveryOptionsTranslation?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
@@ -747,6 +741,17 @@ export interface FeatureTogglesInterface {
   productCarouselScrolling?: boolean;
 
   /**
+   * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
+   *
+   * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
+   * This is needed to support code flow authentication. If we are using the ActionsSubject LOGIN stream,
+   * the login event won't be captured once we are redirected back from the auth server.
+   *
+   * Used in `ProfileTagLifecycleService`
+   */
+  cdsLoginEventsToken?: boolean;
+
+  /**
    * Feature flag to enable using <link rel=preconnect> in the index.html.
    *
    * ## When enabled:
@@ -858,7 +863,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showDeliveryOptionsTranslation: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
@@ -964,6 +968,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   productCarouselScrolling: false,
+  cdsLoginEventsToken: false,
   createMediaPreconnectLink: false,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,

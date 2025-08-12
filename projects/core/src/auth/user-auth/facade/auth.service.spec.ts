@@ -25,6 +25,9 @@ class MockUserIdService implements Partial<UserIdService> {
   }
   clearUserId() {}
   setUserId() {}
+  isEmulated(): Observable<boolean> {
+    return of();
+  }
 }
 
 const oauthLibEvents = new BehaviorSubject<OAuthEvent>({
@@ -157,6 +160,7 @@ describe('AuthService', () => {
         spyOn(userIdService, 'setUserId').and.callThrough();
         spyOn(store, 'dispatch').and.callThrough();
         spyOn(authStorageService, 'getItem').and.returnValue('token');
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
@@ -167,9 +171,23 @@ describe('AuthService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       });
 
+      it('when customer emulated in asm page', async () => {
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
+        spyOn(userIdService, 'setUserId').and.callThrough();
+
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
+      });
+
       describe('when the token is received', () => {
         it('should redirect', async () => {
           spyOn(authRedirectService, 'redirect').and.callThrough();
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
           await service.checkOAuthParamsInUrl();
 
@@ -178,6 +196,7 @@ describe('AuthService', () => {
 
         it('should dispatch login action', async () => {
           spyOn(store, 'dispatch').and.callThrough();
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
           await service.checkOAuthParamsInUrl();
 
@@ -190,6 +209,7 @@ describe('AuthService', () => {
           spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
             Promise.resolve({ result: true, tokenReceived: false })
           );
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
         });
 
         it('should NOT redirect', async () => {
@@ -215,7 +235,24 @@ describe('AuthService', () => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
 
+      it('when customer emulated in asm page', async () => {
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
+        spyOn(userIdService, 'setUserId').and.callThrough();
+
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
+      });
+
       describe('when the token is received', () => {
+        beforeEach(() => {
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+        });
+
         it('should login user and dispatch login action', async () => {
           spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
           spyOn(userIdService, 'setUserId').and.callThrough();
