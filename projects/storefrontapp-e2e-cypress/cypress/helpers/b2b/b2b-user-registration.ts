@@ -93,11 +93,18 @@ export function submitOrganizationUserRegistrationForm(
 }
 
 export function verifyGlobalMessageAfterRegistration(message: string) {
-  cy.get('body').within(() => {
-    const alert = alerts.getAlert();
+  whenJDK17(
+    () => {
+      cy.get('body').within(() => {
+        const alert = alerts.getAlert();
 
-    alert.should('contain', message);
-  });
+        alert.should('contain', message);
+      });
+    },
+    () => {
+      cy.log('Test not relevant on JDK21');
+    }
+  );
 }
 
 export function verifyRedirectionToLoginPage() {

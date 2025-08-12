@@ -16,7 +16,7 @@ import {
   createCart,
   createInactiveCart,
 } from '../support/utils/cart';
-import { login as fetchingToken } from '../support/utils/login';
+import { login as fetchingToken, visitLoginPage } from '../support/utils/login';
 
 import {
   interceptGet,
@@ -681,7 +681,7 @@ export function testCustomerEmulation() {
     cy.log('--> customer sign in');
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.visit('/login');
+    visitLoginPage();
     cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
     asm.loginCustomerInStorefront(customer);

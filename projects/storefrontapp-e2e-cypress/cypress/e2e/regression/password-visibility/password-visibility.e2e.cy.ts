@@ -8,6 +8,7 @@ import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { whenJDK17 } from '../../../support/utils/jdk-versions';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Password Visibility', () => {
   viewportContext(['mobile'], () => {
@@ -18,7 +19,7 @@ context('Password Visibility', () => {
     whenJDK17(() => {
       it('should hide password by default', () => {
         const loginPage = waitForPage('/login', 'getLoginPage');
-        cy.visit('/login');
+        visitLoginPage();
         cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
         cy.get('button[aria-label="Show password"]').should('be.visible');

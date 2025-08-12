@@ -10,12 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In 'CheckoutDeliveryModeComponent' and 'CheckReviewShippingComponent', it displays
-   * the new delivery options translation
-   */
-  showDeliveryOptionsTranslation?: boolean;
-
-  /**
    * New REDESIGNED search-box component
    */
   searchBoxV2?: boolean;
@@ -63,20 +57,6 @@ export interface FeatureTogglesInterface {
    * 2. any NgRx action with the `error` property
    */
   ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
-
-  /**
-   * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
-   * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
-   *
-   * When this feature toggle is activated, only these parts of the UI are re-rendered, that actually changed, significantly (up to factor 10) improving rendering performance for large models.
-   *
-   * Please note, this will influence how the pricing requests are processed and rendered.
-   * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
-   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
-   *
-   * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
-   */
-  productConfiguratorDeltaRendering?: boolean;
 
   /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
@@ -847,16 +827,36 @@ export interface FeatureTogglesInterface {
    * Set to `true` to enable lazy loading by default.
    */
   lazyLoadImagesByDefault?: boolean;
+
+  /**
+   * Feature flag to enable incrementing the processes count for the merge cart action.
+   *
+   * When enabled, the processes count will be incremented for the merge cart action.
+   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
+   */
+  incrementProcessesCountForMergeCart?: boolean;
+
+  /**
+   * Controls when the Login action is dispatched during OAuth URL parameter checking.
+   *
+   * When set to `true`, enables the new behavior where the Login action is only dispatched when
+   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
+   *
+   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
+   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
+   * received in the current attempt or retrieved from storage (e.g., page refresh).
+   *
+   * Affects: `AuthService`
+   */
+  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showDeliveryOptionsTranslation: true,
   searchBoxV2: true,
   trendingSearches: true,
   useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
-  productConfiguratorDeltaRendering: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
@@ -963,4 +963,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   lazyLoadImagesByDefault: false,
   authorizationCodeFlowByDefault: false,
   disableClientTokens: false,
+  incrementProcessesCountForMergeCart: true,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
 };

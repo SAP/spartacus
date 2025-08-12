@@ -17,8 +17,7 @@ import {
 import { UntypedFormGroup } from '@angular/forms';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-
-import { RoutingService } from '@spartacus/core';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import { VerificationToken } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
@@ -31,6 +30,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
 })
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}
+  private featureConfigService = inject(FeatureConfigService);
   protected service: VerificationTokenFormComponentService = inject(
     VerificationTokenFormComponentService
   );
@@ -97,7 +97,12 @@ export class VerificationTokenFormComponent implements OnInit {
           'verificationTokenForm.needInputCredentials',
           {}
         );
-        this.routingService.go(['/login']);
+
+        this.routingService.go(
+          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+            ? { cxRoute: 'login' }
+            : ['/login']
+        );
       } else {
         this.startWaitTimeInterval();
         this.service.displayMessage(

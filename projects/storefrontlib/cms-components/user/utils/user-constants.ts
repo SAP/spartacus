@@ -4,5 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cdc-logout.guard';
-export * from './cdc-login.guard';
+export const IS_GUEST_USER_CHECKOUT_KEY = 'isGuestUserCheckout';

@@ -55,6 +55,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -331,6 +332,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     password: string;
   }): void {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
+  }
+
+  loginCustomerSupportAgentWithAuthorizationCodeFlow(): void {
+    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow();
   }
 
   logout(): void {

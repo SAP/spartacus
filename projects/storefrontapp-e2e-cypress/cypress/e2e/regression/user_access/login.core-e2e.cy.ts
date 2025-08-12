@@ -6,12 +6,13 @@
 
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { visitLoginPage } from '../../../support/utils/login';
 
 describe('Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.whenJDK17(() => {
-        cy.visit('/login');
+        visitLoginPage();
       });
       cy.whenJDK21(() => {
         cy.visit('/login/register');
@@ -20,7 +21,7 @@ describe('Login', () => {
     });
 
     it('should login and logout successfully', () => {
-      cy.visit('/login');
+      visitLoginPage();
       login.loginUser();
 
       const tokenRevocationRequestAlias =
@@ -30,7 +31,7 @@ describe('Login', () => {
     });
 
     it('should not login with wrong password', () => {
-      cy.visit('/login');
+      visitLoginPage();
       login.loginWithBadCredentialsFromLoginPage();
     });
   });
