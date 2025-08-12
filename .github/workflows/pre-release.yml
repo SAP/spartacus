@@ -37,7 +37,7 @@ jobs:
         with:
           github-server-url: "https://github.tools.sap"
           repository: "cx-commerce/spartacussampledata"
-          token: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          token: ${{ secrets.TEMPORARY_GHT_PRIVATE_REPO_TOKEN }}
           ref: "release/${{ steps.current-run-major-version.outputs.MAJOR_VERSION}}.x"
       - name: push the tag to the repository
         run: |
@@ -53,7 +53,7 @@ jobs:
       - name: create release with sample data assets
         env:
           GHT_USER: ${{ secrets.GHT_USER }}
-          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          TEMPORARY_GHT_PRIVATE_REPO_TOKEN: ${{ secrets.TEMPORARY_GHT_PRIVATE_REPO_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |
           ci-scripts/publish-sample-data.sh
