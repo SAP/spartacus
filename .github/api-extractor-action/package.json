@@ -8,6 +8,9 @@
   },
   "author": "",
   "license": "ISC",
+  "overrides": {
+    "form-data": "^4.0.4"
+  },
   "dependencies": {
     "@actions/cache": "^4.0.5",
     "@actions/core": "^1.9.1",
