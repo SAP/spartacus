@@ -98,11 +98,7 @@ export class CustomLoginGuard implements CanActivate {
   }
 
   clearRedirectCount() {
-    persistToStorage(
-      STORAGE_KEY,
-      { t: Date.now(), c: 0 } satisfies CustomLoginGuardMetadata,
-      this.storage as Storage
-    );
+    this.setRedirectCount(0);
   }
 
   createRoute(cxRoute: string) {
