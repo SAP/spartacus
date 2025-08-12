@@ -12,3 +12,4 @@ export * from './loader/index';
 export * from './processes-loader/index';
 export * from './entity-list-state';
 export * from './serializer';
+export * from './browser-storage';

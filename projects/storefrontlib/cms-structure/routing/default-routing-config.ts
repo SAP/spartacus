@@ -26,7 +26,8 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
            * Legacy path will stay, new one is updated.           *
            */
           paths: [
-            featureToggles.authorizationCodeFlowByDefault ? 'sign-in' : 'login',
+            'login',
+            // featureToggles.authorizationCodeFlowByDefault ? 'sign-in' : 'login',
           ],
           protected: false,
           authFlow: true,
@@ -93,13 +94,13 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
    * Configuration necessary to allow customization of login form path,
    * which have to be the same as configured in oauth client
    */
-  if (featureToggles.authorizationCodeFlowByDefault) {
-    (routingConfig.routing.routes as any)['loginForm'] = {
-      paths: ['login'],
-      protected: false,
-      authFlow: true,
-    };
-  }
+  // if (featureToggles.authorizationCodeFlowByDefault) {
+  //   (routingConfig.routing.routes as any)['loginForm'] = {
+  //     paths: ['login'],
+  //     protected: false,
+  //     authFlow: true,
+  //   };
+  // }
 
   return routingConfig;
 };

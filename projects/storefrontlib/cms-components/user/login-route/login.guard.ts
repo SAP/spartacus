@@ -4,17 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   GuardResult,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthConfigService, AuthService, OAuthFlow } from '@spartacus/core';
+import {
+  AuthConfigService,
+  AuthService,
+  OAuthFlow,
+  StateUtils,
+  StorageSyncType,
+  WindowRef,
+} from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 
+const STORAGE_KEY = 'login_redirect_count';
+const timeout = 15_000;
+// const totalRetries = 1;
+
+interface CustomLoginGuardMetadata {
+  /** Add timeout to recover from stale/interrupted state */
+  t: number;
+  /** Redirect count */
+  c: number;
+}
 /**
  * Guards the _login_ route.
  *
@@ -30,6 +47,11 @@ export class LoginGuard {
     protected authConfigService: AuthConfigService,
     protected cmsPageGuard: CmsPageGuard
   ) {}
+  windowRef = inject(WindowRef);
+  storage = StateUtils.getStorage(
+    StorageSyncType.LOCAL_STORAGE,
+    this.windowRef
+  );
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -42,11 +64,18 @@ export class LoginGuard {
           return this.cmsPageGuard.canActivate(route, state);
         } else {
           // This method can trigger redirect to OAuth server that's why we don't return anything in this case
-          const redirected = this.authService.loginWithRedirect();
-          if (!redirected) {
-            return of(false);
+          const currentCount = this.getRedirectCount();
+          console.log('currentCount', currentCount);
+          if (currentCount === 0) {
+            this.setRedirectCount(1);
+            const redirected = this.authService.loginWithRedirect();
+            if (!redirected) {
+              return of(false);
+            }
+            return EMPTY;
           }
-          return EMPTY;
+          this.setRedirectCount(0);
+          return of(true);
         }
       })
     );
@@ -61,6 +90,25 @@ export class LoginGuard {
             OAuthFlow.ResourceOwnerPasswordFlow || isUserLoggedIn
         );
       })
+    );
+  }
+
+  getRedirectCount() {
+    const countMeta = StateUtils.readFromStorage<CustomLoginGuardMetadata>(
+      this.storage as Storage,
+      STORAGE_KEY
+    );
+    if (countMeta && Date.now() - countMeta.t < timeout) {
+      return countMeta.c;
+    }
+    return 0;
+  }
+
+  setRedirectCount(count: number) {
+    StateUtils.persistToStorage(
+      STORAGE_KEY,
+      { t: Date.now(), c: count } satisfies CustomLoginGuardMetadata,
+      this.storage as Storage
     );
   }
 }
