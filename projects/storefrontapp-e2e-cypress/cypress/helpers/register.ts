@@ -30,7 +30,14 @@ export function verifyGlobalMessageAfterRegistration() {
     'contain',
     'Your account has been successfully created! Please log in with provided credentials'
   );
-  cy.location().should((location) => {
-    expect(location.pathname).to.match(/\/login$/);
+  cy.whenJDK17(() => {
+    cy.location().should((location) => {
+      expect(location.pathname).to.match(/\/login$/);
+    });
+  });
+  cy.whenJDK21(() => {
+    cy.location().should((location) => {
+      expect(location.pathname).to.match(/\/homepage$/);
+    });
   });
 }

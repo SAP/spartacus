@@ -15,7 +15,12 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
-import { I18nTestingModule, QueryState, User } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  I18nTestingModule,
+  QueryState,
+  User,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -67,6 +72,15 @@ class MockAsmConfig implements AsmConfig {
             captionLocalizationKey: 'asm.customerList.tableHeader.order',
           },
           actionType: CustomerListColumnActionType.ORDER_HISTORY,
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.customer360',
+          icon: {
+            symbol: ICON_TYPE.C360_CIRCLE_USER,
+            captionLocalizationKey:
+              'asm.customerList.tableHeader.viewCustomer360',
+          },
+          actionType: CustomerListColumnActionType.CUSTOMER_360,
         },
       ],
     },
@@ -164,6 +178,15 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   data$ = of(mockReturnData);
 }
 
+class mockFeatureModulesService implements Partial<FeatureModulesService> {
+  isConfigured(): boolean {
+    return true;
+  }
+  resolveFeature(featureName: string): Observable<any> {
+    return of(featureName);
+  }
+}
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -210,6 +233,7 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('CustomerListComponent', () => {
+  let featureModulesService: FeatureModulesService;
   let component: CustomerListComponent;
   let fixture: ComponentFixture<CustomerListComponent>;
   let launchDialogService: LaunchDialogService;
@@ -226,6 +250,10 @@ describe('CustomerListComponent', () => {
         MockKeyboadFocusDirective,
       ],
       providers: [
+        {
+          provide: FeatureModulesService,
+          useClass: mockFeatureModulesService,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: BreakpointService,
@@ -239,6 +267,7 @@ describe('CustomerListComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
+    featureModulesService = TestBed.inject(FeatureModulesService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     config = TestBed.inject(AsmConfig);
     breakpointService = TestBed.inject(BreakpointService);
@@ -713,5 +742,36 @@ describe('CustomerListComponent', () => {
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       component.addNewCustomerLink
     );
+  });
+
+  it('should not display custoemr 360 icon', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(false);
+    component.fetchCustomers();
+
+    fixture.detectChanges();
+
+    const result = config.asm?.customerList?.columns?.find(
+      (columnDef) =>
+        columnDef.headerLocalizationKey ===
+        'asm.customerList.tableHeader.customer360'
+    );
+
+    expect(result).toBeUndefined();
+  });
+
+  it('should be able to display custoemr 360 icon', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
+    component.fetchCustomers();
+
+    fixture.detectChanges();
+
+    const result = config.asm?.customerList?.columns?.find(
+      (columnDef) =>
+        columnDef.headerLocalizationKey ===
+        'asm.customerList.tableHeader.customer360'
+    );
+
+    expect(result).toBeDefined();
+    expect(result).not.toBeNull();
   });
 });

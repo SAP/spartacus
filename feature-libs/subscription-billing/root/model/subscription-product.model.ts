@@ -55,7 +55,7 @@ export interface RecurringCharge {
   price?: Price;
 }
 
-export interface UsageCharge{
+export interface UsageCharge {
   usageUnit?: UsageUnit;
   minBlocks?: number;
   blockSize?: number;
@@ -63,7 +63,7 @@ export interface UsageCharge{
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
 }
 
-export interface PerUnitUsageCharge extends UsageCharge{
+export interface PerUnitUsageCharge extends UsageCharge {
   includedQty?: number;
   ratio?: string;
   usageChargeType?: string;

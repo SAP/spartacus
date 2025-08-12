@@ -1,5 +1,9 @@
 import { PaginationModel, SortModel } from '@spartacus/core';
-import { PricePlan, RenewalTerm, UsageCharge } from './subscription-product.model';
+import {
+  PricePlan,
+  RenewalTerm,
+  UsageCharge,
+} from './subscription-product.model';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -27,5 +31,5 @@ export enum SubscriptionStatus {
   cancelled = 'CANCELLED',
   active = 'ACTIVE',
   withdrawn = 'WITHDRAWN',
-  expired = 'EXPIRED'
+  expired = 'EXPIRED',
 }

@@ -2,19 +2,12 @@
   .subscription-usage-charge {
     margin: 20px 0px;
   }
-  .subscription-usage-charge-name {
+  .subscription-heading {
     font-weight: var(--cx-font-weight-bold);
-  }
-  .subscription-usage-charge-entry {
-    border: 1px solid var(--cx-color-medium);
-    padding: 5px;
-    margin: 5px 0px;
-    display: inline-block;
-    border-radius: 5px;
   }
   .subscription-message {
     @include type('7');
     color: var(--cx-color-secondary);
-    margin: 0 0 20px 0;
+    margin: 10px 0 20px 0;
   }
 }

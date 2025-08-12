@@ -1,0 +1,33 @@
+name: 'Setup Node and Cache'
+description: 'Setup Node.js and cache node_modules and Cypress cache'
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '20'
+  cache-key:
+    description: 'Base cache key'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+          projects/storefrontapp-e2e-cypress/node_modules
+          ~/.cache/Cypress
+        key: nodemodules-${{ inputs.cache-key }}
+        restore-keys: nodemodules-${{ inputs.cache-key }}
+
+    - name: Package installation
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
