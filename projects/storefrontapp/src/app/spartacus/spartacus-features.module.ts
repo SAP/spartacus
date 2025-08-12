@@ -292,7 +292,6 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        showDeliveryOptionsTranslation: true,
         searchBoxV2: true,
         trendingSearches: true,
         useProductCarouselBatchApi: true,
@@ -404,6 +403,7 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
+        cdsLoginEventsToken: true,
         createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,

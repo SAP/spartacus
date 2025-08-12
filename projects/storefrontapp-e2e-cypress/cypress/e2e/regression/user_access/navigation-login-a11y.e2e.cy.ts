@@ -18,8 +18,8 @@ function assertNavigationButtonsAttributes(buttonsSelector: string) {
 }
 
 describe('Navigation Login', () => {
-  let user;
-  before(() => {
+  it('should login and logout successfully and have correct Navigation Menu buttons values', () => {
+    let user;
     cy.whenJDK17(() => {
       visitLoginPage();
     });
@@ -27,9 +27,6 @@ describe('Navigation Login', () => {
       cy.visit('/login/register');
     });
     user = login.registerUserFromLoginPage();
-  });
-
-  it('should login and logout successfully and have correct Navigation Menu buttons values', () => {
     login.loginUser();
 
     const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
