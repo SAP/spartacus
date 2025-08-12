@@ -294,7 +294,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         searchBoxV2: true,
         trendingSearches: true,
-        useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
