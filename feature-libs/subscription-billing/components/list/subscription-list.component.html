@@ -1,11 +1,11 @@
 @if (subscriptions(); as list) {
-  <h2 class="cx-subscription-list-title-text">
+  <h2 class="subscription-list-title">
     {{ 'subscriptionList.title' | cxTranslate }}
     ({{ list.pagination?.totalResults || 0 }})
   </h2>
   @if (list.subscriptions?.length ?? 0 > 0) {
-    <div class="cx-subscription-list-sort top">
-      <label class="cx-subscription-list-form-group form-group">
+    <div class="subscription-list-sort top">
+      <label class="subscription-list-form-group form-group">
         <span>
           {{ 'subscriptionList.sortSubtitle' | cxTranslate }}
         </span>
@@ -20,66 +20,67 @@
         ></cx-sorting>
       </label>
     </div>
-    <div class="cx-subscription-list-content">
-      <ng-container *ngFor="let subscription of list.subscriptions">
-        <div class="cx-subscription-list-item">
-          <div class="cx-subscription-list-item-header">
-            <div
-              class="cx-subscription-list-item-name"
-              *ngIf="subscription.name"
-              [attr.aria-label]="'subscriptionList.product' | cxTranslate"
-            >
+    <!-- <div> -->
+    <ng-container *ngFor="let subscription of list.subscriptions">
+      <div class="subscription">
+        <div class="subscription-header">
+          <div
+            class="subscription-name"
+            *ngIf="subscription.name"
+            [attr.aria-label]="'subscriptionList.product' | cxTranslate"
+          >
             {{ subscription.name }}
-            </div>
-            <div
-              class="cx-subscription-list-item-status"
-              [attr.aria-label]="'subscriptionList.status' | cxTranslate"
-            >
+          </div>
+          <div
+            class="subscription-status"
+            [attr.aria-label]="'subscriptionList.status' | cxTranslate"
+          >
+            {{
+              'subscriptionList.status'
+                | cxTranslate: { value: subscription.subscriptionStatus }
+            }}
+          </div>
+        </div>
+        <div class="subscription-body">
+          <div class="subscription-column-1">
+            <div>
               {{
-                'subscriptionList.status'
-                  | cxTranslate: { value: subscription.subscriptionStatus }
+                'subscriptionList.id'
+                  | cxTranslate: { id: subscription.documentNumber }
+              }}
+            </div>
+            <div>
+              {{ 'subscriptionList.amount' | cxTranslate: { amount: null } }}
+            </div>
+            <div>
+              {{
+                'subscriptionList.startDate'
+                  | cxTranslate: { date: subscription.startAt | cxDate }
               }}
             </div>
           </div>
-          <div class="cx-subscription-list-item-body">
-            <div class="cx-subscription-list-item-column-1">
-              <div>
-                {{
-                  'subscriptionList.id' | cxTranslate: { id: subscription.documentNumber }
-                }}
-              </div>
-              <div>
-                {{ 'subscriptionList.amount' | cxTranslate: { amount: null } }}
-              </div>
-              <div>
-                {{
-                  'subscriptionList.startDate'
-                    | cxTranslate: { date: subscription.startAt | cxDate }
-                }}
-              </div>
-            </div>
-            <div class="cx-subscription-list-item-column-2">
-              <span>
-                <a
-                  class="btn-link cx-action-link"
-                  [attr.aria-label]="'subscriptionList.manageService'"
-                  [routerLink]="
-                    {
-                      cxRoute: 'subscriptionDetails',
-                      params: { susbcriptionId: subscription.id },
-                    } | cxUrl
-                  "
-                >
-                  {{ 'subscriptionList.manageService' | cxTranslate }}
-                </a>
-              </span>
-            </div>
+          <div class="subscription-column-2">
+            <span>
+              <a
+                class="btn-link cx-action-link"
+                [attr.aria-label]="'subscriptionList.manageService'"
+                [routerLink]="
+                  {
+                    cxRoute: 'subscriptionDetails',
+                    params: { susbcriptionId: subscription.id },
+                  } | cxUrl
+                "
+              >
+                {{ 'subscriptionList.manageService' | cxTranslate }}
+              </a>
+            </span>
           </div>
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
+    <!-- </div> -->
 
-    <div class="cx-subscription-list-sort bottom">
+    <div class="subscription-list-sort bottom">
       @if (list.pagination?.totalPages ?? 0 > 1) {
         <cx-pagination
           [pagination]="list.pagination"

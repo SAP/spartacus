@@ -3,11 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  FeatureConfigService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -129,17 +125,6 @@ const mockRouterStateIssueNavigation: any = {
     semanticRoute: CONFIGURATOR_ROUTE,
   },
 };
-
-let productConfiguratorDeltaRenderingEnabled = false;
-
-class MockFeatureConfigService {
-  isEnabled(name: string): boolean {
-    if (name === 'productConfiguratorDeltaRendering') {
-      return productConfiguratorDeltaRenderingEnabled;
-    }
-    return false;
-  }
-}
 
 class MockConfiguratorGroupService {
   setMenuParentGroup(): void {}
@@ -293,10 +278,6 @@ describe('ConfiguratorGroupMenuComponent', () => {
         {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
@@ -1892,15 +1873,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     describe('trackByFn', () => {
-      it('should return group itself, if performance optimization is not active', () => {
-        productConfiguratorDeltaRenderingEnabled = false;
-        expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(
-          simpleConfig.groups[0]
-        );
-      });
-
-      it('should return group ID, if performance optimization is active', () => {
-        productConfiguratorDeltaRenderingEnabled = true;
+      it('should return group ID', () => {
         expect(component.trackByFn(0, simpleConfig.groups[0])).toBe(GROUP_ID_1);
       });
     });

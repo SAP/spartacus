@@ -24,7 +24,7 @@ describe('Product Search Page', { testIsolation: false }, () => {
   });
 
   it('Grid view', () => {
-    cy.get('button.cx-product-grid').first().click();
+    cy.get('button.cx-product-grid').first().click({ force: true });
     cy.get('#product-results-list').a11yRunContinuumTest();
   });
 

@@ -1,69 +1,66 @@
 @if (productDetail(); as product) {
   @if (isCurrentProductSubscription()) {
-    <div class="subscription">
-      <!-- @if (product.sapPricePlan?.name) {
-        <div class="subscription-name">{{ product.sapPricePlan?.name }}:</div>
-      } -->
-      @if (oneTimeCharges().length > 0) {
-        <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
-      }
+    <div>
       @if (recurringCharges().length > 0) {
         <ng-container *ngTemplateOutlet="showRecurringCharges"></ng-container>
+      }
+      @if (oneTimeCharges().length > 0) {
+        <ng-container *ngTemplateOutlet="showOneTimeCharges"></ng-container>
       }
       <ng-container *ngTemplateOutlet="showTerm"></ng-container>
       <cx-subscription-product-usage-charge
         [product]="productDetail"
       ></cx-subscription-product-usage-charge>
     </div>
-  } @else {
-    <div
-      [attr.aria-label]="'productSummary.newItemPrice' | cxTranslate"
-      class="price"
-    >
-      {{ product.price?.formattedValue }}
-    </div>
   }
   <ng-template #showOneTimeCharges>
     @for (charge of oneTimeCharges(); track $index) {
       <div class="subscription-onetimecharge">
-        {{ charge.billingTime?.name }}: {{ charge.price?.formattedValue }}
+        *{{ charge.billingTime?.name }}: {{ charge.price?.formattedValue }}
       </div>
     }
   </ng-template>
 
   <ng-template #showRecurringCharges>
     @for (charge of recurringCharges(); track $index) {
-      <div class="subscription-recurringcharge">
-        {{ product.sapSubscriptionTerm?.billingPlan?.billingTime?.name }}:
+      <div class="subscription-heading">
         {{ charge.price?.formattedValue }}
+        {{ product.sapSubscriptionTerm?.billingPlan?.billingTime?.name }}
       </div>
     }
   </ng-template>
 
   <ng-template #showTerm>
-    <div class="subscription-minimumterm">
-      {{
-        'subscriptionProduct.minimumTerm'
-          | cxTranslate
-            : {
-                term:
-                  product.sapSubscriptionTerm?.minimumTerm?.value +
-                  ' ' +
-                  product.sapSubscriptionTerm?.minimumTerm?.frequency?.name,
-              }
-      }}
-    </div>
-    <div class="subscription-renewalterm">
-      {{
-        'subscriptionProduct.renewalTerm'
-          | cxTranslate
-            : {
-                term:
-                  product.sapSubscriptionTerm?.renewalTerm?.value +
-                  ' ' +
-                  product.sapSubscriptionTerm?.renewalTerm?.frequency?.name,
-              }
-      }}
+    <div class="subscription-term">
+      <div class="subscription-heading">
+        {{ 'subscriptionProduct.subscriptionTerms' | cxTranslate }}
+      </div>
+      <ul>
+        <li>
+          {{
+            'subscriptionProduct.minimumTerm'
+              | cxTranslate
+                : {
+                    term:
+                      product.sapSubscriptionTerm?.minimumTerm?.value +
+                      ' ' +
+                      product.sapSubscriptionTerm?.minimumTerm?.frequency?.name,
+                  }
+          }}
+        </li>
+        <li>
+          {{
+            'subscriptionProduct.renewalTerm'
+              | cxTranslate
+                : {
+                    term:
+                      product.sapSubscriptionTerm?.renewalTerm?.value +
+                      ' ' +
+                      product.sapSubscriptionTerm?.renewalTerm?.frequency?.name,
+                  }
+          }}
+        </li>
+      </ul>
     </div>
   </ng-template>
 }
