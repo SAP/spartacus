@@ -254,9 +254,11 @@ export class RemoveCart extends StateUtils.EntityRemoveAction {
   }
 }
 
-export class DeleteCart implements Action {
+export class DeleteCart extends StateUtils.EntityProcessesIncrementAction {
   readonly type = DELETE_CART;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 export class DeleteCartSuccess extends StateUtils.EntityRemoveAction {

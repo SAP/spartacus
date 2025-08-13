@@ -100,6 +100,7 @@ export class AuthService {
           ) {
             this.store.dispatch(new AuthActions.Login());
           }
+
           this.authRedirectService.redirect();
         }
       }

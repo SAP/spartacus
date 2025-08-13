@@ -11,7 +11,9 @@ import { Cart } from '@spartacus/cart/base/root';
 import {
   LoggerService,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_GUEST,
   SiteContextActions,
+  WindowRef,
   isNotUndefined,
   tryNormalizeHttpError,
   withdrawOn,
@@ -28,7 +30,11 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
+import {
+  getCartIdByUserId,
+  isCartNotFoundError,
+  isEmail,
+} from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
@@ -43,6 +49,7 @@ export class CartEffects {
   );
 
   protected logger = inject(LoggerService);
+  protected winRef = inject(WindowRef);
 
   loadCart$: Observable<
     | CartActions.LoadCartFail
@@ -74,6 +81,13 @@ export class CartEffects {
               mergeMap((cart) => {
                 let actions = [];
                 if (cart) {
+                  if (
+                    cart.user?.name === OCC_USER_ID_GUEST ||
+                    isEmail(cart.user?.uid?.split('|').slice(1).join('|'))
+                  ) {
+                    console.log('guest cart', true);
+                    this.winRef.localStorage?.setItem('isGuestCart', 'true');
+                  }
                   actions.push(
                     new CartActions.LoadCartSuccess({
                       ...payload,

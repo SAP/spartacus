@@ -6,6 +6,7 @@
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import {
   EMPTY,
   Observable,
@@ -145,7 +146,13 @@ export class AuthHttpHeaderService implements OnDestroy {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isBaseSitesRequest = this.isBaseSitesRequest(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
+    const isAnonymousUser = this.isAnonymousUser(request.url);
+    if (
+      !hasAuthorizationHeader &&
+      isOccUrl &&
+      !isBaseSitesRequest &&
+      !isAnonymousUser
+    ) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -157,6 +164,10 @@ export class AuthHttpHeaderService implements OnDestroy {
 
   protected isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseUrl());
+  }
+
+  isAnonymousUser(url: string): boolean {
+    return url.includes(OCC_USER_ID_ANONYMOUS);
   }
 
   protected isBaseSitesRequest(request: HttpRequest<any>): boolean {

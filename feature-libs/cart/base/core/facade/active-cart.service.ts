@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -28,18 +28,17 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  pairwise,
   shareReplay,
   switchMap,
   take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CartAdapter } from '../connectors/cart/cart.adapter';
 import {
   getCartIdByUserId,
   isEmail,
   isEmpty,
-  isJustLoggedIn,
   isTempCartId,
 } from '../utils/utils';
 
@@ -47,6 +46,7 @@ import {
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
+  protected cartAdapter = inject(CartAdapter);
 
   // This stream is used for referencing carts in API calls.
   protected activeCartId$ = this.userIdService.getUserId().pipe(
@@ -125,22 +125,22 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
 
   protected detectUserChange() {
     // Any changes of userId is interesting for us, because we have to merge/load/switch cart in those cases.
-    this.subscription.add(
-      this.userIdService
-        .getUserId()
-        .pipe(
-          // We never trigger cart merge/load on app initialization here and that's why we wait with pairwise for a change of userId.
-          pairwise(),
-          // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
-          withLatestFrom(this.activeCartId$)
-        )
-        .subscribe(([[previousUserId, userId], cartId]) => {
-          // Only change of user and not logout (current userId !== anonymous) should trigger loading mechanism
-          if (isJustLoggedIn(userId, previousUserId)) {
-            this.loadOrMerge(cartId, userId, previousUserId);
-          }
-        })
-    );
+    // this.subscription.add(
+    //   this.userIdService
+    //     .getUserId()
+    //     .pipe(
+    //       // We never trigger cart merge/load on app initialization here and that's why we wait with pairwise for a change of userId.
+    //       pairwise(),
+    //       // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
+    //       withLatestFrom(this.activeCartId$)
+    //     )
+    //     .subscribe(([[previousUserId, userId], cartId]) => {
+    //       // Only change of user and not logout (current userId !== anonymous) should trigger loading mechanism
+    //       if (isJustLoggedIn(userId, previousUserId)) {
+    //         this.loadOrMerge(cartId, userId, previousUserId);
+    //       }
+    //     })
+    // );
 
     // Detect user logged in with code flow.
     if (this.isLoggedInWithCodeFlow()) {
@@ -283,7 +283,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           active: true,
         },
       });
-    } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
+    } else if (
+      // this.winRef?.localStorage?.getItem('isGuestCart') === 'true' || //for Code Flow, when cart is not loaded yet
+      Boolean(getLastValueSync(this.isGuestCart())) //for Code Flow, when cart is loaded
+    ) {
       this.guestCartMerge(cartId);
     } else {
       // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
@@ -303,12 +306,24 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * This is for an edge case
    */
   protected guestCartMerge(cartId: string): void {
-    this.getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        this.multiCartFacade.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
-        this.addEntriesGuestMerge(entries);
-      });
+    if (this.winRef?.localStorage?.getItem('isGuestCart') === 'true') {
+      // this.load(cartId, OCC_USER_ID_ANONYMOUS);
+      this.cartAdapter
+        .load(OCC_USER_ID_ANONYMOUS, cartId)
+        .pipe(take(1))
+        .subscribe((cart) => {
+          this.multiCartFacade.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
+          this.addEntriesGuestMerge(cart?.entries ?? []);
+        });
+    } else {
+      this.getEntries()
+        .pipe(take(1))
+        .subscribe((entries) => {
+          this.multiCartFacade.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
+          this.addEntriesGuestMerge(entries);
+        });
+    }
+    this.winRef?.localStorage?.removeItem('isGuestCart');
   }
 
   /**
