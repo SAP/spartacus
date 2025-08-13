@@ -33,7 +33,7 @@ export class LoginFormComponent {
 
   constructor(protected service: LoginFormComponentService) {
     useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-    this.service.handleLoginError();
+    this.service.handleCustomLoginError();
   }
 
   onSubmit(): void {

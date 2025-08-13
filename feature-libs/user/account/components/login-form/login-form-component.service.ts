@@ -33,6 +33,10 @@ export class LoginFormComponentService {
   protected csrfStateService = inject(CsrfStateService);
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);
+  protected readonly customFormValidErrors = [
+    'bad_credentials',
+    'account_disabled',
+  ];
 
   action?: string;
   method?: string;
@@ -100,13 +104,17 @@ export class LoginFormComponentService {
     }
   }
 
-  handleLoginError(): void {
-    const validErrors = ['bad_credentials', 'account_disabled'];
+  handleCustomLoginError(): void {
+    if (
+      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+    ) {
+      return;
+    }
     const error = this.activatedRoute.snapshot.queryParams['error'];
     if (error) {
       this.globalMessage.add(
         {
-          key: validErrors.includes(error)
+          key: this.customFormValidErrors.includes(error)
             ? `customLoginPage.badRequest.${error}`
             : 'customLoginPage.badRequest.unknown_error',
         },

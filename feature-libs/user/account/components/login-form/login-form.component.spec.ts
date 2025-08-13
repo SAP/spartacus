@@ -24,7 +24,7 @@ class MockLoginFormComponentService
   });
   isUpdating$ = isBusySubject;
   login = createSpy().and.stub();
-  handleLoginError = createSpy().and.stub();
+  handleCustomLoginError = createSpy().and.stub();
 }
 @Pipe({
   name: 'cxUrl',
@@ -71,7 +71,7 @@ describe('LoginFormComponent', () => {
   });
 
   it('should call handleLoginError() when component is created', () => {
-    expect(service.handleLoginError).toHaveBeenCalled();
+    expect(service.handleCustomLoginError).toHaveBeenCalled();
   });
 
   describe('busy', () => {

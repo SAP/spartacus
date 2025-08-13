@@ -296,7 +296,7 @@ describe('LoginFormComponentService', () => {
 
   describe('handleLoginError', () => {
     it('should add error message to global message service', () => {
-      service.handleLoginError();
+      service.handleCustomLoginError();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'customLoginPage.badRequest.bad_credentials',
@@ -310,7 +310,7 @@ describe('LoginFormComponentService', () => {
 
     it('should not add error message to global message service if error is not present', () => {
       activatedRoute.snapshot.queryParams = { error: null };
-      service.handleLoginError();
+      service.handleCustomLoginError();
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(router.navigate).not.toHaveBeenCalled();
     });
