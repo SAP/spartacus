@@ -6,7 +6,7 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { WindowRef } from 'projects/core/src/window';
+import { WindowRef } from '../../../window/window-ref';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
@@ -24,10 +24,8 @@ export class LoginModeIndicatorService {
    * Indicates whether the ASM module is enabled.
    */
   isEnabled(): boolean {
-    if (this.isLaunched() && !this.isUsedBefore()) {
-      if (this.winRef.localStorage) {
-        this.winRef.localStorage.setItem('asm_enabled', 'true');
-      }
+    if (this.isLaunched() && !this.isUsedBefore() && this.winRef.localStorage) {
+      this.winRef.localStorage.setItem('asm_enabled', 'true');
     }
     return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
   }

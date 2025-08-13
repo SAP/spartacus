@@ -21,6 +21,7 @@ import {
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -178,6 +179,10 @@ const mockAsmUi: AsmUi = {
   collapsed: false,
 };
 
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  refreshAuthConfig() {}
+}
+
 describe('AsmMainUiComponent', () => {
   let featureModulesService: FeatureModulesService;
   let component: AsmMainUiComponent;
@@ -220,6 +225,10 @@ describe('AsmMainUiComponent', () => {
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AsmService, useClass: MockAsmService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
       ],
     }).compileComponents();
   }));
