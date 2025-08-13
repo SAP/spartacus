@@ -773,7 +773,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yImprovedErrorMessage: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yNgSelectCloseDropdownOnEscape: true,
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
