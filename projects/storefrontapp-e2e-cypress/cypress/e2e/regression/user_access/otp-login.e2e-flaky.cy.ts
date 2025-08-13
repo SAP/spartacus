@@ -9,6 +9,7 @@ import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 import { interceptPost } from '../../../support/utils/intercept';
+import { visitLoginPage } from '../../../support/utils/login';
 
 export function listenForCreateVerificationToken(): string {
   return interceptPost(
@@ -193,7 +194,7 @@ describe('OTP Login', () => {
 
     describe('Failed to Create OTP', () => {
       beforeEach(() => {
-        cy.visit('/login');
+        visitLoginPage();
       });
       it('should not be able to create OTP with invalid user data (CXSPA-6672)', () => {
         listenForCreateVerificationToken();
@@ -234,7 +235,7 @@ describe('OTP Login', () => {
     describe('Rate limit for login', () => {
       it('Should display error message when create verification token with login up to rate limit (CXSPA-9111)', () => {
         for (let i = 0; i < 6; i++) {
-          cy.visit('/login');
+          visitLoginPage();
           cy.get('cx-otp-login-form form', { timeout: 10000 }).should('exist');
           cy.get('cx-otp-login-form form').within(() => {
             cy.get('[formcontrolname="userId"]').clear().type(user.email);

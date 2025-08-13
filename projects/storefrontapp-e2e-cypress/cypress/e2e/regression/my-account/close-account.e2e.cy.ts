@@ -11,6 +11,7 @@ import { waitForPage } from '../../../helpers/navigation';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
+import { visitLoginPage } from '../../../support/utils/login';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
@@ -33,6 +34,7 @@ describe('My Account - Close Account', () => {
     describe('Logged in user', { testIsolation: false }, () => {
       isolateTests();
       before(() => {
+        cy.visit('/');
         standardUser.registrationData.email = generateMail(
           randomString(),
           true
@@ -43,6 +45,10 @@ describe('My Account - Close Account', () => {
 
       beforeEach(() => {
         cy.restoreLocalStorage();
+      });
+
+      afterEach(() => {
+        cy.saveLocalStorage();
       });
 
       it('should cancel and go back to the homepage', () => {
@@ -87,7 +93,13 @@ describe('My Account - Close Account', () => {
       });
 
       it('should not login with a closed account credentials', () => {
-        visitAndWaitForRedirections('/login');
+        cy.whenJDK17(() => {
+          visitAndWaitForRedirections('/login');
+        });
+
+        cy.whenJDK21(() => {
+          visitLoginPage();
+        });
 
         login(
           standardUser.registrationData.email,
@@ -95,11 +107,14 @@ describe('My Account - Close Account', () => {
         );
 
         cy.location('pathname').should('contain', '/login');
-        alerts.getErrorAlert().should('contain', 'User is disabled');
-      });
 
-      afterEach(() => {
-        cy.saveLocalStorage();
+        cy.whenJDK17(() => {
+          alerts.getErrorAlert().should('contain', 'User is disabled');
+        });
+
+        cy.whenJDK21(() => {
+          cy.url().should('contain', '/login?error=account_disabled');
+        });
       });
     });
   });

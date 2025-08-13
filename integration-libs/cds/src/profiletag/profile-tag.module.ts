@@ -11,6 +11,7 @@ import { OccBackendNotification } from './adapters/occ-backend-notification-adap
 import { ProfileTagCmsModule } from './cms-components/profile-tag-cms.module';
 import { ConsentReferenceInterceptor } from './http-interceptors/consent-reference-interceptor';
 import { DebugInterceptor } from './http-interceptors/debug-interceptor';
+import { provideLoginEventsTracking } from './providers';
 
 @NgModule({
   imports: [ProfileTagCmsModule],
@@ -25,6 +26,7 @@ import { DebugInterceptor } from './http-interceptors/debug-interceptor';
       provide: CdsBackendNotificationAdapter,
       useClass: OccBackendNotification,
     },
+    ...provideLoginEventsTracking(),
   ],
 })
 export class ProfileTagModule {}

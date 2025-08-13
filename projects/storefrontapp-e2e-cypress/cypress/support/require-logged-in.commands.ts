@@ -74,6 +74,10 @@ Cypress.Commands.add(
       registrationData: RegistrationData,
       access_token?: string
     ) {
+      const headers: Record<string, string> = {};
+      if (options.access_token) {
+        headers.Authorization = `bearer ${options.access_token}`;
+      }
       return cy.request({
         method: 'POST',
         url: config.newUserUrl,
@@ -105,7 +109,9 @@ Cypress.Commands.add(
     const username =
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
-
+    // wait the page to be displayed before login
+    // specially for use case with `cy.visit('/')`
+    cy.wait(2000);
     login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
