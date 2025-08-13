@@ -269,7 +269,7 @@ export class AuthService {
   }
 
   public refreshAuthConfig() {
-    if (this.authorizationCodeFlowByDefault() && this.isAsmEnabled()) {
+    if (this.authorizationCodeFlowByDefault && this.isAsmEnabled()) {
       this.oAuthLibWrapperService.changeAuthConfigClientId('asm_client');
     } else {
       this.oAuthLibWrapperService.refreshAuthConfig();
