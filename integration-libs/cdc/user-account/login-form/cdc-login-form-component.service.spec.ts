@@ -1,5 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Router,
+} from '@angular/router';
 import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
@@ -52,6 +57,18 @@ class MockLoginFormComponentService
   login = createSpy();
 }
 
+class MockActivatedRoute implements Partial<ActivatedRoute> {
+  snapshot = {
+    queryParams: {
+      error: 'bad_credentials',
+    },
+  } as unknown as ActivatedRouteSnapshot;
+}
+
+class MockRouter implements Partial<Router> {
+  navigate = createSpy().and.stub();
+}
+
 describe('CdcLoginComponentService', () => {
   let cdcLoginService: CdcLoginFormComponentService;
   let cdcJsService: CdcJsService;
@@ -71,6 +88,14 @@ describe('CdcLoginComponentService', () => {
         {
           provide: LoginFormComponentService,
           useClass: MockLoginFormComponentService,
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute,
+        },
+        {
+          provide: Router,
+          useClass: MockRouter,
         },
       ],
     });
