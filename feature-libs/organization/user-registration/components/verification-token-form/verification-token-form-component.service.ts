@@ -75,7 +75,9 @@ export class RegisterVerificationTokenFormComponentService {
     if (
       this.authConfigService.getOAuthFlow() ===
         OAuthFlow.ResourceOwnerPasswordFlow ||
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      this.featureConfigService.isEnabled(
+        'nativeSupportForRedirectingOAuthFlows'
+      )
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }

@@ -93,7 +93,9 @@ export class VerificationTokenFormComponent implements OnInit {
         );
 
         this.routingService.go(
-          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.featureConfigService.isEnabled(
+            'nativeSupportForRedirectingOAuthFlows'
+          )
             ? { cxRoute: 'login' }
             : ['/login']
         );

@@ -66,14 +66,12 @@
     ></cx-form-errors>
   </label>
 
-  <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
-    <input
-      *ngIf="csrf"
-      formControlName="csrf"
-      type="hidden"
-      [name]="csrf.parameterName"
-    />
-  </ng-container>
+  <input
+    *ngIf="csrf"
+    formControlName="csrf"
+    type="hidden"
+    [name]="csrf.parameterName"
+  />
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
     {{ 'loginForm.forgotPassword' | cxTranslate }}

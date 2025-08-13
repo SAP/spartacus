@@ -774,6 +774,16 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefault?: boolean;
 
   /**
+   * When enabled, provides additional support for oAuth flows that redirect (i.e. implicit and
+   * authorization code).
+   *
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server only supports Authorization Code
+   * flow for public clients from that version and onwards.
+   */
+  nativeSupportForRedirectingOAuthFlows?: boolean;
+
+  /**
    * Disables the retrieval and use of client tokens for endpoints with `USE_CLIENT_TOKEN` set on the
    * request.
    *
@@ -977,4 +987,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   disableClientTokens: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
+  nativeSupportForRedirectingOAuthFlows: true,
 };

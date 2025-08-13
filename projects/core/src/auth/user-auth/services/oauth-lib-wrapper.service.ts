@@ -118,7 +118,7 @@ export class OAuthLibWrapperService {
    */
   initLoginFlow() {
     if (
-      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') // AUTH_ISSUE: should be separate flag, supportRedirectAuthFlows
     ) {
       if (this.winRef.localStorage) {
         this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');

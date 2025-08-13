@@ -7,7 +7,9 @@
 import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import {
+  AuthConfigService,
   FeatureConfigService,
+  OAuthFlow,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
@@ -22,10 +24,15 @@ export class LoginAsGuestGuard {
   protected windowRef = inject(WindowRef);
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
+  protected authConfigService = inject(AuthConfigService);
 
   canActivate(): Observable<GuardResult> {
     if (
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
+      this.featureConfigService.isEnabled(
+        'nativeSupportForRedirectingOAuthFlows'
+      ) &&
+      this.authConfigService.getOAuthFlow() !==
+        OAuthFlow.ResourceOwnerPasswordFlow &&
       this.windowRef.localStorage?.getItem(IS_GUEST_USER_CHECKOUT_KEY) ===
         'true'
     ) {

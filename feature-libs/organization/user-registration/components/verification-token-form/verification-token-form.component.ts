@@ -93,11 +93,12 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
           {}
         );
         this.routingService.go(
-          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.featureConfigService.isEnabled(
+            'nativeSupportForRedirectingOAuthFlows'
+          )
             ? { cxRoute: 'register' }
             : ['/login/register']
         );
-        this.routingService.go(['/login/register']);
       } else {
         this.startWaitTimeInterval();
         this.service.displayMessage(

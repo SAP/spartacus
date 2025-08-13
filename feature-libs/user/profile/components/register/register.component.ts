@@ -229,13 +229,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
-      this.router.go({ cxRoute: 'login' });
-    } else if (
+    if (
       this.authConfigService.getOAuthFlow() ===
-      OAuthFlow.ResourceOwnerPasswordFlow
+        OAuthFlow.ResourceOwnerPasswordFlow ||
+      this.featureConfigService.isEnabled(
+        'nativeSupportForRedirectingOAuthFlows'
+      )
     ) {
-      this.router.go('login');
+      this.router.go(
+        this.featureConfigService.isEnabled(
+          'nativeSupportForRedirectingOAuthFlows'
+        )
+          ? { cxRoute: 'login' }
+          : 'login'
+      );
     }
     this.registerComponentService.postRegisterMessage();
   }

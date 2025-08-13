@@ -11,6 +11,11 @@ import {
   isFeatureLevel,
 } from '../utils/feature-config-utils';
 
+/**
+ * This service is not recommended for use.
+ *
+ * Please use `FeatureToggles` instead.
+ */
 @Injectable({
   providedIn: 'root',
 })
