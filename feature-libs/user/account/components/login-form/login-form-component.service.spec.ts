@@ -231,6 +231,9 @@ describe('LoginFormComponentService', () => {
       }));
 
       beforeEach(() => {
+        globalMessageService = TestBed.inject(GlobalMessageService);
+        activatedRoute = TestBed.inject(ActivatedRoute);
+        router = TestBed.inject(Router);
         service = TestBed.inject(LoginFormComponentService);
         authService = TestBed.inject(AuthService);
         winRef = TestBed.inject(WindowRef);
@@ -291,28 +294,29 @@ describe('LoginFormComponentService', () => {
           expect(service.form.reset).not.toHaveBeenCalled();
         });
       });
-    });
-  });
 
-  describe('handleLoginError', () => {
-    it('should add error message to global message service', () => {
-      service.handleCustomLoginError();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'customLoginPage.badRequest.bad_credentials',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      expect(router.navigate).toHaveBeenCalledWith([], {
-        queryParams: { error: null },
+      describe('handleCustomLoginError', () => {
+        it('should add error message to global message service', () => {
+          service.handleCustomLoginError();
+
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            {
+              key: 'customLoginPage.badRequest.bad_credentials',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          expect(router.navigate).toHaveBeenCalledWith([], {
+            queryParams: { error: null },
+          });
+        });
+
+        it('should not add error message to global message service if error is not present', () => {
+          activatedRoute.snapshot.queryParams = { error: null };
+          service.handleCustomLoginError();
+          expect(globalMessageService.add).not.toHaveBeenCalled();
+          expect(router.navigate).not.toHaveBeenCalled();
+        });
       });
-    });
-
-    it('should not add error message to global message service if error is not present', () => {
-      activatedRoute.snapshot.queryParams = { error: null };
-      service.handleCustomLoginError();
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(router.navigate).not.toHaveBeenCalled();
     });
   });
 });
