@@ -11,8 +11,10 @@ import {
   Validators,
 } from '@angular/forms';
 import {
+  AuthConfigService,
   AuthService,
   FeatureConfigService,
+  OAuthFlow,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
@@ -27,6 +29,7 @@ import { Subscription } from 'rxjs';
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
+  protected authConfigService = inject(AuthConfigService);
 
   protected passwordValidators = this.featureConfigService.isEnabled(
     'enableSecurePasswordValidation'
@@ -75,7 +78,8 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
       );
       if (
         !this.subscription &&
-        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+        this.authConfigService.getOAuthFlow() ===
+          OAuthFlow.ResourceOwnerPasswordFlow
       ) {
         this.subscription = this.authService
           .isUserLoggedIn()

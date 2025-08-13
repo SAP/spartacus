@@ -43,6 +43,7 @@
     </div>
 
     <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
+      <!-- AUTH_ISSUE: should be different flag -->
       <cx-asm-toggle-ui
         *ngIf="customerSupportAgentLoggedIn$ | async"
       ></cx-asm-toggle-ui>
@@ -52,7 +53,8 @@
       *ngIf="customerSupportAgentLoggedIn$ | async"
     ></cx-asm-session-timer>
 
-    <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
+    <ng-container *cxFeature="'authorizationCodeFlowByDefault'"
+      ><!-- AUTH_ISSUE: should be different flag -->
       <div
         class="cx-asm-customer-list"
         *ngIf="!(customerSupportAgentLoggedIn$ | async)"
@@ -122,6 +124,7 @@
 
   <ng-template #showLoginForm>
     <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
+      <!-- AUTH_ISSUE: should be different flag -->
       <cx-csagent-login-form
         *ngIf="notCollapsed"
         (submitEvent)="loginCustomerSupportAgent($event)"

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
+import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   const featureToggles = inject(FeatureToggles);
@@ -26,7 +26,9 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
            * Legacy path will stay, new one is updated.           *
            */
           paths: [
-            featureToggles.authorizationCodeFlowByDefault ? 'sign-in' : 'login',
+            featureToggles.nativeSupportForRedirectingOAuthFlows
+              ? 'sign-in'
+              : 'login',
           ],
           protected: false,
           authFlow: true,
@@ -93,7 +95,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
    * Configuration necessary to allow customization of login form path,
    * which have to be the same as configured in oauth client
    */
-  if (featureToggles.authorizationCodeFlowByDefault) {
+  if (featureToggles.nativeSupportForRedirectingOAuthFlows) {
     (routingConfig.routing.routes as any)['loginForm'] = {
       paths: ['login'],
       protected: false,

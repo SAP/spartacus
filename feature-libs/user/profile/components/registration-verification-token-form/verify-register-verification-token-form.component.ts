@@ -143,7 +143,9 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       !this.lastName
     ) {
       this.router.go(
-        this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+        this.featureConfigService.isEnabled(
+          'nativeSupportForRedirectingOAuthFlows'
+        )
           ? { cxRoute: 'register' }
           : ['/login/register']
       );
@@ -251,7 +253,11 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       this.router.go('login');
     }
 
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (
+      this.featureConfigService.isEnabled(
+        'nativeSupportForRedirectingOAuthFlows'
+      )
+    ) {
       this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();

@@ -15,7 +15,6 @@ import {
   AuthConfigService,
   AuthService,
   CsrfStateService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   OAUTH_REDIRECT_FLOW_KEY,
@@ -28,7 +27,6 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 @Injectable()
 export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
-  private featureConfigService = inject(FeatureConfigService);
   protected csrfStateService = inject(CsrfStateService);
 
   action?: string;
@@ -61,7 +59,7 @@ export class LoginFormComponentService {
     protected globalMessage: GlobalMessageService,
     protected winRef: WindowRef
   ) {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.authConfigService.customLoginEnabled()) {
       this.initCustomLogin();
     }
   }
@@ -71,10 +69,7 @@ export class LoginFormComponentService {
       this.form.markAllAsTouched();
       return;
     }
-    if (
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
-      nativeForm
-    ) {
+    if (this.authConfigService.customLoginEnabled() && nativeForm) {
       this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
       nativeForm.submit();
       this.busy$.next(true);

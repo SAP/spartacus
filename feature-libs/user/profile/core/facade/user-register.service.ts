@@ -7,10 +7,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  AuthConfigService,
   AuthService,
   Command,
   CommandService,
   FeatureConfigService,
+  OAuthFlow,
   RoutingService,
   UserActions,
 } from '@spartacus/core';
@@ -28,6 +30,7 @@ import { UserProfileService } from './user-profile.service';
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
   private featureConfigService = inject(FeatureConfigService);
+  protected authConfigService = inject(AuthConfigService);
   protected routingService = inject(RoutingService);
 
   protected registerCommand: Command<{ user: UserSignUp }, User> =
@@ -52,7 +55,8 @@ export class UserRegisterService implements UserRegisterFacade {
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
         if (
-          !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.authConfigService.getOAuthFlow() ===
+          OAuthFlow.ResourceOwnerPasswordFlow
         ) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           this.authService.loginWithCredentials(user.uid!, payload.password);

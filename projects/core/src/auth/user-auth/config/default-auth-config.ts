@@ -32,6 +32,7 @@ export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
  * ```
  * provideAuthorizationCodeFlowByDefault()
  * ```
+ * @deprecated Use feature flag `authorizationCodeFlowByDefault` instead.
  */
 export function provideAuthorizationCodeFlowByDefault(
   enable = true
