@@ -135,27 +135,28 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
+let mockFeatureToggles: FeatureToggles;
+
+class MockFeatureConfigService {
+  isEnabled(
+    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+  ): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = (
+      hasNegation ? feature.slice(1) : feature
+    ) as keyof FeatureToggles;
+
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
   let currentProductService: CurrentProductService;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
-  let mockFeatureToggles: FeatureToggles;
-
-  class MockFeatureConfigService {
-    isEnabled(
-      feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-    ): boolean {
-      const hasNegation = feature.startsWith('!');
-      const featureName = (
-        hasNegation ? feature.slice(1) : feature
-      ) as keyof FeatureToggles;
-
-      return hasNegation
-        ? !mockFeatureToggles[featureName]
-        : !!mockFeatureToggles[featureName];
-    }
-  }
 
   beforeEach(waitForAsync(() => {
     mockFeatureToggles = {
