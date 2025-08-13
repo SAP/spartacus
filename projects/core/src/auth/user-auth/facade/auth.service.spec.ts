@@ -427,13 +427,13 @@ describe('AuthService', () => {
 
   describe('refreshAuthConfig()', () => {
     it('should call refreshAuthConfig method', () => {
-      spyOn(service, 'isAsmEnabled').and.returnValue(false);
+      (service as any).isAsmEnabled = () => false;
       service.refreshAuthConfig();
       expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
     });
 
     it('should call refreshAuthConfig method when asm mode enabled', () => {
-      spyOn(service, 'isAsmEnabled').and.returnValue(true);
+      (service as any).isAsmEnabled = () => true;
       service.refreshAuthConfig();
       expect(
         oAuthLibWrapperService.changeAuthConfigClientId

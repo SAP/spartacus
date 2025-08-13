@@ -234,7 +234,7 @@ export class AuthService {
   /**
    * Indicates whether the ASM module is enabled.
    */
-  isAsmEnabled(): boolean {
+  protected isAsmEnabled(): boolean {
     if (this.isLaunched() && !this.isUsedBefore() && this.winRef.localStorage) {
       this.winRef.localStorage.setItem('asm_enabled', 'true');
     }
