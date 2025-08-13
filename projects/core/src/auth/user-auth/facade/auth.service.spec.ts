@@ -14,6 +14,7 @@ import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
 import createSpy = jasmine.createSpy;
+import { LoginModeIndicatorService } from './loginModeIndicatorService';
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
@@ -42,6 +43,9 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
   events$ = oauthLibEvents;
   refreshAuthConfig = createSpy().and.stub();
+
+  changeAsmAuthConfigClientId = createSpy().and.stub();
+
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -70,6 +74,12 @@ class MockAuthMultisiteIsolationService {
   }
 }
 
+class MockLoginModeIndicatorService {
+  isEnabled() : Observable<boolean> {
+    return of();
+  }
+}
+
 describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
@@ -79,6 +89,7 @@ describe('AuthService', () => {
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
   let store: Store;
+  let loginModeIndicatorService: LoginModeIndicatorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -100,6 +111,10 @@ describe('AuthService', () => {
           provide: AuthMultisiteIsolationService,
           useClass: MockAuthMultisiteIsolationService,
         },
+        {
+          provide:LoginModeIndicatorService,
+          useClass:MockLoginModeIndicatorService,
+        },
       ],
     });
 
@@ -112,6 +127,7 @@ describe('AuthService', () => {
     authMultisiteIsolationService = TestBed.inject(
       AuthMultisiteIsolationService
     );
+    loginModeIndicatorService = TestBed.inject(LoginModeIndicatorService);
     store = TestBed.inject(Store);
   });
 
@@ -294,8 +310,15 @@ describe('AuthService', () => {
 
   describe('refreshAuthConfig()', () => {
     it('should call refreshAuthConfig method', () => {
+      spyOn(loginModeIndicatorService, 'isEnabled').and.returnValue(false);
       service.refreshAuthConfig();
       expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
+    });
+
+    it('should call refreshAuthConfig method when asm mode enabled', () => {
+      spyOn(loginModeIndicatorService, 'isEnabled').and.returnValue(true);
+      service.refreshAuthConfig();
+      expect(oAuthLibWrapperService.changeAsmAuthConfigClientId).toHaveBeenCalled();
     });
   });
 });

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
@@ -23,6 +23,7 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
+import { LoginModeIndicatorService } from './loginModeIndicatorService';
 
 /**
  * Auth service for normal user authentication.
@@ -40,6 +41,8 @@ export class AuthService {
    * Indicates whether the logout is being performed
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
+  private loginModeIndicatorService = inject(LoginModeIndicatorService);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -188,6 +191,12 @@ export class AuthService {
   }
 
   public refreshAuthConfig() {
-    this.oAuthLibWrapperService.refreshAuthConfig();
+    if (this.loginModeIndicatorService.isEnabled()) {
+      this.oAuthLibWrapperService.changeAsmAuthConfigClientId(
+        'mobile_android_asm'
+      );
+    } else {
+      this.oAuthLibWrapperService.refreshAuthConfig();
+    }
   }
 }
