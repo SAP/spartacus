@@ -134,6 +134,8 @@ describe('AuthService', () => {
         {
           provide: LoginModeIndicatorService,
           useClass: MockLoginModeIndicatorService,
+        },
+        {
           provide: CrossSiteRequestForgeryService,
           useClass: MockCrossSiteRequestForgeryService,
         },

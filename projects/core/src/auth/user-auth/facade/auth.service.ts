@@ -26,6 +26,7 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
 import { LoginModeIndicatorService } from './loginModeIndicatorService';
+import { FeatureToggles } from '@spartacus/core';
 
 /**
  * Auth service for normal user authentication.
@@ -54,6 +55,8 @@ export class AuthService {
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   private featureConfigService = inject(FeatureConfigService);
+
+  private authorizationCodeFlowByDefault = inject(FeatureToggles);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -227,7 +230,10 @@ export class AuthService {
   }
 
   public refreshAuthConfig() {
-    if (this.loginModeIndicatorService.isEnabled()) {
+    if (
+      this.loginModeIndicatorService.isEnabled() &&
+      this.authorizationCodeFlowByDefault
+    ) {
       this.oAuthLibWrapperService.changeAsmAuthConfigClientId(
         'mobile_android_asm'
       );
