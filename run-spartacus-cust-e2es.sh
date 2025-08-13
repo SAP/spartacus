@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script is invoked from https://github.tools.sap/cx-commerce/wonderful-testing-framework/blob/main/resources/wtf/config.yaml
-# By default, the e2es for b2c will be executed without parameters. 
+# By default, the e2es for b2c will be executed without parameters.
 # Supported options include "b2b", "b2c"
 
 # uncomment below for local testing
@@ -19,7 +19,7 @@ param=${1:-"b2c"} # Default to "b2c" if no parameter provided
 case "$param" in
   "b2b")
     export E2E_BASE_SITE="powertools-spa"
-    export ENDPOINT_URL_PUBLIC_SPARTACUS=$ENDPOINT_URL_PUBLIC_SPA_POWERTOOLS 
+    export ENDPOINT_URL_PUBLIC_SPARTACUS=$ENDPOINT_URL_PUBLIC_SPA_POWERTOOLS
     export E2ES_TO_RUN="$CYPRESS_B2B_ASM_FOLDER/*.e2e.cy.ts"
     ;;
   "b2c")
@@ -36,6 +36,6 @@ esac
 (cd projects/storefrontapp-e2e-cypress && npm install)
 
 # run spartacus ccv2 e2es for b2c
-npm run e2e:run:ci:jdk21:ccv2-product-configurator
+npm run e2e:run:ci:ccv2-product-configurator
 
 

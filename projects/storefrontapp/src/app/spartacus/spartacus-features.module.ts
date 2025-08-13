@@ -400,11 +400,7 @@ if (environment.cpq) {
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
-        /*
-         * JDK21 feature flags
-         */
-        authorizationCodeFlowByDefault: true,
-        disableClientTokens: true,
+        authorizationCodeFlowByDefault: false,
       };
       return appFeatureToggles;
     }),
