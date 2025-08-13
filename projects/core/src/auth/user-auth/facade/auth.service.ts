@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -13,9 +14,11 @@ import {
   Observable,
 } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
@@ -25,8 +28,6 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { FeatureToggles, WindowRef } from '@spartacus/core';
-import { Location } from '@angular/common';
 
 /**
  * Auth service for normal user authentication.
