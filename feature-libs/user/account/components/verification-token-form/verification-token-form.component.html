@@ -1,6 +1,12 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="form"
+  [attr.method]="method"
+  [attr.action]="action"
+  #verificationTokenForm
+>
   <cx-form-required-legend />
   <label>
     <span class="label-content">
@@ -11,6 +17,7 @@
       required="true"
       class="form-control"
       formControlName="tokenCode"
+      name="password"
       [placeholder]="
         'verificationTokenForm.verificationCode.placeholder' | cxTranslate
       "
@@ -28,7 +35,21 @@
     {{ 'verificationTokenForm.tokenInputHint' | cxTranslate }}
   </span>
 
-  <input type="hidden" formControlName="tokenId" [(ngModel)]="tokenId" />
+  <input
+    type="hidden"
+    formControlName="tokenId"
+    name="username"
+    [(ngModel)]="tokenId"
+  />
+
+  <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
+    <input
+      *ngIf="csrf"
+      formControlName="csrf"
+      type="hidden"
+      [name]="csrf.parameterName"
+    />
+  </ng-container>
 
   <div *ngIf="!upToRateLimit" class="resend-link-text">
     <div class="left-text">

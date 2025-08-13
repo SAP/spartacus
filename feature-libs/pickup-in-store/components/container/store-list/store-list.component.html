@@ -5,12 +5,6 @@
   "
 >
   <div
-    *cxFeature="'!a11yRemoveStatusLoadedRole'"
-    role="status"
-    [attr.aria-label]="'common.loaded' | cxTranslate"
-  ></div>
-
-  <div
     class="container"
     *ngIf="(hasSearchStarted$ | async) && stores.length === 0"
   >
