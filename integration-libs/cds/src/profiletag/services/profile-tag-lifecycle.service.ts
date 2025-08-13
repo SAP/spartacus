@@ -8,8 +8,7 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { AuthActions, ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { filter, map, distinctUntilChanged } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 
