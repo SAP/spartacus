@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
 import {
   AuthService,
   CmsConfig,
-  CustomLoginGuard,
   FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
@@ -56,7 +55,7 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
       cmsComponents: {
         VerifyOTPTokenComponent: {
           component: VerificationTokenFormComponent,
-          guards: [NotAuthGuard, CustomLoginGuard],
+          guards: [NotAuthGuard],
           providers: [
             {
               provide: VerificationTokenFormComponentService,

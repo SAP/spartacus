@@ -9,9 +9,20 @@
   <div class="modal-content cx-dialog-content">
     <!-- Modal Header -->
     <div class="modal-header cx-dialog-header">
-      <h3 id="cx-pickup-option-dialog-title" class="cx-dialog-title">
+      <h3
+        *cxFeature="'a11yDialogsHeading'"
+        id="cx-pickup-option-dialog-title"
+        class="cx-dialog-title"
+      >
         {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}
       </h3>
+      <div
+        *cxFeature="'!a11yDialogsHeading'"
+        id="cx-pickup-option-dialog-title"
+        class="cx-dialog-title"
+      >
+        {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}
+      </div>
 
       <button
         (click)="close(CLOSE_WITHOUT_SELECTION)"

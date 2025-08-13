@@ -5,7 +5,6 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
@@ -24,14 +23,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
-      });
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Open create customer dialog on customer selection dropdown');
       asm.asmOpenCreateCustomerDialogOnCustomerSelectionDropdown();
@@ -63,14 +55,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
-      });
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
@@ -93,14 +78,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
-      });
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
@@ -131,14 +109,8 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
-      });
+      asm.agentLogin('asagent', 'pw4all');
 
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
-      });
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
 

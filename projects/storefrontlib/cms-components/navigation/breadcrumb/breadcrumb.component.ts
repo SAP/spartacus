@@ -13,10 +13,11 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import {
   CmsBreadcrumbsComponent,
+  FeatureConfigService,
   PageMetaService,
   TranslationService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PageTitleComponent } from '../page-header/page-title.component';
@@ -31,13 +32,18 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
 
   protected router = inject(Router);
+  private featureConfigService = inject(FeatureConfigService);
 
-  ariaLive$: Observable<boolean> = this.router.events.pipe(
-    filter((e) => e instanceof NavigationEnd),
-    map(() => {
-      return document.activeElement !== document.body;
-    })
-  );
+  ariaLive$: Observable<boolean> = this.featureConfigService.isEnabled(
+    'a11yRepeatedPageTitleFix'
+  )
+    ? this.router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map(() => {
+          return document.activeElement !== document.body;
+        })
+      )
+    : of(true);
 
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,

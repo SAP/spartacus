@@ -58,29 +58,6 @@ export class OAuthLibWrapperService {
     });
   }
 
-  protected changeClientWhenInitialize(clientId: string) {
-    const isSSR = !this.winRef.isBrowser();
-    this.oAuthService.configure({
-      tokenEndpoint: this.authConfigService.getTokenEndpoint(),
-      loginUrl: this.authConfigService.getLoginUrl(),
-      clientId: clientId,
-      dummyClientSecret: this.authConfigService.getClientSecret(),
-      revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
-      logoutUrl: this.authConfigService.getLogoutUrl(),
-      userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
-      issuer:
-        this.authConfigService.getOAuthLibConfig()?.issuer ??
-        this.authConfigService.getBaseUrl(),
-      redirectUri:
-        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-        (!isSSR
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.winRef.nativeWindow!.location.origin
-          : ''),
-      ...this.authConfigService.getOAuthLibConfig(),
-    });
-  }
-
   /**
    * Authorize with ResourceOwnerPasswordFlow.
    *
@@ -194,9 +171,5 @@ export class OAuthLibWrapperService {
 
   public refreshAuthConfig() {
     this.initialize();
-  }
-
-  public changeAuthConfigClientId(clientId: string) {
-    this.changeClientWhenInitialize(clientId);
   }
 }

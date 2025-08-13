@@ -7,11 +7,27 @@
 >
   <div class="modal-content cx-clear-cart-container">
     <ng-container *ngIf="!isClearing; else loading">
+      <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
       <!-- Modal Header -->
       <div class="modal-header cx-clear-cart-header">
-        <h3 id="dialogTitle" class="cx-clear-cart-title modal-title">
+        <h3
+          *cxFeature="'a11yDialogsHeading'"
+          id="dialogTitle"
+          class="cx-clear-cart-title modal-title"
+        >
           {{ 'clearCart.clearCart' | cxTranslate }}
         </h3>
+        <div
+          *cxFeature="'!a11yDialogsHeading'"
+          id="dialogTitle"
+          class="cx-clear-cart-title modal-title"
+        >
+          {{ 'clearCart.clearCart' | cxTranslate }}
+        </div>
 
         <button
           (click)="close('Close Clear Cart Dialog')"
@@ -55,9 +71,18 @@
 
 <ng-template #loading>
   <div class="modal-header cx-clear-cart-header">
-    <h2 class="cx-clear-cart-title modal-title">
+    <h2
+      *cxFeature="'a11yDialogsHeading'"
+      class="cx-clear-cart-title modal-title"
+    >
       {{ 'clearCart.clearingCart' | cxTranslate }}
     </h2>
+    <div
+      *cxFeature="'!a11yDialogsHeading'"
+      class="cx-clear-cart-title modal-title"
+    >
+      {{ 'clearCart.clearingCart' | cxTranslate }}
+    </div>
   </div>
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>

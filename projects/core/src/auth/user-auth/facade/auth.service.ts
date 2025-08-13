@@ -25,8 +25,6 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { FeatureToggles, WindowRef } from '@spartacus/core';
-import { Location } from '@angular/common';
 
 /**
  * Auth service for normal user authentication.
@@ -49,16 +47,11 @@ export class AuthService {
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
-  protected location = inject(Location);
-  protected winRef = inject(WindowRef);
-
   protected csrfToken$ = this.crossSiteRequestForgeryService
     .getCsrfToken()
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   private featureConfigService = inject(FeatureConfigService);
-
-  private authorizationCodeFlowByDefault = inject(FeatureToggles);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -231,48 +224,7 @@ export class AuthService {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 
-  /**
-   * Indicates whether the ASM module is enabled.
-   */
-  protected isAsmEnabled(): boolean {
-    if (this.isLaunched() && !this.isUsedBefore() && this.winRef.localStorage) {
-      this.winRef.localStorage.setItem('asm_enabled', 'true');
-    }
-    return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
-  }
-
-  /**
-   * Indicates whether ASM is launched through the URL,
-   * using the asm flag in the URL.
-   */
-  protected isLaunched(): boolean {
-    const params = this.location.path().split('?')[1];
-    return !!params && params.split('&').includes('asm=true');
-  }
-
-  /**
-   * check whether try to emulate customer from deeplink
-   * */
-  protected isEmulateInURL(): boolean {
-    return this.location.path().indexOf('assisted-service/emulate?') > 0;
-  }
-
-  /**
-   * Evaluates local storage where we persist the usage of ASM.
-   */
-  protected isUsedBefore(): boolean {
-    if (this.winRef.localStorage) {
-      return this.winRef.localStorage.getItem('asm_enabled') === 'true';
-    } else {
-      return false;
-    }
-  }
-
   public refreshAuthConfig() {
-    if (this.authorizationCodeFlowByDefault && this.isAsmEnabled()) {
-      this.oAuthLibWrapperService.changeAuthConfigClientId('asm_client');
-    } else {
-      this.oAuthLibWrapperService.refreshAuthConfig();
-    }
+    this.oAuthLibWrapperService.refreshAuthConfig();
   }
 }

@@ -53,6 +53,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
    * @deprecated since 2211.33
    */
   onOpen() {
+    if (!this.featureConfigService?.isEnabled('a11yNgSelectOptionsCount')) {
+      return;
+    }
     const observer = new MutationObserver((changes, observerInstance) =>
       this.appendAriaLabelToOptions(changes, observerInstance)
     );

@@ -34,17 +34,11 @@ context('Assisted Service Module', () => {
       cy.log('--> Register new user');
       cy.visit('/?asm=true');
       checkout.registerUser(false, customer);
+
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId);
-          cy.whenJDK17(() => {
-            asm.agentLogin(agentToken.userName, agentToken.pwd);
-          });
-
-          cy.whenJDK21(() => {
-            cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-            login(agentToken.userName, agentToken.pwd);
-          });
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
 
           cy.log('--> Should has assignCart');
           cy.get('.cx-asm-assignCart').should('exist');
@@ -83,16 +77,7 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
 
-            cy.whenJDK17(() => {
-              asm.agentLogin(agentToken.userName, agentToken.pwd);
-            });
-
-            cy.whenJDK21(() => {
-              cy.get(
-                '.cx-asm-customer-list .cx-asm-customer-list-link'
-              ).click();
-              login(agentToken.userName, agentToken.pwd);
-            });
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
             cy.get('.cx-asm-assignCart').should('exist');
@@ -151,16 +136,7 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
 
-            cy.whenJDK17(() => {
-              asm.agentLogin(agentToken.userName, agentToken.pwd);
-            });
-
-            cy.whenJDK21(() => {
-              cy.get(
-                '.cx-asm-customer-list .cx-asm-customer-list-link'
-              ).click();
-              login(agentToken.userName, agentToken.pwd);
-            });
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
             cy.get('.cx-asm-assignCart').should('exist');
@@ -210,16 +186,7 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
 
-            cy.whenJDK17(() => {
-              asm.agentLogin(agentToken.userName, agentToken.pwd);
-            });
-
-            cy.whenJDK21(() => {
-              cy.get(
-                '.cx-asm-customer-list .cx-asm-customer-list-link'
-              ).click();
-              login(agentToken.userName, agentToken.pwd);
-            });
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
             cy.get('.cx-asm-assignCart').should('exist');
@@ -237,14 +204,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customer);
 
       cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login(agentToken.userName, agentToken.pwd);
-      });
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId) => {
@@ -268,14 +228,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customerNew);
 
       cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login(agentToken.userName, agentToken.pwd);
-      });
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(
         agentToken.userName,
@@ -334,14 +287,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customerB);
 
       cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login(agentToken.userName, agentToken.pwd);
-      });
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(agentToken.userName, agentToken.pwd, customerA.email).then(
         (customerId1) => {
@@ -394,14 +340,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customer);
 
       cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login(agentToken.userName, agentToken.pwd);
-      });
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId1) => {
@@ -444,14 +383,7 @@ context('Assisted Service Module', () => {
         const orderId = orderData.body.code;
 
         cy.log('--> login as agent');
-        cy.whenJDK17(() => {
-          asm.agentLogin(agentToken.userName, agentToken.pwd);
-        });
-
-        cy.whenJDK21(() => {
-          cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-          login(agentToken.userName, agentToken.pwd);
-        });
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
 
         cy.log('--> Agent visting URL with deeplink');
 
@@ -509,14 +441,7 @@ context('Assisted Service Module', () => {
           signOutUser();
 
           cy.log('--> login as agent');
-          cy.whenJDK17(() => {
-            asm.agentLogin(agentToken.userName, agentToken.pwd);
-          });
-
-          cy.whenJDK21(() => {
-            cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-            login(agentToken.userName, agentToken.pwd);
-          });
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
 
           cy.log('--> Agent visting URL with deeplink');
 
@@ -568,14 +493,7 @@ context('Assisted Service Module', () => {
 
         signOutUser();
 
-        cy.whenJDK17(() => {
-          asm.agentLogin(agentToken.userName, agentToken.pwd);
-        });
-
-        cy.whenJDK21(() => {
-          cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-          login(agentToken.userName, agentToken.pwd);
-        });
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
 
         cy.log('--> Agent logging in with deeplink');
 
@@ -697,14 +615,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> login as agent');
       cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login(agentToken.userName, agentToken.pwd);
-      });
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId) => {

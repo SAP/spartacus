@@ -5,7 +5,6 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
@@ -44,15 +43,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      cy.whenJDK17(() => {
-        asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('brandon.leclair@acme.com', 'pw4all');
-      });
-
+      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
       asm.asmB2bCustomerLists();
     });
 
@@ -67,15 +58,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      cy.whenJDK17(() => {
-        asm.agentLogin('jules.hasson@acme.com', 'pw4all');
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('jules.hasson@acme.com', 'pw4all');
-      });
-
+      asm.agentLogin('jules.hasson@acme.com', 'pw4all');
       asm.asmB2bCustomerListPagination();
     });
   });

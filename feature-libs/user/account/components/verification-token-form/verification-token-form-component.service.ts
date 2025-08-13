@@ -6,20 +6,14 @@
 
 import { Injectable, inject } from '@angular/core';
 import {
-  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
-  AuthConfigService,
   AuthService,
-  CsrfStateService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
-  OAUTH_REDIRECT_FLOW_KEY,
-  WindowRef,
 } from '@spartacus/core';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, from } from 'rxjs';
@@ -28,26 +22,12 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 const globalMsgShowTime: number = 10000;
 @Injectable()
 export class VerificationTokenFormComponentService {
-  protected authConfigService = inject(AuthConfigService);
-  private featureConfigService = inject(FeatureConfigService);
-  protected auth: AuthService = inject(AuthService);
-  protected csrfStateService = inject(CsrfStateService);
-  protected winRef = inject(WindowRef);
-
-  action?: string;
-  method?: string;
-  get csrf() {
-    return this.csrfStateService.get();
-  }
-  constructor() {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
-      this.initCustomLogin();
-    }
-  }
+  constructor() {}
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
   protected verificationTokenFacade: VerificationTokenFacade = inject(
     VerificationTokenFacade
   );
+  protected auth: AuthService = inject(AuthService);
   protected busy$ = new BehaviorSubject(false);
 
   isUpdating$ = this.busy$.pipe(
@@ -61,32 +41,24 @@ export class VerificationTokenFormComponentService {
     tokenCode: new UntypedFormControl('', [Validators.required]),
   });
 
-  login(nativeForm?: HTMLFormElement) {
+  login() {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
     }
-    if (
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
-      nativeForm
-    ) {
-      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-      nativeForm.submit();
-      this.busy$.next(true);
-    } else {
-      this.busy$.next(true);
-      from(
-        this.auth.otpLoginWithCredentials(
-          this.form.value.tokenId,
-          this.form.value.tokenCode
-        )
+    this.busy$.next(true);
+
+    from(
+      this.auth.otpLoginWithCredentials(
+        this.form.value.tokenId,
+        this.form.value.tokenCode
       )
-        .pipe(
-          withLatestFrom(this.auth.isUserLoggedIn()),
-          tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
-        )
-        .subscribe();
-    }
+    )
+      .pipe(
+        withLatestFrom(this.auth.isUserLoggedIn()),
+        tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
+      )
+      .subscribe();
   }
 
   displayMessage(key: string, params: Object) {
@@ -117,12 +89,5 @@ export class VerificationTokenFormComponentService {
     }
 
     this.busy$.next(false);
-  }
-
-  protected initCustomLogin(): void {
-    this.method = 'POST';
-    this.action = this.authConfigService?.getCustomLoginFormEndpoint();
-    this.form.addControl('csrf', new FormControl('', Validators.required));
-    this.form.get('csrf')?.setValue(this.csrf?.token);
   }
 }

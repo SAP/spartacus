@@ -5,8 +5,8 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
+import * as checkout from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 
@@ -33,17 +33,10 @@ context('B2B - ASM Account Checkout', () => {
 
   it('should show error on invalid cost center', () => {
     cy.log('--> Agent logging in');
-    cy.visit('/?asm=true');
+    checkout.visitHomePage('asm=true');
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
-    cy.whenJDK17(() => {
-      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
-    });
-
-    cy.whenJDK21(() => {
-      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-      login('brandon.leclair@acme.com', 'pw4all');
-    });
+    asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 

@@ -102,7 +102,6 @@
     "e2e:run:ci:ccv2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",
     "e2e:run:ci:ccv2-product-configurator": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-product-configurator",
-    "e2e:run:ci:jdk21:ccv2-product-configurator": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:jdk21:run:ci:ccv2-product-configurator",
     "e2e:run:ci:cdc-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc-b2b",
     "e2e:run:ci:vendor:cdc-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:cdc-b2b",
     "e2e:run:ci:segment-refs": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:segment-refs",

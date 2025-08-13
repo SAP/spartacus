@@ -69,10 +69,19 @@ export class ProductCarouselComponent {
         return { componentMappingExist, codes };
       }),
       map(({ componentMappingExist, codes }) => {
-        const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
-        return codes.map((code: string) =>
-          this.productSearchByCodeService.get({ code, scope })
-        );
+        if (this.featureConfigService.isEnabled('useProductCarouselBatchApi')) {
+          const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
+          return codes.map((code: string) =>
+            this.productSearchByCodeService.get({ code, scope })
+          );
+        } else {
+          const productScope = componentMappingExist
+            ? [...this.PRODUCT_SCOPE]
+            : [...this.PRODUCT_SCOPE_ITEM];
+          return codes.map((code: string) =>
+            this.productService.get(code, productScope)
+          );
+        }
       })
     );
 

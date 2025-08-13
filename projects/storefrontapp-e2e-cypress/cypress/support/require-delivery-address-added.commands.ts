@@ -55,7 +55,7 @@ Cypress.Commands.add(
     function addAddress() {
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}${Cypress.env(
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'

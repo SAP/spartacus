@@ -28,7 +28,7 @@ Cypress.Commands.add('requirePlacedOrder', (token, cartId) => {
   function placeOrder() {
     return cy.request({
       method: 'POST',
-      url: `${Cypress.env('API_URL')}${Cypress.env(
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
         'OCC_PREFIX'
       )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
         'OCC_PREFIX_USER_ENDPOINT'

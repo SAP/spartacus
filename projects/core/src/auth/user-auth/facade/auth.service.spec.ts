@@ -46,8 +46,6 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
   events$ = oauthLibEvents;
   refreshAuthConfig = createSpy().and.stub();
-
-  changeAuthConfigClientId = createSpy().and.stub();
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -427,17 +425,8 @@ describe('AuthService', () => {
 
   describe('refreshAuthConfig()', () => {
     it('should call refreshAuthConfig method', () => {
-      (service as any).isAsmEnabled = () => false;
       service.refreshAuthConfig();
       expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
-    });
-
-    it('should call refreshAuthConfig method when asm mode enabled', () => {
-      (service as any).isAsmEnabled = () => true;
-      service.refreshAuthConfig();
-      expect(
-        oAuthLibWrapperService.changeAuthConfigClientId
-      ).toHaveBeenCalled();
     });
   });
 });
