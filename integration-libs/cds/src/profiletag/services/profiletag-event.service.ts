@@ -44,7 +44,7 @@ import {
 })
 export class ProfileTagEventService implements OnDestroy {
   protected subscription: Subscription = new Subscription();
-  latestConsentReference: BehaviorSubject<string | null>;
+  latestConsentReference: BehaviorSubject<string | null> | undefined;
   profileTagDebug = false;
   private consentReference$: Observable<string | null> | null;
   private profileTagWindow: ProfileTagWindowObject;
@@ -61,7 +61,6 @@ export class ProfileTagEventService implements OnDestroy {
     private baseSiteService: BaseSiteService,
     @Inject(PLATFORM_ID) private platform: any
   ) {
-    this.latestConsentReference = new BehaviorSubject<string | null>(null);
     this.initWindow();
     this.setConsentReferenceFromLocalStorage();
   }
@@ -106,7 +105,7 @@ export class ProfileTagEventService implements OnDestroy {
   }
 
   handleConsentWithdrawn(): void {
-    this.latestConsentReference.next(null);
+    this.latestConsentReference?.next(null);
   }
 
   addTracker(): Observable<string> {
@@ -134,7 +133,7 @@ export class ProfileTagEventService implements OnDestroy {
     return this.winRef.nativeWindow && consentReference$
       ? consentReference$.pipe(
           tap((consentReference) => {
-            this.latestConsentReference.next(consentReference);
+            this.latestConsentReference?.next(consentReference);
           })
         )
       : of(null);
