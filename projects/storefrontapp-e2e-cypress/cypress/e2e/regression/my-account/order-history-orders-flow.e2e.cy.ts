@@ -62,7 +62,7 @@ describe('Order details page', { testIsolation: false }, () => {
           undefined,
           orderData.body.code
         );
-        //cy.visit('/');
+        cy.visit('/');
         cy.visit('/my-account/orders');
 
         cy.get('.cx-order-history-code > .cx-order-history-value',{ timeout: 30000 })
