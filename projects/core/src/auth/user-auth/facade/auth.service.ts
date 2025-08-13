@@ -58,8 +58,7 @@ export class AuthService {
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   private featureConfigService = inject(FeatureConfigService);
-
-  private authorizationCodeFlowByDefault = inject(FeatureToggles);
+  protected featureToggles = inject(FeatureToggles);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -270,7 +269,10 @@ export class AuthService {
   }
 
   public refreshAuthConfig() {
-    if (this.authorizationCodeFlowByDefault && this.isAsmEnabled()) {
+    if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.isAsmEnabled()
+    ) {
       this.oAuthLibWrapperService.changeAuthConfigClientId('asm_client');
     } else {
       this.oAuthLibWrapperService.refreshAuthConfig();

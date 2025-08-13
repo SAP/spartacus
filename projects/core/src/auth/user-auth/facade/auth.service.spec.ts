@@ -1,5 +1,10 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import {
+  CrossSiteRequestForgeryService,
+  FeatureConfigService,
+  FeatureToggles,
+} from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -13,12 +18,8 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
-import createSpy = jasmine.createSpy;
-import {
-  CrossSiteRequestForgeryService,
-  FeatureConfigService,
-} from '@spartacus/core';
 
+const createSpy = jasmine.createSpy;
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('');
@@ -91,6 +92,9 @@ class MockAuthMultisiteIsolationService {
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = createSpy().and.returnValue(false);
 }
+class MockFeatureToggles implements FeatureToggles {
+  authorizationCodeFlowByDefault: false;
+}
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -101,6 +105,7 @@ describe('AuthService', () => {
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
   let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   let store: Store;
 
   beforeEach(() => {
@@ -131,6 +136,7 @@ describe('AuthService', () => {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
         },
+        { provide: FeatureToggles, useClass: MockFeatureToggles },
       ],
     });
 
@@ -144,6 +150,7 @@ describe('AuthService', () => {
       AuthMultisiteIsolationService
     );
     featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
   });
 
@@ -432,12 +439,18 @@ describe('AuthService', () => {
       expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
     });
 
-    it('should call refreshAuthConfig method when asm mode enabled', () => {
-      (service as any).isAsmEnabled = () => true;
-      service.refreshAuthConfig();
-      expect(
-        oAuthLibWrapperService.changeAuthConfigClientId
-      ).toHaveBeenCalled();
+    describe('authorizationCodeFlowByDefault is enabled', () => {
+      beforeEach(() => {
+        featureToggles.authorizationCodeFlowByDefault = true;
+      });
+
+      it('should call refreshAuthConfig method when asm mode enabled', () => {
+        (service as any).isAsmEnabled = () => true;
+        service.refreshAuthConfig();
+        expect(
+          oAuthLibWrapperService.changeAuthConfigClientId
+        ).toHaveBeenCalled();
+      });
     });
   });
 });
