@@ -401,7 +401,6 @@ if (environment.cpq) {
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: false,
-        disableClientTokens: false,
       };
       return appFeatureToggles;
     }),

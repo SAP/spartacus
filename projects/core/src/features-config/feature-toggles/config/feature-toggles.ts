@@ -708,16 +708,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefault?: boolean;
 
   /**
-   * Disables the retrieval and use of client tokens for endpoints with `USE_CLIENT_TOKEN` set on the
-   * request.
-   *
-   * NOTE: This flag should be enabled when used with a CCv2 Authorization Server running the
-   * September 2025 update or higher. The CCv2 Authorization Server does not support client tokens
-   * for public clients from that version and onwards.
-   */
-  disableClientTokens?: boolean;
-
-  /**
    * Feature flag to enable consistent header slot structure across breakpoints to reduce
    * layout shift and improve Cumulative Layout Shift (CLS) scores.
    *
@@ -899,7 +889,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
   authorizationCodeFlowByDefault: false,
-  disableClientTokens: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
 };
