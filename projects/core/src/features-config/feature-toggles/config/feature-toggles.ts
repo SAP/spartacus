@@ -741,6 +741,24 @@ export interface FeatureTogglesInterface {
    * Set to `true` to enable lazy loading by default.
    */
   lazyLoadImagesByDefault?: boolean;
+
+  /**
+   * Previously the default Spartacus layout config contained the property `pageFold`
+   * for the following layouts:
+   * - `LandingPage2Template`
+   * - `CategoryPageTemplate`
+   * - `ProductDetailsPageTemplate`
+   *
+   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
+   *
+   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
+   * caused the CMS components to be rendered only after a small delay even in SSR pages,
+   * which caused a layout shift.
+   *
+   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
+   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  defaultLayoutConfigWithoutPageFold?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -844,4 +862,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
+  defaultLayoutConfigWithoutPageFold: false,
 };

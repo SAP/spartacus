@@ -9,6 +9,7 @@ import { LoggerService, WindowRef } from '@spartacus/core';
 import {
   BehaviorSubject,
   combineLatest,
+  debounceTime,
   distinctUntilChanged,
   map,
   Observable,
@@ -62,8 +63,13 @@ export class HorizontalScrollingPositionDirective
   protected windowResizeSubscription: Subscription | undefined;
   protected _scrollingAreaWidth$ = new BehaviorSubject<number>(0);
 
-  public readonly scrollingAreaWidth$ =
-    this._scrollingAreaWidth$.asObservable();
+  /**
+   * Width of the scrolling area, debounced every 300ms in case of continuous resizing.
+   */
+  public readonly scrollingAreaWidth$ = this._scrollingAreaWidth$.pipe(
+    debounceTime(300),
+    distinctUntilChanged()
+  );
 
   /**
    * The scrolling area is the element that contains all of those in the following order:
@@ -186,18 +192,25 @@ export class HorizontalScrollingPositionDirective
   protected scrollingAreaIntersectionObserver: IntersectionObserver | undefined;
 
   /**
+   * Resize Observer used to observe the width of the scrolling area.
+   * It is used to emit the width of the scrolling area when it changes.
+   */
+  protected scrollingAreaResizeObserver: ResizeObserver | undefined;
+
+  /**
    * Starts observing the width of the scrolling area and
    * whether the user has scrolled to the start or end of the carousel.
    */
   protected subscribeScrollingArea() {
-    this.windowResizeSubscription = this.windowRef.resize$.subscribe(() => {
-      // We don't want to read `.clientWidth` of the `scrollingArea` on every
-      // call of `scrollForward()` and `scrollBackward()` methods for performance reasons.
-      // Instead, we read it only when the window is resized.
-      if (this.scrollingArea) {
-        this._scrollingAreaWidth$.next(this.scrollingArea.clientWidth);
-      }
-    });
+    if (this.scrollingArea) {
+      this.scrollingAreaResizeObserver = new ResizeObserver(() => {
+        if (this.scrollingArea) {
+          this._scrollingAreaWidth$.next(this.scrollingArea.clientWidth);
+        }
+      });
+      this.scrollingAreaResizeObserver.observe(this.scrollingArea);
+      this._scrollingAreaWidth$.next(this.scrollingArea.clientWidth);
+    }
 
     // Observe when user scrolls to the start or end of the carousel
     // and then enable/disable the backward or forward scroll buttons accordingly.
@@ -239,6 +252,9 @@ export class HorizontalScrollingPositionDirective
   protected unsubscribeScrollingArea() {
     this.windowResizeSubscription?.unsubscribe();
     this.windowResizeSubscription = undefined;
+
+    this.scrollingAreaResizeObserver?.disconnect();
+    this.scrollingAreaResizeObserver = undefined;
 
     this.scrollingAreaIntersectionObserver?.disconnect();
     this.scrollingAreaIntersectionObserver = undefined;

@@ -397,6 +397,7 @@ if (environment.cpq) {
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        defaultLayoutConfigWithoutPageFold: true,
       };
       return appFeatureToggles;
     }),
