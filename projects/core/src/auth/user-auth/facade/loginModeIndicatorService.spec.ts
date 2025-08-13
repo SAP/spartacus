@@ -23,10 +23,12 @@ describe('LoginModeIndicatorService', () => {
     mockWindowRef = {
       localStorage: {
         getItem: (key: string) => localStorageMock.get(key) || null,
-        setItem: (key: string, value: string) => localStorageMock.set(key, value),
+        setItem: (key: string, value: string) =>
+          localStorageMock.set(key, value),
         removeItem: (key: string) => localStorageMock.delete(key),
         clear: () => localStorageMock.clear(),
-        key: (index: number) => Array.from(localStorageMock.keys())[index] || null,
+        key: (index: number) =>
+          Array.from(localStorageMock.keys())[index] || null,
         length: 0,
       },
     };
@@ -56,7 +58,9 @@ describe('LoginModeIndicatorService', () => {
 
   describe('isEmulateInURL', () => {
     it('should return true if URL includes assisted-service/emulate', () => {
-      mockLocation.path.and.returnValue('/cx/assisted-service/emulate?customer=123');
+      mockLocation.path.and.returnValue(
+        '/cx/assisted-service/emulate?customer=123'
+      );
       expect(service.isEmulateInURL()).toBeTruthy;
     });
 
@@ -95,7 +99,9 @@ describe('LoginModeIndicatorService', () => {
     });
 
     it('should enable ASM if emulate is in URL', () => {
-      mockLocation.path.and.returnValue('/cx/assisted-service/emulate?customer=123');
+      mockLocation.path.and.returnValue(
+        '/cx/assisted-service/emulate?customer=123'
+      );
       mockWindowRef.localStorage.removeItem('asm_enabled');
 
       expect(service.isEnabled()).toBeTruthy;

@@ -45,7 +45,6 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   refreshAuthConfig = createSpy().and.stub();
 
   changeAsmAuthConfigClientId = createSpy().and.stub();
-
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -75,7 +74,7 @@ class MockAuthMultisiteIsolationService {
 }
 
 class MockLoginModeIndicatorService {
-  isEnabled() : Observable<boolean> {
+  isEnabled(): Observable<boolean> {
     return of();
   }
 }
@@ -112,8 +111,8 @@ describe('AuthService', () => {
           useClass: MockAuthMultisiteIsolationService,
         },
         {
-          provide:LoginModeIndicatorService,
-          useClass:MockLoginModeIndicatorService,
+          provide: LoginModeIndicatorService,
+          useClass: MockLoginModeIndicatorService,
         },
       ],
     });
@@ -318,7 +317,9 @@ describe('AuthService', () => {
     it('should call refreshAuthConfig method when asm mode enabled', () => {
       spyOn(loginModeIndicatorService, 'isEnabled').and.returnValue(true);
       service.refreshAuthConfig();
-      expect(oAuthLibWrapperService.changeAsmAuthConfigClientId).toHaveBeenCalled();
+      expect(
+        oAuthLibWrapperService.changeAsmAuthConfigClientId
+      ).toHaveBeenCalled();
     });
   });
 });

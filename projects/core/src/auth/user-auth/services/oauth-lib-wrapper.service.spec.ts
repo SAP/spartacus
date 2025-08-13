@@ -327,6 +327,4 @@ describe('OAuthLibWrapperService', () => {
       expect(initializeSpy).toHaveBeenCalled();
     });
   });
-
-
 });
