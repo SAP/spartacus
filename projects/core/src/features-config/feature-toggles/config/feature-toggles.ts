@@ -877,7 +877,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
-  a11yPdpGridArrangement: true,
+  a11yPdpGridArrangement: false,
   a11yHamburgerMenuTrapFocus: true,
   useExtendedMediaComponentConfiguration: true,
   showRealTimeStockInPDP: true,
