@@ -108,13 +108,7 @@ describe('My Account - Close Account', () => {
 
         cy.location('pathname').should('contain', '/login');
 
-        cy.whenJDK17(() => {
-          alerts.getErrorAlert().should('contain', 'User is disabled');
-        });
-
-        cy.whenJDK21(() => {
-          cy.url().should('contain', '/login?error=account_disabled');
-        });
+        alerts.getErrorAlert().should('contain', 'User is disabled');
       });
     });
   });

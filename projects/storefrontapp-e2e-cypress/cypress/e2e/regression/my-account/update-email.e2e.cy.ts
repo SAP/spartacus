@@ -5,13 +5,13 @@
  */
 
 import { login } from '../../../helpers/auth-forms';
+import * as alerts from '../../../helpers/global-message';
 import { checkBanner } from '../../../helpers/homepage';
 import { signOut } from '../../../helpers/register';
 import * as updateEmail from '../../../helpers/update-email';
 import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
-import * as alerts from '../../../helpers/global-message';
 
 describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -49,12 +49,8 @@ describe('My Account - Update Email', () => {
           standardUser.registrationData.email,
           standardUser.registrationData.password
         );
-        cy.whenJDK17(() => {
-          alerts.getErrorAlert().should('contain', 'Bad credentials');
-        });
-        cy.whenJDK21(() => {
-          cy.url().should('contain', '/login?error=bad_credentials');
-        });
+
+        alerts.getErrorAlert().should('contain', 'Bad credentials');
       });
     });
   });
