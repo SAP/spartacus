@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
 import { WindowRef } from '../../../window/window-ref';
+import { OAuthFlow } from '../models/oauth-flow';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
@@ -118,11 +119,13 @@ export class OAuthLibWrapperService {
    */
   initLoginFlow() {
     if (
-      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') // AUTH_ISSUE: should be separate flag, supportRedirectAuthFlows
+      !this.featureConfigService.isEnabled(
+        'nativeSupportForRedirectingOAuthFlows'
+      ) ||
+      this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow
     ) {
-      if (this.winRef.localStorage) {
-        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-      }
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
     }
 
     return this.oAuthService.initLoginFlow();
