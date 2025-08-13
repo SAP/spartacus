@@ -36,6 +36,7 @@ import { RegisterComponentService } from './register-component.service';
   selector: 'cx-register',
   templateUrl: './register.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-8550) Remove feature toggle
