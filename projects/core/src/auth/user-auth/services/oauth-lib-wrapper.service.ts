@@ -196,7 +196,7 @@ export class OAuthLibWrapperService {
     this.initialize();
   }
 
-  public changeAsmAuthConfigClientId(clientId: string) {
+  public changeAuthConfigClientId(clientId: string) {
     this.changeClientWhenInitialize(clientId);
   }
 }

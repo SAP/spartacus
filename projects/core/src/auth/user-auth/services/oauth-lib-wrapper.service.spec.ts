@@ -353,10 +353,10 @@ describe('OAuthLibWrapperService', () => {
     });
   });
 
-  describe('changeAsmAuthConfigClientId()', () => {
+  describe('changeAuthConfigClientId()', () => {
     it('should call changeClientWhenInitialize method', () => {
       const initializeSpy = spyOn(service as any, 'changeClientWhenInitialize');
-      service.changeAsmAuthConfigClientId('testClientId');
+      service.changeAuthConfigClientId('testClientId');
       expect(initializeSpy).toHaveBeenCalled();
     });
   });
