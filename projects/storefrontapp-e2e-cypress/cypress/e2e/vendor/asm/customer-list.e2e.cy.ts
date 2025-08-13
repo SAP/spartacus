@@ -5,6 +5,7 @@
  */
 
 import * as asm from '../../../helpers/asm';
+import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
@@ -24,7 +25,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
       asm.asmCustomerLists();
     });
 
@@ -33,7 +41,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
       asm.asmCustomerListPagination();
     });
 
@@ -42,7 +57,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
       asm.asmCustomerListC360Link();
     });
   });
