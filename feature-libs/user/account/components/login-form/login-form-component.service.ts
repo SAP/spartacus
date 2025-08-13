@@ -101,17 +101,21 @@ export class LoginFormComponentService {
   }
 
   handleLoginError(): void {
+    const validErrors = ['bad_credentials', 'account_disabled'];
     const error = this.activatedRoute.snapshot.queryParams['error'];
     if (error) {
       this.globalMessage.add(
         {
-          key: `customLoginPage.badRequest.${error}`,
+          key: validErrors.includes(error)
+            ? `customLoginPage.badRequest.${error}`
+            : 'customLoginPage.badRequest.unknown_error',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       this.router.navigate([], {
         queryParams: { error: null },
       });
+    } else if (error) {
     }
   }
 

@@ -106,7 +106,8 @@
   "customLoginPage": {
     "badRequest": {
       "bad_credentials": "Bad credentials. Please login again.",
-      "account_disabled": "User is disabled. Please contact administration."
+      "account_disabled": "User is disabled. Please contact administration.",
+      "unknown_error": "An unknown error occurred. Please try again later."
     }
   },
   "httpHandlers": {
