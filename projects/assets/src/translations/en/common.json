@@ -103,6 +103,11 @@
     "nextOrderDate": "Next Order Date",
     "pageViewUpdated": "Page view updated with your selected options."
   },
+  "customLoginPage": {
+    "badRequest": {
+      "bad_credentials": "Bad credentials. Please login again."
+    }
+  },
   "httpHandlers": {
     "badRequest": {
       "bad_credentials": "{{ errorMessage }}. Please login again.",

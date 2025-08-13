@@ -1,10 +1,16 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Router,
+} from '@angular/router';
+import {
   AuthConfigService,
   AuthService,
   FeatureConfigService,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
@@ -42,6 +48,16 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   }
 }
 
+class MockActivatedRoute implements Partial<ActivatedRoute> {
+  snapshot = {
+    queryParams: { error: 'bad_credentials' },
+  } as unknown as ActivatedRouteSnapshot;
+}
+
+class MockRouter implements Partial<Router> {
+  navigate = createSpy().and.stub();
+}
+
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getCustomLoginFormEndpoint() {
     return 'https://localhost:9002/authorizationserver/login';
@@ -77,6 +93,9 @@ describe('LoginFormComponentService', () => {
   let service: LoginFormComponentService;
   let authService: AuthService;
   let winRef: WindowRef;
+  let globalMessageService: GlobalMessageService;
+  let activatedRoute: ActivatedRoute;
+  let router: Router;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -89,6 +108,8 @@ describe('LoginFormComponentService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: Router, useClass: MockRouter },
       ],
     }).compileComponents();
   }));
@@ -97,6 +118,9 @@ describe('LoginFormComponentService', () => {
     service = TestBed.inject(LoginFormComponentService);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    router = TestBed.inject(Router);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create service', () => {
@@ -194,6 +218,14 @@ describe('LoginFormComponentService', () => {
               provide: GlobalMessageService,
               useClass: MockGlobalMessageService,
             },
+            {
+              provide: ActivatedRoute,
+              useClass: MockActivatedRoute,
+            },
+            {
+              provide: Router,
+              useClass: MockRouter,
+            },
           ],
         }).compileComponents();
       }));
@@ -259,6 +291,28 @@ describe('LoginFormComponentService', () => {
           expect(service.form.reset).not.toHaveBeenCalled();
         });
       });
+    });
+  });
+
+  describe('handleLoginError', () => {
+    it('should add error message to global message service', () => {
+      service.handleLoginError();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'customLoginPage.badRequest.bad_credentials',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(router.navigate).toHaveBeenCalledWith([], {
+        queryParams: { error: null },
+      });
+    });
+
+    it('should not add error message to global message service if error is not present', () => {
+      activatedRoute.snapshot.queryParams = { error: null };
+      service.handleLoginError();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect(router.navigate).not.toHaveBeenCalled();
     });
   });
 });

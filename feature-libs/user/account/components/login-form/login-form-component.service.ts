@@ -11,6 +11,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   AuthConfigService,
   AuthService,
@@ -30,6 +31,8 @@ export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
   private featureConfigService = inject(FeatureConfigService);
   protected csrfStateService = inject(CsrfStateService);
+  protected router = inject(Router);
+  protected activatedRoute = inject(ActivatedRoute);
 
   action?: string;
   method?: string;
@@ -94,6 +97,21 @@ export class LoginFormComponentService {
           tap(([_, isLoggedIn]) => this.onSuccess(isLoggedIn))
         )
         .subscribe();
+    }
+  }
+
+  handleLoginError(): void {
+    const error = this.activatedRoute.snapshot.queryParams['error'];
+    if (error) {
+      this.globalMessage.add(
+        {
+          key: `customLoginPage.badRequest.${error}`,
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      this.router.navigate([], {
+        queryParams: { error: null },
+      });
     }
   }
 
