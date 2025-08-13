@@ -115,7 +115,6 @@ export class LoginFormComponentService {
       this.router.navigate([], {
         queryParams: { error: null },
       });
-    } else if (error) {
     }
   }
 
