@@ -28,6 +28,7 @@ viewportContext(['mobile', 'desktop'], () => {
       () => {
         isolateTests();
         before(() => {
+          cy.visit('/');
           cy.requireLoggedIn();
           cy.reload();
           cy.visit('/');

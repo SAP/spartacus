@@ -6,6 +6,7 @@
 
 import { RoutingConfig } from '@spartacus/core';
 import * as login from '../../../helpers/login';
+import { visitLoginPage } from '../../../support/utils/login';
 
 const FAQ_HEADING = 'Frequently Asked Questions';
 
@@ -56,7 +57,7 @@ context('Early login', () => {
 
         login.registerUserFromLoginPage();
         cy.whenJDK21(() => {
-          cy.visit('/login');
+          visitLoginPage();
         });
 
         login.loginUser();

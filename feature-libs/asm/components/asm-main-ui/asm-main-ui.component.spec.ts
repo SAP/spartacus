@@ -1,10 +1,13 @@
 import {
   Component,
   DebugElement,
+  Directive,
   EventEmitter,
   Injectable,
   Input,
   Output,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -183,6 +186,23 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   refreshAuthConfig() {}
 }
 
+@Directive({
+  selector: '[cxFeature]',
+  standalone: false,
+})
+export class MockRevertedFeatureDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(_feature: string) {
+    if (_feature.toString().includes('!')) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+  }
+}
+
 describe('AsmMainUiComponent', () => {
   let featureModulesService: FeatureModulesService;
   let component: AsmMainUiComponent;
@@ -211,6 +231,7 @@ describe('AsmMainUiComponent', () => {
         MockAsmSessionTimerComponent,
         MockCustomerEmulationComponent,
         MockCxIconComponent,
+        MockRevertedFeatureDirective,
       ],
       providers: [
         {

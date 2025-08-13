@@ -51,21 +51,10 @@ describe('Clear Cart', () => {
       visitHomePage();
     });
 
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    it('should add products to the cart', () => {
+    it('should clear cart for registered user and have new cart Id', () => {
       cart.loginCartUser();
       cart.addProducts();
       cart.verifyCartNotEmpty();
-    });
-
-    it('should clear cart for registered user and have new cart Id', () => {
       cart.goToCart();
       cart.saveCartId();
       cart.clearActiveCart();

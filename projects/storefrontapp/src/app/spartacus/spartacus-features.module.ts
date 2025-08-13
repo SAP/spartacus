@@ -367,6 +367,7 @@ if (environment.cpq) {
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
+        dispatchLoginActionOnlyWhenTokenReceived: true,
         allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
@@ -393,10 +394,17 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
+        cdsLoginEventsToken: true,
         createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
+        /*
+         * JDK21 feature flags
+         */
+        authorizationCodeFlowByDefault: true,
+        disableClientTokens: true,
       };
       return appFeatureToggles;
     }),

@@ -8,8 +8,9 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/ta
 import { verifyTabbingOrder as tabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { SampleUser } from '../../sample-data/checkout-flow';
 import { interceptPost } from '../../support/utils/intercept';
+import { whenJDK17, whenJDK21 } from '../../support/utils/jdk-versions';
 import * as alerts from '../global-message';
-import { clickHamburger } from '../homepage';
+import { clickHamburger, waitForPage } from '../navigation';
 
 export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
   'cx-link.cx-organization-user-register-button';
@@ -25,11 +26,16 @@ export enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
 const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
 
 export function navigateToOrganizationUserRegisterPage() {
-  cy.onMobile(() => {
-    clickHamburger();
+  clickHamburger();
+  whenJDK17(() => {
+    cy.getLoginRegisterLink().click();
+    cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
   });
-  cy.getLoginRegisterLink().click();
-  cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
+  whenJDK21(() => {
+    const registerPage = waitForPage('/login/register', 'getRegisterPage');
+    cy.visit('/login/register');
+    cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function fillOrganizationUserRegistrationForm(
@@ -87,11 +93,18 @@ export function submitOrganizationUserRegistrationForm(
 }
 
 export function verifyGlobalMessageAfterRegistration(message: string) {
-  cy.get('body').within(() => {
-    const alert = alerts.getAlert();
+  whenJDK17(
+    () => {
+      cy.get('body').within(() => {
+        const alert = alerts.getAlert();
 
-    alert.should('contain', message);
-  });
+        alert.should('contain', message);
+      });
+    },
+    () => {
+      cy.log('Test not relevant on JDK21');
+    }
+  );
 }
 
 export function verifyRedirectionToLoginPage() {

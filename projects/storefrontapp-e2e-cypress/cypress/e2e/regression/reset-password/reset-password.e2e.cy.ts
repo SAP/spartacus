@@ -54,8 +54,15 @@ context('Reset Password Page', () => {
       cy.get('button.btn-primary').click();
     });
     cy.url().should('match', /\/login$/);
-    alerts
-      .getSuccessAlert()
-      .should('contain', 'Success! You can now login using your new password.');
+    // In JDK21, toast is only shown for a second before redirection is done.
+    // The alert gets lost on redirection.
+    cy.whenJDK17(() => {
+      alerts
+        .getSuccessAlert()
+        .should(
+          'contain',
+          'Success! You can now login using your new password.'
+        );
+    });
   });
 });
