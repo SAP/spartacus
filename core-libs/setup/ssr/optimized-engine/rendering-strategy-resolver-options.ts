@@ -11,6 +11,6 @@ export interface RenderingStrategyResolverOptions {
 
 export const defaultRenderingStrategyResolverOptions: RenderingStrategyResolverOptions =
   {
-    excludedUrls: ['checkout', 'my-account', 'punchout'],
+    excludedUrls: ['checkout', 'my-account', 'punchout', 'opf'],
     excludedParams: ['asm'],
   };
