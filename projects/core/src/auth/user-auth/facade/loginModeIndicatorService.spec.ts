@@ -6,8 +6,8 @@
 
 import { TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
-import { WindowRef } from '@spartacus/core';
 import { LoginModeIndicatorService } from './loginModeIndicatorService';
+import { WindowRef } from 'projects/core/src/window';
 
 describe('LoginModeIndicatorService', () => {
   let service: LoginModeIndicatorService;

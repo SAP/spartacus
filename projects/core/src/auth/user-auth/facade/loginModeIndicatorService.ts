@@ -6,7 +6,7 @@
 
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from 'projects/core/src/window';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
