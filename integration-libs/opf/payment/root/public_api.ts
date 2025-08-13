@@ -9,4 +9,5 @@ export * from './facade/index';
 export * from './feature-name';
 export * from './model/index';
 export * from './services/index';
+export * from './components/index';
 export * from './opf-payment-root.module';
