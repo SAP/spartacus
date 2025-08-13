@@ -4,9 +4,12 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   SemanticPathService,
+  WindowRef,
 } from '@spartacus/core';
+import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -39,12 +42,22 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy();
+}
+
+const MockWindowRef = {
+  localStorage: { setItem: createSpy(), removeItem: createSpy() },
+};
+
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartFacade;
   let checkoutConfigService: CheckoutConfigService;
+  let featureConfigService: FeatureConfigService;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,6 +87,14 @@ describe('CheckoutAuthGuard', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+        {
+          provide: WindowRef,
+          useValue: MockWindowRef,
+        },
       ],
     });
     checkoutGuard = TestBed.inject(CheckoutAuthGuard);
@@ -81,6 +102,8 @@ describe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartFacade);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   describe(', when user is NOT authorized,', () => {
@@ -94,30 +117,88 @@ describe('CheckoutAuthGuard', () => {
         activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
       });
 
-      it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-        checkoutConfigService.isGuestCheckout =
-          createSpy().and.returnValue(true);
-
-        let result: boolean | UrlTree | RedirectCommand | undefined;
-        checkoutGuard
-          .canActivate()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-        expect(result?.toString()).toEqual(`/login?forced=true`);
-      });
-
-      it('should return url to login without forced flag when guestCheckout feature disabled', () => {
-        let result: boolean | UrlTree | RedirectCommand | undefined;
-        checkoutGuard
-          .canActivate()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-        expect(result?.toString()).toEqual(`/login`);
-      });
-
       it('should notify AuthRedirectService with the current navigation', () => {
         checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(authRedirectService.saveCurrentNavigationUrl).toHaveBeenCalled();
+      });
+
+      describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
+        beforeEach(() => {
+          (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+        });
+
+        it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', () => {
+          (
+            checkoutConfigService.isGuestCheckout as jasmine.Spy
+          ).and.returnValue(false);
+
+          let result: boolean | UrlTree | RedirectCommand | undefined;
+          checkoutGuard
+            .canActivate()
+            .subscribe((value) => (result = value))
+            .unsubscribe();
+          expect(result?.toString()).toEqual(`/login`);
+          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+            'authorizationCodeFlowByDefault'
+          );
+          expect(windowRef.localStorage?.setItem).not.toHaveBeenCalled();
+        });
+
+        it('should return url to login and set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature enabled', () => {
+          (
+            checkoutConfigService.isGuestCheckout as jasmine.Spy
+          ).and.returnValue(true);
+
+          let result: boolean | UrlTree | RedirectCommand | undefined;
+          checkoutGuard
+            .canActivate()
+            .subscribe((value) => (result = value))
+            .unsubscribe();
+          expect(result?.toString()).toEqual(`/login`);
+          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+            'authorizationCodeFlowByDefault'
+          );
+          expect(windowRef.localStorage?.setItem).toHaveBeenCalledWith(
+            IS_GUEST_USER_CHECKOUT_KEY,
+            'true'
+          );
+        });
+      });
+
+      describe('when authorizationCodeFlowByDefault feature flag is disabled', () => {
+        beforeEach(() => {
+          (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(
+            false
+          );
+        });
+
+        it('should return url to login without forced flag when guestCheckout feature disabled', () => {
+          let result: boolean | UrlTree | RedirectCommand | undefined;
+          checkoutGuard
+            .canActivate()
+            .subscribe((value) => (result = value))
+            .unsubscribe();
+          expect(result?.toString()).toEqual(`/login`);
+          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+            'authorizationCodeFlowByDefault'
+          );
+        });
+
+        it('should return url to login with forced flag when guestCheckout feature enabled', () => {
+          (
+            checkoutConfigService.isGuestCheckout as jasmine.Spy
+          ).and.returnValue(true);
+
+          let result: boolean | UrlTree | RedirectCommand | undefined;
+          checkoutGuard
+            .canActivate()
+            .subscribe((value) => (result = value))
+            .unsubscribe();
+          expect(result?.toString()).toEqual(`/login?forced=true`);
+          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+            'authorizationCodeFlowByDefault'
+          );
+        });
       });
     });
 

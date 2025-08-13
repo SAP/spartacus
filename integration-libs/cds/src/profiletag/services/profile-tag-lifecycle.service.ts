@@ -4,18 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { AuthActions, ConsentService } from '@spartacus/core';
+import {
+  AuthActions,
+  ConsentService,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
+import { LOGIN_EVENTS } from '../tokens/login-events.token';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileTagLifecycleService {
+  private readonly loginEnvelopes$ = inject(LOGIN_EVENTS);
+  private readonly featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected consentService: ConsentService,
     protected config: CdsConfig,
@@ -39,7 +47,19 @@ export class ProfileTagLifecycleService {
       );
   }
 
+  /**
+   * Emits true only for unique login envelopes (deduped by timestamp across the app lifetime).
+   */
   loginSuccessful(): Observable<boolean> {
+    const cdsLoginEventsToken = this.featureConfigService.isEnabled(
+      'cdsLoginEventsToken'
+    );
+    if (cdsLoginEventsToken) {
+      return this.loginEnvelopes$.pipe(
+        distinctUntilChanged((a, b) => a.timestamp === b.timestamp),
+        map(() => true)
+      );
+    }
     return this.actionsSubject.pipe(
       filter((action) => action.type === AuthActions.LOGIN),
       map(() => true)

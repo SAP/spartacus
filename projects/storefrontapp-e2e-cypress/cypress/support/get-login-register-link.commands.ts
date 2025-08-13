@@ -5,6 +5,7 @@
  */
 
 import { isMobile } from '../helpers/viewport-context';
+import { whenJDK17, whenJDK21 } from './utils/jdk-versions';
 
 declare global {
   namespace Cypress {
@@ -44,18 +45,24 @@ Cypress.Commands.add(
     const link = cy.get(selector);
 
     if (options?.clickAndWait) {
-      cy.intercept({
-        method: 'GET',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/cms/pages`,
-        query: {
-          pageLabelOrId: '/login',
-        },
-      }).as('loginQuery');
+      whenJDK17(() => {
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/cms/pages`,
+          query: {
+            pageLabelOrId: '/login',
+          },
+        }).as('loginQuery');
 
-      link.click({ force: true });
-      cy.wait('@loginQuery').its('response.statusCode').should('eq', 200);
+        link.click({ force: true });
+        cy.wait('@loginQuery').its('response.statusCode').should('eq', 200);
+      });
+      whenJDK21(() => {
+        link.click({ force: true });
+        cy.url().should('contain', '/login');
+      });
     }
 
     return link;

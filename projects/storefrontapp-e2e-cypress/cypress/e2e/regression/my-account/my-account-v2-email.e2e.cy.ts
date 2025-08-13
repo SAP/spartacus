@@ -11,6 +11,7 @@ import * as updateEmail from '../../../helpers/update-email';
 import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
+import { visitLoginPage } from '../../../support/utils/login';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 describe('My Account - Update Email', () => {
@@ -69,7 +70,7 @@ describe('My Account - Update Email', () => {
       // Below test depends on core test for setup.
       it('should not allow login with old email address (CXSPA-4442)', () => {
         signOut();
-        cy.visit('/login');
+        visitLoginPage();
         login(
           standardUser.registrationData.email,
           standardUser.registrationData.password

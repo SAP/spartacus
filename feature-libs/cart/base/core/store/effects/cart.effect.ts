@@ -16,7 +16,7 @@ import {
   tryNormalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
-import { Observable, from, of } from 'rxjs';
+import { Observable, concat, from, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -187,25 +187,63 @@ export class CartEffects {
     )
   );
 
-  mergeCart$: Observable<CartActions.CreateCart> = createEffect(() =>
+  mergeCart$: Observable<
+    | CartActions.CreateCart
+    | CartActions.CreateCartSuccess
+    | CartActions.MergeCartAbort
+    | CartActions.RemoveCart
+  > = createEffect(() =>
     this.actions$.pipe(
       ofType(CartActions.MERGE_CART),
-      map((action: CartActions.MergeCart) => action.payload),
+      map(
+        (action: CartActions.MergeCartAndIncrementProcessesCount) =>
+          action.payload
+      ),
       switchMap((payload) => {
         return this.cartConnector
           .load(payload.userId, OCC_CART_ID_CURRENT)
           .pipe(
-            map((currentCart) => {
+            mergeMap((currentCart) => {
               if (currentCart?.code !== payload.cartId) {
-                return new CartActions.CreateCart({
-                  userId: payload.userId,
-                  oldCartId: payload.cartId,
-                  toMergeCartGuid: currentCart ? currentCart.guid : undefined,
-                  extraData: payload.extraData,
-                  tempCartId: payload.tempCartId,
-                });
+                return of(
+                  new CartActions.CreateCart({
+                    userId: payload.userId,
+                    oldCartId: payload.cartId,
+                    toMergeCartGuid: currentCart ? currentCart.guid : undefined,
+                    extraData: payload.extraData,
+                    tempCartId: payload.tempCartId,
+                  })
+                );
+              } else {
+                return of(
+                  new CartActions.CreateCartSuccess({
+                    userId: payload.userId,
+                    cart: currentCart,
+                    cartId: getCartIdByUserId(currentCart, payload.userId),
+                    extraData: payload.extraData,
+                    tempCartId: payload.tempCartId,
+                  }),
+                  new CartActions.MergeCartAbort({
+                    cartId: getCartIdByUserId(currentCart, payload.userId),
+                  })
+                );
               }
             }),
+            catchError((error) =>
+              concat(
+                of(
+                  new CartActions.MergeCartAbort({
+                    cartId: payload.cartId,
+                    error: tryNormalizeHttpError(error, this.logger),
+                  })
+                ),
+                of(
+                  new CartActions.RemoveCart({
+                    cartId: payload.cartId,
+                  })
+                )
+              )
+            ),
             filter(isNotUndefined)
           );
       }),
