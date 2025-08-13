@@ -14,13 +14,16 @@ import {
 import {
   AuthConfigService,
   AuthService,
+  CsrfStateService,
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  OAUTH_REDIRECT_FLOW_KEY,
+  WindowRef,
 } from '@spartacus/core';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, from } from 'rxjs';
-import { take, tap, withLatestFrom } from 'rxjs/operators';
+import { tap, withLatestFrom } from 'rxjs/operators';
 
 const globalMsgShowTime: number = 10000;
 @Injectable()
@@ -28,14 +31,17 @@ export class VerificationTokenFormComponentService {
   protected authConfigService = inject(AuthConfigService);
   private featureConfigService = inject(FeatureConfigService);
   protected auth: AuthService = inject(AuthService);
+  protected csrfStateService = inject(CsrfStateService);
+  protected winRef = inject(WindowRef);
 
   action?: string;
   method?: string;
-  csrf$ = this.auth.getCsrfToken();
-
+  get csrf() {
+    return this.csrfStateService.get();
+  }
   constructor() {
     if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
-      this.initializeDataforAuthorizationCodeFlow();
+      this.initCustomLogin();
     }
   }
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
@@ -64,6 +70,7 @@ export class VerificationTokenFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
       nativeForm.submit();
       this.busy$.next(true);
     } else {
@@ -112,12 +119,10 @@ export class VerificationTokenFormComponentService {
     this.busy$.next(false);
   }
 
-  protected initializeDataforAuthorizationCodeFlow(): void {
+  protected initCustomLogin(): void {
     this.method = 'POST';
     this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     this.form.addControl('csrf', new FormControl('', Validators.required));
-    this.csrf$.pipe(take(1)).subscribe((csrf) => {
-      this.form.get('csrf')?.setValue(csrf.token);
-    });
+    this.form.get('csrf')?.setValue(this.csrf?.token);
   }
 }

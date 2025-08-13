@@ -44,7 +44,7 @@
 
   <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
     <input
-      *ngIf="csrf$ | async as csrf"
+      *ngIf="csrf"
       formControlName="csrf"
       type="hidden"
       [name]="csrf.parameterName"

@@ -69,7 +69,7 @@ export class VerificationTokenFormComponent implements OnInit {
   @ViewChild('verificationTokenForm') verificationTokenForm: ElementRef<
     HTMLElementTagNameMap['form']
   >;
-  csrf$ = this.service.csrf$;
+  csrf = this.service.csrf;
   action = this.service.action;
   method = this.service.method;
 
