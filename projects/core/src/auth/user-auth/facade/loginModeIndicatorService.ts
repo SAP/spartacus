@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { WindowRef } from 'projects/core/src/window';
 
 /**
@@ -17,10 +17,8 @@ import { WindowRef } from 'projects/core/src/window';
   providedIn: 'root',
 })
 export class LoginModeIndicatorService {
-  constructor(
-    protected location: Location,
-    protected winRef: WindowRef
-  ) {}
+  protected location = inject(Location);
+  protected winRef = inject(WindowRef);
 
   /**
    * Indicates whether the ASM module is enabled.
