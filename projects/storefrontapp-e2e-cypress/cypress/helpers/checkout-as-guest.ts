@@ -97,15 +97,6 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
-}
-
-export function createAccountFromGuest(password: string, email?: string) {
-  cy.whenJDK17(() => {
-    const homePage = waitForPage('homepage', 'getHomePage');
-    fillGuestRegistrationForm(password);
-    cy.wait(`@${homePage}`);
-    cy.get('cx-page-slot.Section1 cx-banner');
-  });
 
   cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
   cy.wait('@getCartsAfterRegister');
