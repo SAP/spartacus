@@ -13,6 +13,7 @@ import {
   SampleOrg,
   SampleUser,
 } from '../../../sample-data/checkout-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 import { AddressData, fillShippingAddress } from '../../checkout-forms';
 import * as alerts from '../../global-message';
 import { listenForTokenRevocationRequest } from '../../login';
@@ -323,7 +324,7 @@ export function verifyUpdateEmailSuccess(
   fullName: string
 ) {
   //Login user
-  cy.visit('/login');
+  visitLoginPage();
   loginWithoutScreenSet(email, password);
   verifyLoginOrRegistrationSuccess(fullName);
 }
@@ -370,7 +371,7 @@ export function verifyUpdatePasswordSuccess(
   password: string,
   fullName: string
 ) {
-  cy.visit('/login');
+  visitLoginPage();
   loginWithoutScreenSet(email, password);
   verifyLoginOrRegistrationSuccess(fullName);
 }

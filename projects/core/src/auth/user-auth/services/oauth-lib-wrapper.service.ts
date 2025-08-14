@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/index';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -21,6 +22,7 @@ import { AuthConfigService } from './auth-config.service';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
+  private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
   // TODO: Remove platformId dependency in 4.0
@@ -39,6 +41,29 @@ export class OAuthLibWrapperService {
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
       clientId: this.authConfigService.getClientId(),
+      dummyClientSecret: this.authConfigService.getClientSecret(),
+      revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
+      logoutUrl: this.authConfigService.getLogoutUrl(),
+      userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
+      issuer:
+        this.authConfigService.getOAuthLibConfig()?.issuer ??
+        this.authConfigService.getBaseUrl(),
+      redirectUri:
+        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
+        (!isSSR
+          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.winRef.nativeWindow!.location.origin
+          : ''),
+      ...this.authConfigService.getOAuthLibConfig(),
+    });
+  }
+
+  protected changeClientWhenInitialize(clientId: string) {
+    const isSSR = !this.winRef.isBrowser();
+    this.oAuthService.configure({
+      tokenEndpoint: this.authConfigService.getTokenEndpoint(),
+      loginUrl: this.authConfigService.getLoginUrl(),
+      clientId: clientId,
       dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
       logoutUrl: this.authConfigService.getLogoutUrl(),
@@ -115,8 +140,12 @@ export class OAuthLibWrapperService {
    * Initialize Implicit Flow or Authorization Code flows with the redirect to OAuth login url.
    */
   initLoginFlow() {
-    if (this.winRef.localStorage) {
-      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    if (
+      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+    ) {
+      if (this.winRef.localStorage) {
+        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+      }
     }
 
     return this.oAuthService.initLoginFlow();
@@ -165,5 +194,9 @@ export class OAuthLibWrapperService {
 
   public refreshAuthConfig() {
     this.initialize();
+  }
+
+  public changeAuthConfigClientId(clientId: string) {
+    this.changeClientWhenInitialize(clientId);
   }
 }

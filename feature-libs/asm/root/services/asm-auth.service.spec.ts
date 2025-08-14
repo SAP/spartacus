@@ -4,6 +4,7 @@ import {
   AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthToken,
+  CrossSiteRequestForgeryService,
   GlobalMessageService,
   OAuthLibWrapperService,
   PROCESS_FEATURE,
@@ -73,6 +74,18 @@ class MockGlobalMessageService {
 class MockAuthRedirectService {}
 class MockRoutingService {}
 
+class MockCrossSiteRequestForgeryService
+  implements Partial<CrossSiteRequestForgeryService>
+{
+  getCsrfToken() {
+    return of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    });
+  }
+}
+
 describe('AsmAuthService', () => {
   let service: AsmAuthService;
   let store: Store<StateWithClientAuth>;
@@ -111,6 +124,10 @@ describe('AsmAuthService', () => {
         {
           provide: AuthMultisiteIsolationService,
           useClass: MockAuthMultisiteIsolationService,
+        },
+        {
+          provide: CrossSiteRequestForgeryService,
+          useClass: MockCrossSiteRequestForgeryService,
         },
       ],
     });

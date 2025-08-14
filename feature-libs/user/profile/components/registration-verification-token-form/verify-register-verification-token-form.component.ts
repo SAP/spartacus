@@ -143,7 +143,11 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       !this.firstName ||
       !this.lastName
     ) {
-      this.router.go(['/login/register']);
+      this.router.go(
+        this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          ? { cxRoute: 'register' }
+          : ['/login/register']
+      );
     } else {
       this.startWaitTimeInterval();
       this.service.displayMessage(
@@ -246,6 +250,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
+    }
+
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();
   }

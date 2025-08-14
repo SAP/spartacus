@@ -74,7 +74,10 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
         this.guid,
         this.guestRegisterForm.value.password
       );
-      if (!this.subscription) {
+      if (
+        !this.subscription &&
+        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      ) {
         this.subscription = this.authService
           .isUserLoggedIn()
           .subscribe((isLoggedIn) => {
