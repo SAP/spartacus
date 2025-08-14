@@ -5,7 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { Observable, Subject } from 'rxjs';
 import { RenderParams } from '../captcha.model';
 import { CaptchaService } from '../captcha.service';
@@ -23,7 +24,7 @@ declare global {
 @Injectable({
   providedIn: 'root',
 })
-export class MockCaptchaService extends CaptchaService implements OnDestroy {
+export class MockCaptchaService extends CaptchaService {
   protected retVal: Subject<string>;
 
   protected container: HTMLDivElement;
@@ -34,46 +35,39 @@ export class MockCaptchaService extends CaptchaService implements OnDestroy {
 
   protected spinner: HTMLElement;
 
-  protected checkboxListener: () => void;
-
   initialize() {
     super.initialize();
     // creating mock elements for captcha.
-    this.container = this.renderer.createElement('div');
-    this.renderer.addClass(this.container, 'form-check');
+    this.container = document.createElement('div');
+    this.container.className = 'form-check';
 
-    this.checkbox = this.renderer.createElement('input');
-    this.renderer.setAttribute(this.checkbox, 'type', 'checkbox');
-    this.renderer.addClass(this.checkbox, 'mock-captcha');
+    this.checkbox = document.createElement('input');
+    this.checkbox.type = 'checkbox';
+    this.checkbox.className = 'mock-captcha';
 
-    this.label = this.renderer.createElement('label');
-    this.renderer.setProperty(this.label, 'textContent', "I'm not a robot");
-    this.renderer.appendChild(this.container, this.checkbox);
-    this.renderer.appendChild(this.container, this.label);
+    this.label = document.createElement('label');
+    this.label.textContent = "I'm not a robot";
+    this.container.appendChild(this.checkbox);
+    this.container.appendChild(this.label);
 
-    this.spinner = this.renderer.createElement('icon');
-    this.renderer.addClass(this.spinner, 'fa-solid');
-    this.renderer.addClass(this.spinner, 'fa-spinner');
+    this.spinner = document.createElement('icon');
+    this.spinner.className = 'fa-solid fa-spinner';
 
-    this.checkboxListener = this.renderer.listen(
-      this.checkbox,
-      'change',
-      this.onCheckBoxClicked.bind(this)
-    );
+    this.checkbox.addEventListener('change', this.onCheckBoxClicked.bind(this));
   }
 
   onCheckBoxClicked(): void {
-    this.renderer.setProperty(this.label, 'textContent', '');
-    this.renderer.appendChild(this.container, this.spinner);
-    this.renderer.setProperty(this.checkbox, 'disabled', true);
-    this.renderer.setProperty(this.checkbox, 'checked', true);
+    this.label.textContent = '';
+    this.container.appendChild(this.spinner);
+    this.checkbox.disabled = true;
+    this.checkbox.checked = true;
 
     setTimeout(() => {
-      this.renderer.removeChild(this.container, this.spinner);
+      this.container.removeChild(this.spinner);
       this.retVal.next('succeed');
       this.retVal.complete();
       this.token = 'myToken';
-      this.renderer.setProperty(this.label, 'textContent', 'Verified');
+      this.label.textContent = 'Verified';
     }, 500);
   }
 
@@ -84,21 +78,15 @@ export class MockCaptchaService extends CaptchaService implements OnDestroy {
   renderCaptcha(renderParams: RenderParams): Observable<string> {
     if (renderParams.element instanceof HTMLElement) {
       // Reset checkbox state before rendering
-      this.renderer.setProperty(this.checkbox, 'disabled', false);
-      this.renderer.setProperty(this.checkbox, 'checked', false);
-      this.renderer.setProperty(this.label, 'textContent', "I'm not a robot");
+      this.checkbox.disabled = false;
+      this.checkbox.checked = false;
+      this.label.textContent = "I'm not a robot";
       this.token = '';
       this.retVal = new Subject<string>();
 
-      this.renderer.appendChild(renderParams.element, this.container);
+      renderParams.element.appendChild(this.container);
     }
 
     return this.retVal.asObservable();
-  }
-
-  ngOnDestroy() {
-    if (this.checkboxListener) {
-      this.checkboxListener();
-    }
   }
 }

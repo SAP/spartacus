@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, OnDestroy, RendererFactory2 } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   BaseSiteService,
   CaptchaConfig,
@@ -33,12 +33,10 @@ declare global {
   providedIn: 'root',
 })
 export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
-  protected rendererFactory = inject(RendererFactory2);
   protected token: string;
   protected subscription = new Subscription();
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);
   protected captchaConfig: CaptchaConfig;
-  protected renderer = this.rendererFactory.createRenderer(null, null);
 
   constructor(
     protected adapter: SiteAdapter,
