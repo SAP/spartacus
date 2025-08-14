@@ -46,6 +46,7 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
   templateUrl: './verify-register-verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);

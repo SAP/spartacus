@@ -32,6 +32,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './otp-login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class OneTimePasswordLoginFormComponent {
   protected routingService = inject(RoutingService);

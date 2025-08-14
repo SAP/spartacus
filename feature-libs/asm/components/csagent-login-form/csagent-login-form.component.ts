@@ -16,6 +16,7 @@ import { useFeatureStyles } from '@spartacus/core';
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class CSAgentLoginFormComponent implements OnInit {
   csAgentLoginForm: UntypedFormGroup;
