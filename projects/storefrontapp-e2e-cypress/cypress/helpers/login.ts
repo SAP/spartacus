@@ -5,6 +5,7 @@
  */
 
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
+import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import * as alerts from './global-message';
 import { waitForPage } from './navigation';
@@ -93,25 +94,23 @@ export function loginWithBadCredentialsFromLoginPage() {
 
   cy.whenJDK17(() => {
     cy.wait(alias).its('response.statusCode').should('eq', 400);
+    alerts
+      .getErrorAlert()
+      .should('contain', 'Bad credentials. Please login again');
   });
   cy.whenJDK21(() => {
-    login(user.email, 'Password321');
-    cy.wait(alias)
-      .its('response.statusCode')
-      .should('eq', 302)
-      .its('response.headers.location')
-      .should('have.string', '?error');
+    cy.wait(alias).then((interception) => {
+      expect(interception.response?.statusCode).to.eq(302);
+      expect(interception.response?.headers.location).to.include('?error');
+    });
   });
 
   cy.get(userGreetSelector).should('not.exist');
-
-  alerts
-    .getErrorAlert()
-    .should('contain', 'Bad credentials. Please login again');
 }
 
 export function loginWithBadCredentials() {
-  cy.getLoginRegisterLink({ clickAndWait: true });
+  navigateToLoginPage();
+
   loginWithBadCredentialsFromLoginPage();
 }
 
@@ -122,17 +121,18 @@ export function loginWithBadCredentials() {
 export function navigateToLoginPage() {
   cy.whenJDK17(() => {
     const alias = waitForPage('/login', 'getLoginPage');
-    cy.visit('/login');
+    visitLoginPage();
     cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
   });
   cy.whenJDK21(() => {
-    cy.visit('/login');
+    visitLoginPage();
     cy.url().should('contain', '/login');
   });
 }
 
 export function loginAsDefaultUser() {
-  cy.getLoginRegisterLink({ clickAndWait: true });
+  navigateToLoginPage();
+
   login(defaultUser.name, defaultUser.password);
 }
 

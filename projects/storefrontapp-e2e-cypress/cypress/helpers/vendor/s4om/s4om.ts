@@ -19,6 +19,7 @@ import {
 } from '../../../sample-data/checkout-flow';
 import { AccountData } from '../../../support/require-logged-in.commands';
 import { interceptGet, interceptPost } from '../../../support/utils/intercept';
+import { visitLoginPage } from '../../../support/utils/login';
 import { tabbingOrderConfig } from '../../accessibility/b2b/tabbing-order.config';
 import { verifyTabbingOrder } from '../../accessibility/tabbing-order';
 import {
@@ -164,7 +165,7 @@ export function loginS4OMB2bUser() {
     s4omB2BUser.registrationData.lastName;
 
   cy.window().then((win) => win.sessionStorage.clear());
-  cy.visit('/login');
+  visitLoginPage();
   cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
   login(
     s4omB2BUser.registrationData.email,

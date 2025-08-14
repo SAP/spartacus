@@ -13,6 +13,7 @@ import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
@@ -29,7 +30,14 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -98,7 +106,7 @@ context('Assisted Service Module', () => {
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
     it.skip('agent login when user is logged in should start this user emulation', () => {
-      cy.visit('/login');
+      visitLoginPage();
       login(customer.email, customer.password);
 
       checkout.visitHomePage('asm=true');
@@ -107,7 +115,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.log('--> Agent logging in');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
 
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('not.exist');
@@ -122,7 +137,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.log('--> Agent logging in');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -157,7 +179,14 @@ context('Assisted Service Module', () => {
       const customer = getSampleUser();
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
 
       asm.startCustomerEmulation(customer);
 
