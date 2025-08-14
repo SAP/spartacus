@@ -203,7 +203,6 @@ export function addProductToCartWithQuickForm(
   productCode: string,
   quantity?: number
 ) {
-
   cy.get('cx-cart-quick-order-form .input-product-code')
     .clear()
     .type(`${productCode}`);

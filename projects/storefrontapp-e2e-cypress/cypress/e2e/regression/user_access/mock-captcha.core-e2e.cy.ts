@@ -6,7 +6,7 @@
  */
 
 import { registerWithCaptcha } from '../../../helpers/auth-forms';
-import { clickHamburger } from '../../../helpers/homepage';
+import { clickHamburger } from '../../../helpers/navigation';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
@@ -30,9 +30,7 @@ describe('Register', () => {
         });
       });
       cy.whenJDK17(() => {
-        cy.onMobile(() => {
-          clickHamburger();
-        });
+        clickHamburger();
         cy.getLoginRegisterLink().click();
         cy.get('cx-login-register').findByText('Register').click();
       });

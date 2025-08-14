@@ -4,10 +4,23 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, LoggerService } from '@spartacus/core';
 import {
   CarouselScrollingComponent,
+  FocusableCarouselItemDirective,
   HorizontalScrollingPositionDirective,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+
+const EVENT_NAME_KEYDOWN = 'keydown';
+const KEY_NAME_TAB = 'Tab';
+const KEY_NAME_ARROW_RIGHT = 'ArrowRight';
+const KEY_NAME_ARROW_LEFT = 'ArrowLeft';
+const KEY_NAME_ENTER = 'Enter';
+
+const createKeyboardEvent = (key: string) =>
+  new KeyboardEvent(EVENT_NAME_KEYDOWN, {
+    key,
+    bubbles: true,
+  });
 
 @Component({
   selector: 'cx-icon',
@@ -68,7 +81,6 @@ class TestChildComponent implements OnDestroy {
       [title]="mockTitle"
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
-      (keyboardEvent)="mockKeyboardEventHandler.next($event)"
     ></cx-carousel-scrolling>
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
       <cx-test-child
@@ -81,8 +93,69 @@ class TestChildComponent implements OnDestroy {
   standalone: false,
 })
 class TestParentComponent {
-  mockKeyboardEventHandler = new ReplaySubject<KeyboardEvent>();
   mockTitle: string | undefined = 'Test Carousel Title';
+  mockItems = [
+    of({ testProperty: 'A', customID: 1 }),
+    of({ testProperty: 'B', customID: 2 }),
+    of({ testProperty: 'C', customID: 3 }),
+    of({ testProperty: 'D', customID: 4 }),
+    of({ testProperty: 'E', customID: 5 }),
+  ];
+  carouselTrackByFn = (_index: number, item: any) => item.customID;
+}
+
+@Component({
+  selector: 'cx-test-parent-with-cx-focusable-carousel-item',
+  template: `
+    <cx-carousel-scrolling
+      [items]="mockItems"
+      [title]="mockTitle"
+      [template]="carouselItem"
+      [trackByFn]="carouselTrackByFn"
+    ></cx-carousel-scrolling>
+    <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+      <cx-test-child
+        [item]="item"
+        [itemIndex]="itemIndex"
+        tabindex="0"
+        cxFocusableCarouselItem
+      ></cx-test-child>
+    </ng-template>
+  `,
+  standalone: false,
+})
+class TestParentWithCxFocusableCarouselItemComponent {
+  mockTitle: string | undefined = 'Test Carousel With cxFocusableCarouselItem';
+  mockItems = [
+    of({ testProperty: 'A', customID: 1 }),
+    of({ testProperty: 'B', customID: 2 }),
+    of({ testProperty: 'C', customID: 3 }),
+    of({ testProperty: 'D', customID: 4 }),
+    of({ testProperty: 'E', customID: 5 }),
+  ];
+  carouselTrackByFn = (_index: number, item: any) => item.customID;
+}
+
+@Component({
+  selector: 'cx-test-parent-without-track-by',
+  template: `
+    <cx-carousel-scrolling
+      [items]="mockItems"
+      [title]="mockTitle"
+      [template]="carouselItem"
+    ></cx-carousel-scrolling>
+    <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
+      <cx-test-child
+        [item]="item"
+        [itemIndex]="itemIndex"
+        tabindex="0"
+      ></cx-test-child>
+    </ng-template>
+  `,
+  standalone: false,
+})
+class TestParentWithoutTrackByComponent {
+  mockTitle: string | undefined = 'Test Carousel Without TrackBy';
   mockItems = [
     of({ testProperty: 'A', customID: 1 }),
     of({ testProperty: 'B', customID: 2 }),
@@ -105,7 +178,7 @@ class TestParentComponent {
   standalone: false,
 })
 class TestParentWithoutChildTemplateComponent {
-  mockTitle = 'Test Carousel';
+  mockTitle = 'Test Carousel Without Child Template';
   mockItems = [];
   carouselTrackByFn = (_index: number, item: any) => item.customID;
 }
@@ -114,6 +187,7 @@ describe('CarouselScrollingComponent', () => {
   describe('with child template', () => {
     let parentFixture: ComponentFixture<TestParentComponent>;
     let horizontalScrollingPositionDirective: MockHorizontalScrollingPositionDirective;
+    let carouselScrollingComponent: CarouselScrollingComponent;
 
     beforeEach(waitForAsync(() => {
       TestChildComponent.destroyedCount = 0;
@@ -136,6 +210,10 @@ describe('CarouselScrollingComponent', () => {
       horizontalScrollingPositionDirective = parentFixture.debugElement
         .query(By.css('.carousel-panel'))
         .injector.get(MockHorizontalScrollingPositionDirective);
+
+      carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
     });
 
     describe('items', () => {
@@ -172,42 +250,42 @@ describe('CarouselScrollingComponent', () => {
 
     describe('scrolling position tracking', () => {
       it('should bind .carousel-items-start element to horizontalScrollingPositionDirective.scrollingAreaStart', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsStart = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-start')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsStart.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingAreaStart).toBe(
-          items[0].nativeElement
+          carouselItemsStart[0].nativeElement
         );
       });
 
       it('should bind .carousel-items-end element to horizontalScrollingPositionDirective.scrollingAreaEnd', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsEnd = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-end')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsEnd.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingAreaEnd).toBe(
-          items[0].nativeElement
+          carouselItemsEnd[0].nativeElement
         );
       });
 
       it('should bind .carousel-items element to horizontalScrollingPositionDirective.scrollingArea', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsContainer = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsContainer.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingArea).toBe(
-          items[0].nativeElement
+          carouselItemsContainer[0].nativeElement
         );
       });
 
       it('should bind .carousel-items-end element to horizontalScrollingPositionDirective.scrollingAreaEnd', () => {
-        const items = parentFixture.debugElement.queryAll(
+        const carouselItemsEnd = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-end')
         );
-        expect(items.length).toBe(1);
+        expect(carouselItemsEnd.length).toBe(1);
         expect(horizontalScrollingPositionDirective.scrollingAreaEnd).toBe(
-          items[0].nativeElement
+          carouselItemsEnd[0].nativeElement
         );
       });
     });
@@ -275,7 +353,7 @@ describe('CarouselScrollingComponent', () => {
           ).toHaveBeenCalled();
         });
 
-        it('should hide previous button when no scroll is needed (all items fit into container)', () => {
+        it('should hide previous button when no scroll is needed (all items are visible in the container)', () => {
           horizontalScrollingPositionDirective.isScrollNeeded$.next(false);
           parentFixture.detectChanges();
           const prevButton = parentFixture.debugElement.query(
@@ -337,7 +415,7 @@ describe('CarouselScrollingComponent', () => {
           expect(nextButton.attributes['aria-disabled']).toBe('false');
         });
 
-        it('should hide next button when no scroll is needed (all items fit into container)', () => {
+        it('should hide next button when no scroll is needed (all items are visible in the container)', () => {
           horizontalScrollingPositionDirective.isScrollNeeded$.next(false);
           parentFixture.detectChanges();
           const nextButton = parentFixture.debugElement.query(
@@ -416,6 +494,219 @@ describe('CarouselScrollingComponent', () => {
         expect(newChildEls[4].nativeElement.textContent).toContain('E');
       });
     });
+
+    describe('when an item is focused in', () => {
+      it('should scroll it into view', () => {
+        const items = parentFixture.debugElement.queryAll(By.css('.item'));
+        const secondItem = items[1].nativeElement as HTMLElement;
+        spyOn(secondItem, 'scrollIntoView').and.callThrough();
+
+        secondItem.dispatchEvent(new FocusEvent('focusin'));
+
+        expect(secondItem.scrollIntoView).toHaveBeenCalled();
+      });
+    });
+
+    describe('keyboard navigation', () => {
+      let firstChild: HTMLElement;
+      let secondChild: HTMLElement;
+
+      beforeEach(() => {
+        const children = parentFixture.debugElement.queryAll(
+          By.css('cx-test-child')
+        );
+        firstChild = children[0].nativeElement;
+        secondChild = children[1].nativeElement;
+      });
+
+      describe('onItemKeyDown', () => {
+        describe('on Tab key', () => {
+          it('should NOT set tabindex="-1" on children (i.e. should allow for tab-navigation)', () => {
+            expect(secondChild.tabIndex).toBe(0);
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
+            expect(secondChild.tabIndex).toBe(0);
+          });
+        });
+
+        describe('on ArrowRight key', () => {
+          it('should prevent default behavior', () => {
+            const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).toHaveBeenCalled();
+          });
+
+          it('should NOT focus the next item', () => {
+            spyOn(
+              carouselScrollingComponent as any,
+              'focusNextPrevItem'
+            ).and.callThrough();
+            spyOn(secondChild, 'focus').and.callThrough();
+
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
+
+            expect(secondChild.focus).not.toHaveBeenCalled();
+            expect(
+              carouselScrollingComponent['focusNextPrevItem']
+            ).toHaveBeenCalledWith(firstChild, 1);
+          });
+        });
+
+        describe('on ArrowLeft key', () => {
+          it('should prevent default behavior', () => {
+            const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).toHaveBeenCalled();
+          });
+
+          it('should NOT focus the previous child directive', () => {
+            spyOn(
+              carouselScrollingComponent as any,
+              'focusNextPrevItem'
+            ).and.callThrough();
+            spyOn(firstChild, 'focus').and.callThrough();
+
+            secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
+
+            expect(firstChild.focus).not.toHaveBeenCalled();
+            expect(
+              carouselScrollingComponent['focusNextPrevItem']
+            ).toHaveBeenCalledWith(secondChild, -1);
+          });
+        });
+      });
+    });
+  });
+
+  describe('with [cxFocusableCarouselItem] directive on children', () => {
+    let parentFixture: ComponentFixture<TestParentWithCxFocusableCarouselItemComponent>;
+    let carouselScrollingComponent: CarouselScrollingComponent;
+
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithCxFocusableCarouselItemComponent,
+          TestChildComponent,
+          FocusableCarouselItemDirective,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      parentFixture = TestBed.createComponent(
+        TestParentWithCxFocusableCarouselItemComponent
+      );
+      parentFixture.detectChanges();
+      carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
+    });
+
+    describe('keyboard navigation', () => {
+      let firstChild: HTMLElement;
+      let secondChild: HTMLElement;
+
+      beforeEach(() => {
+        const children = parentFixture.debugElement.queryAll(
+          By.css('cx-test-child')
+        );
+        firstChild = children[0].nativeElement;
+        secondChild = children[1].nativeElement;
+      });
+
+      describe('onItemKeyDown', () => {
+        describe('on Tab key', () => {
+          const KEY_NAME_TAB = 'Tab';
+
+          it('should set tabindex="-1" on children with cxFocusableCarouselItem until next animation frame', (done) => {
+            expect(secondChild.tabIndex).toBe(0);
+
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
+            expect(firstChild.tabIndex).toBe(-1);
+
+            requestAnimationFrame(() => {
+              expect(secondChild.tabIndex).toBe(0);
+              done();
+            });
+          });
+        });
+
+        describe('on ArrowRight key', () => {
+          it('should prevent default behavior', () => {
+            const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).toHaveBeenCalled();
+          });
+
+          it('should focus the next item with cxFocusableCarouselItem directive', () => {
+            spyOn(
+              carouselScrollingComponent as any,
+              'focusNextPrevItem'
+            ).and.callThrough();
+
+            spyOn(secondChild, 'focus').and.callThrough();
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
+
+            expect(secondChild.focus).toHaveBeenCalled();
+            expect(
+              carouselScrollingComponent['focusNextPrevItem']
+            ).toHaveBeenCalledWith(firstChild, 1);
+          });
+        });
+
+        describe('on ArrowLeft key', () => {
+          it('should prevent default behavior', () => {
+            const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).toHaveBeenCalled();
+          });
+
+          it('should focus the previous child with cxFocusableCarouselItem directive', () => {
+            spyOn(
+              carouselScrollingComponent as any,
+              'focusNextPrevItem'
+            ).and.callThrough();
+
+            spyOn(firstChild, 'focus').and.callThrough();
+            secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
+
+            expect(firstChild.focus).toHaveBeenCalled();
+            expect(
+              carouselScrollingComponent['focusNextPrevItem']
+            ).toHaveBeenCalledWith(secondChild, -1);
+          });
+        });
+
+        describe('on other keys', () => {
+          it('should not prevent default behavior', () => {
+            const event = createKeyboardEvent(KEY_NAME_ENTER);
+            spyOn(event, 'preventDefault').and.callThrough();
+            firstChild.dispatchEvent(event);
+            expect(event.preventDefault).not.toHaveBeenCalled();
+          });
+
+          it('should not call focusNextPrevItem', () => {
+            spyOn(
+              carouselScrollingComponent as any,
+              'focusNextPrevItem'
+            ).and.callThrough();
+
+            firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ENTER));
+
+            expect(
+              carouselScrollingComponent['focusNextPrevItem']
+            ).not.toHaveBeenCalled();
+          });
+        });
+      });
+    });
   });
 
   describe('without child template', () => {
@@ -446,6 +737,40 @@ describe('CarouselScrollingComponent', () => {
       expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel-scrolling`'
       );
+    });
+  });
+
+  describe('without trackByFn input', () => {
+    let parentFixture: ComponentFixture<TestParentWithoutTrackByComponent>;
+    let carouselScrollingComponent: CarouselScrollingComponent;
+
+    beforeEach(waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithoutTrackByComponent,
+          TestChildComponent,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      parentFixture = TestBed.createComponent(
+        TestParentWithoutTrackByComponent
+      );
+      parentFixture.detectChanges();
+
+      carouselScrollingComponent = parentFixture.debugElement.query(
+        By.directive(CarouselScrollingComponent)
+      ).componentInstance;
+    });
+
+    it('should use default trackByFn', () => {
+      const item = { id: '123' };
+      expect(carouselScrollingComponent.trackByFn(999, item)).toBe(item);
     });
   });
 });

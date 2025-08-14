@@ -7,6 +7,7 @@
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';
+import { AddressData } from './checkout-forms';
 import { waitForPage } from './navigation';
 import { validateUpdateProfileForm } from './update-profile';
 
@@ -67,7 +68,7 @@ export function testCheckoutAsGuest() {
         lastName: guestUser.lastName,
         phone: '',
         address: guestUser.address,
-      },
+      } as AddressData,
       'US-CA'
     );
 
@@ -95,6 +96,15 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
+  });
+}
+
+export function createAccountFromGuest(password: string, email?: string) {
+  cy.whenJDK17(() => {
+    const homePage = waitForPage('homepage', 'getHomePage');
+    fillGuestRegistrationForm(password);
+    cy.wait(`@${homePage}`);
+    cy.get('cx-page-slot.Section1 cx-banner');
   });
 
   cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);

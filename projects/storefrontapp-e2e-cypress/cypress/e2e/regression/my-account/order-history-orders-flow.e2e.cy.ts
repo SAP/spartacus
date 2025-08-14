@@ -79,15 +79,14 @@ describe('Order details page', { testIsolation: false }, () => {
           .first()
           .click();
       });
-
-      it('should display order details page with consigned entries', () => {
-        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-        cy.get('.cx-summary-total > .cx-summary-amount').should(
-          'contain',
-          formattedValue
-        );
-      });
+    });
+    it('should display order details page with consigned entries', () => {
+      cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+      cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+      cy.get('.cx-summary-total > .cx-summary-amount').should(
+        'contain',
+        formattedValue
+      );
     });
 
     it('should add product to cart from order details page', () => {

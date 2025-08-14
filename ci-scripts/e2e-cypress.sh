@@ -168,7 +168,6 @@ else
 
     echo '-----'
     echo "Running Cypress end to end tests"
-
     run_tests_for_suite "${SUITE}" "full"
 
 #    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
