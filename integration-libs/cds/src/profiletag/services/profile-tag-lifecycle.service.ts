@@ -41,6 +41,7 @@ export class ProfileTagLifecycleService {
             return false;
           }
         }),
+        distinctUntilChanged(),
         map((granted) => {
           return new ConsentChangedPushEvent(granted);
         })
