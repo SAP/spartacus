@@ -22,89 +22,93 @@ import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
-describe('Order History with orders', () => {
-  viewportContext(['mobile'], () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
-      cy.requireLoggedIn();
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    orderHistoryTest.checkIfOrderIsDisplayed();
-    orderHistoryTest.checkSortingByCode();
-    orderHistoryTest.checkCorrectDateFormat();
-    orderHistoryTest.checkTabsAreDisplayedAfterNavigation();
-  });
-});
-
-describe('Order details page', { testIsolation: false }, () => {
-  viewportContext(['desktop'], () => {
-    isolateTestsBefore();
-    let formattedValue: any;
-
-    orderHistoryTest.checkOrderDetailsUnconsignedEntries();
-
-    before(() => {
-      cy.visit('/');
-      cy.requireLoggedIn();
-      doPlaceOrder().then((orderData: any) => {
-        formattedValue = orderData.body.totalPrice.formattedValue;
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
+// We switch contexts this way because setup is required to be done in mobile view
+// for the order details page. Switching contexts in the order details page tests
+// can cause strange behaviour leading to failures.
+['mobile', 'desktop'].forEach((vContext) => {
+  describe('Order History with orders', () => {
+    viewportContext(['mobile'], () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
         cy.visit('/');
-        cy.visit('/my-account/orders');
+        cy.requireLoggedIn();
+      });
 
-        cy.get('.cx-order-history-code > .cx-order-history-value',{ timeout: 30000 })
-          .then((el) => {
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+      });
+
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      orderHistoryTest.checkIfOrderIsDisplayed();
+      orderHistoryTest.checkSortingByCode();
+      orderHistoryTest.checkCorrectDateFormat();
+      orderHistoryTest.checkTabsAreDisplayedAfterNavigation();
+    });
+  });
+
+  describe('Order details page', { testIsolation: false }, () => {
+    viewportContext(<any>vContext, () => {
+      isolateTestsBefore();
+      let formattedValue: any;
+
+      orderHistoryTest.checkOrderDetailsUnconsignedEntries();
+
+      before(() => {
+        cy.visit('/');
+        cy.requireLoggedIn();
+        doPlaceOrder().then((orderData: any) => {
+          formattedValue = orderData.body.totalPrice.formattedValue;
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
+          cy.visit('/my-account/orders');
+
+          cy.get('.cx-order-history-code > .cx-order-history-value', {
+            timeout: 30000,
+          }).then((el) => {
             const orderNumber = el.text().match(/\d+/)[0];
             waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
-          }
-        );
+          });
 
-        cy.get('.cx-order-history-code > .cx-order-history-value', {
-          timeout: 10000,
-        })
-          .should('exist')
-          .first()
-          .click();
+          cy.get('.cx-order-history-code > .cx-order-history-value', {
+            timeout: 10000,
+          })
+            .should('exist')
+            .first()
+            .click();
+        });
       });
-    });
-    it('should display order details page with consigned entries', () => {
-      cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-      cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-      cy.get('.cx-summary-total > .cx-summary-amount').should(
-        'contain',
-        formattedValue
-      );
-    });
+      it('should display order details page with consigned entries', () => {
+        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+        cy.get('.cx-summary-total > .cx-summary-amount').should(
+          'contain',
+          formattedValue
+        );
+      });
 
-    it('should add product to cart from order details page', () => {
-      const addToCartAlias = interceptAddToCartEndpoint();
+      it('should add product to cart from order details page', () => {
+        const addToCartAlias = interceptAddToCartEndpoint();
 
-      const cartPageAlias = interceptCartPageEndpoint();
+        const cartPageAlias = interceptCartPageEndpoint();
 
-      verifyActionLinkHasText('Buy It Again');
+        verifyActionLinkHasText('Buy It Again');
 
-      clickOnActionLink();
+        clickOnActionLink();
 
-      waitForResponse(addToCartAlias);
+        waitForResponse(addToCartAlias);
 
-      clickOnPrimaryDialogButton();
+        clickOnPrimaryDialogButton();
 
-      waitForResponse(cartPageAlias);
+        waitForResponse(cartPageAlias);
 
-      verifyProductIsDisplayed(product.name, product.code);
+        verifyProductIsDisplayed(product.name, product.code);
+      });
     });
   });
 });
