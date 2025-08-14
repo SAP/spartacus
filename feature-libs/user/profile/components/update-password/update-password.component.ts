@@ -19,7 +19,7 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   selector: 'cx-update-password',
   templateUrl: './update-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'user-form', ngSkipHydration: 'true' },
+  host: { class: 'user-form' },
   standalone: false,
 })
 export class UpdatePasswordComponent {

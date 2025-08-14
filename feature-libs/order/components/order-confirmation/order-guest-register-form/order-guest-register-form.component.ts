@@ -24,7 +24,6 @@ import { Subscription } from 'rxjs';
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
   standalone: false,
-  host: { ngSkipHydration: 'true' },
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   private featureConfigService = inject(FeatureConfigService);

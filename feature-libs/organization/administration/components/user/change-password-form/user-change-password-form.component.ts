@@ -18,7 +18,7 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   selector: 'cx-org-user-change-password-form',
   templateUrl: './user-change-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper', ngSkipHydration: 'true' },
+  host: { class: 'content-wrapper' },
   standalone: false,
 })
 export class UserChangePasswordFormComponent {

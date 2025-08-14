@@ -14,7 +14,7 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   selector: 'cx-reset-password',
   templateUrl: './reset-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'user-form', ngSkipHydration: 'true' },
+  host: { class: 'user-form' },
   standalone: false,
 })
 export class ResetPasswordComponent {
