@@ -4,7 +4,7 @@
     ({{ pagination?.totalResults || 0 }})
   </h2>
 
-  <ng-container *ngIf="(list.subscriptions?.length ?? 0) > 0; else noSubscriptions">
+  <ng-container *ngIf="(list.results?.length ?? 0) > 0; else noSubscriptions">
     <div class="subscription-list-sort top">
       <label class="subscription-list-form-group form-group">
         <span>
