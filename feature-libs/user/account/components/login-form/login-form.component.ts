@@ -21,6 +21,7 @@ import { LoginFormComponentService } from './login-form-component.service';
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class LoginFormComponent {
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
