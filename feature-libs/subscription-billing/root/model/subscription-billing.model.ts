@@ -1,7 +1,5 @@
 import {
   PricePlan,
-  RenewalTerm,
-  UsageCharge,
 } from './subscription-product.model';
 
 export interface SubscriptionDetail {
@@ -10,18 +8,21 @@ export interface SubscriptionDetail {
   productCode?: string;
   startAt?: string;
   endAt?: string;
-  subscriptionStatus?: string;
+  status?: string;
+  isCancellationPossible?: boolean;
+  isExtensionPossible?: boolean;
+  isWithdrawalPossible?: boolean;
+  isCancellationReversalPossible?: boolean;
   contractFrequency?: string;
-  customerId?: string;
   documentNumber?: string;
   pricePlan?: PricePlan;
-  currentUsages?: UsageCharge[];
-  renewalTerm?: RenewalTerm;
   withdrawalPeriodEndAt?: string;
+  billingTime?: string;
+  orderCode?: string;
 }
 
 export interface SubscriptionList {
-  subscriptions?: SubscriptionDetail[];
+  results?: SubscriptionDetail[];
   pagination?: Pagination;
   sorts?: Sort[];
 }
@@ -36,12 +37,7 @@ export interface Pagination {
   page?: number;
   totalCount?: number;
   totalPages?: number;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
 }
 
-//re-check if this will be needed after jdk21 upgrade
-export enum SubscriptionStatus {
-  cancelled = 'CANCELLED',
-  active = 'ACTIVE',
-  withdrawn = 'WITHDRAWN',
-  expired = 'EXPIRED',
-}

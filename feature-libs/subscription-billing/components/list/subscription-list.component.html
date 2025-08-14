@@ -21,7 +21,7 @@
       </label>
     </div>
 
-    <ng-container *ngFor="let subscription of list.subscriptions">
+    <ng-container *ngFor="let subscription of list.results">
       <div class="subscription">
         <div class="subscription-header">
           <div
@@ -37,7 +37,7 @@
           >
             {{
               'subscriptionList.status'
-                | cxTranslate: { value: subscription.subscriptionStatus }
+                | cxTranslate: { value: subscription.status }
             }}
           </div>
         </div>

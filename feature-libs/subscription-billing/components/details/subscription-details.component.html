@@ -14,7 +14,7 @@
       >
         {{
           'subscriptionList.status'
-            | cxTranslate: { value: subscription.subscriptionStatus }
+            | cxTranslate: { value: subscription.status }
         }}
       </div>
     </div>
@@ -74,7 +74,7 @@
       <span class="col-xs-12 col-md-4 col-lg-3">
         <span class="action-button-right">
           <a
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isCancellationPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
@@ -83,7 +83,7 @@
         </span>
         <span class="action-button-right">
           <a
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isExtensionPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
@@ -92,7 +92,7 @@
         </span>
         <span class="action-button-right">
           <a
-            *ngIf="!this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isCancellationReversalPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
@@ -101,7 +101,7 @@
         </span>
         <span class="action-button-right">
           <a
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isWithdrawalPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >

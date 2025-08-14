@@ -11,11 +11,9 @@ import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
-  SubscriptionStatus,
 } from '@spartacus/subscription-billing/root';
 import {
   combineLatest,
-  map,
   Observable,
   Subscription,
   take,
@@ -35,15 +33,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
-  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
-    return this.routingService.getRouterState().pipe(
-      map((route) => {
-        const guidPattern = /\/subscription\/([^/?#]+)/;
-        const match = route.state.url.match(guidPattern);
-        return match ? match[1] : undefined;
-      })
-    );
-  }
+
   ngOnInit() {
     this.subscription = combineLatest([
       this.subscriptionDetails$,
@@ -51,17 +41,15 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
     ])
       .pipe(
         take(1),
-        tap(([subscription, subscriptionCode]) => {
-          if (subscription && subscription.id !== subscriptionCode) {
+        tap(([subscriptionDetails, subscriptionCode]) => {
+          if (subscriptionDetails && subscriptionDetails.id !== subscriptionCode) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         })
       )
       .subscribe();
   }
-  isSubscriptionActive(status: string | undefined) {
-    return status?.toUpperCase() === SubscriptionStatus.active ? true : false;
-  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
