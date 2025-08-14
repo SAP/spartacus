@@ -1,10 +1,4 @@
 <section *ngIf="!(isLoading$ | async); else loading">
-  <div
-    *cxFeature="'!a11yRemoveStatusLoadedRole'"
-    role="status"
-    [attr.aria-label]="'common.loaded' | cxTranslate"
-  ></div>
-
   <form [formGroup]="registerForm" (ngSubmit)="submit()">
     <cx-form-required-legend />
     <label>
