@@ -50,7 +50,7 @@ import { isolateTestsBefore } from '../../../support/utils/test-isolation';
   });
 
   describe('Order details page', { testIsolation: false }, () => {
-    viewportContext(<any>vContext, () => {
+    viewportContext([<any>vContext], () => {
       isolateTestsBefore();
       let formattedValue: any;
 
