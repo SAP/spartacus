@@ -1,7 +1,7 @@
 @if (subscriptions(); as list) {
   <h2 class="subscription-list-title">
     {{ 'subscriptionList.title' | cxTranslate }}
-    ({{ list.pagination?.totalResults || 0 }})
+    ({{ pagination?.totalResults || 0 }})
   </h2>
   @if (list.subscriptions?.length ?? 0 > 0) {
     <div class="subscription-list-sort top">
@@ -10,10 +10,9 @@
           {{ 'subscriptionList.sortSubtitle' | cxTranslate }}
         </span>
         <cx-sorting
-          [sortOptions]="list.sorts"
-          [sortLabels]="sortLabels() ?? null"
+          [sortOptions]="sortOptions"
           (sortListEvent)="changeSortCode($event)"
-          [selectedOption]="list.pagination?.sort"
+          [selectedOption]="sort"
           placeholder="{{ 'subscriptionList.sortSubtitle' | cxTranslate }}"
           [ariaLabel]="'subscriptionList.sortOrders' | cxTranslate"
           ariaControls="subscription-list-table"
@@ -67,7 +66,7 @@
                 [routerLink]="
                   {
                     cxRoute: 'subscriptionDetails',
-                    params: { susbcriptionId: subscription.id },
+                    params: { subscriptionId: subscription.id },
                   } | cxUrl
                 "
               >
@@ -83,7 +82,7 @@
     <div class="subscription-list-sort bottom">
       @if (list.pagination?.totalPages ?? 0 > 1) {
         <cx-pagination
-          [pagination]="list.pagination"
+        [pagination]="pagination"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination>
       }

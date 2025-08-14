@@ -1,4 +1,3 @@
-import { PaginationModel, SortModel } from '@spartacus/core';
 import {
   PricePlan,
   RenewalTerm,
@@ -20,10 +19,23 @@ export interface SubscriptionDetail {
   renewalTerm?: RenewalTerm;
   withdrawalPeriodEndAt?: string;
 }
+
 export interface SubscriptionList {
   subscriptions?: SubscriptionDetail[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
+  pagination?: Pagination;
+  sorts?: Sort[];
+}
+
+export interface Sort {
+  asc?: boolean;
+  code?: string;
+}
+
+export interface Pagination {
+  count?: number;
+  page?: number;
+  totalCount?: number;
+  totalPages?: number;
 }
 
 //re-check if this will be needed after jdk21 upgrade

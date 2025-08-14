@@ -25,7 +25,11 @@
     "noSubscriptions": "You don't have any subscriptions",
     "sortOrders": "Sort orders",
     "manageService": "Manage Service",
-    "amount": "Billing Amount: {{ amount }}"
+    "amount": "Billing Amount: {{ amount }}",
+    "sorts": {
+      "byDocumentNumberDesc": "Document Number Descending",
+      "byDocumentNumberAsc": "Document Number Ascending"
+    }
   },
   "subscriptionDetails": {
     "info": "Subscription/Contract Details:",
