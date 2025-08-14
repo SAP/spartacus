@@ -1,6 +1,4 @@
-import {
-  PricePlan,
-} from './subscription-product.model';
+import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -40,4 +38,3 @@ export interface Pagination {
   hasNext?: boolean;
   hasPrevious?: boolean;
 }
-

@@ -86,7 +86,7 @@ export interface TierUsageChargeEntry extends UsageChargeEntry {
   tierEnd?: number;
 }
 
-export interface PerUnitUsageChargeEntry extends UsageChargeEntry{}
+export interface PerUnitUsageChargeEntry extends UsageChargeEntry {}
 
 export interface UsageUnit {
   name?: string;

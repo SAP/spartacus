@@ -34,7 +34,10 @@
       </ng-container>
 
       <ng-container
-        *ngFor="let usageChargeEntry of usageCharge.perUnitUsageChargeEntries; let j = index"
+        *ngFor="
+          let usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
+          let j = index
+        "
       >
         <li>
           <ng-container *ngIf="usageCharge.blockSize === 1">
@@ -71,7 +74,10 @@
   <ng-container *ngFor="let usageCharge of volumeUsageCharges(); let i = index">
     <ul>
       <ng-container
-        *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries; let j = index"
+        *ngFor="
+          let usageChargeEntry of usageCharge.tierUsageChargeEntries;
+          let j = index
+        "
       >
         <li>
           {{
@@ -95,7 +101,10 @@
       </ng-container>
 
       <ng-container
-        *ngFor="let usageChargeEntry of usageCharge.overageUsageChargeEntries; let k = index"
+        *ngFor="
+          let usageChargeEntry of usageCharge.overageUsageChargeEntries;
+          let k = index
+        "
       >
         <li>
           {{
@@ -128,7 +137,10 @@
   <ng-container *ngFor="let usageCharge of tierUsageCharges(); let i = index">
     <ul>
       <ng-container
-        *ngFor="let usageChargeEntry of usageCharge.tierUsageChargeEntries; let j = index"
+        *ngFor="
+          let usageChargeEntry of usageCharge.tierUsageChargeEntries;
+          let j = index
+        "
       >
         <li>
           {{
@@ -151,7 +163,10 @@
       </ng-container>
 
       <ng-container
-        *ngFor="let usageChargeEntry of usageCharge.overageUsageChargeEntries; let k = index"
+        *ngFor="
+          let usageChargeEntry of usageCharge.overageUsageChargeEntries;
+          let k = index
+        "
       >
         <li>
           {{
@@ -185,7 +200,10 @@
       *ngFor="let usageCharge of percentageUsageCharges(); let i = index"
     >
       <ng-container
-        *ngFor="let usageChargeEntry of usageCharge.perUnitUsageChargeEntries; let j = index"
+        *ngFor="
+          let usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
+          let j = index
+        "
       >
         <li>
           {{

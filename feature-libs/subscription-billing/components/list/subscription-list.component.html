@@ -33,6 +33,7 @@
           </div>
           <div
             class="subscription-status"
+            *ngIf="subscription.status"
             [attr.aria-label]="'subscriptionList.status' | cxTranslate"
           >
             {{
@@ -43,16 +44,30 @@
         </div>
         <div class="subscription-body">
           <div class="subscription-column-1">
-            <div>
+            <div *ngIf="subscription.documentNumber">
               {{
                 'subscriptionList.id'
                   | cxTranslate: { id: subscription.documentNumber }
               }}
             </div>
-            <div>
-              {{ 'subscriptionList.amount' | cxTranslate: { amount: null } }}
+            <div
+              *ngIf="
+                subscription?.pricePlan?.recurringCharges[0]?.price
+                  ?.formattedValue && subscription.billingTime
+              "
+            >
+              {{
+                'subscriptionList.amount'
+                  | cxTranslate
+                    : {
+                        amount:
+                          subscription?.pricePlan?.recurringCharges[0]?.price
+                            ?.formattedValue,
+                        time: subscription.billingTime,
+                      }
+              }}
             </div>
-            <div>
+            <div *ngIf="subscription.startAt">
               {{
                 'subscriptionList.startDate'
                   | cxTranslate: { date: subscription.startAt | cxDate }

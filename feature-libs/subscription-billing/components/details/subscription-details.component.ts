@@ -12,13 +12,7 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import {
-  combineLatest,
-  Observable,
-  Subscription,
-  take,
-  tap,
-} from 'rxjs';
+import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-details',
@@ -42,7 +36,10 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         take(1),
         tap(([subscriptionDetails, subscriptionCode]) => {
-          if (subscriptionDetails && subscriptionDetails.id !== subscriptionCode) {
+          if (
+            subscriptionDetails &&
+            subscriptionDetails.id !== subscriptionCode
+          ) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         })
