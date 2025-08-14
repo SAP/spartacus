@@ -1,7 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  AuthConfigService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -14,6 +16,50 @@ import createSpy = jasmine.createSpy;
 class MockAuthService implements Partial<AuthService> {
   otpLoginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
+  getCsrfToken = createSpy().and.returnValue(
+    of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    })
+  );
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+
+class MockAuthConfigService implements Partial<AuthConfigService> {
+  getCustomLoginFormEndpoint() {
+    return 'https://localhost:9002/authorizationserver/login';
+  }
+}
+
+function createForm(username: string, password: string, csrf: string) {
+  const form = document.createElement('form');
+  form.action = 'https://localhost:9002/authorizationserver/login';
+  form.method = 'POST';
+
+  const csrfInput = document.createElement('input');
+  csrfInput.setAttribute('type', 'hidden');
+  csrfInput.setAttribute('name', '_csrf');
+  csrfInput.setAttribute('value', csrf);
+  form.appendChild(csrfInput);
+
+  const usernameInput = document.createElement('input');
+  usernameInput.setAttribute('name', 'username');
+  usernameInput.setAttribute('value', username);
+  form.appendChild(usernameInput);
+
+  const pwInput = document.createElement('input');
+  pwInput.setAttribute('type', 'password');
+  pwInput.setAttribute('name', 'password');
+  pwInput.setAttribute('value', password);
+  form.appendChild(pwInput);
+
+  return form;
 }
 
 class MockVerificationTokenFacade implements Partial<VerificationTokenFacade> {
@@ -44,6 +90,7 @@ describe('VerificationTokenFormComponentService', () => {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -71,7 +118,7 @@ describe('VerificationTokenFormComponentService', () => {
     });
   });
 
-  describe('login', () => {
+  describe('legacy login', () => {
     const tokenId = '<LGN[OZ8Ijx92S7pf3KcqtuUxOvM0l2XmZQX+4TUEzXcJyjI=]>';
     const tokenCode = 'XG5tyu';
 
@@ -103,7 +150,7 @@ describe('VerificationTokenFormComponentService', () => {
       });
     });
 
-    describe('error', () => {
+    describe('legacy error', () => {
       beforeEach(() => {
         service.form.setValue({
           tokenCode: '',
@@ -120,6 +167,80 @@ describe('VerificationTokenFormComponentService', () => {
         spyOn(service.form, 'reset').and.stub();
         service.login();
         expect(service.form.reset).not.toHaveBeenCalled();
+      });
+    });
+  });
+  describe('new flow', () => {
+    // Reset test module to reconfigure FeatureConfigService
+    beforeEach(waitForAsync(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          VerificationTokenFormComponentService,
+          { provide: AuthService, useClass: MockAuthService },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+          { provide: AuthConfigService, useClass: MockAuthConfigService },
+          {
+            provide: FeatureConfigService,
+            useClass: class {
+              isEnabled(_feature: string): boolean {
+                return true;
+              }
+            },
+          },
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      service = TestBed.inject(VerificationTokenFormComponentService);
+    });
+
+    describe('login', () => {
+      const tokenId = '<LGN[OZ8Ijx92S7pf3KcqtuUxOvM0l2XmZQX+4TUEzXcJyjI=]>';
+      const tokenCode = 'XG5tyu';
+      const csrf = 'token';
+
+      it('should not patch token id', () => {
+        service.isUpdating$.subscribe().unsubscribe();
+        expect(service.form.value.tokenId).toEqual('');
+      });
+
+      describe('success', () => {
+        beforeEach(() => {
+          service.form.setValue({
+            tokenId,
+            tokenCode,
+            csrf,
+          });
+        });
+
+        it('should request email', () => {
+          const form = createForm(tokenId, tokenCode, csrf);
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).toHaveBeenCalledWith();
+        });
+      });
+
+      describe('error', () => {
+        beforeEach(() => {
+          service.form.setValue({
+            tokenCode: '',
+            tokenId,
+            csrf,
+          });
+        });
+
+        it('should not login', () => {
+          const form = createForm(tokenId, tokenCode, csrf);
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).not.toHaveBeenCalled();
+        });
       });
     });
   });
