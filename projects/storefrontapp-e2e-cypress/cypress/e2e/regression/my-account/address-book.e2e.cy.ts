@@ -40,6 +40,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
 
     describe('address book test for logged in user', () => {
       before(() => {
+        cy.visit('/');
         cy.requireLoggedIn();
         cy.reload();
         cy.visit('/');

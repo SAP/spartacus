@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { verifyTabbingOrder } from '../tabbing-order';
-import { fillLoginForm } from '../../auth-forms';
 import { user } from '../../../sample-data/checkout-flow';
+import { visitLoginPage } from '../../../support/utils/login';
+import { fillLoginForm } from '../../auth-forms';
+import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
 const containerSelector = '.LoginPageTemplate';
@@ -15,7 +16,7 @@ export function loginTabbingOrder(
   config: TabElement[],
   prefillForm: boolean = false
 ) {
-  cy.visit('/login');
+  visitLoginPage();
 
   if (prefillForm) {
     const { email: username, password } = user;
