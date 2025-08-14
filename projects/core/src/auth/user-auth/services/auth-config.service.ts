@@ -100,9 +100,16 @@ export class AuthConfigService {
   }
 
   /**
+   * Determines if Custom Login Page feature is enabled
+   */
+  public customLoginEnabled(): boolean {
+    return !!this.config?.customLoginPage;
+  }
+
+  /**
    * Determines if an authorization header should be sent with revoke requests.
    */
-  public sendAuthHeaderOnRevoke() {
+  public sendAuthHeaderOnRevoke(): boolean {
     return !!this.config?.sendAuthHeaderOnRevoke;
   }
 

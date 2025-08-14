@@ -29,6 +29,7 @@ import {
   GlobalMessageType,
   HttpErrorModel,
   HttpResponseStatus,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -98,6 +99,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
+
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
 
   constructor(
     protected authService: AuthService,
@@ -368,6 +371,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+    this.oAuthLibWrapperService.refreshAuthConfig();
   }
 
   showCustomList(): void {

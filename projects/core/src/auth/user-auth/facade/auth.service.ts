@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -12,11 +13,12 @@ import {
   lastValueFrom,
   Observable,
 } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config';
-import { LoggerService } from '../../../logger';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
@@ -38,8 +40,7 @@ export class AuthService {
   protected crossSiteRequestForgeryService = inject(
     CrossSiteRequestForgeryService
   );
-  // Todo: cleanup after verify deploy
-  protected logger = inject(LoggerService);
+
   /**
    * Indicates whether the access token is being refreshed
    */
@@ -49,7 +50,15 @@ export class AuthService {
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
+  protected location = inject(Location);
+  protected winRef = inject(WindowRef);
+
+  protected csrfToken$ = this.crossSiteRequestForgeryService
+    .getCsrfToken()
+    .pipe(shareReplay({ bufferSize: 1, refCount: true }));
+
   private featureConfigService = inject(FeatureConfigService);
+  protected featureToggles = inject(FeatureToggles);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -148,20 +157,7 @@ export class AuthService {
    * @return {string} The CSRF token used for preventing cross-site request forgery attacks.
    */
   getCsrfToken() {
-    return this.crossSiteRequestForgeryService.getCsrfToken().pipe(
-      shareReplay({ bufferSize: 1, refCount: true }),
-      tap({
-        error: (e) => {
-          // Todo: cleanup after verify deploy
-          this.logger.error('Failed to get csrf token', e);
-          const MISSING_JSESSIONID_CODE = 403;
-          if (e.status === MISSING_JSESSIONID_CODE) {
-            /* Redirect to restart the flow if an attempt was made to manually obtain a custom form */
-            this.routingService.go({ cxRoute: 'login' });
-          }
-        },
-      })
-    );
+    return this.csrfToken$;
   }
 
   /**
@@ -235,7 +231,51 @@ export class AuthService {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 
+  /**
+   * Indicates whether the ASM module is enabled.
+   */
+  protected isAsmEnabled(): boolean {
+    if (this.isLaunched() && !this.isUsedBefore() && this.winRef.localStorage) {
+      this.winRef.localStorage.setItem('asm_enabled', 'true');
+    }
+    return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
+  }
+
+  /**
+   * Indicates whether ASM is launched through the URL,
+   * using the asm flag in the URL.
+   */
+  protected isLaunched(): boolean {
+    const params = this.location.path().split('?')[1];
+    return !!params && params.split('&').includes('asm=true');
+  }
+
+  /**
+   * check whether try to emulate customer from deeplink
+   * */
+  protected isEmulateInURL(): boolean {
+    return this.location.path().indexOf('assisted-service/emulate?') > 0;
+  }
+
+  /**
+   * Evaluates local storage where we persist the usage of ASM.
+   */
+  protected isUsedBefore(): boolean {
+    if (this.winRef.localStorage) {
+      return this.winRef.localStorage.getItem('asm_enabled') === 'true';
+    } else {
+      return false;
+    }
+  }
+
   public refreshAuthConfig() {
-    this.oAuthLibWrapperService.refreshAuthConfig();
+    if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.isAsmEnabled()
+    ) {
+      this.oAuthLibWrapperService.changeAuthConfigClientId('asm_client');
+    } else {
+      this.oAuthLibWrapperService.refreshAuthConfig();
+    }
   }
 }

@@ -590,7 +590,14 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLogin('asagent', 'pw4all');
+    cy.whenJDK17(() => {
+      asm.agentLogin('asagent', 'pw4all');
+    });
+
+    cy.whenJDK21(() => {
+      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+      login('asagent', 'pw4all');
+    });
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
@@ -852,7 +859,14 @@ export function emulateCustomerPrepare(agentToken, agentPwd) {
   cy.log('--> Register new user');
   cy.visit('/?asm=true');
   checkout.registerUser(false, customer);
-  asm.agentLogin(agentToken, agentPwd);
+  cy.whenJDK17(() => {
+    asm.agentLogin(agentToken, agentPwd);
+  });
+
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    login(agentToken, agentPwd);
+  });
   return customer;
 }
 
@@ -863,7 +877,7 @@ export function getCustomerId(agentUserName, agentPwd, customerUid) {
       cy.request({
         method: 'get',
         url:
-          `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
           )}/users/` + customerUid,
         headers: {
