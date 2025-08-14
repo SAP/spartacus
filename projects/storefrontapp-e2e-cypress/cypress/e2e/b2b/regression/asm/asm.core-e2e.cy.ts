@@ -5,6 +5,7 @@
  */
 
 import * as asm from '../../../../helpers/asm';
+import { login } from '../../../../helpers/auth-forms';
 import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
@@ -43,7 +44,14 @@ context('B2B - Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('brandon.leclair@acme.com', 'pw4all');
+      });
       cy.log('--> Agent emulate customer');
       asm.startCustomerEmulation(customer, true);
 

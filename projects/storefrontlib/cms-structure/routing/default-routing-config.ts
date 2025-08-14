@@ -8,10 +8,11 @@ import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
+  const featureToggles = inject(FeatureToggles);
   const enableProductPageRouteAllowsNoProductName =
-    inject(FeatureToggles).defaultProductPageRouteAllowsNoProductName;
+    featureToggles.defaultProductPageRouteAllowsNoProductName;
 
-  return {
+  const routingConfig = {
     routing: {
       routes: {
         home: { paths: [''] },
@@ -19,7 +20,14 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
 
         // semantic links for login related pages
         login: {
-          paths: ['login'],
+          /*
+           * New auth flow requires 2 paths for login trigger and login form
+           * where we are redirected from oauth server.
+           * Legacy path will stay, new one is updated.           *
+           */
+          paths: [
+            featureToggles.authorizationCodeFlowByDefault ? 'sign-in' : 'login',
+          ],
           protected: false,
           authFlow: true,
         },
@@ -81,4 +89,17 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
       },
     },
   };
+  /*
+   * Configuration necessary to allow customization of login form path,
+   * which have to be the same as configured in oauth client
+   */
+  if (featureToggles.authorizationCodeFlowByDefault) {
+    (routingConfig.routing.routes as any)['loginForm'] = {
+      paths: ['login'],
+      protected: false,
+      authFlow: true,
+    };
+  }
+
+  return routingConfig;
 };

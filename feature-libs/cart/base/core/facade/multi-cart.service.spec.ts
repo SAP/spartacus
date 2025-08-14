@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { FeatureConfigService, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
@@ -60,9 +60,14 @@ class MockUserIdService implements Partial<UserIdService> {
   });
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy();
+}
+
 describe('MultiCartService', () => {
   let service: MultiCartService;
   let store: Store<StateWithMultiCart>;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,12 +81,13 @@ describe('MultiCartService', () => {
       providers: [
         MultiCartService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
-
+    featureConfigService = TestBed.inject(FeatureConfigService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -324,23 +330,86 @@ describe('MultiCartService', () => {
   });
 
   describe('mergeToCurrentCart', () => {
-    it('should merge cart', () => {
-      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+    describe('feature flag incrementProcessesCountForMergeCart is enabled', () => {
+      it('should merge cart', () => {
+        spyOn(service as any, 'generateTempCartId').and.returnValue(
+          'temp-uuid'
+        );
+        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
 
-      service.mergeToCurrentCart({
-        userId: 'userId',
-        cartId: 'cartId',
-        extraData: {},
-      });
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.MergeCart({
+        isEnabledSpy.and.callFake((value: string) => {
+          if (value === 'incrementProcessesCountForMergeCart') {
+            return true;
+          }
+          return false;
+        });
+        service.mergeToCurrentCart({
           userId: 'userId',
-          extraData: {},
           cartId: 'cartId',
-          tempCartId: 'temp-uuid',
-        })
-      );
+          extraData: {},
+        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.MergeCartAndIncrementProcessesCount({
+            userId: 'userId',
+            extraData: {},
+            cartId: 'cartId',
+            tempCartId: 'temp-uuid',
+          })
+        );
+      });
+    });
+    describe('feature flag authorizationCodeFlowByDefault is enabled', () => {
+      it('should merge cart', () => {
+        spyOn(service as any, 'generateTempCartId').and.returnValue(
+          'temp-uuid'
+        );
+        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
+
+        isEnabledSpy.and.callFake((value: string) => {
+          if (value === 'authorizationCodeFlowByDefault') {
+            return true;
+          }
+          return false;
+        });
+        service.mergeToCurrentCart({
+          userId: 'userId',
+          cartId: 'cartId',
+          extraData: {},
+        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.MergeCartAndIncrementProcessesCount({
+            userId: 'userId',
+            extraData: {},
+            cartId: 'cartId',
+            tempCartId: 'temp-uuid',
+          })
+        );
+      });
+    });
+    describe('feature flags incrementProcessesCountForMergeCart and authorizationCodeFlowByDefault are disabled', () => {
+      it('should merge cart', () => {
+        spyOn(service as any, 'generateTempCartId').and.returnValue(
+          'temp-uuid'
+        );
+        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
+
+        isEnabledSpy.and.callFake((_value: string) => {
+          return false;
+        });
+        service.mergeToCurrentCart({
+          userId: 'userId',
+          cartId: 'cartId',
+          extraData: {},
+        });
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CartActions.MergeCart({
+            userId: 'userId',
+            extraData: {},
+            cartId: 'cartId',
+            tempCartId: 'temp-uuid',
+          })
+        );
+      });
     });
   });
 
