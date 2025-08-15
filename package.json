@@ -271,7 +271,7 @@
     "karma-junit-reporter": "^2.0.1",
     "ng-packagr": "^19.2.2",
     "nx": "^20.4.6",
-    "parse5": "^7.2.1",
+    "parse5": "^8.0.0",
     "postcss": "^8.4.31",
     "postcss-scss": "^4.0.6",
     "prettier": "~3.5.0",
