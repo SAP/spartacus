@@ -97,7 +97,7 @@ OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
 
 #NPM connection info
-#NPM_URL must start by 'https://' and end with '/' char
+#NPM_URL must start by "https://" and end with "/" char
 NPM_TOKEN=
 NPM_URL=
 NPM_ALWAYS_AUTH=true
@@ -108,3 +108,28 @@ CHECK_B2B_AFTER_START=false
 # Forces E2E even if XVFB is not installed
 FORCE_E2E=false
 SKIP_E2E=false
+
+#JDK toggle: JDK21 or JDK17
+JDK_VERSION="JDK21"
+# set it as empty to not add the auth config
+AUTH_CONFIG='provideConfig(<AuthConfig>{
+        authentication: {
+        client_id: "mobile_android_TEST",
+        tokenEndpoint: "/oauth/token",
+        revokeEndpoint: "/oauth/revoke",
+        loginUrl: "/oauth/authorize",
+        OAuthLibConfig: {
+          scope: "",
+          customTokenParameters: ["token_type"],
+          strictDiscoveryDocumentValidation: false,
+          skipIssuerCheck: true,
+          disablePKCE: false,
+          oidc: false,
+          clearHashAfterLogin: false,
+          responseType: "code",
+        },
+        customLoginPage: {
+          csrfEndpoint: "/csrf",
+          loginFormEndpoint: "/login",
+        },
+      }}),'

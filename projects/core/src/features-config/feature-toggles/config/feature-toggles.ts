@@ -906,7 +906,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
-  authorizationCodeFlowByDefault: false,
+  authorizationCodeFlowByDefault: true,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,

@@ -448,6 +448,7 @@ function build_csr {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app build (No port defined)"
     else
+        setJdkVersion "$CSR_APP_NAME"
         printh "Building csr app"
         ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
     fi
@@ -458,6 +459,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         local buildCommands
+        setJdkVersion "$SSR_APP_NAME"
         printh "Building ssr app"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
@@ -1084,4 +1086,86 @@ function compareSemver() {
     # If all parts are equal, the versions are equal
     echo 0
     return
+}
+
+function setJdkVersion {
+    local app_dir="${1}"
+    local authorizationCodeFlowByDefault_value="false"
+    # ../../../spartacus-latest/apps/csr/src/app/spartacus/spartacus-features.module.ts
+    SPARTACUS_FEATURES_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-features.module.ts"
+    echo "Updating Spartacus features module with JDK version: $JDK_VERSION for app: $app_dir"   
+
+    if [ "$JDK_VERSION" == "JDK21" ]; then
+        authorizationCodeFlowByDefault_value="true"
+    fi
+
+    if [ ! -f "$SPARTACUS_FEATURES_MODULE_PATH" ]; then
+    echo "Incorrect path: $SPARTACUS_FEATURES_MODULE_PATH"
+    return
+    fi
+
+    if ! grep -q 'authorizationCodeFlowByDefault' "$SPARTACUS_FEATURES_MODULE_PATH"; then
+        echo "authorizationCodeFlowByDefault toggle not found in file"
+        return
+    fi
+
+    if grep -E "\"?authorizationCodeFlowByDefault\"?:[[:space:]]*$authorizationCodeFlowByDefault_value" "$SPARTACUS_FEATURES_MODULE_PATH" > /dev/null; then
+      echo "authorizationCodeFlowByDefault is already set with $authorizationCodeFlowByDefault_value, no change needed."
+    else
+      sed -i '' -E "s/(\"?authorizationCodeFlowByDefault\"?:[[:space:]]*)(true|false)/\1$authorizationCodeFlowByDefault_value/" "$SPARTACUS_FEATURES_MODULE_PATH"
+        if grep -E "\"?authorizationCodeFlowByDefault\"?:[[:space:]]*$authorizationCodeFlowByDefault_value" "$SPARTACUS_FEATURES_MODULE_PATH" > /dev/null; then
+            echo "authorizationCodeFlowByDefault has been successfully updated to $authorizationCodeFlowByDefault_value with JDK version: $JDK_VERSION"
+        else
+            echo "Failed to update authorizationCodeFlowByDefault with JDK version: $JDK_VERSION"
+        fi
+    fi
+
+    addAuthConfig "$app_dir"
+}
+
+
+function addAuthConfig {
+  if [ -z "$AUTH_CONFIG" ]; then
+    echo "AUTH_CONFIG is null or empty, exiting function."
+    return
+  fi
+
+  if [ "$JDK_VERSION" == "JDK21" ]; then
+    authorizationCodeFlowByDefault_value="true"
+  fi
+
+  single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
+  echo "single line: $single_line"
+
+  local app_dir="${1}"
+  SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
+  # AUTH_CONFIG_STRING="provideConfig(<AuthConfig>{$AUTH_CONFIG}),"
+
+  if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
+    echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
+    return
+  fi
+
+  if ! grep -q 'AuthConfig,' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
+    sed -i '' '/@spartacus\/core/i\
+AuthConfig,
+' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    echo "AuthConfig import added."
+  else
+    echo "AuthConfig import already exists, skipping."
+  fi
+
+  # Delete previous AuthConfig provider
+  sed -i '' '/provideConfig(<AuthConfig>/d' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+
+  # Insert the new AuthConfig provider directly after 'providers:' line
+  line=$(grep -n 'providers:' "$SPARTACUS_CONFIGURATION_MODULE_PATH" | head -n1 | cut -d: -f1)
+  if [ -n "$line" ]; then
+    sed -i '' "$((line+1))i\\
+$single_line
+" "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    echo "AuthConfig provider added."
+  else
+    echo "Error: AuthConfig provider not added as provider section not found"
+  fi
 }
