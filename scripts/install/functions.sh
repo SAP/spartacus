@@ -1130,17 +1130,12 @@ function addAuthConfig {
     return
   fi
 
-  if [ "$JDK_VERSION" == "JDK21" ]; then
-    authorizationCodeFlowByDefault_value="true"
-  fi
-
   single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
   echo "single line: $single_line"
 
   local app_dir="${1}"
   SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
-  # AUTH_CONFIG_STRING="provideConfig(<AuthConfig>{$AUTH_CONFIG}),"
-
+ 
   if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
     echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
     return

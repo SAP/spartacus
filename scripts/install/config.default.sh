@@ -97,7 +97,7 @@ OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
 
 #NPM connection info
-#NPM_URL must start by "https://" and end with "/" char
+#NPM_URL must start by 'https://'' and end with '/'' char
 NPM_TOKEN=
 NPM_URL=
 NPM_ALWAYS_AUTH=true
