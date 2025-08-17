@@ -400,7 +400,7 @@ if (environment.cpq) {
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
-        authorizationCodeFlowByDefault: false,
+        authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
       };
       return appFeatureToggles;
