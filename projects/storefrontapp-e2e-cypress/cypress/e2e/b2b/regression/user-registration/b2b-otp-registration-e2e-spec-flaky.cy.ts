@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 export function visitLoginPage() {
   cy.visit('/');
   cy.getLoginRegisterLink({ clickAndWait: true });
@@ -19,7 +18,7 @@ describe('Tabbing order for B2B OTP registration', () => {
     context('B2B OTP Registration page', () => {
       beforeEach(() => {
         visitLoginPage();
-        cy.get('cx-link.cx-organization-user-register-button').click();      
+        cy.get('cx-link.cx-organization-user-register-button').click();
       });
       it('should allow to navigate with tab key for otp registration form and otp verification page(CXSPA-8772)', () => {
         cy.get('cx-user-registration-form').should('exist');
@@ -66,8 +65,8 @@ describe('Tabbing order for B2B OTP registration', () => {
             cy.get('button[type=submit]').click();
           });
           cy.wait('@OrgUserRegistration')
-          .its('response.statusCode')
-          .should('eq', 201);
+            .its('response.statusCode')
+            .should('eq', 201);
         });
       });
     });
@@ -77,7 +76,7 @@ describe('Tabbing order for B2B OTP registration', () => {
     it('Should display error message when create verification token with registration up to rate limit (CXSPA-9111)', () => {
       for (let i = 0; i < 6; i++) {
         visitLoginPage();
-        cy.get('cx-link.cx-organization-user-register-button').click();      
+        cy.get('cx-link.cx-organization-user-register-button').click();
         cy.get('cx-user-registration-form form').within(() => {
           cy.get('ng-select[formcontrolname="titleCode"]')
             .click()

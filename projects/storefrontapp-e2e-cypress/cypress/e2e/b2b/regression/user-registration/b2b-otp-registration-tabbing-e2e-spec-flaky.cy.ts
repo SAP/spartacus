@@ -23,7 +23,7 @@ describe('Tabbing order for B2B OTP registration', () => {
     context('B2B OTP Registration page', () => {
       beforeEach(() => {
         visitLoginPage();
-        cy.get('cx-link.cx-organization-user-register-button').click();      
+        cy.get('cx-link.cx-organization-user-register-button').click();
       });
       it('should allow to navigate with tab key for otp registration form and otp verification page(CXSPA-8772)', () => {
         cy.get('cx-user-registration-form').should('exist');

@@ -9,7 +9,6 @@ import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 
-
 export function visitLoginPage() {
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.visit('/');

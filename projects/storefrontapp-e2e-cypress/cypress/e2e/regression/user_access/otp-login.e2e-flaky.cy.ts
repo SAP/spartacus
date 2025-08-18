@@ -5,7 +5,7 @@
  */
 
 import * as login from '../../../helpers/login';
-import {  waitForPage } from '../../../helpers/navigation';
+import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 import { interceptPost } from '../../../support/utils/intercept';
@@ -126,8 +126,8 @@ describe('OTP Login', () => {
             cy.wait(`@${loginPage}`)
               .its('response.statusCode')
               .should('eq', 200);
-            });
           });
+        });
       });
 
       it('should be able to create a new OTP by customer click Sign In button (CXSPA-6672)', () => {
@@ -164,16 +164,19 @@ describe('OTP Login', () => {
             '[Spartacus Electronics Site] Login Verification Code';
           const verificationCodeEmailStartText =
             'Please use the following verification code to log in Spartacus Electronics Site: ';
-          
+
           const items = response.body.messages;
-          const emailBody = 
-              subject === items[0].Subject ? items[0].Snippet
-              : subject === items[1].Subject ? items[1].Snippet : items[2].Snippet;
+          const emailBody =
+            subject === items[0].Subject
+              ? items[0].Snippet
+              : subject === items[1].Subject
+                ? items[1].Snippet
+                : items[2].Snippet;
 
           const verificationCodeEmailStartIndex =
             emailBody.indexOf(verificationCodeEmailStartText) +
             verificationCodeEmailStartText.length;
-          
+
           const verificationCode = emailBody.substring(
             verificationCodeEmailStartIndex,
             verificationCodeEmailStartIndex + 8
@@ -203,9 +206,7 @@ describe('OTP Login', () => {
       listenForCreateVerificationToken();
 
       cy.get('cx-otp-login-form form').within(() => {
-        cy.get('[formcontrolname="userId"]')
-          .clear()
-          .type('test.user@sap.coma');
+        cy.get('[formcontrolname="userId"]').clear().type('test.user@sap.coma');
         cy.get('[formcontrolname="password"]').clear().type('1234');
         cy.get('button[type=submit]').click();
       });
@@ -249,9 +250,13 @@ describe('OTP Login', () => {
         visitLoginPage();
         cy.get('cx-otp-login-form form', { timeout: 10000 }).should('exist');
         cy.get('cx-otp-login-form form').within(() => {
-          cy.get('[formcontrolname="userId"]').as('usr' + i).clear();
+          cy.get('[formcontrolname="userId"]')
+            .as('usr' + i)
+            .clear();
           cy.get('@usr' + i).type(user.email);
-          cy.get('[formcontrolname="password"]').as('pas' + i).clear();
+          cy.get('[formcontrolname="password"]')
+            .as('pas' + i)
+            .clear();
           cy.get('@pas' + i).type(user.password);
           cy.get('button[type=submit]').click();
           cy.wait(1000);

@@ -7,7 +7,6 @@ import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
 import { waitForPage } from '../../../helpers/navigation';
 
-
 export function visitLoginPage() {
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.visit('/');
