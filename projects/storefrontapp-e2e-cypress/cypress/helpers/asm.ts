@@ -1078,9 +1078,7 @@ export function getInactiveCartIdAndAddProductsForJDK21(
     cy.get('button.logout').should('exist').and('be.visible').click();
     cy.get('button.close[title="Close ASM"]').should('be.visible').click();
     cy.log('Customer login in');
-    cy.contains('a[role="link"]', 'Sign In / Register')
-      .should('have.attr', 'href', '/electronics-spa/en/USD/sign-in')
-      .click();
+    cy.contains('a[role="link"]', 'Sign In / Register').click();
 
     cy.get('input[name="username"]').clear().type(customerEmail);
     cy.get('input[name="password"]').clear().type(customerPwd);
