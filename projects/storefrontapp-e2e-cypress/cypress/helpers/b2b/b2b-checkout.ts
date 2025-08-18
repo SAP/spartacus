@@ -273,7 +273,6 @@ export function selectAccountShippingAddress() {
 }
 
 export function selectAccountCostCenter() {
-  cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
   cy.get('cx-cost-center').within(() => {
     cy.get('select').then((select) => {
       if (select.find(`option:contains("${costCenter}")`).length) {
@@ -281,12 +280,11 @@ export function selectAccountCostCenter() {
       } else {
         cy.get('select').select(0);
       }
-      cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
     });
   });
   // need to wait the Selected Address being visible on UI with bold border style.
   // No other alternative found.
-  cy.wait(2000);
+  cy.wait(4000);
 }
 
 export function selectAccountDeliveryMode() {

@@ -109,6 +109,9 @@ export const orderHistoryTest = {
     url: string = orderHistoryLink
   ) {
     it('should go to Order History once user has logged in', () => {
+      cy.visit(url);
+      cy.url().should('contain', '/login');
+      cy.getLoginRegisterLink().should('contain', 'Sign In / Register');
       login(sampleUser.email, sampleUser.password);
       cy.url().should('contain', url);
       if (url === replenishmentOrderHistoryUrl) {

@@ -15,7 +15,6 @@ import {
   FeatureToggles,
   I18nTestingModule,
   Product,
-  ProductScope,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
@@ -169,7 +168,7 @@ const mockComponentData: CmsProductCarouselComponent = {
   title: 'Mock Title',
   name: 'Mock Product Carousel',
   container: 'false',
-  categoryCodes: 'electronics ',
+  categoryCodes: 'electronics',
 };
 const mockComponentWithAddCartData: CmsProductCarouselComponent = {
   ...mockComponentData,
@@ -207,28 +206,29 @@ class MockProductSearchByCategoryService
   }
 }
 
+let mockFeatureToggles: FeatureToggles;
+
+class MockFeatureConfigService {
+  isEnabled(
+    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+  ): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = (
+      hasNegation ? feature.slice(1) : feature
+    ) as keyof FeatureToggles;
+
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let featureConfigService: MockFeatureConfigService;
   let productSearchByCodeService: MockProductSearchByCodeService;
   let productSearchByCategoryService: MockProductSearchByCategoryService;
-  let mockFeatureToggles: FeatureToggles;
-
-  class MockFeatureConfigService {
-    isEnabled(
-      feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-    ): boolean {
-      const hasNegation = feature.startsWith('!');
-      const featureName = (
-        hasNegation ? feature.slice(1) : feature
-      ) as keyof FeatureToggles;
-
-      return hasNegation
-        ? !mockFeatureToggles[featureName]
-        : !!mockFeatureToggles[featureName];
-    }
-  }
 
   const testBedDefaults = {
     imports: [I18nTestingModule, FeaturesConfigModule],
@@ -270,7 +270,6 @@ describe('ProductCarouselComponent', () => {
 
   beforeEach(() => {
     mockFeatureToggles = {
-      useProductCarouselBatchApi: true,
       enableCarouselCategoryProducts: false,
       productCarouselScrolling: true,
     };
@@ -319,27 +318,7 @@ describe('ProductCarouselComponent', () => {
     });
   });
 
-  it('should have 2 items', (done) => {
-    const productService = TestBed.inject(ProductService);
-    mockFeatureToggles.useProductCarouselBatchApi = false;
-    mockFeatureToggles.enableCarouselCategoryProducts = false;
-    spyOn(featureConfigService, 'isEnabled').and.callThrough();
-    spyOn(productService, 'get').and.callThrough();
-
-    const scopes = [ProductScope.LIST_ITEM];
-
-    component.items$.subscribe((items) => {
-      expect(productService.get).toHaveBeenCalledTimes(2);
-      expect(productService.get).toHaveBeenCalledWith('1', scopes);
-      expect(productService.get).toHaveBeenCalledWith('2', scopes);
-      expect(items?.length).toBe(2);
-
-      done();
-    });
-  });
-
   it('should have product code 111 in first product', waitForAsync(() => {
-    mockFeatureToggles.useProductCarouselBatchApi = false;
     mockFeatureToggles.enableCarouselCategoryProducts = false;
     spyOn(featureConfigService, 'isEnabled').and.callThrough();
     fixture.detectChanges();
@@ -349,11 +328,10 @@ describe('ProductCarouselComponent', () => {
     let product: Product | undefined;
     items[0].subscribe((p) => (product = p));
 
-    expect(product).toBe(mockProducts[1]);
+    expect(product).toBe(mockProductsFromSearchByCodes['1']['carouselMinimal']);
   }));
 
-  it('FeatureToggleEnable: Should use batch API with carouselMinimal scope when componentMappingExist is false', (done) => {
-    mockFeatureToggles.useProductCarouselBatchApi = true;
+  it('Should use batch API with carouselMinimal scope when componentMappingExist is false', (done) => {
     mockFeatureToggles.enableCarouselCategoryProducts = false;
     spyOn(featureConfigService, 'isEnabled').and.callThrough();
     fixture.detectChanges();
@@ -361,9 +339,6 @@ describe('ProductCarouselComponent', () => {
     spyOn(productSearchByCodeService, 'get').and.callThrough();
 
     component.items$.subscribe((items) => {
-      expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-        'useProductCarouselBatchApi'
-      );
       expect(productSearchByCodeService.get).toHaveBeenCalledWith({
         code: '1',
         scope: 'carouselMinimal',
@@ -416,35 +391,13 @@ describe('ProductCarouselComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should invoke the productService with the correct scope.', (done) => {
-      fixture.detectChanges();
-      const productService = TestBed.inject(ProductService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-      spyOn(productService, 'get').and.callThrough();
-
-      const scopes = [ProductScope.LIST, ProductScope.STOCK];
-
-      component.items$.subscribe((items) => {
-        expect(productService.get).toHaveBeenCalledTimes(2);
-        expect(productService.get).toHaveBeenCalledWith('1', scopes);
-        expect(productService.get).toHaveBeenCalledWith('2', scopes);
-        expect(items?.length).toBe(2);
-
-        done();
-      });
-    });
-
-    it('FeatureToggleEnable: Should use batch API with carousel scope when componentMappingExist is true', (done) => {
-      mockFeatureToggles.useProductCarouselBatchApi = true;
+    it('Should use batch API with carousel scope when componentMappingExist is true', (done) => {
       mockFeatureToggles.enableCarouselCategoryProducts = false;
       spyOn(featureConfigService, 'isEnabled').and.callThrough();
       spyOn(productSearchByCodeService, 'get').and.callThrough();
       fixture.detectChanges();
 
       component.items$.subscribe((items) => {
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'useProductCarouselBatchApi'
-        );
         expect(productSearchByCodeService.get).toHaveBeenCalledWith({
           code: '1',
           scope: 'carousel',
@@ -475,20 +428,43 @@ describe('ProductCarouselComponent', () => {
       productSearchByCategoryService = TestBed.inject(
         ProductSearchByCategoryService
       ) as MockProductSearchByCategoryService;
+      productSearchByCodeService = TestBed.inject(
+        ProductSearchByCodeService
+      ) as MockProductSearchByCodeService;
+
+      // Only Mocking additional products for category products scenario
+      mockProductsFromSearchByCodes['prod3'] = {
+        carousel: { code: 'prod3', name: 'product 3' },
+        carouselMinimal: { code: 'prod3', name: 'product 3' },
+      };
+      mockProductsFromSearchByCodes['prod4'] = {
+        carousel: { code: 'prod4', name: 'product 4' },
+        carouselMinimal: { code: 'prod4', name: 'product 4' },
+      };
+      mockProductsFromSearchByCodes['prod5'] = {
+        carousel: { code: 'prod5', name: 'product 5' },
+        carouselMinimal: { code: 'prod5', name: 'product 5' },
+      };
       fixture.detectChanges();
     });
 
+    afterEach(() => {
+      delete mockProductsFromSearchByCodes['prod3'];
+      delete mockProductsFromSearchByCodes['prod4'];
+      delete mockProductsFromSearchByCodes['prod5'];
+    });
+
     it('should retrieve products by category', (done) => {
-      mockFeatureToggles.useProductCarouselBatchApi = false;
       mockFeatureToggles.enableCarouselCategoryProducts = true;
       spyOn(featureConfigService, 'isEnabled').and.callThrough();
 
       spyOn(productSearchByCategoryService, 'get').and.callThrough();
+      spyOn(productSearchByCodeService, 'get').and.callThrough();
 
       component.items$.subscribe((items) => {
         expect(items?.length).toBe(5);
 
-        expect(productSearchByCategoryService.get).toHaveBeenCalledTimes(2);
+        expect(productSearchByCategoryService.get).toHaveBeenCalledTimes(1);
 
         done();
       });

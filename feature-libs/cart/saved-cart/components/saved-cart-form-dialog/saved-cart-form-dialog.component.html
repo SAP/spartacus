@@ -10,11 +10,7 @@
       <!-- Modal Header -->
       <div class="modal-header cx-saved-cart-form-header">
         <ng-container [ngSwitch]="layoutOption">
-          <h3
-            *cxFeature="'a11yDialogsHeading'"
-            id="dialogTitle"
-            class="cx-saved-cart-form-title modal-title"
-          >
+          <h3 id="dialogTitle" class="cx-saved-cart-form-title modal-title">
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">
               {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
             </ng-container>
@@ -28,24 +24,6 @@
               {{ 'savedCartDialog.restoreSavedCart' | cxTranslate }}
             </ng-container>
           </h3>
-          <div
-            *cxFeature="'!a11yDialogsHeading'"
-            id="dialogTitle"
-            class="cx-saved-cart-form-title modal-title"
-          >
-            <ng-container *ngSwitchCase="savedCartFormType.EDIT">
-              {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
-            </ng-container>
-            <ng-container *ngSwitchCase="savedCartFormType.DELETE">
-              {{ 'savedCartDialog.deleteSavedCart' | cxTranslate }}
-            </ng-container>
-            <ng-container *ngSwitchCase="savedCartFormType.SAVE">
-              {{ 'savedCartDialog.saveForLater' | cxTranslate }}
-            </ng-container>
-            <ng-container *ngSwitchCase="savedCartFormType.RESTORE">
-              {{ 'savedCartDialog.restoreSavedCart' | cxTranslate }}
-            </ng-container>
-          </div>
         </ng-container>
 
         <button

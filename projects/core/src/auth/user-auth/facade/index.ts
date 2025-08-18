@@ -5,4 +5,5 @@
  */
 
 export * from './auth.service';
+export * from './csrf-state.service';
 export * from './user-id.service';
