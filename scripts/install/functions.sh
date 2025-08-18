@@ -450,7 +450,7 @@ function build_csr {
     else
         setJdkVersion "$CSR_APP_NAME"
         printh "Building csr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
+   #     ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
     fi
 }
 
@@ -466,7 +466,7 @@ function build_ssr {
         else
             buildCommands="npm run build && npm run build:ssr"
         fi
-       ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
+  #     ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
     fi
 }
 
@@ -1088,10 +1088,19 @@ function compareSemver() {
     return
 }
 
+# To handle multiple OS, macOS 'sed -i' cmd needs single quotes param unlike others.
+sed_inplace() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "$@"
+  else
+    sed -i "$@"
+  fi
+}
+
 function setJdkVersion {
     local app_dir="${1}"
     local authorizationCodeFlowByDefault_value="false"
-    # ../../../spartacus-latest/apps/csr/src/app/spartacus/spartacus-features.module.ts
+    # eg: ../../../spartacus-latest/apps/csr/src/app/spartacus/spartacus-features.module.ts
     SPARTACUS_FEATURES_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-features.module.ts"
     echo "Updating Spartacus features module with JDK version: $JDK_VERSION for app: $app_dir"   
 
@@ -1112,55 +1121,73 @@ function setJdkVersion {
     if grep -E "\"?authorizationCodeFlowByDefault\"?:[[:space:]]*$authorizationCodeFlowByDefault_value" "$SPARTACUS_FEATURES_MODULE_PATH" > /dev/null; then
       echo "authorizationCodeFlowByDefault is already set with $authorizationCodeFlowByDefault_value, no change needed."
     else
-      sed -i '' -E "s/(\"?authorizationCodeFlowByDefault\"?:[[:space:]]*)(true|false)/\1$authorizationCodeFlowByDefault_value/" "$SPARTACUS_FEATURES_MODULE_PATH"
+      sed_inplace -E "s/(\"?authorizationCodeFlowByDefault\"?:[[:space:]]*)(true|false)/\1$authorizationCodeFlowByDefault_value/" "$SPARTACUS_FEATURES_MODULE_PATH"
         if grep -E "\"?authorizationCodeFlowByDefault\"?:[[:space:]]*$authorizationCodeFlowByDefault_value" "$SPARTACUS_FEATURES_MODULE_PATH" > /dev/null; then
             echo "authorizationCodeFlowByDefault has been successfully updated to $authorizationCodeFlowByDefault_value with JDK version: $JDK_VERSION"
         else
             echo "Failed to update authorizationCodeFlowByDefault with JDK version: $JDK_VERSION"
         fi
     fi
+ 
+    cat "*********** spartacus-features.module.ts ***********"
+    cat "$SPARTACUS_FEATURES_MODULE_PATH"
+    cat "*********** EOF spartacus-features.module.ts ***********"
 
     addAuthConfig "$app_dir"
 }
 
-
 function addAuthConfig {
-  if [ -z "$AUTH_CONFIG" ]; then
-    echo "AUTH_CONFIG is null or empty, exiting function."
-    return
-  fi
+    if [ -z "$AUTH_CONFIG" ]; then
+        echo "AUTH_CONFIG is null or empty, exiting function."
+        return
+    fi
 
-  single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
-  echo "single line: $single_line"
+    if [ "$JDK_VERSION" == "JDK21" ]; then
+       authorizationCodeFlowByDefault_value="true"
+    fi
 
-  local app_dir="${1}"
-  SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
- 
-  if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
-    echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
-    return
-  fi
+    local app_dir="${1}"
+    SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
 
-  if ! grep -q 'AuthConfig,' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
-    sed -i '' '/@spartacus\/core/i\
-AuthConfig,
-' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
-    echo "AuthConfig import added."
-  else
-    echo "AuthConfig import already exists, skipping."
-  fi
 
-  # Delete previous AuthConfig provider
-  sed -i '' '/provideConfig(<AuthConfig>/d' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
+        echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
+        return
+    fi
 
-  # Insert the new AuthConfig provider directly after 'providers:' line
-  line=$(grep -n 'providers:' "$SPARTACUS_CONFIGURATION_MODULE_PATH" | head -n1 | cut -d: -f1)
-  if [ -n "$line" ]; then
-    sed -i '' "$((line+1))i\\
-$single_line
-" "$SPARTACUS_CONFIGURATION_MODULE_PATH"
-    echo "AuthConfig provider added."
-  else
-    echo "Error: AuthConfig provider not added as provider section not found"
-  fi
+    auth_config_single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
+    echo "single line: $auth_config_single_line"
+
+    # delete previous provider config, text included between provideConfig(<AuthConfig> and the closing brace.
+    # perl needed to handle muli-line regex
+    perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+
+
+    # Check presence of AuthConfig import
+    if ! awk '/@spartacus\/core/ {exit} /AuthConfig/ {found=1} END {exit !found}' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
+        # add import for AuthConfig in new line above '@spartacus/core'
+        sed_inplace '/@spartacus\/core/i\
+        AuthConfig,
+        ' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        echo "AuthConfig import added."
+    else
+        echo "AuthConfig import already exists, skipping."
+    fi
+
+
+
+    ## Insert the AUTH_CONFIG_STRING after 'providers:' line
+    line=$(grep -n 'providers:' "$SPARTACUS_CONFIGURATION_MODULE_PATH" | head -n1 | cut -d: -f1)
+    if [ -n "$line" ]; then
+        sed_inplace "$((line+1))i\\
+        $auth_config_single_line
+        " "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        echo "AuthConfig provider added."
+    else
+        echo "Error: AuthConfig provider not added as provider section not found"
+    fi
+    cat "*********** spartacus-configuration.module.ts ***********"
+    cat "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    cat "*********** EOF spartacus-configuration.module.ts ***********"
+
 }

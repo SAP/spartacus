@@ -114,7 +114,7 @@ JDK_VERSION="JDK21"
 # set it as empty to not add the auth config
 AUTH_CONFIG='provideConfig(<AuthConfig>{
         authentication: {
-        client_id: "mobile_android_TEST",
+        client_id: "mobile_android_test",
         tokenEndpoint: "/oauth/token",
         revokeEndpoint: "/oauth/revoke",
         loginUrl: "/oauth/authorize",
@@ -130,6 +130,6 @@ AUTH_CONFIG='provideConfig(<AuthConfig>{
         },
         customLoginPage: {
           csrfEndpoint: "/csrf",
-          loginFormEndpoint: "/login",
+          loginFormEndpoint: "/login_test",
         },
       }}),'
