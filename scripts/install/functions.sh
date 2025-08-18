@@ -1167,9 +1167,7 @@ function addAuthConfig {
     # Check presence of AuthConfig import
     if ! awk '/@spartacus\/core/ {exit} /AuthConfig/ {found=1} END {exit !found}' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
         # add import for AuthConfig in new line above '@spartacus/core'
-        sed_inplace '/@spartacus\/core/i\
-        AuthConfig,
-        ' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        sed_inplace "s/} from '@spartacus\/core'/,AuthConfig } from '@spartacus\/core'/" "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         echo "AuthConfig import added."
     else
         echo "AuthConfig import already exists, skipping."
@@ -1177,6 +1175,8 @@ function addAuthConfig {
 
 
 
+# move text after Providers to next line
+sed_inplace 's/\(providers: \[\)\(.*\)$/\1\n\2/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     ## Insert the AUTH_CONFIG_STRING after 'providers:' line
     line=$(grep -n 'providers:' "$SPARTACUS_CONFIGURATION_MODULE_PATH" | head -n1 | cut -d: -f1)
     if [ -n "$line" ]; then
