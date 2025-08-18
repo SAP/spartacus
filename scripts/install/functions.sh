@@ -1165,7 +1165,7 @@ function addAuthConfig {
 
 
     # Check presence of AuthConfig import
-    if ! awk '/@spartacus\/core/ {exit} /AuthConfig/ {found=1} END {exit !found}' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
+    if ! grep -q 'AuthConfig.*@spartacus/core' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
         # add import for AuthConfig in new line above '@spartacus/core'
         sed_inplace 's/} from "@spartacus\/core"/,AuthConfig } from "@spartacus\/core"/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         echo "AuthConfig import added."
