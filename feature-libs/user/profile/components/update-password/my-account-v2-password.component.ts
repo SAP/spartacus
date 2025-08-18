@@ -15,6 +15,7 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   templateUrl: './my-account-v2-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class MyAccountV2PasswordComponent {
   protected service = inject(UpdatePasswordComponentService);
