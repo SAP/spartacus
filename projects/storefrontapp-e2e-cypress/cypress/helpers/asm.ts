@@ -123,15 +123,6 @@ export function addProductToB2BCart(
   });
 }
 
-// export function addProductToB2BCartForJDK21(
-//   customer: string,
-//   pwd: string,
-//   productCode: string
-// ): void {
-//   checkout.visitHomePage();
-//   cy.addProductToB2BCartForJDK21(productCode, 1, customer, pwd);
-// }
-
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
     'csAgentAuthentication',
