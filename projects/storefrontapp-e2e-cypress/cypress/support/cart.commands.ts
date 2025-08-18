@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { addProductToB2BCartForJDK21 } from '../helpers/asm';
 import { addProductToB2BCart, addToCart, createCart } from './utils/cart';
 
 declare namespace Cypress {
@@ -145,14 +144,6 @@ Cypress.Commands.add(
   'addProductToB2BCartForJDK21',
   (productCode: string, quantity: string, customer: string, pwd: string) => {
     let token;
-
-    // cy.get('button.logout')
-    // .should('exist')
-    // .and('be.visible').click();
-    // cy.get('button.close[title="Close ASM"]')
-    // .should('be.visible')
-    // .click();
-
     cy.contains('a[role="link"]', 'Sign In / Register').should(
       'have.attr',
       'href',
