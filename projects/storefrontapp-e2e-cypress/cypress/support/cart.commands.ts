@@ -81,9 +81,7 @@ Cypress.Commands.add(
 
     cy.wait('@tokenResponse').then((interception) => {
       const tokenResponse = interception.response.body;
-      cy.log('didi:', tokenResponse.access_token);
       cy.wrap(tokenResponse.access_token).as('token');
-      cy.log('Token:', tokenResponse.access_token);
 
       createCart(tokenResponse.access_token).then((response) => {
         const cartId = response.body.code;
