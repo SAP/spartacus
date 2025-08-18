@@ -18,7 +18,7 @@ import { SkipLinkService } from '../service/skip-link.service';
 export class SkipLinkComponent {
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
 
-  constructor(private skipLinkService: SkipLinkService) {}
+  constructor(private readonly skipLinkService: SkipLinkService) {}
 
   scrollToTarget(skipLink: SkipLink): void {
     this.skipLinkService.scrollToTarget(skipLink);

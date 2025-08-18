@@ -71,7 +71,7 @@ export class OpfB2bCheckoutReviewComponent
   }
 
   get termsAndConditionsFieldValue(): boolean {
-    return Boolean(this.checkoutSubmitForm?.get('termsAndConditions')?.value);
+    return !!this.checkoutSubmitForm?.get('termsAndConditions')?.value;
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
@@ -111,7 +111,7 @@ export class OpfB2bCheckoutReviewComponent
       map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
+          textBold: poNumber ?? noneTextTitle,
         };
       })
     );

@@ -27,7 +27,7 @@ import { UserProfileService } from './user-profile.service';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected routingService = inject(RoutingService);
 
   protected registerCommand: Command<{ user: UserSignUp }, User> =

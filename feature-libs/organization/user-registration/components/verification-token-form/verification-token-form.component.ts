@@ -33,7 +33,7 @@ import { RegisterVerificationTokenFormComponentService } from './verification-to
   standalone: false,
 })
 export class RegisterVerificationTokenFormComponent implements OnInit {
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected service: RegisterVerificationTokenFormComponentService = inject(
     RegisterVerificationTokenFormComponentService
   );

@@ -18,7 +18,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class LoginAsGuestGuard {
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected windowRef = inject(WindowRef);
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);

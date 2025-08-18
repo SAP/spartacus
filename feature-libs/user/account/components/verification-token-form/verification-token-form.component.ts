@@ -30,7 +30,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
 })
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected service: VerificationTokenFormComponentService = inject(
     VerificationTokenFormComponentService
   );

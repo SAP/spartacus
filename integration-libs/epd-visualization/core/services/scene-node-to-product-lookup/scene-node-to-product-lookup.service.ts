@@ -36,7 +36,7 @@ export class SceneNodeToProductLookupService {
     this.productUsageId = usageIdConfig.productUsageId;
   }
 
-  private productUsageId: UsageIdDefinition;
+  private readonly productUsageId: UsageIdDefinition;
 
   /**
    * Called to populate the maps with the data for the given scene.

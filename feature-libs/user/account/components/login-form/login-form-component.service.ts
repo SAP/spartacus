@@ -29,7 +29,7 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 @Injectable()
 export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected csrfStateService = inject(CsrfStateService);
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);

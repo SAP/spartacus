@@ -55,7 +55,7 @@ export class ProductReviewsComponent {
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: UntypedFormGroup;
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();

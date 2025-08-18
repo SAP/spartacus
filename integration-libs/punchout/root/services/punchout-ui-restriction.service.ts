@@ -17,7 +17,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PunchoutUiRestrictionService {
-  private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
+  private readonly rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
   protected punchoutStoreService = inject(PunchoutStoreService);
   protected authService = inject(AuthService);
 

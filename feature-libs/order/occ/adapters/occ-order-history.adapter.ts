@@ -45,7 +45,7 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   protected logger = inject(LoggerService);
-  private occFieldsService = inject(OccFieldsService);
+  private readonly occFieldsService = inject(OccFieldsService);
   protected orderConfig = inject(OrderConfig);
 
   constructor(

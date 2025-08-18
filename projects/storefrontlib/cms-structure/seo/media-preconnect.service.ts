@@ -15,7 +15,7 @@ import { MediaService } from '../../shared/components/media/media.service';
 export class MediaPreconnectService {
   protected pageMetaLinkService = inject(PageMetaLinkService);
   protected mediaService = inject(MediaService);
-  private featureToggles = inject(FeatureToggles);
+  private readonly featureToggles = inject(FeatureToggles);
   protected windowRef = inject(WindowRef);
 
   addPreconnectLink(): void {

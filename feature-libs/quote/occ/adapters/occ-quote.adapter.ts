@@ -45,7 +45,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   protected occEndpointsService = inject(OccEndpointsService);
   protected converterService = inject(ConverterService);
   protected loggerService = inject(LoggerService);
-  private occFieldsService = inject(OccFieldsService);
+  private readonly occFieldsService = inject(OccFieldsService);
   protected orderConfig = inject(OrderConfig);
 
   getQuotes(

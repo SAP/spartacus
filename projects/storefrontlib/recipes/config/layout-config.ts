@@ -144,8 +144,7 @@ export function layoutConfigFactory(): LayoutConfig {
 
   if (
     featureToggles.unifiedDefaultHeaderSlotsAcrossBreakpoints &&
-    config.layoutSlots &&
-    config.layoutSlots.header &&
+    config.layoutSlots?.header &&
     'slots' in config.layoutSlots.header
   ) {
     if ('lg' in config.layoutSlots.header) {
@@ -175,7 +174,7 @@ export function layoutConfigFactory(): LayoutConfig {
     const productDetailsPageConfig =
       (config?.layoutSlots?.ProductDetailsPageTemplate as SlotConfig) ?? {};
     delete productDetailsPageConfig.pageFold;
-    delete ((productDetailsPageConfig as SlotGroup).lg ?? {}).pageFold;
+    delete (productDetailsPageConfig as SlotGroup).lg?.pageFold;
   }
 
   return config;

@@ -423,7 +423,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       take(1),
       switchMap((metadata: OpfMetadataModel) => {
         const storedId =
-          metadata.selectedPaymentOptionId ||
+          metadata.selectedPaymentOptionId ??
           metadata.defaultSelectedPaymentOptionId;
 
         return storedId

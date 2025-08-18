@@ -32,7 +32,7 @@ const globalMsgShowTime: number = 10000;
   providedIn: 'root',
 })
 export class RegisterVerificationTokenFormComponentService {
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
   protected formBuilder = inject(FormBuilder);
   protected organizationUserRegistrationFacade: UserRegistrationFacade = inject(

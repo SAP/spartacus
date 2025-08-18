@@ -37,7 +37,7 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
 })
 export class UserRegistrationFormService {
   private _form: FormGroup = this.buildForm();
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
 
   /*
    * Initializes form structure for registration.

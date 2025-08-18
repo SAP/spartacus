@@ -56,7 +56,7 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   /** The reason given closing the dialog window after selecting a location */
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
 
   get focusConfig(): FocusConfig {
     const useTrapTab = this.featureConfigService.isEnabled(

@@ -128,14 +128,14 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   protected handleReinitiatePayment(paymentOptionId?: number): void {
-    const idToUse = paymentOptionId || this.selectedPaymentId;
+    const idToUse = paymentOptionId ?? this.selectedPaymentId;
     if (idToUse) {
       this.initiatePaymentMode(idToUse);
     }
   }
 
   protected initiatePaymentMode(paymentOptionId?: number): void {
-    const idToUse = paymentOptionId || this.selectedPaymentId;
+    const idToUse = paymentOptionId ?? this.selectedPaymentId;
     this.sub.add(
       this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {

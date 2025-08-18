@@ -22,7 +22,7 @@ export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
-  constructor(private storeFinderService: StoreFinderService) {}
+  constructor(private readonly storeFinderService: StoreFinderService) {}
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();

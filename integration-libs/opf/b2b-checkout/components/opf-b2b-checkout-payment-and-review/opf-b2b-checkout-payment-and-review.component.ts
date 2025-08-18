@@ -40,7 +40,7 @@ export class OpfB2bCheckoutPaymentAndReviewComponent
       map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
+          textBold: poNumber ?? noneTextTitle,
         };
       })
     );

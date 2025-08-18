@@ -24,7 +24,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 })
 export class CheckoutAuthGuard {
   // Name `featureConfig` instead of `featureConfigService` to avoid clash with `FeatureConfigService` in `OpfCheckoutAuthGuard`
-  private featureConfig = inject(FeatureConfigService);
+  private readonly featureConfig = inject(FeatureConfigService);
   protected windowRef = inject(WindowRef);
 
   constructor(
@@ -67,17 +67,13 @@ export class CheckoutAuthGuard {
         );
       }
       return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
+    } else if (this.checkoutConfigService.isGuestCheckout()) {
+      return this.router.createUrlTree(
+        [this.semanticPathService.get('login')],
+        { queryParams: { forced: true } }
+      );
     } else {
-      if (this.checkoutConfigService.isGuestCheckout()) {
-        return this.router.createUrlTree(
-          [this.semanticPathService.get('login')],
-          { queryParams: { forced: true } }
-        );
-      } else {
-        return this.router.parseUrl(
-          this.semanticPathService.get('login') ?? ''
-        );
-      }
+      return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
     }
   }
 }

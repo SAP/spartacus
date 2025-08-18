@@ -57,7 +57,7 @@ export class AuthService {
     .getCsrfToken()
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected featureToggles = inject(FeatureToggles);
 
   constructor(

@@ -33,7 +33,7 @@ import { MultiCartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class MultiCartService implements MultiCartFacade {
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected windowRef = inject(WindowRef);
 
   constructor(

@@ -63,11 +63,13 @@ export class HorizontalScrollingPositionDirective
   protected windowResizeSubscription: Subscription | undefined;
   protected _scrollingAreaWidth$ = new BehaviorSubject<number>(0);
 
+  private static readonly DEBOUNCE_TIME_MS = 300;
+
   /**
    * Width of the scrolling area, debounced every 300ms in case of continuous resizing.
    */
   public readonly scrollingAreaWidth$ = this._scrollingAreaWidth$.pipe(
-    debounceTime(300),
+    debounceTime(HorizontalScrollingPositionDirective.DEBOUNCE_TIME_MS),
     distinctUntilChanged()
   );
 

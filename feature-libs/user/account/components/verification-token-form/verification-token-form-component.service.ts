@@ -29,7 +29,7 @@ const globalMsgShowTime: number = 10000;
 @Injectable()
 export class VerificationTokenFormComponentService {
   protected authConfigService = inject(AuthConfigService);
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected auth: AuthService = inject(AuthService);
   protected csrfStateService = inject(CsrfStateService);
   protected winRef = inject(WindowRef);

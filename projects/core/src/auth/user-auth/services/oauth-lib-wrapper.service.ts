@@ -22,7 +22,7 @@ import { AuthConfigService } from './auth-config.service';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
   // TODO: Remove platformId dependency in 4.0

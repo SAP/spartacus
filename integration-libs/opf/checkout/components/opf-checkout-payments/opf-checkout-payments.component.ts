@@ -201,9 +201,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   get isPaymentInfoMessageVisible(): boolean {
-    return Boolean(
+    return !!(
       this.opfConfig?.opf?.paymentOption?.enableInfoMessage &&
-        this.isPaymentInfoMessageEnabled
+      this.isPaymentInfoMessageEnabled
     );
   }
 

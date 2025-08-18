@@ -24,7 +24,7 @@ export class RenderingCacheSizeManager {
   protected readonly CACHE_SIZE_LIMIT: number =
     this.options?.cacheSizeMemory ?? 0;
 
-  constructor(private options?: SsrOptimizationOptions) {
+  constructor(private readonly options?: SsrOptimizationOptions) {
     this.validateOptions();
   }
 

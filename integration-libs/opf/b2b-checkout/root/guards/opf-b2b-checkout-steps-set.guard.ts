@@ -93,7 +93,7 @@ export class OpfB2bCheckoutStepsSetGuard extends CheckoutStepsSetGuard {
         if (currentIndex >= 0) {
           currentStep = steps[currentIndex];
         }
-        if (Boolean(currentStep)) {
+        if (currentStep) {
           return this.isB2BStepSet(steps[currentIndex - 1], isAccount);
         } else {
           return of(this.getUrl('checkout'));
