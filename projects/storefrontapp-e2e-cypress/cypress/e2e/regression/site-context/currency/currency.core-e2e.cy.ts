@@ -47,18 +47,22 @@ context('Currency change', () => {
     });
   });
 
+  // Context switching not possible when using auth server.
+  // Test only valid for JDK 17.
   describe('on the login page', () => {
     const LOGIN_URL_USD = `/${siteContextSelector.CONTENT_CATALOG}/en/USD/login`;
     const TEST_EMAIL = 'my@email.com';
 
     it('user input should not be removed on currency change', () => {
-      cy.visit(`${LOGIN_URL_USD}`);
-      cy.get('input[type="email"]').type(TEST_EMAIL);
-      cy.wait('@currencies').its('response.statusCode').should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.visit(`${LOGIN_URL_USD}`);
+        cy.get('input[type="email"]').type(TEST_EMAIL);
+        cy.wait('@currencies').its('response.statusCode').should('eq', 200);
 
-      switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
+        switchSiteContext(siteContextSelector.CURRENCY_JPY, 'Currency');
 
-      cy.get('input[type="email"]').should('have.value', TEST_EMAIL);
+        cy.get('input[type="email"]').should('have.value', TEST_EMAIL);
+      });
     });
   });
 });

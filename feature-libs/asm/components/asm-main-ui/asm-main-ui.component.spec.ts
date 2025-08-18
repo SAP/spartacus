@@ -1,10 +1,13 @@
 import {
   Component,
   DebugElement,
+  Directive,
   EventEmitter,
   Injectable,
   Input,
   Output,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -21,6 +24,7 @@ import {
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -178,6 +182,27 @@ const mockAsmUi: AsmUi = {
   collapsed: false,
 };
 
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  refreshAuthConfig() {}
+}
+
+@Directive({
+  selector: '[cxFeature]',
+  standalone: false,
+})
+export class MockRevertedFeatureDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(_feature: string) {
+    if (_feature.toString().includes('!')) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+  }
+}
+
 describe('AsmMainUiComponent', () => {
   let featureModulesService: FeatureModulesService;
   let component: AsmMainUiComponent;
@@ -206,6 +231,7 @@ describe('AsmMainUiComponent', () => {
         MockAsmSessionTimerComponent,
         MockCustomerEmulationComponent,
         MockCxIconComponent,
+        MockRevertedFeatureDirective,
       ],
       providers: [
         {
@@ -220,6 +246,10 @@ describe('AsmMainUiComponent', () => {
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AsmService, useClass: MockAsmService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
       ],
     }).compileComponents();
   }));

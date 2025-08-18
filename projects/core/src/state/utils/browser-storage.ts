@@ -54,7 +54,10 @@ export function persistToStorage(
   }
 }
 
-export function readFromStorage(storage: Storage, key: string): unknown {
+export function readFromStorage<T = unknown>(
+  storage: Storage,
+  key: string
+): T | undefined {
   if (isSsr(storage)) {
     return;
   }
