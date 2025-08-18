@@ -12,21 +12,26 @@ import {
   Input,
   isDevMode,
   OnInit,
-  Output,
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 
 /**
  * Context passed to the `template` for each carousel item.
  */
-export interface CarouselScrollingTemplateContext<TItem> {
-  item: TItem;
+export interface CarouselScrollingTemplateContext<Item> {
+  item: Item;
   itemIndex: number;
+}
+
+enum KeyboardEventKeys {
+  ARROW_LEFT = 'ArrowLeft',
+  ARROW_RIGHT = 'ArrowRight',
+  TAB = 'Tab',
 }
 
 /**
@@ -48,11 +53,9 @@ export interface CarouselScrollingTemplateContext<TItem> {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class CarouselScrollingComponent<TItem = any> implements OnInit {
+export class CarouselScrollingComponent<Item = any> implements OnInit {
   protected logger = inject(LoggerService);
   protected el = inject(ElementRef);
-
-  @Output() keyboardEvent = new BehaviorSubject<KeyboardEvent | null>(null);
 
   /**
    * The title is rendered as the carousel heading.
@@ -63,12 +66,12 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
    * The items represent the carousel items. The items are
    * observables so that the items can be loaded on demand.
    */
-  @Input() items: Observable<TItem>[];
+  @Input() items: Observable<Item>[];
 
   /**
    * The template rendered for each carousel item
    */
-  @Input() template: TemplateRef<CarouselScrollingTemplateContext<TItem>>;
+  @Input() template: TemplateRef<CarouselScrollingTemplateContext<Item>>;
 
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
@@ -95,15 +98,15 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
 
   onItemKeydown(event: KeyboardEvent): void {
     switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowLeft':
+      case KeyboardEventKeys.ARROW_RIGHT:
+      case KeyboardEventKeys.ARROW_LEFT:
         event.preventDefault();
         this.focusNextPrevItem(
           event.target,
-          event.key === 'ArrowRight' ? 1 : -1
+          event.key === KeyboardEventKeys.ARROW_RIGHT ? 1 : -1
         );
         break;
-      case 'Tab':
+      case KeyboardEventKeys.TAB:
         this.skipTabForCarouselItems();
         break;
     }
@@ -173,12 +176,5 @@ export class CarouselScrollingComponent<TItem = any> implements OnInit {
     } catch (error) {
       this.logger.error('Failed to scroll carousel item into view', error);
     }
-  }
-
-  shareEvent(event: KeyboardEvent) {
-    if (!event) {
-      throw new Error('Missing Event');
-    }
-    this.keyboardEvent.next(event);
   }
 }

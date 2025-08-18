@@ -17,7 +17,6 @@ import {
 import { UntypedFormGroup } from '@angular/forms';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-
 import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import { VerificationToken } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
@@ -67,6 +66,13 @@ export class VerificationTokenFormComponent implements OnInit {
 
   waitTimeForRateLimit: number = 300;
 
+  @ViewChild('verificationTokenForm') verificationTokenForm: ElementRef<
+    HTMLElementTagNameMap['form']
+  >;
+  csrf = this.service.csrf;
+  action = this.service.action;
+  method = this.service.method;
+
   ngOnInit() {
     if (!!history.state) {
       this.tokenId = history.state['tokenId'];
@@ -108,7 +114,7 @@ export class VerificationTokenFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.service.login();
+    this.service.login(this.verificationTokenForm?.nativeElement);
   }
 
   resendOTP(): void {

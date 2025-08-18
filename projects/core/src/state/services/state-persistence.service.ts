@@ -66,10 +66,10 @@ export class StatePersistenceService {
         .pipe(
           map((context) => {
             return storage
-              ? (readFromStorage(
+              ? readFromStorage<T>(
                   storage,
                   this.generateKeyWithContext(context, key)
-                ) as T | undefined)
+                )
               : undefined;
           }),
           tap((state) => onRead(state))

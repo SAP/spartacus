@@ -39,7 +39,14 @@ context('Assisted Service Module', () => {
           checkout.visitHomePage('asm=true');
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
-          asm.agentLogin('asagent', 'pw4all');
+          cy.whenJDK17(() => {
+            asm.agentLogin('asagent', 'pw4all');
+          });
+
+          cy.whenJDK21(() => {
+            cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+            login('asagent', 'pw4all');
+          });
 
           cy.log('--> Starting customer emulation');
           asm.startCustomerEmulation(customerForBindCart);
@@ -117,8 +124,14 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
 
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customerForReplaceBindCart);
 

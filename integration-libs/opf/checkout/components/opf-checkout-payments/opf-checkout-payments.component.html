@@ -55,47 +55,64 @@
               </div>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="isPaymentInfoMessageVisible">
-            <ng-container
-              *ngIf="
-                getPaymentInfoMessage(configuration.id)
-                  | async as paymentInfoMessage
-              "
-            >
-              <div
-                *ngIf="configuration.id === selectedPaymentId"
-                class="cx-payment-info-box"
+          <ng-container *ngIf="!renderPaymentWrapper">
+            <div class="cx-payment-info-box">
+              <span class="alert-icon" aria-hidden="true">
+                <cx-icon [type]="iconTypes.INFO"></cx-icon>
+              </span>
+              <p
+                class="cx-payment-info-box-message"
+                tabindex="0"
+                role="alert"
+                aria-live="polite"
               >
-                <span class="alert-icon" aria-hidden="true">
-                  <cx-icon [type]="iconTypes.INFO"></cx-icon>
-                </span>
-                <p
-                  class="cx-payment-info-box-message"
-                  tabindex="0"
-                  role="alert"
-                  aria-live="polite"
+                {{ noRenderPaymentWrapperMessage }}
+              </p>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="renderPaymentWrapper">
+            <ng-container *ngIf="isPaymentInfoMessageVisible">
+              <ng-container
+                *ngIf="
+                  getPaymentInfoMessage(configuration.id)
+                    | async as paymentInfoMessage
+                "
+              >
+                <div
+                  *ngIf="configuration.id === selectedPaymentId"
+                  class="cx-payment-info-box"
                 >
-                  {{ paymentInfoMessage }}
-                </p>
-              </div>
+                  <span class="alert-icon" aria-hidden="true">
+                    <cx-icon [type]="iconTypes.INFO"></cx-icon>
+                  </span>
+                  <p
+                    class="cx-payment-info-box-message"
+                    tabindex="0"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    {{ paymentInfoMessage }}
+                  </p>
+                </div>
+              </ng-container>
             </ng-container>
-          </ng-container>
 
-          <ng-container *ngIf="customPaymentTemplate">
-            <ng-container
-              *ngTemplateOutlet="customPaymentTemplate"
-            ></ng-container>
-          </ng-container>
+            <ng-container *ngIf="customPaymentTemplate">
+              <ng-container
+                *ngTemplateOutlet="customPaymentTemplate"
+              ></ng-container>
+            </ng-container>
 
-          <cx-opf-checkout-payment-wrapper
-            *ngIf="
-              !customPaymentTemplate &&
-              isPaymentRenderBelow &&
-              selectedPaymentId &&
-              configuration.id === selectedPaymentId
-            "
-            [selectedPaymentId]="selectedPaymentId"
-          ></cx-opf-checkout-payment-wrapper>
+            <cx-opf-checkout-payment-wrapper
+              *ngIf="
+                !customPaymentTemplate &&
+                isPaymentRenderBelow &&
+                selectedPaymentId &&
+                configuration.id === selectedPaymentId
+              "
+              [selectedPaymentId]="selectedPaymentId"
+            ></cx-opf-checkout-payment-wrapper>
+          </ng-container>
         </div>
 
         <cx-pagination
