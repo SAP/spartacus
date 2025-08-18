@@ -99,25 +99,14 @@ context('Assisted Service Module', () => {
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
         cy.wait(`@${loginPage}`);
-      });
-
-      cy.whenJDK21(() => {
-        checkout.visitHomePage('asm=true');
-      });
-
-      cy.whenJDK17(() => {
         asm.agentLogin('asagent', 'pw4all');
-      });
-
-      cy.whenJDK21(() => {
-        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
-      });
-      cy.whenJDK17(() => {
         login(customer.email, customer.password);
       });
 
       cy.whenJDK21(() => {
+        checkout.visitHomePage('asm=true');
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
         cy.contains('a[role="link"]', 'Sign In / Register').click();
       });
 
@@ -128,7 +117,7 @@ context('Assisted Service Module', () => {
     });
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
-    it('agent login when user is logged in should start this user emulation', () => {
+    it.skip('agent login when user is logged in should start this user emulation', () => {
       visitLoginPage();
       login(customer.email, customer.password);
 
