@@ -13,14 +13,12 @@ import {
   lastValueFrom,
   Observable,
 } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
-import { LoggerService } from '../../../logger';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
-
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
