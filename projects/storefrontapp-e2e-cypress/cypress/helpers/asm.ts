@@ -86,9 +86,7 @@ export function placeOrderForB2CCustomer(
 
     cy.wait('@tokenResponse').then((interception) => {
       const response = interception.response.body;
-      cy.log('didi:', response.access_token);
       cy.wrap(response.access_token).as('token');
-      cy.log('Token:', response.access_token);
       cy.addToCart(productCode, 1, response.access_token).then((cartId) => {
         cy.requireDeliveryAddressAddedForJDK21(
           getSampleUser().address,
@@ -215,9 +213,7 @@ export function removeCustomerCouponFoJDK21(
 
   cy.wait('@tokenResponse').then((interception) => {
     const response = interception.response.body;
-    cy.log('didi:', response.access_token);
     cy.wrap(response.access_token).as('token');
-    cy.log('Token:', response.access_token);
     // remove customer coupon
     cy.request({
       method: 'DELETE',
