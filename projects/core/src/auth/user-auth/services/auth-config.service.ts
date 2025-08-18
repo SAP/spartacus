@@ -27,7 +27,9 @@ export class AuthConfigService {
    * Utility to make access to authentication config easier.
    */
   private get config(): AuthConfig['authentication'] {
-    return this.authConfig?.authentication ?? {};
+    let x = this.authConfig?.authentication ?? {};
+    console.log(x); //temporarily adding log for checking CXSPA-10782
+    return x;
   }
 
   /**
