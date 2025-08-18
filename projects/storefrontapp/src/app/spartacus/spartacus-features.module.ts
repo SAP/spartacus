@@ -5,7 +5,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AuthConfig, provideAuthorizationCodeFlowByDefault, provideConfig } from '@spartacus/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
@@ -406,12 +405,6 @@ if (environment.cpq) {
       };
       return appFeatureToggles;
     }),
-     provideAuthorizationCodeFlowByDefault(),
-    provideConfig(<AuthConfig>{
-      authentication: {
-        useClientTokens: false
-      },
-  }),
   ],
 })
 export class SpartacusFeaturesModule {}
