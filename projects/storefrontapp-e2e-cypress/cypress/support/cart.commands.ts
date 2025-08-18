@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { addProductToB2BCartForJDK21 } from '../helpers/asm';
 import { addProductToB2BCart, addToCart, createCart } from './utils/cart';
 
 declare namespace Cypress {
@@ -60,6 +61,60 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
+  'addToCartForJDK21',
+  (productCode: string, quantity: string, customer: string, pwd: string) => {
+    cy.visit('/');
+
+    cy.contains('a[role="link"]', 'Sign In / Register').should(
+      'have.attr',
+      'href',
+      '/electronics-spa/en/USD/sign-in'
+    );
+
+    cy.contains('a[role="link"]', 'Sign In / Register').click();
+    cy.get('input[name="username"]').clear().type(customer);
+    cy.get('input[name="password"]').clear().type(pwd);
+    cy.contains('button.btn-primary', 'Sign In').should('be.visible');
+    cy.intercept('POST', '/authorizationserver/oauth/token').as(
+      'tokenResponse'
+    );
+    cy.contains('button.btn-primary', 'Sign In').click();
+
+    cy.wait('@tokenResponse').then((interception) => {
+      const tokenResponse = interception.response.body;
+      cy.log('didi:', tokenResponse.access_token);
+      cy.wrap(tokenResponse.access_token).as('token');
+      cy.log('Token:', tokenResponse.access_token);
+
+      createCart(tokenResponse.access_token).then((response) => {
+        const cartId = response.body.code;
+        addToCart(
+          cartId,
+          productCode,
+          quantity,
+          tokenResponse.access_token
+        ).then(() => {
+          Cypress.log({
+            name: 'addToCart',
+            displayName: 'Add to cart',
+            message: [`🛒 Product(s) added to cart`],
+            consoleProps: () => {
+              return {
+                'Cart ID': cartId,
+                'Product code': productCode,
+                Quantity: quantity,
+              };
+            },
+          });
+
+          cy.wrap(cartId);
+        });
+      });
+    });
+  }
+);
+
+Cypress.Commands.add(
   'addProductToB2BCart',
   (productCode: string, quantity: string, accessToken: string) => {
     createCart(accessToken).then((response) => {
@@ -82,6 +137,64 @@ Cypress.Commands.add(
           cy.wrap(cartId);
         }
       );
+    });
+  }
+);
+
+Cypress.Commands.add(
+  'addProductToB2BCartForJDK21',
+  (productCode: string, quantity: string, customer: string, pwd: string) => {
+    let token;
+
+    // cy.get('button.logout')
+    // .should('exist')
+    // .and('be.visible').click();
+    // cy.get('button.close[title="Close ASM"]')
+    // .should('be.visible')
+    // .click();
+
+    cy.contains('a[role="link"]', 'Sign In / Register').should(
+      'have.attr',
+      'href',
+      '/powertools-spa/en/USD/sign-in'
+    );
+
+    cy.contains('a[role="link"]', 'Sign In / Register').click();
+    cy.get('input[name="username"]').clear().type(customer);
+    cy.get('input[name="password"]').clear().type(pwd);
+    cy.contains('button.btn-primary', 'Sign In').should('be.visible');
+    cy.contains('button.btn-primary', 'Sign In').click();
+
+    cy.get('cx-login .cx-login-greet').should('be.visible');
+
+    cy.window().should('have.property', 'localStorage');
+
+    cy.window().then((win) => {
+      const spartacusAuth = win.localStorage.getItem('spartacus⚿⚿auth');
+      if (spartacusAuth) {
+        const authObj = JSON.parse(spartacusAuth);
+
+        token = authObj.token.access_token;
+      }
+      createCart(token).then((response) => {
+        const cartId = response.body.code;
+        addProductToB2BCart(cartId, productCode, quantity, token).then(() => {
+          Cypress.log({
+            name: 'addToCart',
+            displayName: 'Add to B2B cart',
+            message: [`🛒 Product(s) added to cart`],
+            consoleProps: () => {
+              return {
+                'Cart ID': cartId,
+                'Product code': productCode,
+                Quantity: quantity,
+              };
+            },
+          });
+
+          cy.wrap(cartId);
+        });
+      });
     });
   }
 );

@@ -121,7 +121,9 @@ export function addB2bProductToCartAndCheckout() {
   const getPaymentTypes = interceptPaymentTypesEndpoint();
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
-  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  });
 
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
@@ -137,8 +139,11 @@ export function addB2bProductToCartAndCheckout() {
     'getPaymentType'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
+
+  cy.whenJDK17(() => {
+    cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function addB2bProductToCart() {
