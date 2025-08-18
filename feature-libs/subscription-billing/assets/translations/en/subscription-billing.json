@@ -32,10 +32,26 @@
     "productCode": "Subscription Service (Product) Code: {{code }}",
     "endDate": "Subscription End Date: {{ date }}",
     "cycle": "Current Billing Cycle: {{ cycle }}",
-    "cancelSubscription": "Cancel Subscription",
+    "cancelSubscription": "Cancel",
     "extendSubscription": "Extend Subscription",
-    "withdrawSubscription": "Withdraw Subscription",
+    "withdrawSubscription": "Withdraw",
     "reSubscribe": "Re-subscribe",
     "back": "View All Subscriptions"
+  },
+    "cancelSubscription": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "cancelSuccess": "The subscription has been cancelled sucessfully.",
+    "withdrawSuccess": "The subscription has been withdrawn successfully.",
+    "reverseCancellationSuccess": "The subscription has been Withdraw sucessfully.",
+    "unknownError": "An unknown error occurred. Please contact support.",
+"askConfirm": "{{ action }} your subscription?",
+    "closeModal": "Close modal",
+    "loseSubscription": "If you confirm, you will lose access to the subscription features on {{ date }}. You won't be charged again.",
+    "changeMind": "If you change your mind, you can reactivate your subscription before the end of the billing period.",
+"withdrawConfirm": "By confirming, you are ending your trial period. You will lose access to subscription features on {{ date }}. No additional charges apply.",
+    "resubscribeConfirm": "Are you sure you want to resubscribe to this subscription?",
+  "changeMindresubscribe": "You can manage your subscription anytime later."
+
   }
 }

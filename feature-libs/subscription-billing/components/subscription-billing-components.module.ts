@@ -10,6 +10,8 @@ import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
 import { SubscriptionProductPriceComponent } from './product/price/subscription-product-price.component';
 import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
+import { SubscriptionCancelComponent } from './cancel-subscrption/subscription-cancel.component';
+import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.config';
 
 @NgModule({
   imports: [
@@ -17,7 +19,7 @@ import { SubscriptionDetailsComponent } from './details/subscription-details.com
     SubscriptionProductPriceComponent,
     SubscriptionProductUsageChargeComponent,
   ],
-  providers: [
+  providers: [provideDefaultConfig(subscriptionCancelPopupConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         SubscriptionHistoryComponent: {
@@ -31,8 +33,13 @@ import { SubscriptionDetailsComponent } from './details/subscription-details.com
           component: SubscriptionDetailsComponent,
           guards: [AuthGuard],
         },
+         SubscriptionCancelComponent: {
+          component: SubscriptionCancelComponent,
+          guards: [AuthGuard],
+        },
       },
     }),
   ],
 })
 export class SubscriptionBillingComponentsModule {}
+

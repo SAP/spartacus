@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   EventService,
+  GlobalMessageService,
   I18nModule,
   RoutingService,
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
-import { Card, CardModule } from '@spartacus/storefront';
+import { Card, CardModule, LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
+  CancelSubscriptionFacade,
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
@@ -36,8 +38,18 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscription = new Subscription();
   protected routingService = inject(RoutingService);
   protected translation = inject(TranslationService);
+
+
+  protected subscriptionCancelFacade = inject(CancelSubscriptionFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
+
+ protected launchDialogService = inject(LaunchDialogService);
+  @ViewChild('cancelTriggerEl') cancelTriggerEl: ElementRef;
+
+
   getSubscriptionCodeFromRoute(): Observable<string | undefined> {
     return this.routingService.getRouterState().pipe(
       map((route) => {
@@ -115,6 +127,47 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   isSubscriptionActive(status: string | undefined) {
     return status?.toUpperCase() === SubscriptionStatus.active ? true : false;
   }
+
+//  showSubscriptionDialog1() {
+//     this.launchDialogService
+//       .openDialogAndSubscribe(
+//         LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+//         this.cancelTriggerEl,
+//         this.subscription
+//       );
+//   }
+    shouldShowWithdrawal(subscription: any): boolean {
+    const isActive =
+      subscription.subscriptionStatus?.toUpperCase() === 'ACTIVE';
+    const endDate = subscription.withdrawalPeriodEndAt;
+    return isActive && !!endDate && new Date(endDate) > new Date();
+  }
+showSubscriptionDialog(mode: 'cancel' | 'withdraw' | 'resubscribe'): void {
+  combineLatest([
+    this.getSubscriptionCodeFromRoute(),
+    this.subscriptionDetails$,
+  ])
+    .pipe(take(1))
+    .subscribe(([code, subscription]) => {
+      if (!code || !subscription) return;
+
+      const dataToPass = {
+        ...subscription,
+        code,
+        mode,
+      };
+
+      this.launchDialogService.openDialogAndSubscribe(
+        LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+        this.cancelTriggerEl,
+        dataToPass
+      );
+    });
+}
+  onError(): void {
+    throw new Error('Method not implemented.');
+  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

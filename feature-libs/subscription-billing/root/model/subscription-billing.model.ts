@@ -33,3 +33,22 @@ export enum SubscriptionStatus {
   withdrawn = 'WITHDRAWN',
   expired = 'EXPIRED',
 }
+
+
+//Cancel-widthdraw-resubscribe
+export interface CancelData{
+  subscriptionEndAt?: string;
+}
+export interface CancellationDetails {
+  subscriptionEndAt?: string;
+}
+export interface reverseCancellation {
+  subscriptionId?: string;
+  version?: string;
+}
+export interface withdrawal {
+  subscriptionId?: string;
+  version?: string;
+  withdrawnAt?: string;
+  withdrawalPeriodEndDate?: string;
+}

@@ -12,3 +12,6 @@ export * from './product/price/subscription-product-price.component';
 export * from './product/usage/subscription-product-usage-charge.component';
 
 export * from './details/subscription-details.component';
+
+export * from './cancel-subscrption/subscription-cancel.component';
+export * from './subscrption-confirm-dialog.config';
