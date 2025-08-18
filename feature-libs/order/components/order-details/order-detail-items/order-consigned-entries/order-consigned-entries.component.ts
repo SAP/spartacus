@@ -32,7 +32,7 @@ export class OrderConsignedEntriesComponent {
   readonly CartOutlets = CartOutlets;
   readonly abstractOrderType = AbstractOrderType;
 
-  getStatus(status: string) {
+  getStatusText(status: string) {
     return this.translationService
       .translate('orderDetails.deliveryStatus_' + status)
       .pipe(
