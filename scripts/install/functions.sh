@@ -1129,9 +1129,10 @@ function setJdkVersion {
         fi
     fi
  
-    cat "*********** spartacus-features.module.ts ***********"
+    echo "*********** spartacus-features.module.ts ***********"
+    echo $SPARTACUS_FEATURES_MODULE_PATH
     cat "$SPARTACUS_FEATURES_MODULE_PATH"
-    cat "*********** EOF spartacus-features.module.ts ***********"
+    echo "*********** EOF spartacus-features.module.ts ***********"
 
     addAuthConfig "$app_dir"
 }
@@ -1186,8 +1187,9 @@ function addAuthConfig {
     else
         echo "Error: AuthConfig provider not added as provider section not found"
     fi
-    cat "*********** spartacus-configuration.module.ts ***********"
+    echo "*********** spartacus-configuration.module.ts ***********"
+    echo "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     cat "$SPARTACUS_CONFIGURATION_MODULE_PATH"
-    cat "*********** EOF spartacus-configuration.module.ts ***********"
+    echo "*********** EOF spartacus-configuration.module.ts ***********"
 
 }
