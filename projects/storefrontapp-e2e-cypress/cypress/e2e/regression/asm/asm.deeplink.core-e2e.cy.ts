@@ -20,6 +20,7 @@ import {
   getCurrentCartIdAndAddProducts,
   getCustomerId,
   getCustomerIdForJDK21,
+  getInactiveCartIdAndAddProducts,
   getInactiveCartIdAndAddProductsForJDK21,
 } from '../../../helpers/asm';
 
@@ -1212,51 +1213,60 @@ context('Assisted Service Module', () => {
         agentToken.userName,
         agentToken.pwd
       );
-      getInactiveCartIdAndAddProductsForJDK21(
-        customer.email,
-        customer.password
-      ).then((inactiveCartId) => {
-        cy.log('--> create inactive cart');
-        // get customerId via token
 
-        cy.whenJDK17(() => {
-          getCustomerId(
-            agentToken.userName,
-            agentToken.pwd,
-            customer.email
-          ).then((customerId) => {
-            cy.visit(
-              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
-            );
+      cy.whenJDK17(() => {
+        getInactiveCartIdAndAddProducts(customer.email, customer.password).then(
+          (inactiveCartId) => {
+            cy.log('--> create inactive cart');
+            // get customerId via token
+            getCustomerId(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+              );
 
-            cy.log(
-              '--> Should has assign inactive cart to input and display alert info'
-            );
-            cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
-            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
-            cy.get(
-              'cx-customer-emulation input[formcontrolname="cartNumber"]'
-            ).should('have.value', inactiveCartId);
-            cy.get('cx-asm-main-ui cx-message').should('exist');
+              cy.log(
+                '--> Should has assign inactive cart to input and display alert info'
+              );
+              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+              cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', inactiveCartId);
+              cy.get('cx-asm-main-ui cx-message').should('exist');
 
-            cy.log(
-              '--> Click save button the dialog shold display, but the save button is disable'
-            );
-            cy.get('button[id=asm-save-inactive-cart-btn]').click();
-            cy.get('cx-asm-save-cart-dialog').should('exist');
-            cy.get('cx-asm-save-cart-dialog .cx-message-warning button cx-icon')
-              .should('exist')
-              .click();
-            cy.get('.cx-dialog-item.item-right-text').should(
-              'have.text',
-              ` ${inactiveCartId}  0  $0.00 `
-            );
-            cy.get('button[id=asm-save-cart-dialog-btn]').should('be.disabled');
-            cy.findByText(/Cancel/i).click();
-          });
-        });
+              cy.log(
+                '--> Click save button the dialog shold display, but the save button is disable'
+              );
+              cy.get('button[id=asm-save-inactive-cart-btn]').click();
+              cy.get('cx-asm-save-cart-dialog').should('exist');
+              cy.get(
+                'cx-asm-save-cart-dialog .cx-message-warning button cx-icon'
+              )
+                .should('exist')
+                .click();
+              cy.get('.cx-dialog-item.item-right-text').should(
+                'have.text',
+                ` ${inactiveCartId}  0  $0.00 `
+              );
+              cy.get('button[id=asm-save-cart-dialog-btn]').should(
+                'be.disabled'
+              );
+              cy.findByText(/Cancel/i).click();
+            });
+          }
+        );
+      });
 
-        cy.whenJDK21(() => {
+      cy.whenJDK21(() => {
+        getInactiveCartIdAndAddProductsForJDK21(
+          customer.email,
+          customer.password
+        ).then((inactiveCartId) => {
+          cy.log('--> create inactive cart');
           cy.get('button.logout').should('exist').and('be.visible').click();
           getCustomerIdForJDK21(
             agentToken.userName,
