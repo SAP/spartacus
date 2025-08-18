@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   AbstractOrderType,
   CartOutlets,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
+import { TranslationService } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'cx-order-consigned-entries',
@@ -22,10 +24,26 @@ export class OrderConsignedEntriesComponent {
   @Input() order: Order;
   @Input() enableAddToCart: boolean | undefined;
   @Input() buyItAgainTranslation: string;
+  protected translationService = inject(TranslationService);
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
   readonly abstractOrderType = AbstractOrderType;
+
+  getStatus(status: string) {
+    return this.translationService
+      .translate('orderDetails.deliveryStatus_' + status)
+      .pipe(
+        map((value) => {
+          if (value.includes('orderDetails.deliveryStatus_')) {
+            //in case translation key is missing
+            return status;
+          } else {
+            return value;
+          }
+        })
+      );
+  }
 }
