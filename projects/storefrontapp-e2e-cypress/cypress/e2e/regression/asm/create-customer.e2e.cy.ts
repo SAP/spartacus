@@ -5,7 +5,7 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21 } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
@@ -30,7 +30,7 @@ context('Assisted Service Module', () => {
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21('asagent', 'pw4all');
       });
 
       cy.log('--> Open create customer dialog on customer selection dropdown');
@@ -69,7 +69,7 @@ context('Assisted Service Module', () => {
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21('asagent', 'pw4all');
       });
 
       cy.log('--> Open create customer dialog on customer list dialog');
@@ -99,7 +99,7 @@ context('Assisted Service Module', () => {
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21('asagent', 'pw4all');
       });
 
       cy.log('--> Open create customer dialog on customer list dialog');
@@ -137,7 +137,7 @@ context('Assisted Service Module', () => {
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21('asagent', 'pw4all');
       });
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
