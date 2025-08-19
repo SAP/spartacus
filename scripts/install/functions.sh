@@ -1097,6 +1097,8 @@ sed_inplace() {
     fi
 }
 
+# Sets the JDK version in the Spartacus features module.
+# Updates the `authorizationCodeFlowByDefault` toggle according to the selected JDK version.
 function setJdkVersion {
     local app_dir="${1}"
     local authorizationCodeFlowByDefault_value="false"
@@ -1140,6 +1142,9 @@ function setJdkVersion {
      fi
 }
 
+# Adds AuthConfig to the Spartacus configuration module.
+# Use case: B2C and B2B are hosted on separate domains, requiring two OAuth clients in backoffice.
+# The defaultAuthConfig must be overwritten to match the backoffice OAuth client configuration.
 function addAuthConfig {
     if [ -z "$AUTH_CONFIG" ]; then
         echo "AUTH_CONFIG is null or empty, exiting function."
@@ -1154,14 +1159,14 @@ function addAuthConfig {
     fi
 
     clean_module_file() {
-       #Remove all empty line then add one above @NgModule
+       #Remove all empty lines then add one above @NgModule
        echo "Cleaning up empty lines"
        sed_inplace -e '/^[[:space:]]*$/d' -e '/@NgModule/i\' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     }
 
     if [ "$ADD_AUTH_CONFIG" = false ]; then
         echo "ADD_AUTH_CONFIG is false -> Do not add AuthConfig."
-        echo "Remove authconfig if it was previously added."
+        echo "Remove authconfig import and provider if it was previously added."
         perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         sed_inplace 's/,*[[:space:]]*AuthConfig[[:space:]]*,*//g' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         clean_module_file
