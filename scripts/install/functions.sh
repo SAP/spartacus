@@ -1090,11 +1090,11 @@ function compareSemver() {
 
 # To handle multiple OS, macOS 'sed -i' cmd needs single quotes param unlike others.
 sed_inplace() {
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "$@"
-  else
-    sed -i "$@"
-  fi
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "$@"
+    else
+        sed -i "$@"
+    fi
 }
 
 function setJdkVersion {
@@ -1138,7 +1138,7 @@ function setJdkVersion {
 }
 
 function addAuthConfig {
-     if [ -z "$AUTH_CONFIG" ]; then
+    if [ -z "$AUTH_CONFIG" ]; then
         echo "AUTH_CONFIG is null or empty, exiting function."
         return
     fi
@@ -1188,8 +1188,8 @@ function addAuthConfig {
 
 
 
-# move text after Providers to next line
-sed_inplace 's/\(providers: \[\)\(.*\)$/\1\n\2/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    # move text after Providers to next line
+    sed_inplace 's/\(providers: \[\)\(.*\)$/\1\n\2/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     ## Insert the AUTH_CONFIG_STRING after 'providers:' line
     line=$(grep -n 'providers:' "$SPARTACUS_CONFIGURATION_MODULE_PATH" | head -n1 | cut -d: -f1)
     if [ -n "$line" ]; then
