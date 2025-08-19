@@ -324,11 +324,12 @@ jobs:
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        uses: slackapi/slack-github-action@v2.1.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          channel-id: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
+          method: chat.postMessage
           payload: |
             {
+              "channel": "${{ secrets.SLACK_NOTIFICATION_CHANNEL }}",
               "blocks": [
                 {
                   "type": "section",
