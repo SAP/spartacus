@@ -1154,7 +1154,7 @@ function addAuthConfig {
     fi
 
     clean_module_file() {
-       #Remove all empty line except above @NgModule
+       #Remove all empty line then add one above @NgModule
        echo "Cleaning up empty lines"
        sed_inplace -e '/^[[:space:]]*$/d' -e '/@NgModule/i\' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     }
@@ -1171,7 +1171,7 @@ function addAuthConfig {
     auth_config_single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
     echo "single line: $auth_config_single_line"
 
-    # delete previous provider config, text included between provideConfig(<AuthConfig> and the closing brace.
+    # delete previous provider config, text included between provideConfig(<AuthConfig> and the closing brace '})'.
     # perl needed to handle muli-line regex
     perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
 
