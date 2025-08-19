@@ -6,7 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://devcx-frontend-sec.eastus.cloudapp.azure.com:8443"
+BACKEND_URL="https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
@@ -52,7 +52,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='chore/CXSPA-10767'
+BRANCH='develop'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -97,7 +97,7 @@ OPF_BASE_URL=
 OPF_CLIENT_PUBLIC_KEY=
 
 #NPM connection info
-#NPM_URL must start by 'https://'' and end with '/'' char
+#NPM_URL must start by 'https://' and end with '/' char
 NPM_TOKEN=
 NPM_URL=
 NPM_ALWAYS_AUTH=true
