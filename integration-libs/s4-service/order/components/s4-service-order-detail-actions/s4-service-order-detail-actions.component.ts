@@ -32,7 +32,7 @@ export class S4ServiceOrderDetailActionsComponent
   protected globalMessageService = inject(GlobalMessageService);
 
   /**
-   * @deprecated since 2211.44 - Displaying the individual action buttons will depend on their boolean flags from API response.
+   * @deprecated since 221121.1 - Displaying the individual action buttons will depend on their boolean flags from API response.
    */
   displayActions$: Observable<boolean> = this.order$.pipe(
     map((order) => this.checkServiceStatus(order))
@@ -43,7 +43,7 @@ export class S4ServiceOrderDetailActionsComponent
   }
 
   /**
-   * @deprecated since 2211.44 - Displaying the individual action buttons will depend on their boolean flags from API response.
+   * @deprecated since 221121.1 - Displaying the individual action buttons will depend on their boolean flags from API response.
    * Displaying notification for a service not amendable will be carried out by 'displayServiceMessage' instead.
    */
   protected checkServiceStatus(order: Order): boolean {
