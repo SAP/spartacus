@@ -1141,11 +1141,18 @@ function addAuthConfig {
     local app_dir="${1}"
     SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
 
+    clean_module_file() {
+       #Remove all empty line except above @NgModule
+       echo "Cleaning up empty lines"
+       sed_inplace -e '/^[[:space:]]*$/d' -e '/@NgModule/i\' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    }
+
     if [ "$ADD_AUTH_CONFIG" = false ]; then
         echo "ADD_AUTH_CONFIG is false -> Do not add AuthConfig."
         echo "Remove authconfig if it was previously added."
         perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         sed_inplace 's/,*[[:space:]]*AuthConfig[[:space:]]*,*//g' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        clean_module_file
         return
     fi
 
@@ -1191,6 +1198,7 @@ sed_inplace 's/\(providers: \[\)\(.*\)$/\1\n\2/' "$SPARTACUS_CONFIGURATION_MODUL
         $auth_config_single_line
         " "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         echo "AuthConfig provider added."
+        clean_module_file
     else
         echo "Error: AuthConfig provider not added as provider section not found"
     fi
