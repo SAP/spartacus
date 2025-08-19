@@ -1138,6 +1138,11 @@ function setJdkVersion {
 }
 
 function addAuthConfig {
+    if [ "$ADD_AUTH_CONFIG" = false ]; then
+       echo "Do not add AuthConfig."
+       return
+    fi
+
     if [ -z "$AUTH_CONFIG" ]; then
         echo "AUTH_CONFIG is null or empty, exiting function."
         return

@@ -111,10 +111,12 @@ SKIP_E2E=false
 
 #JDK toggle: JDK21 or JDK17
 JDK_VERSION="JDK21"
-# set it as empty to not add the auth config
+
+# Set to true to add AUTH_CONFIG into spartacus-features.module.ts
+ADD_AUTH_CONFIG=false
 AUTH_CONFIG='provideConfig(<AuthConfig>{
         authentication: {
-        client_id: "mobile_android_test",
+        client_id: "mobile_android_public",
         tokenEndpoint: "/oauth/token",
         revokeEndpoint: "/oauth/revoke",
         loginUrl: "/oauth/authorize",
@@ -130,6 +132,6 @@ AUTH_CONFIG='provideConfig(<AuthConfig>{
         },
         customLoginPage: {
           csrfEndpoint: "/csrf",
-          loginFormEndpoint: "/login_test",
+          loginFormEndpoint: "/login",
         },
       }}),'
