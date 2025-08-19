@@ -1103,14 +1103,14 @@ function setJdkVersion {
     # eg: ../../../spartacus-latest/apps/csr/src/app/spartacus/spartacus-features.module.ts
     SPARTACUS_FEATURES_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-features.module.ts"
     echo "Updating Spartacus features module with JDK version: $JDK_VERSION for app: $app_dir"   
+   
+    if [ ! -f "$SPARTACUS_FEATURES_MODULE_PATH" ]; then
+        echo "Incorrect path: $SPARTACUS_FEATURES_MODULE_PATH"
+        return
+    fi
 
     if [ "$JDK_VERSION" == "JDK21" ]; then
         authorizationCodeFlowByDefault_value="true"
-    fi
-
-    if [ ! -f "$SPARTACUS_FEATURES_MODULE_PATH" ]; then
-    echo "Incorrect path: $SPARTACUS_FEATURES_MODULE_PATH"
-    return
     fi
 
     if ! grep -q 'authorizationCodeFlowByDefault' "$SPARTACUS_FEATURES_MODULE_PATH"; then
@@ -1140,6 +1140,10 @@ function setJdkVersion {
 function addAuthConfig {
     local app_dir="${1}"
     SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
+    if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
+        echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
+        return
+    fi
 
     clean_module_file() {
        #Remove all empty line except above @NgModule
@@ -1163,11 +1167,6 @@ function addAuthConfig {
 
     if [ "$JDK_VERSION" == "JDK21" ]; then
        authorizationCodeFlowByDefault_value="true"
-    fi
-
-    if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
-        echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
-        return
     fi
 
     auth_config_single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
