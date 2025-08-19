@@ -1138,6 +1138,11 @@ function setJdkVersion {
 }
 
 function addAuthConfig {
+     if [ -z "$AUTH_CONFIG" ]; then
+        echo "AUTH_CONFIG is null or empty, exiting function."
+        return
+    fi
+
     local app_dir="${1}"
     SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
     if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
@@ -1157,11 +1162,6 @@ function addAuthConfig {
         perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         sed_inplace 's/,*[[:space:]]*AuthConfig[[:space:]]*,*//g' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         clean_module_file
-        return
-    fi
-
-    if [ -z "$AUTH_CONFIG" ]; then
-        echo "AUTH_CONFIG is null or empty, exiting function."
         return
     fi
 
@@ -1205,5 +1205,4 @@ sed_inplace 's/\(providers: \[\)\(.*\)$/\1\n\2/' "$SPARTACUS_CONFIGURATION_MODUL
     echo "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     cat "$SPARTACUS_CONFIGURATION_MODULE_PATH"
     echo "*********** EOF spartacus-configuration.module.ts ***********"
-
 }
