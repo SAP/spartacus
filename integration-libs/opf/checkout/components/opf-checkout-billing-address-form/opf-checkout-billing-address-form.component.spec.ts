@@ -5,15 +5,17 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Address, Country } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { Address, Country, UserAddressAdapter } from '@spartacus/core';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
+import { Store } from '@ngrx/store';
 
 class Service {
   billingAddress$ = new BehaviorSubject<Address | undefined>(undefined);
   isLoadingAddress$ = new BehaviorSubject<boolean>(false);
   isSameAsDelivery$ = new BehaviorSubject<boolean>(true);
+  pickupNoDefaultAddress$ = new Subject<void>();
 
   getCountries(): Observable<Country[]> {
     return EMPTY;
@@ -38,6 +40,7 @@ class Service {
   setIsSameAsDeliveryValue(value: boolean): void {
     this.isSameAsDelivery$.next(value);
   }
+  setPickupDeliveryModeForPickupItems(): void {}
 }
 
 @Pipe({
@@ -61,6 +64,8 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
           provide: OpfCheckoutBillingAddressFormService,
           useClass: Service,
         },
+        { provide: Store, useValue: {} },
+        { provide: UserAddressAdapter, useValue: {} },
       ],
     }).compileComponents();
 
@@ -78,12 +83,15 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     const countries = [{ id: '1', name: 'Country 1' }];
     spyOn(service, 'getCountries').and.returnValue(of(countries));
     spyOn(service, 'getAddresses');
+    spyOn(service, 'setPickupDeliveryModeForPickupItems');
 
     component.ngOnInit();
 
     expect(component.countries$).toBeDefined();
     expect(service.getCountries).toHaveBeenCalled();
     expect(service.getAddresses).toHaveBeenCalled();
+    expect(service.setPickupDeliveryModeForPickupItems).toHaveBeenCalled();
+
   });
 
   it('should cancel and hide form on cancelAndHideForm', () => {

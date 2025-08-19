@@ -13,11 +13,13 @@ import {
   Address,
   GlobalMessageService,
   HttpErrorModel,
+  UserAddressAdapter,
   UserPaymentService,
 } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
+import { Store } from '@ngrx/store';
 
 describe('OpfCheckoutBillingAddressFormService', () => {
   let service: OpfCheckoutBillingAddressFormService;
@@ -27,6 +29,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   let mockActiveCartFacade: Partial<ActiveCartFacade>;
   let mockGlobalMessageService: Partial<GlobalMessageService>;
   let mockOpfCheckoutPaymentWrapperService: Partial<OpfCheckoutPaymentWrapperService>;
+  let mockPickupNoDefaultAddress$: BehaviorSubject<void>;
 
   const mockDeliveryAddress: Address = {
     id: '123',
@@ -64,6 +67,8 @@ describe('OpfCheckoutBillingAddressFormService', () => {
       reloadPaymentMode: () => {},
     };
 
+    mockPickupNoDefaultAddress$ = new BehaviorSubject<void>(undefined);
+
     TestBed.configureTestingModule({
       providers: [
         OpfCheckoutBillingAddressFormService,
@@ -81,6 +86,12 @@ describe('OpfCheckoutBillingAddressFormService', () => {
         {
           provide: OpfCheckoutPaymentWrapperService,
           useValue: mockOpfCheckoutPaymentWrapperService,
+        },
+        { provide: Store, useValue: {} },
+        { provide: UserAddressAdapter, useValue: {} },
+        {
+          provide: '_pickupNoDefaultAddress$',
+          useValue: mockPickupNoDefaultAddress$,
         },
       ],
     });
@@ -250,5 +261,31 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     service.setDeliveryAddressAsPaymentAddress();
 
     expect(service.setBillingAddress).not.toHaveBeenCalled();
+  });
+
+  it('should return an observable from pickupNoDefaultAddress$', () => {
+    spyOn(mockPickupNoDefaultAddress$, 'asObservable').and.callThrough();
+
+    (service as any)._pickupNoDefaultAddress$ = mockPickupNoDefaultAddress$;
+
+    const result: Observable<void> = service.pickupNoDefaultAddress$;
+
+    expect(mockPickupNoDefaultAddress$.asObservable).toHaveBeenCalled();
+    expect(result).toEqual(mockPickupNoDefaultAddress$.asObservable());
+  });
+
+  it('should set pickup delivery mode for pickup items', () => {
+    spyOn(service, 'setPickupDeliveryModeForPickupItems').and.callThrough();
+    spyOn(
+      mockOpfCheckoutPaymentWrapperService,
+      'reloadPaymentMode'
+    ).and.callThrough();
+
+    service.setPickupDeliveryModeForPickupItems();
+
+    expect(service.setPickupDeliveryModeForPickupItems).toHaveBeenCalled();
+    expect(
+      mockOpfCheckoutPaymentWrapperService.reloadPaymentMode
+    ).toHaveBeenCalled();
   });
 });

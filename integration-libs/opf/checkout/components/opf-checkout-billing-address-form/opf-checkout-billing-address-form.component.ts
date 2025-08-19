@@ -14,7 +14,7 @@ import { Address, Country } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
-
+import { UserAddressService } from '@spartacus/core';
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
   templateUrl: './opf-checkout-billing-address-form.component.html',
@@ -23,6 +23,7 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected service = inject(OpfCheckoutBillingAddressFormService);
+  protected userAddressService = inject(UserAddressService);
 
   iconTypes = ICON_TYPE;
 
@@ -37,7 +38,13 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   ngOnInit() {
     this.countries$ = this.service.getCountries();
+    this.userAddressService.loadAddresses();
+    this.service.setPickupDeliveryModeForPickupItems();
     this.service.getAddresses();
+    this.service.pickupNoDefaultAddress$.subscribe(() => {
+      this.isEditBillingAddress = true;
+      this.isAddingBillingAddressInProgress = true;
+    });
   }
 
   cancelAndHideForm(): void {
