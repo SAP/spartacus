@@ -9,10 +9,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
+  AuthConfig,
   AuthService,
   CmsConfig,
   GlobalMessageService,
   I18nModule,
+  NotAuthGuard,
+  provideConfig,
   provideDefaultConfig,
   UrlModule,
   WindowRef,
@@ -39,10 +42,16 @@ import { CdcJsService } from '@spartacus/cdc/root';
     CdcReconsentModule,
   ],
   providers: [
+    provideConfig(<AuthConfig>{
+      authentication: {
+        customLoginPage: undefined,
+      },
+    }),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,
+          guards: [NotAuthGuard],
           providers: [
             {
               provide: LoginFormComponentService,
