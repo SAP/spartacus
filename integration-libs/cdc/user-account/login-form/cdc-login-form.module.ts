@@ -14,6 +14,7 @@ import {
   CmsConfig,
   GlobalMessageService,
   I18nModule,
+  NotAuthGuard,
   provideConfig,
   provideDefaultConfig,
   UrlModule,
@@ -50,6 +51,7 @@ import { CdcJsService } from '@spartacus/cdc/root';
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,
+          guards: [NotAuthGuard],
           providers: [
             {
               provide: LoginFormComponentService,
