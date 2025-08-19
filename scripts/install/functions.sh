@@ -1138,9 +1138,15 @@ function setJdkVersion {
 }
 
 function addAuthConfig {
+    local app_dir="${1}"
+    SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
+
     if [ "$ADD_AUTH_CONFIG" = false ]; then
-       echo "Do not add AuthConfig."
-       return
+        echo "ADD_AUTH_CONFIG is false -> Do not add AuthConfig."
+        echo "Remove authconfig if it was previously added."
+        perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        sed_inplace 's/,*[[:space:]]*AuthConfig[[:space:]]*,*//g' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        return
     fi
 
     if [ -z "$AUTH_CONFIG" ]; then
@@ -1151,10 +1157,6 @@ function addAuthConfig {
     if [ "$JDK_VERSION" == "JDK21" ]; then
        authorizationCodeFlowByDefault_value="true"
     fi
-
-    local app_dir="${1}"
-    SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
-
 
     if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
         echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
