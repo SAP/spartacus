@@ -48,3 +48,27 @@ Cypress.Commands.add('requireDeliveryMethodSelected', (token, cartId) => {
     setDeliveryMethod(code).then((resp) => cy.wrap(resp))
   );
 });
+
+Cypress.Commands.add(
+  'requireDeliveryMethodSelectedForJDK21',
+  (token, cartId) => {
+    const cartCode = cartId || 'current';
+
+    function setDeliveryMethod(deliveryMode) {
+      return cy.request({
+        method: 'PUT',
+        url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/${cartCode}/deliverymode?deliveryModeId=${deliveryMode}`,
+        form: false,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+    }
+
+    getDefaultDeliveryModeCode(token, cartId).then((code) =>
+      setDeliveryMethod(code).then((resp) => cy.wrap(resp))
+    );
+  }
+);
