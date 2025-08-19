@@ -15,7 +15,6 @@ import {
   GlobalMessageService,
   I18nModule,
   NotAuthGuard,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
   WindowRef,
@@ -42,7 +41,7 @@ import { CdcJsService } from '@spartacus/cdc/root';
     CdcReconsentModule,
   ],
   providers: [
-    provideConfig(<AuthConfig>{
+    provideDefaultConfig(<AuthConfig>{
       authentication: {
         customLoginPage: undefined,
       },
