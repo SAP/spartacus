@@ -13,6 +13,7 @@ import {
   CmsConfig,
   GlobalMessageService,
   I18nModule,
+  NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
   WindowRef,
@@ -43,6 +44,7 @@ import { CdcJsService } from '@spartacus/cdc/root';
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,
+          guards: [NotAuthGuard], //CSRF handling skipped for CDC flow.
           providers: [
             {
               provide: LoginFormComponentService,
