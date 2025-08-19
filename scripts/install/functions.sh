@@ -450,7 +450,7 @@ function build_csr {
     else
         setJdkVersion "$CSR_APP_NAME"
         printh "Building csr app"
-       ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
+        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
     fi
 }
 
@@ -466,7 +466,7 @@ function build_ssr {
         else
             buildCommands="npm run build && npm run build:ssr"
         fi
-      ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
+       ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && eval $buildCommands )
     fi
 }
 
