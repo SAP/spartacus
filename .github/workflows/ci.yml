@@ -261,6 +261,7 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
+          ENABLE_A11Y_RECORDING: true
         run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
   ssr_tests:
     needs: [no_retries, validate_e2e_execution, build_libs]
