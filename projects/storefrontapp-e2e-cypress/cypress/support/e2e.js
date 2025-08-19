@@ -18,3 +18,5 @@ import './commands.ts';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+import './csrf-global-interceptor.ts';

@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { navigation } from './navigation';
+import { navigation, waitForPage } from './navigation';
 import * as configurationCart from './product-configurator-cart';
 import Chainable = Cypress.Chainable;
-import { waitForPage } from './checkout-flow';
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';

@@ -5,9 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
-import { waitForCategoryPage } from './navigation';
+import { waitForCategoryPage, waitForPage } from './navigation';
 import { clickFacet, searchUrlPrefix } from './product-search';
 
 const scrollDuration = 5000;

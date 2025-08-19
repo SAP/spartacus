@@ -7,11 +7,13 @@
 import { giveConsent } from '../helpers/consent-management';
 import { SampleUser } from '../sample-data/checkout-flow';
 import { standardUser } from '../sample-data/shared-users';
+import { visitLoginPage } from '../support/utils/login';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login, register } from './auth-forms';
-import { clickHamburger, waitForPage } from './checkout-flow';
+import { clickHamburger } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { signOutUser } from './login';
+import { waitForPage } from './navigation';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
@@ -75,7 +77,7 @@ export function anonoymousConsentConfig(
 export function registerNewUserAndLogin(
   newUser: SampleUser,
   giveRegistrationConsent = false,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   cy.visit('/login/register');
   register(newUser, giveRegistrationConsent, hiddenConsent);
@@ -185,7 +187,7 @@ export function registerUserAndCheckMyAccountConsent(
   user,
   consentCheckBox,
   position,
-  hiddenConsent?
+  hiddenConsent?: string
 ) {
   registerNewUserAndLogin(user, consentCheckBox, hiddenConsent);
   checkBanner();
@@ -246,9 +248,7 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeAnonymousConsentsDialog();
 
-    cy.onMobile(() => {
-      clickHamburger();
-    });
+    clickHamburger();
     cy.getLoginRegisterLink({ clickAndWait: true });
 
     login(userTransferConsentTest.email, userTransferConsentTest.password);
@@ -262,7 +262,7 @@ export function movingFromAnonymousToRegisteredUser() {
 
 export function testAsLoggedInUser() {
   it('should not render the banner and footer link', () => {
-    cy.visit('/login');
+    visitLoginPage();
     login(userTransferConsentTest.email, userTransferConsentTest.password);
 
     checkBanner();

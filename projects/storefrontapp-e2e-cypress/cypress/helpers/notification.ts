@@ -5,7 +5,7 @@
  */
 
 import { login } from './auth-forms';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 import { generateMail, randomString } from './user';
 
 export const normalProductCode = '872912';

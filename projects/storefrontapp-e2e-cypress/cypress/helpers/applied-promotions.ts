@@ -8,7 +8,8 @@ import { interceptGet } from '../support/utils/intercept';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
-import { waitForPage, waitForProductPage } from './checkout-flow';
+import { waitForProductPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 export const eosCameraProductName = 'EOS450D';
 

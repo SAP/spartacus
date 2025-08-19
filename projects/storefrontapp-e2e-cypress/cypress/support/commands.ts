@@ -6,11 +6,13 @@
 
 // prettier-ignore
 /// <reference types="Cypress" />
+/// <reference types="@testing-library/cypress" />
 
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import './a11y-tab.commands';
 import './cart.commands';
+import './ccv2-version.commands';
 import './continuum.commands';
 import './cx-config.commands';
 import './login.commands';

@@ -6,7 +6,7 @@
 
 import * as sampleData from '../../sample-data/b2b-order-details';
 import { unitLevelOrder } from '../../sample-data/b2b-order-details';
-import { waitForPage } from '../checkout-flow';
+import { waitForPage } from '../navigation';
 
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(

@@ -1,30 +1,46 @@
 import { TestBed } from '@angular/core/testing';
 import { ActionsSubject, StoreModule } from '@ngrx/store';
-import { ConsentService } from '@spartacus/core';
-import { of } from 'rxjs';
+import {
+  AuthActions,
+  ConsentService,
+  FeatureConfigService,
+} from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { fakeAsync, tick, flush } from '@angular/core/testing';
+import { LOGIN_EVENTS, LoginEventEnvelope } from '../tokens/login-events.token';
 
 describe('ProfileTagLifecycleService', () => {
   let service: ProfileTagLifecycleService;
   let consentService: jasmine.SpyObj<ConsentService>;
+  let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
   let actionsSubject: ActionsSubject;
+  let loginEventsSubject: Subject<LoginEventEnvelope>;
 
   beforeEach(() => {
     const consentServiceSpy = jasmine.createSpyObj('ConsentService', [
       'getConsent',
       'isConsentGiven',
     ]);
+    const featureConfigServiceSpy = jasmine.createSpyObj(
+      'FeatureConfigService',
+      ['isEnabled']
+    );
+
+    loginEventsSubject = new Subject<LoginEventEnvelope>();
+
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         { provide: ConsentService, useValue: consentServiceSpy },
+        { provide: FeatureConfigService, useValue: featureConfigServiceSpy },
         {
           provide: CdsConfig,
           useValue: { cds: { consentTemplateId: 'templateId' } },
         },
+        { provide: LOGIN_EVENTS, useValue: loginEventsSubject.asObservable() },
         ActionsSubject,
         ProfileTagLifecycleService,
       ],
@@ -33,6 +49,9 @@ describe('ProfileTagLifecycleService', () => {
     consentService = TestBed.inject(
       ConsentService
     ) as jasmine.SpyObj<ConsentService>;
+    featureConfigService = TestBed.inject(
+      FeatureConfigService
+    ) as jasmine.SpyObj<FeatureConfigService>;
 
     actionsSubject = TestBed.inject(ActionsSubject);
   });
@@ -74,15 +93,133 @@ describe('ProfileTagLifecycleService', () => {
     });
   });
 
-  it('should return login successful event', fakeAsync(() => {
-    const mockAction = { type: 'LOGIN' };
-    actionsSubject.next(mockAction);
-    tick();
+  describe('loginSuccessful()', () => {
+    describe('when cdsLoginEventsToken feature flag is disabled', () => {
+      beforeEach(() => {
+        featureConfigService.isEnabled.and.returnValue(false);
+      });
 
-    service.loginSuccessful().subscribe((result: boolean) => {
-      expect(result).toBe(true);
+      it('should return login successful event from ActionsSubject', fakeAsync(() => {
+        const mockAction = { type: AuthActions.LOGIN };
+
+        let result: boolean | undefined;
+        service.loginSuccessful().subscribe((value: boolean) => {
+          result = value;
+        });
+
+        actionsSubject.next(mockAction);
+        tick();
+
+        expect(result).toBe(true);
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'cdsLoginEventsToken'
+        );
+
+        flush();
+      }));
+
+      it('should not emit for non-LOGIN actions', fakeAsync(() => {
+        const mockAction = { type: AuthActions.LOGOUT };
+
+        let result: boolean | undefined;
+        service.loginSuccessful().subscribe((value: boolean) => {
+          result = value;
+        });
+
+        actionsSubject.next(mockAction);
+        tick();
+
+        expect(result).toBeUndefined();
+
+        flush();
+      }));
     });
 
-    flush();
-  }));
+    describe('when cdsLoginEventsToken feature flag is enabled', () => {
+      beforeEach(() => {
+        featureConfigService.isEnabled.and.returnValue(true);
+      });
+
+      it('should return login successful event from LOGIN_EVENTS token', fakeAsync(() => {
+        let result: boolean | undefined;
+        service.loginSuccessful().subscribe((value: boolean) => {
+          result = value;
+        });
+
+        const mockLoginEvent: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: Date.now(),
+        };
+
+        loginEventsSubject.next(mockLoginEvent);
+        tick();
+
+        expect(result).toBe(true);
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'cdsLoginEventsToken'
+        );
+
+        flush();
+      }));
+
+      it('should deduplicate login events by timestamp', fakeAsync(() => {
+        const results: boolean[] = [];
+        service.loginSuccessful().subscribe((value: boolean) => {
+          results.push(value);
+        });
+
+        const timestamp = Date.now();
+        const mockLoginEvent1: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: timestamp,
+        };
+        const mockLoginEvent2: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: timestamp, // Same timestamp - should be filtered out
+        };
+        const mockLoginEvent3: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: timestamp + 1000, // Different timestamp - should pass through
+        };
+
+        loginEventsSubject.next(mockLoginEvent1);
+        loginEventsSubject.next(mockLoginEvent2);
+        loginEventsSubject.next(mockLoginEvent3);
+        tick();
+
+        expect(results).toEqual([true, true]); // Only 2 events should pass through
+
+        flush();
+      }));
+
+      it('should allow events with different timestamps', fakeAsync(() => {
+        const results: boolean[] = [];
+        service.loginSuccessful().subscribe((value: boolean) => {
+          results.push(value);
+        });
+
+        const mockLoginEvent1: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: 1000,
+        };
+        const mockLoginEvent2: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: 2000,
+        };
+        const mockLoginEvent3: LoginEventEnvelope = {
+          action: { type: AuthActions.LOGIN },
+          timestamp: 3000,
+        };
+
+        loginEventsSubject.next(mockLoginEvent1);
+        loginEventsSubject.next(mockLoginEvent2);
+        loginEventsSubject.next(mockLoginEvent3);
+        tick();
+
+        expect(results).toEqual([true, true, true]); // All events should pass through
+
+        flush();
+      }));
+    });
+  });
 });

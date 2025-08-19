@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -14,6 +14,7 @@ import {
 import {
   AuthConfigService,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
@@ -36,6 +37,7 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
 })
 export class UserRegistrationFormService {
   private _form: FormGroup = this.buildForm();
+  private featureConfigService = inject(FeatureConfigService);
 
   /*
    * Initializes form structure for registration.
@@ -163,12 +165,14 @@ export class UserRegistrationFormService {
   /**
    * Redirects the user back to the login page.
    *
-   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow.
+   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow and authorizationCodeFlowByDefault.
+   *
    */
   protected redirectToLogin(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
-      OAuthFlow.ResourceOwnerPasswordFlow
+        OAuthFlow.ResourceOwnerPasswordFlow ||
+      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }
