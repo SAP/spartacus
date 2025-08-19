@@ -131,6 +131,8 @@
     "e2e:run:ci:ssr:jdk21:release": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ssr:jdk21:release",
     "e2e:run:ci:a11y": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y",
     "e2e:run:ci:a11y:b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y:b2b",
+    "e2e:run:ci:a11y:record": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y:record",
+    "e2e:run:ci:a11y:b2b:record": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y:b2b:record",
     "e2e:run:ci:a11y:release": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y:release",
     "e2e:run:ci:a11y:b2b:release": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y:b2b:release",
     "e2e:run:ci:a11y:jdk21:release": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:a11y:jdk21:release",
