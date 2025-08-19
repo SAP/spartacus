@@ -1175,10 +1175,9 @@ function addAuthConfig {
     # perl needed to handle muli-line regex
     perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
 
-
     # Check presence of AuthConfig import
     if ! grep -q 'AuthConfig.*@spartacus/core' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
-        # add import for AuthConfig in new line above '@spartacus/core'
+        # add AuthConfig import on last position of @spartacus/core imports
         sed_inplace 's/} from "@spartacus\/core"/,AuthConfig } from "@spartacus\/core"/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         echo "AuthConfig import added."
     else
@@ -1198,7 +1197,7 @@ function addAuthConfig {
         echo "AuthConfig provider added."
         clean_module_file
     else
-        echo "Error: AuthConfig provider not added as provider section not found"
+        echo "Error: AuthConfig provider not added as providers section not found"
     fi
     echo "*********** spartacus-configuration.module.ts ***********"
     echo "$SPARTACUS_CONFIGURATION_MODULE_PATH"
