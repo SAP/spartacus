@@ -1109,7 +1109,7 @@ function setJdkVersion {
         return
     fi
 
-    if [ "$JDK_VERSION" == "JDK21" ]; then
+    if [ "$JDK_VERSION" = "JDK21" ]; then
         authorizationCodeFlowByDefault_value="true"
     fi
 
@@ -1134,7 +1134,10 @@ function setJdkVersion {
     cat "$SPARTACUS_FEATURES_MODULE_PATH"
     echo "*********** EOF spartacus-features.module.ts ***********"
 
-    addAuthConfig "$app_dir"
+   
+     if [ "$JDK_VERSION" = "JDK21" ]; then
+        addAuthConfig "$app_dir"
+     fi
 }
 
 function addAuthConfig {
@@ -1163,10 +1166,6 @@ function addAuthConfig {
         sed_inplace 's/,*[[:space:]]*AuthConfig[[:space:]]*,*//g' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         clean_module_file
         return
-    fi
-
-    if [ "$JDK_VERSION" == "JDK21" ]; then
-       authorizationCodeFlowByDefault_value="true"
     fi
 
     auth_config_single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
