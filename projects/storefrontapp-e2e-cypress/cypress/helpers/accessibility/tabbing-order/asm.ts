@@ -6,7 +6,7 @@
 
 import * as asm from '../../../helpers/asm';
 import { focusableSelectors } from '../../../support/utils/a11y-tab';
-import { login } from '../../auth-forms';
+import { agentLoginForJDK21, login } from '../../auth-forms';
 import { verifyTabElement, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -64,7 +64,7 @@ export function asmTabbingOrderWithCustomerList(
 
   cy.whenJDK21(() => {
     cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-    login(agent, 'pw4all');
+    agentLoginForJDK21(agent, 'pw4all');
   });
 
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
@@ -155,7 +155,7 @@ function lanuchPromotiontab() {
 
   cy.whenJDK21(() => {
     cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-    login('asagent', 'pw4all');
+    agentLoginForJDK21('asagent', 'pw4all');
   });
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
