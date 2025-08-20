@@ -23,10 +23,6 @@
       [class.scroll-possible]="
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
-      (keydown.arrowleft)="shareEvent($any($event))"
-      (keydown.arrowright)="shareEvent($any($event))"
-      (keydown.arrowup)="shareEvent($any($event))"
-      (keydown.arrowdown)="shareEvent($any($event))"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -62,10 +58,6 @@
       [class.scroll-possible]="
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
-      (keydown.arrowleft)="shareEvent($any($event))"
-      (keydown.arrowright)="shareEvent($any($event))"
-      (keydown.arrowup)="shareEvent($any($event))"
-      (keydown.arrowdown)="shareEvent($any($event))"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>

@@ -1,6 +1,12 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
+<form
+  (ngSubmit)="onSubmit()"
+  [formGroup]="form"
+  [attr.method]="method"
+  [attr.action]="action"
+  #loginForm
+>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <label>
@@ -15,6 +21,7 @@
       placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
       [attr.aria-label]="'loginForm.emailAddress.label' | cxTranslate"
       formControlName="userId"
+      name="username"
       [attr.aria-invalid]="
         form.get('userId')?.touched && form.get('userId')?.invalid
       "
@@ -41,6 +48,7 @@
       class="form-control"
       placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
       formControlName="password"
+      name="password"
       [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
       [attr.aria-invalid]="
         form.get('password')?.touched && form.get('password')?.invalid
@@ -57,6 +65,15 @@
       [control]="form.get('password')"
     ></cx-form-errors>
   </label>
+
+  <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
+    <input
+      *ngIf="csrf"
+      formControlName="csrf"
+      type="hidden"
+      [name]="csrf.parameterName"
+    />
+  </ng-container>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
     {{ 'loginForm.forgotPassword' | cxTranslate }}

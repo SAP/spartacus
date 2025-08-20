@@ -8,7 +8,6 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
-import { whenJDK17, whenJDK21 } from '../support/utils/jdk-versions';
 import { waitForPage } from './navigation';
 
 export interface LoginUser {
@@ -44,7 +43,6 @@ export function fillRegistrationForm(
 
 /**
  * Fill in Spartacus Login page
- * @deprecated Old authentication process
  */
 export function fillLoginForm(credentials: LoginUser) {
   return fillCustomLoginForm(credentials);
@@ -95,18 +93,14 @@ export function register(
   hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
-  cy.whenJDK17(
-    () => waitForPage('/login', 'getLoginPageAfterRegister'),
-    () => waitForPage('/homepage', 'getHomepageAfterRegister')
-  ).then((homepage) => {
-    cy.get('cx-register form').within(() => {
-      cy.get('button[type="submit"]').click();
-      cy.wait(`@${homepage}`).its('response.statusCode').should('eq', 200);
+  const pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
+  cy.get('cx-register form').within(() => {
+    cy.get('button[type="submit"]').click();
+    cy.whenJDK17(() => {
+      cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
     });
   });
-}
-
-/**
+} /**
  * Starting from the registration page
  * - fill out the registration form
  * - submit the form without supplying captcha
@@ -119,13 +113,8 @@ export function registerWithCaptcha(
   hiddenConsent?: string
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
-  let pageAlias: string;
-  whenJDK17(() => {
-    pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
-  });
-  whenJDK21(() => {
-    pageAlias = waitForPage('/homepage', 'getHomepageAfterRegister');
-  });
+
+  const pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
 
   cy.get('button[type="submit"]').click();
   // Register a user without confirming captcha will have an error.
@@ -144,10 +133,20 @@ export function registerWithCaptcha(
  * - Submit the form
  */
 export function login(username: string, password: string) {
-  cy.whenJDK17(() => {
-    fillLoginForm({ username, password });
-  });
-  cy.whenJDK21(() => {
-    fillAuthServerLoginForm({ username, password });
-  });
+  fillLoginForm({ username, password });
+}
+
+export function agentLoginForJDK21(username: string, password: string) {
+  cy.origin(
+    `${Cypress.env('API_URL')}`,
+    { args: { username, password } },
+    ({ username, password }) => {
+      cy.get('form[id="loginForm"]').within(() => {
+        cy.get('input[name=username]').clear().type(username);
+        cy.get('input[name=password]').clear().type(password);
+
+        cy.get('button[type=submit]').click();
+      });
+    }
+  );
 }

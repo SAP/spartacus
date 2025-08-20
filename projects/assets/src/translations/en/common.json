@@ -103,6 +103,13 @@
     "nextOrderDate": "Next Order Date",
     "pageViewUpdated": "Page view updated with your selected options."
   },
+  "customLoginPage": {
+    "badRequest": {
+      "bad_credentials": "Bad credentials. Please login again.",
+      "account_disabled": "User is disabled. Please contact administration.",
+      "unknown_error": "An unknown error occurred. Please try again later."
+    }
+  },
   "httpHandlers": {
     "badRequest": {
       "bad_credentials": "{{ errorMessage }}. Please login again.",

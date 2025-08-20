@@ -294,7 +294,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         searchBoxV2: true,
         trendingSearches: true,
-        useProductCarouselBatchApi: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
@@ -368,6 +367,7 @@ if (environment.cpq) {
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
+        dispatchLoginActionOnlyWhenTokenReceived: true,
         allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
@@ -394,10 +394,14 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
+        cdsLoginEventsToken: true,
         createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
+        authorizationCodeFlowByDefault: false,
+        defaultLayoutConfigWithoutPageFold: true,
       };
       return appFeatureToggles;
     }),

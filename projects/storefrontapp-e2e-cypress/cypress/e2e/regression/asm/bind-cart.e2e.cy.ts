@@ -5,11 +5,12 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -21,6 +22,10 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('not.exist');
 
       checkout.registerUser(false, customerForBindCart);
+
+      cy.whenJDK21(() => {
+        checkout.visitHomePage();
+      });
 
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
@@ -38,7 +43,14 @@ context('Assisted Service Module', () => {
           checkout.visitHomePage('asm=true');
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
-          asm.agentLogin('asagent', 'pw4all');
+          cy.whenJDK17(() => {
+            asm.agentLogin('asagent', 'pw4all');
+          });
+
+          cy.whenJDK21(() => {
+            cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+            agentLoginForJDK21('asagent', 'pw4all');
+          });
 
           cy.log('--> Starting customer emulation');
           asm.startCustomerEmulation(customerForBindCart);
@@ -66,11 +78,11 @@ context('Assisted Service Module', () => {
       cy.log('--> Log in as customer');
       cy.whenJDK17(() => {
         const loginPage = waitForPage('/login', 'getLoginPage');
-        cy.visit('/login');
+        visitLoginPage();
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        cy.visit('/login');
+        visitLoginPage();
       });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
@@ -92,6 +104,10 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('not.exist');
 
       checkout.registerUser(false, customerForReplaceBindCart);
+
+      cy.whenJDK21(() => {
+        checkout.visitHomePage();
+      });
 
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
@@ -116,8 +132,14 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
 
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
+      });
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customerForReplaceBindCart);
 
@@ -163,11 +185,11 @@ context('Assisted Service Module', () => {
       cy.log('--> Log in as customer');
       cy.whenJDK17(() => {
         const loginPage = waitForPage('/login', 'getLoginPage');
-        cy.visit('/login');
+        visitLoginPage();
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        cy.visit('/login');
+        visitLoginPage();
       });
       login(
         customerForReplaceBindCart.email,

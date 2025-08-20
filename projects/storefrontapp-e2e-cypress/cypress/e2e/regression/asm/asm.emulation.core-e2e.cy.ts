@@ -5,7 +5,7 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
@@ -13,6 +13,7 @@ import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
@@ -29,7 +30,14 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
+      });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -60,7 +68,9 @@ context('Assisted Service Module', () => {
           .findByText(/End Session/i)
           .click();
         // Make sure homepage is visible
-        cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
+        cy.whenJDK17(() => {
+          cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
+        });
         cy.get('cx-global-message div').should(
           'contain',
           'You have successfully signed out.'
@@ -76,20 +86,30 @@ context('Assisted Service Module', () => {
 
     before(() => {
       clearAllStorage();
-
-      cy.visit('/', { qs: { asm: true } });
+      cy.whenJDK17(() => {
+        cy.visit('/', { qs: { asm: true } });
+      });
 
       customer = getSampleUser();
       checkout.registerUser(false, customer);
     });
 
     it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login?asm=true');
-      cy.wait(`@${loginPage}`);
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        cy.visit('/login?asm=true');
+        cy.wait(`@${loginPage}`);
+        asm.agentLogin('asagent', 'pw4all');
+        login(customer.email, customer.password);
+      });
 
-      asm.agentLogin('asagent', 'pw4all');
-      login(customer.email, customer.password);
+      cy.whenJDK21(() => {
+        checkout.visitHomePage('asm=true');
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
+        cy.contains('a[role="link"]', 'Sign In / Register').click();
+      });
+
       getErrorAlert().should(
         'contain',
         'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
@@ -98,7 +118,7 @@ context('Assisted Service Module', () => {
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
     it.skip('agent login when user is logged in should start this user emulation', () => {
-      cy.visit('/login');
+      visitLoginPage();
       login(customer.email, customer.password);
 
       checkout.visitHomePage('asm=true');
@@ -107,7 +127,14 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.log('--> Agent logging in');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
+      });
 
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('not.exist');
@@ -115,14 +142,21 @@ context('Assisted Service Module', () => {
     });
 
     // TODO(#7221): enable this case
-    it.skip('agent logout when user was logged and emulated should restore the session', () => {
+    it('agent logout when user was logged and emulated should restore the session', () => {
       checkout.visitHomePage('asm=true');
 
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.log('--> Agent logging in');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
+      });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -130,7 +164,14 @@ context('Assisted Service Module', () => {
       cy.log('--> Agent sign out');
       asm.agentSignOut();
 
-      cy.get('cx-csagent-login-form').should('exist');
+      cy.whenJDK17(() => {
+        cy.get('cx-csagent-login-form').should('exist');
+      });
+      cy.whenJDK21(() => {
+        cy.contains('a.cx-asm-customer-list-link', 'Sign In as Agent').should(
+          'exist'
+        );
+      });
       cy.get('cx-customer-emulation').should('not.exist');
     });
   });
@@ -157,8 +198,14 @@ context('Assisted Service Module', () => {
       const customer = getSampleUser();
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
 
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('asagent', 'pw4all');
+      });
       asm.startCustomerEmulation(customer);
 
       navigateToCategory('Brands', 'brands', true);

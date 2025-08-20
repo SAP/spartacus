@@ -26,6 +26,7 @@ describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
       cy.requireLoggedIn();
     });
 
@@ -52,6 +53,7 @@ describe('Order details page', { testIsolation: false }, () => {
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
 
     before(() => {
+      cy.visit('/');
       cy.requireLoggedIn();
       doPlaceOrder().then((orderData: any) => {
         formattedValue = orderData.body.totalPrice.formattedValue;
@@ -73,15 +75,14 @@ describe('Order details page', { testIsolation: false }, () => {
           .first()
           .click();
       });
-
-      it('should display order details page with consigned entries', () => {
-        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-        cy.get('.cx-summary-total > .cx-summary-amount').should(
-          'contain',
-          formattedValue
-        );
-      });
+    });
+    it('should display order details page with consigned entries', () => {
+      cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+      cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+      cy.get('.cx-summary-total > .cx-summary-amount').should(
+        'contain',
+        formattedValue
+      );
     });
 
     it('should add product to cart from order details page', () => {

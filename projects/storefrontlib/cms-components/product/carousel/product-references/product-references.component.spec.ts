@@ -140,26 +140,27 @@ class MockProductReferenceService {
   cleanReferences(): void {}
 }
 
+let mockFeatureToggles: FeatureToggles;
+
+class MockFeatureConfigService {
+  isEnabled(
+    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+  ): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = (
+      hasNegation ? feature.slice(1) : feature
+    ) as keyof FeatureToggles;
+
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let productReferenceService: ProductReferenceService;
   let fixture: ComponentFixture<ProductReferencesComponent>;
-  let mockFeatureToggles: FeatureToggles;
-
-  class MockFeatureConfigService {
-    isEnabled(
-      feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-    ): boolean {
-      const hasNegation = feature.startsWith('!');
-      const featureName = (
-        hasNegation ? feature.slice(1) : feature
-      ) as keyof FeatureToggles;
-
-      return hasNegation
-        ? !mockFeatureToggles[featureName]
-        : !!mockFeatureToggles[featureName];
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
