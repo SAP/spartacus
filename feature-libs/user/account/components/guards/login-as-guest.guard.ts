@@ -23,7 +23,7 @@ export class LoginAsGuestGuard {
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
 
-  routeName: string = 'loginForm';
+  protected routeName: string = 'loginForm';
 
   canActivate(): Observable<GuardResult> {
     if (

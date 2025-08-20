@@ -5,5 +5,5 @@ import { LoginAsGuestGuard } from '@spartacus/user/account/components';
   providedIn: 'root',
 })
 export class CdcLoginAsGuestGuard extends LoginAsGuestGuard {
-  routeName: string = 'login'; //overriding the route
+  protected routeName: string = 'login'; //overriding the route
 }
