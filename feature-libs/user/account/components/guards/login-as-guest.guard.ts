@@ -23,6 +23,8 @@ export class LoginAsGuestGuard {
   protected router = inject(Router);
   protected semanticPathService = inject(SemanticPathService);
 
+  routeName: string = 'loginForm';
+
   canActivate(): Observable<GuardResult> {
     if (
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
@@ -31,9 +33,12 @@ export class LoginAsGuestGuard {
     ) {
       this.windowRef.localStorage.removeItem(IS_GUEST_USER_CHECKOUT_KEY);
       return of(
-        this.router.createUrlTree([this.semanticPathService.get('loginForm')], {
-          queryParams: { forced: true },
-        })
+        this.router.createUrlTree(
+          [this.semanticPathService.get(this.routeName)],
+          {
+            queryParams: { forced: true },
+          }
+        )
       );
     }
 
