@@ -11,5 +11,7 @@ import { LoginAsGuestGuard } from '@spartacus/user/account/components';
   providedIn: 'root',
 })
 export class CdcLoginAsGuestGuard extends LoginAsGuestGuard {
-  protected routeName: string = 'login'; //overriding the route
+  protected getPath(): string | undefined {
+    return this.semanticPathService.get('login');
+  }
 }
