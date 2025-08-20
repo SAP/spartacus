@@ -5,7 +5,6 @@ import {
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
-import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { CdcLoginAsGuestGuard } from './cdc-login-as-guest.guard';
 
 const mockFeatureConfigService = {
@@ -19,13 +18,15 @@ const mockWindowRef = {
   },
 };
 
-const mockSemanticPathService = {
-  get: jasmine.createSpy().and.returnValue('login'),
-};
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get(_routeName: string) {
+    return '/loginPath';
+  }
+}
 
 describe('CdcLoginAsGuestGuard', () => {
   let guard: CdcLoginAsGuestGuard;
-  let windowRef: WindowRef;
+  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,7 +38,7 @@ describe('CdcLoginAsGuestGuard', () => {
         },
         {
           provide: SemanticPathService,
-          useValue: mockSemanticPathService,
+          useClass: MockSemanticPathService,
         },
         {
           provide: WindowRef,
@@ -46,7 +47,7 @@ describe('CdcLoginAsGuestGuard', () => {
       ],
     });
     guard = TestBed.inject(CdcLoginAsGuestGuard);
-    windowRef = TestBed.inject(WindowRef);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   beforeEach(() => {
@@ -57,55 +58,12 @@ describe('CdcLoginAsGuestGuard', () => {
     expect(guard).toBeTruthy();
   });
 
-  describe('when authorizationCodeFlowByDefault feature flag is not enabled', () => {
-    it('should return true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(false);
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
-    });
-  });
-
-  describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
-    it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
-      guard.canActivate().subscribe((result) => {
-        expect(result.toString()).toEqual('/login?forced=true');
-      });
-      expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
-        IS_GUEST_USER_CHECKOUT_KEY
-      );
-      expect(windowRef.localStorage?.removeItem).toHaveBeenCalledWith(
-        IS_GUEST_USER_CHECKOUT_KEY
-      );
-    });
-
-    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
-      (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
-        'false'
-      );
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
-      expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
-        IS_GUEST_USER_CHECKOUT_KEY
-      );
-      expect(windowRef.localStorage?.removeItem).not.toHaveBeenCalled();
-    });
-
-    it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
-      (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
-        null
-      );
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBe(true);
-      });
-      expect(windowRef.localStorage?.getItem).toHaveBeenCalledWith(
-        IS_GUEST_USER_CHECKOUT_KEY
-      );
-      expect(windowRef.localStorage?.removeItem).not.toHaveBeenCalled();
+  it('should use overridden login route', (done) => {
+    spyOn(semanticPathService, 'get');
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    guard.canActivate().subscribe(() => {
+      expect(semanticPathService.get).toHaveBeenCalledWith('login');
+      done();
     });
   });
 });
