@@ -277,7 +277,7 @@
     "postcss": "^8.4.31",
     "postcss-scss": "^4.0.6",
     "prettier": "~3.5.0",
-    "rimraf": "^5.0.0",
+    "rimraf": "^6.0.0",
     "sass-true": "^9.0.0",
     "semver": "^7.5.2",
     "shelljs": "^0.10.0",
@@ -288,7 +288,7 @@
     "ts-morph": "^23.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.6.3",
-    "webpack": "~5.99.0",
+    "webpack": "~5.101.0",
     "webpack-cli": "^5.0.0"
   },
   "overrides": {
