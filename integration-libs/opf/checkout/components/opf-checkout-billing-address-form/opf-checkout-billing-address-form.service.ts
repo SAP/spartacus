@@ -147,6 +147,9 @@ export class OpfCheckoutBillingAddressFormService {
                     this._$billingAddressSub.next(defaultAddress);
                   } else {
                     console.log('No default address found.');
+                    this._$billingAddressSub.next(undefined);
+                    this.billingAddressId = undefined;
+                    this._$isSameAsDelivery.next(false);
                     this.handleNoDefaultAddress();
                   }
                 }),
