@@ -186,7 +186,9 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  });
 
   cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
 
