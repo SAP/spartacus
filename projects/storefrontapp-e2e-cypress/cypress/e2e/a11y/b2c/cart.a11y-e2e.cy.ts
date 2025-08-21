@@ -21,6 +21,7 @@ describe('Cart Page Accessibility', { testIsolation: false }, () => {
     });
 
     it('Empty Cart', () => {
+      cy.get('Failing test selector');
       cy.visit('/cart');
       cy.findByText('Your shopping cart is empty');
       cy.get('main').a11yRunContinuumTest();
