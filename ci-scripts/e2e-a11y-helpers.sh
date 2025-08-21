@@ -29,6 +29,13 @@ run_a11y_tests_with_docs_on_failure() {
         return 0
     else
         display_a11y_docs_link
+        
+        # Collect screenshots for PR failures (when not using dashboard recording)
+        if [[ "${GITHUB_EVENT_NAME}" == "pull_request" && "${ENABLE_A11Y_RECORDING:-false}" != "true" ]]; then
+            echo "Collecting screenshots from failed tests..."
+            bash "$(dirname "$0")/collect-a11y-screenshots.sh" || echo "Warning: screenshot collection failed"
+        fi
+        
         return 1
     fi
 }
