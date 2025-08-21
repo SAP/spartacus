@@ -54,3 +54,34 @@ Cypress.Commands.add('requirePlacedOrder', (token, cartId) => {
 
   placeOrder().then((response) => cy.wrap(response));
 });
+
+Cypress.Commands.add('requirePlacedOrderForJDK21', (token, cartId) => {
+  function placeOrder() {
+    return cy.request({
+      method: 'POST',
+      url: `${Cypress.env('API_URL')}${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+        'OCC_PREFIX_USER_ENDPOINT'
+      )}/current/${Cypress.env(
+        'OCC_PREFIX_ORDER_ENDPOINT'
+      )}?cartId=${cartId}&termsChecked=true`,
+      form: false,
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+      body: Cypress.env('OCC_PREFIX_USER_ENDPOINT')
+        ? {
+            daysOfWeek: [DaysOfWeek.MONDAY],
+            nthDayOfMonth: '1',
+            numberOfDays: '14',
+            numberOfWeeks: '1',
+            recurrencePeriod: recurrencePeriod.DAILY,
+            replenishmentStartDate: '2020-10-08T07:52:23Z',
+          }
+        : {},
+    });
+  }
+
+  placeOrder().then((response) => cy.wrap(response));
+});
