@@ -20,7 +20,8 @@ import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
-import { CdcLoginGuard } from './guards';
+import { CdcLoginAsGuestGuard, CdcLoginGuard } from './guards';
+import { LoginAsGuestGuard } from '@spartacus/user/account/components';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -55,6 +56,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
     { provide: LoginGuard, useExisting: CdcLoginGuard },
+    { provide: LoginAsGuestGuard, useExisting: CdcLoginAsGuestGuard },
     {
       provide: APP_INITIALIZER,
       useFactory: cdcJsFactory,
