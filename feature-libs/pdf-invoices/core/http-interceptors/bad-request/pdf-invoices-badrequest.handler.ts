@@ -78,7 +78,7 @@ export class PDFInvoicesBadRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors).filter(
+    return (response.error?.errors ?? []).filter(
       (error: any) =>
         this.isInvoicesListNotFoundError(error) ||
         this.isDownloadInvoiceError(error)
