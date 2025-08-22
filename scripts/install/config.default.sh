@@ -6,7 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud"
+BACKEND_URL="https://40.76.109.9:9002"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
@@ -110,7 +110,7 @@ FORCE_E2E=false
 SKIP_E2E=false
 
 #JDK toggle: JDK21 or JDK17
-JDK_VERSION="JDK21"
+JDK_VERSION="JDK17"
 
 # Set to true to add AUTH_CONFIG into spartacus-features.module.ts
 ADD_AUTH_CONFIG=false
