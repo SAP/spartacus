@@ -10,6 +10,7 @@ import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -38,7 +39,14 @@ context('Assisted Service Module', () => {
           checkout.visitHomePage('asm=true');
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
-          asm.agentLogin('asagent', 'pw4all');
+          cy.whenJDK17(() => {
+            asm.agentLogin('asagent', 'pw4all');
+          });
+
+          cy.whenJDK21(() => {
+            cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+            login('asagent', 'pw4all');
+          });
 
           cy.log('--> Starting customer emulation');
           asm.startCustomerEmulation(customerForBindCart);
@@ -64,9 +72,14 @@ context('Assisted Service Module', () => {
 
     it(`Verify anonymous cart is now the user's active cart for bind cart (CXSAP-153)`, () => {
       cy.log('--> Log in as customer');
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login');
-      cy.wait(`@${loginPage}`);
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        visitLoginPage();
+        cy.wait(`@${loginPage}`);
+      });
+      cy.whenJDK21(() => {
+        visitLoginPage();
+      });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -111,8 +124,14 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('asagent', 'pw4all');
+      });
 
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        login('asagent', 'pw4all');
+      });
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customerForReplaceBindCart);
 
@@ -156,9 +175,14 @@ context('Assisted Service Module', () => {
 
     it(`Verify anonymous cart is now the user's active cart for replace bind cart (CXSAP-153)`, () => {
       cy.log('--> Log in as customer');
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login');
-      cy.wait(`@${loginPage}`);
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        visitLoginPage();
+        cy.wait(`@${loginPage}`);
+      });
+      cy.whenJDK21(() => {
+        visitLoginPage();
+      });
       login(
         customerForReplaceBindCart.email,
         customerForReplaceBindCart.password

@@ -189,4 +189,38 @@ describe('AuthConfigService', () => {
       });
     });
   });
+
+  describe('getCsrfEndpoint', () => {
+    it('should return the csrf endpoint', () => {
+      authConfig.authentication.customLoginPage = {
+        csrfEndpoint: '/csrfEndpoint',
+      };
+
+      expect(service.getCsrfEndpoint()).toEqual('authBaseUrl/csrfEndpoint');
+    });
+  });
+
+  describe('customLoginPageEnabled', () => {
+    it('should return false when custom login page config is not defined', () => {
+      expect(service.customLoginEnabled()).toEqual(false);
+    });
+
+    it('should return true when custom login page config is defined', () => {
+      authConfig.authentication.customLoginPage = {};
+
+      expect(service.customLoginEnabled()).toEqual(true);
+    });
+  });
+
+  describe('sendAuthHeaderOnRevoke', () => {
+    it('should return configured value', () => {
+      expect(service.sendAuthHeaderOnRevoke()).toEqual(true);
+    });
+
+    it('should return false when not defined', () => {
+      delete authConfig.authentication?.sendAuthHeaderOnRevoke;
+
+      expect(service.customLoginEnabled()).toEqual(false);
+    });
+  });
 });

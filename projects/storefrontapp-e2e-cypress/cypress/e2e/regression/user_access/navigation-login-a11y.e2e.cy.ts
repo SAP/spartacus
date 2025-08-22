@@ -5,6 +5,7 @@
  */
 
 import * as login from '../../../helpers/login';
+import { visitLoginPage } from '../../../support/utils/login';
 
 function assertNavigationButtonsAttributes(buttonsSelector: string) {
   cy.get(buttonsSelector).each(($btn) => {
@@ -17,13 +18,15 @@ function assertNavigationButtonsAttributes(buttonsSelector: string) {
 }
 
 describe('Navigation Login', () => {
-  let user;
-  before(() => {
-    cy.visit('/login');
-    user = login.registerUserFromLoginPage();
-  });
-
   it('should login and logout successfully and have correct Navigation Menu buttons values', () => {
+    let user;
+    cy.whenJDK17(() => {
+      visitLoginPage();
+    });
+    cy.whenJDK21(() => {
+      cy.visit('/login/register');
+    });
+    user = login.registerUserFromLoginPage();
     login.loginUser();
 
     const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();

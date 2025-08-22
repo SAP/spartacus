@@ -294,15 +294,11 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        showDeliveryOptionsTranslation: true,
-        searchBoxV2: false,
-        trendingSearches: false,
-        useProductCarouselBatchApi: true,
+        searchBoxV2: true,
+        trendingSearches: true,
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
-        productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yNavMenuExpandStateReadout: true,
         a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
@@ -326,23 +322,16 @@ if (environment.cpq) {
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        a11yRepeatedPageTitleFix: true,
         /**
          * Defaults to false cause ng-select options ariaLabels are working as expected
          * since Spartacus 2211.33
          * TODO: CXSPA-9005: Remove this flag and related code in next major release
          */
-        a11yNgSelectOptionsCount: false,
         a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yRepeatedCancelOrderError: true,
-        a11yAddedToCartActiveDialog: true,
         a11yDeliveryMethodFieldset: true,
         a11yShowMoreReviewsBtnFocus: true,
-        a11yQuickOrderAriaControls: true,
-        a11yRemoveStatusLoadedRole: true,
-        a11yDialogsHeading: true,
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,
@@ -380,6 +369,7 @@ if (environment.cpq) {
         useSiteThemeService: true,
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
+        dispatchLoginActionOnlyWhenTokenReceived: true,
         allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
@@ -406,10 +396,14 @@ if (environment.cpq) {
         topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
+        cdsLoginEventsToken: true,
         createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
+        authorizationCodeFlowByDefault: false,
+        defaultLayoutConfigWithoutPageFold: true,
       };
       return appFeatureToggles;
     }),

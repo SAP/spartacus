@@ -1,9 +1,4 @@
-import { PaginationModel, SortModel } from '@spartacus/core';
-import {
-  PricePlan,
-  RenewalTerm,
-  UsageCharge,
-} from './subscription-product.model';
+import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -11,27 +6,37 @@ export interface SubscriptionDetail {
   productCode?: string;
   startAt?: string;
   endAt?: string;
-  subscriptionStatus?: string;
+  status?: string;
+  isCancellationPossible?: boolean;
+  isExtensionPossible?: boolean;
+  isWithdrawalPossible?: boolean;
+  isCancellationReversalPossible?: boolean;
   contractFrequency?: string;
-  customerId?: string;
   documentNumber?: string;
   pricePlan?: PricePlan;
-  currentUsages?: UsageCharge[];
-  renewalTerm?: RenewalTerm;
   withdrawalPeriodEndAt?: string;
-}
-export interface SubscriptionList {
-  subscriptions?: SubscriptionDetail[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
+  billingTime?: string;
+  orderCode?: string;
 }
 
-//re-check if this will be needed after jdk21 upgrade
-export enum SubscriptionStatus {
-  cancelled = 'CANCELLED',
-  active = 'ACTIVE',
-  withdrawn = 'WITHDRAWN',
-  expired = 'EXPIRED',
+export interface SubscriptionList {
+  results?: SubscriptionDetail[];
+  pagination?: Pagination;
+  sorts?: Sort[];
+}
+
+export interface Sort {
+  asc?: boolean;
+  code?: string;
+}
+
+export interface Pagination {
+  count?: number;
+  page?: number;
+  totalCount?: number;
+  totalPages?: number;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
 }
 
 

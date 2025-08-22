@@ -25,18 +25,24 @@
     "noSubscriptions": "You don't have any subscriptions",
     "sortOrders": "Sort orders",
     "manageService": "Manage Service",
-    "amount": "Billing Amount: {{ amount }}"
+    "amount": "Billing Amount: {{ amount }} {{ time }}",
+    "sorts": {
+      "byDocumentNumberDesc": "Document Number Descending",
+      "byDocumentNumberAsc": "Document Number Ascending"
+    }
   },
   "subscriptionDetails": {
     "info": "Subscription/Contract Details:",
-    "productCode": "Subscription Service (Product) Code: {{code }}",
+    "productCode": "Subscription Service (Product) Code:",
     "endDate": "Subscription End Date: {{ date }}",
     "cycle": "Current Billing Cycle: {{ cycle }}",
     "cancelSubscription": "Cancel",
     "extendSubscription": "Extend Subscription",
     "withdrawSubscription": "Withdraw",
     "reSubscribe": "Re-subscribe",
-    "back": "View All Subscriptions"
+    "back": "View All Subscriptions",
+    "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
+    "orderCode": "Order Code:"
   },
     "cancelSubscription": {
     "cancel": "Cancel",
@@ -50,8 +56,7 @@
     "loseSubscription": "If you confirm, you will lose access to the subscription features on {{ date }}. You won't be charged again.",
     "changeMind": "If you change your mind, you can reactivate your subscription before the end of the billing period.",
 "withdrawConfirm": "By confirming, you are ending your trial period. You will lose access to subscription features on {{ date }}. No additional charges apply.",
-    "resubscribeConfirm": "Are you sure you want to resubscribe to this subscription?",
+    "resubscribeConfirm": "By confirming, you are renewing your subscription and will gain access to our subscription features. ",
   "changeMindresubscribe": "You can manage your subscription anytime later."
-
   }
 }

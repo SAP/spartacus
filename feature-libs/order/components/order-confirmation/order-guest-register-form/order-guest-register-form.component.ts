@@ -24,6 +24,7 @@ import { Subscription } from 'rxjs';
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
@@ -73,7 +74,10 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
         this.guid,
         this.guestRegisterForm.value.password
       );
-      if (!this.subscription) {
+      if (
+        !this.subscription &&
+        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      ) {
         this.subscription = this.authService
           .isUserLoggedIn()
           .subscribe((isLoggedIn) => {

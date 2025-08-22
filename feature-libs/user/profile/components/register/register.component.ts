@@ -36,6 +36,7 @@ import { RegisterComponentService } from './register-component.service';
   selector: 'cx-register',
   templateUrl: './register.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // TODO: (CXSPA-8550) Remove feature toggle
@@ -136,8 +137,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR];
 
           if (
-            messages &&
-            messages.some(
+            messages?.some(
               (message) => message.raw === 'This field is required.'
             )
           ) {
@@ -195,7 +195,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
-        complete: () => this.isLoading$.next(false),
+        complete: () =>
+          this.isLoading$.next(
+            this.authConfigService.getOAuthFlow() ===
+              OAuthFlow.AuthorizationCode
+          ),
         error: () => this.isLoading$.next(false),
       });
   }
@@ -226,7 +230,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.router.go({ cxRoute: 'login' });
+    } else if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {

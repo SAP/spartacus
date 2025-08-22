@@ -4,27 +4,32 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   AuthService,
   Command,
   CommandService,
+  FeatureConfigService,
+  RoutingService,
   UserActions,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
 import {
   Title,
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { UserProfileConnector } from '../connectors/user-profile.connector';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { UserProfileService } from './user-profile.service';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
+  private featureConfigService = inject(FeatureConfigService);
+  protected routingService = inject(RoutingService);
+
   protected registerCommand: Command<{ user: UserSignUp }, User> =
     this.command.create(({ user }) =>
       this.userConnector.register(user).pipe(
@@ -46,8 +51,14 @@ export class UserRegisterService implements UserRegisterFacade {
   > = this.command.create((payload) =>
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.authService.loginWithCredentials(user.uid!, payload.password);
+        if (
+          !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+        ) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.authService.loginWithCredentials(user.uid!, payload.password);
+        } else {
+          this.routingService.go({ cxRoute: 'login' });
+        }
       })
     )
   );
