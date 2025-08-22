@@ -5,6 +5,14 @@
  */
 import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
+import { waitForPage } from '../../../helpers/navigation';
+
+export function visitLoginPage() {
+  const homePage = waitForPage('homepage', 'getHomePage');
+  cy.visit('/');
+  cy.wait(`@${homePage}`);
+  cy.getLoginRegisterLink({ clickAndWait: true });
+}
 
 describe('Tabbing order for B2C OTP registration', () => {
   before(() => {
@@ -14,7 +22,8 @@ describe('Tabbing order for B2C OTP registration', () => {
   describe('B2C OTP registration', () => {
     context('B2C OTP registration page', () => {
       beforeEach(() => {
-        cy.visit('/login/register');
+        visitLoginPage();
+        cy.get('button.btn-register').click();
         cy.get('cx-otp-register-form').should('exist');
         cy.get('cx-otp-register-form form').should('exist');
       });

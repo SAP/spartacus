@@ -5,7 +5,7 @@
  */
 
 import { standardUser } from '../../sample-data/shared-users';
-import { waitForPage } from '../checkout-flow';
+import { waitForPage } from '../navigation';
 import { generateMail, randomString } from '../user';
 
 export const testUser = 'test-user-with-coupons@sap.cx.com';

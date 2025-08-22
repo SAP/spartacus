@@ -109,27 +109,29 @@ class MockCarouselScrollingComponent {
   @Input() template;
 }
 
+let mockFeatureToggles: FeatureToggles;
+
+class MockFeatureConfigService {
+  isEnabled(
+    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+  ): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = (
+      hasNegation ? feature.slice(1) : feature
+    ) as keyof FeatureToggles;
+
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
   let currentProductService: CurrentProductService;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
-  let mockFeatureToggles: FeatureToggles;
 
-  class MockFeatureConfigService {
-    isEnabled(
-      feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-    ): boolean {
-      const hasNegation = feature.startsWith('!');
-      const featureName = (
-        hasNegation ? feature.slice(1) : feature
-      ) as keyof FeatureToggles;
-
-      return hasNegation
-        ? !mockFeatureToggles[featureName]
-        : !!mockFeatureToggles[featureName];
-    }
-  }
   beforeEach(waitForAsync(() => {
     mockFeatureToggles = {
       productCarouselScrolling: true,

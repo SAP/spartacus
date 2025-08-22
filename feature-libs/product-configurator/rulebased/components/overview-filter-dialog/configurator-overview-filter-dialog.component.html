@@ -11,20 +11,9 @@
     (esc)="closeFilterModal()"
   >
     <div class="cx-dialog-header modal-header">
-      <h3
-        *cxFeature="'a11yDialogsHeading'"
-        id="dialogTitle"
-        class="cx-dialog-title modal-title"
-      >
+      <h3 id="dialogTitle" class="cx-dialog-title modal-title">
         {{ 'configurator.overviewFilter.title' | cxTranslate }}
       </h3>
-      <div
-        *cxFeature="'!a11yDialogsHeading'"
-        id="dialogTitle"
-        class="cx-dialog-title modal-title"
-      >
-        {{ 'configurator.overviewFilter.title' | cxTranslate }}
-      </div>
       <button
         title="{{ 'configurator.a11y.closeFilterMenu' | cxTranslate }}"
         type="button"

@@ -2,13 +2,13 @@ name: E2E vendor tests
 
 on:
   schedule:
-     # Runs every day at 10:00 (UTC)
+    # Runs every day at 10:00 (UTC)
     - cron: "0 10 * * *"
   workflow_dispatch:
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
@@ -40,16 +40,16 @@ jobs:
           - suite: vendor:s4-service
             spa_env: s4-service,b2b
             test_name: E2E tests for s4 service
-          - suite: epd-visualization
+          - suite: vendor:epd-visualization
             spa_env: epd-visualization,b2c
             test_name: E2E tests for epd visualization
-          - suite: cds
+          - suite: vendor:cds
             spa_env: cds,b2c
             test_name: E2E tests for cds
-          - suite: asm
+          - suite: vendor:asm
             spa_env: asm,b2c
             test_name: E2E tests for asm
-          - suite: product-configuration
+          - suite: vendor:product-configurator
             spa_env: b2c
             test_name: E2E tests for product configuration
           - suite: vendor:pdf-invoices
@@ -81,7 +81,7 @@ jobs:
             test_name: E2E tests for punchout
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -132,7 +132,7 @@ jobs:
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        uses: slackapi/slack-github-action@v2.1.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
           channel-id: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
           payload: |
@@ -187,4 +187,3 @@ jobs:
             }
         if: |
           needs.build_conclusion.result == 'failure'
-

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from '../../checkout-flow';
+import { waitForPage } from '../../navigation';
 export const paymentDetails = {
   accountHolderName: 'James John',
   billingAddress: {

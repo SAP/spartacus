@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.42'
+      level: '2211.43'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -532,7 +532,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.42'
+      level: '2211.43'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })

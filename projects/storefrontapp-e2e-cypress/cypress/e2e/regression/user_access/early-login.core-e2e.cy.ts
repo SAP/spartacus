@@ -6,6 +6,7 @@
 
 import { RoutingConfig } from '@spartacus/core';
 import * as login from '../../../helpers/login';
+import { visitLoginPage } from '../../../support/utils/login';
 
 const FAQ_HEADING = 'Frequently Asked Questions';
 
@@ -49,7 +50,16 @@ context('Early login', () => {
       it('should redirect to login page and redirect back after sign in', () => {
         cy.url().should('contain', '/login');
 
+        cy.whenJDK21(() => {
+          // Conflict with JDK21 behavior: cannot access register from auth server login page
+          cy.visit('/login/register');
+        });
+
         login.registerUserFromLoginPage();
+        cy.whenJDK21(() => {
+          visitLoginPage();
+        });
+
         login.loginUser();
         headingContains(FAQ_HEADING);
       });

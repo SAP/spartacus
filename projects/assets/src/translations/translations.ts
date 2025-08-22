@@ -12,6 +12,7 @@ export const translationChunksConfig = {
     'navigation',
     'searchBox',
     'sorting',
+    'customLoginPage',
     'httpHandlers',
     'miniCart',
     'skipLink',
