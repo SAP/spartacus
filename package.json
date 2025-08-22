@@ -250,7 +250,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-deprecation": "^3.0.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsdoc": "^46.0.0",
+    "eslint-plugin-jsdoc": "^54.0.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "fs-extra": "^11.1.1",
     "glob": "^7.1.6",
@@ -285,11 +285,11 @@
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-scss": "^6.2.1",
     "ts-jest": "^29.1.1",
-    "ts-morph": "^23.0.0",
+    "ts-morph": "^26.0.0",
     "ts-node": "^10.6.0",
     "typescript": "^5.6.3",
     "webpack": "~5.101.0",
-    "webpack-cli": "^5.0.0"
+    "webpack-cli": "^6.0.0"
   },
   "overrides": {
     "vite": "5.4.19"
