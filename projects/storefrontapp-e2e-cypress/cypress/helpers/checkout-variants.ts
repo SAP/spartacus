@@ -66,6 +66,8 @@ export function testCheckoutVariantAsGuest() {
       variantUser.email
     );
 
+    cy.get('cx-login div.cx-login-greet', { timeout: 10000 }).should('exist');
+
     cy.selectUserMenuOption({
       option: 'Personal Details',
     });
