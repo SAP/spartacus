@@ -227,6 +227,9 @@ jobs:
         run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
       - name: Collect test screenshots
         if: failure()
+        env:
+          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           chmod +x ci-scripts/collect-a11y-screenshots.sh
           bash ci-scripts/collect-a11y-screenshots.sh
@@ -243,46 +246,25 @@ jobs:
           bash ci-scripts/generate-a11y-pr-comment.sh
       - name: Upload test artifacts
         if: failure()
+        id: upload-artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: a11y-failure-artifacts-container-${{ matrix.containers }}
-          path: a11y-failure-artifacts/
+          name: a11y-screenshots-pr-${{ github.event.pull_request.number }}-${{ matrix.containers }}-${{ github.run_attempt }}
+          path: a11y-screenshots-container-${{ matrix.containers }}/
           retention-days: 30
       - name: Post PR Comment
         if: failure() && hashFiles('pr-comment.md') != ''
         uses: actions/github-script@v7
+        env:
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
         with:
           script: |
-            const fs = require('fs');
-            const comment = fs.readFileSync('pr-comment.md', 'utf8');
-            
-            // Check for existing comments from this container
-            const comments = await github.rest.issues.listComments({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            
-            const existingComment = comments.data.find(comment => 
-              comment.user.type === 'Bot' && 
-              comment.body.includes(`Container ${{ matrix.containers }}`)
-            );
-            
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                comment_id: existingComment.id,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-            } else {
-              await github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-            }
+            const postComment = require('./ci-scripts/post-a11y-pr-comment.js');
+            await postComment(github, context, core);
   merge_checks_result:
     needs: [build_libs, build_apps, a11y_e2e_tests]
     name: MC - Result
