@@ -72,7 +72,7 @@ const a11yContinuumSetup = withContinuum(
       }
       throw error;
     });
-
+    return cy.get('Fail all a11y tests');
     return cy
       .readFile(configFilePath)
       .then((configFileContents) => window.eval(configFileContents))

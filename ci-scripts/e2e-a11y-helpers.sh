@@ -25,13 +25,19 @@ display_a11y_docs_link() {
 run_a11y_tests_with_docs_on_failure() {
     local test_command="$1"
 
+    # Enable screenshots for PR runs (when not using dashboard recording)
+    if [[ "${GITHUB_EVENT_NAME}" == "pull_request" && "${ENABLE_A11Y_RECORDING:-false}" != "true" ]]; then
+        export CYPRESS_ENABLE_SCREENSHOTS=true
+        echo "Screenshots enabled for PR a11y tests"
+    fi
+
     if npm run "$test_command"; then
         return 0
     else
         display_a11y_docs_link
         
-        # Collect screenshots for PR failures (when not using dashboard recording)
-        if [[ "${GITHUB_EVENT_NAME}" == "pull_request" && "${ENABLE_A11Y_RECORDING:-false}" != "true" ]]; then
+        # Collect screenshots for PR failures (when screenshots were enabled)
+        if [[ "${CYPRESS_ENABLE_SCREENSHOTS:-false}" == "true" ]]; then
             echo "Collecting screenshots from failed tests..."
             bash "$(dirname "$0")/collect-a11y-screenshots.sh" || echo "Warning: screenshot collection failed"
         fi

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-ARTIFACTS_DIR="a11y-failure-artifacts"
-COUNT_FILE="$ARTIFACTS_DIR/count.txt"
+COUNT_FILE="/tmp/spec_count.txt"
+ARTIFACTS_DIR_FILE="/tmp/artifacts_dir.txt"
 COMMENT_FILE="pr-comment.md"
 
 if [ ! -f "$COUNT_FILE" ]; then
@@ -10,30 +10,31 @@ if [ ! -f "$COUNT_FILE" ]; then
     exit 0
 fi
 
-screenshot_count=$(cat "$COUNT_FILE")
+spec_count=$(cat "$COUNT_FILE")
+artifacts_dir=$(cat "$ARTIFACTS_DIR_FILE")
 
-if [ "$screenshot_count" -eq 0 ]; then
+if [ "$spec_count" -eq 0 ]; then
     echo "No screenshots found, skipping comment generation"
     exit 0
 fi
 
-# Generate simple PR comment
+# Generate simple PR comment with placeholder for artifact URL
 container="${GITHUB_MATRIX_CONTAINER:-unknown}"
-run_id="${GITHUB_RUN_ID:-unknown}"
 commit_sha="${GITHUB_SHA:-unknown}"
 commit_sha="${commit_sha:0:7}"
 
 cat > "$COMMENT_FILE" << EOF
+<!-- a11y-failure-container-$container -->
 ## A11Y Test Failures - Container $container
 
-$screenshot_count accessibility test(s) failed in this PR.
+$spec_count accessibility test(s) failed in container $container.
 
-**Download screenshots:** [a11y-failure-artifacts-container-$container](https://github.com/${GITHUB_REPOSITORY:-SAP/spartacus}/actions/runs/$run_id/artifacts)
+**Download screenshots:** ARTIFACT_URL_PLACEHOLDER
 
 **Helpful links:**
 - [A11Y guidelines](https://wiki.one.int.sap/wiki/display/spar/Spartacus+Accessibility+Feature+Compliance)
 
-_Commit $commit_sha • Container $container_
+Commit $commit_sha
 EOF
 
-echo "PR comment generated successfully"
+echo "PR comment template generated (artifact URL will be updated after upload)"
