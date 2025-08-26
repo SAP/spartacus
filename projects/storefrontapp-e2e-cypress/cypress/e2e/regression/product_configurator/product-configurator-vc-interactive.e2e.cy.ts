@@ -129,7 +129,6 @@ context('Product Configuration', () => {
         electronicsShop,
         testProductMultiLevel
       );
-      configurationVc.registerConfigurationUpdateRoute();
       configurationVc.clickOnNextBtnAndWait(PROJECTOR);
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
@@ -200,7 +199,6 @@ context('Product Configuration', () => {
         electronicsShop,
         testProductMultiLevel
       );
-      configurationVc.registerConfigurationUpdateRoute();
       configurationVc.clickOnNextBtnAndWait(PROJECTOR);
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
