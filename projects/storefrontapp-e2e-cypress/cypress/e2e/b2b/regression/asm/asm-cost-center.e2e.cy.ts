@@ -5,7 +5,7 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
+import { agentLoginForJDK21 } from '../../../../helpers/auth-forms';
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
@@ -42,7 +42,7 @@ context('B2B - ASM Account Checkout', () => {
 
     cy.whenJDK21(() => {
       cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-      login('brandon.leclair@acme.com', 'pw4all');
+      agentLoginForJDK21('brandon.leclair@acme.com', 'pw4all');
     });
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
