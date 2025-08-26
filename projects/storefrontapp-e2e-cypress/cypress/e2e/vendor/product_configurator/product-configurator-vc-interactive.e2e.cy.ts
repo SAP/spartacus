@@ -133,7 +133,8 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
       configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
       configurationVc.selectAttributeAndWait(
@@ -162,17 +163,30 @@ context('Product Configuration', () => {
 
     it('should keep checkboxes selected after group change', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.selectAttributeAndWait(
         CAMERA_SD_CARD,
         checkBoxList,
         SDHC,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(BASICS);
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnPreviousBtnAndWait(
+        BASICS,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkValueSelected(checkBoxList, CAMERA_SD_CARD, SDHC);
     });
   });
@@ -181,7 +195,11 @@ context('Product Configuration', () => {
     it('should set group status for single level product', () => {
       clickAllowAllFromBanner();
 
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -192,7 +210,10 @@ context('Product Configuration', () => {
       configurationVc.checkStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Specification, is that Basics status changes to Error
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
       configurationVc.checkStatusIconNotDisplayed(SPECIFICATION);
       configurationVc.checkStatusIconNotDisplayed(DISPLAY);
@@ -200,7 +221,10 @@ context('Product Configuration', () => {
       configurationVc.checkStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Display, is that Specification status changes to Error
-      configurationVc.clickOnNextBtnAndWait(DISPLAY);
+      configurationVc.clickOnNextBtnAndWait(
+        DISPLAY,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
       configurationVc.checkStatusIconDisplayed(SPECIFICATION, ERROR);
       configurationVc.checkStatusIconNotDisplayed(DISPLAY);
@@ -214,7 +238,10 @@ context('Product Configuration', () => {
         P5,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnPreviousBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
       configurationVc.checkStatusIconDisplayed(SPECIFICATION, ERROR);
       configurationVc.checkStatusIconDisplayed(DISPLAY, COMPLETE);
@@ -240,7 +267,8 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
       configuration.checkGroupMenuDisplayed();
 
@@ -251,49 +279,85 @@ context('Product Configuration', () => {
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
 
       // navigate to video system subgroup, no status initially
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconNotDisplayed(PROJECTOR);
       configurationVc.checkStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate to flat-panel TV, group projector should be completed
-      configurationVc.clickOnNextBtnAndWait(FLAT_PANEL);
+      configurationVc.clickOnNextBtnAndWait(
+        FLAT_PANEL,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(PROJECTOR, COMPLETE);
       configurationVc.checkStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate back to group projector, status should be completed
-      configurationVc.clickOnPreviousBtnAndWait(PROJECTOR);
+      configurationVc.clickOnPreviousBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(PROJECTOR, COMPLETE);
       configurationVc.checkStatusIconDisplayed(FLAT_PANEL, COMPLETE);
 
       // navigate back to General, check completed status
-      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
+      configurationVc.clickOnPreviousBtnAndWait(
+        GENERAL,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(GENERAL, COMPLETE);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
 
       // navigate to Audio System subgroup, is no status is displayed initially
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
-      configurationVc.clickOnNextBtnAndWait(FLAT_PANEL);
-      configurationVc.clickOnNextBtnAndWait(FRONT_SPEAKERS);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        FLAT_PANEL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        FRONT_SPEAKERS,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconNotDisplayed(FRONT_SPEAKERS);
       configurationVc.checkStatusIconNotDisplayed(CENTER_SPEAKER);
       configurationVc.checkStatusIconNotDisplayed(REAR_SPEAKER);
       configurationVc.checkStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate to Center Speaker
-      configurationVc.clickOnNextBtnAndWait(CENTER_SPEAKER);
+      configurationVc.clickOnNextBtnAndWait(
+        CENTER_SPEAKER,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
 
       // navigate back to Front Speaker, check completed status
-      configurationVc.clickOnPreviousBtnAndWait(FRONT_SPEAKERS);
+      configurationVc.clickOnPreviousBtnAndWait(
+        FRONT_SPEAKERS,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.checkStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
       configurationVc.checkStatusIconDisplayed(CENTER_SPEAKER, COMPLETE);
       configurationVc.checkStatusIconNotDisplayed(REAR_SPEAKER);
       configurationVc.checkStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate back to General group, is that Audio system is not fully completed
-      configuration.clickOnPreviousBtn(FLAT_PANEL);
-      configuration.clickOnPreviousBtn(PROJECTOR);
-      configuration.clickOnPreviousBtn(GENERAL);
+      configurationVc.clickOnPreviousBtnAndWait(
+        FLAT_PANEL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnPreviousBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnPreviousBtnAndWait(
+        GENERAL,
+        commerceRelease.isPricingEnabled
+      );
 
       configurationVc.checkStatusIconDisplayed(GENERAL, COMPLETE);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
@@ -305,34 +369,67 @@ context('Product Configuration', () => {
   describe('Group handling', () => {
     it('should navigate between groups using the previous and next button', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
-      configurationVc.clickOnNextBtnAndWait(DISPLAY);
-      configurationVc.clickOnPreviousBtnAndWait(SPECIFICATION);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        DISPLAY,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnPreviousBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
     });
 
     it('should check if group buttons are clickable', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkNextBtnEnabled();
       configuration.checkPreviousBtnDisabled();
 
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkPreviousBtnEnabled();
-      configurationVc.clickOnNextBtnAndWait(DISPLAY);
-      configurationVc.clickOnNextBtnAndWait(LENS);
-      configurationVc.clickOnNextBtnAndWait(OPTIONS);
+      configurationVc.clickOnNextBtnAndWait(
+        DISPLAY,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        LENS,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        OPTIONS,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkNextBtnDisabled();
     });
 
     it('should navigate using the group menu', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
-      configurationVc.clickOnGroupAndWait(2);
+      configurationVc.clickOnGroupAndWait(2, commerceRelease.isPricingEnabled);
       configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
-      configurationVc.clickOnGroupAndWait(1);
+      configurationVc.clickOnGroupAndWait(1, commerceRelease.isPricingEnabled);
       configuration.checkAttributeDisplayed(CAMERA_PIXELS, radioGroup);
     });
 
@@ -340,20 +437,31 @@ context('Product Configuration', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
-      configurationVc.clickOnNextBtnAndWait(FLAT_PANEL);
-      configurationVc.clickOnPreviousBtnAndWait(PROJECTOR);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        FLAT_PANEL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnPreviousBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
     });
 
     it('should navigate using the group menu for multi level product', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnGroupAndWait(2);
+      configurationVc.clickOnGroupAndWait(2, commerceRelease.isPricingEnabled);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
     });
   });
@@ -369,7 +477,11 @@ context('Product Configuration', () => {
       };
       cy.cxConfig(configUISettings);
       //Go to the configuration
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
       clickAllowAllFromBanner();
       // Verify whether attribute is displayed
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
@@ -437,17 +549,24 @@ context('Product Configuration', () => {
     it('should support the conflict solving process', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroupAndWait(3);
+      configurationVc.clickOnPreviousBtnAndWait(
+        GENERAL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnGroupAndWait(3, commerceRelease.isPricingEnabled);
 
       configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
@@ -507,17 +626,24 @@ context('Product Configuration', () => {
     it('should display a success message on conflict resolution (CXSPA-2374)', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroupAndWait(3);
+      configurationVc.clickOnPreviousBtnAndWait(
+        GENERAL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnGroupAndWait(3, commerceRelease.isPricingEnabled);
 
       configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,

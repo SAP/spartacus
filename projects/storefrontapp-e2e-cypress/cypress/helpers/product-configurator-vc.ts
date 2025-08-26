@@ -45,10 +45,9 @@ export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
 export function goToConfigurationPage(
   shopName: string,
   productId: string,
-  isPricingEnabled: boolean = true
+  isPricingEnabled?: boolean
 ) {
   registerCreateConfigurationRoute();
-  registerConfigurationPricingRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
   this.checkConfigPageDisplayed();
@@ -583,10 +582,14 @@ export function clickOnGroup(groupIndex: number): void {
  * Clicks on the group via its index in the group menu and wait for the request to finish.
  *
  * @param {number} groupIndex - Group index
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnGroupAndWait(groupIndex: number): void {
+export function clickOnGroupAndWait(
+  groupIndex: number,
+  isPricingEnabled?: boolean
+): void {
   clickOnGroup(groupIndex);
-  waitForRequest(GET_CONFIG_ALIAS, true);
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
 }
 
 /**
@@ -656,7 +659,7 @@ export function selectAttributeAndWait(
  */
 export function waitForRequest(
   requestAlias: string,
-  isPricingEnabled: boolean = true
+  isPricingEnabled?: boolean
 ) {
   if (requestAlias) {
     cy.wait(requestAlias);
@@ -678,7 +681,7 @@ export function waitForRequest(
  */
 export function clickOnNextBtnAndWait(
   nextGroup?: string,
-  isPricingEnabled: boolean = true
+  isPricingEnabled?: boolean
 ): void {
   configuration.clickOnNextBtn(nextGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
@@ -692,7 +695,7 @@ export function clickOnNextBtnAndWait(
  */
 export function clickOnPreviousBtnAndWait(
   previousGroup?: string,
-  isPricingEnabled: boolean = true
+  isPricingEnabled?: boolean
 ): void {
   configuration.clickOnPreviousBtn(previousGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
