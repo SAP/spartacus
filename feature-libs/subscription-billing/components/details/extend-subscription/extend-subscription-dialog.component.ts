@@ -6,22 +6,24 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormControl, FormsModule } from "@angular/forms";
 import { EventService, GlobalMessageService, GlobalMessageType, I18nModule } from "@spartacus/core";
-import { LaunchDialogService, ICON_TYPE, IconModule, FocusConfig, KeyboardFocusModule } from "@spartacus/storefront";
+import { LaunchDialogService, ICON_TYPE, IconModule, FocusConfig, KeyboardFocusModule, DatePickerModule, FormRequiredAsterisksComponent } from "@spartacus/storefront";
 import { GetSubscriptionByCodeReloadEvent, SubscriptionBillingFacade } from "@spartacus/subscription-billing/root";
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
     selector: 'cx-extend-subscription-dialog',
     templateUrl: './extend-subscription-dialog.component.html',
-    imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule, FormsModule]
+    imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule, FormsModule, DatePickerModule, NgSelectModule, FormRequiredAsterisksComponent]
 })
 export class ExtendSubscriptionDialog {
     private launchDialogService = inject(LaunchDialogService);
     private subscriptionBillingService = inject(SubscriptionBillingFacade);
     private globalMessageService = inject(GlobalMessageService);
     private eventService = inject(EventService);
-
+    
+    dateFormControl = new FormControl<string>(Date.now().toString());
     iconTypes = ICON_TYPE;
     extendDuration: number;
     isUnlimitedDurationSelected: boolean = false;
@@ -29,6 +31,10 @@ export class ExtendSubscriptionDialog {
     isExtensionEffectiveDateAvailable: boolean = false;
     extensionEffectiveDate: string;
     subscriptionContractFrequency: string;
+    extendFrequencyMaxOptions: { 
+        [key: string]: number 
+    } = require('./extend-subscription-frequency-dropdown-options.json');
+    extendDurationOptions: number[];
     
     focusConfig: FocusConfig = {
         trap: true,
@@ -40,6 +46,7 @@ export class ExtendSubscriptionDialog {
     ngOnInit(): void {
         this.launchDialogService.data$.subscribe((data) => {
             this.subscriptionContractFrequency = data;
+            this.extendDurationOptions = Array.from({ length: this.extendFrequencyMaxOptions[data] }, (_, i) => i + 1);
         });
     }
 
@@ -73,6 +80,10 @@ export class ExtendSubscriptionDialog {
                 this.errorHandler(error);
             }
         );
+    }
+
+    onExtendDurationChange(duration: number): void {
+        this.extendDuration = duration;
     }
 
     errorHandler(error: any): void {
