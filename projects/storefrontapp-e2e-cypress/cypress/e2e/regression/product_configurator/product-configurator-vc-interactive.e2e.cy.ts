@@ -104,17 +104,30 @@ context('Product Configuration', () => {
 
     it('should keep checkboxes selected after group change', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.selectAttributeAndWait(
         CAMERA_SD_CARD,
         checkBoxList,
         SDHC,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(BASICS);
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnPreviousBtnAndWait(
+        BASICS,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkValueSelected(checkBoxList, CAMERA_SD_CARD, SDHC);
     });
   });
@@ -127,18 +140,24 @@ context('Product Configuration', () => {
     it('should support the conflict solving process', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
-      configurationVc.registerConfigurationUpdateRoute();
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroupAndWait(3);
+      configurationVc.clickOnPreviousBtnAndWait(
+        GENERAL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnGroupAndWait(3, commerceRelease.isPricingEnabled);
 
       configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
@@ -198,18 +217,24 @@ context('Product Configuration', () => {
     it('should display a success message on conflict resolution (CXSPA-2374)', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
-        testProductMultiLevel
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
       );
-      configurationVc.registerConfigurationUpdateRoute();
-      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.clickOnNextBtnAndWait(
+        PROJECTOR,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
         PROJECTOR_LCD,
         commerceRelease.isPricingEnabled
       );
-      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroupAndWait(3);
+      configurationVc.clickOnPreviousBtnAndWait(
+        GENERAL,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnGroupAndWait(3, commerceRelease.isPricingEnabled);
 
       configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
