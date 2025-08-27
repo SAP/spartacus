@@ -217,33 +217,23 @@ jobs:
         env:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
         run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
       - name: Collect test screenshots
         if: failure()
         env:
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          chmod +x ci-scripts/collect-a11y-screenshots.sh
-          bash ci-scripts/collect-a11y-screenshots.sh
+        run: ci-scripts/collect-a11y-screenshots.sh
       - name: Generate failure summary
         if: failure()
         env:
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
           GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
-        run: |
-          chmod +x ci-scripts/generate-a11y-pr-comment.sh
-          bash ci-scripts/generate-a11y-pr-comment.sh
+        run: ci-scripts/generate-a11y-pr-comment.sh
       - name: Upload test artifacts
         if: failure()
         id: upload-artifacts
