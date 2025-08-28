@@ -6,17 +6,22 @@
 
 import { myAccountV2UserEmailManagementTabbingOrder } from './my-account-v2-email-management';
 import { myAccountV2UserProfileManagementTabbingOrder } from './my-account-v2-profile-management';
-
+import * as loginHelper from '../../../../helpers/my-account-v2/my-account-v2-login-helper';
+import { generateMail, randomString } from '../../../../helpers/user';
+import { standardUser } from '../../../../sample-data/shared-users';
 import { tabbingOrderConfig as config } from './tabbing-order.config';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
-describe('Tabbing order - tests do require user to be logged in display model', () => {
-  before(() => {
-    cy.requireLoggedIn();
-  });
+
+describe('Tabbing order - tests do require user to be logged in display model', { testIsolation: false }, () => {
+  isolateTests();
 
   beforeEach(() => {
-    cy.requireLoggedIn();
-  });
+    standardUser.registrationData.email = generateMail(
+      randomString(),
+      true
+    );
+    loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);  });
 
   afterEach(() => {
     cy.restoreLocalStorage();
