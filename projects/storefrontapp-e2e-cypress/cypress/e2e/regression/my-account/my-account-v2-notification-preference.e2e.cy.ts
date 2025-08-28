@@ -31,7 +31,10 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
           randomString(),
           true
         );
-        loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);
+        loginHelper.registerAndLogin(
+          standardUser.registrationData.email,
+          standardUser.registrationData.password
+        );
 
         cy.visit('/');
       });
@@ -51,7 +54,10 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
           randomString(),
           true
         );
-        loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);
+        loginHelper.registerAndLogin(
+          standardUser.registrationData.email,
+          standardUser.registrationData.password
+        );
 
         cy.visit('/');
       });
@@ -61,4 +67,3 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
     });
   });
 });
-

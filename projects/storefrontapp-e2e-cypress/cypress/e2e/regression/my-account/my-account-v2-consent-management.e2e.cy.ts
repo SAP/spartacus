@@ -12,7 +12,8 @@ import * as login from '../../../helpers/login';
 import { generateMail, randomString } from '../../../helpers/user';
 import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { standardUser } from '../../../sample-data/shared-users'; import { isolateTests } from '../../../support/utils/test-isolation';
+import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 describe('My Account - Consent Management(CXSPA-10780)', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -42,7 +43,10 @@ describe('My Account - Consent Management(CXSPA-10780)', () => {
             randomString(),
             true
           );
-          loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);
+          loginHelper.registerAndLogin(
+            standardUser.registrationData.email,
+            standardUser.registrationData.password
+          );
 
           cy.visit('/');
           cy.selectUserMenuOption({

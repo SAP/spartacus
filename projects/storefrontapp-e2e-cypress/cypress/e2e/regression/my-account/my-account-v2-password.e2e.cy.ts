@@ -30,7 +30,7 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
       });
     });
   });
-  
+
   viewportContext(['desktop'], () => {
     before(() =>
       cy.window().then((win) => {
@@ -48,7 +48,10 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
             randomString(),
             true
           );
-          loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);
+          loginHelper.registerAndLogin(
+            standardUser.registrationData.email,
+            standardUser.registrationData.password
+          );
 
           cy.visit('/');
         });
@@ -62,12 +65,8 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
 
         it('should be able to cancel the input in password columns', () => {
           cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
-          cy.get('[formcontrolname="newPassword"]').type(
-            newPassword
-          );
-          cy.get('[formcontrolname="newPasswordConfirm"]').type(
-            newPassword
-          );
+          cy.get('[formcontrolname="newPassword"]').type(newPassword);
+          cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
           cy.get(
             'cx-my-account-v2-password button.myaccount-password-button-cancel'
           ).click();
@@ -82,12 +81,8 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
         it('should display server error if old password is wrong', () => {
           alerts.getErrorAlert().should('not.exist');
           cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
-          cy.get('[formcontrolname="newPassword"]').type(
-            newPassword
-          );
-          cy.get('[formcontrolname="newPasswordConfirm"]').type(
-            newPassword
-          );
+          cy.get('[formcontrolname="newPassword"]').type(newPassword);
+          cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
           cy.get('cx-my-account-v2-password button.btn-primary').click();
           cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
           alerts.getErrorAlert().should('exist');
@@ -112,7 +107,11 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
           cy.url().should('contain', '/login');
           cy.wait(5000);
 
-          loginHelper.loginWithOTP(standardUser.registrationData.email, newPassword, 4);
+          loginHelper.loginWithOTP(
+            standardUser.registrationData.email,
+            newPassword,
+            4
+          );
           cy.get(helper.userGreetSelector).should('exist');
         });
 

@@ -71,7 +71,6 @@ export function disableNotificationChannelV2() {
     .should('eq', 200);
 }
 
-
 export function updateEmailV2(): String {
   const password = 'Pas!sword123.';
   const newUid = generateMail(randomString(), true);
@@ -89,7 +88,6 @@ export function updateEmailV2(): String {
   return newUid;
 }
 
-
 export function verifyEmailChannelV2(email: String) {
   navigateToNotificationPreferencePage();
   cy.get('cx-my-account-v2-notification-preference').within(() => {
@@ -100,7 +98,6 @@ export function verifyEmailChannelV2(email: String) {
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
-
 
 export function testEnableDisableMyAccountV2NotificationPreference() {
   it('should enable/disable notification preference', () => {

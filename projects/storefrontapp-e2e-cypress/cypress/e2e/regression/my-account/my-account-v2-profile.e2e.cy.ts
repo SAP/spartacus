@@ -32,78 +32,87 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
     });
   });
 
-
   viewportContext(['desktop'], () => {
-    describe('update profile test for logged in user (CXSPA-10780)', { testIsolation: false }, () => {
-      isolateTests();
-      before(() => {
-        standardUser.registrationData.email = generateMail(
-          randomString(),
-          true
-        );
-        loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);
-        cy.visit('/');
-      });
-
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-        cy.selectUserMenuOption({
-          option: 'Personal Details',
-        });
-      });
-
-      it('should be able to update profile details (CXSPA-10780)', () => {
-        cy.get('.editButton').click();
-
-        cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
-          cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
-          cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
-          cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
-          cy.get('button.btn-primary').click();
-        });
-
-        // check for the global message and home screen
-        alerts
-          .getSuccessAlert()
-          .should('contain', 'Personal details successfully updated');
-        checkBanner();
-
-        // check is the new name displayed in the upper right corner
-        cy.get('.cx-login-greet').should(
-          'contain',
-          `Hi, ${newFirstName} ${newLastName}`
-        );
-      });
-
-      it('should be able to see the new profile info and cancle back to edit first page (CXSPA-10780)', () => {
-        cy.get('.editButton').click();
-        // check where the user's details updated in the previous test
-        cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
-          cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
-            'have.text',
-            newTitle
+    describe(
+      'update profile test for logged in user (CXSPA-10780)',
+      { testIsolation: false },
+      () => {
+        isolateTests();
+        before(() => {
+          standardUser.registrationData.email = generateMail(
+            randomString(),
+            true
           );
-          cy.get('[formcontrolname="firstName"]').should(
-            'have.value',
-            newFirstName
+          loginHelper.registerAndLogin(
+            standardUser.registrationData.email,
+            standardUser.registrationData.password
           );
-          cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
-
-          cy.log('--> click cancel button');
-          cy.get('.button-cancel').click();
-
-          cy.log('--> should show email content');
-          cy.get('.value').should('exist');
+          cy.visit('/');
         });
-      });
 
-      afterEach(() => {
-        cy.saveLocalStorage();
-      });
+        beforeEach(() => {
+          cy.restoreLocalStorage();
+          cy.selectUserMenuOption({
+            option: 'Personal Details',
+          });
+        });
 
-      after(() => {
-        login.signOutUser();
-      });
-    });
+        it('should be able to update profile details (CXSPA-10780)', () => {
+          cy.get('.editButton').click();
+
+          cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+            cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
+            cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
+            cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
+            cy.get('button.btn-primary').click();
+          });
+
+          // check for the global message and home screen
+          alerts
+            .getSuccessAlert()
+            .should('contain', 'Personal details successfully updated');
+          checkBanner();
+
+          // check is the new name displayed in the upper right corner
+          cy.get('.cx-login-greet').should(
+            'contain',
+            `Hi, ${newFirstName} ${newLastName}`
+          );
+        });
+
+        it('should be able to see the new profile info and cancle back to edit first page (CXSPA-10780)', () => {
+          cy.get('.editButton').click();
+          // check where the user's details updated in the previous test
+          cy.get('cx-update-profile, cx-my-account-v2-profile').within(() => {
+            cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
+              'have.text',
+              newTitle
+            );
+            cy.get('[formcontrolname="firstName"]').should(
+              'have.value',
+              newFirstName
+            );
+            cy.get('[formcontrolname="lastName"]').should(
+              'have.value',
+              newLastName
+            );
+
+            cy.log('--> click cancel button');
+            cy.get('.button-cancel').click();
+
+            cy.log('--> should show email content');
+            cy.get('.value').should('exist');
+          });
+        });
+
+        afterEach(() => {
+          cy.saveLocalStorage();
+        });
+
+        after(() => {
+          login.signOutUser();
+        });
+      }
+    );
   });
 });

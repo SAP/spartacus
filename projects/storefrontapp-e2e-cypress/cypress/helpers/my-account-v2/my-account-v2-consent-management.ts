@@ -15,7 +15,6 @@ export function accessPageAsAnonymous() {
 
 export function verifyConsentManagementPage() {
   cy.get('div.consent-form-container').should('exist');
-
 }
 
 export function giveConsent() {
@@ -30,7 +29,6 @@ export function checkConsentGivenDate() {
   cy.get('span[class="description"]').contains('Approved on');
 }
 
-
 export function withdrawConsentV2() {
   cy.get('input[type="checkbox"]').first().should('be.checked');
   cy.get('input[type="checkbox"]').first().uncheck({ force: true });
@@ -44,7 +42,6 @@ export function verifyAsAnonymous() {
     accessPageAsAnonymous();
   });
 }
-
 
 export function myAccountV2consentManagementTest() {
   it('should be able to go to Consent Management Page', () => {
