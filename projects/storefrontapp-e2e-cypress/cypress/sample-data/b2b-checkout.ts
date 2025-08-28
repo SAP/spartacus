@@ -231,7 +231,7 @@ export const b2bDeliveryModeStub = {
       name: 'United States',
     },
     defaultAddress: false,
-    email: 'punchout.customer@punchoutorg.com',
+    email: 'akiro.nakamura@rustic-hw.com',
     firstName: 'Akiro',
     formattedAddress: '999 South Wacker Drive, Chicago, 60606',
     id: 'addressIdFromServer',

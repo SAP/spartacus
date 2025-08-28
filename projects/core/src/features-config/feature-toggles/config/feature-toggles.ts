@@ -20,26 +20,6 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
-   *
-   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
-   * ```js
-   * backend: {
-   *    occ: {
-   *      endpoints: {
-   *         productSearch: {
-   *           default: '...',
-   *           carousel: '...',
-   *           carouselMinimal: '...',
-   *         },
-   *       },
-   *     },
-   *   }
-   * ```
-   */
-  useProductCarouselBatchApi?: boolean;
-
-  /**
    * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
    * (in the Angular's `ErrorHandler` class) to the server layer.
    *
@@ -62,11 +42,6 @@ export interface FeatureTogglesInterface {
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
-
-  /**
-   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
-   */
-  a11yNavMenuExpandStateReadout?: boolean;
 
   /**
    * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
@@ -204,20 +179,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
-   * This removes the repeated announcement of the page title.
-   */
-  a11yRepeatedPageTitleFix?: boolean;
-
-  /**
-   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
-   * Including this count in aria-label will help screen readers to provide more context to the user.
-   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
-   * in next major relase since ng-select now correctly handles aria-label values of select options.
-   */
-  a11yNgSelectOptionsCount?: boolean;
-
-  /**
    * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
    * when a screen reader is used.
    */
@@ -238,17 +199,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Removes duplicated error message from 'CancelOrderComponent'.
-   */
-  a11yRepeatedCancelOrderError?: boolean;
-
-  /**
-   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
-   * Improves its screen reader readout.
-   */
-  a11yAddedToCartActiveDialog?: boolean;
-
-  /**
    * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
    */
   a11yDeliveryMethodFieldset?: boolean;
@@ -257,22 +207,6 @@ export interface FeatureTogglesInterface {
    * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
    */
   a11yShowMoreReviewsBtnFocus?: boolean;
-
-  /**
-   * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
-   */
-  a11yQuickOrderAriaControls?: boolean;
-
-  /**
-   * Removes the element with `role="status"` attribute from subpage components.
-   * The 'Loaded, empty status' message will no longer be present for the screen readers.
-   */
-  a11yRemoveStatusLoadedRole?: boolean;
-
-  /**
-   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
-   */
-  a11yDialogsHeading?: boolean;
 
   /**
    * When enabled, the focus will be returned to the trigger element after the dialog is closed.
@@ -741,6 +675,17 @@ export interface FeatureTogglesInterface {
   productCarouselScrolling?: boolean;
 
   /**
+   * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
+   *
+   * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
+   * This is needed to support code flow authentication. If we are using the ActionsSubject LOGIN stream,
+   * the login event won't be captured once we are redirected back from the auth server.
+   *
+   * Used in `ProfileTagLifecycleService`
+   */
+  cdsLoginEventsToken?: boolean;
+
+  /**
    * Feature flag to enable using <link rel=preconnect> in the index.html.
    *
    * ## When enabled:
@@ -751,6 +696,16 @@ export interface FeatureTogglesInterface {
    * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
    */
   createMediaPreconnectLink?: boolean;
+
+  /**
+   * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
+   * This results in a more secure authorization scheme as the default configuration.
+   *
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server only supports Authorization Code
+   * flow for public clients from that version and onwards.
+   */
+  authorizationCodeFlowByDefault?: boolean;
 
   /**
    * Feature flag to enable consistent header slot structure across breakpoints to reduce
@@ -807,16 +762,54 @@ export interface FeatureTogglesInterface {
    * Set to `true` to enable lazy loading by default.
    */
   lazyLoadImagesByDefault?: boolean;
+
+  /**
+   * Feature flag to enable incrementing the processes count for the merge cart action.
+   *
+   * When enabled, the processes count will be incremented for the merge cart action.
+   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
+   */
+  incrementProcessesCountForMergeCart?: boolean;
+
+  /**
+   * Controls when the Login action is dispatched during OAuth URL parameter checking.
+   *
+   * When set to `true`, enables the new behavior where the Login action is only dispatched when
+   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
+   *
+   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
+   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
+   * received in the current attempt or retrieved from storage (e.g., page refresh).
+   *
+   * Affects: `AuthService`
+   */
+  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
+
+  /**
+   * Previously the default Spartacus layout config contained the property `pageFold`
+   * for the following layouts:
+   * - `LandingPage2Template`
+   * - `CategoryPageTemplate`
+   * - `ProductDetailsPageTemplate`
+   *
+   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
+   *
+   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
+   * caused the CMS components to be rendered only after a small delay even in SSR pages,
+   * which caused a layout shift.
+   *
+   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
+   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  defaultLayoutConfigWithoutPageFold?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: true,
   trendingSearches: true,
-  useProductCarouselBatchApi: true,
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yNavMenuExpandStateReadout: true,
   a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
@@ -840,18 +833,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: false,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yRepeatedPageTitleFix: true,
-  a11yNgSelectOptionsCount: true,
   a11yNgSelectCloseDropdownOnEscape: true,
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yRepeatedCancelOrderError: true,
-  a11yAddedToCartActiveDialog: true,
   a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
-  a11yQuickOrderAriaControls: true,
-  a11yRemoveStatusLoadedRole: true,
-  a11yDialogsHeading: true,
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
@@ -915,8 +901,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: false,
   disableCxPageSlotMarginAnimation: false,
   productCarouselScrolling: false,
+  cdsLoginEventsToken: false,
   createMediaPreconnectLink: false,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
   reserveSpaceForImagesOnPdpAndPlp: false,
   lazyLoadImagesByDefault: false,
+  authorizationCodeFlowByDefault: false,
+  incrementProcessesCountForMergeCart: true,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
+  defaultLayoutConfigWithoutPageFold: false,
 };

@@ -7,6 +7,7 @@
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';
+import { AddressData } from './checkout-forms';
 import { waitForPage } from './navigation';
 import { validateUpdateProfileForm } from './update-profile';
 
@@ -67,7 +68,7 @@ export function testCheckoutAsGuest() {
         lastName: guestUser.lastName,
         phone: '',
         address: guestUser.address,
-      },
+      } as AddressData,
       'US-CA'
     );
 
@@ -88,14 +89,33 @@ export function testCheckoutAsGuest() {
   });
 }
 
-export function createAccountFromGuest(password: string) {
-  const homePage = waitForPage('homepage', 'getHomePage');
+function fillGuestRegistrationForm(password: string) {
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
+}
 
-  cy.wait(`@${homePage}`);
-  cy.get('cx-page-slot.Section1 cx-banner');
+export function createAccountFromGuest(password: string, email?: string) {
+  cy.whenJDK17(() => {
+    const homePage = waitForPage('homepage', 'getHomePage');
+    fillGuestRegistrationForm(password);
+    cy.wait(`@${homePage}`);
+    cy.get('cx-page-slot.Section1 cx-banner');
+  });
+
+  cy.whenJDK21(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    fillGuestRegistrationForm(password);
+    cy.wait(`@${loginPage}`);
+    cy.location('pathname').should('include', '/login');
+    cy.get('cx-login-form').within(() => {
+      cy.get('input[name="username"]')
+        .clear()
+        .type(guestUser?.email ?? email);
+      cy.get('input[name="password"]').clear().type(password);
+      cy.get('button[type="submit"]').click();
+    });
+  });
 }

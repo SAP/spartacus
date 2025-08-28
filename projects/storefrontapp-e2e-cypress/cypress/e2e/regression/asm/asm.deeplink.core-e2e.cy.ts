@@ -5,7 +5,7 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import { signOutUser } from '../../../helpers/login';
@@ -19,7 +19,9 @@ import {
   emulateCustomerPrepare,
   getCurrentCartIdAndAddProducts,
   getCustomerId,
+  getCustomerIdForJDK21,
   getInactiveCartIdAndAddProducts,
+  getInactiveCartIdAndAddProductsForJDK21,
 } from '../../../helpers/asm';
 
 const agentToken = {
@@ -32,18 +34,38 @@ context('Assisted Service Module', () => {
     it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
       cy.log('--> Register new user');
-      cy.visit('/?asm=true');
+      cy.whenJDK17(() => {
+        cy.visit('/?asm=true');
+      });
       checkout.registerUser(false, customer);
+      cy.whenJDK17(() => {
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
-      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-        (customerId) => {
-          cy.visit('/assisted-service/emulate?customerId=' + customerId);
-          asm.agentLogin(agentToken.userName, agentToken.pwd);
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
-          cy.log('--> Should has assignCart');
-          cy.get('.cx-asm-assignCart').should('exist');
-        }
-      );
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+          }
+        );
+      });
+      cy.whenJDK21(() => {
+        asm
+          .getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          )
+          .then((customerId) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId);
+
+            agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+          });
+      });
     });
 
     it('should emulate customer and navigate to order with deeplink before agent login (CXSPA-3263)', () => {
@@ -65,9 +87,12 @@ context('Assisted Service Module', () => {
         signOutUser();
 
         const orderId = orderData.body.code;
-
-        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-          (customerId) => {
+        cy.whenJDK17(() => {
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
             cy.visit(
               '/assisted-service/emulate?customerId=' +
                 customerId +
@@ -83,8 +108,32 @@ context('Assisted Service Module', () => {
             cy.get('.cx-asm-assignCart').should('exist');
 
             cy.url().should('contain', 'order/' + orderId);
-          }
-        );
+          });
+        });
+
+        cy.whenJDK21(() => {
+          getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&orderId=' +
+                orderId
+            );
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.url().should('contain', 'order/' + orderId);
+          });
+        });
       });
     });
 
@@ -122,26 +171,55 @@ context('Assisted Service Module', () => {
           const ticketId = text.trim();
           signOutUser();
 
-          getCustomerId(
-            agentToken.userName,
-            agentToken.pwd,
-            customer.email
-          ).then((customerId) => {
-            cy.visit(
-              '/assisted-service/emulate?customerId=' +
-                customerId +
-                '&ticketId=' +
-                ticketId
-            );
-            cy.get('cx-asm-main-ui').should('exist');
-            cy.get('cx-asm-main-ui').should('be.visible');
+          cy.whenJDK17(() => {
+            getCustomerId(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                '/assisted-service/emulate?customerId=' +
+                  customerId +
+                  '&ticketId=' +
+                  ticketId
+              );
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
 
-            asm.agentLogin(agentToken.userName, agentToken.pwd);
+              asm.agentLogin(agentToken.userName, agentToken.pwd);
 
-            cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+              cy.log('--> Should has assignCart');
+              cy.get('.cx-asm-assignCart').should('exist');
 
-            cy.url().should('contain', 'support-ticket/' + ticketId);
+              cy.url().should('contain', 'support-ticket/' + ticketId);
+            });
+          });
+
+          cy.whenJDK21(() => {
+            getCustomerIdForJDK21(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                '/assisted-service/emulate?customerId=' +
+                  customerId +
+                  '&ticketId=' +
+                  ticketId
+              );
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
+
+              cy.get(
+                '.cx-asm-customer-list .cx-asm-customer-list-link'
+              ).click();
+              agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+
+              cy.log('--> Should has assignCart');
+              cy.get('.cx-asm-assignCart').should('exist');
+
+              cy.url().should('contain', 'support-ticket/' + ticketId);
+            });
           });
         });
     });
@@ -173,8 +251,12 @@ context('Assisted Service Module', () => {
 
         cy.log('--> Agent logging in with deeplink');
 
-        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-          (customerId) => {
+        cy.whenJDK17(() => {
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
             cy.visit(
               '/assisted-service/emulate?customerId=' +
                 customerId +
@@ -192,28 +274,75 @@ context('Assisted Service Module', () => {
             cy.get('.cx-asm-assignCart').should('exist');
 
             cy.url().should('contain', 'saved-cart/' + savedCartId);
-          }
-        );
+          });
+        });
+
+        cy.whenJDK21(() => {
+          getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&cartId=' +
+                savedCartId +
+                '&cartType=saved'
+            );
+
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+            agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.url().should('contain', 'saved-cart/' + savedCartId);
+          });
+        });
       });
     });
 
     it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
       cy.log('--> Register new user');
-      cy.visit('/?asm=true');
+      cy.whenJDK17(() => {
+        cy.visit('/?asm=true');
+      });
       checkout.registerUser(false, customer);
 
       cy.visit('/?asm=true');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      cy.whenJDK17(() => {
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+      });
+
       // get customerId via token
-      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-        (customerId) => {
+      cy.whenJDK17(() => {
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId);
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+          }
+        );
+      });
+
+      cy.whenJDK21(() => {
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
           cy.log('--> Should has assignCart');
           cy.get('.cx-asm-assignCart').should('exist');
-        }
-      );
+        });
+      });
     });
 
     it('should switched emulated customer with deeplink when click switch customer after agent login (CXSPA-3380)', () => {
@@ -228,49 +357,105 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customerNew);
 
       cy.visit('/?asm=true');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-      // get customerId via token
-      getCustomerId(
-        agentToken.userName,
-        agentToken.pwd,
-        customerOld.email
-      ).then((customerOldId) => {
-        cy.visit('/assisted-service/emulate?customerId=' + customerOldId);
+      cy.whenJDK17(() => {
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+      });
 
-        cy.log('--> Should has emulated old customer');
-        cy.get('.cx-asm-customerInfo .cx-asm-name').should(
-          'have.text',
-          customerOld.fullName
-        );
-        cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
-          'have.text',
-          customerOld.email
-        );
-
+      cy.whenJDK17(() => {
+        // get customerId via token
         getCustomerId(
           agentToken.userName,
           agentToken.pwd,
-          customerNew.email
-        ).then((customerNewId) => {
-          cy.visit('/assisted-service/emulate?customerId=' + customerNewId);
+          customerOld.email
+        ).then((customerOldId) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerOldId);
 
-          cy.log('--> Switch emulated customer dialog should be exist');
-          cy.get('cx-asm-switch-customer-dialog').should('exist');
-
-          cy.log('--> Click switch button to switch to emulate new customer');
-          cy.get('cx-asm-switch-customer-dialog .cx-dialog-footer .btn-primary')
-            .should('exist')
-            .click();
-
-          cy.log('--> Should has emulated new customer');
+          cy.log('--> Should has emulated old customer');
           cy.get('.cx-asm-customerInfo .cx-asm-name').should(
             'have.text',
-            customerNew.fullName
+            customerOld.fullName
           );
           cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
             'have.text',
-            customerNew.email
+            customerOld.email
           );
+
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customerNew.email
+          ).then((customerNewId) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerNewId);
+
+            cy.log('--> Switch emulated customer dialog should be exist');
+            cy.get('cx-asm-switch-customer-dialog').should('exist');
+
+            cy.log('--> Click switch button to switch to emulate new customer');
+            cy.get(
+              'cx-asm-switch-customer-dialog .cx-dialog-footer .btn-primary'
+            )
+              .should('exist')
+              .click();
+
+            cy.log('--> Should has emulated new customer');
+            cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+              'have.text',
+              customerNew.fullName
+            );
+            cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+              'have.text',
+              customerNew.email
+            );
+          });
+        });
+      });
+
+      cy.whenJDK21(() => {
+        // get customerId via token
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customerOld.email
+        ).then((customerOldId) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerOldId);
+
+          cy.log('--> Should has emulated old customer');
+          cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+            'have.text',
+            customerOld.fullName
+          );
+          cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+            'have.text',
+            customerOld.email
+          );
+
+          getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customerNew.email
+          ).then((customerNewId) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerNewId);
+
+            cy.log('--> Switch emulated customer dialog should be exist');
+            cy.get('cx-asm-switch-customer-dialog').should('exist');
+
+            cy.log('--> Click switch button to switch to emulate new customer');
+            cy.get(
+              'cx-asm-switch-customer-dialog .cx-dialog-footer .btn-primary'
+            )
+              .should('exist')
+              .click();
+
+            cy.log('--> Should has emulated new customer');
+            cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+              'have.text',
+              customerNew.fullName
+            );
+            cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+              'have.text',
+              customerNew.email
+            );
+          });
         });
       });
     });
@@ -287,10 +472,17 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customerB);
 
       cy.visit('/?asm=true');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      cy.whenJDK17(() => {
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+      });
       // get customerId via token
-      getCustomerId(agentToken.userName, agentToken.pwd, customerA.email).then(
-        (customerId1) => {
+
+      cy.whenJDK17(() => {
+        getCustomerId(
+          agentToken.userName,
+          agentToken.pwd,
+          customerA.email
+        ).then((customerId1) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId1);
 
           cy.log('--> Should has emulated customerA');
@@ -329,8 +521,55 @@ context('Assisted Service Module', () => {
               customerA.email
             );
           });
-        }
-      );
+        });
+      });
+
+      cy.whenJDK21(() => {
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customerA.email
+        ).then((customerId1) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerId1);
+
+          cy.log('--> Should has emulated customerA');
+          cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+            'have.text',
+            customerA.fullName
+          );
+          cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+            'have.text',
+            customerA.email
+          );
+
+          getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customerB.email
+          ).then((customerId2) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId2);
+
+            cy.log('--> Switch emulated customer dialog should be exist');
+            cy.get('cx-asm-switch-customer-dialog').should('exist');
+
+            cy.log('--> Click cancel button to not switch customer');
+            cy.get(
+              'cx-asm-switch-customer-dialog .cx-dialog-footer .btn-secondary'
+            ).should('exist');
+            cy.findByText(/Cancel/i).click();
+
+            cy.log('--> Should still emulated customerA');
+            cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+              'have.text',
+              customerA.fullName
+            );
+            cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+              'have.text',
+              customerA.email
+            );
+          });
+        });
+      });
     });
 
     it('should diaplay global error with deeplink when the switched customerId not exist after agent login (CXSPA-3380)', () => {
@@ -340,10 +579,39 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customer);
 
       cy.visit('/?asm=true');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      cy.whenJDK17(() => {
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+      });
+
       // get customerId via token
-      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-        (customerId1) => {
+      cy.whenJDK17(() => {
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId1) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId1);
+
+            cy.log('--> Should has emulated customerA');
+            cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+              'have.text',
+              customer.fullName
+            );
+            cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+              'have.text',
+              customer.email
+            );
+
+            cy.visit('/assisted-service/emulate?customerId=notexist');
+            cy.log('--> global error message should be display');
+            cy.get('cx-global-message .alert-danger').should('be.visible');
+          }
+        );
+      });
+
+      cy.whenJDK21(() => {
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId1) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId1);
 
           cy.log('--> Should has emulated customerA');
@@ -359,14 +627,15 @@ context('Assisted Service Module', () => {
           cy.visit('/assisted-service/emulate?customerId=notexist');
           cy.log('--> global error message should be display');
           cy.get('cx-global-message .alert-danger').should('be.visible');
-        }
-      );
+        });
+      });
     });
 
     it('should emulate customer and navigate to order with deeplink after agent login (CXSPA-3263)', () => {
       const customer = getSampleUser();
-
-      cy.visit('/?asm=true');
+      cy.whenJDK17(() => {
+        cy.visit('/?asm=true');
+      });
 
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
@@ -383,12 +652,18 @@ context('Assisted Service Module', () => {
         const orderId = orderData.body.code;
 
         cy.log('--> login as agent');
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        cy.whenJDK17(() => {
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
+        });
 
         cy.log('--> Agent visting URL with deeplink');
 
-        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-          (customerId) => {
+        cy.whenJDK17(() => {
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
             cy.visit(
               '/assisted-service/emulate?customerId=' +
                 customerId +
@@ -402,8 +677,30 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
 
             cy.url().should('contain', 'order/' + orderId);
-          }
-        );
+          });
+        });
+
+        cy.whenJDK21(() => {
+          getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&orderId=' +
+                orderId
+            );
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.get('cx-asm-main-ui').should('be.visible');
+            cy.get('cx-asm-main-ui').should('exist');
+
+            cy.url().should('contain', 'order/' + orderId);
+          });
+        });
       });
     });
 
@@ -419,7 +716,9 @@ context('Assisted Service Module', () => {
 
       const customer = getSampleUser();
 
-      cy.visit('/?asm=true');
+      cy.whenJDK17(() => {
+        cy.visit('/?asm=true');
+      });
 
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
@@ -441,29 +740,56 @@ context('Assisted Service Module', () => {
           signOutUser();
 
           cy.log('--> login as agent');
-          asm.agentLogin(agentToken.userName, agentToken.pwd);
+          cy.whenJDK17(() => {
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
+          });
 
           cy.log('--> Agent visting URL with deeplink');
 
-          getCustomerId(
-            agentToken.userName,
-            agentToken.pwd,
-            customer.email
-          ).then((customerId) => {
-            cy.visit(
-              '/assisted-service/emulate?customerId=' +
-                customerId +
-                '&ticketId=' +
-                ticketId
-            );
+          cy.whenJDK17(() => {
+            getCustomerId(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                '/assisted-service/emulate?customerId=' +
+                  customerId +
+                  '&ticketId=' +
+                  ticketId
+              );
 
-            cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+              cy.log('--> Should has assignCart');
+              cy.get('.cx-asm-assignCart').should('exist');
 
-            cy.get('cx-asm-main-ui').should('exist');
-            cy.get('cx-asm-main-ui').should('be.visible');
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
 
-            cy.url().should('contain', 'support-ticket/' + ticketId);
+              cy.url().should('contain', 'support-ticket/' + ticketId);
+            });
+          });
+
+          cy.whenJDK21(() => {
+            getCustomerIdForJDK21(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                '/assisted-service/emulate?customerId=' +
+                  customerId +
+                  '&ticketId=' +
+                  ticketId
+              );
+
+              cy.log('--> Should has assignCart');
+              cy.get('.cx-asm-assignCart').should('exist');
+
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
+
+              cy.url().should('contain', 'support-ticket/' + ticketId);
+            });
           });
         });
     });
@@ -471,7 +797,9 @@ context('Assisted Service Module', () => {
     it('should emulate customer and navigate to saved cart with deeplink after agent login (CXSPA-3263)', () => {
       const customer = getSampleUser();
 
-      cy.visit('/?asm=true');
+      cy.whenJDK17(() => {
+        cy.visit('/?asm=true');
+      });
 
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
@@ -493,12 +821,18 @@ context('Assisted Service Module', () => {
 
         signOutUser();
 
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        cy.whenJDK17(() => {
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
+        });
 
         cy.log('--> Agent logging in with deeplink');
 
-        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-          (customerId) => {
+        cy.whenJDK17(() => {
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
             cy.visit(
               '/assisted-service/emulate?customerId=' +
                 customerId +
@@ -514,8 +848,31 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('be.visible');
 
             cy.url().should('contain', 'saved-cart/' + savedCartId);
-          }
-        );
+          });
+        });
+        cy.whenJDK21(() => {
+          getCustomerIdForJDK21(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&cartId=' +
+                savedCartId +
+                '&cartType=saved'
+            );
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            cy.url().should('contain', 'saved-cart/' + savedCartId);
+          });
+        });
       });
     });
 
@@ -526,41 +883,87 @@ context('Assisted Service Module', () => {
       );
 
       cy.log('--> Agent logging in with deeplink');
-      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-        (customerId) => {
-          getCurrentCartIdAndAddProducts(
-            customer.email,
-            customer.password,
-            '1934793',
-            '2'
-          ).then((activeCartId) => {
-            cy.visit(
-              `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
-            );
 
-            cy.log('--> set input should be active cart id');
-            cy.get(
-              'cx-customer-emulation input[formcontrolname="cartNumber"]'
-            ).should('have.value', activeCartId);
+      cy.whenJDK17(() => {
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            getCurrentCartIdAndAddProducts(
+              customer.email,
+              customer.password,
+              '1934793',
+              '2'
+            ).then((activeCartId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
+              );
 
-            cy.log('--> the message strip should be display');
-            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-              .should('exist')
-              .click();
+              cy.log('--> set input should be active cart id');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', activeCartId);
 
-            cy.log('--> Should navigate to current cart page');
-            cy.get('.cart-details-wrapper .cx-total').should(
-              'have.text',
-              `  Cart #${activeCartId} `
-            );
+              cy.log('--> the message strip should be display');
+              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+                .should('exist')
+                .click();
 
-            cy.get('cx-asm-main-ui').should('exist');
-            cy.get('cx-asm-main-ui').should('be.visible');
+              cy.log('--> Should navigate to current cart page');
+              cy.get('.cart-details-wrapper .cx-total').should(
+                'have.text',
+                `  Cart #${activeCartId} `
+              );
 
-            cy.url().should('contain', '/cart');
-          });
-        }
-      );
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
+
+              cy.url().should('contain', '/cart');
+            });
+          }
+        );
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('button.logout').should('exist').and('be.visible').click();
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId) => {
+          asm
+            .getCurrentCartIdAndAddProducts(
+              customer.email,
+              customer.password,
+              '1934793',
+              '2'
+            )
+            .then((activeCartId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
+              );
+
+              cy.log('--> set input should be active cart id');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', activeCartId);
+
+              cy.log('--> the message strip should be display');
+              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+                .should('exist')
+                .click();
+
+              cy.log('--> Should navigate to current cart page');
+              cy.get('.cart-details-wrapper .cx-total').should(
+                'have.text',
+                `  Cart #${activeCartId} `
+              );
+
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
+
+              cy.url().should('contain', '/cart');
+            });
+        });
+      });
     });
 
     it('should emulate customer and navigate to active cart with deeplink ticketId and active cartId after agent login (CXSPA-3507)', () => {
@@ -570,8 +973,51 @@ context('Assisted Service Module', () => {
       );
 
       cy.log('--> Agent logging in with deeplink');
-      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-        (customerId) => {
+      cy.whenJDK17(() => {
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            getCurrentCartIdAndAddProducts(
+              customer.email,
+              customer.password,
+              '1934793',
+              '2'
+            ).then((activeCartId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&ticketId=00000008&cartId=${activeCartId}&cartType=active`
+              );
+
+              cy.log('--> set input should be active cart id');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', activeCartId);
+
+              cy.log('--> the message strip should be display');
+              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+                .should('exist')
+                .click();
+
+              cy.log('--> Should navigate to current cart page');
+              cy.get('.cart-details-wrapper .cx-total').should(
+                'have.text',
+                `  Cart #${activeCartId} `
+              );
+
+              cy.get('cx-asm-main-ui').should('exist');
+              cy.get('cx-asm-main-ui').should('be.visible');
+
+              cy.url().should('contain', '/cart');
+            });
+          }
+        );
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('button.logout').should('exist').and('be.visible').click();
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId) => {
           getCurrentCartIdAndAddProducts(
             customer.email,
             customer.password,
@@ -603,8 +1049,8 @@ context('Assisted Service Module', () => {
 
             cy.url().should('contain', '/cart');
           });
-        }
-      );
+        });
+      });
     });
 
     it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
@@ -615,18 +1061,40 @@ context('Assisted Service Module', () => {
 
       cy.log('--> login as agent');
       cy.visit('/?asm=true');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      cy.whenJDK17(() => {
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+      });
+
       // get customerId via token
-      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-        (customerId) => {
+      cy.whenJDK17(() => {
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                'invalid end'
+            );
+
+            cy.log('--> Should not has assignCart');
+            cy.get('.cx-asm-assignCart').should('not.exist');
+          }
+        );
+      });
+
+      cy.whenJDK21(() => {
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId) => {
           cy.visit(
             '/assisted-service/emulate?customerId=' + customerId + 'invalid end'
           );
 
           cy.log('--> Should not has assignCart');
           cy.get('.cx-asm-assignCart').should('not.exist');
-        }
-      );
+        });
+      });
     });
 
     it('should save inactive cart in deeplink after agent login (CXSPA-3278)', () => {
@@ -634,56 +1102,110 @@ context('Assisted Service Module', () => {
         agentToken.userName,
         agentToken.pwd
       );
-      getInactiveCartIdAndAddProducts(
-        customer.email,
-        customer.password,
-        '1934793',
-        '2'
-      ).then((inactiveCartId) => {
-        // get customerId via token
-        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-          (customerId) => {
-            cy.visit(
-              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
-            );
+      asm
+        .getInactiveCartIdAndAddProductsForJDK21(
+          customer.email,
+          customer.password,
+          '1934793',
+          '2'
+        )
+        .then((inactiveCartId) => {
+          // get customerId via token
 
-            cy.log(
-              '--> Should has assign inactive cart to input and display alert info'
-            );
-            cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
-            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
-            cy.get(
-              'cx-customer-emulation input[formcontrolname="cartNumber"]'
-            ).should('have.value', inactiveCartId);
-            cy.get('cx-asm-main-ui cx-message').should('exist');
+          cy.whenJDK17(() => {
+            getCustomerId(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+              );
 
-            cy.log('--> Click save button the dialog shold display');
-            cy.get('button[id=asm-save-inactive-cart-btn]').click();
-            cy.get('cx-asm-save-cart-dialog').should('exist');
-            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-              .should('exist')
-              .click();
-            cy.get('.cx-dialog-item.item-right-text').should(
-              'have.text',
-              ` ${inactiveCartId}  2  $199.70 `
-            );
-            cy.get('button[id=asm-save-cart-dialog-btn]')
-              .should('be.enabled')
-              .click();
+              cy.log(
+                '--> Should has assign inactive cart to input and display alert info'
+              );
+              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+              cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', inactiveCartId);
+              cy.get('cx-asm-main-ui cx-message').should('exist');
 
-            cy.log(
-              '--> Click save button will navigate to the cart detail page'
-            );
+              cy.log('--> Click save button the dialog shold display');
+              cy.get('button[id=asm-save-inactive-cart-btn]').click();
+              cy.get('cx-asm-save-cart-dialog').should('exist');
+              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+                .should('exist')
+                .click();
+              cy.get('.cx-dialog-item.item-right-text').should(
+                'have.text',
+                ` ${inactiveCartId}  2  $199.70 `
+              );
+              cy.get('button[id=asm-save-cart-dialog-btn]')
+                .should('be.enabled')
+                .click();
 
-            cy.get('.cx-card-label').should('contain', inactiveCartId);
-            cy.get('cx-saved-cart-details-action .btn-primary').should(
-              'be.enabled'
-            );
-            cy.url().should('include', 'saved-cart');
-            cy.url().should('include', inactiveCartId);
-          }
-        );
-      });
+              cy.log(
+                '--> Click save button will navigate to the cart detail page'
+              );
+
+              cy.get('.cx-card-label').should('contain', inactiveCartId);
+              cy.get('cx-saved-cart-details-action .btn-primary').should(
+                'be.enabled'
+              );
+              cy.url().should('include', 'saved-cart');
+              cy.url().should('include', inactiveCartId);
+            });
+          });
+
+          cy.whenJDK21(() => {
+            getCustomerIdForJDK21(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+              );
+
+              cy.log(
+                '--> Should has assign inactive cart to input and display alert info'
+              );
+              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+              cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', inactiveCartId);
+              cy.get('cx-asm-main-ui cx-message').should('exist');
+
+              cy.log('--> Click save button the dialog shold display');
+              cy.get('button[id=asm-save-inactive-cart-btn]').click();
+              cy.get('cx-asm-save-cart-dialog').should('exist');
+              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+                .should('exist')
+                .click();
+              cy.get('.cx-dialog-item.item-right-text').should(
+                'have.text',
+                ` ${inactiveCartId}  2  $199.70 `
+              );
+              cy.get('button[id=asm-save-cart-dialog-btn]')
+                .should('be.enabled')
+                .click();
+
+              cy.log(
+                '--> Click save button will navigate to the cart detail page'
+              );
+
+              cy.get('.cx-card-label').should('contain', inactiveCartId);
+              cy.get('cx-saved-cart-details-action .btn-primary').should(
+                'be.enabled'
+              );
+              cy.url().should('include', 'saved-cart');
+              cy.url().should('include', inactiveCartId);
+            });
+          });
+        });
     });
 
     it('should not save empty inactive cart in deeplink after agent login (CXSPA-3278)', () => {
@@ -691,11 +1213,62 @@ context('Assisted Service Module', () => {
         agentToken.userName,
         agentToken.pwd
       );
-      getInactiveCartIdAndAddProducts(customer.email, customer.password).then(
-        (inactiveCartId) => {
+
+      cy.whenJDK17(() => {
+        getInactiveCartIdAndAddProducts(customer.email, customer.password).then(
+          (inactiveCartId) => {
+            cy.log('--> create inactive cart');
+            // get customerId via token
+            getCustomerId(
+              agentToken.userName,
+              agentToken.pwd,
+              customer.email
+            ).then((customerId) => {
+              cy.visit(
+                `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+              );
+
+              cy.log(
+                '--> Should has assign inactive cart to input and display alert info'
+              );
+              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+              cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+              cy.get(
+                'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              ).should('have.value', inactiveCartId);
+              cy.get('cx-asm-main-ui cx-message').should('exist');
+
+              cy.log(
+                '--> Click save button the dialog shold display, but the save button is disable'
+              );
+              cy.get('button[id=asm-save-inactive-cart-btn]').click();
+              cy.get('cx-asm-save-cart-dialog').should('exist');
+              cy.get(
+                'cx-asm-save-cart-dialog .cx-message-warning button cx-icon'
+              )
+                .should('exist')
+                .click();
+              cy.get('.cx-dialog-item.item-right-text').should(
+                'have.text',
+                ` ${inactiveCartId}  0  $0.00 `
+              );
+              cy.get('button[id=asm-save-cart-dialog-btn]').should(
+                'be.disabled'
+              );
+              cy.findByText(/Cancel/i).click();
+            });
+          }
+        );
+      });
+
+      cy.whenJDK21(() => {
+        getInactiveCartIdAndAddProductsForJDK21(
+          customer.email,
+          customer.password
+        ).then((inactiveCartId) => {
           cy.log('--> create inactive cart');
-          // get customerId via token
-          getCustomerId(
+          cy.get('button.logout').should('exist').and('be.visible').click();
+          getCustomerIdForJDK21(
             agentToken.userName,
             agentToken.pwd,
             customer.email
@@ -729,8 +1302,8 @@ context('Assisted Service Module', () => {
             cy.get('button[id=asm-save-cart-dialog-btn]').should('be.disabled');
             cy.findByText(/Cancel/i).click();
           });
-        }
-      );
+        });
+      });
     });
   });
 });

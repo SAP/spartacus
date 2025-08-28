@@ -7,9 +7,7 @@
           track $index
         ) {
           <div class="cx-value">
-            <span class="cx-billing-value">
-              {{ recurringCharge.price?.formattedValue }}
-            </span>
+            <span class="cx-billing-value">{{ recurringCharge.price?.formattedValue }}/</span>
             <span class="cx-billing-name">
               {{
                 item.product?.sapSubscriptionTerm?.billingPlan?.billingTime
@@ -25,11 +23,11 @@
           track oneTimeCharge.name
         ) {
           <div class="cx-value">
-            <span class="cx-billing-name">
-              {{ oneTimeCharge.billingTime?.name + ': ' }}
-            </span>
             <span class="cx-billing-value">
               {{ oneTimeCharge.price?.formattedValue }}
+            </span>
+            <span class="cx-billing-name">
+              {{ oneTimeCharge.billingTime?.name | lowercase }}
             </span>
           </div>
         }

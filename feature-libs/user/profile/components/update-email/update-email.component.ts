@@ -14,7 +14,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'user-form' },
+  host: { class: 'user-form', ngSkipHydration: 'true' },
   standalone: false,
 })
 export class UpdateEmailComponent {

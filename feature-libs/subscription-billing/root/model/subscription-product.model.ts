@@ -67,7 +67,7 @@ export interface PerUnitUsageCharge extends UsageCharge {
   includedQty?: number;
   ratio?: string;
   usageChargeType?: string;
-  perUnitUsageChargeEntries?: UsageChargeEntry[];
+  perUnitUsageChargeEntries?: PerUnitUsageChargeEntry[];
 }
 
 export interface VolumeUsageCharge extends UsageCharge {}
@@ -85,6 +85,8 @@ export interface TierUsageChargeEntry extends UsageChargeEntry {
   tierStart?: number;
   tierEnd?: number;
 }
+
+export interface PerUnitUsageChargeEntry extends UsageChargeEntry {}
 
 export interface UsageUnit {
   name?: string;
