@@ -19,9 +19,37 @@
                 justify-content: space-between;
             }
 
-            #extendDurationInput {
-                outline: none;;
+            .form-check-input {
+                outline: none;
             }
+
+            input[type="checkbox"]:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            input[type="checkbox"]:disabled + .form-check-label {
+                color: grey;
+            }
+
+            .extend-duration-dropdown-label {
+                padding: 0;
+
+                .form-check-label {
+                    margin-bottom: 10px;
+                }
+
+                #extendDurationDropdown {
+                    width: 100%;
+                    margin-bottom: 15px;
+                    outline: none;
+
+                    .extend-duration-option {
+                        margin: 50px;
+                    }
+                }
+            }
+            
         }
     }
 }
