@@ -1,3 +1,4 @@
+import { PaginationModel, SortModel } from '@spartacus/core';
 import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
@@ -21,20 +22,6 @@ export interface SubscriptionDetail {
 
 export interface SubscriptionList {
   results?: SubscriptionDetail[];
-  pagination?: Pagination;
-  sorts?: Sort[];
-}
-
-export interface Sort {
-  asc?: boolean;
-  code?: string;
-}
-
-export interface Pagination {
-  count?: number;
-  page?: number;
-  totalCount?: number;
-  totalPages?: number;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
 }

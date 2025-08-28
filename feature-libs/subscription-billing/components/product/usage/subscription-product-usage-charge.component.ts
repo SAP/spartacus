@@ -69,4 +69,11 @@ export class SubscriptionProductUsageChargeComponent {
       tierUsageChargeEntries[tierUsageChargeEntries.length - 1].tierEnd ?? 0
     );
   }
+
+  isUsageChargePresent(): boolean {
+    return this.product()?.sapPricePlan?.perUnitUsageCharges ||
+      this.product()?.sapPricePlan?.volumeUsageCharges
+      ? true
+      : false;
+  }
 }
