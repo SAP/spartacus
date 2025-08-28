@@ -4,33 +4,42 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { login } from '../../../helpers/auth-forms';
 import * as alerts from '../../../helpers/global-message';
-import { signOut } from '../../../helpers/register';
-import * as updateEmail from '../../../helpers/update-email';
-import { registerAndLogin } from '../../../helpers/update-email';
+import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
+import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
-import { visitLoginPage } from '../../../support/utils/login';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('My Account - Update Email', () => {
+export const UPDATE_EMAIL_URL = '/my-account/update-email';
+
+describe('My Account - Update Email (CXSPA-10780)', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    describe('Anonymous user', () => {
-      it('should redirect to login page (CXSPA-4442)', () => {
-        cy.visit(updateEmail.UPDATE_EMAIL_URL);
+    describe('Update email for anonymous user (CXSPA-10780)', () => {
+      it('should redirect to login page (CXSPA-10780)', () => {
+        cy.visit(UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
     });
+  });
 
-    describe('Logged in user', { testIsolation: false }, () => {
+  viewportContext(['desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+    describe('Update emial for logged in user (CXSPA-10780)', { testIsolation: false }, () => {
       isolateTests();
       before(() => {
-        registerAndLogin();
+        standardUser.registrationData.email = generateMail(
+          randomString(),
+          true
+        );
+        loginHelper.registerAndLogin(standardUser.registrationData.email, standardUser.registrationData.password);
+
         cy.visit('/');
       });
 
@@ -41,7 +50,7 @@ describe('My Account - Update Email', () => {
         });
       });
 
-      it('should click edit email and go to edit menu, and cancel works as expected (CXSPA-4442)', () => {
+      it('should click edit email and go to edit menu, and cancel works as expected (CXSPA-10780)', () => {
         cy.get('.cx-message-info').should('not.exist');
         cy.get('.value').should('exist');
 
@@ -65,17 +74,26 @@ describe('My Account - Update Email', () => {
       });
 
       // Core e2e test. Check with different view port.
-      updateEmail.testUpdateEmailAndLogin();
 
-      // Below test depends on core test for setup.
-      it('should not allow login with old email address (CXSPA-4442)', () => {
-        signOut();
-        visitLoginPage();
-        login(
-          standardUser.registrationData.email,
-          standardUser.registrationData.password
-        );
-        alerts.getErrorAlert().should('contain', 'Bad credentials');
+
+      it('should update the email address and login successfully (CXSPA-10780)', () => {
+        const newUid = generateMail(randomString(), true);
+        cy.get('cx-update-email, cx-my-account-v2-email').within(() => {
+          cy.get('[formcontrolname="email"]').type(newUid);
+          cy.get('[formcontrolname="confirmEmail"]').type(newUid);
+          cy.get('[formcontrolname="password"]').type(standardUser.registrationData.password);
+          cy.get('button.btn-primary').click();
+        });
+
+        alerts
+          .getSuccessAlert()
+          .should('contain', `Success. Please sign in with ${newUid}`);
+
+        cy.location('pathname').should('contain', '/login');
+
+        loginHelper.loginWithOTP(newUid, standardUser.registrationData.password, 1);
+        cy.get('cx-login .cx-login-greet').should('exist');
+
       });
 
       afterEach(() => {
@@ -84,3 +102,4 @@ describe('My Account - Update Email', () => {
     });
   });
 });
+
