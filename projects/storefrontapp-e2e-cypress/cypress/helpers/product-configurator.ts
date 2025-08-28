@@ -302,7 +302,7 @@ export function selectAttribute(
     case 'radioGroup':
     case 'checkBoxList':
     case 'multi_selection_image':
-      cy.get(`#${valueId}`).click({ force: true });
+      cy.get(`#${valueId}`).scrollIntoView().click({ force: true });
       break;
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;
@@ -329,6 +329,7 @@ export function selectAttribute(
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
       cy.get(btnLoc)
+        .scrollIntoView()
         .click({ force: true })
         .then(() => {
           if (waitForUpdateMsg) {
@@ -475,7 +476,8 @@ export function clickOnGroupByGroupIndex(groupIndex: number): void {
  */
 export function clickHamburger(): void {
   cy.get('cx-configurator-group-title cx-hamburger-menu button')
-    .click()
+    .scrollIntoView()
+    .click({ force: true })
     .then(() => {
       checkUpdatingMessageNotDisplayed();
     });
