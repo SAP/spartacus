@@ -13,8 +13,8 @@ export const defaultSubscriptionBillingRoutingConfig: RoutingConfig = {
         paths: ['my-account/subscriptions'],
       },
       subscriptionDetails: {
-        paths: ['my-account/subscription/:susbcriptionId'],
-        paramsMapping: { susbcriptionId: 'susbcriptionId' },
+        paths: ['my-account/subscription/:subscriptionId'],
+        paramsMapping: { subscriptionId: 'subscriptionId' },
       },
       cancelSubscription: {
         paths: ['my-account/cancelsubscription/:subscriptionId'],

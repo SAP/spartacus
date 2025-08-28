@@ -1,12 +1,5 @@
-/*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { PaginationModel, SortModel } from '@spartacus/core';
-import { PricePlan, RenewalTerm, UsageCharge } from './subscription-product.model';
 import { LAUNCH_CALLER } from '@spartacus/storefront';
+import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -14,36 +7,37 @@ export interface SubscriptionDetail {
   productCode?: string;
   startAt?: string;
   endAt?: string;
-  subscriptionStatus?: string;
-  startDate?: string;
-  endDate?: string;
-  orderCode?: string;
-
-
-  version?: string;
-  withdrawalPeriodEndDate?: string;
-  effectiveDate?: string;
-  ratePlanId?: string;
-  withdrawnAt?: string;
-   contractFrequency?: string;
-  customerId?: string;
+  status?: string;
+  isCancellationPossible?: boolean;
+  isExtensionPossible?: boolean;
+  isWithdrawalPossible?: boolean;
+  isCancellationReversalPossible?: boolean;
+  contractFrequency?: string;
   documentNumber?: string;
   pricePlan?: PricePlan;
-  currentUsages?: UsageCharge[];
-  renewalTerm?: RenewalTerm;
-}
-export interface SubscriptionList {
-  subscriptions?: SubscriptionDetail[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
+  withdrawalPeriodEndAt?: string;
+  billingTime?: string;
+  orderCode?: string;
 }
 
-//re-check if this will be needed after jdk21 upgrade
-export enum SubscriptionStatus {
-  cancelled = 'CANCELLED',
-  active = 'ACTIVE',
-  withdrawn = 'WITHDRAWN',
-  expired = 'EXPIRED',
+export interface SubscriptionList {
+  results?: SubscriptionDetail[];
+  pagination?: Pagination;
+  sorts?: Sort[];
+}
+
+export interface Sort {
+  asc?: boolean;
+  code?: string;
+}
+
+export interface Pagination {
+  count?: number;
+  page?: number;
+  totalCount?: number;
+  totalPages?: number;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
 }
 export interface CancelData{
   // validTillDate?: string;

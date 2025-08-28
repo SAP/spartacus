@@ -17,12 +17,11 @@ import {
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
-import { Card, CardModule, LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Card, LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
-  SubscriptionStatus,
   withdrawal,
   CancelSubscriptionFacade,
   CancelPopupEvent,
@@ -44,7 +43,7 @@ import {
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  imports: [CommonModule, CardModule, I18nModule, UrlModule, RouterModule],
+  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
 })
 export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
@@ -85,9 +84,12 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       this.subscriptionFacade.getSubscriptionCodeFromRoute(),
     ])
       .pipe(
-        take(2),
-        tap(([subscription, subscriptionCode]) => {
-          if (subscription && subscription.id !== subscriptionCode) {
+        take(1),
+        tap(([subscriptionDetails, subscriptionCode]) => {
+          if (
+            subscriptionDetails &&
+            subscriptionDetails.id !== subscriptionCode
+          ) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         }),
@@ -157,9 +159,9 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       );
   }
 
-  isSubscriptionActive(status: string | undefined) {
+  /* isSubscriptionActive(status: string | undefined) {
     return status?.toUpperCase() === SubscriptionStatus.active ? true : false;
-  }
+  } */
 
 
 
@@ -182,9 +184,6 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
         switchMap(([code, subscription]) => {
           const payload: withdrawal = {
             subscriptionId: subscription?.id,
-            version: subscription?.version,
-            withdrawnAt: subscription?.withdrawnAt,
-            withdrawalPeriodEndDate: subscription?.withdrawalPeriodEndDate,
           };
 
           return this.subscriptionCancelFacade.withdrawal(payload, code).pipe(

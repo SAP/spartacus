@@ -5,12 +5,14 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, Signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
   I18nModule,
+  PaginationModel,
   RoutingService,
+  SortModel,
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
@@ -19,7 +21,7 @@ import {
   SubscriptionBillingFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-list',
@@ -38,50 +40,77 @@ export class SubscriptionListComponent {
   protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);
   protected translationService = inject(TranslationService);
   protected routingService = inject(RoutingService);
+  protected sortMapping: { [key: string]: string } = {
+    byDocumentNumberDesc: 'documentNumber',
+    byDocumentNumberAsc: 'documentNumber:asc',
+  };
   PAGE_SIZE = 5;
-  listParams: Signal<{
+  sortOptions: SortModel[];
+  sort = 'byDocumentNumberDesc';
+  pagination: PaginationModel;
+
+  listParams: WritableSignal<{
     sortCode: string | undefined;
     currentPage: number;
-  }> = computed(() => {
-    return { sortCode: undefined, currentPage: 0 };
-  });
-  subscriptions = toSignal<SubscriptionList | null | undefined>(
-    this.subscriptionBillingFacade.getSubscriptionList(
-      this.PAGE_SIZE,
-      this.listParams().currentPage,
-      this.listParams().sortCode
-    )
-  );
-  sortCode: Signal<string> = computed(() => {
-    return this.subscriptions()?.pagination?.sort || '';
+  }> = signal({
+    sortCode: this.sortMapping[this.sort],
+    currentPage: 0,
   });
 
-  sortLabels: Signal<{ byId: string } | undefined> = toSignal(
-    combineLatest([
-      this.translationService.translate('subscriptionList.id'),
-      // can add more sort orders based on API
-    ]).pipe(
-      map(([textById]) => {
-        return {
-          byId: textById,
-        };
-      })
-    )
-  );
-  changeSortCode(sortCode: string): void {
-    this.listParams = computed(() => {
-      return {
-        currentPage: 0,
-        sortCode: sortCode,
-      };
-    });
+  getSortOptions() {
+    this.sortOptions = [];
+    Object.keys(this.sortMapping).forEach((sortKey) =>
+      this.sortOptions.push({ code: sortKey, selected: false })
+    );
+
+    const translations = this.sortOptions.map((sort) =>
+      this.translationService.translate(`subscriptionList.sorts.${sort.code}`)
+    );
+
+    combineLatest(translations)
+      .pipe(take(1))
+      .subscribe((translated) =>
+        this.sortOptions.forEach(
+          (sort, index) => (sort.name = translated[index])
+        )
+      );
   }
-  pageChange(page: number): void {
-    this.listParams = computed(() => {
-      return {
-        currentPage: page,
-        sortCode: this.sortCode(),
+
+  subscriptions$ = toObservable(this.listParams).pipe(
+    switchMap((listParams) => {
+      return this.subscriptionBillingFacade.getSubscriptionList(
+        this.PAGE_SIZE,
+        listParams.currentPage,
+        listParams.sortCode
+      );
+    }),
+    tap((list) => {
+      this.getSortOptions();
+      this.pagination = {
+        currentPage: list?.pagination?.page,
+        pageSize: list?.pagination?.count,
+        totalPages: list?.pagination?.totalPages,
+        totalResults: list?.pagination?.totalCount,
+        sort: this.sortMapping[this.sort],
       };
-    });
+    })
+  );
+
+  subscriptions = toSignal<SubscriptionList | null | undefined>(
+    this.subscriptions$
+  );
+
+  changeSortCode(sortCode: string): void {
+    this.listParams.update(() => ({
+      currentPage: 0,
+      sortCode: this.sortMapping[sortCode],
+    }));
+  }
+
+  pageChange(page: number): void {
+    this.listParams.update((prev) => ({
+      ...prev,
+      currentPage: page,
+    }));
   }
 }

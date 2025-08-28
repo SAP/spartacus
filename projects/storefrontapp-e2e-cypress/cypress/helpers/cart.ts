@@ -5,6 +5,7 @@
  */
 
 import { standardUser } from '../sample-data/shared-users';
+import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
@@ -147,7 +148,9 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   clickAddToCart();
 
-  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+  });
 
   closeAddedToCartDialog();
 
@@ -406,7 +409,9 @@ export function getClearCartDialog() {
 export function goToCart() {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  });
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 }
 
@@ -536,11 +541,11 @@ export function registerCartUser(user = cartUser) {
 export function loginCartUser(user = cartUser) {
   cy.whenJDK17(() => {
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.visit('/login');
+    visitLoginPage();
     cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   });
   cy.whenJDK21(() => {
-    cy.visit('/login');
+    visitLoginPage();
   });
   login(user.registrationData.email, user.registrationData.password);
   cy.whenJDK21(() => {

@@ -5,6 +5,8 @@
  */
 
 import * as asm from '../../../../helpers/asm';
+import { addProductToB2BCart } from '../../../../helpers/asm';
+import { agentLoginForJDK21 } from '../../../../helpers/auth-forms';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
@@ -36,15 +38,39 @@ context('Assisted Service Module', () => {
         '3592865',
       ];
       b2bProductCodes.forEach((productCode) => {
-        asm.addProductToB2BCart('gi.sun@pronto-hw.com', 'pw4all', productCode);
+        cy.whenJDK17(() => {
+          addProductToB2BCart('gi.sun@pronto-hw.com', 'pw4all', productCode);
+        });
+        cy.whenJDK21(() => {
+          checkout.visitHomePage();
+          cy.addProductToB2BCartForJDK21(
+            productCode,
+            1,
+            'gi.sun@pronto-hw.com',
+            'pw4all'
+          );
+        });
+
+        checkout.visitHomePage('asm=true');
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('be.visible');
+
+        cy.whenJDK17(() => {
+          asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+        });
+
+        cy.whenJDK21(() => {
+          cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+          agentLoginForJDK21('brandon.leclair@acme.com', 'pw4all');
+        });
+
+        asm.asmB2bCustomerLists();
+        cy.contains('button[formcontrolname="logoutCustomer"]', 'End Session')
+          .should('be.visible')
+          .click();
+        cy.get('button.logout[title="Sign Out"]').should('be.visible').click();
+        cy.get('button.close[title="Close ASM"]').should('be.visible').click();
       });
-
-      checkout.visitHomePage('asm=true');
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
-
-      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
-      asm.asmB2bCustomerLists();
     });
 
     it('checking pagination (CXSPA-2109)', () => {
@@ -58,7 +84,15 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin('jules.hasson@acme.com', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin('jules.hasson@acme.com', 'pw4all');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21('jules.hasson@acme.com', 'pw4all');
+      });
+
       asm.asmB2bCustomerListPagination();
     });
   });
