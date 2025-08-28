@@ -342,7 +342,7 @@ if (environment.cpq) {
         a11yViewHoursButtonIconContrast: true,
         a11yStoreInStockIconContrast: true,
         a11yCheckoutStepsLandmarks: true,
-        a11yQTY2Quantity: true,
+        a11yQTY2Quantity: false,
         a11yImproveButtonsInCardComponent: true,
         a11yMiniCartFocusOnMobile: true,
         a11yApprovalProcessWithNoClearable: true,

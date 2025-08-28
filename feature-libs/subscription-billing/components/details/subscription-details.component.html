@@ -77,15 +77,17 @@
                 : { date: subscription.withdrawalPeriodEndAt | cxDate }
           }}
         </div>
-        <div *ngIf="subscription.order">
+        <div *ngIf="subscription.orderCode">
           {{ 'subscriptionDetails.orderCode' | cxTranslate }}
           <a
             [routerLink]="
-              { cxRoute: 'orderDetails', params: { code: subscription.order } }
-                | cxUrl
+              {
+                cxRoute: 'orderDetails',
+                params: { code: subscription.orderCode },
+              } | cxUrl
             "
           >
-            {{ subscription.order }}
+            {{ subscription.orderCode }}
           </a>
         </div>
       </div>

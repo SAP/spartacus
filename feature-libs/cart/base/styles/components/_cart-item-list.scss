@@ -1,6 +1,10 @@
 %cx-cart-item-list {
   @extend .cx-agnostic-table;
 
+  .cx-item-list-charges {
+    text-align: start;
+  }
+
   .cx-item-list-header {
     border-bottom: none;
 

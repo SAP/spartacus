@@ -12,12 +12,15 @@ import { SubscriptionProductUsageChargeComponent } from './product/usage/subscri
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
 import { SubscriptionCancelComponent } from './cancel-subscrption/subscription-cancel.component';
 import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.config';
+import { SubscriptionCartDetailsComponent } from './cart/details/subscription-cart-details.component';
+import { SubscriptionCartItemListComponent } from './cart/item-list/subscription-cart-item-list.component';
 
 @NgModule({
   imports: [
-    SubscriptionListComponent,
     SubscriptionProductPriceComponent,
     SubscriptionProductUsageChargeComponent,
+    SubscriptionCartDetailsComponent,
+    SubscriptionCartItemListComponent,
   ],
   providers: [provideDefaultConfig(subscriptionCancelPopupConfig),
     provideDefaultConfig(<CmsConfig>{

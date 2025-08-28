@@ -55,7 +55,9 @@
         </div>
         <!-- Item Price -->
         <div
-          *ngIf="item.basePrice"
+          *ngIf="
+            item.basePrice && item.product?.productTypes !== 'SUBSCRIPTION'
+          "
           class="cx-price"
           [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
         >
@@ -68,6 +70,21 @@
           <div *ngIf="item.basePrice" class="cx-value">
             {{ item.basePrice?.formattedValue }}
           </div>
+        </div>
+        <!-- Subscription Item Charges -->
+        <div
+          *ngIf="item.product?.productTypes === 'SUBSCRIPTION'"
+          class="cx-price"
+          [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+        >
+          <ng-template
+            role="cell"
+            [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
+            [cxOutletContext]="{
+              items: item,
+            }"
+          >
+          </ng-template>
         </div>
         <!-- Item Quantity -->
         <div class="cx-quantity" [ngClass]="compact ? '' : ' col-3'">
