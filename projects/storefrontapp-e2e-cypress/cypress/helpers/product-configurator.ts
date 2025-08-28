@@ -94,7 +94,8 @@ function clickOnPreviousOrNextBtn(
   activeGroup?: string
 ): void {
   cy.get(btnSelector)
-    .click()
+    .scrollIntoView()
+    .click({ force: true })
     .then(() => {
       checkUpdatingMessageNotDisplayed();
       if (activeGroup) {
