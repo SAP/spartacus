@@ -41,17 +41,17 @@ export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
  * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
- * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(
   shopName: string,
   productId: string,
   isPricingEnabled?: boolean
 ) {
+  registerCreateConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
   this.checkConfigPageDisplayed();
-  waitForRequest('', isPricingEnabled);
+  waitForRequest(CREATE_CONFIG_ALIAS, isPricingEnabled);
 }
 
 /**
@@ -496,7 +496,7 @@ export function selectConflictingValueAndWait(
   uiType: configuration.uiType,
   valueName: string,
   numberOfConflicts: number,
-  isPricingEnabled?: boolean
+  isPricingEnabled: boolean = true
 ): void {
   selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgDisplayed(attributeName);
@@ -544,7 +544,7 @@ export function deselectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled: boolean = true
 ): void {
   selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
@@ -582,10 +582,14 @@ export function clickOnGroup(groupIndex: number): void {
  * Clicks on the group via its index in the group menu and wait for the request to finish.
  *
  * @param {number} groupIndex - Group index
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnGroupAndWait(groupIndex: number): void {
+export function clickOnGroupAndWait(
+  groupIndex: number,
+  isPricingEnabled?: boolean
+): void {
   clickOnGroup(groupIndex);
-  cy.wait(GET_CONFIG_ALIAS);
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
 }
 
 /**
@@ -642,7 +646,7 @@ export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled: boolean = true
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
