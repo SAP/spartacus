@@ -1,7 +1,7 @@
 <ng-container *ngIf="subscriptions() as list; else loading">
   <h2 class="subscription-list-title">
     {{ 'subscriptionList.title' | cxTranslate }}
-    ({{ pagination?.totalResults || 0 }})
+    ({{ list.pagination?.totalResults || 0 }})
   </h2>
 
   <ng-container *ngIf="(list.results?.length ?? 0) > 0; else noSubscriptions">
@@ -11,9 +11,9 @@
           {{ 'subscriptionList.sortSubtitle' | cxTranslate }}
         </span>
         <cx-sorting
-          [sortOptions]="sortOptions"
+          [sortOptions]="list.sorts"
           (sortListEvent)="changeSortCode($event)"
-          [selectedOption]="sort"
+          [selectedOption]="list.pagination?.sort"
           placeholder="{{ 'subscriptionList.sortSubtitle' | cxTranslate }}"
           [ariaLabel]="'subscriptionList.sortOrders' | cxTranslate"
           ariaControls="subscription-list-table"
@@ -97,7 +97,7 @@
     <div class="subscription-list-sort bottom">
       <ng-container *ngIf="(list.pagination?.totalPages ?? 0) > 1">
         <cx-pagination
-          [pagination]="pagination"
+          [pagination]="list.pagination"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination>
       </ng-container>
