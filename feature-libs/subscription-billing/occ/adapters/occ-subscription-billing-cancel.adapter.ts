@@ -91,7 +91,6 @@ export class OccCancelSubscriptionAdapter implements CancelSubscriptionOrderAdap
   reverseCancellation(
     userId: string,
     subscriptionCode: string,
-    // reverseCancellation: reverseCancellation
   ): Observable<any> {
     const url = this.occEndpoints.buildUrl('reverseCancellation', {
       urlParams: {
@@ -102,7 +101,7 @@ export class OccCancelSubscriptionAdapter implements CancelSubscriptionOrderAdap
     const headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
-    return this.http.post(url, { headers }).pipe(
+    return this.http.post(url, null,  { headers }).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })

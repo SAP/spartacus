@@ -18,6 +18,7 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   extendSubscription: 'users/${userId}/subscriptions/${subscriptionCode}/extension'
 };
 
+
 export const defaultOccSubscriptionBillingConfig: OccConfig = {
   backend: {
     occ: {
@@ -25,7 +26,7 @@ export const defaultOccSubscriptionBillingConfig: OccConfig = {
         ...subscriptionBillingEndpoints,
         product: {
           subscription:
-            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm',
+            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm,productTypes',
         },
       },
     },

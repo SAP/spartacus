@@ -11,21 +11,18 @@ import { SubscriptionProductPriceComponent } from './product/price/subscription-
 import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
 import { SubscriptionCancelComponent } from './cancel-subscrption/subscription-cancel.component';
-import { subscriptionCancelPopupConfig } from './subscription-billing-cancel-popup.config';
+import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.config';
 import { SubscriptionCartDetailsComponent } from './cart/details/subscription-cart-details.component';
 import { SubscriptionCartItemListComponent } from './cart/item-list/subscription-cart-item-list.component';
 import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-billing-layout-config';
 
 @NgModule({
   imports: [
-    SubscriptionListComponent,
     SubscriptionProductPriceComponent,
     SubscriptionCancelComponent,
     SubscriptionProductUsageChargeComponent,
     SubscriptionCartDetailsComponent,
     SubscriptionCartItemListComponent,
-  ],
-  exports: [SubscriptionCancelComponent,
   ],
   providers: [provideDefaultConfig(subscriptionCancelPopupConfig),
     provideDefaultConfig(<CmsConfig>{
@@ -41,15 +38,14 @@ import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-b
           component: SubscriptionDetailsComponent,
           guards: [AuthGuard],
         },
-        SubscriptionCancelComponent: {
+         SubscriptionCancelComponent: {
           component: SubscriptionCancelComponent,
           guards: [AuthGuard],
         },
-
       },
     }),
     provideDefaultConfig(defaultSubscriptionBillingLayoutConfig),
   ],
 })
-export class SubscriptionBillingComponentsModule {
-}
+export class SubscriptionBillingComponentsModule {}
+

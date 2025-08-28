@@ -96,16 +96,16 @@ describe('OccCancelSubscriptionAdapter', () => {
     req.flush({});
   });
 
-  it('should reverse cancellation', () => {
-    const mockUrl = 'mockReverseCancellationUrl';
-    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+it('should reverse cancellation', () => {
+  const mockUrl = 'mockReverseCancellationUrl';
+  occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
-    adapter.reverseCancellation(mockUserId, mockSubscriptionCode,).subscribe();
+  adapter.reverseCancellation(mockUserId, mockSubscriptionCode).subscribe();
 
-    const req = httpMock.expectOne(mockUrl);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(mockReverseCancellation);
-    req.flush({});
-  });
+  const req = httpMock.expectOne(mockUrl);
+  expect(req.request.method).toBe('POST');
+  expect(req.request.body).toBeNull();
+  req.flush({});
+});
 
 });

@@ -86,10 +86,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         take(1),
         tap(([subscriptionDetails, subscriptionCode]) => {
-          if (
-            subscriptionDetails &&
-            subscriptionDetails.id !== subscriptionCode
-          ) {
+          if (subscriptionDetails && subscriptionDetails.id !== subscriptionCode) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         }),
@@ -100,6 +97,28 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       )
       .subscribe();
   }
+showSubscriptionDialog(mode: 'cancel' | 'withdraw' | 'resubscribe'): void {
+  combineLatest([
+    this.subscriptionFacade.getSubscriptionCodeFromRoute(),
+    this.subscriptionDetails$,
+  ])
+    .pipe(take(1))
+    .subscribe(([code, subscription]) => {
+      if (!code || !subscription) return;
+
+      const dataToPass = {
+        ...subscription,
+        code,
+        mode,
+      };
+
+      this.launchDialogService.openDialogAndSubscribe(
+        LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+        this.cancelTriggerEl,
+        dataToPass
+      );
+    });
+}
 
   getIdContent(subscriptionCode: string | undefined): Observable<Card> {
     return this.translation.translate('subscriptionDetails.id').pipe(
