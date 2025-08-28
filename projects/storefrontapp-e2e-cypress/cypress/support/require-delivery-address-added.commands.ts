@@ -71,3 +71,46 @@ Cypress.Commands.add(
     addAddress().then((resp) => cy.wrap(resp));
   }
 );
+
+Cypress.Commands.add(
+  'requireDeliveryAddressAddedForJDK21',
+  (address, token, cartId) => {
+    Cypress.log({
+      displayName: 'requireDeliveryAddressAddedForJDK21',
+      message: [`Adding delivery address with token ${token}`],
+    });
+
+    const _address = {
+      ...address,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      town: address.city,
+      postalCode: address.postal,
+      titleCode: 'mr',
+      country: {
+        isocode: 'US',
+        name: user.address.country,
+      },
+      defaultAddress: false,
+    };
+    const cartCode = cartId || 'current';
+
+    function addAddress() {
+      return cy.request({
+        method: 'POST',
+        url: `${Cypress.env('API_URL')}${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/${cartCode}/addresses/delivery`,
+        body: _address,
+        form: false,
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+    }
+
+    addAddress().then((resp) => cy.wrap(resp));
+  }
+);

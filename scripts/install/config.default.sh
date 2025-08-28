@@ -109,3 +109,30 @@ CHECK_B2B_AFTER_START=false
 # Forces E2E even if XVFB is not installed
 FORCE_E2E=false
 SKIP_E2E=false
+
+#JDK toggle: JDK21 or JDK17
+JDK_VERSION="JDK17"
+
+# Set to true to add AUTH_CONFIG into spartacus-features.module.ts
+ADD_AUTH_CONFIG=false
+AUTH_CONFIG='provideConfig(<AuthConfig>{
+        authentication: {
+        client_id: "mobile_android_public",
+        tokenEndpoint: "/oauth/token",
+        revokeEndpoint: "/oauth/revoke",
+        loginUrl: "/oauth/authorize",
+        OAuthLibConfig: {
+          scope: "",
+          customTokenParameters: ["token_type"],
+          strictDiscoveryDocumentValidation: false,
+          skipIssuerCheck: true,
+          disablePKCE: false,
+          oidc: false,
+          clearHashAfterLogin: false,
+          responseType: "code",
+        },
+        customLoginPage: {
+          csrfEndpoint: "/csrf",
+          loginFormEndpoint: "/login",
+        },
+      }}),'
