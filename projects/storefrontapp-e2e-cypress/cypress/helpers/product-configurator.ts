@@ -23,6 +23,8 @@ const quantityStepperSelector =
 
 const quantitySelector = '.cx-add-to-cart-btn-container .cx-quantity-value';
 
+const variantCarouselSelector = '.cx-variant-carousel-container';
+
 /**
  * ui types
  */
@@ -47,9 +49,10 @@ export function defineAliases(backendUrl: string) {
  * Verifies whether the updating configuration message is not displayed on the top of the configuration.
  */
 export function checkUpdatingMessageNotDisplayed(): void {
-  cy.get('cx-configurator-update-message div.cx-update-msg').should(
-    'not.be.visible'
-  );
+  const updatingMsgSelector =
+    'cx-configurator-update-message div.cx-update-msg';
+  cy.get(updatingMsgSelector).scrollIntoView();
+  cy.get(updatingMsgSelector).should('not.be.visible');
 }
 
 /**
@@ -78,9 +81,10 @@ export function checkCurrentGroupActive(currentGroup: string): void {
   cy.get(
     'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
-  cy.get('button.active:contains(' + `${currentGroup}` + ')').should(
-    'be.visible'
-  );
+  const activeGroupSelector =
+    'button.active:contains(' + `${currentGroup}` + ')';
+  cy.get(activeGroupSelector).scrollIntoView();
+  cy.get(activeGroupSelector).should('be.visible');
 }
 
 /**
@@ -93,9 +97,10 @@ function clickOnPreviousOrNextBtn(
   btnSelector: string,
   activeGroup?: string
 ): void {
+  cy.get(btnSelector).scrollIntoView();
   cy.get(btnSelector)
-    .scrollIntoView()
-    .click({ force: true })
+    .should('be.visible')
+    .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
       if (activeGroup) {
@@ -128,7 +133,9 @@ export function clickOnPreviousBtn(previousGroup?: string): void {
  */
 export function checkShowMoreLinkAtProductTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('button:contains("show more")').should('be.visible');
+  const showMoreLinkSelector = 'button:contains("show more")';
+  cy.get(showMoreLinkSelector).scrollIntoView();
+  cy.get(showMoreLinkSelector).should('be.visible');
 }
 
 /**
@@ -136,13 +143,16 @@ export function checkShowMoreLinkAtProductTitleDisplayed(): void {
  */
 export function checkTabBarDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-tab-bar').should('be.visible');
+  const tabBarSelector = 'cx-configurator-tab-bar';
+  cy.get(tabBarSelector).scrollIntoView();
+  cy.get(tabBarSelector).should('be.visible');
 }
 
 /**
  * Verifies whether the 'previous' button is enabled.
  */
 export function checkPreviousBtnEnabled(): void {
+  cy.get(previousBtnSelector).scrollIntoView();
   cy.get(previousBtnSelector).should('be.not.disabled');
 }
 
@@ -150,6 +160,7 @@ export function checkPreviousBtnEnabled(): void {
  * Verifies whether the 'previous' button is disabled.
  */
 export function checkPreviousBtnDisabled(): void {
+  cy.get(previousBtnSelector).scrollIntoView();
   cy.get(previousBtnSelector).should('be.disabled');
 }
 
@@ -157,6 +168,7 @@ export function checkPreviousBtnDisabled(): void {
  * Verifies whether the 'next' button is enabled.
  */
 export function checkNextBtnEnabled(): void {
+  cy.get(nextBtnSelector).scrollIntoView();
   cy.get(nextBtnSelector).should('be.not.disabled');
 }
 
@@ -164,6 +176,7 @@ export function checkNextBtnEnabled(): void {
  * Verifies whether the 'next' button is disabled.
  */
 export function checkNextBtnDisabled(): void {
+  cy.get(nextBtnSelector).scrollIntoView();
   cy.get(nextBtnSelector).should('be.disabled');
 }
 
@@ -178,7 +191,8 @@ export function checkAttributeDisplayed(
   uiType: uiType
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  cy.get(`#${attributeId}`).scrollIntoView().should('be.visible');
+  cy.get(`#${attributeId}`).scrollIntoView();
+  cy.get(`#${attributeId}`).should('be.visible');
 }
 
 /**
@@ -225,6 +239,7 @@ export function checkAttrValueDisplayed(
     valueLocator = `#${attributeId}--${valueName}`;
   }
   cy.log('value locator: ' + valueLocator);
+  cy.get(`${valueLocator}`).scrollIntoView();
   cy.get(`${valueLocator}`).should('be.visible');
 }
 
@@ -251,11 +266,12 @@ export function checkAttrValueNotDisplayed(
 }
 
 export function checkVariantCarouselDisplayed(): void {
-  cy.get('.cx-variant-carousel-container').should('be.visible');
+  cy.get(variantCarouselSelector).scrollIntoView();
+  cy.get(variantCarouselSelector).should('be.visible');
 }
 
 export function checkVariantCarouselNotDisplayed(): void {
-  cy.get('.cx-variant-carousel-container').should('not.exist');
+  cy.get(variantCarouselSelector).should('not.exist');
 }
 
 /**
@@ -303,13 +319,16 @@ export function selectAttribute(
     case 'radioGroup':
     case 'checkBoxList':
     case 'multi_selection_image':
-      cy.get(`#${valueId}`).scrollIntoView().click({ force: true });
+      cy.get(`#${valueId}`).scrollIntoView();
+      cy.get(`#${valueId}`).should('be.visible').click();
       break;
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;
       cy.log('labelId: ' + labelId);
+      cy.get(`#${labelId}`).scrollIntoView();
       cy.get(`#${labelId}`)
-        .click({ force: true })
+        .should('be.visible')
+        .click()
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
@@ -329,9 +348,10 @@ export function selectAttribute(
     case 'checkBoxListProduct':
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
+      cy.get(btnLoc).scrollIntoView();
       cy.get(btnLoc)
-        .scrollIntoView()
-        .click({ force: true })
+        .should('be.visible')
+        .click()
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
@@ -395,7 +415,9 @@ export function checkValueSelected(
  * Verifies whether the group menu is displayed.
  */
 export function checkGroupMenuDisplayed(): void {
-  cy.get('cx-configurator-group-menu').should('be.visible');
+  const groupMenuSelector = 'cx-configurator-group-menu';
+  cy.get(groupMenuSelector).scrollIntoView();
+  cy.get(groupMenuSelector).should('be.visible');
 }
 
 /**
@@ -403,7 +425,9 @@ export function checkGroupMenuDisplayed(): void {
  */
 export function checkGroupTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-group-title').should('be.visible');
+  const groupTitleSelector = 'cx-configurator-group-title';
+  cy.get(groupTitleSelector).scrollIntoView();
+  cy.get(groupTitleSelector).should('be.visible');
 }
 
 /**
@@ -411,7 +435,9 @@ export function checkGroupTitleDisplayed(): void {
  */
 export function checkGroupFormDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-form').should('be.visible');
+  const groupFormSelector = 'cx-configurator-form';
+  cy.get(groupFormSelector).scrollIntoView();
+  cy.get(groupFormSelector).should('be.visible');
 }
 
 /**
@@ -419,7 +445,9 @@ export function checkGroupFormDisplayed(): void {
  */
 export function checkPreviousAndNextBtnsDispalyed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-previous-next-buttons').should('be.visible');
+  const previousNextButtonsSelector = 'cx-configurator-previous-next-buttons';
+  cy.get(previousNextButtonsSelector).scrollIntoView();
+  cy.get(previousNextButtonsSelector).should('be.visible');
 }
 
 /**
@@ -427,7 +455,9 @@ export function checkPreviousAndNextBtnsDispalyed(): void {
  */
 export function checkPriceSummaryDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-price-summary').should('be.visible');
+  const priceSummarySelector = 'cx-configurator-price-summary';
+  cy.get(priceSummarySelector).scrollIntoView();
+  cy.get(priceSummarySelector).should('be.visible');
 }
 
 /**
@@ -435,7 +465,9 @@ export function checkPriceSummaryDisplayed(): void {
  */
 export function checkAddToCartBtnDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-add-to-cart-button').should('be.visible');
+  const addToCartBtnSelector = 'cx-configurator-add-to-cart-button';
+  cy.get(addToCartBtnSelector).scrollIntoView();
+  cy.get(addToCartBtnSelector).should('be.visible');
 }
 
 /**
@@ -455,9 +487,9 @@ export function checkTotalPrice(formattedPrice: string): void {
  * Navigates to the overview page via the overview tab.
  */
 export function navigateToOverviewPage(): void {
-  cy.get('cx-configurator-tab-bar a:contains("Overview")').click({
-    force: true,
-  });
+  const overviewPageSelector = 'cx-configurator-tab-bar a:contains("Overview")';
+  cy.get(overviewPageSelector).scrollIntoView();
+  cy.get(overviewPageSelector).should('be.visible').click();
 }
 
 /**
@@ -469,16 +501,20 @@ export function clickOnGroupByGroupIndex(groupIndex: number): void {
   cy.get('cx-configurator-group-menu .cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
-    .click({ force: true });
+    .should('be.visible')
+    .click();
 }
 
 /**
  * Clicks the group menu.
  */
 export function clickHamburger(): void {
-  cy.get('cx-configurator-group-title cx-hamburger-menu button')
-    .scrollIntoView()
-    .click({ force: true })
+  const hamburgerMenuSelector =
+    'cx-configurator-group-title cx-hamburger-menu button';
+  cy.get(hamburgerMenuSelector).scrollIntoView();
+  cy.get(hamburgerMenuSelector)
+    .should('be.visible')
+    .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
     });
@@ -488,9 +524,10 @@ export function clickHamburger(): void {
  * Verifies whether the group menu is displayed.
  */
 export function checkHamburgerDisplayed(): void {
-  cy.get('cx-configurator-group-title cx-hamburger-menu button').should(
-    'be.visible'
-  );
+  const hamburgerMenuSelector =
+    'cx-configurator-group-title cx-hamburger-menu button';
+  cy.get(hamburgerMenuSelector).scrollIntoView();
+  cy.get(hamburgerMenuSelector).should('be.visible');
 }
 
 /**
