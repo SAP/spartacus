@@ -50,8 +50,8 @@ export function goToConfigurationPage(
   registerCreateConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  this.checkConfigPageDisplayed();
   waitForRequest(CREATE_CONFIG_ALIAS, isPricingEnabled);
+  this.checkConfigPageDisplayed();
 }
 
 /**
@@ -157,11 +157,50 @@ export function clickOnShowDetailsBtn(): void {
 }
 
 /**
+ * Verifies whether the ghost form animation is not displayed.
+ */
+export function checkGhostFormAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost form animation is not displayed anymore');
+  cy.get('.cx-ghost-attribute').should('not.exist');
+}
+
+/**
+ * Verifies whether the ghost group menu animation is not displayed.
+ */
+export function checkGhostGroupMenuAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost group menu animation is not displayed anymore');
+  cy.get('.cx-ghost-group-menu').should('not.exist');
+}
+
+/**
+ * Verifies whether the ghost tab bar animation is not displayed.
+ */
+export function checkGhostTabBarAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost tab bar animation is not displayed anymore');
+  cy.get('.cx-ghost-tab-bar').should('not.exist');
+}
+
+/**
+ * Verifies whether the ghost product title animation is not displayed.
+ */
+export function checkGhostProductTitleAnimationNotDisplayed(): void {
+  cy.log(
+    'Wait until the ghost product title animation is not displayed anymore'
+  );
+  cy.get('.cx-ghost-general-product-info').should('not.exist');
+}
+
+/**
  * Verifies whether the ghost animation is not displayed.
  */
 export function checkGhostAnimationNotDisplayed(): void {
   cy.log('Wait until the ghost animation is not displayed anymore');
   cy.get('.ghost').should('not.exist');
+
+  checkGhostFormAnimationNotDisplayed();
+  checkGhostGroupMenuAnimationNotDisplayed();
+  checkGhostTabBarAnimationNotDisplayed();
+  checkGhostProductTitleAnimationNotDisplayed();
 }
 
 /**
@@ -590,6 +629,7 @@ export function clickOnGroupAndWait(
 ): void {
   clickOnGroup(groupIndex);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -650,6 +690,7 @@ export function selectAttributeAndWait(
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -685,6 +726,7 @@ export function clickOnNextBtnAndWait(
 ): void {
   configuration.clickOnNextBtn(nextGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -699,6 +741,7 @@ export function clickOnPreviousBtnAndWait(
 ): void {
   configuration.clickOnPreviousBtn(previousGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 export class CommerceRelease {
