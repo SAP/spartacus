@@ -172,11 +172,13 @@ export class OpfCheckoutPaymentWrapperService {
   renderPaymentGateway(config: OpfPaymentSessionData) {
     if (config?.dynamicScript) {
       const html = config?.dynamicScript?.html;
+      const paymentOptionId = config?.paymentOptionId; // Extract payment option ID from config
 
       this.opfResourceLoaderService
         .loadResources(
           config.dynamicScript.jsUrls,
-          config.dynamicScript.cssUrls
+          config.dynamicScript.cssUrls,
+          paymentOptionId // Pass payment option ID to check for local resources
         )
         .then(() => {
           this.renderPaymentMethodEvent$.next({

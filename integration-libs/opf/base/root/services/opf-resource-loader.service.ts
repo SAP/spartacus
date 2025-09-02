@@ -6,7 +6,7 @@
 
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { ScriptLoader } from '@spartacus/core';
+import { Config, ScriptLoader } from '@spartacus/core';
 
 import {
   OpfDynamicScriptResource,
@@ -21,10 +21,12 @@ export class OpfResourceLoaderService {
   protected scriptLoader = inject(ScriptLoader);
   protected document = inject(DOCUMENT);
   protected platformId = inject(PLATFORM_ID);
+  protected config = inject(Config);
 
   protected readonly CORS_DEFAULT_VALUE = 'anonymous';
   protected readonly OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY = 'opf-load-once';
   protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
+  protected readonly OPF_SCRIPT_ID_PREFIX = 'opf-script-';
 
   protected embedStyles(embedOptions: {
     attributes?: { [key: string]: string };
@@ -177,21 +179,92 @@ export class OpfResourceLoaderService {
   }
 
   /**
-   * Loads scripts and stylesheets specified in the lists of resource objects (scripts and styles).
-   *
-   * The returned Promise is resolved when all resources are loaded.
-   * The returned Promise is also resolved (not rejected!) immediately when any loading error occurs.
+   * Checks if local PSP resources are available from configuration
    */
+  hasLocalPspResources(paymentOptionId: number): boolean {
+    const localPspResources = (this.config as any).opf?.localPspResources;
+    return localPspResources ? paymentOptionId in localPspResources : false;
+  }
 
+  /**
+   * Loads local PSP resources (JS and CSS files) from configuration
+   */
+  private loadLocalPspResources(paymentOptionId: number): Promise<void> {
+    const localPspResources = (this.config as any).opf?.localPspResources;
+    const resources = localPspResources?.[paymentOptionId];
+
+    if (!resources) {
+      return Promise.resolve();
+    }
+
+    // Load local JS files
+    const jsPromises = resources.jsFiles.map((url: string) =>
+      this.loadLocalScript(url)
+    );
+    // Load local CSS files
+    const cssPromises = resources.cssFiles.map((url: string) =>
+      this.loadLocalStyles(url)
+    );
+
+    return Promise.all([...jsPromises, ...cssPromises]).then(() => {});
+  }
+
+  /**
+   * Loads a local script file
+   */
+  private loadLocalScript(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.hasScript(url)) {
+        resolve();
+        return;
+      }
+
+      this.scriptLoader.embedScript({
+        src: url,
+        callback: () => resolve(),
+        errorCallback: () => reject(),
+        disableKeyRestriction: true,
+      });
+    });
+  }
+
+  /**
+   * Loads a local CSS file
+   */
+  private loadLocalStyles(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.hasStyles(url)) {
+        resolve();
+        return;
+      }
+
+      this.embedStyles({
+        src: url,
+        callback: () => resolve(),
+        errorCallback: () => reject(),
+      });
+    });
+  }
+
+  /**
+   * Loads scripts and stylesheets with local PSP resource support
+   */
   loadResources(
     scripts: OpfDynamicScriptResource[] = [],
-    styles: OpfDynamicScriptResource[] = []
+    styles: OpfDynamicScriptResource[] = [],
+    paymentOptionId?: number
   ): Promise<void> {
     // SSR mode not supported for security concerns
     if (isPlatformServer(this.platformId)) {
       return Promise.resolve();
     }
 
+    // Check if customer has local PSP resources
+    if (paymentOptionId && this.hasLocalPspResources(paymentOptionId)) {
+      return this.loadLocalPspResources(paymentOptionId);
+    }
+
+    // Existing logic for external resources
     const resources: OpfDynamicScriptResource[] = [
       ...scripts.map((script) => ({
         ...script,

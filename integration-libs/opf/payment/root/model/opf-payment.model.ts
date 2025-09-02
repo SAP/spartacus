@@ -153,6 +153,7 @@ export interface OpfPaymentSessionData {
   pattern?: OpfPaymentRenderPattern;
   destination?: OpfPaymentDestination;
   dynamicScript?: OpfDynamicScript;
+  paymentOptionId?: number; // Unique integration ID for resource loading
 }
 
 export interface OpfPaymentDestination {
