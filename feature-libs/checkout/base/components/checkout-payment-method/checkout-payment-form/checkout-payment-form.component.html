@@ -1,10 +1,5 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
-  <div
-    *cxFeature="'!a11yRemoveStatusLoadedRole'"
-    role="status"
-    [attr.aria-label]="'common.loaded' | cxTranslate"
-  ></div>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">

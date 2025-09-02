@@ -5,8 +5,15 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, Signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
   I18nModule,
@@ -19,7 +26,7 @@ import {
   SubscriptionBillingFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-list',
@@ -38,50 +45,62 @@ export class SubscriptionListComponent {
   protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);
   protected translationService = inject(TranslationService);
   protected routingService = inject(RoutingService);
+
   PAGE_SIZE = 5;
-  listParams: Signal<{
+
+  listParams: WritableSignal<{
     sortCode: string | undefined;
     currentPage: number;
-  }> = computed(() => {
-    return { sortCode: undefined, currentPage: 0 };
+  }> = signal({
+    sortCode: undefined,
+    currentPage: 0,
   });
-  subscriptions = toSignal<SubscriptionList | null | undefined>(
-    this.subscriptionBillingFacade.getSubscriptionList(
-      this.PAGE_SIZE,
-      this.listParams().currentPage,
-      this.listParams().sortCode
+
+  getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
+    return combineLatest([
+      this.translationService.translate(
+        'subscriptionList.sorts.documentNumber'
+      ),
+      this.translationService.translate('sorting.orderNumber'),
+    ]).pipe(
+      map(([textByDate, textByOrderNumber]) => {
+        return {
+          byDate: textByDate,
+          byOrderNumber: textByOrderNumber,
+        };
+      })
+    );
+  }
+
+  subscriptions$ = toObservable(this.listParams).pipe(
+    switchMap((params) =>
+      this.subscriptionBillingFacade.getSubscriptionList(
+        this.PAGE_SIZE,
+        params.currentPage,
+        params.sortCode
+      )
     )
   );
+
+  subscriptions = toSignal<SubscriptionList | null | undefined>(
+    this.subscriptions$
+  );
+
+  changeSortCode(sortCode: string): void {
+    this.listParams.update(() => ({
+      currentPage: 0,
+      sortCode,
+    }));
+  }
+
+  pageChange(page: number): void {
+    this.listParams.update((params) => ({
+      ...params,
+      currentPage: page,
+    }));
+  }
+
   sortCode: Signal<string> = computed(() => {
     return this.subscriptions()?.pagination?.sort || '';
   });
-
-  sortLabels: Signal<{ byId: string } | undefined> = toSignal(
-    combineLatest([
-      this.translationService.translate('subscriptionList.id'),
-      // can add more sort orders based on API
-    ]).pipe(
-      map(([textById]) => {
-        return {
-          byId: textById,
-        };
-      })
-    )
-  );
-  changeSortCode(sortCode: string): void {
-    this.listParams = computed(() => {
-      return {
-        currentPage: 0,
-        sortCode: sortCode,
-      };
-    });
-  }
-  pageChange(page: number): void {
-    this.listParams = computed(() => {
-      return {
-        currentPage: page,
-        sortCode: this.sortCode(),
-      };
-    });
-  }
 }

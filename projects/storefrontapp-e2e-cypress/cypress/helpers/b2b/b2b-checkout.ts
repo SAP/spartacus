@@ -38,9 +38,9 @@ import {
   addCheapProductToCart,
   verifyReviewOrderPage,
   visitHomePage,
-  waitForPage,
   waitForProductPage,
 } from '../checkout-flow';
+import { waitForPage } from '../navigation';
 
 export function loginB2bUser() {
   let adminToken;
@@ -121,7 +121,9 @@ export function addB2bProductToCartAndCheckout() {
   const getPaymentTypes = interceptPaymentTypesEndpoint();
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
-  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  });
 
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
@@ -137,8 +139,11 @@ export function addB2bProductToCartAndCheckout() {
     'getPaymentType'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
+
+  cy.whenJDK17(() => {
+    cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function addB2bProductToCart() {
@@ -228,6 +233,7 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
+  selectAccountCostCenter();
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryAddressStub,
     b2bDeliveryAddress.id
@@ -239,10 +245,6 @@ export function selectAccountShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-
-  cy.wait(`@${getCheckoutDetails}`)
-    .its('response.statusCode')
-    .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
@@ -273,6 +275,21 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
+}
+
+export function selectAccountCostCenter() {
+  cy.get('cx-cost-center').within(() => {
+    cy.get('select').then((select) => {
+      if (select.find(`option:contains("${costCenter}")`).length) {
+        cy.get('select').select(costCenter, { force: true });
+      } else {
+        cy.get('select').select(0);
+      }
+    });
+  });
+  // need to wait the Selected Address being visible on UI with bold border style.
+  // No other alternative found.
+  cy.wait(4000);
 }
 
 export function selectAccountDeliveryMode() {

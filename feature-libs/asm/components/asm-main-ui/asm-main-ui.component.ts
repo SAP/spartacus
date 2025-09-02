@@ -29,6 +29,7 @@ import {
   GlobalMessageType,
   HttpErrorModel,
   HttpResponseStatus,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -55,6 +56,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -97,6 +99,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
+
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
 
   constructor(
     protected authService: AuthService,
@@ -333,6 +337,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
+  loginCustomerSupportAgentWithAuthorizationCodeFlow(): void {
+    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow();
+  }
+
   logout(): void {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
@@ -363,6 +371,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+    this.oAuthLibWrapperService.refreshAuthConfig();
   }
 
   showCustomList(): void {

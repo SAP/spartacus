@@ -5,8 +5,12 @@
  */
 
 import { inject } from '@angular/core';
-import { LayoutConfig } from '../../layout/config/layout-config';
 import { FeatureToggles } from '@spartacus/core';
+import {
+  LayoutConfig,
+  SlotConfig,
+  SlotGroup,
+} from '../../layout/config/layout-config';
 
 /**
  * The layout configuration is used to define the overall layout of the storefront.
@@ -136,11 +140,10 @@ export const layoutConfig: LayoutConfig = {
  */
 export function layoutConfigFactory(): LayoutConfig {
   const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
-  const unifiedDefaultHeaderSlotsAcrossBreakpoints =
-    inject(FeatureToggles).unifiedDefaultHeaderSlotsAcrossBreakpoints;
+  const featureToggles = inject(FeatureToggles);
 
   if (
-    unifiedDefaultHeaderSlotsAcrossBreakpoints &&
+    featureToggles.unifiedDefaultHeaderSlotsAcrossBreakpoints &&
     config.layoutSlots &&
     config.layoutSlots.header &&
     'slots' in config.layoutSlots.header
@@ -158,6 +161,21 @@ export function layoutConfigFactory(): LayoutConfig {
       'MiniCart',
       'NavigationBar',
     ];
+  }
+
+  if (featureToggles.defaultLayoutConfigWithoutPageFold) {
+    const homepageConfig =
+      (config?.layoutSlots?.LandingPage2Template as SlotConfig) ?? {};
+    delete homepageConfig.pageFold;
+
+    const categoryPageConfig =
+      (config?.layoutSlots?.CategoryPageTemplate as SlotConfig) ?? {};
+    delete categoryPageConfig.pageFold;
+
+    const productDetailsPageConfig =
+      (config?.layoutSlots?.ProductDetailsPageTemplate as SlotConfig) ?? {};
+    delete productDetailsPageConfig.pageFold;
+    delete ((productDetailsPageConfig as SlotGroup).lg ?? {}).pageFold;
   }
 
   return config;

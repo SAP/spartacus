@@ -5,8 +5,8 @@
  */
 
 import { PaginationModel, SortModel } from '@spartacus/core';
-import { PricePlan, RenewalTerm, UsageCharge } from './subscription-product.model';
 import { LAUNCH_CALLER } from '@spartacus/storefront';
+import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -14,17 +14,21 @@ export interface SubscriptionDetail {
   productCode?: string;
   startAt?: string;
   endAt?: string;
-  subscriptionStatus?: string;
+  status?: string;
+  isCancellationPossible?: boolean;
+  isExtensionPossible?: boolean;
+  isWithdrawalPossible?: boolean;
+  isCancellationReversalPossible?: boolean;
   contractFrequency?: string;
-  customerId?: string;
   documentNumber?: string;
   pricePlan?: PricePlan;
-  currentUsages?: UsageCharge[];
-  renewalTerm?: RenewalTerm;
   withdrawalPeriodEndAt?: string;
+  billingTime?: string;
+  orderCode?: string;
 }
+
 export interface SubscriptionList {
-  subscriptions?: SubscriptionDetail[];
+  results?: SubscriptionDetail[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }

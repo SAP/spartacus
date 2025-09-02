@@ -21,7 +21,7 @@ export const defaultOccSubscriptionBillingConfig: OccConfig = {
         ...subscriptionBillingEndpoints,
         product: {
           subscription:
-            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm',
+            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm,productTypes',
         },
       },
     },

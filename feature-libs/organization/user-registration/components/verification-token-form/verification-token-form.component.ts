@@ -16,15 +16,15 @@ import {
 } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
+import { UntypedFormGroup } from '@angular/forms';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import {
   VerificationToken,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
-import { RoutingService } from '@spartacus/core';
-import { UntypedFormGroup } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
+import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
 
 @Component({
   selector: 'cx-verification-token-form',
@@ -33,6 +33,7 @@ import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-con
   standalone: false,
 })
 export class RegisterVerificationTokenFormComponent implements OnInit {
+  private featureConfigService = inject(FeatureConfigService);
   protected service: RegisterVerificationTokenFormComponentService = inject(
     RegisterVerificationTokenFormComponentService
   );
@@ -90,6 +91,11 @@ export class RegisterVerificationTokenFormComponent implements OnInit {
         this.service.displayMessage(
           'verificationTokenForm.needInputCredentials',
           {}
+        );
+        this.routingService.go(
+          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+            ? { cxRoute: 'register' }
+            : ['/login/register']
         );
         this.routingService.go(['/login/register']);
       } else {

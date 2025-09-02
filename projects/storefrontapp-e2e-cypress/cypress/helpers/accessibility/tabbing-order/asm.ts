@@ -6,6 +6,7 @@
 
 import * as asm from '../../../helpers/asm';
 import { focusableSelectors } from '../../../support/utils/a11y-tab';
+import { agentLoginForJDK21, login } from '../../auth-forms';
 import { verifyTabElement, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -57,7 +58,14 @@ export function asmTabbingOrderWithCustomerList(
   agent: string
 ) {
   cy.visit('/?asm=true');
-  asm.agentLogin(agent, 'pw4all');
+  cy.whenJDK17(() => {
+    asm.agentLogin(agent, 'pw4all');
+  });
+
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    agentLoginForJDK21(agent, 'pw4all');
+  });
 
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
@@ -106,7 +114,7 @@ export function asmTabbingOrderWithSaveInactiveCartDialog(
         cy.visit(
           `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
         );
-        cy.get('.cx-asm-assignCart').should('exist');
+        cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
         cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
         cy.get(
           'cx-customer-emulation input[formcontrolname="cartNumber"]'
@@ -141,7 +149,14 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
 
 function lanuchPromotiontab() {
   cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  cy.whenJDK17(() => {
+    asm.agentLogin('asagent', 'pw4all');
+  });
+
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    agentLoginForJDK21('asagent', 'pw4all');
+  });
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-customer-selection form').within(() => {

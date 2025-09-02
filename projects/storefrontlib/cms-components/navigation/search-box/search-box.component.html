@@ -279,6 +279,7 @@
     <ng-container *ngIf="items$ | async as items">
       <cx-carousel
         role="region"
+        [attr.aria-label]="'searchBox.ariaLabelProducts' | cxTranslate"
         [items]="items"
         [template]="carouselItem"
         itemWidth="160px"

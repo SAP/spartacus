@@ -6,15 +6,22 @@
 
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { visitLoginPage } from '../../../support/utils/login';
 
 describe('Login', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.visit('/login');
+      cy.whenJDK17(() => {
+        visitLoginPage();
+      });
+      cy.whenJDK21(() => {
+        cy.visit('/login/register');
+      });
       login.registerUserFromLoginPage();
     });
 
     it('should login and logout successfully', () => {
+      visitLoginPage();
       login.loginUser();
 
       const tokenRevocationRequestAlias =
@@ -24,7 +31,7 @@ describe('Login', () => {
     });
 
     it('should not login with wrong password', () => {
-      cy.visit('/login');
+      visitLoginPage();
       login.loginWithBadCredentialsFromLoginPage();
     });
   });

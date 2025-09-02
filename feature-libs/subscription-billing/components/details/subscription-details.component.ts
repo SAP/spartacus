@@ -14,27 +14,19 @@ import {
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
-import { Card, CardModule, LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { Card, LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
   SubscriptionStatus,
 } from '@spartacus/subscription-billing/root';
-import {
-  combineLatest,
-  filter,
-  map,
-  Observable,
-  Subscription,
-  take,
-  tap,
-} from 'rxjs';
+import { combineLatest, filter, map, Observable, Subscription, take, tap } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  imports: [CommonModule, CardModule, I18nModule, UrlModule, RouterModule],
+  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
 })
 export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
@@ -47,15 +39,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   subscriptionContractFrequency: string;
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
-  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
-    return this.routingService.getRouterState().pipe(
-      map((route) => {
-        const guidPattern = /\/subscription\/([^/?#]+)/;
-        const match = route.state.url.match(guidPattern);
-        return match ? match[1] : undefined;
-      })
-    );
-  }
+
   ngOnInit() {
     this.subscription = combineLatest([
       this.subscriptionDetails$,
@@ -63,8 +47,11 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
     ])
       .pipe(
         take(2),
-        tap(([subscription, subscriptionCode]) => {
-          if (subscription && subscription.id !== subscriptionCode) {
+        tap(([subscriptionDetails, subscriptionCode]) => {
+          if (
+            subscriptionDetails &&
+            subscriptionDetails.id !== subscriptionCode
+          ) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         }),
@@ -137,6 +124,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   isSubscriptionActive(status: string | undefined) {
     return status?.toUpperCase() === SubscriptionStatus.active ? true : false;
   }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

@@ -11,10 +11,11 @@
       <div
         class="subscription-status"
         [attr.aria-label]="'subscriptionList.status' | cxTranslate"
+        *ngIf="subscription.status"
       >
         {{
           'subscriptionList.status'
-            | cxTranslate: { value: subscription.subscriptionStatus }
+            | cxTranslate: { value: subscription.status }
         }}
       </div>
     </div>
@@ -23,35 +24,71 @@
         <div class="subscription-info">
           {{ 'subscriptionDetails.info' | cxTranslate }}
         </div>
-        <div>
+        <div *ngIf="subscription.documentNumber">
           {{
             'subscriptionList.id'
               | cxTranslate: { id: subscription.documentNumber }
           }}
         </div>
-        <div>
+        <div *ngIf="subscription.productCode">
+          {{ 'subscriptionDetails.productCode' | cxTranslate }}
+          <a
+            [routerLink]="
+              { cxRoute: 'product', params: { code: subscription.productCode } }
+                | cxUrl
+            "
+          >
+            {{ subscription.productCode }}
+          </a>
+        </div>
+        <div
+          *ngIf="
+            subscription?.pricePlan?.recurringCharges[0]?.price
+              ?.formattedValue && subscription.billingTime
+          "
+        >
           {{
-            'subscriptionDetails.productCode'
-              | cxTranslate: { code: subscription.productCode }
+            'subscriptionList.amount'
+              | cxTranslate
+                : {
+                    amount:
+                      subscription?.pricePlan?.recurringCharges[0]?.price
+                        ?.formattedValue,
+                    time: subscription.billingTime,
+                  }
           }}
         </div>
-        <div>
-          {{ 'subscriptionDetails.cycle' | cxTranslate: { cycle: null } }}
-        </div>
-        <div>
-          {{ 'subscriptionList.amount' | cxTranslate: { amount: null } }}
-        </div>
-        <div>
+        <div *ngIf="subscription.startAt">
           {{
             'subscriptionList.startDate'
               | cxTranslate: { date: subscription.startAt | cxDate }
           }}
         </div>
-        <div>
+        <div *ngIf="subscription.endAt">
           {{
             'subscriptionDetails.endDate'
               | cxTranslate: { date: subscription.endAt | cxDate }
           }}
+        </div>
+        <div *ngIf="subscription.withdrawalPeriodEndAt">
+          {{
+            'subscriptionDetails.withdrawalEnd'
+              | cxTranslate
+                : { date: subscription.withdrawalPeriodEndAt | cxDate }
+          }}
+        </div>
+        <div *ngIf="subscription.orderCode">
+          {{ 'subscriptionDetails.orderCode' | cxTranslate }}
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orderDetails',
+                params: { code: subscription.orderCode },
+              } | cxUrl
+            "
+          >
+            {{ subscription.orderCode }}
+          </a>
         </div>
       </div>
     </div>
@@ -74,7 +111,7 @@
       <span class="col-xs-12 col-md-4 col-lg-3">
         <span class="action-button-right">
           <a
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isCancellationPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
@@ -84,7 +121,7 @@
         <span class="action-button-right">
           <a
             #extendSubscriptionBtn
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isExtensionPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
             (click)="showExtendSubscriptionDialog()"
@@ -94,7 +131,7 @@
         </span>
         <span class="action-button-right">
           <a
-            *ngIf="!this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isCancellationReversalPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
@@ -103,7 +140,7 @@
         </span>
         <span class="action-button-right">
           <a
-            *ngIf="this.isSubscriptionActive(subscription.subscriptionStatus)"
+            *ngIf="subscription.isWithdrawalPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
