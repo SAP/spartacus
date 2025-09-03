@@ -179,75 +179,25 @@ export class OpfResourceLoaderService {
   }
 
   /**
-   * Checks if local PSP resources are available from configuration
+   * Checks if local PSP resources are available from the storefront configuration
    */
-  hasLocalPspResources(paymentOptionId: number): boolean {
+  hasLocalPspResources(paymentOptionId?: number): boolean {
+    if (!paymentOptionId) {
+      return false;
+    }
     const localPspResources = (this.config as any).opf?.localPspResources;
     return localPspResources ? paymentOptionId in localPspResources : false;
   }
 
   /**
-   * Loads local PSP resources (JS and CSS files) from configuration
-   */
-  private loadLocalPspResources(paymentOptionId: number): Promise<void> {
-    const localPspResources = (this.config as any).opf?.localPspResources;
-    const resources = localPspResources?.[paymentOptionId];
-
-    if (!resources) {
-      return Promise.resolve();
-    }
-
-    // Load local JS files
-    const jsPromises = resources.jsFiles.map((url: string) =>
-      this.loadLocalScript(url)
-    );
-    // Load local CSS files
-    const cssPromises = resources.cssFiles.map((url: string) =>
-      this.loadLocalStyles(url)
-    );
-
-    return Promise.all([...jsPromises, ...cssPromises]).then(() => {});
-  }
-
-  /**
-   * Loads a local script file
-   */
-  private loadLocalScript(url: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.hasScript(url)) {
-        resolve();
-        return;
-      }
-
-      this.scriptLoader.embedScript({
-        src: url,
-        callback: () => resolve(),
-        errorCallback: () => reject(),
-        disableKeyRestriction: true,
-      });
-    });
-  }
-
-  /**
-   * Loads a local CSS file
-   */
-  private loadLocalStyles(url: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (this.hasStyles(url)) {
-        resolve();
-        return;
-      }
-
-      this.embedStyles({
-        src: url,
-        callback: () => resolve(),
-        errorCallback: () => reject(),
-      });
-    });
-  }
-
-  /**
-   * Loads scripts and stylesheets with local PSP resource support
+   * Loads scripts and stylesheets specified in the lists of resource objects (scripts and styles).
+   * The method automatically selects local or external resources based on the presence of localPspResources
+   * in the storefront configuration.
+   * If localPspResources are present, the method uses local resources.
+   * If localPspResources are not present, the method uses external resources.
+   *
+   * The returned Promise is resolved when all resources are loaded.
+   * The returned Promise is also resolved (not rejected!) immediately when any loading error occurs.
    */
   loadResources(
     scripts: OpfDynamicScriptResource[] = [],
@@ -259,22 +209,43 @@ export class OpfResourceLoaderService {
       return Promise.resolve();
     }
 
-    // Check if customer has local PSP resources
+    const resources: OpfDynamicScriptResource[] = [];
+
     if (paymentOptionId && this.hasLocalPspResources(paymentOptionId)) {
-      return this.loadLocalPspResources(paymentOptionId);
+      const localPspResources = (this.config as any).opf?.localPspResources;
+      const localResources = localPspResources?.[paymentOptionId];
+
+      if (localResources) {
+        // Convert local paths to OpfDynamicScriptResource format
+        const localScripts: OpfDynamicScriptResource[] =
+          localResources.jsFiles.map((url: string) => ({
+            url,
+            type: OpfDynamicScriptResourceType.SCRIPT,
+          }));
+
+        const localStyles: OpfDynamicScriptResource[] =
+          localResources.cssFiles.map((url: string) => ({
+            url,
+            type: OpfDynamicScriptResourceType.STYLES,
+          }));
+
+        resources.push(...localScripts, ...localStyles);
+      }
     }
 
-    // Existing logic for external resources
-    const resources: OpfDynamicScriptResource[] = [
-      ...scripts.map((script) => ({
-        ...script,
-        type: OpfDynamicScriptResourceType.SCRIPT,
-      })),
-      ...styles.map((style) => ({
-        ...style,
-        type: OpfDynamicScriptResourceType.STYLES,
-      })),
-    ];
+    // Fallback to external resources if no local resources found
+    if (resources.length === 0) {
+      resources.push(
+        ...scripts.map((script) => ({
+          ...script,
+          type: OpfDynamicScriptResourceType.SCRIPT,
+        })),
+        ...styles.map((style) => ({
+          ...style,
+          type: OpfDynamicScriptResourceType.STYLES,
+        }))
+      );
+    }
 
     if (!resources.length) {
       return Promise.resolve();
