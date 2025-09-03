@@ -422,16 +422,6 @@ export interface FeatureTogglesInterface {
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
-   * Enables a validation that prevents new passwords from matching the current password
-   * in the password update form.
-   *
-   * When set to `true`, the user will not be allowed to reuse their current password
-   * when updating their password. The app will check that the new password does not match
-   * the old password.
-   */
-  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
-
-  /**
    * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
    * ignoring the configuration option set for specific resolvers
    * `config.pageMeta.resolvers[index].disabledInCsr`.
@@ -866,7 +856,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
   useSiteThemeService: true,
-  enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,

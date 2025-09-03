@@ -130,23 +130,13 @@ export class UpdatePasswordComponentService {
     this.form.reset();
   }
 
-  // TODO: (CXSPA-8550) Remove after removing enablePasswordsCannotMatchInPasswordUpdateForm feature toggle
   protected getPasswordValidators(): ValidatorFn[] {
-    const passwordMustMatchValidator = CustomFormValidators.passwordsMustMatch(
-      'newPassword',
-      'newPasswordConfirm'
-    );
-
-    return this.featureConfigService.isEnabled(
-      'enablePasswordsCannotMatchInPasswordUpdateForm'
-    )
-      ? [
-          passwordMustMatchValidator,
-          CustomFormValidators.passwordsCannotMatch(
-            'oldPassword',
-            'newPassword'
-          ),
-        ]
-      : [passwordMustMatchValidator];
+    return [
+      CustomFormValidators.passwordsMustMatch(
+        'newPassword',
+        'newPasswordConfirm'
+      ),
+      CustomFormValidators.passwordsCannotMatch('oldPassword', 'newPassword'),
+    ];
   }
 }
