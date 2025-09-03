@@ -51,7 +51,6 @@ export function defineAliases(backendUrl: string) {
 export function checkUpdatingMessageNotDisplayed(): void {
   const updatingMsgSelector =
     'cx-configurator-update-message div.cx-update-msg';
-  cy.get(updatingMsgSelector).scrollIntoView();
   cy.get(updatingMsgSelector).should('not.be.visible');
 }
 
@@ -436,7 +435,6 @@ export function checkGroupTitleDisplayed(): void {
 export function checkGroupFormDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
   const groupFormSelector = 'cx-configurator-form';
-  cy.get(groupFormSelector).scrollIntoView();
   cy.get(groupFormSelector).should('be.visible');
 }
 
