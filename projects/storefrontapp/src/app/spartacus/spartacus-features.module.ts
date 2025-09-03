@@ -365,7 +365,6 @@ if (environment.cpq) {
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
         useSiteThemeService: true,
-        enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         allPageMetaResolversEnabledInCsr: true,

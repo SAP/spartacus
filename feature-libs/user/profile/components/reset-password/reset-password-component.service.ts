@@ -32,14 +32,10 @@ export class ResetPasswordComponentService {
     'enableSecurePasswordValidation'
   )
     ? CustomFormValidators.securePasswordValidators
-    : this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-      ? [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]
-      : CustomFormValidators.passwordValidators;
+    : [
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
+      ];
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

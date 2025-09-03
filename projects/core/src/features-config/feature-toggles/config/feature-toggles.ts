@@ -414,14 +414,6 @@ export interface FeatureTogglesInterface {
   useSiteThemeService?: boolean;
 
   /**
-   * Enables the requirement that passwords cannot contain consecutive identical characters.
-   *
-   * When set to `true`, the app will enforce that passwords must not have consecutive
-   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
-   */
-  enableConsecutiveCharactersPasswordRequirement?: boolean;
-
-  /**
    * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
    *
    * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
@@ -874,7 +866,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
   useSiteThemeService: true,
-  enableConsecutiveCharactersPasswordRequirement: true,
   enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
