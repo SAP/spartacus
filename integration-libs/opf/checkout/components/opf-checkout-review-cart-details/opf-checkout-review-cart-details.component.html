@@ -1,6 +1,12 @@
 <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
   {{
-    'cartItems.cartTotal' | cxTranslate: { count: cart?.deliveryItemsQuantity }
+    'cartItems.cartTotal'
+      | cxTranslate
+        : {
+            count:
+              (cart?.pickupItemsQuantity ?? 0) +
+              (cart?.deliveryItemsQuantity ?? 0),
+          }
   }}:
   {{ cart?.totalPrice?.formattedValue }}
 </div>
