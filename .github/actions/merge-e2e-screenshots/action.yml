@@ -1,0 +1,39 @@
+name: 'Merge E2E Screenshots'
+description: 'Merge screenshots from all matrix containers'
+inputs:
+  test-suite:
+    description: 'Test suite name'
+    required: true
+  total-containers:
+    description: 'Total number of matrix containers'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Download screenshots from all containers
+      uses: actions/download-artifact@v4
+      with:
+        pattern: e2e-screenshots-${{ inputs.test-suite }}-container-*
+        path: downloaded-screenshots/
+        merge-multiple: false
+      continue-on-error: true
+
+    - name: Merge screenshots
+      shell: bash
+      run: |
+        mkdir -p merged-screenshots
+        
+        for i in $(seq 1 ${{ inputs.total-containers }}); do
+          container_dir="downloaded-screenshots/e2e-screenshots-${{ inputs.test-suite }}-container-${i}"
+          if [ -d "$container_dir" ]; then
+            cp -r "$container_dir"/* "merged-screenshots/" 2>/dev/null || true
+          fi
+        done
+
+    - name: Upload merged screenshots
+      uses: actions/upload-artifact@v4
+      with:
+        name: e2e-screenshots-${{ inputs.test-suite }}
+        path: merged-screenshots/
+        retention-days: 30
+        if-no-files-found: ignore

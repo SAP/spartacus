@@ -219,9 +219,31 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
+          CYPRESS_ENABLE_SCREENSHOTS: true
         run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
+      - name: Collect screenshots
+        if: always()
+        uses: ./.github/actions/collect-e2e-screenshots
+        with:
+          test-suite: a11y
+          container-id: ${{ matrix.containers }}
+  merge_screenshots:
+    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
+    name: MC - Merge Screenshots
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v5
+      # Currently only A11Y screenshots are collected, but this job can be extended
+      # to merge screenshots from other test suites (B2C, B2B, etc.) as needed
+      - name: Merge A11Y screenshots
+        uses: ./.github/actions/merge-e2e-screenshots
+        with:
+          test-suite: a11y
+          total-containers: 3
+        if: ${{ needs.a11y_e2e_tests.result != 'skipped' }}
   merge_checks_result:
-    needs: [build_libs, build_apps, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
+    needs: [build_libs, build_apps, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests, merge_screenshots]
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
