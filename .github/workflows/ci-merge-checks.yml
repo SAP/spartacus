@@ -217,44 +217,9 @@ jobs:
         env:
           SPA_ENV: ci
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-          GITHUB_HEAD_REF: ${{ github.head_ref }}
           GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
           GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
         run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
-      - name: Collect test screenshots
-        if: failure()
-        env:
-          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: ci-scripts/collect-a11y-screenshots.sh
-      - name: Generate failure summary
-        if: failure()
-        env:
-          GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
-          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
-        run: ci-scripts/generate-a11y-pr-comment.sh
-      - name: Upload test artifacts
-        if: failure()
-        id: upload-artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: a11y-screenshots-pr-${{ github.event.pull_request.number }}-${{ matrix.containers }}-${{ github.run_attempt }}
-          path: a11y-screenshots-container-${{ matrix.containers }}/
-          retention-days: 30
-      - name: Post PR Comment
-        if: failure() && hashFiles('pr-comment.md') != ''
-        uses: actions/github-script@v7
-        env:
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
-        with:
-          script: |
-            const postComment = require('./ci-scripts/post-a11y-pr-comment.js');
-            await postComment(github, context, core);
   merge_checks_result:
     needs: [build_libs, build_apps, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Result

@@ -17,7 +17,6 @@ export default defineConfig({
     runMode: 2,
   },
   videoUploadOnPasses: false,
-  screenshotOnRunFailure: process.env.CYPRESS_ENABLE_SCREENSHOTS === 'true',
   env: {
     API_URL: 'https://20.83.184.244:9002',
     BASE_SITE: 'electronics-spa',
