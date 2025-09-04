@@ -64,17 +64,13 @@ export class AddToWishListComponent {
   add(product: Product): void {
     if (product.code) {
       this.wishListFacade.addEntry(product.code);
-      if (this.featureConfigService.isEnabled('a11yAddToWishlistFocus')) {
-        this.restoreFocus();
-      }
+      this.restoreFocus();
     }
   }
 
   remove(entry: OrderEntry): void {
     this.wishListFacade.removeEntry(entry);
-    if (this.featureConfigService.isEnabled('a11yAddToWishlistFocus')) {
-      this.restoreFocus();
-    }
+    this.restoreFocus();
   }
 
   getProductInWishList(

@@ -163,11 +163,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
-   */
-  a11yAddToWishlistFocus?: boolean;
-
-  /**
    * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
    */
   a11ySearchBoxFocusOnEscape?: boolean;
@@ -778,7 +773,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
   a11yUpdatingCartNoNarration: true,
   a11yPasswordVisibliltyBtnValueOverflow: true,
