@@ -83,13 +83,6 @@ export interface FeatureTogglesInterface {
   a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
 
   /**
-   * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
-   * Components:
-   * - `PickupOptionDialogComponent`
-   */
-  a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -801,7 +794,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-  a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,

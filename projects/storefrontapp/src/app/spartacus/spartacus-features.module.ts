@@ -304,7 +304,6 @@ if (environment.cpq) {
         a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-        a11yUseTrapTabInsteadOfTrapInDialogs: true,
         a11yKeyboardAccessibleZoom: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
