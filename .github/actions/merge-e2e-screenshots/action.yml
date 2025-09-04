@@ -33,7 +33,7 @@ runs:
     - name: Upload merged screenshots
       uses: actions/upload-artifact@v4
       with:
-        name: e2e-screenshots-${{ inputs.test-suite }}
+        name: e2e-screenshots
         path: merged-screenshots/
         retention-days: 30
         if-no-files-found: ignore
