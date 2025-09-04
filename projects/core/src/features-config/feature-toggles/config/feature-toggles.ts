@@ -105,12 +105,6 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
-   * arrow keys navigation for the carousel
-   */
-  a11yCarouselArrowKeysNavigation?: boolean;
-
-  /**
    * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
    * Modified components:
    *  - `PickupOptionsComponent`
@@ -791,7 +785,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,

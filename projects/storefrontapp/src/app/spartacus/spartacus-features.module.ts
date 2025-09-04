@@ -308,7 +308,6 @@ if (environment.cpq) {
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
