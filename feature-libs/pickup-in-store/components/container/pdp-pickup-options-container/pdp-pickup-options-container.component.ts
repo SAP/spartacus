@@ -191,7 +191,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     option: PickupOption;
     triggerElement: ElementRef;
   }): void {
-    const handleChange = (option: PickupOption, triggerElement: ElementRef) => {
+    const { option, triggerElement } = event;
+
+    const handleChange = () => {
       if (!this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
         if (option === 'delivery') {
           return;
@@ -201,11 +203,11 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
         }
       }
     };
-    const { option, triggerElement } = event;
+
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,
       option
     );
-    handleChange(option, triggerElement);
+    handleChange();
   }
 }
