@@ -105,13 +105,6 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
-   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
-   * and responsive in tab and accordion stles.
-   */
-  a11yTabComponent?: boolean;
-
-  /**
    * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
    * arrow keys navigation for the carousel
    */
@@ -798,7 +791,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yTabComponent: true,
   a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
