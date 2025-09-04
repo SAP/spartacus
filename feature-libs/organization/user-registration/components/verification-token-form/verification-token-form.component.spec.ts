@@ -12,19 +12,19 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store } from '@ngrx/store';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, of } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
 import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { RegisterVerificationTokenFormComponent } from './verification-token-form.component';
-import { Store } from '@ngrx/store';
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
+import createSpy = jasmine.createSpy;
 const isBusySubject = new BehaviorSubject(false);
 
 class MockFormComponentService

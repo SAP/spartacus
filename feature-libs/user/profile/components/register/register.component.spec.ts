@@ -39,6 +39,9 @@ import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
+const mockLegacySecurePassword = 'strongPas$!123'; // CXSPA-10916: replace with mockSecurePassword
+const mockSecurePassword = 'strongPass$!123';
+
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
   firstName: 'John',
@@ -46,8 +49,8 @@ const mockRegisterFormData: any = {
   email: 'JohnDoe@thebest.john.intheworld.com',
   email_lowercase: 'johndoe@thebest.john.intheworld.com',
   termsandconditions: true,
-  password: 'strongPass$!123',
-  passwordconf: 'strongPass$!123',
+  password: mockLegacySecurePassword,
+  passwordconf: mockLegacySecurePassword,
   newsletter: true,
   captcha: true,
 };
@@ -163,6 +166,7 @@ describe('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -230,6 +234,8 @@ describe('RegisterComponent', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
     registerComponentService = TestBed.inject(RegisterComponentService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
 
     component = fixture.componentInstance;
 
@@ -451,11 +457,10 @@ describe('RegisterComponent', () => {
   });
 
   describe('password validators', () => {
-    let featureConfigService: FeatureConfigService;
-
     it('should have new validators when feature flag is enabled', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      mockRegisterFormData.password = mockSecurePassword;
+      mockRegisterFormData.passwordconf = mockSecurePassword;
 
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;
