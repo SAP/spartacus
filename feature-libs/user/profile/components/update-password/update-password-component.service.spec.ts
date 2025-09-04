@@ -201,9 +201,6 @@ describe('UpdatePasswordComponentService', () => {
         };
 
         expect(newPasswordControl).toBeTruthy();
-        expect(validations.whenNotEmpty).toEqual({
-          cxNoConsecutiveCharacters: true,
-        });
         expect(validations.whenEmpty).toEqual({
           required: true,
           cxMinOneDigit: true,
@@ -211,6 +208,9 @@ describe('UpdatePasswordComponentService', () => {
           cxMinOneSpecialCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+        });
+        expect(validations.whenNotEmpty).toEqual({
+          cxNoConsecutiveCharacters: true,
         });
       });
     });

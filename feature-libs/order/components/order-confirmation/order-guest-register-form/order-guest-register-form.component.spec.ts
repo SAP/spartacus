@@ -138,10 +138,15 @@ describe('OrderGuestRegisterFormComponent', () => {
       const passwordControl = component.guestRegisterForm.get(
         'password'
       ) as UntypedFormControl;
-      const validationsWhenEmpty = passwordControl.validator?.({} as any);
+      const validations = {
+        whenEmpty: passwordControl.validator?.({} as any),
+        whenNotEmpty: passwordControl.validator?.({
+          value: mockInvalidPassword,
+        } as any),
+      };
 
       expect(passwordControl).toBeTruthy();
-      expect(validationsWhenEmpty).toEqual({
+      expect(validations.whenEmpty).toEqual({
         required: true,
         cxMinOneDigit: true,
         cxMinOneUpperCaseCharacter: true,
@@ -149,10 +154,7 @@ describe('OrderGuestRegisterFormComponent', () => {
         cxMinEightCharactersLength: true,
         cxMaxCharactersLength: true,
       });
-      const validationsWhenNotEmpty = passwordControl.validator?.({
-        value: mockInvalidPassword,
-      } as any);
-      expect(validationsWhenNotEmpty).toEqual({
+      expect(validations.whenNotEmpty).toEqual({
         cxNoConsecutiveCharacters: true,
       });
     });

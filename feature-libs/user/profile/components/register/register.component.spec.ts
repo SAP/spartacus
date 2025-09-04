@@ -468,14 +468,14 @@ describe('RegisterComponent', () => {
         'password'
       ) as UntypedFormControl;
 
-      const actual = {
-        validationsWhenEmpty: passwordControl.validator?.({} as any),
-        validationsWhenNotEmpty: passwordControl.validator?.({
+      const validations = {
+        whenEmpty: passwordControl.validator?.({} as any),
+        whenNotEmpty: passwordControl.validator?.({
           value: mockInvalidPassword,
         } as any),
       };
       expect(passwordControl).toBeTruthy();
-      expect(actual.validationsWhenEmpty).toEqual({
+      expect(validations.whenEmpty).toEqual({
         required: true,
         cxMinOneDigit: true,
         cxMinOneSpecialCharacter: true,
@@ -483,7 +483,7 @@ describe('RegisterComponent', () => {
         cxMinEightCharactersLength: true,
         cxMaxCharactersLength: true,
       });
-      expect(actual.validationsWhenNotEmpty).toEqual({
+      expect(validations.whenNotEmpty).toEqual({
         cxNoConsecutiveCharacters: true,
       });
     });
