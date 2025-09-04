@@ -37,8 +37,8 @@ import { RegistrationVerificationTokenFormComponent } from './verify-register-ve
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 import createSpy = jasmine.createSpy;
 
-const mockLegacySecurePassword = 'strongPas$!123'; // CXSPA-10916: replace with mockSecurePassword
-const mockSecurePassword = 'strongPass$!123';
+const mockSecurePassword = 'strongPas$!123';
+const mockInvalidPassword = 'strongPass$!123';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -47,8 +47,8 @@ const mockRegisterFormData: any = {
   email: 'JohnDoe@thebest.john.intheworld.com',
   tokenId: 'mock_tokenId',
   tokenCode: 'mock_tokenCode',
-  password: mockLegacySecurePassword,
-  passwordconf: mockLegacySecurePassword,
+  password: mockSecurePassword,
+  passwordconf: mockSecurePassword,
 };
 
 class MockRoutingService {
@@ -327,9 +327,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         const passwordControl = component.registerForm.get(
           'password'
         ) as UntypedFormControl;
-        const validators = passwordControl.validator
-          ? passwordControl.validator({} as any)
-          : [];
+        const validators = passwordControl.validator?.({} as any);
 
         expect(passwordControl).toBeTruthy();
         expect(validators).toEqual({
@@ -353,8 +351,6 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     describe('when validators feature flag is enabled', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
-        mockRegisterFormData.password = mockSecurePassword;
-        mockRegisterFormData.passwordconf = mockSecurePassword;
       });
 
       it('should have new validators', () => {
@@ -362,24 +358,29 @@ describe('RegistrationVerificationTokenFormComponent', () => {
           RegistrationVerificationTokenFormComponent
         );
         component = fixture.componentInstance;
-
         fixture.detectChanges();
 
         const passwordControl = component.registerForm.get(
           'password'
         ) as UntypedFormControl;
-        const validators = passwordControl.validator
-          ? passwordControl.validator({} as any)
-          : [];
+        const validations = {
+          whenEmpty: passwordControl.validator?.({} as any),
+          whenNotEmpty: passwordControl.validator?.({
+            value: mockInvalidPassword,
+          } as any),
+        };
 
         expect(passwordControl).toBeTruthy();
-        expect(validators).toEqual({
+        expect(validations.whenEmpty).toEqual({
           required: true,
           cxMinOneDigit: true,
           cxMinOneSpecialCharacter: true,
           cxMinOneUpperCaseCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+        });
+        expect(validations.whenNotEmpty).toEqual({
+          cxNoConsecutiveCharacters: true,
         });
       });
 

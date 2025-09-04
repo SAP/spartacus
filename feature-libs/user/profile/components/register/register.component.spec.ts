@@ -39,8 +39,8 @@ import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
-const mockLegacySecurePassword = 'strongPas$!123'; // CXSPA-10916: replace with mockSecurePassword
-const mockSecurePassword = 'strongPass$!123';
+const mockSecurePassword = 'strongPas$!123';
+const mockInvalidPassword = 'strongPass$!123';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -49,8 +49,8 @@ const mockRegisterFormData: any = {
   email: 'JohnDoe@thebest.john.intheworld.com',
   email_lowercase: 'johndoe@thebest.john.intheworld.com',
   termsandconditions: true,
-  password: mockLegacySecurePassword,
-  passwordconf: mockLegacySecurePassword,
+  password: mockSecurePassword,
+  passwordconf: mockSecurePassword,
   newsletter: true,
   captcha: true,
 };
@@ -459,29 +459,32 @@ describe('RegisterComponent', () => {
   describe('password validators', () => {
     it('should have new validators when feature flag is enabled', () => {
       (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
-      mockRegisterFormData.password = mockSecurePassword;
-      mockRegisterFormData.passwordconf = mockSecurePassword;
 
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;
-
       fixture.detectChanges();
 
       const passwordControl = component.registerForm.get(
         'password'
       ) as UntypedFormControl;
-      const validators = passwordControl.validator
-        ? passwordControl.validator({} as any)
-        : [];
 
+      const actual = {
+        validationsWhenEmpty: passwordControl.validator?.({} as any),
+        validationsWhenNotEmpty: passwordControl.validator?.({
+          value: mockInvalidPassword,
+        } as any),
+      };
       expect(passwordControl).toBeTruthy();
-      expect(validators).toEqual({
+      expect(actual.validationsWhenEmpty).toEqual({
         required: true,
         cxMinOneDigit: true,
         cxMinOneSpecialCharacter: true,
         cxMinOneUpperCaseCharacter: true,
         cxMinEightCharactersLength: true,
         cxMaxCharactersLength: true,
+      });
+      expect(actual.validationsWhenNotEmpty).toEqual({
+        cxNoConsecutiveCharacters: true,
       });
     });
   });
