@@ -14,6 +14,6 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: e2e-screenshots-${{ inputs.test-suite }}-container-${{ inputs.container-id }}
-        path: projects/storefrontapp-e2e-cypress/screenshots/
+        path: projects/storefrontapp-e2e-cypress/cypress/screenshots/
         retention-days: 30
         if-no-files-found: ignore
