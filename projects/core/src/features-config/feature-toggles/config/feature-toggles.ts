@@ -44,11 +44,6 @@ export interface FeatureTogglesInterface {
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
 
   /**
-   * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
-   */
-  a11yPreventHorizontalScroll?: boolean;
-
-  /**
    * Fix popover appearance when a High Contrast Theme is applied.
    */
   a11yPopoverHighContrast?: boolean;
@@ -810,7 +805,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
   a11yCartImportConfirmationMessage: true,

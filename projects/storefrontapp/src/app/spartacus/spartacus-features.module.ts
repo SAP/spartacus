@@ -297,7 +297,6 @@ if (environment.cpq) {
         propagateErrorsToServer: true,
         ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
         a11yCartImportConfirmationMessage: true,
