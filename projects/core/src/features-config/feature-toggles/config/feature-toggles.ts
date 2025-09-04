@@ -59,11 +59,6 @@ export interface FeatureTogglesInterface {
   a11yAnonymousConsentMessageInDialog?: boolean;
 
   /**
-   * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
-   */
-  a11yMobileFocusOnFirstNavigationItem?: boolean;
-
-  /**
    * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
    */
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
@@ -802,7 +797,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
-  a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,

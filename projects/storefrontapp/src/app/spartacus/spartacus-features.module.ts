@@ -300,7 +300,6 @@ if (environment.cpq) {
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
         a11yAnonymousConsentMessageInDialog: true,
-        a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
         a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
