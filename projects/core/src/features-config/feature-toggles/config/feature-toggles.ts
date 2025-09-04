@@ -54,12 +54,6 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
-   * confirmation message is displayed and read out
-   */
-  a11yCartImportConfirmationMessage?: boolean;
-
-  /**
    * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
    */
   a11yAnonymousConsentMessageInDialog?: boolean;
@@ -807,7 +801,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
-  a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
