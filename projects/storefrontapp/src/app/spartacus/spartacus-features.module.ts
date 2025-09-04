@@ -322,7 +322,6 @@ if (environment.cpq) {
         a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yShowMoreReviewsBtnFocus: true,
         a11yDialogTriggerRefocus: true,
         a11yAddToWishlistFocus: true,
         a11ySearchBoxFocusOnEscape: true,

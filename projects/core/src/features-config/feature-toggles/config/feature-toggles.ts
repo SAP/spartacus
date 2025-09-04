@@ -163,11 +163,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
-   */
-  a11yShowMoreReviewsBtnFocus?: boolean;
-
-  /**
    * When enabled, the focus will be returned to the trigger element after the dialog is closed.
    * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
    */
@@ -789,7 +784,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yShowMoreReviewsBtnFocus: true,
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,
   a11ySearchBoxFocusOnEscape: true,
