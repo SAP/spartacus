@@ -163,11 +163,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
-   */
-  a11ySearchBoxFocusOnEscape?: boolean;
-
-  /**
    * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
    */
   a11yUpdatingCartNoNarration?: boolean;
@@ -773,7 +768,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11ySearchBoxFocusOnEscape: true,
   a11yUpdatingCartNoNarration: true,
   a11yPasswordVisibliltyBtnValueOverflow: true,
   a11yItemCounterFocus: true,
