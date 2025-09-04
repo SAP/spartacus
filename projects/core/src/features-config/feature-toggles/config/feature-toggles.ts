@@ -879,7 +879,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
-  useExtendedMediaComponentConfiguration: true,
+  useExtendedMediaComponentConfiguration: false,
   showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: false,
