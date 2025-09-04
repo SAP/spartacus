@@ -163,11 +163,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
-   */
-  a11yDeliveryMethodFieldset?: boolean;
-
-  /**
    * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
    */
   a11yShowMoreReviewsBtnFocus?: boolean;
@@ -794,7 +789,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yDeliveryMethodFieldset: true,
   a11yShowMoreReviewsBtnFocus: true,
   a11yDialogTriggerRefocus: true,
   a11yAddToWishlistFocus: true,

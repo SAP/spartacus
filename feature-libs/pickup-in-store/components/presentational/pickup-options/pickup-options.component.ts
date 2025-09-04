@@ -87,7 +87,6 @@ export class PickupOptionsComponent
   }
 
   constructor() {
-    useFeatureStyles('a11yDeliveryMethodFieldset');
     useFeatureStyles('a11yPickupOptionsTabs');
   }
 
