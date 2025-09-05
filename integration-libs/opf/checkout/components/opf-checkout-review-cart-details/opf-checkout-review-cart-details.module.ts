@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { PromotionsModule, OutletModule } from '@spartacus/storefront';
+import { OutletModule, PromotionsModule } from '@spartacus/storefront';
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card';
 import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 
 @NgModule({
@@ -17,6 +19,7 @@ import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-car
     UrlModule,
     PromotionsModule,
     OutletModule,
+    OpfCheckoutReviewCardModule
   ],
   declarations: [OpfCheckoutReviewCartDetailsComponent],
   exports: [OpfCheckoutReviewCartDetailsComponent],

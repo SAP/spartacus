@@ -4,8 +4,7 @@
       | cxTranslate
         : {
             count:
-              (cart?.pickupItemsQuantity ?? 0) +
-              (cart?.deliveryItemsQuantity ?? 0),
+              (cart?.totalItems ?? 0) 
           }
   }}:
   {{ cart?.totalPrice?.formattedValue }}
@@ -22,6 +21,26 @@
   <div class="cx-items-to-ship-label">
     {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
   </div>
+<div class="cx-opf-review-card-wrapper">
+    <cx-opf-checkout-review-card
+      *ngIf="deliveryAddress$ | async as deliveryAddress"
+      [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
+      [editConfig]="{
+        route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
+        ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
+      }" 
+    ></cx-opf-checkout-review-card>
+
+    <cx-opf-checkout-review-card
+      *ngIf="deliveryMode$ | async as deliveryMode"
+      [cardContent$]="getDeliveryModeCard(deliveryMode)"
+      [editConfig]="{
+        route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
+        ariaLabelKey: 'checkoutReview.editDeliveryMode',
+      }"
+    ></cx-opf-checkout-review-card>
+
+</div>
 
   <ng-template
     [cxOutlet]="cartOutlets.CART_ITEM_LIST"
