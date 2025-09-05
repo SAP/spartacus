@@ -28,7 +28,6 @@ describe('RenderingCache', () => {
         cacheSizeMemory: 1000,
         ssrFeatureToggles: {
           limitCacheByMemory: true,
-          avoidCachingErrors: false,
         },
       });
     });
@@ -305,48 +304,17 @@ describe('RenderingCache with cacheSize', () => {
     let renderingCache: RenderingCache;
 
     describe('if default shouldCacheRenderingResult', () => {
-      it('should cache HTML if avoidCachingErrors is false', () => {
+      it('should cache HTML', () => {
         renderingCache = new RenderingCache({
           ...options,
-          ssrFeatureToggles: {
-            avoidCachingErrors: false,
-          },
         });
         renderingCache.store('a', undefined, 'a');
         expect(renderingCache.get('a')).toEqual({ html: 'a', err: undefined });
       });
 
-      it('should cache HTML if avoidCachingErrors is true', () => {
+      it('should not cache errors', () => {
         renderingCache = new RenderingCache({
           ...options,
-          ssrFeatureToggles: {
-            avoidCachingErrors: false,
-          },
-        });
-        renderingCache.store('a', undefined, 'a');
-        expect(renderingCache.get('a')).toEqual({ html: 'a', err: undefined });
-      });
-
-      it('should cache errors if avoidCachingErrors is false', () => {
-        renderingCache = new RenderingCache({
-          ...options,
-          ssrFeatureToggles: {
-            avoidCachingErrors: false,
-          },
-        });
-        renderingCache.store('a', new Error('err'), 'a');
-        expect(renderingCache.get('a')).toEqual({
-          html: 'a',
-          err: new Error('err'),
-        });
-      });
-
-      it('should not cache errors if avoidCachingErrors is true', () => {
-        renderingCache = new RenderingCache({
-          ...options,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
         });
         renderingCache.store('a', new Error('err'), 'a');
         expect(renderingCache.get('a')).toBeFalsy();

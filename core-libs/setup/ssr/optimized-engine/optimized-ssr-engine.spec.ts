@@ -200,12 +200,11 @@ describe('OptimizedSsrEngine', () => {
       reuseCurrentRendering: true,
       renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
       logger: 'DefaultExpressServerLogger',
-      shouldCacheRenderingResult: '({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n' +
-        '        Boolean(entry.err))',
+      shouldCacheRenderingResult: '({ entry }) => !Boolean(entry.err)',
       renderKeyResolver: 'function getRequestUrl(req) {\\n' +
         '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
         '}',
-      ssrFeatureToggles: { avoidCachingErrors: true, limitCacheByMemory: false }
+      ssrFeatureToggles: { limitCacheByMemory: false }
     }
   }
 }",
@@ -392,14 +391,11 @@ describe('OptimizedSsrEngine', () => {
     }));
   });
 
-  describe('avoidCachingErrors option', () => {
+  describe('error caching behavior', () => {
     describe('when using default shouldCacheRenderingResult', () => {
-      it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
+      it('should not cache errors', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
         }).request('a');
 
         tick(200);
@@ -414,48 +410,9 @@ describe('OptimizedSsrEngine', () => {
         ]);
       }));
 
-      it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
-        const engineRunner = TestEngineRunner.withError({
-          cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: false,
-          },
-        }).request('a');
-
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        expect(engineRunner.responses).toEqual([
-          new Error('a-0'),
-          new Error('a-0'),
-          new Error('a-0'),
-        ]);
-      }));
-
-      it('should cache HTML if `avoidCachingErrors` is set to true', fakeAsync(() => {
+      it('should cache HTML', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
-        }).request('a');
-
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        expect(engineRunner.responses).toEqual(['a-0', 'a-0', 'a-0']);
-      }));
-
-      it('should cache HTML if `avoidCachingErrors` is set to false', fakeAsync(() => {
-        const engineRunner = new TestEngineRunner({
-          cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
         }).request('a');
 
         tick(200);
@@ -1492,10 +1449,8 @@ describe('OptimizedSsrEngine', () => {
         : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
 }",
       "reuseCurrentRendering": true,
-      "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
-        Boolean(entry.err))",
+      "shouldCacheRenderingResult": "({ entry }) => !Boolean(entry.err)",
       "ssrFeatureToggles": {
-        "avoidCachingErrors": true,
         "limitCacheByMemory": false,
       },
       "timeout": 3000,
