@@ -116,6 +116,8 @@ JDK_VERSION="JDK21"
 # If needed, specify a redirect URL using the redirectUri property, e.g., redirectUri: "http://localhost:5200/powertools-spa"
 # The redirectUri must be added to the OAuthLibConfig object, for example, below the 'scope' property
 ADD_AUTH_CONFIG=true
+
+# This auth Config will be used in the spartacus-features.module.ts for the CSR app
 AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
         authentication: {
         client_id: "mobile_android_public",
@@ -137,7 +139,8 @@ AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
           loginFormEndpoint: "/login",
         },
       }}),'
-      
+
+# This auth Config will be used in the spartacus-features.module.ts for the SSR app      
 AUTH_CONFIG_SSR='provideConfig(<AuthConfig>{
   authentication: {
   client_id: "mobile_android_public_ssr",
