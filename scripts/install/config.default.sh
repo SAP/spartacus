@@ -110,12 +110,12 @@ FORCE_E2E=false
 SKIP_E2E=false
 
 #JDK toggle: JDK21 or JDK17
-JDK_VERSION="JDK17"
+JDK_VERSION="JDK21"
 
 # Set to true to include AUTH_CONFIG in spartacus-features.module.ts
 # If needed, specify a redirect URL using the redirectUri property, e.g., redirectUri: "http://localhost:5200/powertools-spa"
 # The redirectUri must be added to the OAuthLibConfig object, for example, below the 'scope' property
-ADD_AUTH_CONFIG=false
+ADD_AUTH_CONFIG=true
 AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
         authentication: {
         client_id: "mobile_android_public",
