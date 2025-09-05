@@ -20,15 +20,6 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * In SSR, the following errors will be printed to logs (and additionally can also
-   * be forwarded to ExpressJS):
-   *
-   * 1. any outgoing HTTP request error (4xx-5xx status)
-   * 2. any NgRx action with the `error` property
-   */
-  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -707,7 +698,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: true,
   trendingSearches: true,
-  ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,

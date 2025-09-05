@@ -43,11 +43,7 @@ describe('CxErrorHandlerEffect', () => {
   });
 
   describe('error$ ', () => {
-    describe('when ssrStrictErrorHandlingForHttpAndNgrx is enabled', () => {
-      beforeEach(() => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-      });
-
+    describe('error handling', () => {
       it('should handle error action', () => {
         const mockErrorAction: ErrorAction = {
           type: 'ERROR_ACTION_TYPE',
@@ -76,21 +72,6 @@ describe('CxErrorHandlerEffect', () => {
 
         expect(errorActionService.handle).not.toHaveBeenCalled();
       });
-    });
-  });
-  describe('when ssrStrictErrorHandlingForHttpAndNgrx is disabled', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-    });
-    it('should not handle error action', () => {
-      const mockErrorAction: ErrorAction = {
-        type: 'ERROR_ACTION_TYPE',
-        error: new Error(),
-      };
-      errorActionService.isErrorAction.and.returnValue(true);
-      actions$ = of(mockErrorAction);
-      effect.error$.subscribe();
-      expect(errorActionService.handle).not.toHaveBeenCalled();
     });
   });
 });
