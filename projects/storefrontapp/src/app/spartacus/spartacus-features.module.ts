@@ -364,7 +364,6 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        useSiteThemeService: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
