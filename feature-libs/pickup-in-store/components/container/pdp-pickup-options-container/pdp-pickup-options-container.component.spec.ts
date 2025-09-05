@@ -18,6 +18,7 @@ import {
 import { Observable, Subscription, firstValueFrom, of } from 'rxjs';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
+import { ElementRef } from '@angular/core';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
@@ -159,6 +160,55 @@ describe('PdpPickupOptionsComponent', () => {
       expect(component).toBeDefined();
     });
 
+    it('should not open dialog when feature flag is enabled', () => {
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        true
+      );
+      spyOn(component, 'openDialog');
+      component['displayNameIsSet'] = false;
+      component.onPickupOptionChange({
+        option: 'pickup',
+        triggerElement: {} as ElementRef,
+      });
+      expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    it('should not open dialog when option is delivery and feature flag is disabled', () => {
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        false
+      );
+      spyOn(component, 'openDialog');
+      component.onPickupOptionChange({
+        option: 'delivery',
+        triggerElement: {} as ElementRef,
+      });
+      expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    it('should not open dialog when displayName is set', () => {
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        false
+      );
+      spyOn(component, 'openDialog');
+      component['displayNameIsSet'] = true;
+      component.onPickupOptionChange({
+        option: 'pickup',
+        triggerElement: {} as ElementRef,
+      });
+      expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    it('should handle invalid intended location on init', async () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of({ pickupOption: 'pickup', displayName: undefined }));
+      const displayLocation = await firstValueFrom(
+        component.displayPickupLocation$
+      );
+      expect(displayLocation).toBeUndefined();
+    });
+
     it('should unsubscribe from any subscriptions when destroyed', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
@@ -231,6 +281,31 @@ describe('PdpPickupOptionsComponent', () => {
         intendedPickupLocationService.getIntendedLocation
       ).not.toHaveBeenCalled();
       expect(component.availableForPickup).toBe(false);
+    });
+
+    it('should not open dialog when option is delivery and feature flag is disabled', () => {
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        false
+      );
+      spyOn(component, 'openDialog');
+      component.onPickupOptionChange({
+        option: 'delivery',
+        triggerElement: {} as ElementRef,
+      });
+      expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    it('should not open dialog when displayName is set', () => {
+      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
+        false
+      );
+      spyOn(component, 'openDialog');
+      component['displayNameIsSet'] = true;
+      component.onPickupOptionChange({
+        option: 'pickup',
+        triggerElement: {} as ElementRef,
+      });
+      expect(component.openDialog).not.toHaveBeenCalled();
     });
 
     it('should not display the form', () => {
