@@ -11,7 +11,7 @@ import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 
 import {
@@ -42,7 +42,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
       .get<ProductFutureStock>(this.getFutureStockEndpoint(userId, productCode))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(FUTURE_STOCK_NORMALIZER)
       );
@@ -58,7 +58,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(FUTURE_STOCK_LIST_NORMALIZER)
       );

@@ -16,8 +16,6 @@ import { HttpErrorModel } from '../model/misc.model';
  * NgRx Action payload, as it will strip potentially unserializable parts from
  * it and warn in debug mode if passed error is not instance of HttpErrorModel
  * (which usually happens when logic in NgRx Effect is not sealed correctly)
- *
- * @deprecated since 2211.29 - use `tryNormalizeHttpError` instead. The `normalizeHttpError` will be removed from public API.
  */
 export function normalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,

@@ -7,7 +7,6 @@ import {
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, throwError } from 'rxjs';
-import { FeatureConfigService } from '../../features-config';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
 import { HttpErrorHandlerInterceptor } from './http-error-handler.interceptor';
@@ -31,14 +30,12 @@ describe('HttpErrorHandlerInterceptor', () => {
   let errorHandler: ErrorHandler;
   let request: HttpRequest<any>;
   let next: HttpHandler;
-  let featureConfigService: FeatureConfigService;
   let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         HttpErrorHandlerInterceptor,
-        FeatureConfigService,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: WindowRef, useValue: { isBrowser: () => false } },
         { provide: ErrorHandler, useClass: MockErrorHandler },
@@ -47,7 +44,6 @@ describe('HttpErrorHandlerInterceptor', () => {
 
     interceptor = TestBed.inject(HttpErrorHandlerInterceptor);
     errorHandler = TestBed.inject(ErrorHandler);
-    featureConfigService = TestBed.inject(FeatureConfigService);
     windowRef = TestBed.inject(WindowRef);
 
     request = new HttpRequest('GET', 'test-url');
