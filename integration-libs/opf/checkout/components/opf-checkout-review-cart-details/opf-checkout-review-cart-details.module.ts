@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card';
 import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
+import { PickUpItemsDetailsModule } from '@spartacus/pickup-in-store/components';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-car
     UrlModule,
     PromotionsModule,
     OutletModule,
-    OpfCheckoutReviewCardModule
+    OpfCheckoutReviewCardModule,
+    PickUpItemsDetailsModule,
   ],
   declarations: [OpfCheckoutReviewCartDetailsComponent],
   exports: [OpfCheckoutReviewCartDetailsComponent],

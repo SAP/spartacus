@@ -3,8 +3,7 @@
     'cartItems.cartTotal'
       | cxTranslate
         : {
-            count:
-              (cart?.totalItems ?? 0) 
+            count: cart?.totalItems ?? 0,
           }
   }}:
   {{ cart?.totalPrice?.formattedValue }}
@@ -18,17 +17,19 @@
     "
   ></cx-promotions>
 
+  <cx-pick-up-in-store-items-details></cx-pick-up-in-store-items-details>
+
   <div class="cx-items-to-ship-label">
     {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
   </div>
-<div class="cx-opf-review-card-wrapper">
+  <div class="cx-opf-review-card-wrapper">
     <cx-opf-checkout-review-card
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
       [editConfig]="{
         route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
         ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
-      }" 
+      }"
     ></cx-opf-checkout-review-card>
 
     <cx-opf-checkout-review-card
@@ -39,13 +40,12 @@
         ariaLabelKey: 'checkoutReview.editDeliveryMode',
       }"
     ></cx-opf-checkout-review-card>
-
-</div>
+  </div>
 
   <ng-template
     [cxOutlet]="cartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
-      items: entries,
+      items: activeCartFacade.getDeliveryEntries() | async,
       readonly: true,
       promotionLocation: promotionLocation,
     }"
