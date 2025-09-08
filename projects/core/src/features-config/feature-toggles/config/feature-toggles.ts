@@ -342,30 +342,12 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
-   * Enables the requirement that passwords cannot contain consecutive identical characters.
-   *
-   * When set to `true`, the app will enforce that passwords must not have consecutive
-   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
-   */
-  enableConsecutiveCharactersPasswordRequirement?: boolean;
-
-  /**
    * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
    *
    * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
    * When set to `true`, claiming customer coupon works with coupon code in httpRequest body with POST method(the new Occ endpoint is available since Commerce 2211.28), which avoids security risk.
    */
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
-
-  /**
-   * Enables a validation that prevents new passwords from matching the current password
-   * in the password update form.
-   *
-   * When set to `true`, the user will not be allowed to reuse their current password
-   * when updating their password. The app will check that the new password does not match
-   * the old password.
-   */
-  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
 
   /**
    * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
@@ -790,8 +772,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
-  enableConsecutiveCharactersPasswordRequirement: true,
-  enablePasswordsCannotMatchInPasswordUpdateForm: true,
   allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
