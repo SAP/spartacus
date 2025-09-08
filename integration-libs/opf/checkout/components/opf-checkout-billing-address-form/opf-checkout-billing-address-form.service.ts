@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import {
-  CheckoutBillingAddressFacade,
-  CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryModesFacade,
-  CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
 import {
   Address,
   Country,
@@ -30,6 +23,12 @@ import {
   throwError,
 } from 'rxjs';
 import {
+  CheckoutBillingAddressFacade,
+  CheckoutDeliveryAddressFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/base/root';
+import { Injectable, inject } from '@angular/core';
+import {
   catchError,
   filter,
   finalize,
@@ -39,6 +38,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
 import { UserAddressService } from '@spartacus/core';
@@ -48,7 +48,6 @@ export class OpfCheckoutBillingAddressFormService {
   protected checkoutDeliveryAddressFacade = inject(
     CheckoutDeliveryAddressFacade
   );
-  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected userPaymentService = inject(UserPaymentService);
   protected checkoutPaymentService = inject(CheckoutPaymentFacade);
@@ -57,22 +56,28 @@ export class OpfCheckoutBillingAddressFormService {
   protected opfCheckoutPaymentWrapperService = inject(
     OpfCheckoutPaymentWrapperService
   );
+  protected userAddressService = inject(UserAddressService);
   protected _pickupNoDefaultAddress$ = new Subject<void>();
   protected pickupOptionFacade = inject(PickupOptionFacade);
-  public hasdefaultaddress = true;
-  protected userAddressService = inject(UserAddressService);
+
   protected readonly _$billingAddressSub = new BehaviorSubject<
     Address | undefined
   >(undefined);
   protected readonly _$isLoadingAddress = new BehaviorSubject(false);
   protected readonly _$isSameAsDelivery = new BehaviorSubject(true);
   protected billingAddressId: string | undefined;
-  protected hasPickupItems: Boolean;
 
   billingAddress$ = this._$billingAddressSub.asObservable();
   isLoadingAddress$ = this._$isLoadingAddress.asObservable();
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
 
+  get pickupNoDefaultAddress$(): Observable<void> {
+    return this._pickupNoDefaultAddress$.asObservable();
+  }
+   private handleNoDefaultAddress(): void {
+    this.setIsSameAsDeliveryValue(false);
+    this._pickupNoDefaultAddress$.next();
+  }
   getCountries(): Observable<Country[]> {
     return this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
@@ -84,95 +89,62 @@ export class OpfCheckoutBillingAddressFormService {
       shareReplay(1)
     );
   }
-
-  get pickupNoDefaultAddress$(): Observable<void> {
-    return this._pickupNoDefaultAddress$.asObservable();
-  }
-
-  setPickupDeliveryModeForPickupItems(): void {
-    this.activeCartService
-      .hasPickupItems()
-      .pipe(
-        take(1),
-        filter(Boolean),
-        tap(() => (this.hasPickupItems = true)),
-        switchMap(() =>
-          this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
-            take(1),
-            map((mode) => mode.data?.code),
-            filter((currentMode) => !currentMode),
-            switchMap(() =>
-              this.checkoutDeliveryModesFacade.setDeliveryMode('pickup')
-            )
-          )
-        )
+// This method sets the default address when the cart contains only pickup items.
+  setDefaultBillingAddress(): void {
+    this._$isLoadingAddress.next(true);
+    this.activeCartService.hasDeliveryItems().pipe(
+    take(1),
+    filter(hasDeliveryItems => !hasDeliveryItems), // Proceed only if there are no delivery items
+    switchMap(() => this.userAddressService.getDefaultAddress()),
+    tap(defaultAddress => {
+      if (!defaultAddress) {
+        console.log('No default address found, handling no default address.');
+        this.handleNoDefaultAddress();
+      }
+    }),
+    filter((addr): addr is Address => !!addr), // Only continue if address exists
+    switchMap(defaultAddress =>
+      this.setBillingAddress(defaultAddress).pipe(
+        catchError(err => {
+          console.error('Error setting billing address:', err);
+          return of(undefined);
+        })
       )
-      .subscribe({
-        next: () => console.log('Delivery mode set to pickup'),
-        error: (err) => console.error('Error setting delivery mode:', err),
-      });
-  }
+    ),
+    catchError(error => {
+      console.error('Error loading default address:', error);
+      return of(undefined);
+    })
+  ).subscribe();
+    this._$isLoadingAddress.next(false);
 
-  private handleNoDefaultAddress(): void {
-    this.setIsSameAsDeliveryValue(false);
-    this._pickupNoDefaultAddress$.next();
-  }
+}
+
 
   getAddresses(): void {
     this._$isLoadingAddress.next(true);
 
     combineLatest([this.getDeliveryAddress(), this.getPaymentAddress()])
-      .pipe(
-        take(1),
-        switchMap(
-          ([deliveryAddress, paymentAddress]: [
-            Address | undefined,
-            Address | undefined,
-          ]) => {
-            if (this.hasPickupItems) {
-              return this.userAddressService.getAddresses().pipe(
-                take(1),
-                tap((addresses) => {
-                  if (addresses.length === 0) {
-                    console.log('No addresses found in address book.');
-                    this.handleNoDefaultAddress();
-                  }
-                }),
-                map((addresses) =>
-                  addresses.find((address) => address.defaultAddress)
-                ),
-                tap((defaultAddress) => {
-                  if (defaultAddress) {
-                    console.log('Default address found:', defaultAddress);
-                    this.setBillingAddress(defaultAddress);
-                    this._$billingAddressSub.next(defaultAddress);
-                  } else {
-                    console.log('No default address found.');
-                    this._$billingAddressSub.next(undefined);
-                    this.billingAddressId = undefined;
-                    this._$isSameAsDelivery.next(false);
-                    this.handleNoDefaultAddress();
-                  }
-                }),
-                map(() => [deliveryAddress, paymentAddress])
-              );
-            }
-            return of([deliveryAddress, paymentAddress]);
-          }
-        ),
-        tap(([deliveryAddress, paymentAddress]) => {
+      .pipe(take(1))
+      .subscribe(
+        ([deliveryAddress, paymentAddress]: [
+          Address | undefined,
+          Address | undefined,
+        ]) => {
           if (!paymentAddress && !!deliveryAddress) {
             this.setBillingAddress(deliveryAddress);
             this._$billingAddressSub.next(deliveryAddress);
-          } else if (!!paymentAddress && !!deliveryAddress) {
+          }
+
+          if (!!paymentAddress && !!deliveryAddress) {
             this.billingAddressId = paymentAddress.id;
             this._$billingAddressSub.next(paymentAddress);
             this._$isSameAsDelivery.next(false);
           }
-        }),
-        finalize(() => this._$isLoadingAddress.next(false))
-      )
-      .subscribe();
+
+          this._$isLoadingAddress.next(false);
+        }
+      );
   }
 
   setDeliveryAddressAsPaymentAddress(): void {

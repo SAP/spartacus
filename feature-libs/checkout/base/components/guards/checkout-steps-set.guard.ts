@@ -4,14 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   GuardResult,
   Router,
   UrlTree,
 } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -19,8 +17,9 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
+import { Injectable, OnDestroy, inject, isDevMode } from '@angular/core';
 import { LoggerService, RoutingConfigService } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -28,6 +27,8 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
@@ -36,7 +37,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
-
+  protected hasDeliveryItemsInCart: Boolean;
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
@@ -50,6 +51,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
       .hasDeliveryItems()
       .pipe(distinctUntilChanged())
       .subscribe((hasDeliveryItems) => {
+        this.hasDeliveryItemsInCart = hasDeliveryItems;
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.DELIVERY_ADDRESS,
           !hasDeliveryItems
@@ -104,6 +106,12 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   protected isStepSet(step: CheckoutStep): Observable<GuardResult> {
+    // If step is undefined/null, check if cart contains only pickup items and set delivery mode
+    if (!this.hasDeliveryItemsInCart) {
+      this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
+      this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
+      return of(true);
+    }
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.DELIVERY_ADDRESS: {

@@ -18,7 +18,8 @@
   ></cx-promotions>
 
   <cx-pick-up-in-store-items-details></cx-pick-up-in-store-items-details>
-
+  
+<ng-container *ngIf="cart?.deliveryItemsQuantity">
   <div class="cx-items-to-ship-label">
     {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
   </div>
@@ -51,4 +52,5 @@
     }"
   >
   </ng-template>
+</ng-container>
 </div>
