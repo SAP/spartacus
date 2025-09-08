@@ -75,7 +75,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
-    let currentIndex = 0;
+    let currentIndex = -1;
     const currentRouteUrl = '/' + route.url.join('/');
 
     // check whether the previous step is set
