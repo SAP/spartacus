@@ -84,13 +84,11 @@
         }
       }
 
-      @include forFeature('a11yPreventHorizontalScroll') {
-        .cx-quantity {
-          @include media-breakpoint-down(xs) {
-            flex-direction: column;
-            align-items: start;
-            gap: 5px;
-          }
+      .cx-quantity {
+        @include media-breakpoint-down(xs) {
+          flex-direction: column;
+          align-items: start;
+          gap: 5px;
         }
       }
 
