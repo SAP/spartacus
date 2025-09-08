@@ -1,6 +1,7 @@
 import * as AngularCore from '@angular/core';
 import { Injectable, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FeatureConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import {
@@ -21,7 +22,6 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
-import { FeatureConfigService } from '@spartacus/core';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -353,6 +353,6 @@ describe('Custom PageTitleService', () => {
       .subscribe((value) => (result = value))
       .unsubscribe();
 
-    expect(result.keywords).toEqual(KEYWORDS);
+    expect(result.keywords).toEqual('test');
   });
 });

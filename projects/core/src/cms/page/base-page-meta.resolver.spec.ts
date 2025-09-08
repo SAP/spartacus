@@ -107,7 +107,7 @@ describe('BasePageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result).toEqual('Page description');
+    expect(false).toBeTruthy();
   });
 
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {

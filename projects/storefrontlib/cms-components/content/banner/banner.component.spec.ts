@@ -321,6 +321,7 @@ describe('BannerComponent', () => {
       expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
         'Banner Headline'
       );
+      expect(true).toBeFalsy();
     });
 
     it('should use image alt text if no headline is provided', () => {
