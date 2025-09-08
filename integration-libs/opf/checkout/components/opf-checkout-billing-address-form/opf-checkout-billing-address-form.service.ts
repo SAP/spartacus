@@ -71,8 +71,6 @@ export class OpfCheckoutBillingAddressFormService {
   isLoadingAddress$ = this._$isLoadingAddress.asObservable();
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
 
-  deliveryItems: any;
-
   get pickupNoDefaultAddress$(): Observable<void> {
     return this._pickupNoDefaultAddress$.asObservable();
   }
@@ -91,9 +89,9 @@ export class OpfCheckoutBillingAddressFormService {
       shareReplay(1)
     );
   }
-
-setDefaultBillingAddressIfNoDeliveryItems(): void {
-      this._$isLoadingAddress.next(true);
+// This method sets the default address when the cart contains only pickup items.
+  setDefaultBillingAddress(): void {
+    this._$isLoadingAddress.next(true);
     this.activeCartService.hasDeliveryItems().pipe(
     take(1),
     filter(hasDeliveryItems => !hasDeliveryItems), // Proceed only if there are no delivery items
@@ -107,7 +105,6 @@ setDefaultBillingAddressIfNoDeliveryItems(): void {
     filter((addr): addr is Address => !!addr), // Only continue if address exists
     switchMap(defaultAddress =>
       this.setBillingAddress(defaultAddress).pipe(
-        tap(() => console.log('Default billing address set:', defaultAddress)),
         catchError(err => {
           console.error('Error setting billing address:', err);
           return of(undefined);

@@ -22,7 +22,6 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
@@ -101,15 +100,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   onPaymentProviderSelected(providerName: string) {
     this.selectedPaymentProviderName$.next(providerName);
   }
-    cartditems: Cart | null;
-
   ngOnInit() {
-    this.activeCartFacade
-          .getActive()
-          .subscribe((cart: Cart) => {
-          this.cartditems = cart;
-          console.log("Cart:for deliverymode", this.cartditems.deliveryItemsQuantity);
-          });
     this.updateTermsAndConditionsState();
   }
 }

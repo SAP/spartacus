@@ -38,7 +38,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
   protected userAddressService = inject(UserAddressService);
-  protected dItems: any;
+  protected hasDeliveryItemsInCart: Boolean;
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
@@ -53,7 +53,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
       .hasDeliveryItems()
       .pipe(distinctUntilChanged())
       .subscribe((hasDeliveryItems) => {
-        this.dItems=hasDeliveryItems;
+        this.hasDeliveryItemsInCart = hasDeliveryItems;
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.DELIVERY_ADDRESS,
           !hasDeliveryItems
@@ -109,8 +109,8 @@ export class CheckoutStepsSetGuard implements OnDestroy {
 
   protected isStepSet(step: CheckoutStep): Observable<GuardResult> {
     // If step is undefined/null, check if cart contains only pickup items and set delivery mode
-    if (this.dItems === false) { // dItems false means no delivery items, i.e., only pickup
-     this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
+    if (!this.hasDeliveryItemsInCart) {
+      this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
       this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
       return of(true);
     }

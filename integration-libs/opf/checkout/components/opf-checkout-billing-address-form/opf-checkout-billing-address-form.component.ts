@@ -28,7 +28,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected userAddressService = inject(UserAddressService);
 
   iconTypes = ICON_TYPE;
- cart: Cart | null = null;
+  protected cart: Cart | null = null;
   billingAddress$ = this.service.billingAddress$;
   isLoadingAddress$ = this.service.isLoadingAddress$;
   isSameAsDelivery$ = this.service.isSameAsDelivery$;
@@ -39,15 +39,10 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
 
   ngOnInit() {
-     this.activeCartFacade
-      .getActive()
-      .subscribe((cart: Cart) => {
-      this.cart = cart;
-      console.log("Cart:for checkbox", this.cart.deliveryItemsQuantity);
-      });
+    this.activeCartFacade.getActive().subscribe(cart => (this.cart = cart));
     this.userAddressService.loadAddresses();
     this.countries$ = this.service.getCountries();
-    this.service.setDefaultBillingAddressIfNoDeliveryItems();
+    this.service.setDefaultBillingAddress();
     this.service.getAddresses();
     this.service.pickupNoDefaultAddress$.subscribe(() => {
       this.isEditBillingAddress = true;

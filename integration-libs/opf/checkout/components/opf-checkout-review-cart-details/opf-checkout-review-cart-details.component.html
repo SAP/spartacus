@@ -12,12 +12,11 @@
       )
     "
   ></cx-promotions>
-
+<ng-container *ngIf="cart?.deliveryItemsQuantity">
   <div class="cx-items-to-ship-label">
     {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
   </div>
-  <div class="cx-opf-review-card-wrapper" *ngIf="cart?.deliveryItemsQuantity" >
-    <!-- <p>Delivery Items: {{ cartditems?.deliveryItemsQuantity }}</p> -->
+  <div class="cx-opf-review-card-wrapper">
     <cx-opf-checkout-review-card
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
@@ -45,4 +44,5 @@
     }"
   >
   </ng-template>
+</ng-container>
 </div>
