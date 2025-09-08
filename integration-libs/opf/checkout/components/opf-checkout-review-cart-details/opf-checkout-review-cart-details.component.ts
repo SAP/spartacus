@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  PromotionLocation,
-  CartOutlets,
   Cart,
+  CartOutlets,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
@@ -17,7 +19,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OpfCheckoutReviewCartDetailsComponent {
+export class OpfCheckoutReviewCartDetailsComponent  extends CheckoutReviewSubmitComponent{
   @Input() cart: Cart | null;
 
   @Input() entries: any[] | null;

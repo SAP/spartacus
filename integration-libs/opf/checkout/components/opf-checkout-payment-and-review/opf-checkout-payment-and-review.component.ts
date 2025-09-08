@@ -4,26 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   OnInit,
+  inject,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
-import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CmsService, Page } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+
+import { Cart } from '@spartacus/cart/base/root';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
+import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import { Observable, take, map, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -99,8 +101,15 @@ export class OpfCheckoutPaymentAndReviewComponent
   onPaymentProviderSelected(providerName: string) {
     this.selectedPaymentProviderName$.next(providerName);
   }
+    cartditems: Cart | null;
 
   ngOnInit() {
+    this.activeCartFacade
+          .getActive()
+          .subscribe((cart: Cart) => {
+          this.cartditems = cart;
+          console.log("Cart:for deliverymode", this.cartditems.deliveryItemsQuantity);
+          });
     this.updateTermsAndConditionsState();
   }
 }

@@ -4,14 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   GuardResult,
   Router,
   UrlTree,
 } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -19,8 +17,9 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { LoggerService, RoutingConfigService } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Injectable, OnDestroy, inject, isDevMode } from '@angular/core';
+import { LoggerService, RoutingConfigService, UserAddressService } from '@spartacus/core';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -28,6 +27,8 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
@@ -36,6 +37,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
+  protected userAddressService = inject(UserAddressService);
+  protected dItems: any;
 
   constructor(
     protected checkoutStepService: CheckoutStepService,
@@ -50,6 +53,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
       .hasDeliveryItems()
       .pipe(distinctUntilChanged())
       .subscribe((hasDeliveryItems) => {
+        this.dItems=hasDeliveryItems;
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.DELIVERY_ADDRESS,
           !hasDeliveryItems
@@ -71,7 +75,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {
-    let currentIndex = -1;
+    let currentIndex = 0;
     const currentRouteUrl = '/' + route.url.join('/');
 
     // check whether the previous step is set
@@ -104,6 +108,12 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   protected isStepSet(step: CheckoutStep): Observable<GuardResult> {
+    // If step is undefined/null, check if cart contains only pickup items and set delivery mode
+    if (this.dItems === false) { // dItems false means no delivery items, i.e., only pickup
+     this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
+      this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
+      return of(true);
+    }
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.DELIVERY_ADDRESS: {

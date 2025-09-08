@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import {
-  CheckoutBillingAddressFacade,
-  CheckoutDeliveryAddressFacade,
-  CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
 import {
   Address,
   Country,
@@ -23,9 +17,17 @@ import {
   BehaviorSubject,
   EMPTY,
   Observable,
+  Subject,
   combineLatest,
+  of,
   throwError,
 } from 'rxjs';
+import {
+  CheckoutBillingAddressFacade,
+  CheckoutDeliveryAddressFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/base/root';
+import { Injectable, inject } from '@angular/core';
 import {
   catchError,
   filter,
@@ -36,7 +38,10 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
+import { UserAddressService } from '@spartacus/core';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -51,6 +56,9 @@ export class OpfCheckoutBillingAddressFormService {
   protected opfCheckoutPaymentWrapperService = inject(
     OpfCheckoutPaymentWrapperService
   );
+    protected userAddressService = inject(UserAddressService);
+    protected _pickupNoDefaultAddress$ = new Subject<void>();
+  protected pickupOptionFacade = inject(PickupOptionFacade);
 
   protected readonly _$billingAddressSub = new BehaviorSubject<
     Address | undefined
@@ -63,6 +71,15 @@ export class OpfCheckoutBillingAddressFormService {
   isLoadingAddress$ = this._$isLoadingAddress.asObservable();
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
 
+  deliveryItems: any;
+
+  get pickupNoDefaultAddress$(): Observable<void> {
+    return this._pickupNoDefaultAddress$.asObservable();
+  }
+   private handleNoDefaultAddress(): void {
+    this.setIsSameAsDeliveryValue(false);
+    this._pickupNoDefaultAddress$.next();
+  }
   getCountries(): Observable<Country[]> {
     return this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
@@ -74,6 +91,38 @@ export class OpfCheckoutBillingAddressFormService {
       shareReplay(1)
     );
   }
+
+setDefaultBillingAddressIfNoDeliveryItems(): void {
+      this._$isLoadingAddress.next(true);
+    this.activeCartService.hasDeliveryItems().pipe(
+    take(1),
+    filter(hasDeliveryItems => !hasDeliveryItems), // Proceed only if there are no delivery items
+    switchMap(() => this.userAddressService.getDefaultAddress()),
+    tap(defaultAddress => {
+      if (!defaultAddress) {
+        console.log('No default address found, handling no default address.');
+        this.handleNoDefaultAddress();
+      }
+    }),
+    filter((addr): addr is Address => !!addr), // Only continue if address exists
+    switchMap(defaultAddress =>
+      this.setBillingAddress(defaultAddress).pipe(
+        tap(() => console.log('Default billing address set:', defaultAddress)),
+        catchError(err => {
+          console.error('Error setting billing address:', err);
+          return of(undefined);
+        })
+      )
+    ),
+    catchError(error => {
+      console.error('Error loading default address:', error);
+      return of(undefined);
+    })
+  ).subscribe();
+    this._$isLoadingAddress.next(false);
+
+}
+
 
   getAddresses(): void {
     this._$isLoadingAddress.next(true);

@@ -3,7 +3,8 @@
     value: explicitTermsAndConditions$ | async,
   } as explicitTermsAndConditions"
 >
-  <div class="cx-opf-review-card-wrapper">
+  <!-- this will be moved to the bottom of the page wrt new design -->
+ <!-- <div class="cx-opf-review-card-wrapper" *ngIf="cartditems?.deliveryItemsQuantity">
     <cx-opf-checkout-review-card
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
@@ -21,7 +22,7 @@
         ariaLabelKey: 'checkoutReview.editDeliveryMode',
       }"
     ></cx-opf-checkout-review-card>
-  </div>
+  </div> -->
 
   <cx-opf-checkout-terms-and-conditions-alert
     *ngIf="!explicitTermsAndConditions.value"

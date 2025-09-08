@@ -10,10 +10,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { Address, Country } from '@spartacus/core';
+import { Address, Country, UserAddressService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
@@ -23,9 +24,11 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected service = inject(OpfCheckoutBillingAddressFormService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userAddressService = inject(UserAddressService);
 
   iconTypes = ICON_TYPE;
-
+ cart: Cart | null = null;
   billingAddress$ = this.service.billingAddress$;
   isLoadingAddress$ = this.service.isLoadingAddress$;
   isSameAsDelivery$ = this.service.isSameAsDelivery$;
@@ -36,8 +39,20 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
 
   ngOnInit() {
+     this.activeCartFacade
+      .getActive()
+      .subscribe((cart: Cart) => {
+      this.cart = cart;
+      console.log("Cart:for checkbox", this.cart.deliveryItemsQuantity);
+      });
+    this.userAddressService.loadAddresses();
     this.countries$ = this.service.getCountries();
+    this.service.setDefaultBillingAddressIfNoDeliveryItems();
     this.service.getAddresses();
+    this.service.pickupNoDefaultAddress$.subscribe(() => {
+      this.isEditBillingAddress = true;
+      this.isAddingBillingAddressInProgress = true;
+    });
   }
 
   cancelAndHideForm(): void {

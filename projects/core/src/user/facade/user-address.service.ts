@@ -4,11 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
   AddressValidation,
@@ -19,10 +14,16 @@ import {
   Command,
   CommandService,
 } from '../../util/command-query/command.service';
-import { UserAddressConnector } from '../connectors/address/user-address.connector';
-import { UserActions } from '../store/actions/index';
-import { UsersSelectors } from '../store/selectors/index';
+import { Store, select } from '@ngrx/store';
+import { map, switchMap } from 'rxjs/operators';
+
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { StateWithUser } from '../store/user-state';
+import { UserActions } from '../store/actions/index';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { UsersSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -105,6 +106,15 @@ export class UserAddressService {
         })
       );
     });
+  }
+
+   /**
+    * Returns the default address
+    */
+  getDefaultAddress(): Observable<Address | undefined> {
+    return this.getAddresses().pipe(
+      map((addresses) => addresses.find((address) => address.defaultAddress))
+    );
   }
 
   /**
