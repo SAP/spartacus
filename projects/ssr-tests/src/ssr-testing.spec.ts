@@ -1,4 +1,3 @@
-import { TestConfig } from '@spartacus/core';
 import { Server } from 'http';
 import * as HttpUtils from './utils/http.utils';
 import * as LogUtils from './utils/log.utils';
