@@ -1,7 +1,7 @@
 import * as AngularCore from '@angular/core';
 import { Injectable, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import {
   BreadcrumbMeta,
@@ -21,7 +21,6 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
-import { FeatureConfigService } from '@spartacus/core';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -40,7 +39,7 @@ const mockProductPage: Page = {
   slots: {},
 };
 
-const PageMetaResolvers: PageMetaConfig = {
+const mockPageMetaConfig: PageMetaConfig = {
   pageMeta: {
     resolvers: [
       {
@@ -54,12 +53,10 @@ const PageMetaResolvers: PageMetaConfig = {
       {
         property: 'description',
         method: 'resolveDescription',
-        disabledInCsr: true,
       },
       {
         property: 'image',
         method: 'resolveImage',
-        disabledInCsr: true,
       },
       {
         property: 'breadcrumbs',
@@ -68,7 +65,6 @@ const PageMetaResolvers: PageMetaConfig = {
       {
         property: 'robots',
         method: 'resolveRobots',
-        disabledInCsr: true,
       },
     ],
     enableInDevMode: true,
@@ -153,11 +149,14 @@ class PageWithAllResolvers
 describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
-  let featureConfigService: FeatureConfigService;
 
   describe('browser', () => {
     let resolver: PageWithAllResolvers;
-    beforeEach(() => {
+    function configureTestBed({
+      pageMetaConfig,
+    }: {
+      pageMetaConfig: PageMetaConfig;
+    }) {
       TestBed.configureTestingModule({
         imports: [],
         providers: [
@@ -172,39 +171,102 @@ describe('PageMetaService', () => {
           { provide: PLATFORM_ID, useValue: 'browser' },
           {
             provide: PageMetaConfig,
-            useValue: PageMetaResolvers,
+            useValue: pageMetaConfig,
           },
         ],
       });
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       service = TestBed.inject(PageMetaService);
-      cmsService = TestBed.inject(CmsService);
 
+      cmsService = TestBed.inject(CmsService);
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
+
       resolver = TestBed.inject(PageWithAllResolvers);
       spyOn(resolver, 'resolveTitle').and.callThrough();
       spyOn(resolver, 'resolveDescription').and.callThrough();
       spyOn(resolver, 'resolveRobots').and.callThrough();
       spyOn(resolver, 'resolveImage').and.callThrough();
+    }
+
+    describe('when in dev mode', () => {
+      beforeEach(() => {
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      });
+
+      describe('with resolvers enabled', () => {
+        beforeEach(() => {
+          configureTestBed({ pageMetaConfig: mockPageMetaConfig });
+        });
+
+        it('should resolve resolvers', async () => {
+          await firstValueFrom(service.getMeta());
+          expect(resolver.resolveTitle).toHaveBeenCalled();
+          expect(resolver.resolveDescription).toHaveBeenCalled();
+          expect(resolver.resolveRobots).toHaveBeenCalled();
+          expect(resolver.resolveImage).toHaveBeenCalled();
+        });
+      });
+      describe('with resolvers not enabled in dev mode', () => {
+        beforeEach(() => {
+          configureTestBed({
+            pageMetaConfig: {
+              ...mockPageMetaConfig,
+              pageMeta: {
+                ...mockPageMetaConfig.pageMeta,
+                enableInDevMode: false,
+              },
+            },
+          });
+        });
+
+        it('should  disabled resolvers', async () => {
+          await firstValueFrom(service.getMeta());
+          expect(resolver.resolveTitle).not.toHaveBeenCalled();
+          expect(resolver.resolveDescription).not.toHaveBeenCalled();
+          expect(resolver.resolveRobots).not.toHaveBeenCalled();
+          expect(resolver.resolveImage).not.toHaveBeenCalled();
+        });
+      });
     });
 
-    it('should not resolve disabled resolvers', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-      service.getMeta().subscribe().unsubscribe();
-      expect(resolver.resolveTitle).toHaveBeenCalled();
-      expect(resolver.resolveDescription).not.toHaveBeenCalled();
-      expect(resolver.resolveRobots).not.toHaveBeenCalled();
-      expect(resolver.resolveImage).not.toHaveBeenCalled();
-    });
+    describe('when in production mode', () => {
+      beforeEach(() => {
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      });
 
-    it('should resolve disabled resolvers in devMode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
-      service.getMeta().subscribe().unsubscribe();
-      expect(resolver.resolveTitle).toHaveBeenCalled();
-      expect(resolver.resolveDescription).toHaveBeenCalled();
-      expect(resolver.resolveRobots).toHaveBeenCalled();
-      expect(resolver.resolveImage).toHaveBeenCalled();
+      describe('with resolvers enabled', () => {
+        beforeEach(() => {
+          configureTestBed({ pageMetaConfig: mockPageMetaConfig });
+        });
+
+        it('should not enable resolvers', async () => {
+          await firstValueFrom(service.getMeta());
+          expect(resolver.resolveTitle).not.toHaveBeenCalled();
+          expect(resolver.resolveDescription).not.toHaveBeenCalled();
+          expect(resolver.resolveRobots).not.toHaveBeenCalled();
+          expect(resolver.resolveImage).not.toHaveBeenCalled();
+        });
+      });
+      describe('with resolvers not enabled in dev mode', () => {
+        beforeEach(() => {
+          configureTestBed({
+            pageMetaConfig: {
+              ...mockPageMetaConfig,
+              pageMeta: {
+                ...mockPageMetaConfig.pageMeta,
+                enableInDevMode: false,
+              },
+            },
+          });
+        });
+
+        it('should not enable resolvers', async () => {
+          await firstValueFrom(service.getMeta());
+          expect(resolver.resolveTitle).not.toHaveBeenCalled();
+          expect(resolver.resolveDescription).not.toHaveBeenCalled();
+          expect(resolver.resolveRobots).not.toHaveBeenCalled();
+          expect(resolver.resolveImage).not.toHaveBeenCalled();
+        });
+      });
     });
   });
 
@@ -231,7 +293,7 @@ describe('PageMetaService', () => {
             useExisting: PageWithAllResolvers,
             multi: true,
           },
-          { provide: PageMetaConfig, useValue: PageMetaResolvers },
+          { provide: PageMetaConfig, useValue: mockPageMetaConfig },
         ],
       });
 
@@ -243,46 +305,35 @@ describe('PageMetaService', () => {
       expect(service).toBeTruthy();
     });
 
-    it('should resolve page title using resolveTitle()', () => {
+    it('should resolve page title using resolveTitle()', async () => {
       const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
       spyOn(resolver, 'resolveTitle').and.callThrough();
-      service.getMeta().subscribe().unsubscribe();
+      await firstValueFrom(service.getMeta());
       expect(resolver.resolveTitle).toHaveBeenCalled();
     });
 
-    it('should resolve page heading', () => {
+    it('should resolve page heading', async () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(
         of(mockContentPageWithTemplate)
       );
-      let result: PageMeta | null;
-      service
-        .getMeta()
-        .subscribe((value) => {
-          result = value;
-        })
-        .unsubscribe();
+
+      const result = await firstValueFrom(service.getMeta());
 
       expect(result?.heading).toEqual('page heading');
     });
 
-    it('should resolve meta data for product page', () => {
+    it('should resolve meta data for product page', async () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe((value) => {
-          result = value;
-        })
-        .unsubscribe();
+      const result = await firstValueFrom(service.getMeta());
 
-      expect(result.title).toEqual('page title');
-      expect(result.heading).toEqual('page heading');
-      expect(result.description).toEqual('page description');
-      expect(result.breadcrumbs[0].label).toEqual('breadcrumb label');
-      expect(result.breadcrumbs[0].link).toEqual('/bread/crumb');
-      expect(result.image).toEqual('/my/image.jpg');
-      expect(result.robots).toContain(PageRobotsMeta.INDEX);
-      expect(result.robots).toContain(PageRobotsMeta.FOLLOW);
+      expect(result?.title).toEqual('page title');
+      expect(result?.heading).toEqual('page heading');
+      expect(result?.description).toEqual('page description');
+      expect(result?.breadcrumbs?.[0].label).toEqual('breadcrumb label');
+      expect(result?.breadcrumbs?.[0].link).toEqual('/bread/crumb');
+      expect(result?.image).toEqual('/my/image.jpg');
+      expect(result?.robots).toContain(PageRobotsMeta.INDEX);
+      expect(result?.robots).toContain(PageRobotsMeta.FOLLOW);
     });
   });
 });
@@ -335,8 +386,9 @@ describe('Custom PageTitleService', () => {
                   method: 'resolveKeywords',
                 },
               ],
+              enableInDevMode: true,
             },
-          },
+          } satisfies PageMetaConfig,
         },
       ],
     });
@@ -345,14 +397,13 @@ describe('Custom PageTitleService', () => {
     cmsService = TestBed.inject(CmsService);
   });
 
-  it('should resolve keywords for custom page meta service', () => {
+  it('should resolve keywords for custom page meta service', async () => {
     spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockKeywordPage));
-    let result: CustomPageMeta;
-    service
-      .getMeta()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
 
-    expect(result.keywords).toEqual(KEYWORDS);
+    const result: CustomPageMeta | null = await firstValueFrom(
+      service.getMeta()
+    );
+
+    expect(result?.keywords).toEqual(KEYWORDS);
   });
 });

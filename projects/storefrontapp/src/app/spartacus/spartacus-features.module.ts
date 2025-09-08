@@ -367,7 +367,6 @@ if (environment.cpq) {
         enableConsecutiveCharactersPasswordRequirement: true,
         enablePasswordsCannotMatchInPasswordUpdateForm: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,

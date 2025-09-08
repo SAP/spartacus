@@ -45,15 +45,6 @@ export interface PageMetaResolverConfig {
    * The resolver method that must be provided on the resolver class.
    */
   method: string;
-
-  /**
-   * Disables specific resolvers in CSR mode.
-   *
-   * @deprecated since 2211.31 - this option will be removed in the future together
-   *              with the feature toggle `allPageMetaResolversEnabledInCsr`
-   *              (then all resolvers will be enabled in CSR).
-   */
-  disabledInCsr?: boolean;
 }
 
 export interface CanonicalUrlOptions {
