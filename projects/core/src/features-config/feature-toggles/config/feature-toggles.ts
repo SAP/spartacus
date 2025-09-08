@@ -44,11 +44,6 @@ export interface FeatureTogglesInterface {
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
 
   /**
-   * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
-   */
-  a11yPreventHorizontalScroll?: boolean;
-
-  /**
    * Fix popover appearance when a High Contrast Theme is applied.
    */
   a11yPopoverHighContrast?: boolean;
@@ -59,20 +54,9 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
-   * confirmation message is displayed and read out
-   */
-  a11yCartImportConfirmationMessage?: boolean;
-
-  /**
    * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
    */
   a11yAnonymousConsentMessageInDialog?: boolean;
-
-  /**
-   * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
-   */
-  a11yMobileFocusOnFirstNavigationItem?: boolean;
 
   /**
    * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
@@ -99,13 +83,6 @@ export interface FeatureTogglesInterface {
   a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
 
   /**
-   * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
-   * Components:
-   * - `PickupOptionDialogComponent`
-   */
-  a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -126,19 +103,6 @@ export interface FeatureTogglesInterface {
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
-
-  /**
-   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
-   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
-   * and responsive in tab and accordion stles.
-   */
-  a11yTabComponent?: boolean;
-
-  /**
-   * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
-   * arrow keys navigation for the carousel
-   */
-  a11yCarouselArrowKeysNavigation?: boolean;
 
   /**
    * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
@@ -197,32 +161,6 @@ export interface FeatureTogglesInterface {
    * `CustomerTicketingCreateDialogComponent`
    */
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
-
-  /**
-   * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
-   */
-  a11yDeliveryMethodFieldset?: boolean;
-
-  /**
-   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
-   */
-  a11yShowMoreReviewsBtnFocus?: boolean;
-
-  /**
-   * When enabled, the focus will be returned to the trigger element after the dialog is closed.
-   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
-   */
-  a11yDialogTriggerRefocus?: boolean;
-
-  /**
-   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
-   */
-  a11yAddToWishlistFocus?: boolean;
-
-  /**
-   * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
-   */
-  a11ySearchBoxFocusOnEscape?: boolean;
 
   /**
    * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
@@ -800,23 +738,17 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateErrorsToServer: true,
   ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
-  a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: true,
-  a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-  a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yTabComponent: true,
-  a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
@@ -826,11 +758,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yDeliveryMethodFieldset: true,
-  a11yShowMoreReviewsBtnFocus: true,
-  a11yDialogTriggerRefocus: true,
-  a11yAddToWishlistFocus: true,
-  a11ySearchBoxFocusOnEscape: true,
   a11yUpdatingCartNoNarration: true,
   a11yPasswordVisibliltyBtnValueOverflow: true,
   a11yItemCounterFocus: true,
