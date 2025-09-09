@@ -23,7 +23,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { Facet, FeatureConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
@@ -102,9 +102,7 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     protected facetService: FacetService,
     protected elementRef: ElementRef,
     protected renderer: Renderer2
-  ) {
-    useFeatureStyles('a11yTabComponent');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.enableFocusHandlingOnFacetListChanges();

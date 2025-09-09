@@ -270,7 +270,11 @@ describe('ResetPasswordComponentService', () => {
       it('should use passwordValidator', () => {
         expect(passwordControl).toBeTruthy();
         expect((service as any).passwordValidators).toEqual(
-          CustomFormValidators.passwordValidators
+          // CXSPA-10916: replace with only CustomFormValidators.passwordValidators
+          [
+            ...CustomFormValidators.passwordValidators,
+            CustomFormValidators.noConsecutiveCharacters,
+          ]
         );
       });
     });
