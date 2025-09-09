@@ -352,7 +352,6 @@ if (environment.cpq) {
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,

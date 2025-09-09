@@ -331,16 +331,6 @@ export interface FeatureTogglesInterface {
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
-   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
-   * ignoring the configuration option set for specific resolvers
-   * `config.pageMeta.resolvers[index].disabledInCsr`.
-   *
-   * Note: The config option `disabledInCsr` is now deprecated and will be removed
-   *       in the future together with this feature toggle.
-   */
-  allPageMetaResolversEnabledInCsr?: boolean;
-
-  /**
    * Modifies grid arrangement in Product Details Page for better accessibility:
    * - add to cart button should be last step
    * - future stock accordion is moved before add to cart button
@@ -751,7 +741,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
-  allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
   useExtendedMediaComponentConfiguration: true,
