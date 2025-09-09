@@ -20,6 +20,8 @@ import { of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;
 
+const mockInvalidPassword = 'strongPass$!123';
+
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
   update = createSpy().and.returnValue(of({}));
 }
@@ -177,7 +179,7 @@ describe('UpdatePasswordComponentService', () => {
 
     describe('error', () => {
       it('should not update the password', () => {
-        newPassword.setValue('testpassword123');
+        newPassword.setValue(mockInvalidPassword);
         service.updatePassword();
         expect(userPasswordFacade.update).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -191,18 +193,24 @@ describe('UpdatePasswordComponentService', () => {
         const newPasswordControl = service.form.get(
           'newPassword'
         ) as UntypedFormControl;
-        const validators = newPasswordControl.validator
-          ? newPasswordControl.validator({} as any)
-          : [];
+        const validations = {
+          whenEmpty: newPasswordControl.validator?.({} as any),
+          whenNotEmpty: newPasswordControl.validator?.({
+            value: mockInvalidPassword,
+          } as any),
+        };
 
         expect(newPasswordControl).toBeTruthy();
-        expect(validators).toEqual({
+        expect(validations.whenEmpty).toEqual({
           required: true,
           cxMinOneDigit: true,
           cxMinOneUpperCaseCharacter: true,
           cxMinOneSpecialCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+        });
+        expect(validations.whenNotEmpty).toEqual({
+          cxNoConsecutiveCharacters: true,
         });
       });
     });

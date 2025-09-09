@@ -99,19 +99,14 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     this.navigateSubscription = this.routingService
       .isNavigating()
       .subscribe((val) => this.onNavigation(val));
-    if (
-      this.featureConfigService.isEnabled(
-        'a11yMobileFocusOnFirstNavigationItem'
-      )
-    ) {
-      this.isExpanded$ = this.hamburgerMenuService.isExpanded.pipe(
-        tap((isExpanded) => {
-          if (isExpanded) {
-            this.focusOnFirstNavigationItem();
-          }
-        })
-      );
-    }
+
+    this.isExpanded$ = this.hamburgerMenuService.isExpanded.pipe(
+      tap((isExpanded) => {
+        if (isExpanded) {
+          this.focusOnFirstNavigationItem();
+        }
+      })
+    );
 
     if (this.featureConfigService.isEnabled('a11yHamburgerMenuTrapFocus')) {
       this.trapFocusOnMenuIfExpanded();
