@@ -20,25 +20,6 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
-   * (in the Angular's `ErrorHandler` class) to the server layer.
-   *
-   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
-   * e.g. sending a proper Error Page in response to the client,
-   * instead of a rendered HTML that is possibly malformed due to the occurred error.
-   */
-  propagateErrorsToServer?: boolean;
-
-  /**
-   * In SSR, the following errors will be printed to logs (and additionally can also
-   * be forwarded to ExpressJS if only the other feature toggle `propagateErrorsToServer` is enabled):
-   *
-   * 1. any outgoing HTTP request error (4xx-5xx status)
-   * 2. any NgRx action with the `error` property
-   */
-  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -707,8 +688,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: true,
   trendingSearches: true,
-  propagateErrorsToServer: true,
-  ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,

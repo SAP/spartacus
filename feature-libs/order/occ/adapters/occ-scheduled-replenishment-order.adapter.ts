@@ -12,7 +12,7 @@ import {
   OccEndpointsService,
   backOff,
   isJaloError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ScheduledReplenishmentOrderAdapter } from '@spartacus/order/core';
 import {
@@ -61,7 +61,7 @@ export class OccScheduledReplenishmentOrderAdapter
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)

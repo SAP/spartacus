@@ -5,7 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { FeatureConfigService, MultiErrorHandler } from '@spartacus/core';
+import { MultiErrorHandler } from '@spartacus/core';
 import { PROPAGATE_ERROR_TO_SERVER } from '../error-response/propagate-error-to-server';
 
 /**
@@ -31,13 +31,8 @@ export class PropagatingToServerErrorHandler implements MultiErrorHandler {
     inject(PROPAGATE_ERROR_TO_SERVER, {
       optional: true,
     }) ?? (() => {}); // fallback to noop, if not provided
-  private featureConfigService: FeatureConfigService =
-    inject(FeatureConfigService);
 
   handleError(error: unknown): void {
-    if (!this.featureConfigService.isEnabled('propagateErrorsToServer')) {
-      return;
-    }
     this.propagateErrorToServer(error);
   }
 }

@@ -297,8 +297,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         searchBoxV2: true,
         trendingSearches: true,
-        propagateErrorsToServer: true,
-        ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
