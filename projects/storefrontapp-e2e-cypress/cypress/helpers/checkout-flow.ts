@@ -34,6 +34,21 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
+function waitForInterceptionWithResponse(
+  alias: string,
+  timeout = 30000
+): Cypress.Chainable<Cypress.Interception> {
+  return cy.wait(`@${alias}`, { timeout }).then((i: Cypress.Interception) => {
+    if (!i.response) {
+      cy.log(
+        `Retry @${alias}: prima intercepție nu are response (probabil abort la navigare)`
+      );
+      return cy.wait(`@${alias}`, { timeout });
+    }
+    return i;
+  });
+}
+
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   cy.intercept(
     'GET',
@@ -497,20 +512,21 @@ export function fillPaymentFormWithCheapProduct(
 
   if (isExpressCheckout) return;
 
-  cy.wait(`@${getCheckoutDetailsAlias}`, { timeout: 30000 }).then((interception) => {
-    expect(interception, 'intercept present').to.have.property('response');
-    const { statusCode, body } = interception!.response!;
+  waitForInterceptionWithResponse(getCheckoutDetailsAlias, 30000).then(
+    ({ response }) => {
+      const { statusCode, body } = response!;
 
-    cy.log(
-      `Checkout details after payment step: ${JSON.stringify(body ?? {}, null, 2)}`
-    );
+      cy.log(
+        `Checkout details after payment step: ${JSON.stringify(body ?? {}, null, 2)}`
+      );
 
-    expect(statusCode).to.equal(200);
-    expect(body, 'checkout details body').to.be.an('object');
-    expect(body).to.have.property('deliveryAddress');
-    expect(body).to.have.property('deliveryMode');
-    expect(body).to.have.property('paymentInfo');
-  });
+      expect(statusCode).to.equal(200);
+      expect(body, 'checkout details body').to.be.an('object');
+      expect(body).to.have.property('deliveryAddress');
+      expect(body).to.have.property('deliveryMode');
+      expect(body).to.have.property('paymentInfo');
+    }
+  );
 }
 
 export function placeOrderWithCheapProduct(
