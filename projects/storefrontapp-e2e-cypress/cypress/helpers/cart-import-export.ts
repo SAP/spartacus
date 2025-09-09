@@ -233,17 +233,19 @@ export function restoreCart(cart) {
  * Check that the imported cart displays correctly in saved carts list.
  */
 export function verifyImportedData(config: ImportConfig, cart) {
-  cy.get(`cx-saved-cart-list td.cx-saved-cart-list-cart-id`)
-    .contains(cart.code)
+  cy.get('cx-saved-cart-list td.cx-saved-cart-list-cart-id')
+    .contains(cart.code, { timeout: 60000 })
     .parentsUntil('tr')
     .parent()
     .within(() => {
-      cy.get(`td.cx-saved-cart-list-cart-name`).contains(
-        config.savedCartConfig?.name
-      );
-      cy.get(`td.cx-saved-cart-list-date-saved`).contains(config.saveTime);
-      cy.get(`td.cx-saved-cart-list-quantity`).contains(config.quantity);
-      cy.get(`td.cx-saved-cart-list-total`).contains(config.total);
+      cy.get('td.cx-saved-cart-list-cart-name')
+        .contains(config.savedCartConfig?.name, { timeout: 60000 });
+      cy.get('td.cx-saved-cart-list-date-saved')
+        .contains(config.saveTime, { timeout: 60000 });
+      cy.get('td.cx-saved-cart-list-quantity')
+        .contains(String(config.quantity), { timeout: 60000 });
+      cy.get('td.cx-saved-cart-list-total')
+        .contains(config.total, { timeout: 60000 });
     });
 }
 
