@@ -26,13 +26,6 @@ export interface PageMetaResolversConfig {
    * Specifies how the canonical url is created.
    */
   canonicalUrl?: CanonicalUrlOptions;
-
-  /**
-   * Enables resolvers in dev mode regardless of the CSR configuration. This
-   * flag will override the disabling in CSR, which can be useful during development
-   * and debugging.
-   */
-  enableInDevMode?: boolean;
 }
 
 export interface PageMetaResolverConfig {

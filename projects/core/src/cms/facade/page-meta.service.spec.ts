@@ -67,7 +67,6 @@ const mockPageMetaConfig: PageMetaConfig = {
         method: 'resolveRobots',
       },
     ],
-    enableInDevMode: true,
   },
 };
 
@@ -152,11 +151,8 @@ describe('PageMetaService', () => {
 
   describe('browser', () => {
     let resolver: PageWithAllResolvers;
-    function configureTestBed({
-      pageMetaConfig,
-    }: {
-      pageMetaConfig: PageMetaConfig;
-    }) {
+
+    beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [],
         providers: [
@@ -171,7 +167,7 @@ describe('PageMetaService', () => {
           { provide: PLATFORM_ID, useValue: 'browser' },
           {
             provide: PageMetaConfig,
-            useValue: pageMetaConfig,
+            useValue: mockPageMetaConfig,
           },
         ],
       });
@@ -185,46 +181,19 @@ describe('PageMetaService', () => {
       spyOn(resolver, 'resolveDescription').and.callThrough();
       spyOn(resolver, 'resolveRobots').and.callThrough();
       spyOn(resolver, 'resolveImage').and.callThrough();
-    }
+    });
 
     describe('when in dev mode', () => {
       beforeEach(() => {
         spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
       });
 
-      describe('with resolvers enabled', () => {
-        beforeEach(() => {
-          configureTestBed({ pageMetaConfig: mockPageMetaConfig });
-        });
-
-        it('should resolve resolvers', async () => {
-          await firstValueFrom(service.getMeta());
-          expect(resolver.resolveTitle).toHaveBeenCalled();
-          expect(resolver.resolveDescription).toHaveBeenCalled();
-          expect(resolver.resolveRobots).toHaveBeenCalled();
-          expect(resolver.resolveImage).toHaveBeenCalled();
-        });
-      });
-      describe('with resolvers not enabled in dev mode', () => {
-        beforeEach(() => {
-          configureTestBed({
-            pageMetaConfig: {
-              ...mockPageMetaConfig,
-              pageMeta: {
-                ...mockPageMetaConfig.pageMeta,
-                enableInDevMode: false,
-              },
-            },
-          });
-        });
-
-        it('should  disabled resolvers', async () => {
-          await firstValueFrom(service.getMeta());
-          expect(resolver.resolveTitle).not.toHaveBeenCalled();
-          expect(resolver.resolveDescription).not.toHaveBeenCalled();
-          expect(resolver.resolveRobots).not.toHaveBeenCalled();
-          expect(resolver.resolveImage).not.toHaveBeenCalled();
-        });
+      it('should call all resolvers', async () => {
+        await firstValueFrom(service.getMeta());
+        expect(resolver.resolveTitle).toHaveBeenCalled();
+        expect(resolver.resolveDescription).toHaveBeenCalled();
+        expect(resolver.resolveRobots).toHaveBeenCalled();
+        expect(resolver.resolveImage).toHaveBeenCalled();
       });
     });
 
@@ -233,39 +202,12 @@ describe('PageMetaService', () => {
         spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
       });
 
-      describe('with resolvers enabled', () => {
-        beforeEach(() => {
-          configureTestBed({ pageMetaConfig: mockPageMetaConfig });
-        });
-
-        it('should not enable resolvers', async () => {
-          await firstValueFrom(service.getMeta());
-          expect(resolver.resolveTitle).not.toHaveBeenCalled();
-          expect(resolver.resolveDescription).not.toHaveBeenCalled();
-          expect(resolver.resolveRobots).not.toHaveBeenCalled();
-          expect(resolver.resolveImage).not.toHaveBeenCalled();
-        });
-      });
-      describe('with resolvers not enabled in dev mode', () => {
-        beforeEach(() => {
-          configureTestBed({
-            pageMetaConfig: {
-              ...mockPageMetaConfig,
-              pageMeta: {
-                ...mockPageMetaConfig.pageMeta,
-                enableInDevMode: false,
-              },
-            },
-          });
-        });
-
-        it('should not enable resolvers', async () => {
-          await firstValueFrom(service.getMeta());
-          expect(resolver.resolveTitle).not.toHaveBeenCalled();
-          expect(resolver.resolveDescription).not.toHaveBeenCalled();
-          expect(resolver.resolveRobots).not.toHaveBeenCalled();
-          expect(resolver.resolveImage).not.toHaveBeenCalled();
-        });
+      it('should call all resolvers', async () => {
+        await firstValueFrom(service.getMeta());
+        expect(resolver.resolveTitle).toHaveBeenCalled();
+        expect(resolver.resolveDescription).toHaveBeenCalled();
+        expect(resolver.resolveRobots).toHaveBeenCalled();
+        expect(resolver.resolveImage).toHaveBeenCalled();
       });
     });
   });
@@ -386,7 +328,6 @@ describe('Custom PageTitleService', () => {
                   method: 'resolveKeywords',
                 },
               ],
-              enableInDevMode: true,
             },
           } satisfies PageMetaConfig,
         },

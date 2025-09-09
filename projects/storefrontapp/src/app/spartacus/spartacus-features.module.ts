@@ -11,12 +11,10 @@ import {
   CostCenterOccModule,
   ExternalRoutesModule,
   FeatureToggles,
-  PageMetaConfig,
   ProductModule,
   ProductOccModule,
   UserModule,
   UserOccModule,
-  provideConfig,
   provideFeatureTogglesFactory,
 } from '@spartacus/core';
 import {
@@ -292,7 +290,6 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
-    provideConfig(<PageMetaConfig>{ pageMeta: { enableInDevMode: true } }),
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         searchBoxV2: true,
