@@ -185,24 +185,21 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
     .find('.cx-summary-amount')
     .should('contain', cart.total);
 
-  fillShippingAddress(shippingAddressData);
-
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
-
-  /**
-   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
-   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
-   */
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+
+  fillShippingAddress(shippingAddressData);
+
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
 
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
@@ -500,21 +497,19 @@ export function fillPaymentFormWithCheapProduct(
 
   if (isExpressCheckout) return;
 
-  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
-    const response = xhr.response;
+  cy.wait(`@${getCheckoutDetailsAlias}`, { timeout: 30000 }).then((interception) => {
+    expect(interception, 'intercept present').to.have.property('response');
+    const { statusCode, body } = interception!.response!;
+
     cy.log(
-      `Checkout details after payment step: ${JSON.stringify(
-        response.body,
-        null,
-        2
-      )}`
+      `Checkout details after payment step: ${JSON.stringify(body ?? {}, null, 2)}`
     );
 
-    expect(response.statusCode).to.equal(200);
-
-    expect(response.body).to.have.property('deliveryAddress');
-    expect(response.body).to.have.property('deliveryMode');
-    expect(response.body).to.have.property('paymentInfo');
+    expect(statusCode).to.equal(200);
+    expect(body, 'checkout details body').to.be.an('object');
+    expect(body).to.have.property('deliveryAddress');
+    expect(body).to.have.property('deliveryMode');
+    expect(body).to.have.property('paymentInfo');
   });
 }
 
