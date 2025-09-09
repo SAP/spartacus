@@ -92,16 +92,15 @@ export class PageMetaService {
    * ```
    */
   protected getResolverMethods(): { [property: string]: string } {
-    const resolverMethods =
+    return (
       this.pageMetaConfig?.pageMeta?.resolvers?.reduce(
         (acc, resolver) => {
           acc[resolver.property] = resolver.method;
           return acc;
         },
         <Record<string, string>>{}
-      ) ?? {};
-
-    return resolverMethods;
+      ) ?? {}
+    );
   }
 
   /**
