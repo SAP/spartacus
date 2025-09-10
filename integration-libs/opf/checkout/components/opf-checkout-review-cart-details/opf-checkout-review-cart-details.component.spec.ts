@@ -115,7 +115,6 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
   getActive: () => of('electronics-spa'),
   get: () => of({
     uid: 'electronics-spa',
-    // Add other properties that might be required
   }),
 };
   const mockCart: Cart = {

@@ -304,7 +304,6 @@ describe('pickup only cart (no delivery items)', () => {
   beforeEach(() => {
     // Simulate a cart with only pickup items
     hasDeliveryItems$.next(false);
-    // Reset spies
     (checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress as jasmine.Spy).calls.reset();
     (checkoutDeliveryModesFacade.setDeliveryMode as jasmine.Spy).calls.reset();
   });
@@ -323,7 +322,6 @@ describe('cart with delivery items', () => {
   beforeEach(() => {
     // Simulate a cart with delivery items
     hasDeliveryItems$.next(true);
-    // Reset spies
     (checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress as jasmine.Spy).calls.reset();
     (checkoutDeliveryModesFacade.setDeliveryMode as jasmine.Spy).calls.reset();
   });

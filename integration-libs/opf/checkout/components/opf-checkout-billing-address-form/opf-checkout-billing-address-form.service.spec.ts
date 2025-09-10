@@ -60,8 +60,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
       reloadActiveCart: () => of(true),
       isStable: () => of(true),
       getActive: () => of({ sapBillingAddress: mockPaymentAddress } as Cart),
-      hasDeliveryItems: () => of(false)
-
+      hasDeliveryItems: () => of(false),
     };
 
     mockGlobalMessageService = {
@@ -95,15 +94,13 @@ describe('OpfCheckoutBillingAddressFormService', () => {
           provide: OpfCheckoutPaymentWrapperService,
           useValue: mockOpfCheckoutPaymentWrapperService,
         },
-        { provide: Store, useValue: {pipe: () => of(undefined)} },
+        { provide: Store, useValue: { pipe: () => of(undefined) } },
         { provide: UserAddressAdapter, useValue: {} },
         {
           provide: '_pickupNoDefaultAddress$',
           useValue: mockPickupNoDefaultAddress$,
         },
-            { provide: UserAddressService, useValue: mockUserAddressService },
-
-
+        { provide: UserAddressService, useValue: mockUserAddressService },
       ],
     });
 
@@ -284,7 +281,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     expect(result).toEqual(mockPickupNoDefaultAddress$.asObservable());
   });
 
-   it('should handle no default address by setting isSameAsDelivery=false and emitting pickupNoDefaultAddress$', (done) => {
+  it('should handle no default address by setting isSameAsDelivery=false and emitting pickupNoDefaultAddress$', (done) => {
     spyOn(service, 'setIsSameAsDeliveryValue').and.callThrough();
     service.pickupNoDefaultAddress$.subscribe(() => {
       expect(service.setIsSameAsDeliveryValue).toHaveBeenCalledWith(false);
@@ -294,33 +291,43 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   });
   it('should handle error when setting default billing address fails', fakeAsync(() => {
     spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
-    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(of(mockDeliveryAddress));
-    spyOn(service, 'setBillingAddress').and.returnValue(throwError(() => new Error('Error')));
+    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
+      of(mockDeliveryAddress)
+    );
+    spyOn(service, 'setBillingAddress').and.returnValue(
+      throwError(() => new Error('Error'))
+    );
 
     service.setDefaultBillingAddress();
-    flush(); // Ensure all observables complete
+    flush();
 
     expect(service['_$isLoadingAddress'].value).toBeFalsy();
   }));
 
-it('should handle the absence of a default address by invoking handleNoDefaultAddress', fakeAsync(() => {
-  spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
-  spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(of(undefined));
-  const handleNoDefaultAddressSpy = spyOn(service as any, 'handleNoDefaultAddress').and.callThrough();
+  it('should handle the absence of a default address by invoking handleNoDefaultAddress', fakeAsync(() => {
+    spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
+    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
+      of(undefined)
+    );
+    const handleNoDefaultAddressSpy = spyOn(
+      service as any,
+      'handleNoDefaultAddress'
+    ).and.callThrough();
 
-  service.setDefaultBillingAddress();
-  flush(); // Ensure all observables complete
+    service.setDefaultBillingAddress();
+    flush();
 
-  expect(handleNoDefaultAddressSpy).toHaveBeenCalled();
-}));
-    it('should handle errors when loading the default address', fakeAsync(() => {
-      spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
-      spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(throwError(() => new Error('Error loading default address')));
+    expect(handleNoDefaultAddressSpy).toHaveBeenCalled();
+  }));
+  it('should handle errors when loading the default address', fakeAsync(() => {
+    spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
+    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
+      throwError(() => new Error('Error loading default address'))
+    );
 
-      service.setDefaultBillingAddress();
-      flush(); // Ensure all observables complete
+    service.setDefaultBillingAddress();
+    flush();
 
-      expect(service['_$isLoadingAddress'].value).toBeFalsy();
-    }));
-  });
-
+    expect(service['_$isLoadingAddress'].value).toBeFalsy();
+  }));
+});
