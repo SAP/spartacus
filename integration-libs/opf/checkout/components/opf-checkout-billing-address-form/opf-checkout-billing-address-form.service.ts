@@ -74,7 +74,7 @@ export class OpfCheckoutBillingAddressFormService {
   get pickupNoDefaultAddress$(): Observable<void> {
     return this._pickupNoDefaultAddress$.asObservable();
   }
-   private handleNoDefaultAddress(): void {
+  private handleNoDefaultAddress(): void {
     this.setIsSameAsDeliveryValue(false);
     this._pickupNoDefaultAddress$.next();
   }
@@ -91,33 +91,30 @@ export class OpfCheckoutBillingAddressFormService {
   }
   setDefaultBillingAddress(): void {
     this._$isLoadingAddress.next(true);
-    this.activeCartService.hasDeliveryItems().pipe(
-    take(1),
-    filter(hasDeliveryItems => !hasDeliveryItems),
-    switchMap(() => this.userAddressService.getDefaultAddress()),
-    tap(defaultAddress => {
-      if (!defaultAddress) {
-        this.handleNoDefaultAddress();
-      }
-    }),
-    filter((addr): addr is Address => !!addr),
-    switchMap(defaultAddress =>
-      this.setBillingAddress(defaultAddress).pipe(
+    this.activeCartService
+      .hasDeliveryItems()
+      .pipe(
+        take(1),
+        filter((hasDeliveryItems) => !hasDeliveryItems),
+        switchMap(() => this.userAddressService.getDefaultAddress()),
+        tap((defaultAddress) => {
+          if (!defaultAddress) {
+            this.handleNoDefaultAddress();
+          }
+        }),
+        filter((addr): addr is Address => !!addr),
+        switchMap((defaultAddress) => this.setBillingAddress(defaultAddress)),
         catchError(() => {
-        //  console.error('Error setting billing address:', err);
+          this.globalMessageService.add(
+            { key: 'opfCheckout.errors.loadDefaultAddress' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
           return of(undefined);
         })
       )
-    ),
-    catchError(() => {
-      //console.error('Error loading default address:', error);
-      return of(undefined);
-    })
-  ).subscribe();
+      .subscribe();
     this._$isLoadingAddress.next(false);
-
-}
-
+  }
 
   getAddresses(): void {
     this._$isLoadingAddress.next(true);
@@ -189,7 +186,7 @@ export class OpfCheckoutBillingAddressFormService {
             { key: 'opfCheckout.errors.updateBillingAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return throwError(error);
+          return throwError(() => error);
         }),
         finalize(() => {
           this._$isLoadingAddress.next(false);
