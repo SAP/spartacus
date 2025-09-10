@@ -18,39 +18,39 @@
   ></cx-promotions>
 
   <cx-pick-up-in-store-items-details></cx-pick-up-in-store-items-details>
-  
-<ng-container *ngIf="cart?.deliveryItemsQuantity">
-  <div class="cx-items-to-ship-label">
-    {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
-  </div>
-  <div class="cx-opf-review-card-wrapper">
-    <cx-opf-checkout-review-card
-      *ngIf="deliveryAddress$ | async as deliveryAddress"
-      [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
-      [editConfig]="{
-        route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
-        ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
-      }"
-    ></cx-opf-checkout-review-card>
 
-    <cx-opf-checkout-review-card
-      *ngIf="deliveryMode$ | async as deliveryMode"
-      [cardContent$]="getDeliveryModeCard(deliveryMode)"
-      [editConfig]="{
-        route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
-        ariaLabelKey: 'checkoutReview.editDeliveryMode',
-      }"
-    ></cx-opf-checkout-review-card>
-  </div>
+  <ng-container *ngIf="cart?.deliveryItemsQuantity">
+    <div class="cx-items-to-ship-label">
+      {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
+    </div>
+    <div class="cx-opf-review-card-wrapper">
+      <cx-opf-checkout-review-card
+        *ngIf="deliveryAddress$ | async as deliveryAddress"
+        [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
+        [editConfig]="{
+          route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
+          ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
+        }"
+      ></cx-opf-checkout-review-card>
 
-  <ng-template
-    [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-    [cxOutletContext]="{
-      items: activeCartFacade.getDeliveryEntries() | async,
-      readonly: true,
-      promotionLocation: promotionLocation,
-    }"
-  >
-  </ng-template>
-</ng-container>
+      <cx-opf-checkout-review-card
+        *ngIf="deliveryMode$ | async as deliveryMode"
+        [cardContent$]="getDeliveryModeCard(deliveryMode)"
+        [editConfig]="{
+          route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
+          ariaLabelKey: 'checkoutReview.editDeliveryMode',
+        }"
+      ></cx-opf-checkout-review-card>
+    </div>
+
+    <ng-template
+      [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: activeCartFacade.getDeliveryEntries() | async,
+        readonly: true,
+        promotionLocation: promotionLocation,
+      }"
+    >
+    </ng-template>
+  </ng-container>
 </div>

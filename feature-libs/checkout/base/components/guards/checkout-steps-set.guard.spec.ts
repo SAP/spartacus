@@ -79,7 +79,7 @@ class MockCheckoutDeliveryAddressFacade
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
-    clearCheckoutDeliveryAddress = createSpy();
+  clearCheckoutDeliveryAddress = createSpy();
 }
 
 class MockCheckoutDeliveryModesFacade
@@ -300,38 +300,56 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
   });
 
-describe('pickup only cart (no delivery items)', () => {
-  beforeEach(() => {
-    // Simulate a cart with only pickup items
-    hasDeliveryItems$.next(false);
-    (checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress as jasmine.Spy).calls.reset();
-    (checkoutDeliveryModesFacade.setDeliveryMode as jasmine.Spy).calls.reset();
-  });
+  describe('pickup only cart (no delivery items)', () => {
+    beforeEach(() => {
+      // Simulate a cart with only pickup items
+      hasDeliveryItems$.next(false);
+      (
+        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress as jasmine.Spy
+      ).calls.reset();
+      (
+        checkoutDeliveryModesFacade.setDeliveryMode as jasmine.Spy
+      ).calls.reset();
+    });
 
-  it('should clear delivery address, set delivery mode to pickup, and return true for any step', (done) => {
-    guard.canActivate(<any>{ url: ['checkout', 'route2'] }).subscribe((result) => {
-      expect(checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress).toHaveBeenCalled();
-      expect(checkoutDeliveryModesFacade.setDeliveryMode).toHaveBeenCalledWith('pickup');
-      expect(result).toBe(true);
-      done();
+    it('should clear delivery address, set delivery mode to pickup, and return true for any step', (done) => {
+      guard
+        .canActivate(<any>{ url: ['checkout', 'route2'] })
+        .subscribe((result) => {
+          expect(
+            checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+          ).toHaveBeenCalled();
+          expect(
+            checkoutDeliveryModesFacade.setDeliveryMode
+          ).toHaveBeenCalledWith('pickup');
+          expect(result).toBe(true);
+          done();
+        });
     });
   });
-});
 
-describe('cart with delivery items', () => {
-  beforeEach(() => {
-    // Simulate a cart with delivery items
-    hasDeliveryItems$.next(true);
-    (checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress as jasmine.Spy).calls.reset();
-    (checkoutDeliveryModesFacade.setDeliveryMode as jasmine.Spy).calls.reset();
-  });
+  describe('cart with delivery items', () => {
+    beforeEach(() => {
+      // Simulate a cart with delivery items
+      hasDeliveryItems$.next(true);
+      (
+        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress as jasmine.Spy
+      ).calls.reset();
+      (
+        checkoutDeliveryModesFacade.setDeliveryMode as jasmine.Spy
+      ).calls.reset();
+    });
 
-  it('should NOT clear delivery address or set delivery mode for any step', (done) => {
-    guard.canActivate(<any>{ url: ['checkout', 'route2'] }).subscribe(() => {
-      expect(checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress).not.toHaveBeenCalled();
-      expect(checkoutDeliveryModesFacade.setDeliveryMode).not.toHaveBeenCalled();
-      done();
+    it('should NOT clear delivery address or set delivery mode for any step', (done) => {
+      guard.canActivate(<any>{ url: ['checkout', 'route2'] }).subscribe(() => {
+        expect(
+          checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+        ).not.toHaveBeenCalled();
+        expect(
+          checkoutDeliveryModesFacade.setDeliveryMode
+        ).not.toHaveBeenCalled();
+        done();
+      });
     });
   });
-});
 });

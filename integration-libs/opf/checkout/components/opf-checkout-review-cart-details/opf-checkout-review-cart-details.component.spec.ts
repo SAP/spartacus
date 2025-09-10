@@ -111,12 +111,13 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
       },
     },
   ];
-   baseSiteServiceMock = {
-  getActive: () => of('electronics-spa'),
-  get: () => of({
-    uid: 'electronics-spa',
-  }),
-};
+  baseSiteServiceMock = {
+    getActive: () => of('electronics-spa'),
+    get: () =>
+      of({
+        uid: 'electronics-spa',
+      }),
+  };
   const mockCart: Cart = {
     code: 'test-cart',
     totalItems: 2,
@@ -147,13 +148,15 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
             translate: jasmine.createSpy('translate').and.returnValue(''),
           },
         },
-         {    provide: Store,
-        useValue: {
-          pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
-          dispatch: jasmine.createSpy('dispatch'),
-          select: jasmine.createSpy('select').and.returnValue(of({}))
-        }  },
-         {provide:BaseSiteService,useValue:baseSiteServiceMock}
+        {
+          provide: Store,
+          useValue: {
+            pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
+            dispatch: jasmine.createSpy('dispatch'),
+            select: jasmine.createSpy('select').and.returnValue(of({})),
+          },
+        },
+        { provide: BaseSiteService, useValue: baseSiteServiceMock },
       ],
     }).compileComponents();
   });
@@ -187,13 +190,13 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
     expect(component.entries).toBeNull();
   });
 
-it('should display cart details when cart is provided', () => {
-  component.cart = mockCart;
-  component.entries = mockEntries;
-  fixture.detectChanges();
-  expect(component.cart).toEqual(mockCart);
-  expect(component.entries).toEqual(mockEntries);
-  expect(component.cart.totalPrice?.formattedValue).toBe('$100.00');
-  expect(component.entries.length).toBe(2);
-});
+  it('should display cart details when cart is provided', () => {
+    component.cart = mockCart;
+    component.entries = mockEntries;
+    fixture.detectChanges();
+    expect(component.cart).toEqual(mockCart);
+    expect(component.entries).toEqual(mockEntries);
+    expect(component.cart.totalPrice?.formattedValue).toBe('$100.00');
+    expect(component.entries.length).toBe(2);
+  });
 });

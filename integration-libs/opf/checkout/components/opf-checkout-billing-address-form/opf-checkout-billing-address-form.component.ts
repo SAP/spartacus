@@ -10,7 +10,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { Address, Country,UserAddressService } from '@spartacus/core';
+import { Address, Country, UserAddressService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
@@ -40,7 +40,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
 
   ngOnInit() {
-    this.activeCartFacade.getActive().subscribe(cart => (this.cart = cart));
+    this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart));
     this.countries$ = this.service.getCountries();
     this.userAddressService.loadAddresses();
     this.service.setDefaultBillingAddress();

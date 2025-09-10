@@ -42,7 +42,7 @@ class Service {
   setIsSameAsDeliveryValue(value: boolean): void {
     this.isSameAsDelivery$.next(value);
   }
-  setDefaultBillingAddress(): void{};
+  setDefaultBillingAddress(): void {}
 }
 
 @Pipe({
@@ -67,14 +67,13 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
           useClass: Service,
         },
         {
-        provide: ActiveCartFacade,
-        useValue: {
-          getActive: () => of({ code: '123', totalItems: 2 }),
-        },
+          provide: ActiveCartFacade,
+          useValue: {
+            getActive: () => of({ code: '123', totalItems: 2 }),
+          },
         },
         { provide: Store, useValue: {} },
         { provide: UserAddressAdapter, useValue: {} },
-
       ],
     }).compileComponents();
 
@@ -92,7 +91,7 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     const countries = [{ id: '1', name: 'Country 1' }];
     spyOn(service, 'getCountries').and.returnValue(of(countries));
     spyOn(service, 'getAddresses');
-    spyOn(service,'setDefaultBillingAddress');
+    spyOn(service, 'setDefaultBillingAddress');
 
     component.ngOnInit();
 
