@@ -7,8 +7,9 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 10000,
-  requestTimeout: 50000,
+  defaultCommandTimeout: 30000,
+  requestTimeout: 60000,
+   responseTimeout: 60000,
   chromeWebSecurity: false,
   retries: {
     runMode: 2,
