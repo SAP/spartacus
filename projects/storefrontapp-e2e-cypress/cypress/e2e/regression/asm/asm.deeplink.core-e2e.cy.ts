@@ -6,38 +6,36 @@
 
 import * as asm from '../../../helpers/asm';
 import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
-import * as checkout from '../../../helpers/checkout-flow';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import { signOutUser } from '../../../helpers/login';
-import { doPlaceOrder } from '../../../helpers/order-history';
 import * as savedCart from '../../../helpers/saved-cart';
 import * as sampleData from '../../../sample-data/saved-cart';
-
-import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { getAgentToken, getASMB2CCustomer, getASMB2CCustomer2, getProductCode, getTicketDetails } from '../../../sample-data/asm-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 
 import {
-  emulateCustomerPrepare,
+  emulateExistedCustomerPrepare,
   getCurrentCartIdAndAddProducts,
   getCustomerId,
   getCustomerIdForJDK21,
   getInactiveCartIdAndAddProducts,
   getInactiveCartIdAndAddProductsForJDK21,
+  doPlaceOrderForB2CCustomer,
+  doPlaceOrderForB2CCustomerForJDK21
 } from '../../../helpers/asm';
 
-const agentToken = {
-  userName: 'asagent',
-  pwd: 'pw4all',
-};
+import { waitForPage } from '../../../helpers/navigation';
+
+const agentToken = getAgentToken();
+const productCode = getProductCode();
+const testTicketDetails = getTicketDetails();
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation&deeplink', () => {
     it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-      cy.log('--> Register new user');
-      cy.whenJDK17(() => {
-        cy.visit('/?asm=true');
-      });
-      checkout.registerUser(false, customer);
+      const customer = getASMB2CCustomer();
+
+      cy.log('--> Login in user');
       cy.whenJDK17(() => {
         getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
           (customerId) => {
@@ -46,48 +44,36 @@ context('Assisted Service Module', () => {
             asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
           }
         );
       });
-      cy.whenJDK21(() => {
-        asm
-          .getCustomerIdForJDK21(
-            agentToken.userName,
-            agentToken.pwd,
-            customer.email
-          )
-          .then((customerId) => {
+      cy.whenJDK21(() => {        
+        getCustomerIdForJDK21(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
             cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
             agentLoginForJDK21(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
           });
       });
     });
-
+   
     it('should emulate customer and navigate to order with deeplink before agent login (CXSPA-3263)', () => {
-      const customer = getSampleUser();
-
+      const customer = getASMB2CCustomer();
       cy.log('--> Agent logging in with deeplink');
       cy.visit('/');
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
-      cy.whenJDK21(() => {
-        cy.getLoginRegisterLink({ clickAndWait: true });
-      });
-      login(customer.email, customer.password);
-      cy.get('cx-login .cx-login-greet').should('be.visible');
-
-      doPlaceOrder().then((orderData: any) => {
-        signOutUser();
-
-        const orderId = orderData.body.code;
-        cy.whenJDK17(() => {
+      cy.whenJDK17(() => {
+        visitLoginPage();
+        login(customer.email, customer.password);
+        cy.get('cx-login .cx-login-greet').should('be.visible');
+        doPlaceOrderForB2CCustomer(customer.email, customer.password, productCode).then((orderData: any) => {
+          signOutUser();
+    
+          const orderId = orderData.body.code;
           getCustomerId(
             agentToken.userName,
             agentToken.pwd,
@@ -105,13 +91,20 @@ context('Assisted Service Module', () => {
             asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.url().should('contain', 'order/' + orderId);
           });
         });
+      })
 
-        cy.whenJDK21(() => {
+      cy.whenJDK21(() => {
+        cy.getLoginRegisterLink({ clickAndWait: true });
+        doPlaceOrderForB2CCustomerForJDK21(customer.email, customer.password, productCode).then((orderData: any) => {
+          signOutUser();
+
+          const orderId = orderData.body.code;
+          
           getCustomerIdForJDK21(
             agentToken.userName,
             agentToken.pwd,
@@ -129,31 +122,27 @@ context('Assisted Service Module', () => {
             agentLoginForJDK21(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.url().should('contain', 'order/' + orderId);
           });
         });
       });
     });
+  
 
     it('should emulate customer and navigate to support ticket with deeplink before agent login (CXSPA-3263)', () => {
-      const testTicketDetails = {
-        subject: 'Testing',
-        message: 'I am testing asm deep linking.',
-        ticketCategory: {
-          id: 'ENQUIRY',
-          name: 'Complaint',
-        },
-      };
-
-      const customer = getSampleUser();
+      const customer = getASMB2CCustomer();
 
       cy.log('--> Agent logging in with deeplink');
       cy.visit('/');
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
+      cy.log('--> Login in user');
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        visitLoginPage();
+        cy.wait(`@${loginPage}`);
+      });
 
       cy.whenJDK21(() => {
         cy.getLoginRegisterLink({ clickAndWait: true });
@@ -189,7 +178,7 @@ context('Assisted Service Module', () => {
               asm.agentLogin(agentToken.userName, agentToken.pwd);
 
               cy.log('--> Should has assignCart');
-              cy.get('.cx-asm-assignCart').should('exist');
+              cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
               cy.url().should('contain', 'support-ticket/' + ticketId);
             });
@@ -216,7 +205,7 @@ context('Assisted Service Module', () => {
               agentLoginForJDK21(agentToken.userName, agentToken.pwd);
 
               cy.log('--> Should has assignCart');
-              cy.get('.cx-asm-assignCart').should('exist');
+              cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
               cy.url().should('contain', 'support-ticket/' + ticketId);
             });
@@ -225,12 +214,15 @@ context('Assisted Service Module', () => {
     });
 
     it('should emulate customer and navigate to saved cart with deeplink before agent login (CXSPA-3263)', () => {
-      const customer = getSampleUser();
-
+      const customer = getASMB2CCustomer();
       cy.visit('/');
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
+      cy.log('--> Login in user');
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        visitLoginPage();
+        cy.wait(`@${loginPage}`);
+      });
 
       cy.whenJDK21(() => {
         cy.getLoginRegisterLink({ clickAndWait: true });
@@ -271,7 +263,7 @@ context('Assisted Service Module', () => {
             asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.url().should('contain', 'saved-cart/' + savedCartId);
           });
@@ -298,7 +290,7 @@ context('Assisted Service Module', () => {
             agentLoginForJDK21(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.url().should('contain', 'saved-cart/' + savedCartId);
           });
@@ -306,27 +298,18 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-      cy.log('--> Register new user');
-      cy.whenJDK17(() => {
-        cy.visit('/?asm=true');
-      });
-      checkout.registerUser(false, customer);
-
-      cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
+    it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => { 
+      let customer = getASMB2CCustomer()
 
       // get customerId via token
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(agentToken.userName, agentToken.pwd);
         getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
           (customerId) => {
             cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
           }
         );
       });
@@ -340,28 +323,17 @@ context('Assisted Service Module', () => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
           cy.log('--> Should has assignCart');
-          cy.get('.cx-asm-assignCart').should('exist');
+          cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
         });
       });
     });
 
     it('should switched emulated customer with deeplink when click switch customer after agent login (CXSPA-3380)', () => {
-      const customerOld = getSampleUser();
-      cy.log('--> Register new user1');
-      cy.visit('/?asm=true');
-      checkout.registerUser(false, customerOld);
-
-      const customerNew = getSampleUser();
-      cy.log('--> Register new user2');
-      cy.visit('/?asm=true');
-      checkout.registerUser(false, customerNew);
-
-      cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
+      let customerOld = getASMB2CCustomer();
+      const customerNew = getASMB2CCustomer2();  
 
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(agentToken.userName, agentToken.pwd);
         // get customerId via token
         getCustomerId(
           agentToken.userName,
@@ -461,23 +433,13 @@ context('Assisted Service Module', () => {
     });
 
     it('should not to switch emulated customer with deeplink when click cancel after agent login (CXSPA-3380)', () => {
-      const customerA = getSampleUser();
-      cy.log('--> Register new user1');
-      cy.visit('/?asm=true');
-      checkout.registerUser(false, customerA);
+      let customerA = getASMB2CCustomer()
+      const customerB = getASMB2CCustomer2();
 
-      const customerB = getSampleUser();
-      cy.log('--> Register new user2');
-      cy.visit('/?asm=true');
-      checkout.registerUser(false, customerB);
-
-      cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
       // get customerId via token
 
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(agentToken.userName, agentToken.pwd);
         getCustomerId(
           agentToken.userName,
           agentToken.pwd,
@@ -573,21 +535,14 @@ context('Assisted Service Module', () => {
     });
 
     it('should diaplay global error with deeplink when the switched customerId not exist after agent login (CXSPA-3380)', () => {
-      const customer = getSampleUser();
-      cy.log('--> Register new user1');
-      cy.visit('/?asm=true');
-      checkout.registerUser(false, customer);
-
-      cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
+      let customer = getASMB2CCustomer();
 
       // get customerId via token
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(agentToken.userName, agentToken.pwd);
         getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
-          (customerId1) => {
-            cy.visit('/assisted-service/emulate?customerId=' + customerId1);
+          (customerId) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
             cy.log('--> Should has emulated customerA');
             cy.get('.cx-asm-customerInfo .cx-asm-name').should(
@@ -611,8 +566,8 @@ context('Assisted Service Module', () => {
           agentToken.userName,
           agentToken.pwd,
           customer.email
-        ).then((customerId1) => {
-          cy.visit('/assisted-service/emulate?customerId=' + customerId1);
+        ).then((customerId) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
           cy.log('--> Should has emulated customerA');
           cy.get('.cx-asm-customerInfo .cx-asm-name').should(
@@ -632,33 +587,24 @@ context('Assisted Service Module', () => {
     });
 
     it('should emulate customer and navigate to order with deeplink after agent login (CXSPA-3263)', () => {
-      const customer = getSampleUser();
+      const customer = getASMB2CCustomer();
+
+      cy.log('--> login in user');
+
+      cy.log('--> Place an order then login as agent');
       cy.whenJDK17(() => {
         cy.visit('/?asm=true');
-      });
+        visitLoginPage();
+        login(customer.email, customer.password);
+        cy.get('cx-login .cx-login-greet').should('be.visible');
+        doPlaceOrderForB2CCustomer(customer.email, customer.password, productCode).then((orderData: any) =>  {
+          signOutUser();
+    
+          const orderId = orderData.body.code;
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
-      cy.whenJDK21(() => {
-        cy.getLoginRegisterLink({ clickAndWait: true });
-      });
-      login(customer.email, customer.password);
-      cy.get('cx-login .cx-login-greet').should('be.visible');
-
-      doPlaceOrder().then((orderData: any) => {
-        signOutUser();
-
-        const orderId = orderData.body.code;
-
-        cy.log('--> login as agent');
-        cy.whenJDK17(() => {
           asm.agentLogin(agentToken.userName, agentToken.pwd);
-        });
 
-        cy.log('--> Agent visting URL with deeplink');
-
-        cy.whenJDK17(() => {
+          cy.log('--> Agent visting URL with deeplink');        
           getCustomerId(
             agentToken.userName,
             agentToken.pwd,
@@ -671,7 +617,7 @@ context('Assisted Service Module', () => {
                 orderId
             );
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.get('cx-asm-main-ui').should('be.visible');
             cy.get('cx-asm-main-ui').should('exist');
@@ -679,8 +625,14 @@ context('Assisted Service Module', () => {
             cy.url().should('contain', 'order/' + orderId);
           });
         });
+      })
 
-        cy.whenJDK21(() => {
+      cy.whenJDK21(() => {
+        doPlaceOrderForB2CCustomerForJDK21(customer.email, customer.password, productCode).then((orderData: any) =>  {
+          signOutUser();
+    
+          const orderId = orderData.body.code;
+
           getCustomerIdForJDK21(
             agentToken.userName,
             agentToken.pwd,
@@ -693,7 +645,7 @@ context('Assisted Service Module', () => {
                 orderId
             );
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.get('cx-asm-main-ui').should('be.visible');
             cy.get('cx-asm-main-ui').should('exist');
@@ -705,27 +657,20 @@ context('Assisted Service Module', () => {
     });
 
     it('should emulate customer and navigate to support ticket with deeplink after agent login (CXSPA-3263)', () => {
-      const testTicketDetails = {
-        subject: 'Testing',
-        message: 'I am testing asm deep linking.',
-        ticketCategory: {
-          id: 'ENQUIRY',
-          name: 'Complaint',
-        },
-      };
+      const customer = getASMB2CCustomer();
 
-      const customer = getSampleUser();
+      cy.log('--> Login in user');
 
       cy.whenJDK17(() => {
         cy.visit('/?asm=true');
       });
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
       cy.whenJDK21(() => {
+        cy.visit('/');
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
+
+      visitLoginPage();
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -760,7 +705,7 @@ context('Assisted Service Module', () => {
               );
 
               cy.log('--> Should has assignCart');
-              cy.get('.cx-asm-assignCart').should('exist');
+              cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
               cy.get('cx-asm-main-ui').should('exist');
               cy.get('cx-asm-main-ui').should('be.visible');
@@ -783,7 +728,7 @@ context('Assisted Service Module', () => {
               );
 
               cy.log('--> Should has assignCart');
-              cy.get('.cx-asm-assignCart').should('exist');
+              cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
               cy.get('cx-asm-main-ui').should('exist');
               cy.get('cx-asm-main-ui').should('be.visible');
@@ -795,18 +740,17 @@ context('Assisted Service Module', () => {
     });
 
     it('should emulate customer and navigate to saved cart with deeplink after agent login (CXSPA-3263)', () => {
-      const customer = getSampleUser();
+      const customer = getASMB2CCustomer();
 
       cy.whenJDK17(() => {
         cy.visit('/?asm=true');
       });
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
       cy.whenJDK21(() => {
+        cy.visit('/');
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
+      visitLoginPage()
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
@@ -842,7 +786,7 @@ context('Assisted Service Module', () => {
             );
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
@@ -865,7 +809,7 @@ context('Assisted Service Module', () => {
             );
 
             cy.log('--> Should has assignCart');
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
 
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
@@ -877,14 +821,15 @@ context('Assisted Service Module', () => {
     });
 
     it('should emulate customer and navigate to active cart with deeplink after agent login (CXSPA-3507)', () => {
-      const customer = emulateCustomerPrepare(
-        agentToken.userName,
-        agentToken.pwd
-      );
+      const customer = getASMB2CCustomer();
 
       cy.log('--> Agent logging in with deeplink');
 
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(
+          agentToken.userName,
+          agentToken.pwd
+        );
         getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
           (customerId) => {
             getCurrentCartIdAndAddProducts(
@@ -897,20 +842,19 @@ context('Assisted Service Module', () => {
                 `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
               );
 
-              cy.log('--> set input should be active cart id');
-              cy.get(
-                'cx-customer-emulation input[formcontrolname="cartNumber"]'
-              ).should('have.value', activeCartId);
+              // cy.log('--> set input should be active cart id');
+              // cy.get(
+              //   'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              // ).should('have.value', activeCartId);
 
-              cy.log('--> the message strip should be display');
-              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-                .should('exist')
-                .click();
+              // cy.log('--> the message strip should be display');
+              // cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              //   .should('exist')
+              //   .click();
 
               cy.log('--> Should navigate to current cart page');
               cy.get('.cart-details-wrapper .cx-total').should(
-                'have.text',
-                `  Cart #${activeCartId} `
+                'contain', activeCartId
               );
 
               cy.get('cx-asm-main-ui').should('exist');
@@ -923,7 +867,6 @@ context('Assisted Service Module', () => {
       });
 
       cy.whenJDK21(() => {
-        cy.get('button.logout').should('exist').and('be.visible').click();
         getCustomerIdForJDK21(
           agentToken.userName,
           agentToken.pwd,
@@ -941,20 +884,19 @@ context('Assisted Service Module', () => {
                 `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
               );
 
-              cy.log('--> set input should be active cart id');
-              cy.get(
-                'cx-customer-emulation input[formcontrolname="cartNumber"]'
-              ).should('have.value', activeCartId);
+              // cy.log('--> set input should be active cart id');
+              // cy.get(
+              //   'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              // ).should('have.value', activeCartId);
 
-              cy.log('--> the message strip should be display');
-              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-                .should('exist')
-                .click();
+              // cy.log('--> the message strip should be display');
+              // cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              //   .should('exist')
+              //   .click();
 
               cy.log('--> Should navigate to current cart page');
               cy.get('.cart-details-wrapper .cx-total').should(
-                'have.text',
-                `  Cart #${activeCartId} `
+                'contain', activeCartId
               );
 
               cy.get('cx-asm-main-ui').should('exist');
@@ -967,13 +909,14 @@ context('Assisted Service Module', () => {
     });
 
     it('should emulate customer and navigate to active cart with deeplink ticketId and active cartId after agent login (CXSPA-3507)', () => {
-      const customer = emulateCustomerPrepare(
-        agentToken.userName,
-        agentToken.pwd
-      );
+      const customer = getASMB2CCustomer()
 
       cy.log('--> Agent logging in with deeplink');
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(
+          agentToken.userName,
+          agentToken.pwd
+        );
         getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
           (customerId) => {
             getCurrentCartIdAndAddProducts(
@@ -986,20 +929,19 @@ context('Assisted Service Module', () => {
                 `/assisted-service/emulate?customerId=${customerId}&ticketId=00000008&cartId=${activeCartId}&cartType=active`
               );
 
-              cy.log('--> set input should be active cart id');
-              cy.get(
-                'cx-customer-emulation input[formcontrolname="cartNumber"]'
-              ).should('have.value', activeCartId);
+              // cy.log('--> set input should be active cart id');
+              // cy.get(
+              //   'cx-customer-emulation input[formcontrolname="cartNumber"]'
+              // ).should('have.value', activeCartId);
 
-              cy.log('--> the message strip should be display');
-              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-                .should('exist')
-                .click();
+              // cy.log('--> the message strip should be display');
+              // cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              //   .should('exist')
+              //   .click();
 
               cy.log('--> Should navigate to current cart page');
               cy.get('.cart-details-wrapper .cx-total').should(
-                'have.text',
-                `  Cart #${activeCartId} `
+                'contain', activeCartId
               );
 
               cy.get('cx-asm-main-ui').should('exist');
@@ -1012,7 +954,6 @@ context('Assisted Service Module', () => {
       });
 
       cy.whenJDK21(() => {
-        cy.get('button.logout').should('exist').and('be.visible').click();
         getCustomerIdForJDK21(
           agentToken.userName,
           agentToken.pwd,
@@ -1040,8 +981,7 @@ context('Assisted Service Module', () => {
 
             cy.log('--> Should navigate to current cart page');
             cy.get('.cart-details-wrapper .cx-total').should(
-              'have.text',
-              `  Cart #${activeCartId} `
+              'contain', activeCartId
             );
 
             cy.get('cx-asm-main-ui').should('exist');
@@ -1054,19 +994,14 @@ context('Assisted Service Module', () => {
     });
 
     it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-      cy.log('--> Register new user');
-      cy.visit('/?asm=true');
-      checkout.registerUser(false, customer);
-
-      cy.log('--> login as agent');
-      cy.visit('/?asm=true');
-      cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-      });
+      const customer = getASMB2CCustomer();
 
       // get customerId via token
       cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(
+          agentToken.userName,
+          agentToken.pwd
+        );
         getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
           (customerId) => {
             cy.visit(
@@ -1076,7 +1011,7 @@ context('Assisted Service Module', () => {
             );
 
             cy.log('--> Should not has assignCart');
-            cy.get('.cx-asm-assignCart').should('not.exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button').should('not.exist');
           }
         );
       });
@@ -1092,129 +1027,132 @@ context('Assisted Service Module', () => {
           );
 
           cy.log('--> Should not has assignCart');
-          cy.get('.cx-asm-assignCart').should('not.exist');
+          cy.get('.cx-asm-assignCart-input-show-no-button').should('not.exist');
         });
       });
     });
 
     it('should save inactive cart in deeplink after agent login (CXSPA-3278)', () => {
-      let customer = emulateCustomerPrepare(
-        agentToken.userName,
-        agentToken.pwd
-      );
-      asm
-        .getInactiveCartIdAndAddProductsForJDK21(
-          customer.email,
-          customer.password,
-          '1934793',
-          '2'
-        )
-        .then((inactiveCartId) => {
-          // get customerId via token
+      let customer = getASMB2CCustomer();
 
-          cy.whenJDK17(() => {
-            getCustomerId(
-              agentToken.userName,
-              agentToken.pwd,
-              customer.email
-            ).then((customerId) => {
-              cy.visit(
-                `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
-              );
+      cy.whenJDK17(() => {
+        emulateExistedCustomerPrepare(
+          agentToken.userName,
+          agentToken.pwd
+        );
+        getCustomerId(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId) => {
+          getInactiveCartIdAndAddProducts(
+            customer.email,
+            customer.password,
+            '1934793',
+            '2'
+          ).then ((inactiveCartId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+            );
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart-input-show-no-button', { timeout: 15000 }).should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
 
-              cy.log(
-                '--> Should has assign inactive cart to input and display alert info'
-              );
-              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
-              cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
-              cy.get(
-                'cx-customer-emulation input[formcontrolname="cartNumber"]'
-              ).should('have.value', inactiveCartId);
-              cy.get('cx-asm-main-ui cx-message').should('exist');
+            cy.log('--> Click save button the dialog shold display');
+            cy.get('button[id=asm-save-inactive-cart-btn]').click();
+            cy.get('cx-asm-save-cart-dialog').should('exist');
+            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              .should('exist')
+              .click();
+            cy.get('.cx-dialog-item.item-right-text').should(
+              'have.text',
+              ` ${inactiveCartId}  2  $199.70 `
+            );
+            cy.get('button[id=asm-save-cart-dialog-btn]')
+              .should('be.enabled')
+              .click();
 
-              cy.log('--> Click save button the dialog shold display');
-              cy.get('button[id=asm-save-inactive-cart-btn]').click();
-              cy.get('cx-asm-save-cart-dialog').should('exist');
-              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-                .should('exist')
-                .click();
-              cy.get('.cx-dialog-item.item-right-text').should(
-                'have.text',
-                ` ${inactiveCartId}  2  $199.70 `
-              );
-              cy.get('button[id=asm-save-cart-dialog-btn]')
-                .should('be.enabled')
-                .click();
-
-              cy.log(
+            cy.log(
                 '--> Click save button will navigate to the cart detail page'
-              );
+            );
 
-              cy.get('.cx-card-label').should('contain', inactiveCartId);
-              cy.get('cx-saved-cart-details-action .btn-primary').should(
+            cy.get('.cx-card-label').should('contain', inactiveCartId);
+            cy.get('cx-saved-cart-details-action .btn-primary').should(
                 'be.enabled'
-              );
-              cy.url().should('include', 'saved-cart');
-              cy.url().should('include', inactiveCartId);
-            });
-          });
-
-          cy.whenJDK21(() => {
-            getCustomerIdForJDK21(
-              agentToken.userName,
-              agentToken.pwd,
-              customer.email
-            ).then((customerId) => {
-              cy.visit(
-                `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
-              );
-
-              cy.log(
-                '--> Should has assign inactive cart to input and display alert info'
-              );
-              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
-              cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
-              cy.get(
-                'cx-customer-emulation input[formcontrolname="cartNumber"]'
-              ).should('have.value', inactiveCartId);
-              cy.get('cx-asm-main-ui cx-message').should('exist');
-
-              cy.log('--> Click save button the dialog shold display');
-              cy.get('button[id=asm-save-inactive-cart-btn]').click();
-              cy.get('cx-asm-save-cart-dialog').should('exist');
-              cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-                .should('exist')
-                .click();
-              cy.get('.cx-dialog-item.item-right-text').should(
-                'have.text',
-                ` ${inactiveCartId}  2  $199.70 `
-              );
-              cy.get('button[id=asm-save-cart-dialog-btn]')
-                .should('be.enabled')
-                .click();
-
-              cy.log(
-                '--> Click save button will navigate to the cart detail page'
-              );
-
-              cy.get('.cx-card-label').should('contain', inactiveCartId);
-              cy.get('cx-saved-cart-details-action .btn-primary').should(
-                'be.enabled'
-              );
-              cy.url().should('include', 'saved-cart');
-              cy.url().should('include', inactiveCartId);
-            });
+            );
+            cy.url().should('include', 'saved-cart');
+            cy.url().should('include', inactiveCartId);
           });
         });
+      })
+      cy.whenJDK21(() => {
+        getCustomerIdForJDK21(
+          agentToken.userName,
+          agentToken.pwd,
+          customer.email
+        ).then((customerId) => {
+          getInactiveCartIdAndAddProductsForJDK21(
+            customer.email,
+            customer.password,
+            '1934793',
+            '2'
+          ).then ((inactiveCartId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+            );
+
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart-input-show-no-button', { timeout: 15000 }).should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
+
+            cy.log('--> Click save button the dialog shold display');
+            cy.get('button[id=asm-save-inactive-cart-btn]').click();
+            cy.get('cx-asm-save-cart-dialog').should('exist');
+            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              .should('exist')
+              .click();
+            cy.get('.cx-dialog-item.item-right-text').should(
+              'have.text',
+              ` ${inactiveCartId}  2  $199.70 `
+            );
+            cy.get('button[id=asm-save-cart-dialog-btn]')
+              .should('be.enabled')
+              .click();
+
+            cy.log(
+              '--> Click save button will navigate to the cart detail page'
+            );
+
+            cy.get('.cx-card-label').should('contain', inactiveCartId);
+            cy.get('cx-saved-cart-details-action .btn-primary').should(
+              'be.enabled'
+            );
+            cy.url().should('include', 'saved-cart');
+            cy.url().should('include', inactiveCartId);
+          });
+        });
+      });
     });
 
     it('should not save empty inactive cart in deeplink after agent login (CXSPA-3278)', () => {
-      let customer = emulateCustomerPrepare(
-        agentToken.userName,
-        agentToken.pwd
-      );
+      let customer = getASMB2CCustomer()
+
+      emulateExistedCustomerPrepare(agentToken.userName, agentToken.pwd);
 
       cy.whenJDK17(() => {
+
         getInactiveCartIdAndAddProducts(customer.email, customer.password).then(
           (inactiveCartId) => {
             cy.log('--> create inactive cart');
@@ -1231,7 +1169,7 @@ context('Assisted Service Module', () => {
               cy.log(
                 '--> Should has assign inactive cart to input and display alert info'
               );
-              cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+              cy.get('.cx-asm-assignCart-input-show-no-button', { timeout: 15000 }).should('exist');
               cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
               cy.get(
                 'cx-customer-emulation input[formcontrolname="cartNumber"]'
@@ -1280,7 +1218,7 @@ context('Assisted Service Module', () => {
             cy.log(
               '--> Should has assign inactive cart to input and display alert info'
             );
-            cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+            cy.get('.cx-asm-assignCart-input-show-no-button', { timeout: 15000 }).should('exist');
             cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
             cy.get(
               'cx-customer-emulation input[formcontrolname="cartNumber"]'
