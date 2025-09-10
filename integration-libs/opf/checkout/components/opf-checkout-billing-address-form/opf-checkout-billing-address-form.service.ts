@@ -11,6 +11,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
@@ -41,7 +42,6 @@ import {
 
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
-import { UserAddressService } from '@spartacus/core';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -97,21 +97,20 @@ export class OpfCheckoutBillingAddressFormService {
     switchMap(() => this.userAddressService.getDefaultAddress()),
     tap(defaultAddress => {
       if (!defaultAddress) {
-        console.log('No default address found, handling no default address.');
         this.handleNoDefaultAddress();
       }
     }),
     filter((addr): addr is Address => !!addr),
     switchMap(defaultAddress =>
       this.setBillingAddress(defaultAddress).pipe(
-        catchError(err => {
-          console.error('Error setting billing address:', err);
+        catchError(() => {
+        //  console.error('Error setting billing address:', err);
           return of(undefined);
         })
       )
     ),
-    catchError(error => {
-      console.error('Error loading default address:', error);
+    catchError(() => {
+      //console.error('Error loading default address:', error);
       return of(undefined);
     })
   ).subscribe();

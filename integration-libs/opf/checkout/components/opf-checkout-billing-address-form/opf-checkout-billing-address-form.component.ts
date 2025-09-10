@@ -10,11 +10,10 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { Address, Country } from '@spartacus/core';
+import { Address, Country,UserAddressService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
-import { UserAddressService } from '@spartacus/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',

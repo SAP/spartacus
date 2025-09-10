@@ -37,7 +37,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 export class CheckoutStepsSetGuard implements OnDestroy {
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
-  protected hasDeliveryItemsInCart: Boolean;
+  protected hasDeliveryItemsInCart: boolean;
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
