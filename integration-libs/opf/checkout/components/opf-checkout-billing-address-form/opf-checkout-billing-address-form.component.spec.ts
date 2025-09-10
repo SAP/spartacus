@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Address, Country, UserAddressAdapter } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Pipe, PipeTransform } from '@angular/core';
+
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { Store } from '@ngrx/store';
@@ -40,7 +42,7 @@ class Service {
   setIsSameAsDeliveryValue(value: boolean): void {
     this.isSameAsDelivery$.next(value);
   }
-  setPickupDeliveryModeForPickupItems(): void {}
+  setDefaultBillingAddress(): void{};
 }
 
 @Pipe({
@@ -64,8 +66,15 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
           provide: OpfCheckoutBillingAddressFormService,
           useClass: Service,
         },
+        {
+        provide: ActiveCartFacade,
+        useValue: {
+          getActive: () => of({ code: '123', totalItems: 2 }),
+        },
+        },
         { provide: Store, useValue: {} },
         { provide: UserAddressAdapter, useValue: {} },
+
       ],
     }).compileComponents();
 
@@ -83,15 +92,14 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     const countries = [{ id: '1', name: 'Country 1' }];
     spyOn(service, 'getCountries').and.returnValue(of(countries));
     spyOn(service, 'getAddresses');
-    spyOn(service, 'setPickupDeliveryModeForPickupItems');
+    spyOn(service,'setDefaultBillingAddress');
 
     component.ngOnInit();
 
     expect(component.countries$).toBeDefined();
     expect(service.getCountries).toHaveBeenCalled();
     expect(service.getAddresses).toHaveBeenCalled();
-    expect(service.setPickupDeliveryModeForPickupItems).toHaveBeenCalled();
-
+    expect(service.setDefaultBillingAddress).toHaveBeenCalled();
   });
 
   it('should cancel and hide form on cancelAndHideForm', () => {

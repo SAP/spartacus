@@ -1,22 +1,25 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import * as fromProcessReducers from '../../process/store/reducers';
+import * as fromStoreReducers from '../store/reducers/index';
+
 import {
   Address,
   AddressValidation,
   Country,
   Region,
 } from '../../model/address.model';
+import { Observable, of } from 'rxjs';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { Store, StoreModule } from '@ngrx/store';
+import { TestBed, inject } from '@angular/core/testing';
+
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
-import * as fromStoreReducers from '../store/reducers/index';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserAddressService } from './user-address.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { take } from 'rxjs/operators';
+
 import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -346,6 +349,40 @@ describe('UserAddressService', () => {
           OCC_USER_ID_CURRENT,
           mockAddress
         );
+        done();
+      });
+    });
+  });
+
+  describe('getDefaultAddress', () => {
+    it('should return the default address if present', (done) => {
+      const addresses: Address[] = [
+        { id: '1', defaultAddress: false },
+        { id: '2', defaultAddress: true },
+        { id: '3', defaultAddress: false },
+      ];
+      spyOn(service, 'getAddresses').and.returnValue(of(addresses));
+      service.getDefaultAddress().subscribe((result) => {
+        expect(result).toEqual(addresses[1]);
+        done();
+      });
+    });
+    it('should return undefined if no default address is present', (done) => {
+      const addresses: Address[] = [
+        { id: '1', defaultAddress: false },
+        { id: '2', defaultAddress: false },
+      ];
+      spyOn(service, 'getAddresses').and.returnValue(of(addresses));
+      service.getDefaultAddress().subscribe((result) => {
+        expect(result).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should return undefined if addresses array is empty', (done) => {
+      spyOn(service, 'getAddresses').and.returnValue(of([]));
+      service.getDefaultAddress().subscribe((result) => {
+        expect(result).toBeUndefined();
         done();
       });
     });

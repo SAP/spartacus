@@ -106,7 +106,6 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   protected isStepSet(step: CheckoutStep): Observable<GuardResult> {
-    // If step is undefined/null, check if cart contains only pickup items and set delivery mode
     if (!this.hasDeliveryItemsInCart) {
       this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
       this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');

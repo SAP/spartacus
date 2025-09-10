@@ -89,12 +89,11 @@ export class OpfCheckoutBillingAddressFormService {
       shareReplay(1)
     );
   }
-// This method sets the default address when the cart contains only pickup items.
   setDefaultBillingAddress(): void {
     this._$isLoadingAddress.next(true);
     this.activeCartService.hasDeliveryItems().pipe(
     take(1),
-    filter(hasDeliveryItems => !hasDeliveryItems), // Proceed only if there are no delivery items
+    filter(hasDeliveryItems => !hasDeliveryItems),
     switchMap(() => this.userAddressService.getDefaultAddress()),
     tap(defaultAddress => {
       if (!defaultAddress) {
@@ -102,7 +101,7 @@ export class OpfCheckoutBillingAddressFormService {
         this.handleNoDefaultAddress();
       }
     }),
-    filter((addr): addr is Address => !!addr), // Only continue if address exists
+    filter((addr): addr is Address => !!addr),
     switchMap(defaultAddress =>
       this.setBillingAddress(defaultAddress).pipe(
         catchError(err => {

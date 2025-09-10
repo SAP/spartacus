@@ -3,23 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import {
-  CheckoutBillingAddressFacade,
-  CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryModesFacade,
-} from '@spartacus/checkout/base/root';
 import {
   Address,
   GlobalMessageService,
   HttpErrorModel,
   UserAddressAdapter,
+  UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
-import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import {
+  CheckoutBillingAddressFacade,
+  CheckoutDeliveryAddressFacade,
+} from '@spartacus/checkout/base/root';
+import { TestBed, fakeAsync, flush } from '@angular/core/testing';
+
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
+import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import { Store } from '@ngrx/store';
 
 describe('OpfCheckoutBillingAddressFormService', () => {
@@ -31,7 +32,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   let mockGlobalMessageService: Partial<GlobalMessageService>;
   let mockOpfCheckoutPaymentWrapperService: Partial<OpfCheckoutPaymentWrapperService>;
   let mockPickupNoDefaultAddress$: BehaviorSubject<void>;
-  let mockCheckoutDeliveryModesFacade: any;
+  let mockUserAddressService: Partial<UserAddressService>;
 
   const mockDeliveryAddress: Address = {
     id: '123',
@@ -59,7 +60,8 @@ describe('OpfCheckoutBillingAddressFormService', () => {
       reloadActiveCart: () => of(true),
       isStable: () => of(true),
       getActive: () => of({ sapBillingAddress: mockPaymentAddress } as Cart),
-      hasPickupItems: () => of(true),
+      hasDeliveryItems: () => of(false)
+
     };
 
     mockGlobalMessageService = {
@@ -69,14 +71,10 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     mockOpfCheckoutPaymentWrapperService = {
       reloadPaymentMode: () => {},
     };
-
     mockPickupNoDefaultAddress$ = new BehaviorSubject<void>(undefined);
 
-    mockCheckoutDeliveryModesFacade = {
-      getSelectedDeliveryModeState: jasmine
-        .createSpy()
-        .and.returnValue(of({ data: {} })),
-      setDeliveryMode: jasmine.createSpy().and.returnValue(of(true)),
+    mockUserAddressService = {
+      getDefaultAddress: () => of(undefined),
     };
 
     TestBed.configureTestingModule({
@@ -97,16 +95,15 @@ describe('OpfCheckoutBillingAddressFormService', () => {
           provide: OpfCheckoutPaymentWrapperService,
           useValue: mockOpfCheckoutPaymentWrapperService,
         },
-        { provide: Store, useValue: {} },
+        { provide: Store, useValue: {pipe: () => of(undefined)} },
         { provide: UserAddressAdapter, useValue: {} },
         {
           provide: '_pickupNoDefaultAddress$',
           useValue: mockPickupNoDefaultAddress$,
         },
-        {
-          provide: CheckoutDeliveryModesFacade,
-          useValue: mockCheckoutDeliveryModesFacade,
-        },
+            { provide: UserAddressService, useValue: mockUserAddressService },
+
+
       ],
     });
 
@@ -276,44 +273,18 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
     expect(service.setBillingAddress).not.toHaveBeenCalled();
   });
+  it('should return an observable from pickupNoDefaultAddress$', () => {
+    spyOn(mockPickupNoDefaultAddress$, 'asObservable').and.callThrough();
 
-  it('should return pickupNoDefaultAddress$ observable', (done) => {
-    service.pickupNoDefaultAddress$.subscribe(() => {
-      expect(true).toBe(true);
-      done();
-    });
-    (service as any)._pickupNoDefaultAddress$.next();
+    (service as any)._pickupNoDefaultAddress$ = mockPickupNoDefaultAddress$;
+
+    const result: Observable<void> = service.pickupNoDefaultAddress$;
+
+    expect(mockPickupNoDefaultAddress$.asObservable).toHaveBeenCalled();
+    expect(result).toEqual(mockPickupNoDefaultAddress$.asObservable());
   });
 
-  it('should set pickup delivery mode for pickup items', () => {
-    service.setPickupDeliveryModeForPickupItems();
-    expect(
-      mockCheckoutDeliveryModesFacade.setDeliveryMode
-    ).toHaveBeenCalledWith('pickup');
-  });
-
-  it('should set pickup delivery mode when cart has pickup items and no current mode', () => {
-    spyOn(mockActiveCartFacade, 'hasPickupItems').and.returnValue(of(true));
-    mockCheckoutDeliveryModesFacade.getSelectedDeliveryModeState.and.returnValue(
-      of({ data: {} })
-    );
-    service.setPickupDeliveryModeForPickupItems();
-    expect(
-      mockCheckoutDeliveryModesFacade.setDeliveryMode
-    ).toHaveBeenCalledWith('pickup');
-    expect(service['hasPickupItems']).toBe(true);
-  });
-
-  it('should not set delivery mode if cart has no pickup items', () => {
-    spyOn(mockActiveCartFacade, 'hasPickupItems').and.returnValue(of(false));
-    mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
-    service.setPickupDeliveryModeForPickupItems();
-    expect(
-      mockCheckoutDeliveryModesFacade.setDeliveryMode
-    ).not.toHaveBeenCalled();
-  });
-
-  it('should handle no default address by setting isSameAsDelivery=false and emitting pickupNoDefaultAddress$', (done) => {
+   it('should handle no default address by setting isSameAsDelivery=false and emitting pickupNoDefaultAddress$', (done) => {
     spyOn(service, 'setIsSameAsDeliveryValue').and.callThrough();
     service.pickupNoDefaultAddress$.subscribe(() => {
       expect(service.setIsSameAsDeliveryValue).toHaveBeenCalledWith(false);
@@ -321,55 +292,35 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     });
     (service as any).handleNoDefaultAddress();
   });
+  it('should handle error when setting default billing address fails', fakeAsync(() => {
+    spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
+    spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(of(mockDeliveryAddress));
+    spyOn(service, 'setBillingAddress').and.returnValue(throwError(() => new Error('Error')));
 
-  it('should handle no addresses found in address book', () => {
-    service['hasPickupItems'] = true;
-    spyOn(service['userAddressService'], 'getAddresses').and.returnValue(
-      of([])
-    );
-    spyOn(service as any, 'handleNoDefaultAddress');
+    service.setDefaultBillingAddress();
+    flush(); // Ensure all observables complete
 
-    service.getAddresses();
+    expect(service['_$isLoadingAddress'].value).toBeFalsy();
+  }));
 
-    expect(service['handleNoDefaultAddress']).toHaveBeenCalled();
+it('should handle the absence of a default address by invoking handleNoDefaultAddress', fakeAsync(() => {
+  spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
+  spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(of(undefined));
+  const handleNoDefaultAddressSpy = spyOn(service as any, 'handleNoDefaultAddress').and.callThrough();
+
+  service.setDefaultBillingAddress();
+  flush(); // Ensure all observables complete
+
+  expect(handleNoDefaultAddressSpy).toHaveBeenCalled();
+}));
+    it('should handle errors when loading the default address', fakeAsync(() => {
+      spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
+      spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(throwError(() => new Error('Error loading default address')));
+
+      service.setDefaultBillingAddress();
+      flush(); // Ensure all observables complete
+
+      expect(service['_$isLoadingAddress'].value).toBeFalsy();
+    }));
   });
-  it('should use default address if available', () => {
-    service['hasPickupItems'] = true;
 
-    const defaultAddress = { id: 'A1', defaultAddress: true } as Address;
-    service['hasPickupItems'] = true;
-
-    spyOn(service['_$billingAddressSub'], 'next');
-
-    spyOn(service['userAddressService'], 'getAddresses').and.returnValue(
-      of([defaultAddress])
-    );
-    spyOn(service, 'setBillingAddress').and.returnValue(of(defaultAddress));
-
-    service.getAddresses();
-
-    expect(service['_$billingAddressSub'].next).toHaveBeenCalledWith(
-      jasmine.objectContaining({ id: 'A1', defaultAddress: true })
-    );
-  });
-
-  it('should handle no default address in address book', () => {
-    service['hasPickupItems'] = true;
-
-    spyOn(service['_$billingAddressSub'], 'next');
-    spyOn(service as any, 'handleNoDefaultAddress');
-
-    spyOn(service as any, 'getDeliveryAddress').and.returnValue(
-      of({ id: '123' } as Address)
-    );
-    spyOn(service as any, 'getPaymentAddress').and.returnValue(of(undefined));
-
-    spyOn(service['userAddressService'], 'getAddresses').and.returnValue(
-      of([{ id: 'A1' }])
-    );
-    service.getAddresses();
-
-    expect(service['_$billingAddressSub'].next).toHaveBeenCalledWith(undefined);
-    expect(service['handleNoDefaultAddress']).toHaveBeenCalled();
-  });
-});
