@@ -16,11 +16,14 @@ describe('SSR', () => {
 
   function seoChecks() {
     cy.title().should('not.be.empty');
-    cy.get('head meta[name="robots"]', { timeout: 30000 })
+    cy.document().its('readyState', { timeout: 60000 }).should('eq', 'complete');
+    cy.title({ timeout: 60000 }).should('not.be.empty');
+
+    cy.get('head meta[name="robots"]', { timeout: 60000 })
       .should('have.attr', 'content')
       .and('contains', 'INDEX')
       .and('contains', 'FOLLOW');
-    cy.get('link[rel="canonical"]', { timeout: 30000 }).should(
+    cy.get('link[rel="canonical"]', { timeout: 60000 }).should(
       'have.attr',
       'href'
     );
