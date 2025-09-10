@@ -9,7 +9,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
 import {
@@ -44,7 +44,7 @@ export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
+          throwError(tryNormalizeHttpError(error, this.logger))
         ),
         this.converter.pipeable(PDF_INVOICES_LIST_INVOICES_NORMALIZER)
       );
@@ -67,7 +67,7 @@ export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error, this.logger))
+          throwError(tryNormalizeHttpError(error, this.logger))
         )
       );
   }

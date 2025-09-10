@@ -6,6 +6,7 @@
 
 import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
+import { visitLoginPage } from '../../../../support/utils/login';
 const requiredFieldMessage = 'Field is required';
 const message = 'New address was added successfully!';
 
@@ -20,7 +21,7 @@ describe('CDC', () => {
         );
         req.continue();
       });
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
         cdc.b2cConsentTestUser.password
@@ -54,7 +55,7 @@ describe('CDC', () => {
           },
         }
       );
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
         cdc.b2cConsentTestUser.password
@@ -112,7 +113,7 @@ describe('CDC', () => {
   describe('Login existing Customer with Native UI', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
     });
 
     it('should login and redirect to home page (CXSPA-3016)', () => {
@@ -162,7 +163,7 @@ describe('CDC', () => {
   describe('Update profile without screenset', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Personal Details',
@@ -179,7 +180,7 @@ describe('CDC', () => {
   describe('Update email without screenset', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Email Address',
@@ -210,7 +211,7 @@ describe('CDC', () => {
   describe('Update password without screenset', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Password',
@@ -275,7 +276,7 @@ describe('CDC', () => {
   describe('My Account-> Consent Management', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Consent Management',
@@ -304,7 +305,7 @@ describe('CDC', () => {
   describe('CDC My Account - Address Book', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/login');
+      visitLoginPage();
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cy.selectUserMenuOption({
         option: 'Address Book',

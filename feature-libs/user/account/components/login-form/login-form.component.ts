@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  ViewChild,
+} from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -15,18 +21,23 @@ import { LoginFormComponentService } from './login-form-component.service';
   templateUrl: './login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class LoginFormComponent {
-  constructor(protected service: LoginFormComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
-
+  @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
+  @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  csrf = this.service.csrf;
+  action = this.service.action;
+  method = this.service.method;
 
-  @HostBinding('class.user-form') style = true;
+  constructor(protected service: LoginFormComponentService) {
+    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
+    this.service.handleCustomLoginError();
+  }
 
   onSubmit(): void {
-    this.service.login();
+    this.service.login(this.loginForm?.nativeElement);
   }
 }
