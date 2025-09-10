@@ -5,7 +5,6 @@
  */
 
 import { ErrorHandler, Injectable, inject } from '@angular/core';
-import { LoggerService } from '../logger';
 import { MULTI_ERROR_HANDLER } from './multi-error-handler';
 
 /**
@@ -18,13 +17,6 @@ import { MULTI_ERROR_HANDLER } from './multi-error-handler';
  */
 @Injectable()
 export class CxErrorHandler implements ErrorHandler {
-  /**
-   * @deprecated Since 2211.29 - `LoggerService` is not used anymore in this class.
-   *             Instead it's now used in `LoggingErrorHandler`.
-   *             This property will be removed in the future together with removing
-   *             the feature toggle `propagateErrorsToServer`.
-   */
-  protected logger = inject(LoggerService);
   protected errorHandlers = inject(MULTI_ERROR_HANDLER);
 
   /**
