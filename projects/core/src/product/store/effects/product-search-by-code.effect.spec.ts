@@ -6,7 +6,8 @@ import { ProductActions } from '../actions/index';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { LoggerService } from '../../../logger/logger.service';
-import { AuthActions, normalizeHttpError } from '@spartacus/core';
+import { AuthActions } from '@spartacus/core';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 
 describe('ProductSearchByCodeEffects', () => {
   let actions$: Observable<any>;
