@@ -17,5 +17,11 @@
 
   .cx-address-card {
     padding-bottom: 30px;
+    .cx-card-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 70%;
+    }
   }
 }

@@ -8,17 +8,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject,
   ViewChild,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import {
-  AuthService,
-  FeatureConfigService,
-  isNotNullable,
-  Product,
-} from '@spartacus/core';
+import { AuthService, Product, isNotNullable } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -41,8 +35,6 @@ export class AddToWishListComponent {
   @ViewChild('addToWishlistButton') addToWishlistButton: ElementRef;
   @ViewChild('removeFromWishlistButton') removeFromWishlistButton: ElementRef;
 
-  private featureConfigService = inject(FeatureConfigService);
-
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
     tap((isLogin) => {
       if (isLogin) {
@@ -64,17 +56,13 @@ export class AddToWishListComponent {
   add(product: Product): void {
     if (product.code) {
       this.wishListFacade.addEntry(product.code);
-      if (this.featureConfigService.isEnabled('a11yAddToWishlistFocus')) {
-        this.restoreFocus();
-      }
+      this.restoreFocus();
     }
   }
 
   remove(entry: OrderEntry): void {
     this.wishListFacade.removeEntry(entry);
-    if (this.featureConfigService.isEnabled('a11yAddToWishlistFocus')) {
-      this.restoreFocus();
-    }
+    this.restoreFocus();
   }
 
   getProductInWishList(
