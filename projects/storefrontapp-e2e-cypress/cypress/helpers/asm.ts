@@ -107,12 +107,14 @@ export function doPlaceOrderForB2CCustomer(
   pwd: string,
   productCode: string
 ): Cypress.Chainable<any> {
-    // Start the Cypress chain inside the condition
-    return cy.whenJDK17(() => {
-      return cy.login(customer, pwd).then(() => {
-        const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
-        console.info(auth);
-        return cy.addToCart(productCode, 1, auth.token.access_token).then((cartId) => {
+  // Start the Cypress chain inside the condition
+  return cy.whenJDK17(() => {
+    return cy.login(customer, pwd).then(() => {
+      const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+      console.info(auth);
+      return cy
+        .addToCart(productCode, 1, auth.token.access_token)
+        .then((cartId) => {
           cy.requireDeliveryAddressAdded(
             getSampleUser().address,
             auth.token,
@@ -120,53 +122,60 @@ export function doPlaceOrderForB2CCustomer(
           );
           cy.requireDeliveryMethodSelected(auth.token, cartId);
           cy.requirePaymentMethodAdded(cartId);
-          return cy.requirePlacedOrder(auth.token, cartId);  // Return promise
-      });
+          return cy.requirePlacedOrder(auth.token, cartId); // Return promise
+        });
     });
   });
-} 
+}
 
 export function doPlaceOrderForB2CCustomerForJDK21(
   customer: string,
   pwd: string,
   productCode: string
 ): Cypress.Chainable<any> {
-    return cy.whenJDK21(() => {
-      cy.visit('/');
-      cy.contains('a[role="link"]', 'Sign In / Register').should(
-        'have.attr',
-        'href',
-        '/electronics-spa/en/USD/sign-in'
-      );
+  return cy.whenJDK21(() => {
+    cy.visit('/');
+    cy.contains('a[role="link"]', 'Sign In / Register').should(
+      'have.attr',
+      'href',
+      '/electronics-spa/en/USD/sign-in'
+    );
 
-      cy.contains('a[role="link"]', 'Sign In / Register').click();
-      cy.get('input[name="username"]').clear().type(customer);
-      cy.get('input[name="password"]').clear().type(pwd);
-      cy.contains('button.btn-primary', 'Sign In').should('be.visible');
-      cy.intercept('POST', '/authorizationserver/oauth/token').as(
-        'tokenResponse'
-      );
-      cy.contains('button.btn-primary', 'Sign In').click();
+    cy.contains('a[role="link"]', 'Sign In / Register').click();
+    cy.get('input[name="username"]').clear().type(customer);
+    cy.get('input[name="password"]').clear().type(pwd);
+    cy.contains('button.btn-primary', 'Sign In').should('be.visible');
+    cy.intercept('POST', '/authorizationserver/oauth/token').as(
+      'tokenResponse'
+    );
+    cy.contains('button.btn-primary', 'Sign In').click();
 
-      return cy.wait('@tokenResponse').then((interception) => {
-        const response = interception.response.body;
-        cy.wrap(response.access_token).as('token');
-        return cy.addToCart(productCode, 1, response.access_token).then((cartId) => {
+    return cy.wait('@tokenResponse').then((interception) => {
+      const response = interception.response.body;
+      cy.wrap(response.access_token).as('token');
+      return cy
+        .addToCart(productCode, 1, response.access_token)
+        .then((cartId) => {
           cy.requireDeliveryAddressAddedForJDK21(
             getSampleUser().address,
             response.access_token,
             cartId
           );
-          cy.requireDeliveryMethodSelectedForJDK21(response.access_token, cartId);
+          cy.requireDeliveryMethodSelectedForJDK21(
+            response.access_token,
+            cartId
+          );
           cy.requirePaymentMethodAdded(cartId);
-          return cy.requirePlacedOrderForJDK21(response.access_token, cartId);  // Return promise for JDK21
-          cy.log("aaaa=", cy.requirePlacedOrderForJDK21(response.access_token, cartId));
-          cy.pause()
-      });
+          return cy.requirePlacedOrderForJDK21(response.access_token, cartId); // Return promise for JDK21
+          cy.log(
+            'aaaa=',
+            cy.requirePlacedOrderForJDK21(response.access_token, cartId)
+          );
+          cy.pause();
+        });
     });
   });
 }
-
 
 export function addProductToB2CCart(
   customer: string,
@@ -741,9 +750,9 @@ export function testCustomerEmulation() {
 
   it('should test customer emulation', () => {
     checkout.visitHomePage();
-    
+
     customer = getSampleUser();
-  
+
     checkout.registerUser(false, customer);
 
     // storefront should have ASM UI disabled by default

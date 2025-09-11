@@ -7,12 +7,12 @@ import { generateMail, randomString } from '../helpers/user';
 
 export const agentTOken = getAgentToken();
 
-export function getAgentToken () {
+export function getAgentToken() {
   return {
     userName: 'asagent',
     pwd: 'pw4all',
-  }
-};
+  };
+}
 
 export const b2cUser = getASMB2CCustomer();
 
@@ -51,8 +51,8 @@ export function getTicketDetails() {
     subject: 'Testing' + randomString(),
     message: 'I am testing asm deep linking.',
     ticketCategory: {
-          id: 'ENQUIRY',
-          name: 'Complaint',
+      id: 'ENQUIRY',
+      name: 'Complaint',
     },
   };
 }
