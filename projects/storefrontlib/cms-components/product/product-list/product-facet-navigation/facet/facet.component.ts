@@ -154,12 +154,10 @@ export class FacetComponent implements AfterViewInit {
   onArrowDown(event: Event, targetIndex: number): void {
     event.preventDefault();
     this.values.get(targetIndex + 1)?.nativeElement.focus();
-    return;
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
     event.preventDefault();
     this.values.get(targetIndex - 1)?.nativeElement.focus();
-    return;
   }
 }
