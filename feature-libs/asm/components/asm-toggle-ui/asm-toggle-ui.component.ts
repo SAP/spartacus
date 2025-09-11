@@ -27,6 +27,11 @@ export class AsmToggleUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed;
       })
     );
+
+    this.asmService.customerSearch({
+        query: "autoSearchToAvoidUnauthorizedLogin",
+        pageSize: 1,
+      });
   }
 
   toggleUi(): void {

@@ -115,11 +115,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
         this.isLoading = loading;
       })
     );
-
-    this.asmService.customerSearch({
-        query: "autoSearchToAvoidUnauthorizedLogin",
-        pageSize: 1,
-      });
   }
 
   protected handleSearchTerm(searchTermValue: string) {
