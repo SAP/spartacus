@@ -7,7 +7,6 @@ import {
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, throwError } from 'rxjs';
-import { FeatureConfigService } from '../../features-config';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
 import { HttpErrorHandlerInterceptor } from './http-error-handler.interceptor';
@@ -31,14 +30,12 @@ describe('HttpErrorHandlerInterceptor', () => {
   let errorHandler: ErrorHandler;
   let request: HttpRequest<any>;
   let next: HttpHandler;
-  let featureConfigService: FeatureConfigService;
   let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         HttpErrorHandlerInterceptor,
-        FeatureConfigService,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: WindowRef, useValue: { isBrowser: () => false } },
         { provide: ErrorHandler, useClass: MockErrorHandler },
@@ -47,7 +44,6 @@ describe('HttpErrorHandlerInterceptor', () => {
 
     interceptor = TestBed.inject(HttpErrorHandlerInterceptor);
     errorHandler = TestBed.inject(ErrorHandler);
-    featureConfigService = TestBed.inject(FeatureConfigService);
     windowRef = TestBed.inject(WindowRef);
 
     request = new HttpRequest('GET', 'test-url');
@@ -60,10 +56,7 @@ describe('HttpErrorHandlerInterceptor', () => {
     expect(interceptor).toBeTruthy();
   });
 
-  describe('when ssrStrictErrorHandlingForHttpAndNgrx is enabled', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-    });
+  describe('error handling', () => {
     it('should call handleError with OutboundHttpError for any HTTP error except 404 cms page not found', (done) => {
       const error: HttpErrorResponse = new HttpErrorResponse({
         status: 500,
@@ -129,30 +122,6 @@ describe('HttpErrorHandlerInterceptor', () => {
       interceptor.intercept(request, next).subscribe((result) => {
         expect(result).toBe(response);
         done();
-      });
-    });
-  });
-
-  describe('when ssrStrictErrorHandlingForHttpAndNgrx is disabled', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-    });
-
-    it('should pass through the request when there is an error', (done) => {
-      const error: HttpErrorResponse = new HttpErrorResponse({
-        status: 400,
-        statusText: 'error',
-      });
-      spyOn(errorHandler, 'handleError');
-
-      next.handle = () => throwError(() => error);
-
-      interceptor.intercept(request, next).subscribe({
-        error: (err) => {
-          expect(err).toEqual(error);
-          expect(errorHandler.handleError).not.toHaveBeenCalled();
-          done();
-        },
       });
     });
   });

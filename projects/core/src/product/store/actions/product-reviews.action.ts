@@ -28,15 +28,7 @@ export class LoadProductReviewsFail implements ErrorAction {
   readonly type = LOAD_PRODUCT_REVIEWS_FAIL;
   public error: any;
 
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(payload: any);
-  /**
-   * @deprecated Please pass the argument `payload` (i.e. the error object).
-   *             It will become mandatory along with removing
-   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   */
-  constructor();
-  constructor(public payload?: any) {
+  constructor(public payload: any) {
     this.error = payload;
   }
 }
@@ -57,15 +49,7 @@ export class PostProductReviewFail implements ErrorAction {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
   public error: any;
 
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(payload: any);
-  /**
-   * @deprecated Please pass the argument `payload` (i.e. the error object).
-   *             It will become mandatory along with removing
-   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   */
-  constructor();
-  constructor(public payload?: any) {
+  constructor(public payload: any) {
     this.error = payload;
   }
 }

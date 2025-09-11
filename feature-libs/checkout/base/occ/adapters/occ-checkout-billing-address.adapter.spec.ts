@@ -17,7 +17,7 @@ import {
   LoggerService,
   OccConfig,
   OccEndpoints,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -124,7 +124,7 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
         tick(4200);
 
-        const mockNormalizedJaloError = normalizeHttpError(
+        const mockNormalizedJaloError = tryNormalizeHttpError(
           mockJaloError,
           logger
         );

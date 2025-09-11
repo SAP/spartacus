@@ -42,35 +42,8 @@ export namespace EntityScopedLoaderActions {
   export function entityScopedFailMeta(
     entityType: string,
     id: string | string[],
-    scope: string | undefined,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    scope: string,
     error: any
-  ): EntityScopedLoaderMeta;
-  /**
-   * @deprecated Please pass the argument `error`.
-   *             It will become mandatory along with removing
-   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   */
-  export function entityScopedFailMeta(
-    entityType: string,
-    id: string | string[],
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    scope: string | undefined
-  ): EntityScopedLoaderMeta;
-  /**
-   * @deprecated Please pass the argument `scope` and `error`
-   *             They will become mandatory along with removing
-   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   */
-  export function entityScopedFailMeta(
-    entityType: string,
-    id: string | string[]
-  ): EntityScopedLoaderMeta;
-  export function entityScopedFailMeta(
-    entityType: string,
-    id: string | string[],
-    scope?: string,
-    error?: any
   ): EntityScopedLoaderMeta {
     return {
       ...entityFailMeta(entityType, id, error),
@@ -119,33 +92,8 @@ export namespace EntityScopedLoaderActions {
     constructor(
       entityType: string,
       id: string | string[],
-      scope: string | undefined,
-      // eslint-disable-next-line @typescript-eslint/unified-signatures
+      scope: string,
       error: any
-    );
-    /**
-     * @deprecated Please pass the argument `error`.
-     *             It will become mandatory along with removing
-     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-     */
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    constructor(
-      entityType: string,
-      id: string | string[],
-      // eslint-disable-next-line @typescript-eslint/unified-signatures
-      scope: string | undefined
-    );
-    /**
-     * @deprecated Please pass the argument `scope` and `error`.
-     *             They will become mandatory along with removing
-     *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-     */
-    constructor(entityType: string, id: string | string[]);
-    constructor(
-      entityType: string,
-      id: string | string[],
-      scope?: string,
-      error?: any
     ) {
       this.meta = entityScopedFailMeta(entityType, id, scope, error);
       this.error = error;

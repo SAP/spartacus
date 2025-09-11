@@ -18,7 +18,7 @@ import {
   HttpErrorModel,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -61,7 +61,7 @@ const mock500Error = new HttpErrorResponse({
   url: '/xxx',
 });
 
-const mockNormalized500Error = normalizeHttpError(
+const mockNormalized500Error = tryNormalizeHttpError(
   mock500Error,
   new MockLoggerService()
 );

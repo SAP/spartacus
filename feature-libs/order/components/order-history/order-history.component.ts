@@ -7,10 +7,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Params } from '@angular/router';
 import {
-  isNotUndefined,
   RoutingService,
   TranslationService,
-  useFeatureStyles,
+  isNotUndefined,
 } from '@spartacus/core';
 import {
   Order,
@@ -18,7 +17,7 @@ import {
   OrderHistoryList,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -33,9 +32,7 @@ export class OrderHistoryComponent implements OnDestroy {
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  ) {
-    useFeatureStyles('a11yTabComponent');
-  }
+  ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;

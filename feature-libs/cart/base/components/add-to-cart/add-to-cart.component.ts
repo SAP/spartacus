@@ -272,9 +272,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
     newEvent.pickupStoreName = storeName;
-    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
-      newEvent.triggerElementRef = this.addToCartDialogTriggerEl;
-    }
+    newEvent.triggerElementRef = this.addToCartDialogTriggerEl;
     return newEvent;
   }
 
