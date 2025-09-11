@@ -13,6 +13,8 @@ class MockAsmService {
   }
 
   updateAsmUiState(_asmUi: unknown): void {}
+
+  customerSearch(_searchTerm: string): void {}
 }
 
 const mockAsmUi: AsmUi = {
