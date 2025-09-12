@@ -153,6 +153,7 @@ export interface OpfPaymentSessionData {
   pattern?: OpfPaymentRenderPattern;
   destination?: OpfPaymentDestination;
   dynamicScript?: OpfDynamicScript;
+  paymentOptionId?: number;
 }
 
 export interface OpfPaymentDestination {
