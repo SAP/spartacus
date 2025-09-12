@@ -217,12 +217,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           filter(([agentLoggedIn]) => Boolean(agentLoggedIn))
         )
         .subscribe(() => {
-            setTimeout(() =>
-              this.asmService.customerSearch({
-                query: 'autoSearchToAvoidUnauthorizedLogin',
-                pageSize: 1,
-              })
-            );
+          this.asmService.customerSearch({
+            query: 'autoSearchToAvoidUnauthorizedLogin',
+            pageSize: 1,
+          });
         })
     );
 
