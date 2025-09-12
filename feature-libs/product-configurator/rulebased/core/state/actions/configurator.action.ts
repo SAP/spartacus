@@ -194,7 +194,7 @@ export class UpdateConfigurationFinalizeFail
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
 
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+    super(CONFIGURATOR_DATA, payload.owner.key, {});
   }
 }
 
