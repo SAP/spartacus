@@ -26,7 +26,6 @@ export class OpfResourceLoaderService {
   protected readonly CORS_DEFAULT_VALUE = 'anonymous';
   protected readonly OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY = 'opf-load-once';
   protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
-  protected readonly OPF_SCRIPT_ID_PREFIX = 'opf-script-';
 
   protected embedStyles(embedOptions: {
     attributes?: { [key: string]: string };
