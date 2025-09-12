@@ -113,52 +113,22 @@ SKIP_E2E=false
 JDK_VERSION="JDK21"
 
 # Set to true to include AUTH_CONFIG in spartacus-features.module.ts
-# If needed, specify a redirect URL using the redirectUri property, e.g., redirectUri: "http://localhost:5200/powertools-spa"
-# The redirectUri must be added to the OAuthLibConfig object, for example, below the 'scope' property
 ADD_AUTH_CONFIG=true
 
-# This auth Config will be used in the spartacus-features.module.ts for the CSR app
-AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
-        authentication: {
-        client_id: "mobile_android_public",
-        tokenEndpoint: "/oauth/token",
-        revokeEndpoint: "/oauth/revoke",
-        loginUrl: "/oauth/authorize",
-        OAuthLibConfig: {
-          scope: "",
-          customTokenParameters: ["token_type"],
-          strictDiscoveryDocumentValidation: false,
-          skipIssuerCheck: true,
-          disablePKCE: false,
-          oidc: false,
-          clearHashAfterLogin: false,
-          responseType: "code",
-        },
-        customLoginPage: {
-          csrfEndpoint: "/csrf",
-          loginFormEndpoint: "/login",
-        },
-      }}),'
+# Concerning below AuthConfig objects,
+# If needed, specify a redirect URL using the redirectUri property, e.g., redirectUri: "http://localhost:5200/powertools-spa"
+# The redirectUri must be included in the OAuthLibConfig object, inside the authentication property.
 
-# This auth Config will be used in the spartacus-features.module.ts for the SSR app      
+# This auth Config will be used in the spartacus-features.module.ts for the CSR app
+# for b2b standard setup, set: client_id: "mobile_android_public_b2b",
+AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
+  authentication: {
+  client_id: "mobile_android_public",
+}}),'
+
+# This auth Config will be used in the spartacus-features.module.ts for the SSR app
+# for b2b standard setup, set: client_id: "mobile_android_public_b2b_ssr",  
 AUTH_CONFIG_SSR='provideConfig(<AuthConfig>{
   authentication: {
   client_id: "mobile_android_public_ssr",
-  tokenEndpoint: "/oauth/token",
-  revokeEndpoint: "/oauth/revoke",
-  loginUrl: "/oauth/authorize",
-  OAuthLibConfig: {
-    scope: "",
-    customTokenParameters: ["token_type"],
-    strictDiscoveryDocumentValidation: false,
-    skipIssuerCheck: true,
-    disablePKCE: false,
-    oidc: false,
-    clearHashAfterLogin: false,
-    responseType: "code",
-  },
-  customLoginPage: {
-    csrfEndpoint: "/csrf",
-    loginFormEndpoint: "/login",
-  },
 }}),'
