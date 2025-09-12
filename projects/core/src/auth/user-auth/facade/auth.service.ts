@@ -278,4 +278,9 @@ export class AuthService {
       this.oAuthLibWrapperService.refreshAuthConfig();
     }
   }
+
+  public usingASMClient(): boolean {
+    return !!this.featureToggles.authorizationCodeFlowByDefault &&
+      this.isAsmEnabled();
+  }
 }

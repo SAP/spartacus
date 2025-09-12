@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { AuthService, TranslationService } from '@spartacus/core';
+import { AuthService,  TranslationService } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -46,5 +46,9 @@ export class LoginComponent implements OnInit {
 
   onRootNavBtnAdded($event: MutationRecord, greeting: string) {
     ($event.target as HTMLElement).setAttribute('aria-label', greeting);
+  }
+
+  usingASMClient(): boolean {
+      return this.auth.usingASMClient();
   }
 }

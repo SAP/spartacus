@@ -26,6 +26,9 @@ class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
+  usingASMClient(): boolean {
+    return false;
+  }
 }
 class MockRoutingService {
   go = createSpy('go');
@@ -174,6 +177,15 @@ describe('LoginComponent', () => {
       component.onRootNavBtnAdded(mockedMutation, expectedGreeting);
       expect(expectedRootNavBtn).not.toBeNull();
       expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(expectedGreeting);
+    });
+
+    it('should not display login wiht using asm client', () => {
+      spyOn(authService, 'usingASMClient').and.returnValue(true);
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+        'miniLogin.signInRegister'
+      );
     });
   });
 });
