@@ -58,6 +58,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected activeCartService = inject(ActiveCartFacade);
   protected vcr = inject(ViewContainerRef);
   protected cdr = inject(ChangeDetectorRef);
+  protected isPaymentDataReady = false;
+  protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
   @Input() selectedPaymentId: number;
   @ViewChild('paymentForm') formElement!: ElementRef<HTMLFormElement>;
@@ -65,10 +67,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
   RENDER_PATTERN = OpfPaymentRenderPattern;
-  protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
   sub: Subscription = new Subscription();
-  protected isPaymentDataReady = false;
 
   bypassSecurityTrustHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -152,8 +152,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   protected initiatePaymentMode(paymentOptionId?: number): void {
     const idToUse = paymentOptionId || this.selectedPaymentId;
-    this.isPaymentDataReady = false; // Reset flag when initiating new payment
-
+    this.isPaymentDataReady = false;
     this.sub.add(
       this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {
