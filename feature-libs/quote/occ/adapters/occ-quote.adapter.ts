@@ -9,7 +9,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
   OccFieldsService,
   PaginationModel,
@@ -278,7 +278,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
   ): Observable<T> {
     return quoteObservable.pipe(
       catchError((error) =>
-        throwError(normalizeHttpError(error, this.loggerService))
+        throwError(tryNormalizeHttpError(error, this.loggerService))
       )
     );
   }

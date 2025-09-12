@@ -5,12 +5,15 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { visitLoginPage } from '../../../support/utils/login';
+import { getAgentToken } from '../../../sample-data/asm-flow';
+
+const agentToken = getAgentToken();
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -22,6 +25,10 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('not.exist');
 
       checkout.registerUser(false, customerForBindCart);
+
+      cy.whenJDK21(() => {
+        checkout.visitHomePage();
+      });
 
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
@@ -40,12 +47,12 @@ context('Assisted Service Module', () => {
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
           cy.whenJDK17(() => {
-            asm.agentLogin('asagent', 'pw4all');
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
           });
 
           cy.whenJDK21(() => {
             cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-            login('asagent', 'pw4all');
+            agentLoginForJDK21(agentToken.userName, agentToken.pwd);
           });
 
           cy.log('--> Starting customer emulation');
@@ -101,6 +108,10 @@ context('Assisted Service Module', () => {
 
       checkout.registerUser(false, customerForReplaceBindCart);
 
+      cy.whenJDK21(() => {
+        checkout.visitHomePage();
+      });
+
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
 
@@ -125,12 +136,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
       });
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customerForReplaceBindCart);

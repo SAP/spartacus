@@ -199,6 +199,7 @@ describe('CompactAddToCartComponent', () => {
     uiEvent.numberOfEntriesBeforeAdd = 1;
     uiEvent.quantity = 1;
     uiEvent.pickupStoreName = undefined;
+    uiEvent.triggerElementRef = undefined;
 
     addToCartComponent.addToCart();
 

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
   Stock,
   StoreFinderStockSearchPage,
@@ -45,7 +45,7 @@ export class OccStockAdapter implements StockAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }
@@ -62,7 +62,7 @@ export class OccStockAdapter implements StockAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

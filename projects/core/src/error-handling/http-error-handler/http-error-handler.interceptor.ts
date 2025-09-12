@@ -14,7 +14,6 @@ import {
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
 import { HttpResponseStatus } from '../../global-message';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
@@ -41,7 +40,6 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected errorHandler = inject(ErrorHandler);
   protected occEndpointsService = inject(OccEndpointsService);
   protected windowRef = inject(WindowRef);
-  private featureService = inject(FeatureConfigService);
 
   intercept(
     request: HttpRequest<unknown>,
@@ -50,12 +48,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap({
         error: (error: unknown) => {
-          if (
-            this.featureService.isEnabled(
-              'ssrStrictErrorHandlingForHttpAndNgrx'
-            ) &&
-            this.shouldHandleError(error)
-          ) {
+          if (this.shouldHandleError(error)) {
             this.handleError(error);
           }
         },

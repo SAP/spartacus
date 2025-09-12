@@ -10,7 +10,7 @@ import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
@@ -45,7 +45,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
       );
@@ -62,7 +62,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
       );
@@ -90,7 +90,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }
