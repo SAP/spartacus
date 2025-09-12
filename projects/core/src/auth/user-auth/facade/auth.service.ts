@@ -280,7 +280,9 @@ export class AuthService {
   }
 
   public usingASMClient(): boolean {
-    return !!this.featureToggles.authorizationCodeFlowByDefault &&
-      this.isAsmEnabled();
+    return (
+      !!this.featureToggles.authorizationCodeFlowByDefault &&
+      this.isAsmEnabled()
+    );
   }
 }

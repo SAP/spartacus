@@ -49,6 +49,6 @@ export class LoginComponent implements OnInit {
   }
 
   usingASMClient(): boolean {
-      return this.auth.usingASMClient();
+    return this.auth.usingASMClient();
   }
 }

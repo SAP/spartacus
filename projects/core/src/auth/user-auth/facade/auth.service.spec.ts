@@ -457,7 +457,7 @@ describe('AuthService', () => {
   describe('isUsingASMClient()', () => {
     it('should return false when authorizationCodeFlowByDefault is disabled', () => {
       featureToggles.authorizationCodeFlowByDefault = false;
-      expect(service.usingASMClient()).toBe(false);();
+      expect(service.usingASMClient()).toBe(false);
     });
 
     it('should return false when authorizationCodeFlowByDefault is enabled and asm mode disabled', () => {
