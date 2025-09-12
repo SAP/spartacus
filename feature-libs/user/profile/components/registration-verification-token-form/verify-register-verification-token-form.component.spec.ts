@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectorRef,
   DebugElement,
@@ -15,6 +16,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
@@ -31,11 +33,12 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
-import createSpy = jasmine.createSpy;
-import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
-import { By } from '@angular/platform-browser';
-import { HttpErrorResponse } from '@angular/common/http';
+import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
+import createSpy = jasmine.createSpy;
+
+const mockSecurePassword = 'strongPas$!123';
+const mockInvalidPassword = 'strongPass$!123';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -44,8 +47,8 @@ const mockRegisterFormData: any = {
   email: 'JohnDoe@thebest.john.intheworld.com',
   tokenId: 'mock_tokenId',
   tokenCode: 'mock_tokenCode',
-  password: 'strongPass$!123',
-  passwordconf: 'strongPass$!123',
+  password: mockSecurePassword,
+  passwordconf: mockSecurePassword,
 };
 
 class MockRoutingService {
@@ -99,7 +102,8 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let authConfigService: AuthConfigService;
   let el: DebugElement;
-  let routineservice: RoutingService;
+  let routingService: RoutingService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -144,7 +148,10 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     service = TestBed.inject(RegistrationVerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     authConfigService = TestBed.inject(AuthConfigService);
-    routineservice = TestBed.inject(RoutingService);
+    routingService = TestBed.inject(RoutingService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -223,7 +230,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       );
       component.ngOnInit();
       component.registerUserWithVerificationToken();
-      expect(routineservice.go).toHaveBeenCalled();
+      expect(routingService.go).toHaveBeenCalled();
     });
 
     it('should display error message when input invalid code', () => {
@@ -281,7 +288,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       );
     });
 
-    it('should diplay error message when creat verification token up to rate limit', () => {
+    it('should display error message when create verification token up to rate limit', () => {
       history.pushState(
         {
           tokenId: '',
@@ -307,81 +314,82 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   });
 
   describe('password validators', () => {
-    let featureConfigService: FeatureConfigService;
+    // CXSPA-10916: remove test block
+    describe('when validators feature flag is disabled', () => {
+      it('should have old validators', () => {
+        fixture = TestBed.createComponent(
+          RegistrationVerificationTokenFormComponent
+        );
+        component = fixture.componentInstance;
 
-    it('should have new validators when feature flag is enabled', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+        fixture.detectChanges();
 
-      fixture = TestBed.createComponent(
-        RegistrationVerificationTokenFormComponent
-      );
-      component = fixture.componentInstance;
+        const passwordControl = component.registerForm.get(
+          'password'
+        ) as UntypedFormControl;
+        const validators = passwordControl.validator?.({} as any);
 
-      fixture.detectChanges();
+        expect(passwordControl).toBeTruthy();
+        expect(validators).toEqual({
+          cxMinOneDigit: true,
+          cxMinOneSpecialCharacter: true,
+          cxMinOneUpperCaseCharacter: true,
+          cxMinSixCharactersLength: true,
+          required: true,
+        });
+      });
 
-      const passwordControl = component.registerForm.get(
-        'password'
-      ) as UntypedFormControl;
-      const validators = passwordControl.validator
-        ? passwordControl.validator({} as any)
-        : [];
-
-      expect(passwordControl).toBeTruthy();
-      expect(validators).toEqual({
-        required: true,
-        cxMinOneDigit: true,
-        cxMinOneSpecialCharacter: true,
-        cxMinOneUpperCaseCharacter: true,
-        cxMinEightCharactersLength: true,
-        cxMaxCharactersLength: true,
+      it('test getPasswordValidators method', () => {
+        const passwordValidators = component.getPasswordValidators();
+        expect(passwordValidators).toEqual([
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
+        ]);
       });
     });
 
-    it('should have old validators when feature flag is not enabled', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-
-      fixture = TestBed.createComponent(
-        RegistrationVerificationTokenFormComponent
-      );
-      component = fixture.componentInstance;
-
-      fixture.detectChanges();
-
-      const passwordControl = component.registerForm.get(
-        'password'
-      ) as UntypedFormControl;
-      const validators = passwordControl.validator
-        ? passwordControl.validator({} as any)
-        : [];
-
-      expect(passwordControl).toBeTruthy();
-      expect(validators).toEqual({
-        cxMinOneDigit: true,
-        cxMinOneSpecialCharacter: true,
-        cxMinOneUpperCaseCharacter: true,
-        cxMinSixCharactersLength: true,
-        required: true,
+    describe('when validators feature flag is enabled', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
-    });
 
-    it('test getPasswordValidators method', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-      const passwordValidators = component.getPasswordValidators();
-      expect(passwordValidators).toEqual(
-        CustomFormValidators.passwordValidators
-      );
-    });
+      it('should have new validators', () => {
+        fixture = TestBed.createComponent(
+          RegistrationVerificationTokenFormComponent
+        );
+        component = fixture.componentInstance;
+        fixture.detectChanges();
 
-    it('test getPasswordValidators method', () => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-      const passwordValidators = component.getPasswordValidators();
-      expect(passwordValidators).toEqual(
-        CustomFormValidators.securePasswordValidators
-      );
+        const passwordControl = component.registerForm.get(
+          'password'
+        ) as UntypedFormControl;
+        const validations = {
+          whenEmpty: passwordControl.validator?.({} as any),
+          whenNotEmpty: passwordControl.validator?.({
+            value: mockInvalidPassword,
+          } as any),
+        };
+
+        expect(passwordControl).toBeTruthy();
+        expect(validations.whenEmpty).toEqual({
+          required: true,
+          cxMinOneDigit: true,
+          cxMinOneSpecialCharacter: true,
+          cxMinOneUpperCaseCharacter: true,
+          cxMinEightCharactersLength: true,
+          cxMaxCharactersLength: true,
+        });
+        expect(validations.whenNotEmpty).toEqual({
+          cxNoConsecutiveCharacters: true,
+        });
+      });
+
+      it('test getPasswordValidators method', () => {
+        const passwordValidators = component.getPasswordValidators();
+        expect(passwordValidators).toEqual(
+          CustomFormValidators.securePasswordValidators
+        );
+      });
     });
   });
 });

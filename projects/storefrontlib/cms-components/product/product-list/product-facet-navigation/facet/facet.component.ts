@@ -130,15 +130,7 @@ export class FacetComponent implements AfterViewInit {
     const targetIndex = this.values.toArray().findIndex((el) => {
       return el.nativeElement === event.target;
     });
-    // TODO: Left and Right arrow keys are disabled when setting a11yTabComponent.
-    // We can remove these in the future.
     switch (event.key) {
-      case 'ArrowLeft':
-        this.onArrowLeft(event);
-        break;
-      case 'ArrowRight':
-        this.onArrowRight(event);
-        break;
       case 'ArrowDown':
         this.onArrowDown(event, targetIndex);
         break;
@@ -152,71 +144,20 @@ export class FacetComponent implements AfterViewInit {
   }
 
   /**
-   * If a11yTabComponent is enabled, we temporarily disable tabbing for the facet values.
+   * We temporarily disable tabbing for the facet values.
    * This is to use proper keyboard navigation keys(ArrowUp/ArrowDown) for navigating through the facet values.
    */
   protected onTabNavigation(): void {
-    if (!this.featureConfigService?.isEnabled('a11yTabComponent')) {
-      return;
-    }
     disableTabbingForTick(this.values.map((el) => el.nativeElement));
   }
 
-  /**
-   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
-   */
-  onArrowRight(event: Event): void {
-    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
-      return;
-    }
-
-    if (!this.isExpanded) {
-      this.toggleGroup(event as UIEvent);
-    }
-  }
-
-  /**
-   * @deprecated: Arrow key functions will be removed in favour of using the TabComponent.
-   */
-  onArrowLeft(event: Event): void {
-    // Navigate to tab buttons when tab component enabled
-    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
-      return;
-    }
-
-    if (this.isExpanded) {
-      this.toggleGroup(event as UIEvent);
-      this.facetHeader.nativeElement.focus();
-    }
-  }
-
   onArrowDown(event: Event, targetIndex: number): void {
-    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
-      event.preventDefault();
-      this.values.get(targetIndex + 1)?.nativeElement.focus();
-      return;
-    }
-
-    if (this.isExpanded) {
-      event.preventDefault();
-      if (event.target === this.facetHeader.nativeElement) {
-        this.values?.first?.nativeElement.focus();
-        return;
-      }
-      this.values.get(targetIndex + 1)?.nativeElement.focus();
-    }
+    event.preventDefault();
+    this.values.get(targetIndex + 1)?.nativeElement.focus();
   }
 
   onArrowUp(event: Event, targetIndex: number): void {
-    if (this.featureConfigService?.isEnabled('a11yTabComponent')) {
-      event.preventDefault();
-      this.values.get(targetIndex - 1)?.nativeElement.focus();
-      return;
-    }
-
-    if (this.isExpanded) {
-      event.preventDefault();
-      this.values.get(targetIndex - 1)?.nativeElement.focus();
-    }
+    event.preventDefault();
+    this.values.get(targetIndex - 1)?.nativeElement.focus();
   }
 }

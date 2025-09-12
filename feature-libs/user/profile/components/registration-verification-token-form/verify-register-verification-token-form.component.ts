@@ -71,18 +71,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     if (this.featureConfigService.isEnabled('enableSecurePasswordValidation')) {
       return CustomFormValidators.securePasswordValidators;
     } else {
-      if (
-        this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-      ) {
-        return [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ];
-      } else {
-        return CustomFormValidators.passwordValidators;
-      }
+      return [
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
+      ];
     }
   }
 

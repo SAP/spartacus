@@ -9,7 +9,7 @@ import { RescheduleServiceOrderAdapter } from '../../core/connector/reschedule-s
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
 import { ServiceDetails } from '@spartacus/s4-service/root';
@@ -36,7 +36,7 @@ export class OccRescheduleServiceOrderAdapter
     });
     return this.http.patch(url, scheduledAt, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }

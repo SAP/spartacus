@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser } from '@angular/common';
-import {
-  inject,
-  Inject,
-  Injectable,
-  isDevMode,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
@@ -21,7 +14,6 @@ import { Page, PageMeta } from '../model/page.model';
 import { PageMetaConfig } from '../page/config/page-meta.config';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
-import { FeatureConfigService } from '../../features-config';
 
 /**
  * Service that collects the page meta data by using injected page resolvers.
@@ -30,8 +22,6 @@ import { FeatureConfigService } from '../../features-config';
   providedIn: 'root',
 })
 export class PageMetaService {
-  private featureConfigService = inject(FeatureConfigService);
-
   constructor(
     protected cms: CmsService,
     protected unifiedInjector: UnifiedInjector,
@@ -100,33 +90,17 @@ export class PageMetaService {
    *   robots: 'resolveRobots'
    * }
    * ```
-   *
-   * This list of resolvers is filtered for CSR vs SSR processing since not all resolvers are
-   * relevant during browsing.
    */
   protected getResolverMethods(): { [property: string]: string } {
-    const resolverMethods: Record<string, string> = {};
-    // filter the resolvers to avoid unnecessary processing in CSR
-    this.pageMetaConfig?.pageMeta?.resolvers
-      ?.filter((resolver) => {
-        const disabledInCsr = this.featureConfigService.isEnabled(
-          'allPageMetaResolversEnabledInCsr'
-        )
-          ? false
-          : resolver.disabledInCsr;
-        return (
-          // always resolve in SSR
-          !isPlatformBrowser(this.platformId ?? '') ||
-          // resolve in CSR when it's not disabled
-          !disabledInCsr ||
-          // resolve in CSR when resolver is enabled in devMode
-          (isDevMode() && this.pageMetaConfig?.pageMeta?.enableInDevMode)
-        );
-      })
-      .forEach(
-        (resolver) => (resolverMethods[resolver.property] = resolver.method)
-      );
-    return resolverMethods;
+    return (
+      this.pageMetaConfig?.pageMeta?.resolvers?.reduce(
+        (acc, resolver) => {
+          acc[resolver.property] = resolver.method;
+          return acc;
+        },
+        <Record<string, string>>{}
+      ) ?? {}
+    );
   }
 
   /**
