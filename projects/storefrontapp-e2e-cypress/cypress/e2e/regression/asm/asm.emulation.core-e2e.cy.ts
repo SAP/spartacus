@@ -14,29 +14,30 @@ import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flo
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { visitLoginPage } from '../../../support/utils/login';
+import { getAgentToken } from '../../../sample-data/asm-flow';
 
+const agentToken = getAgentToken();
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
 
     it('should checkout as customer (CXSPA-7026)', () => {
       const customer = getSampleUser();
-
+      cy.log('--> Register user');
+      checkout.visitHomePage();
+      checkout.registerUser(false, customer);
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
+        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
       });
 
       cy.log('--> Starting customer emulation');
@@ -86,9 +87,7 @@ context('Assisted Service Module', () => {
 
     before(() => {
       clearAllStorage();
-      cy.whenJDK17(() => {
-        cy.visit('/', { qs: { asm: true } });
-      });
+      checkout.visitHomePage();
 
       customer = getSampleUser();
       checkout.registerUser(false, customer);
@@ -99,14 +98,14 @@ context('Assisted Service Module', () => {
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
         cy.wait(`@${loginPage}`);
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
         login(customer.email, customer.password);
       });
 
       cy.whenJDK21(() => {
         checkout.visitHomePage('asm=true');
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
+        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
         cy.contains('a[role="link"]', 'Sign In / Register').click();
       });
 
@@ -117,10 +116,10 @@ context('Assisted Service Module', () => {
     });
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
-    it.skip('agent login when user is logged in should start this user emulation', () => {
+    it('agent login when user is logged in should start this user emulation', () => {
       visitLoginPage();
       login(customer.email, customer.password);
-
+      cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
 
       cy.get('cx-asm-main-ui').should('exist');
@@ -128,12 +127,12 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Agent logging in');
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
+        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
       });
 
       cy.get('cx-csagent-login-form').should('not.exist');
@@ -150,12 +149,12 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Agent logging in');
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
+        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
       });
 
       cy.log('--> Starting customer emulation');
@@ -193,18 +192,19 @@ context('Assisted Service Module', () => {
         },
       });
 
-      cy.visit('/', { qs: { asm: true } });
-
       const customer = getSampleUser();
+      checkout.visitHomePage();
       checkout.registerUser(false, customer);
 
+      cy.visit('/', { qs: { asm: true } });
+
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
+        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
       });
       asm.startCustomerEmulation(customer);
 

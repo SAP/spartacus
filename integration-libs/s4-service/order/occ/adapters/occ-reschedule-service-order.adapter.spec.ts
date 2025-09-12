@@ -68,7 +68,7 @@ describe('OccRescheduleServiceOrderAdapter', () => {
     req.flush({});
   });
 
-  it('should handle errors and call normalizeHttpError', () => {
+  it('should handle errors and call tryNormalizeHttpError', () => {
     const mockError = {
       status: 500,
       statusText: 'We are getting an internal server error',

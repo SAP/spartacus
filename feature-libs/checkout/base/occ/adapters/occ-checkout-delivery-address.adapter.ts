@@ -17,7 +17,7 @@ import {
   OccEndpointsService,
   backOff,
   isJaloError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -51,7 +51,7 @@ export class OccCheckoutDeliveryAddressAdapter
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -84,7 +84,7 @@ export class OccCheckoutDeliveryAddressAdapter
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -111,7 +111,7 @@ export class OccCheckoutDeliveryAddressAdapter
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
