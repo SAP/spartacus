@@ -6,7 +6,7 @@
 
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { ScriptLoader } from '@spartacus/core';
+import { Config, ScriptLoader } from '@spartacus/core';
 
 import {
   OpfDynamicScriptResource,
@@ -21,6 +21,7 @@ export class OpfResourceLoaderService {
   protected scriptLoader = inject(ScriptLoader);
   protected document = inject(DOCUMENT);
   protected platformId = inject(PLATFORM_ID);
+  protected config = inject(Config);
 
   protected readonly CORS_DEFAULT_VALUE = 'anonymous';
   protected readonly OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY = 'opf-load-once';
@@ -177,31 +178,73 @@ export class OpfResourceLoaderService {
   }
 
   /**
+   * Checks if local PSP resources are available from the storefront configuration
+   */
+  hasLocalPspResources(paymentOptionId?: number): boolean {
+    if (!paymentOptionId) {
+      return false;
+    }
+    const localPspResources = (this.config as any).opf?.localPspResources;
+    return localPspResources ? paymentOptionId in localPspResources : false;
+  }
+
+  /**
    * Loads scripts and stylesheets specified in the lists of resource objects (scripts and styles).
+   * The method automatically selects local or external resources based on the presence of localPspResources
+   * in the storefront configuration.
+   * If localPspResources are present, the method uses local resources.
+   * If localPspResources are not present, the method uses external resources.
    *
    * The returned Promise is resolved when all resources are loaded.
    * The returned Promise is also resolved (not rejected!) immediately when any loading error occurs.
    */
-
   loadResources(
     scripts: OpfDynamicScriptResource[] = [],
-    styles: OpfDynamicScriptResource[] = []
+    styles: OpfDynamicScriptResource[] = [],
+    paymentOptionId?: number
   ): Promise<void> {
     // SSR mode not supported for security concerns
     if (isPlatformServer(this.platformId)) {
       return Promise.resolve();
     }
 
-    const resources: OpfDynamicScriptResource[] = [
-      ...scripts.map((script) => ({
-        ...script,
-        type: OpfDynamicScriptResourceType.SCRIPT,
-      })),
-      ...styles.map((style) => ({
-        ...style,
-        type: OpfDynamicScriptResourceType.STYLES,
-      })),
-    ];
+    const resources: OpfDynamicScriptResource[] = [];
+
+    if (paymentOptionId && this.hasLocalPspResources(paymentOptionId)) {
+      const localPspResources = (this.config as any).opf?.localPspResources;
+      const localResources = localPspResources?.[paymentOptionId];
+
+      if (localResources) {
+        // Convert local paths to OpfDynamicScriptResource format
+        const localScripts: OpfDynamicScriptResource[] =
+          localResources.jsFiles.map((url: string) => ({
+            url,
+            type: OpfDynamicScriptResourceType.SCRIPT,
+          }));
+
+        const localStyles: OpfDynamicScriptResource[] =
+          localResources.cssFiles.map((url: string) => ({
+            url,
+            type: OpfDynamicScriptResourceType.STYLES,
+          }));
+
+        resources.push(...localScripts, ...localStyles);
+      }
+    }
+
+    // Fallback to external resources if no local resources found
+    if (resources.length === 0) {
+      resources.push(
+        ...scripts.map((script) => ({
+          ...script,
+          type: OpfDynamicScriptResourceType.SCRIPT,
+        })),
+        ...styles.map((style) => ({
+          ...style,
+          type: OpfDynamicScriptResourceType.STYLES,
+        }))
+      );
+    }
 
     if (!resources.length) {
       return Promise.resolve();
