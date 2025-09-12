@@ -120,14 +120,14 @@ ADD_AUTH_CONFIG=true
 # The redirectUri must be included in the OAuthLibConfig object, inside the authentication property.
 
 # This auth Config will be used in the spartacus-features.module.ts for the CSR app
-# for b2b standard setup, set: client_id: "mobile_android_public_b2b",
+# For a standard B2B setup, use: client_id: "mobile_android_public_b2b",
 AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
   authentication: {
   client_id: "mobile_android_public",
 }}),'
 
 # This auth Config will be used in the spartacus-features.module.ts for the SSR app
-# for b2b standard setup, set: client_id: "mobile_android_public_b2b_ssr",  
+# For a standard B2B setup, use: client_id: "mobile_android_public_b2b_ssr",
 AUTH_CONFIG_SSR='provideConfig(<AuthConfig>{
   authentication: {
   client_id: "mobile_android_public_ssr",
