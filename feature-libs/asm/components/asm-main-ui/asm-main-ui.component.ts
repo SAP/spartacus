@@ -212,7 +212,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         this.authService.isUserLoggedIn(),
       ])
         .pipe(
-          debounceTime(100),
+          debounceTime(300),
           distinctUntilChanged(),
           filter(([agentLoggedIn]) => Boolean(agentLoggedIn))
         )
