@@ -179,7 +179,7 @@ describe('LoginComponent', () => {
       expect(expectedRootNavBtn.nativeElement.ariaLabel).toBe(expectedGreeting);
     });
 
-    it('should not display login wiht using asm client', () => {
+    it('should not display login when using asm client', () => {
       spyOn(authService, 'usingASMClient').and.returnValue(true);
       component.ngOnInit();
       fixture.detectChanges();
