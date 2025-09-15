@@ -8,8 +8,10 @@ import { tabbingOrderConfig as config } from '../../../../../helpers/accessibili
 import { asmTabbingOrderWithCustomerList } from '../../../../../helpers/accessibility/tabbing-order/asm';
 import { ELECTRONICS_BASESITE } from '../../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../../sample-data/b2b-checkout';
+import { getAgent2B2BToken } from '../../../../../sample-data/asm-flow';
 
 context('Tabbing order for ASM B2b Customer List', () => {
+  const agent2B2BToken = getAgent2B2BToken();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -29,7 +31,7 @@ context('Tabbing order for ASM B2b Customer List', () => {
       });
       asmTabbingOrderWithCustomerList(
         config.asmWithB2BCustomerLists,
-        'jules.hasson@acme.com'
+        agent2B2BToken.userName
       );
     });
   });
