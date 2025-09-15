@@ -391,8 +391,8 @@ describe('OptimizedSsrEngine', () => {
     }));
   });
 
-  describe('error caching behavior', () => {
-    describe('when using default shouldCacheRenderingResult', () => {
+  describe('shouldCacheRenderingResult option', () => {
+    describe('default behavior', () => {
       it('should not cache errors', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
@@ -410,7 +410,7 @@ describe('OptimizedSsrEngine', () => {
         ]);
       }));
 
-      it('should cache HTML', fakeAsync(() => {
+      it('should cache successful HTML responses', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
         }).request('a');
@@ -423,9 +423,7 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.responses).toEqual(['a-0', 'a-0', 'a-0']);
       }));
     });
-  });
 
-  describe('shouldCacheRenderingResult option', () => {
     it('should not cache errors if `shouldCacheRenderingResult` returns false', fakeAsync(() => {
       const engineRunner = TestEngineRunner.withError({
         cache: true,
