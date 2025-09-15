@@ -209,10 +209,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       combineLatest([
         this.customerSupportAgentLoggedIn$,
-        this.authService.isUserLoggedIn(),
+        this.asmComponentService.isCustomerEmulationSessionInProgress(),
       ])
         .pipe(
-          debounceTime(300),
+          debounceTime(500),
           distinctUntilChanged(),
           filter(([agentLoggedIn]) => Boolean(agentLoggedIn))
         )
