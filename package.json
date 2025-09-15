@@ -177,7 +177,7 @@
     "@angular/pwa": "^19.0.4",
     "@angular/router": "^19.0.3",
     "@angular/service-worker": "^19.0.3",
-    "@angular/ssr": "^19.0.4",
+    "@angular/ssr": "^19.2.16",
     "@fontsource/open-sans": "^5.1.0",
     "@fortawesome/fontawesome-free": "6.7.2",
     "@ng-select/ng-select": "^14.1.0",
