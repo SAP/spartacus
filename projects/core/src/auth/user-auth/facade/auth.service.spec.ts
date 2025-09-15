@@ -453,4 +453,23 @@ describe('AuthService', () => {
       });
     });
   });
+
+  describe('isUsingASMClient()', () => {
+    it('should return false when authorizationCodeFlowByDefault is disabled', () => {
+      featureToggles.authorizationCodeFlowByDefault = false;
+      expect(service.usingASMClient()).toBe(false);
+    });
+
+    it('should return false when authorizationCodeFlowByDefault is enabled and asm mode disabled', () => {
+      featureToggles.authorizationCodeFlowByDefault = true;
+      spyOn(service as any, 'isAsmEnabled').and.returnValue(false);
+      expect(service.usingASMClient()).toBe(false);
+    });
+
+    it('should return true when authorizationCodeFlowByDefault is enabled and asm mode enabled', () => {
+      featureToggles.authorizationCodeFlowByDefault = true;
+      spyOn(service as any, 'isAsmEnabled').and.returnValue(true);
+      expect(service.usingASMClient()).toBe(true);
+    });
+  });
 });

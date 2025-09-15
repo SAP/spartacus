@@ -269,13 +269,17 @@ export class AuthService {
   }
 
   public refreshAuthConfig() {
-    if (
-      this.featureToggles.authorizationCodeFlowByDefault &&
-      this.isAsmEnabled()
-    ) {
+    if (this.usingASMClient()) {
       this.oAuthLibWrapperService.changeAuthConfigClientId('asm_client');
     } else {
       this.oAuthLibWrapperService.refreshAuthConfig();
     }
+  }
+
+  public usingASMClient(): boolean {
+    return (
+      !!this.featureToggles.authorizationCodeFlowByDefault &&
+      this.isAsmEnabled()
+    );
   }
 }
