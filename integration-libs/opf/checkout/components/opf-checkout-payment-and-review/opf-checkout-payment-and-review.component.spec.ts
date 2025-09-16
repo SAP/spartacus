@@ -124,7 +124,9 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     getDeliveryAddressState: jasmine
       .createSpy('getDeliveryAddressState')
       .and.returnValue(of({})),
-    clearCheckoutDeliveryAddress: jasmine.createSpy('clearCheckoutDeliveryAddress'),
+    clearCheckoutDeliveryAddress: jasmine.createSpy(
+      'clearCheckoutDeliveryAddress'
+    ),
   };
 
   const mockCheckoutPaymentFacade = {
@@ -194,10 +196,9 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     (
       checkoutFlowOrchestratorService.getPaymentProvider as jasmine.Spy
     ).calls.reset();
-      mockActiveCartFacade.hasDeliveryItems.calls.reset();
-      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
-      mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
-
+    mockActiveCartFacade.hasDeliveryItems.calls.reset();
+    mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
+    mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
   });
 
   it('should create', () => {
@@ -239,41 +240,52 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
     });
   });
 
-    it('should clear delivery address and set pickup mode when cart has no delivery items', () => {
+  it('should clear delivery address and set pickup mode when cart has no delivery items', () => {
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(false));
 
-      mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(false));
+    component.setPickupDeliveryMode();
 
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).toHaveBeenCalledWith('pickup');
+  });
+  it('should not modify delivery settings when cart has delivery items', () => {
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
 
-      component.setPickupDeliveryMode();
+    component.setPickupDeliveryMode();
 
-      expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
-      expect(mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress).toHaveBeenCalled();
-      expect(mockCheckoutDeliveryModesFacade.setDeliveryMode).toHaveBeenCalledWith('pickup');
-    });
-    it('should not modify delivery settings when cart has delivery items', () => {
-      mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).not.toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).not.toHaveBeenCalled();
+  });
 
-      component.setPickupDeliveryMode();
+  it('should handle Observable completion correctly', () => {
+    const completionSpy = jasmine.createSpy('completion');
 
-      expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
-      expect(mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress).not.toHaveBeenCalled();
-      expect(mockCheckoutDeliveryModesFacade.setDeliveryMode).not.toHaveBeenCalled();
-    });
-
-    it('should handle Observable completion correctly', () => {
-      const completionSpy = jasmine.createSpy('completion');
-
-      mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(false).pipe(
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(
+      of(false).pipe(
         finalize(() => {
           completionSpy();
         })
-      ));
+      )
+    );
 
-      component.setPickupDeliveryMode();
+    component.setPickupDeliveryMode();
 
-      expect(completionSpy).toHaveBeenCalled();
-      expect(mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress).toHaveBeenCalled();
-      expect(mockCheckoutDeliveryModesFacade.setDeliveryMode).toHaveBeenCalledWith('pickup');
-    });
-
+    expect(completionSpy).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).toHaveBeenCalledWith('pickup');
+  });
 });

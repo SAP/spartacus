@@ -22,7 +22,9 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OpfCheckoutBillingAddressFormComponent implements OnInit, OnDestroy {
+export class OpfCheckoutBillingAddressFormComponent
+  implements OnInit, OnDestroy
+{
   protected service = inject(OpfCheckoutBillingAddressFormService);
   protected userAddressService = inject(UserAddressService);
   protected activeCartFacade = inject(ActiveCartFacade);
@@ -42,17 +44,19 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit, OnDestroy
   countries$: Observable<Country[]>;
 
   ngOnInit() {
-    this.subscription.add(this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart)));
+    this.subscription.add(
+      this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart))
+    );
     this.countries$ = this.service.getCountries();
     this.userAddressService.loadAddresses();
     this.service.setDefaultBillingAddress();
     this.service.getAddresses();
     this.subscription.add(
-    this.service.pickupNoDefaultAddress$.subscribe(() => {
-      this.isEditBillingAddress = true;
-      this.isAddingBillingAddressInProgress = true;
-    })
-  );
+      this.service.pickupNoDefaultAddress$.subscribe(() => {
+        this.isEditBillingAddress = true;
+        this.isAddingBillingAddressInProgress = true;
+      })
+    );
   }
 
   cancelAndHideForm(): void {

@@ -104,13 +104,16 @@ export class OpfCheckoutPaymentAndReviewComponent
     this.selectedPaymentProviderName$.next(providerName);
   }
 
-   setPickupDeliveryMode(): void {
-    this.activeCartFacade.hasDeliveryItems().pipe(take(1)).subscribe((hasDeliveryItems) => {
-      if (!hasDeliveryItems) {
-        this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
-        this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
-      }
-    });
+  setPickupDeliveryMode(): void {
+    this.activeCartFacade
+      .hasDeliveryItems()
+      .pipe(take(1))
+      .subscribe((hasDeliveryItems) => {
+        if (!hasDeliveryItems) {
+          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
+          this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
+        }
+      });
   }
 
   ngOnInit() {
