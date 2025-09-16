@@ -30,7 +30,7 @@
     "@schematics/angular": "^19.2.15",
     "jsonc-parser": "^3.3.1",
     "parse5": "^7.2.1",
-    "typescript": "^5.6.3"
+    "typescript": "~5.8.3"
   },
   "peerDependenciesMeta": {
     "canvas": {
