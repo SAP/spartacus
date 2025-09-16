@@ -9,3 +9,4 @@ export * from './configurable-routes.service';
 export * from './routes-config';
 export * from './routing-config.service';
 export * from './url-translation/index';
+export * from './secure-portal-config/index';
