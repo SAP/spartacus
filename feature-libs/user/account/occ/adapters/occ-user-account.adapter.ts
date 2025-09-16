@@ -13,7 +13,7 @@ import {
   Occ,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   LOGIN_FORM_SERIALIZER,
@@ -45,7 +45,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });
     return this.http.get<Occ.User>(url).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(USER_ACCOUNT_NORMALIZER)
     );
@@ -72,7 +72,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
       .post<VerificationToken>(url, verificationTokenCreation, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(VERIFICATION_TOKEN_NORMALIZER)
       );

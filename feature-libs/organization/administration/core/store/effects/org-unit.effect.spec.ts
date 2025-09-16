@@ -19,7 +19,7 @@ import {
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   OrgUnitConnector,
@@ -102,7 +102,7 @@ class MockLoggerService {
   debug(): void {}
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('OrgUnit Effects', () => {
   let actions$: Observable<OrgUnitActions.OrgUnitAction>;

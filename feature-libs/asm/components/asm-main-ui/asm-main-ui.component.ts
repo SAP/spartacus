@@ -47,6 +47,7 @@ import {
   Subscription,
 } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -204,6 +205,25 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
+
+    this.subscription.add(
+      combineLatest([
+        this.customerSupportAgentLoggedIn$,
+        this.asmComponentService.isCustomerEmulationSessionInProgress(),
+      ])
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          filter(([agentLoggedIn]) => Boolean(agentLoggedIn))
+        )
+        .subscribe(() => {
+          this.asmService.customerSearch({
+            query: 'autoSearchToAvoidUnauthorizedLogin',
+            pageSize: 1,
+          });
+        })
+    );
+
     this.subscribeForDeeplink();
   }
 

@@ -11,7 +11,7 @@ import {
   ConverterService,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { ReorderOrderAdapter } from '@spartacus/order/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
@@ -35,7 +35,7 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
       .post(this.getReorderOrderEndpoint(orderId, userId), {}, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converter.pipeable(REORDER_ORDER_NORMALIZER)
       );

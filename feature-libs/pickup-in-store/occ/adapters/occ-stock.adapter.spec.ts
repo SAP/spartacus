@@ -15,7 +15,7 @@ import {
   HttpErrorModel,
   LoggerService,
   OccEndpointsService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -55,7 +55,7 @@ describe(`OccStockAdapter`, () => {
     debug(): void {}
   }
 
-  const mockNormalizedJaloError = normalizeHttpError(
+  const mockNormalizedJaloError = tryNormalizeHttpError(
     mockJaloError,
     new MockLoggerService()
   );
