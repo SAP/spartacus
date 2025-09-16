@@ -9,7 +9,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -328,7 +328,7 @@ describe('ConfiguratorEffect', () => {
       const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
         {
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         }
       );
       actions$ = hot('-a', { a: action });
@@ -367,7 +367,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: readConfigurationFailAction });
@@ -418,7 +418,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: readConfigurationFailAction });
@@ -468,7 +468,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.GetConfigurationOverviewFail({
         ownerKey: productConfiguration.owner.key,
-        error: normalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: overviewAction });
       const expected = cold('-b', { b: failAction });
@@ -510,7 +510,7 @@ describe('ConfiguratorEffect', () => {
       const failAction =
         new ConfiguratorActions.UpdateConfigurationOverviewFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
       actions$ = hot('-a', { a: overviewAction });
       const expected = cold('-b', { b: failAction });
@@ -549,7 +549,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.UpdateConfigurationFail({
         configuration: productConfiguration,
-        error: normalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: failAction });
@@ -580,7 +580,7 @@ describe('ConfiguratorEffect', () => {
 
       const failAction = new ConfiguratorActions.UpdatePriceSummaryFail({
         ownerKey: productConfiguration.owner.key,
-        error: normalizeHttpError(errorResponse, new MockLoggerService()),
+        error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
       });
       actions$ = hot('-a', { a: updatePriceSummaryAction });
       const expected = cold('-b', { b: failAction });
@@ -874,7 +874,7 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationFail =
         new ConfiguratorActions.ReadConfigurationFail({
           ownerKey: productConfiguration.owner.key,
-          error: normalizeHttpError(errorResponse, new MockLoggerService()),
+          error: tryNormalizeHttpError(errorResponse, new MockLoggerService()),
         });
 
       actions$ = hot('-a', { a: action });

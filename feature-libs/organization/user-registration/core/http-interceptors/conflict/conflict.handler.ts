@@ -30,7 +30,7 @@ export class OrganizationUserRegistrationConflictHandler extends HttpErrorHandle
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors).filter(
+    return (response.error?.errors ?? []).filter(
       (error: any) => error?.type === 'AlreadyExistsError'
     );
   }

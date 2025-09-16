@@ -509,7 +509,7 @@
     "@ngrx/store": "^19.0.0",
     "@types/applepayjs": "^14.0.3",
     "@types/google.maps": "^3.54.0",
-    "@types/googlepay": "^0.7.4",
+    "@types/googlepay": "^0.7.7",
     "angular-oauth2-oidc": "19.0.0",
     "comment-json": "^4.2.3",
     "express": "^4.21.2",

@@ -105,9 +105,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @HostListener('keydown.escape')
   onEscape() {
     if (
-      (this.featureConfigService?.isEnabled('a11ySearchBoxFocusOnEscape') &&
-        this.winRef.document.activeElement !==
-          this.searchInputEl?.nativeElement) ||
+      this.winRef.document.activeElement !==
+        this.searchInputEl?.nativeElement ||
       this.searchBoxActive
     ) {
       setTimeout(() => {
