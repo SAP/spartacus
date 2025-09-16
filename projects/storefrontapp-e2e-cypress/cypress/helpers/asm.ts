@@ -265,7 +265,7 @@ export function removeCustomerCouponFoJDK21(
   cy.visit('/?am=true');
   cy.get('button.logout').should('exist').and('be.visible').click();
   cy.get('button.close[title="Close ASM"]').should('be.visible').click();
-  cy.visit("/")
+  cy.visit('/');
   cy.log('Customer login in');
   cy.contains('a[role="link"]', 'Sign In / Register')
     .should('have.attr', 'href', '/powertools-spa/en/USD/sign-in')
