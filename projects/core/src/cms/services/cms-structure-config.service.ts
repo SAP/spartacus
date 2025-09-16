@@ -73,7 +73,7 @@ export abstract class CmsStructureConfigService {
    */
   getComponentsFromConfig(
     ids: string[]
-  ): Observable<ContentSlotComponentData[]> {
+  ): Observable<(ContentSlotComponentData | any)[]> {
     return of(ids.map((id) => this.getComponentById(id)));
   }
 
