@@ -14,16 +14,12 @@ export function getAgentToken() {
   };
 }
 
-export const b2bAgent = getB2BAgent();
-
 export function getB2BAgent() {
   return {
     userName: 'brandon.leclair@acme.com',
     password: 'pw4all',
   };
 }
-
-export const b2bAgent2 = getB2BAgent2();
 
 export function getB2BAgent2() {
   return {
@@ -56,8 +52,6 @@ export function getASMB2CCustomer2() {
   };
 }
 
-export const b2bCustomer = getASMB2BCustomer();
-
 export function getASMB2BCustomer() {
   return {
     firstName: 'William',
@@ -67,8 +61,6 @@ export function getASMB2BCustomer() {
     email: 'william.hunter@pronto-hw.com',
   };
 }
-
-export const b2bCustomer2 = getASMB2BCustomer2();
 
 export function getASMB2BCustomer2() {
   return {
