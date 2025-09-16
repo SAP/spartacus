@@ -45,6 +45,8 @@ export interface SubscriptionExtensionEffectiveDate {
   subscriptionEndAt: string;
 }
 
+export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
+
 declare module '@spartacus/storefront' {
   enum LAUNCH_CALLER {
     EXTEND_SUBSCRIPTION = 'EXTEND_SUBSCRIPTION',

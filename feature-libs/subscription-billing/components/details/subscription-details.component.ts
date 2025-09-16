@@ -127,5 +127,6 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.launchDialogService.closeDialog('Moved away from subscription details page');
   }
 }
