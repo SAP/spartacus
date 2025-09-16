@@ -74,10 +74,11 @@ export class OpfCheckoutBillingAddressFormService {
   get pickupNoDefaultAddress$(): Observable<void> {
     return this._pickupNoDefaultAddress$.asObservable();
   }
-  private handleNoDefaultAddress(): void {
+  protected handleNoDefaultAddress(): void {
     this.setIsSameAsDeliveryValue(false);
     this._pickupNoDefaultAddress$.next();
   }
+
   getCountries(): Observable<Country[]> {
     return this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {

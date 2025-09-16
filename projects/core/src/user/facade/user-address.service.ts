@@ -113,7 +113,7 @@ export class UserAddressService {
    */
   getDefaultAddress(): Observable<Address | undefined> {
     return this.getAddresses().pipe(
-      map((addresses) => addresses.find((address) => address.defaultAddress))
+      map((addresses) => addresses?.find((address) => address.defaultAddress))
     );
   }
 
