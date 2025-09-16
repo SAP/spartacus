@@ -291,8 +291,5 @@
     "typescript": "^5.6.3",
     "webpack": "~5.101.0",
     "webpack-cli": "^6.0.0"
-  },
-  "overrides": {
-    "vite": "5.4.19"
   }
 }
