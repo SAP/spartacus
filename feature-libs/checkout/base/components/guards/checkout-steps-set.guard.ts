@@ -106,11 +106,6 @@ export class CheckoutStepsSetGuard implements OnDestroy {
   }
 
   protected isStepSet(step: CheckoutStep): Observable<GuardResult> {
-    if (!this.hasDeliveryItemsInCart) {
-      this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
-      this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
-      return of(true);
-    }
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.DELIVERY_ADDRESS: {

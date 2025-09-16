@@ -9,10 +9,11 @@ import {
   Component,
   OnInit,
   inject,
+  OnDestroy,
 } from '@angular/core';
 import { Address, Country, UserAddressService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 @Component({
@@ -21,7 +22,7 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OpfCheckoutBillingAddressFormComponent implements OnInit {
+export class OpfCheckoutBillingAddressFormComponent implements OnInit, OnDestroy {
   protected service = inject(OpfCheckoutBillingAddressFormService);
   protected userAddressService = inject(UserAddressService);
   protected activeCartFacade = inject(ActiveCartFacade);
@@ -29,6 +30,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected cart: Cart | null = null;
 
   iconTypes = ICON_TYPE;
+  subscription = new Subscription();
 
   billingAddress$ = this.service.billingAddress$;
   isLoadingAddress$ = this.service.isLoadingAddress$;
@@ -40,15 +42,17 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
 
   ngOnInit() {
-    this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart));
+    this.subscription.add(this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart)));
     this.countries$ = this.service.getCountries();
     this.userAddressService.loadAddresses();
     this.service.setDefaultBillingAddress();
     this.service.getAddresses();
+    this.subscription.add(
     this.service.pickupNoDefaultAddress$.subscribe(() => {
       this.isEditBillingAddress = true;
       this.isAddingBillingAddressInProgress = true;
-    });
+    })
+  );
   }
 
   cancelAndHideForm(): void {
@@ -90,5 +94,9 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     }
 
     this.service.setBillingAddress(address).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
