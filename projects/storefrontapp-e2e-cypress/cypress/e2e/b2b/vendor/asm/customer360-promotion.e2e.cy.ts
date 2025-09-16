@@ -17,7 +17,7 @@ import {
   interceptPost,
 } from '../../../../support/utils/intercept';
 import {
-  getAgentB2BToken,
+  getB2BAgent,
   getASMB2BCustomer,
 } from '../../../../sample-data/asm-flow';
 
@@ -27,7 +27,7 @@ context('Assisted Service Module', () => {
     code: 'dragonboat',
     name: 'Buy over $1000 get 20% off on cart',
   };
-  const agentB2BToken = getAgentB2BToken();
+  const b2bAgent = getB2BAgent();
 
   before(() => {
     clearAllStorage();
@@ -41,12 +41,12 @@ context('Assisted Service Module', () => {
     beforeEach(() => {
       cy.visit('/?asm=true');
       cy.whenJDK17(() => {
-        asm.agentLogin(agentB2BToken.userName, agentB2BToken.pwd);
+        asm.agentLogin(b2bAgent.userName, b2bAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentB2BToken.userName, agentB2BToken.pwd);
+        agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
       });
       asm.startCustomerEmulation(customer, true);
       cy.get('button.cx-360-button').click();
@@ -121,7 +121,7 @@ context('Assisted Service Module', () => {
         signOutUser();
         cy.visit('/?asm=true');
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentB2BToken.userName, agentB2BToken.pwd);
+        agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
         asm.startCustomerEmulation(customer, true);
         cy.get('button.cx-360-button').click();
         cy.get('button.cx-tab-header').contains('Promotion').click();

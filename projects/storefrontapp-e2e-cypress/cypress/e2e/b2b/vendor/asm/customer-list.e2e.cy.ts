@@ -12,15 +12,15 @@ import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
-  getAgentB2BToken,
-  getAgent2B2BToken,
+  getB2BAgent,
+  getB2BAgent2,
   getASMB2BCustomer2,
 } from '../../../../sample-data/asm-flow';
 
 context('Assisted Service Module', () => {
   const customer2 = getASMB2BCustomer2();
-  const agentB2BToken = getAgentB2BToken();
-  const agent2B2BToken = getAgent2B2BToken();
+  const b2bAgent = getB2BAgent();
+  const b2bAgent2 = getB2BAgent2();
   before(() => {
     clearAllStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -58,12 +58,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.whenJDK17(() => {
-        asm.agentLogin(agentB2BToken.userName, agentB2BToken.pwd);
+        asm.agentLogin(b2bAgent.userName, b2bAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentB2BToken.userName, agentB2BToken.pwd);
+        agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
       });
 
       asm.asmB2bCustomerLists();
@@ -86,12 +86,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.whenJDK17(() => {
-        asm.agentLogin(agent2B2BToken.userName, agent2B2BToken.pwd);
+        asm.agentLogin(b2bAgent2.userName, b2bAgent2.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agent2B2BToken.userName, agent2B2BToken.pwd);
+        agentLoginForJDK21(b2bAgent2.userName, b2bAgent2.password);
       });
 
       asm.asmB2bCustomerListPagination();

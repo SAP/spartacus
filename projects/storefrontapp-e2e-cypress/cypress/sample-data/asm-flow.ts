@@ -14,21 +14,21 @@ export function getAgentToken() {
   };
 }
 
-export const agentB2BToken = getAgentB2BToken();
+export const b2bAgent = getB2BAgent();
 
-export function getAgentB2BToken() {
+export function getB2BAgent() {
   return {
     userName: 'brandon.leclair@acme.com',
-    pwd: 'pw4all',
+    password: 'pw4all',
   };
 }
 
-export const agent2B2BToken = getAgent2B2BToken();
+export const b2bAgent2 = getB2BAgent2();
 
-export function getAgent2B2BToken() {
+export function getB2BAgent2() {
   return {
     userName: 'jules.hasson@acme.com',
-    pwd: 'pw4all',
+    password: 'pw4all',
   };
 }
 

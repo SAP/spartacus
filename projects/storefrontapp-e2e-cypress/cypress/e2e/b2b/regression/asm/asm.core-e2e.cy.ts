@@ -14,13 +14,13 @@ import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { interceptGet } from '../../../../support/utils/intercept';
 import {
-  getAgentB2BToken,
+  getB2BAgent,
   getASMB2BCustomer,
 } from '../../../../sample-data/asm-flow';
 
 context('B2B - Assisted Service Module', () => {
   const customer = getASMB2BCustomer();
-  const agentB2BToken = getAgentB2BToken();
+  const b2bAgent = getB2BAgent();
   before(() => {
     clearAllStorage();
   });
@@ -47,12 +47,12 @@ context('B2B - Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin(agentB2BToken.userName, agentB2BToken.pwd);
+        asm.agentLogin(b2bAgent.userName, b2bAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentB2BToken.userName, agentB2BToken.pwd);
+        agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
       });
       cy.log('--> Agent emulate customer');
       asm.startCustomerEmulation(customer, true);
