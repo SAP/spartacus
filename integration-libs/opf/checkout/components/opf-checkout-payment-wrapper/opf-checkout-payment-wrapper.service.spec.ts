@@ -186,7 +186,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
             url: 'styles.css',
             type: OpfDynamicScriptResourceType.STYLES,
           },
-        ]
+        ],
+        mockPaymentOptionId
       );
 
       expect(service.renderPaymentGateway).toHaveBeenCalledWith({
@@ -361,6 +362,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should render payment gateway with dynamic script', (done) => {
+    const mockPaymentOptionId = 123;
     const mockPaymentSessionData: OpfPaymentSessionData = {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
       dynamicScript: {
@@ -384,6 +386,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       Promise.resolve()
     );
 
+    // Set the lastPaymentOptionId to simulate the payment initiation
+    service['lastPaymentOptionId'] = mockPaymentOptionId;
+
     service['renderPaymentGateway'](mockPaymentSessionData);
 
     expect(opfResourceLoaderServiceMock.loadResources).toHaveBeenCalledWith(
@@ -398,7 +403,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           url: 'styles.css',
           type: OpfDynamicScriptResourceType.STYLES,
         },
-      ]
+      ],
+      mockPaymentOptionId
     );
 
     setTimeout(() => {

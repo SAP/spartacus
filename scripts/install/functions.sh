@@ -448,7 +448,7 @@ function build_csr {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app build (No port defined)"
     else
-        setJdkVersion "$CSR_APP_NAME"
+        setJdkVersion "$CSR_APP_NAME" "csr"
         printh "Building csr app"
         ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
     fi
@@ -459,7 +459,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         local buildCommands
-        setJdkVersion "$SSR_APP_NAME"
+        setJdkVersion "$SSR_APP_NAME" "ssr"
         printh "Building ssr app"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
@@ -1138,7 +1138,7 @@ function setJdkVersion {
 
    
      if [ "$JDK_VERSION" = "JDK21" ]; then
-        addAuthConfig "$app_dir"
+        addAuthConfig "$app_dir" "${2}"
      fi
 }
 
@@ -1146,7 +1146,13 @@ function setJdkVersion {
 # Use case: B2C and B2B are hosted on separate domains, requiring two OAuth clients in backoffice.
 # The defaultAuthConfig must be overwritten to match the backoffice OAuth client configuration.
 function addAuthConfig {
-    if [ -z "$AUTH_CONFIG" ]; then
+    local app_mode="$2"
+    local auth_config="$AUTH_CONFIG_CSR"
+    if [ "$app_mode" = "ssr" ]; then
+        auth_config="$AUTH_CONFIG_SSR"
+    fi
+    
+    if [ -z "$auth_config" ]; then
         echo "AUTH_CONFIG is null or empty, exiting function."
         return
     fi
@@ -1173,7 +1179,7 @@ function addAuthConfig {
         return
     fi
 
-    auth_config_single_line=$(echo "$AUTH_CONFIG" | tr -d '\n' | tr -d ' ')
+    auth_config_single_line=$(echo "$auth_config" | tr -d '\n' | tr -d ' ')
     echo "single line: $auth_config_single_line"
 
     # delete previous provider config, text included between provideConfig(<AuthConfig> and the closing brace '})'.

@@ -44,7 +44,6 @@ describe('Update SSR Migration', () => {
 
     const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
       ssrFeatureToggles: {
-        avoidCachingErrors: true,
         limitCacheByMemory: true,
       },
     });
