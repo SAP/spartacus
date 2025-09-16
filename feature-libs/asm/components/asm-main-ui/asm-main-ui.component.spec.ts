@@ -176,6 +176,8 @@ class MockAsmService implements Partial<AsmService> {
   getAsmUiState(): Observable<AsmUi> {
     return of(mockAsmUi);
   }
+
+  customerSearch(_searchTerm: unknown): void {}
 }
 
 const mockAsmUi: AsmUi = {
