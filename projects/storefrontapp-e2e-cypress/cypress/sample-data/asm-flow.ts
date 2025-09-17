@@ -5,12 +5,26 @@
  */
 import { generateMail, randomString } from '../helpers/user';
 
-export const agentTOken = getAgentToken();
+export const agentToken = getAgentToken();
 
 export function getAgentToken() {
   return {
     userName: 'asagent',
     pwd: 'pw4all',
+  };
+}
+
+export function getB2BAgent() {
+  return {
+    userName: 'brandon.leclair@acme.com',
+    password: 'pw4all',
+  };
+}
+
+export function getB2BAgent2() {
+  return {
+    userName: 'jules.hasson@acme.com',
+    password: 'pw4all',
   };
 }
 
@@ -35,6 +49,26 @@ export function getASMB2CCustomer2() {
     fullName: 'Andrew Customer',
     password: 'pw4all',
     email: 'andrew.customer@hybris.com',
+  };
+}
+
+export function getASMB2BCustomer() {
+  return {
+    firstName: 'William',
+    lastName: 'Hunter',
+    fullName: 'William Hunter',
+    password: 'pw4all',
+    email: 'william.hunter@pronto-hw.com',
+  };
+}
+
+export function getASMB2BCustomer2() {
+  return {
+    firstName: 'Gi',
+    lastName: 'Sun',
+    fullName: 'Gi Sun',
+    password: 'pw4all',
+    email: 'gi.sun@pronto-hw.com',
   };
 }
 
