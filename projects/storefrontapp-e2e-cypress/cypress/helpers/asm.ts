@@ -11,7 +11,7 @@ import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
 import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
-import { getASMB2CCustomer } from '../sample-data/asm-flow';
+import { getASMB2CCustomer, getASMB2BCustomer2 } from '../sample-data/asm-flow';
 import {
   addToCartWithProducts,
   createCart,
@@ -43,7 +43,7 @@ export const invalidUser: SampleUser = {
 };
 
 const asmForB2CCustomer = 'aaron.customer@hybris.com';
-const asmForB2BCustomer = 'Gi Sun';
+const asmForB2BCustomer = getASMB2BCustomer2().fullName;
 
 export function placeOrderForB2CCustomer(
   customer: string,
@@ -265,6 +265,7 @@ export function removeCustomerCouponFoJDK21(
   cy.visit('/?am=true');
   cy.get('button.logout').should('exist').and('be.visible').click();
   cy.get('button.close[title="Close ASM"]').should('be.visible').click();
+  cy.visit('/');
   cy.log('Customer login in');
   cy.contains('a[role="link"]', 'Sign In / Register')
     .should('have.attr', 'href', '/powertools-spa/en/USD/sign-in')
