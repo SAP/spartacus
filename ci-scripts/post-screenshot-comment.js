@@ -28,37 +28,15 @@ async function postScreenshotComment(github, context) {
   const artifactUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}/artifacts/${artifact.id}`;
 
   const commentId = 'e2e-failure-comment';
-  const commentBody = `<!-- ${commentId} -->\n## E2E Tests Failed ❌\n\n📸 **[Download Screenshots](${artifactUrl})**`;
+  const commentBody = `<!-- ${commentId} -->\n## E2E Tests Failed ❌\n\n📸 **[Download Screenshots](${artifactUrl})**\n\n---\n*Commit: ${context.sha}*`;
 
-  const comments = await github.rest.issues.listComments({
+  await github.rest.issues.createComment({
     issue_number: context.issue.number,
     owner: context.repo.owner,
     repo: context.repo.repo,
+    body: commentBody,
   });
-
-  const existingComment = comments.data.find(
-    (comment) =>
-      comment.user.type === 'Bot' &&
-      comment.body.includes(`<!-- ${commentId} -->`)
-  );
-
-  if (existingComment) {
-    await github.rest.issues.updateComment({
-      comment_id: existingComment.id,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: commentBody,
-    });
-    console.log('Updated existing E2E failure PR comment');
-  } else {
-    await github.rest.issues.createComment({
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: commentBody,
-    });
-    console.log('Created new E2E failure PR comment');
-  }
+  console.log('Created new E2E failure PR comment');
 }
 
 module.exports = postScreenshotComment;
