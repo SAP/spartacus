@@ -1,10 +1,10 @@
 on:
   workflow_dispatch:
     inputs:
-      compodoc:
-        description: "Build and deploy compodoc?"
-        required: false
-        type: boolean
+      # compodoc:
+      #   description: "Build and deploy compodoc?"
+      #   required: false
+      #   type: boolean
       what_version:
         description: "What is the release version? (e.g. 5.0.1)"
         required: true
@@ -12,17 +12,17 @@ on:
 name: Pre-release for Spartacus
 
 jobs:
-  publish_compodoc:
-    name: Deploy compodocs to github
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - name: Generate and publish compodocs
-        if: ${{ github.event.inputs.compodoc == 'true' }}
-        run: |
-          git remote set-url origin https://git:${{ secrets.GH_TEMPORARY_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+  # publish_compodoc:
+  #   name: Deploy compodocs to github
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v5
+  #     - name: Generate and publish compodocs
+  #       if: ${{ github.event.inputs.compodoc == 'true' }}
+  #       run: |
+  #         git remote set-url origin https://git:${{ secrets.GH_TEMPORARY_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
 
-          npm run generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
+  #         npm run generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
   tag_sampledata:
     name: Tagging sample data
     runs-on: ubuntu-latest
