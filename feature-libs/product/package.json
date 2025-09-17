@@ -25,10 +25,10 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^19.0.4",
-    "@angular/common": "^19.0.3",
-    "@angular/core": "^19.0.3",
-    "@angular/router": "^19.0.3",
+    "@angular-devkit/schematics": "^19.2.15",
+    "@angular/common": "^19.2.15",
+    "@angular/core": "^19.2.15",
+    "@angular/router": "^19.2.15",
     "@spartacus/core": "2211.43.0",
     "@spartacus/schematics": "2211.43.0",
     "@spartacus/storefront": "2211.43.0",
