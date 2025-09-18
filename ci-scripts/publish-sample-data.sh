@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-TAG_NAME="testsampledata"
-SAMPLE_DATA_UNRELEASED_BRANCH="release/2211.x"
-UNRELEASED_SPARTACUS_VERSION_NAME="spartacussampledata-version-2211-x"
+TAG_NAME="sampledata"
+SAMPLE_DATA_UNRELEASED_BRANCH="release/221121.x"
+UNRELEASED_SPARTACUS_VERSION_NAME="spartacussampledata-version-221121-x"
 
 echo "Downloading current sample data for 2211.x"
 
@@ -24,7 +24,7 @@ echo "Creating a new release"
 gh release create "$TAG_NAME" \
   --repo SAP-samples/cloud-commerce-sample-setup \
   --title "Spartacus Sample Data" \
-  --notes "Spartacus sample data releases: 2211-x (current release)"
+  --notes "Spartacus sample data releases: 221121-x (current release JDK 21)" \
 
 echo "-----"
 echo "Uploading assets to the release"
