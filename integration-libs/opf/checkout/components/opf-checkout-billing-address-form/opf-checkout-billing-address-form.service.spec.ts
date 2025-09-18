@@ -97,7 +97,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
         { provide: Store, useValue: { pipe: () => of(undefined) } },
         { provide: UserAddressAdapter, useValue: {} },
         {
-          provide: '_pickupNoDefaultAddress$',
+          provide: '_noDefaultAddressFoundForPickupMode$',
           useValue: mockPickupNoDefaultAddress$,
         },
         { provide: UserAddressService, useValue: mockUserAddressService },
@@ -273,7 +273,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
   it('should return an observable from pickupNoDefaultAddress$', () => {
     spyOn(mockPickupNoDefaultAddress$, 'asObservable').and.callThrough();
 
-    (service as any)._pickupNoDefaultAddress$ = mockPickupNoDefaultAddress$;
+    (service as any)._noDefaultAddressFoundForPickupMode$ = mockPickupNoDefaultAddress$;
 
     const result: Observable<void> = service.pickupNoDefaultAddress$;
 
