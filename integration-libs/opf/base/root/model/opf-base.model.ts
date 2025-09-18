@@ -42,6 +42,7 @@ export interface OpfDynamicScript {
   cssUrls?: OpfDynamicScriptResource[];
   jsUrls?: OpfDynamicScriptResource[];
   html?: string;
+  dynamicContext?: string;
 }
 
 export interface OpfKeyValueMap {

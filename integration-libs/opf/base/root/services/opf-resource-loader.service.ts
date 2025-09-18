@@ -155,7 +155,7 @@ export class OpfResourceLoaderService {
     });
   }
 
-  executeScriptFromHtml(html: string | undefined) {
+  executeScriptFromHtml(html: string | undefined, dynamicContext?: string) {
     // SSR mode not supported for security concerns
     if (!isPlatformServer(this.platformId) && html) {
       const element = new DOMParser().parseFromString(html, 'text/html');
@@ -163,8 +163,109 @@ export class OpfResourceLoaderService {
       if (!script?.[0]?.innerText) {
         return;
       }
-      Function(script[0].innerText)();
+
+      const originalScript = script[0].innerText;
+      const sessionId = this.generateSessionId();
+
+      let wrappedScript: string;
+
+      if (dynamicContext) {
+        try {
+          const contextData = JSON.parse(dynamicContext);
+          wrappedScript = this.createSessionScopedScript(
+            originalScript,
+            contextData,
+            sessionId
+          );
+        } catch (error) {
+          console.warn('Failed to parse dynamic context:', error);
+          wrappedScript = this.createSecureScript(originalScript, sessionId);
+        }
+      } else {
+        wrappedScript = this.createSecureScript(originalScript, sessionId);
+      }
+
+      this.executeScriptWithSession(wrappedScript, sessionId);
     }
+  }
+
+  /**
+   * Creates session-scoped script with isolated context
+   * PSP scripts can use OpfContext.orderId, OpfContext.amount, etc. without modifications
+   */
+  private createSessionScopedScript(
+    originalScript: string,
+    contextData: any,
+    sessionId: string
+  ): string {
+    return `
+      (function() {
+        'use strict';
+        
+        // Session-isolated context (no global pollution)
+        const OpfContext = ${JSON.stringify(contextData)};
+        const SessionId = '${sessionId}';
+        
+        // Context is immediately available - no async waiting
+        console.log('PSP: Session', SessionId, 'Context:', OpfContext);
+        
+        // Original PSP script runs with context available immediately
+        ${originalScript}
+        
+      })();
+    `;
+  }
+
+  /**
+   * Creates secure script without context but with session ID
+   */
+  private createSecureScript(
+    originalScript: string,
+    sessionId: string
+  ): string {
+    return `
+      (function() {
+        'use strict';
+        
+        const OpfContext = {};
+        const SessionId = '${sessionId}';
+        
+        console.log('PSP: Session', SessionId, 'No context available');
+        
+        ${originalScript}
+        
+      })();
+    `;
+  }
+
+  /**
+   * Generate unique session ID
+   */
+  private generateSessionId(): string {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2);
+    return `opf-session-${timestamp}-${random}`;
+  }
+
+  /**
+   * Execute script with session isolation
+   */
+  private executeScriptWithSession(
+    scriptContent: string,
+    sessionId: string
+  ): void {
+    const scriptElement = this.document.createElement('script');
+    scriptElement.textContent = scriptContent;
+    scriptElement.setAttribute('data-session-id', sessionId);
+    scriptElement.setAttribute('data-opf-script', 'true');
+    this.document.head.appendChild(scriptElement);
+
+    // Clean up after execution
+    setTimeout(() => {
+      if (scriptElement.parentNode) {
+        scriptElement.parentNode.removeChild(scriptElement);
+      }
+    }, 100);
   }
 
   clearAllResources() {

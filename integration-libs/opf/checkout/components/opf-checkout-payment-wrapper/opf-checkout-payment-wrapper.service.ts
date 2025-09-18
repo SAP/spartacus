@@ -66,7 +66,7 @@ export class OpfCheckoutPaymentWrapperService {
       isError: false,
     });
 
-  protected executeScriptFromHtml(html: string): void {
+  protected executeScriptFromHtml(html: string, dynamicContext?: string): void {
     /**
      * Verify first if customer is still on the payment and review page.
      * Then execute script extracted from HTML to render payment provider gateway.
@@ -82,7 +82,10 @@ export class OpfCheckoutPaymentWrapperService {
       )
       .subscribe(() => {
         setTimeout(() => {
-          this.opfResourceLoaderService.executeScriptFromHtml(html);
+          this.opfResourceLoaderService.executeScriptFromHtml(
+            html,
+            dynamicContext
+          );
         });
       });
   }
@@ -172,7 +175,9 @@ export class OpfCheckoutPaymentWrapperService {
   renderPaymentGateway(config: OpfPaymentSessionData) {
     if (config?.dynamicScript) {
       const html = config?.dynamicScript?.html;
-
+      let dynamicContext = config?.dynamicScript?.dynamicContext;
+      dynamicContext =
+        '{"orderId":"1234","amount":30,"currency":"USD","billingAddress":{"addressLine1":"123 Main St","city":"New York","country":"US"}}';
       const paymentOptionId = this.lastPaymentOptionId;
 
       this.opfResourceLoaderService
@@ -190,7 +195,7 @@ export class OpfCheckoutPaymentWrapperService {
           });
 
           if (html) {
-            this.executeScriptFromHtml(html);
+            this.executeScriptFromHtml(html, dynamicContext);
           }
         })
         .catch(() => {
