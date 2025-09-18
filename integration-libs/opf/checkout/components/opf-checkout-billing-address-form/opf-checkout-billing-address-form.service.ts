@@ -57,7 +57,7 @@ export class OpfCheckoutBillingAddressFormService {
     OpfCheckoutPaymentWrapperService
   );
   protected userAddressService = inject(UserAddressService);
-  protected _pickupNoDefaultAddress$ = new Subject<void>();
+  protected _noDefaultAddressFoundForPickupMode$ = new Subject<void>();
   protected pickupOptionFacade = inject(PickupOptionFacade);
 
   protected readonly _$billingAddressSub = new BehaviorSubject<
@@ -72,11 +72,11 @@ export class OpfCheckoutBillingAddressFormService {
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
 
   get pickupNoDefaultAddress$(): Observable<void> {
-    return this._pickupNoDefaultAddress$.asObservable();
+    return this._noDefaultAddressFoundForPickupMode$.asObservable();
   }
   protected handleNoDefaultAddress(): void {
     this.setIsSameAsDeliveryValue(false);
-    this._pickupNoDefaultAddress$.next();
+    this._noDefaultAddressFoundForPickupMode$.next();
   }
 
   getCountries(): Observable<Country[]> {
