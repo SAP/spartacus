@@ -110,11 +110,8 @@ context('Assisted Service Module', () => {
         checkout.visitHomePage('asm=true');
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
-        cy.get('cx-login')
-          .find('a[role="link"]')
-          .should('not.exist');
+        cy.get('cx-login').find('a[role="link"]').should('not.exist');
       });
-
     });
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario

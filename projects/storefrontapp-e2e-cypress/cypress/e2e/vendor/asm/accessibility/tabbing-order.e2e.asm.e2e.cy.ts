@@ -32,7 +32,7 @@ describe('Tabbing order for ASM', () => {
       asmTabbingOrderWithSelectedUser(config.asmWithSelectedUser);
     });
 
-    //Disable this case, it runs in asm.a11y-e2e.cy.ts 
+    //Disable this case, it runs in asm.a11y-e2e.cy.ts
     // it('should allow to navigate with tab key for customer List （CXSPA-1595）', () => {
     //   asmTabbingOrderWithCustomerList(config.asmWithCustomerLists);
     // });

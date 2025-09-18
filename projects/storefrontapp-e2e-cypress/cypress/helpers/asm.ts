@@ -1178,7 +1178,7 @@ export function getInactiveCartIdAndAddProductsForJDK21(
   return new Promise((resolve, reject) => {
     cy.get('button.logout').should('exist').and('be.visible').click();
     cy.get('button.close[title="Close ASM"]').should('be.visible').click();
-    cy.visit('/')
+    cy.visit('/');
     cy.log('Customer login in');
     cy.contains('a[role="link"]', 'Sign In / Register').click();
 
