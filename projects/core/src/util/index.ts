@@ -11,7 +11,6 @@ export * from './create-from';
 export * from './glob.service';
 export * from './http-params-uri.encoder';
 export * from './java-reg-exp-converter/index';
-export * from './normalize-http-error';
 export * from './object-comparison-utils';
 export * from './occ-http-error-constants';
 export * from './occ-http-error-handlers';

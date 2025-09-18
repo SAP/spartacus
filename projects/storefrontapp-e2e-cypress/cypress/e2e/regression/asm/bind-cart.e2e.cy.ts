@@ -11,6 +11,9 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { visitLoginPage } from '../../../support/utils/login';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
+
+const b2cAgent = getB2CAgent();
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -44,12 +47,12 @@ context('Assisted Service Module', () => {
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
           cy.whenJDK17(() => {
-            asm.agentLogin('asagent', 'pw4all');
+            asm.agentLogin(b2cAgent.userName, b2cAgent.password);
           });
 
           cy.whenJDK21(() => {
             cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-            agentLoginForJDK21('asagent', 'pw4all');
+            agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
           });
 
           cy.log('--> Starting customer emulation');
@@ -133,12 +136,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('asagent', 'pw4all');
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
       });
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customerForReplaceBindCart);

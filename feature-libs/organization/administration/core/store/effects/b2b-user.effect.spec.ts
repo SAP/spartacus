@@ -16,7 +16,7 @@ import {
   RoutingService,
   SearchConfig,
   UserIdService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   FeatureConfigService,
 } from '@spartacus/core';
 import {
@@ -155,7 +155,7 @@ class MockFeatureConfigService {
   }
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('B2B User Effects', () => {
   let actions$: Observable<B2BUserActions.B2BUserAction>;

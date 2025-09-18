@@ -16,7 +16,7 @@ import {
   OccEndpointsService,
   backOff,
   isServerError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable, catchError } from 'rxjs';
 
@@ -37,7 +37,7 @@ export class OccCartAccessCodeAdapter implements CartAccessCodeAdapter {
       >(this.getCartAccessCodeEndpoint(userId, cartId), null)
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isServerError,
