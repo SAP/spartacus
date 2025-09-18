@@ -77,8 +77,8 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.15",
-    "@angular-devkit/core": "^19.2.15",
-    "@angular-devkit/schematics": "^19.2.15",
+    "@angular-devkit/core": "^19.2.16",
+    "@angular-devkit/schematics": "^19.2.16",
     "@angular/cli": "^0.5.0",
     "@angular/compiler": "^19.2.15",
     "@angular/compiler-cli": "^19.2.0",
