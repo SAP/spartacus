@@ -11,7 +11,11 @@ import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
 import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
-import { getASMB2CCustomer, getASMB2BCustomer2 } from '../sample-data/asm-flow';
+import {
+  getB2CAgent,
+  getASMB2CCustomer,
+  getASMB2BCustomer2,
+} from '../sample-data/asm-flow';
 import {
   addToCartWithProducts,
   createCart,
@@ -42,8 +46,9 @@ export const invalidUser: SampleUser = {
     'john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith@test.com',
 };
 
-const asmForB2CCustomer = 'aaron.customer@hybris.com';
-const asmForB2BCustomer = getASMB2BCustomer2().fullName;
+const asmForB2CCustomer = getASMB2CCustomer().email;
+const asmForB2BCustomerFullName = getASMB2BCustomer2().fullName;
+const b2cAgent = getB2CAgent();
 
 export function placeOrderForB2CCustomer(
   customer: string,
@@ -534,7 +539,7 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
     .should('exist')
     .should('not.be.disabled')
-    .type(`${asmForB2BCustomer}{enter}`);
+    .type(`${asmForB2BCustomerFullName}{enter}`);
 
   cy.wait(customerSearchRequestAlias)
     .its('response.statusCode')
@@ -765,12 +770,12 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('be.visible');
 
     cy.whenJDK17(() => {
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(b2cAgent.userName, b2cAgent.password);
     });
 
     cy.whenJDK21(() => {
       cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-      agentLoginForJDK21('asagent', 'pw4all');
+      agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
     });
 
     cy.log('--> Starting customer emulation');
@@ -1173,6 +1178,7 @@ export function getInactiveCartIdAndAddProductsForJDK21(
   return new Promise((resolve, reject) => {
     cy.get('button.logout').should('exist').and('be.visible').click();
     cy.get('button.close[title="Close ASM"]').should('be.visible').click();
+    cy.visit('/')
     cy.log('Customer login in');
     cy.contains('a[role="link"]', 'Sign In / Register').click();
 
