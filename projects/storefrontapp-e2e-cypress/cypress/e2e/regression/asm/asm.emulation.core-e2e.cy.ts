@@ -93,7 +93,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customer);
     });
 
-    it('Customer should not be able to login when there is an active CS agent session.', () => {
+    it('Customer should not be able to login when there is an active CS agent session (CXSPA-10932)', () => {
       cy.whenJDK17(() => {
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
