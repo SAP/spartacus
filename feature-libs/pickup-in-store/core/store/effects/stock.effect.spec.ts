@@ -7,7 +7,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { LoggerService, normalizeHttpError } from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { StockConnector } from '../../connectors/index';
@@ -86,7 +86,7 @@ describe('StockEffect', () => {
     );
     const action = new StockLevel({ productCode: 'P0001', location: '' });
     const actionFail = new StockLevelFail(
-      normalizeHttpError(error, new MockLoggerService())
+      tryNormalizeHttpError(error, new MockLoggerService())
     );
 
     actions$ = hot('-a', { a: action });

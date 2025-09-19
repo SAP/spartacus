@@ -8,7 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { AuthActions } from '../../../auth/user-auth/store/actions';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { Observable } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../logger/logger.service';
@@ -91,7 +91,7 @@ export class ProductSearchByCodeEffects {
                           (payload) =>
                             new ProductActions.ProductSearchLoadByCodeFail({
                               ...payload,
-                              error: normalizeHttpError(error, this.logger),
+                              error: tryNormalizeHttpError(error, this.logger),
                             })
                         );
                       }

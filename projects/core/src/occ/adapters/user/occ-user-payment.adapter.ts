@@ -13,7 +13,7 @@ import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { ConverterService } from '../../../util/converter.service';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -40,7 +40,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       map((methodList) => methodList.payments ?? []),
       this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
@@ -57,7 +57,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -80,7 +80,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

@@ -16,13 +16,10 @@ const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 
 // UI types
 const radioGroup = 'radioGroup';
-const single_selection_image = 'single_selection_image';
-const checkBoxList = 'checkBoxList';
 
 // Group Status
 const ERROR = 'ERROR';
 const COMPLETE = 'COMPLETE';
-const WARNING = 'WARNING';
 
 // List of groups
 const BASICS = 'Basics';
@@ -41,34 +38,16 @@ const REAR_SPEAKER = 'Rear Speakers';
 const SUBWOOFER = 'Subwoofer';
 const FLAT_PANEL = 'Flat-panel TV';
 
-// List of conflict groups
-const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
-
 // List of attributes
-const COLOUR_HT = 'COLOUR_HT';
 const CAMERA_PIXELS = 'CAMERA_PIXELS';
 const CAMERA_DISPLAY = 'CAMERA_DISPLAY';
 const CAMERA_MODE = 'CAMERA_MODE';
-const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
-const ROOM_SIZE = 'ROOM_SIZE';
 const CAMERA_FORMAT_PICTURES = 'CAMERA_FORMAT_PICTURES';
 const SPEAKER_TYPE_FRONT = 'SPEAKER_TYPE_FRONT';
-const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
-const GAMING_CONSOLE = 'GAMING_CONSOLE';
 
 // List of attribute values
-const WHITE = 'COLOUR_HT_WHITE';
-const TITAN = 'COLOUR_HT_TITAN';
-const SDHC = 'SDHC';
 const JPEG = 'JPEG';
 const P5 = 'P5';
-const PROJECTOR_LCD = 'PROJECTOR_LCD';
-const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
-const GAMING_CONSOLE_NO = 'GAMING_CONSOLE_NO';
-
-// Conflict message
-const Conflict_msg_gaming_console =
-  'Gaming console cannot be selected with LCD projector';
 
 context('Product Configuration', () => {
   const commerceRelease: configurationVc.CommerceRelease = {};

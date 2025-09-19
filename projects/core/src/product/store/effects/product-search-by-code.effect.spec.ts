@@ -6,7 +6,8 @@ import { ProductActions } from '../actions/index';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { LoggerService } from '../../../logger/logger.service';
-import { AuthActions, normalizeHttpError } from '@spartacus/core';
+import { AuthActions } from '@spartacus/core';
+import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 
 describe('ProductSearchByCodeEffects', () => {
   let actions$: Observable<any>;
@@ -59,7 +60,7 @@ describe('ProductSearchByCodeEffects', () => {
       code: '123',
       scope: 'test',
     });
-    const error = normalizeHttpError('Error loading products', logger);
+    const error = tryNormalizeHttpError('Error loading products', logger);
     const completion = new ProductActions.ProductSearchLoadByCodeFail({
       code: '123',
       scope: 'test',

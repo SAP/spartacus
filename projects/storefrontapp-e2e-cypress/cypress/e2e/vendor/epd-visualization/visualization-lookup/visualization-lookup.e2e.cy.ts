@@ -11,11 +11,6 @@ describe('in Spare Parts Tab', () => {
     });
 
     beforeEach(() => {
-      cy.cxConfig({
-        features: {
-          a11yTabComponent: false,
-        },
-      } as any);
       cy.intercept(
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

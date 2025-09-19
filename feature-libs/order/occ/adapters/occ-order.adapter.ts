@@ -18,7 +18,7 @@ import {
   backOff,
   isJaloError,
   isServerError,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { OrderAdapter } from '@spartacus/order/core';
 import { ORDER_NORMALIZER, Order } from '@spartacus/order/root';
@@ -56,7 +56,7 @@ export class OccOrderAdapter implements OrderAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
@@ -90,7 +90,7 @@ export class OccOrderAdapter implements OrderAdapter {
       )
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({
           shouldRetry: isJaloError,
