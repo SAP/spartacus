@@ -5,12 +5,10 @@
  */
 import { generateMail, randomString } from '../helpers/user';
 
-export const agentToken = getAgentToken();
-
-export function getAgentToken() {
+export function getB2CAgent() {
   return {
     userName: 'asagent',
-    pwd: 'pw4all',
+    password: 'pw4all',
   };
 }
 
