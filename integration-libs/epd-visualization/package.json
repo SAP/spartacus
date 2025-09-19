@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/epd-visualization",
-  "version": "2211.43.0",
+  "version": "221121.2.0-1",
   "description": "SAP Enterprise Product Development Visualization integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -38,11 +38,11 @@
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@sapui5/ts-types-esm": "1.120.1",
-    "@spartacus/cart": "2211.43.0",
-    "@spartacus/core": "2211.43.0",
-    "@spartacus/schematics": "2211.43.0",
-    "@spartacus/storefront": "2211.43.0",
-    "@spartacus/styles": "2211.43.0",
+    "@spartacus/cart": "221121.2.0-1",
+    "@spartacus/core": "221121.2.0-1",
+    "@spartacus/schematics": "221121.2.0-1",
+    "@spartacus/storefront": "221121.2.0-1",
+    "@spartacus/styles": "221121.2.0-1",
     "rxjs": "^7.8.0"
   },
   "engines": {
