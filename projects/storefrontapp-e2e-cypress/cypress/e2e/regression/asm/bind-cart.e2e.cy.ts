@@ -85,7 +85,7 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        visitLoginPage();
+        cy.visit('/login');
       });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
@@ -192,7 +192,7 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        visitLoginPage();
+        cy.visit('/login');
       });
       login(
         customerForReplaceBindCart.email,
