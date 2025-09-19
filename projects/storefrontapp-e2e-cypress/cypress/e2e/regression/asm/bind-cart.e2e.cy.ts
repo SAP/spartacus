@@ -11,9 +11,9 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { visitLoginPage } from '../../../support/utils/login';
-import { getAgentToken } from '../../../sample-data/asm-flow';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 
-const agentToken = getAgentToken();
+const b2cAgent = getB2CAgent();
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -47,12 +47,12 @@ context('Assisted Service Module', () => {
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
           cy.whenJDK17(() => {
-            asm.agentLogin(agentToken.userName, agentToken.pwd);
+            asm.agentLogin(b2cAgent.userName, b2cAgent.password);
           });
 
           cy.whenJDK21(() => {
             cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-            agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+            agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
           });
 
           cy.log('--> Starting customer emulation');
@@ -85,7 +85,7 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        visitLoginPage();
+        cy.visit('/login');
       });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
@@ -136,12 +136,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
       });
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customerForReplaceBindCart);
@@ -192,7 +192,7 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        visitLoginPage();
+        cy.visit('/login');
       });
       login(
         customerForReplaceBindCart.email,

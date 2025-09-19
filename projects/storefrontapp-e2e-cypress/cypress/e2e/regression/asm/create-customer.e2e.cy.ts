@@ -10,9 +10,9 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { getAgentToken } from '../../../sample-data/asm-flow';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 
-const agentToken = getAgentToken();
+const b2cAgent = getB2CAgent();
 context('Assisted Service Module', () => {
   beforeEach(() => {
     clearAllStorage();
@@ -27,12 +27,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.log('--> Open create customer dialog on customer selection dropdown');
@@ -66,12 +66,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.log('--> Open create customer dialog on customer list dialog');
@@ -96,12 +96,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.log('--> Open create customer dialog on customer list dialog');
@@ -134,12 +134,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
       cy.whenJDK17(() => {
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21(agentToken.userName, agentToken.pwd);
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
       });
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
