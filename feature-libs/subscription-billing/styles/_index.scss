@@ -3,9 +3,11 @@
 @import './product/subscription-product-usage-charge';
 @import './list/subscription-list';
 @import './details/subscription-details';
-$subscription-billing-components-allowlist:
-  cx-subscription-product-price, cx-subscription-product-usage-charge,
-  cx-subscription-list, cx-subscription-details !default;
+@import './cart/subscription-cart-item-list';
+@import './cart/subscription-cart-price-body';
+$subscription-billing-components-allowlist: cx-subscription-product-price,
+  cx-subscription-product-usage-charge, cx-subscription-list,
+  cx-subscription-details, cx-subscription-cart-item-list, cx-subscription-cart-price-body !default;
 
 $skipComponentStyles: () !default;
 
