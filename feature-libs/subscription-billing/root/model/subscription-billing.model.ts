@@ -1,5 +1,11 @@
-import { LAUNCH_CALLER } from '@spartacus/storefront';
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { PaginationModel, SortModel } from '@spartacus/core';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
@@ -75,6 +81,8 @@ export interface ExtendDetails {
 export interface SubscriptionExtensionEffectiveDate {
   subscriptionEndAt: string;
 }
+
+export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
 
 declare module '@spartacus/storefront' {
   enum LAUNCH_CALLER {

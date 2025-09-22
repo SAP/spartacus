@@ -26,6 +26,7 @@ import {
   CancelSubscriptionFacade,
   CancelPopupEvent,
   CancelData,
+  // SubscriptionStatus,
 } from '@spartacus/subscription-billing/root';
 import {
   catchError,
@@ -84,9 +85,12 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       this.subscriptionFacade.getSubscriptionCodeFromRoute(),
     ])
       .pipe(
-        take(1),
+        take(2),
         tap(([subscriptionDetails, subscriptionCode]) => {
-          if (subscriptionDetails && subscriptionDetails.id !== subscriptionCode) {
+          if (
+            subscriptionDetails &&
+            subscriptionDetails.id !== subscriptionCode
+          ) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         }),
@@ -223,6 +227,10 @@ showSubscriptionDialog(mode: 'cancel' | 'withdraw' | 'resubscribe'): void {
         },
         error: () => this.onError(),
       });
+    }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    this.launchDialogService.closeDialog('Moved away from subscription details page');
   }
 
   onResubscribe(): void {
@@ -316,7 +324,7 @@ readonly fallbackCancelData: CancelData = {
 };
 
 
-ngOnDestroy(): void {
+/* ngOnDestroy(): void {
   this.subscription?.unsubscribe();
-}
+} */
 }

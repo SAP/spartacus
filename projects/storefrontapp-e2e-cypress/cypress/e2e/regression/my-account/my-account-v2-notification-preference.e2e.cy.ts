@@ -8,42 +8,34 @@ import {
   testEnableDisableMyAccountV2NotificationPreference,
   updateEmailV2,
   verifyEmailChannelV2,
-} from '../../../helpers/notification';
-import { registerAndLogin } from '../../../helpers/update-email';
+} from '../../../helpers/my-account-v2/my-account-v2-notification';
+import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { isolateTests } from '../../../support/utils/test-isolation';
+import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 
-describe('My Account V2 Notification preference (CXSPA-4468)', () => {
-  viewportContext(['mobile'], () => {
-    describe('Logged in user (CXSPA-4468)', () => {
-      before(() => {
-        clearAllStorage();
-        registerAndLogin();
-        cy.visit('/');
-      });
-
-      // Core test. Run in mobile view as well.
-      testEnableDisableMyAccountV2NotificationPreference();
-    });
-  });
-
+describe('My Account V2 Notification preference (CXSPA-10780)', () => {
   viewportContext(['mobile', 'desktop'], () => {
-    describe('Anonymous user (CXSPA-4468)', () => {
-      before(() => {
-        clearAllStorage();
-      });
-
+    describe('Anonymous user (CXSPA-10780)', () => {
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/notification-preference');
         cy.location('pathname').should('contain', '/login');
       });
     });
 
-    describe('Logged in user (CXSPA-4468)', () => {
+    describe('Logged in user (CXSPA-10780)', { testIsolation: false }, () => {
+      isolateTests();
       before(() => {
-        clearAllStorage();
-        registerAndLogin();
+        standardUser.registrationData.email = generateMail(
+          randomString(),
+          true
+        );
+        loginHelper.registerAndLogin(
+          standardUser.registrationData.email,
+          standardUser.registrationData.password
+        );
+
         cy.visit('/');
       });
 
@@ -52,6 +44,26 @@ describe('My Account V2 Notification preference (CXSPA-4468)', () => {
         const newEmail = updateEmailV2();
         verifyEmailChannelV2(newEmail);
       });
+    });
+  });
+
+  viewportContext(['desktop'], () => {
+    describe('Logged in user (CXSPA-10780)', () => {
+      before(() => {
+        standardUser.registrationData.email = generateMail(
+          randomString(),
+          true
+        );
+        loginHelper.registerAndLogin(
+          standardUser.registrationData.email,
+          standardUser.registrationData.password
+        );
+
+        cy.visit('/');
+      });
+
+      // Core test. Run in mobile view as well.
+      testEnableDisableMyAccountV2NotificationPreference();
     });
   });
 });

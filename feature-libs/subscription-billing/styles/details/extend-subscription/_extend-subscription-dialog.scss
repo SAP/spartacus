@@ -14,6 +14,12 @@
                 }
             }
 
+            .modal-body {
+                .cx-dialog-info p {
+                    margin-bottom: 1rem;
+                }
+            }
+
             .extend-subscription-dialog-footer {
                 display: flex;
                 justify-content: space-between;

@@ -41,7 +41,6 @@
           [innerHTML]="'extendSubscription.disclaimerWithExtensionEndDate' | cxTranslate: { endDate: this.extensionEffectiveDate | cxDate }"
         >
         </p>
-        <br>
         <p 
           *ngIf="isExtendSubscriptionBtnClicked"
         >
@@ -51,7 +50,7 @@
 
       <label class="form-check extend-duration-dropdown-label">
         <span class="form-check-label extend-duration-label">
-          {{ 'extendSubscription.unlimitedDurationCheckboxLabel' | cxTranslate }}
+          {{ 'extendSubscription.durationInputLabel' | cxTranslate }}
           <cx-form-required-asterisks />
         </span>
         <ng-select 
@@ -60,30 +59,14 @@
           [searchable]="false"
           id="extendDurationDropdown"
           [items]="extendDurationOptions"
-          [readonly]="isExtendSubscriptionBtnClicked || isUnlimitedDurationSelected"
-          [(ngModel)]="extendDuration"
+          [readonly]="isExtendSubscriptionBtnClicked"
           [placeholder]="'extendSubscription.durationInputPlaceholder' | cxTranslate: { frequency: this.subscriptionContractFrequency }"
           (change)="onExtendDurationChange($event)"
         >
           <ng-template ng-option-tmp ng-label-tmp let-item="item">
-            {{ item }} {{ subscriptionContractFrequency }}
+            {{ item }}
           </ng-template>
         </ng-select>
-      </label>
-
-      <label class="form-check unlimited-duration-checkbox-label">
-        <input 
-          type="checkbox"
-          class="form-check-input"
-          id="unlimitedDurationCheckbox"
-          [(ngModel)]="isUnlimitedDurationSelected"
-          (change)="isUnlimitedDurationSelected"
-          name="unlimitedDurationCheckbox"
-          [disabled]="isExtendSubscriptionBtnClicked || extendDuration !== undefined"
-        >
-        <span class="form-check-label">
-          {{ 'extendSubscription.unlimitedDurationCheckboxLabel' | cxTranslate }}
-        </span>
       </label>
     </div>
 

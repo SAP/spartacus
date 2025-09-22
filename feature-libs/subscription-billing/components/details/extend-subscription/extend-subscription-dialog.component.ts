@@ -9,7 +9,7 @@ import { Component, inject } from "@angular/core";
 import { FormControl, FormsModule } from "@angular/forms";
 import { EventService, GlobalMessageService, GlobalMessageType, I18nModule } from "@spartacus/core";
 import { LaunchDialogService, ICON_TYPE, IconModule, FocusConfig, KeyboardFocusModule, DatePickerModule, FormRequiredAsterisksComponent } from "@spartacus/storefront";
-import { GetSubscriptionByCodeReloadEvent, SubscriptionBillingFacade } from "@spartacus/subscription-billing/root";
+import { GetSubscriptionByCodeReloadEvent, SubscriptionBillingFacade, UNLIMITED_EXTEND_DURATION_OPTION_VALUE } from "@spartacus/subscription-billing/root";
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
@@ -22,7 +22,7 @@ export class ExtendSubscriptionDialog {
     private subscriptionBillingService = inject(SubscriptionBillingFacade);
     private globalMessageService = inject(GlobalMessageService);
     private eventService = inject(EventService);
-    
+
     dateFormControl = new FormControl<string>(Date.now().toString());
     iconTypes = ICON_TYPE;
     extendDuration: number;
@@ -34,7 +34,8 @@ export class ExtendSubscriptionDialog {
     extendFrequencyMaxOptions: { 
         [key: string]: number 
     } = require('./extend-subscription-frequency-dropdown-options.json');
-    extendDurationOptions: number[];
+    extendDurationOptions: string[];
+    UNLIMITED_DURATION = 'Unlimited';
     
     focusConfig: FocusConfig = {
         trap: true,
@@ -46,7 +47,12 @@ export class ExtendSubscriptionDialog {
     ngOnInit(): void {
         this.launchDialogService.data$.subscribe((data) => {
             this.subscriptionContractFrequency = data;
-            this.extendDurationOptions = Array.from({ length: this.extendFrequencyMaxOptions[data] }, (_, i) => i + 1);
+            let maxOptions = this.extendFrequencyMaxOptions[data] + 1; // +1 to include the unlimited duration option
+            this.extendDurationOptions = Array.from(
+                { length: maxOptions },
+                (_, i) => (i + 1 === maxOptions ? this.UNLIMITED_DURATION :
+                             (i + 1).toString() + ' ' + this.subscriptionContractFrequency)
+            );
         });
     }
 
@@ -64,7 +70,7 @@ export class ExtendSubscriptionDialog {
     }
 
     onConfirmExtendSubscription(): void {
-        let confirmedExtendDuration = this.isUnlimitedDurationSelected ? 0 : this.extendDuration;
+        let confirmedExtendDuration = this.isUnlimitedDurationSelected ? UNLIMITED_EXTEND_DURATION_OPTION_VALUE : this.extendDuration;
         this.subscriptionBillingService.extendSubscription(
             confirmedExtendDuration,
             this.isUnlimitedDurationSelected
@@ -82,8 +88,14 @@ export class ExtendSubscriptionDialog {
         );
     }
 
-    onExtendDurationChange(duration: number): void {
-        this.extendDuration = duration;
+    onExtendDurationChange(durationSelected: string): void {
+        let duration = durationSelected.split(' ')[0];
+        if (duration === this.UNLIMITED_DURATION) {
+            this.isUnlimitedDurationSelected = true;
+        } else {
+            this.isUnlimitedDurationSelected = false;
+            this.extendDuration = parseInt(duration);
+        }
     }
 
     errorHandler(error: any): void {
