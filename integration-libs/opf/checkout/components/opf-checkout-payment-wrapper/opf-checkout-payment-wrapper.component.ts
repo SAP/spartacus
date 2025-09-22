@@ -6,10 +6,13 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
   ViewContainerRef,
   inject,
 } from '@angular/core';
@@ -54,8 +57,12 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected currencyService = inject(CurrencyService);
   protected activeCartService = inject(ActiveCartFacade);
   protected vcr = inject(ViewContainerRef);
+  protected cdr = inject(ChangeDetectorRef);
+  protected isPaymentDataReady = false;
+  protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
   @Input() selectedPaymentId: number;
+  @ViewChild('paymentForm') formElement!: ElementRef<HTMLFormElement>;
 
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
@@ -86,6 +93,15 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   retryInitiatePayment(): void {
     this.service.reloadPaymentMode();
+  }
+
+  protected submitFormToIframe(): void {
+    if (this.isPaymentDataReady && this.formElement?.nativeElement) {
+      const form = this.formElement.nativeElement;
+      if (this.formElement.nativeElement?.target === this.PAYMENT_IFRAME_NAME) {
+        form.submit();
+      }
+    }
   }
 
   protected listenForReinitiatePaymentEvent(): void {
@@ -136,6 +152,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   protected initiatePaymentMode(paymentOptionId?: number): void {
     const idToUse = paymentOptionId || this.selectedPaymentId;
+    this.isPaymentDataReady = false;
     this.sub.add(
       this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {
@@ -151,6 +168,13 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
               OpfGlobalFunctionsDomain.CHECKOUT
             );
           }
+
+          this.isPaymentDataReady = true;
+          this.cdr.detectChanges();
+          this.submitFormToIframe();
+        },
+        error: () => {
+          this.isPaymentDataReady = false;
         },
       })
     );
