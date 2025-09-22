@@ -134,6 +134,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Agent logging in');
       cy.whenJDK17(() => {
         asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+        cy.get('cx-customer-emulation').should('be.visible');
       });
 
       cy.whenJDK21(() => {
@@ -143,9 +144,6 @@ context('Assisted Service Module', () => {
 
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('not.exist');
-      cy.whenJDK17(() => {
-      cy.get('cx-customer-emulation').should('be.visible');
-      });
     });
 
     // TODO(#7221): enable this case
