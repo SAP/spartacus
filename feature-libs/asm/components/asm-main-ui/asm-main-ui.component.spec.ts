@@ -42,6 +42,10 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(false);
   }
+
+  updateIsUsingASMClient(_isUsing: boolean) {
+        return of(false);
+  }
 }
 
 @Component({
@@ -492,6 +496,7 @@ describe('AsmMainUiComponent', () => {
   it('should hide the UI when the Close Asm button is clicked', () => {
     component.ngOnInit();
     fixture.detectChanges();
+    spyOn(authService, 'updateIsUsingASMClient')
     const submitBtn = fixture.debugElement.query(
       By.css('button[title="asm.hideUi"]')
     );
