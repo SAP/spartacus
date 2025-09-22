@@ -498,6 +498,7 @@ describe('AsmMainUiComponent', () => {
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.disabled).toEqual(true);
     expect(authService.updateIsUsingASMClient).toHaveBeenCalledWith(false);
+  });
 
   it('should unload ASM when the close button is clicked', () => {
     spyOn(asmComponentService, 'unload').and.stub();
