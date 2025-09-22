@@ -870,8 +870,13 @@ export function testCustomerEmulation() {
     cy.log('--> customer sign in');
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    visitLoginPage();
+    cy.whenJDK21(() => {
+      checkout.visitHomePage('asm=true');
+      cy.get('button.close[title="Close ASM"]').click();
+      cy.get('a[role="link"]').contains('Sign In / Register').click();
+    });
     cy.whenJDK17(() => {
+      visitLoginPage();
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
     });
 

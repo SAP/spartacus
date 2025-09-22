@@ -24,7 +24,7 @@ case "$param" in
     ;;
   "b2c")
     export E2E_BASE_SITE="electronics-spa"
-    export E2ES_TO_RUN="$CYPRESS_ASM_FOLDER/bind-cart.e2e.cy.ts"
+    export E2ES_TO_RUN="$CYPRESS_ASM_FOLDER/asm.emulation.core-e2e.cy.ts"
     ;;
   *)
     echo "Invalid parameter. Please provide a valid parameter."
