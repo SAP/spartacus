@@ -116,7 +116,14 @@ context('Assisted Service Module', () => {
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
     it('agent login when user is logged in should start this user emulation', () => {
-      visitLoginPage();
+      cy.whenJDK17(() => {
+        visitLoginPage();
+      });
+      cy.whenJDK21(() => {
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
