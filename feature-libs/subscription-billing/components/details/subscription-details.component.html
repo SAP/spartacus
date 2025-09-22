@@ -113,6 +113,7 @@
         <!-- Cancel -->
         <span class="action-button-right">
           <a
+          *ngIf="subscription.isCancellationPossible"
           #cancelTriggerEl
           class="btn btn-block btn-secondary"
           (click)="showSubscriptionDialog('cancel')"
@@ -127,6 +128,7 @@
         <!-- Resubscribe -->
 <span class="action-button-right">
   <a
+  *ngIf="subscription.isCancellationReversalPossible"
     cxBtnLikeLink
     class="btn btn-block btn-primary"
     [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
@@ -139,8 +141,8 @@
         <!-- Withdrawal -->
            <span class="action-button-right">
           <a
-          *ngIf="subscription.isWithdrawalPossible"
-          [attr.aria-label]="'subscriptionDetails.withdrawSubscription'"
+           *ngIf="subscription.isWithdrawalPossible"
+   [attr.aria-label]="'subscriptionDetails.withdrawSubscription'"
           (click)="showSubscriptionDialog('withdraw')"
             cxBtnLikeLink
             class="btn btn-block btn-primary"

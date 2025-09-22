@@ -59,13 +59,11 @@
       <!-- WITHDRAW MODE: simpler message -->
       <ng-container *ngIf="mode() === 'withdraw'">
         <p>{{ 'cancelSubscription.withdrawConfirm' | cxTranslate }}</p>
-        <p>{{ 'cancelSubscription.changeMind' | cxTranslate }}</p>
       </ng-container>
 
 <ng-container *ngIf="mode() === 'resubscribe'">
   <p>{{ 'cancelSubscription.resubscribeConfirm' | cxTranslate }}</p>
-  <p>{{ 'cancelSubscription.changeMindresubscribe' | cxTranslate }}</p>
-</ng-container>
+ </ng-container>
       <!-- Common footer for both -->
       <div class="row justify-content-end mt-3">
         <div class="cx-quote col-sm-12 col-md-6 p-1">

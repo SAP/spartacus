@@ -6,7 +6,6 @@ import { OccEndpointsService } from '@spartacus/core';
 import {
   CancellationDetails,
   withdrawal as Withdrawal,
-  reverseCancellation as ReverseCancellation,
 } from '@spartacus/subscription-billing/root';
 
 describe('OccCancelSubscriptionAdapter', () => {
@@ -33,10 +32,6 @@ describe('OccCancelSubscriptionAdapter', () => {
     withdrawalPeriodEndDate: '2025-07-06',
   };
 
-  const mockReverseCancellation: ReverseCancellation = {
-    subscriptionId: 'sub123',
-    version: '1',
-  };
 
   beforeEach(() => {
     const occEndpointsSpy = jasmine.createSpyObj('OccEndpointsService', ['buildUrl']);
@@ -106,6 +101,106 @@ it('should reverse cancellation', () => {
   expect(req.request.method).toBe('POST');
   expect(req.request.body).toBeNull();
   req.flush({});
+});
+
+
+
+it('should handle error when cancelSubscription fails', () => {
+  const mockUrl = 'mockUrl';
+  occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+  const mockHttpError = {
+    status: 500,
+    statusText: 'Internal Server Error',
+  };
+
+  const mockErrorBody = {
+    message: 'Server error',
+  };
+
+  adapter.cancelSubscription(mockUserId, mockSubscriptionCode, mockCancellationDetails).subscribe({
+    next: () => fail('Expected an error, but got success'),
+    error: (error) => {
+      expect(error).toBeDefined();
+      expect(error.message).toContain('Http failure response'); // <-- match Angular’s default error message
+      // Optionally, check logger was called if you mock LoggerService
+    },
+  });
+
+  const req = httpMock.expectOne(mockUrl);
+  req.flush(mockErrorBody, mockHttpError);
+});
+it('should handle error when cancellationSubscriptionEffectiveDate fails', () => {
+  const mockUrl = 'mockEffectiveDateUrl';
+  occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+  const mockHttpError = {
+    status: 404,
+    statusText: 'Not Found',
+  };
+
+  const mockErrorBody = {
+    message: 'Effective date not found',
+  };
+
+  adapter.cancellationSubscriptionEffectiveDate(mockUserId, mockSubscriptionCode).subscribe({
+    next: () => fail('Expected an error, but got success'),
+    error: (error) => {
+      expect(error).toBeDefined();
+      expect(error.message).toContain('Http failure response'); // or test exact normalized structure if needed
+    },
+  });
+
+  const req = httpMock.expectOne(mockUrl);
+  req.flush(mockErrorBody, mockHttpError);
+});
+it('should handle error when withdrawal fails', () => {
+  const mockUrl = 'mockWithdrawalUrl';
+  occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+  const mockHttpError = {
+    status: 400,
+    statusText: 'Bad Request',
+  };
+
+  const mockErrorBody = {
+    message: 'Invalid withdrawal data',
+  };
+
+  adapter.withdrawal(mockUserId, mockSubscriptionCode, mockWithdrawal).subscribe({
+    next: () => fail('Expected an error, but got success'),
+    error: (error) => {
+      expect(error).toBeDefined();
+      expect(error.message).toContain('Http failure response');
+    },
+  });
+
+  const req = httpMock.expectOne(mockUrl);
+  req.flush(mockErrorBody, mockHttpError);
+});
+it('should handle error when reverseCancellation fails', () => {
+  const mockUrl = 'mockReverseCancellationUrl';
+  occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+  const mockHttpError = {
+    status: 500,
+    statusText: 'Internal Server Error',
+  };
+
+  const mockErrorBody = {
+    message: 'Unable to reverse cancellation',
+  };
+
+  adapter.reverseCancellation(mockUserId, mockSubscriptionCode).subscribe({
+    next: () => fail('Expected an error, but got success'),
+    error: (error) => {
+      expect(error).toBeDefined();
+      expect(error.message).toContain('Http failure response');
+    },
+  });
+
+  const req = httpMock.expectOne(mockUrl);
+  req.flush(mockErrorBody, mockHttpError);
 });
 
 });
