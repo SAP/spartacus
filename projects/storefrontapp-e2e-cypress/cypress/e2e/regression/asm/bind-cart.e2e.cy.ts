@@ -85,7 +85,9 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        cy.visit('/electronics-spa/en/USD/login');
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
