@@ -683,7 +683,7 @@ export interface FeatureTogglesInterface {
    * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
    */
   defaultLayoutConfigWithoutPageFold?: boolean;
-  
+
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
    *
