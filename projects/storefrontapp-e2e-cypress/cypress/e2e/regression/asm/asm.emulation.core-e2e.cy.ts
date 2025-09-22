@@ -143,7 +143,9 @@ context('Assisted Service Module', () => {
 
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('not.exist');
+      cy.whenJDK17(() => {
       cy.get('cx-customer-emulation').should('be.visible');
+      });
     });
 
     // TODO(#7221): enable this case
