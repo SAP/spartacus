@@ -66,6 +66,23 @@
               </ng-container>
             </div>
           </div>
+          <div class="cx-card-paragraph" *ngIf="enablePurchaseOrderNumber">
+            <div
+              class="cx-card-paragraph-title"
+              id="cx-quote-header-buyer-edit-purchase-order-number"
+            >
+              {{ 'quote.header.overview.purchaseOrderNumber' | cxTranslate }} ({{ 'quote.header.overview.optional' | cxTranslate }})
+            </div>
+            <div class="form-group">
+              <input
+                aria-labelledby="cx-quote-header-buyer-edit-purchase-order-number"
+                class="form-control"
+                type="text"
+                name="purchaseOrderNumber"
+                formControlName="purchaseOrderNumber"
+              />
+            </div>
+          </div>
         </form>
       </div>
     </div>
