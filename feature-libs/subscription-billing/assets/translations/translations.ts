@@ -18,5 +18,6 @@ export const subscriptionBillingTranslationChunksConfig: TranslationChunksConfig
       'subscriptionList',
       'subscriptionDetails',
       'subscriptionCartItemList',
+      'cancelSubscription',
     ],
   };

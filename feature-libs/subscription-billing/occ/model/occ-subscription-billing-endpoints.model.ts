@@ -19,6 +19,31 @@ export interface SubscriptionBillingOccEndpoints {
    * @member {string}
    */
   subscriptionByCode?: string | OccEndpoint;
+
+
+  cancelSubscription?: string | OccEndpoint;
+
+  /**
+   * Cancel subscription get datw
+   *
+   * @member {string} [cancellationSubscriptionEffectiveDate]
+   */
+  cancellationSubscriptionEffectiveDate?: string | OccEndpoint;
+
+  /**
+   * withdrawal subscription
+   *
+   * @member {string} [withdrawal]
+   */
+  withdrawal?: string | OccEndpoint;
+
+  /**
+   * reversecancellation subscription
+   *
+   * @member {string} [reverseCancellation]
+   */
+  reverseCancellation?: string | OccEndpoint;
+
 }
 
 declare module '@spartacus/core' {
