@@ -49,5 +49,4 @@ export class LoginComponent implements OnInit {
   onRootNavBtnAdded($event: MutationRecord, greeting: string) {
     ($event.target as HTMLElement).setAttribute('aria-label', greeting);
   }
-
 }

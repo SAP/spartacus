@@ -456,9 +456,7 @@ describe('AuthService', () => {
 
   describe('isUsingASMClient()', () => {
     it('should return isUsingASMClient$ observable', () => {
-      expect(service.isUsingASMClient()).toBe(
-        service['isUsingASMClient$']
-      );
+      expect(service.isUsingASMClient()).toBe(service['isUsingASMClient$']);
     });
   });
 

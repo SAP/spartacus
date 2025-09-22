@@ -50,7 +50,8 @@ export class AuthService {
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
-  protected isUsingASMClient$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+  protected isUsingASMClient$: Observable<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   protected location = inject(Location);
   protected winRef = inject(WindowRef);
