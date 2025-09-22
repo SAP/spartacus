@@ -13,7 +13,9 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   cancellationSubscriptionEffectiveDate: 'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
   cancelSubscription: 'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
   withdrawal: 'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
-  reverseCancellation: 'users/${userId}/subscriptions/${subscriptionCode}/cancellationReversal',
+  reverseCancellation: 'users/${userId}/subscriptions/${subscriptionCode}/cancellationreversal',
+  extensionEffectiveDate: 'users/${userId}/subscriptions/${subscriptionCode}/extensionEffectiveAt',
+  extendSubscription: 'users/${userId}/subscriptions/${subscriptionCode}/extension'
 };
 
 

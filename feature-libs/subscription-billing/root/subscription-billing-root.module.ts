@@ -16,6 +16,7 @@ import {
 } from './feature-name';
 import { defaultSubscriptionBillingRoutingConfig } from './config/default-subscription-billing-routing-config';
 import { SubscriptionBillingEventModule } from './events';
+import { SubscriptionCancelEventModule } from './events';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { SubscriptionCartPriceHeadingComponent } from './components/cart/price-heading/subscription-cart-price-heading.component';
@@ -39,7 +40,7 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [SubscriptionBillingEventModule],
+  imports: [SubscriptionBillingEventModule,SubscriptionCancelEventModule],
   providers: [
     // {
     //   provide: HTTP_INTERCEPTORS,

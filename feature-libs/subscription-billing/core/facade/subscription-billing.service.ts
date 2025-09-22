@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { inject, Injectable } from '@angular/core';
 import {
   Query,
@@ -11,6 +17,7 @@ import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { Observable, map, switchMap, take, combineLatest } from 'rxjs';
@@ -131,6 +138,38 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   ): Observable<SubscriptionList | undefined> {
     return this.getSubscriptionListState(pageSize, currentPage, sort).pipe(
       map((state) => state.data)
+    );
+  }
+
+  getSubscriptionExtensionEffectiveDate(
+    extendDuration: number,
+    isUnlimitedDuration: boolean
+  ): Observable<SubscriptionExtensionEffectiveDate> {
+    return this.subscriptionDetailsPreConditions().pipe(
+      switchMap(([userId, subscriptionCode]) =>
+        this.subscriptionBillingConnector.getSubscriptionExtensionEffectiveDate(
+          userId,
+          subscriptionCode,
+          extendDuration,
+          isUnlimitedDuration
+        )
+      )
+    );
+  }
+
+  extendSubscription(
+    extendDuration: number,
+    isUnlimitedDuration: boolean
+  ): Observable<any> {
+    return this.subscriptionDetailsPreConditions().pipe(
+      switchMap(([userId, subscriptionCode]) =>
+        this.subscriptionBillingConnector.extendSubscription(
+          userId,
+          subscriptionCode,
+          extendDuration,
+          isUnlimitedDuration
+        )
+      )
     );
   }
 }

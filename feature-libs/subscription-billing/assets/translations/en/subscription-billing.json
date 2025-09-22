@@ -42,7 +42,9 @@
     "reSubscribe": "Re-subscribe",
     "back": "View All Subscriptions",
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
-    "orderCode": "Order Code:"
+    "orderCode": "Order Code:",
+    "withdrawal": "Withdraw",
+    "resubscribe": "Renew"
   },
   "cancelSubscription": {
     "cancel": "Cancel",
@@ -58,6 +60,21 @@
     "withdrawConfirm": "By confirming, you are ending your trial period.You will lose access to subscription features on by the end of today.No additional charges apply.",
     "resubscribeConfirm": "By confirming, you are renewing your subscription and will gain access to our subscription features. ",
     "changeMindresubscribe": "You can manage your subscription anytime later."
+  },
+  "extendSubscription": {
+    "title": "Extend Subscription",
+    "closeDialog": "close",
+    "extend": "Extend",
+    "durationInputLabel": "Extend Subscription By",
+    "durationInputPlaceholder": "Enter duration in {{ frequency }}",
+    "confirm": "Confirm",
+    "disclaimer": "You are about to extend your subscription under the same <a href=\"\" target=\"_blank\">Terms & Conditions</a> and <a href=\" \" target=\"_blank\">Cancellation Policy</a>.",
+    "disclaimerWithExtensionEndDate": "You are about to extend your subscription until {{ endDate }} under the same <a href=\"\" target=\"_blank\">Terms & Conditions</a> and <a href=\" \" target=\"_blank\">Cancellation Policy</a>.",
+    "noActionMessage": "No further action is required unless, you wish to make changes to your subscription.",
+    "confirmExtensionTitle": "Confirm Extension Period",
+    "unlimitedDurationCheckboxLabel": "Select for Unlimited Subscription",
+    "extendedSuccessfully": "Your subscription has been extended successfully",
+    "failed": "Failed to extend subscription"
   },
   "subscriptionCartItemList": {
     "itemPriceHeader": "Item Price",

@@ -14,10 +14,12 @@ import { SubscriptionCancelComponent } from './cancel-subscrption/subscription-c
 import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.config';
 import { SubscriptionCartDetailsComponent } from './cart/details/subscription-cart-details.component';
 import { SubscriptionCartItemListComponent } from './cart/item-list/subscription-cart-item-list.component';
+import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-billing-layout-config';
 
 @NgModule({
   imports: [
     SubscriptionProductPriceComponent,
+    SubscriptionCancelComponent,
     SubscriptionProductUsageChargeComponent,
     SubscriptionCartDetailsComponent,
     SubscriptionCartItemListComponent,
@@ -42,6 +44,7 @@ import { SubscriptionCartItemListComponent } from './cart/item-list/subscription
         },
       },
     }),
+    provideDefaultConfig(defaultSubscriptionBillingLayoutConfig),
   ],
 })
 export class SubscriptionBillingComponentsModule {}

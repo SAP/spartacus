@@ -154,9 +154,11 @@
         <!-- Withdrawal -->
          <span class="action-button-right">
           <a
+            #extendSubscriptionBtn
             *ngIf="subscription.isExtensionPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
+            (click)="showExtendSubscriptionDialog()"
           >
             {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
           </a>

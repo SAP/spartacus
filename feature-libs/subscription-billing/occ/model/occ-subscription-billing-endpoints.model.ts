@@ -20,7 +20,11 @@ export interface SubscriptionBillingOccEndpoints {
    */
   subscriptionByCode?: string | OccEndpoint;
 
-
+  /**
+   * Cancel subscription
+   *
+   * @member {string} [cancelSubscription]
+   */
   cancelSubscription?: string | OccEndpoint;
 
   /**
@@ -44,6 +48,19 @@ export interface SubscriptionBillingOccEndpoints {
    */
   reverseCancellation?: string | OccEndpoint;
 
+
+  /**
+   * Endpoint for the extension validity date of one user's subscription
+   *
+   * @member {string}
+   */
+  extensionEffectiveDate?: string | OccEndpoint;
+  /**
+   * Endpoint for the extending one user's subscription
+   *
+   * @member {string}
+   */
+  extendSubscription?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

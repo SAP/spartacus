@@ -196,6 +196,6 @@ export abstract class CmsStructureConfigService {
     return this.cmsDataConfig.cmsStructure &&
       this.cmsDataConfig.cmsStructure.components
       ? this.cmsDataConfig.cmsStructure.components[componentId]
-      : undefined;
+      : {};
   }
 }

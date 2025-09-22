@@ -7,3 +7,4 @@
 export * from './subscription-product.model';
 export * from './subscription-billing.model';
 export * from './augmented-types-popup.model';
+export * from './augmented-types.model';
