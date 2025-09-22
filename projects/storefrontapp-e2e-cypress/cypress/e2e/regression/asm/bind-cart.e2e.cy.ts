@@ -194,7 +194,9 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        cy.visit('/login');
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
       login(
         customerForReplaceBindCart.email,
