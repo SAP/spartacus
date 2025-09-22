@@ -683,6 +683,15 @@ export interface FeatureTogglesInterface {
    * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
    */
   defaultLayoutConfigWithoutPageFold?: boolean;
+  
+  /**
+   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
+   *
+   * This is to improve the user experience on mobile devices, where the menu remains open
+   * after clicking on a link that navigates to the same page.
+   * Affects: `NavigationUIComponent`
+   */
+  navigationMenuCloseOnSameLinkClick?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -774,4 +783,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
+  navigationMenuCloseOnSameLinkClick: false,
 };
