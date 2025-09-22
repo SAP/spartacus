@@ -1,21 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  OnInit,
-  OnDestroy,
+  computed,
+  DestroyRef,
+  effect,
   inject,
   signal,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { catchError, of, Subscription, throwError } from 'rxjs';
-import {
-  EventService,
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nModule,
-  RoutingService,
-  UrlModule,
-} from '@spartacus/core';
+import { catchError, of, Observable } from 'rxjs';
 import {
   CancelSubscriptionFacade,
   CancellationDetails,
@@ -23,6 +15,13 @@ import {
   CancelData,
   GetSubscriptionByCodeReloadEvent,
 } from '@spartacus/subscription-billing/root';
+import {
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nModule,
+  UrlModule,
+} from '@spartacus/core';
 import {
   CardModule,
   FocusConfig,
@@ -33,16 +32,19 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  toSignal,
+  takeUntilDestroyed,
+} from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'cx-subscription-cancel',
-  templateUrl: './subscription-cancel.component.html',
   standalone: true,
+  templateUrl: './subscription-cancel.component.html',
   imports: [
     CommonModule,
     CardModule,
     RouterModule,
-    ReactiveFormsModule,
     I18nModule,
     UrlModule,
     IconModule,
@@ -50,159 +52,134 @@ import { toSignal } from '@angular/core/rxjs-interop';
     SpinnerModule,
   ],
 })
-export class SubscriptionCancelComponent implements OnInit, OnDestroy {
+export class SubscriptionCancelComponent {
+  // === Inject services ===
   private cancelFacade = inject(CancelSubscriptionFacade);
   private globalMessageService = inject(GlobalMessageService);
   private launchDialogService = inject(LaunchDialogService);
-  protected routingService = inject(RoutingService);
-  protected eventService = inject(EventService);
-  private subscriptions = new Subscription();
+  private eventService = inject(EventService);
+  private destroyRef = inject(DestroyRef);
 
-// Signals
-  cancelData = signal<CancelData | undefined>(undefined);
-  subscriptionCode = signal<string | undefined>(undefined);
-  mode = signal<'cancel' | 'withdraw' | 'resubscribe'>('cancel');
-
-  subscriptionDetail = toSignal<SubscriptionDetail & { code?: string; mode?: 'cancel' | 'withdraw' }>(
-    this.launchDialogService.data$
+  // === Signals ===
+  private subscriptionDetailSignal = toSignal(
+    this.launchDialogService.data$ as Observable<
+      SubscriptionDetail & {
+        code?: string;
+        mode?: 'cancel' | 'withdraw' | 'resubscribe';
+      }
+    >
   );
 
+  mode = computed(() => this.subscriptionDetailSignal()?.mode ?? 'cancel');
+  subscriptionCode = computed(() => this.subscriptionDetailSignal()?.code ?? '');
+  cancelData = signal<CancelData | undefined>(undefined);
+
   iconTypes = ICON_TYPE;
+
   focusConfig: FocusConfig = {
     trap: false,
     block: false,
     autofocus: 'button',
     focusOnEscape: true,
   };
+constructor() {
+  // === Reactive loader for cancel data ===
+  effect(() => {
+    const mode = this.mode();
+    const code = this.subscriptionCode();
 
-  ngOnInit(): void {
-    const detail = this.subscriptionDetail();
-    const code = detail?.code;
-    const currentMode = detail?.mode || 'cancel';
-
-    if (!code) {
-      this.onError();
-      return;
-    }
-
-    this.subscriptionCode.set(code);
-    this.mode.set(currentMode);
-
-    // ✅ Only call API if in cancel mode
-    if (currentMode === 'cancel') {
-      const sub = this.cancelFacade
+    if (mode === 'cancel' && code) {
+      this.cancelFacade
         .cancellationSubscriptionEffectiveDate(code)
         .pipe(
+          takeUntilDestroyed(this.destroyRef),
           catchError(() => {
             this.onError();
             return of(undefined);
           })
         )
         .subscribe((data) => {
-          if (data) {
-            this.cancelData.set(data);
-          }
+          this.cancelData.set(data);
         });
-
-      this.subscriptions.add(sub);
     }
-  }
-
+  });
+}
+  // === Confirm button handler ===
   onConfirm(): void {
+    const mode = this.mode();
     const code = this.subscriptionCode();
-    const cancelData = this.cancelData();
-    const detail = this.subscriptionDetail();
+    const detail = this.subscriptionDetailSignal();
+    const cancelDataVal = this.cancelData();
 
     if (!code || !detail) {
       this.onError();
       return;
     }
 
-    if (this.mode() === 'cancel') {
-      if (!cancelData?.subscriptionEndAt) {
-        this.onError();
-        return;
-      }
+    const handlers: Record<string, () => void> = {
+      cancel: () => {
+        if (!cancelDataVal?.subscriptionEndAt) {
+          this.onError();
+          return;
+        }
 
-      const payload: CancellationDetails = {
-        subscriptionEndAt: cancelData.subscriptionEndAt,
-      };
+        const payload: CancellationDetails = {
+          subscriptionEndAt: cancelDataVal.subscriptionEndAt,
+        };
 
-      const sub = this.cancelFacade
-        .cancelSubscription(payload, code)
-        .pipe(
-          catchError((err) => {
-            this.onDialogClose('error');
-            this.onError();
-            return throwError(() => err);
-          })
-        )
-        .subscribe({
-          next: () => {
-            this.onDialogClose('Success');
-            this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
-            this.globalMessageService.add(
-              { key: 'cancelSubscription.cancelSuccess' },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-          },
-        });
+        this.cancelFacade
+          .cancelSubscription(payload, code)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.handleError()
+          )
+          .subscribe(this.handleSuccess('cancelSubscription.cancelSuccess'));
+      },
 
-      this.subscriptions.add(sub);
-    }
+      withdraw: () => {
+        this.cancelFacade
+          .withdrawal({ subscriptionId: detail.id }, code)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.handleError()
+          )
+          .subscribe(this.handleSuccess('cancelSubscription.withdrawSuccess'));
+      },
 
-    if (this.mode() === 'withdraw') {
-      const payload = {
-        subscriptionId: detail.id,
-      };
+      resubscribe: () => {
+        this.cancelFacade
+          .reverseCancellation(code)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.handleError()
+          )
+          .subscribe(this.handleSuccess('cancelSubscription.reverseCancellationSuccess'));
+      },
+    };
 
-      const sub = this.cancelFacade
-        .withdrawal(payload, code)
-        .pipe(
-          catchError((err) => {
-            this.onDialogClose('error');
-            this.onError();
-            return throwError(() => err);
-          })
-        )
-        .subscribe({
-          next: () => {
-            this.onDialogClose('Success');
-            this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
-            this.globalMessageService.add(
-              { key: 'cancelSubscription.withdrawSuccess' },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-          },
-        });
+    handlers[mode]?.();
+  }
 
-      this.subscriptions.add(sub);
-    }
-    if (this.mode() === 'resubscribe') {
-  const code = this.subscriptionCode();
-  const sub = this.cancelFacade
-    .reverseCancellation(code)
-    .pipe(
-      catchError((err) => {
-        this.onDialogClose('error');
-        this.onError();
-        return throwError(() => err);
-      })
-    )
-    .subscribe({
+  // === Common error and success handlers ===
+  private handleError() {
+    return catchError(() => {
+      this.onDialogClose('error');
+      this.onError();
+     return of(undefined);;
+    });
+  }
+
+  private handleSuccess(messageKey: string) {
+    return {
       next: () => {
         this.onDialogClose('Success');
         this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
         this.globalMessageService.add(
-          { key: 'cancelSubscription.reverseCancellationSuccess' },
+          { key: messageKey },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       },
-    });
-
-  this.subscriptions.add(sub);
-}
-
+    };
   }
 
   getFormattedCancelValidTillDate(cancelData: CancelData | undefined): string {
@@ -224,9 +201,5 @@ export class SubscriptionCancelComponent implements OnInit, OnDestroy {
       { key: 'cancelSubscription.unknownError' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

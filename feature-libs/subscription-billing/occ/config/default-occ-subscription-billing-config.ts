@@ -10,10 +10,10 @@ import { SubscriptionBillingOccEndpoints } from '../model';
 const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   subscriptionList: 'users/${userId}/subscriptions',
   subscriptionByCode: 'users/${userId}/subscriptions/${subscriptionCode}',
-  cancellationSubscriptionEffectiveDate: 'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
+  cancellationSubscriptionEffectiveDate: 'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
   cancelSubscription: 'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
   withdrawal: 'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
-  reverseCancellation: 'users/${userId}/subscriptions/${subscriptionCode}/cancellationreversal',
+  reverseCancellation: 'users/${userId}/subscriptions/${subscriptionCode}/cancellationReversal',
 };
 
 
