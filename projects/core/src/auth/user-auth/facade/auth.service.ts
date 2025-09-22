@@ -50,6 +50,8 @@ export class AuthService {
    */
   logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
+  protected isUsingASMClient$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
   protected location = inject(Location);
   protected winRef = inject(WindowRef);
 
@@ -269,17 +271,23 @@ export class AuthService {
   }
 
   public refreshAuthConfig() {
-    if (this.usingASMClient()) {
+    if (
+      !!this.featureToggles.authorizationCodeFlowByDefault &&
+      this.isAsmEnabled()
+    ) {
       this.oAuthLibWrapperService.changeAuthConfigClientId('asm_client');
+      this.updateIsUsingASMClient(true);
     } else {
       this.oAuthLibWrapperService.refreshAuthConfig();
+      this.updateIsUsingASMClient(false);
     }
   }
 
-  public usingASMClient(): boolean {
-    return (
-      !!this.featureToggles.authorizationCodeFlowByDefault &&
-      this.isAsmEnabled()
-    );
+  public isUsingASMClient(): Observable<boolean> {
+    return this.isUsingASMClient$;
+  }
+
+  public updateIsUsingASMClient(newValue: boolean): void {
+    (this.isUsingASMClient$ as BehaviorSubject<boolean>).next(newValue);
   }
 }

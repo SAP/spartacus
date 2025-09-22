@@ -392,6 +392,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.disabled = true;
     this.asmComponentService.unload();
     this.oAuthLibWrapperService.refreshAuthConfig();
+    this.authService.updateIsUsingASMClient(false);
   }
 
   showCustomList(): void {
