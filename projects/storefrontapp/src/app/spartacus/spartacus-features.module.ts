@@ -385,6 +385,7 @@ if (environment.cpq) {
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
+        enableQuotePurchaseOrderNumber: true,
       };
       return appFeatureToggles;
     }),

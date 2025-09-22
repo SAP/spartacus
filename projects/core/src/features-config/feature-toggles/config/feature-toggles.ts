@@ -683,6 +683,15 @@ export interface FeatureTogglesInterface {
    * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
    */
   defaultLayoutConfigWithoutPageFold?: boolean;
+
+  /**
+   * shows the Quote Purchase Order Number input field in the Quote Request form
+   * and in the Quote Details page
+   *
+   * when set to `true`, the user will be able to enter a Purchase Order Number
+   * when requesting a quote and see it in the quote details
+   */
+  enableQuotePurchaseOrderNumber?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -774,4 +783,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
+  enableQuotePurchaseOrderNumber: false,
 };
