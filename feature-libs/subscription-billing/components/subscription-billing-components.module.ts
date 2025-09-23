@@ -10,16 +10,12 @@ import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
 import { SubscriptionProductPriceComponent } from './product/price/subscription-product-price.component';
 import { SubscriptionProductUsageChargeComponent } from './product/usage/subscription-product-usage-charge.component';
 import { SubscriptionDetailsComponent } from './details/subscription-details.component';
-import { SubscriptionCartDetailsComponent } from './cart/details/subscription-cart-details.component';
-import { SubscriptionCartItemListComponent } from './cart/item-list/subscription-cart-item-list.component';
 
 @NgModule({
   imports: [
     SubscriptionListComponent,
     SubscriptionProductPriceComponent,
     SubscriptionProductUsageChargeComponent,
-    SubscriptionCartDetailsComponent,
-    SubscriptionCartItemListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
