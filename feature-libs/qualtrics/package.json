@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/qualtrics",
-  "version": "2211.43.0",
+  "version": "221121.2.0-1",
   "description": "Qualtrics library for Spartacus",
   "keywords": [
     "spartacus",
@@ -30,9 +30,9 @@
     "@angular-devkit/schematics": "^19.2.16",
     "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
-    "@spartacus/core": "2211.43.0",
-    "@spartacus/schematics": "2211.43.0",
-    "@spartacus/styles": "2211.43.0",
+    "@spartacus/core": "221121.2.0-1",
+    "@spartacus/schematics": "221121.2.0-1",
+    "@spartacus/styles": "221121.2.0-1",
     "rxjs": "^7.8.0"
   },
   "engines": {

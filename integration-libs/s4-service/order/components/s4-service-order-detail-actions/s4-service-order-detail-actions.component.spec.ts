@@ -118,38 +118,35 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       expect(component).toBeTruthy();
     });
     it('should show Cancel button when service is serviceCancellable', () => {
-      component.displayActions$ = of(true);
       fixture.detectChanges();
-      expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
+      expect(el.query(By.css('.cancel-service-btn-container'))).toBeTruthy();
       const elements = el.queryAll(By.css('#cancel-service-btn'));
       expect(elements.length).toEqual(1);
     });
     it('should show Reschedule button when service is reschedulable', () => {
-      component.displayActions$ = of(true);
       fixture.detectChanges();
-      expect(el.query(By.css('.cx-order-details-actions'))).toBeTruthy();
+      expect(
+        el.query(By.css('.reschedule-service-btn-container'))
+      ).toBeTruthy();
       const elements = el.queryAll(By.css('#reschedule-service-btn'));
       expect(elements.length).toEqual(1);
     });
-    it('should display action buttons when time to service is more than 24 hours', () => {
+    it('should not display a notification when time to service is more than 24 hours', () => {
       spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
       ).and.returnValue(40);
+      (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
-      component.displayActions$.subscribe((res) => {
-        expect(res).toBe(true);
-      });
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
-    it('should not display action buttons when time to service is within 24 hours', () => {
+    it('should display a notification when time to service is within 24 hours', () => {
       spyOn(
         checkoutServiceSchedulePickerService,
         'getHoursFromServiceSchedule'
       ).and.returnValue(10);
+      (component as any).displayServiceMessage(mockOrder1);
       fixture.detectChanges();
-      component.displayActions$.subscribe((res) => {
-        expect(res).toBe(false);
-      });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'rescheduleService.serviceNotAmendable' },
         GlobalMessageType.MSG_TYPE_INFO
@@ -163,7 +160,6 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
 
     it('should not show Reschedule button when service is not reschedulable', () => {
-      component.displayActions$ = of(true);
       fixture.detectChanges();
       const elements = fixture.debugElement.queryAll(By.css('a'));
       expect(elements.length).toEqual(0);
@@ -177,7 +173,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     });
   });
 
-  describe('displayActions', () => {
+  describe('displayServiceActions', () => {
     beforeEach(() => {
       beforeEachFn(mockOrder3);
     });

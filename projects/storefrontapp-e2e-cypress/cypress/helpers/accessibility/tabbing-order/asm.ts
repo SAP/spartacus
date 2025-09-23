@@ -5,11 +5,11 @@
  */
 
 import * as asm from '../../../helpers/asm';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 import { focusableSelectors } from '../../../support/utils/a11y-tab';
-import { agentLoginForJDK21, login } from '../../auth-forms';
+import { agentLoginForJDK21 } from '../../auth-forms';
 import { verifyTabElement, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
-import { getB2CAgent } from '../../../sample-data/asm-flow';
 
 const containerSelector = 'cx-asm-main-ui';
 const containerSelectorForCustomerLists = 'cx-customer-list';

@@ -103,8 +103,10 @@ describe('Package utils', () => {
       const version = getSpartacusSchematicsVersion();
       const featureLevel = getSpartacusCurrentFeatureLevel();
       expect(featureLevel).toBeTruthy();
-      expect(featureLevel.length).toEqual(8);
-      expect(featureLevel).toEqual(version.substring(0, 8));
+      expect(featureLevel).toMatch(/\d+\.\d+/);
+      expect(featureLevel).toEqual(
+        version.substring(0, version.lastIndexOf('.'))
+      );
     });
   });
 
