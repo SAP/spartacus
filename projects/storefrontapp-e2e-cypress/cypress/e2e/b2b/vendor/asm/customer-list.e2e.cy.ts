@@ -9,13 +9,13 @@ import { addProductToB2BCart } from '../../../../helpers/asm';
 import { agentLoginForJDK21 } from '../../../../helpers/auth-forms';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
-import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
+  getASMB2BCustomer2,
   getB2BAgent,
   getB2BAgent2,
-  getASMB2BCustomer2,
 } from '../../../../sample-data/asm-flow';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('Assisted Service Module', () => {
   const customer2 = getASMB2BCustomer2();
