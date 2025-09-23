@@ -13,7 +13,7 @@
 </ng-container>
 
 <ng-template #login>
-  <ng-container *ngIf="!usingASMClient()">
+  <ng-container *ngIf="!(usingASMClient$ | async)">
     <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
       'miniLogin.signInRegister' | cxTranslate
     }}</a>
