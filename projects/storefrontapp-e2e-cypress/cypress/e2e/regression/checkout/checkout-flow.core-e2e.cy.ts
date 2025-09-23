@@ -57,6 +57,7 @@ context('Checkout flow', () => {
       cy.onMobile(() => {
         clickSearchIcon();
       });
+      cy.wait(5000);
       searchForProduct(product.name);
       checkout.checkoutFirstDisplayedProduct(user);
     });
