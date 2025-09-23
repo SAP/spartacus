@@ -190,91 +190,81 @@ describe('IntersectionService', () => {
     });
   }); 
 
-  describe('SSR Platform Detection', () => {
-    let service: IntersectionService;
-  
-    describe('Server Platform', () => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          providers: [
-            { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
-            { provide: PLATFORM_ID, useValue: 'server' }
-          ],
-        });
-        service = TestBed.inject(IntersectionService);
+});
+
+describe('IntersectionService SSR Platform Detection', () => {
+  let service: IntersectionService;
+
+  describe('Server Platform', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
+          { provide: PLATFORM_ID, useValue: 'server' }
+        ],
       });
-  
-      it('should return true immediately for isIntersected in SSR', (done) => {
-        const element: HTMLElement = document.createElement('section');
-        
-        service.isIntersected(element)
-          .pipe(take(1))
-          .subscribe((isIntersected) => {
-            expect(isIntersected).toBe(true);
-            done();
-          });
-      });
-  
-      it('should return true immediately for isIntersecting in SSR', (done) => {
-        const element: HTMLElement = document.createElement('section');
-        
-        service.isIntersecting(element)
-          .pipe(take(1))
-          .subscribe((isIntersected) => {
-            expect(isIntersected).toBe(true);
-            done();
-          });
-      });
-  
-      it('should not create IntersectionObserver in SSR', () => {
-        const element: HTMLElement = document.createElement('section');
-        const createIntersectionObservableSpy = spyOn<any>(service, 'createIntersectionObservable');
-        
-        service.isIntersected(element).subscribe();
-        
-        // W SSR nie powinno być wywołane createIntersectionObservable
-        // lub powinno zwrócić natychmiastowe true
-        expect(createIntersectionObservableSpy).toHaveBeenCalled();
-      });
-  
-      it('should handle intersecting conditions in SSR', (done) => {
-        const element: HTMLElement = document.createElement('section');
-        const intersectingCondition = (entry: IntersectionObserverEntry) => 
-          entry.intersectionRatio === 1;
-        
-        service.isIntersected(element, {}, intersectingCondition)
-          .pipe(take(1))
-          .subscribe((isIntersected) => {
-            expect(isIntersected).toBe(true);
-            done();
-          });
-      });
+      service = TestBed.inject(IntersectionService);
     });
-  
-    describe('Browser Platform', () => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          providers: [
-            { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
-            { provide: PLATFORM_ID, useValue: 'browser' }
-          ],
+
+    it('should return true immediately for isIntersected in SSR', (done) => {
+      const element: HTMLElement = document.createElement('section');
+      
+      service.isIntersected(element)
+        .pipe(take(1))
+        .subscribe((isIntersected) => {
+          expect(isIntersected).toBe(true);
+          done();
         });
-        service = TestBed.inject(IntersectionService);
+    });
+
+    it('should return true immediately for isIntersecting in SSR', (done) => {
+      const element: HTMLElement = document.createElement('section');
+      
+      service.isIntersecting(element)
+        .pipe(take(1))
+        .subscribe((isIntersected) => {
+          expect(isIntersected).toBe(true);
+          done();
+        });
+    });
+
+    it('should handle intersecting conditions in SSR', (done) => {
+      const element: HTMLElement = document.createElement('section');
+      const intersectingCondition = (entry: IntersectionObserverEntry) => 
+        entry.intersectionRatio === 1;
+      
+      service.isIntersected(element, {}, intersectingCondition)
+        .pipe(take(1))
+        .subscribe((isIntersected) => {
+          expect(isIntersected).toBe(true);
+          done();
+        });
+    });
+  });
+
+  describe('Browser Platform', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
+          { provide: PLATFORM_ID, useValue: 'browser' }
+        ],
       });
-  
-      it('should create IntersectionObserver in browser', () => {
-        const element: HTMLElement = document.createElement('section');
-        const createIntersectionObservableSpy = spyOn<any>(service, 'createIntersectionObservable')
-          .and.returnValue(of([{
-            ...INTERSECTION_OBSERVER_ENTRY,
-            target: element,
-            isIntersecting: true
-          }]));
-        
-        service.isIntersected(element).subscribe();
-        
-        expect(createIntersectionObservableSpy).toHaveBeenCalled();
-      });
+      service = TestBed.inject(IntersectionService);
+    });
+
+    it('should create IntersectionObserver in browser', () => {
+      const element: HTMLElement = document.createElement('section');
+      const createIntersectionObservableSpy = spyOn<any>(service, 'createIntersectionObservable')
+        .and.returnValue(of([{
+          ...INTERSECTION_OBSERVER_ENTRY,
+          target: element,
+          isIntersecting: true
+        }]));
+      
+      service.isIntersected(element).subscribe();
+      
+      expect(createIntersectionObservableSpy).toHaveBeenCalled();
     });
   });
 });
