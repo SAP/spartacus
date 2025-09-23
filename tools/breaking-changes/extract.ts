@@ -10,7 +10,7 @@ import {
   ExtractorResult,
 } from '@microsoft/api-extractor';
 import * as fs from 'fs';
-import { globSync } from 'glob'
+import { globSync } from 'glob';
 import * as path from 'path';
 import { escapePackageName } from './common';
 
