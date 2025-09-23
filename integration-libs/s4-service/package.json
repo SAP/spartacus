@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/s4-service",
-  "version": "2211.43.0",
+  "version": "221121.1.0",
   "description": "S/4HANA Service Integration Integration library for Spartacus",
   "keywords": [
     "spartacus",

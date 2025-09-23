@@ -12,11 +12,11 @@ import * as path from 'path';
 import { UTF_8 } from '../constants';
 import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
-  isSsrUsed,
   getMajorVersionNumber,
   getServerTsPathForApplicationBuilder,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
+  isSsrUsed,
   readPackageJson,
 } from './package-utils';
 
@@ -103,8 +103,10 @@ describe('Package utils', () => {
       const version = getSpartacusSchematicsVersion();
       const featureLevel = getSpartacusCurrentFeatureLevel();
       expect(featureLevel).toBeTruthy();
-      expect(featureLevel.length).toEqual(7);
-      expect(featureLevel).toEqual(version.substring(0, 7));
+      expect(featureLevel).toMatch(/\d+\.\d+/);
+      expect(featureLevel).toEqual(
+        version.substring(0, version.lastIndexOf('.'))
+      );
     });
   });
 

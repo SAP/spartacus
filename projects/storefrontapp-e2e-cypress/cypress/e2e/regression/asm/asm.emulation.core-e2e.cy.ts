@@ -11,10 +11,10 @@ import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
 import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { visitLoginPage } from '../../../support/utils/login';
-import { getB2CAgent } from '../../../sample-data/asm-flow';
 
 const b2cAgent = getB2CAgent();
 context('Assisted Service Module', () => {

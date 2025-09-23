@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 
 @Directive({
   selector: '[cxConfiguratorMainAriaLabelledBy]',
@@ -15,10 +16,12 @@ export class ConfiguratorMainAriaLabelledByDirective
 {
   @Input('cxConfiguratorMainAriaLabelledBy') labelledbyId: string;
 
+  protected winRef = inject(WindowRef);
+
   protected mainEl: HTMLElement | null = null;
 
   ngOnInit() {
-    this.mainEl = document.querySelector('main');
+    this.mainEl = this.winRef.document.querySelector('main');
     if (this.mainEl && this.labelledbyId) {
       this.mainEl.setAttribute('aria-labelledby', this.labelledbyId);
     }
