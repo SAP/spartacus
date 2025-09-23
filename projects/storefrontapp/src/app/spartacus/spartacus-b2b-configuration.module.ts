@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import {
+  AuthConfig,
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
@@ -39,6 +40,12 @@ if (environment.epdVisualization) {
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: baseSite,
+      },
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        client_id: 'mobile_android_public_b2b',
+        client_secret: 'secret',
       },
     }),
     provideConfig(<PWAModuleConfig>{

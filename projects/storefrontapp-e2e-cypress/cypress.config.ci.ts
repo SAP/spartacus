@@ -29,7 +29,7 @@ export default defineConfig({
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
     MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
     MAIL_CCV2_PREFIX: '/api/v1',
-    JDK_VERSION: 'JDK17',
+    JDK_VERSION: 'JDK21',
   },
   e2e: {
     // We've imported your old cypress plugins here.
