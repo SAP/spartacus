@@ -10,13 +10,13 @@ import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-chec
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 
+import {
+  getASMB2BCustomer,
+  getB2BAgent,
+} from '../../../../sample-data/asm-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { interceptGet } from '../../../../support/utils/intercept';
-import {
-  getB2BAgent,
-  getASMB2BCustomer,
-} from '../../../../sample-data/asm-flow';
 
 context('B2B - Assisted Service Module', () => {
   const customer = getASMB2BCustomer();

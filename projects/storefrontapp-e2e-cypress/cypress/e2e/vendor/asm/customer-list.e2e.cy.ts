@@ -8,8 +8,8 @@ import * as asm from '../../../helpers/asm';
 import { agentLoginForJDK21 } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import {
-  getB2CAgent,
   getASMB2CCustomer,
+  getB2CAgent,
   getProductCode,
 } from '../../../sample-data/asm-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
