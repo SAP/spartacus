@@ -39,21 +39,17 @@ import { RegisterComponentService } from './register-component.service';
   host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  // TODO: (CXSPA-8550) Remove feature toggle
+  // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
 
   protected passwordValidators = this.featureConfigService.isEnabled(
     'enableSecurePasswordValidation'
   )
     ? CustomFormValidators.securePasswordValidators
-    : this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-      ? [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]
-      : CustomFormValidators.passwordValidators;
+    : [
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
+      ];
 
   titles$: Observable<Title[]>;
 

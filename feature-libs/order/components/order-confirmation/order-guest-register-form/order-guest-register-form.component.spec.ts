@@ -3,6 +3,7 @@ import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import {
   AuthService,
   FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -16,6 +17,9 @@ import { of } from 'rxjs';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
 import createSpy = jasmine.createSpy;
 
+const mockSecurePassword = 'strongPas$!123';
+const mockInvalidPassword = 'strongPass$!123';
+
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn = createSpy().and.returnValue(of(true));
 }
@@ -28,8 +32,19 @@ class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
 }
 
+/** Mock control for FeatureConfigService.isEnabled() */
+const mockFeatureConfigServiceController: Pick<
+  FeatureToggles,
+  'authorizationCodeFlowByDefault' | 'enableSecurePasswordValidation'
+> = {
+  authorizationCodeFlowByDefault: false,
+  enableSecurePasswordValidation: false,
+};
+
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy().and.returnValue(false);
+  isEnabled = createSpy().and.callFake(
+    (flag) => mockFeatureConfigServiceController[flag] ?? false
+  );
 }
 
 describe('OrderGuestRegisterFormComponent', () => {
@@ -38,7 +53,7 @@ describe('OrderGuestRegisterFormComponent', () => {
 
   let userRegisterFacade: UserRegisterFacade;
   let routingService: RoutingService;
-  let featureConfigService: FeatureConfigService;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -62,7 +77,6 @@ describe('OrderGuestRegisterFormComponent', () => {
 
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
     routingService = TestBed.inject(RoutingService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
     component = fixture.componentInstance;
   });
 
@@ -73,11 +87,12 @@ describe('OrderGuestRegisterFormComponent', () => {
   describe('submit', () => {
     describe('when authorizationCodeFlowByDefault is enabled', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+        mockFeatureConfigServiceController.authorizationCodeFlowByDefault =
+          true;
       });
 
       it('should register customer', () => {
-        const password = 'StrongPass123!@#';
+        const password = mockSecurePassword;
         component.guestRegisterForm.controls['password'].setValue(password);
         component.guestRegisterForm.controls['passwordconf'].setValue(password);
         component.guid = 'guid';
@@ -93,11 +108,12 @@ describe('OrderGuestRegisterFormComponent', () => {
 
     describe('when authorizationCodeFlowByDefault is disabled', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+        mockFeatureConfigServiceController.authorizationCodeFlowByDefault =
+          false;
       });
 
       it('should register customer and redirect to homepage when submit', () => {
-        const password = 'StrongPass123!@#';
+        const password = mockSecurePassword;
         component.guestRegisterForm.controls['password'].setValue(password);
         component.guestRegisterForm.controls['passwordconf'].setValue(password);
         component.guid = 'guid';
@@ -108,37 +124,38 @@ describe('OrderGuestRegisterFormComponent', () => {
           password
         );
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'authorizationCodeFlowByDefault'
-        );
       });
     });
   });
 
   describe('password validators', () => {
     it('should have new validators when feature flag is enabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      mockFeatureConfigServiceController.enableSecurePasswordValidation = true;
 
       fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
       component = fixture.componentInstance;
-
       fixture.detectChanges();
-
       const passwordControl = component.guestRegisterForm.get(
         'password'
       ) as UntypedFormControl;
-      const validators = passwordControl.validator
-        ? passwordControl.validator({} as any)
-        : [];
+      const validations = {
+        whenEmpty: passwordControl.validator?.({} as any),
+        whenNotEmpty: passwordControl.validator?.({
+          value: mockInvalidPassword,
+        } as any),
+      };
 
       expect(passwordControl).toBeTruthy();
-      expect(validators).toEqual({
+      expect(validations.whenEmpty).toEqual({
         required: true,
         cxMinOneDigit: true,
         cxMinOneUpperCaseCharacter: true,
         cxMinOneSpecialCharacter: true,
         cxMinEightCharactersLength: true,
         cxMaxCharactersLength: true,
+      });
+      expect(validations.whenNotEmpty).toEqual({
+        cxNoConsecutiveCharacters: true,
       });
     });
   });

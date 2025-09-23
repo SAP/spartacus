@@ -18,6 +18,7 @@ import { switchMap } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
   greeting$: Observable<string | undefined>;
+  usingASMClient$: Observable<boolean>;
 
   constructor(
     private auth: AuthService,
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
         })
       )
     );
+    this.usingASMClient$ = this.auth.isUsingASMClient();
   }
 
   onRootNavBtnAdded($event: MutationRecord, greeting: string) {

@@ -2395,10 +2395,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Help',
     },
     {
-      type: TabbingOrderTypes.LINK,
-      value: 'Hide ASM',
-    },
-    {
       type: TabbingOrderTypes.BUTTON,
       value: '',
     },

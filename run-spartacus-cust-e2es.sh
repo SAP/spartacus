@@ -24,7 +24,7 @@ case "$param" in
     ;;
   "b2c")
     export E2E_BASE_SITE="electronics-spa"
-    export E2ES_TO_RUN="$CYPRESS_ASM_FOLDER/*.e2e.cy.ts"
+    export E2ES_TO_RUN="$CYPRESS_ASM_FOLDER/*e2e.cy.ts"
     ;;
   *)
     echo "Invalid parameter. Please provide a valid parameter."
@@ -36,6 +36,6 @@ esac
 (cd projects/storefrontapp-e2e-cypress && npm install)
 
 # run spartacus ccv2 e2es for b2c
-npm run e2e:run:ci:ccv2-product-configurator
+npm run e2e:run:ci:jdk21:ccv2-product-configurator
 
 

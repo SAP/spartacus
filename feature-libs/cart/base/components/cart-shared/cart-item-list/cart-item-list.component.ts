@@ -99,7 +99,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
-    useFeatureStyles('a11yPreventHorizontalScroll');
     useFeatureStyles('a11yQTY2Quantity');
     useFeatureStyles('a11yPickupOptionsTabs');
     useFeatureStyles('a11yCroppedFocusRing');
