@@ -188,7 +188,7 @@ describe('IntersectionService', () => {
         service['getRootMargin']({ rootMargin: INTERSECTION_MARGIN_SPECIFIC })
       ).toBe(INTERSECTION_MARGIN_SPECIFIC);
     });
-  }); 
+  });
 
 });
 
@@ -208,7 +208,7 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should return true immediately for isIntersected in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
-      
+
       service.isIntersected(element)
         .pipe(take(1))
         .subscribe((isIntersected) => {
@@ -219,7 +219,7 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should return true immediately for isIntersecting in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
-      
+
       service.isIntersecting(element)
         .pipe(take(1))
         .subscribe((isIntersected) => {
@@ -230,9 +230,9 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should handle intersecting conditions in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
-      const intersectingCondition = (entry: IntersectionObserverEntry) => 
+      const intersectingCondition = (entry: IntersectionObserverEntry) =>
         entry.intersectionRatio === 1;
-      
+
       service.isIntersected(element, {}, intersectingCondition)
         .pipe(take(1))
         .subscribe((isIntersected) => {
@@ -261,9 +261,9 @@ describe('IntersectionService SSR Platform Detection', () => {
           target: element,
           isIntersecting: true
         }]));
-      
+
       service.isIntersected(element).subscribe();
-      
+
       expect(createIntersectionObservableSpy).toHaveBeenCalled();
     });
   });
