@@ -26,7 +26,7 @@ export type IntersectingCondition = (
 export class IntersectionService {
   constructor(
     protected config: LayoutConfig,
-    @Inject(PLATFORM_ID) protected platformId: Object,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   /**
@@ -95,17 +95,18 @@ export class IntersectionService {
     element: HTMLElement,
     options: IntersectionOptions
   ): Observable<IntersectionObserverEntry[]> {
-
     if (isPlatformServer(this.platformId)) {
-      return of([{
-        target: element,
-        isIntersecting: true,
-        intersectionRatio: 1,
-        boundingClientRect: {} as DOMRectReadOnly,
-        intersectionRect: {} as DOMRectReadOnly,
-        rootBounds: {} as DOMRectReadOnly,
-        time: Date.now()
-      } as IntersectionObserverEntry]);
+      return of([
+        {
+          target: element,
+          isIntersecting: true,
+          intersectionRatio: 1,
+          boundingClientRect: {} as DOMRectReadOnly,
+          intersectionRect: {} as DOMRectReadOnly,
+          rootBounds: {} as DOMRectReadOnly,
+          time: Date.now(),
+        } as IntersectionObserverEntry,
+      ]);
     }
 
     return new Observable((observer: Observer<IntersectionObserverEntry[]>) => {

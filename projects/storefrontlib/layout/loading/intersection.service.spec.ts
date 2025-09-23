@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { cold } from 'jasmine-marbles';
 import { PLATFORM_ID } from '@angular/core';
 
-
 const INTERSECTION_MARGIN_GENERAL = '5%';
 const INTERSECTION_MARGIN_SPECIFIC = '4%';
 
@@ -189,7 +188,6 @@ describe('IntersectionService', () => {
       ).toBe(INTERSECTION_MARGIN_SPECIFIC);
     });
   });
-
 });
 
 describe('IntersectionService SSR Platform Detection', () => {
@@ -200,7 +198,7 @@ describe('IntersectionService SSR Platform Detection', () => {
       TestBed.configureTestingModule({
         providers: [
           { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
-          { provide: PLATFORM_ID, useValue: 'server' }
+          { provide: PLATFORM_ID, useValue: 'server' },
         ],
       });
       service = TestBed.inject(IntersectionService);
@@ -209,7 +207,8 @@ describe('IntersectionService SSR Platform Detection', () => {
     it('should return true immediately for isIntersected in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
 
-      service.isIntersected(element)
+      service
+        .isIntersected(element)
         .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(true);
@@ -220,7 +219,8 @@ describe('IntersectionService SSR Platform Detection', () => {
     it('should return true immediately for isIntersecting in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
 
-      service.isIntersecting(element)
+      service
+        .isIntersecting(element)
         .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(true);
@@ -233,7 +233,8 @@ describe('IntersectionService SSR Platform Detection', () => {
       const intersectingCondition = (entry: IntersectionObserverEntry) =>
         entry.intersectionRatio === 1;
 
-      service.isIntersected(element, {}, intersectingCondition)
+      service
+        .isIntersected(element, {}, intersectingCondition)
         .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(true);
@@ -247,7 +248,7 @@ describe('IntersectionService SSR Platform Detection', () => {
       TestBed.configureTestingModule({
         providers: [
           { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
-          { provide: PLATFORM_ID, useValue: 'browser' }
+          { provide: PLATFORM_ID, useValue: 'browser' },
         ],
       });
       service = TestBed.inject(IntersectionService);
@@ -255,12 +256,18 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should create IntersectionObserver in browser', () => {
       const element: HTMLElement = document.createElement('section');
-      const createIntersectionObservableSpy = spyOn<any>(service, 'createIntersectionObservable')
-        .and.returnValue(of([{
-          ...INTERSECTION_OBSERVER_ENTRY,
-          target: element,
-          isIntersecting: true
-        }]));
+      const createIntersectionObservableSpy = spyOn<any>(
+        service,
+        'createIntersectionObservable'
+      ).and.returnValue(
+        of([
+          {
+            ...INTERSECTION_OBSERVER_ENTRY,
+            target: element,
+            isIntersecting: true,
+          },
+        ])
+      );
 
       service.isIntersected(element).subscribe();
 
