@@ -11,12 +11,12 @@ export default defineConfig({
   requestTimeout: 15000,
   chromeWebSecurity: false,
   retries: {
-    runMode: 2,
-    openMode: 2,
+    runMode: 1,
+    openMode: 0,
   },
   videoUploadOnPasses: false,
   env: {
-    CLIENT_ID: 'mobile_android',
+    CLIENT_ID: 'mobile_android_public',
     CLIENT_SECRET: 'secret',
     API_URL:
       'hthttps://api.c432wmya2v-teamspart3-s5-public.model-t.myhybris.cloud',
