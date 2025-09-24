@@ -387,6 +387,7 @@ if (environment.cpq) {
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
+        navigationMenuCloseOnSameLinkClick: true,
       };
       return appFeatureToggles;
     }),

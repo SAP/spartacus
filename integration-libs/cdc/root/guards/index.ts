@@ -6,3 +6,4 @@
 
 export * from './cdc-logout.guard';
 export * from './cdc-login.guard';
+export * from './cdc-login-as-guest.guard';
