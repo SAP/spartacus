@@ -10,12 +10,12 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
-import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import {
-  getB2CAgent,
-  getASMB2CCustomer,
   getASMB2BCustomer2,
+  getASMB2CCustomer,
+  getB2CAgent,
 } from '../sample-data/asm-flow';
+import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import {
   addToCartWithProducts,
   createCart,
@@ -870,8 +870,13 @@ export function testCustomerEmulation() {
     cy.log('--> customer sign in');
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    visitLoginPage();
+    cy.whenJDK21(() => {
+      checkout.visitHomePage('asm=true');
+      cy.get('button.close[title="Close ASM"]').click();
+      cy.get('a[role="link"]').contains('Sign In / Register').click();
+    });
     cy.whenJDK17(() => {
+      visitLoginPage();
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
     });
 

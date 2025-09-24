@@ -11,10 +11,10 @@ import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
 import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { visitLoginPage } from '../../../support/utils/login';
-import { getB2CAgent } from '../../../sample-data/asm-flow';
 
 const b2cAgent = getB2CAgent();
 context('Assisted Service Module', () => {
@@ -116,7 +116,14 @@ context('Assisted Service Module', () => {
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
     it('agent login when user is logged in should start this user emulation', () => {
-      visitLoginPage();
+      cy.whenJDK17(() => {
+        visitLoginPage();
+      });
+      cy.whenJDK21(() => {
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
+      });
       login(customer.email, customer.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
@@ -127,6 +134,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Agent logging in');
       cy.whenJDK17(() => {
         asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+        cy.get('cx-customer-emulation').should('be.visible');
       });
 
       cy.whenJDK21(() => {
@@ -136,7 +144,6 @@ context('Assisted Service Module', () => {
 
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('not.exist');
-      cy.get('cx-customer-emulation').should('be.visible');
     });
 
     // TODO(#7221): enable this case

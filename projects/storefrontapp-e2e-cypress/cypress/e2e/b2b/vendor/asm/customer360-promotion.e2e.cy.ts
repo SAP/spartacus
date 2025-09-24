@@ -10,16 +10,16 @@ import {
   ELECTRONICS_BASESITE,
   signOutUser,
 } from '../../../../helpers/checkout-flow';
+import {
+  getASMB2BCustomer,
+  getB2BAgent,
+} from '../../../../sample-data/asm-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
   interceptDelete,
   interceptPost,
 } from '../../../../support/utils/intercept';
-import {
-  getB2BAgent,
-  getASMB2BCustomer,
-} from '../../../../sample-data/asm-flow';
 
 context('Assisted Service Module', () => {
   const customer = getASMB2BCustomer();
@@ -75,13 +75,26 @@ context('Assisted Service Module', () => {
             }
           });
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
+          cy.whenJDK21(() => {
+            cy.get('button').contains('Remove').should('be.visible');
+            cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
+            cy.get('button').contains('Remove').click();
+          });
           cy.get('button').contains('Apply to Cart').click();
-          cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
+          cy.whenJDK17(() => {
+            cy.wait('@applyCoupon')
+              .its('response.statusCode')
+              .should('eq', 200);
+          });
           cy.get('button').should('not.contain', 'Apply to Cart');
           cy.get('button').contains('Remove').should('be.visible');
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
           cy.get('button').contains('Remove').click();
-          cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);
+          cy.whenJDK17(() => {
+            cy.wait('@removeCoupon')
+              .its('response.statusCode')
+              .should('eq', 204);
+          });
           cy.get('button').should('not.contain', 'Remove');
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });

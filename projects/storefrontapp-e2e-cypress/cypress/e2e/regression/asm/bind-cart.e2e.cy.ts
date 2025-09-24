@@ -9,9 +9,9 @@ import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { visitLoginPage } from '../../../support/utils/login';
-import { getB2CAgent } from '../../../sample-data/asm-flow';
 
 const b2cAgent = getB2CAgent();
 
@@ -85,7 +85,9 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        visitLoginPage();
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
       login(customerForBindCart.email, customerForBindCart.password);
       cy.get('cx-login .cx-login-greet').should('be.visible');
@@ -192,7 +194,9 @@ context('Assisted Service Module', () => {
         cy.wait(`@${loginPage}`);
       });
       cy.whenJDK21(() => {
-        visitLoginPage();
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
       login(
         customerForReplaceBindCart.email,
