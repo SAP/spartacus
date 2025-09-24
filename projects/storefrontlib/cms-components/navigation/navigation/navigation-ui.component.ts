@@ -151,7 +151,15 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.reinitializeMenu();
-      this.hamburgerMenuService.toggle();
+      if (
+        this.featureConfigService?.isEnabled(
+          'navigationMenuCloseOnSameLinkClick'
+        )
+      ) {
+        this.hamburgerMenuService.toggle(true);
+      } else {
+        this.hamburgerMenuService.toggle();
+      }
     }
   }
 
