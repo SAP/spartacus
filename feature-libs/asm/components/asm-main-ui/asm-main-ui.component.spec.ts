@@ -1,10 +1,13 @@
 import {
   Component,
   DebugElement,
+  Directive,
   EventEmitter,
   Injectable,
   Input,
   Output,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -21,6 +24,7 @@ import {
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -36,6 +40,10 @@ import { AsmMainUiComponent } from './asm-main-ui.component';
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
+    return of(false);
+  }
+
+  updateIsUsingASMClient(_isUsing: boolean) {
     return of(false);
   }
 }
@@ -60,6 +68,10 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
     return of(false);
   }
   startCustomerEmulationSession(_customerId: string) {}
+
+  authorizeCustomerSupportAgentWhenUseCodeFlow(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
@@ -168,11 +180,34 @@ class MockAsmService implements Partial<AsmService> {
   getAsmUiState(): Observable<AsmUi> {
     return of(mockAsmUi);
   }
+
+  customerSearch(_searchTerm: unknown): void {}
 }
 
 const mockAsmUi: AsmUi = {
   collapsed: false,
 };
+
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  refreshAuthConfig() {}
+}
+
+@Directive({
+  selector: '[cxFeature]',
+  standalone: false,
+})
+export class MockRevertedFeatureDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(_feature: string) {
+    if (_feature.toString().includes('!')) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+  }
+}
 
 describe('AsmMainUiComponent', () => {
   let featureModulesService: FeatureModulesService;
@@ -202,6 +237,7 @@ describe('AsmMainUiComponent', () => {
         MockAsmSessionTimerComponent,
         MockCustomerEmulationComponent,
         MockCxIconComponent,
+        MockRevertedFeatureDirective,
       ],
       providers: [
         {
@@ -216,6 +252,10 @@ describe('AsmMainUiComponent', () => {
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AsmService, useClass: MockAsmService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
       ],
     }).compileComponents();
   }));
@@ -251,6 +291,17 @@ describe('AsmMainUiComponent', () => {
     expect(
       csAgentAuthService.authorizeCustomerSupportAgent
     ).toHaveBeenCalledWith(userId, password);
+  });
+
+  it('should call authorizeCustomerSupportAgentWhenUseCodeFlow() when click agent login link', () => {
+    spyOn(
+      csAgentAuthService,
+      'authorizeCustomerSupportAgentWhenUseCodeFlow'
+    ).and.stub();
+    component.loginCustomerSupportAgentWithAuthorizationCodeFlow();
+    expect(
+      csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow
+    ).toHaveBeenCalled();
   });
 
   it('should call logoutCustomerSupportAgentAndCustomer() on agent logout', () => {
@@ -445,11 +496,13 @@ describe('AsmMainUiComponent', () => {
   it('should hide the UI when the Close Asm button is clicked', () => {
     component.ngOnInit();
     fixture.detectChanges();
+    spyOn(authService, 'updateIsUsingASMClient');
     const submitBtn = fixture.debugElement.query(
       By.css('button[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.disabled).toEqual(true);
+    expect(authService.updateIsUsingASMClient).toHaveBeenCalledWith(false);
   });
 
   it('should unload ASM when the close button is clicked', () => {

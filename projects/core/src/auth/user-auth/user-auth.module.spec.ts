@@ -4,11 +4,13 @@ import { of } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { AuthService } from './facade/auth.service';
 import { checkOAuthParamsInUrl } from './user-auth.module';
+import createSpy = jasmine.createSpy;
 
 class MockAuthService implements Partial<AuthService> {
   checkOAuthParamsInUrl() {
     return Promise.resolve();
   }
+  refreshAuthConfig = createSpy().and.stub();
 }
 
 class MockConfigInitializerService
@@ -42,20 +44,19 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
     configInitializerService = TestBed.inject(ConfigInitializerService);
   });
 
-  it(`should check OAuth params in the URL`, (done) => {
+  it(`should check OAuth params in the URL`, async () => {
     spyOn(authService, 'checkOAuthParamsInUrl').and.callThrough();
 
-    checkOAuthParamsInUrl(
+    await checkOAuthParamsInUrl(
       authService,
       configInitializerService,
       platformId
-    )().then(() => {
-      expect(authService.checkOAuthParamsInUrl).toHaveBeenCalled();
-      done();
-    });
+    )();
+    expect(authService.refreshAuthConfig).toHaveBeenCalled();
+    expect(authService.checkOAuthParamsInUrl).toHaveBeenCalled();
   });
 
-  it(`should resolve only after checking of the URL params completes`, (done) => {
+  it(`should resolve only after checking of the URL params completes`, async () => {
     let checkingUrlParamsCompleted = false;
 
     spyOn(authService, 'checkOAuthParamsInUrl').and.callFake(() => {
@@ -69,14 +70,12 @@ describe(`checkOAuthParamsInUrl APP_INITIALIZER`, () => {
       });
     });
 
-    checkOAuthParamsInUrl(
+    await checkOAuthParamsInUrl(
       authService,
       configInitializerService,
       platformId
-    )().then(() => {
-      expect(checkingUrlParamsCompleted).toBe(true);
-      done();
-    });
+    )();
+    expect(checkingUrlParamsCompleted).toBe(true);
   });
 
   it('should not check OAuth params in URL if platform is not browser', async () => {

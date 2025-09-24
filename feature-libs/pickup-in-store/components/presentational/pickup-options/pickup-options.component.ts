@@ -49,14 +49,13 @@ export class PickupOptionsComponent
   @Input() disableControls = false;
 
   /** Emitted when the selected option is changed. */
-  // TODO: Remove the 'PickupOption' type when the `a11yDialogTriggerRefocus` feature flag is removed.
-  @Output() pickupOptionChange = new EventEmitter<
-    { option: PickupOption; triggerElement: ElementRef } | PickupOption
-  >();
+  @Output() pickupOptionChange = new EventEmitter<{
+    option: PickupOption;
+    triggerElement: ElementRef;
+  }>();
 
   /** Emitted when a new store should be selected. */
-  // TODO: Remove the undefined type when the `a11yDialogTriggerRefocus` feature flag is removed.
-  @Output() pickupLocationChange = new EventEmitter<ElementRef | undefined>();
+  @Output() pickupLocationChange = new EventEmitter<ElementRef>();
 
   @ViewChild('dialogTriggerEl') triggerElement: ElementRef;
 
@@ -87,7 +86,6 @@ export class PickupOptionsComponent
   }
 
   constructor() {
-    useFeatureStyles('a11yDeliveryMethodFieldset');
     useFeatureStyles('a11yPickupOptionsTabs');
   }
 
@@ -122,23 +120,16 @@ export class PickupOptionsComponent
 
   /** Emit a new selected option. */
   onPickupOptionChange(option: PickupOption): void {
-    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
-      this.pickupOptionChange.emit({
-        option,
-        triggerElement: this.triggerElement,
-      });
-    } else {
-      this.pickupOptionChange.emit(option);
-    }
+    this.pickupOptionChange.emit({
+      option,
+      triggerElement: this.triggerElement,
+    });
   }
 
   /** Emit to indicate a new store should be selected. */
   onPickupLocationChange(): boolean {
-    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
-      this.pickupLocationChange.emit(this.triggerElement);
-    } else {
-      this.pickupLocationChange.emit();
-    }
+    this.pickupLocationChange.emit(this.triggerElement);
+
     // Return false to stop `onPickupOptionChange` being called after this
     return false;
   }

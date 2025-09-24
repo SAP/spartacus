@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -23,16 +23,6 @@ let configuratorUISettingsConfigTemplate: ConfiguratorUISettingsConfig = {
 class MockConfiguratorAttributePriceChangeService {
   getChangedPrices(): Observable<Record<string, Configurator.PriceDetails>> {
     return of({ dummy: { value: 10, currencyIso: 'USD' } });
-  }
-}
-
-let productConfiguratorDeltaRenderingEnabled = false;
-class MockFeatureConfigService {
-  isEnabled(name: string): boolean {
-    if (name === 'productConfiguratorDeltaRendering') {
-      return productConfiguratorDeltaRenderingEnabled;
-    }
-    return false;
   }
 }
 
@@ -62,7 +52,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -529,7 +518,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   });
 
   describe('$priceChanged', () => {
-    it('should emit true immediately, if delta rendering is not initialized', () => {
+    it('should emit true immediately', () => {
       let emitted = false;
       classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
@@ -544,7 +533,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
 
     it('should emit true immediately, if price changed event is initialized in synchronous pricing mode', () => {
-      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['initPriceChangedEvent'](false, 'attrKey');
       let emitted = false;
       classUnderTest.changedPrices$
@@ -560,7 +548,6 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     });
 
     it('should emit true immediately, price changed event  is initialized but no price change service injected', () => {
-      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['configuratorAttributePriceChangeService'] = null;
       classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
@@ -576,27 +563,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).not.toHaveBeenCalled();
     });
 
-    it('should emit immediately, if price changed event is initialized but delta rendering feature flag is deactivated', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
-      classUnderTest['initPriceChangedEvent'](true, 'attrKey');
-      let emitted = false;
-      classUnderTest.changedPrices$
-        .subscribe((priceChanged) => {
-          expect(priceChanged).toEqual({});
-          emitted = true;
-        })
-        .unsubscribe();
-      expect(emitted).toBe(true);
-      expect(
-        configuratorAttributePriceChangeService.getChangedPrices
-      ).not.toHaveBeenCalled();
-    });
-
     it('should emit immediately, if price changed event is initialized proper', () => {
-      productConfiguratorDeltaRenderingEnabled = true;
       classUnderTest['initPriceChangedEvent'](true, 'attrKey');
       let emitted = false;
-      productConfiguratorDeltaRenderingEnabled = true;
+
       classUnderTest.changedPrices$
         .subscribe((priceChanged) => {
           expect(priceChanged).toEqual({

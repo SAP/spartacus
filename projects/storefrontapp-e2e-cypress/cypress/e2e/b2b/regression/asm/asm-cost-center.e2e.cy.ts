@@ -5,18 +5,20 @@
  */
 
 import * as asm from '../../../../helpers/asm';
+import { agentLoginForJDK21 } from '../../../../helpers/auth-forms';
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
-import * as checkout from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
+import {
+  getASMB2BCustomer,
+  getB2BAgent,
+} from '../../../../sample-data/asm-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 
 context('B2B - ASM Account Checkout', () => {
   const invalid_cost_center = 'Rustic_Global';
   const valid_cost_center = 'Pronto_Services';
-  const customer = {
-    fullName: 'William Hunter',
-    email: 'william.hunter@pronto-hw.com',
-  };
+  const customer = getASMB2BCustomer();
+  const b2bAgent = getB2BAgent();
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
@@ -33,10 +35,17 @@ context('B2B - ASM Account Checkout', () => {
 
   it('should show error on invalid cost center', () => {
     cy.log('--> Agent logging in');
-    checkout.visitHomePage('asm=true');
+    cy.visit('/?asm=true');
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
-    asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+    cy.whenJDK17(() => {
+      asm.agentLogin(b2bAgent.userName, b2bAgent.password);
+    });
+
+    cy.whenJDK21(() => {
+      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+      agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
+    });
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 

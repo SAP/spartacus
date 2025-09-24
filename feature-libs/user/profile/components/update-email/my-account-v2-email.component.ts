@@ -23,6 +23,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   templateUrl: './my-account-v2-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class MyAccountV2EmailComponent implements OnInit {
   protected emailComponentService = inject(UpdateEmailComponentService);

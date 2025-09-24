@@ -37,18 +37,7 @@ export function loadMeta(entityType: string): LoaderMeta {
   };
 }
 
-export function failMeta(
-  entityType: string,
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  error: any
-): LoaderMeta;
-/**
- * @deprecated Please pass the argument `error`.
- *             It will become mandatory along with removing
- *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
- */
-export function failMeta(entityType: string): LoaderMeta;
-export function failMeta(entityType: string, error?: any): LoaderMeta {
+export function failMeta(entityType: string, error: any): LoaderMeta {
   return {
     entityType: entityType,
     loader: {
@@ -87,15 +76,7 @@ export class LoaderFailAction implements LoaderAction, ErrorAction {
   public error: any;
   readonly meta: LoaderMeta;
 
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(entityType: string, error: any);
-  /**
-   * @deprecated Please pass the argument `error`.
-   *             It will become mandatory along with removing
-   *             the feature toggle `ssrStrictErrorHandlingForHttpAndNgrx`.
-   */
-  constructor(entityType: string);
-  constructor(entityType: string, error?: any) {
+  constructor(entityType: string, error: any) {
     this.meta = failMeta(entityType, error);
     this.error = error;
   }

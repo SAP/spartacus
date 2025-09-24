@@ -25,6 +25,7 @@ export const ADD_EMAIL_TO_CART_SUCCESS = '[Cart] Add Email to Cart Success';
 
 export const MERGE_CART = '[Cart] Merge Cart';
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
+export const MERGE_CART_ABORT = '[Cart] Merge Cart Abort';
 
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
@@ -176,10 +177,25 @@ interface MergeCartPayload {
    */
   tempCartId: string;
 }
-
+/**
+ * @deprecated since 221121.1
+ * Use the new MergeCartAndIncrementProcessesCount instead.
+ * @see MergeCartAndIncrementProcessesCount
+ */
 export class MergeCart implements Action {
   readonly type = MERGE_CART;
   constructor(public payload: MergeCartPayload) {}
+}
+
+/**
+ * Initialize the merge cart.
+ * Comparing to the previous implementation of MergeCart, MergeCartAndIncrementProcessesCount increments in addition processesCount to mark cart as busy and prevent premature cart loading.
+ */
+export class MergeCartAndIncrementProcessesCount extends StateUtils.EntityProcessesIncrementAction {
+  readonly type = MERGE_CART;
+  constructor(public payload: MergeCartPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 interface MergeCartSuccessPayload extends MergeCartPayload {
@@ -194,6 +210,27 @@ export class MergeCartSuccess extends StateUtils.EntityRemoveAction {
   readonly type = MERGE_CART_SUCCESS;
   constructor(public payload: MergeCartSuccessPayload) {
     super(MULTI_CART_DATA, payload.oldCartId);
+  }
+}
+
+export interface MergeCartAbortPayload {
+  cartId: string;
+  error?: Object;
+}
+
+// Normally, merge is ended by MergeCartSuccess, which removes the temporary cart entity that
+// had the new outstanding process count.
+// In the event of not merging because oldId and newId are the same or an error,
+// we need to decrement the counter so the active cart can be stabilized.
+export class MergeCartAbort
+  extends StateUtils.EntityProcessesDecrementAction
+  implements ErrorAction
+{
+  readonly type = MERGE_CART_ABORT;
+  public error: any;
+  constructor(public payload: MergeCartAbortPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+    this.error = payload.error;
   }
 }
 

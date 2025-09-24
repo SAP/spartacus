@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './guards/login-as-guest.guard';
 export * from './login-form/index';
 export * from './login-register/index';
 export * from './login/index';

@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { ScriptLoader } from '@spartacus/core';
+import { Config, ScriptLoader } from '@spartacus/core';
 import { OpfDynamicScriptResourceType } from '../model';
 import { OpfResourceLoaderService } from './opf-resource-loader.service';
 
@@ -9,6 +9,7 @@ describe('OpfResourceLoaderService', () => {
   let opfResourceLoaderService: OpfResourceLoaderService;
   let mockDocument: any;
   let mockPlatformId: Object;
+  let mockConfig: any;
 
   beforeEach(() => {
     mockDocument = {
@@ -26,12 +27,27 @@ describe('OpfResourceLoaderService', () => {
     };
 
     mockPlatformId = 'browser';
+    mockConfig = {
+      opf: {
+        localPspResources: {
+          123: {
+            jsFiles: ['/assets/local/script1.js', '/assets/local/script2.js'],
+            cssFiles: ['/assets/local/styles1.css'],
+          },
+          456: {
+            jsFiles: ['/assets/local/other.js'],
+            cssFiles: ['/assets/local/other.css'],
+          },
+        },
+      },
+    };
 
     TestBed.configureTestingModule({
       providers: [
         OpfResourceLoaderService,
         { provide: DOCUMENT, useValue: mockDocument },
         { provide: PLATFORM_ID, useValue: mockPlatformId },
+        { provide: Config, useValue: mockConfig },
       ],
     });
   });
@@ -308,6 +324,99 @@ describe('OpfResourceLoaderService', () => {
 
       expect(mockLinkElement.remove).toHaveBeenCalled();
     });
+  });
+
+  describe('local PSP resources', () => {
+    beforeEach(() => {
+      opfResourceLoaderService = TestBed.inject(OpfResourceLoaderService);
+    });
+
+    it('should check if local PSP resources are available', () => {
+      expect(opfResourceLoaderService.hasLocalPspResources(123)).toBe(true);
+      expect(opfResourceLoaderService.hasLocalPspResources(456)).toBe(true);
+      expect(opfResourceLoaderService.hasLocalPspResources(999)).toBe(false);
+      expect(opfResourceLoaderService.hasLocalPspResources(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should load local PSP resources when available', fakeAsync(() => {
+      spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
+      spyOn<any>(opfResourceLoaderService, 'loadStyles').and.callThrough();
+
+      opfResourceLoaderService.loadResources([], [], 123);
+
+      expect(opfResourceLoaderService['loadScript']).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          url: '/assets/local/script1.js',
+          type: OpfDynamicScriptResourceType.SCRIPT,
+        })
+      );
+      expect(opfResourceLoaderService['loadScript']).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          url: '/assets/local/script2.js',
+          type: OpfDynamicScriptResourceType.SCRIPT,
+        })
+      );
+      expect(opfResourceLoaderService['loadStyles']).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          url: '/assets/local/styles1.css',
+          type: OpfDynamicScriptResourceType.STYLES,
+        })
+      );
+    }));
+
+    it('should fallback to external resources when no local resources are configured', fakeAsync(() => {
+      const externalScript = {
+        url: 'external-script.js',
+        type: OpfDynamicScriptResourceType.SCRIPT,
+      };
+
+      const externalStyle = {
+        url: 'external-style.css',
+        type: OpfDynamicScriptResourceType.STYLES,
+      };
+
+      spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
+      spyOn<any>(opfResourceLoaderService, 'loadStyles').and.callThrough();
+
+      opfResourceLoaderService.loadResources(
+        [externalScript],
+        [externalStyle],
+        999
+      );
+
+      expect(opfResourceLoaderService['loadScript']).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          url: 'external-script.js',
+          type: OpfDynamicScriptResourceType.SCRIPT,
+        })
+      );
+      expect(opfResourceLoaderService['loadStyles']).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          url: 'external-style.css',
+          type: OpfDynamicScriptResourceType.STYLES,
+        })
+      );
+    }));
+
+    it('should fallback to external resources when paymentOptionId is undefined', fakeAsync(() => {
+      const externalScript = {
+        url: 'external-script.js',
+        type: OpfDynamicScriptResourceType.SCRIPT,
+      };
+
+      spyOn<any>(opfResourceLoaderService, 'loadScript').and.callThrough();
+
+      opfResourceLoaderService.loadResources([externalScript], []);
+
+      expect(opfResourceLoaderService['loadScript']).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          url: 'external-script.js',
+          type: OpfDynamicScriptResourceType.SCRIPT,
+        })
+      );
+    }));
   });
 
   describe('executeHtml', () => {

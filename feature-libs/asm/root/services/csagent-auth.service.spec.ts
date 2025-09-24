@@ -33,6 +33,10 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   revokeAndLogout() {
     return Promise.resolve();
   }
+
+  initLoginFlow() {
+    return Promise.resolve({} as TokenResponse);
+  }
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
@@ -169,6 +173,88 @@ describe('CsAgentAuthService', () => {
       expect(
         oAuthLibWrapperService.authorizeWithPasswordFlow
       ).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(tokenTarget).toBe(TokenTarget.User);
+      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(userIdService.setUserId).not.toHaveBeenCalled();
+      expect(asmAuthStorageService.setEmulatedUserToken).not.toHaveBeenCalled();
+      expect(
+        asmAuthStorageService.clearEmulatedUserToken
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('authorizeCustomerSupportAgentWhenUseCodeFlow()', () => {
+    it('should only login cs agent when there is not any active session', async () => {
+      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callThrough();
+      spyOn(store, 'dispatch').and.callFake(() => null);
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
+
+      await service.authorizeCustomerSupportAgentWhenUseCodeFlow();
+
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
+      expect(tokenTarget).toBe(TokenTarget.CSAgent);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+      expect(userIdService.setUserId).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS
+      );
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
+    });
+
+    it('when there was logged in user, should login CS agent and start emulation for that user', async () => {
+      const dispatch = spyOn(store, 'dispatch').and.callFake(() => null);
+      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
+      spyOn(userAccountFacade, 'get').and.returnValue(
+        of({ customerId: 'custId' })
+      );
+      spyOn(featureConfig, 'isLevel').and.returnValue(true);
+      asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
+
+      await service.authorizeCustomerSupportAgentWhenUseCodeFlow();
+
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
+      expect(tokenTarget).toBe(TokenTarget.CSAgent);
+      expect(dispatch.calls.argsFor(0)[0]).toEqual(new AuthActions.Logout());
+      expect(dispatch.calls.argsFor(1)[0]).toEqual(new AuthActions.Login());
+
+      expect(userIdService.setUserId).toHaveBeenCalledWith('custId');
+      expect(asmAuthStorageService.setEmulatedUserToken).toHaveBeenCalledWith({
+        access_token: 'token',
+      } as AuthToken);
+    });
+
+    it('should not changed storage state, when authorization failed', async () => {
+      spyOn(store, 'dispatch').and.callFake(() => null);
+      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callFake(() => {
+        return Promise.reject();
+      });
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
+      spyOn(asmAuthStorageService, 'clearEmulatedUserToken').and.callThrough();
+
+      await service.authorizeCustomerSupportAgentWhenUseCodeFlow();
+
+      let tokenTarget;
+      asmAuthStorageService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((target) => (tokenTarget = target));
+
+      expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
       expect(tokenTarget).toBe(TokenTarget.User);
       expect(store.dispatch).not.toHaveBeenCalled();
       expect(userIdService.setUserId).not.toHaveBeenCalled();

@@ -28,6 +28,7 @@
     "emailsMustMatch": "Email does not match"
   },
   "authMessages": {
-    "signedOutSuccessfully": "You have successfully signed out."
+    "signedOutSuccessfully": "You have successfully signed out.",
+    "unrecoverableError": "Unable to initiate sign-in, please contact your administrator."
   }
 }

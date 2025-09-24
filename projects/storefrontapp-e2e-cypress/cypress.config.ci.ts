@@ -27,8 +27,8 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
-    MAIL_CCV2_URL: 'http://mail-ccv2.westeurope.azurecontainer.io:8025',
-    MAIL_CCV2_PREFIX: '/api/v2',
+    MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
+    MAIL_CCV2_PREFIX: '/api/v1',
     JDK_VERSION: 'JDK17',
   },
   e2e: {
@@ -39,5 +39,6 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:4200',
     excludeSpecPattern: '**/*.example-e2e.cy.ts',
+    screenshotOnRunFailure: process.env.CYPRESS_ENABLE_SCREENSHOTS === 'true',
   },
 });

@@ -4,14 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { clickHamburger } from './navigation';
+
 export function checkBanner() {
   cy.get('cx-page-slot cx-banner img').should('exist');
-}
-
-export function clickHamburger() {
-  cy.onMobile(() => {
-    cy.get('cx-hamburger-menu button', { timeout: 15000 }).click();
-  });
 }
 
 export function waitForHomePage() {
