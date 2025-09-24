@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 export const serviceUser = {
   email: 'james.weber@harvestlive.inc',
   password: 'welcome',
@@ -5,103 +10,182 @@ export const serviceUser = {
   lastName: 'Weber',
   titleCode: 'mr',
 };
-export const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
+
+export const SHOP_NAME = Cypress.env('BASE_SITE');
 export const SUBSCRIPTION_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/subscriptions`;
 
 const subscriptionSelector = '.subscription';
 const statusSelector = '.subscription-status';
 const manageServiceLinkSelector = '.subscription-column-2 a.cx-action-link';
 
-/**
- * Verifies whether "Item Price" in Quote Heading is displayed.
- */
-export function checkDiscountDisplayed() {
-  cy.get('.cx-item-list-discount')
-    .should('contain.text', 'Item Price')
-    .and('be.visible');
-}
-/**
- * Selectors
- */
-
 const subscrptionComponentSelector = 'cx-subscription-list';
 const subscrptionDetailsComponentSelector = 'cx-subscription-details';
 
-/**
- * Navigates to the subscription  list.
- */
-export function subscriptionList() {
-  cy.visit(SUBSCRIPTION_LIST_PATH).then(() => {
-    cy.location('pathname').should('contain', SUBSCRIPTION_LIST_PATH);
-    checkQuoteListDisplayed();
-  });
-}
-/**
- * Verifies whether the quote list is displayed.
- */
-export function checkQuoteListDisplayed() {
-  log(
-    'Verifies whether the quote list page is displayed',
-    checkQuoteListDisplayed.name
-  );
-  cy.get(subscrptionComponentSelector).should('be.visible');
+let alreadyCancelled = false;
 
-
-}
 export function clickManageServiceForActiveSubscription() {
-  cy.visit(SUBSCRIPTION_LIST_PATH);
   cy.get(subscrptionComponentSelector).should('be.visible');
-
-  // Wait for subscriptions to load
   cy.get(subscriptionSelector).should('exist');
 
-  // Loop through subscriptions to find the one with status "Active"
-  cy.get(subscriptionSelector).each(($subscription, index) => {
-    const $status = $subscription.find(statusSelector);
-
-    if ($status.length && $status.text().trim().includes('Active')) {
-      // Log which index is active
-      cy.log(`Found Active subscription at index ${index}`);
-
-      // Wrap the element to use Cypress commands on it
-      cy.wrap($subscription)
+  cy.get(subscriptionSelector).then(($subs) => {
+    const activeSub = $subs
+      .toArray()
+      .find((el) =>
+        el.querySelector(statusSelector)?.textContent?.includes('Active')
+      );
+    if (activeSub) {
+      cy.wrap(activeSub)
         .find(manageServiceLinkSelector)
         .should('be.visible')
         .click({ force: true });
-
-      // Exit loop after clicking
-      return false;
+      cy.get(subscrptionDetailsComponentSelector).should('be.visible');
+    } else {
+      throw new Error('No active subscription found.');
     }
   });
-
-  cy.get(subscrptionDetailsComponentSelector).should('be.visible');
 }
-/**
- * Attempts to cancel a subscription if the Cancel button is available.
- */
+
+export function checkCancelButtonExists() {
+  const cancelButtonSelector = `cx-subscription-details .cx-other-actions a[aria-label="Cancel"]`;
+  cy.get('cx-subscription-details', { timeout: 10000 }).should('be.visible');
+  cy.get(cancelButtonSelector, { timeout: 5000 })
+    .should('exist')
+    .and('be.visible');
+  cy.log('Cancel button is present and visible.');
+}
+
 export function cancelSubscriptionIfPossible() {
+  if (alreadyCancelled) {
+    this.resubscribeSubscriptionIfPossible();
+    return;
+  }
+  alreadyCancelled = true;
+
   const cancelButtonSelector = '.cx-other-actions a[aria-label="Cancel"]';
   const modalSelector = 'cx-subscription-cancel';
-  // const confirmButtonSelector = `${modalSelector} button.btn-primary`;
+  const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {
     if ($body.find(cancelButtonSelector).length > 0) {
       cy.log('Cancel button is available, proceeding to click it.');
+      cy.get(cancelButtonSelector).should('be.visible').click({ force: true });
 
-      cy.get(cancelButtonSelector)
-        .should('be.visible')
-        .click({ force: true });
-
-      // Wait for modal to appear
       cy.get(modalSelector, { timeout: 5000 }).should('be.visible');
 
+      cy.get(`${modalSelector} .cx-dialog-body p`)
+        .first()
+        .invoke('text')
+        .then((text) => {
+          cy.log(`Modal message: ${text}`);
+        });
 
+      cy.intercept('POST', '**/cancellationEffectiveAt?**').as('cancelCall');
+
+      cy.get(confirmButtonSelector).should('be.visible').click({ force: true });
+
+      cy.get(modalSelector, { timeout: 10000 }).should('not.exist');
+
+      cy.get(`${subscrptionDetailsComponentSelector} .subscription-status`, {
+        timeout: 15000,
+      })
+        .should(($el) => {
+          const text = $el.text().toLowerCase();
+          expect(text).to.include('cancelled');
+        })
+        .then(($el) => {
+          cy.log(`Subscription status after cancellation: ${$el.text()}`);
+        });
     } else {
       cy.log('No cancel button available — skipping cancellation.');
     }
   });
 }
+export function resubscribeSubscriptionIfPossible() {
+  const resubscribeButtonSelector =
+    '.cx-other-actions a[aria-label="Re-subscribe"]';
+  const modalSelector = 'cx-subscription-cancel';
+  const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
-function log(comment: string, functionName: string) {
-  cy.log(`##### ${comment} <${functionName}> #####`);
+  cy.get('body').then(($body) => {
+    if ($body.find(resubscribeButtonSelector).length > 0) {
+      cy.log('Re-subscribe button is available, proceeding to click it.');
+
+      cy.intercept('POST', '**/subscriptions/**/cancellationReversal?**').as(
+        'resubscribeCall'
+      );
+
+      cy.get(resubscribeButtonSelector)
+        .should('be.visible')
+        .click({ force: true });
+
+      cy.get(modalSelector, { timeout: 5000 }).should('be.visible');
+      cy.get(`${modalSelector} .cx-dialog-header h4 strong`).should(
+        'contain.text',
+        'Resubscribe your subscription?'
+      );
+
+      cy.get(`${modalSelector} .cx-dialog-body p`).should(
+        'contain.text',
+        'By confirming, you are renewing your subscription'
+      );
+
+      cy.get(confirmButtonSelector).should('be.visible').click({ force: true });
+
+      cy.wait('@resubscribeCall', { timeout: 10000 });
+
+      cy.get(modalSelector, { timeout: 10000 }).should('not.exist');
+
+      cy.get(`${subscrptionDetailsComponentSelector} .subscription-status`)
+        .invoke('text')
+        .then((statusText) => {
+          cy.log(`Subscription status after resubscribe: ${statusText}`);
+        });
+    } else {
+      cy.log('No Re-subscribe button available — skipping resubscribe.');
+    }
+  });
+}
+export function widthdrawSubscriptionIfPossible() {
+  const withdrawButtonSelector = '.cx-other-actions a[aria-label="Withdraw"]';
+  const modalSelector = 'cx-subscription-cancel';
+  const confirmButtonSelector = `${modalSelector} button.btn-primary`;
+
+  cy.get('body').then(($body) => {
+    if ($body.find(withdrawButtonSelector).length > 0) {
+      cy.log('withdraw button is available, proceeding to click it.');
+
+      cy.get(withdrawButtonSelector)
+        .should('be.visible')
+        .click({ force: true });
+
+      cy.get(modalSelector, { timeout: 5000 }).should('be.visible');
+
+      cy.get(`${modalSelector} .cx-dialog-header h4 strong`).should(
+        'contain.text',
+        ' Withdraw your subscription?'
+      );
+
+      cy.intercept('POST', '**/subscriptions/**/withdrawal?**').as(
+        'withdrawCall'
+      );
+      cy.get(confirmButtonSelector).should('be.visible').click({ force: true });
+
+      cy.wait('@withdrawCall', { timeout: 10000 });
+
+      cy.get(modalSelector, { timeout: 10000 }).should('not.exist');
+
+      cy.get(`${subscrptionDetailsComponentSelector} .subscription-status`, {
+        timeout: 15000,
+      })
+        .should(($el) => {
+          const text = $el.text().toLowerCase();
+          expect(text).to.include('withdrawn');
+        })
+        .then(($el) => {
+          cy.log(`Subscription status after Withdrawn: ${$el.text()}`);
+        });
+    } else {
+      cy.log('No Withdraw button available.');
+    }
+  });
 }

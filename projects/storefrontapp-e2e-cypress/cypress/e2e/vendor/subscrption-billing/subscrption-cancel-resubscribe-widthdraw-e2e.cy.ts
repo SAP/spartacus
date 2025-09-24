@@ -1,19 +1,33 @@
-import { loginUser } from '../../../helpers/checkout-flow';
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
 import * as helper from '../../../helpers/vendor/subscrption-billing/subscrption';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 
 describe('Cancel Resubscribe Withdraw subscription billing Order Flow', () => {
-  beforeEach(() => {
-    cy.restoreLocalStorage();
+  before(() => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.visit('/powertools-spa/en/USD/login');
-    loginUser(helper.serviceUser);  // pass the user object here
+    loginUser(helper.serviceUser);
   });
 
-  it('should click on Manage Service for the first active subscription', () => {
-    helper.clickManageServiceForActiveSubscription();
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+    cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
   });
-  it('should cancel subscription if cancel button exists', () => {
-  helper.cancelSubscriptionIfPossible();
-});
+
+  it('should cancel only the first active subscription', () => {
+    helper.clickManageServiceForActiveSubscription();
+    helper.checkCancelButtonExists();
+    helper.cancelSubscriptionIfPossible();
+    helper.resubscribeSubscriptionIfPossible();
+    helper.widthdrawSubscriptionIfPossible();
+  });
+  afterEach(() => {
+    signOutUser();
+  });
 });

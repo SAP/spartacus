@@ -1,10 +1,8 @@
 import { Observable } from 'rxjs';
-import { CancellationDetails ,withdrawal} from '../model';
+import { CancellationDetails, withdrawal } from '../model';
 import { Injectable } from '@angular/core';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
 import { facadeFactory } from '@spartacus/core';
-
-
 
 @Injectable({
   providedIn: 'root',
@@ -25,15 +23,9 @@ export abstract class CancelSubscriptionFacade {
     CancellationDetails: CancellationDetails,
     code?: string
   ): Observable<unknown>;
-  abstract cancellationSubscriptionEffectiveDate(
-    code: string
-  ): Observable<any>;
+  abstract cancellationSubscriptionEffectiveDate(code: string): Observable<any>;
 
-
-
-  abstract reverseCancellation(
-    code?: string
-  ): Observable<unknown>;
+  abstract reverseCancellation(code?: string): Observable<unknown>;
   abstract withdrawal(
     withdrawal: withdrawal,
     code?: string

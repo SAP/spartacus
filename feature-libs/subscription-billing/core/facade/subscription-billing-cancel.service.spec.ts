@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { SubscriptionBillingCancelService } from './subscription-billing-cancel.service';
 import { RoutingService, UserIdService } from '@spartacus/core';
-import { CancelSubscriptionOrderConnector, SubscriptionBillingConnector } from '../connector';
+import {
+  CancelSubscriptionOrderConnector,
+  SubscriptionBillingConnector,
+} from '../connector';
 import {
   CancellationDetails,
   GetSubscriptionByCodeReloadEvent,
-  withdrawal
+  withdrawal,
 } from '@spartacus/subscription-billing/root';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -23,7 +26,7 @@ describe('SubscriptionBillingCancelService', () => {
   let service: SubscriptionBillingCancelService;
   let userIdService: jasmine.SpyObj<UserIdService>;
   let cancelConnector: jasmine.SpyObj<CancelSubscriptionOrderConnector>;
-let subscriptionBillingConnector: jasmine.SpyObj<SubscriptionBillingConnector>;
+  let subscriptionBillingConnector: jasmine.SpyObj<SubscriptionBillingConnector>;
   const userId = 'user123';
   const subscriptionCode = 'sub456';
 
@@ -33,132 +36,160 @@ let subscriptionBillingConnector: jasmine.SpyObj<SubscriptionBillingConnector>;
       'cancellationSubscriptionEffectiveDate',
       'cancelSubscription',
       'reversecancellation',
-      'withdrawal'
+      'withdrawal',
     ]);
-subscriptionBillingConnector = jasmine.createSpyObj('SubscriptionBillingConnector', ['check']);
+    subscriptionBillingConnector = jasmine.createSpyObj(
+      'SubscriptionBillingConnector',
+      ['check']
+    );
     TestBed.configureTestingModule({
       providers: [
         SubscriptionBillingCancelService,
         { provide: UserIdService, useValue: userIdService },
-        { provide: CancelSubscriptionOrderConnector, useValue: cancelConnector },
-        { provide: SubscriptionBillingConnector, useValue: subscriptionBillingConnector },
-      { provide: RoutingService, useValue: mockRoutingService },
-      { provide: Store, useValue: mockStore },
-      ]
+        {
+          provide: CancelSubscriptionOrderConnector,
+          useValue: cancelConnector,
+        },
+        {
+          provide: SubscriptionBillingConnector,
+          useValue: subscriptionBillingConnector,
+        },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: Store, useValue: mockStore },
+      ],
     });
 
     service = TestBed.inject(SubscriptionBillingCancelService);
   });
-it('should return subscription reload events', () => {
-  const events = service['getSubscriptionByCodeReloadEvents']();
-  expect(events).toEqual([GetSubscriptionByCodeReloadEvent]);
-});
+  it('should return subscription reload events', () => {
+    const events = service['getSubscriptionByCodeReloadEvents']();
+    expect(events).toEqual([GetSubscriptionByCodeReloadEvent]);
+  });
 
   describe('cancellationSubscriptionEffectiveDate', () => {
     it('should call connector with correct params', (done) => {
       userIdService.getUserId.and.returnValue(of(userId));
-      cancelConnector.cancellationSubscriptionEffectiveDate.and.returnValue(of('mockDate'));
+      cancelConnector.cancellationSubscriptionEffectiveDate.and.returnValue(
+        of('mockDate')
+      );
 
-      service.cancellationSubscriptionEffectiveDate(subscriptionCode).subscribe((res) => {
-        expect(cancelConnector.cancellationSubscriptionEffectiveDate)
-          .toHaveBeenCalledWith(userId, subscriptionCode);
-        expect(res).toBe('mockDate');
-        done();
+      service
+        .cancellationSubscriptionEffectiveDate(subscriptionCode)
+        .subscribe((res) => {
+          expect(
+            cancelConnector.cancellationSubscriptionEffectiveDate
+          ).toHaveBeenCalledWith(userId, subscriptionCode);
+          expect(res).toBe('mockDate');
+          done();
+        });
+    });
+    it('should emit error when userId or code is missing', (done) => {
+      userIdService.getUserId.and.returnValue(of(null as any));
+
+      service
+        .cancelSubscription({ subscriptionEndAt: '2026-01-01' }, undefined)
+        .subscribe({
+          next: () => {
+            fail('Expected an error, but got a value');
+            done();
+          },
+          error: (err) => {
+            expect(err.message).toBe(
+              'Cannot cancel subscription: missing user ID or subscription code.'
+            );
+            done();
+          },
+        });
+    });
+    it('should emit error when userId or subscriptionCode is missing in cancellationSubscriptionEffectiveDate', (done) => {
+      userIdService.getUserId.and.returnValue(of(null as any));
+
+      service.cancellationSubscriptionEffectiveDate(undefined).subscribe({
+        next: () => {
+          fail('Expected an error, but got a value');
+          done();
+        },
+        error: (err) => {
+          expect(err.message).toBe(
+            'Cannot fetch cancellation effective date: missing user ID or subscription code.'
+          );
+          done();
+        },
       });
     });
-it('should emit error when userId or code is missing', (done) => {
-  userIdService.getUserId.and.returnValue(of(null as any));
-
-  service.cancelSubscription({ subscriptionEndAt: '2026-01-01' }, undefined).subscribe({
-    next: () => {
-      fail('Expected an error, but got a value');
-      done();
-    },
-    error: (err) => {
-      expect(err.message).toBe('Cannot cancel subscription: missing user ID or subscription code.');
-      done();
-    }
-  });
-});
-it('should emit error when userId or subscriptionCode is missing in cancellationSubscriptionEffectiveDate', (done) => {
-  userIdService.getUserId.and.returnValue(of(null as any));
-
-  service.cancellationSubscriptionEffectiveDate(undefined).subscribe({
-    next: () => {
-      fail('Expected an error, but got a value');
-      done();
-    },
-    error: (err) => {
-      expect(err.message).toBe('Cannot fetch cancellation effective date: missing user ID or subscription code.');
-      done();
-    },
-  });
-});
-
   });
 
   describe('cancelSubscription', () => {
     const cancellationDetails: CancellationDetails = {
-    subscriptionEndAt: '2026-01-01',
+      subscriptionEndAt: '2026-01-01',
     };
 
     it('should call connector with correct params', (done) => {
       userIdService.getUserId.and.returnValue(of(userId));
       cancelConnector.cancelSubscription.and.returnValue(of('success'));
 
-      service.cancelSubscription(cancellationDetails, subscriptionCode).subscribe((res) => {
-        expect(cancelConnector.cancelSubscription)
-          .toHaveBeenCalledWith(userId, subscriptionCode, cancellationDetails);
-        expect(res).toBe('success');
+      service
+        .cancelSubscription(cancellationDetails, subscriptionCode)
+        .subscribe((res) => {
+          expect(cancelConnector.cancelSubscription).toHaveBeenCalledWith(
+            userId,
+            subscriptionCode,
+            cancellationDetails
+          );
+          expect(res).toBe('success');
+          done();
+        });
+    });
+
+    it('should emit error when userId or code is missing', (done) => {
+      userIdService.getUserId.and.returnValue(of(null as any));
+
+      service.cancelSubscription(cancellationDetails, undefined).subscribe({
+        next: () => {
+          fail('Expected an error, but got a value');
+          done();
+        },
+        error: (err) => {
+          expect(err.message).toBe(
+            'Cannot cancel subscription: missing user ID or subscription code.'
+          );
+          done();
+        },
+      });
+    });
+  });
+
+  describe('reverseCancellation', () => {
+    it('should call connector with correct params', (done) => {
+      userIdService.getUserId.and.returnValue(of(userId));
+      cancelConnector.reversecancellation.and.returnValue(of('reversed'));
+
+      service.reverseCancellation(subscriptionCode).subscribe((res) => {
+        expect(cancelConnector.reversecancellation).toHaveBeenCalledWith(
+          userId,
+          subscriptionCode
+        );
+        expect(res).toBe('reversed');
         done();
       });
     });
 
-it('should emit error when userId or code is missing', (done) => {
-  userIdService.getUserId.and.returnValue(of(null as any));
+    it('should emit error when userId or code is missing', (done) => {
+      userIdService.getUserId.and.returnValue(of(null as any));
 
-  service.cancelSubscription(cancellationDetails, undefined).subscribe({
-    next: () => {
-      fail('Expected an error, but got a value');
-      done();
-    },
-    error: (err) => {
-      expect(err.message).toBe('Cannot cancel subscription: missing user ID or subscription code.');
-      done();
-    }
-  });
-});
-
-  });
-
-  describe('reverseCancellation', () => {
- it('should call connector with correct params', (done) => {
-    userIdService.getUserId.and.returnValue(of(userId));
-    cancelConnector.reversecancellation.and.returnValue(of('reversed'));
-
-    service.reverseCancellation(subscriptionCode).subscribe((res) => {
-      expect(cancelConnector.reversecancellation)
-        .toHaveBeenCalledWith(userId, subscriptionCode);
-      expect(res).toBe('reversed');
-      done();
+      service.reverseCancellation(undefined).subscribe({
+        next: () => {
+          fail('Expected an error, but got a value');
+          done();
+        },
+        error: (err) => {
+          expect(err.message).toBe(
+            'Cannot reverse cancellation: missing user ID or subscription code.'
+          );
+          done();
+        },
+      });
     });
-  });
-
-it('should emit error when userId or code is missing', (done) => {
-  userIdService.getUserId.and.returnValue(of(null as any));
-
-  service.reverseCancellation(undefined).subscribe({
-    next: () => {
-      fail('Expected an error, but got a value');
-      done();
-    },
-    error: (err) => {
-      expect(err.message).toBe('Cannot reverse cancellation: missing user ID or subscription code.');
-      done();
-    }
-  });
-});
-
   });
 
   describe('withdrawal', () => {
@@ -174,27 +205,31 @@ it('should emit error when userId or code is missing', (done) => {
       cancelConnector.withdrawal.and.returnValue(of('withdrawn'));
 
       service.withdrawal(withdrawalData, subscriptionCode).subscribe((res) => {
-        expect(cancelConnector.withdrawal)
-          .toHaveBeenCalledWith(userId, subscriptionCode, withdrawalData);
+        expect(cancelConnector.withdrawal).toHaveBeenCalledWith(
+          userId,
+          subscriptionCode,
+          withdrawalData
+        );
         expect(res).toBe('withdrawn');
         done();
       });
     });
 
-   it('should emit error when userId or code is missing', (done) => {
-  userIdService.getUserId.and.returnValue(of(null as any));
+    it('should emit error when userId or code is missing', (done) => {
+      userIdService.getUserId.and.returnValue(of(null as any));
 
-  service.withdrawal(withdrawalData, undefined).subscribe({
-    next: () => {
-      fail('Expected an error, but got a value');
-      done();
-    },
-    error: (err) => {
-      expect(err.message).toBe('Cannot withdraw subscription: missing user ID or subscription code.');
-      done();
-    }
-  });
-});
-
+      service.withdrawal(withdrawalData, undefined).subscribe({
+        next: () => {
+          fail('Expected an error, but got a value');
+          done();
+        },
+        error: (err) => {
+          expect(err.message).toBe(
+            'Cannot withdraw subscription: missing user ID or subscription code.'
+          );
+          done();
+        },
+      });
+    });
   });
 });

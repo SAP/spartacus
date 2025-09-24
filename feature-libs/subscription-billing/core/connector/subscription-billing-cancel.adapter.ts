@@ -1,5 +1,7 @@
-
-import { CancellationDetails,withdrawal } from '@spartacus/subscription-billing/root';
+import {
+  CancellationDetails,
+  withdrawal,
+} from '@spartacus/subscription-billing/root';
 import { Observable } from 'rxjs';
 
 export abstract class CancelSubscriptionOrderAdapter {
@@ -13,13 +15,11 @@ export abstract class CancelSubscriptionOrderAdapter {
     cancellationDetails: CancellationDetails
   ): Observable<unknown>;
 
-
-
   abstract reverseCancellation(
     userId: string,
-    subscriptionCode: string,
-    // reverseCancellation: reverseCancellation
-  ): Observable<unknown>;
+    subscriptionCode: string
+  ) // reverseCancellation: reverseCancellation
+  : Observable<unknown>;
 
   abstract withdrawal(
     userId: string,
@@ -27,4 +27,3 @@ export abstract class CancelSubscriptionOrderAdapter {
     withdrawal: withdrawal
   ): Observable<unknown>;
 }
-

@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import {HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import {
   LoggerService,
   OccEndpointsService,
@@ -15,19 +14,19 @@ import {
 } from '@spartacus/core';
 import { CancelSubscriptionOrderAdapter } from '@spartacus/subscription-billing/core';
 import {
-  CancellationDetails,withdrawal,
+  CancellationDetails,
+  withdrawal,
 } from '@spartacus/subscription-billing/root';
 import { catchError, Observable } from 'rxjs';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
-export class OccCancelSubscriptionAdapter implements CancelSubscriptionOrderAdapter
+export class OccCancelSubscriptionAdapter
+  implements CancelSubscriptionOrderAdapter
 {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);
-
-
 
   cancelSubscription(
     userId: string,
@@ -53,20 +52,21 @@ export class OccCancelSubscriptionAdapter implements CancelSubscriptionOrderAdap
     userId: string,
     subscriptionCode: string
   ): Observable<any> {
-    const url = this.occEndpoints.buildUrl('cancellationSubscriptionEffectiveDate', {
-      urlParams: {
-        userId,
-        subscriptionCode,
-      },
-    });
+    const url = this.occEndpoints.buildUrl(
+      'cancellationSubscriptionEffectiveDate',
+      {
+        urlParams: {
+          userId,
+          subscriptionCode,
+        },
+      }
+    );
     return this.http.get(url).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
-
-
 
   withdrawal(
     userId: string,
@@ -90,7 +90,7 @@ export class OccCancelSubscriptionAdapter implements CancelSubscriptionOrderAdap
   }
   reverseCancellation(
     userId: string,
-    subscriptionCode: string,
+    subscriptionCode: string
   ): Observable<any> {
     const url = this.occEndpoints.buildUrl('reverseCancellation', {
       urlParams: {
@@ -101,14 +101,10 @@ export class OccCancelSubscriptionAdapter implements CancelSubscriptionOrderAdap
     const headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
-    return this.http.post(url, null,  { headers }).pipe(
+    return this.http.post(url, null, { headers }).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
 }
-
-
-
-

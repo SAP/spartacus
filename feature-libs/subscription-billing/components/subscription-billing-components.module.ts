@@ -19,7 +19,8 @@ import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.conf
     SubscriptionProductPriceComponent,
     SubscriptionProductUsageChargeComponent,
   ],
-  providers: [provideDefaultConfig(subscriptionCancelPopupConfig),
+  providers: [
+    provideDefaultConfig(subscriptionCancelPopupConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         SubscriptionHistoryComponent: {
@@ -33,7 +34,7 @@ import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.conf
           component: SubscriptionDetailsComponent,
           guards: [AuthGuard],
         },
-         SubscriptionCancelComponent: {
+        SubscriptionCancelComponent: {
           component: SubscriptionCancelComponent,
           guards: [AuthGuard],
         },
@@ -42,4 +43,3 @@ import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.conf
   ],
 })
 export class SubscriptionBillingComponentsModule {}
-

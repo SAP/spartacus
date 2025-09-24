@@ -32,10 +32,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
-import {
-  toSignal,
-  takeUntilDestroyed,
-} from '@angular/core/rxjs-interop';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cx-subscription-cancel',
@@ -71,7 +68,9 @@ export class SubscriptionCancelComponent {
   );
 
   mode = computed(() => this.subscriptionDetailSignal()?.mode ?? 'cancel');
-  subscriptionCode = computed(() => this.subscriptionDetailSignal()?.code ?? '');
+  subscriptionCode = computed(
+    () => this.subscriptionDetailSignal()?.code ?? ''
+  );
   cancelData = signal<CancelData | undefined>(undefined);
 
   iconTypes = ICON_TYPE;
@@ -82,28 +81,28 @@ export class SubscriptionCancelComponent {
     autofocus: 'button',
     focusOnEscape: true,
   };
-constructor() {
-  // === Reactive loader for cancel data ===
-  effect(() => {
-    const mode = this.mode();
-    const code = this.subscriptionCode();
+  constructor() {
+    // === Reactive loader for cancel data ===
+    effect(() => {
+      const mode = this.mode();
+      const code = this.subscriptionCode();
 
-    if (mode === 'cancel' && code) {
-      this.cancelFacade
-        .cancellationSubscriptionEffectiveDate(code)
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          catchError(() => {
-            this.onError();
-            return of(undefined);
-          })
-        )
-        .subscribe((data) => {
-          this.cancelData.set(data);
-        });
-    }
-  });
-}
+      if (mode === 'cancel' && code) {
+        this.cancelFacade
+          .cancellationSubscriptionEffectiveDate(code)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            catchError(() => {
+              this.onError();
+              return of(undefined);
+            })
+          )
+          .subscribe((data) => {
+            this.cancelData.set(data);
+          });
+      }
+    });
+  }
   // === Confirm button handler ===
   onConfirm(): void {
     const mode = this.mode();
@@ -129,31 +128,24 @@ constructor() {
 
         this.cancelFacade
           .cancelSubscription(payload, code)
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            this.handleError()
-          )
+          .pipe(takeUntilDestroyed(this.destroyRef), this.handleError())
           .subscribe(this.handleSuccess('cancelSubscription.cancelSuccess'));
       },
 
       withdraw: () => {
         this.cancelFacade
           .withdrawal({ subscriptionId: detail.id }, code)
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            this.handleError()
-          )
+          .pipe(takeUntilDestroyed(this.destroyRef), this.handleError())
           .subscribe(this.handleSuccess('cancelSubscription.withdrawSuccess'));
       },
 
       resubscribe: () => {
         this.cancelFacade
           .reverseCancellation(code)
-          .pipe(
-            takeUntilDestroyed(this.destroyRef),
-            this.handleError()
-          )
-          .subscribe(this.handleSuccess('cancelSubscription.reverseCancellationSuccess'));
+          .pipe(takeUntilDestroyed(this.destroyRef), this.handleError())
+          .subscribe(
+            this.handleSuccess('cancelSubscription.reverseCancellationSuccess')
+          );
       },
     };
 
@@ -165,7 +157,7 @@ constructor() {
     return catchError(() => {
       this.onDialogClose('error');
       this.onError();
-     return of(undefined);;
+      return of(undefined);
     });
   }
 

@@ -39,9 +39,8 @@ export interface Pagination {
   hasPrevious?: boolean;
 }
 
-
 //Cancel-widthdraw-resubscribe
-export interface CancelData{
+export interface CancelData {
   subscriptionEndAt?: string;
 }
 export interface CancellationDetails {

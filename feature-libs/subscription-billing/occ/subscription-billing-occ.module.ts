@@ -7,8 +7,14 @@
 import { NgModule } from '@angular/core';
 import { defaultOccSubscriptionBillingConfig } from './config/default-occ-subscription-billing-config';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OccSubscriptionBillingAdapter,OccCancelSubscriptionAdapter } from './adapters';
-import { CancelSubscriptionOrderAdapter, SubscriptionBillingAdapter } from '@spartacus/subscription-billing/core';
+import {
+  OccSubscriptionBillingAdapter,
+  OccCancelSubscriptionAdapter,
+} from './adapters';
+import {
+  CancelSubscriptionOrderAdapter,
+  SubscriptionBillingAdapter,
+} from '@spartacus/subscription-billing/core';
 
 @NgModule({
   providers: [

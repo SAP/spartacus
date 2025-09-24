@@ -44,19 +44,19 @@
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
     "orderCode": "Order Code:"
   },
-    "cancelSubscription": {
+  "cancelSubscription": {
     "cancel": "Cancel",
     "confirm": "Confirm",
     "cancelSuccess": "The subscription has been cancelled sucessfully.",
     "withdrawSuccess": "The subscription has been withdrawn successfully.",
-    "reverseCancellationSuccess": "The subscription has been Withdraw sucessfully.",
+    "reverseCancellationSuccess": "The subscription has been Reverse sucessfully.",
     "unknownError": "An unknown error occurred. Please contact support.",
-"askConfirm": "{{ action }} your subscription?",
+    "askConfirm": "{{ action }} your subscription?",
     "closeModal": "Close modal",
     "loseSubscription": "If you confirm, you will lose access to the subscription features on {{ date }}. You won't be charged again.",
     "changeMind": "If you change your mind, you can reactivate your subscription before the end of the billing period.",
-"withdrawConfirm": "By confirming, you are ending your trial period.You will lose access to subscription features on by the end of today.No additional charges apply.",
+    "withdrawConfirm": "By confirming, you are ending your trial period.You will lose access to subscription features on by the end of today.No additional charges apply.",
     "resubscribeConfirm": "By confirming, you are renewing your subscription and will gain access to our subscription features. ",
-  "changeMindresubscribe": "You can manage your subscription anytime later."
+    "changeMindresubscribe": "You can manage your subscription anytime later."
   }
 }

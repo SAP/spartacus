@@ -9,25 +9,31 @@ import {
   GetSubscriptionByCodeReloadEvent,
   CancelSubscriptionFacade,
   CancellationDetails,
-  withdrawal
+  withdrawal,
 } from '@spartacus/subscription-billing/root';
-import { Observable,switchMap, take, combineLatest, of } from 'rxjs';
+import { Observable, switchMap, take, combineLatest, of } from 'rxjs';
 import { SubscriptionBillingConnector } from '../connector';
 import { CancelSubscriptionOrderConnector } from '../connector';
 
 @Injectable()
-export class SubscriptionBillingCancelService implements CancelSubscriptionFacade {
+export class SubscriptionBillingCancelService
+  implements CancelSubscriptionFacade
+{
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
   protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
-  protected cancelSubscriptionOrderConnector = inject(CancelSubscriptionOrderConnector);
+  protected cancelSubscriptionOrderConnector = inject(
+    CancelSubscriptionOrderConnector
+  );
   protected routingService = inject(RoutingService);
 
   protected getSubscriptionByCodeReloadEvents(): QueryNotifier[] {
     return [GetSubscriptionByCodeReloadEvent];
   }
 
-  cancellationSubscriptionEffectiveDate(subscriptionCode?: string): Observable<unknown> {
+  cancellationSubscriptionEffectiveDate(
+    subscriptionCode?: string
+  ): Observable<unknown> {
     return combineLatest([
       this.userIdService.getUserId(),
       of(subscriptionCode),
@@ -35,9 +41,14 @@ export class SubscriptionBillingCancelService implements CancelSubscriptionFacad
       take(1),
       switchMap(([userId, code]) => {
         if (!userId || !code) {
-          throw new Error('Cannot fetch cancellation effective date: missing user ID or subscription code.');
+          throw new Error(
+            'Cannot fetch cancellation effective date: missing user ID or subscription code.'
+          );
         }
-        return this.cancelSubscriptionOrderConnector.cancellationSubscriptionEffectiveDate(userId, code);
+        return this.cancelSubscriptionOrderConnector.cancellationSubscriptionEffectiveDate(
+          userId,
+          code
+        );
       })
     );
   }
@@ -53,13 +64,18 @@ export class SubscriptionBillingCancelService implements CancelSubscriptionFacad
       take(1),
       switchMap(([userId, code]) => {
         if (!userId || !code) {
-          throw new Error('Cannot cancel subscription: missing user ID or subscription code.');
+          throw new Error(
+            'Cannot cancel subscription: missing user ID or subscription code.'
+          );
         }
-        return this.cancelSubscriptionOrderConnector.cancelSubscription(userId, code, cancellationDetails);
+        return this.cancelSubscriptionOrderConnector.cancelSubscription(
+          userId,
+          code,
+          cancellationDetails
+        );
       })
     );
   }
-
 
   reverseCancellation(
     // reverseCancellation: reverseCancellation,
@@ -72,9 +88,14 @@ export class SubscriptionBillingCancelService implements CancelSubscriptionFacad
       take(1),
       switchMap(([userId, code]) => {
         if (!userId || !code) {
-          throw new Error('Cannot reverse cancellation: missing user ID or subscription code.');
+          throw new Error(
+            'Cannot reverse cancellation: missing user ID or subscription code.'
+          );
         }
-        return this.cancelSubscriptionOrderConnector.reversecancellation(userId, code);
+        return this.cancelSubscriptionOrderConnector.reversecancellation(
+          userId,
+          code
+        );
       })
     );
   }
@@ -90,12 +111,16 @@ export class SubscriptionBillingCancelService implements CancelSubscriptionFacad
       take(1),
       switchMap(([userId, code]) => {
         if (!userId || !code) {
-          throw new Error('Cannot withdraw subscription: missing user ID or subscription code.');
+          throw new Error(
+            'Cannot withdraw subscription: missing user ID or subscription code.'
+          );
         }
-        return this.cancelSubscriptionOrderConnector.withdrawal(userId, code, withdrawal);
+        return this.cancelSubscriptionOrderConnector.withdrawal(
+          userId,
+          code,
+          withdrawal
+        );
       })
     );
   }
-
-
 }

@@ -1,39 +1,40 @@
 %cx-subscription-cancel {
-  .modal-dialog, cx-claim-dialog .cx-coupon-dialog {
+  .modal-dialog,
+  cx-claim-dialog .cx-coupon-dialog {
     pointer-events: auto;
-}
-.cx-dialog-header-cancel{
-      padding-bottom: 10px;
-      button{
+  }
+  .cx-dialog-header-cancel {
+    padding-bottom: 10px;
+    button {
+      align-items: center;
+      justify-content: center;
+      height: 26px;
+      width: 25px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      span small {
+        display: flex;
         align-items: center;
-    justify-content: center;
-    height: 26px;
-    width: 25px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    span small{
-          display: flex;
-    align-items: center;
-    justify-content: center;
-    }
+        justify-content: center;
       }
-}
+    }
+  }
 
   .cancel-card {
     margin-top: 2rem;
-      background-color: var(--cx-color-background);
-      min-height: 256px;
-      border: 1px solid #D3D6DB;
-      border-radius: 10px;
-      padding: 1rem;
+    background-color: var(--cx-color-background);
+    min-height: 256px;
+    border: 1px solid #d3d6db;
+    border-radius: 10px;
+    padding: 1rem;
 
     .cx-other-actions {
       display: flex;
       gap: 0.5rem;
       margin-top: 1rem;
-    
+
       button {
         flex: 1;
         font-weight: normal;

@@ -10,20 +10,22 @@
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header cx-dialog-header-cancel">
       <div id="dialogTitle" class="cx-dialog-title modal-title">
-<h4>
-  <strong>
-    {{
-      'cancelSubscription.askConfirm' | cxTranslate: {
-        action:
-          mode() === 'withdraw'
-            ? 'Withdraw'
-            : mode() === 'resubscribe'
-            ? 'Resubscribe'
-            : 'Cancel'
-      }
-    }}
-  </strong>
-</h4>
+        <h4>
+          <strong>
+            {{
+              'cancelSubscription.askConfirm'
+                | cxTranslate
+                  : {
+                      action:
+                        mode() === 'withdraw'
+                          ? 'Withdraw'
+                          : mode() === 'resubscribe'
+                            ? 'Resubscribe'
+                            : 'Cancel',
+                    }
+            }}
+          </strong>
+        </h4>
       </div>
       <button
         type="button"
@@ -31,71 +33,71 @@
         attr.aria-label="{{ 'cancelSubscription.closeModal' | cxTranslate }}"
         (click)="onDialogClose('Cross click')"
       >
-        <span><small><cx-icon [type]="iconTypes.CLOSE"></cx-icon></small></span>
+        <span
+          ><small><cx-icon [type]="iconTypes.CLOSE"></cx-icon></small
+        ></span>
       </button>
     </div>
 
     <!-- Modal Body -->
-<!-- Modal Body -->
-<div class="cx-dialog-body modal-body">
-  <div class="row">
-    <div class="col-md-12">
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- CANCEL MODE: show cancelData and spinner -->
+          <ng-container *ngIf="mode() === 'cancel'">
+            <ng-container *ngIf="cancelData(); else loading">
+              <p *ngIf="cancelData()?.subscriptionEndAt">
+                {{
+                  'cancelSubscription.loseSubscription'
+                    | cxTranslate
+                      : { date: getFormattedCancelValidTillDate(cancelData()) }
+                }}
+              </p>
+              <p>
+                {{ 'cancelSubscription.changeMind' | cxTranslate }}
+              </p>
+            </ng-container>
+          </ng-container>
 
-      <!-- CANCEL MODE: show cancelData and spinner -->
-      <ng-container *ngIf="mode() === 'cancel'">
-        <ng-container *ngIf="cancelData(); else loading">
-          <p *ngIf="cancelData()?.subscriptionEndAt">
-            {{
-              'cancelSubscription.loseSubscription'
-                | cxTranslate: { date: getFormattedCancelValidTillDate(cancelData()) }
-            }}
-          </p>
-          <p>
-            {{ 'cancelSubscription.changeMind' | cxTranslate }}
-          </p>
-        </ng-container>
-      </ng-container>
+          <!-- WITHDRAW MODE: simpler message -->
+          <ng-container *ngIf="mode() === 'withdraw'">
+            <p>{{ 'cancelSubscription.withdrawConfirm' | cxTranslate }}</p>
+          </ng-container>
 
-      <!-- WITHDRAW MODE: simpler message -->
-      <ng-container *ngIf="mode() === 'withdraw'">
-        <p>{{ 'cancelSubscription.withdrawConfirm' | cxTranslate }}</p>
-      </ng-container>
-
-<ng-container *ngIf="mode() === 'resubscribe'">
-  <p>{{ 'cancelSubscription.resubscribeConfirm' | cxTranslate }}</p>
- </ng-container>
-      <!-- Common footer for both -->
-      <div class="row justify-content-end mt-3">
-        <div class="cx-quote col-sm-12 col-md-6 p-1">
-          <button
-            type="button"
-            class="btn btn-block btn-secondary"
-            (click)="onDialogClose('Cancel click')"
-          >
-            {{ 'cancelSubscription.cancel' | cxTranslate }}
-          </button>
+          <ng-container *ngIf="mode() === 'resubscribe'">
+            <p>{{ 'cancelSubscription.resubscribeConfirm' | cxTranslate }}</p>
+          </ng-container>
+          <!-- Common footer for both -->
+          <div class="row justify-content-end mt-3">
+            <div class="cx-quote col-sm-12 col-md-6 p-1">
+              <button
+                type="button"
+                class="btn btn-block btn-secondary"
+                (click)="onDialogClose('Cancel click')"
+              >
+                {{ 'cancelSubscription.cancel' | cxTranslate }}
+              </button>
+            </div>
+            <div class="cx-quote col-sm-12 col-md-6 p-1">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                (click)="onConfirm()"
+              >
+                {{ 'cancelSubscription.confirm' | cxTranslate }}
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="cx-quote col-sm-12 col-md-6 p-1">
-          <button
-            type="submit"
-            class="btn btn-primary btn-block"
-            (click)="onConfirm()"
-          >
-            {{ 'cancelSubscription.confirm' | cxTranslate }}
-          </button>
-        </div>
+
+        <!-- Loading spinner only if mode is cancel -->
+        <ng-template #loading>
+          <div class="d-flex justify-content-center p-4">
+            <cx-spinner></cx-spinner>
+          </div>
+        </ng-template>
       </div>
-
     </div>
-
-    <!-- Loading spinner only if mode is cancel -->
-    <ng-template #loading>
-      <div class="d-flex justify-content-center p-4">
-        <cx-spinner></cx-spinner>
-      </div>
-    </ng-template>
-  </div>
-</div>
-
   </div>
 </div>

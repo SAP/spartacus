@@ -1,8 +1,22 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { SubscriptionCancelComponent } from './subscription-cancel.component';
-import {Observable, of, throwError } from 'rxjs';
-import { CancelSubscriptionFacade, CancelData } from '@spartacus/subscription-billing/root';
-import { TranslationService, GlobalMessageService, GlobalMessageType, EventService, RoutingService } from '@spartacus/core';
+import { Observable, of, throwError } from 'rxjs';
+import {
+  CancelSubscriptionFacade,
+  CancelData,
+} from '@spartacus/subscription-billing/root';
+import {
+  TranslationService,
+  GlobalMessageService,
+  GlobalMessageType,
+  EventService,
+  RoutingService,
+} from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -19,7 +33,7 @@ describe('SubscriptionCancelComponent', () => {
       return of('test');
     }
   }
-    const mockRoutingService = {
+  const mockRoutingService = {
     go: jasmine.createSpy('go'),
   };
   let mockCancelFacade: jasmine.SpyObj<CancelSubscriptionFacade>;
@@ -27,24 +41,31 @@ describe('SubscriptionCancelComponent', () => {
   let mockLaunchDialogService: jasmine.SpyObj<LaunchDialogService>;
   let mockEventService: jasmine.SpyObj<EventService>;
 
-beforeEach(async () => {
+  beforeEach(async () => {
     mockCancelFacade = jasmine.createSpyObj('CancelSubscriptionFacade', [
       'cancellationSubscriptionEffectiveDate',
       'cancelSubscription',
-       'withdrawal',
-  'reverseCancellation',
+      'withdrawal',
+      'reverseCancellation',
     ]);
 
+    mockCancelFacade.cancellationSubscriptionEffectiveDate.and.returnValue(
+      of({ subscriptionEndAt: '2025-12-31' })
+    );
+    mockCancelFacade.cancelSubscription.and.returnValue(of({}));
+    mockCancelFacade.withdrawal.and.returnValue(of({}));
+    mockCancelFacade.reverseCancellation.and.returnValue(of({}));
+    mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
+      'add',
+    ]);
 
-    mockCancelFacade.cancellationSubscriptionEffectiveDate.and.returnValue(of({ subscriptionEndAt: '2025-12-31' }));
-  mockCancelFacade.cancelSubscription.and.returnValue(of({}));
-  mockCancelFacade.withdrawal.and.returnValue(of({}));
-  mockCancelFacade.reverseCancellation.and.returnValue(of({}));
-    mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', ['add']);
-
-    mockLaunchDialogService = jasmine.createSpyObj('LaunchDialogService', ['closeDialog'], {
-      data$: of({ id: 'subId', code: 'ABC123', mode: 'cancel' }),
-    });
+    mockLaunchDialogService = jasmine.createSpyObj(
+      'LaunchDialogService',
+      ['closeDialog'],
+      {
+        data$: of({ id: 'subId', code: 'ABC123', mode: 'cancel' }),
+      }
+    );
 
     mockLaunchDialogService = jasmine.createSpyObj(
       'LaunchDialogService',
@@ -75,7 +96,7 @@ beforeEach(async () => {
 
     fixture = TestBed.createComponent(SubscriptionCancelComponent);
     component = fixture.componentInstance;
-    // Signals setup
+
     (component as any).cancelData = signal(mockCancelData);
     (component as any).subscriptionDetailSignal = signal({
       id: 'subId',
@@ -102,27 +123,26 @@ beforeEach(async () => {
       );
     });
 
-it('should handle cancel subscription API error', fakeAsync(() => {
-  mockCancelFacade.cancelSubscription.and.returnValue(
-    throwError(() => new Error('Cancel Error'))
-  );
-  component.onConfirm();
-  tick();
-  expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-    { key: 'cancelSubscription.unknownError' },
-    GlobalMessageType.MSG_TYPE_ERROR
-  );
-  expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
-}));
-
+    it('should handle cancel subscription API error', fakeAsync(() => {
+      mockCancelFacade.cancelSubscription.and.returnValue(
+        throwError(() => new Error('Cancel Error'))
+      );
+      component.onConfirm();
+      tick();
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'cancelSubscription.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
+    }));
 
     it('should confirm withdrawal successfully', () => {
       mockCancelFacade.withdrawal.and.returnValue(of({}));
       (component as any).subscriptionDetailSignal.set({
-    id: 'subId',
-    code: 'ABC123',
-    mode: 'withdraw',
-  });
+        id: 'subId',
+        code: 'ABC123',
+        mode: 'withdraw',
+      });
 
       component.onConfirm();
 
@@ -156,7 +176,7 @@ it('should handle cancel subscription API error', fakeAsync(() => {
     it('should confirm resubscribe successfully', () => {
       mockCancelFacade.reverseCancellation.and.returnValue(of({}));
 
-     (component as any).subscriptionDetailSignal.set({
+      (component as any).subscriptionDetailSignal.set({
         id: 'subId',
         code: 'ABC123',
         mode: 'resubscribe',
@@ -178,46 +198,42 @@ it('should handle cancel subscription API error', fakeAsync(() => {
       expect(mockGlobalMessageService.add).toHaveBeenCalled();
     });
 
-it('should show error when subscription detail is missing', () => {
-  (component as any).subscriptionDetailSignal.set(undefined);
+    it('should show error when subscription detail is missing', () => {
+      (component as any).subscriptionDetailSignal.set(undefined);
 
-  component.onConfirm();
+      component.onConfirm();
 
-  expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-    { key: 'cancelSubscription.unknownError' },
-    GlobalMessageType.MSG_TYPE_ERROR
-  );
-});
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'cancelSubscription.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
 
-it('should return empty string if cancelData has no subscriptionEndAt', () => {
-  const result = component.getFormattedCancelValidTillDate(undefined);
-  expect(result).toBe('');
-});
+    it('should return empty string if cancelData has no subscriptionEndAt', () => {
+      const result = component.getFormattedCancelValidTillDate(undefined);
+      expect(result).toBe('');
+    });
 
+    it('should handle error from cancellationSubscriptionEffectiveDate in effect', fakeAsync(() => {
+      mockCancelFacade.cancellationSubscriptionEffectiveDate.and.returnValue(
+        throwError(() => new Error('Load Cancel Data Error'))
+      );
 
-it('should handle error from cancellationSubscriptionEffectiveDate in effect', fakeAsync(() => {
-  // Override with error return
-  mockCancelFacade.cancellationSubscriptionEffectiveDate.and.returnValue(
-    throwError(() => new Error('Load Cancel Data Error'))
-  );
+      fixture = TestBed.createComponent(SubscriptionCancelComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      tick();
 
-  // Recreate the component so it picks up the new error return
-  fixture = TestBed.createComponent(SubscriptionCancelComponent);
-  component = fixture.componentInstance;
-  fixture.detectChanges();
-  tick();
-
-  expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-    { key: 'cancelSubscription.unknownError' },
-    GlobalMessageType.MSG_TYPE_ERROR
-  );
-}));
-it('should return subscriptionEndAt string if it is an invalid date', () => {
-  const result = component.getFormattedCancelValidTillDate({
-    subscriptionEndAt: 'not-a-valid-date',
-  });
-  expect(result).toBe('not-a-valid-date');
-});
-
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'cancelSubscription.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }));
+    it('should return subscriptionEndAt string if it is an invalid date', () => {
+      const result = component.getFormattedCancelValidTillDate({
+        subscriptionEndAt: 'not-a-valid-date',
+      });
+      expect(result).toBe('not-a-valid-date');
+    });
   });
 });
