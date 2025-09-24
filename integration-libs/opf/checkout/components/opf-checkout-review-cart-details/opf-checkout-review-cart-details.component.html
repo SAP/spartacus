@@ -23,7 +23,7 @@
     <div class="cx-items-to-ship-label">
       {{ 'opfCheckout.itemsToBeShipped' | cxTranslate }}
     </div>
-    <div class="cx-opf-review-card-wrapper">
+    <div class="cx-opf-review-card-wrapper" *ngIf="isB2C">
       <cx-opf-checkout-review-card
         *ngIf="deliveryAddress$ | async as deliveryAddress"
         [cardContent$]="getDeliveryAddressCard(deliveryAddress)"

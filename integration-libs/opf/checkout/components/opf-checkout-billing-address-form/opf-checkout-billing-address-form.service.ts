@@ -70,13 +70,20 @@ export class OpfCheckoutBillingAddressFormService {
   billingAddress$ = this._$billingAddressSub.asObservable();
   isLoadingAddress$ = this._$isLoadingAddress.asObservable();
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
+  protected readonly _$paymentOptionsDisabled = new BehaviorSubject(false);
+  paymentOptionsDisabled$ = this._$paymentOptionsDisabled.asObservable();
 
   get pickupNoDefaultAddress$(): Observable<void> {
     return this._noDefaultAddressFoundForPickupMode$.asObservable();
   }
+
+  setPaymentOptionsDisabled(value: boolean): void {
+    this._$paymentOptionsDisabled.next(value);
+  }
   protected handleNoDefaultAddress(): void {
     this.setIsSameAsDeliveryValue(false);
     this._noDefaultAddressFoundForPickupMode$.next();
+     this.setPaymentOptionsDisabled(true);
   }
 
   getCountries(): Observable<Country[]> {
@@ -104,7 +111,10 @@ export class OpfCheckoutBillingAddressFormService {
           }
         }),
         filter((addr): addr is Address => !!addr),
-        switchMap((defaultAddress) => this.setBillingAddress(defaultAddress)),
+        switchMap((defaultAddress) => {
+           this.setPaymentOptionsDisabled(false);
+          return this.setBillingAddress(defaultAddress);
+        }),
         catchError(() => {
           this.globalMessageService.add(
             { key: 'opfCheckout.errors.loadDefaultAddress' },

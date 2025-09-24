@@ -97,7 +97,14 @@ export class OpfCheckoutBillingAddressFormComponent
       return;
     }
 
-    this.service.setBillingAddress(address).subscribe();
+    this.service.setBillingAddress(address).subscribe({
+    next: () => {
+      this.service.setPaymentOptionsDisabled(false);
+    },
+    error: () => {
+      this.service.setPaymentOptionsDisabled(true);
+    }
+  });
   }
 
   ngOnDestroy(): void {

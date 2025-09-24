@@ -48,7 +48,7 @@
           [addressData]="getAddressData(addressData.billingAddress)"
           class="cx-form"
           [showTitleCode]="true"
-          [showCancelBtn]="true"
+          [showCancelBtn]="!(service.paymentOptionsDisabled$ | async)"
           actionBtnLabel="{{ 'common.save' | cxTranslate }}"
           cancelBtnLabel="{{ 'common.cancel' | cxTranslate }}"
           (submitAddress)="onSubmitAddress($event)"

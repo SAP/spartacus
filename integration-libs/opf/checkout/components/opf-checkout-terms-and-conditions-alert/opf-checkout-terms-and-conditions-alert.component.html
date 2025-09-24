@@ -1,4 +1,4 @@
-<div *ngIf="isVisible" class="cx-opf-checkout-terms-and-conditions-alert">
+<div *ngIf="isVisible && !(paymentDisabled$ | async)" class="cx-opf-checkout-terms-and-conditions-alert">
   <div class="alert alert-info">
     <span class="alert-icon" aria-hidden="true">
       <cx-icon [type]="iconTypes.INFO"></cx-icon>

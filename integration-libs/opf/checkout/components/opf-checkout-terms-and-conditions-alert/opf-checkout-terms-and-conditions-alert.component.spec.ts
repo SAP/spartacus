@@ -1,6 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-terms-and-conditions-alert.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -24,14 +27,24 @@ const alertSelector = '.cx-opf-checkout-terms-and-conditions-alert';
 describe('OpfCheckoutTermsAndConditionsAlertComponent', () => {
   let fixture: ComponentFixture<OpfCheckoutTermsAndConditionsAlertComponent>;
   let component: OpfCheckoutTermsAndConditionsAlertComponent;
+  let mockBillingAddressFormService: Partial<OpfCheckoutBillingAddressFormService>;
 
   beforeEach(() => {
+    mockBillingAddressFormService = {
+      paymentOptionsDisabled$: of(false),
+    };
     TestBed.configureTestingModule({
       declarations: [
         OpfCheckoutTermsAndConditionsAlertComponent,
         MockIconComponent,
         MockTranslatePipe,
       ],
+      providers: [
+         {
+          provide: OpfCheckoutBillingAddressFormService,
+          useValue: mockBillingAddressFormService,
+        },
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(
