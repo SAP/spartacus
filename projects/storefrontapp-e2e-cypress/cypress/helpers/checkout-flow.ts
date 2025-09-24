@@ -121,9 +121,7 @@ export function registerUser(
 
   register(sampleUser, giveRegistrationConsent);
 
-  cy.whenJDK17(() => {
-    cy.get('cx-breadcrumb').contains('Login');
-  });
+  cy.get('cx-breadcrumb').contains('Login');
   return sampleUser;
 }
 
