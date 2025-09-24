@@ -45,7 +45,6 @@ if (environment.epdVisualization) {
     provideConfig(<AuthConfig>{
       authentication: {
         client_id: 'mobile_android_public_b2b',
-        client_secret: 'secret',
       },
     }),
     provideConfig(<PWAModuleConfig>{
