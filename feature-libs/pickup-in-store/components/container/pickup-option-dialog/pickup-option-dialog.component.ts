@@ -59,13 +59,9 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
 
   get focusConfig(): FocusConfig {
-    const useTrapTab = this.featureConfigService.isEnabled(
-      'a11yUseTrapTabInsteadOfTrapInDialogs'
-    );
-
     return {
-      trap: !useTrapTab,
-      trapTabOnly: useTrapTab,
+      trap: false,
+      trapTabOnly: true,
       block: true,
       autofocus: 'input',
       focusOnEscape: true,

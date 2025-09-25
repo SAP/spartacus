@@ -112,44 +112,42 @@ body.modal-open {
       margin-bottom: 1rem;
     }
 
-    @include forFeature('a11yTabComponent') {
-      cx-tab {
-        .tab-btn {
-          @include type('6');
-          background: none;
+    cx-tab {
+      .tab-btn {
+        @include type('6');
+        background: none;
 
-          &:after {
-            display: none;
-          }
-          border-bottom: 1px solid var(--cx-color-medium);
-          border-top: none;
-          padding-top: 1rem;
-          height: unset;
+        &:after {
+          display: none;
+        }
+        border-bottom: 1px solid var(--cx-color-medium);
+        border-top: none;
+        padding-top: 1rem;
+        height: unset;
 
-          &:hover,
-          &:focus {
-            color: var(--cx-color-primary);
-            .tab-icon {
-              color: var(--cx-color-primary);
-            }
-          }
-
+        &:hover,
+        &:focus {
+          color: var(--cx-color-primary);
           .tab-icon {
-            font-size: 25px;
-            font-weight: normal;
-            bottom: 6px;
+            color: var(--cx-color-primary);
           }
         }
 
-        .accordian {
-          div {
-            padding: 0;
-          }
+        .tab-icon {
+          font-size: 25px;
+          font-weight: normal;
+          bottom: 6px;
+        }
+      }
 
-          cx-tab-panel {
-            .active {
-              padding: 8px 0;
-            }
+      .accordian {
+        div {
+          padding: 0;
+        }
+
+        cx-tab-panel {
+          .active {
+            padding: 8px 0;
           }
         }
       }

@@ -8,7 +8,6 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
 import { ErrorAction } from './error-action';
 import { ErrorActionService } from './error-action.service';
 
@@ -20,20 +19,13 @@ import { ErrorActionService } from './error-action.service';
 export class CxErrorHandlerEffect {
   protected actions$ = inject(Actions);
   protected errorActionService = inject(ErrorActionService);
-  private featureConfigService = inject(FeatureConfigService);
 
   error$: Observable<ErrorAction> = createEffect(
     () =>
       this.actions$.pipe(
         filter(this.errorActionService.isErrorAction),
         tap((errorAction: ErrorAction) => {
-          if (
-            this.featureConfigService.isEnabled(
-              'ssrStrictErrorHandlingForHttpAndNgrx'
-            )
-          ) {
-            this.errorActionService.handle(errorAction);
-          }
+          this.errorActionService.handle(errorAction);
         })
       ),
     { dispatch: false }

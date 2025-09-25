@@ -453,4 +453,23 @@ describe('AuthService', () => {
       });
     });
   });
+
+  describe('isUsingASMClient()', () => {
+    it('should return isUsingASMClient$ observable', () => {
+      expect(service.isUsingASMClient()).toBe(service['isUsingASMClient$']);
+    });
+  });
+
+  describe('updateIsUsingASMClient()', () => {
+    it('should update isUsingASMClient$ observable value', (done) => {
+      service.updateIsUsingASMClient(true);
+      service
+        .isUsingASMClient()
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBe(true);
+          done();
+        });
+    });
+  });
 });

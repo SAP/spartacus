@@ -10,6 +10,11 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
+import {
+  getASMB2BCustomer2,
+  getASMB2CCustomer,
+  getB2CAgent,
+} from '../sample-data/asm-flow';
 import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import {
   addToCartWithProducts,
@@ -41,8 +46,9 @@ export const invalidUser: SampleUser = {
     'john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith@test.com',
 };
 
-const asmForB2CCustomer = 'aaron.customer@hybris.com';
-const asmForB2BCustomer = 'Gi Sun';
+const asmForB2CCustomer = getASMB2CCustomer().email;
+const asmForB2BCustomerFullName = getASMB2BCustomer2().fullName;
+const b2cAgent = getB2CAgent();
 
 export function placeOrderForB2CCustomer(
   customer: string,
@@ -97,6 +103,81 @@ export function placeOrderForB2CCustomer(
         cy.requirePaymentMethodAdded(cartId);
         cy.requirePlacedOrderForJDK21(response.access_token, cartId);
       });
+    });
+  });
+}
+
+export function doPlaceOrderForB2CCustomer(
+  customer: string,
+  pwd: string,
+  productCode: string
+): Cypress.Chainable<any> {
+  // Start the Cypress chain inside the condition
+  return cy.whenJDK17(() => {
+    return cy.login(customer, pwd).then(() => {
+      const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+      console.info(auth);
+      return cy
+        .addToCart(productCode, 1, auth.token.access_token)
+        .then((cartId) => {
+          cy.requireDeliveryAddressAdded(
+            getSampleUser().address,
+            auth.token,
+            cartId
+          );
+          cy.requireDeliveryMethodSelected(auth.token, cartId);
+          cy.requirePaymentMethodAdded(cartId);
+          return cy.requirePlacedOrder(auth.token, cartId); // Return promise
+        });
+    });
+  });
+}
+
+export function doPlaceOrderForB2CCustomerForJDK21(
+  customer: string,
+  pwd: string,
+  productCode: string
+): Cypress.Chainable<any> {
+  return cy.whenJDK21(() => {
+    cy.visit('/');
+    cy.contains('a[role="link"]', 'Sign In / Register').should(
+      'have.attr',
+      'href',
+      '/electronics-spa/en/USD/sign-in'
+    );
+
+    cy.contains('a[role="link"]', 'Sign In / Register').click();
+    cy.get('input[name="username"]').clear().type(customer);
+    cy.get('input[name="password"]').clear().type(pwd);
+    cy.contains('button.btn-primary', 'Sign In').should('be.visible');
+    cy.intercept('POST', '/authorizationserver/oauth/token').as(
+      'tokenResponse'
+    );
+    cy.contains('button.btn-primary', 'Sign In').click();
+
+    return cy.wait('@tokenResponse').then((interception) => {
+      const response = interception.response.body;
+      cy.wrap(response.access_token).as('token');
+      return cy
+        .addToCart(productCode, 1, response.access_token)
+        .then((cartId) => {
+          cy.requireDeliveryAddressAddedForJDK21(
+            getSampleUser().address,
+            response.access_token,
+            cartId
+          );
+          cy.requireDeliveryMethodSelectedForJDK21(
+            response.access_token,
+            cartId
+          );
+          cy.requirePaymentMethodAdded(cartId);
+          return cy.requirePlacedOrderForJDK21(response.access_token, cartId); // Return promise for JDK21
+          cy.log(
+            'aaaa=',
+            cy.requirePlacedOrderForJDK21(response.access_token, cartId)
+          );
+          cy.pause();
+        });
     });
   });
 }
@@ -189,6 +270,7 @@ export function removeCustomerCouponFoJDK21(
   cy.visit('/?am=true');
   cy.get('button.logout').should('exist').and('be.visible').click();
   cy.get('button.close[title="Close ASM"]').should('be.visible').click();
+  cy.visit('/');
   cy.log('Customer login in');
   cy.contains('a[role="link"]', 'Sign In / Register')
     .should('have.attr', 'href', '/powertools-spa/en/USD/sign-in')
@@ -457,7 +539,7 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
     .should('exist')
     .should('not.be.disabled')
-    .type(`${asmForB2BCustomer}{enter}`);
+    .type(`${asmForB2BCustomerFullName}{enter}`);
 
   cy.wait(customerSearchRequestAlias)
     .its('response.statusCode')
@@ -670,12 +752,14 @@ export function assertCustomerIsSignedIn() {
 }
 
 export function testCustomerEmulation() {
-  let customer: SampleUser;
+  let customer;
 
   it('should test customer emulation', () => {
     checkout.visitHomePage();
 
-    customer = checkout.registerUser(false);
+    customer = getSampleUser();
+
+    checkout.registerUser(false, customer);
 
     // storefront should have ASM UI disabled by default
     cy.get('cx-asm-main-ui').should('not.exist');
@@ -686,12 +770,12 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('be.visible');
 
     cy.whenJDK17(() => {
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(b2cAgent.userName, b2cAgent.password);
     });
 
     cy.whenJDK21(() => {
       cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-      agentLoginForJDK21('asagent', 'pw4all');
+      agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
     });
 
     cy.log('--> Starting customer emulation');
@@ -743,13 +827,14 @@ export function testCustomerEmulation() {
     cy.get('cx-customer-emulation')
       .findByText(/End Session/i)
       .click();
+
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
     // Make sure homepage is visible
-    cy.whenJDK17(() => {
-      cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
-    });
+    const homePage = waitForPage('homepage', 'getHomePage');
+    cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+
     cy.get('cx-global-message div').should(
       'contain',
       'You have successfully signed out.'
@@ -785,8 +870,13 @@ export function testCustomerEmulation() {
     cy.log('--> customer sign in');
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    visitLoginPage();
+    cy.whenJDK21(() => {
+      checkout.visitHomePage('asm=true');
+      cy.get('button.close[title="Close ASM"]').click();
+      cy.get('a[role="link"]').contains('Sign In / Register').click();
+    });
     cy.whenJDK17(() => {
+      visitLoginPage();
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
     });
 
@@ -969,6 +1059,22 @@ export function emulateCustomerPrepare(agentToken, agentPwd) {
   return customer;
 }
 
+export function emulateExistedCustomerPrepare(agentToken, agentPwd) {
+  const customer = getASMB2CCustomer();
+  cy.log('--> login in user');
+  cy.visit('/?asm=true');
+
+  cy.whenJDK17(() => {
+    asm.agentLogin(agentToken, agentPwd);
+  });
+
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    agentLoginForJDK21(agentToken, agentPwd);
+  });
+  return customer;
+}
+
 export function getCustomerId(agentUserName, agentPwd, customerUid) {
   return new Promise((resolve, reject) => {
     fetchingToken(agentUserName, agentPwd, false).then((res) => {
@@ -1077,6 +1183,7 @@ export function getInactiveCartIdAndAddProductsForJDK21(
   return new Promise((resolve, reject) => {
     cy.get('button.logout').should('exist').and('be.visible').click();
     cy.get('button.close[title="Close ASM"]').should('be.visible').click();
+    cy.visit('/');
     cy.log('Customer login in');
     cy.contains('a[role="link"]', 'Sign In / Register').click();
 
@@ -1129,7 +1236,7 @@ export function getCurrentCartIdAndAddProducts(
     fetchingToken(customerName, customerPwd, false).then((res) => {
       const token = res.body.access_token;
       createCart(token).then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           const activeCartId = response.body.code;
           if (!!productCode && quantity) {
             addToCartWithProducts(

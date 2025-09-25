@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
   PointOfService,
 } from '@spartacus/core';
@@ -37,7 +37,7 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
       )
       .pipe(
         catchError((error: any) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

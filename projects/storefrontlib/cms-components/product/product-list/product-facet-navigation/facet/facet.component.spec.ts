@@ -173,12 +173,6 @@ describe('FacetComponent', () => {
       key: 'ArrowDown',
     });
     const mockArrowUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-    const mockArrowRightEvent = new KeyboardEvent('keydown', {
-      key: 'ArrowRight',
-    });
-    const mockArrowLeftEvent = new KeyboardEvent('keydown', {
-      key: 'ArrowLeft',
-    });
     Object.defineProperty(mockArrowDownOnHeaderEvent, 'target', {
       value: facetHeaderElement,
     });
@@ -211,16 +205,8 @@ describe('FacetComponent', () => {
     });
 
     it('should initialize keyboard controls and find tiggered values index', () => {
-      spyOn(component, 'onArrowLeft');
-      spyOn(component, 'onArrowRight');
       spyOn(component, 'onArrowDown');
       spyOn(component, 'onArrowUp');
-
-      component.onKeydown(mockArrowLeftEvent);
-      expect(component.onArrowLeft).toHaveBeenCalledWith(mockArrowLeftEvent);
-
-      component.onKeydown(mockArrowRightEvent);
-      expect(component.onArrowRight).toHaveBeenCalledWith(mockArrowRightEvent);
 
       component.onKeydown(mockArrowUpEvent);
       expect(component.onArrowUp).toHaveBeenCalledWith(mockArrowUpEvent, 1);

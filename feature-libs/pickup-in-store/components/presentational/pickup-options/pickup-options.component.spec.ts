@@ -101,15 +101,6 @@ describe('PickupOptionsComponent', () => {
       );
     });
 
-    it('should emit the new pickup option on onPickupOptionChange', () => {
-      spyOn(component.pickupOptionChange, 'emit');
-      component.onPickupOptionChange('delivery');
-
-      expect(component.pickupOptionChange.emit).toHaveBeenCalledWith(
-        'delivery'
-      );
-    });
-
     it('should emit on onPickupLocationChange', () => {
       spyOn(component.pickupLocationChange, 'emit');
       component.onPickupLocationChange();

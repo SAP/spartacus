@@ -20,33 +20,9 @@ export interface FeatureTogglesInterface {
   trendingSearches?: boolean;
 
   /**
-   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
-   * (in the Angular's `ErrorHandler` class) to the server layer.
-   *
-   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
-   * e.g. sending a proper Error Page in response to the client,
-   * instead of a rendered HTML that is possibly malformed due to the occurred error.
-   */
-  propagateErrorsToServer?: boolean;
-
-  /**
-   * In SSR, the following errors will be printed to logs (and additionally can also
-   * be forwarded to ExpressJS if only the other feature toggle `propagateErrorsToServer` is enabled):
-   *
-   * 1. any outgoing HTTP request error (4xx-5xx status)
-   * 2. any NgRx action with the `error` property
-   */
-  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
-
-  /**
-   * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
-   */
-  a11yPreventHorizontalScroll?: boolean;
 
   /**
    * Fix popover appearance when a High Contrast Theme is applied.
@@ -59,20 +35,9 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
-   * confirmation message is displayed and read out
-   */
-  a11yCartImportConfirmationMessage?: boolean;
-
-  /**
    * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
    */
   a11yAnonymousConsentMessageInDialog?: boolean;
-
-  /**
-   * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
-   */
-  a11yMobileFocusOnFirstNavigationItem?: boolean;
 
   /**
    * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
@@ -99,13 +64,6 @@ export interface FeatureTogglesInterface {
   a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
 
   /**
-   * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
-   * Components:
-   * - `PickupOptionDialogComponent`
-   */
-  a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -126,19 +84,6 @@ export interface FeatureTogglesInterface {
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
-
-  /**
-   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
-   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
-   * and responsive in tab and accordion stles.
-   */
-  a11yTabComponent?: boolean;
-
-  /**
-   * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
-   * arrow keys navigation for the carousel
-   */
-  a11yCarouselArrowKeysNavigation?: boolean;
 
   /**
    * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
@@ -197,32 +142,6 @@ export interface FeatureTogglesInterface {
    * `CustomerTicketingCreateDialogComponent`
    */
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
-
-  /**
-   * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
-   */
-  a11yDeliveryMethodFieldset?: boolean;
-
-  /**
-   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
-   */
-  a11yShowMoreReviewsBtnFocus?: boolean;
-
-  /**
-   * When enabled, the focus will be returned to the trigger element after the dialog is closed.
-   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
-   */
-  a11yDialogTriggerRefocus?: boolean;
-
-  /**
-   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
-   */
-  a11yAddToWishlistFocus?: boolean;
-
-  /**
-   * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
-   */
-  a11ySearchBoxFocusOnEscape?: boolean;
 
   /**
    * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
@@ -404,50 +323,12 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
-   * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
-   * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
-   * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
-   * 2. Now, when no custom theme is selected, the default theme value is an empty string `''`,
-   * unless you configure it differently via the global config `config.context.theme` (or via CMS).
-   * Previously, there the non-defined theme had a value `undefined`.
-   */
-  useSiteThemeService?: boolean;
-
-  /**
-   * Enables the requirement that passwords cannot contain consecutive identical characters.
-   *
-   * When set to `true`, the app will enforce that passwords must not have consecutive
-   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
-   */
-  enableConsecutiveCharactersPasswordRequirement?: boolean;
-
-  /**
    * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
    *
    * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
    * When set to `true`, claiming customer coupon works with coupon code in httpRequest body with POST method(the new Occ endpoint is available since Commerce 2211.28), which avoids security risk.
    */
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
-
-  /**
-   * Enables a validation that prevents new passwords from matching the current password
-   * in the password update form.
-   *
-   * When set to `true`, the user will not be allowed to reuse their current password
-   * when updating their password. The app will check that the new password does not match
-   * the old password.
-   */
-  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
-
-  /**
-   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
-   * ignoring the configuration option set for specific resolvers
-   * `config.pageMeta.resolvers[index].disabledInCsr`.
-   *
-   * Note: The config option `disabledInCsr` is now deprecated and will be removed
-   *       in the future together with this feature toggle.
-   */
-  allPageMetaResolversEnabledInCsr?: boolean;
 
   /**
    * Modifies grid arrangement in Product Details Page for better accessibility:
@@ -802,31 +683,32 @@ export interface FeatureTogglesInterface {
    * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
    */
   defaultLayoutConfigWithoutPageFold?: boolean;
+
+  /**
+   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
+   *
+   * This is to improve the user experience on mobile devices, where the menu remains open
+   * after clicking on a link that navigates to the same page.
+   * Affects: `NavigationUIComponent`
+   */
+  navigationMenuCloseOnSameLinkClick?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   searchBoxV2: true,
   trendingSearches: true,
-  propagateErrorsToServer: true,
-  ssrStrictErrorHandlingForHttpAndNgrx: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yPreventHorizontalScroll: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
-  a11yCartImportConfirmationMessage: true,
   a11yAnonymousConsentMessageInDialog: true,
-  a11yMobileFocusOnFirstNavigationItem: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
   a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-  a11yUseTrapTabInsteadOfTrapInDialogs: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yTabComponent: true,
-  a11yCarouselArrowKeysNavigation: true,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
@@ -836,11 +718,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yDeliveryMethodFieldset: true,
-  a11yShowMoreReviewsBtnFocus: true,
-  a11yDialogTriggerRefocus: true,
-  a11yAddToWishlistFocus: true,
-  a11ySearchBoxFocusOnEscape: true,
   a11yUpdatingCartNoNarration: true,
   a11yPasswordVisibliltyBtnValueOverflow: true,
   a11yItemCounterFocus: true,
@@ -873,10 +750,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
-  useSiteThemeService: true,
-  enableConsecutiveCharactersPasswordRequirement: true,
-  enablePasswordsCannotMatchInPasswordUpdateForm: true,
-  allPageMetaResolversEnabledInCsr: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
   useExtendedMediaComponentConfiguration: true,
@@ -910,4 +783,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
+  navigationMenuCloseOnSameLinkClick: false,
 };

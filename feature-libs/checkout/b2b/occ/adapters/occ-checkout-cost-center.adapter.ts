@@ -13,7 +13,7 @@ import {
   ConverterService,
   isJaloError,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -38,7 +38,7 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
       .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)

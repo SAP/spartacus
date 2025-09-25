@@ -1,8 +1,6 @@
 %cx-order-history {
   .cx-order-history-container {
-    @include forFeature('a11yTabComponent') {
-      padding: 0 20px;
-    }
+    padding: 0 20px;
   }
 
   .cx-order-history {
@@ -66,7 +64,7 @@
   }
 
   .cx-order-history-header {
-    padding: 40px 0 0 0;
+    padding: 0;
     color: var(--cx-color-text);
 
     @include media-breakpoint-down(sm) {
@@ -74,10 +72,6 @@
       padding-inline-end: 20px;
       padding-bottom: 0;
       padding-inline-start: 20px;
-    }
-
-    @include forFeature('a11yTabComponent') {
-      padding: 0;
     }
   }
 
