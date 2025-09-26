@@ -207,23 +207,19 @@ describe('IntersectionService SSR Platform Detection', () => {
     it('should return false immediately for isIntersected in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
 
-      service
-        .isIntersected(element)
-        .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(false);
-          done();
-        });
+      service.isIntersected(element).subscribe((isIntersected) => {
+        expect(isIntersected).toBe(false);
+        done();
+      });
     });
 
     it('should return false immediately for isIntersecting in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
 
-      service
-        .isIntersecting(element)
-        .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(false);
-          done();
-        });
+      service.isIntersecting(element).subscribe((isIntersected) => {
+        expect(isIntersected).toBe(false);
+        done();
+      });
     });
 
     it('should return false for intersecting conditions in SSR', (done) => {
