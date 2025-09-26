@@ -204,31 +204,31 @@ describe('IntersectionService SSR Platform Detection', () => {
       service = TestBed.inject(IntersectionService);
     });
 
-    it('should return true immediately for isIntersected in SSR', (done) => {
+    it('should return false immediately for isIntersected in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
 
       service
         .isIntersected(element)
         .pipe(take(1))
         .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(true);
+          expect(isIntersected).toBe(false);
           done();
         });
     });
 
-    it('should return true immediately for isIntersecting in SSR', (done) => {
+    it('should return false immediately for isIntersecting in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
 
       service
         .isIntersecting(element)
         .pipe(take(1))
         .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(true);
+          expect(isIntersected).toBe(false);
           done();
         });
     });
 
-    it('should handle intersecting conditions in SSR', (done) => {
+    it('should return false for intersecting conditions in SSR', (done) => {
       const element: HTMLElement = document.createElement('section');
       const intersectingCondition = (entry: IntersectionObserverEntry) =>
         entry.intersectionRatio === 1;
@@ -237,7 +237,7 @@ describe('IntersectionService SSR Platform Detection', () => {
         .isIntersected(element, {}, intersectingCondition)
         .pipe(take(1))
         .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(true);
+          expect(isIntersected).toBe(false);
           done();
         });
     });

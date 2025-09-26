@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, Observer, of } from 'rxjs';
 import { distinctUntilChanged, first, map, mergeMap } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
@@ -24,9 +24,10 @@ export type IntersectingCondition = (
   providedIn: 'root',
 })
 export class IntersectionService {
+  protected platformId = inject(PLATFORM_ID);
+
   constructor(
-    protected config: LayoutConfig,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    protected config: LayoutConfig
   ) {}
 
   /**
@@ -80,6 +81,10 @@ export class IntersectionService {
     options: IntersectionOptions = {},
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
+    if (isPlatformServer(this.platformId)) {
+      return of(false);
+    }
+
     return this.createIntersectionObservable(element, options).pipe(
       mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) =>
@@ -95,20 +100,6 @@ export class IntersectionService {
     element: HTMLElement,
     options: IntersectionOptions
   ): Observable<IntersectionObserverEntry[]> {
-    if (isPlatformServer(this.platformId)) {
-      return of([
-        {
-          target: element,
-          isIntersecting: true,
-          intersectionRatio: 1,
-          boundingClientRect: {} as DOMRectReadOnly,
-          intersectionRect: {} as DOMRectReadOnly,
-          rootBounds: {} as DOMRectReadOnly,
-          time: Date.now(),
-        } as IntersectionObserverEntry,
-      ]);
-    }
-
     return new Observable((observer: Observer<IntersectionObserverEntry[]>) => {
       const rootMargin = this.getRootMargin(options);
       const intersectOptions = { rootMargin, threshold: options.threshold };
