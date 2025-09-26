@@ -10,7 +10,7 @@
         {{ 'cartItems.item' | cxTranslate }}
       </th>
 
-      <ng-container *ngIf="displayItemPriceColumn">
+      <ng-container *ngIf="componentService.displayItemPriceColumn(items)">
         <th role="columnheader" scope="col" class="cx-item-list-charges">
           <ng-template
             role="columnheader"
@@ -86,10 +86,10 @@
 </ng-template>
 
 <ng-template #dueNowHeader>
-  <span *ngIf="displayItemPriceColumn">
+  <span *ngIf="componentService.displayItemPriceColumn(items)">
     {{ 'cartItems.dueNow' | cxTranslate }}
   </span>
-  <span *ngIf="!displayItemPriceColumn">
+  <span *ngIf="!componentService.displayItemPriceColumn(items)">
     {{ 'cartItems.total' | cxTranslate }}
   </span>
 </ng-template>

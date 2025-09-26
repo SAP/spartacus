@@ -93,7 +93,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   readonly CartOutlets = CartOutlets;
   private featureConfigService = inject(FeatureConfigService);
   protected componentService = inject(CartItemListComponentService);
-  displayItemPriceColumn = false;
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -115,10 +114,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.userIdService
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
-    );
-
-    this.displayItemPriceColumn = this.componentService.displayItemPriceColumn(
-      this.items
     );
   }
 

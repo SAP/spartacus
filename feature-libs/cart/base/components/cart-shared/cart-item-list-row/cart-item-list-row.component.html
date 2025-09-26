@@ -99,7 +99,7 @@
   </td>
 
   <!-- Subscription Charges -->
-  <ng-container *ngIf="displayItemPriceColumn">
+  <ng-container *ngIf="componentService.displayItemPriceColumn(items)">
     <td role="cell" class="cx-item-list-charges">
       <ng-template
         role="cell"
