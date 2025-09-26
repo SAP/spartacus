@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, Observer, of } from 'rxjs';
 import { distinctUntilChanged, first, map, mergeMap } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
@@ -26,9 +26,7 @@ export type IntersectingCondition = (
 export class IntersectionService {
   protected platformId = inject(PLATFORM_ID);
 
-  constructor(
-    protected config: LayoutConfig
-  ) {}
+  constructor(protected config: LayoutConfig) {}
 
   /**
    * Returns an Observable that emits only once a boolean value whenever
@@ -49,6 +47,11 @@ export class IntersectionService {
     options?: IntersectionOptions,
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
+    // Early return for SSR - element is never intersected on server
+    if (isPlatformServer(this.platformId)) {
+      return of(false);
+    }
+
     return this.intersects(element, options, intersectingCondition).pipe(
       first((v) => v === true)
     );

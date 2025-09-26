@@ -209,7 +209,6 @@ describe('IntersectionService SSR Platform Detection', () => {
 
       service
         .isIntersected(element)
-        .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(false);
           done();
@@ -221,7 +220,6 @@ describe('IntersectionService SSR Platform Detection', () => {
 
       service
         .isIntersecting(element)
-        .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(false);
           done();
@@ -235,7 +233,6 @@ describe('IntersectionService SSR Platform Detection', () => {
 
       service
         .isIntersected(element, {}, intersectingCondition)
-        .pipe(take(1))
         .subscribe((isIntersected) => {
           expect(isIntersected).toBe(false);
           done();
