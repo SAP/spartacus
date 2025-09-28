@@ -267,10 +267,6 @@
             "label": "S/4HANA Service Integration (b2b feature)"
           },
           {
-            "value": "Subscription-Billing",
-            "label": "Subscription Billing Integration"
-          },
-          {
             "value": "OMF",
             "label": "SAP Order Management Foundation Integration"
           },
