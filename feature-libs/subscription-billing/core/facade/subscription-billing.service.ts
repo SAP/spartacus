@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
+  GetSubscriptionListReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
   SubscriptionList,
@@ -23,19 +24,15 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
   protected routingService = inject(RoutingService);
 
+  /** events */
   protected getSubscriptionByCodeReloadEvents(): QueryNotifier[] {
     return [GetSubscriptionByCodeReloadEvent];
   }
-  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
-    return this.routingService.getRouterState().pipe(
-      map((route) => {
-        const guidPattern = /\/subscription\/([^/?#]+)/;
-        const match = route.state.url.match(guidPattern);
-        return match ? match[1] : undefined;
-      })
-    );
+  protected getSubscriptionListReloadEvents(): QueryNotifier[] {
+    return [GetSubscriptionListReloadEvent];
   }
 
+  /** queries */
   protected getSubscriptionByCodeQuery$: Query<SubscriptionDetail | undefined> =
     this.queryService.create<SubscriptionDetail | undefined>(
       () =>
@@ -52,17 +49,48 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
         // resetOn: this.getTicketQueryResetEvents(),
       }
     );
+  protected getSubscriptionListQuery$(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Query<SubscriptionList | undefined> {
+    return this.queryService.create<SubscriptionList | undefined>(
+      () =>
+        this.subscriptionListPreConditions().pipe(
+          switchMap((customerId) =>
+            this.subscriptionBillingConnector.getSubscriptionList(
+              customerId,
+              pageSize,
+              currentPage,
+              sort
+            )
+          )
+        ),
+      {
+        reloadOn: this.getSubscriptionListReloadEvents(),
+      }
+    );
+  }
 
+  /** query states */
   getSubscriptionByCodeState(): Observable<
     QueryState<SubscriptionDetail | undefined>
   > {
     return this.getSubscriptionByCodeQuery$.getState();
   }
-
-  getSubscriptionByCode(): Observable<SubscriptionDetail | undefined> {
-    return this.getSubscriptionByCodeState().pipe(map((state) => state.data));
+  getSubscriptionListState(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<QueryState<SubscriptionList | undefined>> {
+    return this.getSubscriptionListQuery$(
+      pageSize,
+      currentPage,
+      sort
+    ).getState();
   }
 
+  /** pre-conditions */
   protected subscriptionListPreConditions(): Observable<string> {
     return this.userIdService.getUserId().pipe(
       take(1),
@@ -88,42 +116,21 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
       })
     );
   }
-  protected getSubscriptionListQuery$(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Query<SubscriptionList | undefined> {
-    return this.queryService.create<SubscriptionList | undefined>(
-      () =>
-        this.subscriptionListPreConditions().pipe(
-          switchMap((customerId) =>
-            this.subscriptionBillingConnector.getSubscriptionList(
-              customerId,
-              pageSize,
-              currentPage,
-              sort
-            )
-          )
-        )
-      // see if below is needed later
-      // {
-      // reloadOn: this.getTicketsQueryReloadEvents(),
-      // resetOn: this.getTicketsQueryResetEvents(),
-      // }
+
+  /** public methods */
+  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
+    return this.routingService.getRouterState().pipe(
+      map((route) => {
+        console.log(route);
+        const guidPattern = /\/subscription\/([^/?#]+)/;
+        const match = route.state.url.match(guidPattern);
+        return match ? match[1] : undefined;
+      })
     );
   }
-  getSubscriptionListState(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Observable<QueryState<SubscriptionList | undefined>> {
-    return this.getSubscriptionListQuery$(
-      pageSize,
-      currentPage,
-      sort
-    ).getState();
+  getSubscriptionByCode(): Observable<SubscriptionDetail | undefined> {
+    return this.getSubscriptionByCodeState().pipe(map((state) => state.data));
   }
-
   getSubscriptionList(
     pageSize: number,
     currentPage: number,

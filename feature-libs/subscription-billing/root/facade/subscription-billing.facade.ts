@@ -33,10 +33,12 @@ export abstract class SubscriptionBillingFacade {
     currentPage?: number,
     sort?: string
   ): Observable<QueryState<SubscriptionList | undefined>>;
+
   abstract getSubscriptionList(
     pageSize?: number,
     currentPage?: number,
     sort?: string
   ): Observable<SubscriptionList | undefined>;
+
   abstract getSubscriptionCodeFromRoute(): Observable<string | undefined>;
 }

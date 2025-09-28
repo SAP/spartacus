@@ -104,5 +104,8 @@ declare module '@spartacus/core' {
   enum ProductScope {
     SUBSCRIPTION = 'subscription',
   }
+  interface Product {
+    productTypes?: string;
+  }
 }
 (ProductScope as any)['SUBSCRIPTION'] = 'subscription';
