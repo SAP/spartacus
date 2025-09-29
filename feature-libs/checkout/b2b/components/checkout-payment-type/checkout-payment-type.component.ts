@@ -8,10 +8,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
@@ -19,6 +20,7 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
+  FeatureToggles,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
@@ -26,12 +28,14 @@ import {
   isNotUndefined,
   OccHttpErrorType,
 } from '@spartacus/core';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   filter,
   map,
+  switchMap,
   tap,
 } from 'rxjs/operators';
 
@@ -49,6 +53,22 @@ export class CheckoutPaymentTypeComponent {
 
   typeSelected?: string;
   paymentTypesError = false;
+
+  private quoteFacade = inject(QuoteFacade);
+  private activeCartFacade = inject(ActiveCartFacade);
+  protected poNumberFeatureToggle = inject(FeatureToggles).enableQuotePurchaseOrderNumber;
+
+  isPONumberInputNonEditable: Observable<boolean> = this.activeCartFacade
+    .getActive()
+    .pipe(
+      switchMap((cart) => {
+        return cart.quoteCode
+          ? this.quoteFacade
+              .getPurchaseOrderNumber(cart.quoteCode)
+              .pipe(map((quotePoNumber) => !!quotePoNumber))
+          : of(false);
+      })
+    );
 
   isUpdating$ = combineLatest([
     this.busy$,

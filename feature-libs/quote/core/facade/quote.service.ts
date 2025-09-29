@@ -570,4 +570,15 @@ export class QuoteService implements QuoteFacade {
       })
     );
   }
+
+  getPurchaseOrderNumber(quoteCode: string): Observable<string | undefined> {
+    return this.userIdService.takeUserId().pipe(
+      take(1),
+      switchMap((userId) =>
+        this.quoteConnector.getQuote(userId, quoteCode).pipe(
+          map((quote: Quote) => quote.sapPurchaseOrderNumber)
+        )
+      )
+    );
+  }
 }
