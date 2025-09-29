@@ -12,12 +12,10 @@ import {
 import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
 import { JsonObject, logging } from '@angular-devkit/core';
 import { promises as fs } from 'fs';
-import * as globModule from 'glob';
+import { glob } from 'glob';
 import * as path from 'path';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { promisify } from 'util';
-const glob = promisify(globModule);
 
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
