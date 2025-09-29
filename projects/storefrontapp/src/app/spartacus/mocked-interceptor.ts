@@ -45,10 +45,6 @@ export class MockInterceptor implements HttpInterceptor {
       });
       // Use throwError to simulate an error response
       return throwError(() => mockResponse);
-      // return of(mockResponse)
-      //   .pipe(
-      //     tap(() => console.log('Found & Intercepted mathcing request! Mocked response: ', mockResponse))
-      //   );
     }
 
     // Pass through other requests unmodified
