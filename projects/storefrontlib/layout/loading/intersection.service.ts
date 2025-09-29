@@ -47,8 +47,13 @@ export class IntersectionService {
     options?: IntersectionOptions,
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
+    // Early return for SSR - element is never intersected on server
+    if (isPlatformServer(this.platformId)) {
+      return of(false);
+    }
+
     return this.intersects(element, options, intersectingCondition).pipe(
-      first()
+      first((v) => v === true)
     );
   }
 
@@ -84,10 +89,6 @@ export class IntersectionService {
     options: IntersectionOptions = {},
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
-    if (isPlatformServer(this.platformId)) {
-      return of(false);
-    }
-
     return this.createIntersectionObservable(element, options).pipe(
       mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) =>

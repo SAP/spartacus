@@ -39,7 +39,10 @@ describe('IntersectionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG }],
+      providers: [
+        { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
+        { provide: PLATFORM_ID, useValue: 'browser' },
+      ],
     });
     service = TestBed.inject(IntersectionService);
   });
