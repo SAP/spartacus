@@ -31,6 +31,14 @@ const MockBadPasswordResponse = {
   },
 } as HttpErrorResponse;
 
+const MockExpiredPasswordResponse = {
+  url: 'https://server.com/authorizationserver/oauth/token',
+  error: {
+    error: 'invalid_grant',
+    error_description: 'Password expired for the user: John Doe',
+  },
+} as HttpErrorResponse;
+
 const MockDisabledUserResponse = {
   url: 'https://server.com/authorizationserver/oauth/token',
   error: {
@@ -149,6 +157,22 @@ describe('BadRequestHandler', () => {
       MockBadPasswordResponse.error.error_description
     );
     expect(globalMessageService.add).toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalledWith({
+      key: 'httpHandlers.badRequest.bad_password', params: { errorMessage: 'Bad password' }
+    }, GlobalMessageType.MSG_TYPE_ERROR);
+    expect(globalMessageService.remove).toHaveBeenCalled();
+  });
+
+  it('should handle expired password message', () => {
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
+    service.handleError(MockBadPasswordRequest, MockExpiredPasswordResponse);
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
+      MockExpiredPasswordResponse.error.error_description
+    );
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalledWith({
+      key: 'httpHandlers.badRequest.password_expired_for_the_user:_john_doe', params: { errorMessage: 'Password expired for the user: John Doe' }
+    }, GlobalMessageType.MSG_TYPE_ERROR);
     expect(globalMessageService.remove).toHaveBeenCalled();
   });
 
