@@ -20,10 +20,10 @@ export default defineConfig({
   env: {
     API_URL:
       'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud',
-    BASE_SITE: 'electronics-spa',
+    BASE_SITE: 'powertools-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
-    CLIENT_ID: 'mobile_android_public',
+    CLIENT_ID: 'mobile_android_public_b2b',
     CLIENT_SECRET: 'secret',
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
@@ -38,7 +38,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'http://localhost:5200',
     excludeSpecPattern: '**/*.example-e2e.cy.ts',
     screenshotOnRunFailure: process.env.CYPRESS_ENABLE_SCREENSHOTS === 'true',
   },

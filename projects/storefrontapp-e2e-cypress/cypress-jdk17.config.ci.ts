@@ -23,14 +23,14 @@ export default defineConfig({
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
-    CLIENT_ID: 'mobile_android_public',
+    CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
     MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
     MAIL_CCV2_PREFIX: '/api/v1',
-    JDK_VERSION: 'JDK21',
+    JDK_VERSION: 'JDK17',
   },
   e2e: {
     // We've imported your old cypress plugins here.
