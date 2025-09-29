@@ -127,7 +127,6 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   getSubscriptionCodeFromRoute(): Observable<string | undefined> {
     return this.routingService.getRouterState().pipe(
       map((route) => {
-        console.log(route);
         const guidPattern = /\/subscription\/([^/?#]+)/;
         const match = route.state.url.match(guidPattern);
         return match ? match[1] : undefined;

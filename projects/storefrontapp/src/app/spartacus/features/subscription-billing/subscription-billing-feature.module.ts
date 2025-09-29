@@ -29,7 +29,7 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: { subscriptionBillingTranslationsEn },
+        resources: { en: subscriptionBillingTranslationsEn },
         chunks: subscriptionBillingTranslationChunksConfig,
         fallbackLang: 'en',
       },
