@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { PaginationModel, SortModel } from '@spartacus/core';
 import { PricePlan } from './subscription-product.model';
 
