@@ -23,6 +23,7 @@ import {
 } from '../support/utils/cart';
 import { login as fetchingToken, visitLoginPage } from '../support/utils/login';
 
+import { clearAllStorage } from '../support/utils/clear-all-storage';
 import {
   interceptGet,
   interceptPatch,
@@ -693,13 +694,8 @@ export function startCustomerEmulation(customer, b2b = false): void {
   cy.get('cx-customer-emulation').should('be.visible');
 }
 
-export function startCustomerEmulationWithOrderID(
-  order,
-  customer,
-  b2b = false
-): void {
+export function startCustomerEmulationWithOrderID(order, customer): void {
   const customerSearchRequestAlias = listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest(b2b);
 
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
@@ -717,7 +713,6 @@ export function startCustomerEmulationWithOrderID(
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-customer-selection button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
   cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
     'contain',
     customer.fullName
@@ -1260,4 +1255,12 @@ export function getCurrentCartIdAndAddProducts(
       });
     });
   });
+}
+
+export function registerUser() {
+  clearAllStorage();
+  const customer = getSampleUser();
+  checkout.visitHomePage();
+  checkout.registerUser(false, customer);
+  return customer;
 }
