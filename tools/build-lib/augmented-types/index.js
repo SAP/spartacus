@@ -35,7 +35,7 @@ var __awaiter =
 Object.defineProperty(exports, '__esModule', { value: true });
 const architect_1 = require('@angular-devkit/architect');
 const fs_1 = require('fs');
-const { globSync } = require('glob');
+const globMod = require('glob');
 const path = require('path');
 const rxjs_1 = require('rxjs');
 const operators_1 = require('rxjs/operators');
@@ -94,13 +94,30 @@ function getNgPackgrLibOutputPath(ngPackagerFile) {
     return path.join(path.dirname(ngPackagerFile), ngPackageData.dest);
   });
 }
+function compatGlobSync(pattern, options) {
+  if (typeof globMod === 'function' && typeof globMod.sync === 'function') {
+    return globMod.sync(pattern, options);
+  }
+  if (globMod && typeof globMod.globSync === 'function') {
+    return globMod.globSync(pattern, options);
+  }
+  if (globMod && globMod.default && typeof globMod.default.sync === 'function') {
+    return globMod.default.sync(pattern, options);
+  }
+  if (globMod && globMod.default && typeof globMod.default.globSync === 'function') {
+    return globMod.default.globSync(pattern, options);
+  }
+  throw new Error('No compatible glob.sync/globSync found');
+}
 /**
  * Propagate augmentable types for every package.json file in the built in library
  */
 function propagateAugmentableTypes(libPath, logger) {
   return __awaiter(this, void 0, void 0, function* () {
     // grab all package.json files
-    const files = globSync(libPath + '/**/package.json');
+    
+    const filesAny = compatGlobSync(libPath + '/**/package.json', { nodir: true });
+     const files = Array.isArray(filesAny) ? filesAny : (filesAny ? [String(filesAny)] : []);
     for (const packageJsonFile of files) {
       try {
         // get typings file from package.json
