@@ -213,9 +213,9 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkTabBarDisplayed();
   configuration.checkGroupTitleDisplayed();
   configuration.checkGroupFormDisplayed();
-  configuration.checkPreviousAndNextBtnsDispalyed();
+  configuration.checkPreviousAndNextBtnsDisplayed();
   configuration.checkPriceSummaryDisplayed();
-  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlayed by the cookies button. The caller has to check that the add to cart button is visible.
+  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlaid by the cookies button. The caller has to check that the add to cart button is visible.
   checkProductTitleDisplayed();
   configuration.checkShowMoreLinkAtProductTitleDisplayed();
 }
