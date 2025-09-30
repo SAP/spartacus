@@ -1,9 +1,9 @@
 const path = require('path');
 const sassTrue = require('sass-true');
-const glob = require('glob');
+const { globSync } = require('glob');
 
 describe('Scss Styles', () => {
-  const testFiles = glob.sync(
+  const testFiles = globSync(
     path.resolve(process.cwd(), `test/**/*.spec.scss`)
   );
 
