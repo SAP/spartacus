@@ -4,6 +4,7 @@ import { IntersectionService } from './intersection.service';
 import { take } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { cold } from 'jasmine-marbles';
+import { PLATFORM_ID } from '@angular/core';
 
 const INTERSECTION_MARGIN_GENERAL = '5%';
 const INTERSECTION_MARGIN_SPECIFIC = '4%';
@@ -38,7 +39,10 @@ describe('IntersectionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG }],
+      providers: [
+        { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
+        { provide: PLATFORM_ID, useValue: 'browser' },
+      ],
     });
     service = TestBed.inject(IntersectionService);
   });
@@ -185,6 +189,85 @@ describe('IntersectionService', () => {
       expect(
         service['getRootMargin']({ rootMargin: INTERSECTION_MARGIN_SPECIFIC })
       ).toBe(INTERSECTION_MARGIN_SPECIFIC);
+    });
+  });
+});
+
+describe('IntersectionService SSR Platform Detection', () => {
+  let service: IntersectionService;
+
+  describe('Server Platform', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
+          { provide: PLATFORM_ID, useValue: 'server' },
+        ],
+      });
+      service = TestBed.inject(IntersectionService);
+    });
+
+    it('should return false immediately for isIntersected in SSR', (done) => {
+      const element: HTMLElement = document.createElement('section');
+
+      service.isIntersected(element).subscribe((isIntersected) => {
+        expect(isIntersected).toBe(false);
+        done();
+      });
+    });
+
+    it('should return false immediately for isIntersecting in SSR', (done) => {
+      const element: HTMLElement = document.createElement('section');
+
+      service.isIntersecting(element).subscribe((isIntersected) => {
+        expect(isIntersected).toBe(false);
+        done();
+      });
+    });
+
+    it('should return false for intersecting conditions in SSR', (done) => {
+      const element: HTMLElement = document.createElement('section');
+      const intersectingCondition = (entry: IntersectionObserverEntry) =>
+        entry.intersectionRatio === 1;
+
+      service
+        .isIntersected(element, {}, intersectingCondition)
+        .subscribe((isIntersected) => {
+          expect(isIntersected).toBe(false);
+          done();
+        });
+    });
+  });
+
+  describe('Browser Platform', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: LayoutConfig, useValue: MOCK_LAYOUT_CONFIG },
+          { provide: PLATFORM_ID, useValue: 'browser' },
+        ],
+      });
+      service = TestBed.inject(IntersectionService);
+    });
+
+    it('should create IntersectionObserver in browser', () => {
+      const element: HTMLElement = document.createElement('section');
+      const createIntersectionObservableSpy = spyOn<any>(
+        service,
+        'createIntersectionObservable'
+      ).and.returnValue(
+        of([
+          {
+            ...INTERSECTION_OBSERVER_ENTRY,
+            target: element,
+            isIntersecting: true,
+          },
+        ])
+      );
+
+      service.isIntersected(element).subscribe();
+
+      expect(createIntersectionObservableSpy).toHaveBeenCalled();
     });
   });
 });
