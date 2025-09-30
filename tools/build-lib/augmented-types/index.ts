@@ -94,6 +94,7 @@ async function propagateAugmentableTypes(
 ) {
   // grab all package.json files
   const filesAny = globSync(libPath + '/**/package.json', { nodir: true });
+  const files: string[] = Array.isArray(filesAny) ? filesAny : (filesAny ? [String(filesAny)] : []);
 
   for (const packageJsonFile of files) {
     try {
