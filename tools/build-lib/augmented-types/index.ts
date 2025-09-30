@@ -12,7 +12,8 @@ import {
 import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
 import { JsonObject, logging } from '@angular-devkit/core';
 import { promises as fs } from 'fs';
-import { glob } from 'glob';
+
+import { globSync } from 'glob';
 import * as path from 'path';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -92,7 +93,7 @@ async function propagateAugmentableTypes(
   logger: logging.LoggerApi
 ) {
   // grab all package.json files
-  const files = await glob(libPath + '/**/package.json');
+  const filesAny = globSync(libPath + '/**/package.json', { nodir: true });
 
   for (const packageJsonFile of files) {
     try {
