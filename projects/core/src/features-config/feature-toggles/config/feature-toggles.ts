@@ -692,6 +692,13 @@ export interface FeatureTogglesInterface {
    * Affects: `NavigationUIComponent`
    */
   navigationMenuCloseOnSameLinkClick?: boolean;
+
+  /**
+   * When enabled, translates the "Password expired" error message
+   * to the user's selected language using Spartacus i18n.
+   * Affects: `LoginComponent`
+   */
+  enablePasswordExpiredErrorTranslation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -784,4 +791,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
+  enablePasswordExpiredErrorTranslation: false,
 };

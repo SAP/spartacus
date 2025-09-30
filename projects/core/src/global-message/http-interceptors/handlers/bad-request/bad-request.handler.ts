@@ -5,13 +5,14 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
 import { Translatable } from '../../../../i18n/translatable';
+import { FeatureConfigService } from '@spartacus/core';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -20,6 +21,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 })
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
+  private featureConfigService = inject(FeatureConfigService);
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
@@ -45,11 +47,17 @@ export class BadRequestHandler extends HttpErrorHandler {
         errorMessage:
           response.error.error_description || response.message || '',
       };
-      const isPasswordExpiredError = key.startsWith(
-        `${translationPrefix}.password_expired_for_the_user`
-      );
-      if (isPasswordExpiredError) {
-        key = `${translationPrefix}.password_expired`;
+      if (
+        this.featureConfigService.isEnabled(
+          'enablePasswordExpiredErrorTranslation'
+        )
+      ) {
+        const isPasswordExpiredError = key.startsWith(
+          `${translationPrefix}.password_expired_for_the_user`
+        );
+        if (isPasswordExpiredError) {
+          key = `${translationPrefix}.password_expired`;
+        }
       }
       this.globalMessageService.add(
         {
