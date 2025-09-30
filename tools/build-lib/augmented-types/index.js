@@ -35,7 +35,7 @@ var __awaiter =
 Object.defineProperty(exports, '__esModule', { value: true });
 const architect_1 = require('@angular-devkit/architect');
 const fs_1 = require('fs');
-const { glob } = require('glob');
+const { globSync } = require('glob');
 const path = require('path');
 const rxjs_1 = require('rxjs');
 const operators_1 = require('rxjs/operators');
@@ -100,7 +100,7 @@ function getNgPackgrLibOutputPath(ngPackagerFile) {
 function propagateAugmentableTypes(libPath, logger) {
   return __awaiter(this, void 0, void 0, function* () {
     // grab all package.json files
-    const files = yield glob(libPath + '/**/package.json');
+    const files = globSync(libPath + '/**/package.json');
     for (const packageJsonFile of files) {
       try {
         // get typings file from package.json
