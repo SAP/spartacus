@@ -5,39 +5,19 @@
  */
 
 import { defineConfig } from 'cypress';
+import baseConfig from './cypress.config.ts';
 
 export default defineConfig({
-  defaultCommandTimeout: 30000,
-  requestTimeout: 30000,
-  projectId: 'k3nmep',
-  numTestsKeptInMemory: 100,
-  chromeWebSecurity: false,
-  video: true,
-  retries: {
-    runMode: 2,
-  },
-  videoUploadOnPasses: false,
+  ...baseConfig,
   env: {
-    API_URL:
-      'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud',
-    BASE_SITE: 'powertools-spa',
-    BASE_LANG: 'en',
-    BASE_CURRENCY: 'USD',
-    CLIENT_ID: 'mobile_android_public_b2b',
-    CLIENT_SECRET: 'secret',
-    OCC_PREFIX: '/occ/v2',
-    OCC_PREFIX_USER_ENDPOINT: 'users',
-    OCC_PREFIX_ORDER_ENDPOINT: 'orders',
-    MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
-    MAIL_CCV2_PREFIX: '/api/v1',
-    JDK_VERSION: 'JDK21',
+    ...baseConfig.env,
+    CLIENT_ID:
+      baseConfig?.env?.JDK_VERSION === 'JDK21'
+        ? 'mobile_android_public_b2b'
+        : 'mobile_android',
   },
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
-    setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config);
-    },
+    ...baseConfig.e2e,
     baseUrl: 'http://localhost:5200',
   },
 });
