@@ -252,7 +252,7 @@
     "eslint-plugin-jsdoc": "^54.0.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "fs-extra": "^11.3.1",
-    "glob": "^7.1.6",
+    "glob": "^11.0.3",
     "http-proxy": "^1.18.1",
     "http-server": "^14.1.1",
     "i18n-lint": "^1.1.0",
