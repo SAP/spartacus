@@ -46,9 +46,9 @@ export class OpfCheckoutBillingAddressFormComponent
   countries$: Observable<Country[]>;
 
   constructor(
-        protected checkoutStepService: CheckoutStepService,
-        protected activatedRoute: ActivatedRoute,
-  ){};
+    protected checkoutStepService: CheckoutStepService,
+    protected activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.subscription.add(
@@ -78,9 +78,11 @@ export class OpfCheckoutBillingAddressFormComponent
   }
 
   onBackToAddress(): void {
-    this.subscription.add(this.service.paymentOptionsDisabled$.subscribe(
-      disabled => disabled ? this.back() : this.cancelAndHideForm()
-    ));
+    this.subscription.add(
+      this.service.paymentOptionsDisabled$.subscribe((disabled) =>
+        disabled ? this.back() : this.cancelAndHideForm()
+      )
+    );
   }
 
   editCustomBillingAddress(): void {
@@ -114,13 +116,13 @@ export class OpfCheckoutBillingAddressFormComponent
     }
 
     this.service.setBillingAddress(address).subscribe({
-    next: () => {
-      this.service.setPaymentOptionsDisabled(false);
-    },
-    error: () => {
-      this.service.setPaymentOptionsDisabled(true);
-    }
-  });
+      next: () => {
+        this.service.setPaymentOptionsDisabled(false);
+      },
+      error: () => {
+        this.service.setPaymentOptionsDisabled(true);
+      },
+    });
   }
 
   ngOnDestroy(): void {
