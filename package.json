@@ -211,7 +211,7 @@
     "@angular-eslint/template-parser": "19.8.0",
     "@angular-eslint/test-utils": "19.8.0",
     "@angular-eslint/utils": "19.8.0",
-    "@angular/cli": "^19.2.16",
+    "@angular/cli": "^20.3.3",
     "@angular/compiler-cli": "^19.2.15",
     "@angular/language-service": "^19.2.15",
     "@babel/runtime": "^7.26.10",
