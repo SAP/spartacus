@@ -108,7 +108,6 @@ describe('OpfCheckoutPaymentsComponent', () => {
   let el: DebugElement;
   let mockBillingAddressFormService: Partial<OpfCheckoutBillingAddressFormService>;
 
-
   beforeEach(async () => {
     opfMetadataStoreServiceMock = jasmine.createSpyObj(
       'OpfMetadataStoreService',
@@ -118,7 +117,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
     opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
       of(mockOpfMetadata)
     );
-        mockBillingAddressFormService = {
+    mockBillingAddressFormService = {
       paymentOptionsDisabled$: of(false), // Mock the observable
     };
 
@@ -142,8 +141,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
         {
           provide: OpfCheckoutBillingAddressFormService,
           useValue: mockBillingAddressFormService,
-
-        }
+        },
       ],
     }).compileComponents();
 

@@ -31,12 +31,22 @@
                   class="form-check-input"
                   role="radio"
                   type="radio"
-                  [attr.aria-checked]="(paymentDisabled$ | async) && configuration.id === selectedPaymentId"
+                  [attr.aria-checked]="
+                    (paymentDisabled$ | async) &&
+                    configuration.id === selectedPaymentId
+                  "
                   (change)="changePayment(configuration)"
                   [value]="configuration.id"
-                  [checked]="!(paymentDisabled$ | async) && configuration.id === selectedPaymentId"
+                  [checked]="
+                    !(paymentDisabled$ | async) &&
+                    configuration.id === selectedPaymentId
+                  "
                   formControlName="paymentId"
-                  [disabled]="(paymentDisabled$ | async) || (disabled && explicitTermsAndConditions)"                />
+                  [disabled]="
+                    (paymentDisabled$ | async) ||
+                    (disabled && explicitTermsAndConditions)
+                  "
+                />
                 <label
                   class="cx-payment-type-label form-check-label form-radio-label"
                   for="paymentId-{{ configuration.id }}"
@@ -54,7 +64,9 @@
               </div>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="!renderPaymentWrapper && !(paymentDisabled$ | async)">
+          <ng-container
+            *ngIf="!renderPaymentWrapper && !(paymentDisabled$ | async)"
+          >
             <div class="cx-payment-info-box">
               <span class="alert-icon" aria-hidden="true">
                 <cx-icon [type]="iconTypes.INFO"></cx-icon>
@@ -69,7 +81,9 @@
               </p>
             </div>
           </ng-container>
-          <ng-container *ngIf="renderPaymentWrapper && !(paymentDisabled$ | async)">
+          <ng-container
+            *ngIf="renderPaymentWrapper && !(paymentDisabled$ | async)"
+          >
             <ng-container *ngIf="isPaymentInfoMessageVisible">
               <ng-container
                 *ngIf="

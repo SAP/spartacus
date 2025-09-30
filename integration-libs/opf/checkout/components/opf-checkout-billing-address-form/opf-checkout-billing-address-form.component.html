@@ -50,7 +50,11 @@
           [showTitleCode]="true"
           [showCancelBtn]="true"
           actionBtnLabel="{{ 'common.save' | cxTranslate }}"
-          [cancelBtnLabel]="(service.paymentOptionsDisabled$ | async) ? ('checkout.backToCart' | cxTranslate) : ('common.cancel' | cxTranslate)"
+          [cancelBtnLabel]="
+            (service.paymentOptionsDisabled$ | async)
+              ? ('checkout.backToCart' | cxTranslate)
+              : ('common.cancel' | cxTranslate)
+          "
           (submitAddress)="onSubmitAddress($event)"
           (backToAddress)="onBackToAddress()"
           [setAsDefaultField]="false"

@@ -40,11 +40,11 @@ describe('OpfCheckoutTermsAndConditionsAlertComponent', () => {
         MockTranslatePipe,
       ],
       providers: [
-         {
+        {
           provide: OpfCheckoutBillingAddressFormService,
           useValue: mockBillingAddressFormService,
         },
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(

@@ -83,7 +83,7 @@ export class OpfCheckoutBillingAddressFormService {
   protected handleNoDefaultAddress(): void {
     this.setIsSameAsDeliveryValue(false);
     this._noDefaultAddressFoundForPickupMode$.next();
-     this.setPaymentOptionsDisabled(true);
+    this.setPaymentOptionsDisabled(true);
   }
 
   getCountries(): Observable<Country[]> {
@@ -112,7 +112,7 @@ export class OpfCheckoutBillingAddressFormService {
         }),
         filter((addr): addr is Address => !!addr),
         switchMap((defaultAddress) => {
-           this.setPaymentOptionsDisabled(false);
+          this.setPaymentOptionsDisabled(false);
           return this.setBillingAddress(defaultAddress);
         }),
         catchError(() => {

@@ -23,7 +23,7 @@ export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitC
   @Input() cart: Cart | null;
 
   @Input() entries: any[] | null;
-  @Input() isAddressCardVisible=false;
+  @Input() isAddressCardVisible = false;
   readonly promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   cartOutlets = CartOutlets;
 }

@@ -24,10 +24,13 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
-  protected opfCheckoutBillingAddressFormService=inject(OpfCheckoutBillingAddressFormService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
 
   iconTypes = ICON_TYPE;
-  protected paymentDisabled$ = this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   /**
    * Defines if alert could be dismissed or not

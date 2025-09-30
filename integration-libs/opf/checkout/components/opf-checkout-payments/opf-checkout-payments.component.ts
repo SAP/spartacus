@@ -48,7 +48,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected translation = inject(TranslationService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected globalMessageService = inject(GlobalMessageService);
-  protected opfCheckoutBillingAddressFormService = inject(OpfCheckoutBillingAddressFormService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
 
   protected subscription = new Subscription();
 
@@ -111,7 +113,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
   protected paginationModel: PaginationModel | undefined;
-  protected  paymentDisabled$ = this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
