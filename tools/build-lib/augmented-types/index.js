@@ -35,12 +35,11 @@ var __awaiter =
 Object.defineProperty(exports, '__esModule', { value: true });
 const architect_1 = require('@angular-devkit/architect');
 const fs_1 = require('fs');
-const globModule = require('glob');
 const path = require('path');
 const rxjs_1 = require('rxjs');
 const operators_1 = require('rxjs/operators');
 const util_1 = require('util');
-const glob = (0, util_1.promisify)(globModule);
+const importGlob = () => import('glob');
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
 exports.default = (0, architect_1.createBuilder)(augmentedTypesBuilder);
@@ -101,6 +100,7 @@ function getNgPackgrLibOutputPath(ngPackagerFile) {
  */
 function propagateAugmentableTypes(libPath, logger) {
   return __awaiter(this, void 0, void 0, function* () {
+    const { glob } = yield importGlob();
     // grab all package.json files
     const files = yield glob(libPath + '/**/package.json');
     for (const packageJsonFile of files) {
