@@ -12,7 +12,7 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
 import { Translatable } from '../../../../i18n/translatable';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
