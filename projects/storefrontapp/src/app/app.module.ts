@@ -6,7 +6,6 @@
 
 import { registerLocaleData } from '@angular/common';
 import {
-  HTTP_INTERCEPTORS,
   provideHttpClient,
   withFetch,
   withInterceptorsFromDi,
@@ -44,7 +43,6 @@ import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
-import { MockInterceptor } from './spartacus/mocked-interceptor';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -68,12 +66,6 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
-    // TODO: only for testing - remove prior to PR review!
-    {
-      provide: HTTP_INTERCEPTORS,
-      useExisting: MockInterceptor,
-      multi: true,
-    },
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
     provideConfig(<OccConfig>{
