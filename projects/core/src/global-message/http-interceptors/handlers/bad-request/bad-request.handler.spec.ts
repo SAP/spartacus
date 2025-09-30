@@ -157,9 +157,13 @@ describe('BadRequestHandler', () => {
       MockBadPasswordResponse.error.error_description
     );
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalledWith({
-      key: 'httpHandlers.badRequest.bad_password', params: { errorMessage: 'Bad password' }
-    }, GlobalMessageType.MSG_TYPE_ERROR);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'httpHandlers.badRequest.bad_password',
+        params: { errorMessage: 'Bad password' },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
     expect(globalMessageService.remove).toHaveBeenCalled();
   });
 
@@ -170,9 +174,13 @@ describe('BadRequestHandler', () => {
       MockExpiredPasswordResponse.error.error_description
     );
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalledWith({
-      key: 'httpHandlers.badRequest.password_expired_for_the_user:_john_doe', params: { errorMessage: 'Password expired for the user: John Doe' }
-    }, GlobalMessageType.MSG_TYPE_ERROR);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'httpHandlers.badRequest.password_expired_for_the_user:_john_doe',
+        params: { errorMessage: 'Password expired for the user: John Doe' },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
     expect(globalMessageService.remove).toHaveBeenCalled();
   });
 

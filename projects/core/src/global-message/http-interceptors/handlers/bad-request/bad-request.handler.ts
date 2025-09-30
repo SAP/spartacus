@@ -39,13 +39,22 @@ export class BadRequestHandler extends HttpErrorHandler {
       response.error?.error === 'invalid_grant' &&
       request.body?.get('grant_type') === 'password'
     ) {
+      let key = this.getErrorTranslationKey(response.error?.error_description);
+      const translationPrefix = `httpHandlers.badRequest`;
+      const params: Translatable['params'] = {
+        errorMessage:
+          response.error.error_description || response.message || '',
+      };
+      const isPasswordExpiredError = key.startsWith(
+        `${translationPrefix}.password_expired_for_the_user`
+      );
+      if (isPasswordExpiredError) {
+        key = `${translationPrefix}.password_expired`;
+      }
       this.globalMessageService.add(
         {
-          key: this.getErrorTranslationKey(response.error?.error_description),
-          params: {
-            errorMessage:
-              response.error.error_description || response.message || '',
-          },
+          key,
+          params,
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );

@@ -3,17 +3,17 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 
 /**
  * This interceptor is used to mock HTTP responses for specific API endpoints.
- * 
+ *
  * It intercepts HTTP requests and returns mock data for the defined endpoints,
  * while allowing other requests to pass through unmodified.
- * 
+ *
  * To use this interceptor, provide it in your Angular module's providers array.
  * Example ([in app.module.ts](https://github.com/SAP/spartacus/blob/20b375201f22ecdff1ad850bccbae763969102a5/projects/storefrontapp/src/app/app.module.ts#L68)):
  * {
@@ -37,9 +37,9 @@ export class MockInterceptor implements HttpInterceptor {
       const mockResponse = new HttpErrorResponse({
         status: 400,
         error: {
-          error : "invalid_grant",
+          error: 'invalid_grant',
           // error_description: "Bad credentials",
-          error_description : "Password expired for the user: John Doe"
+          error_description: 'Password expired for the user: John Doe',
         },
         url: req.url,
       });

@@ -9,7 +9,7 @@ import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withFetch,
-  withInterceptorsFromDi
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
