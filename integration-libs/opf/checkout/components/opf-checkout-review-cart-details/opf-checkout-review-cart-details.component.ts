@@ -12,8 +12,6 @@ import {
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { environment } from '../../../../../projects/storefrontapp/src/environments/environment';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
@@ -25,8 +23,7 @@ export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitC
   @Input() cart: Cart | null;
 
   @Input() entries: any[] | null;
-  protected isB2C=!environment.b2b;
+  @Input() isAddressCardVisible=false;
   readonly promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-
   cartOutlets = CartOutlets;
 }

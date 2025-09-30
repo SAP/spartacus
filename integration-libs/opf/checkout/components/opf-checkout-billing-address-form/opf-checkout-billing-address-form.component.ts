@@ -16,6 +16,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActivatedRoute } from '@angular/router';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
   templateUrl: './opf-checkout-billing-address-form.component.html',
@@ -43,6 +45,11 @@ export class OpfCheckoutBillingAddressFormComponent
 
   countries$: Observable<Country[]>;
 
+  constructor(
+        protected checkoutStepService: CheckoutStepService,
+        protected activatedRoute: ActivatedRoute,
+  ){};
+
   ngOnInit() {
     this.subscription.add(
       this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart))
@@ -65,6 +72,15 @@ export class OpfCheckoutBillingAddressFormComponent
       this.service.setIsSameAsDeliveryValue(true);
       this.isAddingBillingAddressInProgress = false;
     }
+  }
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  onBackToAddress(): void {
+    this.subscription.add(this.service.paymentOptionsDisabled$.subscribe(
+      disabled => disabled ? this.back() : this.cancelAndHideForm()
+    ));
   }
 
   editCustomBillingAddress(): void {
