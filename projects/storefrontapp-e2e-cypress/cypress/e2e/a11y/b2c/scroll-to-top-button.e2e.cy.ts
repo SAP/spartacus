@@ -9,7 +9,7 @@ describe('Scroll to top button', () => {
     cy.visit('/');
     // close the cookie banner
     cy.get('button').contains('Allow All').click();
-    
+
     cy.scrollTo('bottom');
     cy.get('.cx-scroll-to-top-btn').as('scrollBtn');
   });

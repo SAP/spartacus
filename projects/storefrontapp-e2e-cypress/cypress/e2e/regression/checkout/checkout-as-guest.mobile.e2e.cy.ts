@@ -25,5 +25,4 @@ context('Checkout as guest (mobile)', { testIsolation: true }, () => {
   });
 
   guestCheckout.testCheckoutAsGuest();
-
 });

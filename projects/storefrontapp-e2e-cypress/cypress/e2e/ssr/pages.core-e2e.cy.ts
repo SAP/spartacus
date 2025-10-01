@@ -11,12 +11,14 @@ describe('SSR', () => {
   before(() => {
     cy.request('/');
     cy.request(plpUrl);
-    cy.request(pdpUrl);    
+    cy.request(pdpUrl);
   });
 
   function seoChecks() {
     cy.title().should('not.be.empty');
-    cy.document().its('readyState', { timeout: 60000 }).should('eq', 'complete');
+    cy.document()
+      .its('readyState', { timeout: 60000 })
+      .should('eq', 'complete');
     cy.title({ timeout: 60000 }).should('not.be.empty');
 
     cy.get('head meta[name="robots"]', { timeout: 60000 })

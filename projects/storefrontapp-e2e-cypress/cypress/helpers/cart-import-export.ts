@@ -238,14 +238,20 @@ export function verifyImportedData(config: ImportConfig, cart) {
     .parentsUntil('tr')
     .parent()
     .within(() => {
-      cy.get('td.cx-saved-cart-list-cart-name')
-        .contains(config.savedCartConfig?.name, { timeout: 60000 });
-      cy.get('td.cx-saved-cart-list-date-saved')
-        .contains(config.saveTime, { timeout: 60000 });
-      cy.get('td.cx-saved-cart-list-quantity')
-        .contains(String(config.quantity), { timeout: 60000 });
-      cy.get('td.cx-saved-cart-list-total')
-        .contains(config.total, { timeout: 60000 });
+      cy.get('td.cx-saved-cart-list-cart-name').contains(
+        config.savedCartConfig?.name,
+        { timeout: 60000 }
+      );
+      cy.get('td.cx-saved-cart-list-date-saved').contains(config.saveTime, {
+        timeout: 60000,
+      });
+      cy.get('td.cx-saved-cart-list-quantity').contains(
+        String(config.quantity),
+        { timeout: 60000 }
+      );
+      cy.get('td.cx-saved-cart-list-total').contains(config.total, {
+        timeout: 60000,
+      });
     });
 }
 

@@ -209,8 +209,8 @@ export function addProductToCartWithQuickForm(
 
   if (quantity) {
     cy.get('cx-cart-quick-order-form .input-quantity')
-    .clear()
-    .type(`${quantity}`);
+      .clear()
+      .type(`${quantity}`);
   }
   const alias = this.interceptAddToCartEndpoint();
 
