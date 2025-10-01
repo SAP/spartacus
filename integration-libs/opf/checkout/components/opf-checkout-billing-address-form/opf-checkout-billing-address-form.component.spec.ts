@@ -8,7 +8,10 @@ import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { BaseSiteService } from '@spartacus/core';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { Store } from '@ngrx/store';
@@ -74,6 +77,9 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
         },
         { provide: Store, useValue: {} },
         { provide: UserAddressAdapter, useValue: {} },
+        { provide: CheckoutStepService, useValue: {} },
+        { provide: BaseSiteService, useValue: {} },
+        { provide: ActivatedRoute, useValue: { params: of({}) } },
       ],
     }).compileComponents();
 
