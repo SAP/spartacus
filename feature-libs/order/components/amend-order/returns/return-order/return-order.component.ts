@@ -48,7 +48,10 @@ export class ReturnOrderComponent {
           return consignmentEntry
             ? {
                 ...entry,
-                returnableQuantity: consignmentEntry.shippedQuantity ?? entry.returnableQuantity ?? 0,
+                returnableQuantity:
+                  consignmentEntry.shippedQuantity ??
+                  entry.returnableQuantity ??
+                  0,
               }
             : entry;
         })
