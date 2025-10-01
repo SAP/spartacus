@@ -48,9 +48,9 @@ export class ReturnOrderComponent {
           return consignmentEntry
             ? {
                 ...entry,
-                returnableQuantity: consignmentEntry.shippedQuantity ?? 0,
+                returnableQuantity: consignmentEntry.shippedQuantity ?? entry.returnableQuantity ?? 0,
               }
-            : null;
+            : entry;
         })
         .filter(
           (entry): entry is OrderEntry =>
