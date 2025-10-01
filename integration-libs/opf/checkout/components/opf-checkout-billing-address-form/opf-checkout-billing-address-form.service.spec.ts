@@ -3,7 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  CheckoutBillingAddressFacade,
+  CheckoutDeliveryAddressFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   GlobalMessageService,
@@ -13,14 +18,8 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import {
-  CheckoutBillingAddressFacade,
-  CheckoutDeliveryAddressFacade,
-} from '@spartacus/checkout/base/root';
-import { TestBed, fakeAsync, flush } from '@angular/core/testing';
-
-import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { Store } from '@ngrx/store';
 
 describe('OpfCheckoutBillingAddressFormService', () => {

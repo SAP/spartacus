@@ -3,18 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, Country, UserAddressAdapter } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, Subject, of } from 'rxjs';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Pipe, PipeTransform } from '@angular/core';
-
-import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { BaseSiteService } from '@spartacus/core';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Address, BaseSiteService, Country, UserAddressAdapter } from '@spartacus/core';
+import { BehaviorSubject, EMPTY, Observable, of,Subject } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { ActivatedRoute } from '@angular/router';
 
 class Service {
   billingAddress$ = new BehaviorSubject<Address | undefined>(undefined);

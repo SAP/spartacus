@@ -18,6 +18,7 @@ import {
   GlobalMessageType,
   HttpErrorModel,
   UserPaymentService,
+  UserAddressService,
 } from '@spartacus/core';
 import {
   BehaviorSubject,
@@ -40,7 +41,6 @@ import {
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
-import { UserAddressService } from '@spartacus/core';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {

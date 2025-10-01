@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Cart,
-  CartOutlets,
-  PromotionLocation,
-} from '@spartacus/cart/base/root';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
+import {
+  PromotionLocation,
+  CartOutlets,
+  Cart,
+} from '@spartacus/cart/base/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 
 @Component({
