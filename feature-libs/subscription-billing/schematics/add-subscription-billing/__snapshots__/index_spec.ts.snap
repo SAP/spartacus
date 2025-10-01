@@ -28,7 +28,7 @@ exports[`Spartacus Subscription Billing Schematics: ng-add Subscription Billing 
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { subscriptionBillingTranslationChunksConfig, subscriptionBillingTranslationsEn } from "@spartacus/subscription-billing/assets";
-import { SubscriptionBillingRootModule } from "@spartacus/subscription-billing/root";
+import { SUBSCRIPTION_BILLING_FEATURE, SubscriptionBillingRootModule } from "@spartacus/subscription-billing/root";
 
 @NgModule({
   declarations: [],
@@ -37,7 +37,7 @@ import { SubscriptionBillingRootModule } from "@spartacus/subscription-billing/r
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      SubscriptionBilling: {
+      [SUBSCRIPTION_BILLING_FEATURE]: {
         module: () =>
           import('@spartacus/subscription-billing').then((m) => m.SubscriptionBillingModule),
       },

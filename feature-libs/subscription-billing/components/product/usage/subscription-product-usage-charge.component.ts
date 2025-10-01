@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { Component, computed, Input, Signal } from '@angular/core';
-import { I18nModule, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
   UsageChargeType,
@@ -16,9 +15,8 @@ import {
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',
-  standalone: true,
+  standalone: false,
   templateUrl: './subscription-product-usage-charge.component.html',
-  imports: [CommonModule, I18nModule],
 })
 export class SubscriptionProductUsageChargeComponent {
   @Input() product!: Signal<Product | undefined | null>;
@@ -71,9 +69,9 @@ export class SubscriptionProductUsageChargeComponent {
   }
 
   isUsageChargePresent(): boolean {
-    return this.product()?.sapPricePlan?.perUnitUsageCharges ||
-      this.product()?.sapPricePlan?.volumeUsageCharges
-      ? true
-      : false;
+    return Boolean(
+      this.product()?.sapPricePlan?.perUnitUsageCharges ||
+        this.product()?.sapPricePlan?.volumeUsageCharges
+    );
   }
 }

@@ -6,20 +6,17 @@
 
 import { Component, computed, inject, Input, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { I18nModule, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 import {
   OneTimeCharge,
   RecurringCharge,
 } from '@spartacus/subscription-billing/root';
-import { CommonModule } from '@angular/common';
-import { SubscriptionProductUsageChargeComponent } from '../usage/subscription-product-usage-charge.component';
 
 @Component({
   selector: 'cx-subscription-product-price',
-  standalone: true,
+  standalone: false,
   templateUrl: './subscription-product-price.component.html',
-  imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeComponent],
 })
 export class SubscriptionProductPriceComponent {
   @Input() productCode?: string;

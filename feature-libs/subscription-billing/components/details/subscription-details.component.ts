@@ -1,12 +1,11 @@
-import { CommonModule } from '@angular/common';
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  EventService,
-  I18nModule,
-  RoutingService,
-  UrlModule,
-} from '@spartacus/core';
+import { EventService } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
@@ -17,13 +16,12 @@ import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
+  standalone: false,
 })
 export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
   protected subscription = new Subscription();
-  protected routingService = inject(RoutingService);
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();

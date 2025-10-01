@@ -16,10 +16,10 @@ export class SubscriptionProductService {
   protected currentProductService = inject(CurrentProductService);
   protected productService = inject(ProductService);
   isSubscription(product: Product): boolean {
-    return (product.sapSubscriptionTerm && product.sapPricePlan) ||
-      product.productTypes === 'SUBSCRIPTION'
-      ? true
-      : false;
+    return Boolean(
+      (product.sapSubscriptionTerm && product.sapPricePlan) ||
+        product.productTypes === 'SUBSCRIPTION'
+    );
   }
 
   getSubscriptionData(

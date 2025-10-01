@@ -109,7 +109,6 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 
 const featureModules = [];
 
@@ -279,7 +278,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-    SubscriptionBillingFeatureModule,
+    // SubscriptionBillingFeatureModule, -> uncomment in SPA 221121.4 release (refer CXSPA-11070)
     ...featureModules,
   ],
   providers: [

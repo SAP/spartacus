@@ -4,12 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
-import { en } from './en/index';
+import { TranslationChunksConfig } from '@spartacus/core';
 
-export const subscriptionBillingTranslations: TranslationResources = {
-  en,
-};
+export { en as subscriptionBillingTranslationsEn } from './en/index';
 
 export const subscriptionBillingTranslationChunksConfig: TranslationChunksConfig =
   {

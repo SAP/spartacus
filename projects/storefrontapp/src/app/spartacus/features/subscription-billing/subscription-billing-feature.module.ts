@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  subscriptionBillingTranslations,
+  subscriptionBillingTranslationsEn,
   subscriptionBillingTranslationChunksConfig,
 } from '@spartacus/subscription-billing/assets';
 import {
@@ -29,7 +29,7 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: subscriptionBillingTranslations,
+        resources: { en: subscriptionBillingTranslationsEn },
         chunks: subscriptionBillingTranslationChunksConfig,
         fallbackLang: 'en',
       },
