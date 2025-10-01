@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { I18nModule, UrlModule } from '@spartacus/core';
-import { OutletModule, PromotionsModule } from '@spartacus/storefront';
-
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card';
+import { CommonModule } from '@angular/common';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { PromotionsModule, OutletModule } from '@spartacus/storefront';
 import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 import { PickUpItemsDetailsModule } from '@spartacus/pickup-in-store/components';
+import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card';
 
 @NgModule({
   imports: [

@@ -4,14 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  CheckoutBillingAddressFacade,
+  CheckoutDeliveryAddressFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   Country,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
@@ -24,12 +29,6 @@ import {
   throwError,
 } from 'rxjs';
 import {
-  CheckoutBillingAddressFacade,
-  CheckoutDeliveryAddressFacade,
-  CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
-import { Injectable, inject } from '@angular/core';
-import {
   catchError,
   filter,
   finalize,
@@ -39,9 +38,9 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
+import { UserAddressService } from '@spartacus/core';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
