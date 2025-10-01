@@ -52,7 +52,7 @@
           actionBtnLabel="{{ 'common.save' | cxTranslate }}"
           [cancelBtnLabel]="
             (service.paymentOptionsDisabled$ | async)
-              ? ('checkout.backToCart' | cxTranslate)
+              ? ('checkout.back' | cxTranslate)
               : ('common.cancel' | cxTranslate)
           "
           (submitAddress)="onSubmitAddress($event)"
