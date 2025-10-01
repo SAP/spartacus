@@ -14,8 +14,8 @@ export interface SapOrderSubsequentDocument {
 }
 
 export interface SapOrderSubsequentDocumentEntry {
-  sapSubsequentDocumentEntryNumber?: string
-  sapOrderEntryNumber?: string
-  sapCreatedAt?: Date
-  sapStatus?: string
+  sapSubsequentDocumentEntryNumber?: string;
+  sapOrderEntryNumber?: string;
+  sapCreatedAt?: Date;
+  sapStatus?: string;
 }

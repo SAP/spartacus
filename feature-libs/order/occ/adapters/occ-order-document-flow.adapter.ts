@@ -5,7 +5,8 @@
  */
 
 import {
-  HttpClient, HttpErrorResponse,
+  HttpClient,
+  HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
@@ -18,7 +19,10 @@ import {
 import { Observable } from 'rxjs';
 import { OrderDocumentFlowAdapter } from '@spartacus/order/core';
 import { catchError } from 'rxjs/operators';
-import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
+import {
+  SapOrderSubsequentDocument,
+  SapOrderSubsequentDocumentEntry,
+} from '@spartacus/order/root';
 
 @Injectable()
 export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
@@ -29,16 +33,18 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
 
   getOrderSubsequentDocuments(
     userId: string,
-    orderId: string,
+    orderId: string
   ): Observable<SapOrderSubsequentDocument[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
-      .get<SapOrderSubsequentDocument[]>(this.getSubsequentDocumentsUrl(orderId, userId), { headers })
+      .get<
+        SapOrderSubsequentDocument[]
+      >(this.getSubsequentDocumentsUrl(orderId, userId), { headers })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw tryNormalizeHttpError(error, this.logger);
-        }),
+        })
       );
   }
 
@@ -46,16 +52,18 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
     userId: string,
     orderId: string,
     documentCategory: string,
-    documentId: string,
+    documentId: string
   ): Observable<SapOrderSubsequentDocumentEntry[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
-      .get<SapOrderSubsequentDocumentEntry[]>(this.getSubsequentDocumentsEntriesUrl(orderId, userId, documentCategory, documentId), { headers })
+      .get<
+        SapOrderSubsequentDocumentEntry[]
+      >(this.getSubsequentDocumentsEntriesUrl(orderId, userId, documentCategory, documentId), { headers })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           throw tryNormalizeHttpError(error, this.logger);
-        }),
+        })
       );
   }
 
@@ -68,7 +76,12 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
     });
   }
 
-  protected getSubsequentDocumentsEntriesUrl(orderId: string, userId: string, documentCategory: string, documentId: string): string {
+  protected getSubsequentDocumentsEntriesUrl(
+    orderId: string,
+    userId: string,
+    documentCategory: string,
+    documentId: string
+  ): string {
     return this.occEndpoints.buildUrl('subsequentDocumentsEntries', {
       urlParams: {
         userId,

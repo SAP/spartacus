@@ -6,12 +6,12 @@
 
 import {
   ChangeDetectionStrategy,
-  Component, EventEmitter,
-  Input, Output,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
 } from '@angular/core';
-import {
-  SapOrderSubsequentDocument,
-} from '@spartacus/order/root';
+import { SapOrderSubsequentDocument } from '@spartacus/order/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -25,10 +25,9 @@ export class OrderSubsequentDocumentList {
 
   @Input() documents: SapOrderSubsequentDocument[];
   @Input() selectedDocument?: SapOrderSubsequentDocument;
-  @Output() documentSelected = new EventEmitter<SapOrderSubsequentDocument>;
+  @Output() documentSelected = new EventEmitter<SapOrderSubsequentDocument>();
 
   onDocumentSelection(document: SapOrderSubsequentDocument): void {
     this.documentSelected.emit(document);
   }
-
 }

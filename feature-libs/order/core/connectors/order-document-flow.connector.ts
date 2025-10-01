@@ -7,7 +7,10 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderDocumentFlowAdapter } from './order-document-flow.adapter';
-import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
+import {
+  SapOrderSubsequentDocument,
+  SapOrderSubsequentDocumentEntry,
+} from '@spartacus/order/root';
 
 @Injectable()
 export class OrderDocumentFlowConnector {
@@ -26,6 +29,11 @@ export class OrderDocumentFlowConnector {
     documentCategory: string,
     documentId: string
   ): Observable<SapOrderSubsequentDocumentEntry[]> {
-    return this.adapter.getOrderSubsequentDocumentEntries(userId, orderId, documentCategory, documentId);
+    return this.adapter.getOrderSubsequentDocumentEntries(
+      userId,
+      orderId,
+      documentCategory,
+      documentId
+    );
   }
 }

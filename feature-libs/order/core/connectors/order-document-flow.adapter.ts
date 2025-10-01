@@ -5,7 +5,10 @@
  */
 
 import { Observable } from 'rxjs';
-import { SapOrderSubsequentDocument, SapOrderSubsequentDocumentEntry } from '@spartacus/order/root';
+import {
+  SapOrderSubsequentDocument,
+  SapOrderSubsequentDocumentEntry,
+} from '@spartacus/order/root';
 
 export abstract class OrderDocumentFlowAdapter {
   /**

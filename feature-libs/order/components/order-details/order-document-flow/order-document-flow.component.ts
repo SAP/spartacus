@@ -43,7 +43,7 @@ export class OrderDocumentFlowComponent {
       LAUNCH_CALLER.ORDER_DOCUMENT_FLOW,
       this.element,
       this.vcr,
-      { orderCode },
+      { orderCode }
     );
 
     if (dialog) {

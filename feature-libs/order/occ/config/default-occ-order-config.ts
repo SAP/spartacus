@@ -49,7 +49,8 @@ export const defaultOccOrderConfig: OccConfig = {
         /** order attachments endpoints end **/
 
         /** subsequent documents endpoints start **/
-        subsequentDocuments: 'users/${userId}/orders/${orderId}/subsequentDocuments',
+        subsequentDocuments:
+          'users/${userId}/orders/${orderId}/subsequentDocuments',
         subsequentDocumentsEntries:
           'users/${userId}/orders/${orderId}/subsequentDocuments/${documentCategory}/${documentId}/entries',
         /** subsequent documents endpoints end **/

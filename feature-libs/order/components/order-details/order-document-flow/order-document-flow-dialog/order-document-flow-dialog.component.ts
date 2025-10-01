@@ -8,18 +8,32 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef, ElementRef,
+  DestroyRef,
+  ElementRef,
   inject,
-  signal, ViewChild
+  signal,
+  ViewChild,
 } from '@angular/core';
-import { GlobalMessageType, TranslationService, isNotNullable } from '@spartacus/core';
+import {
+  GlobalMessageType,
+  TranslationService,
+  isNotNullable,
+} from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, filter, map, shareReplay, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {
   OrderAttachmentsConfig,
   OrderDocumentFlowFacade,
@@ -56,44 +70,61 @@ export class OrderDocumentFlowDialogComponent {
   displayDocumentEntries = signal(false);
 
   orderCode$: Observable<string> = this.launchDialogService.data$.pipe(
-    map((data) => data.orderCode),
+    map((data) => data.orderCode)
   );
 
   documents$: Observable<SapOrderSubsequentDocument[]> = this.orderCode$.pipe(
-    switchMap(orderId => this.orderDocumentFlowFacade.getOrderSubsequentDocuments(orderId)),
-    catchError(() => {
-      this.loadError.set(true);
-      return of([]);
-    }),
-    takeUntilDestroyed(this.destroyRef),
-    shareReplay(),
-  );
-  loadError = signal(false);
-
-  protected selectedDocumentSubject =
-    new BehaviorSubject<SapOrderSubsequentDocument | undefined>(undefined);
-  selectedDocument$: Observable<SapOrderSubsequentDocument | undefined> = this.selectedDocumentSubject.asObservable();
-
-  protected documentEntriesCache = new Map<string, SapOrderSubsequentDocumentEntry[]>;
-  selectedDocumentEntries$: Observable<SapOrderSubsequentDocumentEntry[]> = this.selectedDocument$.pipe(
-    filter(isNotNullable),
-    withLatestFrom(this.orderCode$),
-    switchMap(([document, orderCode]) => {
-        const cachedEntries = this.documentEntriesCache.get(document.sapDocumentId ?? '');
-        if (cachedEntries) {
-          return of(cachedEntries);
-        }
-
-        return this.orderDocumentFlowFacade.getOrderSubsequentDocumentEntries(orderCode, document.sapDocumentCategory ?? '', document.sapDocumentId ?? '').pipe(
-          tap((entries) => this.cacheDocumentEntries(document.sapDocumentId ?? '', entries)),
-        );
-      },
+    switchMap((orderId) =>
+      this.orderDocumentFlowFacade.getOrderSubsequentDocuments(orderId)
     ),
     catchError(() => {
       this.loadError.set(true);
       return of([]);
     }),
+    takeUntilDestroyed(this.destroyRef),
+    shareReplay()
   );
+  loadError = signal(false);
+
+  protected selectedDocumentSubject = new BehaviorSubject<
+    SapOrderSubsequentDocument | undefined
+  >(undefined);
+  selectedDocument$: Observable<SapOrderSubsequentDocument | undefined> =
+    this.selectedDocumentSubject.asObservable();
+
+  protected documentEntriesCache = new Map<
+    string,
+    SapOrderSubsequentDocumentEntry[]
+  >();
+  selectedDocumentEntries$: Observable<SapOrderSubsequentDocumentEntry[]> =
+    this.selectedDocument$.pipe(
+      filter(isNotNullable),
+      withLatestFrom(this.orderCode$),
+      switchMap(([document, orderCode]) => {
+        const cachedEntries = this.documentEntriesCache.get(
+          document.sapDocumentId ?? ''
+        );
+        if (cachedEntries) {
+          return of(cachedEntries);
+        }
+
+        return this.orderDocumentFlowFacade
+          .getOrderSubsequentDocumentEntries(
+            orderCode,
+            document.sapDocumentCategory ?? '',
+            document.sapDocumentId ?? ''
+          )
+          .pipe(
+            tap((entries) =>
+              this.cacheDocumentEntries(document.sapDocumentId ?? '', entries)
+            )
+          );
+      }),
+      catchError(() => {
+        this.loadError.set(true);
+        return of([]);
+      })
+    );
 
   onDocumentSelection(document: SapOrderSubsequentDocument): void {
     this.saveScrollPosition();
@@ -111,7 +142,10 @@ export class OrderDocumentFlowDialogComponent {
     this.launchDialogService.closeDialog(reason);
   }
 
-  protected cacheDocumentEntries(documentId: string, entries: SapOrderSubsequentDocumentEntry[]): void {
+  protected cacheDocumentEntries(
+    documentId: string,
+    entries: SapOrderSubsequentDocumentEntry[]
+  ): void {
     if (entries.length > 0) {
       this.documentEntriesCache.set(documentId, entries);
     }
@@ -123,7 +157,8 @@ export class OrderDocumentFlowDialogComponent {
 
   protected restoreScrollPosition(): void {
     setTimeout(() => {
-      this.scrollContainerRef.nativeElement.scrollTop = this.savedScrollPosition;
+      this.scrollContainerRef.nativeElement.scrollTop =
+        this.savedScrollPosition;
     }, 0);
   }
 }

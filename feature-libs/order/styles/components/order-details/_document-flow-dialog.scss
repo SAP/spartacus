@@ -7,7 +7,8 @@
       margin: 0 1rem;
 
       button {
-        &.back, &.close {
+        &.back,
+        &.close {
           @include type('2');
           padding: 0 1rem 0 0;
 
@@ -43,17 +44,18 @@
           position: sticky;
           top: 0;
           background-color: white;
-          box-shadow: 0 (2 * $table-border-width) (2 * $table-border-width) -1px $gray-300;
+          box-shadow: 0 (2 * $table-border-width) (2 * $table-border-width) -1px
+            $gray-300;
           border-bottom: unset;
 
           tr {
             border-bottom: unset;
 
             th {
-              padding: 1rem .5rem;
+              padding: 1rem 0.5rem;
 
               &:first-child {
-                padding: 1rem .5rem 1rem 1rem;
+                padding: 1rem 0.5rem 1rem 1rem;
               }
             }
           }
@@ -67,10 +69,10 @@
 
             td {
               height: 50px;
-              padding: .5rem;
+              padding: 0.5rem;
 
               &:first-child {
-                padding: .5rem .5rem .5rem 1rem;
+                padding: 0.5rem 0.5rem 0.5rem 1rem;
               }
             }
           }
@@ -87,7 +89,7 @@
       }
 
       .cx-mobile-header {
-        padding-inline-end: .3rem;
+        padding-inline-end: 0.3rem;
         font-weight: bold;
       }
     }
