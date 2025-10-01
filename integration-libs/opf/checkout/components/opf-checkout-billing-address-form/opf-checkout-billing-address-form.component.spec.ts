@@ -5,8 +5,13 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Address, BaseSiteService, Country, UserAddressAdapter } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of,Subject } from 'rxjs';
+import {
+  Address,
+  Country,
+  BaseSiteService,
+  UserAddressAdapter,
+} from '@spartacus/core';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 import { Store } from '@ngrx/store';

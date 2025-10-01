@@ -22,18 +22,18 @@
           ) | cxTranslate
         }}
       </p>
+      <button
+        *ngIf="isDismissible"
+        class="close"
+        type="button"
+        (click)="close()"
+        [attr.aria-label]="
+          'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate
+        "
+        [attr.title]="'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate"
+      >
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </button>
     </div>
-    <button
-      *ngIf="isDismissible"
-      class="close"
-      type="button"
-      (click)="close()"
-      [attr.aria-label]="
-        'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate
-      "
-      [attr.title]="'opfCheckout.closeTermsAndConditionsAlert' | cxTranslate"
-    >
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-    </button>
   </ng-template>
 </div>
