@@ -33,6 +33,7 @@ import {
   FeatureToggles,
   Product,
   ProductAvailabilityService,
+  ProductCatalogueService,
   ProductScope,
   isNotNullable,
   useFeatureStyles,
@@ -79,6 +80,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   showInventory$: Observable<boolean | undefined> | undefined =
     this.component?.data$.pipe(map((data) => data.inventoryDisplay));
+  unavailable: boolean = false;
 
   quantity = 1;
 
@@ -97,6 +99,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
   private featureToggles = inject(FeatureToggles);
   private productAvailabilityService = inject(ProductAvailabilityService);
+  protected productCatalogueService = inject(ProductCatalogueService);
 
   /**
    * We disable the dialog launch on quantity input,
@@ -128,6 +131,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
+      this.unavailable = !this.productCatalogueService.isProductInCatalogue(
+        this.product
+      );
     } else if (this.productCode) {
       // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
@@ -150,6 +156,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.productCode = product.code ?? '';
           this.product = product;
           this.setStockInfo(product);
+          this.unavailable =
+            !this.productCatalogueService.isProductInCatalogue(product);
         })
       );
     }

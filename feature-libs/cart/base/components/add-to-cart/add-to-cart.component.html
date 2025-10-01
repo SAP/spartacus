@@ -42,7 +42,9 @@
         : 'btn btn-primary btn-block'
     "
     type="submit"
-    [disabled]="disabled || quantity <= 0 || quantity > maxQuantity"
+    [disabled]="
+      disabled || quantity <= 0 || quantity > maxQuantity || unavailable
+    "
     [attr.aria-label]="
       product?.name
         ? ('addToCart.addToCart' | cxTranslate) + ', ' + product?.name
@@ -63,7 +65,11 @@
           : ''
       "
     >
-      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+      {{
+        unavailable
+          ? ('addToCart.unavailable' | cxTranslate)
+          : (options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate))
+      }}
     </span>
   </button>
 </form>

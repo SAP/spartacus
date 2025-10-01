@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -15,8 +16,10 @@ import {
 } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { ProductCatalogueService } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-order-details-reorder',
@@ -25,6 +28,8 @@ import { OrderDetailsService } from '../order-details.service';
   standalone: false,
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
+  protected productCatalogueService = inject(ProductCatalogueService);
+
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected launchDialogService: LaunchDialogService,
@@ -35,8 +40,19 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   order$: Observable<any>;
 
+  disabled$: Observable<boolean>;
+
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
+    this.disabled$ = this.order$.pipe(
+      map(
+        (order) =>
+          order &&
+          !order.entries?.some((entry: OrderEntry) =>
+            this.productCatalogueService.isProductInCatalogue(entry.product)
+          )
+      )
+    );
   }
 
   onReorderClick(order: any) {
