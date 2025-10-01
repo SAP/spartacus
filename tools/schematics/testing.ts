@@ -7,7 +7,7 @@
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 import { chalk } from '../chalk';
 
@@ -141,7 +141,7 @@ function getPackageJsonFiles(): string[] {
     'projects/storefrontstyles/package.json',
     'projects/schematics/package.json',
   ];
-  const distFiles = glob.sync(`dist/!(node_modules)/package.json`);
+  const distFiles = globSync(`dist/!(node_modules)/package.json`);
   return [...sourceFiles, ...distFiles];
 }
 

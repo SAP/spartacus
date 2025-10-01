@@ -79,7 +79,7 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkGroupTitleDisplayed();
   configuration.checkGroupFormDisplayed();
   configuration.checkGroupMenuDisplayed();
-  configuration.checkPreviousAndNextBtnsDispalyed();
+  configuration.checkPreviousAndNextBtnsDisplayed();
   configuration.checkPriceSummaryDisplayed();
   configuration.checkAddToCartBtnDisplayed();
   checkProductTitleDisplayed();
