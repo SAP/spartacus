@@ -7,6 +7,7 @@
 export * from './anonymous-consents-dialog/index';
 export * from './card/index';
 export * from './carousel/index';
+export * from './carousel-scrolling/index';
 export * from './form/index';
 export * from './generic-link/index';
 export * from './item-counter/index';
@@ -23,3 +24,4 @@ export * from './ng-select-a11y/index';
 export * from './assistive-technology-message/index';
 export * from './captcha/index';
 export * from './chat-messaging/index';
+export * from './read-more';

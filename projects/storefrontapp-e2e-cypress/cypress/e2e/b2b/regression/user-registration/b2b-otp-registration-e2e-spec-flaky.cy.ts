@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { listenForTokenAuthenticationRequest } from '../../../../helpers/login';
+export function visitLoginPage() {
+  cy.visit('/');
+  cy.getLoginRegisterLink({ clickAndWait: true });
+}
 
 describe('Tabbing order for B2B OTP registration', () => {
   before(() => {
@@ -14,7 +17,8 @@ describe('Tabbing order for B2B OTP registration', () => {
   describe('B2B OTP Registration', () => {
     context('B2B OTP Registration page', () => {
       beforeEach(() => {
-        cy.visit('/login/register');
+        visitLoginPage();
+        cy.get('cx-link.cx-organization-user-register-button').click();
       });
       it('should allow to navigate with tab key for otp registration form and otp verification page(CXSPA-8772)', () => {
         cy.get('cx-user-registration-form').should('exist');
@@ -34,41 +38,35 @@ describe('Tabbing order for B2B OTP registration', () => {
           Cypress.env('MAIL_CCV2_PREFIX') +
           '/search?query=' +
           email +
-          '&kind=to&start=0&limit=1';
+          '&limit=1';
 
         cy.request({
           method: 'GET',
           url: mailCCV2Url,
         }).then((response) => {
           const verificationCodeEmailStartText =
-            'Please use the following verification code to register in Spartacus powertools Site:</p>';
-          const lableP = '<p>';
-          const items = response.body.items;
-          const emailBody = items[0].Content.Body;
+            'Please use the following verification code to register in Spartacus powertools Site: ';
+          const items = response.body.messages;
+          const emailBody = items[0].Snippet;
 
           const verificationCodeEmailStartIndex =
             emailBody.indexOf(verificationCodeEmailStartText) +
             verificationCodeEmailStartText.length;
-          const verificationCodeStartIndex =
-            emailBody.indexOf(lableP, verificationCodeEmailStartIndex) +
-            lableP.length;
           const verificationCode = emailBody.substring(
-            verificationCodeStartIndex,
-            verificationCodeStartIndex + 8
+            verificationCodeEmailStartIndex,
+            verificationCodeEmailStartIndex + 8
           );
 
-          listenForTokenAuthenticationRequest();
+          listenForOrgUserRegistrationRequest();
           cy.get('cx-verification-token-form').within(() => {
             cy.get('[formcontrolname="tokenCode"]')
               .clear()
               .type(verificationCode);
             cy.get('button[type=submit]').click();
           });
-          cy.get('cx-global-message').should('exist');
-          cy.get('cx-global-message').contains(
-            'Thank you for registering! A representative will contact you shortly and confirm your access information.'
-          );
-          cy.get('cx-login').should('exist');
+          cy.wait('@OrgUserRegistration')
+            .its('response.statusCode')
+            .should('eq', 201);
         });
       });
     });
@@ -77,7 +75,8 @@ describe('Tabbing order for B2B OTP registration', () => {
   describe('Rate limit for registration', () => {
     it('Should display error message when create verification token with registration up to rate limit (CXSPA-9111)', () => {
       for (let i = 0; i < 6; i++) {
-        cy.visit('/login/register');
+        visitLoginPage();
+        cy.get('cx-link.cx-organization-user-register-button').click();
         cy.get('cx-user-registration-form form').within(() => {
           cy.get('ng-select[formcontrolname="titleCode"]')
             .click()
@@ -101,6 +100,16 @@ describe('Tabbing order for B2B OTP registration', () => {
   });
 });
 
+export function listenForOrgUserRegistrationRequest(): string {
+  const aliasName = 'OrgUserRegistration';
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/orgUsers?*`,
+  }).as(aliasName);
+
+  return `@${aliasName}`;
+}
+
 export function listenForUserVerficationCodeEmailReceive(
   customerEmail: string
 ) {
@@ -109,13 +118,15 @@ export function listenForUserVerficationCodeEmailReceive(
     Cypress.env('MAIL_CCV2_PREFIX') +
     '/search?query=' +
     customerEmail +
-    '&kind=to';
+    '&limit=1';
+
+  cy.wait(5000); // allow time for email event handlers
 
   cy.request({
     method: 'GET',
     url: mailCCV2Url,
   }).then((response) => {
-    if (response.body.total != 1) {
+    if (response.body.count != 1) {
       listenForUserVerficationCodeEmailReceive(customerEmail);
     }
   });

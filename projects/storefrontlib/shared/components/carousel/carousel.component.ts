@@ -15,6 +15,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  TrackByFunction,
 } from '@angular/core';
 import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -37,11 +38,16 @@ import { CarouselService } from './carousel.service';
  *
  * To allow for flexible rendering of items, the rendering is delegated to the
  * given `template`. This allows for maximum flexibility.
+ *
+ * Hydration is disabled for this component (`ngSkipHydration: 'true'`) due to inconsistencies between
+ * client-side rendering (CSR) and server-side rendering (SSR). The differences in rendered output
+ * can cause issues during the hydration process, so this component is excluded from Angular hydration.
  */
 @Component({
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
   standalone: false,
 })
 export class CarouselComponent implements OnInit, OnChanges {
@@ -86,6 +92,18 @@ export class CarouselComponent implements OnInit, OnChanges {
   @Input() indicatorIcon = ICON_TYPE.CIRCLE;
   @Input() previousIcon = ICON_TYPE.CARET_LEFT;
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
+
+  /**
+   * Angular's trackBy function for iterating over carousel items.
+   *
+   * For a given item it should return an unique identifier.
+   * If not provided, it will fallback to returning the item directly
+   * (like Angular's naive default trackBy).
+   *
+   * If the returned value is not unique, it may lead to unexpected behavior,
+   * such as unwanted destroying and re-creating child templates on items array changes.
+   */
+  @Input() trackByFn: TrackByFunction<any> = (_index, item) => item;
 
   activeSlide: number;
   size$: Observable<number>;

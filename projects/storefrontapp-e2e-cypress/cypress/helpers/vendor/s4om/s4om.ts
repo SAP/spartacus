@@ -19,6 +19,7 @@ import {
 } from '../../../sample-data/checkout-flow';
 import { AccountData } from '../../../support/require-logged-in.commands';
 import { interceptGet, interceptPost } from '../../../support/utils/intercept';
+import { visitLoginPage } from '../../../support/utils/login';
 import { tabbingOrderConfig } from '../../accessibility/b2b/tabbing-order.config';
 import { verifyTabbingOrder } from '../../accessibility/tabbing-order';
 import {
@@ -31,7 +32,8 @@ import {
   interceptPutDeliveryModeEndpoint,
 } from '../../b2b/b2b-checkout';
 import { clearActiveCart, goToCart, validateEmptyCart } from '../../cart';
-import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { waitForProductPage } from '../../checkout-flow';
+import { waitForPage } from '../../navigation';
 import { LOCATORS } from '../../pickup-in-store-utils';
 
 export const s4omB2BUser: AccountData = {
@@ -163,7 +165,7 @@ export function loginS4OMB2bUser() {
     s4omB2BUser.registrationData.lastName;
 
   cy.window().then((win) => win.sessionStorage.clear());
-  cy.visit('/login');
+  visitLoginPage();
   cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
   login(
     s4omB2BUser.registrationData.email,
@@ -233,9 +235,7 @@ export function clearItemsFromCart() {
   validateEmptyCart();
 }
 
-export function goToCart() {
-  goToCart();
-}
+export { goToCart };
 
 export function verifyScheduleLineInfo() {
   let scheduleLines = window.sessionStorage.getItem('TG11-scheduleLines');

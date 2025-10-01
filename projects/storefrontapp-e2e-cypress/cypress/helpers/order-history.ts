@@ -10,9 +10,9 @@ import {
   replenishmentOrderHistoryHeaderValue,
   replenishmentOrderHistoryUrl,
 } from './b2b/b2b-replenishment-order-history';
-import { waitForPage } from './checkout-flow';
-import { checkBanner, clickHamburger } from './homepage';
+import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
+import { clickHamburger, waitForPage } from './navigation';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -101,7 +101,7 @@ export const orderHistoryTest = {
     it('should redirect to login page if user is not logged in', () => {
       cy.visit(url);
       cy.url().should('contain', '/login');
-      cy.get('cx-login').should('contain', 'Sign In / Register');
+      cy.getLoginRegisterLink().should('contain', 'Sign In / Register');
     });
   },
   checkRedirectLoggedInUser(
@@ -109,6 +109,9 @@ export const orderHistoryTest = {
     url: string = orderHistoryLink
   ) {
     it('should go to Order History once user has logged in', () => {
+      cy.visit(url);
+      cy.url().should('contain', '/login');
+      cy.getLoginRegisterLink().should('contain', 'Sign In / Register');
       login(sampleUser.email, sampleUser.password);
       cy.url().should('contain', url);
       if (url === replenishmentOrderHistoryUrl) {

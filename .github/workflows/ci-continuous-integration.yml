@@ -6,6 +6,9 @@ on:
       - develop-*
       - release/*
       - epic/**
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
@@ -24,7 +27,7 @@ jobs:
     name: CI - Unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Setup node
@@ -50,7 +53,7 @@ jobs:
     name: CI - SonarQube Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: SonarQube Scan
@@ -67,7 +70,7 @@ jobs:
     name: CI - Validations and static code checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -91,7 +94,7 @@ jobs:
     name: CI - Check peerDependencies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Setup node

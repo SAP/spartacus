@@ -14,7 +14,7 @@
     "saveAsDefault": "Enregistrer par défaut",
     "setAsDefault": "Définir comme mode de paiement par défaut",
     "billingAddress": "Adresse de facturation",
-    "editBillingAddress": "Edit billing Address",
+    "editBillingAddress": "Modifier l’adresse de facturation",
     "sameAsDeliveryAddress": "Identique à l'adresse de livraison",
     "billingAddressSameAsShipping": "L'adresse de facturation est la même que l'adresse de livraison.",
     "selectOne": "Sélectionner un…",

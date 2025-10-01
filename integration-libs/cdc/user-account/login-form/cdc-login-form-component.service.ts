@@ -65,6 +65,10 @@ export class CdcLoginFormComponentService
     );
   }
 
+  protected initCustomLogin() {
+    // Intentional empty method , so csrf token is not initialized in case of CDC
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

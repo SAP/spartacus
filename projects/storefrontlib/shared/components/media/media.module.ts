@@ -5,10 +5,17 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { FeaturesConfigModule } from '@spartacus/core';
 import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
+import { MediaPreconnectService } from '../../../cms-structure';
+
+export function mediaPreconnectInitializer(
+  mediaPreconnectService: MediaPreconnectService
+): () => void {
+  return () => mediaPreconnectService.addPreconnectLink();
+}
 
 @NgModule({
   imports: [CommonModule, FeaturesConfigModule],
@@ -19,6 +26,14 @@ export class MediaModule {
   static forRoot(): ModuleWithProviders<MediaModule> {
     return {
       ngModule: MediaModule,
+      providers: [
+        {
+          provide: APP_INITIALIZER,
+          useFactory: mediaPreconnectInitializer,
+          deps: [MediaPreconnectService],
+          multi: true,
+        },
+      ],
     };
   }
 }

@@ -5,11 +5,12 @@
  */
 
 import { fillLoginForm } from '../../../helpers/auth-forms';
+import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import {
   logoutUser,
   waitForCmsComponentsToLoad,
 } from '../../../helpers/vendor/cdc/cdc';
-import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
+import { visitLoginPage } from '../../../support/utils/login';
 const cdpUser = {
   userId: 'cdptester@cdp.com',
   password: 'Password123.',
@@ -23,7 +24,7 @@ describe('Customer Data Platform (CDP) Integration', () => {
 
   it('should navigate to Customer Service List to check if service requests are un-editable', () => {
     cy.intercept('GET', '**/tickets?**').as('getTickets');
-    cy.visit('/login');
+    visitLoginPage();
     fillLoginForm({ username: cdpUser.userId, password: cdpUser.password });
     waitForCmsComponentsToLoad('electronics-spa');
     cy.get('cx-login .cx-login-greet').contains(`Hi, ${cdpUser.fullName}`);

@@ -1,10 +1,5 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
-  <div
-    *cxFeature="'!a11yRemoveStatusLoadedRole'"
-    role="status"
-    [attr.aria-label]="'common.loaded' | cxTranslate"
-  ></div>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
@@ -34,17 +29,10 @@
                 >
                 </ng-select>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'paymentForm.paymentType' | cxTranslate,
                   }"
-                  [control]="paymentForm.get('cardType.code')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -73,18 +61,11 @@
               [attr.aria-errormessage]="'accountHolderNameError'"
             />
 
-            <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
-              *cxFeature="'formErrorsDescriptiveMessages'"
               id="accountHolderNameError"
               [translationParams]="{
                 label: 'paymentForm.accountHolderName.label' | cxTranslate,
               }"
-              [control]="paymentForm.get('accountHolderName')"
-            ></cx-form-errors>
-
-            <cx-form-errors
-              *cxFeature="'!formErrorsDescriptiveMessages'"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -108,18 +89,11 @@
               [attr.aria-errormessage]="'cardNumberError'"
             />
 
-            <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
-              *cxFeature="'formErrorsDescriptiveMessages'"
               id="cardNumberError"
               [translationParams]="{
                 label: 'paymentForm.cardNumber' | cxTranslate,
               }"
-              [control]="paymentForm.get('cardNumber')"
-            ></cx-form-errors>
-
-            <cx-form-errors
-              *cxFeature="'!formErrorsDescriptiveMessages'"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -150,17 +124,10 @@
                 >
                 </ng-select>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'paymentForm.expirationDate' | cxTranslate,
                   }"
-                  [control]="paymentForm.get('expiryMonth')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
@@ -182,17 +149,10 @@
                 >
                 </ng-select>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'paymentForm.expirationDate' | cxTranslate,
                   }"
-                  [control]="paymentForm.get('expiryYear')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -228,18 +188,11 @@
                 [attr.aria-errormessage]="'cvnError'"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="cvnError"
                 [translationParams]="{
                   label: 'paymentForm.securityCode' | cxTranslate,
                 }"
-                [control]="paymentForm.get('cvn')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>

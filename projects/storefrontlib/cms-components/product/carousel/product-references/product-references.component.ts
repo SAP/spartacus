@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TrackByFunction,
+} from '@angular/core';
 import {
   CmsProductReferencesComponent,
   isNotNullable,
   Product,
   ProductReference,
   ProductReferenceService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -28,7 +33,9 @@ export class ProductReferencesComponent {
     protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
     protected currentProductService: CurrentProductService,
     protected productReferenceService: ProductReferenceService
-  ) {}
+  ) {
+    useFeatureStyles('productCarouselScrolling');
+  }
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
     return this.cmsComponentData.data$.pipe(filter((data) => Boolean(data)));
@@ -87,4 +94,7 @@ export class ProductReferencesComponent {
         )
       );
   }
+
+  trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
+    item?.code;
 }

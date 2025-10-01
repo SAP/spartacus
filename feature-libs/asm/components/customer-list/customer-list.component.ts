@@ -7,6 +7,7 @@
 import {
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -15,25 +16,28 @@ import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
   AsmCustomerListFacade,
+  CLOSE_DIALOG_REASON,
   CustomerListColumnActionType,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
+  FeatureModulesService,
+  HttpResponseStatus,
+  OccConfig,
   SortModel,
   TranslationService,
-  User,
-  OccConfig,
   useFeatureStyles,
+  User,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -96,9 +100,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   searchBox: UntypedFormControl = new UntypedFormControl();
 
+  forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
+
   protected teardown: Subscription = new Subscription();
 
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+
+  isAsmCustomer360Configured: boolean | undefined = false;
+  protected featureModules = inject(FeatureModulesService);
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -113,6 +122,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isAsmCustomer360Configured =
+      this.featureModules.isConfigured('asmCustomer360');
+
     this.pageSize =
       this.asmConfig.asm?.customerList?.pageSize ?? this.DEFAULT_PAGE_SIZE;
     this.customerListConfig = this.asmConfig?.asm?.customerList;
@@ -121,6 +133,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       this.asmCustomerListFacade.getCustomerListsState().pipe(
         tap((state) => (this.listsError = !!state.error)),
         map((state) => {
+          if (
+            state.error &&
+            typeof state.error === 'object' &&
+            'status' in state.error &&
+            state.error.status === this.forbiddenResponseStatus
+          ) {
+            this.launchDialogService.closeDialog(CLOSE_DIALOG_REASON.FORBIDDEN);
+          }
           if (state?.data?.userGroups?.length === 0) {
             this.listsEmpty = true;
             return undefined;
@@ -220,6 +240,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         column.headerLocalizationKey = this.enableAsmB2bCustomerList
           ? 'asm.customerList.tableHeader.account'
           : 'hideHeaders';
+      }
+
+      if (
+        !this.isAsmCustomer360Configured &&
+        column.headerLocalizationKey ===
+          'asm.customerList.tableHeader.customer360'
+      ) {
+        column.headerLocalizationKey = 'hideHeaders';
       }
     }
   }

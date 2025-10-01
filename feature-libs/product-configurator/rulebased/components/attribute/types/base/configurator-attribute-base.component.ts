@@ -5,7 +5,7 @@
  */
 
 import { inject } from '@angular/core';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import { Observable, of, take } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -36,8 +36,6 @@ export class ConfiguratorAttributeBaseComponent {
     ConfiguratorStorefrontUtilsService
   );
 
-  private _featureConfigService = inject(FeatureConfigService);
-
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
@@ -48,17 +46,13 @@ export class ConfiguratorAttributeBaseComponent {
   listenForPriceChanges: boolean;
   changedPrices$: Observable<Record<string, Configurator.PriceDetails>> = of(
     {}
-  ); // no delta rendering - always render directly only once with prices from configuration
+  );
 
   protected initPriceChangedEvent(
     isPricingAsync = false,
     attributeKey?: string
   ) {
-    if (
-      isPricingAsync &&
-      this.configuratorAttributePriceChangeService &&
-      this._featureConfigService.isEnabled('productConfiguratorDeltaRendering')
-    ) {
+    if (isPricingAsync && this.configuratorAttributePriceChangeService) {
       this.listenForPriceChanges = true;
       this.changedPrices$ =
         this.configuratorAttributePriceChangeService.getChangedPrices(

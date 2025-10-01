@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForPage } from '../../../../helpers/checkout-flow';
-import { navigation } from '../../../../helpers/navigation';
+import { navigation, waitForPage } from '../../../../helpers/navigation';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,

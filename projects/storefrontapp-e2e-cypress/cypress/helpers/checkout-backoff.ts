@@ -5,7 +5,7 @@
  */
 
 import * as sampleData from '../sample-data/checkout-flow';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 export function waitForDeliveryAddressdata() {
   cy.window().then((win) => {

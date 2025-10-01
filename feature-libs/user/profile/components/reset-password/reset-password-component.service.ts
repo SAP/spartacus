@@ -25,31 +25,16 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResetPasswordComponentService {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
-  // TODO: (CXSPA-8550) Remove feature toggle
+  // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
 
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'enableSecurePasswordValidation'
   )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
+    ? CustomFormValidators.securePasswordValidators
     : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
       ];
 
   constructor(

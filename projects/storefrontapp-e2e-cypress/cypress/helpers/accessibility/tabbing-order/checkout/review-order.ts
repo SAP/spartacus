@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { verifyReviewOrderPage, waitForPage } from '../../../checkout-flow';
+import { verifyReviewOrderPage } from '../../../checkout-flow';
+import { waitForPage } from '../../../navigation';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 

@@ -5,6 +5,11 @@ on:
       - develop
       - develop-*
       - release/*
+
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 env:
@@ -21,7 +26,7 @@ jobs:
     name: Lighthouse score validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup node
         uses: actions/setup-node@v4
         with:

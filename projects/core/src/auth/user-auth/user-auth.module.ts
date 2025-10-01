@@ -15,16 +15,16 @@ import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { lastValueFrom } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { provideDefaultConfig } from '../../config/config-providers';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
+import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
-import { defaultAuthConfig } from './config/default-auth-config';
+import { defaultAuthConfigFactory } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
 import { AuthStorageService } from './services/auth-storage.service';
-import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
 
 /**
  * Initialize the check for `token` or `code` in the url returned from the OAuth server.
@@ -38,10 +38,11 @@ export function checkOAuthParamsInUrl(
     isPlatformBrowser(platformId)
       ? lastValueFrom(
           configInit.getStable().pipe(
-            switchMap(() =>
+            switchMap(() => {
+              authService.refreshAuthConfig();
               // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-              authService.checkOAuthParamsInUrl()
-            )
+              return authService.checkOAuthParamsInUrl();
+            })
           )
         )
       : Promise.resolve(); // Do nothing in SSR
@@ -83,7 +84,7 @@ export class UserAuthModule {
     return {
       ngModule: UserAuthModule,
       providers: [
-        provideDefaultConfig(defaultAuthConfig),
+        provideDefaultConfigFactory(defaultAuthConfigFactory),
         provideConfigValidator(baseUrlConfigValidator),
         ...interceptors,
         {

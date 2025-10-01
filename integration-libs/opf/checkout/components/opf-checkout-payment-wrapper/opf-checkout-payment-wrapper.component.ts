@@ -18,6 +18,8 @@ import {
   SafeHtml,
   SafeResourceUrl,
 } from '@angular/platform-browser';
+import { CurrencyService, LanguageService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   OpfGlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
@@ -25,8 +27,16 @@ import {
 import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
+  OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
-import { Subscription } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  skip,
+  switchMap,
+  take,
+  filter,
+} from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
@@ -39,6 +49,10 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected service = inject(OpfCheckoutPaymentWrapperService);
   protected sanitizer = inject(DomSanitizer);
   protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
+  protected languageService = inject(LanguageService);
+  protected currencyService = inject(CurrencyService);
+  protected activeCartService = inject(ActiveCartFacade);
   protected vcr = inject(ViewContainerRef);
 
   @Input() selectedPaymentId: number;
@@ -59,6 +73,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initiatePaymentMode();
+    this.listenForReinitiatePaymentEvent();
+    this.listenForSiteContextChanges();
   }
 
   ngOnDestroy() {
@@ -72,9 +88,56 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.service.reloadPaymentMode();
   }
 
-  protected initiatePaymentMode(): void {
+  protected listenForReinitiatePaymentEvent(): void {
     this.sub.add(
-      this.service.initiatePayment(this.selectedPaymentId).subscribe({
+      this.opfPaymentEventsService?.reinitiatePaymentEvent$.subscribe(
+        (paymentOptionId) => {
+          this.handleReinitiatePayment(paymentOptionId);
+        }
+      )
+    );
+  }
+
+  protected listenForSiteContextChanges(): void {
+    this.sub.add(
+      merge(
+        this.languageService.getActive().pipe(
+          skip(1), // Skip the initial value
+          distinctUntilChanged()
+        ),
+        this.currencyService.getActive().pipe(
+          skip(1), // Skip the initial value
+          distinctUntilChanged()
+        )
+      )
+        .pipe(
+          switchMap(() =>
+            // Wait for cart to be stable before proceeding
+            this.activeCartService.isStable().pipe(
+              filter((isStable: boolean) => isStable),
+              take(1)
+            )
+          )
+        )
+        .subscribe(() => {
+          this.opfPaymentEventsService.emitReinitiatePaymentEvent(
+            this.selectedPaymentId
+          );
+        })
+    );
+  }
+
+  protected handleReinitiatePayment(paymentOptionId?: number): void {
+    const idToUse = paymentOptionId || this.selectedPaymentId;
+    if (idToUse) {
+      this.initiatePaymentMode(idToUse);
+    }
+  }
+
+  protected initiatePaymentMode(paymentOptionId?: number): void {
+    const idToUse = paymentOptionId || this.selectedPaymentId;
+    this.sub.add(
+      this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {
           if (this.isHostedFields(paymentSessionData)) {
             this.globalFunctionsService.registerGlobalFunctions({

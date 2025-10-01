@@ -27,6 +27,7 @@
     "termsAndConditions": "Obchodní podmínky",
     "signIn": "Mám již účet. Přihlásit se",
     "register": "Registrovat",
+    "furtherRegistration": "Pokračovat",
     "confirmNewPassword": "Potvrďte nové heslo",
     "resetPassword": "Resetovat heslo",
     "createAccount": "Vytvoření účtu",
@@ -57,7 +58,18 @@
     "bothPasswordMustMatch": "Obě hesla se musí shodovat",
     "titleRequired": "Oslovení je povinné.",
     "postRegisterMessage": "Přihlaste se s poskytnutými přihlašovacími údaji.",
-    "postRegisterSuccessMessage": "Registrace byla úspěšná. Přihlaste se s poskytnutými přihlašovacími údaji."
+    "postRegisterSuccessMessage": "Váš účet byl úspěšně vytvořen! Přihlaste se pomocí poskytnutých přihlašovacích údajů",
+    "rateLimitForRegistrationMessage": "Dosáhli jste limitu pro odeslání ověřovacího kódu. Před dalším pokusem vyčkejte {{seconds}} sekund nebo použijte jinou e-mailovou adresu.",
+    "verificationTokenForm": {
+      "createVerificationToken": "Ověřovací kód zaslán na {{target}}. Zadejte kód.",
+      "sendRateLime": "za {{waitTime}} s",
+      "resend": "Odeslat znovu",
+      "verificationCode": {
+        "label": "Ověřovací kód",
+        "placeholder": "Zadejte ověřovací kód"
+      },
+      "back": "Zpět"
+    }
   },
   "forgottenPassword": {
     "resetPassword": "Resetovat heslo",

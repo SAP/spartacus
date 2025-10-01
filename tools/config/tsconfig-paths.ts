@@ -22,7 +22,7 @@
 
 import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
@@ -219,7 +219,7 @@ function updateTestTsConfig(
   entryPoints: Record<string, string[]>,
   options: ProgramOptions
 ): boolean {
-  const schematicsTsConfigPaths = glob.sync(path);
+  const schematicsTsConfigPaths = globSync(path);
   if (!schematicsTsConfigPaths.length) {
     return false;
   }
@@ -242,7 +242,7 @@ function handleLibConfigs(
   }
   let showAllGood = true;
   Object.values(libraries).forEach((library) => {
-    const libraryTsConfigPaths = glob.sync(
+    const libraryTsConfigPaths = globSync(
       `${library.directory}/tsconfig.lib.json`
     );
     if (libraryTsConfigPaths.length) {
@@ -371,55 +371,7 @@ function handleAppConfigs(
     options
   );
 
-  // Add paths to `projects/storefrontapp/tsconfig.server.json` config.
-  const serverEntryPoints = Object.values(libraries)
-    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
-    .reduce(
-      (acc, curr) => {
-        curr.entryPoints.forEach((entryPoint) => {
-          // For server configuration we need relative paths that's why we append `../..`
-          acc[entryPoint.entryPoint] = [
-            joinPaths(
-              '../..',
-              curr.directory,
-              entryPoint.directory,
-              entryPoint.entryFile
-            ),
-          ];
-        });
-        return acc;
-      },
-      {} as { [key: string]: [string] }
-    );
-  const hadErrorsServer = handleConfigUpdate(
-    serverEntryPoints,
-    'projects/storefrontapp/tsconfig.server.json',
-    options
-  );
-
-  // Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
-  const serverProdEntryPoints = Object.values(libraries)
-    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
-    .reduce(
-      (acc, curr) => {
-        curr.entryPoints.forEach((entryPoint) => {
-          // For server configuration we need relative paths that's why we append `../..`
-          acc[entryPoint.entryPoint] = [
-            joinPaths('../..', 'dist', curr.distDir, entryPoint.directory),
-          ];
-        });
-        return acc;
-      },
-      {} as { [key: string]: [string] }
-    );
-
-  const hadErrorsServerProd = handleConfigUpdate(
-    serverProdEntryPoints,
-    'projects/storefrontapp/tsconfig.server.prod.json',
-    options
-  );
-
-  if (hadErrorsApp || hadErrorsServer || hadErrorsServerProd) {
+  if (hadErrorsApp) {
     showAllGood = false;
   }
   if (showAllGood) {

@@ -41,17 +41,17 @@ export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
  * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
- * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(
   shopName: string,
   productId: string,
   isPricingEnabled?: boolean
 ) {
+  registerCreateConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
+  waitForRequest(CREATE_CONFIG_ALIAS, isPricingEnabled);
   this.checkConfigPageDisplayed();
-  waitForRequest('', isPricingEnabled);
 }
 
 /**
@@ -157,11 +157,50 @@ export function clickOnShowDetailsBtn(): void {
 }
 
 /**
+ * Verifies whether the ghost form animation is not displayed.
+ */
+export function checkGhostFormAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost form animation is not displayed anymore');
+  cy.get('.cx-ghost-attribute').should('not.exist');
+}
+
+/**
+ * Verifies whether the ghost group menu animation is not displayed.
+ */
+export function checkGhostGroupMenuAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost group menu animation is not displayed anymore');
+  cy.get('.cx-ghost-group-menu').should('not.exist');
+}
+
+/**
+ * Verifies whether the ghost tab bar animation is not displayed.
+ */
+export function checkGhostTabBarAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost tab bar animation is not displayed anymore');
+  cy.get('.cx-ghost-tab-bar').should('not.exist');
+}
+
+/**
+ * Verifies whether the ghost product title animation is not displayed.
+ */
+export function checkGhostProductTitleAnimationNotDisplayed(): void {
+  cy.log(
+    'Wait until the ghost product title animation is not displayed anymore'
+  );
+  cy.get('.cx-ghost-general-product-info').should('not.exist');
+}
+
+/**
  * Verifies whether the ghost animation is not displayed.
  */
 export function checkGhostAnimationNotDisplayed(): void {
   cy.log('Wait until the ghost animation is not displayed anymore');
   cy.get('.ghost').should('not.exist');
+
+  checkGhostFormAnimationNotDisplayed();
+  checkGhostGroupMenuAnimationNotDisplayed();
+  checkGhostTabBarAnimationNotDisplayed();
+  checkGhostProductTitleAnimationNotDisplayed();
 }
 
 /**
@@ -174,9 +213,9 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkTabBarDisplayed();
   configuration.checkGroupTitleDisplayed();
   configuration.checkGroupFormDisplayed();
-  configuration.checkPreviousAndNextBtnsDispalyed();
+  configuration.checkPreviousAndNextBtnsDisplayed();
   configuration.checkPriceSummaryDisplayed();
-  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlayed by the cookies button. The caller has to check that the add to cart button is visible.
+  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlaid by the cookies button. The caller has to check that the add to cart button is visible.
   checkProductTitleDisplayed();
   configuration.checkShowMoreLinkAtProductTitleDisplayed();
 }
@@ -496,7 +535,7 @@ export function selectConflictingValueAndWait(
   uiType: configuration.uiType,
   valueName: string,
   numberOfConflicts: number,
-  isPricingEnabled?: boolean
+  isPricingEnabled: boolean = true
 ): void {
   selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgDisplayed(attributeName);
@@ -544,7 +583,7 @@ export function deselectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled: boolean = true
 ): void {
   selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
@@ -582,10 +621,15 @@ export function clickOnGroup(groupIndex: number): void {
  * Clicks on the group via its index in the group menu and wait for the request to finish.
  *
  * @param {number} groupIndex - Group index
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnGroupAndWait(groupIndex: number): void {
+export function clickOnGroupAndWait(
+  groupIndex: number,
+  isPricingEnabled?: boolean
+): void {
   clickOnGroup(groupIndex);
-  cy.wait(GET_CONFIG_ALIAS);
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -642,10 +686,11 @@ export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled?: boolean
+  isPricingEnabled: boolean = true
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -681,6 +726,7 @@ export function clickOnNextBtnAndWait(
 ): void {
   configuration.clickOnNextBtn(nextGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 /**
@@ -695,6 +741,7 @@ export function clickOnPreviousBtnAndWait(
 ): void {
   configuration.clickOnPreviousBtn(previousGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
+  checkGhostAnimationNotDisplayed();
 }
 
 export class CommerceRelease {

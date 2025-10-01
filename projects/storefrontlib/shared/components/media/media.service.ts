@@ -163,9 +163,14 @@ export class MediaService {
    * Defaults to `ImageLoadingStrategy.EAGER`.
    */
   get loadingStrategy(): ImageLoadingStrategy {
+    const fallbackStrategy = this.featureConfigService.isEnabled(
+      'lazyLoadImagesByDefault'
+    )
+      ? ImageLoadingStrategy.LAZY
+      : ImageLoadingStrategy.EAGER;
+
     return (
-      (this.config as MediaConfig)?.imageLoadingStrategy ??
-      ImageLoadingStrategy.EAGER
+      (this.config as MediaConfig)?.imageLoadingStrategy ?? fallbackStrategy
     );
   }
 
@@ -398,7 +403,7 @@ export class MediaService {
    *
    * Defaults to empty string in case no config is provided.
    */
-  protected getBaseUrl(): string {
+  public getBaseUrl(): string {
     return (
       this.config.backend?.media?.baseUrl ??
       this.config.backend?.occ?.baseUrl ??

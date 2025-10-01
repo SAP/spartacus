@@ -10,6 +10,8 @@
     "placed": "已下單",
     "placedBy": "下單者",
     "unit": "單位",
+    "quoteCode": "報價 ID {{id}}",
+    "quoteDetail": "報價明細",
     "costCenter": "成本中心",
     "costCenterAndUnit": "成本中心/單位",
     "costCenterAndUnitValue": "{{costCenterName}}/{{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "目前購物車將使用新項目取代。您要繼續嗎？",
       "cancel": "取消",
       "continue": "繼續"
+    }
+  },
+  "attachments": {
+    "button": "檢視訂單附件",
+    "dialog": {
+      "title": "附件",
+      "preview": "預覽檔案",
+      "closeModal": "關閉強制回應視窗",
+      "error": "發生錯誤。請重新整理頁面或稍後再試一次。",
+      "empty": "沒有文件。新增文件後即可在此檢視。",
+      "downloadError": "取得文件時發生錯誤。請重新整理頁面或稍後再試一次。"
     }
   }
 }

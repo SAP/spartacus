@@ -36,33 +36,19 @@ import { RegisterComponentService } from './register-component.service';
   selector: 'cx-register',
   templateUrl: './register.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
-  // TODO: (CXSPA-8550) Remove feature toggle
+  // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
 
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'enableSecurePasswordValidation'
   )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
+    ? CustomFormValidators.securePasswordValidators
     : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
       ];
 
   titles$: Observable<Title[]>;
@@ -147,8 +133,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR];
 
           if (
-            messages &&
-            messages.some(
+            messages?.some(
               (message) => message.raw === 'This field is required.'
             )
           ) {
@@ -206,7 +191,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
-        complete: () => this.isLoading$.next(false),
+        complete: () =>
+          this.isLoading$.next(
+            this.authConfigService.getOAuthFlow() ===
+              OAuthFlow.AuthorizationCode
+          ),
         error: () => this.isLoading$.next(false),
       });
   }
@@ -237,7 +226,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.router.go({ cxRoute: 'login' });
+    } else if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {

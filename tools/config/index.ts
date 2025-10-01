@@ -15,11 +15,11 @@
 import { execSync } from 'child_process';
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
+import { chalk } from '../chalk';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
-import { chalk } from '../chalk';
 
 // ------------ Utilities ------------
 
@@ -219,14 +219,12 @@ export type Library = {
   }>;
 };
 
-export type Repository = {
-  [library: string]: Library;
-};
+export type Repository = { [library: string]: Library };
 
 /**
  * Paths to `package.json` files for all libraries.
  */
-const librariesPaths = glob.sync(
+const librariesPaths = globSync(
   `{core-libs,feature-libs,integration-libs,projects}/!(node_modules)/${PACKAGE_JSON}`,
   {
     ignore: [
@@ -245,7 +243,7 @@ const repository = librariesPaths
       libraryPath.length - `/${PACKAGE_JSON}`.length
     );
 
-    const ngPackageFilesPaths = glob.sync(`${directory}/**/${NG_PACKAGE_JSON}`);
+    const ngPackageFilesPaths = globSync(`${directory}/**/${NG_PACKAGE_JSON}`);
     const entryPoints = ngPackageFilesPaths.map((ngPackagePath) => {
       const ngPackageFileContent = readJsonFile(ngPackagePath);
       const pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
@@ -294,6 +292,8 @@ if (options.generateDeps) {
  * Format all files.
  */
 if (options.fix) {
+  console.log('\nGenerating updated package-lock file...\n');
+  execSync('npm install', { stdio: 'inherit' });
   console.log('\nFormatting files (might take some time)...\n');
   execSync('npm run prettier:fix');
   console.log(`✨ ${chalk.green('Update completed')}`);

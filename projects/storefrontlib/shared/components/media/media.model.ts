@@ -105,3 +105,24 @@ export enum ImageLoadingStrategy {
    */
   LAZY = 'lazy',
 }
+
+/**
+ * Indicates the priority of the image fetching.
+ * This is used to inform the browser about the relative priority of the image
+ * fetching. It can be used to optimize the loading of images based on their
+ * importance in the layout or user interaction.
+ */
+export enum ImageFetchPriority {
+  /**
+   * Fetch the image at a high priority relative to other images with the same internal prioritization.
+   */
+  HIGH = 'high',
+  /**
+   * Fetch the image at a low priority relative to other images with the same internal prioritization.
+   */
+  LOW = 'low',
+  /**
+   * The browser will decide the priority of the image based on its own heuristics.
+   */
+  AUTO = 'auto',
+}

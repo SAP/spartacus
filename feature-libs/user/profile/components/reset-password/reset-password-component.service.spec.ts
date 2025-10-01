@@ -235,16 +235,14 @@ describe('ResetPasswordComponentService', () => {
       });
     });
   });
+
   describe('password validators', () => {
     let passwordControl: UntypedFormControl;
 
-    describe('when formErrorsDescriptiveMessages are enabled', () => {
-      beforePasswordValidatorCase([
-        'formErrorsDescriptiveMessages',
-        'enableSecurePasswordValidation',
-      ]);
+    describe('when enableSecurePasswordValidation is enabled', () => {
+      beforePasswordValidatorCase(['enableSecurePasswordValidation']);
 
-      it('should use securePasswordValidators', () => {
+      it('should use securePasswordValidator', () => {
         expect(passwordControl).toBeTruthy();
         expect((service as any).passwordValidators).toEqual(
           CustomFormValidators.securePasswordValidators
@@ -252,53 +250,16 @@ describe('ResetPasswordComponentService', () => {
       });
     });
 
-    describe('when formErrorsDescriptiveMessages and enableConsecutiveCharactersPasswordRequirement are enabled', () => {
-      beforePasswordValidatorCase([
-        'formErrorsDescriptiveMessages',
-        'enableConsecutiveCharactersPasswordRequirement',
-      ]);
-
-      it('should use passwordValidators with noConsecutiveCharacters', () => {
-        expect((service as any).passwordValidators).toEqual([
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]);
-      });
-    });
-
-    describe('when only formErrorsDescriptiveMessages is enabled', () => {
-      beforePasswordValidatorCase(['formErrorsDescriptiveMessages']);
-
-      it('should use passwordValidators', () => {
-        expect(passwordControl).toBeTruthy();
-        expect((service as any).passwordValidators).toEqual(
-          CustomFormValidators.passwordValidators
-        );
-      });
-    });
-
-    describe('when only enableSecurePasswordValidation is enabled', () => {
-      beforePasswordValidatorCase(['enableSecurePasswordValidation']);
-
-      it('should use securePasswordValidator', () => {
-        expect(passwordControl).toBeTruthy();
-
-        expect((service as any).passwordValidators).toEqual([
-          CustomFormValidators.securePasswordValidator,
-        ]);
-      });
-    });
-
-    describe('when only enableConsecutiveCharactersPasswordRequirement is enabled', () => {
+    describe('when enableConsecutiveCharactersPasswordRequirement is enabled', () => {
       beforePasswordValidatorCase([
         'enableConsecutiveCharactersPasswordRequirement',
       ]);
 
       it('should use strongPasswordValidator', () => {
         expect(passwordControl).toBeTruthy();
-
         expect((service as any).passwordValidators).toEqual([
-          CustomFormValidators.strongPasswordValidator,
+          ...CustomFormValidators.passwordValidators,
+          CustomFormValidators.noConsecutiveCharacters,
         ]);
       });
     });
@@ -308,9 +269,13 @@ describe('ResetPasswordComponentService', () => {
 
       it('should use passwordValidator', () => {
         expect(passwordControl).toBeTruthy();
-        expect((service as any).passwordValidators).toEqual([
-          CustomFormValidators.passwordValidator,
-        ]);
+        expect((service as any).passwordValidators).toEqual(
+          // CXSPA-10916: replace with only CustomFormValidators.passwordValidators
+          [
+            ...CustomFormValidators.passwordValidators,
+            CustomFormValidators.noConsecutiveCharacters,
+          ]
+        );
       });
     });
 

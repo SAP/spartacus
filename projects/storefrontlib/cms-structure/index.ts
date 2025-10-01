@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './cms-lcp-context/index';
 export * from './guards/index';
 export * from './outlet/index';
 export * from './page/index';

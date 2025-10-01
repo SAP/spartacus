@@ -1,18 +1,15 @@
 import {
   Component,
   DebugElement,
+  Directive,
   EventEmitter,
   Injectable,
   Input,
   Output,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
@@ -24,8 +21,10 @@ import {
 import {
   AuthService,
   FeatureConfigService,
+  FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -41,6 +40,10 @@ import { AsmMainUiComponent } from './asm-main-ui.component';
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
+    return of(false);
+  }
+
+  updateIsUsingASMClient(_isUsing: boolean) {
     return of(false);
   }
 }
@@ -65,6 +68,10 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
     return of(false);
   }
   startCustomerEmulationSession(_customerId: string) {}
+
+  authorizeCustomerSupportAgentWhenUseCodeFlow(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
@@ -150,6 +157,16 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
+
+class mockFeatureModulesService implements Partial<FeatureModulesService> {
+  isConfigured(): boolean {
+    return true;
+  }
+  resolveFeature(featureName: string): Observable<any> {
+    return of(featureName);
+  }
+}
+
 @Injectable()
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
@@ -163,13 +180,37 @@ class MockAsmService implements Partial<AsmService> {
   getAsmUiState(): Observable<AsmUi> {
     return of(mockAsmUi);
   }
+
+  customerSearch(_searchTerm: unknown): void {}
 }
 
 const mockAsmUi: AsmUi = {
   collapsed: false,
 };
 
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  refreshAuthConfig() {}
+}
+
+@Directive({
+  selector: '[cxFeature]',
+  standalone: false,
+})
+export class MockRevertedFeatureDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeature(_feature: string) {
+    if (_feature.toString().includes('!')) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+  }
+}
+
 describe('AsmMainUiComponent', () => {
+  let featureModulesService: FeatureModulesService;
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
@@ -196,8 +237,13 @@ describe('AsmMainUiComponent', () => {
         MockAsmSessionTimerComponent,
         MockCustomerEmulationComponent,
         MockCxIconComponent,
+        MockRevertedFeatureDirective,
       ],
       providers: [
+        {
+          provide: FeatureModulesService,
+          useClass: mockFeatureModulesService,
+        },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
@@ -206,6 +252,10 @@ describe('AsmMainUiComponent', () => {
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AsmService, useClass: MockAsmService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
       ],
     }).compileComponents();
   }));
@@ -222,6 +272,7 @@ describe('AsmMainUiComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     featureConfig = TestBed.inject(FeatureConfigService);
     asmEnablerService = TestBed.inject(AsmEnablerService);
+    featureModulesService = TestBed.inject(FeatureModulesService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -240,6 +291,17 @@ describe('AsmMainUiComponent', () => {
     expect(
       csAgentAuthService.authorizeCustomerSupportAgent
     ).toHaveBeenCalledWith(userId, password);
+  });
+
+  it('should call authorizeCustomerSupportAgentWhenUseCodeFlow() when click agent login link', () => {
+    spyOn(
+      csAgentAuthService,
+      'authorizeCustomerSupportAgentWhenUseCodeFlow'
+    ).and.stub();
+    component.loginCustomerSupportAgentWithAuthorizationCodeFlow();
+    expect(
+      csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow
+    ).toHaveBeenCalled();
   });
 
   it('should call logoutCustomerSupportAgentAndCustomer() on agent logout', () => {
@@ -434,11 +496,13 @@ describe('AsmMainUiComponent', () => {
   it('should hide the UI when the Close Asm button is clicked', () => {
     component.ngOnInit();
     fixture.detectChanges();
+    spyOn(authService, 'updateIsUsingASMClient');
     const submitBtn = fixture.debugElement.query(
       By.css('button[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.disabled).toEqual(true);
+    expect(authService.updateIsUsingASMClient).toHaveBeenCalledWith(false);
   });
 
   it('should unload ASM when the close button is clicked', () => {
@@ -471,7 +535,8 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
 
-  it('should be able to open c360 dialog', fakeAsync(() => {
+  it('should be able to open c360 dialog', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
     spyOn(launchDialogService, 'openDialogAndSubscribe');
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userAccountFacade, 'get').and.returnValue(
@@ -483,14 +548,13 @@ describe('AsmMainUiComponent', () => {
       actionType: CustomerListColumnActionType.CUSTOMER_360,
     });
 
-    tick(1000);
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
       LAUNCH_CALLER.ASM_CUSTOMER_360,
       component.element,
       // any parameter is accept
       jasmine.any(Object)
     );
-  }));
+  });
 
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');

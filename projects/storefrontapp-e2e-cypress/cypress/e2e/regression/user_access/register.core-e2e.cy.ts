@@ -5,7 +5,7 @@
  */
 
 import { register } from '../../../helpers/auth-forms';
-import { clickHamburger } from '../../../helpers/homepage';
+import { clickHamburger } from '../../../helpers/navigation';
 import * as registerHelpers from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
@@ -18,11 +18,14 @@ describe('Register', () => {
     });
 
     it('should register and redirect to login page', () => {
-      cy.onMobile(() => {
+      cy.whenJDK17(() => {
         clickHamburger();
+        cy.getLoginRegisterLink().click();
+        cy.get('cx-login-register').findByText('Register').click();
       });
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.get('cx-login-register').findByText('Register').click();
+      cy.whenJDK21(() => {
+        cy.visit('/login/register');
+      });
       register(user);
       registerHelpers.verifyGlobalMessageAfterRegistration();
       const termsLink = `/${Cypress.env(

@@ -20,6 +20,17 @@ $space: 0.5rem;
       padding: 0 10px;
     }
 
+    @include forFeature('unifiedDefaultHeaderSlotsAcrossBreakpoints') {
+      @include media-breakpoint-down(md) {
+        .SiteContext,
+        .SiteLinks,
+        .SiteLogin,
+        .NavigationBar {
+          display: none;
+        }
+      }
+    }
+
     display: flex;
     flex-wrap: wrap;
 
@@ -79,9 +90,7 @@ $space: 0.5rem;
     }
     justify-content: flex-start;
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-    }
+    @include type('8');
   }
 
   .SiteLinks {
@@ -171,8 +180,14 @@ $space: 0.5rem;
       padding: $space $space * 2 $space / 2;
     }
 
-    .SiteLinks {
-      padding: $space / 2 $space * 2 $space;
+    @include forFeature('headerLayoutForSmallerViewports') {
+      .SiteLinks {
+        flex-direction: column;
+        a {
+          padding: $space / 2 $space * 2 $space;
+          line-height: 48px;
+        }
+      }
     }
   }
 

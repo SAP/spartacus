@@ -53,9 +53,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
    * @deprecated since 2211.33
    */
   onOpen() {
-    if (!this.featureConfigService?.isEnabled('a11yNgSelectOptionsCount')) {
-      return;
-    }
     const observer = new MutationObserver((changes, observerInstance) =>
       this.appendAriaLabelToOptions(changes, observerInstance)
     );
@@ -142,11 +139,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.renderer.setAttribute(inputCombobox, 'aria-controls', ariaControls);
     }
 
-    if (
-      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputCombobox.readOnly &&
-      isPlatformBrowser(this.platformId)
-    ) {
+    if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
         .pipe(filter(Boolean), take(1))

@@ -24,32 +24,18 @@ import { Subscription } from 'rxjs';
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   private featureConfigService = inject(FeatureConfigService);
 
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'enableSecurePasswordValidation'
   )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
+    ? CustomFormValidators.securePasswordValidators
     : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
       ];
 
   @Input() guid: string;
@@ -84,7 +70,10 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
         this.guid,
         this.guestRegisterForm.value.password
       );
-      if (!this.subscription) {
+      if (
+        !this.subscription &&
+        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      ) {
         this.subscription = this.authService
           .isUserLoggedIn()
           .subscribe((isLoggedIn) => {

@@ -5,10 +5,13 @@
  */
 
 import { standardUser } from '../sample-data/shared-users';
+import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
-import { clickHamburger, waitForPage } from './checkout-flow';
+import { clickHamburger } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
+import { userGreetSelector } from './login';
+import { waitForPage } from './navigation';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
@@ -145,7 +148,9 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   clickAddToCart();
 
-  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+  });
 
   closeAddedToCartDialog();
 
@@ -342,7 +347,7 @@ export function logOutAndNavigateToEmptyCart() {
   checkBanner();
   clickHamburger();
 
-  cy.get('cx-login [role="link"]').should('contain', 'Sign In');
+  cy.getLoginRegisterLink().should('contain', 'Sign In');
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
@@ -404,7 +409,9 @@ export function getClearCartDialog() {
 export function goToCart() {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  });
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 }
 
@@ -430,12 +437,9 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
 
-  const loginPage = waitForPage('/login', 'getLoginPage');
-
   clickHamburger();
 
-  cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  cy.getLoginRegisterLink({ clickAndWait: true });
 
   login(
     standardUser.registrationData.email,
@@ -513,6 +517,12 @@ export const cartUser = {
   },
 };
 
+/**
+ * Navigate to register page
+ * - register provided user
+ * - verify that user is redirected to a page other than register
+ * @param user
+ */
 export function registerCartUser(user = cartUser) {
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
@@ -522,11 +532,25 @@ export function registerCartUser(user = cartUser) {
   cy.url().should('not.contain', 'register');
 }
 
+/**
+ * Navigates to login page
+ * - logs in provided user
+ * - verifies that user is logged in (check the user greet selector)
+ * - verifies that the URL does not contain 'login'
+ */
 export function loginCartUser(user = cartUser) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.visit('/login');
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    visitLoginPage();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+  });
+  cy.whenJDK21(() => {
+    visitLoginPage();
+  });
   login(user.registrationData.email, user.registrationData.password);
+  cy.whenJDK21(() => {
+    cy.get(userGreetSelector).should('exist'); // need to wait for bootstrapping to finish before any possible navigation
+  });
   return cy.url().should('not.contain', 'login');
 }
 

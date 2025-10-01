@@ -2395,10 +2395,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Help',
     },
     {
-      type: TabbingOrderTypes.LINK,
-      value: 'Hide ASM',
-    },
-    {
       type: TabbingOrderTypes.BUTTON,
       value: '',
     },
@@ -2532,6 +2528,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
       value: '1',
     },
     {
@@ -2540,11 +2539,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.LINK,
-      value: ' ··· ',
+      value: '···',
     },
     {
       type: TabbingOrderTypes.LINK,
       value: '7',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
     },
     {
       type: TabbingOrderTypes.LINK,

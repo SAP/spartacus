@@ -90,16 +90,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
-    // TODO: (CXSPA-7479) Remove feature flags next major
-    const shouldHaveRequiredValidator = !this.featureConfigService?.isEnabled(
-      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
-    );
-
     this.couponForm = this.formBuilder.group({
-      couponCode: [
-        '',
-        shouldHaveRequiredValidator ? [Validators.required] : [],
-      ],
+      couponCode: ['', [Validators.required]],
     });
 
     // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER

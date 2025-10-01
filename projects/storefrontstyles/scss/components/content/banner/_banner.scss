@@ -19,10 +19,8 @@
     display: unset;
   }
 
-  @include forFeature('a11yImproveContrast') {
-    cx-media {
-      color: black;
-    }
+  cx-media {
+    color: black;
   }
 
   .no-link {

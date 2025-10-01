@@ -23,8 +23,13 @@ export interface CustomerSearchOptions {
 }
 
 export interface AsmUi {
+  status?: number;
   collapsed?: boolean;
 }
+
+export const CLOSE_DIALOG_REASON = {
+  FORBIDDEN: 'forbidden',
+};
 
 export interface AsmDeepLinkParameters {
   customerId?: string;

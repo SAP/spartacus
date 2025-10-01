@@ -6,7 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://40.76.109.9:9002"
+BACKEND_URL="https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
@@ -52,7 +52,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop' 
+BRANCH='develop'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -108,3 +108,27 @@ CHECK_B2B_AFTER_START=false
 # Forces E2E even if XVFB is not installed
 FORCE_E2E=false
 SKIP_E2E=false
+
+#JDK toggle: JDK21 or JDK17
+JDK_VERSION="JDK21"
+
+# Set to true to include AUTH_CONFIG in spartacus-features.module.ts
+ADD_AUTH_CONFIG=true
+
+# Concerning below AuthConfig objects,
+# If needed, specify a redirect URL using the redirectUri property, e.g., redirectUri: "http://localhost:5200/powertools-spa"
+# The redirectUri must be included in the OAuthLibConfig object, inside the authentication property.
+
+# This auth Config will be used in the spartacus-features.module.ts for the CSR app
+# For a standard B2B setup, use: client_id: "mobile_android_public_b2b",
+AUTH_CONFIG_CSR='provideConfig(<AuthConfig>{
+  authentication: {
+  client_id: "mobile_android_public",
+}}),'
+
+# This auth Config will be used in the spartacus-features.module.ts for the SSR app
+# For a standard B2B setup, use: client_id: "mobile_android_public_b2b_ssr",
+AUTH_CONFIG_SSR='provideConfig(<AuthConfig>{
+  authentication: {
+  client_id: "mobile_android_public_ssr",
+}}),'

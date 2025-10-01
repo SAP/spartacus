@@ -5,7 +5,9 @@
  */
 
 import * as asm from '../../../helpers/asm';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
 import { focusableSelectors } from '../../../support/utils/a11y-tab';
+import { agentLoginForJDK21 } from '../../auth-forms';
 import { verifyTabElement, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -15,6 +17,7 @@ const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
 const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
 const containerSelectorForCustomer360CouponList =
   'cx-asm-customer-360-promotion-listing';
+const b2cAgent = getB2CAgent();
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -23,7 +26,7 @@ export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
 
 export function asmTabbingOrderNoSelectedUser(config: TabElement[]) {
   cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  asm.agentLogin(b2cAgent.userName, b2cAgent.password);
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-customer-selection form').within(() => {
@@ -38,7 +41,7 @@ export function asmTabbingOrderNoSelectedUser(config: TabElement[]) {
 
 export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
   cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  asm.agentLogin(b2cAgent.userName, b2cAgent.password);
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-customer-selection form').within(() => {
@@ -52,12 +55,16 @@ export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
 }
 
-export function asmTabbingOrderWithCustomerList(
-  config: TabElement[],
-  agent: string
-) {
+export function asmTabbingOrderWithCustomerList(config: TabElement[]) {
   cy.visit('/?asm=true');
-  asm.agentLogin(agent, 'pw4all');
+  cy.whenJDK17(() => {
+    asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+  });
+
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+  });
 
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
@@ -76,7 +83,7 @@ export function asmTabbingOrderWithCustomerList(
 
 export function asmTabbingOrderWithCreateCustomerForm(config: TabElement[]) {
   cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  asm.agentLogin(b2cAgent.userName, b2cAgent.password);
 
   cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
   cy.get('cx-customer-list').should('exist');
@@ -92,32 +99,37 @@ export function asmTabbingOrderWithCreateCustomerForm(config: TabElement[]) {
 export function asmTabbingOrderWithSaveInactiveCartDialog(
   config: TabElement[]
 ) {
-  const customer = asm.emulateCustomerPrepare('asagent', 'pw4all');
+  const customer = asm.emulateCustomerPrepare(
+    b2cAgent.userName,
+    b2cAgent.password
+  );
 
-  asm.getCustomerId('asagent', 'pw4all', customer.email).then((customerId) => {
-    asm
-      .getInactiveCartIdAndAddProducts(
-        customer.email,
-        customer.password,
-        '1934793',
-        '2'
-      )
-      .then((inactiveCartId) => {
-        cy.visit(
-          `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
-        );
-        cy.get('.cx-asm-assignCart').should('exist');
-        cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
-        cy.get(
-          'cx-customer-emulation input[formcontrolname="cartNumber"]'
-        ).should('have.value', inactiveCartId);
-        cy.get('cx-asm-main-ui cx-message').should('exist');
-        cy.log('--> Click save button the dialog shold display');
-        cy.get('button[id=asm-save-inactive-cart-btn]').click();
-        verifyTabbingOrder(containerSelectorForInactiveCartDialog, config);
-        cy.findByText(/Cancel/i).click();
-      });
-  });
+  asm
+    .getCustomerId(b2cAgent.userName, b2cAgent.password, customer.email)
+    .then((customerId) => {
+      asm
+        .getInactiveCartIdAndAddProducts(
+          customer.email,
+          customer.password,
+          '1934793',
+          '2'
+        )
+        .then((inactiveCartId) => {
+          cy.visit(
+            `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+          );
+          cy.get('.cx-asm-assignCart-input-show-no-button').should('exist');
+          cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+          cy.get(
+            'cx-customer-emulation input[formcontrolname="cartNumber"]'
+          ).should('have.value', inactiveCartId);
+          cy.get('cx-asm-main-ui cx-message').should('exist');
+          cy.log('--> Click save button the dialog shold display');
+          cy.get('button[id=asm-save-inactive-cart-btn]').click();
+          verifyTabbingOrder(containerSelectorForInactiveCartDialog, config);
+          cy.findByText(/Cancel/i).click();
+        });
+    });
 }
 
 export function asmTabbingOrderForCustomer360CouponList(config: TabElement[]) {
@@ -141,12 +153,20 @@ export function asmTabbingOrderForCustomer360CustomerCouponList(
 
 function lanuchPromotiontab() {
   cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  cy.whenJDK17(() => {
+    asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+  });
+
+  cy.whenJDK21(() => {
+    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+    agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+  });
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type('Linda Wolf');
   });
+
   cy.wait(customerSearchRequestAlias)
     .its('response.statusCode')
     .should('eq', 200);
