@@ -41,6 +41,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { PickupOptionsComponent } from '../../presentational';
 
 /** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(
@@ -55,6 +56,7 @@ function isProductWithCode(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'pdp-pickup-options-container.component.html',
+  imports: [PickupOptionsComponent],
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   @Output() intendedPickupChange = new EventEmitter<
