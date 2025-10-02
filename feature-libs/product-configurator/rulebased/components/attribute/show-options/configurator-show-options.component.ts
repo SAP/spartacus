@@ -14,7 +14,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-configurator-show-options',
   templateUrl: './configurator-show-options.component.html',
-  imports: [TranslatePipe, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);

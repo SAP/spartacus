@@ -33,7 +33,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-product-image-zoom-trigger',
   templateUrl: 'product-image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FeatureDirective, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FeatureDirective, IconComponent, TranslatePipe],
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;

@@ -27,7 +27,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, RouterLink, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgFor, RouterLink, AsyncPipe, TranslatePipe],
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;

@@ -26,7 +26,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
-  imports: [NgIf, NgTemplateOutlet, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgTemplateOutlet, TranslatePipe],
 })
 export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;

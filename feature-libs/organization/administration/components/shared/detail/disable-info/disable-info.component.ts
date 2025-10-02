@@ -18,7 +18,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-disable-info',
   templateUrl: './disable-info.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

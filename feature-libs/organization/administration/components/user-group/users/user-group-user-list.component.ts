@@ -28,7 +28,7 @@ import { TranslatePipe } from '@spartacus/core';
       useExisting: UserGroupUserListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserGroupUserListComponent {
   constructor(

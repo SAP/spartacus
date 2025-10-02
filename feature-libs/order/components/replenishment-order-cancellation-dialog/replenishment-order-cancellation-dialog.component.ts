@@ -29,7 +29,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-replenishment-order-cancellation-dialog',
   templateUrl: './replenishment-order-cancellation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy

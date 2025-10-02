@@ -19,7 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-product-variant-color-selector',
   templateUrl: './product-variant-color-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, TranslatePipe, TranslatePipe],
+  imports: [NgFor, TranslatePipe],
 })
 export class ProductVariantColorSelectorComponent {
   constructor(private routingService: RoutingService) {}

@@ -22,7 +22,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
   templateUrl: './anonymous-consent-open-dialog.component.html',
-  imports: [FeatureDirective, NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [FeatureDirective, NgIf, AsyncPipe, TranslatePipe],
 })
 export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;

@@ -18,7 +18,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configurator-conflict-suggestion',
   templateUrl: './configurator-conflict-suggestion.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe, TranslatePipe],
+  imports: [NgIf, TranslatePipe],
 })
 export class ConfiguratorConflictSuggestionComponent {
   @Input() currentGroup: Configurator.Group;

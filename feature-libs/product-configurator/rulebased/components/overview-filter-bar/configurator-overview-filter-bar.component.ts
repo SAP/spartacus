@@ -16,7 +16,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
-  imports: [NgFor, IconComponent, NgIf, TranslatePipe, TranslatePipe],
+  imports: [NgFor, IconComponent, NgIf, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   readonly PREFIX_ID = 'cx-overview-filter-applied-';

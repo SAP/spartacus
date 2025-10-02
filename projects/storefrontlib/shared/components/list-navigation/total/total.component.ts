@@ -13,7 +13,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-total',
   templateUrl: './total.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe, TranslatePipe],
+  imports: [NgIf, TranslatePipe],
 })
 export class TotalComponent {
   private _pagination: PaginationModel;

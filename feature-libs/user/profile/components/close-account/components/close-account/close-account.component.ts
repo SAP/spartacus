@@ -22,7 +22,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-close-account',
   templateUrl: './close-account.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

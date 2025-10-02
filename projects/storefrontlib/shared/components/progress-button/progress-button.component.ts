@@ -10,7 +10,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-progress-button',
   templateUrl: './progress-button.component.html',
-  imports: [NgClass, NgIf, TranslatePipe, TranslatePipe],
+  imports: [NgClass, NgIf, TranslatePipe],
 })
 export class ProgressButtonComponent {
   @Input()

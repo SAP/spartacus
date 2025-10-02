@@ -15,7 +15,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-epd-visualization-product-filter',
   templateUrl: './visual-picking-product-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FormsModule, IconComponent, TranslatePipe],
 })
 export class VisualPickingProductFilterComponent {
   constructor(

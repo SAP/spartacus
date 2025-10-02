@@ -22,6 +22,6 @@ import { TranslatePipe } from '@spartacus/core';
       useExisting: CostCenterAssignedBudgetListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class CostCenterAssignedBudgetListComponent {}

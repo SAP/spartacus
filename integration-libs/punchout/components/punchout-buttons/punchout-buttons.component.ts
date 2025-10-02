@@ -22,7 +22,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-punchout-buttons',
   templateUrl: './punchout-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class PunchoutButtonsComponent {
   @Input() removeCancelButton = false;

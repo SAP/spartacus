@@ -14,7 +14,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class HamburgerMenuComponent {
   constructor(private hamburgerMenuService: HamburgerMenuService) {}

@@ -18,7 +18,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configurator-update-message',
   templateUrl: './configurator-update-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpinnerComponent, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorUpdateMessageComponent {
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService

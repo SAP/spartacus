@@ -17,7 +17,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-punchout-close-session',
   templateUrl: './punchout-close-session.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class PunchoutCloseSessionComponent {
   protected punchoutFacade = inject(PunchoutFacade);

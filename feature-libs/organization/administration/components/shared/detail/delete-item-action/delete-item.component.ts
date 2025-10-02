@@ -23,7 +23,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**

@@ -14,7 +14,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-asm-toggle-ui',
   templateUrl: './asm-toggle-ui.component.html',
-  imports: [NgClass, NgIf, TranslatePipe, TranslatePipe],
+  imports: [NgClass, NgIf, TranslatePipe],
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

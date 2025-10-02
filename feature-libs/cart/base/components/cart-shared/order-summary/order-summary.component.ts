@@ -15,7 +15,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-order-summary',
   templateUrl: './order-summary.component.html',
-  imports: [NgIf, AppliedCouponsComponent, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AppliedCouponsComponent, TranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input()

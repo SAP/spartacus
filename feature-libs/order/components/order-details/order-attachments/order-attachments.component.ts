@@ -26,7 +26,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-order-attachments',
   templateUrl: './order-attachments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class OrderAttachmentsComponent {
   protected orderDetailsService = inject(OrderDetailsService);

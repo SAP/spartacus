@@ -24,7 +24,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-product-variant-style-selector',
   templateUrl: './product-variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, NgClass, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgFor, NgClass, TranslatePipe],
 })
 export class ProductVariantStyleSelectorComponent {
   constructor(

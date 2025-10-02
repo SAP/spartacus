@@ -16,7 +16,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-notification',
   templateUrl: './notification-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe],
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;

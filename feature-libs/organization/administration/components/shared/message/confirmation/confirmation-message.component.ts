@@ -28,7 +28,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe],
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

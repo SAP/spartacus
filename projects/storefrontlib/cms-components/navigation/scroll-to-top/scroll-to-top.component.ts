@@ -29,7 +29,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, TranslatePipe, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;

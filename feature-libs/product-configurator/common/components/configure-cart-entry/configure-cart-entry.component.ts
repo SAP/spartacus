@@ -34,7 +34,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);

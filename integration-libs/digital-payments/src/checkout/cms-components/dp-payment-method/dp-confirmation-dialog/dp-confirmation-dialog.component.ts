@@ -20,7 +20,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-dp-confirmation-dialog',
   templateUrl: './dp-confirmation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

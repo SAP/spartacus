@@ -29,7 +29,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configure-product',
   templateUrl: './configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };

@@ -12,7 +12,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
-  imports: [NgIf, NgFor, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgFor, TranslatePipe],
 })
 export class ScheduleComponent implements OnInit {
   @Input()

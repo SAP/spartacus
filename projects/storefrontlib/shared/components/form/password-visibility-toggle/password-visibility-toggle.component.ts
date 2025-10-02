@@ -14,7 +14,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-password-visibility-toggle',
   templateUrl: './password-visibility-toggle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, TranslatePipe, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class PasswordVisibilityToggleComponent {
   protected showState: PasswordInputState = {

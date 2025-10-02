@@ -18,7 +18,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-opf-checkout-review-cart-details',
   templateUrl: './opf-checkout-review-cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PromotionsComponent, OutletDirective, TranslatePipe, TranslatePipe],
+  imports: [PromotionsComponent, OutletDirective, TranslatePipe],
 })
 export class OpfCheckoutReviewCartDetailsComponent {
   @Input() cart: Cart | null;

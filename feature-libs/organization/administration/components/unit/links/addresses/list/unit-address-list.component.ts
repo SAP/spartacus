@@ -23,7 +23,7 @@ import { TranslatePipe } from '@spartacus/core';
       useExisting: UnitAddressListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UnitAddressListComponent {
   routerKey = ROUTE_PARAMS.addressCode;

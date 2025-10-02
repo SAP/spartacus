@@ -25,7 +25,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**

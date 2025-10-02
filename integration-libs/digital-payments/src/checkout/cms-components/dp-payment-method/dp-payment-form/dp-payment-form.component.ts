@@ -18,7 +18,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-dp-payment-form',
   templateUrl: './dp-payment-form.component.html',
-  imports: [SpinnerComponent, TranslatePipe, TranslatePipe],
+  imports: [SpinnerComponent, TranslatePipe],
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()

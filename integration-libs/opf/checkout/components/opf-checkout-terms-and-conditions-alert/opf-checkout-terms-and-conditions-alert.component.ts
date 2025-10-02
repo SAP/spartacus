@@ -22,7 +22,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [NgIf, IconComponent, TranslatePipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

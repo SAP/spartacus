@@ -13,7 +13,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-my-account-v2-consent-management-form',
   templateUrl: './my-account-v2-consent-management-form.component.html',
-  imports: [NgIf, TranslatePipe, TranslatePipe],
+  imports: [NgIf, TranslatePipe],
 })
 export class MyAccountV2ConsentManagementFormComponent
   extends ConsentManagementFormComponent

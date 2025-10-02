@@ -14,7 +14,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ListComponent, TranslatePipe, TranslatePipe],
+  imports: [ListComponent, TranslatePipe],
 })
 export class UnitListComponent {
   constructor(

@@ -12,7 +12,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-spinner',
   templateUrl: './spinner.component.html',
-  imports: [TranslatePipe, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class SpinnerComponent {
   constructor() {

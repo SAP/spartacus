@@ -32,7 +32,7 @@ import { TranslatePipe } from '@spartacus/core';
       multi: true,
     },
   ],
-  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**

@@ -21,7 +21,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-asm-customer-360-product-item',
   templateUrl: './asm-customer-360-product-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MediaComponent, NgIf, TranslatePipe, TranslatePipe],
+  imports: [MediaComponent, NgIf, TranslatePipe],
 })
 export class AsmCustomer360ProductItemComponent {
   @Input() product: ProductItem;

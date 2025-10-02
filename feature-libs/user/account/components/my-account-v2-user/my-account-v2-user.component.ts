@@ -14,6 +14,6 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-my-account-v2-user',
   templateUrl: './my-account-v2-user.component.html',
-  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class MyAccountV2UserComponent extends LoginComponent {}

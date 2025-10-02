@@ -13,7 +13,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-login-register',
   templateUrl: './login-register.component.html',
-  imports: [NgClass, TranslatePipe, TranslatePipe],
+  imports: [NgClass, TranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;

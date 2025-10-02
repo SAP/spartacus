@@ -25,7 +25,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-cost-center',
   templateUrl: './checkout-cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
 })
 export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

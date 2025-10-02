@@ -11,6 +11,6 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-header',
   templateUrl: './store-finder-header.component.html',
-  imports: [StoreFinderSearchComponent, TranslatePipe, TranslatePipe],
+  imports: [StoreFinderSearchComponent, TranslatePipe],
 })
 export class StoreFinderHeaderComponent {}

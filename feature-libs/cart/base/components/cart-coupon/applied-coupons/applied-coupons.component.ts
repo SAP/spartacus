@@ -15,7 +15,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgFor, IconComponent, TranslatePipe],
 })
 export class AppliedCouponsComponent {
   @Input()

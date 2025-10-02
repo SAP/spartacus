@@ -14,7 +14,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-verification-token-dialog',
   templateUrl: './verification-token-dialog.component.html',
-  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class VerificationTokenDialogComponent {
   VERIFICATION_TOKEN_DIALOG_ACTION = VERIFICATION_TOKEN_DIALOG_ACTION;

@@ -19,7 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-customer-ticketing-create',
   templateUrl: './customer-ticketing-create.component.html',
-  imports: [TranslatePipe, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
   protected subscription = new Subscription();

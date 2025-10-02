@@ -13,6 +13,6 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-opf-b2b-checkout-cost-center',
   templateUrl: './opf-b2b-checkout-cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
 })
 export class OpfB2bCheckoutCostCenterComponent extends CheckoutCostCenterComponent {}

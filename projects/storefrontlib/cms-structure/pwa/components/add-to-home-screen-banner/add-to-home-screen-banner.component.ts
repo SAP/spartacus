@@ -13,7 +13,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-add-to-home-screen-banner',
   templateUrl: './add-to-home-screen-banner.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class AddToHomeScreenBannerComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {
