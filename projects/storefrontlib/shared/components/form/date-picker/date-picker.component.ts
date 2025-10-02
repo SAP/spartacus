@@ -12,10 +12,10 @@ import {
 } from '@angular/forms';
 import { DatePickerService } from './date-picker.service';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
-import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
-import { CxDatePipe } from '../../../../../core/src/i18n/date.pipe';
-import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
-import { MockDatePipe } from '../../../../../core/src/i18n/testing/mock-date.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 /**
  * Component that adds a date control. While the native date picker works in most

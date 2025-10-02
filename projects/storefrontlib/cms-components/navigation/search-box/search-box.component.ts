@@ -40,17 +40,17 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { MediaComponent } from '../../../shared/components/media/media.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
-import { UrlPipe } from '../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import { HighlightPipe } from './highlight.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { MockTranslatePipe } from '@spartacus/core';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,

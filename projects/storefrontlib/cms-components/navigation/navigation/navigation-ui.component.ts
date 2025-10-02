@@ -38,9 +38,9 @@ import { NavigationNode } from './navigation-node.model';
 import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { FeatureDirective } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
 

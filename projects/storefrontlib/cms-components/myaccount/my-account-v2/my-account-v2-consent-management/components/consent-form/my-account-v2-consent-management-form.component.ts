@@ -8,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 import { ANONYMOUS_CONSENT_STATUS } from '@spartacus/core';
 import { ConsentManagementFormComponent } from '../../../../consent-management/components/consent-form/consent-management-form.component';
 import { NgIf } from '@angular/common';
-import { TranslatePipe } from '../../../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-consent-management-form',

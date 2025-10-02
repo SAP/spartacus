@@ -8,8 +8,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { PasswordInputState } from './password-input-visibility.model';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
-import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-password-visibility-toggle',

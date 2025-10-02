@@ -32,11 +32,11 @@ import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.direct
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { MessageComponent } from '../../../cms-components/misc/message/message.component';
 import { ConsentManagementFormComponent } from '../../../cms-components/myaccount/consent-management/components/consent-form/consent-management-form.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',

@@ -10,8 +10,8 @@ import { SkipLink } from '../config/skip-link.config';
 import { SkipLinkService } from '../service/skip-link.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { FocusDirective } from '../../keyboard-focus/focus.directive';
-import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-skip-link',

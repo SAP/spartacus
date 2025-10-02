@@ -7,9 +7,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
 import { PopoverDirective } from '../popover/popover.directive';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
 import { TruncatePipe } from './truncate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-truncate-text-popover',

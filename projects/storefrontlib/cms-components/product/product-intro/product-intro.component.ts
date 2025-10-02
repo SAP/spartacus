@@ -21,9 +21,9 @@ import {
 import { CurrentProductService } from '../current-product.service';
 import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
 import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { FeatureDirective } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-intro',

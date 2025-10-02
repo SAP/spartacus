@@ -34,9 +34,9 @@ import { take } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { UrlPipe } from '../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-stock-notification',

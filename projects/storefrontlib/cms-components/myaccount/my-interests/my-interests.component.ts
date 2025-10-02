@@ -27,16 +27,16 @@ import { map, tap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
 import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '../../../shared/components/media/media.component';
 import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { CxDatePipe } from '../../../../core/src/i18n/date.pipe';
-import { UrlPipe } from '../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
-import { MockDatePipe } from '../../../../core/src/i18n/testing/mock-date.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {

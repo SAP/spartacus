@@ -20,8 +20,8 @@ import { FeatureConfigService, isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Renders translated form errors for a given form control, based on its `errors` property.

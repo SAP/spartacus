@@ -9,8 +9,8 @@ import { ConsentManagementComponent } from '../../../consent-management/componen
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { MyAccountV2ConsentManagementFormComponent } from './consent-form/my-account-v2-consent-management-form.component';
-import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-consent-management',

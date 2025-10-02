@@ -18,8 +18,8 @@ import { IconComponent } from '../../../misc/icon/icon.component';
 import { ActiveFacetsComponent } from './active-facets/active-facets.component';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { FacetListComponent } from './facet-list/facet-list.component';
-import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-facet-navigation',

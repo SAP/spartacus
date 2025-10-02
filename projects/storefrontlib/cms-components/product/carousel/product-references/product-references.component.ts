@@ -21,13 +21,13 @@ import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
-import { FeatureDirective } from '../../../../../core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CarouselScrollingComponent } from '../../../../shared/components/carousel-scrolling/carousel-scrolling.component';
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
-import { UrlPipe } from '../../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-references',

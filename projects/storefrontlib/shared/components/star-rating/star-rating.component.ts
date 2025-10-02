@@ -17,8 +17,8 @@ import { ICON_TYPE } from '../../../cms-components/misc/index';
 import { useFeatureStyles } from '@spartacus/core';
 import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Star rating component can be used to view existing ratings as well

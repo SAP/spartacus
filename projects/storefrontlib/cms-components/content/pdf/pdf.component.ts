@@ -12,8 +12,8 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { MediaService } from '../../../shared/components/media/media.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../../misc/icon/icon.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-pdf',

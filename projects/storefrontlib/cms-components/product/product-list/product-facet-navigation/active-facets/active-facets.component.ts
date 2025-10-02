@@ -19,8 +19,8 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import { IconComponent } from '../../../../misc/icon/icon.component';
-import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Active facets render the applied facet values as a list of focusable buttons

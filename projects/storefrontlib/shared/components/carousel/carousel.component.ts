@@ -32,8 +32,8 @@ import {
   SlicePipe,
 } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Generic carousel component that can be used to render any carousel items,

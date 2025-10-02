@@ -19,7 +19,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { MediaComponent } from '../../../shared/components/media/media.component';
 
 @Component({

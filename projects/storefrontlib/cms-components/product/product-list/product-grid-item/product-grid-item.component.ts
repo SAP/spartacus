@@ -24,9 +24,9 @@ import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directi
 import { NgIf, AsyncPipe } from '@angular/common';
 import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
 import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
-import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
-import { UrlPipe } from '../../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-grid-item',

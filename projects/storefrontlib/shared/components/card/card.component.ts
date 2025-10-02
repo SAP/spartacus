@@ -15,13 +15,13 @@ import {
   NgClass,
 } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
-import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { AtMessageDirective } from '../assistive-technology-message/assistive-technology-message.directive';
 import { GenericLinkComponent } from '../generic-link/generic-link.component';
 import { TruncateTextPopoverComponent } from '../truncate-text-popover/truncate-text-popover.component';
-import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export interface CardAction {
   event: string;

@@ -15,8 +15,8 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
-import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-scroll',
