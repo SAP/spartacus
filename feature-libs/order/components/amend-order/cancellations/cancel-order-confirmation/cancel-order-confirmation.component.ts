@@ -10,11 +10,9 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
-import {
-  CancelOrReturnItemsComponent,
-  AmendOrderActionsComponent,
-} from '@spartacus/order/components';
 import { NgTemplateOutlet } from '@angular/common';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 
 @Component({
   selector: 'cx-cancel-order-confirmation',
