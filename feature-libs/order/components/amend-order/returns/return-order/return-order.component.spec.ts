@@ -232,9 +232,9 @@ describe('ReturnOrderComponent', () => {
 
     expect(consignments.length).toBe(1);
     expect(consignments[0].entries?.length).toBe(2);
-    expect(consignments[0].entries![0].orderEntry).toBeDefined();
-    expect(consignments[0].entries![0].orderEntry?.product?.code).toBe('prod1');
-    expect(consignments[0].entries![0].shippedQuantity).toBe(5);
+    expect(consignments[0]?.entries?.[0].orderEntry).toBeDefined();
+    expect(consignments[0]?.entries?.[0].orderEntry?.product?.code).toBe('prod1');
+    expect(consignments[0]?.entries?.[0].shippedQuantity).toBe(5);
   });
 
   describe('when order has new consignments', () => {
