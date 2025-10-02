@@ -40,8 +40,8 @@ import {
   QuoteSummarySellerEditComponentService,
 } from './quote-summary-seller-edit.component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
-import { DatePickerComponent } from '../../../../../projects/storefrontlib/shared/components/form/date-picker/date-picker.component';
+import { IconComponent } from '@spartacus/storefront';
+import { DatePickerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

@@ -15,7 +15,7 @@ import {
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, map } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CardComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-card-service-details',

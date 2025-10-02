@@ -20,10 +20,10 @@ import {
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
-import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { MediaComponent } from '@spartacus/storefront';
 import { NgIf, NgFor } from '@angular/common';
-import { InnerComponentsHostDirective } from '../../../../../projects/storefrontlib/cms-structure/page/component/inner-components-host.directive';
-import { AtMessageDirective } from '../../../../../projects/storefrontlib/shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { InnerComponentsHostDirective } from '@spartacus/storefront';
+import { AtMessageDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

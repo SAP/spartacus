@@ -14,7 +14,7 @@ import {
 } from '@spartacus/storefront';
 import { NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { PopoverDirective } from '../../../../../../projects/storefrontlib/shared/components/popover/popover.directive';
+import { PopoverDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

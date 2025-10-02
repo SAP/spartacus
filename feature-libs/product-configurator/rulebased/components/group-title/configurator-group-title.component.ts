@@ -27,7 +27,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { HamburgerMenuComponent } from '../../../../../projects/storefrontlib/layout/header/hamburger-menu/hamburger-menu.component';
+import { HamburgerMenuComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group-title',

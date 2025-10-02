@@ -11,7 +11,7 @@ import { Card, OutletContextData } from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CardComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-payment-method-details',

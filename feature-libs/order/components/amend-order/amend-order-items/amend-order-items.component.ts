@@ -11,8 +11,8 @@ import { Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
-import { ItemCounterComponent } from '../../../../../projects/storefrontlib/shared/components/item-counter/item-counter.component';
+import { MediaComponent } from '@spartacus/storefront';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

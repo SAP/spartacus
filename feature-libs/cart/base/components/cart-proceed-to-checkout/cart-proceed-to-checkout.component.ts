@@ -19,7 +19,7 @@ import {
   RouterLink,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ProgressButtonComponent } from '../../../../../projects/storefrontlib/shared/components/progress-button/progress-button.component';
+import { ProgressButtonComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

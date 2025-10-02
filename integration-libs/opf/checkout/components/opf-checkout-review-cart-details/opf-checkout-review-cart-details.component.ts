@@ -10,8 +10,8 @@ import {
   CartOutlets,
   Cart,
 } from '@spartacus/cart/base/root';
-import { PromotionsComponent } from '../../../../../projects/storefrontlib/cms-components/misc/promotions/promotions.component';
-import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { PromotionsComponent } from '@spartacus/storefront';
+import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

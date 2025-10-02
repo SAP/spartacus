@@ -16,7 +16,7 @@ import { VisualPickingProductListItem } from './model/visual-picking-product-lis
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
 import { PagedListComponent } from './paged-list/paged-list.component';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { MediaComponent } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
 import { UrlPipe } from '@spartacus/core';

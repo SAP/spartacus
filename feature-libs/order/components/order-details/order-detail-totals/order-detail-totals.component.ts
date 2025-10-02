@@ -9,7 +9,7 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { OutletDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-order-details-totals',

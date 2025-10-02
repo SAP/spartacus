@@ -25,7 +25,7 @@ import {
   ConfiguratorPriceComponent,
 } from '../price/configurator-price.component';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { MediaComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxNumericPipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

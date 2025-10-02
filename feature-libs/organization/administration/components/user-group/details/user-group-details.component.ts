@@ -12,7 +12,7 @@ import { ItemService } from '../../shared/item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../shared/card/card.component';
-import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FocusDirective } from '@spartacus/storefront';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DeleteItemComponent } from '../../shared/detail/delete-item-action/delete-item.component';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';

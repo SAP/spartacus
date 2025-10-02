@@ -13,7 +13,7 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
 import { NgFor, NgIf, AsyncPipe } from '@angular/common';
-import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { IconComponent } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';

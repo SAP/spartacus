@@ -16,7 +16,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CardComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-order-detail-billing',

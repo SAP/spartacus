@@ -12,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { DateValidationService } from '../shared/date-validation.service';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CardComponent } from '@spartacus/storefront';
 import { CxDatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 

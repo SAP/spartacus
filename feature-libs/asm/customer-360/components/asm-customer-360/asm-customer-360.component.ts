@@ -44,11 +44,11 @@ import {
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import { FocusDirective } from '../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FocusDirective } from '@spartacus/storefront';
 import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { MessageComponent } from '../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
-import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { MessageComponent } from '@spartacus/storefront';
+import { MediaComponent } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
 import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';

@@ -21,8 +21,8 @@ import { combineLatest, Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../config/quote-ui.config';
 import { QuoteItemsComponentService } from '../items/quote-items.component.service';
-import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
-import { MessagingComponent as MessagingComponent_1 } from '../../../../projects/storefrontlib/shared/components/chat-messaging/messaging/messaging.component';
+import { IconComponent } from '@spartacus/storefront';
+import { MessagingComponent as MessagingComponent_1 } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

@@ -18,7 +18,7 @@ import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
-import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { SpinnerComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-verify-payment',

@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { OutletDirective } from '@spartacus/storefront';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

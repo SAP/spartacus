@@ -18,7 +18,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CartValidationWarningsComponent } from '../validation/cart-warnings/cart-validation-warnings.component';
-import { PromotionsComponent } from '../../../../../projects/storefrontlib/cms-components/misc/promotions/promotions.component';
+import { PromotionsComponent } from '@spartacus/storefront';
 import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

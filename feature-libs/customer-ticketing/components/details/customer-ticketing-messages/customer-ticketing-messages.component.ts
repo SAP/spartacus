@@ -20,7 +20,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
-import { MessagingComponent as MessagingComponent_1 } from '../../../../../projects/storefrontlib/shared/components/chat-messaging/messaging/messaging.component';
+import { MessagingComponent as MessagingComponent_1 } from '@spartacus/storefront';
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',

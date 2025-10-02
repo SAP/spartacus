@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { BtnLikeLinkDirective } from '../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

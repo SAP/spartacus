@@ -11,7 +11,7 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
-import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

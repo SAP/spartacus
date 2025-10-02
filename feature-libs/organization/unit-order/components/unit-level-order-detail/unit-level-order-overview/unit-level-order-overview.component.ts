@@ -19,7 +19,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CardComponent } from '@spartacus/storefront';
 import { CxDatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 

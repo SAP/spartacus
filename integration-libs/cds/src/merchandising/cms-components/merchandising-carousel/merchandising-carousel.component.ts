@@ -23,9 +23,9 @@ import { MerchandisingCarouselComponentService } from './merchandising-carousel.
 import { MerchandisingCarouselModel } from './model/index';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { AttributesDirective } from '../directives/attributes/attributes.directive';
-import { CarouselComponent } from '../../../../../../projects/storefrontlib/shared/components/carousel/carousel.component';
+import { CarouselComponent } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
-import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { MediaComponent } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
 
 @Component({

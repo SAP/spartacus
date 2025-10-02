@@ -12,8 +12,8 @@ import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CarouselComponent } from '../../../../../projects/storefrontlib/shared/components/carousel/carousel.component';
-import { ProductCarouselItemComponent } from '../../../../../projects/storefrontlib/cms-components/product/carousel/product-carousel-item/product-carousel-item.component';
+import { CarouselComponent } from '@spartacus/storefront';
+import { ProductCarouselItemComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

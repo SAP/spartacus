@@ -23,8 +23,8 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-title.directive';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
-import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { IconComponent } from '@spartacus/storefront';
+import { MediaComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

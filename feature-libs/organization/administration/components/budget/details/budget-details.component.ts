@@ -12,7 +12,7 @@ import { ItemService } from '../../shared/item.service';
 import { BudgetItemService } from '../services/budget-item.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../shared/card/card.component';
-import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FocusDirective } from '@spartacus/storefront';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ToggleStatusComponent } from '../../shared/detail/toggle-status-action/toggle-status.component';
 import { DisableInfoComponent } from '../../shared/detail/disable-info/disable-info.component';

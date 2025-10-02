@@ -38,9 +38,9 @@ import {
   distinctUntilChanged,
 } from 'rxjs/operators';
 import { NgClass, NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CardComponent } from '@spartacus/storefront';
 import { StoreAddressComponent } from '../../presentational/store/store-address/store-address.component';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { IconComponent } from '@spartacus/storefront';
 import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

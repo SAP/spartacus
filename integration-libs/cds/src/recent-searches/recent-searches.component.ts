@@ -21,7 +21,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { HighlightPipe } from '../../../../projects/storefrontlib/cms-components/navigation/search-box/highlight.pipe';
+import { HighlightPipe } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

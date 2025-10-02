@@ -13,7 +13,7 @@ import {
 import { RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
-import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { IconComponent } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';

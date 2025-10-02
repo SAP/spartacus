@@ -24,8 +24,8 @@ import {
   QuoteHeaderBuyerEditComponent,
 } from '../buyer-edit/quote-header-buyer-edit.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { CardComponent } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

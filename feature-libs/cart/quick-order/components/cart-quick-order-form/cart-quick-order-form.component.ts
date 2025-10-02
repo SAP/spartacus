@@ -30,7 +30,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { FormRequiredAsterisksComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

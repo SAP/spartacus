@@ -9,7 +9,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { Product } from '@spartacus/core';
 import { ProductListItemContext } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { StarRatingComponent } from '../../../../../../projects/storefrontlib/shared/components/star-rating/star-rating.component';
+import { StarRatingComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

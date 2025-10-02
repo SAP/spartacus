@@ -9,7 +9,7 @@ import { PointOfServiceStock, useFeatureStyles } from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreAddressComponent } from './store-address/store-address.component';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { IconComponent } from '@spartacus/storefront';
 import { NgIf, NgClass } from '@angular/common';
 import { StoreScheduleComponent } from './store-schedule/store-schedule.component';
 import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';

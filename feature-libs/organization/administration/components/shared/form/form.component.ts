@@ -21,7 +21,7 @@ import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { ItemActiveDirective } from '../item-active.directive';
-import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FocusDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';

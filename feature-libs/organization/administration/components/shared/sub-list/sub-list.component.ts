@@ -18,10 +18,10 @@ import { switchMap, tap } from 'rxjs/operators';
 import { ListComponent } from '../list/list.component';
 import { MessageService } from '../message/services/message.service';
 import { CardComponent } from '../card/card.component';
-import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FocusDirective } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { TableComponent } from '../../../../../../projects/storefrontlib/shared/components/table/table.component';
-import { PaginationComponent } from '../../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { TableComponent } from '@spartacus/storefront';
+import { PaginationComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

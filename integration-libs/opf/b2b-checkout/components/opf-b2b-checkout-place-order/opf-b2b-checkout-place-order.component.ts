@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AtMessageDirective } from '../../../../../projects/storefrontlib/shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { AtMessageDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

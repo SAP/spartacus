@@ -19,7 +19,7 @@ import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../shared/card/card.component';
-import { FocusDirective } from '../../../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FocusDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
 import { UrlPipe } from '@spartacus/core';

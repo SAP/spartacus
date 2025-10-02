@@ -14,7 +14,7 @@ import { TranslationService } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { map } from 'rxjs';
 import { NgFor, NgIf, AsyncPipe, TitleCasePipe } from '@angular/common';
-import { OutletDirective } from '../../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { OutletDirective } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 import { AbstractOrderContextDirective } from '../../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';

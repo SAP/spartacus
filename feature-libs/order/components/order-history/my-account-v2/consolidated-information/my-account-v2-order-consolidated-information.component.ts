@@ -22,7 +22,7 @@ import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
 import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { MyAccountV2ConsignmentEntriesComponent } from '../consignment-entries/my-account-v2-consignment-entries.component';
 import { RouterLink } from '@angular/router';
-import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { MediaComponent } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';

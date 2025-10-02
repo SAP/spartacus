@@ -32,10 +32,10 @@ import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { GlobalMessageType } from '@spartacus/core';
 import { NgIf } from '@angular/common';
-import { MessageComponent } from '../../../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
-import { FocusDirective } from '../../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
-import { FileUploadComponent } from '../../../../../../../projects/storefrontlib/shared/components/form/file-upload/file-upload.component';
-import { FormErrorsComponent } from '../../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { MessageComponent } from '@spartacus/storefront';
+import { FocusDirective } from '@spartacus/storefront';
+import { FileUploadComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

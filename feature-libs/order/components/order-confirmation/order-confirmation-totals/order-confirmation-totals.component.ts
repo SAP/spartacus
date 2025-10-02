@@ -10,7 +10,7 @@ import { useFeatureStyles } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { OutletDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-order-confirmation-totals',

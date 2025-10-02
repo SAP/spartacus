@@ -24,7 +24,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-s
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { IconComponent } from '@spartacus/storefront';
 import { ConfiguratorShowOptionsComponent } from '../show-options/configurator-show-options.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { TranslatePipe } from '@spartacus/core';

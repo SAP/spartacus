@@ -24,8 +24,8 @@ import {
 } from '@spartacus/order/root';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
-import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { CardComponent } from '@spartacus/storefront';
+import { OutletDirective } from '@spartacus/storefront';
 import { OrderDetailBillingComponent } from '../order-detail-billing/order-detail-billing.component';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';

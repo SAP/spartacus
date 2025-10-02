@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { BtnLikeLinkDirective } from '../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { UrlPipe } from '@spartacus/core';

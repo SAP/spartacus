@@ -25,7 +25,7 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 import { combineLatest, switchMap, take, tap } from 'rxjs';
 import { NgTemplateOutlet } from '@angular/common';
-import { FormErrorsComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

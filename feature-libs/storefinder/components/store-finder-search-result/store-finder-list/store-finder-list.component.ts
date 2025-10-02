@@ -20,7 +20,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { LocationDisplayMode } from './store-finder-list.model';
 import { StoreFinderPaginationDetailsComponent } from '../../store-finder-pagination-details/store-finder-pagination-details.component';
-import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { IconComponent } from '@spartacus/storefront';
 import { StoreFinderStoreDescriptionComponent } from '../../store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderListItemComponent } from '../../store-finder-list-item/store-finder-list-item.component';
 import { TranslatePipe } from '@spartacus/core';

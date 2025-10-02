@@ -12,13 +12,13 @@ import {
 } from '@spartacus/storefront';
 import { Product } from '@spartacus/core';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { LcpContextDirective } from '../../../../../../projects/storefrontlib/shared/lcp-context/lcp-context.directive';
-import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { LcpContextDirective } from '@spartacus/storefront';
+import { MediaComponent } from '@spartacus/storefront';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { FeatureDirective } from '@spartacus/core';
-import { CarouselScrollingComponent } from '../../../../../../projects/storefrontlib/shared/components/carousel-scrolling/carousel-scrolling.component';
-import { CarouselComponent } from '../../../../../../projects/storefrontlib/shared/components/carousel/carousel.component';
-import { FocusableCarouselItemDirective } from '../../../../../../projects/storefrontlib/shared/components/carousel/focusable-carousel-item/focusable-carousel-item.directive';
+import { CarouselScrollingComponent } from '@spartacus/storefront';
+import { CarouselComponent } from '@spartacus/storefront';
+import { FocusableCarouselItemDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 

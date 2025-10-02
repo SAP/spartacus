@@ -33,7 +33,7 @@ import { Subscription, take } from 'rxjs';
 import { PickupOptionsTabs } from './pickup-options.model';
 import { FeatureDirective } from '@spartacus/core';
 import { NgIf } from '@angular/common';
-import { TabComponent as TabComponent_1 } from '../../../../../projects/storefrontlib/cms-components/content/tab/tab.component';
+import { TabComponent as TabComponent_1 } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { MockTranslatePipe } from '@spartacus/core';
 
