@@ -9,9 +9,11 @@ import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { filter, Observable } from 'rxjs';
 import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CartItemListComponent } from '../../../../feature-libs/cart/base/components/cart-shared/cart-item-list/cart-item-list.component';
-import { OrderSummaryComponent } from '../../../../feature-libs/cart/base/components/cart-shared/order-summary/order-summary.component';
 import { PunchoutButtonsComponent } from '../punchout-buttons/punchout-buttons.component';
+import {
+  CartItemListComponent,
+  OrderSummaryComponent,
+} from '@spartacus/cart/base/components';
 
 @Component({
   selector: 'cx-punchout-inspect-cart',

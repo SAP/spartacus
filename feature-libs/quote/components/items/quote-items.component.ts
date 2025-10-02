@@ -14,9 +14,9 @@ import {
 } from './quote-items.component.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
-import { AbstractOrderContextDirective } from '../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
 import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 
 /**
  * Renders quote items. These items are either taken from the actual quote,

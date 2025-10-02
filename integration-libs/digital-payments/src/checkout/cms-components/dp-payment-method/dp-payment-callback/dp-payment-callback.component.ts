@@ -14,11 +14,13 @@ import {
 } from '@spartacus/core';
 import { DpCheckoutPaymentService } from '../../../facade';
 import { Component, OnInit, EventEmitter, Output, inject } from '@angular/core';
-import { CheckoutBillingAddressFormService } from '@spartacus/checkout/base/components';
+import {
+  CheckoutBillingAddressFormComponent,
+  CheckoutBillingAddressFormService,
+} from '@spartacus/checkout/base/components';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { take } from 'rxjs';
 import { NgIf } from '@angular/common';
-import { CheckoutBillingAddressFormComponent } from '../../../../../../../feature-libs/checkout/base/components/checkout-billing-address/checkout-billing-address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 

@@ -14,7 +14,7 @@ import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { PromotionsComponent } from '@spartacus/storefront';
-import { AbstractOrderContextDirective } from '../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 

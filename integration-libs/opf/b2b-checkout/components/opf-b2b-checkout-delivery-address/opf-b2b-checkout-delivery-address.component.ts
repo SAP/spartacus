@@ -9,9 +9,9 @@ import { B2BCheckoutDeliveryAddressComponent } from '@spartacus/checkout/b2b/com
 import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-center/opf-b2b-checkout-cost-center.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
-import { AddressFormComponent } from '../../../../../feature-libs/user/profile/components/address-book/address-form/address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 @Component({
   selector: 'cx-opf-b2b-checkout-delivery-address',
   templateUrl: './opf-b2b-checkout-delivery-address.component.html',

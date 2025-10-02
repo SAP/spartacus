@@ -17,9 +17,9 @@ import { NgFor, NgIf, AsyncPipe, TitleCasePipe } from '@angular/common';
 import { OutletDirective } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
-import { AbstractOrderContextDirective } from '../../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
-import { AddToCartComponent } from '../../../../../cart/base/components/add-to-cart/add-to-cart.component';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { CxDatePipe } from '@spartacus/core';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 
 @Component({
   selector: 'cx-order-consigned-entries',

@@ -21,7 +21,6 @@ import {
 } from '@spartacus/storefront';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
-import { InvoicesListComponent as InvoicesListComponent_1 } from '../../../../../pdf-invoices/components/invoices-list/invoices-list.component';
 import { NgIf } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
@@ -33,7 +32,7 @@ import { TranslatePipe } from '@spartacus/core';
   imports: [
     FocusDirective,
     IconComponent,
-    InvoicesListComponent_1,
+    InvoicesListComponent,
     NgIf,
     SpinnerComponent,
     TranslatePipe,

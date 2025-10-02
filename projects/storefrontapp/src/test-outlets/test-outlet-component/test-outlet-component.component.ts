@@ -5,8 +5,8 @@
  */
 
 import { Component } from '@angular/core';
-import { PageLayoutComponent } from '../../../../storefrontlib/cms-structure/page/page-layout/page-layout.component';
-import { OutletRefDirective } from '../../../../storefrontlib/cms-structure/outlet/outlet-ref/outlet-ref.directive';
+import { PageLayoutComponent } from '@spartacus/storefront';
+import { OutletRefDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-test-outlet-component',

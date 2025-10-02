@@ -17,10 +17,10 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
-import { AddressFormComponent } from '../../../../../feature-libs/user/profile/components/address-book/address-form/address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',

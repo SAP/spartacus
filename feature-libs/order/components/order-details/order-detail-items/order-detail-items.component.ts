@@ -22,9 +22,9 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OutletDirective } from '@spartacus/storefront';
-import { AbstractOrderContextDirective } from '../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
-import { AddToCartComponent } from '../../../../cart/base/components/add-to-cart/add-to-cart.component';
 import { TranslatePipe } from '@spartacus/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 
 @Component({
   selector: 'cx-order-details-items',
